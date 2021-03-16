@@ -12,8 +12,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 @SuppressWarnings("JniMissingFunction")
 public class ArtistImpl extends Artist {
 
-    public ArtistImpl(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
-        super(id, name, shortBio, artworkMrl, musicBrainzId);
+    public ArtistImpl(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
+        super(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount);
     }
 
     public ArtistImpl(Parcel in) {
@@ -51,10 +51,6 @@ public class ArtistImpl extends Artist {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
-    public int getAlbumsCount() {
-        final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetAlbumsCount(ml, mId) : 0;
-    }
 
     public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
@@ -66,11 +62,6 @@ public class ArtistImpl extends Artist {
         return ml.isInitiated() ? nativeGetPagedMedia(ml, mId, sort, desc, includeMissing, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
-    @Override
-    public int getTracksCount() {
-        Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
-    }
 
     private native Album[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing);
     private native MediaWrapper[] nativeGetMedia(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing);
@@ -78,8 +69,6 @@ public class ArtistImpl extends Artist {
     private native MediaWrapper[] nativeGetPagedMedia(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native Album[] nativeSearchAlbums(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    private native int nativeGetTracksCount(Medialibrary ml, long mId);
-    private native int nativeGetAlbumsCount(Medialibrary ml, long mId);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native int nativeGetSearchAlbumCount(Medialibrary ml, long mId, String query);
 }

@@ -9,7 +9,14 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class Genre extends MediaLibraryItem {
 
-    public Genre(long id, String title) { super(id, title); }
+    private int mPresentTracksCount;
+    private int mTracksCount;
+
+    public Genre(long id, String title, int nbTracks, int nbPresentTracks) {
+        super(id, title);
+        this.mTracksCount = nbTracks;
+        this.mPresentTracksCount = nbPresentTracks;
+    }
     public Genre(Parcel in) { super(in); }
 
     abstract public Album[] getAlbums(int sort, boolean desc, boolean includeMissing);
@@ -17,7 +24,6 @@ public abstract class Genre extends MediaLibraryItem {
     abstract public Artist[] getArtists(int sort, boolean desc, boolean includeMissing);
     abstract public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing);
     abstract public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public int getTracksCount();
     abstract public int getAlbumsCount();
     abstract public Album[] searchAlbums(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
@@ -44,6 +50,15 @@ public abstract class Genre extends MediaLibraryItem {
     @Override
     public int getItemType() {
         return TYPE_GENRE;
+    }
+
+    @Override
+    public int getTracksCount() {
+        return this.mPresentTracksCount;
+    }
+
+    public int getPresentTracksCount() {
+        return mPresentTracksCount;
     }
 
     public static Parcelable.Creator<Genre> CREATOR

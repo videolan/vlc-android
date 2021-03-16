@@ -127,9 +127,9 @@ public class StubDataSource {
     }
 
     public void init() {
-        Artist artist = MLServiceLocator.getAbstractArtist(1L, "", "", "", "");
+        Artist artist = MLServiceLocator.getAbstractArtist(1L, "", "", "", "", 0, 0, 0);
         addArtistSecure(artist);
-        artist = MLServiceLocator.getAbstractArtist(2L, "", "", "", "");
+        artist = MLServiceLocator.getAbstractArtist(2L, "", "", "", "", 0, 0, 0);
         addArtistSecure(artist);
     }
 
@@ -147,11 +147,10 @@ public class StubDataSource {
                 (a2.equals(Artist.SpecialRes.UNKNOWN_ARTIST) ||
                         a2.equals(Artist.SpecialRes.VARIOUS_ARTISTS))) {
             return 0;
-        }
-        else if (a1.equals(Artist.SpecialRes.UNKNOWN_ARTIST)||
+        } else if (a1.equals(Artist.SpecialRes.UNKNOWN_ARTIST) ||
                 a1.equals(Artist.SpecialRes.VARIOUS_ARTISTS)) {
             return -1;
-        } else if (a2.equals(Artist.SpecialRes.UNKNOWN_ARTIST)||
+        } else if (a2.equals(Artist.SpecialRes.UNKNOWN_ARTIST) ||
                 a2.equals(Artist.SpecialRes.VARIOUS_ARTISTS)) {
             return 1;
         } else {
@@ -167,8 +166,7 @@ public class StubDataSource {
         if (a1.equals(Album.SpecialRes.UNKNOWN_ALBUM) &&
                 a2.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return 0;
-        }
-        else if (a1.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
+        } else if (a1.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return -1;
         } else if (a2.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return 1;
@@ -191,94 +189,133 @@ public class StubDataSource {
 
     class MediaComparator implements Comparator<MediaWrapper> {
         private int sort;
-        MediaComparator(int sort) { this.sort = sort; }
+
+        MediaComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override //TODO checkout if types of sort are verified before being used in native
         public int compare(MediaWrapper o1, MediaWrapper o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                case SORT_FILENAME :return o1.getFileName().compareTo(o2.getFileName());
-                case SORT_DURATION: return Long.valueOf(o1.getLength()).compareTo(o2.getLength());
-                case SORT_INSERTIONDATE: return Long.valueOf(o1.getTime()).compareTo(o2.getTime());
-                case SORT_LASTMODIFICATIONDATE: return Long.valueOf(o1.getLastModified()).compareTo(o2.getLastModified());
-                case SORT_ARTIST: return compareArtistStr(o1.getArtist(), o2.getArtist());
-                case SORT_ALBUM: return compareAlbumStr(o1.getAlbum(), o2.getAlbum());
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                case SORT_FILENAME:
+                    return o1.getFileName().compareTo(o2.getFileName());
+                case SORT_DURATION:
+                    return Long.valueOf(o1.getLength()).compareTo(o2.getLength());
+                case SORT_INSERTIONDATE:
+                    return Long.valueOf(o1.getTime()).compareTo(o2.getTime());
+                case SORT_LASTMODIFICATIONDATE:
+                    return Long.valueOf(o1.getLastModified()).compareTo(o2.getLastModified());
+                case SORT_ARTIST:
+                    return compareArtistStr(o1.getArtist(), o2.getArtist());
+                case SORT_ALBUM:
+                    return compareAlbumStr(o1.getAlbum(), o2.getAlbum());
+                default:
+                    return 0;
             }
         }
     }
 
     class ArtistComparator implements Comparator<Artist> {
         private int sort;
-        ArtistComparator(int sort) { this.sort = sort; }
+
+        ArtistComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(Artist o1, Artist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ARTIST: return compareArtist(o1, o2);
-                default: return 0;
+                case SORT_ARTIST:
+                    return compareArtist(o1, o2);
+                default:
+                    return 0;
             }
         }
     }
 
     class AlbumComparator implements Comparator<Album> {
         private int sort;
-        AlbumComparator(int sort) { this.sort = sort; }
+
+        AlbumComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(Album o1, Album o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA:
-                case SORT_ALBUM: return compareAlbum(o1, o2);
-                case SORT_RELEASEDATE: return Integer.valueOf(o1.getReleaseYear()).compareTo(o2.getReleaseYear());
-                case SORT_DURATION: return Long.valueOf(o1.getDuration()).compareTo(o2.getDuration());
-                default: return 0;
+                case SORT_ALBUM:
+                    return compareAlbum(o1, o2);
+                case SORT_RELEASEDATE:
+                    return Integer.valueOf(o1.getReleaseYear()).compareTo(o2.getReleaseYear());
+                case SORT_DURATION:
+                    return Long.valueOf(o1.getDuration()).compareTo(o2.getDuration());
+                default:
+                    return 0;
             }
         }
     }
 
     class GenreComparator implements Comparator<Genre> {
         private int sort;
-        GenreComparator(int sort) { this.sort = sort; }
+
+        GenreComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(Genre o1, Genre o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                default:
+                    return 0;
             }
         }
     }
 
     class PlaylistComparator implements Comparator<Playlist> {
         private int sort;
-        PlaylistComparator(int sort) { this.sort = sort; }
+
+        PlaylistComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(Playlist o1, Playlist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                case SORT_DURATION: return 0; //TODO WTF is there a duration attribute
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                case SORT_DURATION:
+                    return 0; //TODO WTF is there a duration attribute
+                default:
+                    return 0;
             }
         }
     }
 
     class FolderComparator implements Comparator<Folder> {
         private int sort;
-        FolderComparator(int sort) { this.sort = sort; }
+
+        FolderComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(Folder o1, Folder o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                default:
+                    return 0;
             }
         }
     }
@@ -338,7 +375,7 @@ public class StubDataSource {
     void loadJsonData(String jsonContent) {
         try {
             JSONArray jsonArray = new JSONArray(jsonContent);
-            for (int i = 0 ; i < jsonArray.length() ; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 Log.d(TAG, "discover: " + jsonArray.getJSONObject(i).getString("title"));
                 addMediaFromJson(jsonArray.getJSONObject(i));
             }
@@ -443,7 +480,7 @@ public class StubDataSource {
     }
 
     private void raiseAlbumDuration(Album album, long duration) {
-        for (int i = 0 ; i < mAlbums.size() ; i++) {
+        for (int i = 0; i < mAlbums.size(); i++) {
             Album item = mAlbums.get(i);
             Artist artist = item.retrieveAlbumArtist();
             if (item.getTitle().equals(album.getTitle()) &&
@@ -456,6 +493,7 @@ public class StubDataSource {
                         artist.getTitle(),
                         artist.getId(),
                         album.getTracksCount(),
+                        album.getPresentTracksCount(),
                         album.getDuration() + duration));
                 break;
             }
@@ -483,7 +521,7 @@ public class StubDataSource {
         Artist albumArtist = getArtistFromName(albumArtistName);
         if (albumArtist == null) {
             albumArtist = MLServiceLocator.getAbstractArtist(getUUID(), albumArtistName,
-                    "", media.getArtworkMrl(), "");
+                    "", media.getArtworkMrl(), "", 0, trackTotal, trackTotal);
             addArtistSecure(albumArtist);
         }
         if (media.getArtist().isEmpty()) {
@@ -492,7 +530,7 @@ public class StubDataSource {
             Artist artist = getArtistFromName(media.getArtist());
             if (artist == null) {
                 artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtist(),
-                        "", media.getArtworkMrl(), "");
+                        "", media.getArtworkMrl(), "", 1, trackTotal, trackTotal);
                 addArtistSecure(artist);
             }
         }
@@ -500,8 +538,8 @@ public class StubDataSource {
         Album album = getAlbumFromName(albumName, albumArtist.getId());
         if (album == null) {
             album = MLServiceLocator.getAbstractAlbum(getUUID(), albumName, releaseYear,
-                        media.getArtworkMrl(), albumArtist.getTitle(),
-                        albumArtist.getId(), trackTotal, 0);
+                    media.getArtworkMrl(), albumArtist.getTitle(),
+                    albumArtist.getId(), trackTotal, trackTotal, 0);
             addAlbumSecure(album);
         }
         raiseAlbumDuration(album, (int) media.getLength());
@@ -557,7 +595,9 @@ public class StubDataSource {
 
     private String[] getFoldersString() {
         ArrayList<String> results = new ArrayList<>();
-        for (Folder folder : mFolders) { results.add(folder.getTitle()); }
+        for (Folder folder : mFolders) {
+            results.add(folder.getTitle());
+        }
         return results.toArray(new String[0]);
     }
 
