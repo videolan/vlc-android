@@ -27,12 +27,14 @@ import android.content.Intent
 import android.util.Log
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.resources.VLCInstance.init
 import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.tools.SingletonHolder
+import org.videolan.medialibrary.interfaces.Medialibrary
 
 @ObsoleteCoroutinesApi
 object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationContext) }) {
@@ -62,6 +64,7 @@ object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationCont
         sLibVLC.release()
         sLibVLC = libVLCFactory.getFromOptions(AppContextProvider.appContext, VLCOptions.libOptions)
         instance = sLibVLC
+        Medialibrary.getInstance().setLibVLCInstance((sLibVLC as LibVLC).getInstance())
     }
 
     fun testCompatibleCPU(context: Context): Boolean {
