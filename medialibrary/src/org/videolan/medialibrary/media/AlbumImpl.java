@@ -11,8 +11,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 public class AlbumImpl extends Album {
     public static final String TAG = "VLC/Album";
 
-    public AlbumImpl(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
-        super(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId, nbTracks, duration);
+    public AlbumImpl(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration) {
+        super(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId, nbTracks, nbPresentTracks, duration);
     }
 
     public AlbumImpl(Parcel in) {
