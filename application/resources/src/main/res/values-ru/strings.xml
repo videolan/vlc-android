@@ -785,5 +785,6 @@
     <string name="go_to_folder">Перейти наверх</string>
     <string name="no_sub_renderer">Субтитры не подерживаются во время трансляции</string>
     <string name="enqueuing">Загрузка ваших медиафайлов</string>
+    <string name="search_prefs">Настройки поиска</string>
 
 </resources>
