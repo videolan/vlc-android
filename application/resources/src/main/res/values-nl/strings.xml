@@ -765,5 +765,6 @@
     <string name="enqueuing">Uw media laden</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Kies een SoundFont-bestand om midi-audiotracks af te spelen</string>
+    <string name="search_prefs">Instellingen doorzoeken</string>
 
 </resources>
