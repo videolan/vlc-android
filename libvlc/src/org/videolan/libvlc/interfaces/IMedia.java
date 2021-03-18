@@ -131,6 +131,7 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
         public final int type;
         public final String codec;
         public final String originalCodec;
+        public final int fourcc;
         public final int id;
         public final int profile;
         public final int level;
@@ -138,11 +139,12 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
         public final String language;
         public final String description;
 
-        protected Track(int type, String codec, String originalCodec, int id, int profile,
+        protected Track(int type, String codec, String originalCodec, int fourcc, int id, int profile,
                         int level, int bitrate, String language, String description) {
             this.type = type;
             this.codec = codec;
             this.originalCodec = originalCodec;
+            this.fourcc = fourcc;
             this.id = id;
             this.profile = profile;
             this.level = level;
@@ -159,10 +161,10 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
         public final int channels;
         public final int rate;
 
-        public AudioTrack(String codec, String originalCodec, int id, int profile,
+        public AudioTrack(String codec, String originalCodec, int fourcc, int id, int profile,
                           int level, int bitrate, String language, String description,
                           int channels, int rate) {
-            super(Type.Audio, codec, originalCodec, id, profile, level, bitrate, language, description);
+            super(Type.Audio, codec, originalCodec, fourcc, id, profile, level, bitrate, language, description);
             this.channels = channels;
             this.rate = rate;
         }
@@ -225,11 +227,11 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
         public final int orientation;
         public final int projection;
 
-        public VideoTrack(String codec, String originalCodec, int id, int profile,
+        public VideoTrack(String codec, String originalCodec, int fourcc, int id, int profile,
                           int level, int bitrate, String language, String description,
                           int height, int width, int sarNum, int sarDen, int frameRateNum, int frameRateDen,
                           int orientation, int projection) {
-            super(Type.Video, codec, originalCodec, id, profile, level, bitrate, language, description);
+            super(Type.Video, codec, originalCodec, fourcc, id, profile, level, bitrate, language, description);
             this.height = height;
             this.width = width;
             this.sarNum = sarNum;
@@ -247,10 +249,10 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
     class SubtitleTrack extends Track {
         public final String encoding;
 
-        public SubtitleTrack(String codec, String originalCodec, int id, int profile,
+        public SubtitleTrack(String codec, String originalCodec, int fourcc, int id, int profile,
                              int level, int bitrate, String language, String description,
                              String encoding) {
-            super(Type.Text, codec, originalCodec, id, profile, level, bitrate, language, description);
+            super(Type.Text, codec, originalCodec, fourcc, id, profile, level, bitrate, language, description);
             this.encoding = encoding;
         }
     }
@@ -259,9 +261,9 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
      * see libvlc_subtitle_track_t
      */
     class UnknownTrack extends Track {
-        public UnknownTrack(String codec, String originalCodec, int id, int profile,
+        public UnknownTrack(String codec, String originalCodec, int fourcc, int id, int profile,
                             int level, int bitrate, String language, String description) {
-            super(Type.Unknown, codec, originalCodec, id, profile, level, bitrate, language, description);
+            super(Type.Unknown, codec, originalCodec, fourcc, id, profile, level, bitrate, language, description);
         }
     }
 

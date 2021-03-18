@@ -215,28 +215,28 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.Media.createAudioTrackFromNativeID,
            fields.Media.clazz,
            "createAudioTrackFromNative",
-           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;II)"
+           "(Ljava/lang/String;Ljava/lang/String;IIIIILjava/lang/String;Ljava/lang/String;II)"
            "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createVideoTrackFromNativeID,
            fields.Media.clazz,
            "createVideoTrackFromNative",
-           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;IIIIIIII)"
+           "(Ljava/lang/String;Ljava/lang/String;IIIIILjava/lang/String;Ljava/lang/String;IIIIIIII)"
            "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createSubtitleTrackFromNativeID,
            fields.Media.clazz,
            "createSubtitleTrackFromNative",
-           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)"
+           "(Ljava/lang/String;Ljava/lang/String;IIIIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)"
            "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createUnknownTrackFromNativeID,
            fields.Media.clazz,
            "createUnknownTrackFromNative",
-           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;)"
+           "(Ljava/lang/String;Ljava/lang/String;IIIIILjava/lang/String;Ljava/lang/String;)"
            "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
