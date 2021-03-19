@@ -605,7 +605,7 @@
     <string name="eq_snap_bands">Στιγμιαία εναλλαγή ζωνών</string>
     <string name="enable_equalizer">Ενεργοποίηση</string>
     <string name="preamp">Προενίσχυση</string>
-    <string name="presets">Προεπιλογές</string>
+    <string name="presets">Προρυθμίσεις</string>
     <string name="reset">Επαναφορά</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Εισήχθη %dκομμάτι</item>
