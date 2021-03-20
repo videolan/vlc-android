@@ -765,5 +765,6 @@
     <string name="enqueuing">Caricamento dei tuoi supporti</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Scegli un file SoundFont per riprodurre le tracce audio midi</string>
+    <string name="search_prefs">Impostazioni Ricerca</string>
 
 </resources>
