@@ -788,5 +788,6 @@
     <string name="enqueuing">Načítavanie médií</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vyberte súbor SoundFont na prehratie zvukových stôp MIDI</string>
+    <string name="search_prefs">Nastavenia vyhľadávania</string>
 
 </resources>
