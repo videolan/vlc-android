@@ -46,7 +46,7 @@
         <item name="bottom_navigation_color">@color/grey700</item>
         <item name="header_background">@color/whitetransparent_ea</item>
         <item name="background_default_darker">@color/grey200</item>
-        <item name="background_actionbar">@color/white</item>Dark
+        <item name="background_actionbar">@color/white</item>
         <item name="background_audio_tips">@color/grey50transparent</item>
         <item name="audio_player_background_tint">@color/whitetransparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
