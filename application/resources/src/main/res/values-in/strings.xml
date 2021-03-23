@@ -23,23 +23,23 @@
     </plurals>
 
     <string name="play">Mainkan</string>
-    <string name="playback">Pemutaran</string>
+    <string name="playback">Pemutaran Ulang</string>
     <string name="playback_controls">Kontrol pemutaran</string>
     <string name="medialibrary_scan">Pemindaian perpustakaan media</string>
-    <string name="Medialibrary_progress">Pemindaian perkembangan pembaharuan perpustakaan media</string>
+    <string name="Medialibrary_progress">Pembaharuan Perkembangan Pemindaian Pustaka Media</string>
     <string name="play_from_start">Putar dari awal</string>
     <string name="play_as_audio">Mainkan sebagai audio</string>
     <string name="play_as_video">Mainkan sebagai video</string>
-    <string name="video_app_switch_title">Latar Belakang/Mode PiP</string>
-    <string name="video_app_switch_summary">Pilih tingkah laku VLC ketika Anda berganti ke lain aplikasi saat sedang memutar video</string>
+    <string name="video_app_switch_title">Mode Latar Belakang/PiP</string>
+    <string name="video_app_switch_summary">Pilih perilaku VLC ketika anda pindah ke aplikasi lain disaat sedang memutar ulang video</string>
     <string name="play_pip_title">Putar video di mode Picture-in-picture</string>
     <string name="play_as_audio_background">Putar video di latarbelakang</string>
     <string name="append">Tambahkan</string>
     <string name="insert_next">Sisipkan selanjutnya</string>
     <string name="play_all">Mainkan semua</string>
     <string name="append_all">Tambahkan semua</string>
-    <string name="resume_playback_short_title">Lanjutkan pemutaran</string>
-    <string name="resume_playback_long_title">Lanjutkan pemutaran pada playlist terakhir</string>
+    <string name="resume_playback_short_title">Lanjutkan pemutaran ulang</string>
+    <string name="resume_playback_long_title">Lanjutkan pemutaran ulang dari daftar putar terakhir</string>
     <string name="delete">Hapus</string>
     <string name="remove">Buang</string>
     <string name="set_song">Atur sebagai nada dering</string>
@@ -173,7 +173,7 @@
     <string name="streams">Lihat langsung</string>
     <string name="open_mrl_dialog_msg">Masukkan alamat jaringan: misal http://, mms:// atau rtsp://</string>
     <string name="encountered_error_title">Pemutar eror</string>
-    <string name="encountered_error_message">VLC menemui sebuah eror dengan media ini.\nTolong coba segarkan pustaka media.</string>
+    <string name="encountered_error_message">VLC mengalami kesalahan/error dengan media ini.\nSilakan segarkan kembali pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
 
     <string name="search">Cari</string>
@@ -212,7 +212,7 @@
     <string name="licence">Lisensi</string>
     <string name="revision">Revisi</string>
     <string name="about">Tentang</string>
-    <string name="about_text">VLC untuk Android™ merupakan port dari VLC media player, media player open source popular. Versi Android™ dapat membaca hampir semua file dan stream jaringan.</string>
+    <string name="about_text">VLC untuk Android ™ adalah sebuah bagian dari pemutar media VLC, pemutar media sumber terbuka yang populer. Versi Android ™ dapat membaca sebagian besar file dan stream jaringan</string>
     <string name="vlc_authors">dan Para Pengembang VLC</string>
     <string name="compiled_by">Versi VLC ini dikompilasi oleh:</string>
     <string name="feedback_forum">Forum diskusi</string>
@@ -298,21 +298,27 @@
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Tampilkan cover media di layar kunci</string>
-    <string name="lockscreen_cover_summary">Jika ada, set cover media yang sedang diputar sebagai wallpaper layar kunci</string>
+    <string name="lockscreen_cover_summary">Jika tersedia, atur seni sampul media saat ini sebagai wallpaper layar terkunci.</string>
+    <string name="list_title_ellipsize">Menyederhanakan judul daftar dalam satu baris tunggal</string>
     <string name="list_title_ellipsize_default">Bawaan</string>
     <string name="list_title_ellipsize_left">Kiri</string>
     <string name="list_title_ellipsize_right">Kanan</string>
     <string name="list_title_ellipsize_middle">Tengah</string>
     <string name="list_title_ellipsize_marquee">Teks Berjalan</string>
+    <string name="audio_boost_title">penguatan-Audio</string>
     <string name="audio_boost_summary">Perbolehkan volume hingga 200%</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Deteksi headset</string>
     <string name="enable_headset_detection_summary">Deteksi bila headset ditancapkan dan di cabut</string>
     <string name="enable_play_on_headset_insertion">Lanjutkan pemutaran saat headset di tancapkan</string>
+    <string name="enable_play_on_headset_insertion_summary">jika tidak lakukan jeda</string>
     <string name="aout">Output audio</string>
     <string name="aout_summary">Ubah metode yang digunakan VLC untuk mengeluarkan suara</string>
     <string name="audio_ducking_title">Rendahkan volume VLC bila ada notifikasi</string>
     <string name="audio_ducking_summary">Bantu untuk dengar notifikasi audio, instruksi navigasi atau asisten berbicara</string>
+    <string name="casting_category">salurkan/tampilkan pada layar lain</string>
+    <string name="casting_switch_title">salurkan/tampilkan pada layar lain tanpa perantara kabel</string>
+    <string name="casting_passthrough_title">Menyalurkan audio melalui perangkat lain</string>
     <string name="casting_passthrough_summary">Biarkan TV anda mengatur render audio</string>
     <string name="casting_conversion_quality_title">Kualitas konversi</string>
     <string name="casting_conversion_quality_summary">Pilih konversi kualitas ketika pemeran ke layar jarak jauh</string>
@@ -325,8 +331,11 @@
 
     <string name="extensions_prefs_category">Ekstensi</string>
     <string name="extensions_empty">Tidak ada ekstensi yang terdeteksi</string>
+    <string name="extension_permission_title">aktifkan ektensi/sambungan baru \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Tampilkan di %1$s</string>
     <string name="extension_prefs_activation_title">Nyalakan</string>
+    <string name="android_auto">Sistem Android Auto</string>
+
     <string name="controls_prefs_category">Kontrol</string>
 
     <string name="performance_prefs_category">Performa</string>
@@ -353,6 +362,7 @@
     <string name="clear_history">Kosongkan riwayat</string>
     <string name="set_locale">Pilih bahasa</string>
     <string name="network_caching">Nilai cache jaringan</string>
+    <string name="network_caching_summary">Lama durasi untuk menyangga media jaringan (dalam mili detik) untuk dekode perangkat lunak\ nKosongkan untuk menyetel ulang</string>
     <string name="resume_playback_title">Lanjutkan pemutaran setelah telepon</string>
     <string name="resume_playback_summary">Jika tidak, tetaplah jeda</string>
     <string name="blurred_cover_background_title">Latar belakang sampul buram</string>
@@ -442,19 +452,23 @@
     <string name="exit_app">Tutup VLC</string>
     <string name="exit_app_msg">Apakah anda yakin ingin keluar VLC?</string>
 
+    <!-- fast scroller -->
+    <string name="fastscroller_track">Trek dengan sistem pencarian cepat</string>
+    <string name="fastscroller_handle">Pengatur sistem pencarian cepat</string>
+
     <!-- Plugins -->
     <string name="plugins">Pengaya</string>
     <string name="download_on_device">Unduh</string>
     <string name="extension_empty">Tidak ada item untuk ditampilkan, buka pengaturan ekstensi anda untuk mendapatkan beberapa.</string>
 
     <string name="opengl_title">Penggunaan OpenGL ES2</string>
-    <string name="opengl_summary">Secara bawaan, OpenGL ES2 digunakan untuk software decoding dan hardware decoding ketika dibutuhkan (video 360°) </string>
+    <string name="opengl_summary">Secara bawaan jika diperlukan, OpenGL ES2 dipergunakan untuk dekode perangkat lunak dan perangkat keras (video 360°) </string>
     <string name="opengl_automatic">Otomatis</string>
     <string name="opengl_on">Paksa Hidup</string>
     <string name="opengl_off">Paksa Mati</string>
     <string name="network_favorites">Jaringan favorit</string>
     <string name="network_shared_folders">Berkas bersama</string>
-    <string name="encryption_warning">Peringatan, enkripsi tidak tersedia untuk versi Android saat ini, kata sandi akan disimpan tempat ruang tersendiri tapi tidak dienkripsi</string>
+    <string name="encryption_warning">Peringatan, enkripsi tidak tersedia untuk Android versi ini, kata sandi akan disimpan pada tempat tersendiri namun tidak dienkripsi</string>
     <string name="store_password">Ingat kata sandi</string>
     <string name="add_to_playlist">Tambahkan ke playlist</string>
     <string name="popup_playback_title">Putar video di jendela Pop-up</string>
@@ -476,7 +490,7 @@
     <string name="length">Panjang</string>
     <string name="tv_settings_hint">Tekan lama tombol OK untuk centang/hapus centang direktori</string>
     <string name="ml_external_storage_title">Penyimpanan eksternal baru terdeteksi</string>
-    <string name="ml_external_storage_msg">Anda ingin VLC menambahkan perangkat %1$s ke pustaka media?</string>
+    <string name="ml_external_storage_msg">Apakah anda ingin VLC menambahkan perangkat %1$s ke pustaka media?</string>
     <string name="ml_external_storage_accept">Ya</string>
     <string name="ml_external_storage_decline">Tidak</string>
     <string name="auto_last_added_media">Terakhir ditambahkan</string>
@@ -506,7 +520,7 @@
     <string name="msg_delete_failed">Gagal menghapus media %1$s</string>
     <string name="renderer_list_title">Tampilan</string>
     <string name="sdcard_permission_dialog_title">Anda memiliki akses membaca VLB untuk Kartu SD anda</string>
-    <string name="sdcard_permission_dialog_message">VLC tidak dapat menghapus file ini tanpa izin akses membaca.\nSilakan ke Kartu SD anda dan tekan \"Pilih\".\nAnda mungkin harus tekan di \"Tampilan kartu SD\"  terlebih dahulu di menu kanan atas</string>
+    <string name="sdcard_permission_dialog_message">VLC tidak dapat menghapus file ini tanpa izin akses menulis.\nSilakan pilih Kartu SD anda dan klik tanda \"Pilih\".\nAnda mungkin harus klik pada pilihan \"Tampilan kartu SD\"  terlebih dahulu pada menu bagian kanan atas</string>
     <string name="dialog_sd_wizard">Tunjukkan padaku</string>
     <string name="renderers_disconnect">Koneksi Terputus</string>
     <string name="audio_digital_failed">Gagal mengubah status Audio Digital Output</string>
@@ -539,20 +553,20 @@
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Musim</string>
     <string name="language_to_download">Bahasa</string>
-    <string name="delete_the_selected">Hapus terpilih</string>
-    <string name="download_the_selected">Unduh terpilih</string>
+    <string name="delete_the_selected">Hapus Pilihan</string>
+    <string name="download_the_selected">Unduh  pilihan</string>
     <string name="next">Selanjutya</string>
     <string name="download">Unduh</string>
     <string name="ctx_player_video_track">Pilih trek video</string>
     <string name="ctx_player_audio_track">Trek audio</string>
     <string name="ctx_player_subs_track">Trek terjemahan</string>
     <string name="ctx_pip_title">Pemutar Pop-Up</string>
-    <string name="device_dialog_title">Masukkan perangkat eksternal</string>
+    <string name="device_dialog_title">perangkat eksternal dimasukkan</string>
     <string name="device_dialog_message">Anda baru saja memasang perangkat penyimpanan baru ke TV anda, apakah anda ingin membukanya dengan VLC?</string>
     <string name="videos_folders_title">Video berdasarkan folder </string>
     <string name="videos_groups_title">Grup video</string>
-    <string name="video_save_clone_mode">Otomatis aktif mode klon?</string>
-    <string name="video_remote_enable">Beralih ke mode kontrol jarak jauh</string>
+    <string name="video_save_clone_mode">Mau mengaktifkan mode klon secara otomatis?</string>
+    <string name="video_remote_enable">Beralih ke mode kendali jarak jauh</string>
     <string name="video_remote_disable">Layar duplikat</string>
     <string name="removed_from_playlist_anonymous">Item dihapuskan dari daftar putar</string>
     <string name="welcome_title">Selamat datang di VLC!</string>
@@ -572,13 +586,17 @@
     <string name="add_to_new_playlist">Tambah ke daftar putar baru</string>
     <string name="resume_card_message">Lanjutkan pemutaran %1$s?</string>
     <string name="misc">Bermacam-lainnya</string>
+    <string name="popup_force_legacy_title">Pergunakan Tampilan gambar-dalam-gambar (PiP) kustom/standar</string>
+    <string name="popup_force_legacy_summary">Pergunakan Tampilan gambar-dalam-gambar (PiP) kustom/standar yang dapat diubahsuai</string>
     <string name="device_default">Perangkat bawaan</string>
+    <string name="track_number">trek %d</string>
     <string name="jump_to">Lompat ke</string>
     <string name="show_video_thumbnails_summary">Tampilkan gambar mini video dalam daftar</string>
     <string name="show_video_thumbnails">Gambar mini video</string>
     <string name="eq_snap_bands">Snap band</string>
     <string name="enable_equalizer">Aktif</string>
-    <string name="preamp">Preamp</string>
+    <string name="preamp">Penguatan awal</string>
+    <string name="presets">pengaturan awal</string>
     <string name="reset">Setel ulang</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d trek dimasukkan</item>
@@ -592,6 +610,7 @@
     <string name="display_in_list">Tampil dalam daftar</string>
     <string name="display_in_grid">Tampil dalam kisi</string>
     <string name="dump_db_succes">Database dibuang di akar penyimpanan internal</string>
+    <string name="dump_db_failure">Gagal untuk mengumpulkan basis data</string>
     <string name="send_crash_title">Pelapor kerusakan VLC</string>
     <string name="send_crash_description">Dengan mengirimkan kerusakan anda, anda telah membantu kami mengembangkan stabilitas VLC.</string>
     <string name="send_crash_warning">Pastikan anda menghapus data sensitif yang tidak anda ingin kirim.</string>
@@ -639,6 +658,7 @@
     <string name="recently_played">Terakhir diputar</string>
     <string name="recently_added">Terakhir ditambahkan</string>
     <string name="playback_multiple_errors">Banyak media tidak dapat diputar</string>
+    <string name="clear_media_db_warning">Perkembangan dan daftar putar yang sudah anda buat akan hilang.\n1%s</string>
     <string name="abrepeat_add_first_marker">Set titik mulai</string>
     <string name="abrepeat_add_second_marker">Set titik akhir</string>
     <string name="video_information">Informasi video</string>
@@ -691,14 +711,14 @@
     <string name="donate_desc">Dukung relawan membangun VLC</string>
     <string name="donate_subscribtion">Saya lebih suka ini untuk sponsor bulanan</string>
     <string name="donate_send">Mulai sponsor anda</string>
-    <string name="donation_description">Sponsor anda telah mengizinkan kami untuk:\nMeningkatkan aplikasi VLC di Android\nDukung Asosiasi VideoLAN</string>
+    <string name="donation_description">Dukungan anda akan membuat kita mampu:\n meningkatkan aplikasi VLC untuk android\n Beri dukungan pada asosiasi VideoLAN</string>
     <string name="subscription_purchased">Anda telah berlangganan sponsor bulanan</string>
     <string name="subscription_cancel">Anda dapat berhenti berlangganan di Play Store</string>
     <string name="subscription_cancel_tv">Cara berhenti berlangganan</string>
     <string name="donate_unsubscribe_tv">Untuk berhenti berlangganan, silahkan buka %s di ponsel atau komputer atau pindai kode ini:</string>
     <string name="tip_jar">Bantu VLC</string>
     <string name="thank_you">Terima kasih</string>
-    <string name="thank_you_desc">Terima kasih untuk sponsor anda!\nItu akan banyak membantu kami meningkatkan VLC!</string>
+    <string name="thank_you_desc">Terima kasih untuk dukungan anda!\nIni sangat membantu kami meningkatkan VLC!</string>
     <string name="donate_again">Sponsor aplikasi lagi</string>
 
     <string name="mark_as_played">Tandai sebagai sudah diputar</string>
