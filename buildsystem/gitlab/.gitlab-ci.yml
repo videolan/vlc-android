@@ -4,6 +4,7 @@ cache:
         - gradle-5.4.1/
         - gradle-6.1.1/
         - gradle-6.5/
+        - gradle-6.6/
         - gradle/
         - gradlew
 
@@ -153,15 +154,18 @@ publish_libs:
         - if: '$CI_COMMIT_TAG =~ /^libvlc-.*$/'
     variables:
         ARCH: all
+        M2_REPO: "$CI_PROJECT_DIR/aars/repository"
     script:
+        - mkdir -p $M2_REPO
         - ./buildsystem/compile.sh -l -a ${ARCH} release
-        - GRADLE_ABI=ALL ./gradlew -p libvlc bintrayupload
+        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlc publishToMavenLocal
         - ./buildsystem/compile.sh -ml -a ${ARCH} release
-        - GRADLE_ABI=ALL ./gradlew -p medialibrary bintrayupload
+        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
             - .dbg/
+            - $M2_REPO
         expire_in: 2 weeks
 
 release:
