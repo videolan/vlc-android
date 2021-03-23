@@ -684,6 +684,7 @@
     <string name="subtitle_delay_end">텍스트 보임</string>
     <string name="track_index">트랙: %s</string>
     <string name="audio_queue_progress">진행도: %s</string>
+    <string name="audio_queue_progress_finished">종료: %s</string>
     <string name="sortby_track">트랙</string>
     <string name="this_folder">해당 폴더 추가</string>
     <string name="all_subfolders">해당 폴더와 하위폴더를 추가</string>
@@ -750,5 +751,5 @@
     <string name="warning_stream_speed">스트림의 재생 속도를 1보다 높이면 더듬거리는 현상이 발생할 수 있습니다</string>
     <string name="go_to_folder">상위 찾아보기</string>
     <string name="no_sub_renderer">전송 중에는 자막이 지원되지 않습니다</string>
-
+    <string name="enqueuing">미디어 로딩</string>
 </resources>
