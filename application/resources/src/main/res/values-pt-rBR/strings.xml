@@ -131,7 +131,7 @@
     <string name="surface_fit_screen">Ajustar à tela</string>
     <string name="surface_fill">Preencher</string>
     <string name="surface_original">Centralizar</string>
-    <string name="unseekable_stream">Fluxo sem índice</string>
+    <string name="unseekable_stream">Transmissão sem índice</string>
     <string name="refresh">Atualizar</string>
     <string name="track_audio">Trilha de áudio</string>
     <string name="track_video">Trilha de vídeo</string>
@@ -179,7 +179,7 @@
     <string name="favorite_added">Adicionado aos favoritos</string>
     <string name="favorite_removed">Excluído dos favoritos</string>
 
-    <string name="streams">Fluxos</string>
+    <string name="streams">transmissões</string>
     <string name="open_mrl_dialog_msg">Digite o endereço de rede: Ex.: http://, mms:// ou rtsp://</string>
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um erro nesta mídia.\nPor favor, tente atualizar a biblioteca de mídias.</string>
@@ -221,7 +221,7 @@
     <string name="licence">Licença</string>
     <string name="revision">Revisão</string>
     <string name="about">Sobre</string>
-    <string name="about_text">O VLC para Android™ é uma versão do Reprodutor de Mídias VLC, o popular reprodutor de mídias livre. A versão Android™ lê a maioria dos arquivos e fluxos de rede.</string>
+    <string name="about_text">O VLC para Android™ é uma versão do Reprodutor de Mídias VLC, o popular reprodutor de mídias livre. A versão Android™ lê a maioria dos arquivos e transmissões de rede.</string>
     <string name="vlc_authors">e autores do VLC.</string>
     <string name="compiled_by">Esta versão do VLC foi compilada por:</string>
     <string name="feedback_forum">Fórum de avaliação</string>
@@ -442,7 +442,7 @@
     <!-- Accessibility -->
     <string name="more_actions">Mais Ações</string>
     <string name="back_quit_lock">Pressione Voltar novamente para fechar o vídeo</string>
-    <string name="stream_deleted">Fluxo excluído</string>
+    <string name="stream_deleted">Transmissão excluído</string>
     <string name="no_subs_found">Nenhuma legenda nesta pasta</string>
     <string name="music_now_playing">Reproduzindo</string>
 
@@ -704,7 +704,7 @@
     <string name="browse">Procurar</string>
     <string name="more">Mais</string>
     <string name="favorites">Favoritos</string>
-    <string name="new_stream">Novo fluxo</string>
+    <string name="new_stream">Novo transmissão</string>
     <string name="add_to_group">Adicionar ao grupo de vídeos</string>
     <string name="remove_from_group">Excluir do grupo de vídeos</string>
     <string name="rename_group">Renomear grupo de vídeos</string>
@@ -759,11 +759,12 @@
     <string name="prefersmbv1_summary">Desmarque esta configuração se tiver alguma dificuldade em navegar em seu servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos os vídeos</string>
     <string name="audio_delay_global">Definir atraso em %s ms para todos os vídeos</string>
-    <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para fluxos pode causar engasgos</string>
+    <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
     <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
     <string name="enqueuing">Carregando suas mídias</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Escolha um arquivo SoundFont para reproduzir trilhas de áudio midi</string>
+    <string name="search_prefs">Configurações de pesquisa</string>
 
 </resources>
