@@ -765,5 +765,6 @@
     <string name="enqueuing">Indlæser medier</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vælg en SoundFont fil for at afspille MIDI lydspor</string>
+    <string name="search_prefs">Indstillinger for søgning</string>
 
 </resources>
