@@ -615,5 +615,10 @@ Käynnistä uudelleen nyt?</string>
     </plurals>
     <string name="remove_current">Poista nykyinen</string>
     <string name="validation_delete_playlist">Haluatko varmasti poistaa tämän soittolistan?</string>
+    <string name="validation_delete_playlist_text">Tätä toimintoa ei voi kumota.</string>
+    <string name="display_in_list">Näytä lista</string>
+    <string name="display_in_grid">Näytä ruuduko</string>
+    <string name="dump_db_succes">Tietokanta on viety sisäisen muistin juureen</string>
+    <string name="dump_db_failure">Tietokannan tyhjentäminen epäonnistui</string>
     <string name="casting">Suoratoisto</string>
 </resources>
