@@ -88,6 +88,9 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     open fun getCurrentAdapter() = adapter
 
+    var needToReopenSearch = false
+    var lastQuery = ""
+
     protected var currentTab
         get() = if (::viewPager.isInitialized) viewPager.currentItem else 0
         set(value) {
@@ -214,7 +217,8 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()
-        (activity as? ContentActivity)?.closeSearchView()
+        needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() ?: false
+        lastQuery = (activity as? ContentActivity)?.getCurrentQuery() as String
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -266,6 +270,15 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             } ?: false
         } ?: false else false
         return true
+    }
+
+    fun reopenSearchIfNeeded() {
+        if (needToReopenSearch) {
+            (activity as? ContentActivity)?.openSearchView()
+            (activity as? ContentActivity)?.setCurrentQuery(lastQuery)
+            lastQuery = ""
+            needToReopenSearch = false
+        }
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {

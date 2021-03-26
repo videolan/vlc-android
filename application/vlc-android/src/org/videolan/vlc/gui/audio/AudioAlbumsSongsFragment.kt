@@ -185,6 +185,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
         }
         sortMenuTitles()
+        reopenSearchIfNeeded()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
