@@ -42,6 +42,13 @@
             android:summary="@string/popup_force_legacy_summary"
             android:title="@string/popup_force_legacy_title"/>
     <ListPreference
+                android:defaultValue="-1"
+                android:entries="@array/preferred_resolution"
+                android:entryValues="@array/preferred_resolution_values"
+                android:key="preferred_resolution"
+                android:summary="@string/preferred_resolution_summary"
+                android:title="@string/preferred_resolution"/>
+    <ListPreference
             app:singleLineTitle="false"
             android:defaultValue="0"
             android:key="video_confirm_resume"

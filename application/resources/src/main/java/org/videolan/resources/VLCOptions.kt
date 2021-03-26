@@ -145,6 +145,7 @@ object VLCOptions {
             if (soundFontFile.exists()) {
                 options.add("--soundfont=${soundFontFile.path}")
             }
+            options.add("--preferred-resolution=${pref.getString("preferred_resolution", "-1")!!}")
             return options
         }
 
