@@ -22,13 +22,15 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
@@ -36,6 +38,14 @@ import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.resources.VLCInstance
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.PickerType
+
+private const val FILE_PICKER_RESULT_CODE = 10000
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -81,8 +91,27 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 (requireActivity() as PreferencesActivity).detectHeadset((preference as TwoStatePreference).isChecked)
                 return true
             }
+            "soundfont" -> {
+                val filePickerIntent = Intent(requireContext(), FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SOUNDFONT.ordinal)
+                startActivityForResult(filePickerIntent, FILE_PICKER_RESULT_CODE)
+            }
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
+        if (requestCode == FILE_PICKER_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) {
+                lifecycleScope.launch {
+                    MediaUtils.useAsSoundFont(requireActivity(), Uri.parse(data.getStringExtra(EXTRA_MRL)))
+                }
+                VLCInstance.restart()
+                UiTools.restartDialog(requireActivity())
+            }
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

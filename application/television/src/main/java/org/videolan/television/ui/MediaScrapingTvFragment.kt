@@ -52,7 +52,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -106,7 +106,7 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         media = extras.getParcelable(MediaScrapingTvActivity.MEDIA) ?: return
 
-        viewModel = ViewModelProviders.of(this).get(media.uri.path
+        viewModel = ViewModelProvider(this).get(media.uri.path
                 ?: "", MediaScrapingModel::class.java)
         val cp = CardPresenter(requireActivity(), true)
         val videoAdapter = ArrayObjectAdapter(cp)

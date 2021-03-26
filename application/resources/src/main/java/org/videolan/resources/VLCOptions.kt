@@ -141,6 +141,10 @@ object VLCOptions {
                 options.add("--hrtf-file")
                 options.add(hstfPath)
             }
+            val soundFontFile = getSoundFontFile(context)
+            if (soundFontFile.exists()) {
+                options.add("--soundfont=${soundFontFile.path}")
+            }
             return options
         }
 
@@ -324,4 +328,6 @@ object VLCOptions {
     fun getEqualizerEnabledState(context: Context): Boolean {
         return Settings.getInstance(context).getBoolean("equalizer_enabled", false)
     }
+
+    fun getSoundFontFile(context: Context)= File( context.getDir("soundfont", Context.MODE_PRIVATE)!!.path+"/soundfont.sf2")
 }

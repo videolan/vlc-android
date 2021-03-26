@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Tekst gezien</string>
     <string name="track_index">Track: %s</string>
     <string name="audio_queue_progress">Voortgang: %s</string>
+    <string name="audio_queue_progress_finished">Eindigt op: %s</string>
     <string name="sortby_track">Track</string>
     <string name="this_folder">Deze map toevoegen</string>
     <string name="all_subfolders">Deze map en submappen toevoegen</string>
@@ -760,5 +761,10 @@
     <string name="audio_delay_global">Audiovertraging ingesteld op %s ms voor alle video\'s</string>
     <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
+    <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>
+    <string name="enqueuing">Uw media laden</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Kies een SoundFont-bestand om midi-audiotracks af te spelen</string>
+    <string name="search_prefs">Instellingen doorzoeken</string>
 
 </resources>

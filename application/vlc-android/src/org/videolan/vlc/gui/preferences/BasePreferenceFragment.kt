@@ -24,10 +24,12 @@
 package org.videolan.vlc.gui.preferences
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
@@ -70,8 +72,30 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         super.onDisplayPreferenceDialog(preference)
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.getParcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let { endPoint ->
+            selectPreference(endPoint.key)
+        }
+    }
+
     companion object {
 
         private const val DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG"
+    }
+
+    private fun selectPreference(key: String) {
+        scrollToPreference(key)
+        findPreference<Preference>(key)?.isSelectable = true
+        listView?.postDelayed({
+            (listView?.adapter as? PreferenceGroup.PreferencePositionCallback)?.let { adapter ->
+                listView?.findViewHolderForAdapterPosition(adapter.getPreferenceAdapterPosition(key))?.itemView?.let { itemView ->
+                    listView?.postDelayed({
+                        itemView.isPressed = true
+                    }, 600)
+                }
+            }
+        }, 200)
     }
 }

@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_addtoscan.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="m20,6.1172c-0.5578,0 -0.9232,0.2487 -1.2266,0.5586 -0.4195,0.4285 -0.7813,1.6738 -0.7813,1.6738L17.5449,9.6875c1.785,0.8925 3.06,0.9759 4.9102,0l-0.4473,-1.3379c0,0 -0.3618,-1.2453 -0.7813,-1.6738C20.9232,6.3659 20.5578,6.1172 20,6.1172ZM15.9844,14.373 L14.1992,19.7285c1.785,1.785 3.729,2.2305 5.8008,2.2305 2.0718,0 4.0158,-0.4455 5.8008,-2.2305L24.0156,14.373C22.6769,15.3771 21.4298,15.8789 20,15.8789c-1.4298,0 -2.6769,-0.5018 -4.0156,-1.5059zM11.4102,22.4063c-0.5933,0 -1.1566,0.5188 -1.3398,1.1152l-1.9512,6.6934C7.8583,31.1093 7.9506,32 9.1777,32L20,32v-4.4629c-2.5167,-0.0007 -5.3433,-0.6944 -7.1406,-2.4531 -0.3366,-0.3294 -0.2232,-0.6704 0,-1.3398 0.1488,-0.4462 0.4453,-1.3379 0.4453,-1.3379zM28,25a1.5,1.5 0,0 0,-1.5 1.5L26.5,29L24,29A1.5,1.5 0,0 0,22.5 30.5,1.5 1.5,0 0,0 24,32h2.5v2.5A1.5,1.5 0,0 0,28 36,1.5 1.5,0 0,0 29.5,34.5L29.5,32L32,32A1.5,1.5 0,0 0,33.5 30.5,1.5 1.5,0 0,0 32,29L29.5,29L29.5,26.5A1.5,1.5 0,0 0,28 25Z"
+      android:strokeWidth="0.05578091"
+      android:fillColor="#000000"/>
+</vector>

@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_link.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M11.5,12.5A7.5,7.5 0,0 0,4 20,7.5 7.5,0 0,0 11.5,27.5L18,27.5v-3L11.5,24.5A4.5,4.5 0,0 1,7 20,4.5 4.5,0 0,1 11.5,15.5L18,15.5v-3zM22,12.5v3h6.5A4.5,4.5 0,0 1,33 20,4.5 4.5,0 0,1 28.5,24.5L22,24.5v3h6.5A7.5,7.5 0,0 0,36 20,7.5 7.5,0 0,0 28.5,12.5ZM14,18.5v3h12v-3z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.65463334"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"/>
+</vector>

@@ -439,6 +439,7 @@
     <string name="chapter">Capitol</string>
     <string name="resume_from_position">Reia de la ultima poziție</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
+    <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
     <string name="tv_ui_title">Interfata Android TV</string>
     <string name="tv_ui_summary">Schimbă interfața UI în tema TV adaptată</string>
     <string name="medialibrary">Biblioteca media</string>
@@ -447,6 +448,7 @@
     <!-- Accessibility -->
     <string name="more_actions">Mai multe actiuni</string>
     <string name="back_quit_lock">Apasă din nou butonul Înapoi pentru a închide videoclipul</string>
+    <string name="stream_deleted">Fluxul a fost șters</string>
     <string name="no_subs_found">Nu există subtitrări în acest director</string>
     <string name="music_now_playing">Acum se reda</string>
 
@@ -505,6 +507,9 @@
     <string name="ml_external_storage_msg">Doriești ca VLC să adauge dispozitivul %1$s în biblioteca media?</string>
     <string name="ml_external_storage_accept">Da</string>
     <string name="ml_external_storage_decline">Nu</string>
+    <string name="auto_last_added_media">Ultimul adăugat</string>
+    <string name="auto_my_library">Biblioteca mea</string>
+    <string name="auto_home">Acasă</string>
     <string name="no">Nu</string>
     <string name="loading_medialibrary">Încarcă biblioteca media…</string>
     <string name="yes">Da</string>
@@ -536,6 +541,8 @@
     <string name="audio_digital_output_disabled">Ieșirea Audio Digital dezactivată</string>
     <string name="audio_digital_title">Ieșire audio digitală (passthrough)</string>
     <string name="audio_task_cleared_summary">Opriți redarea când aplicația este respinsă</string>
+    <string name="audio_resume_card_title">Afișează ultima indicație pentru lista de redare</string>
+    <string name="audio_resume_card_summary">Afișarea unei indicați care vă ajută să reluați redarea audio la pornirea aplicației</string>
     <string name="playback_rewind">Derulare înapoi</string>
     <string name="playback_forward">Derulare rapidă înainte</string>
     <string name="ml_wizard_scan_checkbox">Scanare dispozitiv pentru conținutul media</string>
@@ -566,7 +573,9 @@
     <string name="device_dialog_title">A fost  introdus un dispozitiv extern</string>
     <string name="device_dialog_message">Tocmai ați conectat un nou dispozitiv de stocare la TV box, doriți să-l deschideți cu VLC?</string>
     <string name="videos_folders_title">Afișare videoclipuri după dosare</string>
+    <string name="videos_groups_title">Grupuri video</string>
     <string name="video_remote_enable">Comutați la modul de control la distanță</string>
+    <string name="video_remote_disable">Ecran duplicat</string>
     <string name="removed_from_playlist_anonymous">Element (e) eliminate din lista de redare</string>
     <string name="welcome_title">Bine ați venit la VLC!</string>
     <string name="welcome_subtitle">Playerul multimedia gratuit și open source</string>

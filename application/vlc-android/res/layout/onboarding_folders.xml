@@ -37,12 +37,13 @@
             app:layout_scrollFlags="scroll|enterAlways" />
 
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_placeholder"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="48dp"
             android:keyboardNavigationCluster="true"
+            android:name="org.videolan.vlc.gui.browser.StorageBrowserFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

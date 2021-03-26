@@ -68,16 +68,21 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
+import org.videolan.vlc.util.isSoundFont
 import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import java.util.*
 
 private const val TAG = "VLC/BaseBrowserFragment"
 
 internal const val KEY_MEDIA = "key_media"
 private const val KEY_POSITION = "key_list"
+const val KEY_PICKER_TYPE = "key_picker_type"
 private const val MSG_SHOW_LOADING = 0
 internal const val MSG_HIDE_LOADING = 1
 private const val MSG_REFRESH = 3
+private const val MSG_SHOW_ENQUEUING = 4
+private const val MSG_HIDE_ENQUEUING = 5
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -315,6 +320,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     class BrowserFragmentHandler(owner: BaseBrowserFragment) : WeakHandler<BaseBrowserFragment>(owner) {
 
+        private var enqueuingSnackbar: Snackbar? = null
+
         override fun handleMessage(msg: Message) {
             val fragment = owner ?: return
             when (msg.what) {
@@ -326,6 +333,17 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 MSG_REFRESH -> {
                     removeMessages(MSG_REFRESH)
                     if (!fragment.isDetached) fragment.refresh()
+                }
+                MSG_SHOW_ENQUEUING -> {
+                    owner?.activity?.let {
+                        enqueuingSnackbar = UiTools.snackerMessageInfinite(it, it.getString(R.string.enqueuing))
+                    }
+                    enqueuingSnackbar?.show()
+
+                }
+                MSG_HIDE_ENQUEUING -> {
+                    enqueuingSnackbar?.dismiss()
+                    removeMessages(MSG_SHOW_ENQUEUING)
                 }
             }
         }
@@ -351,17 +369,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     private fun playAll(mw: MediaWrapper?) {
-        var positionInPlaylist = 0
-        val mediaLocations = LinkedList<MediaWrapper>()
-        for (file in viewModel.dataset.getList())
-            if (file is MediaWrapper) {
-                if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
-                    mediaLocations.add(file)
-                    if (mw != null && file.equals(mw))
-                        positionInPlaylist = mediaLocations.size - 1
-                }
+        lifecycleScope.launch {
+            var positionInPlaylist = 0
+            val mediaLocations = LinkedList<MediaWrapper>()
+            handler.sendEmptyMessageDelayed(MSG_SHOW_ENQUEUING, 1000)
+            withContext(Dispatchers.IO) {
+                val files = if (viewModel.url?.startsWith("file") == true) viewModel.provider.browseUrl(viewModel.url!!) else viewModel.dataset.getList()
+                for (file in files.filterIsInstance(MediaWrapper::class.java))
+                    if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
+                        mediaLocations.add(file)
+                        if (mw != null && file.equals(mw))
+                            positionInPlaylist = mediaLocations.size - 1
+                    }
             }
-        activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist) }
+            handler.sendEmptyMessage(MSG_HIDE_ENQUEUING)
+            activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist) }
+        }
     }
 
     override fun enableSearchOption() = !isRootDirectory
@@ -603,7 +626,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun updateFab() {
         fabPlay?.let {
-            if (adapter.mediaCount > 0) {
+            if (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true) {
                 it.show()
                 it.setOnClickListener(this)
             } else {

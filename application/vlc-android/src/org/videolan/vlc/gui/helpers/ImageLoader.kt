@@ -70,7 +70,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
         return
     }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
-    if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && !Settings.showVideoThumbs) {
+    if (!Settings.showVideoThumbs && ((isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO) || item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP) ) {
         updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding, tv = tv, card = card)
         return
     }

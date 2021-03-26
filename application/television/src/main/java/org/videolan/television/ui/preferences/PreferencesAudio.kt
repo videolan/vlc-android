@@ -89,6 +89,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
+            "audio_digital_output" -> updatePassThroughSummary()
         }
     }
 }

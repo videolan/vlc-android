@@ -53,7 +53,7 @@ public abstract class Album extends MediaLibraryItem {
     abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
-    abstract public Artist getAlbumArtist();
+    abstract public Artist retrieveAlbumArtist();
 
     @Override
     public long getId() {
@@ -94,6 +94,10 @@ public abstract class Album extends MediaLibraryItem {
     @Override
     public int getItemType() {
         return TYPE_ALBUM;
+    }
+
+    public String getAlbumArtist() {
+        return albumArtist;
     }
 
     public static Parcelable.Creator<Album> CREATOR

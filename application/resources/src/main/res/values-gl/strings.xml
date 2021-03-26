@@ -358,8 +358,8 @@
     <string name="deblocking_all">Sen filtro antibloques (o máis rápido)</string>
     <string name="enable_frame_skip">Salto de fotograma</string>
     <string name="enable_frame_skip_summary">Acelera a descodificación, mais pode resultar nunha menor calidade de vídeo</string>
-    <string name="enable_time_stretching_audio">Activar a extensión no tempo do son</string>
-    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar o ton (require un dispositivo rápido)</string>
+    <string name="enable_time_stretching_audio">Cambio da velocidade do son</string>
+    <string name="enable_time_stretching_audio_summary">Acelera e diminúe a velocidade do son sen mudar o ton (require un dispositivo rápido)</string>
 
     <string name="advanced_prefs_category">Avanzadas</string>
     <string name="auto_rescan">Analizar automaticamente</string>
@@ -491,7 +491,7 @@
     <string name="movies">películas</string>
     <string name="videos">vídeos</string>
     <string name="videos_all">Todos os vídeos</string>
-    <string name="clear_playback_history">Limpar historial de reproducións</string>
+    <string name="clear_playback_history">Limpar o historial de reproducións</string>
     <string name="ml_scanning">Buscando ficheiros multimedia</string>
     <string name="ml_parse_media">Analizando multimedia</string>
     <string name="ml_discovering">Descubrir</string>
@@ -539,7 +539,7 @@
     <string name="audio_task_cleared_title">Parar ao esvarar o dedo pola aplicación</string>
     <string name="audio_task_cleared_summary">Parar a reprodución cando se saia da aplicación</string>
     <string name="audio_resume_card_title">Mostrar suxestión da última lista</string>
-    <string name="audio_resume_card_summary">Mostra unha suxestión para continuar a reprodución de audio ao iniciar a aplicación</string>
+    <string name="audio_resume_card_summary">Mostra unha suxestión para continuar a reprodución do son ao iniciar a aplicación</string>
     <string name="playback_rewind">Rebobinar</string>
     <string name="playback_forward">Avance rápido</string>
     <string name="ml_wizard_scan_checkbox">Buscar no dispositivo contidos multimedia</string>
@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="audio_queue_progress_finished">Remata en: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Engadir este cartafol</string>
     <string name="all_subfolders">Engadir este cartafol e subcartafoles</string>
@@ -721,10 +722,10 @@
 
     <string name="sub_result_by_file">Resultados para o seu ficheiro</string>
     <string name="donate">Axude ao VLC</string>
-    <string name="donate_desc">Apoia os voluntarios que desenvolven o VLC</string>
+    <string name="donate_desc">Apoie os voluntarios que desenvolven o VLC</string>
     <string name="donate_subscribtion">Gustaríame que isto fose un patrocinio mensual</string>
     <string name="donate_send">Inicie o patrocinio</string>
-    <string name="donation_description">O seu patrocinio permitiranos:\nmellorar o VLC para Android e\napoiar a Asociación VideoLAN</string>
+    <string name="donation_description">O seu patrocinio permitiranos:\nmellorar o VLC para Android e\napoiar á Asociación VideoLAN</string>
     <string name="subscription_purchased">Subscribiuse a un patrocinio mensual</string>
     <string name="subscription_cancel">Pode cancelar a subscrición na Play Store</string>
     <string name="subscription_cancel_tv">Como cancelar a subscrición</string>
@@ -756,5 +757,13 @@
     <string name="remove_from_history">Retirar do historial</string>
     <string name="prefersmbv1">Preferir SMB 1</string>
     <string name="prefersmbv1_summary">Desmarcar este axuste se ten dificultades para navegar polo servidor SMB</string>
+    <string name="apply_to_all">Aplicar a todos os vídeos</string>
+    <string name="audio_delay_global">Atraso automático de %s ms para todos os vídeos.</string>
+    <string name="warning_stream_speed">Incrementar a velocidade de reprodución dos fluxos por riba de 1 pode causar distorsións</string>
+    <string name="go_to_folder">Explorar pai</string>
+    <string name="no_sub_renderer">Os subtítulos durante as emisións aínda non son compatíbeis</string>
+    <string name="enqueuing">Cargando os multimedia</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Seleccione un ficheiro de SoundFont para reproducir as pistas de son midi</string>
 
 </resources>

@@ -51,7 +51,6 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -74,6 +73,7 @@ import kotlinx.android.synthetic.main.player_overlay_volume.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
@@ -88,19 +88,21 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 import kotlin.math.roundToInt
@@ -108,7 +110,7 @@ import kotlin.math.roundToInt
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher {
+open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager {
 
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope : CoroutineScope
@@ -170,6 +172,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
+
+    private val dialogsDelegate = DialogDelegate()
+
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -357,6 +362,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
+        applyOverrideConfiguration(newBase?.resources?.configuration)
     }
 
     override fun getApplicationContext(): Context {
@@ -367,6 +373,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        dialogsDelegate.observeDialogs(this, this)
         Util.checkCpuCompatibility(this)
 
         settings = Settings.getInstance(this)
@@ -466,6 +473,15 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         overlayDelegate.playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         overlayDelegate.pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
+    }
+
+    override fun fireDialog(dialog: Dialog) {
+        DialogActivity.dialog = dialog
+        startActivity(Intent(DialogActivity.KEY_DIALOG, null, this, DialogActivity::class.java))
+    }
+
+    override fun dialogCanceled(dialog: Dialog?) {
+        (dialog?.context as? DialogFragment)?.dismiss()
     }
 
     override fun afterTextChanged(s: Editable?) {
@@ -1326,7 +1342,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service == null) return
         switchingView = true
         // Show the MainActivity if it is not in background.
-        if (showUI) {
+        if (showUI && intent.getBooleanExtra(FROM_EXTERNAL, false)) {
             val i = Intent().apply {
                 setClassName(applicationContext, if (isTv) TV_AUDIOPLAYER_ACTIVITY else MOBILE_MAIN_ACTIVITY)
             }
@@ -1487,6 +1503,26 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             R.id.video_secondary_display -> {
                 clone = displayManager.isSecondary
                 recreate()
+            }
+            R.id.playback_speed_quick_action -> {
+                val newFragment = PlaybackSpeedDialog.newInstance()
+                newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
+                newFragment.show(supportFragmentManager, "playback_speed")
+                overlayDelegate.hideOverlay(false)
+            }
+            R.id.sleep_quick_action -> {
+                val newFragment = SleepTimerDialog.newInstance()
+                newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
+                newFragment.show(supportFragmentManager, "time")
+                overlayDelegate.hideOverlay(false)
+            }
+            R.id.audio_delay_quick_action -> {
+                delayDelegate.showAudioDelaySetting()
+                overlayDelegate.hideOverlay(false)
+            }
+            R.id.spu_delay_quick_action -> {
+                delayDelegate.showSubsDelaySetting()
+                overlayDelegate.hideOverlay(false)
             }
         }
     }
@@ -1694,8 +1730,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
-            if (startTime == 0L && savedTime > 0L) startTime = savedTime
             val restorePlayback = hasMedia && currentMedia?.uri == videoUri
+            if (startTime == 0L && savedTime > 0L && restorePlayback) startTime = savedTime
 
             var openedMedia: MediaWrapper? = null
             val resumePlaylist = service.isValidIndex(positionInPlaylist)
@@ -1740,7 +1776,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             return
                         } else {
                             val rTime = settings.getLong(VIDEO_RESUME_TIME, -1L)
-                            if (rTime > 0) {
+                            val lastUri = settings.getString(VIDEO_RESUME_URI, "")
+                            if (rTime > 0 && service.currentMediaLocation == lastUri) {
                                 if (askResume) {
                                     showConfirmResumeDialog()
                                     return
@@ -2027,6 +2064,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val EXTRA_POSITION = "extra_position"
         private const val EXTRA_DURATION = "extra_duration"
         private const val EXTRA_URI = "extra_uri"
+        const val FROM_EXTERNAL = "from_external"
         private const val RESULT_CONNECTION_FAILED = Activity.RESULT_FIRST_USER + 1
         private const val RESULT_PLAYBACK_ERROR = Activity.RESULT_FIRST_USER + 2
         private const val RESULT_VIDEO_TRACK_LOST = Activity.RESULT_FIRST_USER + 3

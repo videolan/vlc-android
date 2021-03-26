@@ -36,6 +36,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
@@ -536,6 +537,12 @@ object MediaUtils {
             artist.tracks?.takeIf { it.isNotEmpty() }?.let { list ->
                 service.load(list, 0)
             }
+        }
+    }
+
+    suspend fun useAsSoundFont(context: Context, uri:Uri) {
+        withContext(Dispatchers.IO) {
+            FileUtils.copyFile(File(uri.path), VLCOptions.getSoundFontFile(context))
         }
     }
 }

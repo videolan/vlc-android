@@ -717,6 +717,7 @@
     <string name="subtitle_delay_end">Viditelný text</string>
     <string name="track_index">Skladba: %s</string>
     <string name="audio_queue_progress">Průběh: %s</string>
+    <string name="audio_queue_progress_finished">Končí za: %s</string>
     <string name="sortby_track">Skladba</string>
     <string name="this_folder">Přidat tuto složku</string>
     <string name="all_subfolders">Přidat tuto složku a podsložky</string>
@@ -782,5 +783,9 @@
     <string name="audio_delay_global">Zpoždění zvuku u všech videí nastaveno na %s ms</string>
     <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
     <string name="go_to_folder">Procházet zdrojové složky</string>
+    <string name="no_sub_renderer">Titulky nejsou podporovány během odesílání.</string>
+    <string name="enqueuing">Načítání médií...</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Vybrat soubor SoundFont pro přehráván midií zvukových stop</string>
 
 </resources>

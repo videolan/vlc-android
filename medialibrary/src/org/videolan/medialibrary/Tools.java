@@ -43,7 +43,7 @@ public class Tools {
     }
     public static String getProgressText(MediaWrapper media) {
         long lastTime = media.getTime();
-        if (lastTime == 0L) return "";
+        if (lastTime <= 0L) return "";
         return String.format("%s / %s",
                 millisToString(lastTime, true, false, false),
                 millisToString(media.getLength(), true, false, false));

@@ -46,8 +46,6 @@ private const val ACTION_SPU_DELAY = 3
 private const val ID_PLAY_AS_AUDIO = 0L
 private const val ID_SLEEP = 1L
 private const val ID_JUMP_TO = 2L
-private const val ID_AUDIO_DELAY = 3L
-private const val ID_SPU_DELAY = 4L
 private const val ID_CHAPTER_TITLE = 5L
 private const val ID_PLAYBACK_SPEED = 6L
 private const val ID_EQUALIZER = 7L
@@ -301,28 +299,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         else R.drawable.ic_jumpto_disable))
     }
 
-    private fun initAudioDelay(binding: PlayerOptionItemBinding) {
-        val audiodelay = service.audioDelay / 1000L
-        if (audiodelay == 0L) {
-            binding.optionTitle.text = null
-            binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_audiodelay))
-        } else {
-            binding.optionTitle.text = String.format("%s ms", audiodelay.toString())
-            binding.optionIcon.setImageResource(R.drawable.ic_audiodelay_on)
-        }
-    }
-
-    private fun initSpuDelay(binding: PlayerOptionItemBinding) {
-        val spudelay = service.spuDelay / 1000L
-        if (spudelay == 0L) {
-            binding.optionTitle.text = null
-            binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_subtitledelay))
-        } else {
-            binding.optionTitle.text = String.format("%s ms", spudelay.toString())
-            binding.optionIcon.setImageResource(R.drawable.ic_subtitledelay_on)
-        }
-    }
-
     private fun initRepeat(binding: PlayerOptionItemBinding) {
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
@@ -368,9 +344,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 option.id == ID_SLEEP -> sleepBinding = holder.binding
                 option.id == ID_CHAPTER_TITLE -> initChapters(holder.binding)
                 option.id == ID_PLAYBACK_SPEED -> initPlaybackSpeed(holder.binding)
-                option.id == ID_AUDIO_DELAY -> initAudioDelay(holder.binding)
                 option.id == ID_JUMP_TO -> initJumpTo(holder.binding)
-                option.id == ID_SPU_DELAY -> initSpuDelay(holder.binding)
             }
             holder.binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, option.icon))
         }

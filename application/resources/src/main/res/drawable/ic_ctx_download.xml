@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_download.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M16.5,6C15.6716,6.0001 15.0001,6.6716 15,7.5L15,15.5L12.5,15.5C11.1641,15.5006 10.4952,17.1156 11.4395,18.0605L18.9395,25.5605C19.5253,26.146 20.4747,26.146 21.0605,25.5605L28.5605,18.0605C29.5048,17.1156 28.8359,15.5006 27.5,15.5L25,15.5L25,7.5C24.9999,6.6716 24.3284,6.0001 23.5,6L16.5,6zM18,9L22,9L22,18.5L23.8789,18.5L20,22.3789L16.1211,18.5L18,18.5L18,9zM9.5,29C8.669,29 8,29.669 8,30.5C8,31.331 8.669,32 9.5,32L30.5,32C31.331,32 32,31.331 32,30.5C32,29.669 31.331,29 30.5,29L9.5,29z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="0.755906"
+      android:fillColor="#212121"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+</vector>

@@ -443,6 +443,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val media = medialibrary.findMedia(currentMedia) ?: return@launch
             if (media.id == 0L) return@launch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
+            if (media.title != currentMedia.title) media.rename(currentMedia.title)
             if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
                 var progress = time / length.toFloat()
                 if (progress > 0.95f || length - time < 10000) {
@@ -821,7 +822,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         loadMediaMeta(mw)
                         mw.length = player.getLength()
                         saveMediaList()
-                        savePosition(reset = true)
+                        savePosition()
                         saveCurrentMedia()
                         newMedia = false
                         if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
@@ -856,9 +857,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     abRepeat.value?.let {
                         if (it.stop != -1L && player.getCurrentTime() > it.stop) player.seek(it.start)
                     }
+                    if (player.getCurrentTime() % 10 == 0L) savePosition()
                 }
-                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(KEY_PLAYBACK_SPEED_PERSIST, false)) {
-                    player.setRate(settings.getFloat(KEY_PLAYBACK_RATE, 1.0f), false)
+                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(if(player.isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false)) {
+                    player.setRate(settings.getFloat(if(player.isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else KEY_PLAYBACK_RATE, 1.0f), false)
                 }
             }
             service.onMediaPlayerEvent(event)

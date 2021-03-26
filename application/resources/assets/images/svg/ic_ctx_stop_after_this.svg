@@ -9,17 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20"
-   height="20"
-   id="svg4682"
+   width="40"
+   height="40"
+   viewBox="0 0 40 40"
    version="1.1"
-   inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_ctx_stop_after_this.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   id="SVGRoot"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="ic_ctx_stop_after_this.svg">
   <defs
-     id="defs4684" />
+     id="defs7678" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,42 +25,45 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.4"
-     inkscape:cx="0.8638253"
-     inkscape:cy="3.5136834"
+     inkscape:zoom="7.9999996"
+     inkscape:cx="20.566196"
+     inkscape:cy="25.097237"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1052"
-     inkscape:window-x="1920"
+     inkscape:window-width="1113"
+     inkscape:window-height="1043"
+     inkscape:window-x="807"
      inkscape:window-y="0"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
+     inkscape:grid-bbox="true"
+     inkscape:snap-page="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-center="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="true"
      inkscape:snap-bbox="true"
-     inkscape:bbox-nodes="true"
      inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:object-paths="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:object-nodes="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true">
+     inkscape:snap-grids="true">
     <inkscape:grid
        type="xygrid"
-       id="grid3002" />
+       id="grid8234" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata7681">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,24 +71,12 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1032.3622)">
-    <g
-       id="g843"
-       transform="translate(17,-1.9999913)"
-       style="fill:#212121;fill-opacity:1">
-      <rect
-         y="1041.3622"
-         x="-7"
-         height="5.9999871"
-         width="6"
-         id="rect6205"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8.50393677;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
-      <path
-         sodipodi:nodetypes="cccccccc"
-         inkscape:connector-curvature="0"
-         id="path6207"
-         d="m -8,1044.3622 -3,-3 v 2 h -2 v 2 h 2 v 2 z"
-         style="fill:#212121;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    </g>
+     transform="translate(0,-8)">
+    <path
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:17.00787354;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="M 20,22 V 34 H 32 V 22 Z m -8.015625,1 C 11.438225,23.008588 10.999987,23.453782 11,24 v 2 H 8 v 4 h 3 v 2 c 3.5e-4,0.890637 1.077036,1.336587 1.707031,0.707031 l 4,-4 c 0.390368,-0.39053 0.390368,-1.023532 0,-1.414062 l -4,-4 C 12.515708,23.101557 12.254978,22.995856 11.984375,23 Z"
+       id="rect7881"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccccccc" />
   </g>
 </svg>

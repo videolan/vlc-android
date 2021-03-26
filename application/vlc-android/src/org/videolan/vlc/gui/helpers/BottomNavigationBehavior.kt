@@ -209,6 +209,10 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
         updatePlayer(child)
     }
 
+    fun setCollapsed() {
+        currentState = STATE_SCROLLED_DOWN
+    }
+
     companion object {
         fun <V : View> from(view: V): BottomNavigationBehavior<V>? {
             val params = view.layoutParams

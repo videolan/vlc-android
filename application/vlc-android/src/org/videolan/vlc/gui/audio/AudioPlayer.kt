@@ -30,6 +30,7 @@ import android.os.Vibrator
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -50,6 +51,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -76,6 +78,7 @@ import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.util.*
 
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
@@ -101,12 +104,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private lateinit var playToPauseSmall: AnimatedVectorDrawableCompat
 
     private lateinit var abRepeatAddMarker: Button
+    private var audioPlayProgressMode:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         savedInstanceState?.let {
             playerState = it.getInt("player_state")
             wasPlaying = it.getBoolean("was_playing")
+            showRemainingTime = it.getBoolean("show_remaining_time")
         }
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
@@ -178,11 +183,18 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             playlistModel.service?.playlistManager?.setABRepeatValue(binding.timeline.progress.toLong())
         }
 
+        audioPlayProgressMode = Settings.getInstance(requireActivity()).getBoolean(AUDIO_PLAY_PROGRESS_MODE, false)
+        binding.audioPlayProgress.setOnClickListener {
+            audioPlayProgressMode = !audioPlayProgressMode
+            Settings.getInstance(requireActivity()).putSingle(AUDIO_PLAY_PROGRESS_MODE, audioPlayProgressMode)
+            playlistModel.progress.value?.let { updateProgress(it) }
+        }
 
     }
 
     override fun onResume() {
         onStateChanged(playerState)
+        showRemainingTime = Settings.getInstance(requireContext()).getBoolean(SHOW_REMAINING_TIME, false)
         super.onResume()
     }
 
@@ -190,6 +202,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         super.onSaveInstanceState(outState)
         outState.putInt("player_state", playerState)
         outState.putBoolean("was_playing", wasPlaying)
+        outState.putBoolean("show_remaining_time", showRemainingTime)
     }
 
     private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
@@ -223,7 +236,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION or CTX_SHARE
+        var flags = CTX_REMOVE_FROM_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION
+        if (item?.uri?.scheme != "content") flags = flags or CTX_ADD_TO_PLAYLIST or CTX_SHARE or CTX_SET_RINGTONE
         showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
     }
 
@@ -310,14 +324,21 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         lifecycleScope.launchWhenStarted {
             val text = withContext(Dispatchers.Default) {
                 val medias = playlistModel.medias ?: return@withContext ""
+                if (medias.size < 2) {
+                    withContext(Dispatchers.Main) { binding.audioPlayProgress.setGone() }
+                    return@withContext ""
+                } else withContext(Dispatchers.Main) { binding.audioPlayProgress.setVisible() }
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
-                val totalTimeText = Tools.millisToString(totalTime, true, false, false)
+                val totalTimeText = Tools.millisToString(totalTime, true, true, false)
                 val currentProgressText = if (totalTimeText.isNullOrEmpty()) "0s" else totalTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
-                val textProgress = getString(R.string.audio_queue_progress,
+                val textProgress = if (audioPlayProgressMode)
+                        getString(R.string.audio_queue_progress_finished,DateFormat.getTimeFormat(requireContext()).format(Date(System.currentTimeMillis() + playlistModel.getTotalTime() - totalTime)))
+                    else
+                        getString(R.string.audio_queue_progress,
                         if (playlistModel.totalTime.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / ${playlistModel.totalTime}")
                 "$textTrack  •  $textProgress"
             }
@@ -338,6 +359,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onTimeLabelClick(view: View) {
         showRemainingTime = !showRemainingTime
+        Settings.getInstance(requireContext()).edit().putBoolean(SHOW_REMAINING_TIME, showRemainingTime).apply()
         playlistModel.progress.value?.let { updateProgress(it) }
     }
 

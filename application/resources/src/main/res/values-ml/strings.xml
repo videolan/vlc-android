@@ -696,6 +696,7 @@
     <string name="subtitle_delay_end">ടെക്‌സ്റ്റ്‌ കണ്ടു</string>
     <string name="track_index">ട്രാക്ക്: %s</string>
     <string name="audio_queue_progress">പുരോഗതി: %s</string>
+    <string name="audio_queue_progress_finished">അവസാനിക്കുന്നത്:%s</string>
     <string name="sortby_track">ട്രാക്ക്</string>
     <string name="this_folder">ഈ ഫോൾഡർ ചേർക്കുക</string>
     <string name="all_subfolders">ഈ ഫോൾഡറും സബ്ഫോൾഡറുകളും ചേർക്കുക</string>
@@ -761,5 +762,10 @@
     <string name="audio_delay_global">എല്ലാ വീഡിയോകൾക്കും ഓഡിയോ കാലതാമസം %s ms ആയി സജ്ജമാക്കി</string>
     <string name="warning_stream_speed">സ്ട്രീമുകൾക്കായി പ്ലേബാക്ക് വേഗത 1 ൽ കൂടുതലാകുന്നത് തടസ്സത്തിന് കാരണമായേക്കാം</string>
     <string name="go_to_folder">വന്ന ഇടത്തു തേടുക</string>
+    <string name="no_sub_renderer">കാസ്റ്റിങ് സമയത്തു ഉപശീർഷകങ്ങൾ തത്കാലം ലഭ്യമല്ല </string>
+    <string name="enqueuing">നിങ്ങളുടെ മീഡിയകൾ ലോഡുചെയ്യുന്നു</string>
+    <string name="soundfont">മിഡി ശബ്ദ ഫോണ്ട്</string>
+    <string name="soundfont_summary">മിഡി ശബ്ദ ചാലുകൾ പ്ലേ ചെയ്യുന്നതിന് ഒരു ശബ്ദ ഫോണ്ട് ഫയൽ തിരഞ്ഞെടുക്കുക</string>
+    <string name="search_prefs">തിരയൽ ക്രമീകരണങ്ങൾ</string>
 
 </resources>

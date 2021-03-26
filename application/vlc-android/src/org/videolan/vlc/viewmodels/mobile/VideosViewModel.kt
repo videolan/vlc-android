@@ -25,7 +25,6 @@ import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.Folder
@@ -227,5 +226,5 @@ enum class VideoGroupingType {
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group)).get(VideosViewModel::class.java)
+internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group)).get(VideosViewModel::class.java)
 

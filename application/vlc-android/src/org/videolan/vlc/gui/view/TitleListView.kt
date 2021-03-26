@@ -33,32 +33,40 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.tools.dp
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 
 class TitleListView : ConstraintLayout {
 
     private var actionClickListener: ((View) -> Unit)? = null
+    var displayInCards: Boolean = true
+        set(value) {
+            val changed = field != value
+            field = value
+            if (changed) manageDisplay()
+        }
     private val titleView: TextView by lazy {
-        findViewById<TextView>(R.id.title)
+        findViewById(R.id.title)
     }
 
     val list: RecyclerView by lazy {
-        findViewById<RecyclerView>(R.id.list)
+        findViewById(R.id.list)
     }
 
     val loading: EmptyLoadingStateView by lazy {
-        findViewById<EmptyLoadingStateView>(R.id.loading)
+        findViewById(R.id.loading)
     }
 
     val actionButton: ImageButton by lazy {
-        findViewById<ImageButton>(R.id.action_button)
+        findViewById(R.id.action_button)
     }
 
     private val titleContent: View by lazy {
-        findViewById<View>(R.id.title_content)
+        findViewById(R.id.title_content)
     }
 
     fun setOnActionClickListener(listener: (View) -> Unit) {
@@ -99,13 +107,30 @@ class TitleListView : ConstraintLayout {
             }
         }
 
-        list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        list.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                outRect.left = resources.getDimension(R.dimen.kl_half).toInt()
-                outRect.right = resources.getDimension(R.dimen.kl_half).toInt()
-            }
-        })
+        manageDisplay()
+    }
+
+    private fun manageDisplay() {
+        if (list.itemDecorationCount > 0) {
+            list.removeItemDecorationAt(0)
+        }
+        if (displayInCards) {
+            list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            list.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                    outRect.left = resources.getDimension(R.dimen.kl_half).toInt()
+                    outRect.right = resources.getDimension(R.dimen.kl_half).toInt()
+                }
+            })
+
+            list.setPadding(12.dp,0,12.dp,0)
+        } else {
+            list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            list.setPadding(0,0,0,0)
+        }
+        list.adapter?.let {
+            list.adapter = it
+        }
     }
 
     private fun initialize() {

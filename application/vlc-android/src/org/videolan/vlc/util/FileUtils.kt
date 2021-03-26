@@ -399,19 +399,19 @@ object FileUtils {
                     //                        returnCursor.close();
                     //                    }
                 } catch (e: FileNotFoundException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: IllegalArgumentException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: IllegalStateException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: NullPointerException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: SecurityException) {
-                    Log.e(TAG, "Permission is no longer valid")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 }
             }// Media or MMS URI
@@ -536,6 +536,8 @@ object FileUtils {
         fin.close()
         return ret
     }
+
+    fun getSoundFontExtensions() = arrayOf("sf2", "sf3")
 }
 
 fun String?.getParentFolder(): String? {
@@ -551,3 +553,11 @@ fun String?.getParentFolder(): String? {
     return parentPath
 }
 
+fun Uri?.isSoundFont():Boolean {
+    this?.lastPathSegment?.let { lastPathSegment ->
+        FileUtils.getSoundFontExtensions().forEach {
+            if (lastPathSegment.endsWith(it)) return true
+        }
+    }
+    return false
+}

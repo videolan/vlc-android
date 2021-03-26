@@ -31,6 +31,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.MaskFilterSpan
 import android.util.AttributeSet
+import android.util.LayoutDirection
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -101,7 +102,10 @@ class SwipeToUnlockView : ConstraintLayout {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (unlocking) return super.onTouchEvent(event)
         event?.let { event ->
-            val currentX = event.x.toInt().coerceAtLeast(extremum).coerceAtMost(width - extremum)
+            val currentX = event.x.toInt().coerceAtLeast(extremum).coerceAtMost(width - extremum).run {
+                if (layoutDirection == LayoutDirection.RTL) width - this
+                else this
+            }
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -128,7 +132,6 @@ class SwipeToUnlockView : ConstraintLayout {
     }
 
     private fun animateBack(currentX: Int) {
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "animateBack", RuntimeException("gime a stack"))
         val animation = ValueAnimator.ofInt(currentX, extremum)
         animation.duration = 250 // milliseconds
 

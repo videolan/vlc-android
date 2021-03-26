@@ -51,7 +51,7 @@ import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.videolan.moviepedia.database.models.*
@@ -106,7 +106,7 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         showId = extras.getString(org.videolan.television.ui.TV_SHOW_ID) ?: return
-        viewModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), showId = showId)).get(showId, MediaMetadataModel::class.java)
+        viewModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), showId = showId)).get(showId, MediaMetadataModel::class.java)
 
 
         viewModel.updateLiveData.observe(this, {

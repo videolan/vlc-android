@@ -11,4 +11,6 @@
         <item name="colorControlNormal">@color/grey400</item>
         <item name="popupMenuBackground">@color/grey875</item>
     </style>
+
+    <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Dark"/>
 </resources>

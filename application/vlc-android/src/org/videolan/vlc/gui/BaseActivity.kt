@@ -41,7 +41,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
-    }
+        applyOverrideConfiguration(newBase?.resources?.configuration)
+  }
 
     override fun getApplicationContext(): Context {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)

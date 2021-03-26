@@ -92,6 +92,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
         intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, mw.uri)
         intent.putExtra(PLAY_EXTRA_ITEM_TITLE, mw.title)
         intent.putExtra(PLAY_EXTRA_FROM_START, false)
+        intent.putExtra(VideoPlayerActivity.FROM_EXTERNAL, true)
         return PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

@@ -117,6 +117,11 @@ class BenchActivity : ShallowVideoPlayer() {
     /* Receive continue benchmark action from VLCBenchmark after having taken screenshots */
     private var broadcastReceiver: BroadcastReceiver = ScreenshotBroadcastReceiver()
 
+    /* Get a time limit from the benchmark app after which playback should be stopped
+    *  This is to avoid having to play long samples entirely which unnecessarily \
+    *  extend the length of the benchmark*/
+    private var timeLimit: Long = 0L
+
     override fun onServiceChanged(service: PlaybackService?) {
         super.onServiceChanged(service)
         if (isHardware && this.service != null) {
@@ -170,6 +175,7 @@ class BenchActivity : ShallowVideoPlayer() {
             stacktraceFile = intent.getStringExtra(EXTRA_STACKTRACE_FILE)
         }
 
+        timeLimit = intent.getLongExtra(EXTRA_TIME_LIMIT, 0L)
         when (intent.getStringExtra(EXTRA_ACTION)) {
             EXTRA_ACTION_PLAYBACK -> {
             }
@@ -245,7 +251,15 @@ class BenchActivity : ShallowVideoPlayer() {
         super.onMediaPlayerEvent(event)
         when (event.type) {
             MediaPlayer.Event.Vout -> hasVout = true
-            MediaPlayer.Event.TimeChanged -> setTimeout()
+            MediaPlayer.Event.TimeChanged -> {
+                setTimeout()
+                if (!isScreenshot && !isSpeed && timeLimit > 0 && event.timeChanged > timeLimit) {
+                    Log.i(TAG, "onMediaPlayerEvent: closing vlc-android after time limit reached")
+                    service?.playlistManager?.player?.setCurrentStats()
+                    checkLogs()
+                    finish()
+                }
+            }
             MediaPlayer.Event.EndReached -> {
                 checkLogs()
                 if (isSpeed) {
@@ -585,6 +599,7 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val EXTRA_ACTION = "extra_benchmark_action"
         private const val EXTRA_HARDWARE = "extra_benchmark_disable_hardware"
         private const val EXTRA_STACKTRACE_FILE = "stacktrace_file"
+        private const val EXTRA_TIME_LIMIT = "extra_benchmark_time_limit"
 
         private const val ACTION_TRIGGER_SCREENSHOT = "org.videolan.vlcbenchmark.TRIGGER_SCREENSHOT"
         private const val ACTION_CONTINUE_BENCHMARK = "org.videolan.vlc.gui.video.benchmark.CONTINUE_BENCHMARK"

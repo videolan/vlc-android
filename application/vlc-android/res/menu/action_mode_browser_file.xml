@@ -28,10 +28,4 @@
         android:title="@string/add_to_playlist"
             android:icon="@drawable/ic_am_addtoplaylist"
         app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_mode_file_subtitles_download"
-        android:title="@string/download_subtitles"
-        android:visible="false"
-        android:icon="@drawable/ic_downsub_w"
-        app:showAsAction="always"/>
 </menu>

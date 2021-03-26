@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_share.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="m28,7a4,4 0,0 0,-4 4,4 4,0 0,0 0.0371,0.5078l-9.5449,5.3691A4,4 0,0 0,12 16a4,4 0,0 0,-4 4,4 4,0 0,0 4,4 4,4 0,0 0,2.4961 -0.875l9.541,5.3672A4,4 0,0 0,24 29a4,4 0,0 0,4 4,4 4,0 0,0 4,-4 4,4 0,0 0,-4 -4,4 4,0 0,0 -2.4961,0.875L15.9629,20.5098A4,4 0,0 0,16 20,4 4,0 0,0 15.9629,19.4922l9.5449,-5.3691A4,4 0,0 0,28 15,4 4,0 0,0 32,11 4,4 0,0 0,28 7Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="0"
+      android:fillColor="#000000"
+      android:strokeColor="#000000"
+      android:strokeLineCap="round"/>
+</vector>

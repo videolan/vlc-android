@@ -340,7 +340,7 @@
 
     <string name="extensions_prefs_category">Tillägg</string>
     <string name="extensions_empty">Inga tillägg hittades</string>
-    <string name="extension_permission_title">Aktivera nytt tillägg \"%1$s\"?</string>
+    <string name="extension_permission_title">Aktivera det nya tillägget \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Visa i %1$s</string>
     <string name="extension_prefs_activation_title">Aktivera</string>
     <string name="android_auto">Android Auto</string>
@@ -468,7 +468,7 @@
     <!-- Plugins -->
     <string name="plugins">Insticksmoduler</string>
     <string name="download_on_device">Ladda ned</string>
-    <string name="extension_empty">Inga objekt att visa, gå till tilläggsinställningarna för att hämta några.</string>
+    <string name="extension_empty">Inga objekt att visa, gå till tilläggsinställningarna för att hitta några.</string>
 
     <string name="opengl_title">OpenGL ES2-användning</string>
     <string name="opengl_summary">Som standard används OpenGL ES2 för mjukvaru- och hårdvaruavkodning vid behov (360°-videor)</string>
@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Text sågs</string>
     <string name="track_index">Spår: %s</string>
     <string name="audio_queue_progress">Förlopp: %s</string>
+    <string name="audio_queue_progress_finished">Slutar vid: %s</string>
     <string name="sortby_track">Spår</string>
     <string name="this_folder">Lägg till denna mapp</string>
     <string name="all_subfolders">Lägg till denna mapp och undermappar</string>
@@ -760,5 +761,9 @@
     <string name="audio_delay_global">Ljudfördröjningen ändrades till%s ms för alla videor</string>
     <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
     <string name="go_to_folder">Bläddra i överordnad</string>
+    <string name="no_sub_renderer">Det finns ännu inget stöd för att casta med undertexter</string>
+    <string name="enqueuing">Läser in dina mediafiler</string>
+    <string name="soundfont">MIDI-soundfont</string>
+    <string name="soundfont_summary">Välj en soundfont-fil att spela upp midi-ljudspår</string>
 
 </resources>

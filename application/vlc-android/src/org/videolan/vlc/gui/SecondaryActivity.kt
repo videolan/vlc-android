@@ -93,14 +93,6 @@ class SecondaryActivity : ContentActivity() {
         }
     }
 
-    //Workaround to avoid a crash with webviews. See https://stackoverflow.com/a/60854445/2732052 and https://stackoverflow.com/a/58131421/2732052
-    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-        if (Build.VERSION.SDK_INT in 21..25 && (resources.configuration.uiMode ==  applicationContext.resources.configuration.uiMode)) {
-            return
-        }
-        super.applyOverrideConfiguration(overrideConfiguration)
-    }
-
     override fun forceLoadVideoFragment() {
         val fragmentId = intent.getStringExtra(KEY_FRAGMENT)
         fetchSecondaryFragment(fragmentId)

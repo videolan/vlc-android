@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import org.videolan.resources.AndroidDevices
 
 class OnboardingViewModel : ViewModel() {
@@ -15,5 +15,5 @@ class OnboardingViewModel : ViewModel() {
     var theme = if (AndroidDevices.canUseSystemNightMode()) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO
 }
 
-fun FragmentActivity.getOnboardingModel() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
+fun FragmentActivity.getOnboardingModel() = ViewModelProvider(this).get(OnboardingViewModel::class.java)
 fun Fragment.getOnboardingModel() = requireActivity().getOnboardingModel()

@@ -179,7 +179,7 @@
     <string name="favorite_added">Guardado en favoritos</string>
     <string name="favorite_removed">Eliminado de favoritos</string>
 
-    <string name="streams">Emisión</string>
+    <string name="streams">Transmisiones</string>
     <string name="open_mrl_dialog_msg">Introducir dirección de red: p. ej. http://, mms:// o rtsp://</string>
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC a encontrado un error con este medio.\nPor favor intente actualizar la biblioteca</string>
@@ -442,7 +442,7 @@
     <!-- Accessibility -->
     <string name="more_actions">Más acciones</string>
     <string name="back_quit_lock">Presione Átras otra vez para cerrar vídeo</string>
-    <string name="stream_deleted">Emisión eliminada</string>
+    <string name="stream_deleted">Transmisión eliminada</string>
     <string name="no_subs_found">No hay subtitulos en esta carpeta</string>
     <string name="music_now_playing">Reproduciendo ahora</string>
 
@@ -691,9 +691,11 @@
     <string name="unknown">Desconocido</string>
     <string name="audio_delay_start">Sonido escuchado</string>
     <string name="subtitle_delay_first">Voz escuchada</string>
+    <string name="audio_delay_end">Sonido manchado</string>
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="audio_queue_progress_finished">Termina en: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Agregar esta carpeta</string>
     <string name="all_subfolders">Agregar esta carpeta y subcarpetas</string>
@@ -702,7 +704,7 @@
     <string name="browse">Examinar</string>
     <string name="more">Más</string>
     <string name="favorites">Favoritos</string>
-    <string name="new_stream">Nueva emisión</string>
+    <string name="new_stream">Nueva transmisión </string>
     <string name="add_to_group">Agregar a grupo</string>
     <string name="remove_from_group">Remover del grupo</string>
     <string name="rename_group">Renombrar grupo de vídeo</string>
@@ -757,5 +759,9 @@
     <string name="prefersmbv1_summary">Desactivar esto si tiene problemas para encontrar su servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio de %s ms para todos los vídeos</string>
+    <string name="warning_stream_speed">Velocidad de reproducción mayor a 1 en Transmisiones puede ocasionar pausas</string>
+    <string name="go_to_folder">Explorar padre</string>
+    <string name="no_sub_renderer">Los subtítulos aún no son compatibles durante la transmisión</string>
+    <string name="enqueuing">carga de los medios</string>
 
 </resources>

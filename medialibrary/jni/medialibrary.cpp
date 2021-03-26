@@ -30,11 +30,11 @@ MediaLibrary_setInstance(JNIEnv *env, jobject thiz, AndroidMediaLibrary *p_obj);
 jint
 init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
 {
-    AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz);
-    MediaLibrary_setInstance(env, thiz, aml);
     const char *db_utfchars = env->GetStringUTFChars(dbPath, JNI_FALSE);
     const char *thumbs_utfchars = env->GetStringUTFChars(thumbsPath, JNI_FALSE);
-    medialibrary::InitializeResult initCode = aml->initML(db_utfchars, thumbs_utfchars);
+    AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz, db_utfchars, thumbs_utfchars);
+    MediaLibrary_setInstance(env, thiz, aml);
+    medialibrary::InitializeResult initCode = aml->initML();
     m_IsInitialized = initCode != medialibrary::InitializeResult::Failed;
     env->ReleaseStringUTFChars(dbPath, db_utfchars);
     env->ReleaseStringUTFChars(thumbsPath, thumbs_utfchars);
@@ -148,7 +148,8 @@ entryPoints(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::FolderPtr> entryPoints = aml->entryPoints();
-    std::vector<std::string> mrls{ entryPoints.size() };
+    std::vector<std::string> mrls;
+    mrls.reserve(entryPoints.size());
     for(medialibrary::FolderPtr& entryPoint : entryPoints) {
         try
         {
@@ -1488,6 +1489,94 @@ getMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
     return metadata.isSet() ? metadata.asInt() : 0L;
 }
 
+jobjectArray
+getBookmarks(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    const auto query = media->bookmarks(nullptr);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Bookmark.clazz, NULL);
+    std::vector<medialibrary::BookmarkPtr> bookmarks = query->all();
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(bookmarks.size(), ml_fields.Bookmark.clazz, NULL);
+    int index = -1, drops = 0;
+    jobject item = nullptr;
+    for(medialibrary::BookmarkPtr const& bookmark : bookmarks) {
+        item = convertBookmarkObject(env, &ml_fields, bookmark);
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr) ++drops;
+        env->DeleteLocalRef(item);
+    }
+    return filteredArray(env, mediaRefs, ml_fields.Bookmark.clazz, drops);
+}
+
+jobject
+addBookmark(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong time)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    medialibrary::BookmarkPtr bookmark = media->addBookmark(time);
+    return bookmark != nullptr ? convertBookmarkObject(env, &ml_fields, bookmark) : nullptr;
+}
+
+jboolean
+removeBookmark(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong time)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    return media->removeBookmark(time);
+}
+
+jboolean
+removeAllBookmarks(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    return media->removeAllBookmarks();
+}
+
+jboolean
+setBookmarkName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
+    const medialibrary::BookmarkPtr bookmark = aml->bookmark(id);
+    const bool result = bookmark->setName(char_name);
+    env->ReleaseStringUTFChars(name, char_name);
+    return result;
+}
+
+jboolean
+setBookmarkDescription(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring description) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    const char *char_description = env->GetStringUTFChars(description, JNI_FALSE);
+    const medialibrary::BookmarkPtr bookmark = aml->bookmark(id);
+    const bool result = bookmark->setDescription(char_description);
+    env->ReleaseStringUTFChars(description, char_description);
+    return result;
+}
+
+jboolean
+setBookmarkNameAndDescription(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name, jstring description) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
+    const char *char_description = env->GetStringUTFChars(description, JNI_FALSE);
+    const medialibrary::BookmarkPtr bookmark = aml->bookmark(id);
+    const bool result = bookmark->setNameAndDescription(char_name, char_description);
+    env->ReleaseStringUTFChars(name, char_name);
+    env->ReleaseStringUTFChars(description, char_description);
+    return result;
+}
+
+jboolean
+bookmarkMove(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong time) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    const medialibrary::BookmarkPtr bookmark = aml->bookmark(id);
+    return bookmark->move(time);
+}
+
 jobject
 getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint metadataType)
 {
@@ -2142,8 +2231,18 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
     {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
     {"nativeRequestThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIIF)V", (void*)requestThumbnail },
+    {"nativeGetBookmarks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)[Lorg/videolan/medialibrary/interfaces/media/Bookmark;", (void*)getBookmarks },
+    {"nativeAddBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Lorg/videolan/medialibrary/interfaces/media/Bookmark;", (void*)addBookmark },
+    {"nativeRemoveBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)removeBookmark },
+    {"nativeRemoveAllBookmarks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeAllBookmarks },
 };
 
+static JNINativeMethod bookmark_methods[] = {
+    {"nativeSetName", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)Z", (void*)setBookmarkName },
+    {"nativeSetDescription", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)Z", (void*)setBookmarkDescription },
+    {"nativeSetNameAndDescription", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;Ljava/lang/String;)Z", (void*)setBookmarkNameAndDescription },
+    {"nativeMove", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)bookmarkMove },
+};
 static JNINativeMethod album_methods[] = {
     {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getTracksFromAlbum },
     {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedTracksFromAlbum },
@@ -2370,6 +2469,16 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.VideoGroup.initID,
            ml_fields.VideoGroup.clazz,
            "<init>", "(JLjava/lang/String;I)V");
+
+    GET_CLASS(ml_fields.Bookmark.clazz, "org/videolan/medialibrary/media/BookmarkImpl", true);
+    if (env->RegisterNatives(ml_fields.Bookmark.clazz, bookmark_methods, sizeof(bookmark_methods) / sizeof(bookmark_methods[0])) < 0) {
+        LOGE("RegisterNatives failed for 'org/videolan/medialibrary/media/BookmarkImpl");
+        return -1;
+    }
+    GET_ID(GetMethodID,
+           ml_fields.Bookmark.initID,
+           ml_fields.Bookmark.clazz,
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;JJ)V");
 
     GET_ID(GetFieldID,
            ml_fields.MediaLibrary.instanceID,

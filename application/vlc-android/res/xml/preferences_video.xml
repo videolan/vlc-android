@@ -19,7 +19,7 @@
     <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
-            android:key="playback_speed"
+            android:key="playback_speed_video"
             android:summary="@string/playback_speed_summary"
             android:title="@string/playback_speed_title"/>
     <CheckBoxPreference

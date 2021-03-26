@@ -38,26 +38,26 @@
             android:onLongClick="@{holder::onLongClick}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
                 android:layout_width="0dp"
+                android:layout_height="@dimen/audio_browser_item_size"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="16:10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_height="@dimen/audio_browser_item_size"
-                android:id="@+id/constraintLayout4">
+                app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                    android:id="@+id/song_marker"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:srcCompat="@drawable/ic_no_song_vertical"
-                    android:id="@+id/song_marker"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/icon"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_no_song_vertical" />
 
             <ImageView
                     android:id="@+id/icon"
@@ -67,11 +67,11 @@
                     android:onClick="@{holder::onImageClick}"
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
-                    app:layout_constraintDimensionRatio="1"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:media="@{media}"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:media="@{media}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -95,8 +95,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@{media.artist}"
-                android:visibility="@{TextUtils.isEmpty(media.artist) ? View.GONE : View.VISIBLE}"
+                android:text="@{media.description}"
+                android:visibility="@{TextUtils.isEmpty(media.description) ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/constraintLayout4"

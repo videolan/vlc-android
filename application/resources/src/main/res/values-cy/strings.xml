@@ -521,6 +521,8 @@
     <string name="ml_external_storage_accept">Ie</string>
     <string name="ml_external_storage_decline">Na</string>
     <string name="auto_last_added_media">Ychwanegwyd diwethaf</string>
+    <string name="auto_my_library">Fy llyfrgell</string>
+    <string name="auto_home">Cartref</string>
     <string name="no">Na</string>
     <string name="loading_medialibrary">Yn llwytho\'r llyfgrell cyfryngau…</string>
     <string name="yes">Ie.</string>
@@ -758,5 +760,28 @@
     <string name="mark_all_as_played">Nodi pob un fel wedi\'i chwarae</string>
     <string name="new_group">Grŵp newydd</string>
     <string name="new_group_desc">Creu grŵp newydd</string>
+
+    <string name="air_action_rewind">Nôl 10 eil</string>
+    <string name="air_action_forward">Ymlaen 10 eil</string>
+    <string name="air_action_play_pause">Oedi/Chwarae</string>
+    <string name="air_action_volume_up">Sain i fyny</string>
+    <string name="air_action_volume_down">Sain i lawr</string>
+    <string name="air_action_next">Eitem nesaf</string>
+    <string name="air_action_previous">Eitem blaenorol</string>
+    <string name="allow_otg">Caniatáu mynediad OTG</string>
+    <string name="allow_otg_description">Dewisa dy yriant OTG i ganiatáu mynediad at VLC.</string>
+    <string name="timeout_infinite">Anfeidrol</string>
+    <string name="timeout_short">Byr</string>
+    <string name="timeout_normal">Arferol</string>
+    <string name="timeout_long">Hir</string>
+    <string name="video_hud_timeout">Oediad cyn cuddio botymau</string>
+    <string name="remove_from_history">Tynnu o\'r hanes</string>
+    <string name="prefersmbv1">Ffafrio SMB 1</string>
+    <string name="prefersmbv1_summary">Dad-ddewisa hyn os wyt yn cael anawsterau pori dy weinydd SMB</string>
+    <string name="apply_to_all">Rhoi i bob fideo</string>
+    <string name="audio_delay_global">Oediad sain wedi\'i osod i %s me i bob fideo</string>
+    <string name="warning_stream_speed">Gall gynyddu\'r cyflymder dros 1 i ffrydiau achosi iddynt chwarae yn dameidiog</string>
+    <string name="go_to_folder">Pori\'r rhiant</string>
+    <string name="no_sub_renderer">Dyw isdeitlau ddim eto ar gael wrth fwrw</string>
 
 </resources>

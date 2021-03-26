@@ -15,7 +15,7 @@
    version="1.1"
    id="SVGRoot"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_ctx_edit_normal.svg">
+   sodipodi:docname="ic_ctx_edit.svg">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="5.2593081"
-     inkscape:cy="48.314782"
+     inkscape:zoom="8.0000003"
+     inkscape:cx="16.409197"
+     inkscape:cy="-5.9315222"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -74,7 +74,7 @@
     <path
        inkscape:connector-curvature="0"
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 27.5,16 a 1.205,1.205 0 0 0 -0.83984,0.33984 L 25,18.000001 l 5,5 1.64453,-1.64453 A 1.205,1.205 0 0 0 32,20.500001 1.205,1.205 0 0 0 31.66016,19.660161 L 28.35547,16.35547 A 1.205,1.205 0 0 0 27.5,16 Z M 23,20.000001 8,35 v 5 h 5 L 28,25.000001 Z"
+       d="m 27.5,16 a 1.205,1.205 0 0 0 -0.83984,0.33984 L 25,18.000001 l 5,5 1.64453,-1.64453 A 1.205,1.205 0 0 0 32,20.5 1.205,1.205 0 0 0 31.66016,19.660161 L 28.35547,16.35547 A 1.205,1.205 0 0 0 27.5,16 Z M 23,20 7.9999998,35 v 5 H 13 L 28,25 Z"
        id="path2731" />
   </g>
 </svg>

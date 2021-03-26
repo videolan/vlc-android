@@ -398,7 +398,7 @@
     <string name="dump_logcat_success">Cliché logcat enregistré avec succès dans : %1$s !</string>
     <string name="dump_logcat_failure">Échec du cliché logcat.</string>
     <string name="custom_libvlc_options">Options personnalisées de libVLC</string>
-    <string name="custom_libvlc_options_invalid">Options invalides pour libVLC !</string>
+    <string name="custom_libvlc_options_invalid">Options invalides pour libVLC !</string>
 
     <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
     <string name="help_us_send_log">Aidez-nous à améliorer VLC en envoyant le rapport de plantage suivant :</string>
@@ -616,7 +616,7 @@
         <item quantity="other">%d Pistes annexées</item>
     </plurals>
     <string name="remove_current">Supprimer l\'élément actuel</string>
-    <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
+    <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
     <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
     <string name="display_in_list">Afficher en liste</string>
     <string name="display_in_grid">Afficher en grille</string>
@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Texte vu</string>
     <string name="track_index">Piste : %s</string>
     <string name="audio_queue_progress">Progression : %s</string>
+    <string name="audio_queue_progress_finished">Finit à : %s</string>
     <string name="sortby_track">Piste</string>
     <string name="this_folder">Ajouter ce dossier</string>
     <string name="all_subfolders">Ajouter ce dossier avec ces sous-dossiers</string>
@@ -760,5 +761,10 @@
     <string name="audio_delay_global">Délai audio défini à %sms pour toutes les vidéos</string>
     <string name="warning_stream_speed">L\'augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="go_to_folder">Parcourir le parent</string>
+    <string name="no_sub_renderer">Les sous-titres ne sont pas encore pris en charge lors du casting</string>
+    <string name="enqueuing">Chargement de vos médias</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Sélectionnez un fichier SoundFont pour jouer les pistes audio MIDI</string>
+    <string name="search_prefs">Paramètres de recherche</string>
 
 </resources>

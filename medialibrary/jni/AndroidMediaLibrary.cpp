@@ -26,8 +26,9 @@ static void key_init(void)
     pthread_key_create(&jni_env_key, jni_detach_thread);
 }
 
-AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject thiz)
-    : p_ml( NewMediaLibrary() ), p_fields ( ref_fields )
+AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject thiz, const char* dbPath, const char* mlFolder)
+    : p_ml( NewMediaLibrary( dbPath, mlFolder, false ) )
+    , p_fields ( ref_fields )
 {
     myVm = vm;
     p_lister = std::make_shared<AndroidDeviceLister>();
@@ -47,10 +48,10 @@ AndroidMediaLibrary::~AndroidMediaLibrary()
 }
 
 medialibrary::InitializeResult
-AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbsPath)
+AndroidMediaLibrary::initML()
 {
     p_ml->registerDeviceLister(p_lister, "file://");
-    return p_ml->initialize(dbPath, thumbsPath, this);
+    return p_ml->initialize(this);
 }
 
 void
@@ -326,6 +327,12 @@ medialibrary::Query<medialibrary::IArtist>
 AndroidMediaLibrary::searchArtists(const std::string& query, const medialibrary::QueryParameters* params)
 {
     return p_ml->searchArtists(query, medialibrary::ArtistIncluded::All, params);
+}
+
+medialibrary::BookmarkPtr
+AndroidMediaLibrary::bookmark(long id)
+{
+    return p_ml->bookmark(id);
 }
 
 medialibrary::MediaPtr

@@ -42,10 +42,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
-import org.videolan.tools.POPUP_KEEPSCREEN
-import org.videolan.tools.Settings
-import org.videolan.tools.VIDEO_RESUME_TIME
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
@@ -238,8 +235,10 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
             // else, go back 2 seconds, to compensate loading time
             time = (if (service.length - time < 5000) 0 else 2000).toLong()
             // Save position
-            if (service.isSeekable)
+            if (service.isSeekable) {
                 Settings.getInstance(service).putSingle(VIDEO_RESUME_TIME, time)
+                service.currentMediaLocation?.let { Settings.getInstance(service).putSingle(VIDEO_RESUME_URI, it) }
+            }
         }
         service.stop()
     }

@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="audio_queue_progress_finished">Acaba en: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Añadir esta carpeta</string>
     <string name="all_subfolders">Añadir esta carpeta y subcarpetas</string>
@@ -758,4 +759,12 @@
     <string name="prefersmbv1_summary">Desmarque esta preferencia si tiene dificultades la explorar su servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio establecido a %s ms para todos los vídeos</string>
+    <string name="warning_stream_speed">Incrementar la velocidad de reproducción por encima de 1 para las emisiones puede causar intermitencias</string>
+    <string name="go_to_folder">Explorar padre</string>
+    <string name="no_sub_renderer">Los subtítulos no está soportados todavía al emitir</string>
+    <string name="enqueuing">Cargando sus medios</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Seleccione un archivo SoundFont para reproducir pistas de audio MIDI</string>
+    <string name="search_prefs">Preferencias de búsqueda</string>
+
 </resources>

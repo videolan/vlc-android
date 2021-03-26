@@ -25,7 +25,6 @@ import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -54,19 +53,19 @@ open class BrowserModel(
         val type: Long,
         showHiddenFiles: Boolean,
         private val showDummyCategory: Boolean,
+        pickerType: PickerType = PickerType.SUBTITLE,
         coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
 ) : BaseModel<MediaLibraryItem>(
         context, coroutineContextProvider),
         TvBrowserModel<MediaLibraryItem>,
-        IPathOperationDelegate by PathOperationDelegate()
-{
+        IPathOperationDelegate by PathOperationDelegate() {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 
     private val tv = Settings.showTvUi
 
     override val provider: BrowserProvider = when (type) {
-        TYPE_PICKER -> FilePickerProvider(context, dataset, url).also { if (tv) it.desc = desc }
+        TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType).also { if (tv) it.desc = desc }
         TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles).also { if (tv) it.desc = desc }
         TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
         else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory).also { if (tv) it.desc = desc }
@@ -120,10 +119,10 @@ open class BrowserModel(
 
     suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
 
-    class Factory(val context: Context, val url: String?, private val type: Long, private val showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, private val type: Long, private val showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true, private val pickerType: PickerType = PickerType.SUBTITLE) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return BrowserModel(context.applicationContext, url, type, showHiddenFiles, showDummyCategory = showDummyCategory) as T
+            return BrowserModel(context.applicationContext, url, type, showHiddenFiles, showDummyCategory = showDummyCategory, pickerType = pickerType) as T
         }
     }
 

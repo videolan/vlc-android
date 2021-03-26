@@ -41,7 +41,7 @@
     <item
         android:id="@+id/action_video_download_subtitles"
         android:title="@string/download_subtitles"
-            android:icon="@drawable/ic_am_downsub"
+            android:icon="@drawable/ic_download"
         app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_remove_from_group"

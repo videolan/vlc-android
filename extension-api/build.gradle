@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    api "androidx.appcompat:appcompat:$rootProject.ext.androidxAppcompatVersion"
+    api "androidx.appcompat:appcompat:$rootProject.ext.appCompatVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
 }
 

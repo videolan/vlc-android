@@ -55,6 +55,7 @@ const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
 
 
 // AudioPlayer
+const val SHOW_REMAINING_TIME = "show_remaining_time"
 const val PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown"
 const val PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown"
 const val KEY_MEDIALIBRARY_SCAN = "ml_scan"
@@ -66,6 +67,7 @@ const val FORCE_PLAY_ALL = "force_play_all"
 
 const val SCREEN_ORIENTATION = "screen_orientation"
 const val VIDEO_RESUME_TIME = "VideoResumeTime"
+const val VIDEO_RESUME_URI = "VideoResumeUri"
 const val ENABLE_SEEK_BUTTONS = "enable_seek_buttons"
 const val ENABLE_DOUBLE_TAP_SEEK = "enable_double_tap_seek"
 const val ENABLE_VOLUME_GESTURE = "enable_volume_gesture"
@@ -80,7 +82,9 @@ const val VIDEO_SPEED = "VideoSpeed"
 const val VIDEO_RATIO = "video_ratio"
 const val LOGIN_STORE = "store_login"
 const val KEY_PLAYBACK_RATE = "playback_rate"
+const val KEY_PLAYBACK_RATE_VIDEO = "playback_rate_video"
 const val KEY_PLAYBACK_SPEED_PERSIST = "playback_speed"
+const val KEY_PLAYBACK_SPEED_PERSIST_VIDEO = "playback_speed_video"
 const val KEY_VIDEO_APP_SWITCH = "video_action_switch"
 const val VIDEO_TRANSITION_SHOW = "video_transition_show"
 const val VIDEO_HUD_TIMEOUT = "video_hud_timeout"
@@ -98,6 +102,7 @@ const val RESUME_PLAYBACK = "resume_playback"
 const val AUDIO_DUCKING = "audio_ducking"
 
 const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
+const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

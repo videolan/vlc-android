@@ -28,7 +28,6 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -84,4 +83,4 @@ class MediaScrapingBrowserViewModel(context: Context, val category: Long) : Sort
 }
 
 @ExperimentalCoroutinesApi
-fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProviders.of(requireActivity(), MediaScrapingBrowserViewModel.Factory(requireContext(), category)).get(MediaScrapingBrowserViewModel::class.java)
+fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProvider(requireActivity(), MediaScrapingBrowserViewModel.Factory(requireContext(), category)).get(MediaScrapingBrowserViewModel::class.java)

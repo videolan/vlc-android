@@ -234,7 +234,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         val streamsMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_STREAMS)
                                 .setTitle(res.getString(R.string.streams))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_menu_stream}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_stream}".toUri())
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(streamsMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results
@@ -243,7 +243,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         /* Shuffle All */
                         val audioCount = ml.audioCount
                         /* Show cover art from the whole library */
-                        val offset = Random().nextInt((audioCount - MAX_COVER_ART_ITEMS).coerceAtLeast(0))
+                        val offset = Random().nextInt((audioCount - MAX_COVER_ART_ITEMS).coerceAtLeast(1))
                         val allAudio = ml.getPagedAudio(Medialibrary.SORT_ALPHA, false, MAX_COVER_ART_ITEMS, offset)
                         val shuffleAllCover: Bitmap? = getHomeImage(context, "shuffleAll", allAudio)
                         val shuffleAllMediaDesc = getPlayAllBuilder(res, ID_SHUFFLE_ALL, audioCount, shuffleAllCover)

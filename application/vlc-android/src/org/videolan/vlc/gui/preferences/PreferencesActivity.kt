@@ -20,10 +20,13 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,11 +37,14 @@ import org.videolan.tools.RESULT_UPDATE_ARTISTS
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.preferences.search.PreferenceSearchActivity
 
+const val EXTRA_PREF_END_POINT = "extra_pref_end_point"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PreferencesActivity : BaseActivity() {
 
+    private val searchRequestCode = 167
     private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
     override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
@@ -50,7 +56,7 @@ class PreferencesActivity : BaseActivity() {
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_placeholder, PreferencesFragment())
+                    .replace(R.id.fragment_placeholder, PreferencesFragment().apply { if (intent.hasExtra(EXTRA_PREF_END_POINT)) arguments = bundleOf(EXTRA_PREF_END_POINT to intent.getParcelableExtra(EXTRA_PREF_END_POINT)) })
                     .commit()
         }
         mAppBarLayout = findViewById(R.id.appbar)
@@ -61,13 +67,36 @@ class PreferencesActivity : BaseActivity() {
         mAppBarLayout!!.setExpanded(true)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.activity_prefs, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            if (!supportFragmentManager.popBackStackImmediate())
-                finish()
-            return true
+        when (item.itemId) {
+            android.R.id.home -> {
+                if (!supportFragmentManager.popBackStackImmediate())
+                    finish()
+                return true
+            }
+            R.id.menu_pref_search -> {
+                startActivityForResult(Intent(this, PreferenceSearchActivity::class.java), searchRequestCode)
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == searchRequestCode && resultCode == RESULT_OK) {
+            data?.extras?.getParcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let {
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_placeholder, PreferencesFragment().apply { arguments = bundleOf(EXTRA_PREF_END_POINT to it) })
+                        .commit()
+            }
+        }
+
     }
 
     fun restartMediaPlayer() {

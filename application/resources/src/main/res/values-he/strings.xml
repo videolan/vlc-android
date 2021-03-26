@@ -717,6 +717,7 @@
     <string name="subtitle_delay_end">נראה טקסט</string>
     <string name="track_index">רצועה: %s</string>
     <string name="audio_queue_progress">התקדמות: %s</string>
+    <string name="audio_queue_progress_finished">מסתיים ב־: %s </string>
     <string name="sortby_track">רצועה</string>
     <string name="this_folder">הוספת התיקייה הזו</string>
     <string name="all_subfolders">הוספת התיקייה הזו על תת־תיקיותיה</string>
@@ -782,5 +783,9 @@
     <string name="audio_delay_global">השהיית השמע הוגדרה ל־%s מילישניות לכל הסרטונים</string>
     <string name="warning_stream_speed">הגברת מהירות הנגינה מעבר ל־1 עבור תזרימים עשויה לגרום לגמגום</string>
     <string name="go_to_folder">עיון בהורה</string>
+    <string name="no_sub_renderer">עדיין אין תמיכה בכתוביות כחלק מתזרים</string>
+    <string name="enqueuing">פרטי המדיה שלך נטענים</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">נא לבחור קובץ SoundFont כדי לנגן רצועות שמע מסוג MIDI</string>
 
 </resources>

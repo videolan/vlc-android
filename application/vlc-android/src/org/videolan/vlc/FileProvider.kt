@@ -31,8 +31,7 @@ class FileProvider : ContentProvider() {
         val path = uri.path ?: throw SecurityException("Illegal access")
         if (path.contains("..")) throw SecurityException("Illegal access")
         val file = File(path)
-        val canonicalPath = file.canonicalPath
-        if (!isPathValid(canonicalPath)) throw SecurityException("Illegal access")
+        if (!AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) }) throw SecurityException("Illegal access")
         if (file.exists()) {
             return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
         }
@@ -47,5 +46,6 @@ fun getFileUri(path: String) = Uri.Builder()
         .build()!!
 
 fun isPathValid(path: String): Boolean {
-    return AndroidDevices.mountBL.any { path.startsWith(it) }
+    val file = File(path)
+    return AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) } && file.canRead()
 }

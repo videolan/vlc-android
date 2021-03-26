@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_subtitles_file.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M12,4C9.8,4 8,5.8 8,8v32c0,2.2 1.7805,4 3.9805,4L36,44c2.2,0 4,-1.8 4,-4L40,16L28,4ZM12,8L26,8L26,18L36,18L36,40L12,40ZM17.5,27c-0.831,0 -1.5,0.669 -1.5,1.5 0,0.831 0.669,1.5 1.5,1.5h2C20.331,30 21,29.331 21,28.5 21,27.669 20.331,27 19.5,27ZM25.5,27c-0.831,0 -1.5,0.669 -1.5,1.5 0,0.831 0.669,1.5 1.5,1.5h5C31.331,30 32,29.331 32,28.5 32,27.669 31.331,27 30.5,27ZM17.5,33c-0.831,0 -1.5,0.669 -1.5,1.5 0,0.831 0.669,1.5 1.5,1.5h5C23.331,36 24,35.331 24,34.5 24,33.669 23.331,33 22.5,33ZM28.5,33c-0.831,0 -1.5,0.669 -1.5,1.5 0,0.831 0.669,1.5 1.5,1.5h2C31.331,36 32,35.331 32,34.5 32,33.669 31.331,33 30.5,33Z"
+      android:strokeWidth="2"
+      android:fillColor="@color/standard_selection_control_normal"/>
+</vector>

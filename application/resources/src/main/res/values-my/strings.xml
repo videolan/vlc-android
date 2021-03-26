@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">အိုကေ</string>
+    <string name="cancel">ပယ်ဖျက်</string>
+    <string name="other">အခြား</string>
+    <string name="sortby">စဥ်ရန်မှာ...</string>
+    <string name="sortby_name">အမည်</string>
+    <string name="sortby_filename">ဖိုင် နာမည်</string>
+    <string name="sortby_artist_name">အဆိုရှင် အမည်</string>
+    <string name="sortby_album_name">အခွေ အမည်</string>
+    <string name="sortby_length">ကြာချိန်</string>
+    <string name="sortby_date">နေ့စွဲ</string>
+    <string name="sortby_last_modified_date">လတ်တလော ထည့်သွင်းမှု</string>
+    <string name="sortby_media_number">မီဒီယာ နာပတ်</string>
+    <string name="sortby_number">အပိုဒ် နာပတ်</string>
+    <string name="searchable_hint">ရှာရန်...</string>
+    <string name="history">မှတ်တမ်း</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">ရလဒ် %dခု တွေ့ရှိသည် </item>
+    </plurals>
+
+    <string name="play">ပြသ</string>
+    <string name="playback">ပြန်ဖွင့်ရန်</string>
+    <string name="playback_controls">ပြသခြင်း ထိမ်းချုပ်ကိရိယာများ</string>
+    <string name="medialibrary_scan">မီဒီယာတိုက် စီစစ်ခြင်း</string>
+    <string name="Medialibrary_progress">မီဒီယာတိုက် စီစစ်ခြင်း လုပ်ငန်း နောက်ဆုံးအခြေအနေ</string>
+    <string name="play_from_start">အစ မှ ပြသရန်</string>
+    <string name="play_as_audio">အသံ အနေဖြင့် ဖွင့်ရန်</string>
+    <string name="play_as_video">ဗီဒီယို အနေဖြင့် ပြသရန်</string>
+    <string name="video_app_switch_title">နောက်ကွယ်/ပုံတွင်းကပုံစနစ်</string>
+    <string name="video_app_switch_summary">ဗီဒီယို ပြသခြင်း ပြုလုပ်နေစဥ် အခြား အပလီကေးရှင်း သို့ သင် ပြောင်း လိုက်သောအခါ VLC ၏ အပြုအမူ ကို ရွေးချယ်ရန်</string>
+    <string name="play_pip_title">ရုပ်ပုံ−တွင်းမှ−ရုပ်ပုံ စနစ် ဖြင့် ဗီဒီယိုများ ပြသရန်</string>
+    <string name="play_as_audio_background">နောက်ကွယ် တွင်သာ ဗီဒီယိုများ ပြသရန်</string>
+    <string name="append">ဖြည့်စွက်ရန်</string>
+    <string name="insert_next">နောက် တွင် ထည့်ရန်</string>
+    <string name="play_all">အားလုံး ဖွင့်ရန်</string>
+    <string name="append_all">အားလုံး ဖြည့်စွက်ရန်</string>
+    <string name="resume_playback_short_title">ပြသခြင်း ပြန်စရန်</string>
+    <string name="resume_playback_long_title">နောက်ဆုံး ဖွင့်လှစ်စာရင်း ၏ ပြသခြင်း ကို ပြန်စရန်</string>
+    <string name="delete">ဖျက်</string>
+    <string name="remove">ဖယ်ရှား</string>
+    <string name="set_song">ဖုန်းမြည်သံ အဖြစ် သတ်မှတ်ရန်</string>
+    <string name="set_song_question">ဖုန်းမြည်သံ အဖြစ်\'%1$s\' ကို သတ်မှတ်မှာလား?</string>
+    <string name="info">အချက်အလက်</string>
+    <string name="confirm_delete">\'%1$s\' ဖိုင် ကိုဖျက်လိုပါသလား?</string>
+    <string name="confirm_delete_album">\'%1$s\' အခွေ ကို ဖျက်လိုပါသလား?</string>
+    <string name="confirm_delete_several_media">ဤ %1$d မီဒီယာ ကို ဖျက်လိုပါသလား?</string>
+    <string name="confirm_delete_folder">\'%1$s\' ဖိုဒါ နှင့် ၎င်းရှိ အချက်အလက် အားလုံး ကို ဖျက်လိုပါသလား?</string>
+    <string name="confirm_delete_playlist"> \'%1$s\' ဖွင့်လှစ်စာရင်း ကို ဖျက်လိုပါသလား?</string>
+    <string name="confirm_remove_from_playlist">ဖွင့်လှစ်စာရင်း မှ  \'%1$s\' ကိုဖယ်ရှားမှာလား?</string>
+    <string name="ringtone_set">\'%1$s\' ဖိုင် ကို ဖုန်းမြည်သံ အဖြစ် ထားမည်။</string>
+    <string name="ringtone_error">ဖုန်းမြည်သံ ကို ပြင်ဆင် နေစဉ် အမှားပေါ်ပေါက်ခဲ့သည်။</string>
+    <string name="pause">ဆိုင်းငံ့</string>
+    <string name="unknown_artist">မသိသော အဆိုရှင်</string>
+    <string name="unknown_album">မသိသော အခွေ</string>
+    <string name="unknown_genre">မသိသော အမျိုးအစား</string>
+    <string name="songs">တေးသံများ</string>
+    <string name="track_info_copied_to_clipboard">အပုဒ် အချက်အလက် ကို ကလစ်ဘုတ်သို့ ကူးယူရန်</string>
+
+    <string name="artists">အဆိုရှင်များ</string>
+    <string name="albums">အခွေများ</string>
+    <string name="tracks">အပုဒ်များ</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="other">အခွေ %dခွေ</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">ဖိုဒါ %dခု</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">မီဒီယာ %dခု</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">မီဒီယာ ဖိုင်%dဖိုင်</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">ဗီဒီယို%dကား</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">ရုပ်ရှင် %dကား</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">တီဗီဖျော်ဖြေပွဲ %d ပွဲ</item>
+    </plurals>
+
+    <string name="internal_memory">အတွင်း မှတ်ဉာဏ်</string>
+    <string name="audio">အသံ</string>
+    <string name="video">ဗီဒီယို</string>
+    <string name="bookmarks">နေရာမှတ်များ</string>
+    <string name="equalizer">အသံထိမ်းညှိစက်</string>
+    <string name="all_albums">အခွေ အားလုံး</string>
+    <string name="genres">အမျိုအစားများ</string>
+    <string name="playlists">ဖွင့်လှစ်စာရင်းများ</string>
+    <string name="title">ခေါင်းစဉ်</string>
+    <string name="directories">လမ်းကြောင်းများ</string>
+    <string name="loading">အလုပ်လုပ်နေသည်</string>
+    <string name="please_wait">ကျေးဇူးပြုပြီး ခဏစောင့်ပါ...</string>
+    <string name="nomedia">မည်သည် မီဒီယာ မျှ မတွေ့ပါ၊ ကျေးဇူးပြု၍ သင်၏ ကိရိယာသို့ ဖိုင် အချို့ ကို ​ြေပာင်းရွှေ့ပါ သို့မဟုတ် သင်၏ စိတ်ကြိုက်အပြင်အဆင်များ ကို ချိန်ညှိပါ။</string>
+    <string name="noplaylist">မည်သည့် ဖွင့်လှစ်စာရင်း မျှမတွေ့။</string>
+    <string name="validation">သင် သေခြာ ပါသလား?</string>
+
+    <string name="cover_art">အဖုံး သရုပ်ဖော်ပုံ</string>
+    <string name="shuffle_all_title">အားလုံး ရောနှောဖွင့်ပါ</string>
+    <string name="shuffle_title">ရောနှော စနစ်</string>
+    <string name="shuffle">ရောနှောခြင်း ပိတ်</string>
+    <string name="shuffle_on">ရောနှောခြင်း ဖွင့်</string>
+    <string name="repeat_title">ထပ်တလဲလဲ စနစ်</string>
+    <string name="repeat">ထပ်တလဲလဲ မဖွင့်</string>
+    <string name="repeat_single">ထပ်တလဲလဲ တစ်ကြိမ်</string>
+    <string name="repeat_all">အားလုံး ထပ်တလဲလဲ ဖွင့်</string>
+    <string name="previous">ယခင်သို့</string>
+    <string name="stop">ရပ်တန့်</string>
+    <string name="firstsong">ဖွင့်လှစ်စာရင်း ၏ ပထမဆုံး သီချင်း</string>
+    <string name="lastsong">ဖွင့်လှစ်စာရင်း ၏ နောက်ဆုံး သီချင်း</string>
+
+    <string name="surface_best_fit">ကွက်တိအကျဆုံး</string>
+    <string name="surface_fit_screen">မျက်နှာပြင် အံကိုက်</string>
+    <string name="surface_fill">ဖြည့်</string>
+    <string name="surface_original">အလယ်</string>
+    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">ဘာသာစကား: %1$s\n</string>
+    <string name="volume">အသံပမာဏ</string>
+    <string name="sound_on">အသံ ဖွင့်</string>
+    <string name="sound_off">အသံ ပိတ်</string>
+    <string name="brightness">လင်းအား</string>
+    <string name="advanced">အဆင့်မြင့် ရွေးစရာများ</string>
+    <string name="audio_boost_warning">100% အလွန်သို့ သွားရန် အပေါ်သို့ ထပ်မံဆွဲတင်ပါ</string>
+
+    <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
+    <string name="track_resolution_info">ပုံရိပ်ပြတ်သားနှုန်း: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
+
+    <string name="playback_speed">ပြသခြင်း မြန်နှုန်း</string>
+    <string name="sleep_title">အိပ်ချိန် အချိန်မှတ်</string>
+    <string name="sleep_in">အကြာတွင် အိပ်ရန်</string>
+    <string name="subtitle_select">စာတမ်းထိုး ဖိုင် ရွေးချယ်ရန်</string>
+
+    <string name="encountered_error_title">ပြသခြင်း အမှား</string>
+    <string name="search">ရှာရန်</string>
+
+
+    <string name="playback_history_title">ပြသ မှတ်တမ်း</string>
+    <string name="seek">ရှာဖွေ</string>
+    <string name="subtitles">စာတမ်းထိုးများ</string>
+    <string name="subtitles_prefs_category">စာတမ်းထိုးများ</string>
+    <string name="subtitles_size_title">စာတမ်းထိုး အရွယ်အစား</string>
+    <string name="subtitles_size_small">အသေး</string>
+    <string name="subtitles_size_normal">ပုံမှန်</string>
+    <string name="subtitles_size_big">အကြီး</string>
+    <string name="subtitles_size_huge">အလွန်ကြီး</string>
+    <string name="subtitles_color_title">စာတမ်းထိုး အရောင်</string>
+    <string name="subtitles_color_white">အဖြူ</string>
+    <string name="subtitles_color_gray">မီးခိုး</string>
+    <string name="subtitles_color_pink">ပန်းရောင်</string>
+    <string name="subtitles_color_blue">အပြာ</string>
+    <string name="subtitles_color_yellow">အဝါ</string>
+    <string name="subtitles_color_green">အစိမ်း</string>
+    <string name="subtitles_background_title">စာတမ်းထိုး နောက်ခံ</string>
+    <string name="subtitles_bold_title">စာတမ်းထိုး စာလုံးထူ</string>
+    <string name="subtitles_autoload_title">စာတမ်းထိုး အလိုလျှောက် လုပ်ရန်</string>
+
+    <string name="audio_prefs_category">အသံ</string>
+    <string name="list_title_ellipsize_default">မူလ</string>
+    <string name="list_title_ellipsize_left">ဘယ်</string>
+    <string name="list_title_ellipsize_right">ညာ</string>
+    <string name="list_title_ellipsize_middle">အလယ်</string>
+    <string name="list_title_ellipsize_marquee">စားတန်းပြေး</string>
+    <string name="audio_boost_title">အသံ−အားမြှင့်</string>
+    <string name="audio_boost_summary">အသံပမာဏ ကို 200% အထိ တိုးခွင့်ပြုသည်</string>
+    <string name="network_browsing">အတွင်း ကွန်ယက်</string>
+    <string name="file_size">ဖိုင် အရွယ်အစား</string>
+
+    <string name="exit_app">VLC ကို ပိတ်</string>
+    <string name="exit_app_msg">VLC မှ ထွက်လိုသည်မှာ သေခြာပါသလား?</string>
+
+    <string name="movies">ရုပ်ရှင်များ</string>
+    <string name="videos">ဗီဒီယိုများ</string>
+    <string name="videos_all">ဗီဒီယို အားလုံး</string>
+    <string name="otg_device_title">OTG ကိရိယာ</string>
+    <string name="time_category_new">မီဒီယာ အသစ်</string>
+    <string name="time_category_current_month">ဒီလ</string>
+    <string name="time_category_current_year">ဒီနှစ်</string>
+    <string name="time_category_last_year">ယခင်နှစ်</string>
+    <string name="time_category_older">မီဒီယာ အဟောင်းများ</string>
+    <string name="rename">အမည် ပြောင်းရန်</string>
+    <string name="rename_media">%1$s ကို အမည်ပြောင်းရန်</string>
+    <string name="manual_search">ကိုယ်တိုင် ရှာရန်</string>
+    <string name="subtitle_search_name_hint">အမည်</string>
+    <string name="subtitle_search_episode_hint">အပိုင်း</string>
+    <string name="subtitle_search_season_hint">အတွဲ</string>
+    <string name="language_to_download">ဘာသာစကား</string>
+    <string name="delete_the_selected">ရွေးချယ်မှု ကိုဖျက်ရန်</string>
+    <string name="download_the_selected">ရွေးချယ်မှု ဒေါင်းလုပ်လုပ်ရန်</string>
+    <string name="welcome_title">VLC မှ ကြိုဆိုပါသည်။</string>
+    <string name="done">ပြီးပြီ</string>
+    <string name="send">ပေးပို့</string>
+    <string name="always">အမြဲတမ်း</string>
+    <string name="never">ဘယ်တော့မှ</string>
+    <string name="ask_confirmation">အတည်ပြုချက် ကို မေးရန်</string>
+    <string name="add_to_scanned">ဤ ဖိုဒါ ကို စစ်ပါ</string>
+    <string name="directory_not_scanned">ဤ လမ်းကြောင်း ကို မစစ်ပါ</string>
+    <string name="header_tvshows">တီဗီဖျော်ဖြေပွဲများ</string>
+    <string name="header_movies">ရုပ်ရှင်များ</string>
+    <string name="season_number">အတွဲ %s</string>
+    <string name="abrepeat_add_first_marker">အစမှတ် သတ်မှတ်ပါ</string>
+    <string name="abrepeat_add_second_marker">အဆုံးမှတ် သတ်မှတ်ပါ</string>
+    <string name="demux_bitrate">Demux bitrate</string>
+    <string name="input_bitrate">ထည့်သွင်း bitrate</string>
+    <string name="video_information">ဗီဒီယို အချက်အလက်</string>
+
+    <string name="channels">ရုပ်သံလိုင်းများ</string>
+    <string name="resolution">ပုံရိပ် ပြတ်သားနှုန်း</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">အကွက်ကြိမ်နှုန်း</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">ဘာသာစကား</string>
+    <string name="track_samplerate">နှုန်း နမူနာ</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="codec">Codec</string>
+    <string name="text">စာသား</string>
+    <string name="unknown">အမည်မသိ</string>
+    <string name="sortby_track">အပုဒ်</string>
+    <string name="more">နောက်ထပ်</string>
+    <string name="empty_directory">ဘာမျှမရှိ</string>
+    <string name="no_track">အပုဒ် မရှိ</string>
+
+    <string name="sub_result_by_name_season">အတွဲ %s</string>
+    <string name="sub_result_by_name_episode">အပိုင်း %s</string>
+
+    <string name="sub_result_by_file">သင်၏ ဖိုင်များ အတွက် ရလဒ်</string>
+    <string name="donate">VLC ကို ကူညီရန်</string>
+    <string name="tip_jar">VLC ကို ကူညီရန်</string>
+    <string name="thank_you">ကျေးဇူးတင်ပါသည်</string>
+</resources>

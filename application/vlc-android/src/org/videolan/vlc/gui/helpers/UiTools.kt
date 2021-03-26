@@ -284,6 +284,11 @@ object UiTools {
             sHandler.postDelayed(action, DELETE_DURATION.toLong())
     }
 
+    fun snackerMessageInfinite(activity:Activity, message: String):Snackbar? {
+        val view = getSnackAnchorView(activity) ?: return null
+        return Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+    }
+
     /**
      * Get a resource id from an attribute id.
      *
@@ -382,7 +387,7 @@ object UiTools {
         addToGroupDialog.newGroupListener = newGroupListener
     }
 
-    fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
+    fun FragmentActivity.showVideoTrack(menuListener:(VideoTracksDialog.VideoTrackOption) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
         if (!isStarted()) return
         val videoTracksDialog = VideoTracksDialog()
         videoTracksDialog.arguments = bundleOf()

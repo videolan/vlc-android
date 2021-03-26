@@ -8,6 +8,7 @@ import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
+import org.videolan.medialibrary.interfaces.media.Bookmark;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
@@ -15,6 +16,7 @@ import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.AlbumImpl;
 import org.videolan.medialibrary.media.ArtistImpl;
+import org.videolan.medialibrary.media.BookmarkImpl;
 import org.videolan.medialibrary.media.FolderImpl;
 import org.videolan.medialibrary.media.GenreImpl;
 import org.videolan.medialibrary.media.MediaWrapperImpl;
@@ -22,6 +24,7 @@ import org.videolan.medialibrary.media.PlaylistImpl;
 import org.videolan.medialibrary.media.VideoGroupImpl;
 import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
+import org.videolan.medialibrary.stubs.StubBookmark;
 import org.videolan.medialibrary.stubs.StubFolder;
 import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
@@ -184,6 +187,23 @@ public class MLServiceLocator {
             return new FolderImpl(in);
         } else {
             return new StubFolder(in);
+        }
+    }
+
+    //BookmarkImpl
+    public Bookmark getAbstractBookmark(long id, String name, String description, long mediaId, long time) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
+            return new BookmarkImpl(id, name, description, mediaId, time);
+        } else {
+            return new StubBookmark(id, name, description, mediaId, time);
+        }
+    }
+
+    public static Bookmark getAbstractBookmark(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
+            return new BookmarkImpl(in);
+        } else {
+            return new StubBookmark(in);
         }
     }
 

@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_set_ringtone.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M29.5,8C28.6716,8 28,8.6716 28,9.5v5.0527C27.8355,14.5185 27.668,14.5007 27.5,14.5 26.1193,14.5 25,15.6193 25,17c0,1.3807 1.1193,2.5 2.5,2.5 1.3807,0 2.5,-1.1193 2.5,-2.5v-7h0.5C31.3284,10 32,9.3284 32,8.5L32,8ZM9.5,11C8.6716,11.0001 8.0001,11.6716 8,12.5 8,23.2518 16.7482,32 27.5,32c0.8284,-0.0001 1.4999,-0.6716 1.5,-1.5L29,26c-0.0001,-0.8284 -0.6716,-1.4999 -1.5,-1.5 -1.1798,-0.0006 -2.3517,-0.1746 -3.4805,-0.5176 -0.5299,-0.1618 -1.1059,-0.0184 -1.498,0.373l-2.4395,2.4414c-2.9402,-1.5531 -5.3257,-3.9406 -6.875,-6.8828l2.4453,-2.4453c0.3922,-0.3925 0.5357,-0.9695 0.373,-1.5C15.6805,14.8428 15.504,13.6717 15.5,12.4941 15.4967,11.668 14.8261,11.0001 14,11Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
+</vector>

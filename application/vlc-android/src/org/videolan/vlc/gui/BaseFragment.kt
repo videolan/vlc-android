@@ -104,7 +104,6 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     protected open fun hasFAB() = ::swipeRefreshLayout.isInitialized
 
     open fun setFabPlayVisibility(enable: Boolean) {
-        if (BuildConfig.DEBUG) Log.d("FAB", "setFabPlayVisibility $enable", NullPointerException())
         fabPlay?.run {
             if (enable) show() else hide()
         }

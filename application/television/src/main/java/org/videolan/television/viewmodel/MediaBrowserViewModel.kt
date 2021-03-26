@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.*
@@ -50,4 +49,4 @@ class MediaBrowserViewModel(context: Context, val category: Long, val parent : M
 }
 
 @ExperimentalCoroutinesApi
-fun Fragment.getMediaBrowserModel(category: Long, parent : MediaLibraryItem? = null) = ViewModelProviders.of(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category, parent)).get(MediaBrowserViewModel::class.java)
+fun Fragment.getMediaBrowserModel(category: Long, parent : MediaLibraryItem? = null) = ViewModelProvider(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category, parent)).get(MediaBrowserViewModel::class.java)

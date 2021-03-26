@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
+import android.util.Log
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -45,7 +46,7 @@ object LocaleUtils {
         return LocalePair(finalLocaleEntries.toTypedArray(), finalLocaleEntryValues.toTypedArray())
     }
 
-    private fun getLocaleFromString(string: String): Locale {
+    fun getLocaleFromString(string: String): Locale {
 
         /**
          * See [android.content.res.AssetManager.getLocales]
@@ -85,7 +86,7 @@ fun ContextWrapper.wrap(language: String): ContextWrapper {
     }
 
     if (language.isNotEmpty() && sysLocale.language != language) {
-        val locale = Locale(language)
+        val locale = if (language.contains("-")) Locale(language.substringBefore("-"), language.substringAfter("-")) else Locale(language)
         Locale.setDefault(locale)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

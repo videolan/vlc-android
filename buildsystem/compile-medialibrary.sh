@@ -4,7 +4,7 @@
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=ad5bdbc179f57763c4d0e5d71644cd979b615b09
+MEDIALIBRARY_HASH=21e6a3a07d45eb58eab04d1ae6d3151b32c939fa
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -57,6 +57,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   fi
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
+  cd ${SQLITE_RELEASE}
+  patch -1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
@@ -67,7 +69,8 @@ cd "build-$ANDROID_ABI";
 if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
   ../configure \
     --host=$TARGET_TUPLE \
-    --enable-force-attachments-api \
+    --prefix=${SRC_DIR}/medialibrary/prefix/${TARGET_TUPLE} \
+    --disable-shell \
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
     CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
@@ -76,9 +79,12 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
 fi
 
 make $MAKEFLAGS
+avlc_checkfail "sqlite build failed"
+
+make install
+avlc_checkfail "sqlite installation failed"
 
 cd ${SRC_DIR}
-avlc_checkfail "sqlite build failed"
 
 ##############################
 # FETCH MEDIALIBRARY SOURCES #
@@ -111,51 +117,42 @@ cd ${SRC_DIR}
 # CONFIGURE #
 #############
 
+if [ "$RELEASE" = "1" ]; then
+  MEDIALIBRARY_MODE=release
+else
+  MEDIALIBRARY_MODE=debug
+fi
+
 cd ${MEDIALIBRARY_BUILD_DIR}
 
-if [ ! -d "build-android-$ANDROID_ABI/" ]; then
-    mkdir "build-android-$ANDROID_ABI/";
-fi;
-cd "build-android-$ANDROID_ABI/";
-
-if [ "$RELEASE" = "1" ]; then
-  MEDIALIBRARY_MODE=--disable-debug
-fi
-if [ ! -e ./config.h -o "$RELEASE" = "1" ]; then
-  ../bootstrap
-  ../configure \
-    --host=$TARGET_TUPLE \
-    --disable-shared \
-    ${MEDIALIBRARY_MODE} \
-    CFLAGS="${VLC_CFLAGS}" \
-    CXXFLAGS="${VLC_CFLAGS}" \
-    CC="${CROSS_CLANG}" \
-    CXX="${CROSS_CLANG}++" \
-    NM="${CROSS_TOOLS}nm" \
-    STRIP="${CROSS_TOOLS}strip" \
-    RANLIB="${CROSS_TOOLS}ranlib" \
+if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
-    LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
-    LIBJPEG_CFLAGS="-I$SRC_DIR/vlc/contrib/$TARGET_TUPLE/include/" \
-    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
-    SQLITE_CFLAGS="-I$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE" \
-    AR="${CROSS_TOOLS}ar"
-  avlc_checkfail "medialibrary: autoconf failed"
+    PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
+    meson --buildtype=${MEDIALIBRARY_MODE} \
+        -Ddefault_library=static \
+        --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}.crossfile \
+        -Dlibjpeg_prefix="$SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
+        -Dtests=disabled \
+        -Dforce_attachment_api=true \
+        build-android-${ANDROID_ABI}
 fi
+
+avlc_checkfail "medialibrary: meson failed"
 
 ############
 # BUILDING #
 ############
 
 echo -e "\e[1m\e[32mBuilding medialibrary\e[0m"
-make $MAKEFLAGS
+cd "build-android-$ANDROID_ABI/";
+ninja
 
-avlc_checkfail "medialibrary: make failed"
+avlc_checkfail "medialibrary: build failed"
 
 cd ${SRC_DIR}
 
 MEDIALIBRARY_LDLIBS="$VLC_OUT_LDLIBS \
--L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary \
+-L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/src/ -lmedialibrary \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
 -L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
 -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"

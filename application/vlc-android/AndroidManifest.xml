@@ -501,6 +501,9 @@
             android:name=".gui.preferences.PreferencesActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
+            android:name=".gui.preferences.search.PreferenceSearchActivity"
+            android:theme="@style/Theme.VLC"/>
+        <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
             android:exported="true"

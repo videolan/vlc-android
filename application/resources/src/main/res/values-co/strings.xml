@@ -641,8 +641,8 @@
     <string name="never">Mai</string>
     <string name="ask_confirmation">Dumandà cunfirmazione</string>
     <string name="add_to_scanned">Analizà stu cartulare</string>
-    <string name="directory_not_scanned">Stu cartulare ùn hè micca analisatu</string>
-    <string name="scanned_directory_added">%s aghjuntu à i vostri cartulari analisati</string>
+    <string name="directory_not_scanned">Stu cartulare ùn hè micca analizatu</string>
+    <string name="scanned_directory_added">%s aghjuntu à i vostri cartulari analizati</string>
     <string name="video_group_size_summary">Gruppà da e %s prime lettere</string>
     <string name="url_copied_to_clipboard">Indirizzu cupiatu ver di u preme’papei</string>
     <string name="share">Sparte</string>
@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Testu vistu</string>
     <string name="track_index">Traccia : %s</string>
     <string name="audio_queue_progress">Prugressione : %s</string>
+    <string name="audio_queue_progress_finished">Si compie à :%s</string>
     <string name="sortby_track">Traccia</string>
     <string name="this_folder">Aghjunghje stu cartulare</string>
     <string name="all_subfolders">Aghjunghje stu cartulare è i so sottucartulari</string>
@@ -758,5 +759,12 @@
     <string name="prefersmbv1_summary">Disattivà st’ozzione s’è vò avete qualchì difficultà à navigà nant’à u vostru servitore SMB</string>
     <string name="apply_to_all">Appiecà à tutte e video</string>
     <string name="audio_delay_global">Cumportu audio definitu à %s ms per tutte e video</string>
+    <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
+    <string name="go_to_folder">Navigà à u livellu superiore</string>
+    <string name="no_sub_renderer">I sottutituli ùn sò ancu accettati durante a diffusione</string>
+    <string name="enqueuing">Caricamentu di i vostri media</string>
+    <string name="soundfont">Banca di soni SoundFont MIDI</string>
+    <string name="soundfont_summary">Sceglie un schedariu di banca di soni per leghje traccie audio midi</string>
+    <string name="search_prefs">Preferenze di ricerca</string>
 
 </resources>

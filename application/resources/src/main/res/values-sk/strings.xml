@@ -675,7 +675,7 @@
     <string name="moviepedia_hint">Vyhľadať metadáta</string>
     <string name="moviepedia_result">Výsledky pre video</string>
     <string name="directed_by">Réžia</string>
-    <string name="casting">Obsadenie (casting)</string>
+    <string name="casting">Obsadenie</string>
     <string name="produced_by">Produkcia</string>
     <string name="written_by">Napísal/scenár</string>
     <string name="music_by">Hudba</string>
@@ -718,6 +718,7 @@
     <string name="subtitle_delay_end">Videný text</string>
     <string name="track_index">Stopa: %s</string>
     <string name="audio_queue_progress">Postup: %s</string>
+    <string name="audio_queue_progress_finished">Skončí o: %s</string>
     <string name="sortby_track">Stopa</string>
     <string name="this_folder">Pridať tento priečinok</string>
     <string name="all_subfolders">Pridať tento priečinok a podpriečinky</string>
@@ -783,5 +784,10 @@
     <string name="audio_delay_global">Oneskorenie zvuku nastaviť na %s ms pre všetky videá</string>
     <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
+    <string name="no_sub_renderer">Počas streamovania (castingu) ešte nie sú podporované titulky</string>
+    <string name="enqueuing">Načítavanie médií</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Vyberte súbor SoundFont na prehratie zvukových stôp MIDI</string>
+    <string name="search_prefs">Nastavenia vyhľadávania</string>
 
 </resources>

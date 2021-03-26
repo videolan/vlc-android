@@ -140,8 +140,9 @@ public class MedialibraryImpl extends Medialibrary {
         if (!mIsInitiated) return;
         final String[] folders = getFoldersList();
         for (String folder : folders) {
-            if (!folder.equals(mrl) && folder.contains(mrl))
+            if (!folder.equals(mrl) && !folder.equals(mrl+"/") && folder.contains(mrl)) {
                 removeFolder(folder);
+            }
         }
         nativeRemoveEntryPoint(Tools.encodeVLCMrl(mrl));
     }

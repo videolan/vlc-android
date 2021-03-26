@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_play_next.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="m9,7.9999c-0.6364,0 -1.0002,0.4369 -1,1v14c0.0009,0.7715 0.8558,1.2498 1.5039,0.8633l12,-7c0.6615,-0.376 0.6615,-1.3297 0,-1.7266l-12,-7C9.359,8.0518 9.1719,7.9999 9,7.9999ZM23,21.9999c-0.5315,0 -0.9999,0.4011 -1,1v8c0,0.7986 0.8427,1.2716 1.5547,0.832L30,27.5351v3.4648c0,0.554 0.446,1 1,1 0.554,0 1,-0.446 1,-1v-8c0,-0.554 -0.4499,-1 -1.0039,-1 -0.554,0 -0.9961,0.446 -0.9961,1v3.4648L23.5547,22.1679C23.3885,22.0572 23.1857,21.9999 23,21.9999Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="butt"/>
+</vector>

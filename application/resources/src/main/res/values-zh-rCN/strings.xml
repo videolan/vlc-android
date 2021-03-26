@@ -684,6 +684,7 @@
     <string name="subtitle_delay_end">看见的文字</string>
     <string name="track_index">轨道: %s</string>
     <string name="audio_queue_progress">进度: %s</string>
+    <string name="audio_queue_progress_finished">结束于：%s</string>
     <string name="sortby_track">轨道</string>
     <string name="this_folder">添加该文件夹</string>
     <string name="all_subfolders">添加该文件夹及其子文件夹</string>
@@ -749,5 +750,10 @@
     <string name="audio_delay_global">所有视频的音频延迟设置为 %s ms</string>
     <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
     <string name="go_to_folder">浏览父文件夹</string>
+    <string name="no_sub_renderer">尚不支持投屏播放时显示字幕</string>
+    <string name="enqueuing">正在加载你的媒体文件</string>
+    <string name="soundfont">MIDI 音色库</string>
+    <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
+    <string name="search_prefs">搜索设置</string>
 
 </resources>

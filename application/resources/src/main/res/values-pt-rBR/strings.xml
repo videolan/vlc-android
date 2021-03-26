@@ -14,7 +14,7 @@
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Adicionado recentemente</string>
     <string name="sortby_media_number">Número da mídia</string>
-    <string name="sortby_number">Num. de trilhas</string>
+    <string name="sortby_number">Núm. de trilhas</string>
     <string name="searchable_hint">Pesquisar…</string>
     <string name="history">Histórico</string>
 
@@ -199,7 +199,7 @@
     <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Legendas</string>
-    <string name="audio_sub">Trilhas de áudio\nand legendas</string>
+    <string name="audio_sub">Trilhas de áudio\ne legendas</string>
     <string name="resize">Redimensionar</string>
     <string name="options">Opções</string>
     <string name="lock">Bloquear</string>
@@ -269,7 +269,7 @@
     <string name="video_transition_title">Transição de vídeos</string>
     <string name="video_transition_summary">Exibir o título do novo vídeo na transição</string>
     <string name="media_seen">Exibir marcador em vídeo visto</string>
-    <string name="media_seen_summary">Marca um video como visto quando reproduzido até o fim</string>
+    <string name="media_seen_summary">Marca um vídeo como visto quando reproduzido até o fim</string>
     <string name="force_play_all_summary">Reproduz todos os vídeos, iniciando pelo que você clicar.</string>
     <string name="force_play_all_title">Modo de lista de reprodução de vídeos</string>
     <string name="save_brightness_summary">Manter o nível de brilho entre as mídias</string>
@@ -474,12 +474,12 @@
     <string name="opengl_summary">Por padrão, o OpenGL ES2 é usado para decodificação por software e por hardware, quando necessário (vídeos em 360°)</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Impor em Ligado</string>
-    <string name="opengl_off">Import em Desligado</string>
+    <string name="opengl_off">Impor em Desligado</string>
     <string name="network_favorites">Favoritos da rede</string>
     <string name="network_shared_folders">Pastas compartilhadas</string>
     <string name="encryption_warning">Aviso, criptografia não disponível para esta versão de Android. A senha será armazenada em um espaço privado, mas não criptografado</string>
     <string name="store_password">Salvar senha</string>
-    <string name="add_to_playlist">Adiconar à lista de reprodução</string>
+    <string name="add_to_playlist">Adicionar à lista de reprodução</string>
     <string name="popup_playback_title">Reproduzir vídeo em uma janela pop-up</string>
     <string name="popup_playback">Reproduzindo em uma janea</string>
     <string name="popup_expand">Expandir vídeo</string>
@@ -646,7 +646,7 @@
     <string name="video_group_size_summary">Agrupar pelos %s primeiros caracteres</string>
     <string name="url_copied_to_clipboard">Url copiado para a área de transferência</string>
     <string name="share">Compartilhar</string>
-    <string name="invalid_file">Arquivo inválido. Nao é possível compartilhá-lo.</string>
+    <string name="invalid_file">Arquivo inválido. Não é possível compartilhá-lo.</string>
     <string name="share_file">Compartilhar 1%s</string>
     <string name="share_message">Aqui está 1%s</string>
     <string name="find_metadata">Encontrar metadados</string>
@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Trilha: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
+    <string name="audio_queue_progress_finished">Termina em: %s</string>
     <string name="sortby_track">Trilha</string>
     <string name="this_folder">Adicionar esta pasta</string>
     <string name="all_subfolders">Adicionar esta pasta e suas subpastas</string>
@@ -760,5 +761,9 @@
     <string name="audio_delay_global">Definir atraso em %s ms para todos os vídeos</string>
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para fluxos pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
+    <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
+    <string name="enqueuing">Carregando suas mídias</string>
+    <string name="soundfont">SoundFont MIDI</string>
+    <string name="soundfont_summary">Escolha um arquivo SoundFont para reproduzir trilhas de áudio midi</string>
 
 </resources>

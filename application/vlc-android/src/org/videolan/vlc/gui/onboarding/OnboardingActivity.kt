@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_onboarding.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -28,16 +28,15 @@ import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.hf.PermissionViewmodel
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.resumePermissionRequest
-import org.videolan.vlc.gui.view.NonSwipeableViewPager
 import org.videolan.vlc.util.Permissions
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, IOnScanningCustomizeChangedListener {
+class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListener {
 
-    private lateinit var viewPager: NonSwipeableViewPager
+    private lateinit var viewPager: ViewPager2
 
     private val indicators by lazy(LazyThreadSafetyMode.NONE) { arrayOf(
             findViewById<View>(R.id.indicator0),
@@ -66,10 +65,10 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
         val count = viewModel.adapterCount
 
-        onboardingPagerAdapter = OnboardingFragmentPagerAdapter(supportFragmentManager, count)
+        onboardingPagerAdapter = OnboardingFragmentPagerAdapter(this, count)
         viewPager.adapter = onboardingPagerAdapter
-        viewPager.addOnPageChangeListener(this)
-        viewPager.scrollEnabled = viewModel.permissionGranted
+        viewPager.registerOnPageChangeCallback(viewPager2PageChangeCallback)
+        viewPager.isUserInputEnabled = viewModel.permissionGranted
 
         selectPage(0)
 
@@ -92,10 +91,10 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
                 if (!viewModel.permissionGranted) {
                     return@launch
                 } else {
-                    viewPager.scrollEnabled = true
+                    viewPager.isUserInputEnabled = true
                 }
             }
-            if (viewPager.currentItem < viewPager.adapter!!.count) {
+            if (viewPager.currentItem < viewPager.adapter!!.itemCount) {
                 viewPager.currentItem++
             }
         }
@@ -107,6 +106,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
     override fun onDestroy() {
         super.onDestroy()
+        viewPager.unregisterOnPageChangeCallback(viewPager2PageChangeCallback)
         Permissions.sAlertDialog?.run { dismiss() }
     }
 
@@ -133,7 +133,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     }
 
     private fun selectPage(index: Int) {
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Selecting page $index pager nb of item: ${onboardingPagerAdapter.count}")
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Selecting page $index pager nb of item: ${onboardingPagerAdapter.itemCount}")
         //Navigation button states
         if (index == 0) {
             previous.animate().scaleY(0f).scaleX(0f).alpha(0f)
@@ -141,7 +141,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             previous.animate().scaleY(1f).scaleX(1f).alpha(0.6f)
         }
 
-        if (index == onboardingPagerAdapter.count - 1) {
+        if (index == onboardingPagerAdapter.itemCount - 1) {
             next.animate().scaleY(0f).scaleX(0f).alpha(0f)
             doneButton.animate().cancel()
             doneButton.visibility = View.VISIBLE
@@ -171,12 +171,11 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         }
     }
 
-    override fun onPageScrollStateChanged(state: Int) {}
+    private val viewPager2PageChangeCallback = object :ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            selectPage(position)
+        }
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-    override fun onPageSelected(position: Int) {
-        selectPage(position)
     }
 
     override fun onCustomizedChanged(customizeEnabled: Boolean) {

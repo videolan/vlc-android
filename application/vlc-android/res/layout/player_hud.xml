@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     vlc:layout_constraintHorizontal_chainStyle="spread_inside"
-                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintLeft_toLeftOf="parent"
                     vlc:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -212,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintRight_toRightOf="parent"
                     vlc:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -254,6 +254,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
+                    android:layoutDirection="ltr"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"

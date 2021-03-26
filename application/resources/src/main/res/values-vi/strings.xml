@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Hủy</string>
+    <string name="other">Khác</string>
+    <string name="sortby">Sắp xếp theo…</string>
+    <string name="sortby_name">Tên</string>
+    <string name="sortby_filename">Tên tệp</string>
+    <string name="sortby_artist_name">Tên nghệ sĩ</string>
+    <string name="sortby_album_name">Tên album</string>
+    <string name="sortby_length">Độ dài</string>
+    <string name="sortby_date">Ngày</string>
+    <string name="sortby_last_modified_date">Được thêm gần đây</string>
+    <string name="sortby_media_number">Số hiệu media</string>
+    <string name="sortby_number">Số bài hát</string>
+    <string name="searchable_hint">Tìm kiếm…</string>
+    <string name="history">Lịch sử</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d kết quả được tìm thấy</item>
+    </plurals>
+
+    <string name="play">Phát</string>
+    <string name="playback">Phát lại</string>
+    <string name="playback_controls">Điều chỉnh phát lại</string>
+    <string name="medialibrary_scan">Quét thư viện đa phương tiện</string>
+    <string name="Medialibrary_progress">Cập nhật tiến độ quét thư viện đa phương tiện</string>
+    <string name="play_from_start">Phát từ đầu</string>
+    <string name="play_as_audio">Phát dưới dạng âm thanh</string>
+    <string name="play_as_video">Phát dưới dạng video</string>
+    <string name="video_app_switch_title">Mở trong nền / hình trong hình</string>
+    <string name="video_app_switch_summary">Chọn hành động của VLC khi bạn chuyển sang ứng dụng khác khi đang phát video</string>
+    <string name="play_pip_title">Mở video ở chế độ hình-trong-hình</string>
+    <string name="play_as_audio_background">Phát video trong nền</string>
+    <string name="append">Tạm dừng</string>
+    <string name="insert_next">Chèn tiếp</string>
+    <string name="play_all">Phát tất cả</string>
+    <string name="append_all">Tạm dừng tất cả</string>
+    <string name="resume_playback_short_title">Tiếp tục phát</string>
+    <string name="resume_playback_long_title">Tiếp tục phát danh sách phát cuối</string>
+    <string name="delete">Xóa</string>
+    <string name="remove"> Xoá</string>
+    <string name="set_song">Đặt làm nhạc chuông</string>
+    <string name="set_song_question">Đặt ‘%1$s‘ làm nhạc chuông?</string>
+    <string name="info">Thông tin</string>
+    <string name="confirm_delete">Xoá file ‘%1$s‘?</string>
+    <string name="confirm_delete_album">Xoá album ‘%1$s‘?</string>
+    <string name="confirm_delete_several_media">Xoá media ‘%1$d‘?</string>
+    <string name="confirm_delete_folder">Xoá ‘%1$s‘ và mọi nội dung của nó?</string>
+    <string name="confirm_delete_playlist">Xoá danh sách phát ‘%1$s‘?</string>
+    <string name="confirm_remove_from_playlist">Xoá ‘%1$s‘ khỏi danh sách phát?</string>
+    <string name="ringtone_set">File ‘%1$s‘ đã được đặt làm nhạc chuông.</string>
+    <string name="ringtone_error">Xảy ra lỗi khi chọn đối tượng làm nhạc chuông.</string>
+    <string name="pause">Tạm dừng</string>
+    <string name="unknown_artist">Không rõ nghệ sĩ</string>
+    <string name="unknown_album">Không rõ album</string>
+    <string name="unknown_genre">Không rõ thể loại</string>
+    <string name="songs">Bài hát</string>
+    <string name="track_info_copied_to_clipboard">Thông tin bài hát đã sao chép vào khay nhớ tạm</string>
+
+    <string name="artists">Nghệ sĩ</string>
+    <string name="albums">Album</string>
+    <string name="tracks">Bài hát</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d thư mục con</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d đa phương tiện</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d tập tin media</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d video</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">Có %d bộ phim</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">Có %d chương trình truyền hình</item>
+    </plurals>
+
+    <string name="internal_memory">Bộ nhớ trong</string>
+    <string name="audio">Âm thanh</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Đánh dấu</string>
+    <string name="equalizer">Bộ cân bằng</string>
+    <string name="all_albums">Tất cả album</string>
+    <string name="genres">Thể loại</string>
+    <string name="playlists">Danh sách phát</string>
+    <string name="title">Tiêu đề</string>
+    <string name="directories">Thư mục</string>
+    <string name="loading">Đang tải</string>
+    <string name="please_wait">Xin đợi…</string>
+    <string name="nomedia">Không tìm thấy file đa phương tiện nào. Vui lòng chuyển một số file đến thiết bị của bạn hoặc tuỳ chỉnh cài đặt của bạn.</string>
+    <string name="noplaylist">Không tìm thấy danh sách phát.</string>
+    <string name="nosubfolder">Không có thư mục con nào</string>
+    <string name="directorynotfound">Không tìm thấy đường dẫn thư mục ‘%1$s‘.</string>
+    <string name="nohistory">Bạn chưa có lịch sử phát.</string>
+    <string name="validation">Bạn có chắc không?</string>
+
+    <string name="cover_art">Ảnh bìa</string>
+    <string name="shuffle_all_title">Xáo trộn tất cả</string>
+    <string name="shuffle_title">Chế độ xáo trộn</string>
+    <string name="shuffle">Tắt xáo trộn</string>
+    <string name="shuffle_on">Bật xáo trộn</string>
+    <string name="repeat_title">Chế độ lặp</string>
+    <string name="repeat">Không lặp</string>
+    <string name="repeat_single">Lặp lại chỉ một mục</string>
+    <string name="repeat_all">Lặp lại tất cả</string>
+    <string name="previous">Trước đó</string>
+    <string name="stop">Dừng lại</string>
+    <string name="firstsong">Bài hát đầu của danh sách</string>
+    <string name="lastsong">Bài hát cuối của danh sách</string>
+
+    <string name="surface_best_fit">Tự canh chỉnh</string>
+    <string name="surface_fit_screen">Làm cho vừa màn hình</string>
+    <string name="surface_fill">Lấp đầy</string>
+    <string name="surface_original">Giữa</string>
+    <string name="unseekable_stream">Không tìm được luồng dữ liệu</string>
+    <string name="refresh">Làm mới</string>
+    <string name="track_audio">Tập tin Audio</string>
+    <string name="track_video">Tập tin Video</string>
+    <string name="track_text">Thanh phụ đề</string>
+    <string name="track_unknown">Bài hát không xác định</string>
+    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Ngôn ngữ: %1$s\n</string>
+    <string name="volume">Âm lượng</string>
+    <string name="sound_on">Bật âm thanh</string>
+    <string name="sound_off">Tắt âm thanh</string>
+    <string name="brightness">Độ sáng</string>
+    <string name="advanced">tùy chọn nâng cao</string>
+    <string name="audio_boost_warning">Vuốt lên trên lần nữa để đặt âm lượng vượt quá 100%</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">%1$d kênh\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Tốc độ lấy mẫu: %1$d Hz\n</string>
+    <string name="track_resolution_info">Độ phân giải: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Số khung hình trên giây: %1$.3f\n</string>
+
+    <string name="playback_speed">Tốc độ phát</string>
+    <string name="sleep_title">Thời gian chờ</string>
+    <string name="sleep_in">Tắt trong vòng</string>
+    <string name="jump_to_time">Nhảy đến thời gian</string>
+    <string name="subtitle_select">Chọn tệp phụ đề</string>
+
+    <string name="server_add_title">Thêm máy chủ mới vào danh sách yêu thích</string>
+    <string name="server_domain_hint">Địa chỉ máy chủ (tên miền hoặc IP)</string>
+    <string name="server_share_hint">Tên mạng chia sẻ (hoặc IP)</string>
+    <string name="server_folder_hint">Đường dẫn thư mục (tuỳ chọn)</string>
+    <string name="server_username_hint">Tên người dùng</string>
+    <string name="server_servername_hint">Tên máy chủ, để thuận tiện</string>
+    <string name="server_port">Cổng:</string>
+    <string name="login">Đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+
+    <string name="search_no_result">Không tìm thấy media nào</string>
+    <string name="favorites_add">Thêm vào yêu thích</string>
+    <string name="favorites_remove">Xóa khỏi yêu thích</string>
+    <string name="favorites_edit">Sửa</string>
+    <string name="favorite_added">Đã lưu vào yêu thích</string>
+    <string name="favorite_removed">Xóa khỏi yêu thích</string>
+
+    <string name="streams">Luồng</string>
+    <string name="open_mrl_dialog_msg">Nhập địa chỉ mạng: ví dụ http://, mms:// hoặc rtsp://</string>
+    <string name="encountered_error_title">Lỗi khi phát</string>
+    <string name="encountered_error_message">VLC gặp phải trục trặc với tập tin media này. \nHãy thử cập nhật lại hệ thống thư viện tập tin của bạn.</string>
+    <string name="invalid_location">Vị trí %1$s không thể phát được.</string>
+
+    <string name="search">Tìm kiếm</string>
+
+
+    <string name="playback_history_title">Lịch sử phát</string>
+    <string name="playback_history_summary">Lưu tất cả media đã bật ở phần Lịch sử</string>
+    <string name="playback_speed_title">Lưu tốc độ phát</string>
+    <string name="playback_speed_summary">Giữ nguyên tốc độ phát giữa các mục media</string>
+
+    <string name="play_button">Nút phát</string>
+
+    <!-- Tips -->
+    <string name="video_player_tips">Mẹo cho trình phát video:</string>
+    <string name="seek">Tua</string>
+    <string name="subtitles">Phụ đề</string>
+    <string name="audio_sub">Âm thanh\nvà phụ đề</string>
+    <string name="resize">Thay đổi kích thước</string>
+    <string name="options">Tùy chọn</string>
+    <string name="lock">Khóa</string>
+    <string name="ok_got_it">Đã hiểu, xin bỏ&#160;phần này</string>
+
+    <string name="playlist_tips">Bí quyết cho danh sách phát:</string>
+    <string name="remove_song">Xóa bài hát</string>
+    <string name="remove_playlist_item">%1$s đã được loại bỏ khỏi danh sách phát</string>
+    <string name="rearrange_order">Sắp xếp thứ tự</string>
+    <string name="hold_to_seek">Giữ để tua</string>
+
+    <string name="audio_player_tips">Bí quyết cho trình phát âm thanh</string>
+    <string name="previous_next_song">Bài hát trước đó/tiếp theo</string>
+    <string name="show_playlist">Hiện danh sách phát</string>
+    <string name="hold_to_stop">Giữ để dừng</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC dành cho Android</string>
+    <string name="licence">Giấy phép</string>
+    <string name="revision">Duyệt lại</string>
+    <string name="about">Thông tin</string>
+    <string name="about_text">VLC dành cho Android™ là một sự chuyển đổi của trình phát đa phương tiện VLC, trình phát đa phương tiện mã nguồn mở phổ biến. Phiên bản dành cho Android™ có thể đọc được hầu hết các tập tin và các buổi truyền dữ liệu qua mạng.</string>
+    <string name="vlc_authors">và những tác giả của VLC</string>
+    <string name="compiled_by">Phiên bản VLC này được biên dịch bởi:</string>
+    <string name="feedback_forum">Diễn đàn góp ý</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Cài đặt</string>
+
+    <string name="directories_summary">Chọn thư mục để chứa Thư Viện Media</string>
+    <string name="add_custom_path">Thêm đường dẫn tuỳ chỉnh</string>
+    <string name="add_custom_path_description">Thêm vào thư mục do bạn chỉ định để quét:</string>
+    <string name="remove_custom_path">Xoá đường dẫn tuỳ chỉnh</string>
+    <string name="hardware_acceleration">Tăng tốc phần cứng</string>
+    <string name="hardware_acceleration_summary">Tắt: sẽ ổn định hơn, không bj giật\nGiải mã: có thể cải thiện hiệu suất\n Đầy đủ: có thể cải thiện hiệu suất hơn nữa</string>
+    <string name="hardware_acceleration_disabled">Tắt</string>
+    <string name="hardware_acceleration_decoding">Tăng tốc giải mã</string>
+    <string name="hardware_acceleration_full">Tăng tốc đầy đủ</string>
+    <string name="dev_hardware_decoder">Trình giải mã phần cứng nâng cao</string>
+    <string name="dev_hardware_decoder_summary">Bắt buộc giải mã phần cứng, chỉ dành cho người dung nâng cao</string>
+    <string name="automatic">Tự động</string>
+    <string name="screen_orientation">Hướng xoay của màn hình</string>
+    <string name="screen_orientation_sensor">Tự động (cảm biến)</string>
+    <string name="screen_orientation_start_lock">Khóa khi khởi động</string>
+    <string name="screen_orientation_portrait">Hướng dọc</string>
+    <string name="screen_orientation_landscape">Hướng ngang</string>
+    <string name="enable_black_theme">Giao diện tối</string>
+    <string name="subtitle_text_encoding">Mã hóa văn bản phụ đề</string>
+    <string name="daynight_title">Chế độ ngày đêm</string>
+    <string name="daynight_follow_system_title">Dựa vào chế dộ của hệ thống</string>
+
+    <string name="extra_prefs_category">Thiết lập khác</string>
+
+    <string name="interface_prefs_screen">Giao diện</string>
+    <string name="interface_secondary_display_category_title">Màn hình phụ</string>
+    <string name="interface_secondary_display_category_summary">Cài đặt khi các màn hình phụ được kết nối (HDMI/Chromecast)</string>
+    <string name="enable_clone_mode">Ưu tiên bản sao</string>
+    <string name="enable_clone_mode_summary">Sao chép màn hình thiết bị mà không cần điều khiển từ xa</string>
+
+    <string name="video_prefs_category">Video</string>
+    <string name="video_min_group_length_title">Nhóm video</string>
+    <string name="video_min_group_length_disable">Không nhóm video</string>
+    <string name="video_min_group_length_folder">Nhóm bằng thư mục</string>
+    <string name="video_min_group_length_name">Nhóm bằng tên</string>
+    <string name="media_fast_seek">Tua nhanh</string>
+    <string name="media_fast_seek_summary">Việc tua trong media sẽ nhanh hơn nhưng ít chính xác hơn</string>
+    <string name="video_transition_title">Chuyển cảnh giữa các video</string>
+    <string name="video_transition_summary">Hiện tên của video mới khi chuyển cảnh</string>
+    <string name="media_seen">Hiển thị nhãn video đã xem</string>
+    <string name="media_seen_summary">Đánh dấu video là đã xem khi bạn mở từ đầu đến cuối</string>
+    <string name="force_play_all_summary">Mở tất cả video, bắt đầu từ video mà bạn nhấp chuột vào</string>
+    <string name="force_play_all_title">Chế độ danh sách phát video</string>
+    <string name="save_brightness_summary">Giữ nguyên độ sáng giữa các mục media</string>
+    <string name="save_brightness_title">Lưu mức độ sáng</string>
+    <string name="save_audiodelay_summary">Lưu độ trễ âm thanh cho mỗi video riêng lẻ</string>
+    <string name="save_audiodelay_title">Lưu độ trễ âm thanh</string>
+    <string name="enable_brightness_gesture_title">Cử chỉ độ sáng</string>
+    <string name="enable_brightness_gesture_summary">Điều chỉnh độ sáng bằng cử động chạm nhẹ trong thời gian bật tập tin media</string>
+    <string name="enable_volume_gesture_title">Cử chỉ âm lượng</string>
+    <string name="enable_volume_gesture_summary">Điều chình âm lượng bằng cử chỉ trong khi phát video</string>
+    <string name="enable_seek_buttons">Nút tua</string>
+    <string name="enable_seek_buttons_summary">Hiện nút lùi và tiến trên giao diện video</string>
+    <string name="enable_double_tap_seek_title">Chạm đôi để tua</string>
+    <string name="enable_double_tap_seek_summary">Bấm hai lần ở hai góc màn hình để tua 10 giây</string>
+    <string name="popup_keepscreen_title">Giữ màn hình bật khi đang ở chế dộ cửa sổ</string>
+    <string name="popup_keepscreen_summary">Luôn giữ màn hình bật khi cửa sổ nhỏ hiện ra, kể cả khi video tạm dừng</string>
+    <string name="browser_show_hidden_files_title">Hiển thị các file đã ẩn</string>
+
+    <string name="subtitles_prefs_category">Phụ đề</string>
+    <string name="subtitles_size_title">Kích cỡ phụ đề</string>
+    <string name="subtitles_size_small">Nhỏ</string>
+    <string name="subtitles_size_normal">Bình thường</string>
+    <string name="subtitles_size_big">Lớn</string>
+    <string name="subtitles_size_huge">Cực lớn</string>
+    <string name="subtitles_color_title">Màu của phụ đề</string>
+    <string name="subtitles_color_white">Trắng</string>
+    <string name="subtitles_color_gray">Xám</string>
+    <string name="subtitles_color_pink">Hồng</string>
+    <string name="subtitles_color_blue">Xanh dương</string>
+    <string name="subtitles_color_yellow">Vàng</string>
+    <string name="subtitles_color_green">Xanh lá</string>
+    <string name="subtitles_background_title">Nền của phụ đề</string>
+    <string name="subtitles_bold_title">Bôi đậm phụ đề</string>
+    <string name="subtitles_autoload_title">Tự động tải phụ đề</string>
+
+    <string name="audio_prefs_category">Âm thanh</string>
+    <string name="lockscreen_cover_title">Hình nền media trên màn hình khóa</string>
+    <string name="lockscreen_cover_summary">Khi có thể, đặt hình đại diện của media làm nền màn hình khoá</string>
+    <string name="list_title_ellipsize">Hình elip tiêu đề danh sách một dòng</string>
+    <string name="list_title_ellipsize_default">Mặc định</string>
+    <string name="list_title_ellipsize_left">Bên trái</string>
+    <string name="list_title_ellipsize_right">Bên phải</string>
+    <string name="list_title_ellipsize_middle">Giữa</string>
+    <string name="list_title_ellipsize_marquee">Marquee</string>
+    <string name="audio_boost_title">Tăng cường độ âm thanh</string>
+    <string name="audio_boost_summary">Cho phép âm lượng lên đến 200%</string>
+    <string name="headset_prefs_category">Tai nghe</string>
+    <string name="enable_headset_detection">Phát hiện tai nghe</string>
+    <string name="enable_headset_detection_summary">Nhận diện khi tai nghe được cắm vào và rút ra</string>
+    <string name="enable_play_on_headset_insertion">Tiếp tục khi cắm tai nghe</string>
+    <string name="enable_play_on_headset_insertion_summary">Nếu không thì tạm dừng</string>
+    <string name="aout">Dữ liệu Audio xuất ra</string>
+    <string name="aout_summary">Thay đổi phương thức xuất âm thanh của VLC</string>
+    <string name="audio_ducking_title">Giảm âm lượng của VLC khi có thông báo</string>
+    <string name="audio_ducking_summary">Giúp bạn nghe các thông báo âm thanh, hướng dẫn điều hướng hoặc trợ lý nói</string>
+    <string name="casting_category">Truyền</string>
+    <string name="casting_switch_title">Truyền không dây</string>
+    <string name="casting_passthrough_title">Chuyển âm thanh qua</string>
+    <string name="casting_passthrough_summary">Để TV của bạn xử lý âm thanh</string>
+    <string name="casting_conversion_quality_title">Chất lượng chuyển đổi</string>
+    <string name="casting_conversion_quality_summary">Chọn chất lượng chuyển đổi khi truyền sang màn hình ở xa</string>
+    <string name="casting_quality_high">Cao</string>
+    <string name="casting_quality_medium">Vừa</string>
+    <string name="casting_quality_low">Thấp</string>
+    <string name="casting_quality_lowcpu">Thấp nhất</string>
+    <string name="casting_connected_renderer">Đã kết nối đến trình thông dịch \'%1$s\'</string>
+    <string name="artists_show_all_title">Hiện tất cả nghệ sĩ</string>
+
+    <string name="extensions_prefs_category">Phần mở rộng</string>
+    <string name="extensions_empty">Không tìm thấy phần mở rộng nào</string>
+    <string name="extension_permission_title">Kích hoạt phần mở rộng mới \"%1$s\"?</string>
+    <string name="extension_permission_checkbox_title">Hiển thị trong %1$s</string>
+    <string name="extension_prefs_activation_title">Kích hoạt</string>
+    <string name="android_auto">Android Auto</string>
+
+    <string name="controls_prefs_category">Điều khiển</string>
+
+    <string name="performance_prefs_category">Thể hiện</string>
+    <string name="chroma_format">Bắt buộc video hiển thị đơn sắc</string>
+    <string name="deblocking">Mở khóa với thiết lập liên quan đến bộ lọc</string>
+    <string name="deblocking_always">Mở khóa đầy đủ (chậm nhất)</string>
+    <string name="deblocking_nonref">Mở khóa trung bình</string>
+    <string name="deblocking_nonkey">Mở khóa thấp</string>
+    <string name="deblocking_all">Không mở khóa (nhanh nhất)</string>
+    <string name="enable_frame_skip">Bỏ qua khung hình</string>
+    <string name="enable_frame_skip_summary">Tăng tốc độ giải mã nhưng có thể làm giảm chất lượng video</string>
+    <string name="enable_time_stretching_audio">Thời gian giãn của audio</string>
+    <string name="enable_time_stretching_audio_summary">Tăng tốc và làm chậm âm thanh mà không thay đổi cao độ (yêu cầu một thiết bị nhanh)</string>
+
+    <string name="advanced_prefs_category">Nâng cao</string>
+    <string name="auto_rescan">Tự động quét lại</string>
+    <string name="auto_rescan_summary">Tự động quét sự thay đổi tập tin đa phương tiện trên thiết bị khi ứng dụng khởi động</string>
+    <string name="dump_media_db">Xuất cơ sở dữ liệu đa phương tiện</string>
+    <string name="dump_media_db_summary">Sao chép cơ sở dữ liệu vào gốc của bộ nhớ trong</string>
+    <string name="clear_media_db">Xóa thông tin đã lưu về các tập tin/file</string>
+    <string name="clear_media_database_summary">Xóa dữ liệu để bắt đầu lại từ đầu</string>
+    <string name="clear_history">Xóa lịch sử</string>
+    <string name="set_locale">Chọn ngôn ngữ</string>
+    <string name="network_caching">Dữ liệu tạm lưu thuộc mạng</string>
+    <string name="resume_playback_title">Tiếp tục phát sau cuộc gọi</string>
+    <string name="resume_playback_summary">Nếu không thì vẫn tạm dừng</string>
+    <string name="blurred_cover_background_title">Nền bìa được làm mờ</string>
+    <string name="network_caching_popup">Giá trị phải nằm giữa 0 và 6000 ms</string>
+    <string name="quit">Thoát và khởi động lại ứng dụng</string>
+    <string name="restart_message">Thay đổi sẽ được áp dụng sau khi ứng dụng khởi động lại.\n\nKhởi động lại ngay ?</string>
+    <string name="restart_message_OK">Đồng ý</string>
+    <string name="restart_message_Later">Lúc nữa</string>
+    <string name="browser_show_all_title">Hiển thị tất cả tập tin</string>
+
+    <string name="developer_prefs_category">Nhà phát triển</string>
+    <string name="enable_verbose_mode">Chế độ chi tiết</string>
+    <string name="enable_verbose_mode_summary">Tăng sự chi tiết (nhật ký)</string>
+    <string name="debug_logs">Nhật ký gỡ lỗi</string>
+    <string name="start_logging">Bắt đầu ghi nhật ký</string>
+    <string name="stop_logging">Dừng ghi nhật ký</string>
+    <string name="clear_log">Xoá nhật ký</string>
+    <string name="log_service_title">Đang ghi lại nhật ký của VLC</string>
+    <string name="copy_to_clipboard">Lưu vào bộ nhớ ảo</string>
+    <string name="copied_to_clipboard">Đã sao chép Nhật Ký vào bộ nhớ ảo.</string>
+    <string name="dump_logcat">Xuất nhật ký</string>
+    <string name="dump_logcat_success">Nhật ký được xuất thành công ra %1$s!</string>
+    <string name="dump_logcat_failure">Xuất nhật ký thất bại.</string>
+    <string name="custom_libvlc_options">Các tuỳ chọn libVLC tuỳ chỉnh</string>
+    <string name="custom_libvlc_options_invalid">Tuỳ chọn libVLC không hợp lệ!</string>
+
+    <string name="serious_crash">Không may mắn thay, một lỗi nghiêm trọng đã xảy ra và VLC đã phải đóng.</string>
+    <string name="help_us_send_log">Giúp chúng tôi cải thiện VLC bằng cách gửi nhật ký lỗi sau:</string>
+    <string name="restart_vlc">Khởi động lại VLC</string>
+    <string name="send_log">Gửi nhật ký</string>
+    <string name="sending_log">Đang gửi nhật ký...</string>
+
+    <string name="delete_sub_title">Xóa phụ đề</string>
+    <string name="delete_sub_message">Bạn có muốn xóa phụ đề này ?</string>
+    <string name="download_subtitle_title">Tải phụ đề</string>
+
+    <string name="no_result">Không tìm thấy kết quả</string>
+    <string name="no_internet_connection">Kiểm tra kết nối internet của bạn</string>
+    <string name="subs_download_error">Dịch vụ không có sẵn. Hãy thử lại sau</string>
+
+    <string name="network_browsing">Mạng cục bộ</string>
+    <string name="file_size">Kích thước tập tin</string>
+
+    <string name="audio_delay">Độ trễ Audio</string>
+    <string name="spu_delay">Độ trễ phụ đề</string>
+    <string name="network_empty">Thư mục rỗng</string>
+    <string name="network_connection_needed">Không có kết nối tới mạng cục bộ.</string>
+    <string name="search_hint">Tìm kiếm Tập tin</string>
+    <string name="search_in_list_hint">Tìm trong danh sách hiện tại</string>
+    <string name="search_global">Tìm kiếm trong tất cả thư viện</string>
+    <string name="playlist_save">Lưu danh sách phát</string>
+    <string name="playlist_name_hint">Tên danh sách phát</string>
+    <string name="go_to_chapter">Đi đến chương...</string>
+    <string name="chapter">Chương</string>
+    <string name="resume_from_position">Tiếp tục từ vị trí cuối</string>
+    <string name="confirm_resume">Tiếp tục từ vị trí cuối?</string>
+    <string name="confirm_resume_title">Tiếp tục các video đã phát</string>
+    <string name="tv_ui_title"> Giao Diện Android TV</string>
+    <string name="tv_ui_summary">Thay đổi giao diện người dùng thành chủ đề thích nghi với TV</string>
+    <string name="medialibrary">Thư viện đa phương tiện</string>
+
+    <!-- Accessibility -->
+    <string name="more_actions">Nhiều hành động hơn</string>
+    <string name="back_quit_lock">Ấn trở về một lần nữa để thoát</string>
+    <string name="stream_deleted">Đã xóa luồng</string>
+    <string name="no_subs_found">Không có phụ đề trong thư mục này</string>
+    <string name="music_now_playing">Đang Phát</string>
+
+    <!-- Widget -->
+    <string name="widget_name_w">Tiện ích VLC màu trắng</string>
+    <string name="widget_name_b">Tiện ích VLC màu tối</string>
+    <string name="allow_storage_access_title">Cho phép VLC truy cập tập tin âm thanh và video</string>
+    <string name="allow_storage_access_description">VLC cần bạn cấp quyền để truy cập tập tin đa phương tiện trên thiết bị.</string>
+    <string name="allow_settings_access_ringtone_title">Cho phép VLC đặt nhạc chuông</string>
+    <string name="allow_settings_access_ringtone_description">VLC cần bạn cấp quyền để đặt bài hát này làm nhạc chuông của bạn.</string>
+    <string name="allow_settings_access_brightness_title">Cho phép VLC thay đổi độ sáng</string>
+    <string name="allow_settings_access_brightness_description">VLC cần bạn cấp quyền để thay đổi độ sáng</string>
+    <string name="allow_draw_overlays_title">Cho phép trình phát VLC hiện lên trên các ứng dụng khác</string>
+    <string name="allow_sdraw_overlays_description">VLC cần bạn cấp quyền để hiển thị video dưới dạng cửa sổ trên các ứng dụng khác.</string>
+    <string name="permission_ask_again">Cấp quyền</string>
+    <string name="exit_app">Đóng VLC</string>
+    <string name="exit_app_msg">Bạn có chắc muốn thoát VLC ?</string>
+
+    <!-- Plugins -->
+    <string name="plugins">Tiện ích</string>
+    <string name="download_on_device">Tải về</string>
+    <string name="extension_empty">Không có mục nào để hiển thị, hãy đi đến cài đặt phần mở rộng của bạn để lấy một số.</string>
+
+    <string name="opengl_title">Sử dụng OpenGL ES2</string>
+    <string name="opengl_automatic">Tự động</string>
+    <string name="opengl_on">Buộc bật</string>
+    <string name="opengl_off">Buộc tắt</string>
+    <string name="network_shared_folders">Thư mục được chia sẻ</string>
+    <string name="encryption_warning">Cảnh báo, mã hóa không sẵn có với phiên bản Android này, mật khẩu sẽ được lưu trữ ở một vùng riêng nhưng không được mã hóa</string>
+    <string name="store_password">Lưu mật khẩu</string>
+    <string name="add_to_playlist">Thêm vào danh sách</string>
+    <string name="popup_playback_title">Phát video dưới dạng cửa sổ</string>
+    <string name="popup_playback">Đang phát dưới dạng cửa sổ</string>
+    <string name="popup_expand">Mở rộng video</string>
+    <string name="download_subtitles">Tải phụ đề</string>
+    <string name="browse_folder">Duyệt thư mục</string>
+    <string name="listen">Nghe</string>
+    <string name="save_bluetooth_delay">lưu độ trễ cho thiết bị bluetooth</string>
+    <string name="episodes">các tập</string>
+    <string name="movies">Các bộ phim</string>
+    <string name="videos">Video</string>
+    <string name="videos_all">Tất cả video</string>
+    <string name="clear_playback_history">Xóa lịch sử phát</string>
+    <string name="ml_scanning">Đang quét để tìm các tập tin đa phương tiện</string>
+    <string name="ml_discovering">Đang khám phá</string>
+    <string name="resume">Tiếp tục</string>
+    <string name="length">Độ dài</string>
+    <string name="tv_settings_hint">Nhấn giữ OK để đánh dấu/bỏ đánh dấu thư mục</string>
+    <string name="ml_external_storage_accept">Đồng ý</string>
+    <string name="ml_external_storage_decline">Không đồng ý</string>
+    <string name="auto_last_added_media">Lần cuối được thêm</string>
+    <string name="auto_my_library">Thư viện của tôi</string>
+    <string name="auto_home">Trang chủ</string>
+    <string name="no">Không đồng ý</string>
+    <string name="loading_medialibrary">Đang tải Thư viện đa phương tiện...</string>
+    <string name="yes">Đồng ý</string>
+
+    <string name="custom_set_save_title">Còn thay đổi chưa lưu</string>
+    <string name="custom_set_save_warning">Cảnh báo: còn thay đổi chưa lưu</string>
+    <string name="save">Lưu</string>
+    <string name="do_not_save">Không lưu</string>
+    <string name="custom_set_wrong_input">Tên không hợp lệ.</string>
+    <string name="equalizer_new_preset_name">Mới </string>
+    <string name="recommendations">Đề xuất</string>
+    <string name="recommendations_desc">Các thẻ đề xuất trên launcher</string>
+    <string name="browser_quick_access">Truy cập nhanh</string>
+    <string name="msg_delete_failed">Xoá phương tiện %1$s thất bại</string>
+    <string name="sdcard_permission_dialog_title">Bạn phải cấp quyền ghi thẻ nhớ của bạn cho VLC</string>
+    <string name="dialog_sd_wizard">Hiển thị</string>
+    <string name="renderers_disconnect">Ngắt kết nối</string>
+    <string name="playback_rewind">Tua lui</string>
+    <string name="playback_forward">Tua tới</string>
+    <string name="tv_my_new_videos">Video mới của tôi</string>
+    <string name="otg_device_title">Thiết bị OTG</string>
+    <string name="browser">Trình duyệt</string>
+    <string name="time_category_current_month">Tháng này</string>
+    <string name="time_category_current_year">Năm nay</string>
+    <string name="time_category_last_year">Năm trước</string>
+    <string name="rename">Đổi tên</string>
+    <string name="rename_media">Đổi tên %1$s</string>
+    <string name="manual_search">Tìm kiếm thủ công</string>
+    <string name="subtitle_search_name_hint">Tên</string>
+    <string name="subtitle_search_episode_hint">Tập</string>
+    <string name="subtitle_search_season_hint">Phần</string>
+    <string name="language_to_download">Ngôn ngữ</string>
+    <string name="delete_the_selected">Xóa mục đã chọn</string>
+    <string name="download_the_selected">Tải mục đã chọn</string>
+    <string name="next">Tiếp</string>
+    <string name="download">Tải về</string>
+    <string name="device_dialog_title">Thiết bị ngoài đã cắm vào</string>
+    <string name="videos_groups_title">Các nhóm video</string>
+    <string name="video_save_clone_mode">Tự động kích hoạt chế độ nhân bản?</string>
+    <string name="video_remote_disable">Nhân đôi màn hình</string>
+    <string name="welcome_title">Chào mừng đến với VLC!</string>
+    <string name="welcome_subtitle">Trình phát đa phương tiện tự do và mã nguồn mở</string>
+    <string name="permission_media">VLC cần bạn cấp quyền để truy cập tập tin đa phương tiện trên thiết bị</string>
+    <string name="onboarding_theme_title">Cứ tự nhiên như ở nhà</string>
+    <string name="done">Hoàn tất</string>
+    <string name="daynight_system_explanation">VLC sẽ tự động chuyển sang chế độ tối theo cài đặt hệ thống</string>
+    <string name="daynight_legacy_explanation">VLC sẽ tự động chuyển sang chế độ ban đêm tại thời gian phù hợp</string>
+    <string name="onboarding_scanning_enable">Để VLC quét thiết bị của tôi để tìm nội dung phương tiện</string>
+    <string name="onboarding_scan_customize">Để tôi chọn những thư mục VLC sẽ quét</string>
+    <string name="button_medialibrary_preferences">Đi đến cài đặt thư viện phương tiện</string>
+    <string name="light_theme">Chủ đề sáng</string>
+    <string name="add">Thêm</string>
+    <string name="add_to_new_playlist">Thêm vào danh sách</string>
+    <string name="resume_card_message">Tiếp tục phát %1$s?</string>
+    <string name="misc">Khác</string>
+    <string name="device_default">Mặc định của thiết bị</string>
+    <string name="jump_to">Nhảy đến</string>
+    <string name="enable_equalizer">Bật</string>
+    <string name="reset">Đặt lại</string>
+    <string name="remove_current">Xóa hiện tại</string>
+    <string name="validation_delete_playlist">Bạn có chắc bạn muốn xoá danh sách phát này không?</string>
+    <string name="validation_delete_playlist_text">Hành động này không thể được hoàn tác.</string>
+    <string name="display_in_list">Hiển thị dạng danh sách</string>
+    <string name="display_in_grid">Hiển thị dạng lưới</string>
+    <string name="dump_db_succes">Cơ sở dữ liệu đã xuất ra gốc của bộ nhớ trong</string>
+    <string name="dump_db_failure">Xuất cơ sở dữ liệu thất bại</string>
+    <string name="send_crash_title">Trình báo cáo lỗi của VLC</string>
+    <string name="send_crash_warning">Hãy chắc chắn bạn đã xoá bất kỳ dữ liệu nhạy cảm nào bạn không muốn gửi.</string>
+    <string name="include_medialib">Bao gồm cơ sở dữ liệu của bạn</string>
+    <string name="send">Gửi</string>
+    <string name="send_crash_action_title">Bạn muốn làm gì?</string>
+    <string name="report_a_bug">Báo cáo lỗi</string>
+    <string name="report_a_crash">Báo cáo một lỗi</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="always">Luôn luôn</string>
+    <string name="never">Không bao giờ</string>
+    <string name="ask_confirmation">Hỏi xác nhận</string>
+    <string name="add_to_scanned">Quét thư mục này</string>
+    <string name="video_group_size_summary">Nhóm theo %s chữ cái đầu</string>
+    <string name="url_copied_to_clipboard">URL đã được sao chép vào bộ nhớ</string>
+    <string name="share">Chia sẻ</string>
+    <string name="invalid_file">Tập tin không hợp lệ. Không thể chia sẻ.</string>
+    <string name="share_file">Chia sẻ %s</string>
+    <string name="share_message">Đây là %s</string>
+    <string name="moviepedia_result">Kết quả video</string>
+    <string name="directed_by">Được đạo diễn bởi</string>
+    <string name="produced_by">Được sản xuất bởi</string>
+    <string name="written_by">Được viết bởi</string>
+    <string name="music_by">Nhạc bởi</string>
+    <string name="posters">Áp phích</string>
+    <string name="header_tvshows">Chương trình TV</string>
+    <string name="header_movies">Phim</string>
+    <string name="season_number">Mùa %s</string>
+    <string name="resume_episode">Tiếp tục (%s)</string>
+    <string name="start_over">Bắt đầu lại từ đầu</string>
+    <string name="next_episode">Tập tiếp theo</string>
+    <string name="open_network_settings">Mở cài đặt mạng ?</string>
+    <string name="recently_played">Xem gần đây</string>
+    <string name="recently_added">Được thêm gần đây</string>
+    <string name="abrepeat_add_first_marker">Đặt điểm bắt đầu</string>
+    <string name="abrepeat_add_second_marker">Đặt điểm kết thúc</string>
+    <string name="video_information">Thông tin video</string>
+
+    <string name="channels">Kênh</string>
+    <string name="resolution">Độ phân giải</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="audio_queue_progress">Tiến triển: %s</string>
+    <string name="audio_queue_progress_finished">Kết thúc ở: %s</string>
+    <string name="this_folder">Thêm thư mục này</string>
+    <string name="all_subfolders">Thêm thư mục này và các thư mục con</string>
+    <string name="playlist_existing">Danh sách %s đã tồn tại</string>
+    <string name="browse">Duyệt</string>
+    <string name="more">Thêm</string>
+    <string name="favorites">Yêu thích</string>
+    <string name="add_to_group">Thêm vào nhóm video</string>
+    <string name="remove_from_group">Xóa khỏi nhóm video</string>
+    <string name="rename_group">Đổi tên nhóm video</string>
+    <string name="ungroup">Bỏ nhóm</string>
+    <string name="group_similar">Tự động nhóm lại</string>
+    <string name="no_favorite">Không có yêu thích</string>
+    <string name="empty_directory">Trống</string>
+    <string name="swipe_unlock">Vuốt để mở khóa</string>
+    <string name="swipe_unlock_no_touch">Ấn lâu để mở khóa</string>
+    <string name="sub_result_by_name">Kết quả cho %s</string>
+    <string name="sub_result_by_name_season">Phần 1%s</string>
+    <string name="sub_result_by_name_episode">Tập 1%s</string>
+
+    <string name="sub_result_by_file">Kết quả cho tệp của bạn</string>
+    <string name="donate">Giúp VLC</string>
+    <string name="donate_desc">Hỗ trợ những người tình nguyện đang xây dựng VLC</string>
+    <string name="donate_subscribtion">Tôi muốn điều này là sự tài trợ hàng tháng</string>
+    <string name="donate_send">Bắt đầu sự tài trợ của bạn</string>
+    <string name="donation_description">Sự tài trợ của bạn sẽ cho phép chúng tôi:\nCải thiện ứng dụng VLC cho Android\nHỗ trợ Tổ chức VideoLAN</string>
+    <string name="subscription_purchased">Bạn đã đăng ký sự tài trợ hàng tháng</string>
+    <string name="subscription_cancel">Bạn có thể hủy đăng ký theo dõi trên CH Play</string>
+    <string name="subscription_cancel_tv">Làm sao để hủy đăng ký theo dõi</string>
+    <string name="donate_unsubscribe_tv">Để hủy đăng ký, hãy mở %s trên điện thoại hoặc máy tính hoặc quét mã này:</string>
+    <string name="tip_jar">Giúp VLC</string>
+    <string name="thank_you">Cảm ơn bạn</string>
+    <string name="donate_again">Tài trợ lại ứng dụng</string>
+
+    <string name="mark_as_played">Đánh dấu là đã phát</string>
+    <string name="mark_all_as_played">Đánh dấu tất cả là đã phát</string>
+    <string name="new_group">Nhóm mới</string>
+    <string name="new_group_desc">Tạo một nhóm mới</string>
+
+    <string name="air_action_rewind">Tua lui 10 giây</string>
+    <string name="air_action_forward">Tua tới 10 giây</string>
+    <string name="air_action_play_pause">Tạm dừng/Tiếp tục phát</string>
+    <string name="air_action_volume_up">Tăng âm lượng</string>
+    <string name="air_action_volume_down">Giảm âm lượng</string>
+    <string name="air_action_next">Mục tiếp theo trong danh sách</string>
+    <string name="air_action_previous">Mục trước trong danh sách</string>
+    <string name="allow_otg">Cho phép truy cập OTG</string>
+    <string name="timeout_infinite">Vô hạn</string>
+    <string name="timeout_short">Ngắn</string>
+    <string name="timeout_normal">Bình thường</string>
+    <string name="timeout_long">Dài</string>
+    <string name="video_hud_timeout">Thời gian ẩn giao diện điều khiển của trình phát video</string>
+    <string name="remove_from_history">Xóa khỏi lịch sử</string>
+    <string name="prefersmbv1">Ưu tiên SMB 1</string>
+    <string name="apply_to_all">Áp dụng với toàn bộ video</string>
+    <string name="no_sub_renderer">Phụ đề chưa được hỗ trợ trong khi truyền</string>
+    <string name="search_prefs">Tìm kiếm cài đặt</string>
+
+</resources>

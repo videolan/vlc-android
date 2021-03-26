@@ -23,7 +23,6 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Album
@@ -67,4 +66,4 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-internal fun AudioAlbumsSongsFragment.getViewModel(item : MediaLibraryItem) = ViewModelProviders.of(requireActivity(), AlbumSongsViewModel.Factory(requireContext(), item)).get(AlbumSongsViewModel::class.java)
+internal fun AudioAlbumsSongsFragment.getViewModel(item : MediaLibraryItem) = ViewModelProvider(requireActivity(), AlbumSongsViewModel.Factory(requireContext(), item)).get(AlbumSongsViewModel::class.java)
