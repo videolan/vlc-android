@@ -765,5 +765,4 @@
     <string name="enqueuing">Läser in dina mediafiler</string>
     <string name="soundfont">MIDI-soundfont</string>
     <string name="soundfont_summary">Välj en soundfont-fil att spela upp midi-ljudspår</string>
-
 </resources>

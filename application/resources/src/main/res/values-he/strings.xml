@@ -787,5 +787,4 @@
     <string name="enqueuing">פרטי המדיה שלך נטענים</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">נא לבחור קובץ SoundFont כדי לנגן רצועות שמע מסוג MIDI</string>
-
 </resources>

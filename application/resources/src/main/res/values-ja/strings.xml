@@ -752,5 +752,4 @@
     <string name="go_to_folder">親をブラウズ</string>
     <string name="no_sub_renderer">キャスト中の字幕はまだサポートされていません</string>
     <string name="enqueuing">メディアを読み込み中</string>
-
 </resources>

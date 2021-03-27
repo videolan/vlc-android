@@ -765,5 +765,4 @@
     <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Trieu un fitxer SoundFont per reproduir pistes d\'àudio MIDI</string>
-
 </resources>

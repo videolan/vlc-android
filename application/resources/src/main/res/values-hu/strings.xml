@@ -765,5 +765,4 @@
     <string name="enqueuing">Médiafájlok betöltése</string>
     <string name="soundfont">MIDI Hangminta készlet</string>
     <string name="soundfont_summary">Válasszon ki egy hangminta készletet MIDI hangsávok lejátszásához</string>
-
 </resources>

@@ -765,5 +765,4 @@
     <string name="enqueuing">Hleð inn margmiðlunargögnunum þínum</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Veldu SoundFont-skrá til að spila midi-hljóðspor</string>
-
 </resources>

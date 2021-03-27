@@ -750,5 +750,4 @@
     <string name="warning_stream_speed">Peningkatan kelajuan main balik melebihi 1 untuk strim boleh menyebabkan kegagapan</string>
     <string name="go_to_folder">Layar induk</string>
     <string name="no_sub_renderer">Sari kata belum disokong ketika casting</string>
-
 </resources>

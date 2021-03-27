@@ -787,5 +787,4 @@
     <string name="enqueuing">Nalaganje vsebin</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Za predvajanje midi zvočnih vsebin izberite datoteko SoundFont</string>
-
 </resources>

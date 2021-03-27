@@ -787,5 +787,4 @@
     <string name="enqueuing">Завантаження ваших медіафайлів</string>
     <string name="soundfont">Звуковий шрифт MIDI</string>
     <string name="soundfont_summary">Підберіть файл звукового шрифту для відтворення аудіо доріжок midi</string>
-
 </resources>
