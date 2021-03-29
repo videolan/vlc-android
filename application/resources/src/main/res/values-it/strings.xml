@@ -765,6 +765,10 @@
     <string name="enqueuing">Caricamento dei tuoi supporti</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Scegli un file SoundFont per riprodurre le tracce audio midi</string>
-    <string name="search_prefs">Impostazioni Ricerca</string>
+    <string name="search_prefs">Impostazioni di ricerca</string>
+    <string name="preferred_resolution">Risoluzione video preferita</string>
+    <string name="preferred_resolution_summary">La massima qualità video per i flussi, se applicabile, sarà: %s</string>
+    <string name="pref_resolution_best_available">Migliore disponibile</string>
+    <string name="pref_resolution_very_low">Bassissima definizione (240p)</string>
 
 </resources>
