@@ -766,5 +766,9 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Sélectionnez un fichier SoundFont pour jouer les pistes audio MIDI</string>
     <string name="search_prefs">Paramètres de recherche</string>
+    <string name="preferred_resolution">Résolution vidéo préférée</string>
+    <string name="preferred_resolution_summary">La qualité vidéo maximale pour les flux, le cas échéant, sera : %s</string>
+    <string name="pref_resolution_best_available">Le meilleur possible</string>
+    <string name="pref_resolution_very_low">Très basse définition (240p)</string>
 
 </resources>
