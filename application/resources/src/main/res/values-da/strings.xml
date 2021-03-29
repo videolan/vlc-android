@@ -766,5 +766,9 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vælg en SoundFont fil for at afspille MIDI lydspor</string>
     <string name="search_prefs">Indstillinger for søgning</string>
+    <string name="preferred_resolution">Foretrukken video opløsning</string>
+    <string name="preferred_resolution_summary">Maksimal video kvalitet for strømme, når det er relevant, vil være: %s</string>
+    <string name="pref_resolution_best_available">Bedst tilgængelig</string>
+    <string name="pref_resolution_very_low">Meget lav opløsning (240p)</string>
 
 </resources>
