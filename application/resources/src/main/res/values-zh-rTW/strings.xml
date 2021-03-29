@@ -755,5 +755,9 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">挑選 SoundFont 檔案來播放 midi 音訊軌</string>
     <string name="search_prefs">搜尋設定</string>
+    <string name="preferred_resolution">偏好的視訊解析度</string>
+    <string name="preferred_resolution_summary">若可用的話，串流的最大視訊品質將為：%s</string>
+    <string name="pref_resolution_best_available">最佳可用</string>
+    <string name="pref_resolution_very_low">超低畫質 (240p)</string>
 
 </resources>
