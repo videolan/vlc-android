@@ -787,4 +787,10 @@
     <string name="enqueuing">Завантаження ваших медіафайлів</string>
     <string name="soundfont">Звуковий шрифт MIDI</string>
     <string name="soundfont_summary">Підберіть файл звукового шрифту для відтворення аудіо доріжок midi</string>
+    <string name="search_prefs">Налаштування пошуку</string>
+    <string name="preferred_resolution">Бажана роздільна здатність</string>
+    <string name="preferred_resolution_summary">Максимальна якість відео для потоків, коли застосовна, буде: %s</string>
+    <string name="pref_resolution_best_available">Найкраща доступна</string>
+    <string name="pref_resolution_very_low">Дуже низька якість (240p)</string>
+
 </resources>
