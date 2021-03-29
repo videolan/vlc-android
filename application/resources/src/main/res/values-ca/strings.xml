@@ -765,4 +765,10 @@
     <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Trieu un fitxer SoundFont per reproduir pistes d\'àudio MIDI</string>
+    <string name="search_prefs">Configuració de cerca</string>
+    <string name="preferred_resolution">Resolució de vídeo preferida</string>
+    <string name="preferred_resolution_summary">La qualitat màxima de vídeo per a fluxos, quan pertoqui, serà: %s</string>
+    <string name="pref_resolution_best_available">El millor disponible</string>
+    <string name="pref_resolution_very_low">Definició molt baixa (240p)</string>
+
 </resources>
