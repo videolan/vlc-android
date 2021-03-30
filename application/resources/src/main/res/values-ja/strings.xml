@@ -752,4 +752,12 @@
     <string name="go_to_folder">親をブラウズ</string>
     <string name="no_sub_renderer">キャスト中の字幕はまだサポートされていません</string>
     <string name="enqueuing">メディアを読み込み中</string>
+    <string name="soundfont">MIDIサウンドフォント</string>
+    <string name="soundfont_summary">MIDIオーディオトラック再生のためにサウンドフォントファイルを選択する</string>
+    <string name="search_prefs">検索設定</string>
+    <string name="preferred_resolution">優先するビデオの解像度</string>
+    <string name="preferred_resolution_summary">ストリーム用の最大ビデオ品質が有効時%sになります。</string>
+    <string name="pref_resolution_best_available">利用可能な最高値</string>
+    <string name="pref_resolution_very_low">かなり低い解像度(240p)</string>
+
 </resources>
