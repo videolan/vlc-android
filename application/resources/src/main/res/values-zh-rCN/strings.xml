@@ -755,5 +755,9 @@
     <string name="soundfont">MIDI 音色库</string>
     <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
     <string name="search_prefs">搜索设置</string>
+    <string name="preferred_resolution">首选视频分辨率</string>
+    <string name="preferred_resolution_summary">可适用的流媒体播放最高视频分辨率为：%s</string>
+    <string name="pref_resolution_best_available">可用的最佳质量</string>
+    <string name="pref_resolution_very_low">极低清晰度 (240 p)</string>
 
 </resources>
