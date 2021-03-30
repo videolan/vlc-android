@@ -787,4 +787,10 @@
     <string name="enqueuing">פרטי המדיה שלך נטענים</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">נא לבחור קובץ SoundFont כדי לנגן רצועות שמע מסוג MIDI</string>
+    <string name="search_prefs">חיפוש בהגדרות</string>
+    <string name="preferred_resolution">רזולוציית הווידאו המועדפת</string>
+    <string name="preferred_resolution_summary">איכות הווידאו המרבית לתזרימים, כשזאת אכן משפיעה, תהיה: %s</string>
+    <string name="pref_resolution_best_available">המיטבית ביותר הזמינה</string>
+    <string name="pref_resolution_very_low">איכות נמוכה במיוחד (240p)</string>
+
 </resources>
