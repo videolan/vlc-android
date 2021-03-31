@@ -431,7 +431,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
         val titleIdx = player.getTitleIdx()
-        val chapterIdx = player.getChapterIdx()
         val currentMedia = getCurrentMedia() ?: return@launch
         if (currentMedia.uri.scheme == "fd") return@launch
         //Save progress

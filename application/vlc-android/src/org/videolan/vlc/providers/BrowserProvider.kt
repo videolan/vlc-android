@@ -338,7 +338,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) return withContext(coroutineContextProvider.IO) {
-            medialibrary.getMedia(uri) ?: mw
+            medialibrary.getMedia(uri).apply { if (this != null && this.artworkURL.isNullOrEmpty() && mw.artworkURL?.isNotEmpty() == true) this.artworkURL = mw.artworkURL } ?: mw
         }
         return mw
     }
