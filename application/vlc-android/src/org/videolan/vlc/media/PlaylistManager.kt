@@ -73,6 +73,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
+    private var lastPrevious = -1L
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
@@ -260,7 +261,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun previous(force : Boolean) {
         if (hasPrevious() && currentIndex > 0 &&
-                (force || !player.seekable || player.getCurrentTime() < PREVIOUS_LIMIT_DELAY)) {
+                ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious <  PREVIOUS_LIMIT_DELAY)))) {
             val size = mediaList.size()
             currentIndex = prevIndex
             if (previous.size > 0) previous.pop()
@@ -270,7 +271,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             launch { playIndex(currentIndex) }
-        } else player.setPosition(0F)
+            lastPrevious = -1L
+        } else {
+            player.setPosition(0F)
+            lastPrevious = System.currentTimeMillis()
+        }
     }
 
     @MainThread
