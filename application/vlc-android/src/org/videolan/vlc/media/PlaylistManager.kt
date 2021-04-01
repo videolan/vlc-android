@@ -450,7 +450,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val media = medialibrary.findMedia(currentMedia) ?: return@launch
             if (media.id == 0L) return@launch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
-            if (media.title != currentMedia.title) media.rename(currentMedia.title)
             if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
                 var progress = time / length.toFloat()
                 if (progress > 0.95f || length - time < 10000) {
@@ -888,6 +887,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                             entryUrl = null
                         }
                     } else medialibrary.addMedia(mw.uri.toString(), mw.length)
+                    getCurrentMedia()?.let {currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
                     if (internalMedia != null) id = internalMedia.id
                 }
             }
