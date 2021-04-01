@@ -785,6 +785,12 @@
     <string name="go_to_folder">Перейти наверх</string>
     <string name="no_sub_renderer">Субтитры не подерживаются во время трансляции</string>
     <string name="enqueuing">Загрузка ваших медиафайлов</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Выберите файл SoundFont для проигрывания аудио-файлов  MIDI</string>
     <string name="search_prefs">Настройки поиска</string>
+    <string name="preferred_resolution">Предпочитаемое разрешение видео</string>
+    <string name="preferred_resolution_summary">Максимальное качество видео для трансляций по возможности будет: %s</string>
+    <string name="pref_resolution_best_available">Максимально возможное</string>
+    <string name="pref_resolution_very_low">Очень низкое разрешение (240 строк)</string>
 
 </resources>
