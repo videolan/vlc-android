@@ -32,7 +32,7 @@
             android:strokeAlpha="1"
             android:strokeLineJoin="round"
             android:strokeWidth="6"
-            android:fillColor="#000000"
+            android:fillColor="?attr/font_audio_light"
             android:strokeColor="#00000000"
             android:fillAlpha="1"
             android:strokeLineCap="round" />
