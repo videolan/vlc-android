@@ -76,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
+                    vlc:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded.Shadow"
                     vlc:title="@{item.title}"
                     vlc:theme="@style/Toolbar.VLC"
                     vlc:contentScrim="?attr/background_actionbar"

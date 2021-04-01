@@ -492,7 +492,7 @@
         <item name="colorControlNormal">@color/grey700</item>
     </style>
 
-    <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow">
+    <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:shadowDy">0</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowRadius">4</item>
