@@ -437,6 +437,13 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="Theme.VLC.NoStatus" parent="Theme.VLC">
+        <item name="android:windowTranslucentStatus"  tools:targetApi="lollipop">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
     <style name="VLC.TextView" parent="android:Widget.TextView">
         <item name="android:textDirection">locale</item>
     </style>
