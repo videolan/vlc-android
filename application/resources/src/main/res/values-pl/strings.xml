@@ -788,5 +788,9 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Wybierz plik SoundFont, aby odtwarzać ścieżki dźwiękowe midi</string>
     <string name="search_prefs">Szukaj w ustawieniach</string>
+    <string name="preferred_resolution">Preferowana rozdzielczość obrazu</string>
+    <string name="preferred_resolution_summary">Maksymalna jakość wideo dla strumieni, jeśli jest obsługiwana, będzie wynosić: %s</string>
+    <string name="pref_resolution_best_available">Najlepsza dostępna</string>
+    <string name="pref_resolution_very_low">Bardzo niska rozdzielczość (240p)</string>
 
 </resources>
