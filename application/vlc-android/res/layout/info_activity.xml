@@ -347,19 +347,19 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/list"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        vlc:layout_constraintTop_toBottomOf="@+id/extra_icon"
-                        vlc:layout_constraintStart_toStartOf="parent"
-                        vlc:layout_constraintEnd_toEndOf="parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
                         android:clipToPadding="false"
                         android:overScrollMode="never"
                         android:paddingBottom="@dimen/listview_bottom_padding"
                         android:visibility="@{item.itemType == MediaLibraryItem.TYPE_MEDIA ? View.VISIBLE : View.INVISIBLE}"
-                        android:layout_marginBottom="16dp"
                         vlc:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp" />
+                        vlc:layout_constraintEnd_toEndOf="parent"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintTop_toBottomOf="@+id/extra_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
