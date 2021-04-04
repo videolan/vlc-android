@@ -766,5 +766,9 @@
     <string name="soundfont">Αρχείο MIDI SoundFont</string>
     <string name="soundfont_summary">Επιλέξτε ένα αρχείο SoundFont για αναπαραγωγή κομματιών ήχου midi</string>
     <string name="search_prefs">Ρυθμίσεις αναζήτησης</string>
+    <string name="preferred_resolution">Προτιμώμενη ανάλυση βίντεο</string>
+    <string name="preferred_resolution_summary">Η μέγιστη ανάλυση μεταδόσεων, αν αυτή είναι δυνατή, θα είναι: %s</string>
+    <string name="pref_resolution_best_available">Βέλτιστη διαθέσιμη</string>
+    <string name="pref_resolution_very_low">Πολύ χαμηλή ανάλυση (240p)</string>
 
 </resources>
