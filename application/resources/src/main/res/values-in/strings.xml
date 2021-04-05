@@ -661,11 +661,14 @@
     <string name="clear_media_db_warning">Perkembangan dan daftar putar yang sudah anda buat akan hilang.\n1%s</string>
     <string name="abrepeat_add_first_marker">Set titik mulai</string>
     <string name="abrepeat_add_second_marker">Set titik akhir</string>
+    <string name="demux_bitrate">Bitrate demux</string>
+    <string name="input_bitrate">Bitrate masukan</string>
     <string name="video_information">Informasi video</string>
 
     <string name="channels">Kanal</string>
     <string name="resolution">Resolusi</string>
     <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Framerate</string>
     <string name="framerate_value">%1$.3f</string>
     <string name="bitrate_value">%1$s/dtk</string>
     <string name="language">Bahasa</string>
@@ -744,9 +747,14 @@
     <string name="prefersmbv1_summary">Hapus cek pengaturan ini jika anda telah memiliki kesulitan telusuri server SMB anda</string>
     <string name="apply_to_all">Terapkan ke semua video</string>
     <string name="audio_delay_global">Penundaan audio diset ke %s ms untuk semua video</string>
+    <string name="go_to_folder">Telusuri induk</string>
     <string name="no_sub_renderer">Terjemahan tidak dapat mendukung ketika panggilan peran</string>
     <string name="enqueuing">Memuat media anda</string>
+    <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Pilih berkas SoundFont untuk mulai trek audio midi</string>
     <string name="search_prefs">Pengaturan pencarian</string>
+    <string name="preferred_resolution">Resolusi video yang dipilih</string>
+    <string name="pref_resolution_best_available">Yang terbaik yang tersedia</string>
+    <string name="pref_resolution_very_low">Definisi yang sangat rendah (240p)</string>
 
 </resources>
