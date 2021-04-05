@@ -14,7 +14,7 @@
     <string name="sortby_date">თარიღი</string>
     <string name="sortby_last_modified_date">ბოლოს დამატებული</string>
     <string name="sortby_media_number">მედიაფაილის ნომერი</string>
-    <string name="sortby_number">NB ჩანაწერები</string>
+    <string name="sortby_number">ჩანაწერის ნომერი</string>
     <string name="searchable_hint">ძიება…</string>
     <string name="history">ისტორია</string>
 
@@ -25,35 +25,35 @@
 
     <string name="play">გაშვება</string>
     <string name="playback">დაკვრა</string>
-    <string name="playback_controls">დაკვრის კონტროლები</string>
+    <string name="playback_controls">დაკვრის სამართავი</string>
     <string name="medialibrary_scan">მედიათეკის სკანირება</string>
     <string name="Medialibrary_progress">მედიათეკის სკანირების პროცესის განახლებები</string>
-    <string name="play_from_start">დაუკარი დასაწყისიდან</string>
+    <string name="play_from_start">დასაწყისიდან გაშვება</string>
     <string name="play_as_audio">ხმოვან ფაილად გაშვება</string>
     <string name="play_as_video">ვიდეოფაილად გაშვება</string>
-    <string name="video_app_switch_title">ფონური/PiP რეჟიმი</string>
-    <string name="video_app_switch_summary">შეარჩიეთ VLC-ის ქცევა, როდესაც თქვენ გადახვალთ სხვა აპლიკაციაზე ვიდეოს დაკვრიდან.</string>
-    <string name="play_pip_title">ვიდეოს გაშვება ეკრანი-ეკრანში რეჟიმში</string>
+    <string name="video_app_switch_title">ფონური/ეკრანი-ეკრანში</string>
+    <string name="video_app_switch_summary">აირჩიეთ, როგორ მოიქცეს VLC, გაშვებული ვიდეოდან სხვა პროგრამაზე გადასვლისას</string>
+    <string name="play_pip_title">ვიდეოს გაშვება ეკრანი-ეკრანში</string>
     <string name="play_as_audio_background">ვიდეოს გაშვება ფონურად</string>
     <string name="append">დამატება</string>
     <string name="insert_next">შემდეგის ჩამატება</string>
-    <string name="play_all">ყველას დაკვრა</string>
+    <string name="play_all">ყველას გაშვება</string>
     <string name="append_all">ყველას დამატება</string>
     <string name="resume_playback_short_title">დაკვრის გაგრძელება</string>
-    <string name="resume_playback_long_title">ბოლო დასაკრავი სიის დაკვრის გაგრძელება</string>
+    <string name="resume_playback_long_title">გაგრძელება, ბოლოს გაშვებული სიიდან</string>
     <string name="delete">წაშლა</string>
     <string name="remove">მოცილება</string>
     <string name="set_song">ზარად დაყენება</string>
-    <string name="set_song_question">გსურთ \'%1$s\' დააყენოთ ზარის ხმად?</string>
+    <string name="set_song_question">გსურთ „%1$s“ მიეთითოს ზარის ხმად?</string>
     <string name="info">მონაცემები</string>
-    <string name="confirm_delete">წაიშალოს ფაილი \'%1$s\'?</string>
-    <string name="confirm_delete_album">წაიშალოს ალბომი \'%1$s\'?</string>
-    <string name="confirm_delete_several_media">წაიშალოს %1$d მედიაფაილები?</string>
-    <string name="confirm_delete_folder">წაიშალოს საქაღლდე \'%1$s\' თავისი შიგთავსით?</string>
-    <string name="confirm_delete_playlist">წაიშალოს სია \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">მოცილდეს \'%1$s\' სიიდან?</string>
-    <string name="ringtone_set">ფაილი \'%1$s\' დაყენებულია ზარის ხმად.</string>
-    <string name="ringtone_error">შეცდომა ზარის ხმის დაყენებისას.</string>
+    <string name="confirm_delete">წაიშალოს ფაილი „%1$s“?</string>
+    <string name="confirm_delete_album">წაიშალოს ალბომი „%1$s“?</string>
+    <string name="confirm_delete_several_media">წაიშალოს %1$d მედიაფაილი?</string>
+    <string name="confirm_delete_folder">წაიშალოს საქაღლდე „%1$s“ შიგთავსიანად?</string>
+    <string name="confirm_delete_playlist">წაიშალოს სია „%1$s“?</string>
+    <string name="confirm_remove_from_playlist">მოცილდეს „%1$s“ სიიდან?</string>
+    <string name="ringtone_set">ფაილი „%1$s“ მიეთითა ზარის ხმად.</string>
+    <string name="ringtone_error">შეცდომა ზარის ხმის მითითებისას.</string>
     <string name="pause">შეჩერება</string>
     <string name="unknown_artist">უცნობი შემსრულებელი</string>
     <string name="unknown_album">უცნობი ალბომი</string>
@@ -106,10 +106,10 @@
     <string name="directories">საქაღალდეები</string>
     <string name="loading">იტვირთება</string>
     <string name="please_wait">გთხოვთ, მოითმინოთ...</string>
-    <string name="nomedia">მედია ფაილები არაა ნაპოვნი, გთხოვთ გადაიტანეთ ფაილები თქვენს მოწყობილობაზე ან შეასწორეთ არჩევითი პარამეტრები.</string>
+    <string name="nomedia">მედიაფაილები არ მოიძებნა, გთხოვთ გადაიტანოთ ფაილების ნაწილი თქვენს მოწყობილობაზე ან შეასწოროთ პარამეტრები.</string>
     <string name="noplaylist">დასაკრავი სია ვერ მოიძებნა.</string>
     <string name="nosubfolder">ქვესაქაღალდე არაა</string>
-    <string name="directorynotfound">დირექტორიის მისამართი \'%1$s\' არაა ნაპოვნი.</string>
+    <string name="directorynotfound">საქაღალდის მისამართი „%1$s“ არ მოიძებნა.</string>
     <string name="nohistory">თქვენ არ გაქვთ დაკვრის ისტორია.</string>
     <string name="validation">დარწმუნებული ხართ?</string>
 
@@ -119,22 +119,22 @@
     <string name="shuffle">არევა გამორთულია</string>
     <string name="shuffle_on">არევა ჩართულია</string>
     <string name="repeat_title">გამეორების რეჟიმი</string>
-    <string name="repeat">არაფრის გამეორება</string>
+    <string name="repeat">გამეორების გარეშე</string>
     <string name="repeat_single">ერთის გამეორება</string>
     <string name="repeat_all">ყველას გამეორება</string>
     <string name="previous">წინა</string>
-    <string name="stop">გაჩერება</string>
-    <string name="firstsong">დასაკრავი სიის პირველი მუსიკა</string>
-    <string name="lastsong">დასაკრავი სიის ბოლო მუსიკა</string>
+    <string name="stop">შეწყვეტა</string>
+    <string name="firstsong">დასაკრავი სიიდან პირველი</string>
+    <string name="lastsong">დასაკრავი სიიდან ბოლო</string>
 
     <string name="surface_best_fit">საუკეთესო მორგება</string>
     <string name="surface_fit_screen">ეკრანზე მორგება</string>
     <string name="surface_fill">შევსება</string>
-    <string name="surface_original">ცენტრში</string>
-    <string name="unseekable_stream">არმოძებნადი ნაკადი</string>
-    <string name="refresh">განახლება</string>
-    <string name="track_audio">აუდიო ჩანაწერი</string>
-    <string name="track_video">ვიდეო ჩანაწერი</string>
+    <string name="surface_original">შუაში</string>
+    <string name="unseekable_stream">გადახვევის არმქონე ნაკადი</string>
+    <string name="refresh">გაახლება</string>
+    <string name="track_audio">ხმოვანი ჩანაწერი</string>
+    <string name="track_video">ვიდეოჩანაწერი</string>
     <string name="track_text">ტიტრების ჩანაწერი</string>
     <string name="track_unknown">უცნობი ჩანაწერი</string>
     <string name="track_bitrate_info">ბიტსიხშირე: %1$s/s\n</string>
@@ -143,7 +143,7 @@
     <string name="volume">ხმის დონე</string>
     <string name="sound_on">ხმა ჩართულია</string>
     <string name="sound_off">ხმა გამორთულია</string>
-    <string name="brightness">განათება</string>
+    <string name="brightness">სიკაშკაშე</string>
     <string name="advanced">დამატებითი პარამეტრები</string>
     <string name="audio_boost_warning">აუსვით თითი მაღლა რომ გაცდეთ 100%-ს.</string>
 
@@ -160,7 +160,7 @@
     <string name="playback_speed">დაკვრის სიჩქარე</string>
     <string name="sleep_title">ძილის ტაიმერი</string>
     <string name="sleep_in">დაიძინოს</string>
-    <string name="jump_to_time">დროზე გადახტომა</string>
+    <string name="jump_to_time">გადასვლა დროზე</string>
     <string name="subtitle_select">აირჩიეთ ტიტრების ფაილი</string>
 
     <string name="server_add_title">დაამატე ახალი სერვერი ფავორიტებში</string>
@@ -170,7 +170,7 @@
     <string name="server_username_hint">მომხმარებლის სახელი</string>
     <string name="server_servername_hint">სერვერის სახელი, მოხერხებულობისათვის.</string>
     <string name="server_port">პორტი:</string>
-    <string name="login">ლოგინი</string>
+    <string name="login">ანგარიში</string>
     <string name="password">პაროლი</string>
 
     <string name="search_no_result">მედია არაა ნაპოვნი</string>
@@ -208,34 +208,34 @@
     <string name="ok_got_it">გასაგებია, ამის&#160;დახურვა</string>
 
     <string name="playlist_tips">დასაკრავი სიის რჩევები</string>
-    <string name="remove_song">მუსიკის მოშორება</string>
-    <string name="remove_playlist_item">%1$sმოშორებულია დასაკრავი სიიდან.</string>
+    <string name="remove_song">სიმღერის მოცილება</string>
+    <string name="remove_playlist_item">%1$s მოცილებულია სიიდან</string>
     <string name="rearrange_order">რიგის გადალაგება</string>
-    <string name="hold_to_seek">გეჭიროთ თითი რომ გადაახვიოთ</string>
+    <string name="hold_to_seek">დაჭერით გადახვევა</string>
 
-    <string name="audio_player_tips">აუდიო დამკვრელის რჩევები</string>
-    <string name="previous_next_song">წინა/შემდეგი მუსიკა</string>
-    <string name="show_playlist">აჩვენე დასაკრავი სია</string>
-    <string name="hold_to_stop">გეჭიროთ რომ გააჩეროთ</string>
+    <string name="audio_player_tips">ხმოვანი დამკვრელის რჩევები</string>
+    <string name="previous_next_song">წინა/შემდეგი სიმღერა</string>
+    <string name="show_playlist">დასაკრავი სიის გამოჩენა</string>
+    <string name="hold_to_stop">დაჭერით შეწყვეტა</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC Android-ისთვის</string>
+    <string name="app_name_full">VLC Android-ზე</string>
     <string name="licence">ლიცენზია</string>
-    <string name="revision">გადასინჯვა</string>
+    <string name="revision">გამოცემა</string>
     <string name="about">შესახებ</string>
-    <string name="about_text">VLC Android™-ისთვის არის პორი VLC მედია დამკვრელის, პოპულარული ღია წყაროს მქონე მედია დამკვრელის. Android™ ვერსიას შეუძლია წაიკითხოს უმეტესობა ფაილები და ქსელის ნაკადები.</string>
-    <string name="vlc_authors">და VLC ავტორები.</string>
-    <string name="compiled_by">ამ VLC ვერსიის შემმუშავებელი არის:</string>
+    <string name="about_text">VLC Android™ არის ამ სისტემისთვის მორგებული ცნობილი და ღია წყაროს მქონე, მედიაფაილების დამკვრელი VLC media player. Android™ ვერსიას შეუძლია უმეტესი სახის ფაილისა და ქსელური ნაკადის გაშვება.</string>
+    <string name="vlc_authors">და VLC-ს ავტორები.</string>
+    <string name="compiled_by">VLC-ს ამ ვერსიის შემმუშავებელია:</string>
     <string name="feedback_forum">უკუკავშირის ფორუმი</string>
 
     <!-- Preferences -->
     <string name="preferences">პარამეტრები</string>
 
     <string name="directories_summary">მონიშნეთ დირექტორიები რომლებიც შევა მედიათეკაში.</string>
-    <string name="add_custom_path">დაამატეთ დამატებითი მისამართი</string>
+    <string name="add_custom_path">მითითებული მდებარეობის დამატება</string>
     <string name="add_custom_path_description">შეიყვანეთ დამატებითი მისამართი დასასკანირებლად:</string>
-    <string name="remove_custom_path">მოაშორეთ დამატებითი მისამართი</string>
-    <string name="hardware_acceleration">აპარატული უზრუნველყოფით აჩქარება</string>
+    <string name="remove_custom_path">მითითებული მდებარეობის მოცილება</string>
+    <string name="hardware_acceleration">აპარატული აჩქარება</string>
     <string name="hardware_acceleration_summary">გამორთული: მეტი სტაბილურობა\nდეკოდირება: შეიძლება გააუმჯობესოს მუშაობის შესრულების ხარისხი\სრული: შესაძლოა კიდევ უფრო მეტად გააუმჯობესოს მუშაობის ხარისხი.</string>
     <string name="hardware_acceleration_disabled">გამორთული</string>
     <string name="hardware_acceleration_decoding">დეკოდირებით აჩქარება</string>
@@ -245,28 +245,28 @@
     <string name="automatic">ავტომატური</string>
     <string name="screen_orientation">ვიდეო ეკრანის ორიენტაცია</string>
     <string name="screen_orientation_sensor">ავტომატური (სენსორი)</string>
-    <string name="screen_orientation_start_lock">დაბლოკილი დასაწყისში</string>
-    <string name="screen_orientation_portrait">პორტრეტი</string>
-    <string name="screen_orientation_landscape">პანორამა</string>
-    <string name="enable_black_theme">შავი თემა</string>
+    <string name="screen_orientation_start_lock">ჩაკეტვა დაწყებისას</string>
+    <string name="screen_orientation_portrait">შვეული</string>
+    <string name="screen_orientation_landscape">თარაზული</string>
+    <string name="enable_black_theme">შავი იერსახე</string>
     <string name="subtitle_text_encoding">ტიტრების ტექსტის კოდირება</string>
     <string name="daynight_title">დღეღამე რეჟიმი</string>
     <string name="daynight_follow_system_title">მიყევი სისტემის რეჟიმს</string>
 
-    <string name="extra_prefs_category">დამატებითი პარამეტრები</string>
+    <string name="extra_prefs_category">გაფართოებული პარამეტრები</string>
 
-    <string name="interface_prefs_screen">ინტერფეისი</string>
-    <string name="interface_secondary_display_category_title">მეორადი ეკრანი</string>
+    <string name="interface_prefs_screen">გარსი</string>
+    <string name="interface_secondary_display_category_title">დამატებითი ეკრანი</string>
     <string name="interface_secondary_display_category_summary">პარამეტრები როდესაც მეორადი ეკრანებია დაკავშირებული (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">არჩიე კლონირება</string>
     <string name="enable_clone_mode_summary">დააკლონირე მოწყობილობის ეკრანი დისტანციური კონტროლის გარეშე</string>
 
     <string name="video_prefs_category">ვიდეო</string>
-    <string name="video_min_group_length_title">დააჯგუფე ვიდეოები</string>
-    <string name="video_min_group_length_disable">არ დააჯგუფო ვიდეოები</string>
-    <string name="video_min_group_length_folder">დააჯგუფე ფოლდერების მიხედვით</string>
-    <string name="video_min_group_length_name">დააჯგუფე სახელის მიხედვით</string>
-    <string name="media_fast_seek">ჩქარი გადახვევა</string>
+    <string name="video_min_group_length_title">ვიდეოების დაჯგუფება</string>
+    <string name="video_min_group_length_disable">ვიდეოების დაჯგუფების გარეშე</string>
+    <string name="video_min_group_length_folder">საქაღალდეებით დაჯგუფება</string>
+    <string name="video_min_group_length_name">სახელით დაჯგუფება</string>
+    <string name="media_fast_seek">სწრაფი გადახვევა</string>
     <string name="media_fast_seek_summary">მედიაში ძებნა უფრო ჩქარია, მაგრამ ნაკლებ ზუსტი</string>
     <string name="video_transition_title">ვიდეოების გადასვლა</string>
     <string name="video_transition_summary">აჩვენე ახალი ვიდეოს სახელი გადასვლისას</string>
@@ -275,7 +275,7 @@
     <string name="force_play_all_summary">გაუშვი ყველა ვიდეო, იქიდან დაწყებული სადაც დააჭირე.</string>
     <string name="force_play_all_title">ვიდეო დასაკრავი სიის რეჟიმი</string>
     <string name="save_brightness_summary">შეინარჩუნე განათბის დონე მედიებს შორის</string>
-    <string name="save_brightness_title">შეინახე განათების დონე</string>
+    <string name="save_brightness_title">სიკაშკაშის დონის დამახსოვრება</string>
     <string name="save_audiodelay_summary">შეინახე ინდივიდუალური აუდიო შეყოვნებები თითოეული ვიდეოსთვის</string>
     <string name="save_audiodelay_title">შეინახე აუდიო შეყოვნება</string>
     <string name="enable_brightness_gesture_title">განათბის ჟესტი</string>
@@ -546,7 +546,7 @@
     <string name="playback_rewind">გადახვევა</string>
     <string name="playback_forward">ჩქარი გადახვევა წინ</string>
     <string name="ml_wizard_scan_checkbox">მოწყობილობის სკანირება მედიისათვის</string>
-    <string name="ml_wizard_description">აირჩიეთ VLC დაასკანირებს თქვენი მოწყობილობის მეხსიერებას და დააორგანიზებს თქვენს მედიათკას თუ უბრალოდ მარტივ ფამკვრელად გამოიყენებთ მას ჩაშენებული ბრაუზერით.</string>
+    <string name="ml_wizard_description">აირჩიეთ, გსურთ დაათვალიეროს VLC-მ თქვენი მოწყობილობის საცავი, მედიაფაილების ბიბლიოთეკის დასალაგებლად, თუ უბრალოდ ფაილების გასაშვებად გამოიყენებთ, მოძიების ჩაშენებული შესაძლებლობით.</string>
     <string name="tv_my_new_videos">ჩემი ახალი ვიდეოები</string>
     <string name="cast_option_title">გაუშვი მედია სხვა ეკრანზე</string>
     <string name="otg_device_title">OTG მოწყობილობა</string>
@@ -769,5 +769,9 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">აირჩიეთ SoundFont ფაილი რომ დაუკრათ midi აუდიო ჩანაწერები</string>
     <string name="search_prefs">ძებნის პარამეტრები</string>
+    <string name="preferred_resolution">ვიდეოს სასურველი გაფართოება</string>
+    <string name="preferred_resolution_summary">ვიდეოს უმაღლესი ხარისხი ნაკადებისთვის, სადაც შესაძლებელია, იქნება: %s</string>
+    <string name="pref_resolution_best_available">შესაძლო საუკეთესო</string>
+    <string name="pref_resolution_very_low">მეტად დაბალი (240 ხაზი)</string>
 
 </resources>
