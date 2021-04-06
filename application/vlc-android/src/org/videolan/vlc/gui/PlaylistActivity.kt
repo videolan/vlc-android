@@ -439,15 +439,9 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         itemTouchHelperCallback.swipeEnabled = false
         lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
-            for (mediaItem in list) {
-                for (i in tracks.indices) {
-                    if (tracks[i].id == mediaItem.id) {
-                        itemsRemoved[i] = mediaItem.id
-                    }
-                }
-            }
             withContext(Dispatchers.IO) {
                 for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
+                    itemsRemoved[playlistIndex] = tracks[playlistIndex].id
                     playlist.remove(playlistIndex - index)
                 }
             }
