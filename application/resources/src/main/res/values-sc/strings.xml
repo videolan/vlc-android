@@ -765,4 +765,10 @@
     <string name="enqueuing">Carrighende sos mèdios tuos</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Issèbera unu documentu SoundFont pro riproduire rastas àudio midi</string>
+    <string name="search_prefs">Paràmetros de chirca</string>
+    <string name="preferred_resolution">Risolutzione de su vìdeu preferida</string>
+    <string name="preferred_resolution_summary">Sa calidade màssima de su vìdeu pro sos flussos, si s\'at a pòdere aplicare, at a èssere: %s</string>
+    <string name="pref_resolution_best_available">Mègius a disponimentu</string>
+    <string name="pref_resolution_very_low">Bassa meda (240p)</string>
+
 </resources>
