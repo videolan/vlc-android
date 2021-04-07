@@ -364,6 +364,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onPlayPauseClick(view: View) {
+        if (playlistModel.service?.isPausable == false) {
+            UiTools.snackerConfirm(requireActivity(), getString(R.string.stop_unpaubale)) {
+                playlistModel.stop()
+            }
+            return
+        }
         playlistModel.togglePlayPause()
     }
 
