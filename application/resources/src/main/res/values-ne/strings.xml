@@ -5,11 +5,11 @@
     <string name="ok">ठीक</string>
     <string name="cancel">रद्द गर्नुहोस्</string>
     <string name="other">अन्य</string>
-    <string name="sortby">क्रमान्कित  गर्नुहोस</string>
+    <string name="sortby">क्रमाङ्कन</string>
     <string name="sortby_name">नाम</string>
     <string name="sortby_filename">फाइलको नाम</string>
     <string name="sortby_artist_name">कलाकारको नाम</string>
-    <string name="sortby_album_name">सङ्ग्रह नाम</string>
+    <string name="sortby_album_name">सङ्ग्रहको नाम</string>
     <string name="sortby_length">लम्बाइ</string>
     <string name="sortby_date">मिति</string>
     <string name="sortby_last_modified_date">हालसालै थपिएको</string>
@@ -46,10 +46,10 @@
     <string name="set_song">रिङटोनको रुपमा राख्ने</string>
     <string name="set_song_question">%1$s रिंगटोनको रूपमा सेट गर्नुहुन्छ?</string>
     <string name="info">जानकारी</string>
-    <string name="confirm_delete">\'%1$s\' फाइल  रद्द गर्न चाहनुहुन्छ ?</string>
+    <string name="confirm_delete">%1$s फाइल मेटाउन चाहनुहुन्छ?</string>
     <string name="confirm_delete_album">%1$sएल्बम मेटाउने हो?</string>
     <string name="confirm_delete_several_media">%1$dयी मिडिया मेटाउने हो?</string>
-    <string name="confirm_delete_folder">\'%1$s\' फोल्डरका साथै यस भित्रको सबै सामाग्रीहरू मेटाउनुहोस्?</string>
+    <string name="confirm_delete_folder">%1$s फोल्डरका साथै यस भित्रको सबै सामाग्रीहरू मेटाउन चाहनुहुन्छ?</string>
     <string name="confirm_delete_playlist">बजाउनेसूची \'%1$s\' मेटाउन चाहनुहुन्छ?</string>
     <string name="confirm_remove_from_playlist">%1$sप्लेसूचीबाट हटाउने हो?</string>
     <string name="ringtone_set">\'%1$s\' लाई रिङटोनको रुपमा स्थापित गरियो।</string>
@@ -273,6 +273,8 @@
     <string name="enable_volume_gesture_title">भोल्युम सङ्केत</string>
     <string name="enable_volume_gesture_summary">भिडियो प्लेब्याक अवधिमा सङ्केत दिएर भोल्युम नियन्त्रण गर्नुहोस्</string>
     <string name="enable_seek_buttons">बटनहरू खोजी गर्नुहोस्</string>
+    <string name="enable_seek_buttons_summary">भिडियो इन्टरफेसमा रिवाइन्ड र फर्वाड बटनहरू देखाउनुहोस्</string>
+    <string name="enable_double_tap_seek_title">खोजी गर्न दुई पटक ट्याप गर्नुहोस्</string>
     <string name="browser_show_hidden_files_title">लुकेका फाइलहरू देखाउनुहोस्</string>
 
     <string name="subtitles_prefs_category">उपशीर्षकहरू</string>
@@ -301,8 +303,11 @@
     <string name="list_title_ellipsize_right">दायाँ</string>
     <string name="list_title_ellipsize_middle">मध्यम</string>
     <string name="list_title_ellipsize_marquee">मार्क्यु</string>
+    <string name="audio_boost_summary">आवाज 200% सम्म बढाउन अनुमति दिनुहोस्</string>
     <string name="headset_prefs_category">हेडसेट</string>
     <string name="enable_headset_detection">हेडसेट पत्तालगानुहोस</string>
+    <string name="enable_headset_detection_summary">हेडफोन जडान र निस्कासन पत्ता लगाउनुहोस्</string>
+    <string name="enable_play_on_headset_insertion">हेडफोन जडान गर्दा पुनःसुरु गर्नुहोस्</string>
     <string name="enable_play_on_headset_insertion_summary">अन्यथा पज गर्नुहोस्</string>
     <string name="aout">अडियो आउटपुट</string>
     <string name="aout_summary">VLC  ले अडियो आउटपुट गर्न प्रयोग गर्ने विधि परिवर्तन गर्नुहोस्</string>
@@ -310,7 +315,9 @@
     <string name="audio_ducking_summary">अडियो सूचना, नेभिगेसन निर्देशनहरू वा सहायता कुराकानी सुन्न मद्दत गर्दछ</string>
     <string name="casting_category">कास्टिङ</string>
     <string name="casting_switch_title">ताररहित कास्टिङ</string>
+    <string name="casting_passthrough_title">ध्वनीलाई पास हुन दिने</string>
     <string name="casting_passthrough_summary">तपाईँको TV लाई अडियो रेन्डरिङ व्यवस्थापन गर्न दिनुहोस्</string>
+    <string name="casting_conversion_quality_title">रूपान्तरण गुणस्तर</string>
     <string name="casting_quality_high">उच्च</string>
     <string name="extensions_prefs_category">एक्सटेन्सन</string>
     <string name="extension_prefs_activation_title">सक्रिय गर्नुहोस्</string>
@@ -425,12 +432,13 @@
     <string name="ml_external_storage_decline">हैन</string>
     <string name="auto_last_added_media">अन्तिममा थपिएको</string>
     <string name="auto_home">गृह</string>
-    <string name="no">हैन</string>
+    <string name="no">होइन</string>
     <string name="loading_medialibrary">मिडिया लाइब्रेरी लोड हुदैछ...</string>
     <string name="yes">हो</string>
 
     <string name="custom_set_save_title">सङ्ग्रह नगरिएका परिवर्तनहरू</string>
     <string name="custom_set_save_warning">चेतावनी: परिवर्तन बचत भएका छैनन्</string>
+    <string name="existing_custom_set_save_message">इक्वेलाइजर-सेट यस अनुसार बचत गर्नुहोस् ...</string>
     <string name="save">सङ्ग्रह गर्नुहोस्</string>
     <string name="do_not_save">सङ्ग्रह नगर्नुहोस्</string>
     <string name="custom_set_wrong_input">अमान्य नाम।</string>
@@ -466,12 +474,18 @@
     <string name="welcome_title">VLC मा स्वागत छ!</string>
     <string name="add">थप्नुहोस्</string>
     <string name="add_to_new_playlist">नयाँ प्लेलिस्ट थप्नुहोस्</string>
+    <string name="device_default">यन्त्र पूर्वनिर्धारित</string>
+    <string name="track_number">%dट्रायकहरू</string>
+    <string name="jump_to">यसमा जानुहोस्</string>
+    <string name="show_video_thumbnails_summary">सूचीमा भिडियो थम्बनेलहरू देखाउनुहोस्</string>
     <string name="reset">रिसेट गर्नुहोस्</string>
     <string name="display_in_list">सुचीमा देखाउनुहोस्</string>
     <string name="display_in_grid">ग्रिडमा देखाउनुहोस्</string>
     <string name="send_crash_title">VLC  त्रुटि रिपोर्टर</string>
     <string name="favorite">मनपर्ने</string>
     <string name="always">सधैँ</string>
+    <string name="never">कहिल्यै होइन</string>
+    <string name="add_to_scanned">यस फाइल स्क्यान गर्नुहोस्</string>
     <string name="directory_not_scanned">यस निर्देशिका स्क्यान गरिएको छैन</string>
     <string name="scanned_directory_added">तपाईँको स्क्यान गरिएको निर्देशिकामा %s थपियो</string>
     <string name="video_group_size_summary">%s पहिलो अक्षरबाट समूह</string>
@@ -488,9 +502,12 @@
     <string name="produced_by">निर्माता</string>
     <string name="written_by">लेखक</string>
     <string name="music_by">सङ्गीतकार</string>
+    <string name="posters">पोस्टरहरू</string>
+    <string name="backdrops">ब्याकड्रपहरू</string>
     <string name="header_tvshows">टिभी कार्यक्रमहरू</string>
     <string name="header_movies">चलचित्रहरू</string>
     <string name="season_number">सिजन %s</string>
+    <string name="resume_episode">रिज्युम (%s)</string>
     <string name="start_over">सुरुबाट चलाउनुहोस्</string>
     <string name="next_episode">अर्को भाग</string>
     <string name="open_network_settings">नेटवर्क सेटिङहरू खोल्ने हो?</string>
@@ -588,5 +605,9 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">मिडी अडियो ट्रयाक प्ले गर्न SoundFont फाइल रोज्नुहोस्</string>
     <string name="search_prefs">खोजी सेटिङहरू</string>
+    <string name="preferred_resolution">रुचाइएको भिडियो रिज्योलुसन</string>
+    <string name="preferred_resolution_summary">लागू हुने समयमा स्ट्रिमहरूको लागि अधिकतम भिडियो गुणस्तर %s हुनेछ</string>
+    <string name="pref_resolution_best_available">उत्तम उपलब्ध</string>
+    <string name="pref_resolution_very_low">धैरै कम स्पष्टता (240p)</string>
 
 </resources>
