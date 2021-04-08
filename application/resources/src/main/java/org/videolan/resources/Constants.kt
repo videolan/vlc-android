@@ -59,6 +59,7 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 const val ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE"
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
+const val PLAYLIST_TYPE_VIDEO_RESUME = 2
 const val MEDIALIBRARY_PAGE_SIZE = 500
 const val PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT = "android.media.playback.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_NEXT"
 const val PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV = "android.media.playback.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_PREVIOUS"
@@ -104,8 +105,10 @@ const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
 // Playback settings category
 const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"
 const val KEY_MEDIA_LAST_PLAYLIST = "media_list"
+const val KEY_MEDIA_LAST_PLAYLIST_RESUME = "media_list_resume"
 const val KEY_CURRENT_AUDIO = "current_song"
 const val KEY_CURRENT_MEDIA = "current_media"
+const val KEY_CURRENT_MEDIA_RESUME = "current_media_resume"
 
 // Info Activity
 const val TAG_ITEM = "ML_ITEM"

@@ -156,13 +156,23 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun loadLastPlaylist(type: Int = PLAYLIST_TYPE_AUDIO) : Boolean {
         if (loadingLastPlaylist) return true
         loadingLastPlaylist = true
+        val currentMediaKey = when (type) {
+            PLAYLIST_TYPE_AUDIO -> KEY_CURRENT_AUDIO
+            PLAYLIST_TYPE_VIDEO -> KEY_CURRENT_MEDIA
+            else -> KEY_CURRENT_MEDIA_RESUME
+        }
+        val locationsKey = when (type) {
+            PLAYLIST_TYPE_AUDIO -> KEY_AUDIO_LAST_PLAYLIST
+            PLAYLIST_TYPE_VIDEO -> KEY_MEDIA_LAST_PLAYLIST
+            else -> KEY_MEDIA_LAST_PLAYLIST_RESUME
+        }
         val audio = type == PLAYLIST_TYPE_AUDIO
-        val currentMedia = settings.getString(if (audio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, "")
+        val currentMedia = settings.getString(currentMediaKey, "")
         if (currentMedia.isNullOrEmpty()) {
             loadingLastPlaylist = false
             return false
         }
-        val locations = settings.getString(if (audio) KEY_AUDIO_LAST_PLAYLIST else KEY_MEDIA_LAST_PLAYLIST, null)
+        val locations = settings.getString(locationsKey, null)
                 ?.split(" ".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
         if (locations.isNullOrEmpty()) {
             loadingLastPlaylist = false
@@ -199,6 +209,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun pause() {
         if (player.pause()) {
             savePosition()
+            launch {
+                //needed to save the current media in audio mode when it's a video played as audio
+                saveCurrentMedia()
+                saveMediaList()
+            }
             if (getCurrentMedia()?.isPodcast == true) saveMediaMeta()
         }
     }
@@ -510,20 +525,23 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @Synchronized
-    private fun saveCurrentMedia() {
+    fun saveCurrentMedia(forceVideo:Boolean = false) {
         val media = getCurrentMedia() ?: return
-        val isAudio = isAudioList()
+        val isAudio = isAudioList() || forceVideo
         settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
+        settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
     }
 
-    private suspend fun saveMediaList() {
+    suspend fun saveMediaList(forceVideo:Boolean = false) {
         if (getCurrentMedia() === null) return
         val locations = StringBuilder()
+        val isAudio = isAudioList() || forceVideo
         withContext(Dispatchers.Default) {
             val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
             for (mw in list) locations.append(" ").append(mw.uri.toString())
             //We save a concatenated String because putStringSet is APIv11.
-            settings.putSingle(if (isAudioList()) KEY_AUDIO_LAST_PLAYLIST else KEY_MEDIA_LAST_PLAYLIST, locations.toString().trim())
+            settings.putSingle(if (isAudio) KEY_AUDIO_LAST_PLAYLIST else KEY_MEDIA_LAST_PLAYLIST, locations.toString().trim())
+            settings.putSingle(KEY_MEDIA_LAST_PLAYLIST_RESUME, locations.toString().trim())
         }
     }
 
