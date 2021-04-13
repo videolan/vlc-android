@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -23,7 +24,7 @@ import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.repository.BrowserFavRepository
 
-class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
+class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 
     private lateinit var browserFavRepository: BrowserFavRepository
 
@@ -45,21 +46,16 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     //Dummy hack because spinner callback is called right on registration
     var ignoreFirstSpinnerCb = false
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val activity = activity
-        val dialog = AppCompatDialog(activity, theme)
-        dialog.setTitle(R.string.server_add_title)
-
-        dialog.setCancelable(true)
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        return dialog
-    }
-
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         (activity as? MainActivity)?.forceRefresh()
     }
+
+    override fun getDefaultState(): Int = BottomSheetBehavior.STATE_EXPANDED
+
+    override fun needToManageOrientation(): Boolean = false
+
+    override fun initialFocusedView(): View = spinnerProtocol
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
