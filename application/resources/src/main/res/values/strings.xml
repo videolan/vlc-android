@@ -119,6 +119,7 @@
     <string name="shuffle_title">Shuffle mode</string>
     <string name="shuffle">Shuffle Off</string>
     <string name="shuffle_on">Shuffle On</string>
+    <string name="shuffle_play">Shuffle</string>
     <string name="repeat_title">Repeat mode</string>
     <string name="repeat">Repeat none</string>
     <string name="repeat_single">Repeat single</string>
