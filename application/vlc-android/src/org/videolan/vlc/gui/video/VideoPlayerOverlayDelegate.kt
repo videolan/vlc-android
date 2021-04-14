@@ -136,29 +136,29 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 VideoTracksDialog.TrackType.AUDIO -> {
                     player.service?.let { service ->
                         service.setAudioTrack(trackID)
-                        runIO(Runnable {
+                        runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
-                        })
+                        }
                     }
                 }
                 VideoTracksDialog.TrackType.SPU -> {
                     player.service?.let { service ->
                         service.setSpuTrack(trackID)
-                        runIO(Runnable {
+                        runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
-                        })
+                        }
                     }
                 }
                 VideoTracksDialog.TrackType.VIDEO -> {
                     player.service?.let { service ->
                         player.seek(service.time)
                         service.setVideoTrack(trackID)
-                        runIO(Runnable {
+                        runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_VIDEOTRACK, trackID.toLong())
-                        })
+                        }
                     }
                 }
             }
