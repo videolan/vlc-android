@@ -28,8 +28,11 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.XmlResourceParser
 import android.os.Parcelable
+import android.util.Log
 import kotlinx.android.parcel.Parcelize
+import org.videolan.tools.Settings
 import org.videolan.tools.wrap
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
 object PreferenceParser {
@@ -61,11 +64,24 @@ object PreferenceParser {
                     categoryEng = getValue(englishContext, parser, namespace, "title")
                 }
                 if (element != "PreferenceCategory" && element != "Preference") {
-                    val title = getValue(context, parser, namespace, "title")
-                    val summary = getValue(context, parser, namespace, "summary")
-                    val titleEng = getValue(englishContext, parser, namespace, "title")
-                    val summaryEng = getValue(englishContext, parser, namespace, "summary")
                     val key = getValue(context, parser, namespace, "key")
+                    val title = getValue(context, parser, namespace, "title")
+                    val titleEng = getValue(englishContext, parser, namespace, "title")
+                    var summary = getValue(context, parser, namespace, "summary")
+                    var summaryEng = getValue(englishContext, parser, namespace, "summary")
+                    if (summary.contains("%s") && element == "ListPreference") {
+                        //get the current value for the string substitution
+                        try {
+                            val defaultValue = getValue(context, parser, namespace, "defaultValue")
+                            val rawValue = Settings.getInstance(context).getString(key, defaultValue) ?: ""
+                            val entriesId = parser.getAttributeResourceValue(namespace, "entries", -1)
+                            val entryValuesId = parser.getAttributeResourceValue(namespace, "entryValues", -1)
+                            val index = context.resources.getStringArray(entryValuesId).indexOf(rawValue)
+                            summary = summary.replace("%s", context.resources.getStringArray(entriesId)[index])
+                            summaryEng = summaryEng.replace("%s", englishContext.resources.getStringArray(entriesId)[index])
+                        } catch (e: Exception) {
+                        }
+                    }
                     if (key.isNotBlank()) result.add(PreferenceItem(key, id, title, summary, titleEng, summaryEng, category, categoryEng))
                 }
             }
@@ -85,6 +101,16 @@ object PreferenceParser {
         } catch (e: Exception) {
         }
         return ""
+    }
+
+    private fun getSummary (context: Context, parser: XmlResourceParser, namespace: String, node: String, defaultValue:String, key:String):String {
+
+        val value = getValue(context, parser, namespace, node)
+        if (value.contains("%s")) if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Found string replacement for $key")
+        return if (value.contains("%s"))
+            value.replace("%s", Settings.getInstance(context).getString(key, defaultValue) ?: "")
+        else value
+
     }
 }
 
