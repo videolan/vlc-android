@@ -355,6 +355,8 @@
     <string name="casting_quality_lowcpu">Lowest</string>
     <string name="casting_connected_renderer">Connected to renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Show all artists</string>
+    <string name="show_headers">Show headers</string>
+    <string name="show_headers_summary">Split lists by headers depending on the sort type</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>

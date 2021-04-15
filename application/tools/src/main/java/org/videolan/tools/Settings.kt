@@ -43,6 +43,7 @@ const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
 
 // Keys
 const val KEY_ARTISTS_SHOW_ALL = "artists_show_all"
+const val KEY_SHOW_HEADERS = "show_headers"
 const val KEY_APP_THEME = "app_theme"
 const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"

@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.audio
 
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -45,9 +46,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
-import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.isStarted
-import org.videolan.tools.retrieveParent
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
@@ -132,7 +131,17 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
         }
         list.layoutManager = gridLayoutManager
-        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, provider))
+        if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
+            list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, provider))
+        else list.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                super.getItemOffsets(outRect, view, parent, state)
+                outRect.bottom = 8.dp
+                outRect.top = 8.dp
+                outRect.left = spacing / 2
+                outRect.right = spacing / 2
+            }
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -169,7 +178,8 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
             else -> {
                 adapter.cardSize = -1
-                list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, provider))
+                if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
+                    list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, provider))
                 list.layoutManager = LinearLayoutManager(activity)
             }
         }

@@ -57,6 +57,7 @@ import org.videolan.resources.util.HeadersIndex
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.*
+import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -87,7 +88,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     abstract fun provideAdapter(eventsHandler: IEventsHandler<T>, itemSize: Int): TvItemAdapter
     abstract fun getDisplayPrefId(): String
 
-    private lateinit var recyclerSectionItemGridDecoration: RecyclerSectionItemGridDecoration
+    private var recyclerSectionItemGridDecoration: RecyclerSectionItemGridDecoration? = null
     lateinit var binding: SongBrowserBinding
     lateinit var viewModel: TvBrowserModel<T>
     private var spacing: Int = 0
@@ -159,7 +160,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         binding.imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
-        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
+        if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true)) recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
         inGrid = Settings.getInstance(requireActivity()).getBoolean(getDisplayPrefId(), true)
         setupDisplayIcon()
         setupLayoutManager()
@@ -171,7 +172,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         adapter = provideAdapter(this, itemSize)
         adapter.displaySwitch(inGrid)
 
-        binding.list.addItemDecoration(recyclerSectionItemGridDecoration)
+        recyclerSectionItemGridDecoration?.let { binding.list.addItemDecoration(it)}
 
         //header list
         binding.headerListContainer.visibility = View.GONE
@@ -244,7 +245,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 }
             }
         }
-        recyclerSectionItemGridDecoration.isList = !inGrid
+        recyclerSectionItemGridDecoration?.isList = !inGrid
         binding.list.layoutManager = gridLayoutManager
     }
 
