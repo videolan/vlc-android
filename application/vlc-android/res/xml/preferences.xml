@@ -37,6 +37,7 @@
                 android:entries="@array/screen_orientation_list"
                 android:entryValues="@array/screen_orientation_values"
                 android:key="screen_orientation"
+                android:summary="%s"
                 android:title="@string/screen_orientation"/>
     </PreferenceCategory>
 

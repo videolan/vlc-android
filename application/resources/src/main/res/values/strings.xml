@@ -258,9 +258,10 @@
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
-    <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Landscape</string>
+    <string name="screen_orientation_landscape_reverse">Landscape reverse</string>
+    <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="daynight_title">DayNight mode</string>

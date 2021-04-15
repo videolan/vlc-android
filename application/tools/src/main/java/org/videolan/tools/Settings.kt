@@ -105,6 +105,8 @@ const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
 const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 const val AUDIO_STOP_AFTER = "audio_stop_after"
 
+const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
+
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
     val tm = context.getSystemService<TelephonyManager>()!!

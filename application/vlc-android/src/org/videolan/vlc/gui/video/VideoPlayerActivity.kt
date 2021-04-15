@@ -406,8 +406,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val screenOrientationSetting = Integer.valueOf(settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
         orientationMode = when (screenOrientationSetting) {
             99 -> PlayerOrientationMode(false)
-            101 -> PlayerOrientationMode(true, if (windowManager.defaultDisplay.rotation == Surface.ROTATION_270) ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            101 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
             102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            103 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
+            98 -> PlayerOrientationMode(true, settings.getInt(LAST_LOCK_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
             else -> PlayerOrientationMode(true, getOrientationForLock())
         }
 
@@ -431,6 +433,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         // 100 is the value for screen_orientation_start_lock
         try {
             requestedOrientation = getScreenOrientation(orientationMode)
+            if (orientationMode.locked) settings.putSingle(LAST_LOCK_ORIENTATION, requestedOrientation)
         } catch (ignored: IllegalStateException) {
             Log.w(TAG, "onCreate: failed to set orientation")
         }
@@ -1952,6 +1955,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         orientationMode.orientation = getOrientationForLock()
 
         requestedOrientation = getScreenOrientation(orientationMode)
+        if (orientationMode.locked) settings.putSingle(LAST_LOCK_ORIENTATION, requestedOrientation)
         overlayDelegate.updateOrientationIcon()
     }
 
