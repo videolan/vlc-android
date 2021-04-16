@@ -42,6 +42,7 @@
     <string name="append_all">Append all</string>
     <string name="resume_playback_short_title">Resume playback</string>
     <string name="resume_playback_long_title"> Resume playback of last playlist</string>
+    <string name="resume_playback_error">Nothing to resume</string>
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="set_song">Set as ringtone</string>
