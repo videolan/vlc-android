@@ -406,10 +406,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val screenOrientationSetting = Integer.valueOf(settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
         orientationMode = when (screenOrientationSetting) {
             99 -> PlayerOrientationMode(false)
-            101 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
-            102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            101 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+            102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
             103 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
-            98 -> PlayerOrientationMode(true, settings.getInt(LAST_LOCK_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
+            98 -> PlayerOrientationMode(true, settings.getInt(LAST_LOCK_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE))
             else -> PlayerOrientationMode(true, getOrientationForLock())
         }
 
@@ -1893,30 +1893,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             defaultWide = !defaultWide
         return if (defaultWide) {
             when (rot) {
-                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                Surface.ROTATION_180 ->
-                    // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                Surface.ROTATION_270 ->
-                    // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                Surface.ROTATION_180 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
                 else -> 0
             }
         } else {
             when (rot) {
-                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_180 ->
-                    // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                Surface.ROTATION_270 ->
-                    // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                Surface.ROTATION_180 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
                 else -> 0
             }
         }

@@ -533,7 +533,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (::hudBinding.isInitialized) {
             val drawable = if (!player.orientationMode.locked) {
                 R.drawable.ic_player_rotate
-            } else if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+            } else if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
                 R.drawable.ic_player_lock_landscape
             } else {
                 R.drawable.ic_player_lock_portrait
