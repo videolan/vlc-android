@@ -134,6 +134,7 @@
     <string name="shuffle_title">Režim náhodného prehrávania</string>
     <string name="shuffle">Vypnúť náhodné prehrávanie</string>
     <string name="shuffle_on">Zapnúť náhodné prehrávanie</string>
+    <string name="shuffle_play">Náhodne</string>
     <string name="repeat_title">Režim opakovania</string>
     <string name="repeat">Žiadne opakovanie</string>
     <string name="repeat_single">Opakovať jednotlivé</string>
@@ -261,9 +262,10 @@
     <string name="automatic">Automaticky</string>
     <string name="screen_orientation">Orientácia obrazovky s videom</string>
     <string name="screen_orientation_sensor">Automaticky (podľa senzora)</string>
-    <string name="screen_orientation_start_lock">Uzamknuté pri spustení</string>
     <string name="screen_orientation_portrait">Na výšku</string>
     <string name="screen_orientation_landscape">Na šírku</string>
+    <string name="screen_orientation_landscape_reverse">Formát na šírku, obrátene</string>
+    <string name="screen_orientation_last_locked">Posledná uzamknutá orientácia</string>
     <string name="enable_black_theme">Čierna téma</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="daynight_title">Režim deň/noc</string>
@@ -355,6 +357,8 @@
     <string name="casting_quality_lowcpu">Najnižšia</string>
     <string name="casting_connected_renderer">Pripojené k vykresľovaču „%1$s“</string>
     <string name="artists_show_all_title">Zobraziť všetkých umelcov</string>
+    <string name="show_headers">Zobraziť hlavičky</string>
+    <string name="show_headers_summary">Rozdeliť zoznamy podľa hlavičiek, v závislosti od druhu zoradenia</string>
 
     <string name="extensions_prefs_category">Rozšírenia</string>
     <string name="extensions_empty">Neboli detegované žiadne rozšírenia</string>
@@ -793,5 +797,6 @@
     <string name="preferred_resolution_summary">Maximálna kvalita videa pre streamy, ak sa dá použiť, bude: %s</string>
     <string name="pref_resolution_best_available">Najlepšie dostupné</string>
     <string name="pref_resolution_very_low">Veľmi nízke rozlíšenie (240p)</string>
+    <string name="stop_unpaubale">Toto médium nemožno pozastaviť. Chcete ho namiesto toho zastaviť?</string>
 
 </resources>
