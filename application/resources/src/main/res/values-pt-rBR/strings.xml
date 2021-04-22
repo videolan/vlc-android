@@ -41,6 +41,7 @@
     <string name="append_all">Adicionar todos</string>
     <string name="resume_playback_short_title">Retomar reprodução</string>
     <string name="resume_playback_long_title">Retomar a reprodução da última lista de reprodução</string>
+    <string name="resume_playback_error">Nada para continuar</string>
     <string name="delete">Excluir</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque</string>
@@ -118,6 +119,7 @@
     <string name="shuffle_title">Modo aleatório</string>
     <string name="shuffle">Desabilitar o Aleatório</string>
     <string name="shuffle_on">Habilitar o Aleatório</string>
+    <string name="shuffle_play">Aleatório</string>
     <string name="repeat_title">Modo contínuo</string>
     <string name="repeat">Não repetir</string>
     <string name="repeat_single">Repetir uma</string>
@@ -243,9 +245,10 @@
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientação da tela do vídeo</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
-    <string name="screen_orientation_start_lock">Iniciar travado</string>
     <string name="screen_orientation_portrait">Retrato</string>
     <string name="screen_orientation_landscape">Paisagem</string>
+    <string name="screen_orientation_landscape_reverse">Paisagem invertida</string>
+    <string name="screen_orientation_last_locked">Última orientação travada</string>
     <string name="enable_black_theme">Tema escuro</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="daynight_title">Modo Dia e Noite</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">O mais baixo</string>
     <string name="casting_connected_renderer">Conectado ao gerador \'%1$s\'</string>
     <string name="artists_show_all_title">Exibir todos os artistas</string>
+    <string name="show_headers">Exibir cabeçalhos</string>
+    <string name="show_headers_summary">Dividir listas por cabeçalhos, de acordo com o tipo de ordenação</string>
 
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_empty">Nenhum complemento detectado</string>
@@ -770,5 +775,6 @@
     <string name="preferred_resolution_summary">A qualidade máxima de vídeo para transmissões, quando aplicável, será: %s</string>
     <string name="pref_resolution_best_available">Melhor disponível</string>
     <string name="pref_resolution_very_low">Definição muito baixa (240p)</string>
+    <string name="stop_unpaubale">Esta mídia não pode ser pausada. Deseja pará-la em vez disso?</string>
 
 </resources>
