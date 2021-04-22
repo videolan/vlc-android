@@ -110,6 +110,7 @@
     <string name="shuffle_title">随机模式</string>
     <string name="shuffle">随机关闭</string>
     <string name="shuffle_on">随机开启</string>
+    <string name="shuffle_play">随机</string>
     <string name="repeat_title">重复模式</string>
     <string name="repeat">重复关闭</string>
     <string name="repeat_single">单曲重复</string>
@@ -234,9 +235,10 @@
     <string name="automatic">自动</string>
     <string name="screen_orientation">视频屏幕方向</string>
     <string name="screen_orientation_sensor">自动 (传感器感应)</string>
-    <string name="screen_orientation_start_lock">开始播放时锁定</string>
     <string name="screen_orientation_portrait">纵向</string>
     <string name="screen_orientation_landscape">横向</string>
+    <string name="screen_orientation_landscape_reverse">横屏颠倒</string>
+    <string name="screen_orientation_last_locked">上次锁定方向</string>
     <string name="enable_black_theme">黑色主题</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="daynight_title">自动切换夜间模式</string>
@@ -328,6 +330,8 @@
     <string name="casting_quality_lowcpu">最低</string>
     <string name="casting_connected_renderer">已连接到渲染器「%1$s」</string>
     <string name="artists_show_all_title">显示所有艺术家</string>
+    <string name="show_headers">显示标题</string>
+    <string name="show_headers_summary">根据排序类型按标题拆分列表 </string>
 
     <string name="extensions_prefs_category">扩展</string>
     <string name="extensions_empty">未侦测到扩展</string>
@@ -759,5 +763,6 @@
     <string name="preferred_resolution_summary">可适用的流媒体播放最高视频分辨率为：%s</string>
     <string name="pref_resolution_best_available">可用的最佳质量</string>
     <string name="pref_resolution_very_low">极低清晰度 (240 p)</string>
+    <string name="stop_unpaubale">无法暂停此媒体文件。要停止播放吗?</string>
 
 </resources>
