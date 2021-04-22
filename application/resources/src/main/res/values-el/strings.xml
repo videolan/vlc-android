@@ -118,6 +118,7 @@
     <string name="shuffle_title">Λειτουργία ανακατέματος</string>
     <string name="shuffle">Απενεργοποίηση ανακατέματος</string>
     <string name="shuffle_on">Ενεργοποίηση ανακατέματος</string>
+    <string name="shuffle_play">Ανακάτεμα</string>
     <string name="repeat_title">Λειτουργία επανάληψης</string>
     <string name="repeat">Επανάληψη κανενός</string>
     <string name="repeat_single">Επανάληψη ενός</string>
@@ -243,7 +244,6 @@
     <string name="automatic">Αυτόματο</string>
     <string name="screen_orientation">Προσανατολισμός της βίντεο-οθόνης</string>
     <string name="screen_orientation_sensor">Αυτόματο (αισθητήρας)</string>
-    <string name="screen_orientation_start_lock">Κλείδωμα στην αρχή</string>
     <string name="screen_orientation_portrait">Κάθετα</string>
     <string name="screen_orientation_landscape">Οριζόντια</string>
     <string name="enable_black_theme">Μαύρο θέμα</string>
@@ -337,7 +337,6 @@
     <string name="casting_quality_lowcpu">Χαμηλότερη</string>
     <string name="casting_connected_renderer">Συνδέθηκε στον αποτυπωτή \'%1$s\'</string>
     <string name="artists_show_all_title">Εμφάνιση όλων των καλλιτεχνών</string>
-
     <string name="extensions_prefs_category">Επεκτάσεις</string>
     <string name="extensions_empty">Δε βρέθηκε επέκταση</string>
     <string name="extension_permission_title">Ενεργοποίηση νέας επέκτασης \"%1$s\";</string>
@@ -770,5 +769,6 @@
     <string name="preferred_resolution_summary">Η μέγιστη ανάλυση μεταδόσεων, αν αυτή είναι δυνατή, θα είναι: %s</string>
     <string name="pref_resolution_best_available">Βέλτιστη διαθέσιμη</string>
     <string name="pref_resolution_very_low">Πολύ χαμηλή ανάλυση (240p)</string>
+    <string name="stop_unpaubale">Δεν είναι δυνατή η παύση αυτού του αρχείου πολυμέσων. Θέλετε να γίνει διακοπή;</string>
 
 </resources>
