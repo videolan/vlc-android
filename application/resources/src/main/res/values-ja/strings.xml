@@ -110,6 +110,7 @@
     <string name="shuffle_title">シャッフルモード</string>
     <string name="shuffle">シャッフルオフ</string>
     <string name="shuffle_on">シャッフルオン</string>
+    <string name="shuffle_play">シャッフル</string>
     <string name="repeat_title">リピートモード</string>
     <string name="repeat">リピートなし</string>
     <string name="repeat_single">1項目をリピート</string>
@@ -234,9 +235,10 @@
     <string name="automatic">自動</string>
     <string name="screen_orientation">スクリーンの方向</string>
     <string name="screen_orientation_sensor">自動 (センサー)</string>
-    <string name="screen_orientation_start_lock">開始時にロック</string>
     <string name="screen_orientation_portrait">ポートレイト</string>
     <string name="screen_orientation_landscape">ランドスケープ</string>
+    <string name="screen_orientation_landscape_reverse">ランドスケープ反転</string>
+    <string name="screen_orientation_last_locked">最後にロックされた方向</string>
     <string name="enable_black_theme">ブラックテーマ</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="daynight_title">昼夜モード</string>
@@ -328,6 +330,8 @@
     <string name="casting_quality_lowcpu">最低</string>
     <string name="casting_connected_renderer">レンダラー \'%1$s\' に接続</string>
     <string name="artists_show_all_title">すべてのアーティストを表示</string>
+    <string name="show_headers">ヘッダーを表示</string>
+    <string name="show_headers_summary">並び順でヘッダーによって分割</string>
 
     <string name="extensions_prefs_category">拡張機能</string>
     <string name="extensions_empty">拡張機能が検出されませんでした</string>
@@ -759,5 +763,6 @@
     <string name="preferred_resolution_summary">ストリーム用の最大ビデオ品質が有効時%sになります。</string>
     <string name="pref_resolution_best_available">利用可能な最高値</string>
     <string name="pref_resolution_very_low">かなり低い解像度(240p)</string>
+    <string name="stop_unpaubale">このメディアは一時停止できません。再生を停止しますか？</string>
 
 </resources>
