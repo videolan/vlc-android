@@ -118,6 +118,7 @@
     <string name="shuffle_title">Véletlen mód</string>
     <string name="shuffle">Véletlen sorrend ki</string>
     <string name="shuffle_on">Véletlen sorrend be</string>
+    <string name="shuffle_play">Keverés</string>
     <string name="repeat_title">Ismétlés mód</string>
     <string name="repeat">Nincs ismétlés</string>
     <string name="repeat_single">Egy szám ismétlése</string>
@@ -243,9 +244,10 @@
     <string name="automatic">Automatikus</string>
     <string name="screen_orientation">Képernyő tájolása</string>
     <string name="screen_orientation_sensor">Automatikus (érzékelő)</string>
-    <string name="screen_orientation_start_lock">Indításkor zárolva</string>
     <string name="screen_orientation_portrait">Álló</string>
     <string name="screen_orientation_landscape">Fekvő</string>
+    <string name="screen_orientation_landscape_reverse">Fordított fekvő</string>
+    <string name="screen_orientation_last_locked">Utolsó zárolt tájolás</string>
     <string name="enable_black_theme">Fekete téma</string>
     <string name="subtitle_text_encoding">Feliratszöveg kódolása</string>
     <string name="daynight_title">Éjjel-nappali mód</string>
@@ -337,6 +339,8 @@
     <string name="casting_quality_lowcpu">Legalacsonyabb</string>
     <string name="casting_connected_renderer">Kapcsolódva a(z) „%1$s” renderelőhöz</string>
     <string name="artists_show_all_title">Összes előadó megjelenítése</string>
+    <string name="show_headers">Fejlécek mutatása</string>
+    <string name="show_headers_summary">A listák felosztása fejlécek szerint a rendezés típusától függően</string>
 
     <string name="extensions_prefs_category">Bővítmények</string>
     <string name="extensions_empty">Nincs észlelt bővítmény</string>
@@ -770,5 +774,6 @@
     <string name="preferred_resolution_summary">A streamek maximális videóminősége, ha alkalmazható, legyen: %s</string>
     <string name="pref_resolution_best_available">Az elérhető legjobb</string>
     <string name="pref_resolution_very_low">Nagyon alacsony felbontás (240p)</string>
+    <string name="stop_unpaubale">Ez a média nem szüneteltethető. Megállítja helyette?</string>
 
 </resources>
