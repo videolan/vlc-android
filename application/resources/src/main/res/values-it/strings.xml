@@ -41,6 +41,7 @@
     <string name="append_all">Aggiungi tutto</string>
     <string name="resume_playback_short_title">Riprendi riproduzione</string>
     <string name="resume_playback_long_title">Riprendi la riproduzione dell\'ultima scaletta</string>
+    <string name="resume_playback_error">Niente da riprendere</string>
     <string name="delete">Elimina</string>
     <string name="remove">Rimuovi</string>
     <string name="set_song">Imposta come suoneria</string>
@@ -118,6 +119,7 @@
     <string name="shuffle_title">Mescola</string>
     <string name="shuffle">Non mescolare</string>
     <string name="shuffle_on">Mescola</string>
+    <string name="shuffle_play">Mescola</string>
     <string name="repeat_title">Ripeti</string>
     <string name="repeat">Nessuna ripetizione</string>
     <string name="repeat_single">Ripetizione singola</string>
@@ -243,9 +245,10 @@
     <string name="automatic">Automatico</string>
     <string name="screen_orientation">Orientamento dello schermo</string>
     <string name="screen_orientation_sensor">Automatico (sensore)</string>
-    <string name="screen_orientation_start_lock">Bloccato all\'avvio</string>
     <string name="screen_orientation_portrait">Verticale</string>
     <string name="screen_orientation_landscape">Orizzontale</string>
+    <string name="screen_orientation_landscape_reverse">Orizzontale inverso</string>
+    <string name="screen_orientation_last_locked">Ultimo orientamento bloccato</string>
     <string name="enable_black_theme">Tema nero</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="daynight_title">Modalità GiornoNotte</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">Minima</string>
     <string name="casting_connected_renderer">Connesso al renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Mostra tutti gli artisti</string>
+    <string name="show_headers">Mostra le intestazioni</string>
+    <string name="show_headers_summary">Dividi gli elenchi per intestazioni a seconda del tipo di ordinamento </string>
 
     <string name="extensions_prefs_category">Estensioni</string>
     <string name="extensions_empty">Nessuna estensione rilevata</string>
@@ -770,5 +775,6 @@
     <string name="preferred_resolution_summary">La massima qualità video per i flussi, se applicabile, sarà: %s</string>
     <string name="pref_resolution_best_available">Migliore disponibile</string>
     <string name="pref_resolution_very_low">Bassissima definizione (240p)</string>
+    <string name="stop_unpaubale">Questo media non può essere sospeso. Vuoi invece fermarlo?</string>
 
 </resources>
