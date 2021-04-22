@@ -43,6 +43,7 @@
     <string name="append_all">Dołącz wszystko</string>
     <string name="resume_playback_short_title">Wznów</string>
     <string name="resume_playback_long_title">Wznów odtwarzanie</string>
+    <string name="resume_playback_error">Nie ma nic do wznowienia</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -134,6 +135,7 @@
     <string name="shuffle_title">Tryb Losowo</string>
     <string name="shuffle">Losowo wyłączone</string>
     <string name="shuffle_on">Losowo włączone</string>
+    <string name="shuffle_play">Losowo</string>
     <string name="repeat_title">Tryb powtórz</string>
     <string name="repeat">Nie powtarzaj żadnych</string>
     <string name="repeat_single">Powtórz pojedynczy</string>
@@ -261,9 +263,10 @@
     <string name="automatic">Automatycznie</string>
     <string name="screen_orientation">Orientacja ekranu</string>
     <string name="screen_orientation_sensor">Automatycznie (czujnik)</string>
-    <string name="screen_orientation_start_lock">Zablokowana przy starcie</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Pejzaż</string>
+    <string name="screen_orientation_landscape_reverse">Odwrócenie pejzażu</string>
+    <string name="screen_orientation_last_locked">Ostatnia zablokowana orientacja</string>
     <string name="enable_black_theme">Ciemny motyw</string>
     <string name="subtitle_text_encoding">Kodowanie tekstu napisów</string>
     <string name="daynight_title">Tryb dzień/noc</string>
@@ -355,6 +358,8 @@
     <string name="casting_quality_lowcpu">Najniższa</string>
     <string name="casting_connected_renderer">Połączony z rendererem \'%1$s\'</string>
     <string name="artists_show_all_title">Pokaż wszystkich wykonawców</string>
+    <string name="show_headers">Pokaż nagłówki</string>
+    <string name="show_headers_summary">Podziel listy według nagłówków w zależności od typu sortowania</string>
 
     <string name="extensions_prefs_category">Rozszerzenia</string>
     <string name="extensions_empty">Nie wykryto rozszerzenia</string>
@@ -792,5 +797,6 @@
     <string name="preferred_resolution_summary">Maksymalna jakość wideo dla strumieni, jeśli jest obsługiwana, będzie wynosić: %s</string>
     <string name="pref_resolution_best_available">Najlepsza dostępna</string>
     <string name="pref_resolution_very_low">Bardzo niska rozdzielczość (240p)</string>
+    <string name="stop_unpaubale">Ten materiał nie może być wstrzymany. Zamiast tego zatrzymać?</string>
 
 </resources>
