@@ -234,7 +234,6 @@
     <string name="automatic">Tự động</string>
     <string name="screen_orientation">Hướng xoay của màn hình</string>
     <string name="screen_orientation_sensor">Tự động (cảm biến)</string>
-    <string name="screen_orientation_start_lock">Khóa khi khởi động</string>
     <string name="screen_orientation_portrait">Hướng dọc</string>
     <string name="screen_orientation_landscape">Hướng ngang</string>
     <string name="enable_black_theme">Giao diện tối</string>
@@ -328,7 +327,6 @@
     <string name="casting_quality_lowcpu">Thấp nhất</string>
     <string name="casting_connected_renderer">Đã kết nối đến trình thông dịch \'%1$s\'</string>
     <string name="artists_show_all_title">Hiện tất cả nghệ sĩ</string>
-
     <string name="extensions_prefs_category">Phần mở rộng</string>
     <string name="extensions_empty">Không tìm thấy phần mở rộng nào</string>
     <string name="extension_permission_title">Kích hoạt phần mở rộng mới \"%1$s\"?</string>
@@ -523,7 +521,9 @@
     <string name="download_the_selected">Tải mục đã chọn</string>
     <string name="next">Tiếp</string>
     <string name="download">Tải về</string>
+    <string name="ctx_pip_title">Trình phát Pop-up</string>
     <string name="device_dialog_title">Thiết bị ngoài đã cắm vào</string>
+    <string name="device_dialog_message">Bạn vừa cắm một thiết bị lưu trữ mới vào hộp TV của bạn, bạn có muốn mở nó bằng VLC không?</string>
     <string name="videos_groups_title">Các nhóm video</string>
     <string name="video_save_clone_mode">Tự động kích hoạt chế độ nhân bản?</string>
     <string name="video_remote_enable">Chuyển sang chế độ điều khiển từ xa</string>
@@ -532,6 +532,7 @@
     <string name="welcome_title">Chào mừng đến với VLC!</string>
     <string name="welcome_subtitle">Trình phát đa phương tiện tự do và mã nguồn mở</string>
     <string name="permission_media">VLC cần bạn cấp quyền để truy cập tập tin đa phương tiện trên thiết bị</string>
+    <string name="medialibrary_scan_explanation">VLC có thể tự động quét thiết bị của bạn để sắp xếp bộ sưu tập phương tiện của bạn.</string>
     <string name="onboarding_theme_title">Cứ tự nhiên như ở nhà</string>
     <string name="done">Hoàn tất</string>
     <string name="onboarding_scan_title">Tự động khám phá phương tiện của bạn</string>
@@ -548,6 +549,8 @@
     <string name="device_default">Mặc định của thiết bị</string>
     <string name="track_number">%d bài hát</string>
     <string name="jump_to">Nhảy đến</string>
+    <string name="show_video_thumbnails_summary">Hiện hình thu nhỏ của video trong các danh sách</string>
+    <string name="show_video_thumbnails">Hình thu nhỏ của video</string>
     <string name="enable_equalizer">Bật</string>
     <string name="reset">Đặt lại</string>
     <string name="remove_current">Xóa hiện tại</string>
@@ -558,8 +561,11 @@
     <string name="dump_db_succes">Cơ sở dữ liệu đã xuất ra gốc của bộ nhớ trong</string>
     <string name="dump_db_failure">Xuất cơ sở dữ liệu thất bại</string>
     <string name="send_crash_title">Trình báo cáo lỗi của VLC</string>
+    <string name="send_crash_description">Bằng cách gửi crash của bạn, bạn sẽ giúp chúng tôi cải thiện sự ổn định của VLC.</string>
     <string name="send_crash_warning">Hãy chắc chắn bạn đã xoá bất kỳ dữ liệu nhạy cảm nào bạn không muốn gửi.</string>
     <string name="include_medialib">Bao gồm cơ sở dữ liệu của bạn</string>
+    <string name="welcome_beta_description">Chào mừng đến chương trình beta của VLC.\nVui lòng lưu ý rằng phiên bản này có thể có một số lỗi.</string>
+    <string name="welcome_beta_description_bugs">Nếu bạn để ý thấy một lỗi, vui lòng báo cáo nó trong diễn đàn hoặc trình theo dõi lỗi của chúng tôi.</string>
     <string name="send">Gửi</string>
     <string name="send_crash_action_title">Bạn muốn làm gì?</string>
     <string name="report_a_bug">Báo cáo lỗi</string>
@@ -670,5 +676,4 @@
     <string name="preferred_resolution">Độ phân giải video được ưu tiên</string>
     <string name="pref_resolution_best_available">Tốt nhất sẵn có</string>
     <string name="pref_resolution_very_low">Độ phân giải rất thấp (240p)</string>
-
 </resources>
