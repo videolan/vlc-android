@@ -110,6 +110,7 @@
     <string name="shuffle_title">셔플 모드</string>
     <string name="shuffle">셔플 끄기</string>
     <string name="shuffle_on">셔플 켜기</string>
+    <string name="shuffle_play">셔플</string>
     <string name="repeat_title">반복 모드</string>
     <string name="repeat">반복 없음</string>
     <string name="repeat_single">한 곡 반복</string>
@@ -234,7 +235,6 @@
     <string name="automatic">자동</string>
     <string name="screen_orientation">화면 방향</string>
     <string name="screen_orientation_sensor">자동 (센서)</string>
-    <string name="screen_orientation_start_lock">시작시 잠금</string>
     <string name="screen_orientation_portrait">세로 방향</string>
     <string name="screen_orientation_landscape">가로 방향</string>
     <string name="enable_black_theme">검정 테마</string>
@@ -328,7 +328,7 @@
     <string name="casting_quality_lowcpu">가장 낮음</string>
     <string name="casting_connected_renderer">\'%1$s\' 렌더러에 연결되었습니다</string>
     <string name="artists_show_all_title">모든 아티스트 보이기</string>
-
+    <string name="show_headers">헤더 보이기</string>
     <string name="extensions_prefs_category">확장 프로그램</string>
     <string name="extensions_empty">감지한 확장 프로그램이 없습니다</string>
     <string name="extension_permission_title">새 확장 프로그램 \"%1$s\"를 활성화할까요?</string>
@@ -752,4 +752,5 @@
     <string name="go_to_folder">상위 찾아보기</string>
     <string name="no_sub_renderer">전송 중에는 자막이 지원되지 않습니다</string>
     <string name="enqueuing">미디어 로딩</string>
+    <string name="soundfont">MIDI 사운드폰트</string>
 </resources>
