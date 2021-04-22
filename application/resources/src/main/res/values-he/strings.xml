@@ -43,6 +43,7 @@
     <string name="append_all">להוסיף הכול</string>
     <string name="resume_playback_short_title">להמשיך בנגינה</string>
     <string name="resume_playback_long_title">להמשיך בנגינה של מה שהתנגן קודם</string>
+    <string name="resume_playback_error">אין מה להמשיך</string>
     <string name="delete">למחוק</string>
     <string name="remove">להסיר</string>
     <string name="set_song">להגדיר כצלצול</string>
@@ -134,6 +135,7 @@
     <string name="shuffle_title">מצב ערבול</string>
     <string name="shuffle">כיבוי הערבול</string>
     <string name="shuffle_on">הפעלת הערבול</string>
+    <string name="shuffle_play">ערבוב</string>
     <string name="repeat_title">מצב חזרה</string>
     <string name="repeat">לא לחזור</string>
     <string name="repeat_single">לחזור על בודד</string>
@@ -261,9 +263,10 @@
     <string name="automatic">אוטומטית</string>
     <string name="screen_orientation">כיוון המסך</string>
     <string name="screen_orientation_sensor">אוטומטית (חיישן)</string>
-    <string name="screen_orientation_start_lock">ננעל בהתחלה</string>
-    <string name="screen_orientation_portrait">לרוחב</string>
-    <string name="screen_orientation_landscape">לאורך</string>
+    <string name="screen_orientation_portrait">לאורך</string>
+    <string name="screen_orientation_landscape">לרוחב</string>
+    <string name="screen_orientation_landscape_reverse">לרוחב הפוך</string>
+    <string name="screen_orientation_last_locked">הכיוון האחרון שננעל</string>
     <string name="enable_black_theme">ערכת נושא שחורה</string>
     <string name="subtitle_text_encoding">קידוד טקסט הכתוביות</string>
     <string name="daynight_title">מצב יום־לילה</string>
@@ -355,6 +358,8 @@
     <string name="casting_quality_lowcpu">הנמוכה ביותר</string>
     <string name="casting_connected_renderer">יש חיבור להתקן העיבוד ‚%1$s’</string>
     <string name="artists_show_all_title">הצגת כל האומנים</string>
+    <string name="show_headers">להציג כותרות</string>
+    <string name="show_headers_summary">לפצל את הרשימות לפי כותרות בהתאם סוג המיון</string>
 
     <string name="extensions_prefs_category">הרחבות</string>
     <string name="extensions_empty">לא זוהו הרחבות</string>
@@ -792,5 +797,6 @@
     <string name="preferred_resolution_summary">איכות הווידאו המרבית לתזרימים, כשזאת אכן משפיעה, תהיה: %s</string>
     <string name="pref_resolution_best_available">המיטבית ביותר הזמינה</string>
     <string name="pref_resolution_very_low">איכות נמוכה במיוחד (240p)</string>
+    <string name="stop_unpaubale">אי אפשר להשהות את המדיה הזאת. לעצור אותה במקום?</string>
 
 </resources>
