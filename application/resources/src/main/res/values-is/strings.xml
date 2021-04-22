@@ -243,7 +243,6 @@
     <string name="automatic">Sjálfvirkt</string>
     <string name="screen_orientation">Stefna myndspilunarglugga</string>
     <string name="screen_orientation_sensor">Sjálfvirkt (skynjari)</string>
-    <string name="screen_orientation_start_lock">Læst í byrjun</string>
     <string name="screen_orientation_portrait">Lóðrétt</string>
     <string name="screen_orientation_landscape">Lárétt</string>
     <string name="enable_black_theme">Svart þema</string>
@@ -337,7 +336,6 @@
     <string name="casting_quality_lowcpu">Lægstu</string>
     <string name="casting_connected_renderer">Tengt við myndgerðarþjóninn \'%1$s\'</string>
     <string name="artists_show_all_title">Sýna alla flytjendur</string>
-
     <string name="extensions_prefs_category">Forritsaukar</string>
     <string name="extensions_empty">Engir forritsaukar fundust</string>
     <string name="extension_permission_title">Virkja nýja forritsaukann \"%1$s\"?</string>
@@ -765,4 +763,11 @@
     <string name="enqueuing">Hleð inn margmiðlunargögnunum þínum</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Veldu SoundFont-skrá til að spila midi-hljóðspor</string>
+    <string name="search_prefs">Leitarstillingar</string>
+    <string name="preferred_resolution">Kjörupplausn myndmerkis</string>
+    <string name="preferred_resolution_summary">Hámarksgæði myndmerkis í streymi, ef slíkt er í boði: %s</string>
+    <string name="pref_resolution_best_available">Besta sem er í boði</string>
+    <string name="pref_resolution_very_low">Mjög lág gæði (240p)</string>
+    <string name="stop_unpaubale">Þennan gagnamiðil er ekki hægt að setja á bið. Stöðva það í staðinn?</string>
+
 </resources>
