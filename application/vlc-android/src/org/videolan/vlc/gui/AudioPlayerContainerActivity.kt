@@ -136,17 +136,20 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         appBarLayout = findViewById(R.id.appbar)
         tabLayout = findViewById(R.id.sliding_tabs)
+        tabLayout?.visibility = View.VISIBLE
         appBarLayout.setExpanded(true)
         bottomBar = findViewById(R.id.navigation)
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
-            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (tabLayout?.isVisible() == true) 4.dp.toFloat() else 0.dp.toFloat()
+            val isTabLayoutShown = (tabLayout?.layoutParams?.height != 0)
+            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (isTabLayoutShown) 4.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
     }
 
     fun setTabLayoutVisibility(show: Boolean) {
-        tabLayout?.visibility = if (show) View.VISIBLE else View.GONE
+        tabLayout?.layoutParams?.height = if (show) ViewGroup.LayoutParams.WRAP_CONTENT else 0
+        tabLayout?.requestLayout()
     }
 
     private fun initAudioPlayer() {
