@@ -55,6 +55,8 @@ dependencies {
 
     //Room
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    // Provide proper JDBC version, see https://issuetracker.google.com/issues/174695268
+    kapt ('org.xerial:sqlite-jdbc:3.34.0')
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
 
 

@@ -62,7 +62,7 @@ ext {
     constraintLayoutVersion = '2.0.4'
     viewPager2Version = "1.0.0"
     archVersion = '2.1.0'
-    roomVersion = '2.2.6'
+    roomVersion = '2.3.0'
     pagingVersion = '2.1.2'
     junitVersion = '4.13'
     mockito = '2.25.0'

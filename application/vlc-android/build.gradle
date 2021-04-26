@@ -173,7 +173,10 @@ dependencies {
     api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
-    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
+
+    kapt ('org.xerial:sqlite-jdbc:3.34.0')
+    kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
+
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
 
 
