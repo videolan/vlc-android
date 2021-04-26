@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_abrepeat_audio.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M17.996,12.508C17.582,12.508 17.246,12.844 17.246,13.258L17.246,15.504C17.246,16.195 16.686,16.754 15.996,16.754L7.203,16.754L7.203,15.524C7.203,15.062 6.672,14.82 6.346,15.147L4,17.504L6.353,19.858C6.449,19.954 6.579,20.008 6.709,20.008C7.003,20.008 7.206,19.756 7.197,19.447L7.197,18.258L15.996,18.258C17.515,18.257 18.746,17.027 18.746,15.508L18.746,13.258C18.746,12.844 18.41,12.508 17.996,12.508L17.996,12.508ZM13.5,13.504L15,13.504L15,12.004L13.5,12.004L13.5,13.504ZM13.5,11.004L15,11.004L15,9.504L13.5,9.504L13.5,11.004ZM9,11.504L10.5,11.504L10.5,9.504L9,9.504L9,11.504ZM12.5,8.504L12.5,14.504L15,14.504C15.553,14.504 16,14.056 16,13.504L16,12.504C16,11.952 15.553,11.504 15,11.504C15.553,11.504 16,11.056 16,10.504L16,9.504C16,8.952 15.553,8.504 15,8.504L12.5,8.504ZM9,8.504C8.448,8.504 8,8.952 8,9.504L8,14.504L9,14.504L9,12.504L10.5,12.504L10.5,14.504L11.5,14.504L11.5,9.504C11.5,8.952 11.052,8.504 10.5,8.504L9,8.504ZM17.291,3C16.997,3 16.794,3.252 16.803,3.561L16.803,4.75L8.004,4.75C6.485,4.751 5.254,5.981 5.254,7.5L5.254,9.75C5.254,10.164 5.59,10.5 6.004,10.5C6.418,10.5 6.754,10.164 6.754,9.75L6.754,7.504C6.754,6.814 7.313,6.254 8.004,6.254L16.797,6.254L16.797,7.485C16.797,7.946 17.327,8.189 17.654,7.862L20,5.504L17.646,3.151C17.552,3.053 17.421,3 17.291,3L17.291,3Z"
+      android:strokeWidth="1"
+      android:fillColor="#000000"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>

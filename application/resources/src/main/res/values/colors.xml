@@ -66,20 +66,33 @@
     <color name="grey900transparent_bb">#bb212121</color>
     <color name="grey900transparent_dd">#dd212121</color>
     <color name="grey900transparent">#80212121</color>
+    <color name="grey200_transparent_20">#33eeeeee</color>
+
+    <color name="mini_player_dark">#121212</color>
+    <color name="mini_player_divider">#838383</color>
+    <color name="mini_visualizer">#BF141414</color>
 
     <color name="blacktransparent">#b4000000</color>
     <color name="whitetransparent">#b4ffffff</color>
     <color name="white_less_transparent">#ccffffff</color>
-    <color name="white_transparent_50">#80ffffff</color>
     <color name="ripple_white">#44ffffff</color>
     <color name="white_more_transparent">#33ffffff</color>
     <color name="white_audio_player_transparent">#aaffffff</color>
     <color name="black_audio_player_transparent">#ee2a2a2a</color>
     <color name="transparent">#00000000</color>
 
-    <color name="black_transparent_80">#cc000000</color>
     <color name="white_transparent_10">#1affffff</color>
+    <color name="white_transparent_20">#33ffffff</color>
     <color name="white_transparent_30">#4dffffff</color>
+    <color name="white_transparent_50">#80ffffff</color>
+    <color name="white_transparent_60">#99ffffff</color>
+    <color name="white_transparent_75">#bfffffff</color>
+
+    <color name="black_transparent_20">#33000000</color>
+    <color name="black_transparent_50">#80000000</color>
+    <color name="black_transparent_60">#99000000</color>
+    <color name="black_transparent_75">#BF000000</color>
+    <color name="black_transparent_80">#cc000000</color>
 
     <color name="white_selection_transparent">#44ffffff</color>
 

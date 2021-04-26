@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ *************************************************************************
-  ~  ic_seekbar_thumb_normal.xml
+  ~  audio_list_background_black.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -22,16 +23,11 @@
   ~
   -->
 
-<vector android:height="28dp"
-        android:viewportHeight="14"
-        android:viewportWidth="14"
-        android:width="28dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="?attr/colorPrimary"
-            android:fillType="nonZero"
-            android:pathData="m10,7a3,3 90,1 1,-6 0,3 3,90 1,1 6,0z"
-            android:strokeColor="#00000000"
-            android:strokeWidth="1" />
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:top="-2dp" android:bottom="-2dp" android:right="-2dp">
+        <shape android:shape="rectangle">
+            <stroke android:width="1dp" android:color="@color/black_transparent_50" />
+            <solid android:color="@color/black_transparent_20" />
+        </shape>
+    </item>
+</layer-list>

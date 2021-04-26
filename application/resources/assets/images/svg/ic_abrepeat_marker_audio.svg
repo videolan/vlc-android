@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic_marker</title>
+    <g id="vlc-android-audio-player-+-bookmarks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="AB-repeat" transform="translate(-207.000000, -49.000000)">
+            <g id="mini-player" transform="translate(0.000000, 25.000000)">
+                <g id="ic_marker" transform="translate(207.000000, 24.000000)">
+                    <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                    <path d="M11.533,19.683 C11.543,19.694 11.544,19.705 11.551,19.717 C11.634,19.889 11.809,19.9990062 12,19.9990062 C12.201,20 12.383,19.88 12.461,19.695 L16.524,11.131 C16.84,10.465 16.999,9.737 17.001,9 C17.001,6.238 14.762,4 12,4 C9.239,4.001 7,6.24 7,9.001 C7,9.738 7.167,10.466 7.48,11.132 L11.533,19.683 Z" fill="#000000"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

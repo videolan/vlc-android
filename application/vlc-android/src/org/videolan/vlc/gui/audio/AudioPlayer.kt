@@ -145,24 +145,20 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.fragment = this
 
-        binding.next.setOnTouchListener(LongSeekListener(true,
-                UiTools.getResourceFromAttribute(view.context, R.attr.ic_next),
-                R.drawable.ic_next_pressed))
-        binding.previous.setOnTouchListener(LongSeekListener(false,
-                UiTools.getResourceFromAttribute(view.context, R.attr.ic_previous),
-                R.drawable.ic_previous_pressed))
+        binding.next.setOnTouchListener(LongSeekListener(true))
+        binding.previous.setOnTouchListener(LongSeekListener(false))
 
         registerForContextMenu(binding.songsList)
         userVisibleHint = true
         showCover(settings.getBoolean("audio_player_show_cover", false))
-        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
 
         //For resizing purpose, we have to cache this twice even if it's from the same resource
-        playToPause = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
-        pauseToPlay = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
-        playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
-        pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
+        playToPause = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause_video)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play_video)!!
+        playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause_video)!!
+        pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play_video)!!
         onSlide(0f)
         abRepeatAddMarker = binding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
         playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner, { abvalues ->
@@ -175,6 +171,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner, {
             binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
             abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
+            binding.audioPlayProgress.visibility = if (!it) View.VISIBLE else View.GONE
 
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
         })
@@ -327,7 +324,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 if (medias.size < 2) {
                     withContext(Dispatchers.Main) { binding.audioPlayProgress.setGone() }
                     return@withContext ""
-                } else withContext(Dispatchers.Main) { binding.audioPlayProgress.setVisible() }
+                } else withContext(Dispatchers.Main) { if (abRepeatAddMarker.visibility == View.GONE) binding.audioPlayProgress.setVisible() }
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
@@ -398,7 +395,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun onPlaylistSwitchClick(view: View) {
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
-        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
     }
 
     fun onShuffleClick(view: View) {
@@ -489,14 +486,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         if (this::optionsDelegate.isInitialized) optionsDelegate.release()
     }
 
-    private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
-        internal var length = -1L
+    private inner class LongSeekListener(var forward: Boolean) : View.OnTouchListener {
+        var length = -1L
 
-        internal var possibleSeek = 0
-        internal var vibrated = false
+        var possibleSeek = 0
+        var vibrated = false
 
         @RequiresPermission(Manifest.permission.VIBRATE)
-        internal var seekRunnable: Runnable = object : Runnable {
+        var seekRunnable: Runnable = object : Runnable {
             override fun run() {
                 if (!vibrated) {
                     AppContextProvider.appContext.getSystemService<Vibrator>()?.vibrate(80)
@@ -520,17 +517,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    (if (forward) binding.next else binding.previous).setImageResource(this.pressed)
                     possibleSeek = playlistModel.time.toInt()
                     previewingSeek = true
                     vibrated = false
                     length = playlistModel.length
                     handler.postDelayed(seekRunnable, 1000)
-                    return true
+                    return false
                 }
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    (if (forward) binding.next else binding.previous).setImageResource(this.normal)
                     handler.removeCallbacks(seekRunnable)
                     previewingSeek = false
                     if (event.eventTime - event.downTime < 1000) {
@@ -548,7 +543,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                                 onPreviousClick(v)
                         }
                     }
-                    return true
+                    return false
                 }
             }
             return false

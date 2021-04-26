@@ -24,16 +24,14 @@
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
         </item>
 
-        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/orange700</item>
-        <item name="colorSecondary">@color/orange500</item>
+        <item name="colorSecondary">@color/orange800</item>
         <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/orange800</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorOnSurface">@color/black</item>
-        <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
-        </item>
         <item name="colorControlHighlight">@color/orange800</item>
         <item name="colorControlNormal">@color/grey700</item>
 
@@ -41,6 +39,12 @@
         <item name="actionModeBackground">@color/grey400</item>
         <item name="background_default">@color/white</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background</item>
+        <item name="audio_header_background">@color/white</item>
+        <item name="audio_header_divider">@color/mini_player_divider</item>
+        <item name="audio_menu_icon">@color/black_transparent_50</item>
+        <item name="audio_list_background">@drawable/audio_list_background</item>
+        <item name="audio_seek_bar">@drawable/audio_seekbar</item>
+        <item name="mini_visualizer_color">@color/mini_visualizer</item>
         <item name="bottom_sheet_background">@color/white</item>
         <item name="bottom_sheet_radius">16dp</item>
         <item name="bottom_navigation_color">@color/grey700</item>
@@ -48,7 +52,7 @@
         <item name="background_default_darker">@color/grey200</item>
         <item name="background_actionbar">@color/white</item>
         <item name="background_audio_tips">@color/grey50transparent</item>
-        <item name="audio_player_background_tint">@color/whitetransparent</item>
+        <item name="audio_player_background_tint">@color/white_transparent_50</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
@@ -64,8 +68,6 @@
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_menu_search">@drawable/ic_menu_search</item>
-        <item name="ic_previous">@drawable/ic_previous</item>
-        <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_save">@drawable/ic_save</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
@@ -92,6 +94,8 @@
         <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
         <item name="card_border">@color/grey300</item>
         <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_light</item>
+        <item name="audio_chip_background">@color/black_transparent_75</item>
+        <item name="audio_chip_text_color">@color/white_transparent_60</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
@@ -167,8 +171,6 @@
         <item name="colorSecondary">@color/orange600</item>
         <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
-        </item>
         <item name="colorControlHighlight">@color/orange500</item>
         <item name="colorControlNormal">@color/grey700</item>
 
@@ -176,6 +178,12 @@
         <item name="actionModeBackground">@color/grey875</item>
         <item name="background_default">@color/black</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background_dark</item>
+        <item name="audio_header_background">@color/mini_player_dark</item>
+        <item name="audio_header_divider">@color/black</item>
+        <item name="audio_menu_icon">@color/white_transparent_50</item>
+        <item name="audio_list_background">@drawable/audio_list_background_black</item>
+        <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
+        <item name="mini_visualizer_color">@color/white_transparent_75</item>
         <item name="bottom_sheet_background">@color/grey875</item>
         <item name="bottom_sheet_radius">16dp</item>
         <item name="bottom_navigation_color">@color/grey500</item>
@@ -183,7 +191,7 @@
         <item name="background_default_darker">@color/grey875</item>
         <item name="background_actionbar">@color/black</item>
         <item name="background_audio_tips">@color/grey900transparent</item>
-        <item name="audio_player_background_tint">@color/grey900transparent</item>
+        <item name="audio_player_background_tint">@color/black_transparent_50</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
@@ -199,8 +207,6 @@
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_menu_search">@drawable/ic_menu_search_w</item>
-        <item name="ic_previous">@drawable/ic_previous_w</item>
-        <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
@@ -228,6 +234,8 @@
 
         <item name="card_border">@color/grey800</item>
         <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_dark</item>
+        <item name="audio_chip_background">@color/white_transparent_75</item>
+        <item name="audio_chip_text_color">@color/black_transparent_60</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">

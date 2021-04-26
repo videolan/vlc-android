@@ -72,7 +72,7 @@
     <dimen name="info_default_margin">16dp</dimen>
 
     <dimen name="info_dialog_peek_height">120dip</dimen>
-    <dimen name="player_peek_height">61dip</dimen>
+    <dimen name="player_peek_height">72dp</dimen>
 
     <!-- fast scroller -->
     <dimen name="fastscroller_handle_corner">20dp</dimen>

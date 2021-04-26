@@ -34,7 +34,6 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
@@ -77,7 +76,6 @@ class AudioPlayerActivity : BaseTvActivity() {
 
         model = ViewModelProvider(this).get(PlaylistModel::class.java)
         binding.playlist.layoutManager = LinearLayoutManager(this)
-        binding.playlist.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         adapter = PlaylistAdapter(this, model)
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
@@ -94,8 +92,8 @@ class AudioPlayerActivity : BaseTvActivity() {
             intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it) }
         else
             intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
-        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
-        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
+        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
     }
 
     override fun refresh() {}
@@ -163,16 +161,6 @@ class AudioPlayerActivity : BaseTvActivity() {
                 goNext()
                 return true
             }
-            KeyEvent.KEYCODE_DPAD_RIGHT -> return if (binding.mediaProgress.hasFocus()) {
-                seek(10000)
-                true
-            } else
-                false
-            KeyEvent.KEYCODE_DPAD_LEFT -> return if (binding.mediaProgress.hasFocus()) {
-                seek(-10000)
-                true
-            } else
-                false
             KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
                 seek(10000)
                 return true

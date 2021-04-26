@@ -27,6 +27,10 @@
     <attr name="background_default" format="reference|color" />
     <attr name="header_background" format="reference|color" />
     <attr name="bottom_navigation_background" format="reference|color" />
+    <attr name="audio_header_background" format="reference|color" />
+    <attr name="audio_header_divider" format="color" />
+    <attr name="audio_menu_icon" format="color" />
+    <attr name="audio_list_background" format="reference|color" />
     <attr name="bottom_sheet_background" format="reference|color" />
     <attr name="bottom_sheet_radius" format="dimension" />
     <attr name="bottom_navigation_color" format="reference|color" />
@@ -51,13 +55,15 @@
     <attr name="rounded_corners_bottom_default_darker" format="reference" />
     <attr name="donate_card" format="color" />
     <attr name="donate_item_background" format="reference" />
+    <attr name="audio_chip_background" format="color" />
+    <attr name="audio_chip_text_color" format="color" />
+    <attr name="audio_seek_bar" format="reference" />
+    <attr name="mini_visualizer_color" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />
     <attr name="ic_playlist_on" format="reference" />
     <attr name="ic_menu_search" format="reference" />
-    <attr name="ic_previous" format="reference" />
-    <attr name="ic_next" format="reference" />
     <attr name="ic_save" format="reference" />
     <attr name="gridview_progressbar" format="reference" />
     <attr name="toolbar_popup_style" format="reference" />
