@@ -157,6 +157,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     val tracks = context.getFromMl { getPlaylist(mediaId.extractId())?.tracks }
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
+                mediaId.startsWith(MediaSessionBrowser.SEARCH_PREFIX) -> {
+                    val tracks = context.getFromMl { search(mediaId.extractParam())?.tracks }
+                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                }
                 mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> {
                     val id = mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")
                     onPlayFromUri(id.toUri(), null)
@@ -178,7 +182,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
-    private fun String.extractId() = split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].toLong()
+    private fun String.extractId() = extractParam().toLong()
+
+    private fun String.extractParam() = split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
 
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
@@ -211,7 +217,11 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             }
             if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
-            if (!tracks.isNullOrEmpty()) loadMedia(tracks?.toList())
+            when {
+                !tracks.isNullOrEmpty() -> loadMedia(tracks?.toList())
+                playbackService.hasMedia() -> playbackService.play()
+                else -> playbackService.displayPlaybackError(R.string.search_no_result)
+            }
         }
     }
 
