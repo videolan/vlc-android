@@ -137,10 +137,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
         lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
+                val width = getScreenWidth()
                 if (!playlist.artworkMrl.isNullOrEmpty()) {
-                    AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), getScreenWidth())
+                    AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), width)
                 } else {
-                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}", playlist.tracks.toList(), getScreenWidth())
+                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
                 }
             }
             if (cover != null) {

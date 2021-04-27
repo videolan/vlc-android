@@ -58,7 +58,6 @@ import org.videolan.vlc.extensions.ExtensionManagerService.ExtensionManagerActiv
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.getFileUri
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools.getDefaultAudioDrawable
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.isPathValid
@@ -176,7 +175,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                 }
                 results = extensionItems
             } else {
-                val ml by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
+                val ml = Medialibrary.getInstance()
                 when (parentId) {
                     ID_ROOT -> {
                         //List of Extensions
@@ -431,7 +430,6 @@ class MediaSessionBrowser : ExtensionManagerActivity {
             val artworkToUriCache = HashMap<String, Uri>()
             var results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()
             results.ensureCapacity(list.size.coerceAtMost(MAX_RESULT_SIZE))
-            val ml by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
             /* Iterate over list */
             for (libraryItem in list) {
                 if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA
@@ -459,10 +457,12 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         item.setSubtitle(res.getString(R.string.track_number, libraryItem.tracksCount))
                     }
                     MediaLibraryItem.TYPE_ARTIST -> {
-                        item.setSubtitle(res.getQuantityString(R.plurals.albums_quantity, ml.getArtist(libraryItem.id).albumsCount, ml.getArtist(libraryItem.id).albumsCount))
+                        val albumsCount = Medialibrary.getInstance().getArtist(libraryItem.id).albumsCount
+                        item.setSubtitle(res.getQuantityString(R.plurals.albums_quantity, albumsCount, albumsCount))
                     }
                     MediaLibraryItem.TYPE_GENRE -> {
-                        item.setSubtitle(res.getQuantityString(R.plurals.albums_quantity, ml.getGenre(libraryItem.id).albumsCount, ml.getGenre(libraryItem.id).albumsCount))
+                        val albumsCount = Medialibrary.getInstance().getGenre(libraryItem.id).albumsCount
+                        item.setSubtitle(res.getQuantityString(R.plurals.albums_quantity, albumsCount, albumsCount))
                     }
                     MediaLibraryItem.TYPE_ALBUM -> {
                         if (parentId.startsWith(ARTIST_PREFIX))
@@ -485,11 +485,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         MediaLibraryItem.TYPE_GENRE -> item.setIconUri(null)
                         MediaLibraryItem.TYPE_PLAYLIST -> {
                             val cover = runBlocking(Dispatchers.IO) {
-                                if (!libraryItem.artworkMrl.isNullOrEmpty()) {
-                                    AudioUtil.fetchCoverBitmap(Uri.decode(libraryItem.artworkMrl), 256)
-                                } else {
-                                    ThumbnailsProvider.getPlaylistImage("playlist:${libraryItem.id}", libraryItem.tracks.toList(), 256)
-                                }
+                                ThumbnailsProvider.getPlaylistImage("playlist:${libraryItem.id}_256", libraryItem.tracks.toList(), 256)
                             }
                             if (cover != null) item.setIconBitmap(cover) else item.setIconUri(DEFAULT_PLAYLIST_ICON)
                         }
@@ -497,10 +493,12 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     }
                 }
                 /* Set Extras */
-                when (libraryItem.itemType) {
-                    MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE ->
-                        item.setExtras(getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
+                val extras = when (libraryItem.itemType) {
+                    MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE)
+                    else -> Bundle()
                 }
+                if (groupTitle != null) extras.putString(EXTRA_CONTENT_STYLE_GROUP_TITLE_HINT, groupTitle)
+                item.setExtras(extras)
                 /* Set Flags */
                 val flags = when (libraryItem.itemType) {
                     MediaLibraryItem.TYPE_MEDIA, MediaLibraryItem.TYPE_PLAYLIST -> MediaBrowserCompat.MediaItem.FLAG_PLAYABLE

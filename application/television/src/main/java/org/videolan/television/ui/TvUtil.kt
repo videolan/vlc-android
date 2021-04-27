@@ -347,7 +347,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
             bm?.drawable = BitmapDrawable(activity.resources, blurred)
         } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             val blurred = withContext(Dispatchers.IO) {
-                var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), 512)
+                var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}_512", item.tracks.toList(), 512)
                         ?: return@withContext null
                 cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
                 UiTools.blurBitmap(cover, 10f)
