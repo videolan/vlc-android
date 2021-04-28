@@ -77,6 +77,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
         binding.totalTime = Tools.millisToString(item.tracks.sumByDouble { it.length.toDouble() }.toLong())
 
 
+        binding.play.requestFocus()
         binding.play.setOnClickListener { if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist)  else TvUtil.playMedia(this, item.tracks.toMutableList())}
         binding.append.setOnClickListener { MediaUtils.appendMedia(this, item.tracks) }
         binding.insertNext.setOnClickListener { MediaUtils.insertNext(this, item.tracks) }

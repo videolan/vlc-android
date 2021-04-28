@@ -13,11 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ViewStubCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
@@ -61,7 +60,7 @@ private const val ID_VIDEO_STATS = 15L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
-class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: PlaybackService) : LifecycleObserver {
+class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 
     private lateinit var recyclerview: RecyclerView
     private lateinit var rootView: FrameLayout
@@ -111,7 +110,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
         val chaptersCount = service.getChapters(-1)?.size ?: 0
         if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
-        options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
+        if (showABReapeat) options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))

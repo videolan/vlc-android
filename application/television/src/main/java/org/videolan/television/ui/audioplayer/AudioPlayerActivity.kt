@@ -31,6 +31,7 @@ import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -45,6 +46,7 @@ import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.MediaComparators
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
@@ -68,6 +70,7 @@ class AudioPlayerActivity : BaseTvActivity() {
     private var settings: SharedPreferences? = null
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
     private lateinit var playToPause: AnimatedVectorDrawableCompat
+    private lateinit var optionsDelegate: PlayerOptionsDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +89,7 @@ class AudioPlayerActivity : BaseTvActivity() {
                 adapter.update(mediaWrappers)
             }
         })
+        binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
         model.playerState.observe(this, { playerState -> update(playerState) })
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (intent.hasExtra(MEDIA_PLAYLIST))
@@ -94,6 +98,27 @@ class AudioPlayerActivity : BaseTvActivity() {
             intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
+    }
+
+    private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
+
+        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+        override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
+            if (fromUser) {
+                model.time = progress.toLong()
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
+            optionsDelegate.hide()
+            return
+        }
+        super.onBackPressed()
     }
 
     override fun refresh() {}
@@ -216,7 +241,16 @@ class AudioPlayerActivity : BaseTvActivity() {
             R.id.button_previous -> goPrevious()
             R.id.button_repeat -> updateRepeatMode()
             R.id.button_shuffle -> setShuffleMode(!shuffling)
+            R.id.button_more -> showAdvancedOptions(v)
         }
+    }
+
+    private fun showAdvancedOptions(v: View) {
+        if (!this::optionsDelegate.isInitialized) {
+            val service = model.service ?: return
+            optionsDelegate = PlayerOptionsDelegate(this, service, false)
+        }
+        optionsDelegate.show()
     }
 
     private fun setShuffleMode(shuffle: Boolean) {

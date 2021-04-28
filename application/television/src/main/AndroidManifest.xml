@@ -62,7 +62,7 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
+            android:theme="@style/Theme.VLC.TV.Audio"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="org.videolan.television.ui.preferences.PreferencesActivity"
