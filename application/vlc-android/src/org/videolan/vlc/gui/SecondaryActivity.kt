@@ -24,8 +24,6 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -35,6 +33,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
@@ -54,14 +53,18 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.isSchemeNetwork
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class SecondaryActivity : ContentActivity() {
+class SecondaryActivity : ContentActivity(), IDialogManager {
 
     private var fragment: Fragment? = null
     override val displayTitle = true
+    private val dialogsDelegate = DialogDelegate()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +94,15 @@ class SecondaryActivity : ContentActivity() {
                     .add(R.id.fragment_placeholder, fragment!!)
                     .commit()
         }
+        dialogsDelegate.observeDialogs(this, this)
     }
+
+    override fun fireDialog(dialog: Dialog) {
+        DialogActivity.dialog = dialog
+        startActivity(Intent(DialogActivity.KEY_DIALOG, null, this, DialogActivity::class.java))
+    }
+
+    override fun dialogCanceled(dialog: Dialog?) {}
 
     override fun forceLoadVideoFragment() {
         val fragmentId = intent.getStringExtra(KEY_FRAGMENT)
