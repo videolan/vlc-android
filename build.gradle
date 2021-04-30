@@ -8,6 +8,7 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        mavenLocal()
    }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
