@@ -28,6 +28,14 @@ function red() {
   echo -e "\033[1;31m===================\n$1\n===================\033[0m"
 }
 
+if [ $# -eq 0 ]
+  then
+    red "The file path has not been specified."
+    exit 1
+fi
+
+FILE=$1
+
 #START
 
 rm -rf $OUTPUT_DIR
@@ -35,11 +43,11 @@ mkdir -p $OUTPUT_DIR
 
 blue "File management"
 #check files
-if test -f "dbg.zip"; then
+if test -f "$FILE"; then
   blue "File exists. Unzipping"
-  unzip "dbg.zip" -d $OUTPUT_DIR
+  unzip "$FILE" -d $OUTPUT_DIR
 else
-  red "Cannot find the dbg.zip file."
+  red "Cannot find the $FILE file."
   exit 1
 fi
 

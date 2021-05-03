@@ -26,7 +26,7 @@ Copy the file to this directory (`buildsystem/maven`)
 
 You just have to plug your yubikey and run the script
 
-`./deploy-to-mavencentral.sh`
+`./deploy-to-mavencentral.sh [FILE_PATH]`
 
 The script will do the following actions:
 
