@@ -29,12 +29,12 @@
         <item name="colorSecondary">@color/orange500</item>
         <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorAccent">@color/orange500</item>
+        <item name="colorAccent">@color/orange800</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorOnSurface">@color/black</item>
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
         </item>
-        <item name="colorControlHighlight">@color/orange500</item>
+        <item name="colorControlHighlight">@color/orange800</item>
         <item name="colorControlNormal">@color/grey700</item>
 
 

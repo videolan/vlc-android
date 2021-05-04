@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.browser
 
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -44,9 +43,9 @@ import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
-import org.videolan.vlc.gui.helpers.SparseBooleanArrayParcelable
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
@@ -126,42 +125,43 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             removeItem(items[0])
             return
         }
-        val v = view ?: return
-        lifecycleScope.snackerConfirm(requireActivity(), getString(R.string.confirm_delete_several_media, items.size)) {
-            for (item in items) {
-                if (!isStarted()) break
-                when(item) {
-                    is MediaWrapper -> if (getWritePermission(item.uri)) MediaUtils.deleteMedia(item)
-                    is Playlist -> withContext(Dispatchers.IO) { item.delete() }
+        val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
+        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.setListener {
+            lifecycleScope.launch {
+                for (item in items) {
+                    if (!isStarted()) break
+                    when(item) {
+                        is MediaWrapper -> if (getWritePermission(item.uri)) MediaUtils.deleteMedia(item)
+                        is Playlist -> withContext(Dispatchers.IO) { item.delete() }
+                    }
                 }
             }
-            if (isStarted()) viewModel.refresh()
         }
     }
 
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
-        val view = view ?: return false
-        when (item) {
-            is Playlist -> lifecycleScope.snackerConfirm(requireActivity(), getString(R.string.confirm_delete_playlist, item.title)) { MediaUtils.deletePlaylist(item) }
-            is MediaWrapper-> {
-                val deleteAction = Runnable {
+        val deletionAction = when (item) {
+            is Playlist -> Runnable {
+                MediaUtils.deletePlaylist(item)
+                    }
+            is MediaWrapper-> Runnable {
                     if (isStarted()) lifecycleScope.launch {
                         if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
                     }
                 }
-                val resid = if (item.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-                lifecycleScope.snackerConfirm(requireActivity(), getString(resid, item.getTitle())) { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() }
-            }
-            is Album -> {
-                val deleteAction = Runnable {
+
+            is Album -> Runnable {
                     if (isStarted()) lifecycleScope.launch {
                         if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
                     }
                 }
-                val resid = R.string.confirm_delete_album
-                lifecycleScope.snackerConfirm(requireActivity(), getString(resid, item.getTitle())) { if (item.tracks.any { Permissions.checkWritePermission(requireActivity(), it, deleteAction) }) deleteAction.run() }
-            }
             else -> return false
+        }
+        val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(item))
+        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.setListener {
+            if (item is MediaWrapper) if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run() else deletionAction.run()
         }
         return true
     }
