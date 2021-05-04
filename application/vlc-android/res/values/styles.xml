@@ -240,6 +240,7 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
+        <item name="font_default">@color/white</item>
         <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
         <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
         <item name="imageCardViewStyle">@style/VLCardView</item>
@@ -619,7 +620,8 @@
     <style name="Theme.VLC.BottomSheetTitle">
         <item name="android:minHeight">56dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">?attr/font_default</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">18sp</item>
     </style>
 
