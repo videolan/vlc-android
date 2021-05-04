@@ -59,6 +59,8 @@
     <attr name="audio_chip_text_color" format="color" />
     <attr name="audio_seek_bar" format="reference" />
     <attr name="mini_visualizer_color" format="color" />
+    <attr name="audio_chips_color" format="color" />
+    <attr name="audio_chips_text_color" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />

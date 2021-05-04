@@ -115,11 +115,49 @@
                     android:id="@+id/audio_media_switcher"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
-                    app:layout_constraintEnd_toStartOf="@+id/barrier"
                     android:background="#00000000"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/playback_chips"
+                    app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/playback_chips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:clipToPadding="false"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    app:chipSpacing="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/barrier"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/playback_speed_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="?attr/audio_chips_color"
+                        app:chipIcon="@drawable/ic_speed_on"
+                        app:chipIconTint="?attr/audio_chips_text_color"
+                        android:textColor="?attr/audio_chips_text_color"
+                        app:iconStartPadding="8dp"
+                        tools:text="1.25x" />
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/sleep_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="?attr/audio_chips_color"
+                        app:chipIcon="@drawable/ic_sleep_w"
+                        app:chipIconTint="?attr/audio_chips_text_color"
+                        android:textColor="?attr/audio_chips_text_color"
+                        app:iconStartPadding="8dp"
+                        tools:text="12h55AM" />
+            </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/playlist_search_text"

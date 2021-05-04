@@ -678,14 +678,14 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.videoSecondaryDisplay.contentDescription = player.resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
 
             hudRightBinding.playlistToggle.visibility = if (show && player.service?.hasPlaylist() == true) View.VISIBLE else View.GONE
-            hudRightBinding.sleepQuickAction.visibility = if (PlayerOptionsDelegate.playerSleepTime != null) View.VISIBLE else View.GONE
+            hudRightBinding.sleepQuickAction.visibility = if (PlayerOptionsDelegate.playerSleepTime.value != null) View.VISIBLE else View.GONE
             hudRightBinding.playbackSpeedQuickAction.visibility = if (player.service?.rate != 1.0F) View.VISIBLE else View.GONE
             hudRightBinding.spuDelayQuickAction.visibility = if (player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.audioDelayQuickAction.visibility = if (player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
 
             hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
             val format =  DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
-            PlayerOptionsDelegate.playerSleepTime?.let {
+            PlayerOptionsDelegate.playerSleepTime.value?.let {
                 hudRightBinding.sleepQuickAction.text = format.format(it.time)
             }
             hudRightBinding.spuDelayQuickAction.text = "${(player.service?.spuDelay ?: 0L) / 1000L} ms"

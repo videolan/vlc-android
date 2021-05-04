@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +16,8 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
@@ -257,16 +254,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         }
     }
 
-    private fun initSleep() {
-        sleepBinding.optionTitle.text = if (playerSleepTime == null) {
-            sleepBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_sleep_normal_style))
-            null
-        } else {
-            sleepBinding.optionIcon.setImageResource(R.drawable.ic_sleep_on)
-            DateFormat.getTimeFormat(activity).format(playerSleepTime!!.time)
-        }
-    }
-
     private fun initPlaybackSpeed(binding: PlayerOptionItemBinding) {
         if (!service.isSeekable) {
             binding.root.isEnabled = false
@@ -357,7 +344,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     }
 
     companion object {
-        var playerSleepTime: Calendar? = null
+        val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
     }
 }
 
@@ -368,7 +355,7 @@ fun Context.setSleep(time: Calendar?) {
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)
-    PlayerOptionsDelegate.playerSleepTime = time
+    PlayerOptionsDelegate.playerSleepTime.value = time
 }
 
 data class PlayerOption(val id: Long, val icon: Int, val title: String)

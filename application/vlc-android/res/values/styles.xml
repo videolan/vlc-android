@@ -65,6 +65,8 @@
         <item name="donate_item_background">@drawable/donate_background_color</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="adv_options_item_background">@drawable/advanced_option_focusable_background</item>
+        <item name="audio_chips_color">@color/black_transparent_75</item>
+        <item name="audio_chips_text_color">@color/white_transparent_60</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
@@ -205,6 +207,8 @@
         <item name="donate_item_background">@drawable/donate_background_color_dark</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
+        <item name="audio_chips_color">@color/white_transparent_90</item>
+        <item name="audio_chips_text_color">@color/black_transparent_60</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>

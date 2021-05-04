@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -51,7 +50,6 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -63,12 +61,15 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.setSleep
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
@@ -117,12 +118,16 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer, { it?.let { updateProgress(it) } })
+        playlistModel.speed.observe(this@AudioPlayer, { showChips() })
         playlistAdapter.setModel(playlistModel)
         playlistModel.dataset.asFlow().conflate().onEach {
             doUpdate()
             playlistAdapter.update(it)
             delay(50L)
         }.launchWhenStarted(lifecycleScope)
+        PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer, {
+            showChips()
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -186,7 +191,42 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             Settings.getInstance(requireActivity()).putSingle(AUDIO_PLAY_PROGRESS_MODE, audioPlayProgressMode)
             playlistModel.progress.value?.let { updateProgress(it) }
         }
+        binding.playbackSpeedQuickAction.setOnClickListener {
+            val newFragment = PlaybackSpeedDialog.newInstance()
+            newFragment.show(requireActivity().supportFragmentManager, "playback_speed")
+        }
+        binding.playbackSpeedQuickAction.setOnLongClickListener {
+            playlistModel.service?.setRate(1F, true)
+            showChips()
+            true
+        }
+        binding.sleepQuickAction.setOnClickListener {
+            val newFragment = SleepTimerDialog.newInstance()
+            newFragment.show(requireActivity().supportFragmentManager, "time")
+        }
+        binding.sleepQuickAction.setOnLongClickListener {
+            playlistModel.service?.setSleep(null)
+            showChips()
+            true
+        }
+    }
 
+    private fun showChips() {
+        if (playlistModel.speed.value == 1.0F && PlayerOptionsDelegate.playerSleepTime.value == null) {
+            binding.playbackChips.setGone()
+        } else {
+            binding.playbackChips.setVisible()
+            binding.playbackSpeedQuickAction.setGone()
+            binding.sleepQuickAction.setGone()
+            playlistModel.speed.value?.let {
+                if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
+                binding.playbackSpeedQuickAction.text = it.formatRateString()
+            }
+            PlayerOptionsDelegate.playerSleepTime.value?.let {
+                binding.sleepQuickAction.setVisible()
+                binding.sleepQuickAction.text = DateFormat.getTimeFormat(requireContext()).format(it.time)
+            }
+        }
     }
 
     override fun onResume() {

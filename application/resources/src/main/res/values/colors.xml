@@ -87,6 +87,7 @@
     <color name="white_transparent_50">#80ffffff</color>
     <color name="white_transparent_60">#99ffffff</color>
     <color name="white_transparent_75">#bfffffff</color>
+    <color name="white_transparent_90">#E6ffffff</color>
 
     <color name="black_transparent_20">#33000000</color>
     <color name="black_transparent_50">#80000000</color>
