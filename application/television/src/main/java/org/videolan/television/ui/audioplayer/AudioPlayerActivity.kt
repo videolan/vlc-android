@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
+import android.text.format.DateFormat
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -44,10 +45,12 @@ import org.videolan.television.R
 import org.videolan.television.databinding.TvAudioPlayerBinding
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.Settings
-import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.gui.helpers.MediaComparators
-import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.tools.formatRateString
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.PlayerState
@@ -89,6 +92,10 @@ class AudioPlayerActivity : BaseTvActivity() {
                 adapter.update(mediaWrappers)
             }
         })
+        model.speed.observe(this, { showChips() })
+        PlayerOptionsDelegate.playerSleepTime.observe(this, {
+            showChips()
+        })
         binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
         model.playerState.observe(this, { playerState -> update(playerState) })
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
@@ -98,6 +105,24 @@ class AudioPlayerActivity : BaseTvActivity() {
             intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
+        binding.playbackSpeedQuickAction.setOnClickListener {
+            val newFragment = PlaybackSpeedDialog.newInstance()
+            newFragment.show(supportFragmentManager, "playback_speed")
+        }
+        binding.playbackSpeedQuickAction.setOnLongClickListener {
+            model.service?.setRate(1F, true)
+            showChips()
+            true
+        }
+        binding.sleepQuickAction.setOnClickListener {
+            val newFragment = SleepTimerDialog.newInstance()
+            newFragment.show(supportFragmentManager, "time")
+        }
+        binding.sleepQuickAction.setOnLongClickListener {
+            model.service?.setSleep(null)
+            showChips()
+            true
+        }
     }
 
     private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
@@ -110,6 +135,19 @@ class AudioPlayerActivity : BaseTvActivity() {
             if (fromUser) {
                 model.time = progress.toLong()
             }
+        }
+    }
+
+    private fun showChips() {
+        binding.playbackSpeedQuickAction.setGone()
+        binding.sleepQuickAction.setGone()
+        model.speed.value?.let {
+            if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
+            binding.playbackSpeedQuickActionText.text = it.formatRateString()
+        }
+        PlayerOptionsDelegate.playerSleepTime.value?.let {
+            binding.sleepQuickAction.setVisible()
+            binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
         }
     }
 

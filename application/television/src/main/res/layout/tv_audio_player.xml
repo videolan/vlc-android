@@ -22,7 +22,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -46,15 +47,15 @@
                 android:id="@+id/album_cover"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginTop="16dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_no_artwork_big"
                 app:layout_constraintBottom_toTopOf="@+id/media_title"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="@+id/media_progress"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier"
                 app:layout_constraintVertical_chainStyle="spread" />
 
         <TextView
@@ -96,6 +97,79 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.65" />
 
+        <LinearLayout
+                android:id="@+id/playback_speed_quick_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:background="@drawable/tv_audio_chips"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:longClickable="true"
+                android:nextFocusDown="@+id/media_progress"
+                android:padding="4dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/media_time"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+            <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_speed_white" />
+
+            <TextView
+                    android:id="@+id/playback_speed_quick_action_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    tools:text="2.0x" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/sleep_quick_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:background="@drawable/tv_audio_chips"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:nextFocusUp="@+id/playback_speed_quick_action"
+                android:longClickable="true"
+                android:nextFocusDown="@+id/media_progress"
+                android:padding="4dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/playback_speed_quick_action"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginStart="0dp"
+                tools:visibility="visible">
+
+            <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_sleep_white" />
+
+            <TextView
+                    android:id="@+id/sleep_quick_action_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    tools:text="9:30AM" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="sleep_quick_action,playback_speed_quick_action" />
+
         <TextView
                 android:id="@+id/media_time"
                 android:layout_width="wrap_content"
@@ -117,15 +191,15 @@
                 android:max="@{(int)progress.length}"
                 android:maxHeight="4dip"
                 android:minHeight="4dip"
-                android:nextFocusUp="@+id/playlist"
+                android:nextFocusUp="@+id/sleep_quick_action"
                 android:nextFocusDown="@+id/button_play"
                 android:padding="0dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:splitTrack="false"
                 android:progress="@{(int)progress.time}"
                 android:progressDrawable="@drawable/tv_audioprogressbar"
                 android:secondaryProgress="0"
+                android:splitTrack="false"
                 android:thumb="@drawable/ic_seekbar_thumb_audio_tv"
                 app:layout_constraintBottom_toTopOf="@+id/button_play"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -260,11 +334,11 @@
                 android:id="@+id/player_options_stub"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout="@layout/player_options"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout="@layout/player_options" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
