@@ -118,6 +118,7 @@
     <string name="shuffle_title">Blandningsläge</string>
     <string name="shuffle">Blanda av</string>
     <string name="shuffle_on">Blanda på</string>
+    <string name="shuffle_play">Blanda</string>
     <string name="repeat_title">Slingaläge</string>
     <string name="repeat">Slinga ingen</string>
     <string name="repeat_single">Slinga en</string>
@@ -243,9 +244,10 @@
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skärmorientering för video</string>
     <string name="screen_orientation_sensor">Automatiskt (sensor)</string>
-    <string name="screen_orientation_start_lock">Låst vid start</string>
     <string name="screen_orientation_portrait">Porträtt</string>
     <string name="screen_orientation_landscape">Landskap</string>
+    <string name="screen_orientation_landscape_reverse">Omvänt landskap</string>
+    <string name="screen_orientation_last_locked">Senast låsta orientering</string>
     <string name="enable_black_theme">Mörkt tema</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="daynight_title">Dagnattläge</string>
@@ -337,7 +339,6 @@
     <string name="casting_quality_lowcpu">Lägst</string>
     <string name="casting_connected_renderer">Ansluten till \"%1$s\"</string>
     <string name="artists_show_all_title">Visa alla artister</string>
-
     <string name="extensions_prefs_category">Tillägg</string>
     <string name="extensions_empty">Inga tillägg hittades</string>
     <string name="extension_permission_title">Aktivera det nya tillägget \"%1$s\"?</string>
@@ -765,5 +766,11 @@
     <string name="enqueuing">Läser in dina mediafiler</string>
     <string name="soundfont">MIDI-soundfont</string>
     <string name="soundfont_summary">Välj en soundfont-fil att spela upp midi-ljudspår</string>
+    <string name="search_prefs">Sök efter inställningar</string>
+    <string name="preferred_resolution">Föredragen videoupplösning</string>
+    <string name="preferred_resolution_summary">Maximal videokvalitet för strömmar kommer, där det går, att vara: %s</string>
+    <string name="pref_resolution_best_available">Bästa tillgängliga</string>
+    <string name="pref_resolution_very_low">Mycket låg definition (240p)</string>
+    <string name="stop_unpaubale">Denna mediafil kan inte pausas. Ska den stoppas istället?</string>
 
 </resources>

@@ -767,5 +767,9 @@
     <string name="soundfont">മിഡി ശബ്ദ ഫോണ്ട്</string>
     <string name="soundfont_summary">മിഡി ശബ്ദ ചാലുകൾ പ്ലേ ചെയ്യുന്നതിന് ഒരു ശബ്ദ ഫോണ്ട് ഫയൽ തിരഞ്ഞെടുക്കുക</string>
     <string name="search_prefs">തിരയൽ ക്രമീകരണങ്ങൾ</string>
+    <string name="preferred_resolution">തിരഞ്ഞെടുത്ത വീഡിയോ മിഴിവ്</string>
+    <string name="preferred_resolution_summary">ഒഴുക്കുകൾക്കായുള്ള പരമാവധി ദൃശ്യ നിലവാരം, ബാധകമാകുമ്പോൾ: %s</string>
+    <string name="pref_resolution_best_available">ഉള്ളതിൽ മികച്ചത്</string>
+    <string name="pref_resolution_very_low">വളരെ കുറഞ്ഞ മിഴിവ് (240 പി)</string>
 
 </resources>

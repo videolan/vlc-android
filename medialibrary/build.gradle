@@ -22,15 +22,11 @@
  */
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: "com.vanniktech.maven.publish"
 
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
 ext {
     library_version = "$rootProject.ext.medialibraryVersion"
-    repoName = 'Android'
-    libraryName = 'Medialibrary-Android'
-    lib_artifact = "medialibrary-$abi"
-
-    libraryDescription = 'Android bindings and API for Medialibrary'
 }
 android {
     compileOptions {
@@ -105,6 +101,10 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "org.robolectric:robolectric:4.3.1"
 
+}
+
+mavenPublish {
+    releaseSigningEnabled = false
 }
 
 apply from: '../buildsystem/publish.gradle'

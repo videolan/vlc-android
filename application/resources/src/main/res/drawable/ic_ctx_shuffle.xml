@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_shuffle.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="m9.502,8c-0.3835,0 -0.7668,0.1476 -1.0606,0.4414 -0.5876,0.5876 -0.5876,1.5335 0,2.1211l7.3164,7.3164 2.1211,-2.1211 -7.3164,-7.3164c-0.2938,-0.2938 -0.6771,-0.4414 -1.0605,-0.4414zM25,8c-0.8902,0.0003 -1.333,1.077 -0.707,1.707l1.9394,1.9395 -17.791,17.791c-0.5876,0.5876 -0.5876,1.5335 0,2.1211 0.5876,0.5876 1.5335,0.5876 2.1211,0l17.791,-17.791 1.9395,1.9395c0.6466,0.6259 1.7086,0.1832 1.707,-0.707v-7zM24.2422,22.1211 L22.1211,24.2422 26.2324,28.3535 24.293,30.293c-0.6259,0.6466 -0.1832,1.7086 0.707,1.707h7v-7c-0.0003,-0.8902 -1.077,-1.333 -1.707,-0.707l-1.9395,1.9395z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="4"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="evenOdd"
+      android:strokeLineCap="butt"/>
+</vector>

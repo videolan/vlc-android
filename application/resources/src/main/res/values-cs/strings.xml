@@ -787,5 +787,6 @@
     <string name="enqueuing">Načítání médií...</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vybrat soubor SoundFont pro přehráván midií zvukových stop</string>
+    <string name="search_prefs">Nastavení vyhledávání</string>
 
 </resources>

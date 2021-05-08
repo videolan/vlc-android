@@ -235,15 +235,15 @@
 
     <string-array name="screen_orientation_list">
         <item>@string/screen_orientation_sensor</item>
-        <item>@string/screen_orientation_start_lock</item>
-        <item>@string/screen_orientation_landscape</item>
         <item>@string/screen_orientation_portrait</item>
+        <item>@string/screen_orientation_landscape</item>
+        <item>@string/screen_orientation_last_locked</item>
     </string-array>
     <string-array name="screen_orientation_values" translatable="false">
         <item>99</item>
-        <item>100</item>
-        <item>101</item>
         <item>102</item>
+        <item>101</item>
+        <item>98</item>
     </string-array>
 
     <string-array name="list_title_ellipsize_list">
@@ -370,6 +370,23 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="preferred_resolution">
+        <item>@string/pref_resolution_best_available</item>
+        <item>Full HD (1080p)</item>
+        <item>HD (720p)</item>
+        <item>SD (480p)</item>
+        <item>LD (360p)</item>
+        <item>@string/pref_resolution_very_low</item>
+    </string-array>
+    <string-array name="preferred_resolution_values" translatable="false">
+        <item>-1</item>
+        <item>1080</item>
+        <item>720</item>
+        <item>480</item>
+        <item>360</item>
+        <item>240</item>
     </string-array>
 
     <string-array name="opengl_list">

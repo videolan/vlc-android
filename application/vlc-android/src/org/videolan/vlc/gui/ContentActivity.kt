@@ -201,6 +201,20 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         toolbar.menu?.findItem(R.id.ml_menu_filter)?.collapseActionView()
     }
 
+    fun openSearchView() {
+        toolbar.menu?.findItem(R.id.ml_menu_filter)?.expandActionView()
+    }
+
+    fun isSearchViewVisible() =
+        toolbar.menu?.findItem(R.id.ml_menu_filter)?.isActionViewExpanded ?: false
+
+    fun getCurrentQuery() = searchView.query.toString()
+
+    fun setCurrentQuery(query:String) {
+        searchView.setQuery(query, false)
+    }
+
+
     private fun restoreCurrentList() {
         (currentFragment as? Filterable)?.restoreList()
     }

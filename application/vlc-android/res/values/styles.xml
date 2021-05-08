@@ -29,12 +29,12 @@
         <item name="colorSecondary">@color/orange500</item>
         <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorAccent">@color/orange500</item>
+        <item name="colorAccent">@color/orange800</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorOnSurface">@color/black</item>
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
         </item>
-        <item name="colorControlHighlight">@color/orange500</item>
+        <item name="colorControlHighlight">@color/orange800</item>
         <item name="colorControlNormal">@color/grey700</item>
 
 
@@ -46,7 +46,7 @@
         <item name="bottom_navigation_color">@color/grey700</item>
         <item name="header_background">@color/whitetransparent_ea</item>
         <item name="background_default_darker">@color/grey200</item>
-        <item name="background_actionbar">@color/white</item>Dark
+        <item name="background_actionbar">@color/white</item>
         <item name="background_audio_tips">@color/grey50transparent</item>
         <item name="audio_player_background_tint">@color/whitetransparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
@@ -240,6 +240,7 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
+        <item name="font_default">@color/white</item>
         <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
         <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
         <item name="imageCardViewStyle">@style/VLCardView</item>
@@ -437,6 +438,13 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="Theme.VLC.NoStatus" parent="Theme.VLC">
+        <item name="android:windowTranslucentStatus"  tools:targetApi="lollipop">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
     <style name="VLC.TextView" parent="android:Widget.TextView">
         <item name="android:textDirection">locale</item>
     </style>
@@ -492,7 +500,7 @@
         <item name="colorControlNormal">@color/grey700</item>
     </style>
 
-    <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow">
+    <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:shadowDy">0</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowRadius">4</item>
@@ -612,7 +620,8 @@
     <style name="Theme.VLC.BottomSheetTitle">
         <item name="android:minHeight">56dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">?attr/font_default</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">18sp</item>
     </style>
 

@@ -110,6 +110,7 @@
     <string name="shuffle_title">隨機模式</string>
     <string name="shuffle">關閉隨機</string>
     <string name="shuffle_on">開啟隨機</string>
+    <string name="shuffle_play">隨機</string>
     <string name="repeat_title">重複模式</string>
     <string name="repeat">不重複</string>
     <string name="repeat_single">單曲重複</string>
@@ -234,9 +235,10 @@
     <string name="automatic">自動</string>
     <string name="screen_orientation">畫面方向</string>
     <string name="screen_orientation_sensor">自動（感應）</string>
-    <string name="screen_orientation_start_lock">開始時鎖定</string>
     <string name="screen_orientation_portrait">直向</string>
     <string name="screen_orientation_landscape">橫向</string>
+    <string name="screen_orientation_landscape_reverse">橫向反轉</string>
+    <string name="screen_orientation_last_locked">最後鎖定方向</string>
     <string name="enable_black_theme">黑色佈景主題</string>
     <string name="subtitle_text_encoding">字幕編碼</string>
     <string name="daynight_title">日夜模式</string>
@@ -328,6 +330,8 @@
     <string name="casting_quality_lowcpu">最低</string>
     <string name="casting_connected_renderer">已連接到繪製器「%1$s」</string>
     <string name="artists_show_all_title">顯示所有藝人</string>
+    <string name="show_headers">顯示標題</string>
+    <string name="show_headers_summary">根據標題將列表拆開，取決於排序類型</string>
 
     <string name="extensions_prefs_category">擴充套件</string>
     <string name="extensions_empty">沒有偵測到擴充套件</string>
@@ -755,5 +759,10 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">挑選 SoundFont 檔案來播放 midi 音訊軌</string>
     <string name="search_prefs">搜尋設定</string>
+    <string name="preferred_resolution">偏好的視訊解析度</string>
+    <string name="preferred_resolution_summary">若可用的話，串流的最大視訊品質將為：%s</string>
+    <string name="pref_resolution_best_available">最佳可用</string>
+    <string name="pref_resolution_very_low">超低畫質 (240p)</string>
+    <string name="stop_unpaubale">此媒體不能暫停。要中止嗎？</string>
 
 </resources>

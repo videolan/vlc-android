@@ -53,6 +53,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -113,7 +115,7 @@ import kotlin.math.roundToInt
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager {
 
     private var subtitlesExtraPath: String? = null
-    private lateinit var startedScope : CoroutineScope
+    private lateinit var startedScope: CoroutineScope
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
     private var videoLayout: VLCVideoLayout? = null
@@ -140,6 +142,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var currentSpuTrack = -2
 
     var isLocked = false
+
     /* -1 is a valid track (Disable) */
     private var lastAudioTrack = -2
     private var lastSpuTrack = -2
@@ -174,7 +177,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var isTv: Boolean = false
 
     private val dialogsDelegate = DialogDelegate()
-
+    private var baseContextWrappingDelegate: AppCompatDelegate? = null
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -238,7 +241,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     SHOW_INFO -> overlayDelegate.showOverlay()
                     HIDE_SEEK -> touchDelegate.hideSeekOverlay()
                     HIDE_SETTINGS -> delayDelegate.endPlaybackSetting()
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
         }
@@ -360,14 +364,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
-        applyOverrideConfiguration(newBase?.resources?.configuration)
-    }
-
     override fun getApplicationContext(): Context {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
+
+    override fun getDelegate() = baseContextWrappingDelegate
+            ?: BaseContextWrappingDelegate(super.getDelegate()).apply { baseContextWrappingDelegate = this }
+
+    override fun createConfigurationContext(overrideConfiguration: Configuration) = super.createConfigurationContext(overrideConfiguration).getContextWithLocale(AppContextProvider.locale)
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -399,12 +403,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         overlayDelegate.playerUiContainer = findViewById(R.id.player_ui_container)
 
-
         val screenOrientationSetting = Integer.valueOf(settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
         orientationMode = when (screenOrientationSetting) {
             99 -> PlayerOrientationMode(false)
-            101 -> PlayerOrientationMode(true, if (windowManager.defaultDisplay.rotation == Surface.ROTATION_270) ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
-            102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            101 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+            102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+            103 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
+            98 -> PlayerOrientationMode(true, settings.getInt(LAST_LOCK_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE))
             else -> PlayerOrientationMode(true, getOrientationForLock())
         }
 
@@ -428,6 +433,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         // 100 is the value for screen_orientation_start_lock
         try {
             requestedOrientation = getScreenOrientation(orientationMode)
+            if (orientationMode.locked) settings.putSingle(LAST_LOCK_ORIENTATION, requestedOrientation)
         } catch (ignored: IllegalStateException) {
             Log.w(TAG, "onCreate: failed to set orientation")
         }
@@ -535,7 +541,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         setIntent(intent)
         if (playbackStarted) service?.run {
             if (overlayDelegate.isHudRightBindingInitialized()) {
-                overlayDelegate.hudRightBinding.playerOverlayTitle.text = currentMediaWrapper?.title ?: return@run
+                overlayDelegate.hudRightBinding.playerOverlayTitle.text = currentMediaWrapper?.title
+                        ?: return@run
             }
             var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
                 intent.extras?.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
@@ -825,7 +832,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         /* Stop listening for changes to media routes. */
         if (!isBenchmark) displayManager.removeMediaRouterCallback()
 
-         if (!displayManager.isSecondary) service?.mediaplayer?.detachViews()
+        if (!displayManager.isSecondary) service?.mediaplayer?.detachViews()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -888,7 +895,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             service?.playlistManager?.videoStatsOn?.postValue(false)
         } else if (isTv && isShowing && !isLocked) {
             overlayDelegate.hideOverlay(true)
-        }  else {
+        } else {
             exitOK()
             super.onBackPressed()
         }
@@ -981,8 +988,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
-                }
-                else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
+                } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(-300000)
                     } else if (event.isCtrlPressed) {
@@ -999,8 +1005,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
-                }
-                else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
+                } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(300000)
                     } else if (event.isCtrlPressed) {
@@ -1017,8 +1022,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
-                }
-                else if (event.isCtrlPressed) {
+                } else if (event.isCtrlPressed) {
                     volumeUp()
                     return true
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
@@ -1034,8 +1038,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
-                }
-                else if (event.isCtrlPressed) {
+                } else if (event.isCtrlPressed) {
                     volumeDown()
                     return true
                 } else if (!isShowing && fov != 0f) {
@@ -1048,8 +1051,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
-                }
-                else if (!isShowing) {
+                } else if (!isShowing) {
                     doPlayPause()
                     return true
                 }
@@ -1397,12 +1399,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     fun displayWarningToast() {
         warningToast?.cancel()
         warningToast = Toast.makeText(application, R.string.audio_boost_warning, Toast.LENGTH_SHORT).apply {
-            setGravity(Gravity.LEFT or Gravity.BOTTOM, 16.dp,0)
+            setGravity(Gravity.LEFT or Gravity.BOTTOM, 16.dp, 0)
             show()
         }
     }
 
-    internal fun setAudioVolume(volume: Int, fromTouch:Boolean = false) {
+    internal fun setAudioVolume(volume: Int, fromTouch: Boolean = false) {
         var vol = volume
         if (AndroidUtil.isNougatOrLater && (vol <= 0) xor isMute) {
             mute(!isMute)
@@ -1702,11 +1704,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (wasPaused && BuildConfig.DEBUG)
                 Log.d(TAG, "Video was previously paused, resuming in paused mode")
             intent.data?.let {
-               val translatedPath = try {
-                   FileUtils.getPathFromURI(it)
-               } catch (e: IllegalStateException) {
-                   ""
-               }
+                val translatedPath = try {
+                    FileUtils.getPathFromURI(it)
+                } catch (e: IllegalStateException) {
+                    ""
+                }
                 videoUri = if (translatedPath.isNotEmpty()) translatedPath.toUri() else it
             }
             if (extras != null) {
@@ -1745,7 +1747,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayDelegate.updatePausable(service.isPausable)
             }
             if (videoUri != null) {
-                var uri = videoUri ?:return
+                var uri = videoUri ?: return
                 var media: MediaWrapper? = null
                 if (!continueplayback) {
                     if (!resumePlaylist) {
@@ -1820,7 +1822,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             } else if (service.hasMedia() && !displayManager.isPrimary) {
                 onPlaying()
             } else {
-                service.loadLastPlaylist(PLAYLIST_TYPE_VIDEO)
+                service.loadLastPlaylist(PLAYLIST_TYPE_VIDEO_RESUME)
             }
             if (itemTitle != null) title = itemTitle
             if (overlayDelegate.isHudRightBindingInitialized()) {
@@ -1891,30 +1893,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             defaultWide = !defaultWide
         return if (defaultWide) {
             when (rot) {
-                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                Surface.ROTATION_180 ->
-                    // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                Surface.ROTATION_270 ->
-                    // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                Surface.ROTATION_180 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
                 else -> 0
             }
         } else {
             when (rot) {
-                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_180 ->
-                    // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                Surface.ROTATION_270 ->
-                    // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
-                    // Level 9+
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                Surface.ROTATION_180 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
                 else -> 0
             }
         }
@@ -1953,6 +1943,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         orientationMode.orientation = getOrientationForLock()
 
         requestedOrientation = getScreenOrientation(orientationMode)
+        if (orientationMode.locked) settings.putSingle(LAST_LOCK_ORIENTATION, requestedOrientation)
         overlayDelegate.updateOrientationIcon()
     }
 
@@ -2091,6 +2082,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
 
         private const val LOADING_ANIMATION_DELAY = 1000
+
         @Volatile
         internal var sDisplayRemainingTime: Boolean = false
         private const val PREF_TIPS_SHOWN = "video_player_tips_shown"
@@ -2143,9 +2135,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 }
 
-data class PlayerOrientationMode (
-    var locked:Boolean = false,
-    var orientation:Int = 0
+data class PlayerOrientationMode(
+        var locked: Boolean = false,
+        var orientation: Int = 0
 )
 
 @ExperimentalCoroutinesApi
@@ -2166,7 +2158,6 @@ fun setConstraintPercent(view: Guideline, percent: Float) {
     constraintSet.setGuidelinePercent(view.id, percent)
     constraintSet.applyTo(constraintLayout)
 }
-
 
 @BindingAdapter("mediamax")
 fun setProgressMax(view: SeekBar, length: Long) {

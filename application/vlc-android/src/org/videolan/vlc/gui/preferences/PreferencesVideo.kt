@@ -28,6 +28,7 @@ import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.*
 import org.videolan.vlc.R
 
@@ -60,6 +61,10 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         when (key) {
             VIDEO_HUD_TIMEOUT -> {
                 Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
+            }
+            "preferred_resolution" -> {
+                VLCInstance.restart()
+                (activity as? PreferencesActivity)?.restartMediaPlayer()
             }
         }
     }

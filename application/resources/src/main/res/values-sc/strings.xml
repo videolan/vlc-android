@@ -118,6 +118,7 @@
     <string name="shuffle_title">Ammestrura</string>
     <string name="shuffle">No ammestures</string>
     <string name="shuffle_on">Ammestura</string>
+    <string name="shuffle_play">Ammistura</string>
     <string name="repeat_title">Modalidade de ripetitzione</string>
     <string name="repeat">Peruna ripetitzione</string>
     <string name="repeat_single">Ripetitzione sìngula</string>
@@ -243,9 +244,10 @@
     <string name="automatic">Automàticu</string>
     <string name="screen_orientation">Orientamentu de s\'ischermu</string>
     <string name="screen_orientation_sensor">Automàticu (sensore)</string>
-    <string name="screen_orientation_start_lock">Blocadu a s\'allughìngiu</string>
     <string name="screen_orientation_portrait">Verticale</string>
     <string name="screen_orientation_landscape">Orizontale</string>
+    <string name="screen_orientation_landscape_reverse">Orizontale furriadu</string>
+    <string name="screen_orientation_last_locked">Ùrtimu orientamentu blocadu</string>
     <string name="enable_black_theme">Abìlita su tema iscuru</string>
     <string name="subtitle_text_encoding">Codìfica de su testu de sos sutatìtulos</string>
     <string name="daynight_title">Modalidade Die-Note</string>
@@ -337,6 +339,8 @@
     <string name="casting_quality_lowcpu">Mìnima</string>
     <string name="casting_connected_renderer">Connessu a su renderizadore \'%1$s\'</string>
     <string name="artists_show_all_title">Ammustra totu sos artistas</string>
+    <string name="show_headers">Ammustra sas intestatziones</string>
+    <string name="show_headers_summary">Partzi sas listas pro intestatziones sighende sa casta de ordinamentu</string>
 
     <string name="extensions_prefs_category">Estensiones</string>
     <string name="extensions_empty">Peruna estensione agatada</string>
@@ -763,7 +767,13 @@
     <string name="go_to_folder">Esplora sa cartella superiore</string>
     <string name="no_sub_renderer">Sos sutatìtulos non sunt galu a disponimentu durante sa trasmissione</string>
     <string name="enqueuing">Carrighende sos mèdios tuos</string>
-    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont"> SoundFont MIDI</string>
     <string name="soundfont_summary">Issèbera unu documentu SoundFont pro riproduire rastas àudio midi</string>
+    <string name="search_prefs">Paràmetros de chirca</string>
+    <string name="preferred_resolution">Risolutzione de su vìdeu preferida</string>
+    <string name="preferred_resolution_summary">Sa calidade màssima de su vìdeu pro sos flussos, si s\'at a pòdere aplicare, at a èssere: %s</string>
+    <string name="pref_resolution_best_available">Mègius a disponimentu</string>
+    <string name="pref_resolution_very_low">Bassa meda (240p)</string>
+    <string name="stop_unpaubale">Custu cuntenutu multimediale non si podet pònnere in pàusa. Lu cheres firmare, imbetzes?</string>
 
 </resources>

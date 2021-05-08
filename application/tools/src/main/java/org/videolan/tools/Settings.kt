@@ -43,6 +43,7 @@ const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
 
 // Keys
 const val KEY_ARTISTS_SHOW_ALL = "artists_show_all"
+const val KEY_SHOW_HEADERS = "show_headers"
 const val KEY_APP_THEME = "app_theme"
 const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
@@ -103,6 +104,9 @@ const val AUDIO_DUCKING = "audio_ducking"
 
 const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
 const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
+const val AUDIO_STOP_AFTER = "audio_stop_after"
+
+const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

@@ -171,8 +171,8 @@ object MediaUtils {
         }
     }
 
-    fun playTracks(context: Context, item: MediaLibraryItem, position: Int) = context.scope.launch {
-        openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
+    fun playTracks(context: Context, item: MediaLibraryItem, position: Int, shuffle:Boolean = false) = context.scope.launch {
+        openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position, shuffle)
     }
 
     fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {

@@ -134,6 +134,7 @@
     <string name="shuffle_title">Premešani način</string>
     <string name="shuffle">Premešani način je izključen</string>
     <string name="shuffle_on">Premešani način je vključen</string>
+    <string name="shuffle_play">Premešaj</string>
     <string name="repeat_title">Način ponavljanja</string>
     <string name="repeat">Ne ponavljaj</string>
     <string name="repeat_single">Ponovi trenutno</string>
@@ -261,9 +262,10 @@
     <string name="automatic">Samodejno</string>
     <string name="screen_orientation">Usmerjenost zaslona videa</string>
     <string name="screen_orientation_sensor">Samodejno (tipalo)</string>
-    <string name="screen_orientation_start_lock">Zaklenjeno ob začetku</string>
     <string name="screen_orientation_portrait">Pokončna postavitev</string>
     <string name="screen_orientation_landscape">Ležeča postavitev</string>
+    <string name="screen_orientation_landscape_reverse">Obrnjeno ležeče</string>
+    <string name="screen_orientation_last_locked">Zadnja zaklenjena orientacija</string>
     <string name="enable_black_theme">Črna tema</string>
     <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="daynight_title">Dnevno/Nočni način</string>
@@ -355,6 +357,8 @@
     <string name="casting_quality_lowcpu">Najnižja</string>
     <string name="casting_connected_renderer">Vzpostavljena je povezava z izrisovalnikom »%1$s«.</string>
     <string name="artists_show_all_title">Pokaži vse izvajalce</string>
+    <string name="show_headers">Prikaži glave</string>
+    <string name="show_headers_summary">Razdeli sezname glede na glave v odvisnoti od vrste sortiranja</string>
 
     <string name="extensions_prefs_category">Razširitve</string>
     <string name="extensions_empty">Ni najdenih programskih razširitev</string>
@@ -787,5 +791,11 @@
     <string name="enqueuing">Nalaganje vsebin</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Za predvajanje midi zvočnih vsebin izberite datoteko SoundFont</string>
+    <string name="search_prefs">Nastavitve iskanja</string>
+    <string name="preferred_resolution">Prednostna ločljivost videa</string>
+    <string name="preferred_resolution_summary">Največja kakovost pretoka, če je ta na voljo, bo: %s</string>
+    <string name="pref_resolution_best_available">Najboljša razpoložljiva</string>
+    <string name="pref_resolution_very_low">Zelo nizka ločljivost (240p)</string>
+    <string name="stop_unpaubale">Tea vsebina ne omogoča premora. Jo namesto tega ustavim?</string>
 
 </resources>

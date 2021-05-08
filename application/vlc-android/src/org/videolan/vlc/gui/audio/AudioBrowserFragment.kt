@@ -242,6 +242,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             showAllArtistsItem.isChecked = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         }
         sortMenuTitles()
+        reopenSearchIfNeeded()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,15 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: "com.vanniktech.maven.publish"
 
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
 def vlcSrcDirs = System.getenv('GRADLE_VLC_SRC_DIRS')
 ext {
     library_version = "$rootProject.ext.libvlcVersion"
-    repoName = 'Android'
-    libraryName = 'LibVLC-Android'
-    lib_artifact = "libvlc-$abi"
-
-    libraryDescription = 'Android bindings and API for VLC'
 }
 android {
 
@@ -106,6 +102,10 @@ def vlcRevision() {
         standardOutput = vlc
     }
     return vlc.toString()
+}
+
+mavenPublish {
+    releaseSigningEnabled = false
 }
 
 apply from: '../buildsystem/publish.gradle'

@@ -42,15 +42,20 @@
     <string name="append_all">Append all</string>
     <string name="resume_playback_short_title">Resume playback</string>
     <string name="resume_playback_long_title"> Resume playback of last playlist</string>
+    <string name="resume_playback_error">Nothing to resume</string>
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="set_song">Set as ringtone</string>
     <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="confirm_delete_message">This is permanent and cannot be undone.</string>
     <string name="confirm_delete_album">Delete the album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Delete these %1$d media?</string>
     <string name="confirm_delete_folder">Delete the folder \'%1$s\' and all its contents?</string>
+    <string name="confirm_delete_folders">Delete these %1$s folders and all their contents?</string>
+    <string name="confirm_delete_files">Delete these %1$s files?</string>
+    <string name="confirm_delete_folders_and_files">Delete these %1$s folders and %2$s files?</string>
     <string name="confirm_delete_playlist">Delete playlist \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Remove \'%1$s\' from playlist?</string>
     <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
@@ -119,6 +124,7 @@
     <string name="shuffle_title">Shuffle mode</string>
     <string name="shuffle">Shuffle Off</string>
     <string name="shuffle_on">Shuffle On</string>
+    <string name="shuffle_play">Shuffle</string>
     <string name="repeat_title">Repeat mode</string>
     <string name="repeat">Repeat none</string>
     <string name="repeat_single">Repeat single</string>
@@ -258,9 +264,10 @@
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
-    <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Landscape</string>
+    <string name="screen_orientation_landscape_reverse">Landscape reverse</string>
+    <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="daynight_title">DayNight mode</string>
@@ -354,6 +361,8 @@
     <string name="casting_quality_lowcpu">Lowest</string>
     <string name="casting_connected_renderer">Connected to renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Show all artists</string>
+    <string name="show_headers">Show headers</string>
+    <string name="show_headers_summary">Split lists by headers depending on the sort type</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>
@@ -785,5 +794,11 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Pick a SoundFont file to play midi audio tracks</string>
     <string name="search_prefs">Search settings</string>
+    <string name="preferred_resolution">Preferred video resolution</string>
+    <string name="preferred_resolution_summary">Maximum video quality for streams, when applicable, will be: %s</string>
+    <string name="pref_resolution_best_available">Best available</string>
+    <string name="pref_resolution_very_low">Very low definition (240p)</string>
+    <string name="stop_unpaubale">This media cannot be paused. Stop it instead?</string>
+    <string name="delete_forever">Delete forever</string>
 
 </resources>

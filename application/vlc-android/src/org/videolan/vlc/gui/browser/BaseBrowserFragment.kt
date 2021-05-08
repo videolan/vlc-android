@@ -50,9 +50,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.dialogs.CtxActionReceiver
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -68,9 +66,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.util.isSoundFont
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import java.util.*
 
 private const val TAG = "VLC/BaseBrowserFragment"
@@ -352,8 +348,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun clear() = adapter.clear()
 
     override fun removeItem(item: MediaLibraryItem): Boolean {
-
-        val view = view ?: return false
         val mw = item as? MediaWrapper
                 ?: return false
         val cancel = Runnable { viewModel.refresh() }
@@ -363,8 +357,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 viewModel.remove(mw)
             }
         }
-        val resId = if (mw.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-        UiTools.snackerConfirm(requireActivity(), getString(resId, mw.title), Runnable { if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })
+        val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(mw))
+        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.setListener {
+            if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run()
+        }
         return true
     }
 
@@ -543,6 +540,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 if (isFileBrowser) {
                     if (viewModel.provider.hasMedias(mw)) flags = flags or CTX_ADD_FOLDER_PLAYLIST
                     if (viewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+                    flags = flags or CTX_APPEND
                 }
             } else {
                 val isVideo = mw.type == MediaWrapper.TYPE_VIDEO

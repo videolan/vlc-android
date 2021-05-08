@@ -118,6 +118,7 @@
     <string name="shuffle_title">Karıştırma kipi</string>
     <string name="shuffle">Karıştırma Kapalı</string>
     <string name="shuffle_on">Karıştırma Açık</string>
+    <string name="shuffle_play">Karışık</string>
     <string name="repeat_title">Yineleme kipi</string>
     <string name="repeat">Yineleme yok</string>
     <string name="repeat_single">Parça yinelensin</string>
@@ -243,9 +244,10 @@
     <string name="automatic">Otomatik</string>
     <string name="screen_orientation">Görüntü ekranı doğrultusu</string>
     <string name="screen_orientation_sensor">Otomatik (almaç)</string>
-    <string name="screen_orientation_start_lock">Başlangıçta kilitli</string>
     <string name="screen_orientation_portrait">Dikey</string>
     <string name="screen_orientation_landscape">Yatay</string>
+    <string name="screen_orientation_landscape_reverse">Yatay ters çevrilmiş</string>
+    <string name="screen_orientation_last_locked">Son kilitlenmiş doğrultu</string>
     <string name="enable_black_theme">Siyah tema</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="daynight_title">Gündüz/Gece kipi</string>
@@ -337,6 +339,8 @@
     <string name="casting_quality_lowcpu">En Düşük</string>
     <string name="casting_connected_renderer">\'%1$s\' görüntüleyiciye bağlanıldı</string>
     <string name="artists_show_all_title">Tüm sanatçılar görüntülensin</string>
+    <string name="show_headers">Başlıklar görüntülensin</string>
+    <string name="show_headers_summary">Listeler sıralama türüne bakılarak başlıklara göre ayrılsın</string>
 
     <string name="extensions_prefs_category">Eklentiler</string>
     <string name="extensions_empty">Herhangi bir eklenti bulunamadı</string>
@@ -766,5 +770,10 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">MIDI ses izlerinin oynatılması için bir SoundFont dosyası seçin</string>
     <string name="search_prefs">Arama ayarları</string>
+    <string name="preferred_resolution">Yeğlenen görüntü çözünürlüğü</string>
+    <string name="preferred_resolution_summary">Akışlar için en yüksek görüntü çözünürlüğü, uygulanabildiğinde: %s</string>
+    <string name="pref_resolution_best_available">Olabilecek en iyisi</string>
+    <string name="pref_resolution_very_low">Çok düşük çözünürlük (240p)</string>
+    <string name="stop_unpaubale">Bu ortam duraklatılamaz. Onun yerine durdurmak ister misiniz?</string>
 
 </resources>

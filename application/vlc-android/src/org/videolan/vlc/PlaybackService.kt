@@ -1038,7 +1038,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     fun loadLastPlaylist(type: Int) {
-        if (!playlistManager.loadLastPlaylist(type)) stopService(Intent(applicationContext, PlaybackService::class.java))
+        if (!playlistManager.loadLastPlaylist(type)) {
+            forceForeground(true)
+            Toast.makeText(this, getString(R.string.resume_playback_error), Toast.LENGTH_LONG).show()
+            stopService(Intent(applicationContext, PlaybackService::class.java))
+        }
     }
 
     fun showToast(text: String, duration: Int, isError: Boolean = false) {
@@ -1395,6 +1399,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         return if (Permissions.canReadStorage(this@PlaybackService)) {
             val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
             extras.putBoolean(TABS_OPT_IN_HINT, true)
+            extras.putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
             BrowserRoot(MediaSessionBrowser.ID_ROOT, extras)
         } else null
     }
@@ -1403,16 +1408,26 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         result.detach()
         lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             awaitMedialibraryStarted()
-            sendResults(result, parentId)
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
+                } catch (e: RuntimeException) {
+                    Log.e(TAG, "Failed to load children for $parentId", e);
+                }
+            }
         }
     }
 
-    private fun sendResults(result: Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
-            } catch (e: RuntimeException) {
-                Log.e(TAG, "Failed to load children for $parentId", e);
+    override fun onSearch(query: String, extras: Bundle?, result: Result<List<MediaBrowserCompat.MediaItem>>) {
+        result.detach()
+        lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            awaitMedialibraryStarted()
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    result.sendResult(MediaSessionBrowser.search(applicationContext, query))
+                } catch (e: RuntimeException) {
+                    Log.e(TAG, "Failed to search for $query", e);
+                }
             }
         }
     }

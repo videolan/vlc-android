@@ -2,12 +2,15 @@ package org.videolan.vlc.gui
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.BaseContextWrappingDelegate
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.Settings
@@ -23,6 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     open val displayTitle = false
     abstract fun getSnackAnchorView(): View?
+    private var baseContextWrappingDelegate: AppCompatDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)
@@ -39,10 +43,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
-        applyOverrideConfiguration(newBase?.resources?.configuration)
-  }
+    override fun getDelegate() = baseContextWrappingDelegate
+            ?: BaseContextWrappingDelegate(super.getDelegate()).apply { baseContextWrappingDelegate = this }
+
+    override fun createConfigurationContext(overrideConfiguration: Configuration) = super.createConfigurationContext(overrideConfiguration).getContextWithLocale(AppContextProvider.locale)
 
     override fun getApplicationContext(): Context {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)

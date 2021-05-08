@@ -35,7 +35,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_optimizationLevel="cache_measures">
 
         <View
                 android:layout_width="0dp"

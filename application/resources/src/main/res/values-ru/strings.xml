@@ -134,6 +134,7 @@
     <string name="shuffle_title">Режим перемешивания</string>
     <string name="shuffle">Перемешивание выкл.</string>
     <string name="shuffle_on">Перемешивание вкл.</string>
+    <string name="shuffle_play">Случайный порядок</string>
     <string name="repeat_title">Режим повтора</string>
     <string name="repeat">Не повторять</string>
     <string name="repeat_single">Повторять текущее</string>
@@ -261,9 +262,10 @@
     <string name="automatic">Автоматически</string>
     <string name="screen_orientation">Ориентация экрана</string>
     <string name="screen_orientation_sensor">Автоматическая (от сенсора)</string>
-    <string name="screen_orientation_start_lock">Блокируется при запуске</string>
     <string name="screen_orientation_portrait">Альбомная</string>
     <string name="screen_orientation_landscape">Книжная</string>
+    <string name="screen_orientation_landscape_reverse">Обратная альбомная</string>
+    <string name="screen_orientation_last_locked">Последняя заблокированная</string>
     <string name="enable_black_theme">Чёрная тема</string>
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="daynight_title">Режим День/Ночь</string>
@@ -355,6 +357,8 @@
     <string name="casting_quality_lowcpu">Самое низкое</string>
     <string name="casting_connected_renderer">Подключено к воспроизводителю \'%1$s\'</string>
     <string name="artists_show_all_title">Показывать всех исполнителей</string>
+    <string name="show_headers">Показать заголовки</string>
+    <string name="show_headers_summary">Разбить списки по заголовкам в зависимости от типа сортировки</string>
 
     <string name="extensions_prefs_category">Расширения</string>
     <string name="extensions_empty">Расширения не найдены</string>
@@ -785,6 +789,13 @@
     <string name="go_to_folder">Перейти наверх</string>
     <string name="no_sub_renderer">Субтитры не подерживаются во время трансляции</string>
     <string name="enqueuing">Загрузка ваших медиафайлов</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Выберите файл SoundFont для проигрывания аудио-файлов  MIDI</string>
     <string name="search_prefs">Настройки поиска</string>
+    <string name="preferred_resolution">Предпочитаемое разрешение видео</string>
+    <string name="preferred_resolution_summary">Максимальное качество видео для трансляций по возможности будет: %s</string>
+    <string name="pref_resolution_best_available">Максимально возможное</string>
+    <string name="pref_resolution_very_low">Очень низкое разрешение (240 строк)</string>
+    <string name="stop_unpaubale">Это медиа нельзя поставить на паузу. Остановить его?</string>
 
 </resources>

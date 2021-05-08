@@ -34,6 +34,13 @@
             android:title="@string/list_title_ellipsize"
             android:summary="%s"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:key="show_headers"
+            android:defaultValue="true"
+            android:summary="@string/show_headers_summary"
+            android:title="@string/show_headers"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">

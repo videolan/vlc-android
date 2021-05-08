@@ -55,10 +55,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistActivityBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.dialogs.CtxActionReceiver
-import org.videolan.vlc.gui.dialogs.RenameDialog
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
@@ -77,6 +74,7 @@ import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.lang.Runnable
 import java.util.*
+import kotlin.collections.ArrayList
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -137,10 +135,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
         lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
+                val width = getScreenWidth()
                 if (!playlist.artworkMrl.isNullOrEmpty()) {
-                    AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), getScreenWidth())
+                    AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), width)
                 } else {
-                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}", playlist.tracks.toList(), getScreenWidth())
+                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
                 }
             }
             if (cover != null) {
@@ -405,12 +404,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     private fun removeItems(items: List<MediaWrapper>) {
-        lifecycleScope.snackerConfirm(this, getString(R.string.confirm_delete_several_media, items.size)) {
-            for (item in items) {
-                if (!isStarted()) break
-                if (getWritePermission(item.uri)) deleteMedia(item)
+        val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
+        dialog.show(supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.setListener {
+            lifecycleScope.launch {
+                for (item in items) {
+                    if (!isStarted()) break
+                    if (getWritePermission(item.uri)) deleteMedia(item)
+                }
+                if (isStarted()) viewModel.refresh()
             }
-            if (isStarted()) viewModel.refresh()
         }
     }
 
@@ -439,15 +442,9 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         itemTouchHelperCallback.swipeEnabled = false
         lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
-            for (mediaItem in list) {
-                for (i in tracks.indices) {
-                    if (tracks[i].id == mediaItem.id) {
-                        itemsRemoved[i] = mediaItem.id
-                    }
-                }
-            }
             withContext(Dispatchers.IO) {
                 for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
+                    itemsRemoved[playlistIndex] = tracks[playlistIndex].id
                     playlist.remove(playlistIndex - index)
                 }
             }

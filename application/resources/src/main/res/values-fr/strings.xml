@@ -41,6 +41,7 @@
     <string name="append_all">Lire tout à la suite</string>
     <string name="resume_playback_short_title">Reprendre la lecture</string>
     <string name="resume_playback_long_title">Reprendre la lecture de la dernière liste de lecture</string>
+    <string name="resume_playback_error">Rien à reprendre</string>
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
@@ -118,6 +119,7 @@
     <string name="shuffle_title">Mode aléatoire</string>
     <string name="shuffle">Lecture aléatoire désactivée</string>
     <string name="shuffle_on">Lecture aléatoire activée</string>
+    <string name="shuffle_play">Aléatoire</string>
     <string name="repeat_title">Mode de répétition</string>
     <string name="repeat">Aucune répétition</string>
     <string name="repeat_single">Répéter le morceau</string>
@@ -243,9 +245,10 @@
     <string name="automatic">Automatique</string>
     <string name="screen_orientation">Orientation vidéo</string>
     <string name="screen_orientation_sensor">Automatique (capteurs)</string>
-    <string name="screen_orientation_start_lock">Figée au démarrage</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Paysage</string>
+    <string name="screen_orientation_landscape_reverse">Paysage inversé</string>
+    <string name="screen_orientation_last_locked">Dernière orientation verrouillée</string>
     <string name="enable_black_theme">Thème sombre</string>
     <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
     <string name="daynight_title">Mode Jour-Nuit</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">Le plus bas</string>
     <string name="casting_connected_renderer">Connecté à l\'appareil \'%1$s\'</string>
     <string name="artists_show_all_title">Montrer tous les artistes</string>
+    <string name="show_headers">Afficher les en-têtes</string>
+    <string name="show_headers_summary">Diviser les listes par les en-têtes en fonction du type de tri.</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">Aucune extension détectée</string>
@@ -766,5 +771,10 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Sélectionnez un fichier SoundFont pour jouer les pistes audio MIDI</string>
     <string name="search_prefs">Paramètres de recherche</string>
+    <string name="preferred_resolution">Résolution vidéo préférée</string>
+    <string name="preferred_resolution_summary">La qualité vidéo maximale pour les flux, le cas échéant, sera : %s</string>
+    <string name="pref_resolution_best_available">Le meilleur possible</string>
+    <string name="pref_resolution_very_low">Très basse définition (240p)</string>
+    <string name="stop_unpaubale">Ce média ne peut pas être mis en pause. Arrêtez-le plutôt ?</string>
 
 </resources>

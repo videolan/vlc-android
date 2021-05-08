@@ -44,10 +44,7 @@ import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.video.MediaInfoAdapter
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.getModel
-import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.util.isSchemeSupported
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import java.io.File
@@ -59,8 +56,7 @@ private const val TAG_FAB_VISIBILITY = "FAB"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener,
-        IPathOperationDelegate by PathOperationDelegate()
-{
+        IPathOperationDelegate by PathOperationDelegate() {
 
     private lateinit var item: MediaLibraryItem
     private lateinit var adapter: MediaInfoAdapter
@@ -117,7 +113,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                 }
             } else noCoverFallback()
         })
-        if (model.cover.value === null) model.getCover(item.artworkMrl, getScreenWidth())
+        if (model.cover.value === null) model.getCover(item, getScreenWidth())
         updateMeta()
         binding.directoryNotScannedButton.setOnClickListener {
             val media = item as MediaWrapper
@@ -237,17 +233,24 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
 @ExperimentalCoroutinesApi
 class InfoModel : ViewModel() {
 
-    internal val hasSubs = MutableLiveData<Boolean>()
-    internal val mediaTracks = MutableLiveData<List<IMedia.Track>>()
-    internal val sizeText = MutableLiveData<String>()
-    internal val cover = MutableLiveData<Bitmap>()
-    internal val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    val hasSubs = MutableLiveData<Boolean>()
+    val mediaTracks = MutableLiveData<List<IMedia.Track>>()
+    val sizeText = MutableLiveData<String>()
+    val cover = MutableLiveData<Bitmap>()
+    private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
-    internal fun getCover(mrl: String?, width: Int) = viewModelScope.launch {
-        cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.fetchCoverBitmap(Uri.decode(it), width) } }
+    fun getCover(item: MediaLibraryItem?, width: Int) = viewModelScope.launch {
+        item?.let { item ->
+            cover.value = item.artworkMrl?.let {
+                withContext(Dispatchers.IO) { AudioUtil.fetchCoverBitmap(Uri.decode(it), width) }
+            } ?: (item as? MediaWrapper)?.let { media ->
+                if (item.type == MediaWrapper.TYPE_VIDEO)  withContext(Dispatchers.IO) { ThumbnailsProvider.getVideoThumbnail(media, width) } else null
+            }
+        }
+
     }
 
-    internal fun parseTracks(context: Context, mw: MediaWrapper) = viewModelScope.launch {
+    fun parseTracks(context: Context, mw: MediaWrapper) = viewModelScope.launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance.getInstance(context)
             mediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
@@ -266,7 +269,7 @@ class InfoModel : ViewModel() {
         mediaTracks.value = tracks.toList()
     }
 
-    internal fun checkFile(mw: MediaWrapper) = viewModelScope.launch {
+    fun checkFile(mw: MediaWrapper) = viewModelScope.launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
         if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
