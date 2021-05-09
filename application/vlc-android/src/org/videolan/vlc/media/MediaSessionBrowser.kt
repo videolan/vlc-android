@@ -129,7 +129,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         const val PLAYLIST_PREFIX = "playlist"
         const val SEARCH_PREFIX = "search"
         const val MAX_HISTORY_SIZE = 100
-        private const val MAX_COVER_ART_ITEMS = 50
+        const val MAX_COVER_ART_ITEMS = 50
         private const val MAX_EXTENSION_SIZE = 100
         private const val MAX_RESULT_SIZE = 800
 
