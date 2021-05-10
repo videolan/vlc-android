@@ -46,6 +46,7 @@
         <item name="audio_seek_bar">@drawable/audio_seekbar</item>
         <item name="mini_visualizer_color">@color/mini_visualizer</item>
         <item name="bottom_sheet_background">@color/white</item>
+        <item name="bookmark_background">@color/white_transparent_90</item>
         <item name="bottom_sheet_radius">16dp</item>
         <item name="bottom_navigation_color">@color/grey700</item>
         <item name="header_background">@color/whitetransparent_ea</item>
@@ -82,6 +83,7 @@
         <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
+        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
@@ -188,6 +190,7 @@
         <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
         <item name="mini_visualizer_color">@color/white_transparent_75</item>
         <item name="bottom_sheet_background">@color/grey875</item>
+        <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="bottom_sheet_radius">16dp</item>
         <item name="bottom_navigation_color">@color/grey500</item>
         <item name="header_background">@color/blacktransparent</item>
@@ -224,6 +227,7 @@
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
+        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
@@ -275,6 +279,7 @@
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
+        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
@@ -408,6 +413,7 @@
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
+        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>

@@ -42,6 +42,7 @@ public class BookmarkImpl extends Bookmark {
 
     @Override
     public boolean setName(String name) {
+        this.setTitle(name);
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativeSetName(ml, mId, name);
     }

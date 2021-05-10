@@ -42,6 +42,7 @@ private const val ACTION_SPU_DELAY = 3
 private const val ID_PLAY_AS_AUDIO = 0L
 private const val ID_SLEEP = 1L
 private const val ID_JUMP_TO = 2L
+private const val ID_BOOKMARK = 4L
 private const val ID_CHAPTER_TITLE = 5L
 private const val ID_PLAYBACK_SPEED = 6L
 private const val ID_EQUALIZER = 7L
@@ -59,6 +60,7 @@ private const val ID_VIDEO_STATS = 15L
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 
+    private lateinit var bookmarkClickedListener: () -> Unit
     private lateinit var recyclerview: RecyclerView
     private lateinit var rootView: FrameLayout
     var flags: Long = 0L
@@ -107,6 +109,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         }
         val chaptersCount = service.getChapters(-1)?.size ?: 0
         if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
+        if (::bookmarkClickedListener.isInitialized) options.add(PlayerOption(ID_BOOKMARK, R.attr.ic_bookmark_normal_style, res.getString(R.string.bookmarks)))
         if (showABReapeat) options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
@@ -144,6 +147,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         service.playlistManager.abRepeatOn.removeObserver(abrObs)
     }
 
+    fun setBookmarkClickedListener(listener:()->Unit) {
+        this.bookmarkClickedListener = listener
+    }
+
     fun onClick(option: PlayerOption) {
         when (option.id) {
             ID_SLEEP -> {
@@ -171,6 +178,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             ID_VIDEO_STATS -> {
                 hide()
                 service.playlistManager.toggleStats()
+            }
+            ID_BOOKMARK -> {
+                hide()
+                bookmarkClickedListener.invoke()
             }
             else -> showFragment(option.id)
         }

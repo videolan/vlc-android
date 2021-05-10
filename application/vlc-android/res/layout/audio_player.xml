@@ -430,6 +430,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:elevation="4dp"
                 android:contentDescription="@string/play"
                 android:onClick="@{fragment::onPlayPauseClick}"
                 android:onLongClick="@{fragment::onStopClick}"
@@ -486,17 +487,37 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout="@layout/player_options" />
 
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/bookmarks_stub"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout="@layout/bookmarks" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bookmark_marker_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/timeline"
+                app:layout_constraintEnd_toEndOf="@+id/timeline"
+                app:layout_constraintStart_toStartOf="@+id/timeline"
+                app:layout_constraintTop_toTopOf="@+id/timeline"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ab_repeat_marker_guideline_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                app:layout_constraintBottom_toBottomOf="@+id/timeline"
-                app:layout_constraintTop_toTopOf="@+id/timeline"
                 android:layout_marginBottom="32dp"
+                android:clipToPadding="false"
                 android:elevation="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/timeline"
                 app:layout_constraintEnd_toEndOf="@+id/timeline"
-                app:layout_constraintStart_toStartOf="@+id/timeline">
+                app:layout_constraintStart_toStartOf="@+id/timeline"
+                app:layout_constraintTop_toTopOf="@+id/timeline">
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/ab_repeat_marker_guideline_a"

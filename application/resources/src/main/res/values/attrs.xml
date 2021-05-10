@@ -61,6 +61,7 @@
     <attr name="mini_visualizer_color" format="color" />
     <attr name="audio_chips_color" format="color" />
     <attr name="audio_chips_text_color" format="color" />
+    <attr name="bookmark_background" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />
@@ -77,6 +78,7 @@
     <attr name="ic_sleep_normal_style" format="reference" />
     <attr name="ic_jumpto_normal_style" format="reference" />
     <attr name="ic_chapter_normal_style" format="reference" />
+    <attr name="ic_bookmark_normal_style" format="reference" />
     <attr name="ic_equalizer_normal_style" format="reference" />
     <attr name="ic_playasaudio_off" format="reference" />
     <attr name="ic_playasaudio_on" format="reference" />
