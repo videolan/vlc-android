@@ -250,8 +250,8 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(shuffleAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         /* Last Added */
-                        val recentAudio = ml.recentAudio
-                        val recentAudioSize = recentAudio.size.coerceAtMost(MAX_HISTORY_SIZE)
+                        val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MAX_HISTORY_SIZE, 0)
+                        val recentAudioSize = recentAudio.size
                         val lastAddedPath = if (recentAudioSize > 0) {
                             Uri.Builder()
                                     .appendPath(ArtworkProvider.LAST_ADDED)
@@ -321,9 +321,9 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     ID_STREAMS -> list = ml.lastStreamsPlayed()
                     ID_LAST_ADDED -> {
                         limitSize = true
-                        list = ml.recentAudio
+                        list = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MAX_HISTORY_SIZE, 0)
                         if (list != null && list.size > 1) {
-                            val playAllMediaDesc = getPlayAllBuilder(res, parentId, list.size.coerceAtMost(MAX_HISTORY_SIZE)).build()
+                            val playAllMediaDesc = getPlayAllBuilder(res, parentId, list.size).build()
                             results.add(MediaBrowserCompat.MediaItem(playAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         }
                     }
