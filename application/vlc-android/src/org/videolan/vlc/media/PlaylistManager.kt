@@ -830,7 +830,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
         if (update) {
             service.onMediaEvent(event)
-            if (parsed) service.showNotification()
+            if (parsed) {
+                service.notifyTrackChanged()
+                service.showNotification()
+            }
         }
     }
 

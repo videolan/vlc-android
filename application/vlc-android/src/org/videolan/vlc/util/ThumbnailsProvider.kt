@@ -54,14 +54,16 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getMediaThumbnail(item: MediaWrapper, width: Int): Bitmap? {
-        return if (item.type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty())
+        return if (isMediaVideo(item))
             getVideoThumbnail(item, width)
         else
             readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
+    fun isMediaVideo(item: MediaWrapper) = item.type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty()
+
     private fun getMediaThumbnailPath(isMedia: Boolean, item: MediaLibraryItem): String? {
-        if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty()) {
+        if (isMedia && isMediaVideo(item as MediaWrapper)) {
             if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
