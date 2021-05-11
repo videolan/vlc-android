@@ -33,9 +33,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -51,7 +49,10 @@ import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
@@ -74,8 +75,9 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var medialibrary: Medialibrary
 
     private val coroutineContextProvider: CoroutineContextProvider
+    private val alreadyAdding = AtomicBoolean(false)
 
-    override fun initialFocusedView(): View = binding.list
+    override fun initialFocusedView(): View = binding.dialogPlaylistName
 
     init {
         SavePlaylistDialog.registerCreator { CoroutineContextProvider() }
@@ -88,16 +90,16 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         adapter = SimpleAdapter(this)
         newTrack = try {
             @Suppress("UNCHECKED_CAST")
-            val tracks = arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
+            val tracks = requireArguments().getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
             filesText = resources.getQuantityString(R.plurals.media_quantity, tracks.size, tracks.size)
             tracks
         } catch (e: Exception) {
             try {
-                arguments!!.getString(KEY_FOLDER)?.let { folder ->
+                requireArguments().getString(KEY_FOLDER)?.let { folder ->
 
                     isLoading = true
                     val viewModel = getBrowserModel(category = TYPE_FILE, url = folder, showHiddenFiles = false)
-                    if (arguments!!.getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
+                    if (requireArguments().getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
                         withContext(Dispatchers.IO) {
                             newTrack = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
                             isLoading = false
@@ -131,6 +133,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         binding.dialogPlaylistSave.setOnClickListener(this)
 
         binding.dialogPlaylistName.editText!!.setOnEditorActionListener(this)
+        binding.dialogPlaylistName.editText!!.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                addToNewPlaylist()
+                true
+            }
+            false
+        }
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
         adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists.apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } }))
@@ -152,11 +161,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     private fun addToNewPlaylist() {
+        if (alreadyAdding.getAndSet(true)) return
         val name = binding.dialogPlaylistName.editText?.text?.toString()?.trim { it <= ' ' }
                 ?: return
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { medialibrary.getPlaylistByName(name) }?.let {
                 binding.dialogPlaylistName.error = getString(R.string.playlist_existing, it.title)
+                alreadyAdding.set(false)
                 return@launch
             }
             dismiss()

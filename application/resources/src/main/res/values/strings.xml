@@ -800,5 +800,6 @@
     <string name="pref_resolution_very_low">Very low definition (240p)</string>
     <string name="stop_unpaubale">This media cannot be paused. Stop it instead?</string>
     <string name="delete_forever">Delete forever</string>
+    <string name="add_to_existing_playlist">Add to existing playlist</string>
 
 </resources>
