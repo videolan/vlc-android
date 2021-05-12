@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -110,6 +111,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     var hasPlaylist: Boolean = false
 
     var enableSubs = true
+    private lateinit var bookmarkListDelegate: BookmarkListDelegate
 
     fun isHudBindingInitialized() = ::hudBinding.isInitialized
     fun isHudRightBindingInitialized() = ::hudRightBinding.isInitialized
@@ -287,6 +289,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
                 Settings.videoHudDelay == -2 -> VideoPlayerActivity.OVERLAY_INFINITE
+                isBookmarkShown() -> VideoPlayerActivity.OVERLAY_INFINITE
                 timeout != 0 -> timeout
                 service.isPlaying -> when (Settings.videoHudDelay) {
                     -1 -> VideoPlayerActivity.OVERLAY_INFINITE
@@ -305,7 +308,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (!player.isLocked) {
                     showControls(true)
                 }
-                dimStatusBar(false)
+                if (!isBookmarkShown()) dimStatusBar(false)
 
                 enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
@@ -582,6 +585,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             applyMargin(hudBinding.playerOverlayAdvFunction, if (!player.isTv) smallMargin.toInt() else overscanHorizontal, true)
 
             hudBinding.playerOverlaySeekbar.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
+            hudBinding.bookmarkMarkerContainer.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
 
             if (player.isTv) {
                 applyMargin(hudBinding.playerOverlayTimeContainer, overscanHorizontal, false)
@@ -783,5 +787,25 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     private fun downloadSubtitles() = player.service?.currentMediaWrapper?.let {
         MediaUtils.getSubs(player, it)
+    }
+
+    fun showBookmarks() {
+        player.service?.let {
+            if (!this::bookmarkListDelegate.isInitialized) {
+                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel)
+                bookmarkListDelegate.markerContainer = hudBinding.bookmarkMarkerContainer
+                bookmarkListDelegate.visibilityListener = {
+                    if (bookmarkListDelegate.visible) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
+                    else showOverlayTimeout(VideoPlayerActivity.OVERLAY_TIMEOUT)
+                }
+            }
+            bookmarkListDelegate.show()
+            bookmarkListDelegate.setProgressHeight((player.getScreenHeight() - hudBinding.constraintLayout2.height + 12.dp).toFloat())
+        }
+    }
+
+    fun isBookmarkShown() = ::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible
+    fun hideBookmarks() {
+        bookmarkListDelegate.hide()
     }
 }

@@ -118,11 +118,13 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             bookmarkModel.refresh()
         }
         rootView.setVisible()
+        markerContainer.setVisible()
         visibilityListener.invoke()
     }
 
     fun hide() {
         rootView.setGone()
+        markerContainer.setGone()
         visibilityListener.invoke()
     }
 
