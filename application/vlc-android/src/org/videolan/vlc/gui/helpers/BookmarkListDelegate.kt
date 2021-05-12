@@ -56,8 +56,8 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
 
     lateinit var markerContainer: ConstraintLayout
     private lateinit var adapter: BookmarkAdapter
-    private lateinit var recyclerview: RecyclerView
-    private lateinit var rootView: ConstraintLayout
+    lateinit var bookmarkList: RecyclerView
+    lateinit var rootView: ConstraintLayout
     private lateinit var emptyView: View
     lateinit var visibilityListener: () -> Unit
     val visible: Boolean
@@ -66,7 +66,7 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
     fun show() {
         activity.findViewById<ViewStubCompat>(R.id.bookmarks_stub)?.let {
             rootView = it.inflate() as ConstraintLayout
-            recyclerview = rootView.findViewById(R.id.bookmark_list)
+            bookmarkList = rootView.findViewById(R.id.bookmark_list)
             rootView.findViewById<ImageView>(R.id.close).setOnClickListener { hide() }
             rootView.findViewById<ImageView>(R.id.add_bookmark).setOnClickListener { bookmarkModel.addBookmark(activity) }
             rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, event ->
@@ -76,10 +76,10 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             emptyView = rootView.findViewById(R.id.empty_view)
             service.lifecycle.addObserver(this)
             activity.lifecycle.addObserver(this)
-            if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            if (bookmarkList.layoutManager == null) bookmarkList.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             adapter = BookmarkAdapter(this)
-            recyclerview.adapter = adapter
-            recyclerview.itemAnimator = null
+            bookmarkList.adapter = adapter
+            bookmarkList.itemAnimator = null
 
             bookmarkModel.dataset.observe(activity, { bookmarkList ->
                 adapter.update(bookmarkList)

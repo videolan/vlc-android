@@ -259,6 +259,7 @@
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
         <item name="font_default">@color/white</item>
+        <item name="font_audio_light">@color/grey600</item>
         <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
         <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
         <item name="imageCardViewStyle">@style/VLCardView</item>
@@ -284,6 +285,10 @@
         <item name="ic_save">@drawable/ic_save_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="colorControlNormal">@color/grey700</item>
+        <item name="bookmark_background">@color/black_transparent_80</item>
+        <item name="background_default">@color/grey850</item>
+        <item name="actionBarItemBackground">@drawable/ic_circle_audio_player</item>
+        <item name="selectableItemBackgroundBorderless">@drawable/ic_circle_audio_player</item>
 
     </style>
 

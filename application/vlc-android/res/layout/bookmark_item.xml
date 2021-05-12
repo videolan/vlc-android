@@ -87,7 +87,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/audio_item_title"
                 tools:text="12:38" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/item_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

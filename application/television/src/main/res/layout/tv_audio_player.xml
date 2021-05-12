@@ -90,6 +90,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/media_title"
                 tools:text="Artist" />
 
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/bookmarks_stub"
+                android:layout_width="500dp"
+                android:layout_height="0dp"
+                android:layout="@layout/bookmarks"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginBottom="17dp"
+                app:layout_constraintBottom_toBottomOf="@id/media_progress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
         <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline8"
                 android:layout_width="wrap_content"
@@ -169,6 +181,17 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="sleep_quick_action,playback_speed_quick_action" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bookmark_marker_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/media_progress"
+                app:layout_constraintEnd_toEndOf="@+id/media_progress"
+                app:layout_constraintStart_toStartOf="@+id/media_progress" />
 
         <TextView
                 android:id="@+id/media_time"

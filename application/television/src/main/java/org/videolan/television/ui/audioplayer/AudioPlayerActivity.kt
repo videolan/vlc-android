@@ -28,10 +28,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
-import android.view.InputDevice
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -53,6 +50,7 @@ import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
@@ -74,6 +72,8 @@ class AudioPlayerActivity : BaseTvActivity() {
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
     private lateinit var playToPause: AnimatedVectorDrawableCompat
     private lateinit var optionsDelegate: PlayerOptionsDelegate
+    lateinit var bookmarkModel: BookmarkModel
+    private lateinit var bookmarkListDelegate: BookmarkListDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +124,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             showChips()
             true
         }
+        bookmarkModel = BookmarkModel.get(this)
     }
 
     private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
@@ -155,6 +156,10 @@ class AudioPlayerActivity : BaseTvActivity() {
     override fun onBackPressed() {
         if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
             optionsDelegate.hide()
+            return
+        }
+        if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
+            bookmarkListDelegate.hide()
             return
         }
         super.onBackPressed()
@@ -288,6 +293,20 @@ class AudioPlayerActivity : BaseTvActivity() {
         if (!this::optionsDelegate.isInitialized) {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
+            optionsDelegate.setBookmarkClickedListener {
+                if (!this::bookmarkListDelegate.isInitialized) {
+                    bookmarkListDelegate = BookmarkListDelegate(this, service, bookmarkModel)
+                    bookmarkListDelegate.visibilityListener = {
+                        if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
+                        binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
+                        binding.playlist.isFocusable = !bookmarkListDelegate.visible
+                        binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
+                        binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
+                    }
+                    bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+                }
+                bookmarkListDelegate.show()
+            }
         }
         optionsDelegate.show()
     }

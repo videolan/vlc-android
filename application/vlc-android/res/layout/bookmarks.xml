@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,6 +26,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:nextFocusRight="@+id/add_bookmark"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_bias="0.5"
@@ -48,7 +49,7 @@
             app:layout_constraintStart_toEndOf="@+id/close"
             app:layout_constraintTop_toTopOf="@+id/top_bar" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/add_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,6 +58,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:nextFocusLeft="@+id/close"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
