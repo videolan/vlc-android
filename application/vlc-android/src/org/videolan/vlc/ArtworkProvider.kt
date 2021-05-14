@@ -246,8 +246,7 @@ class ArtworkProvider : ContentProvider() {
                     iconAddition = ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
                 }
                 tracks?.let {
-                    val playlistChecksum = computeChecksum(tracks, true)
-                    cover = ThumbnailsProvider.getPlaylistImage("$type:${libraryItem.id}_${playlistChecksum}", tracks, 256, iconAddition)
+                    cover = ThumbnailsProvider.getPlaylistImage("$type:${libraryItem.id}_256", tracks, 256, iconAddition)
                 }
             }
         }
@@ -310,8 +309,7 @@ class ArtworkProvider : ContentProvider() {
                     HISTORY -> getBitmapFromDrawable(context, R.drawable.ic_auto_history_circle)
                     else -> null
                 }
-                val checksum = computeChecksum(tracks)
-                cover = ThumbnailsProvider.getPlaylistImage("${key}_${checksum}", tracks, 256, iconAddition)
+                cover = ThumbnailsProvider.getPlaylistImage("${key}_256", tracks, 256, iconAddition)
             }
         }
         return encodeImage(cover ?: context.getBitmapFromDrawable(R.drawable.ic_auto_playall))
