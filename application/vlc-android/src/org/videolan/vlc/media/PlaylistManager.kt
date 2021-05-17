@@ -220,7 +220,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun next(force : Boolean = false) {
-        mediaList.getMedia(currentIndex)?.time = player.getCurrentTime()
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         val size = mediaList.size()
         if (force || repeating != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
@@ -276,7 +276,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun previous(force : Boolean) {
-        mediaList.getMedia(currentIndex)?.time = player.getCurrentTime()
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         if (hasPrevious() && currentIndex > 0 &&
                 ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious <  PREVIOUS_LIMIT_DELAY)))) {
             val size = mediaList.size()
@@ -317,7 +317,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0) {
-        mediaList.getMedia(currentIndex)?.time = player.getCurrentTime()
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
