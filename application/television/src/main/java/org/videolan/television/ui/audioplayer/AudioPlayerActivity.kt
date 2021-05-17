@@ -91,6 +91,7 @@ class AudioPlayerActivity : BaseTvActivity() {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
+            updateRepeatMode()
         })
         model.speed.observe(this, { showChips() })
         PlayerOptionsDelegate.playerSleepTime.observe(this, {
@@ -277,7 +278,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             R.id.button_play -> togglePlayPause()
             R.id.button_next -> goNext()
             R.id.button_previous -> goPrevious()
-            R.id.button_repeat -> updateRepeatMode()
+            R.id.button_repeat -> switchRepeatMode()
             R.id.button_shuffle -> setShuffleMode(!shuffling)
             R.id.button_more -> showAdvancedOptions(v)
         }
@@ -302,6 +303,21 @@ class AudioPlayerActivity : BaseTvActivity() {
     }
 
     private fun updateRepeatMode() {
+        when (model.repeatType) {
+            PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
+            }
+            PlaybackStateCompat.REPEAT_MODE_ONE -> {
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
+            }
+            PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
+            }
+        }
+    }
+
+    private fun switchRepeatMode() {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
