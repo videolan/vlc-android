@@ -34,8 +34,6 @@ import android.util.LruCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Artist
-import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.getFromMl
@@ -219,41 +217,22 @@ class ArtworkProvider : ContentProvider() {
     }
 
     private fun getPlayAllImage(ctx: Context, type: String, id: Long): ParcelFileDescriptor {
-        var cover: Bitmap? = null
-        val libraryItem: MediaLibraryItem? = runBlocking(Dispatchers.IO) {
-            when (type) {
-                GENRE -> ctx.getFromMl { getGenre(id) }
-                ARTIST -> ctx.getFromMl { getArtist(id) }
-                PLAYLIST -> ctx.getFromMl { getPlaylist(id) }
+        val bitmap = runBlocking(Dispatchers.IO) {
+            val tracks = when (type) {
+                GENRE -> ctx.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
+                ARTIST -> ctx.getFromMl { getArtist(id)?.tracks?.toList() }
+                PLAYLIST -> ctx.getFromMl { getPlaylist(id)?.tracks?.toList() }
                 else -> null
             }
-        }
-        libraryItem?.let {
-            runBlocking(Dispatchers.IO) {
-                var iconAddition: Bitmap? = null
-                var tracks: List<MediaWrapper>? = null
-                if (libraryItem.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
-                    tracks = libraryItem.tracks.toList()
-                } else {
-                    val albums = when (libraryItem.itemType) {
-                        MediaLibraryItem.TYPE_ARTIST -> (libraryItem as Artist).albums
-                        MediaLibraryItem.TYPE_GENRE -> (libraryItem as Genre).albums
-                        else -> emptyArray()
-                    }
-                    if (albums.any { it.artworkMrl != null && it.artworkMrl.isNotEmpty() }) {
-                        tracks = libraryItem.tracks.toList()
-                    }
-                    iconAddition = ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
-                }
-                tracks?.let {
-                    cover = ThumbnailsProvider.getPlaylistImage("$type:${libraryItem.id}_256", tracks, 256, iconAddition)
-                }
+            val cover = tracks?.let {
+                val iconAddition = if (type == PLAYLIST) null else ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
+                ThumbnailsProvider.getPlaylistImage("$type:${id}_256", tracks, 256, iconAddition)
             }
-        }
-        val bitmap = when {
-            cover != null -> cover
-            type == PLAYLIST -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playlist_unknown)
-            else -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall)
+            return@runBlocking when {
+                cover != null -> cover
+                type == PLAYLIST -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playlist_unknown)
+                else -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall)
+            }
         }
         return getPFDFromBitmap(bitmap)
     }

@@ -150,7 +150,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.GENRE_PREFIX) -> {
-                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.tracks }
+                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.albums?.flatMap { it.tracks.toList() } }
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {
