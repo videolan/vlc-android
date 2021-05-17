@@ -514,7 +514,7 @@
     <string name="download_subtitles">Download subtitles</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
-    <string name="save_bluetooth_delay">save delay for bluetooth device</string>
+    <string name="apply_to_bt">Apply to bluetooth device</string>
     <string name="episodes">episodes</string>
     <string name="movies">movies</string>
     <string name="videos">videos</string>
@@ -787,6 +787,7 @@
     <string name="prefersmbv1_summary">Uncheck this setting if you have some difficulties browsing your SMB server</string>
     <string name="apply_to_all">Apply to all videos</string>
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
+    <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
