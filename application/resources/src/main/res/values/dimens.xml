@@ -85,7 +85,6 @@
     <dimen name="fastscroller_track_padding">5dp</dimen>
     <dimen name="audio_player_cover_margin">8dp</dimen>
     <dimen name="audio_player_elevation">8dp</dimen>
-    <dimen name="progress_layout_height">20dp</dimen>
     <dimen name="dialog_sd_wisard_width">320dp</dimen>
     <dimen name="dialog_sd_wisard_height">420dp</dimen>
 
