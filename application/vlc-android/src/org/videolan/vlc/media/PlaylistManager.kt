@@ -903,16 +903,20 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)
-                if (internalMedia != null && internalMedia.id != 0L)
+                if (internalMedia != null && internalMedia.id != 0L) {
                     id = internalMedia.id
-                else {
+                } else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
                         }
-                    } else medialibrary.addMedia(mw.uri.toString(), mw.length)
-                    getCurrentMedia()?.let {currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
-                    if (internalMedia != null) id = internalMedia.id
+                    } else {
+                        medialibrary.addMedia(mw.uri.toString(), mw.length)
+                    }
+                    if (internalMedia != null) {
+                        id = internalMedia.id
+                        getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
+                    }
                 }
             }
             if (id != 0L) medialibrary.setProgress(id, 1.0f)
