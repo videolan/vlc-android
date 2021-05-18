@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 
 private const val TAG = "VLC/BaseTvActivity"
 const val REQUEST_CODE_NO_CONNECTION = 100
+const val REQUEST_CODE_RESTART_APP = 101
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -153,6 +154,9 @@ abstract class BaseTvActivity : FragmentActivity() {
                         startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
                     }
                 }
+            }
+            REQUEST_CODE_RESTART_APP -> {
+                android.os.Process.killProcess(android.os.Process.myPid())
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

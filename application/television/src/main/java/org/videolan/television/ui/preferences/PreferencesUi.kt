@@ -24,6 +24,7 @@
 package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -33,15 +34,19 @@ import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.UiTools
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private var currentLocale: String? = null
 
     override fun getXml() = R.xml.preferences_ui
 
@@ -57,6 +62,19 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
         findPreference<Preference>(LIST_TITLE_ELLIPSIZE)?.isVisible = false
         prepareLocaleList()
+        currentLocale = AppContextProvider.locale
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val setLocale = Settings.getInstance(activity).getString("set_locale", "")
+        if (currentLocale != setLocale) {
+            val intent = Intent(activity, ConfirmationTvActivity::class.java)
+            intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TITLE, getString(R.string.restart_vlc))
+            intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TEXT, getString(R.string.restart_message))
+            activity.startActivityForResult(intent, REQUEST_CODE_RESTART_APP)
+            currentLocale = setLocale
+        }
     }
 
     override fun onStart() {
@@ -72,10 +90,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "set_locale" -> {
-                (activity as PreferencesActivity).setRestartApp()
-                UiTools.restartDialog(activity)
-            }
             PREF_TV_UI -> {
                 Settings.tvUI = sharedPreferences.getBoolean(PREF_TV_UI, false)
                 (activity as PreferencesActivity).setRestartApp()

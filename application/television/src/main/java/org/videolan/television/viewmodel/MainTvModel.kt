@@ -48,6 +48,7 @@ import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -69,7 +70,7 @@ private const val TAG = "MainTvModel"
 class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedialibraryReadyListener,
         Medialibrary.OnDeviceChangeListener {
 
-    val context = getApplication<Application>().baseContext!!
+    val context = getApplication<Application>().getContextWithLocale(AppContextProvider.locale)
     private val medialibrary = Medialibrary.getInstance()
     private val networkMonitor = NetworkMonitor.getInstance(context)
     val settings = Settings.getInstance(context)
