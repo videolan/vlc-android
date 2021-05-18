@@ -132,7 +132,7 @@ object ThumbnailsProvider {
 
             val artworkAlreadyHere = artworks.any { it.artworkURL == mediaWrapper.artworkURL }
 
-            if (mediaWrapper.artworkURL != null && mediaWrapper.artworkURL.isNotBlank() && !artworkAlreadyHere) {
+            if (!artworkAlreadyHere && !mediaWrapper.artworkURL.isNullOrBlank()) {
                 artworks.add(mediaWrapper)
             }
             if (artworks.size > 3) {
@@ -158,7 +158,7 @@ object ThumbnailsProvider {
         val artworks = getArtworkListForPlaylist(mediaList)
         if (artworks.isEmpty()) return null
 
-        val sameImage = if (artworks.size == 1) obtainBitmap(mediaList[0], width)
+        val sameImage = if (artworks.size == 1) obtainBitmap(artworks[0], width)
                 ?: return null else null
 
         val cs = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888)
