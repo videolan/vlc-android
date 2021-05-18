@@ -35,9 +35,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.startMedialibrary
@@ -51,7 +53,10 @@ import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.ScanProgress
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.IDialogManager
 
 private const val TAG = "VLC/BaseTvActivity"
 const val REQUEST_CODE_NO_CONNECTION = 100
@@ -60,12 +65,13 @@ const val REQUEST_CODE_RESTART_APP = 101
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-abstract class BaseTvActivity : FragmentActivity() {
+abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
 
     private lateinit var mediaLibrary: Medialibrary
     private lateinit var settings: SharedPreferences
     @Volatile
     private var currentlyVisible = false
+    private val dialogsDelegate = DialogDelegate()
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
@@ -83,6 +89,7 @@ abstract class BaseTvActivity : FragmentActivity() {
         settings = Settings.getInstance(this)
         registerLiveData()
         lifecycleScope.launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }
+        dialogsDelegate.observeDialogs(this, this)
     }
 
     override fun onStart() {
@@ -97,6 +104,20 @@ abstract class BaseTvActivity : FragmentActivity() {
         currentlyVisible = false
         ExternalMonitor.unsubscribeStorageCb(this)
         super.onStop()
+    }
+
+
+    override fun fireDialog(dialog: Dialog) {
+        DialogActivity.dialog = dialog
+        startActivity(Intent(DialogActivity.KEY_DIALOG, null, this, DialogActivity::class.java))
+    }
+
+    override fun dialogCanceled(dialog: Dialog?) {
+        when(dialog) {
+            is Dialog.ErrorMessage -> {
+                Snackbar.make(window.decorView, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
