@@ -413,7 +413,6 @@
                     android:contentDescription="@string/play"
                     android:focusable="true"
                     android:onClick="@{(v) -> player.doPlayPause()}"
-                    android:onLongClick="@{player::toggleLoop}"
                     android:scaleType="fitCenter"
                     tools:visibility="visible"
                     vlc:layout_constraintBottom_toBottomOf="parent"

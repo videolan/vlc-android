@@ -1552,17 +1552,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updateRendererVisibility()
     }
 
-    fun toggleLoop(v: View) = service?.run {
-        if (repeatType == PlaybackStateCompat.REPEAT_MODE_ONE) {
-            overlayDelegate.showInfo(getString(R.string.repeat), 1000)
-            repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-        } else {
-            repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-            overlayDelegate.showInfo(getString(R.string.repeat_single), 1000)
-        }
-        true
-    } ?: false
-
     override fun onStorageAccessGranted() {
         handler.sendEmptyMessage(START_PLAYBACK)
     }
