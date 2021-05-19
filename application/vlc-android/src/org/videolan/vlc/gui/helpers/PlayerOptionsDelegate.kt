@@ -67,6 +67,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
     private val primary = activity is VideoPlayerActivity && activity.displayManager.isPrimary
+    private val isChromecast = activity is VideoPlayerActivity && activity.displayManager.isOnRenderer
     private val video = activity is VideoPlayerActivity
     private val res = activity.resources
     private val settings = Settings.getInstance(activity)
@@ -94,7 +95,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         val options = mutableListOf<PlayerOption>()
         if (video) options.add(PlayerOption(ID_LOCK_PLAYER, R.attr.ic_lock_player, res.getString(R.string.lock)))
         options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
-        options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+        if (!isChromecast) options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
         options.add(PlayerOption(ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
         options.add(PlayerOption(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
         if (video) {
