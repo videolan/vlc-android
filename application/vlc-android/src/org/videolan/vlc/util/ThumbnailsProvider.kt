@@ -69,7 +69,7 @@ object ThumbnailsProvider {
             if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
-            return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.fileName).append(".jpg").toString() else null
+            return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.id).append(".jpg").toString() else null
         }
         return item.artworkMrl
     }
