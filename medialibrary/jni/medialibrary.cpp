@@ -744,6 +744,12 @@ removeExternalMedia(JNIEnv* env, jobject thiz, jlong id) {
     return aml->removeExternalMedia(id);
 }
 
+jboolean
+flushUserProvidedThumbnails(JNIEnv* env, jobject thiz) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    return aml->flushUserProvidedThumbnails();
+}
+
 jobject
 addStream(JNIEnv* env, jobject thiz, jstring mrl, jstring title) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
@@ -2051,6 +2057,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromMrl },
     {"nativeAddMedia", "(Ljava/lang/String;J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addMedia },
     {"nativeRemoveExternalMedia", "(J)Z", (void*)removeExternalMedia },
+    {"nativeFlushUserProvidedThumbnails", "()Z", (void*)flushUserProvidedThumbnails },
     {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addStream },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },

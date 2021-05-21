@@ -746,6 +746,7 @@ abstract public class Medialibrary {
     abstract public MediaWrapper getMedia(String mrl);
     abstract public MediaWrapper addMedia(String mrl, long duration);
     abstract public boolean removeExternalMedia(long id);
+    abstract public boolean flushUserProvidedThumbnails();
     abstract public MediaWrapper addStream(String mrl, String title);
     abstract public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(int type);

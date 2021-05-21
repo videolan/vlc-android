@@ -461,6 +461,10 @@ public class StubMedialibrary extends Medialibrary {
         return true;
     }
 
+    public boolean flushUserProvidedThumbnails() {
+        return true;
+    }
+
     public MediaWrapper addStream(String mrl, String title) {
         return dt.addMediaWrapper(mrl, title, MediaWrapper.TYPE_STREAM);
     }
