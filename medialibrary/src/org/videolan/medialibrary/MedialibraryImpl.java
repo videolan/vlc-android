@@ -460,6 +460,10 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && nativeRemoveExternalMedia(id);
     }
 
+    public boolean flushUserProvidedThumbnails() {
+        return mIsInitiated && nativeFlushUserProvidedThumbnails();
+    }
+
     @Nullable
     public MediaWrapper addStream(String mrl, String title) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
@@ -608,6 +612,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
     private native MediaWrapper nativeAddMedia(String mrl, long duration);
     private native boolean nativeRemoveExternalMedia(long id);
+    private native boolean nativeFlushUserProvidedThumbnails();
     private native MediaWrapper nativeAddStream(String mrl, String title);
     private native MediaWrapper[] nativeGetVideos();
     private native MediaWrapper[] nativeGetSortedVideos(int sort, boolean desc, boolean includeMissing);

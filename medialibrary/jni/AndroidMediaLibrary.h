@@ -84,6 +84,7 @@ public:
     medialibrary::MediaPtr media(const std::string& mrl);
     medialibrary::MediaPtr addMedia(const std::string& mrl, long duration);
     bool removeExternalMedia(long id);
+    bool flushUserProvidedThumbnails();
     medialibrary::MediaPtr addStream(const std::string& mrl, const std::string& title);
     medialibrary::Query<medialibrary::IMedia> videoFiles( const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> audioFiles( const medialibrary::QueryParameters* params = nullptr );

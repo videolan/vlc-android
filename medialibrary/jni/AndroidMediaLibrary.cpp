@@ -366,6 +366,12 @@ AndroidMediaLibrary::removeExternalMedia(long id)
     return media != nullptr && p_ml->removeExternalMedia(media);
 }
 
+bool
+AndroidMediaLibrary::flushUserProvidedThumbnails()
+{
+    return p_ml->flushUserProvidedThumbnails();
+}
+
 medialibrary::MediaPtr
 AndroidMediaLibrary::addStream(const std::string& mrl, const std::string& title)
 {
