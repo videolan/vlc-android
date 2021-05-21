@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  SettingsMigration.kt
+ *  VersionMigration.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -29,17 +29,26 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
+import java.io.File
+import java.io.IOException
 
-private const val CURRENT_VERSION = 1
+private const val CURRENT_VERSION = 2
 
-object SettingsMigration {
+object VersionMigration {
 
-    fun migrateSettings(context: Context) {
+    suspend fun migrateVersion(context: Context) {
         val settings = Settings.getInstance(context)
         val lastVersion = settings.getInt(KEY_CURRENT_SETTINGS_VERSION, 0)
         if (lastVersion < 1) {
             migrateToVersion1(settings)
+        }
+        if (lastVersion < 2) {
+            migrateToVersion2(context)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
@@ -63,5 +72,26 @@ object SettingsMigration {
             remove("daynight")
             remove("enable_black_theme")
         }
+    }
+
+    /**
+     * Deletes all the video thumbnails as we change the way to name them.
+     */
+    private suspend fun migrateToVersion2(context: Context) {
+        Log.i(this::class.java.simpleName, "Migrating version to Version 2: flush all the video thumbnails")
+        withContext(Dispatchers.IO) {
+            try {
+                context.getExternalFilesDir(null)?. let {
+                    val cacheDir = it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME
+                    val files = File(cacheDir).listFiles()
+                    files?.forEach { file ->
+                        if (file.isFile) FileUtils.deleteFile(file)
+                    }
+                }
+            } catch (e: IOException) {
+                Log.e(this::class.java.simpleName, e.message, e)
+            }
+        }
+        context.getFromMl { flushUserProvidedThumbnails() }
     }
 }
