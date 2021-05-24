@@ -65,12 +65,12 @@ abstract public class Artist extends MediaLibraryItem {
     }
 
     public Album[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+        return getAlbums(Medialibrary.SORT_ALPHA, false);
     }
 
     @Override
     public MediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, true);
+        return getTracks(Medialibrary.SORT_ALBUM, false);
     }
 
     @Override

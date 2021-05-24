@@ -12,7 +12,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="@dimen/player_option_width"
             android:layout_height="wrap_content"
-            android:background="@drawable/advanced_option_focusable_background"
+            android:background="?attr/adv_options_item_background"
             android:focusable="true"
             android:padding="8dp">
 

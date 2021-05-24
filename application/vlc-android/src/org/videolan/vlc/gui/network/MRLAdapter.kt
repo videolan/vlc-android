@@ -129,6 +129,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
             itemView.setOnClickListener(this)
             itemView.setOnLongClickListener { eventActor.offer(ShowContext(layoutPosition)) }
             binding.mrlCtx.setOnClickListener { eventActor.offer(ShowContext(layoutPosition)) }
+            binding.selector.setOnClickListener { onClick(it) }
         }
 
         override fun onClick(v: View) {

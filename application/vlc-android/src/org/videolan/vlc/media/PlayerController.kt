@@ -34,6 +34,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(context) }
     val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
+    val speed by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Float>().apply { value = 1.0F } }
     private val slaveRepository by lazy { SlaveRepository.getInstance(context) }
 
     var mediaplayer = newMediaPlayer()
@@ -230,6 +231,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun setRate(rate: Float, save: Boolean) {
         if (mediaplayer.isReleased) return
         mediaplayer.rate = rate
+        speed.value = rate
         if (save && settings.getBoolean(if (isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false))
             settings.putSingle(if (isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else  KEY_PLAYBACK_RATE, rate)
     }

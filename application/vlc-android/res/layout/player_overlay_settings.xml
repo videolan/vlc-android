@@ -148,5 +148,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/delay_reset_button" />
 
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/delay_apply_bt"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:nextFocusLeft="@+id/delay_second_button"
+            android:text="@string/apply_to_bt"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/player_delay_button_background_tint"
+            app:iconTint="@color/grey400transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/delay_apply_all" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

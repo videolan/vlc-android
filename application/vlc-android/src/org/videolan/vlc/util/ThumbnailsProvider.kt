@@ -5,6 +5,7 @@ import android.graphics.*
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,6 +21,7 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.sanitizePath
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -54,14 +56,16 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getMediaThumbnail(item: MediaWrapper, width: Int): Bitmap? {
-        return if (item.type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty())
+        return if (isMediaVideo(item))
             getVideoThumbnail(item, width)
         else
             readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
+    fun isMediaVideo(item: MediaWrapper) = item.type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty()
+
     private fun getMediaThumbnailPath(isMedia: Boolean, item: MediaLibraryItem): String? {
-        if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty()) {
+        if (isMedia && isMediaVideo(item as MediaWrapper)) {
             if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
@@ -104,10 +108,46 @@ object ThumbnailsProvider {
         return bitmap
     }
 
-    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap? = null) =
-            (BitmapCache.getBitmapFromMemCache(key) ?: composePlaylistImage(mediaList, width, iconAddition))?.also {
-                BitmapCache.addBitmapToMemCache(key, it)
+    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap? = null): Bitmap? {
+        // to force the thumbnail regeneration on change, we append the ids of the media that will be used to the cache key
+        val saltedKey = key + getArtworkListForPlaylist(mediaList).joinToString("_", ":") { it.id.toString() }
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Salted key from $key is $saltedKey")
+        return (BitmapCache.getBitmapFromMemCache(saltedKey) ?: composePlaylistImage(mediaList, width, iconAddition))?.also {
+            BitmapCache.addBitmapToMemCache(saltedKey, it)
+        }
+    }
+
+    /**
+     * Retrieve the images to be used for the playlist's thumbnail
+     * @param mediaList the media list for the playlist
+     * @return a sanitied list of media to be used for the playlist thumbnail composition
+     */
+    private fun getArtworkListForPlaylist(mediaList: List<MediaWrapper>):ArrayList<MediaWrapper> {
+        if (mediaList.isEmpty()) return arrayListOf()
+        val url = mediaList[0].artworkURL
+        val isAllSameImage = !mediaList.any { it.artworkURL != url }
+        if (isAllSameImage) return arrayListOf(mediaList[0])
+        val artworks = ArrayList<MediaWrapper>()
+        for (mediaWrapper in mediaList) {
+
+            val artworkAlreadyHere = artworks.any { it.artworkURL == mediaWrapper.artworkURL }
+
+            if (!artworkAlreadyHere && !mediaWrapper.artworkURL.isNullOrBlank()) {
+                artworks.add(mediaWrapper)
             }
+            if (artworks.size > 3) {
+                break
+            }
+        }
+
+        if (artworks.size == 2) {
+            artworks.add(artworks[1])
+            artworks.add(artworks[0])
+        } else if (artworks.size == 3) {
+            artworks.add(artworks[0])
+        }
+        return artworks
+    }
 
     /**
      * Compose 1 image from tracks of a Playlist
@@ -115,11 +155,10 @@ object ThumbnailsProvider {
      * @return a Bitmap object
      */
     private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap?): Bitmap? {
-        if (mediaList.isEmpty()) return null
-        val url = mediaList[0].artworkURL
-        val isAllSameImage = !mediaList.any { it.artworkURL != url }
+        val artworks = getArtworkListForPlaylist(mediaList)
+        if (artworks.isEmpty()) return null
 
-        val sameImage = if (isAllSameImage) obtainBitmap(mediaList[0], width)
+        val sameImage = if (artworks.size == 1) obtainBitmap(artworks[0], width)
                 ?: return null else null
 
         val cs = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888)
@@ -129,27 +168,6 @@ object ThumbnailsProvider {
             /* Scale the cover art, as obtainBitmap may return a larger or smaller image size */
             comboImage.drawBitmap(sameImage, Rect(0, 0, sameImage.width, sameImage.height), Rect(0, 0, width, width), null)
         } else {
-            val artworks = ArrayList<MediaWrapper>()
-            for (mediaWrapper in mediaList) {
-
-                val artworkAlreadyHere = artworks.any { it.artworkURL == mediaWrapper.artworkURL }
-
-                if (mediaWrapper.artworkURL != null && mediaWrapper.artworkURL.isNotBlank() && !artworkAlreadyHere) {
-                    artworks.add(mediaWrapper)
-                }
-                if (artworks.size > 3) {
-                    break
-                }
-            }
-
-            if (artworks.size == 2) {
-                artworks.add(artworks[1])
-                artworks.add(artworks[0])
-            } else if (artworks.size == 3) {
-                artworks.add(artworks[0])
-            }
-
-
             val images = ArrayList<Bitmap>(4)
             artworks.forEach {
                 val image = obtainBitmap(it, width / 2)

@@ -90,6 +90,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> hidePlaylistLandscapeConstraint
                 else -> hidePlaylistConstraint
             }.applyTo(cl)
+            onSlide(1F)
             field = value
         }
 
@@ -113,18 +114,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
         hidePlaylistLandscapeConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
-        hidePlaylistLandscapeConstraint.setHorizontalChainStyle(R.id.shuffle, ConstraintSet.CHAIN_PACKED)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.shuffle, ConstraintSet.START, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.shuffle, ConstraintSet.END, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.repeat, ConstraintSet.START, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.repeat, ConstraintSet.END, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.play_pause, ConstraintSet.START, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.play_pause, ConstraintSet.END, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.next, ConstraintSet.START, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.next, ConstraintSet.END, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.previous, ConstraintSet.START, 8.dp)
-        hidePlaylistLandscapeConstraint.setMargin(R.id.previous, ConstraintSet.END, 8.dp)
-        hidePlaylistLandscapeConstraint.setVisibility(R.id.audio_play_progress, View.GONE)
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -142,7 +131,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                     binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
                     binding.backgroundView.setImageBitmap(blurredCover)
                     binding.backgroundView.visibility = View.VISIBLE
-                    binding.songsList.setBackgroundResource(0)
                 } else setDefaultBackground()
             }
         }
@@ -150,7 +138,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
     @MainThread
     private fun setDefaultBackground() {
-        binding.songsList.setBackgroundResource(defaultBackgroundId)
         binding.backgroundView.visibility = View.INVISIBLE
     }
 
@@ -163,7 +150,12 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     }
 
     override fun onSlide(slideOffset: Float) {
-        binding.progressBarMask.alpha = slideOffset
+        binding.progressBar.alpha = 1 - slideOffset
+        binding.progressBar.layoutParams.height = ((1 - slideOffset) * 4.dp).toInt()
+        binding.progressBar.requestLayout()
+        // 0% to 40%
+        binding.headerBackground.alpha = 0.4F + ((1 - slideOffset) * 0.6F)
+        binding.headerDivider.alpha = slideOffset
         if (slideOffset != 1f) audioPlayer.clearSearch()
         binding.playlistSearch.alpha = slideOffset
         binding.playlistSwitch.alpha = slideOffset

@@ -1,39 +1,11 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_bookmark.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="36dp"
-        android:height="36dp"
-        android:viewportWidth="48"
-        android:viewportHeight="48">
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
     <path
-            android:pathData="m24,8 l3.9375,12H40L30.3318,27.2968 34.5,40 24,32.0755 13.5,40 17.6682,27.2968 8,20h12.0625z"
-            android:strokeAlpha="1"
-            android:strokeLineJoin="miter"
-            android:strokeWidth="1"
-            android:fillColor="@color/tv_menu_selection"
+            android:pathData="M9,4C7.8919,4 7,4.892 7,6L7,20L12,16.9863L17,20L17,6C17,4.892 16.108,4 15,4L9,4z"
+            android:fillColor="@color/standard_selection_control_normal"
             android:strokeColor="#00000000"
-            android:fillType="evenOdd"
-            android:strokeLineCap="butt" />
+            android:fillAlpha="1" />
 </vector>

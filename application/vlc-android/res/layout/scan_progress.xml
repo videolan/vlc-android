@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scan_progress_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/progress_layout_height">
-
-    <ProgressBar
-            android:id="@+id/scan_progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:max="100"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:progressDrawable="?attr/progress_mini_player"
-            android:background="?attr/background_default" />
-
+        android:layout_height="wrap_content">
     <TextView
             android:id="@+id/scan_progress_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_corners_scan_progress"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="?attr/font_default"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp"
             android:text="@string/loading_medialibrary"
-            android:textSize="12sp" />
-</RelativeLayout>
+            android:textColor="?attr/font_default"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/scan_progress_bar"
+            app:layout_constraintStart_toStartOf="parent" />
+    <ProgressBar
+            android:id="@+id/scan_progress_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="?attr/background_default"
+            android:max="100"
+            android:progressDrawable="?attr/progress_mini_player"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

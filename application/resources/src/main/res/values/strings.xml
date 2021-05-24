@@ -514,7 +514,7 @@
     <string name="download_subtitles">Download subtitles</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
-    <string name="save_bluetooth_delay">save delay for bluetooth device</string>
+    <string name="apply_to_bt">Apply to bluetooth device</string>
     <string name="episodes">episodes</string>
     <string name="movies">movies</string>
     <string name="videos">videos</string>
@@ -787,6 +787,7 @@
     <string name="prefersmbv1_summary">Uncheck this setting if you have some difficulties browsing your SMB server</string>
     <string name="apply_to_all">Apply to all videos</string>
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
+    <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
@@ -800,5 +801,9 @@
     <string name="pref_resolution_very_low">Very low definition (240p)</string>
     <string name="stop_unpaubale">This media cannot be paused. Stop it instead?</string>
     <string name="delete_forever">Delete forever</string>
+    <string name="add_to_existing_playlist">Add to existing playlist</string>
+    <string name="bookmarks_title">Bookmarks</string>
+    <string name="no_bookmark">No bookmark yet</string>
+    <string name="bookmark_name">Bookmark %s</string>
 
 </resources>

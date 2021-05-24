@@ -49,6 +49,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         get() = if (filtering) -1 else service?.playlistManager?.currentIndex ?: -1
     private var filtering = false
     val progress = MediatorLiveData<PlaybackProgress>()
+    val speed = MediatorLiveData<Float>()
     val playerState = MutableLiveData<PlayerState>()
     var totalTime = ""
     val connected : Boolean
@@ -220,6 +221,11 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             progress.apply {
                 addSource(service.playlistManager.player.progress) {
                     value = PlaybackProgress(it?.time ?: 0L, it?.length ?: 0L)
+                }
+            }
+            speed.apply {
+                addSource(service.playlistManager.player.speed) {
+                    value = it
                 }
             }
             setup(service)

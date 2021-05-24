@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/bookmarks_background"
+        android:layout_width="match_parent"
+        android:background="?attr/bookmark_background"
+        android:layout_height="match_parent"
+        android:focusable="false">
+
+    <View
+            android:id="@+id/top_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="68dp"
+            android:background="?attr/background_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?attr/actionBarItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:nextFocusRight="@+id/add_bookmark"
+            app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/top_bar"
+            app:srcCompat="@drawable/ic_close_small" />
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/bookmarks_title"
+            android:textColor="?attr/font_default"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+            app:layout_constraintEnd_toStartOf="@+id/add_bookmark"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/close"
+            app:layout_constraintTop_toTopOf="@+id/top_bar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/add_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/actionBarItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:nextFocusLeft="@+id/close"
+            app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/title"
+            app:layout_constraintTop_toTopOf="@+id/top_bar"
+            app:srcCompat="@drawable/ic_add" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/progressbar_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookmark_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center|end"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/default_margin"
+            android:paddingBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/progressbar_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_bar" />
+
+    <LinearLayout
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/bookmark_list"
+            app:layout_constraintEnd_toEndOf="@+id/bookmark_list"
+            app:layout_constraintStart_toStartOf="@+id/bookmark_list"
+            app:layout_constraintTop_toBottomOf="@+id/top_bar">
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_empty"
+                app:tint="?attr/font_default" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_bookmark"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="16sp"
+                android:textColor="?attr/font_default" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -121,6 +121,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             holder.binding.playing.visibility = View.VISIBLE
             holder.binding.coverImage.visibility = View.INVISIBLE
             holder.binding.audioItemTitle.setTypeface(null, Typeface.BOLD)
+            holder.binding.audioItemSubtitle.setTypeface(null, Typeface.BOLD)
             currentPlayingVisu = holder.binding.playing
         } else {
             holder.binding.playing.stop()

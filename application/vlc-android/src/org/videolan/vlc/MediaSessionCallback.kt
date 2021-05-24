@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
@@ -128,10 +129,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_LAST_ADDED -> {
-                    val tracks = context.getFromMl { recentAudio?.toList() }
-                    if (!tracks.isNullOrEmpty() && isActive) {
-                        val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
-                        loadMedia(mediaList)
+                    val tracks = context.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
+                    if (tracks.isNotEmpty() && isActive) {
+                        loadMedia(tracks.toList())
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_HISTORY -> {
@@ -150,7 +150,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.GENRE_PREFIX) -> {
-                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.tracks }
+                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.albums?.flatMap { it.tracks.toList() } }
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {

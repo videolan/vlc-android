@@ -220,7 +220,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun next(force : Boolean = false) {
-        mediaList.getMedia(currentIndex)?.time = player.getCurrentTime()
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         val size = mediaList.size()
         if (force || repeating != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
@@ -276,7 +276,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun previous(force : Boolean) {
-        mediaList.getMedia(currentIndex)?.time = player.getCurrentTime()
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         if (hasPrevious() && currentIndex > 0 &&
                 ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious <  PREVIOUS_LIMIT_DELAY)))) {
             val size = mediaList.size()
@@ -317,7 +317,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0) {
-        mediaList.getMedia(currentIndex)?.time = player.getCurrentTime()
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -341,7 +341,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            var uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
+            var uri = mw.uri
             if (uri == null) {
                 skipMedia()
                 return
@@ -830,7 +830,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
         if (update) {
             service.onMediaEvent(event)
-            if (parsed) service.showNotification()
+            if (parsed) {
+                service.notifyTrackChanged()
+                service.showNotification()
+            }
         }
     }
 
@@ -900,16 +903,20 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)
-                if (internalMedia != null && internalMedia.id != 0L)
+                if (internalMedia != null && internalMedia.id != 0L) {
                     id = internalMedia.id
-                else {
+                } else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
                         }
-                    } else medialibrary.addMedia(mw.uri.toString(), mw.length)
-                    getCurrentMedia()?.let {currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
-                    if (internalMedia != null) id = internalMedia.id
+                    } else {
+                        medialibrary.addMedia(mw.uri.toString(), mw.length)
+                    }
+                    if (internalMedia != null) {
+                        id = internalMedia.id
+                        getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
+                    }
                 }
             }
             if (id != 0L) medialibrary.setProgress(id, 1.0f)

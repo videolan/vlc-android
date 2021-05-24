@@ -105,6 +105,7 @@ import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 import kotlin.math.roundToInt
@@ -120,7 +121,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     lateinit var medialibrary: Medialibrary
     private var videoLayout: VLCVideoLayout? = null
     lateinit var displayManager: DisplayManager
-    private var rootView: View? = null
+    var rootView: View? = null
     var videoUri: Uri? = null
     private var askResume = true
 
@@ -333,6 +334,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private var optionsDelegate: PlayerOptionsDelegate? = null
 
+    lateinit var bookmarkModel: BookmarkModel
     val isPlaylistVisible: Boolean
         get() = overlayDelegate.playlistContainer.visibility == View.VISIBLE
 
@@ -477,6 +479,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
         }
 
+        bookmarkModel = BookmarkModel.get(this)
         overlayDelegate.playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         overlayDelegate.pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
     }
@@ -893,6 +896,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         } else if (isShowing && service?.playlistManager?.videoStatsOn?.value == true) {
             //hides video stats if they are displayed
             service?.playlistManager?.videoStatsOn?.postValue(false)
+        } else if (overlayDelegate.isBookmarkShown()) {
+            overlayDelegate.hideBookmarks()
         } else if (isTv && isShowing && !isLocked) {
             overlayDelegate.hideOverlay(true)
         } else {
@@ -1547,17 +1552,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updateRendererVisibility()
     }
 
-    fun toggleLoop(v: View) = service?.run {
-        if (repeatType == PlaybackStateCompat.REPEAT_MODE_ONE) {
-            overlayDelegate.showInfo(getString(R.string.repeat), 1000)
-            repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-        } else {
-            repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-            overlayDelegate.showInfo(getString(R.string.repeat_single), 1000)
-        }
-        true
-    } ?: false
-
     override fun onStorageAccessGranted() {
         handler.sendEmptyMessage(START_PLAYBACK)
     }
@@ -1933,7 +1927,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     fun showAdvancedOptions() {
-        if (optionsDelegate == null) service?.let { optionsDelegate = PlayerOptionsDelegate(this, it) }
+        if (optionsDelegate == null) service?.let {
+            optionsDelegate = PlayerOptionsDelegate(this, it)
+            optionsDelegate!!.setBookmarkClickedListener {
+                overlayDelegate.showBookmarks()
+            }
+        }
         optionsDelegate?.show()
         overlayDelegate.hideOverlay(false)
     }

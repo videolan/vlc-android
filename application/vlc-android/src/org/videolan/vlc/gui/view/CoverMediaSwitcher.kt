@@ -27,6 +27,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.tools.dp
 import org.videolan.vlc.R
 
 @ExperimentalCoroutinesApi
@@ -38,5 +39,6 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         imageView.scaleType = ImageView.ScaleType.FIT_CENTER
         if (cover == null) imageView.setImageResource(R.drawable.icon) else imageView.setImageBitmap(cover)
         addView(imageView)
+        imageView.setPadding(32.dp, 32.dp, 32.dp, 32.dp)
     }
 }

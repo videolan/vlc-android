@@ -78,6 +78,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
     private lateinit var delayTitle: TextView
     private lateinit var delayContainer: View
     private lateinit var delayApplyAll: MaterialButton
+    private lateinit var delayApplyBt: MaterialButton
 
     /**
      * Instantiate all the views, set their click listeners and shows the view.
@@ -100,6 +101,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
             delayTitle = player.findViewById(R.id.delay_title)
             delayContainer = player.findViewById(R.id.delay_container)
             delayApplyAll = player.findViewById(R.id.delay_apply_all)
+            delayApplyBt = player.findViewById(R.id.delay_apply_bt)
         }
         delayFirstButton.text = if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) player.getString(R.string.audio_delay_start) else player.getString(R.string.subtitle_delay_first)
         delaySecondButton.text = if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) player.getString(R.string.audio_delay_end) else player.getString(R.string.subtitle_delay_end)
@@ -109,6 +111,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         delaySecondButton.setOnClickListener(this)
         delayResetButton.setOnClickListener(this)
         delayApplyAll.setOnClickListener(this)
+        delayApplyBt.setOnClickListener(this)
         playbackSettingMinus.setOnTouchListener(OnRepeatListenerTouch(this))
         playbackSettingPlus.setOnTouchListener(OnRepeatListenerTouch(this))
         playbackSettingMinus.setOnKeyListener(OnRepeatListenerKey(this))
@@ -117,6 +120,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         playbackSettingPlus.setVisible()
         delayFirstButton.setVisible()
         delaySecondButton.setVisible()
+        if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO && (player.audiomanager.isBluetoothA2dpOn || player.audiomanager.isBluetoothScoOn)) delayApplyBt.setVisible() else delayApplyBt.setGone()
         playbackSettingPlus.requestFocus()
         initPlaybackSettingInfo()
         if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) delayApplyAll.setVisible() else delayApplyAll.setGone()
@@ -180,6 +184,12 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
                     UiTools.snacker(player, player.getString(R.string.audio_delay_global, "${it.audioDelay / 1000L}"))
                 }
             }
+            R.id.delay_apply_bt -> {
+                player.service?.let {
+                    Settings.getInstance(player).putSingle(KEY_BLUETOOTH_DELAY, it.audioDelay)
+                    UiTools.snacker(player, player.getString(R.string.audio_delay_bt, "${it.audioDelay / 1000L}"))
+                }
+            }
 
         }
     }
@@ -238,12 +248,6 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         if (playbackSetting == IPlaybackSettingsController.DelayState.OFF) return
         player.service?.let { service ->
             service.saveMediaMeta()
-            if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO && (player.audiomanager.isBluetoothA2dpOn || player.audiomanager.isBluetoothScoOn)) {
-                val msg = "${player.getString(R.string.audio_delay)}\n${service.audioDelay / 1000L} ms"
-                val sb = Snackbar.make(delayInfo, msg, Snackbar.LENGTH_LONG)
-                sb.setAction(R.string.save_bluetooth_delay, btSaveListener)
-                sb.show()
-            }
             playbackSetting = IPlaybackSettingsController.DelayState.OFF
             playbackSettingMinus.setOnClickListener(null)
             playbackSettingPlus.setOnClickListener(null)

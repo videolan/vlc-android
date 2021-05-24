@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_abrepeat_reset_audio.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M17.9963,12.5085C17.5823,12.5085 17.2463,12.8435 17.2463,13.2585L17.2463,14.7505L18.7503,16.2545L18.7503,14.5045L18.7503,13.2585C18.7503,12.8435 18.4143,12.5085 18.0003,12.5085L17.9963,12.5085ZM8.9993,10.5045L9.9993,11.5045L8.9993,11.5045L8.9993,10.5045ZM12.4993,8.5045L12.4993,10.0045L13.5003,11.0045L13.5003,9.5045L15.0003,9.5045L15.0003,11.0045L13.5003,11.0045L14.5003,12.0045L15.0003,12.0045L15.0003,12.5035L16.0003,13.5035L16.0003,12.5035C16.0003,11.9515 15.5523,11.5045 15.0003,11.5045C15.5523,11.5045 16.0003,11.0565 16.0003,10.5045L16.0003,9.5045C16.0003,8.9515 15.5523,8.5045 15.0003,8.5045L12.4993,8.5045ZM3.9993,3.5045L2.9993,4.5045L5.2493,6.7545L5.2493,7.5045L5.2493,9.7505C5.2493,10.1645 5.5853,10.5005 5.9993,10.5005C6.4143,10.5005 6.7493,10.1635 6.7493,9.7505L6.7493,8.2585L7.9993,9.5045L7.9993,14.5035L8.9993,14.5035L8.9993,12.5035L10.4993,12.5035L10.4993,14.5035L11.4993,14.5035L11.4993,13.0035L12.4993,14.0035L12.4993,14.5035L13.0003,14.5035L15.2503,16.7535L7.2033,16.7535L7.2033,15.5235C7.2033,15.1775 6.9043,14.9535 6.6173,15.0015C6.5213,15.0175 6.4273,15.0655 6.3453,15.1465L3.9993,17.5035L6.3533,19.8575C6.4483,19.9545 6.5793,20.0085 6.7093,20.0075C7.0033,20.0075 7.2063,19.7565 7.1973,19.4475L7.1973,18.2575L16.7503,18.2575L19.0003,20.5075L20.0003,19.5075L3.9993,3.5045ZM16.7973,6.2505L16.7973,7.4805C16.7973,7.9425 17.3273,8.1845 17.6543,7.8575L20.0003,5.5045L17.6463,3.1505C17.5513,3.0535 17.4213,2.9995 17.2913,3.0005C16.9963,3.0005 16.7943,3.2515 16.8033,3.5605L16.8033,4.7505L7.2493,4.7505L8.7493,6.2505L16.7973,6.2505Z"
+      android:strokeWidth="1"
+      android:fillColor="?attr/audio_menu_icon"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>

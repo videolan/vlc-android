@@ -76,6 +76,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         editText = binding.mrlEdit
         editText.editText?.setOnKeyListener(this)
         editText.editText?.setOnEditorActionListener(this)
+        editText.editText?.requestFocus()
 
         adapter = MRLAdapter(getlistEventActor())
         val recyclerView = binding.mrlList
@@ -90,6 +91,9 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
                 }
             })
             recyclerView.layoutManager = gridLayoutManager
+            val horizontalOverscan = resources.getDimension(R.dimen.tv_overscan_horizontal).toInt()
+            val verticalOverscan = resources.getDimension(R.dimen.tv_overscan_vertical).toInt()
+            binding.mrlRoot.setPadding(horizontalOverscan, verticalOverscan, horizontalOverscan, verticalOverscan)
         } else {
             recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))

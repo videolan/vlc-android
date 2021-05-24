@@ -22,7 +22,7 @@
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/scan_viewstub"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/progress_layout_height"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout="@layout/scan_progress" />
 

@@ -43,7 +43,6 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.getSystemService
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -64,6 +63,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.Settings
 import org.videolan.tools.WeakHandler
@@ -736,7 +736,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     val artist = if (metaData == null) mw.artist else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST)
                     val album = if (metaData == null) mw.album else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM)
                     var cover = if (coverOnLockscreen && metaData != null)
-                        metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART)
+                        AudioUtil.fetchBitmapFromContentResolver(ctx, metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
                     else
                         AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), 256)
                     if (cover == null || cover.isRecycled)
@@ -867,12 +867,22 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
             if (coverOnLockscreen) {
-                val cover = AudioUtil.readCoverBitmap(Uri.decode(media.artworkMrl), 512)
-                if (cover?.config != null)
-                //In case of format not supported
-                    bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.config, false))
-                else
-                    bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, ctx.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512))
+                val albumArtUri = when {
+                    isSchemeHttpOrHttps(media.artworkMrl) -> {
+                        //ArtworkProvider will cache remote images
+                        ArtworkProvider.buildUri(Uri.Builder()
+                                .appendPath(ArtworkProvider.REMOTE)
+                                .appendQueryParameter(ArtworkProvider.PATH, media.artworkMrl)
+                                .build())
+                    }
+                    else -> {
+                        //The media id may be 0 on resume
+                        val mw = getFromMl { findMedia(media) }
+                        val mediaId = MediaSessionBrowser.generateMediaId(mw)
+                        artworkMap[mediaId] ?: ArtworkProvider.buildMediaUri(mw)
+                    }
+                }
+                bob.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, albumArtUri.toString())
             }
             bob.putLong("shuffle", 1L)
             bob.putLong("repeat", repeatType.toLong())
@@ -943,7 +953,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
     }
 
-    private fun notifyTrackChanged() {
+    fun notifyTrackChanged() {
         updateMetadata()
         updateWidget()
         broadcastMetadata()
@@ -1106,7 +1116,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             val artworkToUriCache = HashMap<String, Uri>()
             for (media in playlistManager.getMediaList()) {
                 if (!media.artworkMrl.isNullOrEmpty() && isPathValid(media.artworkMrl)) {
-                    val artworkUri = artworkToUriCache.getOrPut(media.artworkMrl, {getFileUri(media.artworkMrl)})
+                    val artworkUri = artworkToUriCache.getOrPut(media.artworkMrl, { ArtworkProvider.buildMediaUri(media) } )
                     val key = MediaSessionBrowser.generateMediaId(media)
                     it[key] = artworkUri
                 }
@@ -1151,8 +1161,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 for ((position, media) in mediaList.subList(fromIndex, toIndex).withIndex()) {
                     val title: String = media.nowPlaying ?: media.title
                     val mediaId = MediaSessionBrowser.generateMediaId(media)
-                    val iconUri = if (isSchemeHttpOrHttps(media.artworkMrl)) Uri.parse(media.artworkMrl)
-                    else artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON
+                    val iconUri = when {
+                        isSchemeHttpOrHttps(media.artworkMrl) -> {
+                            //ArtworkProvider will cache remote images
+                            ArtworkProvider.buildUri(Uri.Builder()
+                                    .appendPath(ArtworkProvider.REMOTE)
+                                    .appendQueryParameter(ArtworkProvider.PATH, media.artworkMrl)
+                                    .build())
+                        }
+                        ThumbnailsProvider.isMediaVideo(media) -> ArtworkProvider.buildMediaUri(media)
+                        else -> artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON
+                    }
                     val mediaDesc = MediaDescriptionCompat.Builder()
                             .setTitle(title)
                             .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
@@ -1396,6 +1415,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
      */
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
+        AccessControl.logCaller(clientUid, clientPackageName)
         return if (Permissions.canReadStorage(this@PlaybackService)) {
             val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
             extras.putBoolean(TABS_OPT_IN_HINT, true)

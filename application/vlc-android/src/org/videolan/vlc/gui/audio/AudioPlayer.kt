@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -51,7 +50,6 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -63,11 +61,11 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
-import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
@@ -76,6 +74,7 @@ import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.share
+import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
@@ -93,7 +92,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     lateinit var playlistModel: PlaylistModel
+    lateinit var bookmarkModel: BookmarkModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
+    private lateinit var bookmarkListDelegate: BookmarkListDelegate
 
     private var showRemainingTime = false
     private var previewingSeek = false
@@ -117,12 +118,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer, { it?.let { updateProgress(it) } })
+        playlistModel.speed.observe(this@AudioPlayer, { showChips() })
         playlistAdapter.setModel(playlistModel)
         playlistModel.dataset.asFlow().conflate().onEach {
             doUpdate()
             playlistAdapter.update(it)
             delay(50L)
         }.launchWhenStarted(lifecycleScope)
+        bookmarkModel = BookmarkModel.get(requireActivity())
+        PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer, {
+            showChips()
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -145,24 +151,20 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.fragment = this
 
-        binding.next.setOnTouchListener(LongSeekListener(true,
-                UiTools.getResourceFromAttribute(view.context, R.attr.ic_next),
-                R.drawable.ic_next_pressed))
-        binding.previous.setOnTouchListener(LongSeekListener(false,
-                UiTools.getResourceFromAttribute(view.context, R.attr.ic_previous),
-                R.drawable.ic_previous_pressed))
+        binding.next.setOnTouchListener(LongSeekListener(true))
+        binding.previous.setOnTouchListener(LongSeekListener(false))
 
         registerForContextMenu(binding.songsList)
         userVisibleHint = true
         showCover(settings.getBoolean("audio_player_show_cover", false))
-        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
 
         //For resizing purpose, we have to cache this twice even if it's from the same resource
-        playToPause = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
-        pauseToPlay = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
-        playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
-        pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
+        playToPause = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause_video)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play_video)!!
+        playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause_video)!!
+        pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play_video)!!
         onSlide(0f)
         abRepeatAddMarker = binding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
         playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner, { abvalues ->
@@ -175,6 +177,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner, {
             binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
             abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
+            binding.audioPlayProgress.visibility = if (!shouldHidePlayProgress()) View.VISIBLE else View.GONE
 
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
         })
@@ -189,7 +192,42 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             Settings.getInstance(requireActivity()).putSingle(AUDIO_PLAY_PROGRESS_MODE, audioPlayProgressMode)
             playlistModel.progress.value?.let { updateProgress(it) }
         }
+        binding.playbackSpeedQuickAction.setOnClickListener {
+            val newFragment = PlaybackSpeedDialog.newInstance()
+            newFragment.show(requireActivity().supportFragmentManager, "playback_speed")
+        }
+        binding.playbackSpeedQuickAction.setOnLongClickListener {
+            playlistModel.service?.setRate(1F, true)
+            showChips()
+            true
+        }
+        binding.sleepQuickAction.setOnClickListener {
+            val newFragment = SleepTimerDialog.newInstance()
+            newFragment.show(requireActivity().supportFragmentManager, "time")
+        }
+        binding.sleepQuickAction.setOnLongClickListener {
+            playlistModel.service?.setSleep(null)
+            showChips()
+            true
+        }
+    }
 
+    private fun showChips() {
+        if (playlistModel.speed.value == 1.0F && PlayerOptionsDelegate.playerSleepTime.value == null) {
+            binding.playbackChips.setGone()
+        } else {
+            binding.playbackChips.setVisible()
+            binding.playbackSpeedQuickAction.setGone()
+            binding.sleepQuickAction.setGone()
+            playlistModel.speed.value?.let {
+                if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
+                binding.playbackSpeedQuickAction.text = it.formatRateString()
+            }
+            PlayerOptionsDelegate.playerSleepTime.value?.let {
+                binding.sleepQuickAction.setVisible()
+                binding.sleepQuickAction.text = DateFormat.getTimeFormat(requireContext()).format(it.time)
+            }
+        }
     }
 
     override fun onResume() {
@@ -325,9 +363,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val text = withContext(Dispatchers.Default) {
                 val medias = playlistModel.medias ?: return@withContext ""
                 if (medias.size < 2) {
-                    withContext(Dispatchers.Main) { binding.audioPlayProgress.setGone() }
+                    withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() }
                     return@withContext ""
-                } else withContext(Dispatchers.Main) { binding.audioPlayProgress.setVisible() }
+                } else withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible()  }
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
@@ -345,6 +383,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.audioPlayProgress.text = text
         }
     }
+
+    fun shouldHidePlayProgress() = abRepeatAddMarker.visibility != View.GONE || (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) || playlistModel.medias?.size ?: 0 < 2
 
     override fun onSelectionSet(position: Int) {
         if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != BottomSheetBehavior.STATE_HIDDEN) {
@@ -398,7 +438,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun onPlaylistSwitchClick(view: View) {
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
-        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
     }
 
     fun onShuffleClick(view: View) {
@@ -423,6 +463,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val service = playlistModel.service ?: return
             val activity = activity as? AppCompatActivity ?: return
             optionsDelegate = PlayerOptionsDelegate(activity, service)
+            optionsDelegate.setBookmarkClickedListener {
+                if (!this::bookmarkListDelegate.isInitialized) {
+                    bookmarkListDelegate = BookmarkListDelegate(activity, service, bookmarkModel)
+                    bookmarkListDelegate.visibilityListener = {
+                        binding.audioPlayProgress.visibility = if (shouldHidePlayProgress()) View.GONE else View.VISIBLE
+                    }
+                    bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+                }
+                bookmarkListDelegate.show()
+                bookmarkListDelegate.setProgressHeight(binding.time.y)
+            }
         }
         optionsDelegate.show()
     }
@@ -449,6 +500,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun backPressed(): Boolean {
         if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
             optionsDelegate.hide()
+            return true
+        }
+        if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
+            bookmarkListDelegate.hide()
             return true
         }
         return clearSearch()
@@ -489,14 +544,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         if (this::optionsDelegate.isInitialized) optionsDelegate.release()
     }
 
-    private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
-        internal var length = -1L
+    private inner class LongSeekListener(var forward: Boolean) : View.OnTouchListener {
+        var length = -1L
 
-        internal var possibleSeek = 0
-        internal var vibrated = false
+        var possibleSeek = 0
+        var vibrated = false
 
         @RequiresPermission(Manifest.permission.VIBRATE)
-        internal var seekRunnable: Runnable = object : Runnable {
+        var seekRunnable: Runnable = object : Runnable {
             override fun run() {
                 if (!vibrated) {
                     AppContextProvider.appContext.getSystemService<Vibrator>()?.vibrate(80)
@@ -520,17 +575,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    (if (forward) binding.next else binding.previous).setImageResource(this.pressed)
                     possibleSeek = playlistModel.time.toInt()
                     previewingSeek = true
                     vibrated = false
                     length = playlistModel.length
                     handler.postDelayed(seekRunnable, 1000)
-                    return true
+                    return false
                 }
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    (if (forward) binding.next else binding.previous).setImageResource(this.normal)
                     handler.removeCallbacks(seekRunnable)
                     previewingSeek = false
                     if (event.eventTime - event.downTime < 1000) {
@@ -548,7 +601,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                                 onPreviousClick(v)
                         }
                     }
-                    return true
+                    return false
                 }
             }
             return false

@@ -27,14 +27,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
-import android.view.InputDevice
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
+import android.text.format.DateFormat
+import android.view.*
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
@@ -44,11 +42,15 @@ import org.videolan.television.R
 import org.videolan.television.databinding.TvAudioPlayerBinding
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.Settings
-import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.gui.helpers.MediaComparators
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.tools.formatRateString
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
@@ -69,6 +71,9 @@ class AudioPlayerActivity : BaseTvActivity() {
     private var settings: SharedPreferences? = null
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
     private lateinit var playToPause: AnimatedVectorDrawableCompat
+    private lateinit var optionsDelegate: PlayerOptionsDelegate
+    lateinit var bookmarkModel: BookmarkModel
+    private lateinit var bookmarkListDelegate: BookmarkListDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +82,6 @@ class AudioPlayerActivity : BaseTvActivity() {
 
         model = ViewModelProvider(this).get(PlaylistModel::class.java)
         binding.playlist.layoutManager = LinearLayoutManager(this)
-        binding.playlist.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         adapter = PlaylistAdapter(this, model)
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
@@ -87,15 +91,78 @@ class AudioPlayerActivity : BaseTvActivity() {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
+            updateRepeatMode()
         })
+        model.speed.observe(this, { showChips() })
+        PlayerOptionsDelegate.playerSleepTime.observe(this, {
+            showChips()
+        })
+        binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
         model.playerState.observe(this, { playerState -> update(playerState) })
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (intent.hasExtra(MEDIA_PLAYLIST))
             intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it) }
         else
             intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
-        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
-        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
+        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
+        binding.playbackSpeedQuickAction.setOnClickListener {
+            val newFragment = PlaybackSpeedDialog.newInstance()
+            newFragment.show(supportFragmentManager, "playback_speed")
+        }
+        binding.playbackSpeedQuickAction.setOnLongClickListener {
+            model.service?.setRate(1F, true)
+            showChips()
+            true
+        }
+        binding.sleepQuickAction.setOnClickListener {
+            val newFragment = SleepTimerDialog.newInstance()
+            newFragment.show(supportFragmentManager, "time")
+        }
+        binding.sleepQuickAction.setOnLongClickListener {
+            model.service?.setSleep(null)
+            showChips()
+            true
+        }
+        bookmarkModel = BookmarkModel.get(this)
+    }
+
+    private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
+
+        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+        override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
+            if (fromUser) {
+                model.time = progress.toLong()
+            }
+        }
+    }
+
+    private fun showChips() {
+        binding.playbackSpeedQuickAction.setGone()
+        binding.sleepQuickAction.setGone()
+        model.speed.value?.let {
+            if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
+            binding.playbackSpeedQuickActionText.text = it.formatRateString()
+        }
+        PlayerOptionsDelegate.playerSleepTime.value?.let {
+            binding.sleepQuickAction.setVisible()
+            binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
+            optionsDelegate.hide()
+            return
+        }
+        if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
+            bookmarkListDelegate.hide()
+            return
+        }
+        super.onBackPressed()
     }
 
     override fun refresh() {}
@@ -163,16 +230,6 @@ class AudioPlayerActivity : BaseTvActivity() {
                 goNext()
                 return true
             }
-            KeyEvent.KEYCODE_DPAD_RIGHT -> return if (binding.mediaProgress.hasFocus()) {
-                seek(10000)
-                true
-            } else
-                false
-            KeyEvent.KEYCODE_DPAD_LEFT -> return if (binding.mediaProgress.hasFocus()) {
-                seek(-10000)
-                true
-            } else
-                false
             KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
                 seek(10000)
                 return true
@@ -226,9 +283,32 @@ class AudioPlayerActivity : BaseTvActivity() {
             R.id.button_play -> togglePlayPause()
             R.id.button_next -> goNext()
             R.id.button_previous -> goPrevious()
-            R.id.button_repeat -> updateRepeatMode()
+            R.id.button_repeat -> switchRepeatMode()
             R.id.button_shuffle -> setShuffleMode(!shuffling)
+            R.id.button_more -> showAdvancedOptions(v)
         }
+    }
+
+    private fun showAdvancedOptions(v: View) {
+        if (!this::optionsDelegate.isInitialized) {
+            val service = model.service ?: return
+            optionsDelegate = PlayerOptionsDelegate(this, service, false)
+            optionsDelegate.setBookmarkClickedListener {
+                if (!this::bookmarkListDelegate.isInitialized) {
+                    bookmarkListDelegate = BookmarkListDelegate(this, service, bookmarkModel)
+                    bookmarkListDelegate.visibilityListener = {
+                        if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
+                        binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
+                        binding.playlist.isFocusable = !bookmarkListDelegate.visible
+                        binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
+                        binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
+                    }
+                    bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+                }
+                bookmarkListDelegate.show()
+            }
+        }
+        optionsDelegate.show()
     }
 
     private fun setShuffleMode(shuffle: Boolean) {
@@ -242,6 +322,21 @@ class AudioPlayerActivity : BaseTvActivity() {
     }
 
     private fun updateRepeatMode() {
+        when (model.repeatType) {
+            PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
+            }
+            PlaybackStateCompat.REPEAT_MODE_ONE -> {
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
+            }
+            PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
+            }
+        }
+    }
+
+    private fun switchRepeatMode() {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL

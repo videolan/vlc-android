@@ -618,6 +618,10 @@
             android:authorities="${applicationId}.thumbprovider"
             android:exported="true"/>
         <provider
+            android:name=".ArtworkProvider"
+            android:authorities="${applicationId}.artwork"
+            android:exported="true"/>
+        <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
