@@ -586,20 +586,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     handler.removeCallbacks(seekRunnable)
                     previewingSeek = false
-                    if (event.eventTime - event.downTime < 1000) {
-                        if (forward) onNextClick(v) else onPreviousClick(v)
-                    } else {
-                        if (forward) {
-                            if (possibleSeek < playlistModel.length)
-                                playlistModel.time = possibleSeek.toLong()
-                            else
-                                onNextClick(v)
-                        } else {
-                            if (possibleSeek > 0)
-                                playlistModel.time = possibleSeek.toLong()
-                            else
-                                onPreviousClick(v)
-                        }
+                    if (event.eventTime - event.downTime >= 1000L) {
+                        playlistModel.time = possibleSeek.toLong().coerceAtLeast(0L).coerceAtMost(playlistModel.length)
+                        v.isPressed = false
+                        return true
                     }
                     return false
                 }
