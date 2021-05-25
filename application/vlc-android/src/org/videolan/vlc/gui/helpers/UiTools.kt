@@ -691,6 +691,10 @@ fun isSelected(v: View, isSelected: Boolean?) {
 }
 
 fun BaseActivity.applyTheme() {
+    forcedTheme()?.let {
+        setTheme(it)
+        return
+    }
     if (Settings.showTvUi) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setTheme(R.style.Theme_VLC_Black)

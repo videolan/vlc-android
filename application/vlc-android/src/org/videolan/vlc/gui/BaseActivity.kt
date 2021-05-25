@@ -25,6 +25,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var settings: SharedPreferences
 
     open val displayTitle = false
+    open fun forcedTheme():Int? = null
     abstract fun getSnackAnchorView(): View?
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
 
