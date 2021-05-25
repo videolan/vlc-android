@@ -217,6 +217,11 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.videoGrid.adapter = videoListAdapter
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateEmptyView()
+    }
+
     override fun onStart() {
         super.onStart()
         registerForContextMenu(binding.videoGrid)
