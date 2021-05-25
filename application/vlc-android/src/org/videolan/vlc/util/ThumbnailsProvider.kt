@@ -87,7 +87,7 @@ object ThumbnailsProvider {
         if (hasCache && File(thumbPath).exists()) return readCoverBitmap(thumbPath, width)
         if (media.isThumbnailGenerated) return null
         var bitmap = synchronized(lock) {
-            ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND)
+            if (media.uri.scheme.isSchemeFile()) ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND) else null
         }
         if (bitmap != null) {
             val emptyBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
