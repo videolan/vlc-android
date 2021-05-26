@@ -13,7 +13,7 @@
    version="1.1"
    id="SVGRoot"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="ic_ctx_mark_all_as_played.svg">
+   sodipodi:docname="ic_ctx_mark_as_played.svg">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16"
-     inkscape:cx="26.369222"
-     inkscape:cy="28.553326"
+     inkscape:zoom="11.313709"
+     inkscape:cx="13.025889"
+     inkscape:cy="9.9336113"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -71,9 +71,10 @@
      id="layer1"
      transform="translate(0,-8)">
     <path
-       id="path2604"
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 25 13 L 19 19 L 22 22 L 28 16 L 25 13 z M 35 13 L 22 26 L 17 21 L 14 24 L 22 32 L 38 16 L 35 13 z M 7 21 L 4 24 L 12 32 L 15 29 L 7 21 z "
-       transform="translate(0,8)" />
+       d="m 28.999939,21.000046 -13,13 -5,-5 -3,3 8,8 16,-16 z"
+       id="path2669"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc" />
   </g>
 </svg>

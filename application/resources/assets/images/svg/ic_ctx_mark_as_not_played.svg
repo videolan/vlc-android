@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -14,8 +12,8 @@
    viewBox="0 0 40 40"
    version="1.1"
    id="SVGRoot"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_ctx_done_normal.svg">
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="ic_ctx_mark_as_not_played.svg">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -25,16 +23,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="32.000001"
-     inkscape:cx="7.3550454"
-     inkscape:cy="3.410787"
+     inkscape:zoom="16"
+     inkscape:cx="22.204569"
+     inkscape:cy="20.060177"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     inkscape:window-height="1009"
      inkscape:window-x="0"
-     inkscape:window-y="1107"
+     inkscape:window-y="1114"
      inkscape:window-maximized="1"
      inkscape:grid-bbox="true"
      inkscape:snap-page="true"
@@ -49,7 +47,8 @@
      inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true">
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:document-rotation="0">
     <inkscape:grid
        type="xygrid"
        id="grid8234" />
@@ -62,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -72,9 +71,9 @@
      id="layer1"
      transform="translate(0,-8)">
     <path
-       inkscape:connector-curvature="0"
-       id="path8078"
-       d="M 29,21 16,34 11,29 8,32 16,40 32,24 Z"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       id="path2659-3"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.999999px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 7.999939,15.000046 -2.5,2.5 13.5,13.5 -3,3 -5,-5 -3,3 8,8 6,-6 8.5,8.5 2.5,-2.5 z m 21,6 -5,5 3,3 5,-5 z"
+       sodipodi:nodetypes="cccccccccccccccc" />
   </g>
 </svg>

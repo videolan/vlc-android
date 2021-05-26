@@ -218,6 +218,18 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
             else -> {}
         }
     }
+    suspend fun markAsUnplayed(media: MediaLibraryItem) = withContext(Dispatchers.IO) {
+        when (media) {
+            is VideoGroup -> media.getAll().forEach {
+                it.setLongMeta(MediaWrapper.META_SEEN, 0)
+            }
+            is Folder -> media.getAll().forEach {
+                it.setLongMeta(MediaWrapper.META_SEEN, 0)
+            }
+            is MediaWrapper -> media.setLongMeta(MediaWrapper.META_SEEN, 0)
+            else -> {}
+        }
+    }
 }
 
 enum class VideoGroupingType {
