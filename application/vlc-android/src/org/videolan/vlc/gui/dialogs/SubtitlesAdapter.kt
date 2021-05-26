@@ -48,6 +48,7 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
 
         fun bind(subtitleItem: SubtitleItem?) {
             binding.subtitleItem = subtitleItem
+            binding.downloadSub.setOnClickListener { itemView.performClick() }
             binding.executePendingBindings()
         }
     }
