@@ -62,6 +62,7 @@
     <attr name="audio_chips_color" format="color" />
     <attr name="audio_chips_text_color" format="color" />
     <attr name="bookmark_background" format="color" />
+    <attr name="bottom_navigation_focus" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />

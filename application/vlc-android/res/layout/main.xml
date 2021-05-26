@@ -58,7 +58,7 @@
             android:background="?attr/bottom_navigation_background"
             app:elevation="16dp"
             app:itemIconTint="@color/bottom_navigation_selector"
-            app:itemRippleColor="@color/orange500focus"
+            app:itemRippleColor="?attr/bottom_navigation_focus"
             app:itemTextColor="@color/bottom_navigation_selector"
             app:labelVisibilityMode="labeled"
             app:layout_behavior="org.videolan.vlc.gui.helpers.BottomNavigationBehavior"

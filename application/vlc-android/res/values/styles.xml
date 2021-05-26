@@ -68,6 +68,7 @@
         <item name="adv_options_item_background">@drawable/advanced_option_focusable_background</item>
         <item name="audio_chips_color">@color/black_transparent_75</item>
         <item name="audio_chips_text_color">@color/white_transparent_60</item>
+        <item name="bottom_navigation_focus">@color/orange_800_transparent_10</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
@@ -212,6 +213,7 @@
         <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
         <item name="audio_chips_color">@color/white_transparent_90</item>
         <item name="audio_chips_text_color">@color/black_transparent_60</item>
+        <item name="bottom_navigation_focus">@color/white_transparent_10</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
