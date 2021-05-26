@@ -226,7 +226,7 @@ class ArtworkProvider : ContentProvider() {
             }
             val cover = tracks?.let {
                 val iconAddition = if (type == PLAYLIST) null else ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
-                ThumbnailsProvider.getPlaylistImage("$type:${id}_256", tracks, 256, iconAddition)
+                ThumbnailsProvider.getPlaylistOrGenreImage("$type:${id}_256", tracks, 256, iconAddition)
             }
             return@runBlocking when {
                 cover != null -> cover
@@ -288,7 +288,7 @@ class ArtworkProvider : ContentProvider() {
                     HISTORY -> getBitmapFromDrawable(context, R.drawable.ic_auto_history_circle)
                     else -> null
                 }
-                cover = ThumbnailsProvider.getPlaylistImage("${key}_256", tracks, 256, iconAddition)
+                cover = ThumbnailsProvider.getPlaylistOrGenreImage("${key}_256", tracks, 256, iconAddition)
             }
         }
         return encodeImage(cover ?: context.getBitmapFromDrawable(R.drawable.ic_auto_playall))

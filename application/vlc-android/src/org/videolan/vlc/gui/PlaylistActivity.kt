@@ -139,7 +139,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 if (!playlist.artworkMrl.isNullOrEmpty()) {
                     AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), width)
                 } else {
-                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
+                    ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
                 }
             }
             if (cover != null) {

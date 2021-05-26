@@ -45,9 +45,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
-import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.resources.interfaces.FocusListener
@@ -133,6 +133,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         val item = getItem(position)
         holder.setItem(item)
         if (item is Artist) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
+        if (item is Genre) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
         val isSelected = multiSelectHelper.isSelected(position)
         holder.setCoverlay(isSelected)
         holder.selectView(isSelected)

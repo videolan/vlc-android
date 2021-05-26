@@ -46,6 +46,10 @@
             type="Boolean" />
 
         <variable
+                name="imageWidth"
+                type="int" />
+
+        <variable
                 name="protocol"
                 type="String"/>
 
@@ -91,6 +95,7 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
+                vlc:imageWidth="@{imageWidth}"
                 vlc:media="@{item}"
                 vlc:tv="@{true}"/>
 

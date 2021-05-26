@@ -71,7 +71,6 @@
                 android:onClick="@{holder::onImageClick}"
                 android:scaleType="centerCrop"
                 android:src="@{cover}"
-                android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA|MediaLibraryItem.TYPE_PLAYLIST)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
                 vlc:imageWidth="@{imageWidth}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintDimensionRatio="1"

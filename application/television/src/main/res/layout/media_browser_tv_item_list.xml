@@ -69,6 +69,10 @@
                 type="Boolean" />
 
         <variable
+                name="imageWidth"
+                type="int" />
+
+        <variable
                 name="protocol"
                 type="String" />
 
@@ -108,6 +112,7 @@
                 android:background="@color/lb_details_overview_bg_color"
                 android:scaleType="@{scaleType}"
                 android:src="@{cover}"
+                vlc:imageWidth="@{imageWidth}"
                 tools:srcCompat="@drawable/ic_album_big"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintDimensionRatio="1"

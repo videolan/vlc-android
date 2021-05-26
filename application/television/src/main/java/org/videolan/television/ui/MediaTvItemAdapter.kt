@@ -18,13 +18,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.R
 import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.resources.interfaces.FocusListener
 import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
 import org.videolan.television.ui.browser.TvAdapterUtils
+import org.videolan.tools.dp
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
@@ -228,9 +231,11 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     binding.max = max
                 }
             }
+            if (item is Genre)  description = binding.container.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
 
             binding.progress = progress
             binding.isSquare = isSquare
+            binding.imageWidth = 120.dp
             binding.seen = seen
             binding.description = description
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -280,6 +285,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         override fun setItem(item: MediaLibraryItem?) {
             binding.item = item
             var isSquare = true
+            binding.imageWidth = itemSize
             var progress = 0
             var seen = 0L
             var description = item?.description
@@ -303,6 +309,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     binding.max = max
                 }
             }
+            if (item is Genre)  description = binding.container.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
 
             binding.progress = progress
             binding.isSquare = isSquare

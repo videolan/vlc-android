@@ -108,21 +108,21 @@ object ThumbnailsProvider {
         return bitmap
     }
 
-    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap? = null): Bitmap? {
+    suspend fun getPlaylistOrGenreImage(key: String, mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap? = null): Bitmap? {
         // to force the thumbnail regeneration on change, we append the ids of the media that will be used to the cache key
-        val saltedKey = key + getArtworkListForPlaylist(mediaList).joinToString("_", ":") { it.id.toString() }
+        val saltedKey = key + getArtworkListForPlaylistOrGenre(mediaList).joinToString("_", ":") { it.id.toString() }
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Salted key from $key is $saltedKey")
-        return (BitmapCache.getBitmapFromMemCache(saltedKey) ?: composePlaylistImage(mediaList, width, iconAddition))?.also {
+        return (BitmapCache.getBitmapFromMemCache(saltedKey) ?: composePlaylistOrGenreImage(mediaList, width, iconAddition))?.also {
             BitmapCache.addBitmapToMemCache(saltedKey, it)
         }
     }
 
     /**
-     * Retrieve the images to be used for the playlist's thumbnail
-     * @param mediaList the media list for the playlist
+     * Retrieve the images to be used for the playlist/genre's thumbnail
+     * @param mediaList the media list for the playlist or genre
      * @return a sanitied list of media to be used for the playlist thumbnail composition
      */
-    private fun getArtworkListForPlaylist(mediaList: List<MediaWrapper>):ArrayList<MediaWrapper> {
+    private fun getArtworkListForPlaylistOrGenre(mediaList: List<MediaWrapper>):ArrayList<MediaWrapper> {
         if (mediaList.isEmpty()) return arrayListOf()
         val url = mediaList[0].artworkURL
         val isAllSameImage = !mediaList.any { it.artworkURL != url }
@@ -150,12 +150,12 @@ object ThumbnailsProvider {
     }
 
     /**
-     * Compose 1 image from tracks of a Playlist
-     * @param mediaList The track list of the playlist
+     * Compose 1 image from tracks of a Playlist or a genre
+     * @param mediaList The track list of the playlist or genre
      * @return a Bitmap object
      */
-    private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap?): Bitmap? {
-        val artworks = getArtworkListForPlaylist(mediaList)
+    private suspend fun composePlaylistOrGenreImage(mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap?): Bitmap? {
+        val artworks = getArtworkListForPlaylistOrGenre(mediaList)
         if (artworks.isEmpty()) return null
 
         val sameImage = if (artworks.size == 1) obtainBitmap(artworks[0], width)

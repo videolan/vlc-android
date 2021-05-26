@@ -99,6 +99,10 @@
         <item quantity="one">1 TV show</item>
         <item quantity="other">%d TV shows</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
 
     <string name="internal_memory">Internal memory</string>
     <string name="audio">Audio</string>
