@@ -45,6 +45,12 @@ import org.videolan.tools.DependencyProvider
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPlaylistBinding
 import org.videolan.vlc.gui.SimpleAdapter
+import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.ADD_ALL
+import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.ADD_NEW
+import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.CANCEL
+import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.NO_OPTION
+import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.OPTION_KEY
+import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.REQUEST_KEY
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
@@ -59,6 +65,9 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     override fun needToManageOrientation(): Boolean = false
 
+    var selectedPlaylist: Playlist? = null
+    var nonDuplicateTracks: Array<MediaWrapper>? = null
+
     private var isLoading: Boolean = false
         set(value) {
             field = value
@@ -71,7 +80,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         }
     private lateinit var binding: DialogPlaylistBinding
     private lateinit var adapter: SimpleAdapter
-    private lateinit var newTrack: Array<MediaWrapper>
+    private lateinit var newTracks: Array<MediaWrapper>
     private lateinit var medialibrary: Medialibrary
 
     private val coroutineContextProvider: CoroutineContextProvider
@@ -88,7 +97,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         medialibrary = Medialibrary.getInstance()
         adapter = SimpleAdapter(this)
-        newTrack = try {
+        newTracks = try {
             @Suppress("UNCHECKED_CAST")
             val tracks = requireArguments().getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
             filesText = resources.getQuantityString(R.plurals.media_quantity, tracks.size, tracks.size)
@@ -101,15 +110,15 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                     val viewModel = getBrowserModel(category = TYPE_FILE, url = folder, showHiddenFiles = false)
                     if (requireArguments().getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
                         withContext(Dispatchers.IO) {
-                            newTrack = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
+                            newTracks = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
                             isLoading = false
-                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTrack.size, newTrack.size)
+                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTracks.size, newTracks.size)
                         }
                     } else {
                         viewModel.dataset.observe(this, { mediaLibraryItems ->
-                            newTrack = mediaLibraryItems.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
+                            newTracks = mediaLibraryItems.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
                             isLoading = false
-                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTrack.size, newTrack.size)
+                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTracks.size, newTracks.size)
                         })
                     }
                 }
@@ -118,6 +127,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 emptyArray()
             }
         }
+        selectedPlaylist = savedInstanceState?.getParcelable(SELECTED_PLAYLIST)
+        nonDuplicateTracks = selectedPlaylist?.let { getNonDuplicateTracks(it.tracks, newTracks) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -143,8 +154,28 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
         adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists.apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } }))
-        if (!Tools.isArrayEmpty(newTrack)) binding.dialogPlaylistSave.setText(R.string.save)
+        if (!Tools.isArrayEmpty(newTracks)) binding.dialogPlaylistSave.setText(R.string.save)
         updateEmptyView()
+        parentFragmentManager.setFragmentResultListener(
+                REQUEST_KEY,
+                viewLifecycleOwner) { s: String, bundle: Bundle ->
+            when (bundle.getInt(OPTION_KEY)) {
+                ADD_ALL -> {
+                    savePlaylist(selectedPlaylist!!, newTracks)
+                }
+                ADD_NEW -> {
+                    savePlaylist(selectedPlaylist!!, nonDuplicateTracks!!)
+                }
+                CANCEL, NO_OPTION -> {
+                    // do nothing
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(SELECTED_PLAYLIST, selectedPlaylist)
     }
 
     private fun updateEmptyView() {
@@ -171,15 +202,15 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 return@launch
             }
             dismiss()
-            savePlaylist(medialibrary.createPlaylist(name) ?: return@launch)
+            savePlaylist(medialibrary.createPlaylist(name) ?: return@launch, newTracks)
         }
     }
 
-    private fun savePlaylist(playlist: Playlist) {
+    private fun savePlaylist(playlist: Playlist, tracks: Array<MediaWrapper>) {
         AppScope.launch(coroutineContextProvider.IO) {
-            if (newTrack.isEmpty()) return@launch
+            if (tracks.isEmpty()) return@launch
             val ids = LinkedList<Long>()
-            for (mw in newTrack) {
+            for (mw in tracks) {
                 val id = mw.id
                 if (id == 0L) {
                     var media = medialibrary.getMedia(mw.uri)
@@ -198,7 +229,24 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     override fun onClick(item: MediaLibraryItem) {
-        savePlaylist(item as Playlist)
+        selectedPlaylist = item as Playlist
+        nonDuplicateTracks = getNonDuplicateTracks(selectedPlaylist!!.tracks, newTracks)
+        val duplicateItemsCount = newTracks.size - nonDuplicateTracks!!.size
+        if (duplicateItemsCount == 0) {
+            savePlaylist(selectedPlaylist!!, newTracks)
+        } else {
+            val highlightedItemsCount = newTracks.size
+            val warningDialog = DuplicationWarningDialog.newInstance(highlightedItemsCount, duplicateItemsCount)
+            warningDialog.show(requireActivity().supportFragmentManager, "duplicationWarningDialog")
+        }
+    }
+
+    private fun getNonDuplicateTracks(currentTracks: Array<MediaWrapper>, newTracks: Array<MediaWrapper>): Array<MediaWrapper> {
+        return newTracks.filter { newItem ->
+            currentTracks.all { currentItem ->
+                !currentItem.equals(newItem)
+            }
+        }.toTypedArray()
     }
 
     companion object : DependencyProvider<Any>() {
@@ -208,6 +256,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         const val KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS"
         const val KEY_FOLDER = "PLAYLIST_FROM_FOLDER"
         const val KEY_SUB_FOLDERS = "PLAYLIST_FOLDER_ADD_SUBFOLDERS"
+
+        const val SELECTED_PLAYLIST = "SELECTED_PLAYLIST"
     }
 }
 

@@ -806,4 +806,18 @@
     <string name="no_bookmark">No bookmark yet</string>
     <string name="bookmark_name">Bookmark %s</string>
 
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Add duplicated item(s)?</string>
+    <string name="add_button">Add</string>
+    <string name="add_all_button">Add all</string>
+    <string name="add_new_only_button">Add new only</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">This item is already in this playlist.</item>
+        <item quantity="other">These items are already in this playlist.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 of the selected items is already in this playlist.</item>
+        <item quantity="other">%d of the selected items are already in this playlist.</item>
+    </plurals>
+
 </resources>
