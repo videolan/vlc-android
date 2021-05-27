@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="36dp"
+        android:height="36dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="M24,8 L20.0625,20H8L17.668,27.2969 13.5,40 24,32.0762 34.5,40 30.332,27.2969 40,20H27.9375ZM24,14.416 L26.4883,22h7.543l-6.0449,4.5625 2.623,7.9961L24,29.5703 17.3906,34.5586 20.0137,26.5625 13.9688,22h7.543z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="4"
+            android:fillColor="@color/tv_menu_selection"
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:fillAlpha="1"
+            android:strokeLineCap="butt" />
+</vector>
