@@ -29,12 +29,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
 
 class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
 
     override fun canSortByName() = false
 
     override suspend fun updateList() {
+        if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
         dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastMediaPlayed().toMutableList() }
     }
 
