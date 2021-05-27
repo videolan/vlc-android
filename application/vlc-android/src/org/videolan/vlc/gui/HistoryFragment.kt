@@ -35,10 +35,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.KeyHelper
-import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.isStarted
-import org.videolan.tools.retrieveParent
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.helpers.*
@@ -118,10 +115,16 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         cleanMenuItem.isVisible = !isEmpty()
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.ml_menu_clean).isVisible = Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)
+        super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ml_menu_clean -> {
                 clearHistory()
+                requireActivity().finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
