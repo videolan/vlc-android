@@ -41,7 +41,6 @@
     <attr name="font_audio_light" format="reference|color" />
     <attr name="font_light" format="reference|color" />
     <attr name="audio_browser_separator" format="reference|color" />
-    <attr name="audio_player_header_time" format="reference|color" />
     <attr name="list_subtitle" format="reference|color" />
     <attr name="list_title" format="reference|color" />
     <attr name="audio_player_background_tint" format="reference|color" />
@@ -64,6 +63,8 @@
     <attr name="bookmark_background" format="color" />
     <attr name="bottom_navigation_focus" format="color" />
     <attr name="scan_background" format="reference" />
+    <attr name="fast_scroller_bubble" format="reference" />
+    <attr name="fast_scroller_handle" format="reference" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />

@@ -54,8 +54,7 @@
         <item name="background_actionbar">@color/white</item>
         <item name="background_audio_tips">@color/grey50transparent</item>
         <item name="audio_player_background_tint">@color/white_transparent_50</item>
-        <item name="audio_browser_separator">@color/orange500</item>
-        <item name="audio_player_header_time">@color/orange500</item>
+        <item name="audio_browser_separator">@color/orange800</item>
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>
@@ -70,6 +69,8 @@
         <item name="audio_chips_text_color">@color/white_transparent_60</item>
         <item name="bottom_navigation_focus">@color/orange_800_transparent_10</item>
         <item name="scan_background">@drawable/rounded_corners_scan_progress</item>
+        <item name="fast_scroller_bubble">@drawable/fastscroller_bubble</item>
+        <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
@@ -201,7 +202,6 @@
         <item name="background_audio_tips">@color/grey900transparent</item>
         <item name="audio_player_background_tint">@color/black_transparent_50</item>
         <item name="audio_browser_separator">@color/orange500</item>
-        <item name="audio_player_header_time">@color/orange500</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
@@ -216,6 +216,8 @@
         <item name="audio_chips_text_color">@color/black_transparent_60</item>
         <item name="bottom_navigation_focus">@color/white_transparent_10</item>
         <item name="scan_background">@drawable/rounded_corners_scan_progress_dark</item>
+        <item name="fast_scroller_bubble">@drawable/fastscroller_bubble_black</item>
+        <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
