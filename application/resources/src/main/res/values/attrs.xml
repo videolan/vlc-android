@@ -55,7 +55,7 @@
     <attr name="rounded_corners_bottom_default_darker" format="reference" />
     <attr name="donate_card" format="color" />
     <attr name="donate_item_background" format="reference" />
-    <attr name="audio_chip_background" format="color" />
+    <attr name="audio_chip_background" format="reference" />
     <attr name="audio_chip_text_color" format="color" />
     <attr name="audio_seek_bar" format="reference" />
     <attr name="mini_visualizer_color" format="color" />
@@ -63,6 +63,7 @@
     <attr name="audio_chips_text_color" format="color" />
     <attr name="bookmark_background" format="color" />
     <attr name="bottom_navigation_focus" format="color" />
+    <attr name="scan_background" format="reference" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />
