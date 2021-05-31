@@ -343,7 +343,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         lastNotificationTime = currentTime
         val discovery = withContext(Dispatchers.Default) {
             val progressText = when {
-                parsing > 0 -> getString(R.string.ml_parse_media) + " " + parsing + "% · " + Uri.parse(currentDiscovery).lastPathSegment
+                parsing > 0 -> getString(R.string.ml_parse_media) + " " + parsing + "% · " + Uri.parse(currentDiscovery ?: "").lastPathSegment
                 currentDiscovery != null -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
                 else -> getString(R.string.ml_parse_media)
             }
