@@ -394,12 +394,10 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     private fun removeItem(position: Int, media: MediaWrapper) {
-        val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            snackerConfirm(this, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+            snackerConfirm(this, getString(R.string.confirm_remove_from_playlist, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
         } else {
-            val deleteAction = Runnable { deleteMedia(media) }
-            snackerConfirm(this, getString(resId, media.title), Runnable { if (Permissions.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
+            removeItems(listOf(media))
         }
     }
 
