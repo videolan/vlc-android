@@ -398,6 +398,8 @@
     <string name="dump_media_db_summary">Copy database to internal storage root</string>
     <string name="clear_media_db">Clear media database</string>
     <string name="clear_media_database_summary">Clears the database to start over</string>
+    <string name="clear_app_data">Clear app data</string>
+    <string name="clear_app_data_summary">Clears VLC for Android data</string>
     <string name="clear_history">Clear history</string>
     <string name="set_locale">Set locale</string>
     <string name="network_caching">Network caching value</string>
@@ -702,6 +704,7 @@
     <string name="recently_added">Recently added</string>
     <string name="playback_multiple_errors">Multiple media cannot be played</string>
     <string name="clear_media_db_message">You will lose your progresses, bookmarks and the playlists you created but you will keep your VLC for Android settings</string>
+    <string name="clear_app_data_message">You will lose your progresses, bookmarks, playlists and all VLC settings</string>
     <string name="clear">Clear</string>
     <string name="abrepeat_add_first_marker">Set start point</string>
     <string name="abrepeat_add_second_marker">Set end point</string>

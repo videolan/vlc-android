@@ -24,6 +24,7 @@
 package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
+import android.app.ActivityManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -34,7 +35,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
@@ -102,6 +102,19 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         }}
                         .setNegativeButton(R.string.cancel, null)
                         .show()
+                return true
+            }
+            "clear_app_data" -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_app_data), description = getString(R.string.clear_app_data_message), buttonText = getString(R.string.clear))
+                    dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                    dialog.setListener { (activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).clearApplicationUserData() }
+                } else {
+                    val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    i.addCategory(Intent.CATEGORY_DEFAULT)
+                    i.data = Uri.parse("package:" + activity.applicationContext.packageName)
+                    startActivity(i)
+                }
                 return true
             }
             "clear_media_db" -> {

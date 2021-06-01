@@ -37,6 +37,12 @@
             android:summary="@string/clear_media_database_summary"
             android:title="@string/clear_media_db"/>
 
+    <Preference
+            android:enabled="true"
+            android:key="clear_app_data"
+            android:summary="@string/clear_app_data_summary"
+            android:title="@string/clear_app_data"/>
+
     <PreferenceScreen
             android:key="clear_history"
             android:title="@string/clear_playback_history"/>
