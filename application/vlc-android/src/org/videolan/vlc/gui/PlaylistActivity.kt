@@ -403,7 +403,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
     private fun removeItems(items: List<MediaWrapper>) {
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
-        dialog.show(supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             lifecycleScope.launch {
                 for (item in items) {

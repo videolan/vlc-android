@@ -358,7 +358,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(mw))
-        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run()
         }

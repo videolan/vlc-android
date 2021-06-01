@@ -126,7 +126,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             return
         }
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
-        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             lifecycleScope.launch {
                 for (item in items) {
@@ -159,7 +159,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             else -> return false
         }
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(item))
-        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             if (item is MediaWrapper) if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run() else deletionAction.run()
             if (item is Playlist) item.delete()
