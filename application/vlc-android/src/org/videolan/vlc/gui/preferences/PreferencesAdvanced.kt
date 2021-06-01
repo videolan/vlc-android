@@ -31,6 +31,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
@@ -43,6 +44,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.BitmapCache
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -56,6 +58,7 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getW
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import java.io.File
+import java.io.IOException
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -116,7 +119,19 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         val medialibrary = Medialibrary.getInstance()
                         requireActivity().stopService(Intent(requireActivity(), MediaParsingService::class.java))
                         withContext((Dispatchers.IO)) {
-                            medialibrary.clearDatabase(true)
+                            medialibrary.clearDatabase(false)
+                            //delete thumbnails
+                            try {
+                                requireActivity().getExternalFilesDir(null)?. let {
+                                    val files = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
+                                    files?.forEach { file ->
+                                        if (file.isFile) FileUtils.deleteFile(file)
+                                    }
+                                }
+                                BitmapCache.clear()
+                            } catch (e: IOException) {
+                                Log.e(this::class.java.simpleName, e.message, e)
+                            }
                         }
                         medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                     }
