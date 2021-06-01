@@ -34,6 +34,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
@@ -42,8 +43,11 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
@@ -101,14 +105,18 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_media_db" -> {
-                AlertDialog.Builder(ctx)
-                        .setTitle(R.string.clear_media_db)
-                        .setMessage(R.string.validation)
-                        .setIcon(R.drawable.ic_warning)
-                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) { Medialibrary.getInstance().clearDatabase(true)
-                        }}
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_media_db), description = getString(R.string.clear_media_db_message), buttonText = getString(R.string.clear))
+                dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                dialog.setListener {
+                    launch {
+                        val medialibrary = Medialibrary.getInstance()
+                        activity.stopService(Intent(activity, MediaParsingService::class.java))
+                        withContext((Dispatchers.IO)) {
+                            medialibrary.clearDatabase(true)
+                        }
+                        medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                    }
+                }
                 return true
             }
             "quit_app" -> {

@@ -23,6 +23,8 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -36,18 +38,24 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
-import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
-import org.videolan.resources.VLCInstance
+import org.videolan.resources.*
+import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
+import org.videolan.tools.isStarted
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.DebugLogActivity
+import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FeatureFlag
+import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
@@ -103,14 +111,18 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_media_db" -> {
-                AlertDialog.Builder(requireContext())
-                        .setTitle(R.string.clear_media_db)
-                        .setMessage(getString(R.string.clear_media_db_warning, getString(R.string.validation)))
-                        .setIcon(R.drawable.ic_warning)
-                        .setPositiveButton(R.string.yes) { _, _ -> lifecycleScope.launch(Dispatchers.IO) {
-                            Medialibrary.getInstance().clearDatabase(true)
-                        }}
-                        .setNegativeButton(R.string.cancel, null).show()
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_media_db), description = getString(R.string.clear_media_db_message), buttonText = getString(R.string.clear))
+                dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+                dialog.setListener {
+                    lifecycleScope.launch {
+                        val medialibrary = Medialibrary.getInstance()
+                        requireActivity().stopService(Intent(requireActivity(), MediaParsingService::class.java))
+                        withContext((Dispatchers.IO)) {
+                            medialibrary.clearDatabase(true)
+                        }
+                        medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                    }
+                }
                 return true
             }
             "quit_app" -> {
