@@ -51,6 +51,7 @@ import org.videolan.tools.safeOffer
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.scope
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -58,7 +59,7 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 private const val TAG = "VLC/VideoListAdapter"
 
 class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
-) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback),
+) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback), FastScroller.SeparatedAdapter,
         MultiSelectAdapter<MediaLibraryItem>, IEventsSource<VideoAction> by EventsSource() {
 
     var isListMode = false
@@ -268,6 +269,8 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     fun setSeenMediaMarkerVisible(seenMediaMarkerVisible: Boolean) {
         isSeenMediaMarkerVisible = seenMediaMarkerVisible
     }
+
+    override fun hasSections() = true
 }
 
 @BindingAdapter("time", "resolution")

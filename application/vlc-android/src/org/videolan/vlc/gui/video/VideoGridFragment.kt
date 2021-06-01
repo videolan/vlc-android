@@ -27,12 +27,15 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -57,6 +60,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
@@ -97,7 +101,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::videoListAdapter.isInitialized) {
             val seenMarkVisible = settings.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(seenMarkVisible)
-            dataObserver = videoListAdapter.onAnyChange { updateEmptyView() }
+            dataObserver = videoListAdapter.onAnyChange {
+                updateEmptyView()
+                if (::binding.isInitialized) binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
+            }
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
@@ -215,6 +222,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onActivityCreated(savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
         binding.videoGrid.adapter = videoListAdapter
+        binding.fastScroller.attachToCoordinator(binding.videoGrid.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, binding.videoGrid.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, binding.videoGrid.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
+        binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
     }
 
     override fun onResume() {
