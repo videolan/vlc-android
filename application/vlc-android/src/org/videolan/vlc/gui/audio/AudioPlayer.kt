@@ -362,15 +362,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         lifecycleScope.launchWhenStarted {
             val text = withContext(Dispatchers.Default) {
                 val medias = playlistModel.medias ?: return@withContext ""
-                if (medias.size < 2) {
-                    withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() }
-                    return@withContext ""
-                } else withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible()  }
+                withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() else  binding.audioPlayProgress.setGone() }
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
-                val totalTimeText = Tools.millisToString(totalTime, true, true, false)
-                val currentProgressText = if (totalTimeText.isNullOrEmpty()) "0s" else totalTimeText
+                val totalTimeText = Tools.millisToString(totalTime, false, true, false)
+                val currentProgressText = if (totalTimeText.isNullOrEmpty()) "0:00" else totalTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
                 val textProgress = if (audioPlayProgressMode)

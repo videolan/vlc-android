@@ -245,7 +245,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
                     .map { it.length }
                     .sum()
         }
-        totalTime = Tools.millisToString(totalLength, true, false, false)
+        totalTime = Tools.millisToString(totalLength, false, false, false)
     }
 
     fun getTotalTime():Long {
