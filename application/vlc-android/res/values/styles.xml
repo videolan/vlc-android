@@ -71,6 +71,7 @@
         <item name="scan_background">@drawable/rounded_corners_scan_progress</item>
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
+        <item name="primary_focus">@color/orange_800_transparent_20</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
@@ -218,6 +219,7 @@
         <item name="scan_background">@drawable/rounded_corners_scan_progress_dark</item>
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble_black</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
+        <item name="primary_focus">@color/orange_500_transparent_20</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
@@ -295,6 +297,7 @@
         <item name="background_default">@color/grey850</item>
         <item name="actionBarItemBackground">@drawable/ic_circle_audio_player</item>
         <item name="selectableItemBackgroundBorderless">@drawable/ic_circle_audio_player</item>
+        <item name="primary_focus">@color/orange_500_transparent_20</item>
 
     </style>
 

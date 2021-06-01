@@ -98,6 +98,8 @@
     <color name="black_transparent_80">#cc000000</color>
 
     <color name="orange_800_transparent_10">#1aff610a</color>
+    <color name="orange_800_transparent_20">#33ff610a</color>
+    <color name="orange_500_transparent_20">#33FF8800</color>
 
     <color name="white_selection_transparent">#44ffffff</color>
 
