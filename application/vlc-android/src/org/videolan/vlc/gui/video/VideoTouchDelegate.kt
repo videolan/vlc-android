@@ -2,10 +2,8 @@ package org.videolan.vlc.gui.video
 
 import android.animation.Animator
 import android.animation.AnimatorSet
-import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.content.res.Configuration
-import android.graphics.Color
 import android.media.AudioManager
 import android.os.Handler
 import android.provider.Settings
@@ -15,10 +13,8 @@ import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.core.view.ScaleGestureDetectorCompat
 import com.google.android.material.circularreveal.CircularRevealCompat
-import com.google.android.material.circularreveal.CircularRevealWidget
 import kotlinx.android.synthetic.main.player_overlay_seek.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -441,6 +437,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
             var position = player.time + delta
             if (position < 0) position = 0
+            if (position > service.length) position = service.length
             player.seek(position)
             val sb = StringBuilder()
             val seekForward = delta >= 0
@@ -458,10 +455,10 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             nbTimesTaped++
 
             lastSeekWasForward = seekForward
-            sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * (delta / 1000f).toInt()))
-                    .append("s (")
-                    .append(Tools.millisToString(service.time))
-                    .append(')')
+            if (service.time > 0 && service.time < service.length) sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * (delta / 1000f).toInt()))
+                .append("s ")
+            sb.append("(").append(Tools.millisToString(service.time))
+                .append(')')
 
             val container = if (seekForward) player.rightContainer else player.leftContainer
             val containerBackground = if (seekForward) player.rightContainerBackground else player.leftContainerBackground
