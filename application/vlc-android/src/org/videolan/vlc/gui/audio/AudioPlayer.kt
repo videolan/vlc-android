@@ -30,8 +30,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
-import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -364,22 +362,35 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         lifecycleScope.launchWhenStarted {
             val text = withContext(Dispatchers.Default) {
                 val medias = playlistModel.medias ?: return@withContext ""
-                withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() else  binding.audioPlayProgress.setGone() }
+                withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() else binding.audioPlayProgress.setGone() }
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
-                val totalTime = elapsedTracksTime + progress.time
-                val totalTimeText = Tools.millisToString(if (showRemainingTime && playlistModel.getTotalTime()>0) playlistModel.getTotalTime() - totalTime else totalTime, false, true, false)
-                val currentProgressText = if (totalTimeText.isNullOrEmpty()) "0:00" else totalTimeText
+                val progressTime = elapsedTracksTime + progress.time
+                val totalTime = playlistModel.getTotalTime()
+                val progressTimeText = Tools.millisToString(
+                    if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime,
+                    false,
+                    true,
+                    false
+                )
+                val totalTimeText = Tools.millisToString(totalTime, false, false, false)
+                val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
                 val textProgress = if (audioPlayProgressMode)
-                        getString(R.string.audio_queue_progress_finished,DateFormat.format("hh:mm:ss a",  Date(System.currentTimeMillis() + playlistModel.getTotalTime() - totalTime)))
+                    getString(
+                        R.string.audio_queue_progress_finished,
+                        DateFormat.format("hh:mm:ss a", Date(System.currentTimeMillis() + totalTime - progressTime))
+                    )
                 else
-                    if (showRemainingTime && playlistModel.getTotalTime() > 0) getString(R.string.audio_queue_progress_remaining, "$currentProgressText")
+                    if (showRemainingTime && totalTime > 0) getString(
+                        R.string.audio_queue_progress_remaining,
+                        "$currentProgressText"
+                    )
                     else
                         getString(
                             R.string.audio_queue_progress,
-                            if (playlistModel.totalTime.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / ${playlistModel.totalTime}"
+                            if (totalTimeText.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / $totalTimeText"
                         )
                 "$textTrack  •  $textProgress"
             }

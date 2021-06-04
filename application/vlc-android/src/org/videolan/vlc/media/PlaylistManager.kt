@@ -139,6 +139,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val instance = Settings.getInstance(AppContextProvider.appContext)
         if (!avoidErasingStop) instance.putSingle(AUDIO_STOP_AFTER, -1)
         stopAfter = instance.getInt(AUDIO_STOP_AFTER, -1)
+        if (stopAfter < position) stopAfter = -1
         clearABRepeat()
         player.setRate(1.0f, false)
         playIndex(currentIndex)
