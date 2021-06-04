@@ -30,6 +30,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -366,15 +368,19 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
-                val totalTimeText = Tools.millisToString(totalTime, false, true, false)
+                val totalTimeText = Tools.millisToString(if (showRemainingTime && playlistModel.getTotalTime()>0) playlistModel.getTotalTime() - totalTime else totalTime, false, true, false)
                 val currentProgressText = if (totalTimeText.isNullOrEmpty()) "0:00" else totalTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
                 val textProgress = if (audioPlayProgressMode)
-                        getString(R.string.audio_queue_progress_finished,DateFormat.getTimeFormat(requireContext()).format(Date(System.currentTimeMillis() + playlistModel.getTotalTime() - totalTime)))
+                        getString(R.string.audio_queue_progress_finished,DateFormat.format("hh:mm:ss a",  Date(System.currentTimeMillis() + playlistModel.getTotalTime() - totalTime)))
+                else
+                    if (showRemainingTime && playlistModel.getTotalTime() > 0) getString(R.string.audio_queue_progress_remaining, "$currentProgressText")
                     else
-                        getString(R.string.audio_queue_progress,
-                        if (playlistModel.totalTime.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / ${playlistModel.totalTime}")
+                        getString(
+                            R.string.audio_queue_progress,
+                            if (playlistModel.totalTime.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / ${playlistModel.totalTime}"
+                        )
                 "$textTrack  •  $textProgress"
             }
             binding.audioPlayProgress.text = text
