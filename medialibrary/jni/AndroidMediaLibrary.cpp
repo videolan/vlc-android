@@ -729,7 +729,19 @@ void AndroidMediaLibrary::onMediaDeleted( std::set<int64_t> ids )
     if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO|FLAG_MEDIA_ADDED_VIDEO_EMPTY))
     {
         JNIEnv *env = getEnv();
-        if (env != NULL && weak_thiz) env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaDeletedId);
+        if (env != NULL && weak_thiz) {
+            jlongArray results;
+            int i = 0;
+            results = (jlongArray)env->NewLongArray(ids.size());
+            jlong fill[ids.size()];
+            for (auto id : ids) {
+                fill[i] = id;
+                i++;
+            }
+            env->SetLongArrayRegion(results, 0, ids.size(), fill);
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaDeletedId, results);
+            env->DeleteLocalRef(results);
+        }
     }
 }
 

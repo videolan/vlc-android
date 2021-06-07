@@ -198,7 +198,7 @@ abstract public class Medialibrary {
     public interface MediaCb {
         void onMediaAdded();
         void onMediaModified();
-        void onMediaDeleted();
+        void onMediaDeleted(long[] id);
     }
 
     public interface ArtistsCb {
@@ -293,9 +293,9 @@ abstract public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onMediaDeleted() {
+    public void onMediaDeleted(long[] ids) {
         synchronized (mMediaCbs) {
-            for (MediaCb cb : mMediaCbs) cb.onMediaDeleted();
+            for (MediaCb cb : mMediaCbs) cb.onMediaDeleted(ids);
         }
     }
 
