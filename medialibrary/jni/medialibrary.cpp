@@ -1521,6 +1521,15 @@ setMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jst
     env->ReleaseStringUTFChars(mrl, char_mrl);
 }
 
+jboolean
+removeMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return false;
+    return media->removeThumbnail(medialibrary::ThumbnailSizeType::Thumbnail);
+}
+
 void
 setMediaTitle(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring title)
 {
@@ -2107,6 +2116,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
+    {"nativeRemoveMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
     {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
     {"nativeRequestThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIIF)V", (void*)requestThumbnail },
