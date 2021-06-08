@@ -143,6 +143,7 @@ public:
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
     void onMediaModified( std::set<int64_t> media ) ;
     void onMediaDeleted( std::set<int64_t> ids ) ;
+    void onMediaConvertedToExternal( std::set<int64_t> ids ) ;
 
     void onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists ) ;
     void onArtistsModified( std::set<int64_t> artist );

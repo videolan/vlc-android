@@ -199,6 +199,7 @@ abstract public class Medialibrary {
         void onMediaAdded();
         void onMediaModified();
         void onMediaDeleted(long[] id);
+        void onMediaConvertedToExternal(long[] id);
     }
 
     public interface ArtistsCb {
@@ -296,6 +297,13 @@ abstract public class Medialibrary {
     public void onMediaDeleted(long[] ids) {
         synchronized (mMediaCbs) {
             for (MediaCb cb : mMediaCbs) cb.onMediaDeleted(ids);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaConvertedToExternal(long[] ids) {
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaConvertedToExternal(ids);
         }
     }
 
