@@ -2374,6 +2374,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.clazz,
            "onMediaDeleted", "([J)V");
     GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onMediaConvertedToExternalId,
+           ml_fields.MediaLibrary.clazz,
+           "onMediaConvertedToExternal", "([J)V");
+    GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onArtistsAddedId,
            ml_fields.MediaLibrary.clazz,
            "onArtistsAdded", "()V");

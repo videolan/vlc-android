@@ -261,6 +261,21 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
                           albums, artists, genres, videoList, tracksList, playlists);
 }
 
+jlongArray
+idArray(JNIEnv* env, std::set<int64_t> ids)
+{
+    jlongArray results;
+    int i = 0;
+    results = (jlongArray)env->NewLongArray(ids.size());
+    jlong fill[ids.size()];
+    for (auto id : ids) {
+        fill[i] = id;
+        i++;
+    }
+    env->SetLongArrayRegion(results, 0, ids.size(), fill);
+    return results;
+}
+
 jobjectArray
 filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount)
 {

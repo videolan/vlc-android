@@ -31,6 +31,7 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.tools.conflatedActor
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.util.FileUtils
+import java.io.File
 
 interface ICallBackHandler {
     val medialibrary : Medialibrary
@@ -78,6 +79,18 @@ class CallBackDelegate : ICallBackHandler,
                     action.ids.forEach {mediaId ->
                         AppContextProvider.appContext.getExternalFilesDir(null)?. let {
                             FileUtils.deleteFile(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg" )
+                        }
+                    }
+                }
+                is MediaConvertedExternalAction -> {
+                    action.ids.forEach {mediaId ->
+                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
+                            val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
+                            if (file.exists()) {
+                                val media = medialibrary.getMedia(mediaId)
+                                //todo tell ML to remove the thumb in DB
+                            }
+                            FileUtils.deleteFile(file)
                         }
                     }
                 }
@@ -150,6 +163,11 @@ class CallBackDelegate : ICallBackHandler,
         deleteActor.safeOffer(MediaDeletedAction(ids))
     }
 
+    override fun onMediaConvertedToExternal(ids: LongArray) {
+        refreshActor.safeOffer(Unit)
+        deleteActor.safeOffer(MediaConvertedExternalAction(ids))
+    }
+
     override fun onArtistsAdded() { refreshActor.safeOffer(Unit) }
 
     override fun onArtistsModified() { refreshActor.safeOffer(Unit) }
@@ -185,3 +203,4 @@ class CallBackDelegate : ICallBackHandler,
 
 sealed class MediaAction
 class MediaDeletedAction(val ids:LongArray): MediaAction()
+class MediaConvertedExternalAction(val ids:LongArray): MediaAction()

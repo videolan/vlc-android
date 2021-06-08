@@ -55,6 +55,7 @@ struct fields {
         jmethodID onMediaAddedId;
         jmethodID onMediaUpdatedId;
         jmethodID onMediaDeletedId;
+        jmethodID onMediaConvertedToExternalId;
         jmethodID onArtistsAddedId;
         jmethodID onArtistsModifiedId;
         jmethodID onArtistsDeletedId;
@@ -139,5 +140,6 @@ jobject convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::Media
 jobject convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr);
 jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing);
 jobjectArray filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount = -1);
+jlongArray idArray(JNIEnv* env, std::set<int64_t> ids);
 
 #endif //VLC_MEDIALIB_UTILS_H
