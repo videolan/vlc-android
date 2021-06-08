@@ -103,6 +103,8 @@ public class StubMediaWrapper extends MediaWrapper {
 
     public void setThumbnail(String mrl) {}
 
+    public void removeThumbnail() {}
+
     @Override
     public void requestThumbnail(int width, float position) {}
 

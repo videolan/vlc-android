@@ -88,7 +88,7 @@ class CallBackDelegate : ICallBackHandler,
                             val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
                             if (file.exists()) {
                                 val media = medialibrary.getMedia(mediaId)
-                                //todo tell ML to remove the thumb in DB
+                                media.removeThumbnail()
                             }
                             FileUtils.deleteFile(file)
                         }
