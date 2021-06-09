@@ -281,10 +281,10 @@ fi
 ####################
 
 TESTED_HASH=d9b684a9249cc0243051da97d9a25065140e6eee
-VLC_REPOSITORY=https://git.videolan.org/git/vlc/vlc-3.0.git
+VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
-    git clone "${VLC_REPOSITORY}" vlc || fail "VLC sources: git clone failed"
+    git clone "${VLC_REPOSITORY}" vlc -b 3.0.x --single-branch || fail "VLC sources: git clone failed"
     cd vlc
     diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
     git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
