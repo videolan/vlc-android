@@ -4,6 +4,13 @@
                                       xmlns:app="http://schemas.android.com/apk/res-auto"
                                       android:title="@string/advanced_prefs_category">
 
+    <Preference
+            android:title="@string/optional_features"
+            android:summary="@string/optional_features_summary"
+            app:isPreferenceVisible="false"
+            android:key="optional_features"
+            android:fragment="org.videolan.television.ui.preferences.PreferencesOptional"/>
+
     <EditTextPreference
             android:defaultValue=""
             android:key="network_caching"

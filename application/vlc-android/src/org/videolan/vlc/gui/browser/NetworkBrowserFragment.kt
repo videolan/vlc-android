@@ -40,9 +40,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.util.DialogDelegate
-import org.videolan.vlc.util.IDialogManager
-import org.videolan.vlc.util.showVlcDialog
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
@@ -92,7 +90,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
             mrl?.let {
                 val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
-                menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("smb") && !isScanned
+                menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("smb") && !isScanned && FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXATION)
             }
         }
 
