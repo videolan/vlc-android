@@ -77,7 +77,10 @@ import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.text.DateFormat.SHORT
+import java.text.DateFormat.getTimeInstance
 import java.util.*
+import kotlin.math.absoluteValue
 
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
@@ -106,6 +109,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     private lateinit var abRepeatAddMarker: Button
     private var audioPlayProgressMode:Boolean = false
+    private var lastEndsAt = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -377,21 +381,22 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
-                val textProgress = if (audioPlayProgressMode)
+
+                val textProgress = if (audioPlayProgressMode) {
+                    val endsAt = System.currentTimeMillis() + totalTime - progressTime
+                    if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
                     getString(
                         R.string.audio_queue_progress_finished,
-                        DateFormat.format("hh:mm:ss a", Date(System.currentTimeMillis() + totalTime - progressTime))
+                        getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
                     )
-                else
-                    if (showRemainingTime && totalTime > 0) getString(
-                        R.string.audio_queue_progress_remaining,
-                        "$currentProgressText"
+                } else if (showRemainingTime && totalTime > 0) getString(
+                    R.string.audio_queue_progress_remaining,
+                    "$currentProgressText"
+                )
+                else getString(
+                        R.string.audio_queue_progress,
+                        if (totalTimeText.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / $totalTimeText"
                     )
-                    else
-                        getString(
-                            R.string.audio_queue_progress,
-                            if (totalTimeText.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / $totalTimeText"
-                        )
                 "$textTrack  •  $textProgress"
             }
             binding.audioPlayProgress.text = text
