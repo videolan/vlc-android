@@ -78,8 +78,8 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public void discover(@NonNull String path) {
-        onDiscoveryStarted(path);
-        onDiscoveryCompleted(path);
+        onDiscoveryStarted();
+        onDiscoveryCompleted();
         onBackgroundTasksIdleChanged(true);
     }
 

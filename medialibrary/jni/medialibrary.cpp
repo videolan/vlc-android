@@ -2454,7 +2454,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onDiscoveryStartedId,
            ml_fields.MediaLibrary.clazz,
-           "onDiscoveryStarted", "(Ljava/lang/String;)V");
+           "onDiscoveryStarted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onDiscoveryProgressId,
            ml_fields.MediaLibrary.clazz,
@@ -2462,11 +2462,15 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onDiscoveryCompletedId,
            ml_fields.MediaLibrary.clazz,
-           "onDiscoveryCompleted", "(Ljava/lang/String;)V");
+           "onDiscoveryCompleted", "()V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onDiscoveryFailedId,
+           ml_fields.MediaLibrary.clazz,
+           "onDiscoveryFailed", "(Ljava/lang/String;)V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onParsingStatsUpdatedId,
            ml_fields.MediaLibrary.clazz,
-           "onParsingStatsUpdated", "(I)V");
+           "onParsingStatsUpdated", "(II)V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onBackgroundTasksIdleChangedId,
            ml_fields.MediaLibrary.clazz,

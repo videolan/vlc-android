@@ -122,19 +122,18 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         }
     }
 
-    override fun onDiscoveryStarted(entryPoint: String) {}
+    override fun onDiscoveryStarted() {}
 
     override fun onDiscoveryProgress(entryPoint: String) {}
 
-    override fun onDiscoveryCompleted(entryPoint: String) {
-        var path = entryPoint
-        if (path.endsWith("/")) path = path.dropLast(1)
-        if (processingFolders.containsKey(path)) {
-            val finalPath = path
-            handler.post { processingFolders.get(finalPath)?.isEnabled = true }
-            adapters.forEach {
-                it.updateMediaDirs(context)
-            }
+    override fun onDiscoveryCompleted() {
+        handler.post { for (i in 0 until processingFolders.size()) processingFolders.get(processingFolders.keyAt(i))?.isEnabled = true }
+        adapters.forEach {
+            it.updateMediaDirs(context)
         }
+    }
+
+    override fun onDiscoveryFailed(entryPoint: String) {
+
     }
 }

@@ -161,16 +161,17 @@ public:
     void onGenresModified( std::set<int64_t> );
     void onGenresDeleted( std::set<int64_t> );
 
-    void onDiscoveryStarted( const std::string& entryPoint );
+    void onDiscoveryStarted();
     void onDiscoveryProgress( const std::string& entryPoint );
-    void onDiscoveryCompleted( const std::string& entryPoint, bool success );
+    void onDiscoveryCompleted();
+    void onDiscoveryFailed( const std::string& entryPoint );
     void onReloadStarted( const std::string& entryPoint );
     void onReloadCompleted( const std::string& entryPoint, bool success );
     void onEntryPointBanned( const std::string& entryPoint, bool success );
     void onEntryPointUnbanned( const std::string& entryPoint, bool success );
     void onEntryPointAdded( const std::string& entryPoint, bool success );
     void onEntryPointRemoved( const std::string& entryPoint, bool success );
-    void onParsingStatsUpdated( uint32_t percent);
+    void onParsingStatsUpdated( uint32_t opsDone, uint32_t opsScheduled );
     void onBackgroundTasksIdleChanged( bool isIdle );
     void onMediaThumbnailReady(medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType,
                                bool success );
