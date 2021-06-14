@@ -828,6 +828,7 @@
     <string name="add_button">Add</string>
     <string name="add_all_button">Add all</string>
     <string name="add_new_only_button">Add new only</string>
+    <string name="discovery_failed">Discovery failed for: %s</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">This item is already in this playlist.</item>
         <item quantity="other">These items are already in this playlist.</item>

@@ -903,17 +903,15 @@ void AndroidMediaLibrary::onAlbumsDeleted( std::set<int64_t> )
     }
 }
 
-void AndroidMediaLibrary::onDiscoveryStarted( const std::string& entryPoint )
+void AndroidMediaLibrary::onDiscoveryStarted()
 {
     ++m_nbDiscovery;
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryStartedId, ep);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryStartedId);
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onDiscoveryProgress( const std::string& entryPoint )
@@ -929,21 +927,27 @@ void AndroidMediaLibrary::onDiscoveryProgress( const std::string& entryPoint )
 
 }
 
-void AndroidMediaLibrary::onDiscoveryCompleted( const std::string& entryPoint, bool success )
+void AndroidMediaLibrary::onDiscoveryCompleted()
 {
     --m_nbDiscovery;
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    if (weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryCompletedId);
+    }
+}
+
+void AndroidMediaLibrary::onDiscoveryFailed(const std::string &entryPoint)
+{
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
     jstring ep = env->NewStringUTF(entryPoint.c_str());
     if (weak_thiz)
     {
-        if (m_progress)
-            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, m_progress);
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryCompletedId, ep);
-    }
-    if (!success) {
-        LOGE("onDiscoveryCompleted -> ko");
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryFailedId, ep);
     }
     env->DeleteLocalRef(ep);
 }
@@ -967,8 +971,6 @@ void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint, bool
     jstring ep = env->NewStringUTF(entryPoint.c_str());
     if (weak_thiz)
     {
-        if (m_progress)
-            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, m_progress);
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadCompletedId, ep);
     }
     env->DeleteLocalRef(ep);
@@ -1023,15 +1025,13 @@ void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bo
     env->DeleteLocalRef(ep);
 }
 
-void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)
+void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t opsDone, uint32_t opsScheduled )
 {
-    m_progress = percent;
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jint progress = percent;
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, progress);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, opsDone, opsScheduled);
     }
 }
 

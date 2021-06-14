@@ -419,16 +419,16 @@ abstract public class Medialibrary {
         }
     }
 
-    public void onDiscoveryStarted(String entryPoint) {
+    public void onDiscoveryStarted() {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onDiscoveryStarted(entryPoint);
+                    cb.onDiscoveryStarted();
         }
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onDiscoveryStarted(entryPoint);
+                    cb.onDiscoveryStarted();
         }
     }
 
@@ -445,24 +445,37 @@ abstract public class Medialibrary {
         }
     }
 
-    public void onDiscoveryCompleted(String entryPoint) {
+    public void onDiscoveryCompleted() {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onDiscoveryCompleted(entryPoint);
+                    cb.onDiscoveryCompleted();
         }
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onDiscoveryCompleted(entryPoint);
+                    cb.onDiscoveryCompleted();
         }
     }
 
-    public void onParsingStatsUpdated(int percent) {
+    public void onDiscoveryFailed(String entryPoint) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onParsingStatsUpdated(percent);
+                    cb.onDiscoveryFailed(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryFailed(entryPoint);
+        }
+    }
+
+    public void onParsingStatsUpdated(int done, int scheduled) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onParsingStatsUpdated(done, scheduled);
         }
     }
 
