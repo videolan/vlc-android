@@ -162,7 +162,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             if (item is MediaWrapper) if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run() else deletionAction.run()
-            if (item is Playlist) item.delete()
+            else deletionAction.run()
         }
         return true
     }
