@@ -216,12 +216,13 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
             }
             player.overlayDelegate.initInfoOverlay()
             if (delayState == IPlaybackSettingsController.DelayState.SUBS) service.setSpuDelay(delay) else service.setAudioDelay(delay)
-            delayTitle.text = player.getString(if (delayState == IPlaybackSettingsController.DelayState.SUBS) R.string.spu_delay else R.string.audio_delay)
-            delayInfo.text = "${delay / 1000L} ms"
+            if (::delayTitle.isInitialized) delayTitle.text =
+                player.getString(if (delayState == IPlaybackSettingsController.DelayState.SUBS) R.string.spu_delay else R.string.audio_delay)
+            if (::delayInfo.isInitialized) delayInfo.text = "${delay / 1000L} ms"
             if (delayState == IPlaybackSettingsController.DelayState.SUBS) spuDelay = delay else audioDelay = delay
             if (!player.isPlaybackSettingActive) {
                 playbackSetting = delayState
-                initPlaybackSettingInfo()
+                showDelayControls()
             }
         }
     }
