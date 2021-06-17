@@ -1437,6 +1437,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 service.setVolume(vol.toFloat().roundToInt())
             }
             overlayDelegate.showVolumeBar(vol, fromTouch)
+            volSave = service.volume
         }
     }
 
@@ -2035,6 +2036,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             handler.post {
                 // delay mediaplayer loading, prevent ANR
                 if (service.volume > 100 && !isAudioBoostEnabled) service.setVolume(100)
+                if (volSave > 100 && service.volume != volSave) service.setVolume(volSave)
             }
             service.addCallback(this)
         } else if (this.service != null) {
