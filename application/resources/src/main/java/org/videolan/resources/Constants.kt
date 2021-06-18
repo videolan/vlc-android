@@ -130,6 +130,7 @@ const val HEADER_TV_SHOW = 31L
 const val HEADER_RECENTLY_PLAYED = 32L
 const val HEADER_RECENTLY_ADDED = 33L
 const val HEADER_NOW_PLAYING = 34L
+const val HEADER_PERMISSION = 35L
 const val ID_SETTINGS = 10L
 const val ID_ABOUT_TV = 11L
 const val ID_LICENCE = 12L

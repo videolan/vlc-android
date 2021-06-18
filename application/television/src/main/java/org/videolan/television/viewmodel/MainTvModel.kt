@@ -58,6 +58,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.convertFavorites
 import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.scanAllowed
@@ -145,6 +146,11 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private fun updateVideos() = viewModelScope.launch {
+        if (!Permissions.canReadStorage(context)) {
+            (videos as MutableLiveData).value =
+                listOf(DummyItem(HEADER_PERMISSION, context.getString(R.string.permission_media), context.getString(R.string.permission_ask_again)))
+            return@launch
+        }
         val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
         val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         val videoNb = context.getFromMl { videoCount }
@@ -204,11 +210,18 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private fun updateAudioCategories() {
-        val list = mutableListOf<MediaLibraryItem>(
-                DummyItem(CATEGORY_ARTISTS, context.getString(R.string.artists), ""),
-                DummyItem(CATEGORY_ALBUMS, context.getString(R.string.albums), ""),
-                DummyItem(CATEGORY_GENRES, context.getString(R.string.genres), ""),
-                DummyItem(CATEGORY_SONGS, context.getString(R.string.tracks), "")
+        val list = if (!Permissions.canReadStorage(context)) mutableListOf<MediaLibraryItem>(
+            DummyItem(
+                HEADER_PERMISSION,
+                context.getString(R.string.permission_media),
+                context.getString(R.string.permission_ask_again)
+            )
+        )
+        else mutableListOf<MediaLibraryItem>(
+            DummyItem(CATEGORY_ARTISTS, context.getString(R.string.artists), ""),
+            DummyItem(CATEGORY_ALBUMS, context.getString(R.string.albums), ""),
+            DummyItem(CATEGORY_GENRES, context.getString(R.string.genres), ""),
+            DummyItem(CATEGORY_SONGS, context.getString(R.string.tracks), "")
         )
         (audioCategories as MutableLiveData).value = list
     }
@@ -277,6 +290,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                 }
             }
             is DummyItem -> when {
+                item.id == HEADER_PERMISSION -> Permissions.checkReadStoragePermission(activity)
                 item.id == HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
