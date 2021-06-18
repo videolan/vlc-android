@@ -58,6 +58,7 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -284,7 +285,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun enableSearchOption() = true
 
     private fun updateEmptyView() {
-        empty_loading.state = if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else  if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        empty_loading.state =
+            if (!Permissions.canReadStorage(requireActivity())) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
     override fun onPageSelected(position: Int) {

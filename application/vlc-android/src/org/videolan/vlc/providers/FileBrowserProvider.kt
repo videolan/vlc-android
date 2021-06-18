@@ -91,7 +91,12 @@ open class FileBrowserProvider(
             storageObserver = Observer { if (it == true) launch { browseRoot() } }
             StoragePermissionsDelegate.storageAccessGranted.observeForever(storageObserver)
         }
-        if (!storageAccess) return // For first launch, storage access may not already be granted
+        // For first launch, storage access may not already be granted
+        if (!storageAccess) {
+            loading.postValue(false)
+            dataset.value = arrayListOf()
+            return
+        }
         if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.isEmpty()) {
             val otg = MLServiceLocator.getAbstractMediaWrapper("otg://".toUri()).apply {
                 title = context.getString(R.string.otg_device_title)

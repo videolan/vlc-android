@@ -2038,7 +2038,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service != null) {
             this.service = service
             //We may not have the permission to access files
-            if (Permissions.checkReadStoragePermission(this, true) && !switchingView)
+            if (!switchingView)
                 handler.sendEmptyMessage(START_PLAYBACK)
             switchingView = false
             handler.post {

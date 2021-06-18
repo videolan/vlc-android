@@ -6,6 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class OnboardingFragmentPagerAdapter(fragmentActivity: FragmentActivity, private var count: Int) : FragmentStateAdapter(fragmentActivity) {
 
+    var permissionGranted = true
     private var fragmentList: MutableList<FragmentName> = mutableListOf(
             FragmentName.WELCOME,
             FragmentName.SCAN,
@@ -37,7 +38,7 @@ class OnboardingFragmentPagerAdapter(fragmentActivity: FragmentActivity, private
     override fun createFragment(position: Int): Fragment {
         return when (fragmentList[position]) {
             FragmentName.WELCOME -> OnboardingWelcomeFragment.newInstance()
-            FragmentName.SCAN -> OnboardingScanningFragment.newInstance()
+            FragmentName.SCAN -> if(permissionGranted) OnboardingScanningFragment.newInstance() else OnboardingNoPermissionFragment.newInstance()
             FragmentName.FOLDERS -> OnboardingFoldersFragment.newInstance()
             FragmentName.THEME -> OnboardingThemeFragment.newInstance()
         }

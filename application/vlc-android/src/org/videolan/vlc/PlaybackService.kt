@@ -865,7 +865,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
-            if (coverOnLockscreen) {
+            if (Permissions.canReadStorage(this@PlaybackService) && coverOnLockscreen) {
                 val albumArtUri = when {
                     isSchemeHttpOrHttps(media.artworkMrl) -> {
                         //ArtworkProvider will cache remote images

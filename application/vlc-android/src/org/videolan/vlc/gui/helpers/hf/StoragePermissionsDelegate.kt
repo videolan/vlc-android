@@ -98,7 +98,8 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                     return
                 } else if (!model.permissionRationale && shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     model.permissionRationale = true
-                    Permissions.showStoragePermissionDialog(ctx, false)
+                    model.deferredGrant.complete(false)
+                    exit()
                     return
                 }
                 storageAccessGranted.value = false

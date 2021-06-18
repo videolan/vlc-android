@@ -86,7 +86,6 @@ class MainActivity : ContentActivity(),
         setContentView(R.layout.main)
         initAudioPlayerContainerActivity()
         setupNavigation(savedInstanceState)
-        if (savedInstanceState == null) Permissions.checkReadStoragePermission(this)
 
         /* Set up the action bar */
         prepareActionBar()

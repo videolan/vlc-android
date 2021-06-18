@@ -89,8 +89,9 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
                 viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
                         || getStoragePermission()
                 if (!viewModel.permissionGranted) {
-                    return@launch
+                    onboardingPagerAdapter.permissionGranted = false
                 } else {
+                    onboardingPagerAdapter.permissionGranted = true
                     viewPager.isUserInputEnabled = true
                 }
             }

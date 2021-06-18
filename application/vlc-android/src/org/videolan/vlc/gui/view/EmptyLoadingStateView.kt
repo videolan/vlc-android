@@ -36,11 +36,13 @@ import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.FragmentActivity
 import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.util.Permissions
 
 class EmptyLoadingStateView : FrameLayout {
 
@@ -60,8 +62,9 @@ class EmptyLoadingStateView : FrameLayout {
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
             emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
+            permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
+            grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             noMediaButton.visibility = if (showNoMedia && value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
-
             field = value
         }
 
@@ -120,11 +123,8 @@ class EmptyLoadingStateView : FrameLayout {
             (context as Activity).startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
             noMediaClickListener?.invoke()
         }
-        container = findViewById(R.id.container)
-        normalConstraintSet.clone(container)
-        compactConstraintSet.clone(context, R.layout.view_empty_loading_compact)
-        if (compactMode) {
-            applyCompactMode()
+        grantPermissionButton.setOnClickListener {
+            Permissions.showStoragePermissionDialog(context as FragmentActivity, false)
         }
     }
 
@@ -141,5 +141,5 @@ class EmptyLoadingStateView : FrameLayout {
 }
 
 enum class EmptyLoadingState {
-    LOADING, EMPTY, NONE
+    LOADING, EMPTY, NONE, MISSING_PERMISSION
 }
