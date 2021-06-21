@@ -266,7 +266,8 @@
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
     </style>
 
-    <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
+    <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7"/>
+    <style name="Theme.VLC.Onboarding.7" parent="Theme.VLC.Black">
         <item name="background_default">@color/onboarding_grey</item>
 
 

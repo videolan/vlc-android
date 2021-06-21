@@ -39,6 +39,13 @@
         <item name="android:navigationBarColor">@color/grey875</item>
     </style>
 
+    <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/onboarding_grey</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/onboarding_grey</item>
+    </style>
+
     <style name="Theme.VLC.PickerDialog.Dark" parent="Theme.VLC.PickerDialog.Dark.7">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/black</item>
