@@ -60,7 +60,10 @@
             android:layout_alignParentTop="true"
             android:id="@+id/hud_right_background"
             android:background="@drawable/gradient_title_player"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"
+
+        />
 
     <RelativeLayout
             android:id="@+id/player_ui_container"
@@ -107,6 +110,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout="@layout/player_hud_right" />
 
+        <!-- Bottom Controls and SeekBar     -->
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_hud_stub"
                 android:layout_width="match_parent"
@@ -118,7 +122,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-
             android:maxWidth="480dp"
             android:layout_centerHorizontal="true"
             android:background="@color/playerbackground"

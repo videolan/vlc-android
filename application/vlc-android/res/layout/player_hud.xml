@@ -192,6 +192,7 @@
                 android:paddingBottom="@dimen/overlay_padding_bottom"
                 tools:theme="@style/Theme.VLC.Player"
                 tools:visibility="visible"
+                tools:background="@drawable/video_list_length_bg"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent">
@@ -329,7 +330,7 @@
                     android:clickable="true"
                     android:contentDescription="@string/tracks"
                     android:focusable="true"
-                    android:onClick="@{player::onAudioSubClick}"
+                    android:onClick="@{player::onAudioAndSubtitleClick}"
                     android:scaleType="center"
                     tools:visibility="visible"
                     vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_play"

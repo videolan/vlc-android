@@ -33,7 +33,6 @@ import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
-import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -965,7 +964,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 return true
             }
             KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK, KeyEvent.KEYCODE_BUTTON_X -> {
-                onAudioSubClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
+                onAudioAndSubtitleClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
                 return true
             }
             KeyEvent.KEYCODE_A -> {
@@ -1118,7 +1117,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 return true
             }
             KeyEvent.KEYCODE_CAPTIONS -> {
-                onAudioSubClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
+                onAudioAndSubtitleClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
                 return true
             }
             KeyEvent.KEYCODE_PLUS -> {
@@ -1469,8 +1468,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         window.attributes = lp
     }
 
-    open fun onAudioSubClick(anchor: View?) {
-        overlayDelegate.showTracks()
+    open fun onAudioAndSubtitleClick(anchor: View?) {
+        overlayDelegate.showAudioAndSubtitleTracks()
         overlayDelegate.hideOverlay(false)
     }
 

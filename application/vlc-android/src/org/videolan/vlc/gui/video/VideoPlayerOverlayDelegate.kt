@@ -79,7 +79,7 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
+class VideoPlayerOverlayDelegate (private val videoPlayerActivity: VideoPlayerActivity) {
 
     private lateinit var playerOverlayBrightness: ConstraintLayout
     private lateinit var brightnessValueText: TextView
@@ -102,8 +102,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     lateinit var playToPause: AnimatedVectorDrawableCompat
     lateinit var pauseToPlay: AnimatedVectorDrawableCompat
 
-    private val hudBackground: View by lazy { player.findViewById<View>(R.id.hud_background) }
-    private val hudRightBackground: View by lazy { player.findViewById<View>(R.id.hud_right_background) }
+    private val hudBackground: View by lazy { videoPlayerActivity.findViewById<View>(R.id.hud_background) }
+    private val hudRightBackground: View by lazy { videoPlayerActivity.findViewById<View>(R.id.hud_right_background) }
 
     private lateinit var abRepeatAddMarker: Button
 
@@ -124,41 +124,41 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     lateinit var playlistSearchText: TextInputLayout
     lateinit var playlistAdapter: PlaylistAdapter
 
-    fun showTracks() {
-        player.showVideoTrack(
+    fun showAudioAndSubtitleTracks() {
+        videoPlayerActivity.showVideoTrack(
                 {
                     when (it) {
-                        VideoTracksDialog.VideoTrackOption.AUDIO_DELAY -> player.delayDelegate.showAudioDelaySetting()
-                        VideoTracksDialog.VideoTrackOption.SUB_DELAY -> player.delayDelegate.showSubsDelaySetting()
+                        VideoTracksDialog.VideoTrackOption.AUDIO_DELAY -> videoPlayerActivity.delayDelegate.showAudioDelaySetting()
+                        VideoTracksDialog.VideoTrackOption.SUB_DELAY -> videoPlayerActivity.delayDelegate.showSubsDelaySetting()
                         VideoTracksDialog.VideoTrackOption.SUB_DOWNLOAD -> downloadSubtitles()
                         VideoTracksDialog.VideoTrackOption.SUB_PICK -> pickSubtitles()
                     }
                 }, { trackID: Int, trackType: VideoTracksDialog.TrackType ->
             when (trackType) {
                 VideoTracksDialog.TrackType.AUDIO -> {
-                    player.service?.let { service ->
+                    videoPlayerActivity.service?.let { service ->
                         service.setAudioTrack(trackID)
                         runIO {
-                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            val mw = videoPlayerActivity.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
                         }
                     }
                 }
                 VideoTracksDialog.TrackType.SPU -> {
-                    player.service?.let { service ->
+                    videoPlayerActivity.service?.let { service ->
                         service.setSpuTrack(trackID)
                         runIO {
-                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            val mw = videoPlayerActivity.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
                         }
                     }
                 }
                 VideoTracksDialog.TrackType.VIDEO -> {
-                    player.service?.let { service ->
-                        player.seek(service.time)
+                    videoPlayerActivity.service?.let { service ->
+                        videoPlayerActivity.seek(service.time)
                         service.setVideoTrack(trackID)
                         runIO {
-                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            val mw = videoPlayerActivity.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_VIDEOTRACK, trackID.toLong())
                         }
                     }
@@ -168,7 +168,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     fun showInfo(@StringRes textId: Int, duration: Int) {
-        showInfo(player.getString(textId), duration)
+        showInfo(videoPlayerActivity.getString(textId), duration)
     }
 
     /**
@@ -177,30 +177,30 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param duration
      */
     fun showInfo(text: String, duration: Int) {
-        if (player.isInPictureInPictureMode) return
+        if (videoPlayerActivity.isInPictureInPictureMode) return
         initInfoOverlay()
         overlayInfo.setVisible()
         info.setVisible()
         info?.text = text
-        player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_INFO)
-        player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_INFO, duration.toLong())
+        videoPlayerActivity.handler.removeMessages(VideoPlayerActivity.FADE_OUT_INFO)
+        videoPlayerActivity.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_INFO, duration.toLong())
     }
 
      fun fadeOutInfo(view:View?) {
         if (view?.visibility == View.VISIBLE) {
             view.startAnimation(AnimationUtils.loadAnimation(
-                    player, android.R.anim.fade_out))
+                    videoPlayerActivity, android.R.anim.fade_out))
             view.setInvisible()
         }
     }
 
     fun initInfoOverlay() {
-        val vsc = player.findViewById<ViewStubCompat>(R.id.player_info_stub)
+        val vsc = videoPlayerActivity.findViewById<ViewStubCompat>(R.id.player_info_stub)
         if (vsc != null) {
             vsc.setVisible()
             // the info textView is not on the overlay
-            info = player.findViewById(R.id.player_overlay_textinfo)
-            overlayInfo = player.findViewById(R.id.player_overlay_info)
+            info = videoPlayerActivity.findViewById(R.id.player_overlay_textinfo)
+            overlayInfo = videoPlayerActivity.findViewById(R.id.player_overlay_info)
         }
     }
 
@@ -209,17 +209,17 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param brightness the brightness value
      */
     fun showBrightnessBar(brightness: Int) {
-        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
-        player.findViewById<ViewStubCompat>(R.id.player_brightness_stub)?.setVisible()
-        playerOverlayBrightness = player.findViewById(R.id.player_overlay_brightness)
-        brightnessValueText = player.findViewById(R.id.brightness_value_text)
-        playerBrightnessProgress = player.findViewById(R.id.playerBrightnessProgress)
+        videoPlayerActivity.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
+        videoPlayerActivity.findViewById<ViewStubCompat>(R.id.player_brightness_stub)?.setVisible()
+        playerOverlayBrightness = videoPlayerActivity.findViewById(R.id.player_overlay_brightness)
+        brightnessValueText = videoPlayerActivity.findViewById(R.id.brightness_value_text)
+        playerBrightnessProgress = videoPlayerActivity.findViewById(R.id.playerBrightnessProgress)
         playerOverlayBrightness.setVisible()
         brightnessValueText.text = "$brightness%"
         playerBrightnessProgress.setValue(brightness)
         playerOverlayBrightness.setVisible()
-        player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
-        player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO, 1000L)
+        videoPlayerActivity.handler.removeMessages(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
+        videoPlayerActivity.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO, 1000L)
         dimStatusBar(true)
     }
 
@@ -228,17 +228,17 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param volume the volume value
      */
     fun showVolumeBar(volume: Int, fromTouch: Boolean) {
-        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
-        player.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
-        playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
-        volumeValueText = player.findViewById(R.id.volume_value_text)
-        playerVolumeProgress = player.findViewById(R.id.playerVolumeProgress)
+        videoPlayerActivity.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
+        videoPlayerActivity.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
+        playerOverlayVolume = videoPlayerActivity.findViewById(R.id.player_overlay_volume)
+        volumeValueText = videoPlayerActivity.findViewById(R.id.volume_value_text)
+        playerVolumeProgress = videoPlayerActivity.findViewById(R.id.playerVolumeProgress)
         volumeValueText.text = "$volume%"
-        playerVolumeProgress.isDouble = player.isAudioBoostEnabled
+        playerVolumeProgress.isDouble = videoPlayerActivity.isAudioBoostEnabled
         playerVolumeProgress.setValue(volume)
         playerOverlayVolume.setVisible()
-        player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
-        player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_VOLUME_INFO, 1000L)
+        videoPlayerActivity.handler.removeMessages(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
+        videoPlayerActivity.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_VOLUME_INFO, 1000L)
         dimStatusBar(true)
     }
 
@@ -248,26 +248,26 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun dimStatusBar(dim: Boolean) {
-        if (player.isNavMenu) return
+        if (videoPlayerActivity.isNavMenu) return
 
         var visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         var navbar = 0
-        if (dim || player.isLocked) {
-            player.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        if (dim || videoPlayerActivity.isLocked) {
+            videoPlayerActivity.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             navbar = navbar or (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LOW_PROFILE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
             if (AndroidUtil.isKitKatOrLater) visibility = visibility or View.SYSTEM_UI_FLAG_IMMERSIVE
             visibility = visibility or View.SYSTEM_UI_FLAG_FULLSCREEN
         } else {
-            player.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            videoPlayerActivity.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             visibility = visibility or View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         }
 
         playerUiContainer.setPadding(0, 0, 0, 0)
-        playerUiContainer.fitsSystemWindows = !player.isLocked
+        playerUiContainer.fitsSystemWindows = !videoPlayerActivity.isLocked
 
         if (AndroidDevices.hasNavBar)
             visibility = visibility or navbar
-        player.window.decorView.systemUiVisibility = visibility
+        videoPlayerActivity.window.decorView.systemUiVisibility = visibility
     }
 
     /**
@@ -283,8 +283,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * show overlay
      */
     fun showOverlayTimeout(timeout: Int) {
-        player.service?.let { service ->
-            if (player.isInPictureInPictureMode) return
+        videoPlayerActivity.service?.let { service ->
+            if (videoPlayerActivity.isInPictureInPictureMode) return
             initOverlay()
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
@@ -299,13 +299,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
                 else -> VideoPlayerActivity.OVERLAY_INFINITE
             }
-            if (player.isNavMenu) {
-                player.isShowing = true
+            if (videoPlayerActivity.isNavMenu) {
+                videoPlayerActivity.isShowing = true
                 return
             }
-            if (!player.isShowing) {
-                player.isShowing = true
-                if (!player.isLocked) {
+            if (!videoPlayerActivity.isShowing) {
+                videoPlayerActivity.isShowing = true
+                if (!videoPlayerActivity.isLocked) {
                     showControls(true)
                 }
                 if (!isBookmarkShown()) dimStatusBar(false)
@@ -313,19 +313,19 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
-                if (!player.displayManager.isPrimary)
+                if (!videoPlayerActivity.displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
             }
-            player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
+            videoPlayerActivity.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
             if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
-                player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
+                videoPlayerActivity.handler.sendMessageDelayed(videoPlayerActivity.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
         }
     }
 
     fun updateOverlayPausePlay(skipAnim: Boolean = false) {
         if (!::hudBinding.isInitialized) return
-        player.service?.let { service ->
+        videoPlayerActivity.service?.let { service ->
             if (service.isPausable) {
 
                 if (skipAnim) {
@@ -368,33 +368,33 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun initOverlay() {
-        player.service?.let { service ->
-            val vscRight = player.findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
+        videoPlayerActivity.service?.let { service ->
+            val vscRight = videoPlayerActivity.findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
             vscRight?.let {
                 it.setVisible()
-                hudRightBinding = DataBindingUtil.bind(player.findViewById(R.id.hud_right_overlay)) ?: return
-                if (!player.isBenchmark && player.enableCloneMode && !player.settings.contains("enable_clone_mode")) {
-                    UiTools.snackerConfirm(player, player.getString(R.string.video_save_clone_mode)) { player.settings.putSingle("enable_clone_mode", true) }
+                hudRightBinding = DataBindingUtil.bind(videoPlayerActivity.findViewById(R.id.hud_right_overlay)) ?: return
+                if (!videoPlayerActivity.isBenchmark && videoPlayerActivity.enableCloneMode && !videoPlayerActivity.settings.contains("enable_clone_mode")) {
+                    UiTools.snackerConfirm(videoPlayerActivity, videoPlayerActivity.getString(R.string.video_save_clone_mode)) { videoPlayerActivity.settings.putSingle("enable_clone_mode", true) }
                 }
             }
 
-            val vsc = player.findViewById<ViewStubCompat>(R.id.player_hud_stub)
+            val vsc = videoPlayerActivity.findViewById<ViewStubCompat>(R.id.player_hud_stub)
             if (vsc != null) {
-                seekButtons = player.settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
+                seekButtons = videoPlayerActivity.settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
                 vsc.setVisible()
-                hudBinding = DataBindingUtil.bind(player.findViewById(R.id.progress_overlay)) ?: return
-                hudBinding.player = player
+                hudBinding = DataBindingUtil.bind(videoPlayerActivity.findViewById(R.id.progress_overlay)) ?: return
+                hudBinding.player = videoPlayerActivity
                 hudBinding.progress = service.playlistManager.player.progress
                 abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById(R.id.ab_repeat_add_marker)
-                service.playlistManager.abRepeat.observe(player, { abvalues ->
+                service.playlistManager.abRepeat.observe(videoPlayerActivity, { abvalues ->
                     hudBinding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
-                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
+                    if (videoPlayerActivity.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
                 })
-                service.playlistManager.abRepeatOn.observe(player, {
+                service.playlistManager.abRepeatOn.observe(videoPlayerActivity, {
                     abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
                     if (it) showOverlay(true)
@@ -406,24 +406,24 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
-                service.playlistManager.delayValue.observe(player, {
-                    player.delayDelegate.delayChanged(it, service)
+                service.playlistManager.delayValue.observe(videoPlayerActivity, {
+                    videoPlayerActivity.delayDelegate.delayChanged(it, service)
                 })
-                service.playlistManager.videoStatsOn.observe(player, {
+                service.playlistManager.videoStatsOn.observe(videoPlayerActivity, {
                     if (it) showOverlay(true)
-                    player.statsDelegate.container = hudBinding.statsContainer
-                    player.statsDelegate.initPlotView(hudBinding)
-                    if (it) player.statsDelegate.start() else player.statsDelegate.stop()
+                    videoPlayerActivity.statsDelegate.container = hudBinding.statsContainer
+                    videoPlayerActivity.statsDelegate.initPlotView(hudBinding)
+                    if (it) videoPlayerActivity.statsDelegate.start() else videoPlayerActivity.statsDelegate.stop()
                 })
                 hudBinding.statsClose.setOnClickListener { service.playlistManager.videoStatsOn.postValue(false) }
 
-                hudBinding.lifecycleOwner = player
+                hudBinding.lifecycleOwner = videoPlayerActivity
                 updateOrientationIcon()
-                overlayBackground = player.findViewById(R.id.player_overlay_background)
-                if (!AndroidDevices.isChromeBook && !player.isTv
-                        && player.settings.getBoolean("enable_casting", true)) {
-                    PlaybackService.renderer.observe(player, { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(player, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) })
-                    RendererDelegate.renderers.observe(player, { rendererItems -> updateRendererVisibility() })
+                overlayBackground = videoPlayerActivity.findViewById(R.id.player_overlay_background)
+                if (!AndroidDevices.isChromeBook && !videoPlayerActivity.isTv
+                        && videoPlayerActivity.settings.getBoolean("enable_casting", true)) {
+                    PlaybackService.renderer.observe(videoPlayerActivity, { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(videoPlayerActivity, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) })
+                    RendererDelegate.renderers.observe(videoPlayerActivity, { rendererItems -> updateRendererVisibility() })
                 }
 
                 hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
@@ -438,12 +438,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 updateOverlayPausePlay(true)
                 updateSeekable(service.isSeekable)
                 updatePausable(service.isPausable)
-                player.updateNavStatus()
+                videoPlayerActivity.updateNavStatus()
                 setListeners(true)
                 initPlaylistUi()
             } else if (::hudBinding.isInitialized) {
                 hudBinding.progress = service.playlistManager.player.progress
-                hudBinding.lifecycleOwner = player
+                hudBinding.lifecycleOwner = videoPlayerActivity
             }
         }
     }
@@ -460,42 +460,42 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             R.drawable.ic_player_forward_10
         else
             R.drawable.ic_player_forward_10_disabled)
-        if (!player.isLocked)
+        if (!videoPlayerActivity.isLocked)
             hudBinding.playerOverlaySeekbar.isEnabled = seekable
     }
 
     fun setListeners(enabled: Boolean) {
         if (::hudBinding.isInitialized) {
-            hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) player.seekListener else null)
-            hudBinding.abRepeatReset.setOnClickListener(player)
-            hudBinding.abRepeatStop.setOnClickListener(player)
-            abRepeatAddMarker.setOnClickListener(player)
-            hudBinding.orientationToggle.setOnClickListener(if (enabled) player else null)
-            hudBinding.orientationToggle.setOnLongClickListener(if (enabled) player else null)
+            hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) videoPlayerActivity.seekListener else null)
+            hudBinding.abRepeatReset.setOnClickListener(videoPlayerActivity)
+            hudBinding.abRepeatStop.setOnClickListener(videoPlayerActivity)
+            abRepeatAddMarker.setOnClickListener(videoPlayerActivity)
+            hudBinding.orientationToggle.setOnClickListener(if (enabled) videoPlayerActivity else null)
+            hudBinding.orientationToggle.setOnLongClickListener(if (enabled) videoPlayerActivity else null)
             hudBinding.swipeToUnlock.setOnStartTouchingListener { showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE) }
             hudBinding.swipeToUnlock.setOnStopTouchingListener { showOverlayTimeout(VideoPlayerActivity.OVERLAY_TIMEOUT) }
-            hudBinding.swipeToUnlock.setOnUnlockListener { player.toggleLock() }
+            hudBinding.swipeToUnlock.setOnUnlockListener { videoPlayerActivity.toggleLock() }
         }
         if (::hudRightBinding.isInitialized){
-            hudRightBinding.playerOverlayNavmenu.setOnClickListener(if (enabled) player else null)
-            UiTools.setViewOnClickListener(hudRightBinding.videoRenderer, if (enabled) player else null)
+            hudRightBinding.playerOverlayNavmenu.setOnClickListener(if (enabled) videoPlayerActivity else null)
+            UiTools.setViewOnClickListener(hudRightBinding.videoRenderer, if (enabled) videoPlayerActivity else null)
             hudRightBinding.playbackSpeedQuickAction.setOnLongClickListener {
-                player.service?.setRate(1F, true)
+                videoPlayerActivity.service?.setRate(1F, true)
                 showControls(true)
                 true
             }
             hudRightBinding.sleepQuickAction.setOnLongClickListener {
-                player.setSleep(null)
+                videoPlayerActivity.setSleep(null)
                 showControls(true)
                 true
             }
             hudRightBinding.audioDelayQuickAction.setOnLongClickListener {
-                player.service?.setAudioDelay(0L)
+                videoPlayerActivity.service?.setAudioDelay(0L)
                 showControls(true)
                 true
             }
             hudRightBinding.spuDelayQuickAction.setOnLongClickListener {
-                player.service?.setSpuDelay(0L)
+                videoPlayerActivity.service?.setSpuDelay(0L)
                 showControls(true)
                 true
             }
@@ -516,7 +516,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun resetHudLayout() {
         if (!::hudBinding.isInitialized) return
-        if (!player.isTv && !AndroidDevices.isChromeBook) {
+        if (!videoPlayerActivity.isTv && !AndroidDevices.isChromeBook) {
             hudBinding.orientationToggle.setVisible()
         }
     }
@@ -524,29 +524,29 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     @SuppressLint("ClickableViewAccessibility")
     private fun initSeekButton() {
         if (!::hudBinding.isInitialized) return
-        hudBinding.playerOverlayRewind.setOnClickListener(player)
-        hudBinding.playerOverlayForward.setOnClickListener(player)
-        hudBinding.playerOverlayRewind.setOnTouchListener(OnRepeatListenerTouch(player))
-        hudBinding.playerOverlayForward.setOnTouchListener(OnRepeatListenerTouch(player))
-        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player))
-        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player))
+        hudBinding.playerOverlayRewind.setOnClickListener(videoPlayerActivity)
+        hudBinding.playerOverlayForward.setOnClickListener(videoPlayerActivity)
+        hudBinding.playerOverlayRewind.setOnTouchListener(OnRepeatListenerTouch(videoPlayerActivity))
+        hudBinding.playerOverlayForward.setOnTouchListener(OnRepeatListenerTouch(videoPlayerActivity))
+        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(videoPlayerActivity))
+        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(videoPlayerActivity))
     }
 
     fun updateOrientationIcon() {
         if (::hudBinding.isInitialized) {
-            val drawable = if (!player.orientationMode.locked) {
+            val drawable = if (!videoPlayerActivity.orientationMode.locked) {
                 R.drawable.ic_player_rotate
-            } else if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+            } else if (videoPlayerActivity.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || videoPlayerActivity.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE || videoPlayerActivity.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
                 R.drawable.ic_player_lock_landscape
             } else {
                 R.drawable.ic_player_lock_portrait
             }
-            hudBinding.orientationToggle.setImageDrawable(ContextCompat.getDrawable(player, drawable))
+            hudBinding.orientationToggle.setImageDrawable(ContextCompat.getDrawable(videoPlayerActivity, drawable))
         }
     }
 
     fun updateRendererVisibility() {
-        if (::hudRightBinding.isInitialized) hudRightBinding.videoRenderer.visibility = if (player.isLocked || RendererDelegate.renderers.value.isNullOrEmpty()) View.GONE else View.VISIBLE
+        if (::hudRightBinding.isInitialized) hudRightBinding.videoRenderer.visibility = if (videoPlayerActivity.isLocked || RendererDelegate.renderers.value.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 
     private val titleConstraintSetLandscape = ConstraintSet()
@@ -560,7 +560,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     fun updateTitleConstraints() {
-        if (::hudRightBinding.isInitialized) when (player.resources.configuration.orientation) {
+        if (::hudRightBinding.isInitialized) when (videoPlayerActivity.resources.configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> titleConstraintSetPortrait
             else -> titleConstraintSetLandscape
         }.applyTo(hudRightBinding.hudRightOverlay)
@@ -569,30 +569,30 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     fun updateHudMargins() {
         //here, we override the default Android overscan
-        val overscanHorizontal = if (player.isTv) 32.dp else 8.dp
-        val overscanVertical = if (player.isTv) player.resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 8.dp
+        val overscanHorizontal = if (videoPlayerActivity.isTv) 32.dp else 8.dp
+        val overscanVertical = if (videoPlayerActivity.isTv) videoPlayerActivity.resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 8.dp
         if (::hudBinding.isInitialized) {
-            val largeMargin = player.resources.getDimension(R.dimen.large_margins_center)
-            val smallMargin = player.resources.getDimension(R.dimen.small_margins_sides)
+            val largeMargin = videoPlayerActivity.resources.getDimension(R.dimen.large_margins_center)
+            val smallMargin = videoPlayerActivity.resources.getDimension(R.dimen.small_margins_sides)
             applyMargin(hudBinding.playlistPrevious, largeMargin.toInt(), true)
             applyMargin(hudBinding.playerOverlayRewind, largeMargin.toInt(), true)
             applyMargin(hudBinding.playlistNext, largeMargin.toInt(), false)
             applyMargin(hudBinding.playerOverlayForward, largeMargin.toInt(), false)
 
-            applyMargin(hudBinding.playerOverlayTracks, if (!player.isTv) smallMargin.toInt() else overscanHorizontal, false)
+            applyMargin(hudBinding.playerOverlayTracks, if (!videoPlayerActivity.isTv) smallMargin.toInt() else overscanHorizontal, false)
             applyMargin(hudBinding.orientationToggle, smallMargin.toInt(), false)
             applyMargin(hudBinding.playerResize, smallMargin.toInt(), true)
-            applyMargin(hudBinding.playerOverlayAdvFunction, if (!player.isTv) smallMargin.toInt() else overscanHorizontal, true)
+            applyMargin(hudBinding.playerOverlayAdvFunction, if (!videoPlayerActivity.isTv) smallMargin.toInt() else overscanHorizontal, true)
 
             hudBinding.playerOverlaySeekbar.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
             hudBinding.bookmarkMarkerContainer.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
 
-            if (player.isTv) {
+            if (videoPlayerActivity.isTv) {
                 applyMargin(hudBinding.playerOverlayTimeContainer, overscanHorizontal, false)
                 applyMargin(hudBinding.playerOverlayLengthContainer, overscanHorizontal, true)
             }
 
-            if (player.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (videoPlayerActivity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 hudBinding.playerSpaceLeft.setGone()
                 hudBinding.playerSpaceRight.setGone()
                 applyMargin(hudBinding.playerOverlaySeekbar, 0, true)
@@ -620,16 +620,16 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     private fun initPlaylistUi() {
-        if (player.service?.hasPlaylist() == true) {
+        if (videoPlayerActivity.service?.hasPlaylist() == true) {
             if (!::playlistAdapter.isInitialized) {
-                playlistAdapter = PlaylistAdapter(player)
-                val layoutManager = LinearLayoutManager(player, RecyclerView.VERTICAL, false)
+                playlistAdapter = PlaylistAdapter(videoPlayerActivity)
+                val layoutManager = LinearLayoutManager(videoPlayerActivity, RecyclerView.VERTICAL, false)
                 playlist.layoutManager = layoutManager
             }
-            if (player.playlistModel == null) {
-                player.playlistModel = ViewModelProvider(player).get(PlaylistModel::class.java).apply {
+            if (videoPlayerActivity.playlistModel == null) {
+                videoPlayerActivity.playlistModel = ViewModelProvider(videoPlayerActivity).get(PlaylistModel::class.java).apply {
                     playlistAdapter.setModel(this)
-                    dataset.observe(player, player.playlistObserver)
+                    dataset.observe(videoPlayerActivity, videoPlayerActivity.playlistObserver)
                 }
             }
             hudRightBinding.playlistToggle.setVisible()
@@ -637,7 +637,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.playlistPrevious.setVisible()
                 hudBinding.playlistNext.setVisible()
             }
-            hudRightBinding.playlistToggle.setOnClickListener(player)
+            hudRightBinding.playlistToggle.setOnClickListener(videoPlayerActivity)
             closeButton.setOnClickListener { togglePlaylist() }
 
             val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
@@ -647,7 +647,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     fun togglePlaylist() {
-        if (player.isPlaylistVisible) {
+        if (videoPlayerActivity.isPlaylistVisible) {
             playlistContainer.setGone()
             playlist.setOnClickListener(null)
             return
@@ -655,11 +655,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         hideOverlay(true)
         playlistContainer.setVisible()
         playlist.adapter = playlistAdapter
-        player.update()
+        videoPlayerActivity.update()
     }
 
     fun showControls(show: Boolean) {
-        if (show && player.isInPictureInPictureMode) return
+        if (show && videoPlayerActivity.isInPictureInPictureMode) return
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlayPlay.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (seekButtons) {
@@ -673,27 +673,27 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
-            hudBinding.orientationToggle.visibility = if (player.isTv || AndroidDevices.isChromeBook) View.INVISIBLE else if (show) View.VISIBLE else View.INVISIBLE
+            hudBinding.orientationToggle.visibility = if (videoPlayerActivity.isTv || AndroidDevices.isChromeBook) View.INVISIBLE else if (show) View.VISIBLE else View.INVISIBLE
         }
         if (::hudRightBinding.isInitialized) {
-            val secondary = player.displayManager.isSecondary
+            val secondary = videoPlayerActivity.displayManager.isSecondary
             if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_player_screenshare_stop)
-            hudRightBinding.videoSecondaryDisplay.visibility = if (!show) View.GONE else if (UiTools.hasSecondaryDisplay(player.applicationContext)) View.VISIBLE else View.GONE
-            hudRightBinding.videoSecondaryDisplay.contentDescription = player.resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
+            hudRightBinding.videoSecondaryDisplay.visibility = if (!show) View.GONE else if (UiTools.hasSecondaryDisplay(videoPlayerActivity.applicationContext)) View.VISIBLE else View.GONE
+            hudRightBinding.videoSecondaryDisplay.contentDescription = videoPlayerActivity.resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
 
-            hudRightBinding.playlistToggle.visibility = if (show && player.service?.hasPlaylist() == true) View.VISIBLE else View.GONE
+            hudRightBinding.playlistToggle.visibility = if (show && videoPlayerActivity.service?.hasPlaylist() == true) View.VISIBLE else View.GONE
             hudRightBinding.sleepQuickAction.visibility = if (show && PlayerOptionsDelegate.playerSleepTime.value != null) View.VISIBLE else View.GONE
-            hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
-            hudRightBinding.spuDelayQuickAction.visibility = if (show && player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
-            hudRightBinding.audioDelayQuickAction.visibility = if (show && player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.playbackSpeedQuickAction.visibility = if (show && videoPlayerActivity.service?.rate != 1.0F) View.VISIBLE else View.GONE
+            hudRightBinding.spuDelayQuickAction.visibility = if (show && videoPlayerActivity.service?.spuDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.audioDelayQuickAction.visibility = if (show && videoPlayerActivity.service?.audioDelay != 0L) View.VISIBLE else View.GONE
 
-            hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
+            hudRightBinding.playbackSpeedQuickAction.text = videoPlayerActivity.service?.rate?.formatRateString()
             val format =  DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
             PlayerOptionsDelegate.playerSleepTime.value?.let {
                 hudRightBinding.sleepQuickAction.text = format.format(it.time)
             }
-            hudRightBinding.spuDelayQuickAction.text = "${(player.service?.spuDelay ?: 0L) / 1000L} ms"
-            hudRightBinding.audioDelayQuickAction.text = "${(player.service?.audioDelay ?: 0L) / 1000L} ms"
+            hudRightBinding.spuDelayQuickAction.text = "${(videoPlayerActivity.service?.spuDelay ?: 0L) / 1000L} ms"
+            hudRightBinding.audioDelayQuickAction.text = "${(videoPlayerActivity.service?.audioDelay ?: 0L) / 1000L} ms"
 
         }
     }
@@ -702,11 +702,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * hider overlay
      */
     fun hideOverlay(fromUser: Boolean) {
-        if (player.isShowing) {
-            player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
-            player.overlayTips.setInvisible()
-            if (!player.displayManager.isPrimary) {
-                overlayBackground?.startAnimation(AnimationUtils.loadAnimation(player, android.R.anim.fade_out))
+        if (videoPlayerActivity.isShowing) {
+            videoPlayerActivity.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
+            videoPlayerActivity.overlayTips.setInvisible()
+            if (!videoPlayerActivity.displayManager.isPrimary) {
+                overlayBackground?.startAnimation(AnimationUtils.loadAnimation(videoPlayerActivity, android.R.anim.fade_out))
                 overlayBackground.setInvisible()
             }
 
@@ -714,7 +714,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             exitAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground),-100.dp.toFloat())
 
             showControls(false)
-            player.isShowing = false
+            videoPlayerActivity.isShowing = false
             dimStatusBar(true)
             playlistSearchText.editText?.setText("")
         } else if (!fromUser) {
@@ -732,7 +732,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     fun toggleOverlay() {
-        if (!player.isShowing) showOverlay()
+        if (!videoPlayerActivity.isShowing) showOverlay()
         else hideOverlay(true)
     }
 
@@ -740,8 +740,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Lock player
      */
     fun lockScreen() {
-        orientationLockedBeforeLock = player.orientationMode.locked
-        if (!player.orientationMode.locked) player.toggleOrientation()
+        orientationLockedBeforeLock = videoPlayerActivity.orientationMode.locked
+        if (!videoPlayerActivity.orientationMode.locked) videoPlayerActivity.toggleOrientation()
         if (isHudBindingInitialized()) {
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false
@@ -751,48 +751,48 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.swipeToUnlock.setVisible()
         }
         hideOverlay(true)
-        player.lockBackButton = true
-        player.isLocked = true
+        videoPlayerActivity.lockBackButton = true
+        videoPlayerActivity.isLocked = true
     }
 
     /**
      * Remove player lock
      */
     fun unlockScreen() {
-        player.orientationMode.locked = orientationLockedBeforeLock
-        player.requestedOrientation = player.getScreenOrientation(player.orientationMode)
+        videoPlayerActivity.orientationMode.locked = orientationLockedBeforeLock
+        videoPlayerActivity.requestedOrientation = videoPlayerActivity.getScreenOrientation(videoPlayerActivity.orientationMode)
         if (isHudBindingInitialized()) {
             hudBinding.playerOverlayTime.isEnabled = true
-            hudBinding.playerOverlaySeekbar.isEnabled = player.service?.isSeekable != false
+            hudBinding.playerOverlaySeekbar.isEnabled = videoPlayerActivity.service?.isSeekable != false
             hudBinding.playerOverlayLength.isEnabled = true
             hudBinding.playlistNext.isEnabled = true
             hudBinding.playlistPrevious.isEnabled = true
         }
         updateOrientationIcon()
-        player.isShowing = false
-        player.isLocked = false
+        videoPlayerActivity.isShowing = false
+        videoPlayerActivity.isLocked = false
         showOverlay()
-        player.lockBackButton = false
+        videoPlayerActivity.lockBackButton = false
     }
 
     private fun pickSubtitles() {
-        val uri = player.videoUri ?: return
+        val uri = videoPlayerActivity.videoUri ?: return
         val media = if (uri.scheme.isSchemeFile() || uri.scheme.isSchemeNetwork()) MediaWrapperImpl(FileUtils.getParent(uri.toString())!!.toUri()) else null
-        player.isShowingDialog = true
-        val filePickerIntent = Intent(player, FilePickerActivity::class.java)
+        videoPlayerActivity.isShowingDialog = true
+        val filePickerIntent = Intent(videoPlayerActivity, FilePickerActivity::class.java)
         filePickerIntent.putExtra(KEY_MEDIA, media)
-        player.startActivityForResult(filePickerIntent, 0)
+        videoPlayerActivity.startActivityForResult(filePickerIntent, 0)
 
     }
 
-    private fun downloadSubtitles() = player.service?.currentMediaWrapper?.let {
-        MediaUtils.getSubs(player, it)
+    private fun downloadSubtitles() = videoPlayerActivity.service?.currentMediaWrapper?.let {
+        MediaUtils.getSubs(videoPlayerActivity, it)
     }
 
     fun showBookmarks() {
-        player.service?.let {
+        videoPlayerActivity.service?.let {
             if (!this::bookmarkListDelegate.isInitialized) {
-                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel)
+                bookmarkListDelegate = BookmarkListDelegate(videoPlayerActivity, it, videoPlayerActivity.bookmarkModel)
                 bookmarkListDelegate.markerContainer = hudBinding.bookmarkMarkerContainer
                 bookmarkListDelegate.visibilityListener = {
                     if (bookmarkListDelegate.visible) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
@@ -800,7 +800,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
             }
             bookmarkListDelegate.show()
-            bookmarkListDelegate.setProgressHeight((player.getScreenHeight() - hudBinding.constraintLayout2.height + 12.dp).toFloat())
+            bookmarkListDelegate.setProgressHeight((videoPlayerActivity.getScreenHeight() - hudBinding.constraintLayout2.height + 12.dp).toFloat())
         }
     }
 
