@@ -27,10 +27,13 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -40,6 +43,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
 import org.videolan.resources.util.startMedialibrary
@@ -51,6 +55,7 @@ import videolan.org.commontools.LiveEvent
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
+    private var askedPermission: Int = -1
     private var firstRun: Boolean = false
     private var upgrade: Boolean = false
     private var write: Boolean = false
@@ -80,37 +85,39 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
     }
 
-    private fun requestStorageAccess(write: Boolean) {
-        val code = if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE
-        val tag = if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG
-        requestPermissions(arrayOf(code), tag)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: PermissionResults) {
-        when (requestCode) {
-            Permissions.PERMISSION_STORAGE_TAG -> {
-                // If request is cancelled, the result arrays are empty.
-                val ctx = activity ?: return
-                if (grantResults.granted()) {
-                    storageAccessGranted.value = true
-                    model.deferredGrant.complete(true)
+    private val activityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()){ isGranted ->
+            when (askedPermission) {
+                Permissions.PERMISSION_STORAGE_TAG -> {
+                    // If request is cancelled, the result arrays are empty.
+                    if(activity == null) return@registerForActivityResult
+                    if (isGranted) {
+                        storageAccessGranted.value = true
+                        model.deferredGrant.complete(true)
+                        exit()
+                        return@registerForActivityResult
+                    } else if (!model.permissionRationale && shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        model.permissionRationale = true
+                        model.deferredGrant.complete(false)
+                        exit()
+                        return@registerForActivityResult
+                    }
+                    storageAccessGranted.value = false
+                    if (model.permissionPending) model.deferredGrant.complete(false)
                     exit()
-                    return
-                } else if (!model.permissionRationale && shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    model.permissionRationale = true
-                    model.deferredGrant.complete(false)
-                    exit()
-                    return
                 }
-                storageAccessGranted.value = false
-                if (model.permissionPending) model.deferredGrant.complete(false)
-                exit()
-            }
-            Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
-                model.deferredGrant.complete(grantResults.granted())
-                exit()
+                Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
+                    model.deferredGrant.complete(isGranted)
+                    exit()
+                }
             }
         }
+
+    private fun requestStorageAccess(write: Boolean) {
+        val code = if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE
+        askedPermission = if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG
+        activityResultLauncher.launch(code)
     }
 
     companion object {
