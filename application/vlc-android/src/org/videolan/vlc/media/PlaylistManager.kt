@@ -347,7 +347,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             //PiP TV
-            if (AndroidDevices.isTv && isVideoPlaying) {
+            if (!isBenchmark && AndroidDevices.isTv && isVideoPlaying) {
                 VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
