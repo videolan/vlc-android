@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import org.videolan.vlc.R
-import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
 class OnboardingNoPermissionFragment : Fragment() {
 
@@ -27,8 +27,7 @@ class OnboardingNoPermissionFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.grant_permission_button).setOnClickListener {
-            Permissions.showStoragePermissionDialog(requireActivity(), false)
-
+            requireActivity().askStoragePermission(false, null)
         }
     }
 

@@ -3,14 +3,11 @@ package org.videolan.vlc.gui.onboarding
 import android.animation.Animator
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -27,7 +24,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.hf.PermissionViewmodel
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.resumePermissionRequest
 import org.videolan.vlc.util.Permissions
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
@@ -38,15 +34,14 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
 
     private lateinit var viewPager: ViewPager2
 
-    private val indicators by lazy(LazyThreadSafetyMode.NONE) { arrayOf(
-            findViewById<View>(R.id.indicator0),
-            findViewById<View>(R.id.indicator1),
-            findViewById<View>(R.id.indicator2),
-            findViewById<View>(R.id.indicator3)
+    private val indicators by lazy(LazyThreadSafetyMode.NONE) { arrayOf<View>(
+            findViewById(R.id.indicator0),
+            findViewById(R.id.indicator1),
+            findViewById(R.id.indicator2),
+            findViewById(R.id.indicator3)
     ) }
 
     private val viewModel: OnboardingViewModel by viewModels()
-    private val permissionModel: PermissionViewmodel by viewModels()
 
     private lateinit var onboardingPagerAdapter: OnboardingFragmentPagerAdapter
 
@@ -59,7 +54,7 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
 
         val count = viewModel.adapterCount
 
-        onboardingPagerAdapter = OnboardingFragmentPagerAdapter(this, count)
+        onboardingPagerAdapter = OnboardingFragmentPagerAdapter(this, lifecycle, count)
         viewPager.adapter = onboardingPagerAdapter
         viewPager.registerOnPageChangeCallback(viewPager2PageChangeCallback)
         viewPager.isUserInputEnabled = viewModel.permissionGranted
@@ -68,8 +63,13 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
 
         if (count == 4) onCustomizedChanged(true)
 
-        if (permissionModel.permissionPending) lifecycleScope.launch {
-            if (resumePermissionRequest()) viewPager.currentItem++
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (Permissions.canReadStorage(this) != viewModel.permissionGranted && !viewModel.permissionGranted) {
+            restartWorkflow()
+            viewModel.permissionGranted = true
         }
     }
 
@@ -79,10 +79,11 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
 
     fun onNext(@Suppress("UNUSED_PARAMETER") v: View) {
         lifecycleScope.launch {
+            val settings = Settings.getInstance(this@OnboardingActivity)
             if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
-                viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
+                viewModel.permissionGranted = settings.getBoolean(INITIAL_PERMISSION_ASKED, false) || Permissions.canReadStorage(applicationContext)
                         || getStoragePermission()
-                if (!viewModel.permissionGranted) {
+                if (!Permissions.canReadStorage(applicationContext)) {
                     onboardingPagerAdapter.permissionGranted = false
                 } else {
                     onboardingPagerAdapter.permissionGranted = true
@@ -200,6 +201,12 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
         onboardingPagerAdapter.onCustomizedChanged(customizeEnabled)
         viewModel.adapterCount = if (customizeEnabled) 4 else 3
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "New adapter count: ${viewModel.adapterCount}")
+    }
+
+    fun restartWorkflow() {
+        onboardingPagerAdapter.permissionGranted = Permissions.canReadStorage(this)
+        onboardingPagerAdapter.forceRefreshSecond()
+        onboardingPagerAdapter.notifyItemChanged(1)
     }
 }
 

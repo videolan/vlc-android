@@ -111,6 +111,7 @@ const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 const val AUDIO_STOP_AFTER = "audio_stop_after"
 
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
+const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

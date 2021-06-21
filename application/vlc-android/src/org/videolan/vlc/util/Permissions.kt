@@ -141,14 +141,9 @@ object Permissions {
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
                 .setIcon(R.drawable.ic_warning)
-                .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
-                    if (!settings.getBoolean("user_declined_storage_access", false))
                         activity.requestStoragePermission()
-                    else {
-                        showAppSettingsPage(activity)
-                    }
                     settings.putSingle("user_declined_storage_access", true)
                 }
         if (exit) {
@@ -163,14 +158,9 @@ object Permissions {
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
                 .setIcon(R.drawable.ic_warning)
-                .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
-                    if (!settings.getBoolean("user_declined_storage_access", false))
                         activity.requestStoragePermission()
-                    else {
-                        showAppSettingsPage(activity)
-                    }
                     settings.putSingle("user_declined_storage_access", true)
                 }
         if (exit) {
@@ -188,7 +178,7 @@ object Permissions {
         }
     }
 
-    private fun showAppSettingsPage(activity: FragmentActivity) {
+    fun showAppSettingsPage(activity: FragmentActivity) {
         val i = Intent()
         i.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
         i.addCategory(Intent.CATEGORY_DEFAULT)

@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
 class EmptyLoadingStateView : FrameLayout {
 
@@ -124,7 +124,7 @@ class EmptyLoadingStateView : FrameLayout {
             noMediaClickListener?.invoke()
         }
         grantPermissionButton.setOnClickListener {
-            Permissions.showStoragePermissionDialog(context as FragmentActivity, false)
+             (context as? FragmentActivity)?.askStoragePermission(false, null)
         }
     }
 
