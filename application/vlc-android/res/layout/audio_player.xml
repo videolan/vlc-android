@@ -514,10 +514,12 @@
                 android:layout_marginBottom="32dp"
                 android:clipToPadding="false"
                 android:elevation="4dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/timeline"
                 app:layout_constraintEnd_toEndOf="@+id/timeline"
                 app:layout_constraintStart_toStartOf="@+id/timeline"
-                app:layout_constraintTop_toTopOf="@+id/timeline">
+                app:layout_constraintTop_toTopOf="@+id/timeline"
+                tools:visibility="visible">
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/ab_repeat_marker_guideline_a"
