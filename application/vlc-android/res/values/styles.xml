@@ -262,7 +262,7 @@
         <item name="video_card_background">@drawable/video_grid_card_background_dark</item>
         <item name="video_list_background">@drawable/video_list_background_dark</item>
         <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_dark</item>
-        <item name="audio_chip_background">@color/white_transparent_75</item>
+        <item name="audio_chip_background">@drawable/rounded_corners_audio_dark</item>
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
     </style>
 
