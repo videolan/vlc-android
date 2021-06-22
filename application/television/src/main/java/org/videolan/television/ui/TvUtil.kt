@@ -328,10 +328,8 @@ object TvUtil {
 @Suppress("UNNECESSARY_SAFE_CALL")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, item: Any?) {
-    if (bm === null || item === null) {
-        clearBackground(activity, bm)
-        return
-    }
+    clearBackground(activity, bm)
+    if (bm === null || item === null)  return
     val screenRatio: Float = activity.getScreenWidth().toFloat() / activity.getScreenHeight()
     if (item is MediaLibraryItem) launch {
         val artworkMrl = item.artworkMrl
@@ -343,8 +341,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
-            bm?.color = 0
-            bm?.drawable = BitmapDrawable(activity.resources, blurred)
+            blurred?.let { bm?.drawable = BitmapDrawable(activity.resources, blurred) }
         } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             val blurred = withContext(Dispatchers.IO) {
                 var cover: Bitmap? = ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_512", item.tracks.toList(), 512)
@@ -353,8 +350,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
-            bm?.color = 0
-            bm?.drawable = BitmapDrawable(activity.resources, blurred)
+            blurred?.let { bm?.drawable = BitmapDrawable(activity.resources, blurred) }
         }
     } else if (item is MediaMetadataWithImages) launch {
         val blurred = withContext(Dispatchers.IO) {
@@ -363,8 +359,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
             UiTools.blurBitmap(cover, 10f)
         }
         if (!isActive) return@launch
-        bm?.color = 0
-        bm?.drawable = BitmapDrawable(activity.resources, blurred)
+        blurred?.let { bm?.drawable = BitmapDrawable(activity.resources, blurred) }
 
     }
 }
