@@ -58,7 +58,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
   cd ${SQLITE_RELEASE}
-  patch -1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
+  patch -p1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
