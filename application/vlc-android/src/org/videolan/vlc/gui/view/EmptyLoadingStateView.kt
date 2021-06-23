@@ -36,6 +36,7 @@ import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.view_empty_loading.view.*
@@ -61,7 +62,8 @@ class EmptyLoadingStateView : FrameLayout {
             loadingFlipper.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
-            emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
+            emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY || value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
+            emptyImageView.setImageDrawable(ContextCompat.getDrawable(context, if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_permission_big))
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             noMediaButton.visibility = if (showNoMedia && value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
