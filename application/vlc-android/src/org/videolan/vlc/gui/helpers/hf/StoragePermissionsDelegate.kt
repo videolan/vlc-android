@@ -47,6 +47,8 @@ import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.INITIAL_PERMISSION_ASKED
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
+import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
@@ -138,11 +140,13 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             val intent = intent
             val upgrade = intent?.getBooleanExtra(EXTRA_UPGRADE, false) ?: false
             val firstRun = upgrade && intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
+            val settings = Settings.getInstance(this)
             lifecycleScope.launch {
                 val granted = getStoragePermission(write)
                 val model : PermissionViewmodel by viewModels()
                 if (model.permissionPending) model.deferredGrant.complete(granted)
-                if (granted) (cb ?: getAction(this@askStoragePermission, firstRun, upgrade)).run()
+                if (granted && withContext(Dispatchers.IO) { settings.getBoolean(ONBOARDING_DONE_KEY, false) })
+                    (cb ?: getAction(this@askStoragePermission, firstRun, upgrade)).run()
             }
         }
 
