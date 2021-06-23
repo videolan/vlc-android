@@ -104,12 +104,10 @@
     <color name="orange_800_transparent_20">#33ff610a</color>
     <color name="orange_500_transparent_20">#33FF8800</color>
 
-    <color name="tv_bg">#3e6c80</color>
-    <color name="tv_card_content">#3e6c80</color>
-    <color name="tv_card_content_dark">#386173</color>
-    <color name="tv_card_content_darker">#325766</color>
-
-    <color name="vlc_material_blue_grey_900">#ff263238</color>
+    <color name="tv_bg">#34434e</color>
+    <color name="tv_card_content">#34434e</color>
+    <color name="tv_card_content_dark">#1a2c38</color>
+    <color name="tv_card_content_darker">#011422</color>
 
     <!--test with onboarding colors-->
     <!--<color name="tv_bg">#1c313a</color>-->
