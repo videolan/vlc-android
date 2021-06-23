@@ -74,10 +74,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.media.PlayerController
-import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.media.*
 import org.videolan.vlc.util.*
 import org.videolan.vlc.widget.VLCAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
@@ -90,6 +87,7 @@ private const val TAG = "VLC/PlaybackService"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
+    private var position: Long = -1L
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     internal var enabledActions = PLAYBACK_BASE_ACTIONS
@@ -197,6 +195,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 }
             }
             MediaPlayer.Event.PositionChanged -> {
+                if (length == 0L) position = (NO_LENGTH_PROGRESS_MAX.toLong() * event.positionChanged).toLong()
                 if (time < 1000L && time < lastTime) publishState()
                 lastTime = time
                 if (widget != 0) updateWidgetPosition(event.positionChanged)
@@ -1341,8 +1340,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @MainThread
     @JvmOverloads
     fun seek(position: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false) {
-        if (length > 0.0) setPosition((position / length).toFloat())
-        else time = position
+        if (length > 0.0) setPosition((position / length).toFloat()) else setPosition((position.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
         if (fromUser) {
             publishState(position)
         }
@@ -1503,7 +1501,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
         }
 
-        return realTime.toInt()
+        return if (length == 0L) position.toInt() else realTime.toInt()
     }
 }
 

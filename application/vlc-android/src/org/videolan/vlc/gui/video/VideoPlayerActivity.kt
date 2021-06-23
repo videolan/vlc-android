@@ -101,6 +101,7 @@ import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
+import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
@@ -2169,5 +2170,5 @@ fun setConstraintPercent(view: Guideline, percent: Float) {
 
 @BindingAdapter("mediamax")
 fun setProgressMax(view: SeekBar, length: Long) {
-    view.max = length.toInt()
+    view.max =  if (length == 0L) NO_LENGTH_PROGRESS_MAX else length.toInt()
 }

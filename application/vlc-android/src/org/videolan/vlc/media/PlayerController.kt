@@ -109,8 +109,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     fun seek(position: Long, length: Double = getLength().toDouble()) {
-        if (length > 0.0) setPosition((position / length).toFloat())
-        else setTime(position)
+        val pos = if (length > 0.0) (position / length).toFloat() else (position / NO_LENGTH_PROGRESS_MAX).toFloat()
+        setPosition(pos)
     }
 
     fun setPosition(position: Float) {
@@ -355,6 +355,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 }
 
+const val NO_LENGTH_PROGRESS_MAX = 1000
 class Progress(var time: Long = 0L, var length: Long = 0L)
 
 internal interface MediaPlayerEventListener {
