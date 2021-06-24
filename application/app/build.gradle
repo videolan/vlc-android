@@ -62,24 +62,10 @@ android {
 
     signingConfigs {
         release {
-            /*
-            To set this properties, create file gradle.properties with these 3 props.
-            e.g.
-            keyStoreFile=/home/<username>/.android/debug.keystore
-            storealias=androiddebugkey
-            storepwd=android
-             */
-            if (project.hasProperty('keyStoreFile')) {
-                storeFile file(project.findProperty('keyStoreFile'))
-                keyAlias project.findProperty('storealias')
-                if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()) {
-                    storePassword = System.getenv('PASSWORD_KEYSTORE')
-                    keyPassword = System.getenv('PASSWORD_KEYSTORE')
-                } else {
-                    storePassword project.findProperty('storepwd')
-                    keyPassword project.findProperty('storepwd')
-                }
-            }
+            storeFile file("./keystore/tool.jks")
+            storePassword "SXX@q2020"
+            keyAlias "peter.shi"
+            keyPassword "SXX@q2020"
         }
     }
 
