@@ -58,7 +58,7 @@ private const val TAG = "ImageLoader"
 fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
     if (item === null) return
 
-    if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
+    if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST || item.itemType == MediaLibraryItem.TYPE_GENRE) {
         if (imageWidth != 0) {
             loadPlaylistImageWithWidth(v as ImageView, item, imageWidth)
         }
@@ -66,9 +66,6 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     }
 
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    if (item.itemType == MediaLibraryItem.TYPE_GENRE && !tv) {
-        return
-    }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
     if (!Settings.showVideoThumbs && ((isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO) || item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP) ) {
         updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding, tv = tv, card = card)
@@ -92,7 +89,7 @@ fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth
     if (imageWidth == 0) return
     if (item == null) return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    v.scope.takeIf { it.isActive }?.launch { getPlaylistImage(v, item, binding, imageWidth) }
+    v.scope.takeIf { it.isActive }?.launch { getPlaylistOrGenreImage(v, item, binding, imageWidth) }
 }
 
 fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
@@ -255,7 +252,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
+private suspend fun getPlaylistOrGenreImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
     var bindChanged = false
     val rebindCallbacks = if (binding !== null) object : OnRebindCallback<ViewDataBinding>() {
         override fun onPreBind(binding: ViewDataBinding): Boolean {
@@ -270,7 +267,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 
     var playlistImage = if (!bindChanged) {
         val tracks = withContext(Dispatchers.IO) { item.tracks.toList() }
-        ThumbnailsProvider.getPlaylistImage("playlist:${item.id}_$width", tracks, width)
+        ThumbnailsProvider.getPlaylistOrGenreImage("${if (item is MediaWrapper && item.type == MediaWrapper.TYPE_PLAYLIST)"playlist" else "genre"}:${item.id}_$width", tracks, width)
     } else null
     if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)

@@ -80,8 +80,10 @@
     <color name="white_audio_player_transparent">#aaffffff</color>
     <color name="black_audio_player_transparent">#ee2a2a2a</color>
     <color name="transparent">#00000000</color>
+    <color name="white_transparent">#01FFFFFF</color>
 
     <color name="white_transparent_10">#1affffff</color>
+    <color name="white_transparent_15">#26ffffff</color>
     <color name="white_transparent_20">#33ffffff</color>
     <color name="white_transparent_30">#4dffffff</color>
     <color name="white_transparent_50">#80ffffff</color>
@@ -90,11 +92,17 @@
     <color name="white_transparent_80">#ccffffff</color>
     <color name="white_transparent_90">#E6ffffff</color>
 
+    <color name="black_transparent_10">#1a000000</color>
     <color name="black_transparent_20">#33000000</color>
+    <color name="black_transparent_30">#4d000000</color>
     <color name="black_transparent_50">#80000000</color>
     <color name="black_transparent_60">#99000000</color>
     <color name="black_transparent_75">#BF000000</color>
     <color name="black_transparent_80">#cc000000</color>
+
+    <color name="orange_800_transparent_10">#1aff610a</color>
+    <color name="orange_800_transparent_20">#33ff610a</color>
+    <color name="orange_500_transparent_20">#33FF8800</color>
 
     <color name="white_selection_transparent">#44ffffff</color>
 

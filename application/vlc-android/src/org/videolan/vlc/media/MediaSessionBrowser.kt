@@ -250,7 +250,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(shuffleAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         /* Last Added */
-                        val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MAX_HISTORY_SIZE, 0)
+                        val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MAX_HISTORY_SIZE, 0)
                         val recentAudioSize = recentAudio.size
                         val lastAddedPath = if (recentAudioSize > 0) {
                             Uri.Builder()
@@ -313,15 +313,15 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         results.add(MediaBrowserCompat.MediaItem(genresMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results
                     }
-                    ID_ARTISTS -> list = ml.getArtists(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false))
-                    ID_ALBUMS -> list = ml.albums
-                    ID_GENRES -> list = ml.genres
+                    ID_ARTISTS -> list = ml.getArtists(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false), false)
+                    ID_ALBUMS -> list = ml.getAlbums(false)
+                    ID_GENRES -> list = ml.getGenres(false)
                     ID_TRACKS -> list = ml.audio
                     ID_PLAYLISTS -> list = ml.playlists
                     ID_STREAMS -> list = ml.lastStreamsPlayed()
                     ID_LAST_ADDED -> {
                         limitSize = true
-                        list = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MAX_HISTORY_SIZE, 0)
+                        list = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MAX_HISTORY_SIZE, 0)
                         if (list != null && list.size > 1) {
                             val playAllMediaDesc = getPlayAllBuilder(res, parentId, list.size).build()
                             results.add(MediaBrowserCompat.MediaItem(playAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
@@ -412,7 +412,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         fun search(context: Context, query: String): List<MediaBrowserCompat.MediaItem>? {
             val res = context.resources
             val results: MutableList<MediaBrowserCompat.MediaItem> = ArrayList()
-            val searchAggregate = Medialibrary.getInstance().search(query)
+            val searchAggregate = Medialibrary.getInstance().search(query, false)
             results.addAll(buildMediaItems(context, ID_PLAYLISTS, searchAggregate.playlists, res.getString(R.string.playlists)))
             results.addAll(buildMediaItems(context, ARTIST_PREFIX, searchAggregate.artists, res.getString(R.string.artists)))
             results.addAll(buildMediaItems(context, ALBUM_PREFIX, searchAggregate.albums, res.getString(R.string.albums)))

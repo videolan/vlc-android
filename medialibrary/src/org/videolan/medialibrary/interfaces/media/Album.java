@@ -21,14 +21,16 @@ public abstract class Album extends MediaLibraryItem {
     protected long albumArtistId;
     protected int mTracksCount;
     protected long duration;
+    public int mPresentTracksCount;
 
-    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
+    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration) {
         super(id, title);
         this.releaseYear = releaseYear;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.albumArtist = albumArtist != null ? albumArtist.trim(): null;
         this.albumArtistId = albumArtistId;
         this.mTracksCount = nbTracks;
+        this.mPresentTracksCount = nbPresentTracks;
         this.duration = duration;
         if (TextUtils.isEmpty(title)) mTitle = SpecialRes.UNKNOWN_ALBUM;
         if (albumArtistId == 1L) {
@@ -49,9 +51,9 @@ public abstract class Album extends MediaLibraryItem {
     }
 
     abstract public int getRealTracksCount();
-    abstract public MediaWrapper[] getTracks(int sort, boolean desc);
-    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing);
+    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public Artist retrieveAlbumArtist();
 
@@ -88,7 +90,7 @@ public abstract class Album extends MediaLibraryItem {
 
     @Override
     public MediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_DEFAULT, false);
+        return getTracks(Medialibrary.SORT_DEFAULT, false, true);
     }
 
     @Override
@@ -98,6 +100,10 @@ public abstract class Album extends MediaLibraryItem {
 
     public String getAlbumArtist() {
         return albumArtist;
+    }
+
+    public int getPresentTracksCount() {
+        return mPresentTracksCount;
     }
 
     public static Parcelable.Creator<Album> CREATOR
@@ -121,6 +127,7 @@ public abstract class Album extends MediaLibraryItem {
         parcel.writeString(albumArtist);
         parcel.writeLong(albumArtistId);
         parcel.writeInt(mTracksCount);
+        parcel.writeInt(mPresentTracksCount);
         parcel.writeLong(duration);
     }
 }

@@ -139,6 +139,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val instance = Settings.getInstance(AppContextProvider.appContext)
         if (!avoidErasingStop) instance.putSingle(AUDIO_STOP_AFTER, -1)
         stopAfter = instance.getInt(AUDIO_STOP_AFTER, -1)
+        if (stopAfter < position) stopAfter = -1
         clearABRepeat()
         player.setRate(1.0f, false)
         playIndex(currentIndex)
@@ -317,7 +318,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0) {
-        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -341,13 +341,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            var uri = mw.uri
+            var uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
             if (uri == null) {
                 skipMedia()
                 return
             }
             //PiP TV
-            if (AndroidDevices.isTv && isVideoPlaying) {
+            if (!isBenchmark && AndroidDevices.isTv && isVideoPlaying) {
                 VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)

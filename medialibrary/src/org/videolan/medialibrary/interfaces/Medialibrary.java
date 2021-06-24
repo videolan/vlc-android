@@ -198,7 +198,8 @@ abstract public class Medialibrary {
     public interface MediaCb {
         void onMediaAdded();
         void onMediaModified();
-        void onMediaDeleted();
+        void onMediaDeleted(long[] id);
+        void onMediaConvertedToExternal(long[] id);
     }
 
     public interface ArtistsCb {
@@ -293,9 +294,16 @@ abstract public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onMediaDeleted() {
+    public void onMediaDeleted(long[] ids) {
         synchronized (mMediaCbs) {
-            for (MediaCb cb : mMediaCbs) cb.onMediaDeleted();
+            for (MediaCb cb : mMediaCbs) cb.onMediaDeleted(ids);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaConvertedToExternal(long[] ids) {
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaConvertedToExternal(ids);
         }
     }
 
@@ -411,16 +419,16 @@ abstract public class Medialibrary {
         }
     }
 
-    public void onDiscoveryStarted(String entryPoint) {
+    public void onDiscoveryStarted() {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onDiscoveryStarted(entryPoint);
+                    cb.onDiscoveryStarted();
         }
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onDiscoveryStarted(entryPoint);
+                    cb.onDiscoveryStarted();
         }
     }
 
@@ -437,24 +445,37 @@ abstract public class Medialibrary {
         }
     }
 
-    public void onDiscoveryCompleted(String entryPoint) {
+    public void onDiscoveryCompleted() {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onDiscoveryCompleted(entryPoint);
+                    cb.onDiscoveryCompleted();
         }
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onDiscoveryCompleted(entryPoint);
+                    cb.onDiscoveryCompleted();
         }
     }
 
-    public void onParsingStatsUpdated(int percent) {
+    public void onDiscoveryFailed(String entryPoint) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onParsingStatsUpdated(percent);
+                    cb.onDiscoveryFailed(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryFailed(entryPoint);
+        }
+    }
+
+    public void onParsingStatsUpdated(int done, int scheduled) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onParsingStatsUpdated(done, scheduled);
         }
     }
 
@@ -679,20 +700,22 @@ abstract public class Medialibrary {
     abstract public boolean isDeviceKnown(@NonNull String uuid, @NonNull String path, boolean removable);
     abstract public boolean deleteRemovableDevices();
     abstract public void discover(@NonNull String path);
+    abstract public void setLibVLCInstance(long libVLC);
+    abstract public boolean setDiscoverNetworkEnabled(boolean enabled);
     abstract public void removeFolder(@NonNull String mrl);
     abstract public String[] getFoldersList();
     abstract public boolean removeDevice(String uuid, String path);
     abstract public MediaWrapper[] getVideos();
-    abstract public MediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset);
-    abstract public MediaWrapper[] getVideos(int sort, boolean desc);
+    abstract public MediaWrapper[] getPagedVideos(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] getVideos(int sort, boolean desc, boolean includeMissing);
     abstract public MediaWrapper[] getRecentVideos();
     abstract public MediaWrapper[] getAudio();
-    abstract public MediaWrapper[] getAudio(int sort, boolean desc);
-    abstract public MediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset);
+    abstract public MediaWrapper[] getAudio(int sort, boolean desc, boolean includeMissing);
+    abstract public MediaWrapper[] getPagedAudio(int sort, boolean desc, boolean includeMissing, int nbitems, int offset);
     abstract public MediaWrapper[] getRecentAudio();
     abstract public int getVideoCount();
     abstract public int getAudioCount();
-    abstract public VideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset);
+    abstract public VideoGroup[] getVideoGroups(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getVideoGroupsCount(@Nullable String query);
     abstract public void setVideoGroupsPrefixLength(int lenght);
 
@@ -703,31 +726,31 @@ abstract public class Medialibrary {
     abstract public boolean regroupAll();
 
     abstract public boolean regroup(long mediaId);
-    abstract public Album[] getAlbums();
-    abstract public Album[] getAlbums(int sort, boolean desc);
-    abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] getAlbums(boolean includeMissing);
+    abstract public Album[] getAlbums(int sort, boolean desc, boolean includeMissing);
+    abstract public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getAlbumsCount();
     abstract public int getAlbumsCount(String query);
     abstract public Album getAlbum(long albumId);
-    abstract public Artist[] getArtists(boolean all);
-    abstract public Artist[] getArtists(boolean all, int sort, boolean desc);
-    abstract public Artist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset);
+    abstract public Artist[] getArtists(boolean all, boolean includeMissing);
+    abstract public Artist[] getArtists(boolean all, int sort, boolean desc, boolean includeMissing);
+    abstract public Artist[] getPagedArtists(boolean all, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getArtistsCount(boolean all);
     abstract public int getArtistsCount(String query);
     abstract public Artist getArtist(long artistId);
-    abstract public Genre[] getGenres();
-    abstract public Genre[] getGenres(int sort, boolean desc);
-    abstract public Genre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset);
+    abstract public Genre[] getGenres(boolean includeMissing);
+    abstract public Genre[] getGenres(int sort, boolean desc, boolean includeMissing);
+    abstract public Genre[] getPagedGenres(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getGenresCount();
     abstract public int getGenresCount(String query);
     abstract public Genre getGenre(long genreId);
-    abstract public Playlist[] getPlaylists(int sort, boolean desc);
+    abstract public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing);
     abstract public Playlist[] getPlaylists();
-    abstract public Playlist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset);
+    abstract public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getPlaylistsCount();
     abstract public int getPlaylistsCount(String query);
-    abstract public Playlist getPlaylist(long playlistId);
-    abstract public Playlist createPlaylist(String name);
+    abstract public Playlist getPlaylist(long playlistId, boolean includeMissing);
+    abstract public Playlist createPlaylist(String name, boolean includeMissing);
     abstract public void pauseBackgroundOperations();
     abstract public void resumeBackgroundOperations();
     abstract public void reload();
@@ -744,27 +767,28 @@ abstract public class Medialibrary {
     abstract public MediaWrapper getMedia(String mrl);
     abstract public MediaWrapper addMedia(String mrl, long duration);
     abstract public boolean removeExternalMedia(long id);
+    abstract public boolean flushUserProvidedThumbnails();
     abstract public MediaWrapper addStream(String mrl, String title);
-    abstract public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset);
+    abstract public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
     abstract public boolean setProgress(long mediaId, float progress);
-    abstract public SearchAggregate search(String query);
+    abstract public SearchAggregate search(String query, boolean includeMissing);
     abstract public MediaWrapper[] searchMedia(String query);
-    abstract public MediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchMedia(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getMediaCount(String query);
-    abstract public MediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchAudio(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getAudioCount(String query);
-    abstract public MediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchVideo(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getVideoCount(String query);
     abstract public Artist[] searchArtist(String query);
-    abstract public Artist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Artist[] searchArtist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Album[] searchAlbum(String query);
-    abstract public Album[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] searchAlbum(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Genre[] searchGenre(String query);
-    abstract public Genre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset);
-    abstract public Playlist[] searchPlaylist(String query);
-    abstract public Playlist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
-    abstract public Folder[] searchFolders(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Genre[] searchGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Playlist[] searchPlaylist(String query, boolean includeMissing);
+    abstract public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Folder[] searchFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(String query);
-    abstract public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
 }

@@ -83,6 +83,8 @@ import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.VLCBillingDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
+import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
@@ -90,6 +92,7 @@ import org.videolan.vlc.util.FileUtils
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 object UiTools {
+    var currentNightMode: Int = 0
     private val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
@@ -287,6 +290,20 @@ object UiTools {
     fun snackerMessageInfinite(activity:Activity, message: String):Snackbar? {
         val view = getSnackAnchorView(activity) ?: return null
         return Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+    }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun snackerMissing(activity: Activity) {
+        val view = getSnackAnchorView(activity) ?: return
+        val snack = Snackbar.make(view, activity.getString(R.string.missing_media_snack), Snackbar.LENGTH_LONG)
+                .setAction(R.string.ok) {
+                    val intent = Intent(activity, PreferencesActivity::class.java)
+                    intent.putExtra(EXTRA_PREF_END_POINT, "include_missing")
+                    activity.startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
+                }
+        if (AndroidUtil.isLolliPopOrLater)
+            snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
+        snack.show()
     }
 
     /**
@@ -614,6 +631,12 @@ object UiTools {
         return presentationDisplay != null
     }
 
+    /**
+     * Invalidate the default bitmaps that are different in light and dark modes
+     */
+    fun invalidateBitmaps() {
+        DEFAULT_COVER_VIDEO_DRAWABLE = null
+    }
 
 }
 
@@ -691,6 +714,10 @@ fun isSelected(v: View, isSelected: Boolean?) {
 }
 
 fun BaseActivity.applyTheme() {
+    forcedTheme()?.let {
+        setTheme(it)
+        return
+    }
     if (Settings.showTvUi) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setTheme(R.style.Theme_VLC_Black)

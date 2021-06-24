@@ -94,6 +94,12 @@
                 android:key="popup_keepscreen"
                 android:summary="@string/popup_keepscreen_summary"
                 android:title="@string/popup_keepscreen_title"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="lock_use_sensor"
+                android:summary="@string/lock_use_sensor_summary"
+                android:title="@string/lock_use_sensor_title"/>
 
         <ListPreference
                 app:singleLineTitle="false"

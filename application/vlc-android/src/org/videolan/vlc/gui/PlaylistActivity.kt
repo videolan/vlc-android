@@ -139,7 +139,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 if (!playlist.artworkMrl.isNullOrEmpty()) {
                     AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), width)
                 } else {
-                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
+                    ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
                 }
             }
             if (cover != null) {
@@ -394,18 +394,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     private fun removeItem(position: Int, media: MediaWrapper) {
-        val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            snackerConfirm(this, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+            snackerConfirm(this, getString(R.string.confirm_remove_from_playlist, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
         } else {
-            val deleteAction = Runnable { deleteMedia(media) }
-            snackerConfirm(this, getString(resId, media.title), Runnable { if (Permissions.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
+            removeItems(listOf(media))
         }
     }
 
     private fun removeItems(items: List<MediaWrapper>) {
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
-        dialog.show(supportFragmentManager, RenameDialog::class.simpleName)
+        dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             lifecycleScope.launch {
                 for (item in items) {

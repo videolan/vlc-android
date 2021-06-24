@@ -106,6 +106,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     protected String mTrackID;
     protected String mArtworkURL;
     protected boolean mThumbnailGenerated;
+    private boolean mIsPresent = true;
 
     protected final Uri mUri;
     protected String mFilename;
@@ -132,6 +133,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract boolean setLongMeta(int metaDataType, long metaDataValue);
     public abstract boolean setStringMeta(int metaDataType, String metaDataValue);
     public abstract void setThumbnail(String mrl);
+    public abstract void removeThumbnail();
     public abstract void requestThumbnail(int width, float position);
     public abstract void requestBanner(int width, float position);
     public abstract boolean removeFromHistory();
@@ -148,7 +150,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
+                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate, boolean isPresent) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
@@ -156,9 +158,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mId = id;
         mFilename = filename;
         mReleaseYear = releaseDate;
+        mIsPresent = isPresent;
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
-                trackNumber, discNumber, lastModified, seen, null);
+                trackNumber, discNumber, lastModified, seen, isPresent, null);
         final StringBuilder sb = new StringBuilder();
         if (type == TYPE_AUDIO) {
             boolean hasArtistMeta = !TextUtils.isEmpty(artist);
@@ -305,7 +308,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     private void init(long time, long length, int type,
                       Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
-                      long seen, IMedia.Slave[] slaves) {
+                      long seen, boolean isPresent, IMedia.Slave[] slaves) {
         mFilename = null;
         mTime = time;
         mDisplayTime = time;
@@ -328,6 +331,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mLastModified = lastModified;
         mSeen = seen;
         mSlaves = slaves;
+        mIsPresent = isPresent;
     }
 
     public MediaWrapper(Uri uri, long time, long length, int type,
@@ -335,7 +339,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
-                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, null);
+                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null);
     }
 
     @Override
@@ -662,6 +666,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mFlags &= ~flags;
     }
 
+    public boolean isPresent() {
+        return mIsPresent;
+    }
+
     @Nullable
     public IMedia.Slave[] getSlaves() {
         return mSlaves;
@@ -693,6 +701,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                 in.readInt(),
                 in.readLong(),
                 in.readLong(),
+                in.readInt() == 1,
                 in.createTypedArray(PSlave.CREATOR));
     }
 
@@ -718,6 +727,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         dest.writeInt(getDiscNumber());
         dest.writeLong(getLastModified());
         dest.writeLong(getSeen());
+        dest.writeInt(isPresent() ? 1 : 0);
 
         if (mSlaves != null) {
             PSlave[] pslaves = new PSlave[mSlaves.length];

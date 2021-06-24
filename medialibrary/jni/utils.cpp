@@ -27,6 +27,8 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
     jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL, filename = NULL;
     jint trackNumber = 0, discNumber = 0;
+
+    const bool isPresent = mediaPtr->isPresent();
     if (p_albumTrack)
     {
         medialibrary::ArtistPtr artistPtr = p_albumTrack->artist();
@@ -72,7 +74,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
-                           seen, hasThumbnail, mediaPtr->releaseDate());
+                           seen, hasThumbnail, mediaPtr->releaseDate(), isPresent);
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
@@ -101,7 +103,7 @@ convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& al
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
     jstring artistName = artist != nullptr ? env->NewStringUTF(artist->name().c_str()) : NULL;
     jobject item = env->NewObject(fields->Album.clazz, fields->Album.initID,
-                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), albumPtr->duration());
+                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration());
     env->DeleteLocalRef(title);
     env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(artistName);
@@ -116,7 +118,7 @@ convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& 
     jstring shortBio = env->NewStringUTF(artistPtr->shortBio().c_str());
     jstring musicBrainzId = env->NewStringUTF(artistPtr->musicBrainzId().c_str());
     jobject item = env->NewObject(fields->Artist.clazz, fields->Artist.initID,
-                          (jlong) artistPtr->id(), name, shortBio, thumbnailMrl, musicBrainzId);
+                          (jlong) artistPtr->id(), name, shortBio, thumbnailMrl, musicBrainzId, (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks());
     env->DeleteLocalRef(name);
     env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(shortBio);
@@ -129,17 +131,22 @@ convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& ge
 {
     jstring name = env->NewStringUTF(genrePtr->name().c_str());
     jobject item = env->NewObject(fields->Genre.clazz, fields->Genre.initID,
-                          (jlong) genrePtr->id(), name);
+                          (jlong) genrePtr->id(), name, (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks());
     env->DeleteLocalRef(name);
     return item;
 }
 
 jobject
-convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr)
+convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr, jboolean includeMissing)
 {
     jstring name = env->NewStringUTF(playlistPtr->name().c_str());
+     medialibrary::QueryParameters params {
+           medialibrary::SortingCriteria::Default,
+           false,
+           static_cast<bool>( includeMissing )
+        };
     jobject item = env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name, (jint)playlistPtr->media()->count());
+                          (jlong) playlistPtr->id(), name, (jint)playlistPtr->media(&params)->count());
     env->DeleteLocalRef(name);
     return item;
 }
@@ -161,7 +168,7 @@ convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr
 {
     jstring name = env->NewStringUTF(videogroupPtr->name().c_str());
     jobject item = env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          (jlong) videogroupPtr->id(), name, (jint)videogroupPtr->nbVideo());
+                          (jlong) videogroupPtr->id(), name, (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo());
     env->DeleteLocalRef(name);
     return item;
 }
@@ -179,7 +186,7 @@ convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr con
 }
 
 jobject
-convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr)
+convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing)
 {
     //Albums
     jobjectArray albums = nullptr;
@@ -220,7 +227,7 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         index = -1;
         playlists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.playlists->count(), fields->Playlist.clazz, NULL);
         for(medialibrary::PlaylistPtr const& playlist : searchAggregatePtr.playlists->all()) {
-            jobject item = convertPlaylistObject(env, fields, playlist);
+            jobject item = convertPlaylistObject(env, fields, playlist, includeMissing);
             env->SetObjectArrayElement(playlists, ++index, item);
             env->DeleteLocalRef(item);
         }
@@ -252,6 +259,21 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
     }
     return env->NewObject(fields->SearchAggregate.clazz, fields->SearchAggregate.initID,
                           albums, artists, genres, videoList, tracksList, playlists);
+}
+
+jlongArray
+idArray(JNIEnv* env, std::set<int64_t> ids)
+{
+    jlongArray results;
+    int i = 0;
+    results = (jlongArray)env->NewLongArray(ids.size());
+    jlong fill[ids.size()];
+    for (auto id : ids) {
+        fill[i] = id;
+        i++;
+    }
+    env->SetLongArrayRegion(results, 0, ids.size(), fill);
+    return results;
 }
 
 jobjectArray

@@ -22,6 +22,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var listTitleEllipsize = 0
     var overrideTvUI = false
     var videoHudDelay = 2
+    var includeMissing = true
     lateinit var device : DeviceInfo
         private set
 
@@ -32,6 +33,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
         videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
         device = DeviceInfo(context)
+        prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         return prefs
     }
 
@@ -50,6 +52,7 @@ const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
+const val KEY_INCLUDE_MISSING = "include_missing"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
@@ -77,6 +80,7 @@ const val SAVE_BRIGHTNESS = "save_brightness"
 const val BRIGHTNESS_VALUE = "brightness_value"
 const val POPUP_KEEPSCREEN = "popup_keepscreen"
 const val POPUP_FORCE_LEGACY = "popup_force_legacy"
+const val LOCK_USE_SENSOR = "lock_use_sensor"
 
 const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"

@@ -6,8 +6,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 
 public class StubVideoGroup extends VideoGroup {
-    public StubVideoGroup(String name, int count) {
-        super(0L, name, count);
+    public StubVideoGroup(String name, int count, int presentCount) {
+        super(0L, name, count, presentCount);
     }
 
     public StubVideoGroup(Parcel in) {
@@ -15,12 +15,12 @@ public class StubVideoGroup extends VideoGroup {
     }
 
     @Override
-    public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new MediaWrapper[0];
     }
 
     @Override
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new MediaWrapper[0];
     }
 

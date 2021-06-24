@@ -1,10 +1,12 @@
 #!/bin/sh
 
+set -e
+
 #############
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=21e6a3a07d45eb58eab04d1ae6d3151b32c939fa
+MEDIALIBRARY_HASH=312cd83e3444e10b77e82b1cb4e1cf6393f8948e
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -41,8 +43,8 @@ fi
 MEDIALIBRARY_MODULE_DIR=${SRC_DIR}/medialibrary
 MEDIALIBRARY_BUILD_DIR=${MEDIALIBRARY_MODULE_DIR}/medialibrary
 OUT_LIB_DIR=$MEDIALIBRARY_MODULE_DIR/jni/libs/${ANDROID_ABI}
-SQLITE_RELEASE="sqlite-autoconf-3250300"
-SQLITE_SHA1="5d6dc7634ec59e7a6fffa8758c1e184b2522c2e5"
+SQLITE_RELEASE="sqlite-autoconf-3340100"
+SQLITE_SHA1="c20286e11fe5c2e3712ce74890e1692417de6890"
 
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
@@ -58,7 +60,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
   cd ${SQLITE_RELEASE}
-  patch -1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
+  patch -p1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then

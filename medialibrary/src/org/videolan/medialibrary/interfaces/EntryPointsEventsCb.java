@@ -6,7 +6,8 @@ public interface EntryPointsEventsCb {
     void onEntryPointUnbanned(String entryPoint, boolean success);
     void onEntryPointAdded(String entryPoint, boolean success);
     void onEntryPointRemoved(String entryPoint, boolean success);
-    void onDiscoveryStarted(String entryPoint);
+    void onDiscoveryStarted();
     void onDiscoveryProgress(String entryPoint);
-    void onDiscoveryCompleted(String entryPoint);
+    void onDiscoveryCompleted();
+    void onDiscoveryFailed(String entryPoint);
 }

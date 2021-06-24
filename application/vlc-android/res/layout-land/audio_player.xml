@@ -313,7 +313,7 @@
                 android:id="@+id/audio_play_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners_audio"
+                android:background="?attr/audio_chip_background"
                 android:elevation="4dp"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"

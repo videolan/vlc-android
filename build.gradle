@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_plugin_version = '4.1.1'
+    ext.android_plugin_version = '4.2.1'
     ext.kotlin_version = '1.4.31'
     ext.kotlinx_version = '1.4.1'
     repositories {
@@ -37,10 +37,10 @@ allprojects {
 
 ext {
     appId = "org.videolan.vlc"
-    versionName = '3.3.4'
-    versionCode = 3030400
-    libvlcVersion = '3.3.14'
-    medialibraryVersion = '0.7.13'
+    versionName = '3.4.0 Beta 1'
+    versionCode = 3030410
+    libvlcVersion = '3.4.0-eap4'
+    medialibraryVersion = '0.9.0-eap4'
     minSdkVersion = 17
     targetSdkVersion = 29
     compileSdkVersion = 29

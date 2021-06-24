@@ -136,13 +136,11 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     private fun MediaWrapper?.setBreadcrumb() {
         if (this == null) return
-        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
-                ?: return
         if (isSchemeSupported(uri?.scheme)) {
-            ariane.visibility = View.VISIBLE
-            ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
-            if (ariane.itemDecorationCount == 0) {
+            binding.ariane.visibility = View.VISIBLE
+            binding.ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
+            if (binding.ariane.itemDecorationCount == 0) {
                 val did = object : VLCDividerItemDecoration(requireActivity(), HORIZONTAL, VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!) {
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         val position = parent.getChildAdapterPosition(view)
@@ -155,11 +153,11 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                     }
                 }
                 did.setDrawable(VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!)
-                ariane.addItemDecoration(did)
+                binding.ariane.addItemDecoration(did)
             }
-            ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)
-        } else ariane.visibility = View.GONE
-        animationDelegate.setVisibility(binding.title, if (ariane.visibility == View.GONE) View.VISIBLE else View.GONE)
+            binding.ariane.scrollToPosition(binding.ariane.adapter!!.itemCount - 1)
+        } else binding.ariane.visibility = View.GONE
+        animationDelegate.setVisibility(binding.title, if (binding.ariane.visibility == View.GONE) View.VISIBLE else View.GONE)
     }
 
     override fun backTo(tag: String) {
@@ -198,7 +196,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
-            binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
+            binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_favorite else R.drawable.ic_favorite_outline)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
         }
         binding.favoriteButton.setOnClickListener(favoriteClickListener)
@@ -272,7 +270,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                     }
                 }
                 favExists = browserFavRepository.browserFavExists(mw.uri)
-                binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
+                binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_favorite else R.drawable.ic_favorite_outline)
                 binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
             }
         }

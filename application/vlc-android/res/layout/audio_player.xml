@@ -309,7 +309,7 @@
                 android:id="@+id/audio_play_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners_audio"
+                android:background="?attr/audio_chip_background"
                 android:textColor="?attr/audio_chip_text_color"
                 android:elevation="4dp"
                 android:paddingStart="16dp"
@@ -514,10 +514,12 @@
                 android:layout_marginBottom="32dp"
                 android:clipToPadding="false"
                 android:elevation="4dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/timeline"
                 app:layout_constraintEnd_toEndOf="@+id/timeline"
                 app:layout_constraintStart_toStartOf="@+id/timeline"
-                app:layout_constraintTop_toTopOf="@+id/timeline">
+                app:layout_constraintTop_toTopOf="@+id/timeline"
+                tools:visibility="visible">
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/ab_repeat_marker_guideline_a"

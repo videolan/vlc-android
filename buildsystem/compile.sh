@@ -260,7 +260,7 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
-    GRADLE_VERSION=6.6
+    GRADLE_VERSION=6.7.1
     GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
 
@@ -280,11 +280,11 @@ fi
 # Fetch VLC source #
 ####################
 
-TESTED_HASH=ef615ff0cb6390656e84f7218c561e21bc4c39d8
-VLC_REPOSITORY=https://git.videolan.org/git/vlc/vlc-3.0.git
+TESTED_HASH=b3adcde0dc6175382b3c268f4dc329bffd751c89
+VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
-    git clone "${VLC_REPOSITORY}" vlc || fail "VLC sources: git clone failed"
+    git clone "${VLC_REPOSITORY}" vlc -b 3.0.x --single-branch || fail "VLC sources: git clone failed"
     cd vlc
     diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
     git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"

@@ -231,10 +231,8 @@ internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, pri
         scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteDescription, ConstraintSet.BOTTOM, R.id.imageButtonFavorite, ConstraintSet.BOTTOM)
 
         // Title escapes by the top of the screen
-        scrolledDownFABCollapsedConstraintSet.constrainMaxHeight(R.id.title, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.constrainMaxHeight(R.id.ariane, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.ariane, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.ariane, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
         scrolledDownFABCollapsedConstraintSet.clear(R.id.ariane, ConstraintSet.TOP)
 
         //FAB showing

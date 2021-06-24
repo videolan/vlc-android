@@ -34,6 +34,7 @@
             android:clickable="true"
             android:focusable="true"
             android:minHeight="@dimen/audio_browser_item_size"
+            app:layout_optimizationLevel="cache_measures"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">
 
@@ -46,6 +47,7 @@
                 android:layout_marginBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="16:10"
+                app:layout_optimizationLevel="cache_measures"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 

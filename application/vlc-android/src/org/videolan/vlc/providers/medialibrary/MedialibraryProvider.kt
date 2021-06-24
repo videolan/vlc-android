@@ -33,6 +33,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.SortModule
 import org.videolan.vlc.viewmodels.SortableModel

@@ -41,7 +41,6 @@
     <attr name="font_audio_light" format="reference|color" />
     <attr name="font_light" format="reference|color" />
     <attr name="audio_browser_separator" format="reference|color" />
-    <attr name="audio_player_header_time" format="reference|color" />
     <attr name="list_subtitle" format="reference|color" />
     <attr name="list_title" format="reference|color" />
     <attr name="audio_player_background_tint" format="reference|color" />
@@ -55,6 +54,11 @@
     <attr name="rounded_corners_bottom_default_darker" format="reference" />
     <attr name="donate_card" format="color" />
     <attr name="donate_item_background" format="reference" />
+    <attr name="empty_foreground" format="color" />
+    <attr name="empty_background" format="color" />
+    <attr name="disabled_overlay_color" format="color" />
+    <attr name="video_card_background" format="reference"/>
+    <attr name="video_list_background" format="reference"/>
     <attr name="audio_chip_background" format="color" />
     <attr name="audio_chip_text_color" format="color" />
     <attr name="audio_seek_bar" format="reference" />
@@ -62,6 +66,11 @@
     <attr name="audio_chips_color" format="color" />
     <attr name="audio_chips_text_color" format="color" />
     <attr name="bookmark_background" format="color" />
+    <attr name="bottom_navigation_focus" format="color" />
+    <attr name="primary_focus" format="color" />
+    <attr name="scan_background" format="reference" />
+    <attr name="fast_scroller_bubble" format="reference" />
+    <attr name="fast_scroller_handle" format="reference" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />

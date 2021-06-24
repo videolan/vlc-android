@@ -45,7 +45,7 @@ object MediaScraper {
     }
 
     fun indexMedialib(context: Context) = AppScope.launch(Dispatchers.IO) {
-        val medias = Medialibrary.getInstance().getPagedVideos(Medialibrary.SORT_DEFAULT, false, 1000, 0)
+        val medias = Medialibrary.getInstance().getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, 1000, 0)
 
         val filesToIndex = HashMap<Long, Uri>()
         medias.forEach {

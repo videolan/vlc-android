@@ -43,9 +43,7 @@
                     android:fastScrollEnabled="true"
                     android:gravity="center"
                     android:numColumns="auto_fit"
-                    android:padding="@dimen/half_default_margin"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical"
+                    android:scrollbars="none"
                     android:stretchMode="none" />
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
@@ -58,5 +56,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        <org.videolan.vlc.gui.view.FastScroller
+                android:id="@+id/fast_scroller"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

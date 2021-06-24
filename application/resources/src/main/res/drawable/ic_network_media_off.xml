@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_network_media_off.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="12dp"
+    android:height="12dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M22.536,21.0005L22.536,23.0005L20.537,23.0005L20.537,21.0005L22.536,21.0005ZM4.545,21.0005L4.545,23.0005L2.546,23.0005L2.546,21.0005L4.545,21.0005ZM2.0707,2.503L2.5647,2.817L5.9797,5L20.5367,14.302L22.4557,15.527L23.0587,15.912L23.0637,15.904L23.0657,15.906L21.9897,17.592L20.9797,16.946C20.8844,16.968 20.7873,16.9847 20.6878,16.9933L20.5367,17L13.5407,17L13.5407,21L18.5377,21L18.5377,23L6.5437,23L6.5437,21L11.5417,21L11.5417,17L4.5367,17C3.4867,17 2.618,16.18 2.5412,15.1478L2.5357,14.999L2.5437,5.167L0.9997,4.18L2.0707,2.503ZM4.5447,6.445L4.5447,15L17.9337,15L4.5447,6.445ZM10.5359,1L12.5359,3L20.5369,3C21.5869,3 22.4538,3.82 22.5304,4.8513L22.5359,5L22.5359,13.205L20.5369,11.928L20.5369,5L12.0327,5L9.976,3.0026L6.5675,3.0026L3.7179,1.182C3.9179,1.09 4.1339,1.0287 4.3623,1.0079L4.5359,1L10.5359,1Z"
+      android:strokeWidth="1"
+      android:fillColor="#FFFFFF"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>

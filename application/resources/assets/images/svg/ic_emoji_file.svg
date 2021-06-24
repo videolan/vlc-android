@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="40"
-   height="40"
-   viewBox="0 0 40 40"
+   width="12px"
+   height="12px"
+   viewBox="0 0 12 12"
    version="1.1"
    id="SVGRoot"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_ctx_done_normal.svg">
+   sodipodi:docname="ic_emoji_file_outlined_1px.svg">
   <defs
-     id="defs7678" />
+     id="defs2029" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,37 +25,24 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="32.000001"
-     inkscape:cx="7.3550454"
-     inkscape:cy="3.410787"
+     inkscape:zoom="21.333333"
+     inkscape:cx="2.25"
+     inkscape:cy="6"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     inkscape:window-height="1080"
      inkscape:window-x="0"
-     inkscape:window-y="1107"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:grid-bbox="true"
-     inkscape:snap-page="true"
-     inkscape:snap-text-baseline="true"
-     inkscape:snap-center="true"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:object-paths="true"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true">
+     inkscape:grid-bbox="true">
     <inkscape:grid
        type="xygrid"
-       id="grid8234" />
+       id="grid2585" />
   </sodipodi:namedview>
   <metadata
-     id="metadata7681">
+     id="metadata2032">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -69,12 +56,11 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-8)">
+     id="layer1">
     <path
        inkscape:connector-curvature="0"
-       id="path8078"
-       d="M 29,21 16,34 11,29 8,32 16,40 32,24 Z"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26666668;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
+       d="m 2.5,0 c -0.55228,0 -1,0.447715 -1,1 v 10 c 0,0.552285 0.44772,1 1,1 h 7 c 0.55228,0 1,-0.447715 1,-1 V 4 l -4,-4 z m 0,1 H 6.08594 V 4.414062 H 9.5 V 11 h -7 z"
+       id="path1963" />
   </g>
 </svg>

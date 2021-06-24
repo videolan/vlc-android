@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.preferences
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -138,6 +139,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                     6
                 }
                 Medialibrary.getInstance().setVideoGroupsPrefixLength(goupSizeValue)
+                (activity as PreferencesActivity).setRestart()
+            }
+            "include_missing" -> {
+                Settings.includeMissing = sharedPreferences.getBoolean(key, true)
                 (activity as PreferencesActivity).setRestart()
             }
         }

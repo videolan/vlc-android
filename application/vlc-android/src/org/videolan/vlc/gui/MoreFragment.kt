@@ -98,6 +98,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyEntry = view.findViewById(R.id.history_entry)
+        if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {

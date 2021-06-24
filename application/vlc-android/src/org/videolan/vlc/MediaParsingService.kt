@@ -43,6 +43,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.libvlc.LibVLC
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -70,7 +71,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val binder = LocalBinder()
     private lateinit var medialibrary: Medialibrary
-    private var parsing = 0
+    private var parsing = 0F
     private var reload = 0
     private var currentDiscovery: String? = null
     @Volatile private var lastNotificationTime = 0L
@@ -84,6 +85,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private var serviceLock = false
     @Volatile
     private var discoverTriggered = false
+    private var inDiscovery = false
     private lateinit var actions : SendChannel<MLAction>
     private lateinit var notificationActor : SendChannel<Notification>
 
@@ -146,7 +148,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         actions = lifecycleScope.actor(context = Dispatchers.IO, capacity = Channel.UNLIMITED) { processAction() }
         notificationActor = lifecycleScope.actor(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
-                Show -> showNotification()
+                is Show -> showNotification(update.done, update.scheduled)
+                is Error -> discoveryError.value = DiscoveryError(update.entryPoint)
                 Hide -> hideNotification()
             }
         }
@@ -337,14 +340,14 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         exitCommand()
     }
 
-    private suspend fun showNotification() {
+    private suspend fun showNotification(done:Int, scheduled: Int) {
         val currentTime = System.currentTimeMillis()
         if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
         lastNotificationTime = currentTime
         val discovery = withContext(Dispatchers.Default) {
             val progressText = when {
-                parsing > 0 -> getString(R.string.ml_parse_media) + " " + parsing + "% · " + Uri.parse(currentDiscovery).lastPathSegment
-                currentDiscovery != null -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
+                inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
+                parsing > 0 -> getString(R.string.ml_parse_media) + " " + String.format("%.02f",parsing) + "% · $done/$scheduled"
                 else -> getString(R.string.ml_parse_media)
             }
             if (!isActive) return@withContext ""
@@ -362,28 +365,32 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun hideNotification() {
         lastNotificationTime = -1L
         stopForeground(true)
-        showProgress(-1, "")
+        showProgress(-1F, "")
     }
 
-    override fun onDiscoveryStarted(entryPoint: String) {
-        if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryStarted: $entryPoint")
+    override fun onDiscoveryStarted() {
         discoverTriggered = false
+        inDiscovery =  true
     }
 
     override fun onDiscoveryProgress(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryProgress: $entryPoint")
         currentDiscovery = entryPoint
-        if (::notificationActor.isInitialized) notificationActor.safeOffer(Show)
+        if (::notificationActor.isInitialized) notificationActor.safeOffer(Show(-1, -1))
     }
 
-    override fun onDiscoveryCompleted(entryPoint: String) {
-        if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryCompleted: $entryPoint")
+    override fun onDiscoveryCompleted() {
+        inDiscovery = false
     }
 
-    override fun onParsingStatsUpdated(percent: Int) {
-        if (BuildConfig.DEBUG) Log.v(TAG, "onParsingStatsUpdated: $percent")
-        parsing = percent
-        if (parsing != 100 && ::notificationActor.isInitialized) notificationActor.safeOffer(Show)
+    override fun onDiscoveryFailed(entryPoint: String) {
+        Log.e(TAG, "onDiscoveryFailed")
+        notificationActor.safeOffer(Error(entryPoint))
+    }
+
+    override fun onParsingStatsUpdated(done: Int, scheduled:Int) {
+        parsing = (done.toFloat() / scheduled.toFloat() * 100F)
+        if (parsing != 100F && ::notificationActor.isInitialized) notificationActor.safeOffer(Show(done, scheduled))
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -427,13 +434,13 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private inner class LocalBinder : Binder()
 
-    private fun showProgress(parsing: Int, discovery: String) {
-        if (parsing == -1) {
+    private fun showProgress(parsing: Float, progressText: String) {
+        if (parsing == -1F) {
             progress.value = null
             return
         }
         val status = progress.value
-        progress.value = if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery)
+        progress.value = if (status === null) ScanProgress(parsing, progressText, inDiscovery) else status.copy(parsing = parsing, progressText = progressText, inDiscovery)
     }
 
     private suspend fun ActorScope<MLAction>.processAction() {
@@ -453,6 +460,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     val context = this@MediaParsingService
                     var shouldInit = !dbExists()
                     val initCode = medialibrary.init(context)
+                    medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).getInstance())
+                    medialibrary.setDiscoverNetworkEnabled(true)
                     if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
                         shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)
                         if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade, action.removeDevices)
@@ -500,12 +509,14 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     companion object {
         val progress = MutableLiveData<ScanProgress>()
+        val discoveryError = MutableLiveData<DiscoveryError>()
         val newStorages = MutableLiveData<MutableList<String>>()
         val preselectedStorages = mutableListOf<String>()
     }
 }
 
-data class ScanProgress(val parsing: Int, val discovery: String)
+data class ScanProgress(val parsing: Float, val progressText: String, val inDiscovery:Boolean)
+data class DiscoveryError(val entryPoint: String)
 
 fun Context.reloadLibrary() {
     launchForeground(this, Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
@@ -525,5 +536,6 @@ private class Reload(val path: String?) : MLAction()
 private object ForceReload : MLAction()
 
 private sealed class Notification
-private object Show : Notification()
+private class Show(val done:Int, val scheduled:Int) : Notification()
+private class Error(val entryPoint:String) : Notification()
 private object Hide : Notification()
