@@ -39,6 +39,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
@@ -219,6 +220,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         })
     }
 
+    override fun onResume() {
+        swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
+        super.onResume()
+    }
+
     override fun onStart() {
         super.onStart()
         setFabPlayShuffleAllVisibility()
@@ -301,7 +307,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         super.onTabSelected(tab)
         songs_fast_scroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.putSingle(KEY_AUDIO_CURRENT_TAB, tab.position)
-        setRefreshing(viewModel.providers[currentTab].isRefreshing)
+        if (Medialibrary.getInstance().isInitiated) setRefreshing(viewModel.providers[currentTab].isRefreshing)
         activity?.invalidateOptionsMenu()
     }
 
