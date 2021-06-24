@@ -23,7 +23,12 @@ public class StubPlaylist extends Playlist {
         super(in);
     }
 
+    @Override
     public MediaWrapper[] getTracks() {
+        return getTracks(true);
+    }
+
+    public MediaWrapper[] getTracks(boolean includeMissing) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId())) results.add(media);
@@ -31,12 +36,12 @@ public class StubPlaylist extends Playlist {
         return results.toArray(new MediaWrapper[0]);
     }
 
-    public MediaWrapper[] getPagedTracks(int nbItems, int offset) {
+    public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing) {
         ArrayList<MediaWrapper> results = new ArrayList<>(Arrays.asList(getTracks()));
         return dt.secureSublist(results, offset, offset + nbItems).toArray(new MediaWrapper[0]);
     }
 
-    public int getRealTracksCount() {
+    public int getRealTracksCount(boolean includeMissing) {
         int count = 0;
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId())) count++;
@@ -92,7 +97,7 @@ public class StubPlaylist extends Playlist {
         return false;
     }
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&

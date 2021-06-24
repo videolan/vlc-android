@@ -46,12 +46,12 @@ package org.videolan.tools
 
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.collection.LruCache
+import android.util.LruCache
 import videolan.org.commontools.BuildConfig
 
 object BitmapCache {
-    private val mMemCache: LruCache<String, Bitmap>
-    private val TAG = "VLC/BitmapCache"
+    private const val TAG = "VLC/BitmapCache"
+    private val memCache: LruCache<String, Bitmap>
 
     init {
 
@@ -61,7 +61,7 @@ object BitmapCache {
         if (BuildConfig.DEBUG)
             Log.i(TAG, "LRUCache size set to " + cacheSize.readableSize())
 
-        mMemCache = object : LruCache<String, Bitmap>(cacheSize.toInt()) {
+        memCache = object : LruCache<String, Bitmap>(cacheSize.toInt()) {
 
             override fun sizeOf(key: String, value: Bitmap): Int {
                 return value.rowBytes * value.height
@@ -72,9 +72,9 @@ object BitmapCache {
     @Synchronized
     fun getBitmapFromMemCache(key: String?): Bitmap? {
         if (key == null) return null
-        val b = mMemCache.get(key)
+        val b = memCache.get(key)
         if (b == null) {
-            mMemCache.remove(key)
+            memCache.remove(key)
             return null
         }
         return b
@@ -83,7 +83,7 @@ object BitmapCache {
     @Synchronized
     fun addBitmapToMemCache(key: String?, bitmap: Bitmap?) {
         if (key != null && bitmap != null && getBitmapFromMemCache(key) == null) {
-            mMemCache.put(key, bitmap)
+            memCache.put(key, bitmap)
         }
     }
 
@@ -97,6 +97,6 @@ object BitmapCache {
 
     @Synchronized
     fun clear() {
-        mMemCache.evictAll()
+        memCache.evictAll()
     }
 }

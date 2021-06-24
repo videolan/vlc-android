@@ -35,58 +35,61 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_optimizationLevel="cache_measures">
+            android:layout_height="wrap_content"
+            android:background="@color/transparent">
 
         <View
+                android:id="@+id/selector"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/rectangle_circle_right_orange_selector"
-                android:focusable="true"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/item_more"
+                android:background="@drawable/rectangle_circle_right_orange_selector"
                 android:clickable="true"
+                android:focusable="true"
+                android:longClickable="true"
+                android:onClick="@{(view) -> holder.onClick(view, media)}"
+                android:orientation="vertical"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:onClick="@{(view) -> holder.onClick(view, media)}"
-                android:longClickable="true"
-                android:layout_toStartOf="@+id/item_more"
-                android:orientation="vertical"
-                android:id="@+id/selector"
-                app:layout_constraintEnd_toStartOf="@+id/item_more"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginEnd="8dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
-                android:layout_width="0dp"
-                android:layout_height="40dp"
                 android:id="@+id/coverImage"
-                android:layout_weight="1"
-                tools:src="@tools:sample/avatars[0]"
-                app:layout_constraintStart_toStartOf="@+id/selector"
-                app:layout_constraintDimensionRatio="1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
-                app:media="@{media}"
-                app:card="@{true}"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_weight="1"
                 android:scaleType="@{scaleType}"
                 android:src="@{cover}"
-                app:layout_constraintTop_toTopOf="parent"
+                app:card="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" />
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="@+id/selector"
+                app:layout_constraintTop_toTopOf="parent"
+                app:media="@{media}"
+                tools:src="@tools:sample/avatars[0]" />
 
 
         <org.videolan.vlc.gui.view.MiniVisualizer
-                android:layout_width="24dp"
-                android:layout_height="24dp"
                 android:id="@+id/playing"
-                app:bar_color="?attr/player_icon_color"
-                app:layout_constraintTop_toTopOf="@+id/coverImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:bar_color="?attr/mini_visualizer_color"
                 app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+                app:layout_constraintEnd_toEndOf="@+id/coverImage"
                 app:layout_constraintStart_toStartOf="@+id/coverImage"
-                app:layout_constraintEnd_toEndOf="@+id/coverImage" />
+                app:layout_constraintTop_toTopOf="@+id/coverImage" />
 
         <TextView
                 android:id="@+id/audio_item_title"
@@ -95,6 +98,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="2dp"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:paddingLeft="8dp"
@@ -102,52 +106,54 @@
                 android:singleLine="true"
                 android:text="@{media.title}"
                 android:textColor="?attr/font_default"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:ellipsizeMode="@{true}"
                 app:layout_constraintBottom_toTopOf="@+id/audio_item_subtitle"
                 app:layout_constraintEnd_toEndOf="@+id/selector"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/coverImage"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Symphonie n°1" />
 
         <TextView
                 android:id="@+id/audio_item_subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{subTitle}"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="middle"
+                android:fontFamily="sans-serif"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:singleLine="true"
-                android:ellipsize="middle"
+                android:text="@{subTitle}"
                 android:textColor="?attr/font_audio_light"
-                android:fontFamily="sans-serif"
                 android:textSize="12sp"
                 android:visibility="@{TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE}"
-                app:layout_constraintTop_toBottomOf="@+id/audio_item_title"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                tools:text="Beethoven"
+                app:layout_constraintEnd_toEndOf="@+id/selector"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/coverImage"
-                app:layout_constraintEnd_toEndOf="@+id/selector" />
+                app:layout_constraintTop_toBottomOf="@+id/audio_item_title"
+                tools:text="Beethoven" />
 
         <ImageButton
                 android:id="@+id/item_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="center"
+                android:layout_gravity="center"
                 android:layout_marginRight="4dp"
-                app:srcCompat="@drawable/ic_more"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{holder::onMoreClick}"
+                android:scaleType="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:srcCompat="@drawable/ic_more" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -48,6 +48,7 @@ import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -69,7 +70,7 @@ private const val TAG = "MainTvModel"
 class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedialibraryReadyListener,
         Medialibrary.OnDeviceChangeListener {
 
-    val context = getApplication<Application>().baseContext!!
+    val context = getApplication<Application>().getContextWithLocale(AppContextProvider.locale)
     private val medialibrary = Medialibrary.getInstance()
     private val networkMonitor = NetworkMonitor.getInstance(context)
     val settings = Settings.getInstance(context)
@@ -148,7 +149,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         val videoNb = context.getFromMl { videoCount }
         context.getFromMl {
-            getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)))
@@ -193,7 +194,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private fun updatePlaylists() = viewModelScope.launch {
         context.getFromMl {
-            getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 //                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))

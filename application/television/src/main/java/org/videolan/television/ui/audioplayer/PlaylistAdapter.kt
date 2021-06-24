@@ -20,16 +20,20 @@
  */
 package org.videolan.television.ui.audioplayer
 
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.television.R
 import org.videolan.television.databinding.TvPlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.viewmodels.PlaylistModel
 
@@ -40,6 +44,7 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val m
     var selectedItem = -1
         private set
     private var currentPlayingVisu: MiniVisualizer? = null
+    private var defaultCoverAudio: BitmapDrawable = BitmapDrawable(audioPlayerActivity.resources, getBitmapFromDrawable(audioPlayerActivity, R.drawable.ic_no_song_background))
 
     inner class ViewHolder(vdb: TvPlaylistItemBinding) : SelectorViewHolder<TvPlaylistItemBinding>(vdb), View.OnClickListener {
         init {
@@ -61,11 +66,15 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val m
         if (selectedItem == position) {
             if (model.playing) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
+            holder.binding.coverImage.visibility = View.INVISIBLE
             currentPlayingVisu = holder.binding.playing
         } else {
             holder.binding.playing.stop()
             holder.binding.playing.visibility = View.INVISIBLE
+            holder.binding.coverImage.visibility = View.VISIBLE
         }
+        holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
+        holder.binding.cover = defaultCoverAudio
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
@@ -75,7 +84,15 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val m
             val isCurrent = payloads[0] as Boolean
             val shouldStart = isCurrent && model.playing
             if (shouldStart) holder.binding.playing.start() else holder.binding.playing.stop()
-            if (isCurrent) holder.binding.playing.visibility = View.VISIBLE else holder.binding.playing.visibility = View.INVISIBLE
+            if (isCurrent) {
+                holder.binding.playing.visibility = View.VISIBLE
+                holder.binding.coverImage.visibility = View.INVISIBLE
+            } else {
+                holder.binding.playing.visibility = View.INVISIBLE
+                holder.binding.coverImage.visibility = View.VISIBLE
+            }
+            holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
+            holder.binding.cover = defaultCoverAudio
 
         }
     }

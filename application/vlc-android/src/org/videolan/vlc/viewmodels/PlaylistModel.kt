@@ -49,8 +49,8 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         get() = if (filtering) -1 else service?.playlistManager?.currentIndex ?: -1
     private var filtering = false
     val progress = MediatorLiveData<PlaybackProgress>()
+    val speed = MediatorLiveData<Float>()
     val playerState = MutableLiveData<PlayerState>()
-    var totalTime = ""
     val connected : Boolean
         get() = service !== null
 
@@ -74,7 +74,6 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     override fun update() {
-        updateTotalTime()
         service?.run {
             dataset.value = media.toMutableList()
             playerState.value = PlayerState(isPlaying, title, artist)
@@ -222,6 +221,11 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
                     value = PlaybackProgress(it?.time ?: 0L, it?.length ?: 0L)
                 }
             }
+            speed.apply {
+                addSource(service.playlistManager.player.speed) {
+                    value = it
+                }
+            }
             setup(service)
         } else {
             this.service?.apply {
@@ -232,21 +236,15 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         }
     }
 
-    private fun updateTotalTime() = viewModelScope.launch {
-        val totalLength = withContext(Dispatchers.Default) {
-            val mediaList = medias ?: return@withContext 0L
-            mediaList.asSequence()
-                    .map { it.length }
-                    .sum()
-        }
-        totalTime = Tools.millisToString(totalLength, true, false, false)
-    }
-
-    fun getTotalTime():Long {
-            val mediaList = medias ?: return 0L
-            return mediaList.asSequence()
-                    .map { it.length }
-                    .sum()
+    fun getTotalTime(): Long {
+        val mediaList = medias ?: return 0L
+        return mediaList.asSequence()
+            .map {
+                val stopAfter = service?.playlistManager?.stopAfter
+                if (stopAfter == null || stopAfter == -1 || mediaList.indexOf(it) <= stopAfter)
+                    it.length else 0L
+            }
+            .sum()
     }
 
     companion object {

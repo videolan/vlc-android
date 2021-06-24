@@ -4,37 +4,66 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/delay_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:layout_height="wrap_content">
 
-    <TextView
-            android:id="@+id/delay_title"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/delay_title_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/video_list_length_bg"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="4dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="4dp"
-            android:textColor="@color/orange500"
-            android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Audio delay\n0ms" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+                android:id="@+id/delay_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="4dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/orange500"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Audio delay" />
+
+        <ImageView
+                android:id="@+id/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:elevation="2dp"
+                android:focusable="true"
+                android:padding="4dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/delay_title"
+                app:layout_constraintEnd_toEndOf="@+id/delay_title"
+                app:layout_constraintTop_toTopOf="@+id/delay_title"
+                app:srcCompat="@drawable/ic_close_small"
+                tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/delay_info_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/video_list_length_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/delay_title">
+            app:layout_constraintTop_toBottomOf="@+id/delay_title_container">
 
         <ImageView
                 android:id="@+id/player_delay_minus"
@@ -44,6 +73,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:nextFocusRight="@+id/player_delay_plus"
+                android:nextFocusUp="@+id/close"
                 android:padding="0dp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +81,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_down_on_circle_player" />
+                app:srcCompat="@drawable/ic_down_on_circle_player"
+                tools:visibility="visible" />
 
         <TextView
                 android:id="@+id/delay_textinfo"
@@ -79,6 +110,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
                 android:nextFocusLeft="@+id/player_delay_minus"
+                android:nextFocusUp="@+id/close"
                 android:padding="0dp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +118,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/delay_textinfo"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_up_on_circle_player" />
+                app:srcCompat="@drawable/ic_up_on_circle_player"
+                tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -95,13 +128,17 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:nextFocusRight="@+id/delay_second_button"
             android:textColor="@color/white"
             app:backgroundTint="@color/player_delay_button_background_tint"
             app:icon="@drawable/ic_delay_done"
             app:iconTint="@color/grey400transparent"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/delay_second_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
 
     <com.google.android.material.button.MaterialButton
@@ -109,15 +146,17 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:nextFocusLeft="@+id/delay_first_button"
             android:nextFocusRight="@+id/delay_reset_button"
             android:textColor="@color/white"
             app:backgroundTint="@color/player_delay_button_background_tint"
             app:icon="@drawable/ic_delay_done"
             app:iconTint="@color/grey400transparent"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/delay_reset_button"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/delay_first_button"
             app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
 
     <com.google.android.material.button.MaterialButton
@@ -125,20 +164,25 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:nextFocusLeft="@+id/delay_second_button"
             android:text="@string/reset"
             android:textColor="@color/white"
             app:backgroundTint="@color/player_delay_button_background_tint"
             app:iconTint="@color/grey400transparent"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delay_second_button"
             app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/delay_apply_all"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
-            android:layout_margin="0dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:nextFocusLeft="@+id/delay_second_button"
             android:text="@string/apply_to_all"
             android:textColor="@color/white"
@@ -147,6 +191,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/delay_reset_button" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/delay_apply_bt"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@+id/delay_second_button"
+            android:text="@string/apply_to_bt"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/player_delay_button_background_tint"
+            app:iconTint="@color/grey400transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/delay_apply_all" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

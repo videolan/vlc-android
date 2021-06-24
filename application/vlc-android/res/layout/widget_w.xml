@@ -24,10 +24,9 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/half_default_margin"
-                android:paddingRight="@dimen/half_default_margin">
+                android:padding="@dimen/half_default_margin">
 
             <TextView
                     android:id="@+id/artist"
@@ -35,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
                     android:layout_marginLeft="@dimen/half_default_margin"
+                    android:visibility="gone"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"

@@ -37,6 +37,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
@@ -156,7 +157,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             }
             else -> {
                 adapter?.cardSize = -1
-                playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.provider))
+                if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
+                    playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.provider))
                 playlists.layoutManager = LinearLayoutManager(activity)
             }
         }

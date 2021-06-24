@@ -345,7 +345,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 }
                 val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
                 intent.putExtra(KEY_MEDIA, item)
-                intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
+                intent.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.FILE_BROWSER)
                 startActivity(intent)
             }
         }

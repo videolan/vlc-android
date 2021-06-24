@@ -7,21 +7,17 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ViewStubCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
@@ -46,6 +42,7 @@ private const val ACTION_SPU_DELAY = 3
 private const val ID_PLAY_AS_AUDIO = 0L
 private const val ID_SLEEP = 1L
 private const val ID_JUMP_TO = 2L
+private const val ID_BOOKMARK = 4L
 private const val ID_CHAPTER_TITLE = 5L
 private const val ID_PLAYBACK_SPEED = 6L
 private const val ID_EQUALIZER = 7L
@@ -61,14 +58,16 @@ private const val ID_VIDEO_STATS = 15L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
-class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: PlaybackService) : LifecycleObserver {
+class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 
+    private lateinit var bookmarkClickedListener: () -> Unit
     private lateinit var recyclerview: RecyclerView
     private lateinit var rootView: FrameLayout
     var flags: Long = 0L
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
     private val primary = activity is VideoPlayerActivity && activity.displayManager.isPrimary
+    private val isChromecast = activity is VideoPlayerActivity && activity.displayManager.isOnRenderer
     private val video = activity is VideoPlayerActivity
     private val res = activity.resources
     private val settings = Settings.getInstance(activity)
@@ -96,7 +95,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         val options = mutableListOf<PlayerOption>()
         if (video) options.add(PlayerOption(ID_LOCK_PLAYER, R.attr.ic_lock_player, res.getString(R.string.lock)))
         options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
-        options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+        if (!isChromecast) options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
         options.add(PlayerOption(ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
         options.add(PlayerOption(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
         if (video) {
@@ -111,7 +110,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
         val chaptersCount = service.getChapters(-1)?.size ?: 0
         if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
-        options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
+        if (::bookmarkClickedListener.isInitialized) options.add(PlayerOption(ID_BOOKMARK, R.attr.ic_bookmark_normal_style, res.getString(R.string.bookmarks)))
+        if (showABReapeat) options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
@@ -148,6 +148,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         service.playlistManager.abRepeatOn.removeObserver(abrObs)
     }
 
+    fun setBookmarkClickedListener(listener:()->Unit) {
+        this.bookmarkClickedListener = listener
+    }
+
     fun onClick(option: PlayerOption) {
         when (option.id) {
             ID_SLEEP -> {
@@ -175,6 +179,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             ID_VIDEO_STATS -> {
                 hide()
                 service.playlistManager.toggleStats()
+            }
+            ID_BOOKMARK -> {
+                hide()
+                bookmarkClickedListener.invoke()
             }
             else -> showFragment(option.id)
         }
@@ -255,16 +263,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         shuffleBinding = binding
         AppScope.launch(Dispatchers.Main) {
             shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
-        }
-    }
-
-    private fun initSleep() {
-        sleepBinding.optionTitle.text = if (playerSleepTime == null) {
-            sleepBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_sleep_normal_style))
-            null
-        } else {
-            sleepBinding.optionIcon.setImageResource(R.drawable.ic_sleep_on)
-            DateFormat.getTimeFormat(activity).format(playerSleepTime!!.time)
         }
     }
 
@@ -358,7 +356,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     companion object {
-        var playerSleepTime: Calendar? = null
+        val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
     }
 }
 
@@ -369,7 +367,7 @@ fun Context.setSleep(time: Calendar?) {
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)
-    PlayerOptionsDelegate.playerSleepTime = time
+    PlayerOptionsDelegate.playerSleepTime.value = time
 }
 
 data class PlayerOption(val id: Long, val icon: Int, val title: String)

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 #############
 # ARGUMENTS #
 #############
@@ -120,7 +122,7 @@ else
     exit 1
 fi
 
-VLC_BUILD_DIR=$(realpath $VLC_SRC_DIR/build-android-${TARGET_TUPLE})
+VLC_BUILD_DIR="$(cd $VLC_SRC_DIR/; pwd)/build-android-${TARGET_TUPLE}"
 VLC_OUT_PATH="$VLC_BUILD_DIR/ndk"
 mkdir -p $VLC_OUT_PATH
 VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"

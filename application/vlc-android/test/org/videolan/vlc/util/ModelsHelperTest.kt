@@ -55,7 +55,7 @@ class ModelsHelperTest : BaseTest() {
 
     @Test
     fun withDurationSortingAndPreviousItemIsNullAndCurrentItemIsZeroDuration_headerShouldBePlaceholder() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 0)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 1, 0)
         assertEquals("-", getHeader(context, Medialibrary.SORT_DURATION, item, null))
     }
 
@@ -67,7 +67,7 @@ class ModelsHelperTest : BaseTest() {
 
     @Test
     fun withDurationSortingAndPreviousItemIsNullAndCurrentItemIsAlbum_headerShouldBeLengthToCategory() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 48000)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 1, 48000)
         assertEquals(item.duration.lengthToCategory(), getHeader(context, Medialibrary.SORT_DURATION, item, null))
     }
 
@@ -80,7 +80,7 @@ class ModelsHelperTest : BaseTest() {
 
     @Test
     fun withDurationSortingAndPreviousItemAndCurrentItemAreBothAlbumLessThanMinute_headerShouldBeNull() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 48000)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 1, 48000)
         val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 51000)
         assertEquals(null, getHeader(context, Medialibrary.SORT_DURATION, item, aboveItem))
     }
@@ -93,34 +93,34 @@ class ModelsHelperTest : BaseTest() {
 
     @Test
     fun withReleaseDateSortingAndPreviousItemIsNullAndCurrentItemIsAlbumWithNoDate_headerShouldBeSpecial() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 0, "Artwork", "Dummy", 9, 1, 0)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 0, "Artwork", "Dummy", 9, 1, 1, 0)
         assertEquals("-", getHeader(context, Medialibrary.SORT_RELEASEDATE, item, null))
     }
 
     @Test
     fun withReleaseDateSortingAndPreviousItemIsNullAndCurrentItemIsAlbumWith2019Date_headerShouldBe2019() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2019, "Artwork", "Dummy", 9, 1, 0)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2019, "Artwork", "Dummy", 9, 1, 1, 0)
         assertEquals("2019", getHeader(context, Medialibrary.SORT_RELEASEDATE, item, null))
     }
 
     @Test
     fun withReleaseDateSortingAndPreviousItemAndCurrentItemAreAlbumWithNoDate_headerShouldBeNull() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 0, "Artwork", "Dummy", 9, 1, 0)
-        val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "dEF", 0, "Artwork", "Dummy", 9, 1, 0)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 0, "Artwork", "Dummy", 9, 1, 1, 0)
+        val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "dEF", 0, "Artwork", "Dummy", 9, 1, 1, 0)
         assertEquals(null, getHeader(context, Medialibrary.SORT_RELEASEDATE, item, aboveItem))
     }
 
     @Test
     fun withReleaseDateSortingAndPreviousItemAndCurrentItemAreAlbumWithSameDate_headerShouldBeNull() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2019, "Artwork", "Dummy", 9, 1, 0)
-        val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "dEF", 2019, "Artwork", "Dummy", 9, 1, 0)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2019, "Artwork", "Dummy", 9, 1, 1, 0)
+        val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "dEF", 2019, "Artwork", "Dummy", 9, 1, 1, 0)
         assertEquals(null, getHeader(context, Medialibrary.SORT_RELEASEDATE, item, aboveItem))
     }
 
     @Test
     fun withReleaseDateSortingAndPreviousItemIsAlbumWith2020DateAndCurrentItemIsAlbumWith2019Date_headerShouldBe2019() {
-        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2019, "Artwork", "Dummy", 9, 1, 0)
-        val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "dEF", 2020, "Artwork", "Dummy", 9, 1, 0)
+        val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2019, "Artwork", "Dummy", 9, 1, 1, 0)
+        val aboveItem = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "dEF", 2020, "Artwork", "Dummy", 9, 1, 1, 0)
         assertEquals("2019", getHeader(context, Medialibrary.SORT_RELEASEDATE, item, aboveItem))
     }
 }

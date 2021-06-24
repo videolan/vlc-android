@@ -473,7 +473,7 @@
             android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.InfoActivity"
-            android:theme="@style/Theme.VLC"/>
+            android:theme="@style/Theme.VLC.NoStatus"/>
         <activity
             android:name=".gui.SearchActivity"
             android:theme="@style/Theme.VLC"/>
@@ -616,6 +616,10 @@
         <provider
             android:name=".FileProvider"
             android:authorities="${applicationId}.thumbprovider"
+            android:exported="true"/>
+        <provider
+            android:name=".ArtworkProvider"
+            android:authorities="${applicationId}.artwork"
             android:exported="true"/>
         <provider
             android:name="androidx.core.content.FileProvider"

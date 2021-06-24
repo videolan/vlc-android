@@ -7,8 +7,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.Settings
+import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.viewmodels.SortableModel
-
 
 class VideoGroupsProvider(context: Context, model: SortableModel) : MedialibraryProvider<MediaLibraryItem>(context, model) {
     override fun canSortByDuration() = true
@@ -16,17 +16,51 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
     override fun canSortByLastModified() = true
     override fun canSortByMediaNumber() = true
 
-    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, getTotalCount(), 0)
+    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getVideoGroupsCount(model.filterQuery)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaLibraryItem> = if (model.filterQuery.isNullOrEmpty()) {
-        medialibrary.getVideoGroups(sort, desc, loadSize, startposition)
-    } else {
-        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, loadSize, startposition)
-    }.extractSingles().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
+    override fun getPage(loadSize: Int, startposition: Int): Array<MediaLibraryItem> {
+        val medias = if (model.filterQuery.isNullOrEmpty()) {
+            medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, loadSize, startposition)
+        } else {
+        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        }.sanitizeGroups().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
+        model.viewModelScope.launch { completeHeaders(medias, startposition) }
+        return medias
+    }
 }
 
-private fun Array<VideoGroup>.extractSingles() = map {
-    if (it.mediaCount() == 1) it.media(Medialibrary.SORT_DEFAULT, false, 1, 0).getOrNull(0) ?: it else it
+/**
+ * Extracts groups containing only one video and replace them by the video.
+ *
+ * Also checks if the group has network media and sets the [VideoGroup.isNetwork] field accordingly
+ *
+ * @return a list of [MediaLibraryItem] containing the groups and the lonely medias
+ */
+private fun Array<VideoGroup>.sanitizeGroups() = map { videoGroup ->
+    if (videoGroup.mediaCount() == 1) {
+        val video = videoGroup.media(Medialibrary.SORT_DEFAULT, false, true, 1, 0).getOrNull(0)
+        if (video != null) {
+            video
+        } else {
+            checkIsNetwork(videoGroup)
+            videoGroup
+        }
+    } else {
+        checkIsNetwork(videoGroup)
+        videoGroup
+    }
 }.toTypedArray()
+
+/**
+ * Update the [VideoGroup.isNetwork] flag if needed (at least one media is a network one)
+ */
+private fun checkIsNetwork(videoGroup: VideoGroup) {
+    videoGroup.media(Medialibrary.SORT_DEFAULT, false, true, videoGroup.mediaCount(), 0).forEach {
+        if (!it.uri.scheme.isSchemeFile()) {
+            videoGroup.isNetwork = true
+            return@forEach
+        }
+    }
+}

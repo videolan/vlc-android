@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_emoji_network_media_off.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="12dp"
+    android:height="12dp"
+    android:viewportWidth="12"
+    android:viewportHeight="12">
+  <path
+      android:pathData="m11.268,10.5002l0,1l-0.9995,0l0,-1zM2.2725,10.5002l0,1L1.273,11.5002l0,-1zM1.0353,1.2515 L1.2823,1.4085 2.9899,2.5l7.2785,4.651 0.9595,0.6125 0.3015,0.1925 0.0025,-0.004 0.001,0.001 -0.538,0.843 -0.505,-0.323c-0.0477,0.011 -0.0962,0.0193 -0.146,0.0237L10.2683,8.5l-3.498,0l0,2l2.4985,0l0,1L3.2719,11.5l0,-1l2.499,0L5.7709,8.5L2.2683,8.5C1.7434,8.5 1.309,8.09 1.2706,7.5739L1.2679,7.4995 1.2718,2.5835 0.4999,2.09ZM2.2723,3.2225L2.2723,7.5l6.6945,0zM5.268,0.5l1,1l4.0005,0c0.525,0 0.9584,0.41 0.9967,0.9257L11.268,2.5l0,4.1025l-0.9995,-0.6385L10.2684,2.5L6.0163,2.5L4.988,1.5013L3.2837,1.5013L1.859,0.591C1.959,0.545 2.067,0.5144 2.1812,0.5039L2.268,0.5Z"
+      android:strokeWidth="1"
+      android:fillColor="?attr/list_subtitle"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>

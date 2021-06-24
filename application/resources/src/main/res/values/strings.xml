@@ -42,15 +42,20 @@
     <string name="append_all">Append all</string>
     <string name="resume_playback_short_title">Resume playback</string>
     <string name="resume_playback_long_title"> Resume playback of last playlist</string>
+    <string name="resume_playback_error">Nothing to resume</string>
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="set_song">Set as ringtone</string>
     <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="confirm_delete_message">This is permanent and cannot be undone.</string>
     <string name="confirm_delete_album">Delete the album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Delete these %1$d media?</string>
     <string name="confirm_delete_folder">Delete the folder \'%1$s\' and all its contents?</string>
+    <string name="confirm_delete_folders">Delete these %1$s folders and all their contents?</string>
+    <string name="confirm_delete_files">Delete these %1$s files?</string>
+    <string name="confirm_delete_folders_and_files">Delete these %1$s folders and %2$s files?</string>
     <string name="confirm_delete_playlist">Delete playlist \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Remove \'%1$s\' from playlist?</string>
     <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
@@ -94,6 +99,10 @@
         <item quantity="one">1 TV show</item>
         <item quantity="other">%d TV shows</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
 
     <string name="internal_memory">Internal memory</string>
     <string name="audio">Audio</string>
@@ -119,6 +128,7 @@
     <string name="shuffle_title">Shuffle mode</string>
     <string name="shuffle">Shuffle Off</string>
     <string name="shuffle_on">Shuffle On</string>
+    <string name="shuffle_play">Shuffle</string>
     <string name="repeat_title">Repeat mode</string>
     <string name="repeat">Repeat none</string>
     <string name="repeat_single">Repeat single</string>
@@ -258,9 +268,10 @@
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
-    <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Landscape</string>
+    <string name="screen_orientation_landscape_reverse">Landscape reverse</string>
+    <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="daynight_title">DayNight mode</string>
@@ -354,6 +365,8 @@
     <string name="casting_quality_lowcpu">Lowest</string>
     <string name="casting_connected_renderer">Connected to renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Show all artists</string>
+    <string name="show_headers">Show headers</string>
+    <string name="show_headers_summary">Split lists by headers depending on the sort type</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>
@@ -385,6 +398,8 @@
     <string name="dump_media_db_summary">Copy database to internal storage root</string>
     <string name="clear_media_db">Clear media database</string>
     <string name="clear_media_database_summary">Clears the database to start over</string>
+    <string name="clear_app_data">Clear app data</string>
+    <string name="clear_app_data_summary">Clears VLC for Android data</string>
     <string name="clear_history">Clear history</string>
     <string name="set_locale">Set locale</string>
     <string name="network_caching">Network caching value</string>
@@ -505,7 +520,7 @@
     <string name="download_subtitles">Download subtitles</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
-    <string name="save_bluetooth_delay">save delay for bluetooth device</string>
+    <string name="apply_to_bt">Apply to bluetooth device</string>
     <string name="episodes">episodes</string>
     <string name="movies">movies</string>
     <string name="videos">videos</string>
@@ -688,7 +703,9 @@
     <string name="recently_played">Recently played</string>
     <string name="recently_added">Recently added</string>
     <string name="playback_multiple_errors">Multiple media cannot be played</string>
-    <string name="clear_media_db_warning">You will lose your progresses and the playlists you created.\n%s</string>
+    <string name="clear_media_db_message">You will lose your progresses, bookmarks and the playlists you created but you will keep your VLC for Android settings</string>
+    <string name="clear_app_data_message">You will lose your progresses, bookmarks, playlists and all VLC settings</string>
+    <string name="clear">Clear</string>
     <string name="abrepeat_add_first_marker">Set start point</string>
     <string name="abrepeat_add_second_marker">Set end point</string>
     <string name="demux_bitrate">Demux bitrate</string>
@@ -714,6 +731,7 @@
     <string name="subtitle_delay_end">Text seen</string>
     <string name="track_index">Track: %s</string>
     <string name="audio_queue_progress">Progress: %s</string>
+    <string name="audio_queue_progress_remaining">Remaining: %s</string>
     <string name="audio_queue_progress_finished">Ends at: %s</string>
     <string name="sortby_track">Track</string>
     <string name="this_folder">Add this folder</string>
@@ -755,6 +773,7 @@
     <string name="donate_again">Sponsor the app again</string>
 
     <string name="mark_as_played">Mark as played</string>
+    <string name="mark_as_not_played">Mark as not played</string>
     <string name="mark_all_as_played">Mark all as played</string>
     <string name="new_group">New group</string>
     <string name="new_group_desc">Create a new group</string>
@@ -778,12 +797,47 @@
     <string name="prefersmbv1_summary">Uncheck this setting if you have some difficulties browsing your SMB server</string>
     <string name="apply_to_all">Apply to all videos</string>
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
+    <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
     <string name="enqueuing">Loading your medias</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Pick a SoundFont file to play midi audio tracks</string>
+    <string name="missing_media_snack">Media is missing. Hide all missing media?</string>
+    <string name="browser_show_missing_media">Show missing medias</string>
+    <string name="browser_show_missing_media_summary">Show distant medias event if they are not present</string>
     <string name="search_prefs">Search settings</string>
+    <string name="preferred_resolution">Preferred video resolution</string>
+    <string name="preferred_resolution_summary">Maximum video quality for streams, when applicable, will be: %s</string>
+    <string name="pref_resolution_best_available">Best available</string>
+    <string name="pref_resolution_very_low">Very low definition (240p)</string>
+    <string name="stop_unpaubale">This media cannot be paused. Stop it instead?</string>
+    <string name="delete_forever">Delete forever</string>
+    <string name="add_to_existing_playlist">Add to existing playlist</string>
+    <string name="bookmarks_title">Bookmarks</string>
+    <string name="no_bookmark">No bookmark yet</string>
+    <string name="bookmark_name">Bookmark %s</string>
+    <string name="optional_features">Optional features</string>
+    <string name="optional_features_summary">Beta features that are currently being tested and may not be stable</string>
+    <string name="optional_features_warning">This feature is in beta and may cause crashes and instabilities</string>
+    <string name="network_indexation" translatable="false">Network indexation</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Add duplicated item(s)?</string>
+    <string name="add_button">Add</string>
+    <string name="add_all_button">Add all</string>
+    <string name="add_new_only_button">Add new only</string>
+    <string name="discovery_failed">Discovery failed for: %s</string>
+    <string name="lock_use_sensor_title">Lock with sensor</string>
+    <string name="lock_use_sensor_summary">When the orientation is locked, use the sensor to allow the reverse orientation</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">This item is already in this playlist.</item>
+        <item quantity="other">These items are already in this playlist.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 of the selected items is already in this playlist.</item>
+        <item quantity="other">%d of the selected items are already in this playlist.</item>
+    </plurals>
 
 </resources>

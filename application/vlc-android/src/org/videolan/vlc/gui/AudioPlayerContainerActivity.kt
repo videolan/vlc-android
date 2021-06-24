@@ -39,6 +39,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
@@ -136,17 +137,20 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         appBarLayout = findViewById(R.id.appbar)
         tabLayout = findViewById(R.id.sliding_tabs)
+        tabLayout?.visibility = View.VISIBLE
         appBarLayout.setExpanded(true)
         bottomBar = findViewById(R.id.navigation)
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
-            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (tabLayout?.isVisible() == true) 4.dp.toFloat() else 0.dp.toFloat()
+            val isTabLayoutShown = (tabLayout?.layoutParams?.height != 0)
+            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (isTabLayoutShown) 4.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
     }
 
     fun setTabLayoutVisibility(show: Boolean) {
-        tabLayout?.visibility = if (show) View.VISIBLE else View.GONE
+        tabLayout?.layoutParams?.height = if (show) ViewGroup.LayoutParams.WRAP_CONTENT else 0
+        tabLayout?.requestLayout()
     }
 
     private fun initAudioPlayer() {
@@ -336,11 +340,11 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         playerBehavior.state = STATE_HIDDEN
     }
 
-    private fun updateProgressVisibility(show: Boolean, discovery: String? = null, parsing: Int = -1) {
+    private fun updateProgressVisibility(show: Boolean, discovery: String? = null) {
         val visibility = if (show) View.VISIBLE else View.GONE
         if (scanProgressLayout?.visibility == visibility) return
         if (show) {
-            val msg = handler.obtainMessage(ACTION_DISPLAY_PROGRESSBAR, parsing, 0, discovery)
+            val msg = handler.obtainMessage(ACTION_DISPLAY_PROGRESSBAR, 0, 0, discovery)
             handler.sendMessageDelayed(msg, 1000L)
         } else {
             handler.removeMessages(ACTION_DISPLAY_PROGRESSBAR)
@@ -348,7 +352,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         }
     }
 
-    private fun showProgressBar(discovery: String, parsing: Int) {
+    private fun showProgressBar(discovery: String) {
         if (!Medialibrary.getInstance().isWorking) return
         val vsc = findViewById<View>(R.id.scan_viewstub)
         if (vsc != null) {
@@ -358,7 +362,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             scanProgressBar = findViewById(R.id.scan_progress_bar)
         } else scanProgressLayout?.visibility = View.VISIBLE
         scanProgressText?.text = discovery
-        scanProgressBar?.progress = parsing
     }
 
     private fun applyMarginToProgressBar(marginValue: Int) {
@@ -384,10 +387,24 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 updateProgressVisibility(false)
                 return@observe
             }
-            updateProgressVisibility(true, scanProgress.discovery, scanProgress.parsing)
-            scanProgressText?.text = scanProgress.discovery
-            scanProgressBar?.progress = scanProgress.parsing
+            updateProgressVisibility(true, scanProgress.progressText)
+            scanProgressText?.text = scanProgress.progressText
+            scanProgressBar?.progress = scanProgress.parsing.toInt()
+            if (scanProgress.inDiscovery && scanProgressBar?.isIndeterminate == false) {
+                scanProgressBar?.isVisible = false
+                scanProgressBar?.isIndeterminate = true
+                scanProgressBar?.isVisible = true
+            }
+
+            if (!scanProgress.inDiscovery && scanProgressBar?.isIndeterminate == true) {
+                scanProgressBar?.isVisible = false
+                scanProgressBar?.isIndeterminate = false
+                scanProgressBar?.isVisible = true
+            }
         })
+        MediaParsingService.discoveryError.observe(this) {
+            UiTools.snacker(this, getString(R.string.discovery_failed, it.entryPoint))
+        }
         MediaParsingService.newStorages.observe(this, { devices ->
             if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)
@@ -415,7 +432,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             when (msg.what) {
                 ACTION_DISPLAY_PROGRESSBAR -> {
                     removeMessages(ACTION_DISPLAY_PROGRESSBAR)
-                    owner.showProgressBar(msg.obj as String, msg.arg1)
+                    owner.showProgressBar(msg.obj as String)
                 }
                 ACTION_SHOW_PLAYER -> owner.run {
                     if (this::resumeCard.isInitialized && resumeCard.isShown) resumeCard.dismiss()

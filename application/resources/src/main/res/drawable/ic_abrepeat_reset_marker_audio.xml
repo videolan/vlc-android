@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_abrepeat_reset_marker_audio.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M12,4C10.362,4 8.92,4.794 8.014,6.014L15.432,13.432L16.523,11.131C16.839,10.465 16.998,9.737 17,9C17,6.238 14.762,4 12,4L12,4ZM4,4L3,5L7,9C7,9.737 7.167,10.465 7.48,11.131L11.533,19.682C11.543,19.693 11.544,19.704 11.551,19.716C11.634,19.889 11.809,19.998 12,19.999C12.201,19.999 12.383,19.879 12.461,19.694L14.145,16.144L19,20.999L20,19.999L4,4Z"
+      android:strokeWidth="1"
+      android:fillColor="?attr/audio_menu_icon"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>

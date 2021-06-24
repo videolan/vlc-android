@@ -55,6 +55,8 @@ dependencies {
 
     //Room
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    // Provide proper JDBC version, see https://issuetracker.google.com/issues/174695268
+    kapt ('org.xerial:sqlite-jdbc:3.34.0')
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
 
 
@@ -64,9 +66,9 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
 static def getMoviepediaUrl(project) {

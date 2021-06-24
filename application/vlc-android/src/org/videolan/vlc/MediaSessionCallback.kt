@@ -11,11 +11,13 @@ import android.view.KeyEvent
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.Settings
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.VoiceSearchParams
@@ -128,10 +130,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_LAST_ADDED -> {
-                    val tracks = context.getFromMl { recentAudio?.toList() }
-                    if (!tracks.isNullOrEmpty() && isActive) {
-                        val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
-                        loadMedia(mediaList)
+                    val tracks = context.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
+                    if (tracks.isNotEmpty() && isActive) {
+                        loadMedia(tracks.toList())
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_HISTORY -> {
@@ -150,11 +151,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.GENRE_PREFIX) -> {
-                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.tracks }
+                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.albums?.flatMap { it.tracks.toList() } }
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {
-                    val tracks = context.getFromMl { getPlaylist(mediaId.extractId())?.tracks }
+                    val tracks = context.getFromMl { getPlaylist(mediaId.extractId(), Settings.includeMissing)?.tracks }
+                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                }
+                mediaId.startsWith(MediaSessionBrowser.SEARCH_PREFIX) -> {
+                    val tracks = context.getFromMl { search(mediaId.extractParam(), false)?.tracks }
                     if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> {
@@ -178,7 +183,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
-    private fun String.extractId() = split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].toLong()
+    private fun String.extractId() = extractParam().toLong()
+
+    private fun String.extractParam() = split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
 
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
@@ -197,11 +204,11 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 vsp.isArtistFocus -> items = playbackService.medialibrary.searchArtist(vsp.artist)
                 vsp.isAlbumFocus -> items = playbackService.medialibrary.searchAlbum(vsp.album)
                 vsp.isGenreFocus -> items = playbackService.medialibrary.searchGenre(vsp.genre)
-                vsp.isPlaylistFocus -> items = playbackService.medialibrary.searchPlaylist(vsp.playlist)
+                vsp.isPlaylistFocus -> items = playbackService.medialibrary.searchPlaylist(vsp.playlist, Settings.includeMissing)
                 vsp.isSongFocus -> tracks = playbackService.medialibrary.searchMedia(vsp.song)
             }
             if (!isActive) return@launch
-            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) playbackService.medialibrary.search(query)?.run {
+            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
                 when {
                     !albums.isNullOrEmpty() -> tracks = albums!![0].tracks
                     !artists.isNullOrEmpty() -> tracks = artists!![0].tracks
@@ -211,7 +218,11 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             }
             if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
-            if (!tracks.isNullOrEmpty()) loadMedia(tracks?.toList())
+            when {
+                !tracks.isNullOrEmpty() -> loadMedia(tracks?.toList())
+                playbackService.hasMedia() -> playbackService.play()
+                else -> playbackService.displayPlaybackError(R.string.search_no_result)
+            }
         }
     }
 

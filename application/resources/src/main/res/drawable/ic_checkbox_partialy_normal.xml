@@ -36,7 +36,7 @@
             android:strokeWidth="0.5" />
     <path
             android:fillAlpha="1"
-            android:fillColor="#ff8800"
+            android:fillColor="?attr/colorPrimary"
             android:fillType="evenOdd"
             android:pathData="M7,7h6v6h-6z"
             android:strokeAlpha="1"

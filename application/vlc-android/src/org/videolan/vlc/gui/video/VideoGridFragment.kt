@@ -27,12 +27,15 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -57,6 +60,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
@@ -85,7 +89,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
-        i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
+        i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.VIDEO_GROUP_LIST)
         if (item is Folder) i.putExtra(KEY_FOLDER, item)
         else if (item is VideoGroup) i.putExtra(KEY_GROUP, item)
         startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
@@ -97,7 +101,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::videoListAdapter.isInitialized) {
             val seenMarkVisible = settings.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(seenMarkVisible)
-            dataObserver = videoListAdapter.onAnyChange { updateEmptyView() }
+            dataObserver = videoListAdapter.onAnyChange {
+                updateEmptyView()
+                if (::binding.isInitialized) binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
+            }
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
@@ -215,6 +222,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onActivityCreated(savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
         binding.videoGrid.adapter = videoListAdapter
+        binding.fastScroller.attachToCoordinator(binding.videoGrid.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, binding.videoGrid.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, binding.videoGrid.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
+        binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateEmptyView()
     }
 
     override fun onStart() {
@@ -272,6 +286,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             binding.videoGrid.columnWidth = columnWidth
             videoListAdapter.setGridCardWidth(binding.videoGrid.columnWidth)
             binding.videoGrid.addItemDecoration(gridItemDecoration!!)
+            binding.videoGrid.setPadding(4.dp, 4.dp, 4.dp, 4.dp)
+        } else {
+            binding.videoGrid.setPadding(0, 0, 0, 0)
         }
         binding.videoGrid.setNumColumns(if (listMode) 1 else -1)
         if (videoListAdapter.isListMode != listMode) videoListAdapter.isListMode = listMode
@@ -453,6 +470,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true) {}
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
                 CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
+                CTX_MARK_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
                 CTX_GO_TO_FOLDER -> showParentFolder(media)
             }
             is Folder -> when (option) {
@@ -510,6 +528,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
+                        flags = if (item.seen > 0) flags or CTX_MARK_AS_UNPLAYED else  flags or CTX_MARK_AS_PLAYED
                         if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
                         if (viewModel.groupingType == VideoGroupingType.NAME || viewModel.group != null) flags = flags or if (viewModel.group != null) CTX_REMOVE_GROUP else flags or CTX_ADD_GROUP or CTX_GROUP_SIMILAR
                         //go to folder

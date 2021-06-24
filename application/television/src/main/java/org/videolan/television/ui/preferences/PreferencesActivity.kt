@@ -27,25 +27,27 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.vlc.PlaybackService
 import org.videolan.television.R
+import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.Settings
+import org.videolan.vlc.PlaybackService
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesActivity : FragmentActivity() {
+class PreferencesActivity : BaseTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.tv_preferences_activity)
     }
+
+    override fun refresh() {}
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {

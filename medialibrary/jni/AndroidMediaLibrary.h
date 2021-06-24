@@ -41,6 +41,7 @@ public:
     void banFolder(const std::string& path);
     void unbanFolder(const std::string& path);
     void discover(const std::string&);
+    bool setDiscoverNetworkEnabled(bool enabled);
     void removeEntryPoint(const std::string& entryPoint);
     std::vector<medialibrary::FolderPtr> entryPoints();
     void setMediaUpdatedCbFlag(int flags);
@@ -53,6 +54,7 @@ public:
     void forceRescan();
     bool setProgress(int64_t mediaId, float progress);
     bool removeMediaFromHistory(int64_t mediaId);
+    void setLibvlcInstance(libvlc_instance_t* inst);
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
     bool addToHistory( const std::string& mrl, const std::string& title );
@@ -82,6 +84,7 @@ public:
     medialibrary::MediaPtr media(const std::string& mrl);
     medialibrary::MediaPtr addMedia(const std::string& mrl, long duration);
     bool removeExternalMedia(long id);
+    bool flushUserProvidedThumbnails();
     medialibrary::MediaPtr addStream(const std::string& mrl, const std::string& title);
     medialibrary::Query<medialibrary::IMedia> videoFiles( const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> audioFiles( const medialibrary::QueryParameters* params = nullptr );
@@ -101,7 +104,7 @@ public:
     medialibrary::Query<medialibrary::IMedia> mediaFromGenre( int64_t genreId, bool withThumbnail, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IAlbum> albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IArtist> artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
-    medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId );
+    medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId, const medialibrary::QueryParameters* params = nullptr );
     // Folders
     medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr, medialibrary::IMedia::Type type = medialibrary::IMedia::Type::Unknown );
@@ -140,6 +143,7 @@ public:
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
     void onMediaModified( std::set<int64_t> media ) ;
     void onMediaDeleted( std::set<int64_t> ids ) ;
+    void onMediaConvertedToExternal( std::set<int64_t> ids ) ;
 
     void onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists ) ;
     void onArtistsModified( std::set<int64_t> artist );
@@ -157,16 +161,17 @@ public:
     void onGenresModified( std::set<int64_t> );
     void onGenresDeleted( std::set<int64_t> );
 
-    void onDiscoveryStarted( const std::string& entryPoint );
+    void onDiscoveryStarted();
     void onDiscoveryProgress( const std::string& entryPoint );
-    void onDiscoveryCompleted( const std::string& entryPoint, bool success );
+    void onDiscoveryCompleted();
+    void onDiscoveryFailed( const std::string& entryPoint );
     void onReloadStarted( const std::string& entryPoint );
     void onReloadCompleted( const std::string& entryPoint, bool success );
     void onEntryPointBanned( const std::string& entryPoint, bool success );
     void onEntryPointUnbanned( const std::string& entryPoint, bool success );
     void onEntryPointAdded( const std::string& entryPoint, bool success );
     void onEntryPointRemoved( const std::string& entryPoint, bool success );
-    void onParsingStatsUpdated( uint32_t percent);
+    void onParsingStatsUpdated( uint32_t opsDone, uint32_t opsScheduled );
     void onBackgroundTasksIdleChanged( bool isIdle );
     void onMediaThumbnailReady(medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType,
                                bool success );

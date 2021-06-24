@@ -41,6 +41,7 @@
     <string name="append_all">Alles toevoegen</string>
     <string name="resume_playback_short_title">Afspelen hervatten</string>
     <string name="resume_playback_long_title">Afspelen van laatste afspeellijst hervatten</string>
+    <string name="resume_playback_error">Niets om te hervatten</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
@@ -118,6 +119,7 @@
     <string name="shuffle_title">Modus willekeurige volgorde</string>
     <string name="shuffle">Willekeurige volgorde uit</string>
     <string name="shuffle_on">Willekeurige volgorde aan</string>
+    <string name="shuffle_play">Willekeurige volgorde</string>
     <string name="repeat_title">Modus herhalen</string>
     <string name="repeat">Niet herhalen</string>
     <string name="repeat_single">Een herhalen</string>
@@ -243,9 +245,10 @@
     <string name="automatic">Automatisch</string>
     <string name="screen_orientation">Scherm-oriëntatie</string>
     <string name="screen_orientation_sensor">Sensor-oriëntatie</string>
-    <string name="screen_orientation_start_lock">Vastzetten bij opstarten</string>
     <string name="screen_orientation_portrait">Staand</string>
     <string name="screen_orientation_landscape">Liggend</string>
+    <string name="screen_orientation_landscape_reverse">Omgekeerd liggend</string>
+    <string name="screen_orientation_last_locked">Laatst vergrendelde oriëntatie</string>
     <string name="enable_black_theme">Zwart thema</string>
     <string name="subtitle_text_encoding">Ondertitel-tekstcodering</string>
     <string name="daynight_title">Dag-/nachtmodus</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">Laagste</string>
     <string name="casting_connected_renderer">Verbonden met renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Alle artiesten weergeven</string>
+    <string name="show_headers">Koptekst weergeven</string>
+    <string name="show_headers_summary">Lijsten splitsen op koptekst afhankelijk van het sorteertype</string>
 
     <string name="extensions_prefs_category">Extensies</string>
     <string name="extensions_empty">Geen extensie gedetecteerd</string>
@@ -766,5 +771,10 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Kies een SoundFont-bestand om midi-audiotracks af te spelen</string>
     <string name="search_prefs">Instellingen doorzoeken</string>
+    <string name="preferred_resolution">Voorkeursvideoresolutie</string>
+    <string name="preferred_resolution_summary">Maximale videokwaliteit voor streams, indien van toepassing, zal %s zijn.</string>
+    <string name="pref_resolution_best_available">Beste beschikbaar</string>
+    <string name="pref_resolution_very_low">Zeer lage definitie (240p)</string>
+    <string name="stop_unpaubale">Dit medium kan niet gepauzeerd worden. In plaats daarvan stoppen?</string>
 
 </resources>

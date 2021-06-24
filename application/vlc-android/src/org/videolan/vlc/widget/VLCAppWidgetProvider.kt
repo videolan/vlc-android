@@ -112,24 +112,28 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
 
                 views.setTextViewText(R.id.songName, title)
                 views.setTextViewText(R.id.artist, artist)
+                if (title == context.getString(R.string.widget_default_text))
+                    views.setViewVisibility(R.id.artist, View.GONE)
+                else
+                    views.setViewVisibility(R.id.artist, View.VISIBLE)
                 views.setImageViewResource(R.id.play_pause, getPlayPauseImage(isplaying))
             }
             ACTION_WIDGET_UPDATE_COVER == action -> {
                 val artworkMrl = intent.getStringExtra("artworkMrl")
                 if (!artworkMrl.isNullOrEmpty()) {
-                    runIO(Runnable {
+                    runIO {
                         val cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320)
                         val wm = context.getSystemService<WindowManager>()!!
                         val dm = DisplayMetrics().also { wm.defaultDisplay.getMetrics(it) }
-                        runOnMainThread(Runnable {
+                        runOnMainThread {
                             if (cover != null) {
                                 if (cover.byteSize() < dm.widthPixels * dm.heightPixels * 6) views.setImageViewBitmap(R.id.cover, cover)
                             } else
                                 views.setImageViewResource(R.id.cover, R.drawable.icon)
                             views.setProgressBar(R.id.timeline, 100, 0, false)
                             applyUpdate(context, views, partial)
-                        })
-                    })
+                        }
+                    }
                 } else
                     views.setImageViewResource(R.id.cover, R.drawable.icon)
                 views.setProgressBar(R.id.timeline, 100, 0, false)

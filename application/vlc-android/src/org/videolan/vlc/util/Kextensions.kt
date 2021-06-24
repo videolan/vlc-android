@@ -38,6 +38,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
@@ -84,15 +85,16 @@ suspend fun AppCompatActivity.share(media: MediaWrapper) {
         if (validFile) {
             intentShareFile.type = if (media.type == TYPE_VIDEO) "video/*" else "audio/*"
             intentShareFile.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, "$packageName.provider", fileWithinMyDir))
-            intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
-            intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message))
-            startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file, title)))
+            intentShareFile.putExtra(Intent.EXTRA_SUBJECT, media.title)
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, media.title))
+            startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file, media.title)))
         } else Snackbar.make(findViewById(android.R.id.content), R.string.invalid_file, Snackbar.LENGTH_LONG).show()
 }
 
 fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
     val intentShareFile = Intent(Intent.ACTION_SEND_MULTIPLE)
     val uris = arrayListOf<Uri>()
+    val title = if (medias.size == 1) medias[0].title else resources.getQuantityString(R.plurals.media_quantity, medias.size, medias.size)
     withContext(Dispatchers.IO) {
         medias.filter { it.uri.path != null && File(it.uri.path!!).exists() }.forEach {
             val file = File(it.uri.path!!)
@@ -105,7 +107,7 @@ fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
             intentShareFile.type = "*/*"
             intentShareFile.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
             intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
-            intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message))
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, title))
             startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file, title)))
         } else Snackbar.make(findViewById(android.R.id.content), R.string.invalid_file, Snackbar.LENGTH_LONG).show()
 }
@@ -193,6 +195,30 @@ fun CharSequence.getDescriptionSpan(context: Context):SpannableString {
     }
     if (this.contains(fileReplacementMarker)) {
         string.setSpan(ImageSpan(context, R.drawable.ic_emoji_file, DynamicDrawableSpan.ALIGN_BASELINE), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+    return string
+}
+
+const val presentReplacementMarker = "§*§"
+const val missingReplacementMarker = "*§*"
+
+fun MediaLibraryItem.getPresenceDescription() = when (this) {
+    is VideoGroup -> "${this.presentCount} §*§ · ${this.mediaCount() - this.presentCount} *§*"
+    else -> ""
+}
+
+@BindingAdapter("app:presenceDescription", requireAll = false)
+fun presenceDescription(view: TextView, description: String?) {
+    (view as AppCompatTextView).text = description?.getPresenceDescriptionSpan(view.context)
+}
+
+fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
+    val string = SpannableString(this)
+    if (this.contains(presentReplacementMarker)) {
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_network_media, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(folderReplacementMarker), this.indexOf(folderReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+    if (this.contains(missingReplacementMarker)) {
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_network_media_off, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
     return string
 }

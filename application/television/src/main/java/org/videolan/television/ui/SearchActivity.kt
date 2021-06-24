@@ -25,13 +25,13 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.television.R
+import org.videolan.television.ui.browser.BaseTvActivity
 
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class SearchActivity : FragmentActivity() {
+class SearchActivity : BaseTvActivity() {
 
     private lateinit var fragment: SearchFragment
     private var emptyView: TextView? = null
@@ -42,6 +42,8 @@ class SearchActivity : FragmentActivity() {
         fragment = supportFragmentManager.findFragmentById(R.id.search_fragment) as SearchFragment
         emptyView = findViewById(R.id.empty)
     }
+
+    override fun refresh() { }
 
     fun updateEmptyView(empty: Boolean) {
         emptyView!!.visibility = if (empty) View.VISIBLE else View.GONE

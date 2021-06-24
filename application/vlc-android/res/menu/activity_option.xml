@@ -174,7 +174,7 @@
             vlc:showAsAction="never"
             android:id="@+id/artists_show_all_title" />
     <item
-            android:orderInCategory="3"
+            android:orderInCategory="5"
             android:title="@string/rename_group"
             android:icon="@drawable/ic_edit_toolbar"
             android:visible="false"
@@ -182,7 +182,7 @@
             android:id="@+id/rename_group" />
 
     <item
-            android:orderInCategory="3"
+            android:orderInCategory="5"
             android:title="@string/ungroup"
             android:icon="@drawable/ic_delete_toolbar"
             android:visible="false"

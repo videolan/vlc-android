@@ -22,6 +22,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var listTitleEllipsize = 0
     var overrideTvUI = false
     var videoHudDelay = 2
+    var includeMissing = true
     lateinit var device : DeviceInfo
         private set
 
@@ -32,6 +33,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
         videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
         device = DeviceInfo(context)
+        prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         return prefs
     }
 
@@ -43,12 +45,14 @@ const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
 
 // Keys
 const val KEY_ARTISTS_SHOW_ALL = "artists_show_all"
+const val KEY_SHOW_HEADERS = "show_headers"
 const val KEY_APP_THEME = "app_theme"
 const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
+const val KEY_INCLUDE_MISSING = "include_missing"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
@@ -76,6 +80,7 @@ const val SAVE_BRIGHTNESS = "save_brightness"
 const val BRIGHTNESS_VALUE = "brightness_value"
 const val POPUP_KEEPSCREEN = "popup_keepscreen"
 const val POPUP_FORCE_LEGACY = "popup_force_legacy"
+const val LOCK_USE_SENSOR = "lock_use_sensor"
 
 const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"
@@ -103,6 +108,9 @@ const val AUDIO_DUCKING = "audio_ducking"
 
 const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
 const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
+const val AUDIO_STOP_AFTER = "audio_stop_after"
+
+const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

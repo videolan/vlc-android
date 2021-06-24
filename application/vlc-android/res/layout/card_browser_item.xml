@@ -71,7 +71,7 @@
     <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/VLCCardView"
+            style="@style/VLCCardView.NoShadow"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">

@@ -23,19 +23,22 @@
 package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.*
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesVideo : BasePreferenceFragment() {
+class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() = R.xml.preferences_video
 
@@ -53,5 +56,28 @@ class PreferencesVideo : BasePreferenceFragment() {
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = false
         findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = false
+    }
+
+    override fun onStart() {
+        super.onStart()
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        preferenceScreen.sharedPreferences
+                .unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when (key) {
+            VIDEO_HUD_TIMEOUT -> {
+                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
+            }
+            "preferred_resolution" -> {
+                VLCInstance.restart()
+                (activity as? PreferencesActivity)?.restartMediaPlayer()
+            }
+        }
     }
 }

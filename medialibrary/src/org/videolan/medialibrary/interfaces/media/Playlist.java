@@ -17,9 +17,9 @@ public abstract class Playlist extends MediaLibraryItem {
         mTracksCount = trackCount;
     }
 
-    abstract public MediaWrapper[] getTracks();
-    abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset);
-    abstract public int getRealTracksCount();
+    abstract public MediaWrapper[] getTracks(boolean includeMissing);
+    abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing);
+    abstract public int getRealTracksCount(boolean includeMissing);
     abstract public boolean append(long mediaId);
     abstract public boolean append(long[] mediaIds);
     abstract public boolean append(List<Long> mediaIds);
@@ -27,7 +27,7 @@ public abstract class Playlist extends MediaLibraryItem {
     abstract public boolean move(int oldPosition, int newPosition);
     abstract public boolean remove(int position);
     abstract public boolean delete();
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
     @Override

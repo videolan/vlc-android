@@ -83,8 +83,6 @@ class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : Recyc
             for (i in 0..index) pathOperationDelegate.appendPathToUri(pathParts[i], currentPathUri)
             list.add(currentPathUri.toString())
         }
-        if (BuildConfig.DEBUG) list.forEach { Log.d(this::class.java.simpleName, "Added in breadcrumb: $it") }
-
         if (browser.showRoot()) list.add(0, browserTitle)
         return list
     }

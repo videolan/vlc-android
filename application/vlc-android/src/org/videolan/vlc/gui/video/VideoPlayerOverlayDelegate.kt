@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -110,6 +111,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     var hasPlaylist: Boolean = false
 
     var enableSubs = true
+    private lateinit var bookmarkListDelegate: BookmarkListDelegate
 
     fun isHudBindingInitialized() = ::hudBinding.isInitialized
     fun isHudRightBindingInitialized() = ::hudRightBinding.isInitialized
@@ -136,29 +138,29 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 VideoTracksDialog.TrackType.AUDIO -> {
                     player.service?.let { service ->
                         service.setAudioTrack(trackID)
-                        runIO(Runnable {
+                        runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
-                        })
+                        }
                     }
                 }
                 VideoTracksDialog.TrackType.SPU -> {
                     player.service?.let { service ->
                         service.setSpuTrack(trackID)
-                        runIO(Runnable {
+                        runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
-                        })
+                        }
                     }
                 }
                 VideoTracksDialog.TrackType.VIDEO -> {
                     player.service?.let { service ->
                         player.seek(service.time)
                         service.setVideoTrack(trackID)
-                        runIO(Runnable {
+                        runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_VIDEOTRACK, trackID.toLong())
-                        })
+                        }
                     }
                 }
             }
@@ -287,6 +289,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
                 Settings.videoHudDelay == -2 -> VideoPlayerActivity.OVERLAY_INFINITE
+                isBookmarkShown() -> VideoPlayerActivity.OVERLAY_INFINITE
                 timeout != 0 -> timeout
                 service.isPlaying -> when (Settings.videoHudDelay) {
                     -1 -> VideoPlayerActivity.OVERLAY_INFINITE
@@ -305,7 +308,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (!player.isLocked) {
                     showControls(true)
                 }
-                dimStatusBar(false)
+                if (!isBookmarkShown()) dimStatusBar(false)
 
                 enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
@@ -533,7 +536,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (::hudBinding.isInitialized) {
             val drawable = if (!player.orientationMode.locked) {
                 R.drawable.ic_player_rotate
-            } else if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+            } else if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
                 R.drawable.ic_player_lock_landscape
             } else {
                 R.drawable.ic_player_lock_portrait
@@ -582,6 +585,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             applyMargin(hudBinding.playerOverlayAdvFunction, if (!player.isTv) smallMargin.toInt() else overscanHorizontal, true)
 
             hudBinding.playerOverlaySeekbar.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
+            hudBinding.bookmarkMarkerContainer.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
 
             if (player.isTv) {
                 applyMargin(hudBinding.playerOverlayTimeContainer, overscanHorizontal, false)
@@ -678,14 +682,14 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.videoSecondaryDisplay.contentDescription = player.resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
 
             hudRightBinding.playlistToggle.visibility = if (show && player.service?.hasPlaylist() == true) View.VISIBLE else View.GONE
-            hudRightBinding.sleepQuickAction.visibility = if (PlayerOptionsDelegate.playerSleepTime != null) View.VISIBLE else View.GONE
-            hudRightBinding.playbackSpeedQuickAction.visibility = if (player.service?.rate != 1.0F) View.VISIBLE else View.GONE
-            hudRightBinding.spuDelayQuickAction.visibility = if (player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
-            hudRightBinding.audioDelayQuickAction.visibility = if (player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.sleepQuickAction.visibility = if (show && PlayerOptionsDelegate.playerSleepTime.value != null) View.VISIBLE else View.GONE
+            hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
+            hudRightBinding.spuDelayQuickAction.visibility = if (show && player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.audioDelayQuickAction.visibility = if (show && player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
 
             hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
             val format =  DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
-            PlayerOptionsDelegate.playerSleepTime?.let {
+            PlayerOptionsDelegate.playerSleepTime.value?.let {
                 hudRightBinding.sleepQuickAction.text = format.format(it.time)
             }
             hudRightBinding.spuDelayQuickAction.text = "${(player.service?.spuDelay ?: 0L) / 1000L} ms"
@@ -783,5 +787,25 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     private fun downloadSubtitles() = player.service?.currentMediaWrapper?.let {
         MediaUtils.getSubs(player, it)
+    }
+
+    fun showBookmarks() {
+        player.service?.let {
+            if (!this::bookmarkListDelegate.isInitialized) {
+                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel)
+                bookmarkListDelegate.markerContainer = hudBinding.bookmarkMarkerContainer
+                bookmarkListDelegate.visibilityListener = {
+                    if (bookmarkListDelegate.visible) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
+                    else showOverlayTimeout(VideoPlayerActivity.OVERLAY_TIMEOUT)
+                }
+            }
+            bookmarkListDelegate.show()
+            bookmarkListDelegate.setProgressHeight((player.getScreenHeight() - hudBinding.constraintLayout2.height + 12.dp).toFloat())
+        }
+    }
+
+    fun isBookmarkShown() = ::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible
+    fun hideBookmarks() {
+        bookmarkListDelegate.hide()
     }
 }

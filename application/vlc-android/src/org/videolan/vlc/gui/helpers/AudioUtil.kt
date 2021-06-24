@@ -163,6 +163,22 @@ object AudioUtil {
         }
     }
 
+    /**
+     * Load cover art from the published ArtworkProvider using a ContentResolver.
+     */
+    fun fetchBitmapFromContentResolver(context: Context, path: String?): Bitmap? {
+        try {
+            val uri = Uri.parse(path)
+            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+            inputStream?.use {
+                return BitmapFactory.decodeStream(it)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Could not load image from: $path", e)
+        }
+        return null
+    }
+
     //TODO Make it a suspend function to get rid of runBlocking {... }
     @WorkerThread
     fun readCoverBitmap(path: String?, width: Int): Bitmap? {
@@ -176,6 +192,7 @@ object AudioUtil {
     @WorkerThread
     fun fetchCoverBitmap(path: String, width: Int): Bitmap? {
         val path = path.substringAfter("file://")
+        if (path.isNullOrEmpty() || !File(path).exists()) return null
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()
 

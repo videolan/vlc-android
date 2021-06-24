@@ -30,6 +30,7 @@ import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.os.Environment
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.core.content.getSystemService
@@ -68,7 +69,7 @@ object AndroidDevices {
     private val typeBL = listOf("tmpfs")
     private val mountWL = arrayOf("/mnt", "/Removable", "/storage")
     val mountBL = arrayOf(EXTERNAL_PUBLIC_DIRECTORY, "/mnt/secure", "/mnt/shell", "/mnt/asec", "/mnt/nand", "/mnt/runtime", "/mnt/obb", "/mnt/media_rw/extSdCard", "/mnt/media_rw/sdcard", "/storage/emulated", "/var/run/arc")
-    private val deviceWL = arrayOf("/dev/block/vold", "/dev/fuse", "/mnt/media_rw", "passthrough")
+    private val deviceWL = arrayOf("/dev/block/vold", "/dev/fuse", "/mnt/media_rw", "passthrough", "//")
 
     /**
      * hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS

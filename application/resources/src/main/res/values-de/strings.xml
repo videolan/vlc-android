@@ -41,6 +41,7 @@
     <string name="append_all">Alle anhängen</string>
     <string name="resume_playback_short_title">Fortsetzen</string>
     <string name="resume_playback_long_title">Letzte Wiedergabe</string>
+    <string name="resume_playback_error">Nichts zum Fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
@@ -118,6 +119,7 @@
     <string name="shuffle_title">Zufallsmodus</string>
     <string name="shuffle">Mischen aus</string>
     <string name="shuffle_on">Mischen an</string>
+    <string name="shuffle_play">Zufällig</string>
     <string name="repeat_title">Wiederholmodus</string>
     <string name="repeat">Nichts wiederholen</string>
     <string name="repeat_single">Einzelstück wiederholen</string>
@@ -243,9 +245,10 @@
     <string name="automatic">Automatisch</string>
     <string name="screen_orientation">Bildschirmausrichtung</string>
     <string name="screen_orientation_sensor">Sensorausrichtung</string>
-    <string name="screen_orientation_start_lock">Beim Start gesperrt</string>
     <string name="screen_orientation_portrait">Hochformat</string>
     <string name="screen_orientation_landscape">Querformat</string>
+    <string name="screen_orientation_landscape_reverse">Querformat umgekehrt</string>
+    <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="daynight_title">Tag-/Nachtmodus</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">Niedrigste</string>
     <string name="casting_connected_renderer">Mit Renderer \'%1$s\' verbunden</string>
     <string name="artists_show_all_title">Alle Künstler anzeigen</string>
+    <string name="show_headers">Überschriften anzeigen</string>
+    <string name="show_headers_summary">Listen je nach Sortiertyp der Überschriften auf teilen</string>
 
     <string name="extensions_prefs_category">Erweiterungen</string>
     <string name="extensions_empty">Keine Erweiterungen gefunden</string>
@@ -766,5 +771,10 @@
     <string name="soundfont">MIDI-SoundFont</string>
     <string name="soundfont_summary">Eine SoundFont-Datei zum Abspielen von MIDI-Audiodateien auswählen</string>
     <string name="search_prefs">Suche in Einstellungen</string>
+    <string name="preferred_resolution">Bevorzugte Videoauflösung</string>
+    <string name="preferred_resolution_summary">Die maximale Videoqualität für Streams, wenn verfügbar, beträgt: %s</string>
+    <string name="pref_resolution_best_available">Bestmögliche</string>
+    <string name="pref_resolution_very_low">Sehr niedrige Auflösung (240p)</string>
+    <string name="stop_unpaubale">Dieses Medium kann nicht pausiert werden. Stattdessen stoppen?</string>
 
 </resources>

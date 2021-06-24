@@ -45,15 +45,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
-import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.resources.interfaces.FocusListener
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
+import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
@@ -65,6 +67,7 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
+import org.videolan.vlc.util.isSchemeDistant
 
 private const val SHOW_IN_LIST = -1
 
@@ -133,9 +136,11 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         val item = getItem(position)
         holder.setItem(item)
         if (item is Artist) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
+        if (item is Genre) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
         val isSelected = multiSelectHelper.isSelected(position)
-        holder.setCoverlay(isSelected)
         holder.selectView(isSelected)
+        holder.binding.setVariable(BR.isNetwork,(item as? MediaWrapper)?.uri?.scheme?.isSchemeDistant() ?: false)
+        holder.binding.setVariable(BR.isPresent,(item as? MediaWrapper)?.isPresent ?: true)
         holder.binding.executePendingBindings()
         if (position == focusNext) {
             holder.binding.root.requestFocus()
@@ -150,12 +155,10 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             val payload = payloads[0]
             if (payload is MediaLibraryItem) {
                 val isSelected = payload.hasStateFlags(FLAG_SELECTED)
-                holder.setCoverlay(isSelected)
                 holder.selectView(isSelected)
             } else if (payload is Int) {
                 if (payload == UPDATE_SELECTION) {
                     val isSelected = multiSelectHelper.isSelected(position)
-                    holder.setCoverlay(isSelected)
                     holder.selectView(isSelected)
                 }
             }
@@ -254,7 +257,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
 
         override fun selectView(selected: Boolean) {
-            super.selectView(selected)
+            binding.setVariable(BR.selected, selected)
             binding.itemMore.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
@@ -268,18 +271,10 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.title.isSelected = false
         }
 
-        override fun setCoverlay(selected: Boolean) {
-            val resId = if (selected) R.drawable.ic_action_mode_select else 0
-            if (resId != coverlayResource) {
-                binding.selectorImage.setImageResource(if (selected) R.drawable.ic_action_mode_select else 0)
-                coverlayResource = resId
-            }
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemCardViewHolder(binding: AudioBrowserCardItemBinding) : AbstractMediaItemViewHolder<AudioBrowserCardItemBinding>(binding) {
-        private var coverlayResource = 0
 
         override val titleView = binding.title
 
@@ -299,6 +294,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
         override fun selectView(selected: Boolean) {
             super.selectView(selected)
+            binding.setVariable(BR.selected, selected)
             binding.itemMore.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
@@ -312,13 +308,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.title.isSelected = false
         }
 
-        override fun setCoverlay(selected: Boolean) {
-            val resId = if (selected) R.drawable.ic_action_mode_select else 0
-            if (resId != coverlayResource) {
-                binding.selectorImage.setImageResource(if (selected) R.drawable.ic_action_mode_select else 0)
-                coverlayResource = resId
-            }
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -354,7 +343,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
         abstract fun recycle()
 
-        abstract fun setCoverlay(selected: Boolean)
     }
 
     companion object {
@@ -371,6 +359,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                     oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem): Boolean {
                 return if (preventNextAnim) {
                     true
+                } else if (oldMedia is MediaWrapper && newMedia is MediaWrapper && oldMedia.isPresent != newMedia.isPresent) {
+                    false
                 } else oldMedia === newMedia || oldMedia.title == newMedia.title && oldMedia.itemType == newMedia.itemType && oldMedia.tracksCount == newMedia.tracksCount && oldMedia.equals(newMedia)
             }
 

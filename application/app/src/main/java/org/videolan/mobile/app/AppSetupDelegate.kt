@@ -46,7 +46,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
-import org.videolan.vlc.util.SettingsMigration
+import org.videolan.vlc.util.VersionMigration
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider
@@ -94,7 +94,7 @@ class AppSetupDelegate : AppDelegate,
         }
         packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
                 if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-        SettingsMigration.migrateSettings(this@backgroundInit)
+        VersionMigration.migrateVersion(this@backgroundInit)
 
     }
 }

@@ -60,6 +60,7 @@ while [ $# -gt 0 ]; do
             echo "Use -c to get a ChromeOS build"
             echo "Use -l to build only LibVLC"
             echo "Use -b to bypass libvlc source checks (vlc custom sources)"
+            echo "Use -m2 to set the maven local repository path to use"
             exit 0
             ;;
         a|-a)
@@ -81,6 +82,10 @@ while [ $# -gt 0 ]; do
             PASSWORD_KEYSTORE=$2
             shift
             ;;
+        -m2|--local-maven)
+            M2_REPO=$2
+            shift
+            ;;
         -l)
             BUILD_LIBVLC=1
             NO_ML=1
@@ -99,10 +104,6 @@ while [ $# -gt 0 ]; do
             ;;
         --no-ml)
             NO_ML=1
-            ;;
-        --publish)
-            RELEASE=1
-            PUBLISH=1
             ;;
         --init)
             GRADLE_SETUP=1
@@ -148,6 +149,16 @@ else
     exit 1
 fi
 
+if [ -z "$M2_REPO" ]; then
+  M2_REPO=""
+else
+  if test -d "$M2_REPO"; then
+    echo "Custom local maven repository found"
+  else
+    diagnostic "Invalid local maven repository path: $M2_REPO"
+    exit 1
+  fi
+fi
 ####################
 # Configure gradle #
 ####################
@@ -249,7 +260,7 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
-    GRADLE_VERSION=6.5
+    GRADLE_VERSION=6.7.1
     GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
 
@@ -269,11 +280,11 @@ fi
 # Fetch VLC source #
 ####################
 
-TESTED_HASH=ef615ff0cb6390656e84f7218c561e21bc4c39d8
-VLC_REPOSITORY=https://git.videolan.org/git/vlc/vlc-3.0.git
+TESTED_HASH=b3adcde0dc6175382b3c268f4dc329bffd751c89
+VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
-    git clone "${VLC_REPOSITORY}" vlc || fail "VLC sources: git clone failed"
+    git clone "${VLC_REPOSITORY}" vlc -b 3.0.x --single-branch || fail "VLC sources: git clone failed"
     cd vlc
     diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
     git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
@@ -383,17 +394,11 @@ elif [ "$RELEASE" = 1 ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc assemble${BUILDTYPE}
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlc assemble${BUILDTYPE}
     RUN=0
-    if [ "$PUBLISH" = 1 ];then
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc install bintrayUpload
-    fi
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary assemble${BUILDTYPE}
+    GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary assemble${BUILDTYPE}
     RUN=0
-    if [ "$PUBLISH" = 1 ];then
-        GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary install bintrayUpload
-    fi
 else
     if [ "$TEST" = 1 -o "$RUN" = 1 ]; then
         ACTION="install"
@@ -401,11 +406,11 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO $TARGET
 
     if [ "$TEST" = 1 ]; then
         TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO $TARGET
 
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -e package org.videolan.vlc.gui org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"

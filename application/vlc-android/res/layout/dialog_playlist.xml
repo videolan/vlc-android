@@ -26,16 +26,61 @@
 
 
             <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/textView9"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:minHeight="0dp"
-                    android:text="@string/add_to_playlist"
+                    android:text="@string/add_to_new_playlist"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/medias2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@{filesText}"
+                    android:textSize="12sp"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9"
+                    tools:text="65 medias" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dialog_playlist_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_save"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/medias2">
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:hint="@string/playlist_name_hint"
+                        android:imeOptions="actionSend"
+                        android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                    android:id="@+id/textView8"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:minHeight="0dp"
+                    android:text="@string/add_to_existing_playlist"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dialog_playlist_name" />
 
             <TextView
                     android:id="@+id/medias"
@@ -66,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medias">
@@ -82,53 +128,6 @@
                         android:gravity="center_horizontal"
                         android:text="@string/noplaylist" />
             </FrameLayout>
-            <!--TODO : textColorHint doesn't work -->
-            <TextView
-                    android:id="@+id/textView9"
-                    style="@style/Theme.VLC.BottomSheetTitle"
-                    android:layout_width="0dp"
-                    android:minHeight="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/add_to_new_playlist"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dialog_list_container" />
-
-            <TextView
-                    android:id="@+id/medias2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@{filesText}"
-                    android:textSize="12sp"
-                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9"
-                    tools:text="65 medias" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/dialog_playlist_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_save"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/medias2">
-
-                <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:hint="@string/playlist_name_hint"
-                        android:imeOptions="actionSend"
-                        android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                     android:id="@+id/dialog_playlist_save"

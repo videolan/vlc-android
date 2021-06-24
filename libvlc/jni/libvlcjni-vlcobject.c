@@ -226,3 +226,12 @@ Java_org_videolan_libvlc_VLCObject_nativeDetachEvents(JNIEnv *env, jobject thiz)
     p_obj->p_owner->p_event_manager = NULL;
     p_obj->p_owner->p_events = NULL;
 }
+
+long
+Java_org_videolan_libvlc_VLCObject_getInstance(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    if (!p_obj)
+        return 0;
+    return p_obj->u.p_libvlc;
+}

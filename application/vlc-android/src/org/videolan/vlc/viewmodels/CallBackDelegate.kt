@@ -22,10 +22,16 @@
 package org.videolan.vlc.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.conflatedActor
 import org.videolan.tools.safeOffer
+import org.videolan.vlc.util.FileUtils
+import java.io.File
 
 interface ICallBackHandler {
     val medialibrary : Medialibrary
@@ -55,6 +61,7 @@ class CallBackDelegate : ICallBackHandler,
 
     override val medialibrary = Medialibrary.getInstance()
     private lateinit var refreshActor: SendChannel<Unit>
+    private lateinit var deleteActor: SendChannel<MediaAction>
 
     private var mediaCb = false
     private var artistsCb = false
@@ -66,6 +73,29 @@ class CallBackDelegate : ICallBackHandler,
 
     override fun CoroutineScope.registerCallBacks(refresh: () -> Unit) {
         refreshActor = conflatedActor { refresh() }
+        deleteActor = actor(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
+            for (action in channel) when (action) {
+                is MediaDeletedAction -> {
+                    action.ids.forEach {mediaId ->
+                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
+                            FileUtils.deleteFile(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg" )
+                        }
+                    }
+                }
+                is MediaConvertedExternalAction -> {
+                    action.ids.forEach {mediaId ->
+                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
+                            val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
+                            if (file.exists()) {
+                                val media = medialibrary.getMedia(mediaId)
+                                media.removeThumbnail()
+                            }
+                            FileUtils.deleteFile(file)
+                        }
+                    }
+                }
+            }
+        }
         medialibrary.addOnMedialibraryReadyListener(this@CallBackDelegate)
         medialibrary.addOnDeviceChangeListener(this@CallBackDelegate)
     }
@@ -128,7 +158,15 @@ class CallBackDelegate : ICallBackHandler,
 
     override fun onMediaModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaDeleted() { refreshActor.safeOffer(Unit) }
+    override fun onMediaDeleted(ids: LongArray) {
+        refreshActor.safeOffer(Unit)
+        deleteActor.safeOffer(MediaDeletedAction(ids))
+    }
+
+    override fun onMediaConvertedToExternal(ids: LongArray) {
+        refreshActor.safeOffer(Unit)
+        deleteActor.safeOffer(MediaConvertedExternalAction(ids))
+    }
 
     override fun onArtistsAdded() { refreshActor.safeOffer(Unit) }
 
@@ -162,3 +200,7 @@ class CallBackDelegate : ICallBackHandler,
 
     override fun onMediaGroupsDeleted() { refreshActor.safeOffer(Unit) }
 }
+
+sealed class MediaAction
+class MediaDeletedAction(val ids:LongArray): MediaAction()
+class MediaConvertedExternalAction(val ids:LongArray): MediaAction()

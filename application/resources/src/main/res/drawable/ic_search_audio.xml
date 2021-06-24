@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_search_audio.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M15.4351,14.0629L14.7124,14.0629L14.4563,13.8159C15.3528,12.773 15.8925,11.4191 15.8925,9.9463C15.8925,6.6621 13.2304,4 9.9463,4C6.6621,4 4,6.6621 4,9.9463C4,13.2304 6.6621,15.8925 9.9463,15.8925C11.4191,15.8925 12.773,15.3528 13.8159,14.4563L14.0629,14.7124L14.0629,15.4351L18.6369,20L20,18.6369L15.4351,14.0629ZM9.9463,14.0629C7.6684,14.0629 5.8296,12.2241 5.8296,9.9463C5.8296,7.6684 7.6684,5.8296 9.9463,5.8296C12.2241,5.8296 14.0629,7.6684 14.0629,9.9463C14.0629,12.2241 12.2241,14.0629 9.9463,14.0629Z"
+      android:strokeWidth="1"
+      android:fillColor="?attr/audio_menu_icon"
+      android:fillType="nonZero"
+      android:strokeColor="#00000000"/>
+</vector>

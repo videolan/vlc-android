@@ -2,33 +2,44 @@ package org.videolan.vlc.gui
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.BaseContextWrappingDelegate
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    private var currentNightMode: Int = 0
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
 
     open val displayTitle = false
+    open fun forcedTheme():Int? = null
     abstract fun getSnackAnchorView(): View?
+    private var baseContextWrappingDelegate: AppCompatDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)
         /* Theme must be applied before super.onCreate */
         applyTheme()
         super.onCreate(savedInstanceState)
+        if (UiTools.currentNightMode != resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            UiTools.invalidateBitmaps()
+            UiTools.currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -39,10 +50,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
-        applyOverrideConfiguration(newBase?.resources?.configuration)
-  }
+    override fun getDelegate() = baseContextWrappingDelegate
+            ?: BaseContextWrappingDelegate(super.getDelegate()).apply { baseContextWrappingDelegate = this }
+
+    override fun createConfigurationContext(overrideConfiguration: Configuration) = super.createConfigurationContext(overrideConfiguration).getContextWithLocale(AppContextProvider.locale)
 
     override fun getApplicationContext(): Context {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)

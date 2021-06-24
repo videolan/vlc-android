@@ -6,11 +6,12 @@
         </shape>
     </item>
     <item android:id="@android:id/progress">
-        <clip>
+        <scale android:scaleWidth="100%">
             <shape>
-                <solid android:color="@color/orange500" />
+                <solid android:color="@color/orange800" />
+            <corners android:bottomRightRadius="2dp" android:topRightRadius="2dp"/>
             </shape>
-        </clip>
+        </scale>
     </item>
 
 </layer-list>

@@ -41,6 +41,7 @@
     <string name="append_all">Afegeix-ho tot</string>
     <string name="resume_playback_short_title">Reprèn la reproducció</string>
     <string name="resume_playback_long_title">Reprèn la reproducció de l\'última llista</string>
+    <string name="resume_playback_error">No s\'ha trobat res per reprendre</string>
     <string name="delete">Elimina</string>
     <string name="remove">Suprimeix</string>
     <string name="set_song">Estableix com a to de trucada</string>
@@ -118,6 +119,7 @@
     <string name="shuffle_title">Mode aleatori</string>
     <string name="shuffle">Apaga aleatori</string>
     <string name="shuffle_on">Engega aleatori</string>
+    <string name="shuffle_play">Aleatori</string>
     <string name="repeat_title">Mode repetició</string>
     <string name="repeat">No repetició</string>
     <string name="repeat_single">Repeteix-ne una</string>
@@ -243,9 +245,10 @@
     <string name="automatic">Automàtic</string>
     <string name="screen_orientation">Orientació de la pantalla</string>
     <string name="screen_orientation_sensor">Automàtic (sensor)</string>
-    <string name="screen_orientation_start_lock">Blocat a l\'inici</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Horitzontal</string>
+    <string name="screen_orientation_landscape_reverse">Horitzontal invers</string>
+    <string name="screen_orientation_last_locked">Darrera orientació bloquejada</string>
     <string name="enable_black_theme">Tema fosc</string>
     <string name="subtitle_text_encoding">Codificació del text del subtítol</string>
     <string name="daynight_title">Mode dia/nit</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">La més baixa</string>
     <string name="casting_connected_renderer">Connectat al renderitzador «%1$s»</string>
     <string name="artists_show_all_title">Mostra tots els artistes</string>
+    <string name="show_headers">Mostra les capçaleres</string>
+    <string name="show_headers_summary">Separa les llistes per capçaleres segons el tipus d\'ordenació</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No s\'ha detectat cap extensió</string>
@@ -765,5 +770,11 @@
     <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Trieu un fitxer SoundFont per reproduir pistes d\'àudio MIDI</string>
+    <string name="search_prefs">Configuració de cerca</string>
+    <string name="preferred_resolution">Resolució de vídeo preferida</string>
+    <string name="preferred_resolution_summary">La qualitat màxima de vídeo per a fluxos, quan pertoqui, serà: %s</string>
+    <string name="pref_resolution_best_available">El millor disponible</string>
+    <string name="pref_resolution_very_low">Definició molt baixa (240p)</string>
+    <string name="stop_unpaubale">Aquest fitxer multimèdia no es pot posar en pausa. L\'aturo?</string>
 
 </resources>

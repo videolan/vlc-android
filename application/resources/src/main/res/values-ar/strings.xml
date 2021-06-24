@@ -150,6 +150,7 @@
     <string name="shuffle_title">وضع الخلط</string>
     <string name="shuffle">الخلط معطّل</string>
     <string name="shuffle_on">الخلط مفعّل</string>
+    <string name="shuffle_play">عشوائي</string>
     <string name="repeat_title">وضع التكرار</string>
     <string name="repeat">بلا تكرار</string>
     <string name="repeat_single">تكرار مرة</string>
@@ -279,9 +280,9 @@
     <string name="automatic">تلقائي</string>
     <string name="screen_orientation">اتّجاه الشّاشة المرئية</string>
     <string name="screen_orientation_sensor">تلقائي (حسّاس)</string>
-    <string name="screen_orientation_start_lock">مقفل عند البدء</string>
     <string name="screen_orientation_portrait">طولي</string>
     <string name="screen_orientation_landscape">عرضي</string>
+    <string name="screen_orientation_landscape_reverse">عرضي معكوس</string>
     <string name="enable_black_theme">الثيم الأسود</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="daynight_title">نمط ليلي نهاري</string>
@@ -373,7 +374,6 @@
     <string name="casting_quality_lowcpu">ضعيفة جدا</string>
     <string name="casting_connected_renderer">متصل بالعارض \"%1$s\"</string>
     <string name="artists_show_all_title">اظهر كافة الفنانين</string>
-
     <string name="extensions_prefs_category">الامتدادات</string>
     <string name="extensions_empty">لم نعثر على أي امتداد</string>
     <string name="extension_permission_title">هل تريد تنشيط امتداد جديد \"%1$s\"؟</string>
@@ -810,5 +810,4 @@
     <string name="soundfont">خط الصوت \"SoundFont\" لـ وصلة بينيه رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="soundfont_summary">اختر ملف خط الصوت \"SoundFont\" لتشغيل مسارات الصوت لـ وصلة بينية رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="search_prefs">إعدادات البحث</string>
-
 </resources>

@@ -36,6 +36,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
@@ -56,6 +57,8 @@ import org.videolan.vlc.interfaces.IHistory
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.StreamsModel
@@ -65,7 +68,7 @@ private const val KEY_SELECTION = "key_selection"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MoreFragment : BaseFragment(), IRefreshable, IHistory,
+class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         IStreamsFragmentDelegate by StreamsFragmentDelegate() {
 
     private lateinit var streamsAdapter: MRLAdapter
@@ -78,10 +81,12 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
     override fun hasFAB() = false
     fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
     private var savedSelection = ArrayList<Int>()
+    private val dialogsDelegate = DialogDelegate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (savedInstanceState?.getIntegerArrayList(KEY_SELECTION))?.let { savedSelection = it }
+        dialogsDelegate.observeDialogs(this, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -93,6 +98,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyEntry = view.findViewById(R.id.history_entry)
+        if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
@@ -294,4 +300,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
         if (actionMode == null) startActionMode()
         invalidateActionMode()
     }
+
+    override fun fireDialog(dialog: Dialog) {
+        DialogActivity.dialog = dialog
+        startActivity(Intent(DialogActivity.KEY_DIALOG, null, requireActivity(), DialogActivity::class.java))
+    }
+
+    override fun dialogCanceled(dialog: Dialog?) { }
 }

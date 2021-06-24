@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_emoji_network_media.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="12dp"
+    android:height="12dp"
+    android:viewportWidth="12"
+    android:viewportHeight="12">
+  <path
+      android:pathData="M10.0005,11.5002L11,11.5002l0,-1L10.0005,10.5002ZM2.0045,7.4998l7.996,0l0,-5l-4.5013,0l-1.0116,-1L2.0005,1.4998l0.004,1zM11,7.5002c0,0.5495 -0.4495,1 -0.9995,1l-3.498,0l0,2l-0.9995,0l0,-2L2.0005,8.5002C1.45,8.5002 1,8.0498 1,7.4998l0.005,-6c0,-0.5495 0.445,-1 0.995,-1l3,0l1,1l4.0005,0c0.55,0 0.9995,0.4505 0.9995,1zM3.004,11.5002l5.997,0l0,-1L3.004,10.5002ZM1.005,11.5002l0.9995,0l0,-1L1.005,10.5002Z"
+      android:strokeWidth="1"
+      android:fillColor="?attr/list_subtitle"
+      android:fillType="evenOdd"
+      android:strokeColor="#00000000"/>
+</vector>

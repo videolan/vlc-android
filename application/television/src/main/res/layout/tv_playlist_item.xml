@@ -5,63 +5,89 @@
     <data>
         <import type="org.videolan.vlc.media.MediaUtils" />
         <variable
-            name="bgColor"
-            type="int" />
-        <variable
             name="media"
             type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+                name="scaleType"
+                type="android.widget.ImageView.ScaleType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_optimizationLevel="cache_measures"
+            android:paddingEnd="@dimen/tv_overscan_horizontal"
             android:minHeight="?android:attr/listPreferredItemHeight"
             android:focusable="true"
             android:clickable="true"
-            android:background="@{bgColor}">
+            android:background="@drawable/rectangle_circle_right_white_selector">
+
+        <ImageView
+                android:id="@+id/coverImage"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:scaleType="@{scaleType}"
+                android:src="@{cover}"
+                app:card="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:media="@{media}"
+                tools:src="@tools:sample/avatars[0]" />
 
         <TextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{MediaUtils.INSTANCE.getMediaTitle(media)}"
-                android:textColor="@color/grey50"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Symphony n°1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintBottom_toTopOf="@+id/artist"
-                app:layout_constraintEnd_toStartOf="@+id/playing"
-                android:layout_marginEnd="8dp"
-                android:textStyle="bold"
                 android:layout_marginStart="8dp"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="2dp"
+                android:text="@{MediaUtils.INSTANCE.getMediaTitle(media)}"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/artist"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/coverImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Symphony n°1" />
 
         <TextView
                 android:id="@+id/artist"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{MediaUtils.INSTANCE.getMediaSubtitle(media)}"
-                android:textColor="@color/grey50"
-                tools:text="Beethoven"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/playing"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginBottom="2dp"
+                android:text="@{MediaUtils.INSTANCE.getMediaSubtitle(media)}"
+                android:textColor="@color/white_transparent_60"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/coverImage"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                tools:text="Beethoven" />
 
         <org.videolan.vlc.gui.view.MiniVisualizer
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/playing"
-                app:bar_color="?attr/player_icon_color"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="8dp"/>
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:bar_color="@color/white_transparent_50"
+                app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+                app:layout_constraintEnd_toEndOf="@+id/coverImage"
+                app:layout_constraintStart_toStartOf="@+id/coverImage"
+                app:layout_constraintTop_toTopOf="@+id/coverImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
