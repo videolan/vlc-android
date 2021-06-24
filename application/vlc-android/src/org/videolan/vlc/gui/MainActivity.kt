@@ -29,6 +29,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
@@ -163,6 +164,11 @@ class MainActivity : ContentActivity(),
         return super.startSupportActionMode(callback)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.ml_menu_refresh)?.isVisible = Permissions.canReadStorage(this)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     /**
      * Handle onClick form menu buttons
      */
@@ -173,7 +179,7 @@ class MainActivity : ContentActivity(),
         return when (item.itemId) {
             // Refresh
             R.id.ml_menu_refresh -> {
-                forceRefresh()
+                if (Permissions.canReadStorage(this)) forceRefresh()
                 true
             }
             android.R.id.home ->

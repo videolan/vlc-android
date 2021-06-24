@@ -25,6 +25,7 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -53,6 +54,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogManager
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeNetwork
 
 @ExperimentalCoroutinesApi
@@ -132,12 +134,19 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.ml_menu_refresh)?.isVisible = Permissions.canReadStorage(this)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         when (item.itemId) {
             R.id.ml_menu_refresh -> {
-                val ml = Medialibrary.getInstance()
-                if (!ml.isWorking) reloadLibrary()
+                if (Permissions.canReadStorage(this)) {
+                    val ml = Medialibrary.getInstance()
+                    if (!ml.isWorking) reloadLibrary()
+                }
                 return true
             }
         }
