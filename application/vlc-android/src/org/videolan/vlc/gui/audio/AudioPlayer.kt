@@ -361,7 +361,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.timeline.progress = progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
         }
-        binding.songsList.setPadding(binding.songsList.paddingLeft, binding.songsList.paddingTop, binding.songsList.paddingRight, binding.audioPlayProgress.height + 8.dp)
 
         lifecycleScope.launchWhenStarted {
             val text = withContext(Dispatchers.Default) {

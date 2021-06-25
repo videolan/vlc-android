@@ -302,8 +302,8 @@
                 android:layout_centerHorizontal="true"
                 android:clipToPadding="false"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/listview_bottom_padding"
-                app:layout_constraintBottom_toTopOf="@+id/timeline" />
+                android:paddingBottom="68dp"
+                app:layout_constraintBottom_toTopOf="@+id/songs_list_guide" />
 
         <TextView
                 android:id="@+id/audio_play_progress"
@@ -354,6 +354,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/length"
                 app:layout_constraintBottom_toBottomOf="@+id/length" />
+
+        <View
+                android:id="@+id/songs_list_guide"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/timeline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/timeline" />
 
         <SeekBar
                 android:id="@+id/timeline"
