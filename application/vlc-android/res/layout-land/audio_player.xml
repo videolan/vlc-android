@@ -313,17 +313,24 @@
                 android:id="@+id/audio_play_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:background="?attr/audio_chip_background"
                 android:elevation="4dp"
+                android:ellipsize="middle"
+                android:maxLines="1"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
+                android:singleLine="true"
                 android:textColor="?attr/audio_chip_text_color"
                 android:textSize="12sp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toTopOf="@+id/time"
-                app:layout_constraintEnd_toEndOf="@id/cover_media_switcher"
-                app:layout_constraintStart_toStartOf="@id/cover_media_switcher" />
+                app:layout_constraintEnd_toStartOf="@id/songs_list"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
                 android:id="@+id/cover_media_switcher"
