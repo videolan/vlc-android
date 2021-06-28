@@ -1339,10 +1339,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     @MainThread
     @JvmOverloads
-    fun seek(position: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false) {
-        if (length > 0.0) setPosition((position / length).toFloat()) else setPosition((position.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
+    fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false) {
+        if (length > 0.0) this.time = time else setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
         if (fromUser) {
-            publishState(position)
+            publishState(time)
         }
     }
 

@@ -3,7 +3,6 @@ package org.videolan.vlc.media
 import android.content.Context
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.core.net.toUri
@@ -108,9 +107,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         release(mp)
     }
 
-    fun seek(position: Long, length: Double = getLength().toDouble()) {
-        val pos = if (length > 0.0) (position / length).toFloat() else (position / NO_LENGTH_PROGRESS_MAX).toFloat()
-        setPosition(pos)
+    fun seek(time: Long, length: Double = getLength().toDouble()) {
+        if (length > 0.0) setTime(time) else setPosition((time / NO_LENGTH_PROGRESS_MAX).toFloat())
     }
 
     fun setPosition(position: Float) {

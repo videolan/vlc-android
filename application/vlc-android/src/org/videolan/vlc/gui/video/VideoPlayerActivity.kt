@@ -33,7 +33,6 @@ import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
-import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -276,7 +275,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!isFinishing && fromUser && service?.isSeekable == true) {
                 seek(progress.toLong(), fromUser)
-                overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
+                if (service?.length != 0L) overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
             }
             if (fromUser) {
                 overlayDelegate.showOverlay(true)
