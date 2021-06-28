@@ -71,6 +71,7 @@
     <attr name="scan_background" format="reference" />
     <attr name="fast_scroller_bubble" format="reference" />
     <attr name="fast_scroller_handle" format="reference" />
+    <attr name="empty_title" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />

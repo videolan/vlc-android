@@ -492,9 +492,9 @@
     <string name="allow_sdraw_overlays_description">VLC needs you to grant this permission display your video in a popup over other applications.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="permission_not_granted">Permission not granted</string>
-    <string name="permission_expanation_no_allow">You won\'t be able to:</string>
+    <string name="permission_expanation_no_allow">You won\'t be able to auto-discover your media nor use external subtitles</string>
+    <string name="permission_expanation_allow">You will be able to only play streams or network media</string>
     <string name="permission_expanation_subtitles">Use external subtitles</string>
-    <string name="permission_expanation_allow">You will be able to:</string>
     <string name="permission_expanation_allow_explanation">Play Internet streams or network media</string>
     <string name="exit_app">Close VLC</string>
     <string name="exit_app_msg">Are you sure you want to quit VLC?</string>

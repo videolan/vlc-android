@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.gui.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -63,7 +64,8 @@ class EmptyLoadingStateView : FrameLayout {
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
             emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY || value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            emptyImageView.setImageDrawable(ContextCompat.getDrawable(context, if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_permission_big))
+            emptyImageView.setImageDrawable(ContextCompat.getDrawable(context, if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
+            permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             noMediaButton.visibility = if (showNoMedia && value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
@@ -102,6 +104,7 @@ class EmptyLoadingStateView : FrameLayout {
         initAttributes(attrs, defStyle)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initAttributes(attrs: AttributeSet, defStyle: Int) {
         attrs.let {
             val a = context.theme.obtainStyledAttributes(attrs, R.styleable.EmptyLoadingStateView, 0, defStyle)
@@ -128,6 +131,8 @@ class EmptyLoadingStateView : FrameLayout {
         grantPermissionButton.setOnClickListener {
              (context as? FragmentActivity)?.askStoragePermission(false, null)
         }
+
+        permissionTextView.text = "${context.getString(R.string.permission_expanation_no_allow)}\n\n${context.getString(R.string.permission_expanation_allow)}"
     }
 
     private fun applyCompactMode() {
