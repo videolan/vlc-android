@@ -51,7 +51,6 @@
                     android:id="@+id/network_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?attr/background_default"
                     android:visibility="gone"
                     android:clipToPadding="false"
                     android:paddingBottom="64dp"/>

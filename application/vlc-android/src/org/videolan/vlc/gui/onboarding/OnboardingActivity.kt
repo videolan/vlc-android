@@ -1,16 +1,14 @@
 package org.videolan.vlc.gui.onboarding
 
-import android.animation.Animator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_onboarding.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -22,7 +20,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.helpers.hf.PermissionViewmodel
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
 
@@ -30,83 +27,48 @@ const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListener {
-
-    private lateinit var viewPager: ViewPager2
-
-    private val indicators by lazy(LazyThreadSafetyMode.NONE) { arrayOf<View>(
-            findViewById(R.id.indicator0),
-            findViewById(R.id.indicator1),
-            findViewById(R.id.indicator2),
-            findViewById(R.id.indicator3)
-    ) }
-
+class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     private val viewModel: OnboardingViewModel by viewModels()
-
-    private lateinit var onboardingPagerAdapter: OnboardingFragmentPagerAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
+//        viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
         setContentView(R.layout.activity_onboarding)
-        viewPager = findViewById(R.id.pager)
-
-        val count = viewModel.adapterCount
-
-        onboardingPagerAdapter = OnboardingFragmentPagerAdapter(this, lifecycle, count)
-        viewPager.adapter = onboardingPagerAdapter
-        viewPager.registerOnPageChangeCallback(viewPager2PageChangeCallback)
-        viewPager.isUserInputEnabled = viewModel.permissionGranted
-
-        selectPage(0)
-
-        if (count == 4) onCustomizedChanged(true)
-
+        showFragment(viewModel.currentFragment)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (Permissions.canReadStorage(this) != viewModel.permissionGranted && !viewModel.permissionGranted) {
-            restartWorkflow()
-            viewModel.permissionGranted = true
+    fun showFragment(fragmentName:FragmentName) {
+        val fragment = supportFragmentManager.getFragment(Bundle(), fragmentName.name) ?:
+        when (fragmentName) {
+            FragmentName.WELCOME -> OnboardingWelcomeFragment.newInstance()
+            FragmentName.ASK_PERMISSION -> OnboardingPermissionFragment.newInstance()
+            FragmentName.SCAN -> OnboardingScanningFragment.newInstance()
+            FragmentName.NO_PERMISSION -> OnboardingNoPermissionFragment.newInstance()
+            FragmentName.THEME -> OnboardingThemeFragment.newInstance()
         }
-    }
-
-    fun onPrevious(@Suppress("UNUSED_PARAMETER") v: View) {
-        if (viewPager.currentItem > 0) viewPager.currentItem--
-    }
-
-    fun onNext(@Suppress("UNUSED_PARAMETER") v: View) {
-        lifecycleScope.launch {
-            val settings = Settings.getInstance(this@OnboardingActivity)
-            if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
-                viewModel.permissionGranted = settings.getBoolean(INITIAL_PERMISSION_ASKED, false) || Permissions.canReadStorage(applicationContext)
-                        || getStoragePermission()
-                if (!Permissions.canReadStorage(applicationContext)) {
-                    onboardingPagerAdapter.permissionGranted = false
-                } else {
-                    onboardingPagerAdapter.permissionGranted = true
-                    viewPager.isUserInputEnabled = true
-                }
-            }
-            if (viewPager.currentItem < viewPager.adapter!!.itemCount) {
-                viewPager.currentItem++
-            }
+        (fragment as OnboardingFragment).onboardingFragmentListener = this
+        supportFragmentManager.commit {
+            setCustomAnimations(
+                 R.anim.anim_enter_right,
+                 R.anim.anim_leave_left,
+                 android.R.anim.fade_in,
+                 android.R.anim.fade_out
+            )
+            replace(R.id.fragment_onboarding_placeholder, fragment, fragmentName.name)
         }
+        viewModel.currentFragment = fragmentName
+        close.setOnClickListener { onDone() }
     }
 
-    fun onDone(@Suppress("UNUSED_PARAMETER") v: View) {
-        completeOnBoarding()
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewPager.unregisterOnPageChangeCallback(viewPager2PageChangeCallback)
         Permissions.sAlertDialog?.run { dismiss() }
     }
 
-    private fun completeOnBoarding() {
+    override fun onDone() {
         setResult(RESULT_RESTART)
         Settings.getInstance(this).edit {
             putInt(PREF_FIRST_RUN, BuildConfig.VLC_VERSION_CODE)
@@ -118,96 +80,40 @@ class OnboardingActivity : AppCompatActivity(), IOnScanningCustomizeChangedListe
         if (!viewModel.scanStorages) MediaParsingService.preselectedStorages.clear()
         startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
         val intent = Intent(this@OnboardingActivity, MainActivity::class.java)
-                .putExtra(EXTRA_FIRST_RUN, true)
-                .putExtra(EXTRA_UPGRADE, true)
+            .putExtra(EXTRA_FIRST_RUN, true)
+            .putExtra(EXTRA_UPGRADE, true)
         startActivity(intent)
         finish()
     }
 
     override fun onBackPressed() {
-        if (viewPager.currentItem != 0) super.onBackPressed()
+//        if (viewPager.currentItem != 0) super.onBackPressed()
     }
 
-    private fun selectPage(index: Int) {
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Selecting page $index pager nb of item: ${onboardingPagerAdapter.itemCount}")
-        //Navigation button states
-        if (index == 0) {
-            previous.animate().scaleY(0f).scaleX(0f).alpha(0f)
-        } else {
-            previous.animate().scaleY(1f).scaleX(1f).alpha(0.6f)
-        }
-
-        if (index == onboardingPagerAdapter.itemCount - 1) {
-            next.animate().scaleY(0f).scaleX(0f).alpha(0f)
-            doneButton.animate().cancel()
-            doneButton.visibility = View.VISIBLE
-            doneButton.animate().scaleY(1f).scaleX(1f).alpha(1f).setListener(null)
-        } else {
-            next.animate().scaleY(1f).scaleX(1f).alpha(1f)
-            doneButton.animate().scaleY(0f).scaleX(0f).alpha(0f).setListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
-
-                override fun onAnimationEnd(animation: Animator?) {
-                    doneButton.visibility = View.GONE
-                }
-
-                override fun onAnimationStart(animation: Animator?) {}
-
-                override fun onAnimationCancel(animation: Animator?) {}
-            })
-        }
-
-        //Indicator states
-        for (pos in indicators.indices) {
-            if (pos != index) {
-                indicators[pos].animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)
-            } else {
-                indicators[pos].animate()?.alpha(1f)?.scaleX(1f)?.scaleY(1f)
-            }
+    override fun askPermission() {
+        lifecycleScope.launch {
+            getStoragePermission()
+            onNext()
         }
     }
 
-    private val viewPager2PageChangeCallback = object :ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            selectPage(position)
+    override fun onNext() {
+        when(viewModel.currentFragment) {
+            FragmentName.WELCOME -> showFragment(FragmentName.ASK_PERMISSION)
+            FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
+            FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
+            FragmentName.SCAN -> showFragment(FragmentName.THEME)
         }
-
     }
 
-    override fun onCustomizedChanged(customizeEnabled: Boolean) {
-        if (customizeEnabled) {
-            indicators[3].visibility = View.VISIBLE
-            indicators[3].animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)!!.setListener(null)
-            if (MediaParsingService.preselectedStorages.isEmpty()) lifecycleScope.launch {
-                MediaParsingService.preselectedStorages.run {
-                    add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
-                }
-            }
-        } else {
-            MediaParsingService.preselectedStorages.clear()
-            indicators[3].animate()?.scaleY(0f)?.scaleX(0f)?.alpha(0f)?.setListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
+}
 
-                override fun onAnimationEnd(animation: Animator?) {
-                    indicators[3].visibility = View.GONE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-
-                override fun onAnimationStart(animation: Animator?) {}
-
-            })
-        }
-        onboardingPagerAdapter.onCustomizedChanged(customizeEnabled)
-        viewModel.adapterCount = if (customizeEnabled) 4 else 3
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "New adapter count: ${viewModel.adapterCount}")
-    }
-
-    fun restartWorkflow() {
-        onboardingPagerAdapter.permissionGranted = Permissions.canReadStorage(this)
-        onboardingPagerAdapter.forceRefreshSecond()
-        onboardingPagerAdapter.notifyItemChanged(1)
-    }
+enum class FragmentName {
+    WELCOME,
+    ASK_PERMISSION,
+    SCAN,
+    NO_PERMISSION,
+    THEME
 }
 
 @ExperimentalCoroutinesApi

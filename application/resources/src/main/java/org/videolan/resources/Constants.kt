@@ -151,6 +151,7 @@ const val ITEM = "item"
 const val KEY_GROUP = "key_group"
 const val KEY_FOLDER = "key_folder"
 const val KEY_GROUPING = "key_grouping"
+const val KEY_ANIMATED = "key_animated"
 const val FAVORITE_TITLE = "favorite_title"
 
 const val KEY_VIDEOS_CARDS = "video_display_in_cards"

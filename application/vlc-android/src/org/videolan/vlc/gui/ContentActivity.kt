@@ -51,6 +51,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     private lateinit var searchView: SearchView
     private var showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.renderers.value.isNullOrEmpty()
     private val searchHiddenMenuItem = ArrayList<MenuItem>()
+    open fun hideRenderers() = false
 
 
     override fun initAudioPlayerContainerActivity() {
@@ -59,13 +60,13 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
                 && Settings.getInstance(this).getBoolean("enable_casting", true)) {
             PlaybackService.renderer.observe(this, {
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers) ?: return@observe
-                item.isVisible = showRenderers
+                item.isVisible = !hideRenderers() && showRenderers
                 item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
             })
             RendererDelegate.renderers.observe(this, { rendererItems ->
                 showRenderers = !rendererItems.isNullOrEmpty()
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers)
-                if (item != null) item.isVisible = showRenderers
+                if (item != null) item.isVisible = !hideRenderers() && showRenderers
             })
         }
     }
@@ -103,7 +104,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             searchItem.setOnActionExpandListener(this)
         } else
             menu.findItem(R.id.ml_menu_filter).isVisible = false
-        menu.findItem(R.id.ml_menu_renderers).isVisible = showRenderers && Settings.getInstance(this).getBoolean("enable_casting", true)
+        menu.findItem(R.id.ml_menu_renderers).isVisible = !hideRenderers() && showRenderers && Settings.getInstance(this).getBoolean("enable_casting", true)
         menu.findItem(R.id.ml_menu_renderers).setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
         return true
     }

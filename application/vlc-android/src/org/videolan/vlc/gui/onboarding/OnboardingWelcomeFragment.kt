@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.onboarding_welcome.*
 import org.videolan.vlc.R
-import org.videolan.vlc.util.Permissions
 
-class OnboardingWelcomeFragment : Fragment() {
+class OnboardingWelcomeFragment : OnboardingFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_welcome, container, false)
@@ -16,7 +15,9 @@ class OnboardingWelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Permissions.canReadStorage(view.context)) view.findViewById<View>(R.id.textView3).visibility = View.GONE
+        startButton.setOnClickListener {
+            onboardingFragmentListener.onNext()
+        }
     }
 
     companion object {

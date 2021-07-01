@@ -38,6 +38,7 @@ import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.KEY_ANIMATED
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.util.applyOverscanMargin
@@ -46,8 +47,10 @@ import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.browser.*
+import org.videolan.vlc.gui.browser.FileBrowserFragment
 import org.videolan.vlc.gui.browser.KEY_MEDIA
+import org.videolan.vlc.gui.browser.MLStorageBrowserFragment
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
@@ -65,6 +68,9 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
     override val displayTitle = true
     private val dialogsDelegate = DialogDelegate()
 
+    override fun forcedTheme() =
+        if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Black
+        else null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,10 +97,11 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 return
             }
             supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_placeholder, fragment!!)
-                    .commit()
+                .add(R.id.fragment_placeholder, fragment!!)
+                .commit()
         }
         dialogsDelegate.observeDialogs(this, this)
+        if (intent.getBooleanExtra(KEY_ANIMATED, false)) supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
     }
 
     override fun fireDialog(dialog: Dialog) {
@@ -112,19 +119,24 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
             return
         }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_placeholder, fragment!!)
-                .commit()
+            .replace(R.id.fragment_placeholder, fragment!!)
+            .commit()
     }
 
     override fun onResume() {
-        overridePendingTransition(0, 0)
+        if (!intent.getBooleanExtra(KEY_ANIMATED, false)) overridePendingTransition(0, 0)
         super.onResume()
     }
 
     override fun onPause() {
-        if (isFinishing)
+        if (!intent.getBooleanExtra(KEY_ANIMATED, false) && isFinishing)
             overridePendingTransition(0, 0)
         super.onPause()
+    }
+
+    override fun finish() {
+        super.finish()
+        if (intent.getBooleanExtra(KEY_ANIMATED, false)) overridePendingTransition(R.anim.no_animation, R.anim.slide_out_bottom)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -153,12 +165,16 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun hideRenderers() = intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING
+
     private fun fetchSecondaryFragment(id: String) {
         when (id) {
             ALBUMS_SONGS -> {
                 fragment = AudioAlbumsSongsFragment().apply {
-                    arguments = bundleOf(AudioBrowserFragment.TAG_ITEM to
-                            intent.getParcelableExtra(AudioBrowserFragment.TAG_ITEM))
+                    arguments = bundleOf(
+                        AudioBrowserFragment.TAG_ITEM to
+                                intent.getParcelableExtra(AudioBrowserFragment.TAG_ITEM)
+                    )
                 }
             }
             ABOUT -> fragment = AboutFragment()
@@ -166,17 +182,19 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
             HISTORY -> fragment = HistoryFragment()
             VIDEO_GROUP_LIST -> {
                 fragment = VideoGridFragment().apply {
-                    arguments = bundleOf(KEY_FOLDER to intent.getParcelableExtra(KEY_FOLDER),
-                        KEY_GROUP to intent.getParcelableExtra(KEY_GROUP))
+                    arguments = bundleOf(
+                        KEY_FOLDER to intent.getParcelableExtra(KEY_FOLDER),
+                        KEY_GROUP to intent.getParcelableExtra(KEY_GROUP)
+                    )
                 }
             }
-            STORAGE_BROWSER -> {
-                fragment = MLStorageBrowserFragment()
+            STORAGE_BROWSER, STORAGE_BROWSER_ONBOARDING -> {
+                fragment = MLStorageBrowserFragment.newInstance(id == STORAGE_BROWSER_ONBOARDING)
                 setResult(RESULT_RESTART)
             }
             FILE_BROWSER -> {
                 val media = intent.getParcelableExtra(KEY_MEDIA) as MediaWrapper
-                fragment = if(media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+                fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
                 else FileBrowserFragment()
                 fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
             }
@@ -197,6 +215,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         const val HISTORY = "history"
         const val VIDEO_GROUP_LIST = "videoGroupList"
         const val STORAGE_BROWSER = "storage_browser"
+        const val STORAGE_BROWSER_ONBOARDING = "storage_browser_onboarding"
         const val FILE_BROWSER = "file_browser"
     }
 }

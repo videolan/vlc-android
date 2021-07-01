@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ *************************************************************************
+  ~  onboarding_permission.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -12,12 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.20" />
+            app:layout_constraintGuide_percent="0.2" />
 
     <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toTopOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline"
             app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_onboarding_no_permission" />
+            app:srcCompat="@drawable/ic_icon" />
 
     <TextView
             android:id="@+id/textView7"
@@ -34,68 +60,54 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/permission_not_granted"
+            android:text="@string/permission"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Title"
-            app:layout_constraintBottom_toTopOf="@+id/permission_explanation"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
-            android:id="@+id/permission_explanation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/permission_expanation_no_allow"
-            android:textAlignment="center"
-            android:textAppearance="@style/VLC.Onboarding.Text"
-            app:layout_constraintBottom_toTopOf="@+id/permission_explanation_allow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <TextView
-            android:id="@+id/permission_explanation_allow"
+            android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
-            android:text="@string/permission_expanation_allow"
+            android:text="@string/permission_media"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
-            app:layout_constraintBottom_toTopOf="@+id/grant_permission_button"
+            app:layout_constraintBottom_toTopOf="@+id/grantPermissionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/permission_explanation" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
-            android:id="@+id/grant_permission_button"
+            android:id="@+id/grantPermissionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/permission_ask_again"
-            app:layout_constraintBottom_toTopOf="@+id/next_button"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/permission_explanation_allow" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-            android:id="@+id/next_button"
+            android:id="@+id/nextButton"
             style="@style/VLC.Onboarding.Button.Next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/next"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/grant_permission_button" />
+            app:layout_constraintTop_toBottomOf="@+id/grantPermissionButton"
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
