@@ -311,6 +311,7 @@
         <item name="actionBarItemBackground">@drawable/ic_circle_audio_player</item>
         <item name="selectableItemBackgroundBorderless">@drawable/ic_circle_audio_player</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
+        <item name="empty_title">@color/grey300</item>
 
     </style>
     
