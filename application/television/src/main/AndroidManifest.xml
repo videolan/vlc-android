@@ -10,6 +10,12 @@
             android:theme="@style/Theme.VLC.TV"
             tools:ignore="LockedOrientationActivity"/>
         <activity
+            android:name="org.videolan.television.ui.OnboardingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV.Onboarding"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
             android:name="org.videolan.television.ui.dialogs.ConfirmationTvActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV"

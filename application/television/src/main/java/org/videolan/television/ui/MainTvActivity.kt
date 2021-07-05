@@ -25,7 +25,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Message
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ProgressBar
@@ -34,15 +33,11 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
-import org.videolan.tools.RESULT_RESCAN
-import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.RESULT_RESTART_APP
-import org.videolan.tools.WeakHandler
+import org.videolan.tools.*
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 
 @ExperimentalCoroutinesApi
@@ -82,6 +77,11 @@ class MainTvActivity : BaseTvActivity() {
         browseFragment = fragmentManager.findFragmentById(R.id.browse_fragment) as MainTvFragment
         progressBar = findViewById(R.id.tv_main_progress)
         VLCBilling.getInstance(application).retrieveSkus()
+
+        if (!Settings.getInstance(this).getBoolean(KEY_TV_ONBOARDING_DONE, false)) {
+            // This is the first time running the app, let's go to onboarding
+            startActivity(Intent(this, OnboardingActivity::class.java))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -624,6 +624,8 @@
     <string name="onboarding_theme_title">Make yourself at home</string>
     <string name="done">Done</string>
     <string name="onboarding_scan_title">Auto-discover your media</string>
+    <string name="onboarding_all_set">VLC is all set!</string>
+    <string name="onboarding_permission_given">You can now auto-discover your media, use external subtitles as well as play streams or network media </string>
     <string name="daynight_system_explanation">VLC will automatically switch to dark mode accordingly with system setting</string>
     <string name="daynight_legacy_explanation">VLC will automatically switch to night mode at appropriate time</string>
     <string name="onboarding_scanning_enable">Let VLC scan my device for media content</string>
@@ -827,6 +829,7 @@
     <string name="optional_features_summary">Beta features that are currently being tested and may not be stable</string>
     <string name="optional_features_warning">This feature is in beta and may cause crashes and instabilities</string>
     <string name="network_indexation" translatable="false">Network indexation</string>
+    <string name="start_vlc">Start VLC</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Add duplicated item(s)?</string>

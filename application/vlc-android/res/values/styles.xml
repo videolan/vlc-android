@@ -313,6 +313,16 @@
         <item name="primary_focus">@color/orange_500_transparent_20</item>
 
     </style>
+    
+    
+    <style name="Theme.VLC.TV.Onboarding" parent="Theme.Leanback.Onboarding">
+        <item name="onboardingPageIndicatorStyle">@style/VLC.OnboardingPageIndicatorStyle</item>
+    </style>
+
+    <style name="VLC.OnboardingPageIndicatorStyle" parent="Widget.Leanback.OnboardingPageIndicatorStyle">
+        <item name="dotBgColor">@color/orange500</item>
+        <item name="arrowBgColor">@color/orange500</item>
+    </style>
 
     <style name="Theme.VLC.TV.Audio">
         <item name="colorPrimary">@color/orange800</item>
