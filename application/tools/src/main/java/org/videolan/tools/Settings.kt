@@ -33,7 +33,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
         videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
         device = DeviceInfo(context)
-        prefs.getBoolean(KEY_INCLUDE_MISSING, true)
+        includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         return prefs
     }
 
