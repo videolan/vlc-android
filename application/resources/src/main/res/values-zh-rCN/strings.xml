@@ -40,15 +40,20 @@
     <string name="append_all">追加全部</string>
     <string name="resume_playback_short_title">继续播放</string>
     <string name="resume_playback_long_title">继续播放上次播放的媒体</string>
+    <string name="resume_playback_error">没有可继续的</string>
     <string name="delete">删除</string>
     <string name="remove">移除</string>
     <string name="set_song">设为铃声</string>
     <string name="set_song_question">是否将「%1$s」设为铃声?</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
+    <string name="confirm_delete_message">这是永久的，无法撤销。</string>
     <string name="confirm_delete_album">是否删除专辑「%1$s」?</string>
     <string name="confirm_delete_several_media">删除这些 %1$d 媒体?</string>
     <string name="confirm_delete_folder">是否删除文件夹「%1$s」及其全部内容?</string>
+    <string name="confirm_delete_folders">删除这些 %1$s 个文件夹及它们所有的内容吗？</string>
+    <string name="confirm_delete_files">删除这 %1$s 个文件吗？</string>
+    <string name="confirm_delete_folders_and_files">删除这 %1$s 个文件夹和 %2$s 个文件吗？</string>
     <string name="confirm_delete_playlist">是否删除播放列表「%1$s」?</string>
     <string name="confirm_remove_from_playlist">将「%1$s」从播放列表中移除？</string>
     <string name="ringtone_set">文件「%1$s」已被设为铃声。</string>
@@ -84,6 +89,9 @@
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="other">%d 个电视节目</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">%d 首歌曲</item>
     </plurals>
 
     <string name="internal_memory">内部存储</string>
@@ -363,6 +371,8 @@
     <string name="dump_media_db_summary">将数据库复制到内部存储根目录</string>
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="clear_media_database_summary">清除数据库并从头开始</string>
+    <string name="clear_app_data">清除应用数据</string>
+    <string name="clear_app_data_summary">清除 VLC for Android 的数据</string>
     <string name="clear_history">清除历史</string>
     <string name="set_locale">设置区域变量</string>
     <string name="network_caching">网络缓存值</string>
@@ -453,6 +463,11 @@
     <string name="allow_draw_overlays_title">允许 VLC 播放器浮动在其他应用之上</string>
     <string name="allow_sdraw_overlays_description">VLC 需要您的授权方可在其他应用程序之上的浮层显示您的视频。</string>
     <string name="permission_ask_again">授予权限</string>
+    <string name="permission_not_granted">未授予权限</string>
+    <string name="permission_expanation_no_allow">你不能自动发现你的媒体，也不能使用外部字幕</string>
+    <string name="permission_expanation_allow">你将只能播放串流或网络媒体</string>
+    <string name="permission_expanation_subtitles">使用外部字幕</string>
+    <string name="permission_expanation_allow_explanation">播放互联网流视频或网络媒体</string>
     <string name="exit_app">关闭 VLC</string>
     <string name="exit_app_msg">是否确定要退出 VLC?</string>
 
@@ -481,7 +496,7 @@
     <string name="download_subtitles">下载字幕</string>
     <string name="browse_folder">浏览文件夹</string>
     <string name="listen">收听</string>
-    <string name="save_bluetooth_delay">为蓝牙设备保存延迟</string>
+    <string name="apply_to_bt">应用到蓝牙设备</string>
     <string name="episodes">剧集</string>
     <string name="movies">影片</string>
     <string name="videos">视频</string>
@@ -580,6 +595,8 @@
     <string name="onboarding_theme_title">就像在自己家</string>
     <string name="done">完成</string>
     <string name="onboarding_scan_title">自动发现媒体</string>
+    <string name="onboarding_all_set">VLC 已准备就绪！</string>
+    <string name="onboarding_permission_given">你现在可以自动发现你的媒体，使用外部字幕以及播放流视频或网络媒体</string>
     <string name="daynight_system_explanation">VLC 将跟随系统设置自动切换深色模式</string>
     <string name="daynight_legacy_explanation">VLC 将在恰当的时间自动切换到夜间模式</string>
     <string name="onboarding_scanning_enable">让 VLC 扫描我的设备，寻找媒体内容</string>
@@ -662,7 +679,9 @@
     <string name="recently_played">最近播放</string>
     <string name="recently_added">最近添加</string>
     <string name="playback_multiple_errors">多个媒体无法播放</string>
-    <string name="clear_media_db_warning">将会丢失您的播放进度，以及您所创建的播放列表。\n%s</string>
+    <string name="clear_media_db_message">你将失去你的播放进度，书签和播放列表，但你将保留你的VLC for Android设置</string>
+    <string name="clear_app_data_message">你将失去你的播放进度，书签，播放列表和所有的VLC设置</string>
+    <string name="clear">清除</string>
     <string name="abrepeat_add_first_marker">设置开始位置</string>
     <string name="abrepeat_add_second_marker">设置结束位置</string>
     <string name="demux_bitrate">解码码率</string>
@@ -688,6 +707,7 @@
     <string name="subtitle_delay_end">看见的文字</string>
     <string name="track_index">轨道: %s</string>
     <string name="audio_queue_progress">进度: %s</string>
+    <string name="audio_queue_progress_remaining">剩余：%s</string>
     <string name="audio_queue_progress_finished">结束于：%s</string>
     <string name="sortby_track">轨道</string>
     <string name="this_folder">添加该文件夹</string>
@@ -729,6 +749,7 @@
     <string name="donate_again">再次赞助该应用</string>
 
     <string name="mark_as_played">标记为已播放</string>
+    <string name="mark_as_not_played">标记为未播放</string>
     <string name="mark_all_as_played">标记所有为已播放</string>
     <string name="new_group">新组别</string>
     <string name="new_group_desc">创建一个新组别</string>
@@ -752,17 +773,50 @@
     <string name="prefersmbv1_summary">如您浏览SMB服务器有困难，请取消选中这个设置</string>
     <string name="apply_to_all">应用到所有视频</string>
     <string name="audio_delay_global">所有视频的音频延迟设置为 %s ms</string>
+    <string name="audio_delay_bt">已将蓝牙设备的音频延时设为 %s ms</string>
     <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
     <string name="go_to_folder">浏览父文件夹</string>
     <string name="no_sub_renderer">尚不支持投屏播放时显示字幕</string>
     <string name="enqueuing">正在加载你的媒体文件</string>
     <string name="soundfont">MIDI 音色库</string>
     <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
+    <string name="missing_media_snack">媒体文件缺失。隐藏所有的媒体文件？</string>
+    <string name="browser_show_missing_media">显示缺失的媒体文件</string>
+    <string name="browser_show_missing_media_summary">如果远距离媒体事件，即使它们不存在</string>
     <string name="search_prefs">搜索设置</string>
     <string name="preferred_resolution">首选视频分辨率</string>
     <string name="preferred_resolution_summary">可适用的流媒体播放最高视频分辨率为：%s</string>
     <string name="pref_resolution_best_available">可用的最佳质量</string>
     <string name="pref_resolution_very_low">极低清晰度 (240 p)</string>
     <string name="stop_unpaubale">无法暂停此媒体文件。要停止播放吗?</string>
+    <string name="delete_forever">永久删除</string>
+    <string name="add_to_existing_playlist">添加到现有播放列表</string>
+    <string name="bookmarks_title">书签</string>
+    <string name="no_bookmark">尚无书签</string>
+    <string name="bookmark_name">添加 %s 为书签</string>
+    <string name="optional_features">可选功能</string>
+    <string name="optional_features_summary">目前正在测试中的 Beta 功能，可能并不稳定 </string>
+    <string name="optional_features_warning">此功能尚处于测试阶段，可能会导致崩溃和不稳定 
+</string>
+    <string name="start_vlc">启动 VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">添加重复项？</string>
+    <string name="add_button">添加</string>
+    <string name="add_all_button">添加全部</string>
+    <string name="add_new_only_button">只添加新的</string>
+    <string name="discovery_failed">未能在以下目录中发现文件：%s</string>
+    <string name="lock_use_sensor_title">用传感器锁定</string>
+    <string name="lock_use_sensor_summary">锁定方向时，使用传感器允许反向方向 
+</string>
+    <string name="start">启动</string>
+    <string name="permission">权限</string>
+    <string name="customize">自定义</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="other">这些项目已经在这个播放列表内</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="other">所选项目中有 %d 已经在这个播放列表内</item>
+    </plurals>
 
 </resources>
