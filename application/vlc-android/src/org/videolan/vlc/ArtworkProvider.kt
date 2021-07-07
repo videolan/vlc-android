@@ -456,10 +456,11 @@ class ArtworkProvider : ContentProvider() {
          * Construct the URI for MediaWrappers
          */
         fun buildMediaUri(media: MediaWrapper): Uri {
+            val audioNoArtwork = media.type == MediaWrapper.TYPE_AUDIO && media.artworkMrl.isNullOrEmpty()
             return buildUri(Uri.Builder()
                     .appendPath(MEDIA)
-                    .appendPath("${media.lastModified}")
-                    .appendPath("${media.id}")
+                    .appendPath("${if (audioNoArtwork) 0L else media.lastModified}")
+                    .appendPath("${if (audioNoArtwork) 0L else media.id}")
                     .build())
         }
 
