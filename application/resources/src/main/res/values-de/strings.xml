@@ -48,9 +48,13 @@
     <string name="set_song_question">\'%1$s\' als Klingelton festlegen?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
+    <string name="confirm_delete_message">Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.</string>
     <string name="confirm_delete_album">Das Album \'%1$s\' löschen?</string>
     <string name="confirm_delete_several_media">%1$d wirklich löschen?</string>
     <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
+    <string name="confirm_delete_folders">Diese Ordner %1$s mit dem gesamten Inhalt löschen?</string>
+    <string name="confirm_delete_files">Diese Dateien %1$s löschen?</string>
+    <string name="confirm_delete_folders_and_files">Diese Ordner %1$s und Dateien %2$s löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
     <string name="confirm_remove_from_playlist">Entfernen von \'%1$s\' aus der Wiedergabeliste?</string>
     <string name="ringtone_set">Die Datei \'%1$s\' wurde als Klingelton eingestellt.</string>
@@ -93,6 +97,10 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">1 TV-Sendung</item>
         <item quantity="other">%d TV-Sendungen</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 Titel</item>
+        <item quantity="other">%d Titel</item>
     </plurals>
 
     <string name="internal_memory">Interner Speicher</string>
@@ -373,6 +381,8 @@
     <string name="dump_media_db_summary">Datenbank in den internen Speicherstammordner kopieren</string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
     <string name="clear_media_database_summary">Löscht die Datenbank zum Neustart</string>
+    <string name="clear_app_data">App-Daten löschen</string>
+    <string name="clear_app_data_summary">Löscht die VLC für Android Daten</string>
     <string name="clear_history">Verlauf löschen</string>
     <string name="set_locale">Sprache ändern</string>
     <string name="network_caching">Zwischenspeicher-Wert im Netzwerk</string>
@@ -463,6 +473,11 @@
     <string name="allow_draw_overlays_title">Popup-Fenster über anderen Anwendungen zulassen</string>
     <string name="allow_sdraw_overlays_description">VLC benötigt diese Berechtigung, um Ihr Video in einem Popup-Fenster über anderen Anwendungen anzuzeigen.</string>
     <string name="permission_ask_again">Genehmigung erteilen</string>
+    <string name="permission_not_granted">Berechtigung nicht erteilt</string>
+    <string name="permission_expanation_no_allow">Sie können Ihre Medien nicht automatisch durchsuchen oder externe Untertitel verwenden</string>
+    <string name="permission_expanation_allow">Sie können nur Streams oder Netzwerkmedien abspielen </string>
+    <string name="permission_expanation_subtitles">Externe Untertitel verwenden</string>
+    <string name="permission_expanation_allow_explanation">Internet-Streams oder Netzwerkmedien wiedergeben</string>
     <string name="exit_app">VLC schließen</string>
     <string name="exit_app_msg">Möchten Sie VLC wirklich verlassen?</string>
 
@@ -491,7 +506,7 @@
     <string name="download_subtitles">Untertitel herunterladen</string>
     <string name="browse_folder">Ordner durchsuchen</string>
     <string name="listen">Hören</string>
-    <string name="save_bluetooth_delay">Verzögerung des Bluetooth-Gerätes speichern</string>
+    <string name="apply_to_bt">Auf Bluetooth-Geräte anwenden</string>
     <string name="episodes">Episoden</string>
     <string name="movies">Filme</string>
     <string name="videos">Videos</string>
@@ -590,6 +605,8 @@
     <string name="onboarding_theme_title">Fühlen Sie sich wie zu Hause</string>
     <string name="done">Fertig</string>
     <string name="onboarding_scan_title">Automatische Erkennung Ihrer Medien</string>
+    <string name="onboarding_all_set">VLC ist für alles eingerichtet!</string>
+    <string name="onboarding_permission_given">Sie können jetzt Ihre Medien automatisch durchsuchen, externe Untertitel verwenden sowie Streams oder Netzwerkmedien wiedergeben</string>
     <string name="daynight_system_explanation">VLC wechselt entsprechend der Systemeinstellung automatisch in den Dunkelmodus</string>
     <string name="daynight_legacy_explanation">VLC wechselt zur passenden Zeit automatisch in den Nachtmodus</string>
     <string name="onboarding_scanning_enable">VLC mein Gerät nach neuen Medieninhalten durchsuchen lassen</string>
@@ -674,7 +691,9 @@
     <string name="recently_played">Zuletzt wiedergegeben</string>
     <string name="recently_added">Zuletzt hinzugefügt</string>
     <string name="playback_multiple_errors">Mehrere Medien können nicht abgespielt werden</string>
-    <string name="clear_media_db_warning">Sie verlieren Ihren Verlauf und die von Ihnen erstellten Wiedergabelisten!\n%s</string>
+    <string name="clear_media_db_message">Sie verlieren Ihren Verlauf, Lesezeichen und die von Ihnen erstellten Wiedergabelisten, Sie behalten aber Ihre VLC für Android Einstellungen</string>
+    <string name="clear_app_data_message">Sie verlieren Ihren Verlauf, Lesezeichen, Wiedergabelisten und alle VLC-Einstellungen</string>
+    <string name="clear">Löschen</string>
     <string name="abrepeat_add_first_marker">Anfangspunkt setzen</string>
     <string name="abrepeat_add_second_marker">Endpunkt setzen</string>
     <string name="demux_bitrate">Demux-Bitrate</string>
@@ -700,6 +719,7 @@
     <string name="subtitle_delay_end">Text gesehen</string>
     <string name="track_index">Titel: %s</string>
     <string name="audio_queue_progress">Fortschritt: %s</string>
+    <string name="audio_queue_progress_remaining">Verbleibend: %s</string>
     <string name="audio_queue_progress_finished">Endet um: %s</string>
     <string name="sortby_track">Titel</string>
     <string name="this_folder">Diesen Ordner hinzufügen</string>
@@ -741,6 +761,7 @@
     <string name="donate_again">Die App nochmals unterstützen</string>
 
     <string name="mark_as_played">Als gespielt markieren</string>
+    <string name="mark_as_not_played">Als nicht abgespielt markieren</string>
     <string name="mark_all_as_played">Alle als gespielt markieren</string>
     <string name="new_group">Neue Gruppe</string>
     <string name="new_group_desc">Neue Gruppe erstellen</string>
@@ -764,17 +785,50 @@
     <string name="prefersmbv1_summary">Deaktivieren Sie diese Einstellung, wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben</string>
     <string name="apply_to_all">Auf alle Videos anwenden</string>
     <string name="audio_delay_global">Tonverzögerung für alle Videos auf %s ms gesetzt</string>
+    <string name="audio_delay_bt">Tonverzögerung für Bluetooth-Geräte auf %s ms gesetzt</string>
     <string name="warning_stream_speed">Die Erhöhung der Wiedergabegeschwindigkeit für Streams auf über 1 kann zum Stottern führen</string>
     <string name="go_to_folder">Übergeordnetes Verzeichnis durchsuchen</string>
     <string name="no_sub_renderer">Untertitel werden beim Casting noch nicht unterstützt</string>
     <string name="enqueuing">Ihre Medien werden geladen</string>
     <string name="soundfont">MIDI-SoundFont</string>
     <string name="soundfont_summary">Eine SoundFont-Datei zum Abspielen von MIDI-Audiodateien auswählen</string>
+    <string name="missing_media_snack">Medien fehlen. Alle fehlenden Medien ausblenden?</string>
+    <string name="browser_show_missing_media">Fehlenden Medien anzeigen</string>
+    <string name="browser_show_missing_media_summary">Zeige entferntes Medienereignis, wenn diese nicht verfügbar sind</string>
     <string name="search_prefs">Suche in Einstellungen</string>
     <string name="preferred_resolution">Bevorzugte Videoauflösung</string>
     <string name="preferred_resolution_summary">Die maximale Videoqualität für Streams, wenn verfügbar, beträgt: %s</string>
     <string name="pref_resolution_best_available">Bestmögliche</string>
     <string name="pref_resolution_very_low">Sehr niedrige Auflösung (240p)</string>
     <string name="stop_unpaubale">Dieses Medium kann nicht pausiert werden. Stattdessen stoppen?</string>
+    <string name="delete_forever">Für immer löschen</string>
+    <string name="add_to_existing_playlist">Zur vorhandenen Wiedergabeliste hinzufügen</string>
+    <string name="bookmarks_title">Lesezeichen</string>
+    <string name="no_bookmark">Bisher kein Lesezeichen vorhanden</string>
+    <string name="bookmark_name">%s - Lesezeichen</string>
+    <string name="optional_features">Optionale Funktionen</string>
+    <string name="optional_features_summary">Beta-Funktionen, die derzeit getestet werden, könnten nicht stabil sein</string>
+    <string name="optional_features_warning">Diese Funktion befindet sich in der Betaphase und kann zu Abstürzen und Instabilitäten führen</string>
+    <string name="start_vlc">VLC starten</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Dupliziertes Element hinzufügen?</string>
+    <string name="add_button">Hinzufügen</string>
+    <string name="add_all_button">Alle hinzufügen</string>
+    <string name="add_new_only_button">Nur neue hinzufügen</string>
+    <string name="discovery_failed">Erkennung fehlgeschlagen für: %s</string>
+    <string name="lock_use_sensor_title">Mit Sensor sperren</string>
+    <string name="lock_use_sensor_summary">Wenn die Ausrichtung gesperrt ist, den Sensor zur umgekehrten Ausrichtung verwenden</string>
+    <string name="start">Start</string>
+    <string name="permission">Berechtigungen</string>
+    <string name="customize">Anpassen</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Dieses Element befinden sich bereits in dieser Wiedergabeliste. </item>
+        <item quantity="other">Diese Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">Eines der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+        <item quantity="other">%d der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+    </plurals>
 
 </resources>
