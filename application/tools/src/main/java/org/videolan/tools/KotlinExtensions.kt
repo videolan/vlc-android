@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Uri
-import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -134,6 +133,17 @@ fun Uri?.retrieveParent(): Uri? {
         pathSegments.dropLast(1).forEach {
             if (it != lastPathSegment) builder.appendPath(it)
         }
+        return builder.build()
+    } catch (e: Exception) {
+    }
+    return null
+}
+
+fun Uri?.removeQuery(): Uri? {
+    try {
+        if (this == null) return null
+        val builder = Uri.Builder().scheme(scheme).authority(authority)
+        pathSegments.forEach { builder.appendPath(it) }
         return builder.build()
     } catch (e: Exception) {
     }
