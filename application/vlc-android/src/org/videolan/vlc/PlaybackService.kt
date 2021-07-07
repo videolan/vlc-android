@@ -1430,7 +1430,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 try {
                     result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
                 } catch (e: RuntimeException) {
-                    Log.e(TAG, "Failed to load children for $parentId", e);
+                    Log.e(TAG, "Failed to load children for $parentId", e)
                 }
             }
         }
@@ -1444,7 +1444,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 try {
                     result.sendResult(MediaSessionBrowser.search(applicationContext, query))
                 } catch (e: RuntimeException) {
-                    Log.e(TAG, "Failed to search for $query", e);
+                    Log.e(TAG, "Failed to search for $query", e)
                 }
             }
         }

@@ -85,7 +85,7 @@ private const val ENABLE_TRACING = false
  * content://org.videolan.vlc.artwork/play_all/artist/<track count>/<id>
  * content://org.videolan.vlc.artwork/play_all/genre/<track count>/<id>
  * content://org.videolan.vlc.artwork/play_all/playlist/<CRC32 checksum>/<track count>/<id>
- * content://org.videolan.vlc.artwork/shuffle_all/<half day expiration time>/<track count>/
+ * content://org.videolan.vlc.artwork/shuffle_all/<half day expiration time>/<track count>
  * content://org.videolan.vlc.artwork/history/<XOR checksum>/<track count>
  * content://org.videolan.vlc.artwork/last_added/<XOR checksum>/<track count>
  *

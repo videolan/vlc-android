@@ -391,7 +391,7 @@ object MediaUtils {
         val album = getMediaAlbum(ctx, media)
         val desc = if (artist != getMediaString(ctx, R.string.unknown_artist) && album != getMediaString(ctx, R.string.unknown_album))
             getMediaDescription(artist.markBidi(), album.markBidi()) else ""
-        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " • $desc" else desc) else "")
+        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " ⋅ $desc" else desc) else "")
         //Replace full-spaces with thin-spaces (Unicode 2009)
         return sb.toString().replace(" ", "\u2009")
     }
