@@ -67,6 +67,10 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
     private var fragment: Fragment? = null
     override val displayTitle = true
     private val dialogsDelegate = DialogDelegate()
+    val isOnboarding:Boolean
+    get() {
+        return intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING
+    }
 
     override fun forcedTheme() =
         if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Black

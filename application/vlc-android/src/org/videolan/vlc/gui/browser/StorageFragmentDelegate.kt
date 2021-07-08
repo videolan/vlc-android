@@ -33,9 +33,9 @@ import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
-import org.videolan.vlc.gui.onboarding.OnboardingActivity
 
 interface IStorageFragmentDelegate {
     fun checkBoxAction(v: View, mrl: String)
@@ -72,7 +72,7 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
     override fun checkBoxAction(v: View, mrl: String) {
         val tscb = v as ThreeStatesCheckbox
         val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED
-        if (context is OnboardingActivity) {
+        if ((context as? SecondaryActivity)?.isOnboarding == true) {
             val path = mrl.sanitizePath()
             if (checked) {
                 MediaParsingService.preselectedStorages.removeAll { it.startsWith(path) }
