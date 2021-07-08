@@ -48,9 +48,13 @@
     <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
+    <string name="confirm_delete_message">Cette décision est permanente et ne peut être annulée.</string>
     <string name="confirm_delete_album">Supprimer l\'album  « %1$s » ?</string>
     <string name="confirm_delete_several_media">Supprimer ces %1$d médias ?</string>
     <string name="confirm_delete_folder">Supprimer le dossier « %1$s » ainsi que son contenu ?</string>
+    <string name="confirm_delete_folders">Supprimer ces %1$s dossiers et leurs contenus ?</string>
+    <string name="confirm_delete_files">Supprimer ces %1$s fichiers ?</string>
+    <string name="confirm_delete_folders_and_files">Supprimer ces %1$s dossiers et %2$s fichiers ?</string>
     <string name="confirm_delete_playlist">Supprimer la liste de lecture « %1$s » ?</string>
     <string name="confirm_remove_from_playlist">Retirer « %1$s » de la liste de lecture ?</string>
     <string name="ringtone_set">Le fichier « %1$s » a été défini comme sonnerie.</string>
@@ -94,11 +98,15 @@
         <item quantity="one">1 TV show</item>
         <item quantity="other">%d séries TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 piste</item>
+        <item quantity="other">%d pistes</item>
+    </plurals>
 
     <string name="internal_memory">Mémoire interne</string>
     <string name="audio">Audio</string>
     <string name="video">Vidéo</string>
-    <string name="bookmarks">Signets</string>
+    <string name="bookmarks">Favoris</string>
     <string name="equalizer">Égaliseur</string>
     <string name="all_albums">Tous les albums</string>
     <string name="genres">Genres</string>
@@ -112,7 +120,7 @@
     <string name="nosubfolder">Aucun sous-dossier</string>
     <string name="directorynotfound">Dossier « %1$s » non trouvé.</string>
     <string name="nohistory">Pas d\'historique de lecture</string>
-    <string name="validation">Êtes-vous sûr ?</string>
+    <string name="validation">Le voulez-vous vraiment ?</string>
 
     <string name="cover_art">Pochette</string>
     <string name="shuffle_all_title">Tout lire en aléatoire</string>
@@ -373,6 +381,8 @@
     <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="clear_media_database_summary">Efface la base de données pour recommencer à zéro</string>
+    <string name="clear_app_data">Effacer les données de l\'application</string>
+    <string name="clear_app_data_summary">Efface les données de VLC pour Android</string>
     <string name="clear_history">Vider l\'historique de lecture</string>
     <string name="set_locale">Définir la langue</string>
     <string name="network_caching">Taille du cache réseau</string>
@@ -463,6 +473,11 @@
     <string name="allow_draw_overlays_title">Autoriser la popup VLC à s\'afficher par dessus les autres applications</string>
     <string name="allow_sdraw_overlays_description">VLC a besoin de votre autorisation pour afficher les vidéos dans une popup par dessus les autres applications</string>
     <string name="permission_ask_again">Donner l\'autorisation</string>
+    <string name="permission_not_granted">Permission non accordée</string>
+    <string name="permission_expanation_no_allow">Vous ne serez pas en mesure d\'auto-découvrir vos médias ni d\'utiliser des sous-titres externes</string>
+    <string name="permission_expanation_allow">Vous ne pourrez lire que les flux ou les médias réseau</string>
+    <string name="permission_expanation_subtitles">Utiliser des sous-titres externes</string>
+    <string name="permission_expanation_allow_explanation">Lecture de flux internet ou de médias en réseau</string>
     <string name="exit_app">Fermer VLC</string>
     <string name="exit_app_msg">Voulez-vous vraiment quitter VLC ?</string>
 
@@ -491,7 +506,7 @@
     <string name="download_subtitles">Télécharger des sous-titres</string>
     <string name="browse_folder">Ouvrir le dossier</string>
     <string name="listen">Écouter</string>
-    <string name="save_bluetooth_delay">enregistrer le retard du périphérique bluetooth</string>
+    <string name="apply_to_bt">Appliquer au périphérique Bluetooth</string>
     <string name="episodes">épisodes</string>
     <string name="movies">films</string>
     <string name="videos">vidéos</string>
@@ -590,6 +605,8 @@
     <string name="onboarding_theme_title">Faites comme chez vous</string>
     <string name="done">Terminé</string>
     <string name="onboarding_scan_title">Trouver automatiquement vos médias</string>
+    <string name="onboarding_all_set">VLC est prêt !</string>
+    <string name="onboarding_permission_given">Vous pouvez désormais détecter automatiquement vos médias, utiliser des sous-titres externes et lire des flux ou des médias en réseau. </string>
     <string name="daynight_system_explanation">VLC basculera automatiquement en mode sombre en fonction du paramétrage du système</string>
     <string name="daynight_legacy_explanation">VLC basculera automatiquement en mode nuit au moment opportun</string>
     <string name="onboarding_scanning_enable">Laisser VLC analyser les médias sur mon appareil</string>
@@ -621,7 +638,7 @@
         <item quantity="other">%d Pistes annexées</item>
     </plurals>
     <string name="remove_current">Supprimer l\'élément actuel</string>
-    <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
+    <string name="validation_delete_playlist">Voulez-vous vraiment supprimer cette liste de lecture ?</string>
     <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
     <string name="display_in_list">Afficher en liste</string>
     <string name="display_in_grid">Afficher en grille</string>
@@ -674,7 +691,9 @@
     <string name="recently_played">Lu récemment</string>
     <string name="recently_added">Ajouté récemment</string>
     <string name="playback_multiple_errors">Plusieurs médias ne peuvent être lus</string>
-    <string name="clear_media_db_warning">Vous perdrez vos avancements et les listes de lecture que vous avez créées.\n%s</string>
+    <string name="clear_media_db_message">Vous perdrez vos progressions, vos favoris et les listes de lecture que vous avez créées, mais vous conserverez vos paramètres VLC pour Android</string>
+    <string name="clear_app_data_message">Vous perdrez vos progressions, vos favoris, vos listes de lecture et tous les paramètres de VLC</string>
+    <string name="clear">Nettoyer</string>
     <string name="abrepeat_add_first_marker">Définir le point de début</string>
     <string name="abrepeat_add_second_marker">Définir le point de fin</string>
     <string name="demux_bitrate">Débit de démultiplexage</string>
@@ -700,6 +719,7 @@
     <string name="subtitle_delay_end">Texte vu</string>
     <string name="track_index">Piste : %s</string>
     <string name="audio_queue_progress">Progression : %s</string>
+    <string name="audio_queue_progress_remaining">Durée estimée : %s</string>
     <string name="audio_queue_progress_finished">Finit à : %s</string>
     <string name="sortby_track">Piste</string>
     <string name="this_folder">Ajouter ce dossier</string>
@@ -741,6 +761,7 @@
     <string name="donate_again">Financer l’application à nouveau</string>
 
     <string name="mark_as_played">Marquer comme vu</string>
+    <string name="mark_as_not_played">Marquer comme non vu</string>
     <string name="mark_all_as_played">Marquer tout comme vu</string>
     <string name="new_group">Nouveau groupe</string>
     <string name="new_group_desc">Créer un nouveau groupe</string>
@@ -764,17 +785,50 @@
     <string name="prefersmbv1_summary">Décochez ce paramètre si vous avez des difficultés à naviguer sur votre serveur SMB</string>
     <string name="apply_to_all">Appliquer à toutes les vidéos</string>
     <string name="audio_delay_global">Délai audio défini à %sms pour toutes les vidéos</string>
+    <string name="audio_delay_bt">Le retard audio est réglé sur %s ms pour le périphérique Bluetooth.</string>
     <string name="warning_stream_speed">L\'augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="go_to_folder">Parcourir le parent</string>
     <string name="no_sub_renderer">Les sous-titres ne sont pas encore pris en charge lors du casting</string>
     <string name="enqueuing">Chargement de vos médias</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Sélectionnez un fichier SoundFont pour jouer les pistes audio MIDI</string>
+    <string name="missing_media_snack">Les médias sont manquants. Masquer tous les médias manquants ?</string>
+    <string name="browser_show_missing_media">Afficher les médias manquants</string>
+    <string name="browser_show_missing_media_summary">Montrer l\'événement aux médias éloignés s\'ils ne sont pas présents</string>
     <string name="search_prefs">Paramètres de recherche</string>
     <string name="preferred_resolution">Résolution vidéo préférée</string>
     <string name="preferred_resolution_summary">La qualité vidéo maximale pour les flux, le cas échéant, sera : %s</string>
     <string name="pref_resolution_best_available">Le meilleur possible</string>
     <string name="pref_resolution_very_low">Très basse définition (240p)</string>
-    <string name="stop_unpaubale">Ce média ne peut pas être mis en pause. Arrêtez-le plutôt ?</string>
+    <string name="stop_unpaubale">Ce média ne peut pas être mis en pause. Arrêtez-le plutôt ?</string>
+    <string name="delete_forever">Supprimer pour toujours</string>
+    <string name="add_to_existing_playlist">Ajouter à une liste de lecture existante</string>
+    <string name="bookmarks_title">Favoris</string>
+    <string name="no_bookmark">Pas encore de favori</string>
+    <string name="bookmark_name">Favori %s</string>
+    <string name="optional_features">Fonctions optionnelles</string>
+    <string name="optional_features_summary">Fonctionnalités bêta qui sont en cours de test et peuvent ne pas être stables</string>
+    <string name="optional_features_warning">Cette fonctionnalité est en version bêta et peut provoquer des pannes et des instabilités.</string>
+    <string name="start_vlc">Démarrer VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Ajouter un/des élément(s) en double ?</string>
+    <string name="add_button">Ajouter</string>
+    <string name="add_all_button">Ajouter tous</string>
+    <string name="add_new_only_button">Ajouter uniquement le(s) nouveau(x)</string>
+    <string name="discovery_failed">La découverte a échoué pour : %s</string>
+    <string name="lock_use_sensor_title">Verrouillage avec capteur</string>
+    <string name="lock_use_sensor_summary">Lorsque l\'orientation est verrouillée, utilisez le capteur pour permettre l\'orientation inverse.</string>
+    <string name="start">Démarrer</string>
+    <string name="permission">Permission</string>
+    <string name="customize">Personnaliser</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Cet élément est déjà dans cette liste de lecture.</item>
+        <item quantity="other">Ces éléments sont déjà dans cette liste de lecture.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 des éléments sélectionnés se trouve déjà dans cette liste de lecture.</item>
+        <item quantity="other">%d des éléments sélectionnés se trouvent déjà dans cette liste de lecture..</item>
+    </plurals>
 
 </resources>
