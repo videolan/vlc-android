@@ -1761,8 +1761,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             videoUri = uri
                             media = medialibrary.getMedia(uri)
                         }
-                        if (media != null && media.id != 0L && media.time == 0L)
-                            media.time = media.getMetaLong(MediaWrapper.META_PROGRESS)
                     } else media = openedMedia
                     if (media != null) {
                         // in media library

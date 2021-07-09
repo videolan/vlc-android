@@ -39,20 +39,20 @@ import java.util.Locale;
 public class MediaWrapperImpl extends MediaWrapper {
     public final static String TAG = "VLC/MediaWrapperImpl";
 
-    public MediaWrapperImpl(long id, String mrl, long time, long length, int type, String title,
+    public MediaWrapperImpl(long id, String mrl, long time, float position, long length, int type, String title,
                             String filename, String artist, String genre, String album, String albumArtist,
                             int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                             int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate, boolean isPresent) {
-        super(id, mrl, time, length, type, title, filename, artist,
+        super(id, mrl, time, position, length, type, title, filename, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
                 seen, isThumbnailGenerated, releaseDate, isPresent);
     }
 
-    public MediaWrapperImpl(Uri uri, long time, long length, int type,
+    public MediaWrapperImpl(Uri uri, long time, float position, long length, int type,
                             Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                             int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
-        super(uri, time, length, type, picture, title, artist,
+        super(uri, time, position, length, type, picture, title, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified, seen);
     }
@@ -271,6 +271,13 @@ public class MediaWrapperImpl extends MediaWrapper {
         if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
     }
 
+    @Override
+    public boolean setPlayCount(long playCount) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        return nativeSetMediaPlayCount(ml, mId, playCount);
+    }
+
     public void removeThumbnail() {
         if (mId == 0L) return;
         final Medialibrary ml = Medialibrary.getInstance();
@@ -296,6 +303,7 @@ public class MediaWrapperImpl extends MediaWrapper {
     private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
     private native boolean nativeRemoveFromHistory(Medialibrary ml, long id);
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
+    private native boolean nativeSetMediaPlayCount(Medialibrary ml, long id, long playCount);
     private native boolean nativeRemoveMediaThumbnail(Medialibrary ml, long id);
     private native void nativeRequestThumbnail(Medialibrary ml, long mediaId, int type, int width, int height, float position);
     private native Bookmark[] nativeGetBookmarks(Medialibrary ml, long id);

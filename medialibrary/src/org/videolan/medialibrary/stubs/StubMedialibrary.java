@@ -399,7 +399,7 @@ public class StubMedialibrary extends Medialibrary {
             media = addStream(mrl, title);
         }
         dt.mHistory.add(media);
-        setProgress(media.getId(), 1.0f);
+        setLastTime(media.getId(), media.getTime());
         return true;
     }
 
@@ -496,7 +496,7 @@ public class StubMedialibrary extends Medialibrary {
 
     public void requestThumbnail(long id) {}
 
-    public boolean setProgress(long mediaId, float progress) {
+    public boolean setLastTime(long mediaId, long time) {
         for (int i = 0; i < dt.mVideoMediaWrappers.size(); i++) {
             MediaWrapper media = dt.mVideoMediaWrappers.get(i);
             if (media.getId() == mediaId) {
@@ -507,7 +507,11 @@ public class StubMedialibrary extends Medialibrary {
         return true;
     }
 
-    public SearchAggregate search(String query, boolean includeMissing) {
+    public boolean setLastPosition(long mediaId, float poistion) {
+        return true;
+    }
+
+        public SearchAggregate search(String query, boolean includeMissing) {
         MediaWrapper[] videos = searchVideo(query);
         MediaWrapper[] tracks = searchAudio(query);
         Album[] albums = searchAlbum(query);

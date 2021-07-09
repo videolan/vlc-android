@@ -305,6 +305,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private var lastTime = 0L
+    var lastPosition = 0F
     private val eventActor = actor<MediaPlayer.Event>(capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
         for (event in channel) {
             when (event.type) {
@@ -320,6 +321,10 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
                         updateProgress(newTime = time)
                         lastTime = time
                     }
+                }
+                MediaPlayer.Event.PositionChanged -> {
+                    lastPosition = event.positionChanged
+
                 }
             }
             mediaplayerEventListener?.onEvent(event)

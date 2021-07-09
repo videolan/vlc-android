@@ -64,17 +64,14 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
     unsigned int height = hasVideoTracks ? videoTracks.at(0)->height() : 0;
     int64_t duration = mediaPtr->duration();
-    const float progress = mediaPtr->progress() * duration;
-    const medialibrary::IMetadata& seenMeta =  mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen );
-    int64_t seen = seenMeta.isSet() ? seenMeta.asInt() : 0;
 
     auto hasThumbnail = mediaPtr->thumbnailStatus(medialibrary::ThumbnailSizeType::Thumbnail) == medialibrary::ThumbnailStatus::Available;
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
-                          (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
+                          (jlong) mediaPtr->id(), mrl, (jlong) mediaPtr->lastTime(), (jfloat) mediaPtr->lastPosition(), (jlong) duration, type,
                           title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
-                           seen, hasThumbnail, mediaPtr->releaseDate(), isPresent);
+                          (jlong) mediaPtr->playCount(), hasThumbnail, mediaPtr->releaseDate(), isPresent);
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
