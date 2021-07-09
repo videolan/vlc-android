@@ -184,11 +184,20 @@ AndroidMediaLibrary::forceRescan()
 }
 
 bool
-AndroidMediaLibrary::setProgress(int64_t mediaId, float progress)
+AndroidMediaLibrary::setLastPosition(int64_t mediaId, float lastPosition)
 {
     auto media = p_ml->media(mediaId);
     if (media != nullptr)
-        return media->setProgress( progress );
+        return media->setLastPosition( lastPosition );
+    return false;
+}
+
+bool
+AndroidMediaLibrary::setLastTime(int64_t mediaId, int64_t time)
+{
+    auto media = p_ml->media(mediaId);
+    if (media != nullptr)
+        return media->setLastTime( time );
     return false;
 }
 

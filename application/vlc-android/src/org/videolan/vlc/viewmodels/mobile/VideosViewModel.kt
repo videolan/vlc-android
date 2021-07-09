@@ -214,24 +214,24 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     suspend fun markAsPlayed(media: MediaLibraryItem) = withContext(Dispatchers.IO) {
         when (media) {
             is VideoGroup -> media.getAll().forEach {
-                it.setLongMeta(MediaWrapper.META_SEEN, it.seen + 1)
+                if (it.seen == 0L) it.setPlayCount(1L)
             }
             is Folder -> media.getAll().forEach {
-                it.setLongMeta(MediaWrapper.META_SEEN, it.seen + 1)
+                if (it.seen == 0L) it.setPlayCount(1L)
             }
-            is MediaWrapper -> media.setLongMeta(MediaWrapper.META_SEEN, media.seen + 1)
+            is MediaWrapper -> if (media.seen == 0L) media.setPlayCount(1L)
             else -> {}
         }
     }
     suspend fun markAsUnplayed(media: MediaLibraryItem) = withContext(Dispatchers.IO) {
         when (media) {
             is VideoGroup -> media.getAll().forEach {
-                it.setLongMeta(MediaWrapper.META_SEEN, 0)
+                it.setPlayCount(0L)
             }
             is Folder -> media.getAll().forEach {
-                it.setLongMeta(MediaWrapper.META_SEEN, 0)
+                it.setPlayCount(0L)
             }
-            is MediaWrapper -> media.setLongMeta(MediaWrapper.META_SEEN, 0)
+            is MediaWrapper -> media.setPlayCount(0L)
             else -> {}
         }
     }
