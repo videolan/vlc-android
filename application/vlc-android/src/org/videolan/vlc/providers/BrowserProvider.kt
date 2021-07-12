@@ -24,7 +24,6 @@ import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
-import android.util.Log
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
@@ -45,7 +44,6 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.*
 import java.io.File
