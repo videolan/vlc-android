@@ -26,7 +26,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,13 +34,11 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CTX_PLAY_ALL
-import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
@@ -175,8 +172,13 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             }
             else -> {
                 adapter?.cardSize = -1
-                if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
-                    playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.provider))
+                playlists.addItemDecoration(
+                    RecyclerSectionItemDecoration(
+                        resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
+                        true,
+                        viewModel.provider
+                    )
+                )
                 playlists.layoutManager = LinearLayoutManager(activity)
             }
         }

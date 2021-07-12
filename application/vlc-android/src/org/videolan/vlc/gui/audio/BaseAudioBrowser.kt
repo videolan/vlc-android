@@ -116,7 +116,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 if (position == adapter.itemCount - 1) return 1
-                if (provider.isFirstInSection(position + 1)) {
+                if (Settings.showHeaders && provider.isFirstInSection(position + 1)) {
 
                     //calculate how many cell it must take
                     val firstSection = provider.getPositionForSection(position)
@@ -131,17 +131,15 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
         }
         list.layoutManager = gridLayoutManager
-        if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
-            list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, provider))
-        else list.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                super.getItemOffsets(outRect, view, parent, state)
-                outRect.bottom = 8.dp
-                outRect.top = 8.dp
-                outRect.left = spacing / 2
-                outRect.right = spacing / 2
-            }
-        })
+        list.addItemDecoration(
+            RecyclerSectionItemGridDecoration(
+                resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
+                spacing,
+                true,
+                nbColumns,
+                provider
+            )
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -178,8 +176,13 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
             else -> {
                 adapter.cardSize = -1
-                if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
-                    list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, provider))
+                list.addItemDecoration(
+                    RecyclerSectionItemDecoration(
+                        resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
+                        true,
+                        provider
+                    )
+                )
                 list.layoutManager = LinearLayoutManager(activity)
             }
         }

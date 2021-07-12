@@ -52,12 +52,10 @@ import kotlinx.coroutines.yield
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.SELECTED_ITEM
 import org.videolan.resources.util.HeadersIndex
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.*
-import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -160,7 +158,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         binding.imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
-        if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true)) recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
+        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
         inGrid = Settings.getInstance(requireActivity()).getBoolean(getDisplayPrefId(), true)
         setupDisplayIcon()
         setupLayoutManager()
@@ -216,7 +214,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                     if (position == (adapter as RecyclerView.Adapter<*>).itemCount - 1) {
                         return 1
                     }
-                    if (viewModel.provider.isFirstInSection(position + 1)) {
+                    if (viewModel.provider.isFirstInSection(position + 1) && Settings.showHeaders) {
 
                         //calculate how many cell it must take
                         val firstSection = viewModel.provider.getPositionForSection(position)

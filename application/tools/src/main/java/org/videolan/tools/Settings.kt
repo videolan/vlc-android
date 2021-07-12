@@ -23,6 +23,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var overrideTvUI = false
     var videoHudDelay = 2
     var includeMissing = true
+    var showHeaders = true
     lateinit var device : DeviceInfo
         private set
 
@@ -34,6 +35,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
         device = DeviceInfo(context)
         includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
+        showHeaders = prefs.getBoolean(KEY_SHOW_HEADERS, true)
         return prefs
     }
 
