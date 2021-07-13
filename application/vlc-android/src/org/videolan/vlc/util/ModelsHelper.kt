@@ -8,6 +8,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary.*
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.*
@@ -141,13 +142,15 @@ object ModelsHelper {
             }
         }
         SORT_LASTMODIFICATIONDATE -> {
-            val timestamp = (item as MediaWrapper).lastModified
-            val category = getTimeCategory(timestamp)
-            if (aboveItem == null) getTimeCategoryString(context, category)
-            else {
-                val prevCat = getTimeCategory((aboveItem as MediaWrapper).lastModified)
-                if (prevCat != category) getTimeCategoryString(context, category) else null
-            }
+            if (item is MediaWrapper) {
+                val timestamp = (item as? MediaWrapper)?.lastModified ?: 0
+                val category = getTimeCategory(timestamp)
+                if (aboveItem == null) getTimeCategoryString(context, category)
+                else {
+                    val prevCat = getTimeCategory((aboveItem as? MediaWrapper)?.lastModified ?: -1)
+                    if (prevCat != category) getTimeCategoryString(context, category) else null
+                }
+            } else null
         }
         SORT_ARTIST -> {
             val artist = (item as? MediaWrapper)?.artist ?: (item as? Album)?.albumArtist ?: ""
