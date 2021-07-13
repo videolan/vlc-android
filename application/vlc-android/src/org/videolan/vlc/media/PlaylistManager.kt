@@ -903,7 +903,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)
-                if (internalMedia == null || internalMedia.id == 0L) {
+                if (internalMedia != null && internalMedia.id != 0L) {
+                    id = internalMedia.id
+                } else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
@@ -912,10 +914,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         medialibrary.addMedia(mw.uri.toString(), mw.length)
                     }
                     if (internalMedia != null) {
+                        id = internalMedia.id
                         getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
                     }
                 }
             }
+            val length = player.getLength()
+            val canSwitchToVideo = player.canSwitchToVideo()
+            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (length == 0L) medialibrary.setLastPosition(mw.id, 1.0f) else  medialibrary.setLastTime(mw.id, length)
         }
     }
 
