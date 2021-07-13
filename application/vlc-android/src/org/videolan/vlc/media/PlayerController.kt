@@ -101,7 +101,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         val mp = mediaplayer
         val volume = mp.volume
         mediaplayer = newMediaPlayer()
-        if (volume != 100) {
+        if (volume > 100) {
             mediaplayer.volume = volume
         }
         release(mp)
