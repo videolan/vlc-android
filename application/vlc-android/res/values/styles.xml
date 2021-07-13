@@ -132,6 +132,7 @@
         <item name="ariane_text_size">14sp</item>
         <item name="android:windowBackground">@color/grey900</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
+        <item name="empty_title">@color/grey300</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog.Light.7" parent="Theme.MaterialComponents.Dialog">
@@ -150,6 +151,7 @@
         <item name="ariane_text_size">14sp</item>
         <item name="android:windowBackground">@color/grey200</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
+        <item name="empty_title">@color/grey850</item>
     </style>
 
     <style name="Theme.VLC.SendCrashDialog" parent="Theme.MaterialComponents.Dialog">
