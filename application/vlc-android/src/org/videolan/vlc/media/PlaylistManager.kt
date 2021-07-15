@@ -353,7 +353,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
             val start = getStartTime(mw)
+            //todo restore position as well when we move to VLC 4.0
             val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
+            //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags, PlaybackService.hasRenderer())
             /* keeping only video during benchmark */
@@ -469,18 +471,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (media.id == 0L) return@launch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
             if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
-                var progress = time / length.toFloat()
-                if (progress > 0.95f || length - time < 10000) {
-                    //increase seen counter if more than 95% of the media have been seen
-                    //and reset progress to 0
-                    media.setLongMeta(MediaWrapper.META_SEEN, media.seen+1)
-                    progress = 0f
+                if (length == 0L) {
+                    media.time = -1L
+                    media.position = player.lastPosition
+                    medialibrary.setLastPosition(media.id, media.position)
+                } else {
+                    media.time = time
+                    //todo verify that this info is persisted in DB
+                    if (media.length <= 0 && length > 0) media.length = length
+
+                    medialibrary.setLastTime(media.id, time)
                 }
-                media.time = if (progress == 0f) 0L else time
-                media.setLongMeta(MediaWrapper.META_PROGRESS, media.time)
-                //todo verify that this info is persisted in DB
-                if (media.length <= 0 && length > 0) media.length = length
-                medialibrary.setProgress(media.id, progress)
             }
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
 
@@ -686,7 +687,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
-    private suspend fun getStartTime(mw: MediaWrapper) : Long {
+    private fun getStartTime(mw: MediaWrapper) : Long {
         val start = when {
             mw.hasFlag(MediaWrapper.MEDIA_FROM_START) -> {
                 mw.removeFlags(MediaWrapper.MEDIA_FROM_START)
@@ -694,7 +695,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             savedTime <= 0L -> when {
                 mw.time > 0L -> mw.time
-                mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(Dispatchers.IO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
                 else -> 0L
             }
             else -> savedTime
@@ -903,9 +903,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)
-                if (internalMedia != null && internalMedia.id != 0L) {
-                    id = internalMedia.id
-                } else {
+                if (internalMedia == null || internalMedia.id == 0L) {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
@@ -914,12 +912,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         medialibrary.addMedia(mw.uri.toString(), mw.length)
                     }
                     if (internalMedia != null) {
-                        id = internalMedia.id
                         getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
                     }
                 }
             }
-            if (id != 0L) medialibrary.setProgress(id, 1.0f)
         }
     }
 

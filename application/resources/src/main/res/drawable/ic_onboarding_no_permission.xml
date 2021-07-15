@@ -1,0 +1,42 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_onboarding_no_permission.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="58dp"
+    android:height="58dp"
+    android:viewportWidth="58"
+    android:viewportHeight="58">
+  <path
+      android:pathData="M28.8,1.9999C26.0005,2.029 23.1821,4.4539 21.6,9.2002L8.4023,48.8002L3.6,48.8002C1.6056,48.8002 0,50.4058 0,52.4002L0,56.0002L57.6,56.0002L57.6,52.4002C57.6,50.4058 55.9944,48.8002 54,48.8002L49.1977,48.8002L36,9.2002C34.3802,4.3407 31.5995,1.9719 28.8,1.9999Z"
+      android:strokeWidth="1"
+      android:fillColor="#FF8800"
+      android:fillType="nonZero"
+      android:strokeColor="#00000000"/>
+  <path
+      android:pathData="M28.8,45.2002C30.7882,45.2002 32.4,46.812 32.4,48.8002C32.4,50.7884 30.7882,52.4002 28.8,52.4002C26.8118,52.4002 25.2,50.7884 25.2,48.8002C25.2,46.812 26.8118,45.2002 28.8,45.2002ZM28.8,16.4002C30.7882,16.4002 32.4,18.012 32.4,20.0002C32.3976,20.1059 32.3906,20.2115 32.3789,20.3166L32.4,20.3166L30.593,39.9057C30.5934,39.9291 30.5934,39.9525 30.593,39.9759L30.5789,40.0875C30.4348,40.9573 29.6817,41.5947 28.8,41.5932C27.9235,41.5919 27.1754,40.9596 27.0281,40.0956L27.0211,40.0956L27.0071,39.9264L25.2,20.3166L25.214,20.3166C25.2047,20.2114 25.2,20.1058 25.2,20.0002C25.2,18.012 26.8118,16.4002 28.8,16.4002Z"
+      android:strokeWidth="1"
+      android:fillColor="#FFFFFF"
+      android:fillType="nonZero"
+      android:strokeColor="#00000000"/>
+</vector>

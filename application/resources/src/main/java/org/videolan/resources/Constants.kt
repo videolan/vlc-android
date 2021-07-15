@@ -130,6 +130,7 @@ const val HEADER_TV_SHOW = 31L
 const val HEADER_RECENTLY_PLAYED = 32L
 const val HEADER_RECENTLY_ADDED = 33L
 const val HEADER_NOW_PLAYING = 34L
+const val HEADER_PERMISSION = 35L
 const val ID_SETTINGS = 10L
 const val ID_ABOUT_TV = 11L
 const val ID_LICENCE = 12L
@@ -150,6 +151,7 @@ const val ITEM = "item"
 const val KEY_GROUP = "key_group"
 const val KEY_FOLDER = "key_folder"
 const val KEY_GROUPING = "key_grouping"
+const val KEY_ANIMATED = "key_animated"
 const val FAVORITE_TITLE = "favorite_title"
 
 const val KEY_VIDEOS_CARDS = "video_display_in_cards"

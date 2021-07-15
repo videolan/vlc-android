@@ -3,7 +3,6 @@ package org.videolan.vlc.gui.view
 import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
 private const val TAG = "RecyclerSectionItemDecoration"
@@ -26,7 +24,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        if (isList) {
+        if (isList && Settings.showHeaders) {
             val pos = parent.getChildAdapterPosition(view)
             if (provider.isFirstInSection(pos)) {
                 outRect.top = headerOffset
@@ -36,6 +34,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
             }
             return
         }
+        if (isList) return
 
         val pos = parent.getChildAdapterPosition(view)
         val positionForSection = provider.getPositionForSection(pos)
@@ -43,12 +42,12 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         val isLastInLine = (pos - positionForSection) % nbColumns == nbColumns - 1
 
 
-        outRect.left = if (isFirstInLine) space else space / 2
-        outRect.right = if (isLastInLine) space else space / 2
+        outRect.left = if (isFirstInLine && Settings.showHeaders) space else space / 2
+        outRect.right = if (isLastInLine && Settings.showHeaders) space else space / 2
         outRect.top = space / 2
         outRect.bottom = space / 2
 
-        for (i in 0 until nbColumns) {
+        if (Settings.showHeaders) for (i in 0 until nbColumns) {
             if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
                 outRect.top = headerOffset + space * 2
             }
@@ -57,6 +56,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
+        if (!Settings.showHeaders) return
         if (provider.liveHeaders.value?.isEmpty != false) {
             return
         }
@@ -103,6 +103,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     private fun drawHeader(c: Canvas, child: View, headerView: View) {
+        if (!Settings.showHeaders) return
         c.save()
         if (sticky) {
             c.translate(0f, Math.max(0, child.top - headerView.height - (space * 1.5).toInt()).toFloat())

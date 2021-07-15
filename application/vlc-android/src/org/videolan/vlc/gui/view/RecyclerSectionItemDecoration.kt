@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import kotlin.math.max
@@ -22,13 +23,14 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
         super.getItemOffsets(outRect, view, parent, state)
 
         val pos = parent.getChildAdapterPosition(view)
-        if (provider.isFirstInSection(pos)) {
+        if (Settings.showHeaders && provider.isFirstInSection(pos)) {
             outRect.top = headerOffset
         }
     }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
+        if (!Settings.showHeaders) return
 
         if (!::headerView.isInitialized) {
             headerView = inflateHeaderView(parent)
@@ -75,6 +77,7 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
     }
 
     private fun drawHeader(c: Canvas, child: View, headerView: View) {
+        if (!Settings.showHeaders) return
         c.save()
         if (sticky) {
             c.translate(0f, max(0, child.top - headerView.height).toFloat())

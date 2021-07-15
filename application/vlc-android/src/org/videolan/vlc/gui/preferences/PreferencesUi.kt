@@ -112,6 +112,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+            KEY_SHOW_HEADERS -> {
+                Settings.showHeaders = (preference as TwoStatePreference).isChecked
+                (activity as PreferencesActivity).setRestart()
+                return true
+            }
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }

@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.gui.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -36,11 +37,14 @@ import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
 class EmptyLoadingStateView : FrameLayout {
 
@@ -59,9 +63,12 @@ class EmptyLoadingStateView : FrameLayout {
             loadingFlipper.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
-            emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
+            emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY || value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
+            emptyImageView.setImageDrawable(ContextCompat.getDrawable(context, if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
+            permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
+            permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
+            grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             noMediaButton.visibility = if (showNoMedia && value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
-
             field = value
         }
 
@@ -97,6 +104,7 @@ class EmptyLoadingStateView : FrameLayout {
         initAttributes(attrs, defStyle)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initAttributes(attrs: AttributeSet, defStyle: Int) {
         attrs.let {
             val a = context.theme.obtainStyledAttributes(attrs, R.styleable.EmptyLoadingStateView, 0, defStyle)
@@ -120,12 +128,11 @@ class EmptyLoadingStateView : FrameLayout {
             (context as Activity).startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
             noMediaClickListener?.invoke()
         }
-        container = findViewById(R.id.container)
-        normalConstraintSet.clone(container)
-        compactConstraintSet.clone(context, R.layout.view_empty_loading_compact)
-        if (compactMode) {
-            applyCompactMode()
+        grantPermissionButton.setOnClickListener {
+             (context as? FragmentActivity)?.askStoragePermission(false, null)
         }
+
+        permissionTextView.text = "${context.getString(R.string.permission_expanation_no_allow)}\n\n${context.getString(R.string.permission_expanation_allow)}"
     }
 
     private fun applyCompactMode() {
@@ -141,5 +148,5 @@ class EmptyLoadingStateView : FrameLayout {
 }
 
 enum class EmptyLoadingState {
-    LOADING, EMPTY, NONE
+    LOADING, EMPTY, NONE, MISSING_PERMISSION
 }

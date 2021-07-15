@@ -7,109 +7,25 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="org.videolan.vlc.gui.onboarding.OnboardingActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
+    <FrameLayout
+            android:id="@+id/fragment_onboarding_placeholder"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/previous"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <ImageButton
-            android:id="@+id/previous"
+    <ImageView
+            android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_widget_onboarding_previous_w"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:alpha="0"
-            android:onClick="onPrevious" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_up" />
 
-    <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/previous"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/previous">
-
-        <View
-                android:id="@+id/indicator0"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_circle" />
-
-        <View
-                android:id="@+id/indicator1"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_circle" />
-
-        <View
-                android:id="@+id/indicator2"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_circle" />
-
-        <View
-                android:id="@+id/indicator3"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_circle"
-                android:scaleX="0"
-                android:scaleY="0"
-                android:alpha="0"
-                android:visibility="gone" />
-    </LinearLayout>
-
-    <ImageButton
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_widget_onboarding_next_w"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:alpha="0"
-            android:onClick="onNext" />
-
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/doneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/done"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:alpha="0"
-            android:visibility="gone"
-            android:onClick="onDone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

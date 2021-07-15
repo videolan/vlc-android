@@ -85,7 +85,7 @@ private const val ENABLE_TRACING = false
  * content://org.videolan.vlc.artwork/play_all/artist/<track count>/<id>
  * content://org.videolan.vlc.artwork/play_all/genre/<track count>/<id>
  * content://org.videolan.vlc.artwork/play_all/playlist/<CRC32 checksum>/<track count>/<id>
- * content://org.videolan.vlc.artwork/shuffle_all/<half day expiration time>/<track count>/
+ * content://org.videolan.vlc.artwork/shuffle_all/<half day expiration time>/<track count>
  * content://org.videolan.vlc.artwork/history/<XOR checksum>/<track count>
  * content://org.videolan.vlc.artwork/last_added/<XOR checksum>/<track count>
  *
@@ -456,10 +456,11 @@ class ArtworkProvider : ContentProvider() {
          * Construct the URI for MediaWrappers
          */
         fun buildMediaUri(media: MediaWrapper): Uri {
+            val audioNoArtwork = media.type == MediaWrapper.TYPE_AUDIO && media.artworkMrl.isNullOrEmpty()
             return buildUri(Uri.Builder()
                     .appendPath(MEDIA)
-                    .appendPath("${media.lastModified}")
-                    .appendPath("${media.id}")
+                    .appendPath("${if (audioNoArtwork) 0L else media.lastModified}")
+                    .appendPath("${if (audioNoArtwork) 0L else media.id}")
                     .build())
         }
 

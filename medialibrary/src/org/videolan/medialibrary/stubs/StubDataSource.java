@@ -94,7 +94,7 @@ public class StubDataSource {
         for (int i = 0; i < count; i++) {
             fileName = i + " - " + STUBBED_VIDEO_TITLE + STUBBED_AUDIO_EXTENSION;
             String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
-            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 18820L, MediaWrapper.TYPE_VIDEO,
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, -1L, -1F, 18820L, MediaWrapper.TYPE_VIDEO,
                     fileName, fileName, "", "",
                     "", "", 416, 304, "", 0, -2,
                     0, 0, 1509466228L, 0L, true, 1970, true);
@@ -110,7 +110,7 @@ public class StubDataSource {
         for (int i = 0; i < count; i++) {
             fileName = i + " - " + STUBBED_AUDIO_TITLE + STUBBED_AUDIO_EXTENSION;
             String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
-            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280244L, MediaWrapper.TYPE_AUDIO,
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, -1L, -1F, 280244L, MediaWrapper.TYPE_AUDIO,
                     i + "-Show Me The Way", fileName, "Peter Frampton", "Rock",
                     "Shine On CD2", "Peter Frampton",
                     0, 0, baseMrl + folder + ".jpg",
@@ -390,7 +390,8 @@ public class StubDataSource {
             MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(
                     getUUID(),
                     jsonObject.getString("mrl"),
-                    0L,
+                    -1L,
+                    -1F,
                     jsonObject.getLong("length"),
                     type,
                     jsonObject.getString("title"),
@@ -548,7 +549,8 @@ public class StubDataSource {
         MediaWrapper newMedia = MLServiceLocator.getAbstractMediaWrapper(
                 media.getId(),
                 mrl,
-                0L,
+                -1L,
+                -1F,
                 media.getLength(),
                 MediaWrapper.TYPE_AUDIO,
                 media.getTitle(),
@@ -579,7 +581,7 @@ public class StubDataSource {
     }
 
     public MediaWrapper addMediaWrapper(String mrl, String title, int type) {
-        MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280224L, type,
+        MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, -1L, -1F, 280224L, type,
                 title, title, "Artisto", "Jazz", "XYZ CD1", "", 0, 0, baseMrl + title, -2,
                 1, 1, 0, 1547452796L, 0L, true, 0, true);
         if (type == MediaWrapper.TYPE_ALL) type = media.getType();

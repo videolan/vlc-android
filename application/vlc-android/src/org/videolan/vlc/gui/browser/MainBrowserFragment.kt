@@ -54,6 +54,7 @@ import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.*
 
 @ObsoleteCoroutinesApi
@@ -167,8 +168,9 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         containerAdapterAssociation[storageBbrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
         localViewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
-                storageBrowserAdapter.update(it)
+                if (Permissions.canReadStorage(requireActivity())) storageBrowserAdapter.update(it)
                 localEntry.loading.state = when {
+                    !Permissions.canReadStorage(requireActivity()) -> EmptyLoadingState.MISSING_PERMISSION
                     list.isNotEmpty() -> EmptyLoadingState.NONE
                     localViewModel.loading.value == true -> EmptyLoadingState.LOADING
                     else -> EmptyLoadingState.EMPTY
@@ -176,7 +178,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             }
         })
         localViewModel.loading.observe(viewLifecycleOwner, {
-            if (it) localEntry.loading.state = EmptyLoadingState.LOADING
+            if (it) localEntry.loading.state = EmptyLoadingState.LOADING else if (!Permissions.canReadStorage(requireActivity()))localEntry.loading.state = EmptyLoadingState.MISSING_PERMISSION
         })
         localViewModel.browseRoot()
         localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
@@ -193,7 +195,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
         favoritesViewModel.favorites.observe(viewLifecycleOwner, { list ->
             list.let {
-                if (list.isEmpty()) favoritesEntry.setGone() else   favoritesEntry.setVisible()
+                if (list.isEmpty() || !Permissions.canReadStorage(requireActivity())) favoritesEntry.setGone() else   favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
                 favoritesEntry.loading.state = when {
                     list.isNotEmpty() -> EmptyLoadingState.NONE

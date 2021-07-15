@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_empty_warning.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="54dp"
+        android:height="54dp"
+        android:viewportWidth="32"
+        android:viewportHeight="32">
+    <path
+            android:pathData="m16,1.0001c-1.5553,0.016 -3.1211,1.3632 -4,4l-7.332,22L2,27.0001c-1.108,0 -2,0.892 -2,2v2h32v-2c0,-1.108 -0.892,-2 -2,-2L27.332,27.0001L20,5.0001c-0.8999,-2.6997 -2.4447,-4.0157 -4,-4zM16,9.0001a2,2 0,0 1,2 2,2 2,0 0,1 -0.0117,0.1758L18,11.1759l-1.0039,10.8828a1,1 0,0 1,0 0.039l-0.0078,0.062A1,1 0,0 1,16 22.9962a1,1 0,0 1,-0.9844 -0.832h-0.0039l-0.0078,-0.094L14,11.1759h0.0078A2,2 0,0 1,14 11.0001a2,2 0,0 1,2 -2zM16,25.0001a2,2 0,0 1,2 2,2 2,0 0,1 -2,2 2,2 0,0 1,-2 -2,2 2,0 0,1 2,-2z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.2"
+            android:fillColor="@color/grey400"
+            android:strokeColor="@color/grey400"
+            android:fillType="nonZero"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>

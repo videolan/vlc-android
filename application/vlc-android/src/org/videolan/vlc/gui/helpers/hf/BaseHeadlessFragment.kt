@@ -56,7 +56,7 @@ open class BaseHeadlessFragment : Fragment() {
 
 class PermissionViewmodel : ViewModel() {
 
-    var permissionRationale = false
+    var permissionRationaleShown = false
     lateinit var deferredGrant : CompletableDeferred<Boolean>
     val permissionPending : Boolean
         get() = ::deferredGrant.isInitialized && !deferredGrant.isCompleted
@@ -65,7 +65,7 @@ class PermissionViewmodel : ViewModel() {
 
     fun setupDeferred() {
         deferredGrant = CompletableDeferred<Boolean>().apply {
-            invokeOnCompletion { permissionRationale = false }
+            invokeOnCompletion { permissionRationaleShown = false }
         }
     }
 }

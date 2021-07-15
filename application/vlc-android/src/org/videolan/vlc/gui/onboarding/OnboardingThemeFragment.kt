@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import kotlinx.android.synthetic.main.onboarding_theme.*
 import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.R
 
-class OnboardingThemeFragment : Fragment(), View.OnClickListener {
+class OnboardingThemeFragment : OnboardingFragment(), View.OnClickListener {
 
     private val viewModel: OnboardingViewModel by activityViewModels()
 
@@ -20,21 +19,24 @@ class OnboardingThemeFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.onboarding_theme, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         themeDescription.setText(if (AndroidDevices.canUseSystemNightMode())R.string.daynight_system_explanation else R.string.daynight_legacy_explanation)
         lightTheme.setOnClickListener(this)
         darkTheme.setOnClickListener(this)
         dayNightTheme.setOnClickListener(this)
+        doneButton.setOnClickListener { onboardingFragmentListener.onDone() }
     }
 
     override fun onClick(view: View) {
         view.background = ContextCompat.getDrawable(requireActivity(), R.drawable.theme_selection_rounded)
+        view.animate().scaleX(1F).scaleY(1F)
         when (view) {
             lightTheme -> {
                 darkTheme.background = null
                 dayNightTheme.background = null
+                darkTheme.animate().scaleX(0.8F).scaleY(0.8F)
+                dayNightTheme.animate().scaleX(0.8F).scaleY(0.8F)
                 viewModel.theme = AppCompatDelegate.MODE_NIGHT_NO
                 themeDescription.setText(R.string.light_theme)
             }
@@ -42,12 +44,16 @@ class OnboardingThemeFragment : Fragment(), View.OnClickListener {
                 themeDescription.setText(R.string.enable_black_theme)
                 lightTheme.background = null
                 dayNightTheme.background = null
+                lightTheme.animate().scaleX(0.8F).scaleY(0.8F)
+                dayNightTheme.animate().scaleX(0.8F).scaleY(0.8F)
                 viewModel.theme = AppCompatDelegate.MODE_NIGHT_YES
             }
             dayNightTheme -> {
                 themeDescription.setText(if (AndroidDevices.canUseSystemNightMode())R.string.daynight_system_explanation else R.string.daynight_legacy_explanation)
                 lightTheme.background = null
                 darkTheme.background = null
+                lightTheme.animate().scaleX(0.8F).scaleY(0.8F)
+                darkTheme.animate().scaleX(0.8F).scaleY(0.8F)
                 viewModel.theme = if (AndroidDevices.canUseSystemNightMode()) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO
             }
         }

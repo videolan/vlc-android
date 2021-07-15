@@ -14,7 +14,6 @@ import org.videolan.resources.util.*
 import org.videolan.vlc.PlaybackService
 import kotlin.math.floor
 
-
 object ModelsHelper {
 
     suspend fun generateSections(sort: Int, items: List<MediaLibraryItem>) = withContext(Dispatchers.IO) {
@@ -263,23 +262,19 @@ val descComp by lazy {
 
 val tvAscComp by lazy {
     Comparator<MediaLibraryItem> { item1, item2 ->
-        if (item1?.title?.get(0)?.toLowerCase() == item2?.title?.get(0)?.toLowerCase()) {
-            val type1 = (item1 as MediaWrapper).type
-            val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        }
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
     }
 }
 val tvDescComp by lazy {
     Comparator<MediaLibraryItem> { item1, item2 ->
-        if (item1?.title?.get(0)?.toLowerCase() == item2?.title?.get(0)?.toLowerCase()) {
-            val type1 = (item1 as MediaWrapper).type
-            val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        }
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
     }
 }

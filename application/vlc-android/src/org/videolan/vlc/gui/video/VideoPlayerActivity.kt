@@ -33,7 +33,6 @@ import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
-import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -101,6 +100,7 @@ import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
+import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
@@ -275,7 +275,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!isFinishing && fromUser && service?.isSeekable == true) {
                 seek(progress.toLong(), fromUser)
-                overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
+                if (service?.length != 0L) overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
             }
             if (fromUser) {
                 overlayDelegate.showOverlay(true)
@@ -1761,8 +1761,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             videoUri = uri
                             media = medialibrary.getMedia(uri)
                         }
-                        if (media != null && media.id != 0L && media.time == 0L)
-                            media.time = media.getMetaLong(MediaWrapper.META_PROGRESS)
                     } else media = openedMedia
                     if (media != null) {
                         // in media library
@@ -2037,7 +2035,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service != null) {
             this.service = service
             //We may not have the permission to access files
-            if (Permissions.checkReadStoragePermission(this, true) && !switchingView)
+            if (!switchingView)
                 handler.sendEmptyMessage(START_PLAYBACK)
             switchingView = false
             handler.post {
@@ -2169,5 +2167,5 @@ fun setConstraintPercent(view: Guideline, percent: Float) {
 
 @BindingAdapter("mediamax")
 fun setProgressMax(view: SeekBar, length: Long) {
-    view.max = length.toInt()
+    view.max =  if (length == 0L) NO_LENGTH_PROGRESS_MAX else length.toInt()
 }

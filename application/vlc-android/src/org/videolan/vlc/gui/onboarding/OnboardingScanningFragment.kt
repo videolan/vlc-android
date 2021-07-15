@@ -1,17 +1,19 @@
 package org.videolan.vlc.gui.onboarding
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import kotlinx.android.synthetic.main.onboarding_scanning.*
+import org.videolan.resources.KEY_ANIMATED
 import org.videolan.tools.*
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.SecondaryActivity
 
-class OnboardingScanningFragment : Fragment() {
-    private val onScanningCustomizeChangedListener by lazy(LazyThreadSafetyMode.NONE) { requireActivity() as IOnScanningCustomizeChangedListener }
+class OnboardingScanningFragment : OnboardingFragment() {
     private val viewModel: OnboardingViewModel by activityViewModels()
     private val preferences by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(requireActivity()) }
 
@@ -23,22 +25,21 @@ class OnboardingScanningFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         scanningEnableSwitch.setOnCheckedChangeListener { _, isChecked ->
-            scanningFolderCheckbox.visibility = if (isChecked) View.VISIBLE else View.GONE
-            autoScanningCheckbox.isChecked = isChecked
             preferences.putSingle(KEY_MEDIALIBRARY_SCAN, if (isChecked) ML_SCAN_ON else ML_SCAN_OFF)
             viewModel.scanStorages = isChecked
-            scanningFolderCheckbox.isChecked = false
+            customizeButton.isEnabled = isChecked
         }
-
-        autoScanningCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            preferences.putSingle(KEY_MEDIALIBRARY_AUTO_RESCAN, isChecked)
+        nextButton.setOnClickListener {
+            onboardingFragmentListener.onNext()
         }
+        customizeButton.setOnClickListener {
+            val activity = requireActivity()
 
-        scanningFolderCheckbox.isChecked = viewModel.customizeMediaFolders
-
-        scanningFolderCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.customizeMediaFolders = isChecked
-            onScanningCustomizeChangedListener.onCustomizedChanged(isChecked)
+            val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
+            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER_ONBOARDING)
+            intent.putExtra(KEY_ANIMATED, true)
+            requireActivity().startActivity(intent)
+            activity.overridePendingTransition( R.anim.slide_in_bottom, R.anim.no_animation )
         }
     }
 
@@ -47,6 +48,3 @@ class OnboardingScanningFragment : Fragment() {
     }
 }
 
-interface IOnScanningCustomizeChangedListener {
-    fun onCustomizedChanged(customizeEnabled: Boolean)
-}

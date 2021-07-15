@@ -268,9 +268,15 @@ forceRescan(JNIEnv* env, jobject thiz)
 }
 
 jboolean
-setProgress(JNIEnv* env, jobject thiz, jlong id, jfloat progress)
+setLastTime(JNIEnv* env, jobject thiz, jlong id, jlong time)
 {
-    return MediaLibrary_getInstance(env, thiz)->setProgress((int64_t)id, (float)progress);
+    return MediaLibrary_getInstance(env, thiz)->setLastTime((int64_t)id, (int64_t)time);
+}
+
+jboolean
+setLastPosition(JNIEnv* env, jobject thiz, jlong id, jfloat lastPosition)
+{
+    return MediaLibrary_getInstance(env, thiz)->setLastPosition((int64_t)id, (float)lastPosition);
 }
 
 jboolean
@@ -1522,6 +1528,15 @@ setMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jst
 }
 
 jboolean
+setMediaPlayCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong playCount)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return false;
+    return media->setPlayCount(playCount);
+}
+
+jboolean
 removeMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
@@ -2096,7 +2111,8 @@ static JNINativeMethod methods[] = {
     {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
     {"nativeForceParserRetry", "()V", (void*)forceParserRetry },
     {"nativeForceRescan", "()V", (void*)forceRescan },
-    {"nativeSetProgress", "(JF)Z", (void*)setProgress },
+    {"nativeSetLastTime", "(JJ)Z", (void*)setLastTime },
+    {"nativeSetLastPosition", "(JF)Z", (void*)setLastPosition },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;Z)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
@@ -2116,6 +2132,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
+    {"nativeSetMediaPlayCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)setMediaPlayCount },
     {"nativeRemoveMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
     {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
@@ -2319,7 +2336,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaWrapper.initID,
            ml_fields.MediaWrapper.clazz,
-           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZIZ)V");
+           "<init>", "(JLjava/lang/String;JFJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZIZ)V");
 
     GET_CLASS(ml_fields.HistoryItem.clazz,
               "org/videolan/medialibrary/media/HistoryItem", true);

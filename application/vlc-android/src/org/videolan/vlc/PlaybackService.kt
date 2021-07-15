@@ -74,10 +74,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.media.PlayerController
-import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.media.*
 import org.videolan.vlc.util.*
 import org.videolan.vlc.widget.VLCAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
@@ -90,6 +87,7 @@ private const val TAG = "VLC/PlaybackService"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
+    private var position: Long = -1L
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     internal var enabledActions = PLAYBACK_BASE_ACTIONS
@@ -197,6 +195,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 }
             }
             MediaPlayer.Event.PositionChanged -> {
+                if (length == 0L) position = (NO_LENGTH_PROGRESS_MAX.toLong() * event.positionChanged).toLong()
                 if (time < 1000L && time < lastTime) publishState()
                 lastTime = time
                 if (widget != 0) updateWidgetPosition(event.positionChanged)
@@ -866,7 +865,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
-            if (coverOnLockscreen) {
+            if (Permissions.canReadStorage(this@PlaybackService) && coverOnLockscreen) {
                 val albumArtUri = when {
                     isSchemeHttpOrHttps(media.artworkMrl) -> {
                         //ArtworkProvider will cache remote images
@@ -1340,11 +1339,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     @MainThread
     @JvmOverloads
-    fun seek(position: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false) {
-        if (length > 0.0) setPosition((position / length).toFloat())
-        else time = position
+    fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false) {
+        if (length > 0.0) this.time = time else setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
         if (fromUser) {
-            publishState(position)
+            publishState(time)
         }
     }
 
@@ -1432,7 +1430,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 try {
                     result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
                 } catch (e: RuntimeException) {
-                    Log.e(TAG, "Failed to load children for $parentId", e);
+                    Log.e(TAG, "Failed to load children for $parentId", e)
                 }
             }
         }
@@ -1446,7 +1444,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 try {
                     result.sendResult(MediaSessionBrowser.search(applicationContext, query))
                 } catch (e: RuntimeException) {
-                    Log.e(TAG, "Failed to search for $query", e);
+                    Log.e(TAG, "Failed to search for $query", e)
                 }
             }
         }
@@ -1503,7 +1501,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
         }
 
-        return realTime.toInt()
+        return if (length == 0L) position.toInt() else realTime.toInt()
     }
 }
 

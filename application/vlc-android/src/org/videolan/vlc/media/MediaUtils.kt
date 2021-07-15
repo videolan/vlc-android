@@ -31,13 +31,13 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.tools.localBroadcastManager
+import org.videolan.tools.markBidi
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
@@ -390,8 +390,8 @@ object MediaUtils {
         val artist = getMediaArtist(ctx, media)
         val album = getMediaAlbum(ctx, media)
         val desc = if (artist != getMediaString(ctx, R.string.unknown_artist) && album != getMediaString(ctx, R.string.unknown_album))
-            getMediaDescription(artist, album) else ""
-        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " • $desc" else desc) else "")
+            getMediaDescription(artist.markBidi(), album.markBidi()) else ""
+        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " ⋅ $desc" else desc) else "")
         //Replace full-spaces with thin-spaces (Unicode 2009)
         return sb.toString().replace(" ", "\u2009")
     }

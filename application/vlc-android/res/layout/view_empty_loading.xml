@@ -37,32 +37,79 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
 
+    <androidx.constraintlayout.widget.Barrier
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            android:id="@+id/text_barrier"
+            app:constraint_referenced_ids="permissionTextView,emptyTextView"/>
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/text_barrier_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="emptyTextView"
+            tools:layout_editor_absoluteY="199dp" />
+
     <TextView
             android:id="@+id/emptyTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:maxWidth="600dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/emptyImageView"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:textSize="16sp"
+            android:textColor="?attr/font_light"
+            app:layout_constraintBottom_toBottomOf="@id/guideline12"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="@id/guideline12"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/permissionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxWidth="600dp"
+            android:text="@string/permission_not_granted"
+            android:textColor="?attr/empty_title"
+            android:textSize="22sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emptyImageView"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/permissionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:maxWidth="600dp"
+            android:text="@string/permission_media"
+            android:textColor="?attr/font_light"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/permissionTitle"
             tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/emptyImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/guideline12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline12"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_empty" />
 
     <Button
@@ -70,13 +117,23 @@
             style="?attr/empty_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/button_medialibrary_preferences"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emptyImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/text_barrier_bottom" />
 
+
+    <Button
+            android:id="@+id/grantPermissionButton"
+            style="?attr/empty_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/permission_ask_again"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/permissionTextView" />
 
     <TextView
             android:id="@+id/loadingTitle"

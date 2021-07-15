@@ -53,11 +53,13 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.convertFavorites
 import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.scanAllowed
@@ -145,6 +147,11 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private fun updateVideos() = viewModelScope.launch {
+        if (!Permissions.canReadStorage(context)) {
+            (videos as MutableLiveData).value =
+                listOf(DummyItem(HEADER_PERMISSION, context.getString(R.string.permission_media), context.getString(R.string.permission_ask_again)))
+            return@launch
+        }
         val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
         val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         val videoNb = context.getFromMl { videoCount }
@@ -204,11 +211,18 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private fun updateAudioCategories() {
-        val list = mutableListOf<MediaLibraryItem>(
-                DummyItem(CATEGORY_ARTISTS, context.getString(R.string.artists), ""),
-                DummyItem(CATEGORY_ALBUMS, context.getString(R.string.albums), ""),
-                DummyItem(CATEGORY_GENRES, context.getString(R.string.genres), ""),
-                DummyItem(CATEGORY_SONGS, context.getString(R.string.tracks), "")
+        val list = if (!Permissions.canReadStorage(context)) mutableListOf<MediaLibraryItem>(
+            DummyItem(
+                HEADER_PERMISSION,
+                context.getString(R.string.permission_media),
+                context.getString(R.string.permission_ask_again)
+            )
+        )
+        else mutableListOf<MediaLibraryItem>(
+            DummyItem(CATEGORY_ARTISTS, context.getString(R.string.artists), ""),
+            DummyItem(CATEGORY_ALBUMS, context.getString(R.string.albums), ""),
+            DummyItem(CATEGORY_GENRES, context.getString(R.string.genres), ""),
+            DummyItem(CATEGORY_SONGS, context.getString(R.string.tracks), "")
         )
         (audioCategories as MutableLiveData).value = list
     }
@@ -260,8 +274,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     fun open(activity: FragmentActivity, item: Any?) {
         when (item) {
-            is MediaWrapper -> when {
-                item.type == MediaWrapper.TYPE_DIR -> {
+            is MediaWrapper -> when (item.type) {
+                MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.putExtra(FAVORITE_TITLE, item.title)
@@ -276,14 +290,15 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                     }
                 }
             }
-            is DummyItem -> when {
-                item.id == HEADER_STREAM -> {
+            is DummyItem -> when (item.id) {
+                HEADER_PERMISSION -> activity.askStoragePermission(false, null)
+                HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
-                item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)

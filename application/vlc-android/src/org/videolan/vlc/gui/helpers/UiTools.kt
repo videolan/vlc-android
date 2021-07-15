@@ -742,6 +742,7 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
     MediaLibraryItem.TYPE_DUMMY -> {
         when (mediaLibraryItem.id) {
             HEADER_VIDEO -> R.drawable.ic_video_collection_big
+            HEADER_PERMISSION -> R.drawable.ic_permission_big
             HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
             HEADER_NETWORK -> R.drawable.ic_menu_network_big
             HEADER_SERVER -> R.drawable.ic_menu_network_add_big

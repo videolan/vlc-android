@@ -30,6 +30,7 @@ import android.annotation.TargetApi
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -43,14 +44,22 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
 import org.videolan.resources.util.startMedialibrary
+import org.videolan.tools.INITIAL_PERMISSION_ASKED
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
+import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
+import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
 import videolan.org.commontools.LiveEvent
 
+private const val WRITE_ACCESS = "write"
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
+    private var timeAsked: Long = -1L
+    private var askedPermission: Int = -1
     private var firstRun: Boolean = false
     private var upgrade: Boolean = false
     private var write: Boolean = false
@@ -66,50 +75,60 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             upgrade = true
             firstRun = intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
         }
-        write = arguments?.getBoolean("write") ?: false
+        write = arguments?.getBoolean(WRITE_ACCESS) ?: false
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(requireContext())) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) && !model.permissionRationaleShown) {
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
+                model.permissionRationaleShown = true
+            }
             else
                 requestStorageAccess(false)
         } else if (write) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) && !model.permissionRationaleShown) {
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
+                model.permissionRationaleShown = true
+            }
             else
                 requestStorageAccess(true)
         }
     }
 
-    private fun requestStorageAccess(write: Boolean) {
-        val code = if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE
-        val tag = if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG
-        requestPermissions(arrayOf(code), tag)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: PermissionResults) {
-        when (requestCode) {
-            Permissions.PERMISSION_STORAGE_TAG -> {
-                // If request is cancelled, the result arrays are empty.
-                val ctx = activity ?: return
-                if (grantResults.granted()) {
-                    storageAccessGranted.value = true
-                    model.deferredGrant.complete(true)
-                    exit()
-                    return
-                } else if (!model.permissionRationale && shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    model.permissionRationale = true
-                    Permissions.showStoragePermissionDialog(ctx, false)
-                    return
-                }
-                storageAccessGranted.value = false
-                if (model.permissionPending) model.deferredGrant.complete(false)
-                exit()
+    private val activityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()){ isGranted ->
+            //Answered really quick (not human) -> forwarding to app settings
+            if (activity == null) return@registerForActivityResult
+            val delay = System.currentTimeMillis() - timeAsked
+            if (delay < 300) {
+                Permissions.showAppSettingsPage(requireActivity())
+                return@registerForActivityResult
             }
-            Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
-                model.deferredGrant.complete(grantResults.granted())
-                exit()
+            when (askedPermission) {
+                Permissions.PERMISSION_STORAGE_TAG -> {
+                    // If request is cancelled, the result arrays are empty.
+                    if(activity == null) return@registerForActivityResult
+                    if (isGranted) {
+                        storageAccessGranted.value = true
+                        model.deferredGrant.complete(true)
+                        exit()
+                        return@registerForActivityResult
+                    }
+                    storageAccessGranted.value = false
+                    if (model.permissionPending) model.deferredGrant.complete(false)
+                    exit()
+                }
+                Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
+                    model.deferredGrant.complete(isGranted)
+                    exit()
+                }
             }
         }
+
+    private fun requestStorageAccess(write: Boolean) {
+        val code = if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE
+        askedPermission = if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG
+        timeAsked = System.currentTimeMillis()
+        activityResultLauncher.launch(code)
     }
 
     companion object {
@@ -121,37 +140,31 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             val intent = intent
             val upgrade = intent?.getBooleanExtra(EXTRA_UPGRADE, false) ?: false
             val firstRun = upgrade && intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
+            val settings = Settings.getInstance(this)
             lifecycleScope.launch {
                 val granted = getStoragePermission(write)
                 val model : PermissionViewmodel by viewModels()
                 if (model.permissionPending) model.deferredGrant.complete(granted)
-                if (granted) (cb ?: getAction(this@askStoragePermission, firstRun, upgrade)).run()
+                if (granted && withContext(Dispatchers.IO) { settings.getBoolean(ONBOARDING_DONE_KEY, false) })
+                    (cb ?: getAction(this@askStoragePermission, firstRun, upgrade)).run()
             }
         }
 
         suspend fun FragmentActivity.getStoragePermission(write: Boolean = false) : Boolean {
             if (isFinishing) return false
+            Settings.getInstance(this).putSingle(INITIAL_PERMISSION_ASKED, true)
             val model : PermissionViewmodel by viewModels()
             if (model.isCompleted && storageAccessGranted.value == true) return model.deferredGrant.getCompleted()
-            if (!model.permissionPending) {
-                model.setupDeferred()
-                val fragment = StoragePermissionsDelegate().apply {
-                    arguments = bundleOf("write" to write)
-                }
-                supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
-            } else if (model.permissionRationale) {
+            if (model.permissionPending) {
                 val fragment = supportFragmentManager.findFragmentByTag(TAG) as? StoragePermissionsDelegate
                 fragment?.requestStorageAccess(write) ?: return false
+            } else {
+                model.setupDeferred()
+                val fragment = StoragePermissionsDelegate().apply {
+                    arguments = bundleOf(WRITE_ACCESS to write)
+                }
+                supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
             }
-            return model.deferredGrant.await()
-        }
-
-        suspend fun FragmentActivity.resumePermissionRequest() : Boolean {
-            if (isFinishing) return false
-            val model : PermissionViewmodel by viewModels()
-            if (!model.permissionPending && !model.permissionRationale) return false
-            if (model.isCompleted) return model.deferredGrant.getCompleted()
-            if (model.permissionRationale) Permissions.showStoragePermissionDialog(this, false)
             return model.deferredGrant.await()
         }
 

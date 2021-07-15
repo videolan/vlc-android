@@ -66,6 +66,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.util.share
@@ -303,6 +304,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val empty = viewModel.isEmpty() && videoListAdapter.currentList.isNullOrEmpty()
         val working = viewModel.provider.loading.value != false
         binding.emptyLoading.state = when {
+            !Permissions.canReadStorage(AppContextProvider.appContext) -> EmptyLoadingState.MISSING_PERMISSION
             empty && working -> EmptyLoadingState.LOADING
             empty && !working -> EmptyLoadingState.EMPTY
             else -> EmptyLoadingState.NONE

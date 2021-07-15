@@ -97,3 +97,29 @@ fun String.firstLetterUppercase(): String {
         toUpperCase(Locale.getDefault())
     } else Character.toUpperCase(this[0]) + substring(1).toLowerCase(Locale.getDefault())
 }
+
+fun String.abbreviate(maxLen: Int): String {
+    val ellipsis = "\u2026"
+    val trimmed = this.trim()
+    return if (trimmed.length > maxLen) trimmed.take(maxLen - 1).trim().plus(ellipsis)
+    else trimmed
+}
+
+fun String.markBidi(): String {
+    //right-to-left isolate
+    val rli = "\u2067"
+    //pop directional isolate
+    val pdi = "\u2069"
+    for (ch in this) {
+        when (Character.getDirectionality(ch)) {
+            Character.DIRECTIONALITY_RIGHT_TO_LEFT,
+            Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC,
+            Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING,
+            Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE -> return rli + this + pdi
+            Character.DIRECTIONALITY_LEFT_TO_RIGHT,
+            Character.DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING,
+            Character.DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE -> return this
+        }
+    }
+    return this
+}

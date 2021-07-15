@@ -57,6 +57,7 @@ import org.videolan.vlc.util.FeatureFlagManager
 import org.videolan.vlc.viewmodels.browser.*
 import java.io.File
 
+private const val FROM_ONBOARDING = "from_onboarding"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by StorageFragmentDelegate() {
@@ -69,7 +70,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
 
     private var alertDialog: AlertDialog? = null
 
-    override fun getTitle() = getString(R.string.directories_summary)
+    override fun getTitle() = getString(if (arguments?.getBoolean(FROM_ONBOARDING, false) == true) R.string.medialibrary_directories else  R.string.directories_summary)
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) = false
 
@@ -182,7 +183,8 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
-        menu.findItem(R.id.ml_menu_custom_dir)?.isVisible = true
+        val onboarding = arguments?.getBoolean(FROM_ONBOARDING, false) == true
+        menu.findItem(R.id.ml_menu_custom_dir)?.isVisible = !onboarding
         menu.findItem(R.id.ml_menu_refresh)?.isVisible = false
         menu.findItem(R.id.browser_show_all_files)?.isVisible = false
         menu.findItem(R.id.browser_show_hidden_files)?.isVisible = false
@@ -252,5 +254,9 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
         override fun onItemFocused(v: View, item: MediaLibraryItem) {}
+    }
+
+    companion object {
+        fun newInstance(onboarding:Boolean) = MLStorageBrowserFragment().apply { arguments = Bundle().apply { putBoolean(FROM_ONBOARDING, onboarding) } }
     }
 }

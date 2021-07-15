@@ -24,7 +24,6 @@ package org.videolan.television.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
@@ -53,6 +52,7 @@ import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.Permissions
 
 private const val TAG = "VLC/MainTvFragment"
 
@@ -161,7 +161,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
-        otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
+        if (Permissions.canReadStorage(requireActivity())) otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content_dark))
         val donateCard = GenericCardItem(ID_SPONSOR, getString(R.string.tip_jar), "", R.drawable.ic_donate_big, R.color.tv_card_content_dark)

@@ -34,10 +34,11 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CTX_PLAY_ALL
-import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
@@ -45,13 +46,16 @@ import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import kotlin.math.min
@@ -90,6 +94,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(totalWidth - spacing * 2, nbColumns, spacing)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, cardSize = itemSize)
+        playlistAdapter.onAnyChange { updateEmptyView() }
         adapter = playlistAdapter
 
         setupLayoutManager()
@@ -103,7 +108,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         super.onActivityCreated(savedInstanceState)
         viewModel.provider.pagedList.observe(requireActivity(), {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
-            binding.empty.visibility = if (it.isEmpty())View.VISIBLE else View.GONE
+            updateEmptyView()
         })
         viewModel.provider.loading.observe(requireActivity(), { loading ->
             setRefreshing(loading) {  }
@@ -115,6 +120,16 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
 
+    }
+
+    override fun onResume() {
+        swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
+        super.onResume()
+    }
+
+    private fun updateEmptyView() {
+        binding.emptyLoading.state =
+            if (!Permissions.canReadStorage(AppContextProvider.appContext)) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -157,8 +172,13 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             }
             else -> {
                 adapter?.cardSize = -1
-                if (Settings.getInstance(requireActivity()).getBoolean(KEY_SHOW_HEADERS, true))
-                    playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.provider))
+                playlists.addItemDecoration(
+                    RecyclerSectionItemDecoration(
+                        resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
+                        true,
+                        viewModel.provider
+                    )
+                )
                 playlists.layoutManager = LinearLayoutManager(activity)
             }
         }

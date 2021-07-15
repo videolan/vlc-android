@@ -48,7 +48,7 @@ class StreamsModel(context: Context, private val showDummy: Boolean = false, cor
     }
 
     init {
-        if (medialibrary.isStarted) refresh()
+        if (medialibrary.isStarted) refresh() else viewModelScope.launch { updateList() }
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { onServiceChanged(null) }
                 .launchIn(viewModelScope)

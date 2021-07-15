@@ -13,11 +13,11 @@ import org.videolan.medialibrary.interfaces.media.Bookmark;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 public class StubMediaWrapper extends MediaWrapper {
-    public StubMediaWrapper(long id, String mrl, long time, long length, int type, String title,
+    public StubMediaWrapper(long id, String mrl, long time, float position, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate, boolean isPresent) {
-        super(id, mrl, time, length, type, title, filename, artist,
+        super(id, mrl, time, position, length, type, title, filename, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
                 seen, isThumbnailGenerated, releaseDate, isPresent);
@@ -44,10 +44,10 @@ public class StubMediaWrapper extends MediaWrapper {
             mDescription = "";
     }
 
-    public StubMediaWrapper(Uri uri, long time, long length, int type,
+    public StubMediaWrapper(Uri uri, long time, float position, long length, int type,
                         Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
-        super(uri, time, length, type, picture, title, artist,
+        super(uri, time, position, length, type, picture, title, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified, seen);
     }
@@ -102,6 +102,11 @@ public class StubMediaWrapper extends MediaWrapper {
     }
 
     public void setThumbnail(String mrl) {}
+
+    @Override
+    public boolean setPlayCount(long playCount) {
+        return true;
+    }
 
     public void removeThumbnail() {}
 

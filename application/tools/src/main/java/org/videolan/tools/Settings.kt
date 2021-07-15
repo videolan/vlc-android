@@ -23,6 +23,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var overrideTvUI = false
     var videoHudDelay = 2
     var includeMissing = true
+    var showHeaders = true
     lateinit var device : DeviceInfo
         private set
 
@@ -33,7 +34,8 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
         videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
         device = DeviceInfo(context)
-        prefs.getBoolean(KEY_INCLUDE_MISSING, true)
+        includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
+        showHeaders = prefs.getBoolean(KEY_SHOW_HEADERS, true)
         return prefs
     }
 
@@ -52,6 +54,7 @@ const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
+const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCLUDE_MISSING = "include_missing"
 
 //UI
@@ -111,6 +114,7 @@ const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 const val AUDIO_STOP_AFTER = "audio_stop_after"
 
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
+const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

@@ -1,3 +1,9 @@
+Changes between 3.4.0 Beta 1 and 3.4.0 Beta 2:
+------------------
+ * New onboarding
+ * Allow using the app without the storage permission
+ * medialibrary and playback improvements
+
 Changes between 3.3.4 and 3.4.0 Beta 1:
 ------------------
  * Add bookmarks in your medias

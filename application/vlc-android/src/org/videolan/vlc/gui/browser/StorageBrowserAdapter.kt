@@ -58,7 +58,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             val title = storage.title
             if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
             val uri = (storage as Storage).uri
-            var storagePath = if (uri.scheme.isSchemeFile()) uri.path ?: "" else uri.toString()
+            var storagePath = if (uri.scheme.isSchemeFile()) uri.path ?: "" else Uri.decode(uri.toString())
             if (!storagePath.endsWith("/")) storagePath += "/"
             if (storage.title.isNullOrBlank()) storage.title = title
             vh.bindingContainer.setItem(storage)

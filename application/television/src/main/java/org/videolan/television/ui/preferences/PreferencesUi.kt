@@ -106,6 +106,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+            KEY_SHOW_HEADERS -> {
+                Settings.showHeaders = (preference as TwoStatePreference).isChecked
+                (activity as PreferencesActivity).setRestart()
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

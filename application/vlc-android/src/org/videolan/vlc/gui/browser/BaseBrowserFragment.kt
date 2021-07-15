@@ -290,6 +290,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected open fun updateEmptyView() {
         swipeRefreshLayout.let {
             when {
+               !Permissions.canReadStorage(requireActivity()) -> binding.emptyLoading.state = EmptyLoadingState.MISSING_PERMISSION
                 it.isRefreshing -> {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
