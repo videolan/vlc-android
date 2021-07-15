@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getS
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.File
+import java.io.IOException
 import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
@@ -91,10 +92,25 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 client.stop()
                 if (!::logcatZipPath.isInitialized) {
                     val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
-                            ?: return@withContext null
-                    logcatZipPath =  "$path/logcat.zip"
+                        ?: return@withContext null
+                    logcatZipPath = "$path/logcat.zip"
                 }
-                FileUtils.zip(arrayOf(path), logcatZipPath)
+                val filesToAdd = mutableListOf(path)
+                //add previous crash logs
+                try {
+                    val folder = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                    File(folder).listFiles().forEach {
+                        if (it.isFile && it.name.contains("crash")) filesToAdd.add(it.path)
+                    }
+                } catch (exception: IOException) {
+
+                }
+
+                FileUtils.zip(filesToAdd.toTypedArray(), logcatZipPath)
+                try {
+                    filesToAdd.forEach { FileUtils.deleteFile(it) }
+                } catch (exception: IOException) {
+                }
 
                 val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
                 emailIntent.type = "message/rfc822"
