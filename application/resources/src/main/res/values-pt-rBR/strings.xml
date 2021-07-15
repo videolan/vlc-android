@@ -48,9 +48,13 @@
     <string name="set_song_question">Definir \'%1$s\' como toque?</string>
     <string name="info">Informações</string>
     <string name="confirm_delete">Excluir o arquivo \'%1$s\'?</string>
+    <string name="confirm_delete_message">Esta ação é permanente e não pode ser desfeita.</string>
     <string name="confirm_delete_album">Excluir o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Deseja excluir essas %1$d mídias?</string>
     <string name="confirm_delete_folder">Excluir a pasta \'%1$s\' e todo o seu conteúdo?</string>
+    <string name="confirm_delete_folders">Excluir essas %1$s pastas e todo o seu conteúdo?</string>
+    <string name="confirm_delete_files">Excluir esses %1$s arquivos?</string>
+    <string name="confirm_delete_folders_and_files">Excluir essas %1$s pastas e %2$s arquivos?</string>
     <string name="confirm_delete_playlist">Excluir a lista de reprodução \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Excluir \'%1$s\' da lista de reprodução?</string>
     <string name="ringtone_set">O arquivo \'%1$s\' foi definido como toque.</string>
@@ -93,6 +97,10 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">1 Programa de TV</item>
         <item quantity="other">%d Programas de TV</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 trilha</item>
+        <item quantity="other">%d trilhas</item>
     </plurals>
 
     <string name="internal_memory">memória interna</string>
@@ -373,6 +381,8 @@
     <string name="dump_media_db_summary">Copia o banco de dados para a raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar banco de mídias</string>
     <string name="clear_media_database_summary">Limpa o banco de dados para reiniciar</string>
+    <string name="clear_app_data">Limpar dados do aplicativo</string>
+    <string name="clear_app_data_summary">Limpa os dados do VLC para Android</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="set_locale">Definir local</string>
     <string name="network_caching">Valor de memória para rede</string>
@@ -463,6 +473,11 @@
     <string name="allow_draw_overlays_title">Permitir que o VLC se sobreponha a outros aplicativos</string>
     <string name="allow_sdraw_overlays_description">O VLC precisa de sua permissão para exibir seu vídeo em uma janela sobre outros aplicativos.</string>
     <string name="permission_ask_again">Conceder permissão</string>
+    <string name="permission_not_granted">Permissão não concedida</string>
+    <string name="permission_expanation_no_allow">Não será possível descobrir automaticamente suas mídias nem usar legendas externas</string>
+    <string name="permission_expanation_allow">Será possível apenas reproduzir transmissões ou mídias de rede</string>
+    <string name="permission_expanation_subtitles">Usar legendas externas</string>
+    <string name="permission_expanation_allow_explanation">Reproduzir transmissões da Internet ou mídias de rede</string>
     <string name="exit_app">Fechar o VLC</string>
     <string name="exit_app_msg">Tem certeza de que deseja fechar o VLC?</string>
 
@@ -491,7 +506,7 @@
     <string name="download_subtitles">Baixar legenda</string>
     <string name="browse_folder">Procurar pasta</string>
     <string name="listen">Ouvir</string>
-    <string name="save_bluetooth_delay">salvar atraso para dispositivo bluetooth</string>
+    <string name="apply_to_bt">Aplicar ao dispositivo bluetooth</string>
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
@@ -590,6 +605,8 @@
     <string name="onboarding_theme_title">Faça você mesmo em casa</string>
     <string name="done">Concluído</string>
     <string name="onboarding_scan_title">Descobrir automaticamente sua mídia</string>
+    <string name="onboarding_all_set">O VLC está todo configurado!</string>
+    <string name="onboarding_permission_given">É possível agora descobrir automaticamente a sua mídia, usar legendas externas, bem como reproduzir transmissões ou mídias de rede</string>
     <string name="daynight_system_explanation">O VLC alternará para o modo noturno de acordo com a configuração do sistema</string>
     <string name="daynight_legacy_explanation">O VLC alternará para o modo noturno no momento adequado</string>
     <string name="onboarding_scanning_enable">Deixar o VLC procurar mídias em meu dispositivo</string>
@@ -674,7 +691,9 @@
     <string name="recently_played">Reproduzido recentemente</string>
     <string name="recently_added">Adicionado recentemente</string>
     <string name="playback_multiple_errors">Não é possível reproduzir múltiplas mídias</string>
-    <string name="clear_media_db_warning">Você perderá seus progressos e as listas de reprodução que criou.\n%s</string>
+    <string name="clear_media_db_message">Você perderá seus progressos, favoritos e as listas de reprodução que criou, mas manterá suas configurações do VLC para Android</string>
+    <string name="clear_app_data_message">Você perderá seus progressos, favoritos, as listas de reprodução e todas as configurações do VLC</string>
+    <string name="clear">Limpar</string>
     <string name="abrepeat_add_first_marker">Definir ponto de início</string>
     <string name="abrepeat_add_second_marker">Definir ponto de finalização</string>
     <string name="demux_bitrate">Taxa de bits de descombinação</string>
@@ -700,6 +719,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Trilha: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
+    <string name="audio_queue_progress_remaining">Restante: %s</string>
     <string name="audio_queue_progress_finished">Termina em: %s</string>
     <string name="sortby_track">Trilha</string>
     <string name="this_folder">Adicionar esta pasta</string>
@@ -741,6 +761,7 @@
     <string name="donate_again">Patrocinar o aplicativo novamente</string>
 
     <string name="mark_as_played">Marcar como reproduzido</string>
+    <string name="mark_as_not_played">Marcar como não reproduzido</string>
     <string name="mark_all_as_played">Marcar todos como reproduzidos</string>
     <string name="new_group">Novo grupo</string>
     <string name="new_group_desc">Criar um novo grupo</string>
@@ -764,17 +785,50 @@
     <string name="prefersmbv1_summary">Desmarque esta configuração se tiver alguma dificuldade em navegar em seu servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos os vídeos</string>
     <string name="audio_delay_global">Definir atraso em %s ms para todos os vídeos</string>
+    <string name="audio_delay_bt">Atraso de áudio definido para 1%s ms para o dispositivo bluetooth</string>
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
     <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
     <string name="enqueuing">Carregando suas mídias</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Escolha um arquivo SoundFont para reproduzir trilhas de áudio midi</string>
+    <string name="missing_media_snack">A mídia está ausente. Ocultar todas as mídias ausentes?</string>
+    <string name="browser_show_missing_media">Exibir mídias ausentes</string>
+    <string name="browser_show_missing_media_summary">Exibir mídias distantes mesmo se não estiverem presentes</string>
     <string name="search_prefs">Configurações de pesquisa</string>
     <string name="preferred_resolution">Resolução de vídeo preferida</string>
     <string name="preferred_resolution_summary">A qualidade máxima de vídeo para transmissões, quando aplicável, será: %s</string>
     <string name="pref_resolution_best_available">Melhor disponível</string>
     <string name="pref_resolution_very_low">Definição muito baixa (240p)</string>
     <string name="stop_unpaubale">Esta mídia não pode ser pausada. Deseja pará-la em vez disso?</string>
+    <string name="delete_forever">Excluir permanentemente</string>
+    <string name="add_to_existing_playlist">Adicionar a lista de reprodução existente</string>
+    <string name="bookmarks_title">Favoritos</string>
+    <string name="no_bookmark">Nenhum favorito ainda</string>
+    <string name="bookmark_name">Favorito %s</string>
+    <string name="optional_features">Funcionalidades opcionais</string>
+    <string name="optional_features_summary">Funcionalidades beta que estão sendo testadas atualmente e podem não estar estáveis</string>
+    <string name="optional_features_warning">Esta funcionalidade está beta e pode causar falhas e instabilidades</string>
+    <string name="start_vlc">Iniciar o VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Adicionar item(ns) duplicado(s)?</string>
+    <string name="add_button">Adicionar</string>
+    <string name="add_all_button">Adicionar todos</string>
+    <string name="add_new_only_button">Adicionar somente os novos</string>
+    <string name="discovery_failed">Falha na descoberta de: %s</string>
+    <string name="lock_use_sensor_title">Travar com sensor</string>
+    <string name="lock_use_sensor_summary">Quando a orientação está travada, usa o sensor para permitir a orientação reversa</string>
+    <string name="start">Iniciar</string>
+    <string name="permission">Permissão</string>
+    <string name="customize">Personalizar</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Este item já está na lista de reprodução.</item>
+        <item quantity="other">Estes itens já estão na lista de reprodução.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 dos itens selecionados já está na lista de reprodução.</item>
+        <item quantity="other">%d dos itens selecionados já está na lista de reprodução.</item>
+    </plurals>
 
 </resources>
