@@ -48,9 +48,13 @@
     <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="confirm_delete_message">Questa azione è definitiva e non può essere annullata.</string>
     <string name="confirm_delete_album">Vuoi eliminare l\'album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Vuoi eliminare questi %1$d media?</string>
     <string name="confirm_delete_folder">Vuoi eliminare la cartella \'%1$s\' e il suo contenuto?</string>
+    <string name="confirm_delete_folders">Vuoi eliminare queste %1$s cartelle e tutto il loro contenuto?</string>
+    <string name="confirm_delete_files">Vuoi eliminare questi %1$s file?</string>
+    <string name="confirm_delete_folders_and_files">Vuoi eliminare queste %1$s cartelle e %2$s file?</string>
     <string name="confirm_delete_playlist">Vuoi eliminare la scaletta \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Vuoi rimuovere \'%1$s\' dalla scaletta?</string>
     <string name="ringtone_set">Il file \'%1$s\' è stato impostato come suoneria.</string>
@@ -93,6 +97,10 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">1 programma televisivo</item>
         <item quantity="other">%d programmi televisivi</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 traccia</item>
+        <item quantity="other">%d tracce</item>
     </plurals>
 
     <string name="internal_memory">Memoria interna</string>
@@ -373,6 +381,8 @@
     <string name="dump_media_db_summary">Copia il database nella radice dell\'archiviazione interna.</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="clear_media_database_summary">Cancella il database per ricominciare</string>
+    <string name="clear_app_data">Cancella dati dell\'applicazione</string>
+    <string name="clear_app_data_summary">Cancella i dati di VLC per Android</string>
     <string name="clear_history">Cancella cronologia</string>
     <string name="set_locale">Imposta locale</string>
     <string name="network_caching">Valore della cache di rete</string>
@@ -463,6 +473,11 @@
     <string name="allow_draw_overlays_title">Consenti al lettore VLC di apparire sopra le altre applicazioni</string>
     <string name="allow_sdraw_overlays_description">VLC ha bisogno di questo permesso per visualizzare il video in una finestra che appare sopra le altre applicazioni.</string>
     <string name="permission_ask_again">Accorda permesso</string>
+    <string name="permission_not_granted">Permesso non accordato</string>
+    <string name="permission_expanation_no_allow">Non sarai in grado di rilevare automaticamente i tuoi file multimediali né utilizzare i sottotitoli esterni</string>
+    <string name="permission_expanation_allow">Sarai in grado di riprodurre solo flussi o media di rete</string>
+    <string name="permission_expanation_subtitles">Usa sottotitoli esterni</string>
+    <string name="permission_expanation_allow_explanation">Riproduci flussi Internet o media di rete</string>
     <string name="exit_app">Chiudi VLC</string>
     <string name="exit_app_msg">Sei sicuro di voler chiudere VLC?</string>
 
@@ -491,7 +506,7 @@
     <string name="download_subtitles">Scarica sottotitoli</string>
     <string name="browse_folder">Sfoglia cartella</string>
     <string name="listen">Ascolta</string>
-    <string name="save_bluetooth_delay">ritardo di salvataggio per dispositivo bluetooth</string>
+    <string name="apply_to_bt">Applica al dispositivo Bluetooth</string>
     <string name="episodes">episodi</string>
     <string name="movies">film</string>
     <string name="videos">video</string>
@@ -590,6 +605,8 @@
     <string name="onboarding_theme_title">Sentiti come a casa</string>
     <string name="done">Completato</string>
     <string name="onboarding_scan_title">Rilevamento automatico dei tuoi supporti</string>
+    <string name="onboarding_all_set">VLC è pronto!</string>
+    <string name="onboarding_permission_given">Ora puoi scoprire automaticamente i tuoi media, usare sottotitoli esterni e riprodurre flussi o media di rete</string>
     <string name="daynight_system_explanation">VLC passerà automaticamente alla modalità scura in base alle impostazioni di sistema</string>
     <string name="daynight_legacy_explanation">VLC passerà automaticamente alla modalità notturna all\'ora appropriata</string>
     <string name="onboarding_scanning_enable">Lascia che VLC analizzi il mio dispositivo alla ricerca di contenuti multimediali</string>
@@ -674,7 +691,9 @@
     <string name="recently_played">Riprodotti di recente</string>
     <string name="recently_added">Aggiunti di recente</string>
     <string name="playback_multiple_errors">Più media non possono essere riprodotti</string>
-    <string name="clear_media_db_warning">Perderai i tuoi progressi e le scalette create.\n%s</string>
+    <string name="clear_media_db_message">Perderai i tuoi progressi, i segnalibri e le scalette che hai creato, ma manterrai le impostazioni di VLC per Android</string>
+    <string name="clear_app_data_message">Perderai i tuoi progressi, i segnalibri, le scalette e tutte le impostazioni di VLC</string>
+    <string name="clear">Cancella</string>
     <string name="abrepeat_add_first_marker">Imposta il punto iniziale</string>
     <string name="abrepeat_add_second_marker">Imposta il punto finale</string>
     <string name="demux_bitrate">Velocità di demultiplazione</string>
@@ -700,6 +719,7 @@
     <string name="subtitle_delay_end">Testo visto</string>
     <string name="track_index">Traccia: %s</string>
     <string name="audio_queue_progress">Avanzamento: %s</string>
+    <string name="audio_queue_progress_remaining">Rimanente: %s</string>
     <string name="audio_queue_progress_finished">Finisce a: %s</string>
     <string name="sortby_track">Traccia</string>
     <string name="this_folder">Aggiungi questa cartella</string>
@@ -741,6 +761,7 @@
     <string name="donate_again">Sponsorizza ancora l\'applicazione</string>
 
     <string name="mark_as_played">Marca come riprodotto</string>
+    <string name="mark_as_not_played">Marca come non riprodotto</string>
     <string name="mark_all_as_played">Marca tutti come riprodotti</string>
     <string name="new_group">Nuovo gruppo</string>
     <string name="new_group_desc">Crea un nuovo gruppo</string>
@@ -764,17 +785,50 @@
     <string name="prefersmbv1_summary">Deseleziona questa impostazione se hai difficoltà a sfogliare il tuo server SMB</string>
     <string name="apply_to_all">Applica a tutti i video</string>
     <string name="audio_delay_global">Ritardo audio impostato a %s ms per tutti i video</string>
+    <string name="audio_delay_bt">Ritardo audio impostato a %s ms per il dispositivo Bluetooth</string>
     <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
     <string name="go_to_folder">Sfoglia superiore</string>
     <string name="no_sub_renderer">I sottotitoli non sono ancora supportati durante la trasmissione</string>
     <string name="enqueuing">Caricamento dei tuoi supporti</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Scegli un file SoundFont per riprodurre le tracce audio midi</string>
+    <string name="missing_media_snack">Manca il media. Vuoi nascondere tutti i media mancanti?</string>
+    <string name="browser_show_missing_media">Mostra i media mancanti</string>
+    <string name="browser_show_missing_media_summary">Mostra l\'evento dei media distanti se non sono presenti</string>
     <string name="search_prefs">Impostazioni di ricerca</string>
     <string name="preferred_resolution">Risoluzione video preferita</string>
     <string name="preferred_resolution_summary">La massima qualità video per i flussi, se applicabile, sarà: %s</string>
     <string name="pref_resolution_best_available">Migliore disponibile</string>
     <string name="pref_resolution_very_low">Bassissima definizione (240p)</string>
     <string name="stop_unpaubale">Questo media non può essere sospeso. Vuoi invece fermarlo?</string>
+    <string name="delete_forever">Elimina per sempre</string>
+    <string name="add_to_existing_playlist">Aggiungi a scaletta esistente</string>
+    <string name="bookmarks_title">Segnalibri</string>
+    <string name="no_bookmark">Ancora nessun segnalibro</string>
+    <string name="bookmark_name">Segnalibro %s</string>
+    <string name="optional_features">Funzionalità opzionali</string>
+    <string name="optional_features_summary">Le funzionalità in beta che sono attualmente in fase di test e potrebbero non essere stabili</string>
+    <string name="optional_features_warning">Questa funzionalità è in fase beta e potrebbe causare chiusure inattese e instabilità</string>
+    <string name="start_vlc">Avvia VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Vuoi aggiungere gli elementi duplicati?</string>
+    <string name="add_button">Aggiungi</string>
+    <string name="add_all_button">Aggiungi tutti</string>
+    <string name="add_new_only_button">Aggiungi solo nuovi</string>
+    <string name="discovery_failed">Rilevamento non riuscito per: %s</string>
+    <string name="lock_use_sensor_title">Blocca con sensore</string>
+    <string name="lock_use_sensor_summary">Quando l\'orientazione è bloccata, utilizza il sensore per consentire l\'orientazione inversa</string>
+    <string name="start">Avvia</string>
+    <string name="permission">Permesso</string>
+    <string name="customize">Personalizza</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Questo elemento è già in questa scaletta.</item>
+        <item quantity="other">Questi elementi sono già in questa scaletta.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 degli elementi selezionati è già in questa scaletta.</item>
+        <item quantity="other">%d degli elementi selezionati sono già in questa scaletta.</item>
+    </plurals>
 
 </resources>
