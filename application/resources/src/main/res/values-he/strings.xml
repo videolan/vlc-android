@@ -50,9 +50,13 @@
     <string name="set_song_question">להגדיר את ‚%1$s’ כצלצול?</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
+    <string name="confirm_delete_message">מדובר בשינוי קבוע ולא ניתן לבטל אותו.</string>
     <string name="confirm_delete_album">למחוק את האלבום ‚%1$s’?</string>
     <string name="confirm_delete_several_media">למחוק את %1$d פריטי המדיה האלו?</string>
     <string name="confirm_delete_folder">למחוק את התיקייה „%1$s“ על כל תכניה?</string>
+    <string name="confirm_delete_folders">למחוק את %1$s התיקיות האלו על כל קובציהן?</string>
+    <string name="confirm_delete_files">למחוק את כל %1$s הקבצים האלו?</string>
+    <string name="confirm_delete_folders_and_files">למחוק את %1$s התיקיות ואת %2$s הקבצים האלו?</string>
     <string name="confirm_delete_playlist">למחוק את רשימת הנגינה „%1$s“?</string>
     <string name="confirm_remove_from_playlist">להסיר את ‚%1$s’ מרשימת הנגינה?</string>
     <string name="ringtone_set">הקובץ „%1$s“ הוגדר בתור הצלצול של המכשיר.</string>
@@ -109,6 +113,12 @@
         <item quantity="two">%d סדרות טלוויזיה</item>
         <item quantity="many">%d סדרות טלוויזיה</item>
         <item quantity="other">%d סדרות טלוויזיה</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">רצועה אחת</item>
+        <item quantity="two">%d רצועות</item>
+        <item quantity="many">%d רצועות</item>
+        <item quantity="other">%d רצועות</item>
     </plurals>
 
     <string name="internal_memory">זיכרון פנימי</string>
@@ -391,6 +401,8 @@
     <string name="dump_media_db_summary">העתקת מסד הנתונים לשורש האחסון הפנימי</string>
     <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
     <string name="clear_media_database_summary">מסד הנתונים יימחק כדי להתחיל מאפס</string>
+    <string name="clear_app_data">מחיקת נתוני היישומון</string>
+    <string name="clear_app_data_summary">מוחק את נתוני ה־Android מ־VLC</string>
     <string name="clear_history">פינוי ההיסטוריה</string>
     <string name="set_locale">הגדרת המיקום והשפה</string>
     <string name="network_caching">ערך האגירה מהרשת</string>
@@ -481,6 +493,11 @@
     <string name="allow_draw_overlays_title">לאפשר ל־VLC להציג מעל ליישומונים אחרים</string>
     <string name="allow_sdraw_overlays_description">ל־VLC נדרשת ההרשאה הזאת כדי להציג את הסרטון שלך בחלונית קופצת מעל ליישומונים אחרים.</string>
     <string name="permission_ask_again">הענקת הרשאה</string>
+    <string name="permission_not_granted">לא ניתנה הרשאה</string>
+    <string name="permission_expanation_no_allow">לא תהיה לך אפשרות לגלות את המדיה שלך אוטומטית או להשתמש בכתוביות חיצוניות</string>
+    <string name="permission_expanation_allow">תהיה לך אפשרות לנגן תזרימים או מדיה מהרשת בלבד</string>
+    <string name="permission_expanation_subtitles">להשתמש בכתוביות חיצוניות</string>
+    <string name="permission_expanation_allow_explanation">לנגן תזרימי אינטרנט או מדיה מהרשת</string>
     <string name="exit_app">סגירת VLC</string>
     <string name="exit_app_msg">לצאת מ־VLC?</string>
 
@@ -509,7 +526,7 @@
     <string name="download_subtitles">הורדת כתוביות</string>
     <string name="browse_folder">עיון בתיקייה</string>
     <string name="listen">האזנה</string>
-    <string name="save_bluetooth_delay">שמירת ההשהיה להתקן בלוטות׳</string>
+    <string name="apply_to_bt">החלה על התקן Bluetooth</string>
     <string name="episodes">פרקים</string>
     <string name="movies">סרטים</string>
     <string name="videos">סרטונים</string>
@@ -608,6 +625,8 @@
     <string name="onboarding_theme_title">להרגיש כמו בבית</string>
     <string name="done">סיום</string>
     <string name="onboarding_scan_title">זיהוי אוטומטי של המדיה שלך</string>
+    <string name="onboarding_all_set">הנגן VLC מוכן!</string>
+    <string name="onboarding_permission_given">כעת ניתן לגלות את המדיה שלך אוטומטית, להשתמש בכתוביות חיצוניות לרבות נגינה של תזרימים או מדיה מהרשת</string>
     <string name="daynight_system_explanation">VLC יעבור למצב כהה בהתאם להגדרות המערכת</string>
     <string name="daynight_legacy_explanation">VLC יעבור אוטומטית למצב לילה בזמן המתאים</string>
     <string name="onboarding_scanning_enable">לאפשר ל־VLC לסרוק את המכשיר שלי לאיתור תוכן מדיה</string>
@@ -696,7 +715,9 @@
     <string name="recently_played">התנגנו לאחרונה</string>
     <string name="recently_added">נוספו לאחרונה</string>
     <string name="playback_multiple_errors">לא ניתן לנגן מגוון פריטי מדיה יחדיו</string>
-    <string name="clear_media_db_warning">המיקומים בהם הפסקת לשמוע פרטי מדיה מסוימים ורשימות נגינה שיצרת יאבדו.\n%s</string>
+    <string name="clear_media_db_message">התקדמות הנגינה, הסימניות ורשימות הנגינה שיצרת יאבדו אך ההגדרות של VLC ל־Android תישמרנה</string>
+    <string name="clear_app_data_message">התקדמות הנגינה, הסימניות, רשימות הנגינה וכל ההגדרות של VLC</string>
+    <string name="clear">מחיקה</string>
     <string name="abrepeat_add_first_marker">הגדרת נקודת התחלה</string>
     <string name="abrepeat_add_second_marker">הגדרת נקודת סיום</string>
     <string name="demux_bitrate">קצב סיביות פילוג</string>
@@ -722,6 +743,7 @@
     <string name="subtitle_delay_end">נראה טקסט</string>
     <string name="track_index">רצועה: %s</string>
     <string name="audio_queue_progress">התקדמות: %s</string>
+    <string name="audio_queue_progress_remaining">נותרו: %s</string>
     <string name="audio_queue_progress_finished">מסתיים ב־: %s </string>
     <string name="sortby_track">רצועה</string>
     <string name="this_folder">הוספת התיקייה הזו</string>
@@ -763,6 +785,7 @@
     <string name="donate_again">לממן את היישומון שוב</string>
 
     <string name="mark_as_played">לסמן כהתנגן</string>
+    <string name="mark_as_not_played">סימון כטרם התנגן</string>
     <string name="mark_all_as_played">לסמן הכול כהתנגן</string>
     <string name="new_group">קבוצה חדשה</string>
     <string name="new_group_desc">יצירת קבוצה חדשה</string>
@@ -786,17 +809,54 @@
     <string name="prefersmbv1_summary">יש לבטל את ההגדרה הזאת אם נתקלת בתקלות בגלישה בשרת ה־SMB שלך</string>
     <string name="apply_to_all">להחיל על כל הסרטונים</string>
     <string name="audio_delay_global">השהיית השמע הוגדרה ל־%s מילישניות לכל הסרטונים</string>
+    <string name="audio_delay_bt">השהיית התקן ה־Bluetooth הוגדרה ל־%s מילישניות</string>
     <string name="warning_stream_speed">הגברת מהירות הנגינה מעבר ל־1 עבור תזרימים עשויה לגרום לגמגום</string>
     <string name="go_to_folder">עיון בהורה</string>
     <string name="no_sub_renderer">עדיין אין תמיכה בכתוביות כחלק מתזרים</string>
     <string name="enqueuing">פרטי המדיה שלך נטענים</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">נא לבחור קובץ SoundFont כדי לנגן רצועות שמע מסוג MIDI</string>
+    <string name="missing_media_snack">מדיה חסרה. להסתיר את כל המדיה החסרה?</string>
+    <string name="browser_show_missing_media">להציג פריטי מדיה חסרים</string>
+    <string name="browser_show_missing_media_summary">להציג פריטי אירועי מדיה מרוחקים אם הם עוד לא קיימים</string>
     <string name="search_prefs">חיפוש בהגדרות</string>
     <string name="preferred_resolution">רזולוציית הווידאו המועדפת</string>
     <string name="preferred_resolution_summary">איכות הווידאו המרבית לתזרימים, כשזאת אכן משפיעה, תהיה: %s</string>
     <string name="pref_resolution_best_available">המיטבית ביותר הזמינה</string>
     <string name="pref_resolution_very_low">איכות נמוכה במיוחד (240p)</string>
     <string name="stop_unpaubale">אי אפשר להשהות את המדיה הזאת. לעצור אותה במקום?</string>
+    <string name="delete_forever">למחוק לצמיתות</string>
+    <string name="add_to_existing_playlist">הוספה לרשימת נגינה קיימת</string>
+    <string name="bookmarks_title">סימניות</string>
+    <string name="no_bookmark">אין סימניות עדיין</string>
+    <string name="bookmark_name">לסמן את %s</string>
+    <string name="optional_features">יכולות כרשות</string>
+    <string name="optional_features_summary">יכולות ניסיוניות שנבדקות כעת ויתכן שלא תהיינה יציבות</string>
+    <string name="optional_features_warning">תכונה זו היא בטא ועשויה לגרום לקריסה ולערעור היציבות</string>
+    <string name="start_vlc">הפעלת VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">להוסיף פריטים כפולים?</string>
+    <string name="add_button">הוספה</string>
+    <string name="add_all_button">הוספה של הכול</string>
+    <string name="add_new_only_button">הוספת חדשים בלבד</string>
+    <string name="discovery_failed">הגילוי נכשל עבור: %s</string>
+    <string name="lock_use_sensor_title">נעילה עם חיישן</string>
+    <string name="lock_use_sensor_summary">כאשר כיוון ההטיה נעול, יש להשתמש בחיישן כדי להפוך את הכיוון</string>
+    <string name="start">הפעלה</string>
+    <string name="permission">הרשאה</string>
+    <string name="customize">התאמה אישית</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">הפריט הזה כבר קיים ברשימת נגינה זו.</item>
+        <item quantity="two">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
+        <item quantity="many">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
+        <item quantity="other">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">אחד מהפריטים הנבחרים כבר נמצא ברשימת הנגינה.</item>
+        <item quantity="two">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
+        <item quantity="many">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
+        <item quantity="other">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
+    </plurals>
 
 </resources>
