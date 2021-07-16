@@ -50,9 +50,13 @@
     <string name="set_song_question">Встановити \'%1$s\' як мелодію дзвінків?</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="confirm_delete_message">Це незворотна дія, її неможливо повернути.</string>
     <string name="confirm_delete_album">Вилучити альбом%1$s?</string>
     <string name="confirm_delete_several_media">Вилучити ці %1$d медіа?</string>
     <string name="confirm_delete_folder">Вилучити теку \'%1$s\' та увесь її вміст?</string>
+    <string name="confirm_delete_folders">Вилучити ці %1$s теки та увесь їхній вміст?</string>
+    <string name="confirm_delete_files">Вилучити ці %1$s файли?</string>
+    <string name="confirm_delete_folders_and_files">Вилучити ці  %1$s теки та %2$s файли?</string>
     <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Вилучити \'%1$s\' зі списку відтворення?</string>
     <string name="ringtone_set">Файл \'%1$s\' встановлено як мелодія.</string>
@@ -109,6 +113,12 @@
         <item quantity="few">%d серіали</item>
         <item quantity="many">%d серіалів</item>
         <item quantity="other">%d серіала</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 доріжка</item>
+        <item quantity="few">%d доріжки</item>
+        <item quantity="many">%d доріжок</item>
+        <item quantity="other">%d доріжки</item>
     </plurals>
 
     <string name="internal_memory">Внутрішня пам\'ять</string>
@@ -391,6 +401,8 @@
     <string name="dump_media_db_summary">Копіювати базу даних у внутрішній каталог root</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="clear_media_database_summary">Очищає базу даних, щоб наново усе розпочати </string>
+    <string name="clear_app_data">Очистити дані програми</string>
+    <string name="clear_app_data_summary">Очищає VLC від даних Android</string>
     <string name="clear_history">Очистити історію</string>
     <string name="set_locale">Установка локалі</string>
     <string name="network_caching">Розмір мережевого кешування</string>
@@ -481,6 +493,11 @@
     <string name="allow_draw_overlays_title">Дозволити VLC спливати над іншими програмами</string>
     <string name="allow_sdraw_overlays_description">VLC потрібно, щоби ви надали цей дозвіл для відображення вашого відео у спливному вікні над іншими програмами.</string>
     <string name="permission_ask_again">Надати дозвіл</string>
+    <string name="permission_not_granted">Дозвіл не наданий</string>
+    <string name="permission_expanation_no_allow">Ви не будете здатні виявляти ваші медіафайли або використовувати зовнішні субтитри</string>
+    <string name="permission_expanation_allow">Ви будете здатні тільки відтворювати потоки або мережеве медіа</string>
+    <string name="permission_expanation_subtitles">Використовувати зовнішні субтитри</string>
+    <string name="permission_expanation_allow_explanation">Відтворювати інтернет потоки або мережеве медіа</string>
     <string name="exit_app">Закрити VLC</string>
     <string name="exit_app_msg">Ви справді хочете вийти із VLC?</string>
 
@@ -509,7 +526,7 @@
     <string name="download_subtitles">Звантажити субтитри</string>
     <string name="browse_folder">Огляд теки</string>
     <string name="listen">Прослухайте</string>
-    <string name="save_bluetooth_delay">зберігати затримку для пристрою bluetooth</string>
+    <string name="apply_to_bt">Застосувати до пристрою bluetooth</string>
     <string name="episodes">епізоди</string>
     <string name="movies">фільми</string>
     <string name="videos">відео</string>
@@ -608,6 +625,8 @@
     <string name="onboarding_theme_title">Відчувайте себе як вдома</string>
     <string name="done">Готово</string>
     <string name="onboarding_scan_title">Автоматичне виявлення ваших медіа</string>
+    <string name="onboarding_all_set">VLC повністю налаштований!</string>
+    <string name="onboarding_permission_given">Ви можете зараз автоматично виявляти ваше медіа, використовувати зовнішні субтитри, а також відтворювати потоки або мережеві медіа</string>
     <string name="daynight_system_explanation">VLC буде автоматично перемикатися у темний режим відповідно до налаштувань системи. </string>
     <string name="daynight_legacy_explanation">VLC буде автоматично перемикатися у нічний режим у відповідний час</string>
     <string name="onboarding_scanning_enable">Нехай VLC сканує мій пристрій на медіаматеріал</string>
@@ -696,7 +715,9 @@
     <string name="recently_played">Нещодавно відтворені</string>
     <string name="recently_added">Нещодавно додані</string>
     <string name="playback_multiple_errors">Кратні медіа не можуть бути відтворені </string>
-    <string name="clear_media_db_warning">Ви втратите свій поступ та списки відтворення, створені вамиu.\n%s</string>
+    <string name="clear_media_db_message">Ви втратите свій поступ, закладки та списки відтворення, створені вами, але збережете свої налаштування VLC для Android</string>
+    <string name="clear_app_data_message">Ви втратите свій поступ, закладки, списки відтворення та усі налаштування VLC</string>
+    <string name="clear">Очистити</string>
     <string name="abrepeat_add_first_marker">Задати точку початку... </string>
     <string name="abrepeat_add_second_marker">Задати точку кінця... </string>
     <string name="demux_bitrate">Бітрейт демультиплексора</string>
@@ -722,6 +743,7 @@
     <string name="subtitle_delay_end">Текст побачили</string>
     <string name="track_index">Доріжка: %s</string>
     <string name="audio_queue_progress">Поступ: %s</string>
+    <string name="audio_queue_progress_remaining">Залишилося: %s</string>
     <string name="audio_queue_progress_finished">Закінчується о: %s</string>
     <string name="sortby_track">Доріжка</string>
     <string name="this_folder">Додати цю теку</string>
@@ -763,6 +785,7 @@
     <string name="donate_again">Підтримати знову програму</string>
 
     <string name="mark_as_played">Позначити як відтворене</string>
+    <string name="mark_as_not_played">Позначити як переглянуте</string>
     <string name="mark_all_as_played">Позначии усе як відтворене</string>
     <string name="new_group">Нова група</string>
     <string name="new_group_desc">Створити нову групу</string>
@@ -786,17 +809,54 @@
     <string name="prefersmbv1_summary">Вимкніть цей параметр, якщо у вас наявні труднощі при перегляді вашого сервера SMB.</string>
     <string name="apply_to_all">Застосувати до всіх відео</string>
     <string name="audio_delay_global">Затримку аудіо задати на %s мс для всіх відео</string>
+    <string name="audio_delay_bt">Затримка аудіо задана на %s мс для пристрою bluetooth</string>
     <string name="warning_stream_speed">Збільшення швидкості відтворення понад 1 для потоків може спричинити пригальмовування</string>
     <string name="go_to_folder">Огляд батьківської теки</string>
     <string name="no_sub_renderer">Субтитри досі не підтримуються під час трансляції</string>
     <string name="enqueuing">Завантаження ваших медіафайлів</string>
     <string name="soundfont">Звуковий шрифт MIDI</string>
     <string name="soundfont_summary">Підберіть файл звукового шрифту для відтворення аудіо доріжок midi</string>
+    <string name="missing_media_snack">Медіа відсутнє. Приховати усі відсутні медіа?</string>
+    <string name="browser_show_missing_media">Показати відсутні медіа</string>
+    <string name="browser_show_missing_media_summary">Показати віддалені медіа, якщо вони відсутні</string>
     <string name="search_prefs">Налаштування пошуку</string>
     <string name="preferred_resolution">Бажана роздільна здатність</string>
     <string name="preferred_resolution_summary">Максимальна якість відео для потоків, коли застосовна, буде: %s</string>
     <string name="pref_resolution_best_available">Найкраща доступна</string>
     <string name="pref_resolution_very_low">Дуже низька якість (240p)</string>
     <string name="stop_unpaubale">Цей медіа файл не можна покласти на паузу. Зупинити повністю його?</string>
+    <string name="delete_forever">Вилучити назавжди</string>
+    <string name="add_to_existing_playlist">Додати до наявного списку відтворення</string>
+    <string name="bookmarks_title">Закладки</string>
+    <string name="no_bookmark">Ще нема закладок</string>
+    <string name="bookmark_name">Закладка %s</string>
+    <string name="optional_features">Додаткові можливості</string>
+    <string name="optional_features_summary">Бета-функції, що наразі тестуються і можуть бути нестійкими</string>
+    <string name="optional_features_warning">Ця функція перебуває у бета-тестуванні та може спричиняти збої та нестабільну роботу</string>
+    <string name="start_vlc">Запустити VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Додати повторювані елемент(и)?</string>
+    <string name="add_button">Додати</string>
+    <string name="add_all_button">Додати усе</string>
+    <string name="add_new_only_button">Додати тільки нові</string>
+    <string name="discovery_failed">Виявлення не вдалося для: %s</string>
+    <string name="lock_use_sensor_title">Заблокувати з сенсором</string>
+    <string name="lock_use_sensor_summary">Коло орієнтація заблокована, використовується сенсор, щоб дозволити повернути орієнтацію</string>
+    <string name="start">Запустити</string>
+    <string name="permission">Дозвіл</string>
+    <string name="customize">Налаштувати</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Цей елемент вже наявний у цьому списку.</item>
+        <item quantity="few">Ці елементи вже наявні у цьому списку.</item>
+        <item quantity="many">Ці елементи вже наявні у цьому списку.</item>
+        <item quantity="other">Ці елементи вже наявні у цьому списку.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1  з обраних елементів вже наявний у цьому списку.</item>
+        <item quantity="few">%d з обраних елементів вже наявні у цьому списку.</item>
+        <item quantity="many">%d з обраних елементів вже наявні у цьому списку.</item>
+        <item quantity="other">%d з обраних елементів вже наявні у цьому списку.</item>
+    </plurals>
 
 </resources>
