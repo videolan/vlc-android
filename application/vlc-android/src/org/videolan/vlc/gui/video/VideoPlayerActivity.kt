@@ -1108,11 +1108,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 resizeVideo()
                 return true
             }
-            KeyEvent.KEYCODE_N -> {
+            KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_CHANNEL_UP, KeyEvent.KEYCODE_BUTTON_R1 -> {
                 next()
                 return true
             }
-            KeyEvent.KEYCODE_P -> {
+            KeyEvent.KEYCODE_P, KeyEvent.KEYCODE_CHANNEL_DOWN, KeyEvent.KEYCODE_BUTTON_L1 -> {
                 previous()
                 return true
             }

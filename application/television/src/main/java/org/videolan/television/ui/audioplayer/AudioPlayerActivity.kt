@@ -226,7 +226,7 @@ class AudioPlayerActivity : BaseTvActivity() {
                 finish()
                 return true
             }
-            KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_BUTTON_R1 -> {
+            KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_BUTTON_R1, KeyEvent.KEYCODE_CHANNEL_UP -> {
                 goNext()
                 return true
             }
@@ -238,7 +238,7 @@ class AudioPlayerActivity : BaseTvActivity() {
                 seek(-10000)
                 return true
             }
-            KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_BUTTON_L1 -> {
+            KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_CHANNEL_DOWN -> {
                 goPrevious()
                 return true
             }
