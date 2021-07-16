@@ -23,6 +23,8 @@ package org.videolan.libvlc;
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 
+import androidx.annotation.Nullable;
+
 import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.interfaces.IMediaList;
@@ -31,8 +33,6 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.util.VLCUtil;
 
 import java.io.FileDescriptor;
-
-import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused, JniMissingFunction")
 public class Media extends VLCObject<IMedia.Event> implements IMedia {
@@ -420,10 +420,21 @@ public class Media extends VLCObject<IMedia.Event> implements IMedia {
      * @return meta or null if not found
      */
     public String getMeta(int id) {
+        return getMeta(id, false);
+    }
+
+    /**
+     * Get a Meta.
+     *
+     * @param id see {@link Meta}
+     * @param force force the native call to be done
+     * @return meta or null if not found
+     */
+    public String getMeta(int id, boolean force) {
         if (id < 0 || id >= Meta.MAX)
             return null;
 
-        synchronized (this) {
+        if (!force) synchronized (this) {
             if (mNativeMetas[id] != null)
                 return mNativeMetas[id];
             if (isReleased())

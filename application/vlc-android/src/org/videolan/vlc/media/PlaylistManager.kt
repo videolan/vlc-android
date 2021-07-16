@@ -910,6 +910,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(if(player.isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false)) {
                     player.setRate(settings.getFloat(if(player.isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else KEY_PLAYBACK_RATE, 1.0f), false)
                 }
+                MediaPlayer.Event.ESSelected -> {
+                    getCurrentMedia()?.let { media ->
+                        if (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true)) {
+                            media.updateMeta(player.mediaplayer)
+                            service.onMediaListChanged()
+                            service.showNotification()
+                        }
+                    }
+                }
             }
             service.onMediaPlayerEvent(event)
         }

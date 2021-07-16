@@ -372,7 +372,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     private static String getMetaId(IMedia media, String defaultMeta, int id, boolean trim) {
-        String meta = media.getMeta(id);
+        String meta = media.getMeta(id, true);
         return meta != null ? trim ? meta.trim() : meta : defaultMeta;
     }
 
@@ -399,7 +399,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     public void updateMeta(MediaPlayer mediaPlayer) {
-        if (!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle))
+        if ((!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle)) || !mDisplayTitle.equals(mTitle))
             mDisplayTitle = mTitle;
         final IMedia media = mediaPlayer.getMedia();
         if (media == null)

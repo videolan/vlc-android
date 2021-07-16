@@ -77,7 +77,6 @@ import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.text.DateFormat.SHORT
 import java.text.DateFormat.getTimeInstance
 import java.util.*
 import kotlin.math.absoluteValue
