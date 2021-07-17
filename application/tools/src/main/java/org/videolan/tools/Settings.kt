@@ -62,6 +62,12 @@ const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
 
 
 // AudioPlayer
+const val AUDIO_SHUFFLING = "audio_shuffling"
+const val MEDIA_SHUFFLING = "media_shuffling"
+const val POSITION_IN_SONG = "position_in_song"
+const val POSITION_IN_MEDIA = "position_in_media"
+const val POSITION_IN_AUDIO_LIST = "position_in_audio_list"
+const val POSITION_IN_MEDIA_LIST = "position_in_media_list"
 const val SHOW_REMAINING_TIME = "show_remaining_time"
 const val PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown"
 const val PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown"

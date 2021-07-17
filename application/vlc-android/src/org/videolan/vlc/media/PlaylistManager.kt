@@ -79,6 +79,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
+    fun canRepeat() = mediaList.size() > 0
+
     fun hasPlaylist() = mediaList.size() > 1
 
     fun canShuffle() = mediaList.size() > 2
@@ -186,9 +188,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             // load playlist
-            shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
-            val position = max(0, settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0))
-            savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
+            shuffling = settings.getBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, false)
+            val position = max(0, settings.getInt(if (audio) POSITION_IN_AUDIO_LIST else POSITION_IN_MEDIA_LIST, 0))
+            savedTime = settings.getLong(if (audio) POSITION_IN_SONG else POSITION_IN_MEDIA, -1)
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
                 playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
             }
@@ -708,9 +710,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (!hasMedia()) return
         settings.edit {
             val audio = !video && isAudioList()
-            putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
-            putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
-            putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
+            putBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, shuffling)
+            putInt(if (audio) POSITION_IN_AUDIO_LIST else POSITION_IN_MEDIA_LIST, if (reset) 0 else currentIndex)
+            putLong(if (audio) POSITION_IN_SONG else POSITION_IN_MEDIA, if (reset) 0L else player.getCurrentTime())
             if (!audio) {
                 putFloat(VIDEO_SPEED, player.getRate())
             }

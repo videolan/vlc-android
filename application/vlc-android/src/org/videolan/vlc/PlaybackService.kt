@@ -42,6 +42,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
+import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
@@ -65,10 +66,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
-import org.videolan.tools.Settings
-import org.videolan.tools.WeakHandler
-import org.videolan.tools.getContextWithLocale
-import org.videolan.tools.safeOffer
+import org.videolan.tools.*
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
@@ -924,21 +922,30 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
         if (isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
-        actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM
-        if (playlistManager.canShuffle()) actions = actions or PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE
-        actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
+        if (playlistManager.canRepeat()) {
+            actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
+            val repeatResId = when (repeatType) {
+                PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_auto_repeat_pressed
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_auto_repeat_one_pressed
+                else -> R.drawable.ic_auto_repeat_normal
+            }
+            pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)
+        }
+        if (playlistManager.canShuffle()) {
+            actions = actions or PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE
+            val shuffleResId = when {
+                isShuffling -> R.drawable.ic_auto_shuffle_enabled
+                else -> R.drawable.ic_auto_shuffle_disabled
+            }
+            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), shuffleResId)
+        }
         pscb.setActions(actions)
         mediaSession.setRepeatMode(repeatType)
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
-        val repeatResId = if (repeatType == PlaybackStateCompat.REPEAT_MODE_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == PlaybackStateCompat.REPEAT_MODE_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
-        if (playlistManager.canShuffle())
-            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), if (isShuffling) R.drawable.ic_auto_shuffle_enabled else R.drawable.ic_auto_shuffle_disabled)
-        pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)
         mediaSession.setExtras(Bundle().apply {
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, true)
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, true)
         })
-
         val mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED
         val update = mediaSession.isActive != mediaIsActive
         updateMediaQueueSlidingWindow()
@@ -1144,7 +1151,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 toIndex = (songNum + halfWindowSize).coerceAtMost(mediaList.size)
                 fromIndex = (toIndex - windowSize).coerceAtLeast(0)
             }
-            buildQueue(mediaList, fromIndex, toIndex)
+            //The on-screen queue icon will disappear if an empty queue is passed.
+            if (mediaList.isNotEmpty()) buildQueue(mediaList, fromIndex, toIndex)
             prevUpdateInCarMode = true
         } else if (mediaListChanged || prevUpdateInCarMode) {
             buildQueue(playlistManager.getMediaList())
@@ -1211,6 +1219,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @JvmOverloads
     fun playIndex(index: Int, flags: Int = 0) {
         lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) { playlistManager.playIndex(index, flags) }
+    }
+
+    fun playIndexOrLoadLastPlaylist(index: Int) {
+        if (hasMedia()) playIndex(index)
+        else {
+            settings.edit {
+                putLong(POSITION_IN_SONG, 0L)
+                putInt(POSITION_IN_AUDIO_LIST, index)
+            }
+            loadLastPlaylist(PLAYLIST_TYPE_AUDIO)
+        }
     }
 
     @MainThread
@@ -1478,7 +1497,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
         private const val PLAYBACK_BASE_ACTIONS = (PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
                 or PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or PlaybackStateCompat.ACTION_PLAY_FROM_URI
-                or PlaybackStateCompat.ACTION_PLAY_PAUSE)
+                or PlaybackStateCompat.ACTION_PLAY_PAUSE or PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM)
     }
 
     fun getTime(realTime: Long): Int {
