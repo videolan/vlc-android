@@ -365,10 +365,10 @@ object MediaUtils {
             if (media.type == MediaWrapper.TYPE_VIDEO) {
                 subtitle = Tools.millisToText(media.length)
                 val resolution = generateResolutionClass(media.width, media.height)
-                if (resolution != null) subtitle = "$subtitle  •  $resolution"
+                if (resolution != null) subtitle = "$subtitle ⋅ $resolution"
             } else {
                 subtitle = if (subtitle.isNullOrEmpty()) Tools.millisToString(media.length)
-                else "$subtitle  •  ${Tools.millisToString(media.length)}"
+                else "$subtitle ⋅ ${Tools.millisToString(media.length)}"
             }
         }
         return subtitle
