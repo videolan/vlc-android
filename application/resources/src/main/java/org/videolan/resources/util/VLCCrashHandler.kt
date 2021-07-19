@@ -20,6 +20,8 @@
 
 package org.videolan.resources.util
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Environment
 import android.text.format.DateFormat
 import android.util.Log
@@ -79,7 +81,15 @@ class VLCCrashHandler : UncaughtExceptionHandler {
         val output = OutputStreamWriter(stream)
         val bw = BufferedWriter(output)
 
+        val version = try {
+            val pInfo: PackageInfo = AppContextProvider.appContext.packageManager.getPackageInfo(AppContextProvider.appContext.getPackageName(), 0)
+             pInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
         try {
+            bw.write("App version: $version\r\n")
             bw.write(log)
             bw.newLine()
         } catch (e: IOException) {

@@ -176,6 +176,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
             output = OutputStreamWriter(fos)
             bw = BufferedWriter(output)
             synchronized(this) {
+                bw.write("App version: ${BuildConfig.VLC_VERSION_CODE} / ${BuildConfig.VLC_VERSION_NAME}\r\n")
                 for (line in logList) {
                     bw.write(line)
                     bw.newLine()
