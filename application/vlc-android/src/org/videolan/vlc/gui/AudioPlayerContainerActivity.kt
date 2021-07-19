@@ -52,6 +52,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
@@ -416,7 +417,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     fun proposeCard() = lifecycleScope.launchWhenStarted {
         delay(1000L)
         if (PlaylistManager.showAudioPlayer.value == true) return@launchWhenStarted
-        val song = settings.getString("current_song", null) ?: return@launchWhenStarted
+        val song = settings.getString(KEY_CURRENT_AUDIO, null) ?: return@launchWhenStarted
         val media = getFromMl { getMedia(song.toUri()) } ?: return@launchWhenStarted
         val title = media.title
         resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)

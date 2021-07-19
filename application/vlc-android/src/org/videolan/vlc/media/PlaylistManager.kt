@@ -716,6 +716,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (!audio) {
                 putFloat(VIDEO_SPEED, player.getRate())
             }
+            //we reached the end. The next proposed media should be the first of the list
+            if (reset) {
+                val media = getMediaList()[0]
+                putString(KEY_CURRENT_AUDIO, media.location)
+            }
         }
     }
 
