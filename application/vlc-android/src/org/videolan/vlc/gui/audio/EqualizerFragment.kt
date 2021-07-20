@@ -152,11 +152,11 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         presetCount = allSets.size
         for ((key) in Settings.getInstance(requireActivity()).all) {
             if (key.startsWith("custom_equalizer_")) {
-                allSets.add(0, key.replace("custom_equalizer_", "").replace("_", " "))
+                allSets.add(key.replace("custom_equalizer_", "").replace("_", " "))
                 customCount++
             }
         }
-        allSets.add(customCount, newPresetName)
+        allSets.add(newPresetName)
 
         equalizer = VLCOptions.getEqualizerSetFromSettings(requireActivity(), true)!!
 
