@@ -24,6 +24,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams
@@ -310,6 +312,21 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         input.setText(oldName)
         input.setSelectAllOnFocus(true)
         input.setSingleLine()
+        input.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val newName = input.text.toString()
+                if (input.text.contains("_") || newName == newPresetName) {
+                    input.error = getString(R.string.custom_set_wrong_input)
+                    Toast.makeText(requireActivity(), AppContextProvider.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
+                } else if (allSets.contains(newName) && newName != oldName) {
+                    input.error = getString(R.string.custom_set_already_exist)
+                } else input.error = null
+            }
+
+            override fun afterTextChanged(s: Editable?) { }
+        })
 
 
         val container = FrameLayout(requireContext())
@@ -361,12 +378,8 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     }
 
     private fun save(ctx: Context, input: EditText, oldName: String, temporarySet: MediaPlayer.Equalizer, onPause: Boolean, displayedByUser: Boolean, positionToSave: Int, saveEqualizer: AlertDialog) {
-        val newName = input.text.toString()
-        if (newName.contains("_") || newName == newPresetName) {
-            Toast.makeText(ctx, AppContextProvider.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
-        } else if (allSets.contains(newName) && newName != oldName) {
-            Toast.makeText(ctx, AppContextProvider.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
-        } else {
+        if (input.error == null) {
+            val newName = input.text.toString()
             VLCOptions.saveCustomSet(ctx, temporarySet, newName)
             if (onPause) {
                 if (binding.equalizerButton.isChecked)
