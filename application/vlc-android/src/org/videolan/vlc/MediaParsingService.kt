@@ -88,6 +88,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private var inDiscovery = false
     private lateinit var actions : SendChannel<MLAction>
     private lateinit var notificationActor : SendChannel<Notification>
+    var lastDone = -1
+    var lastScheduled = -1
 
     private val exceptionHandler = if (BuildConfig.BETA) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
         val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
@@ -136,7 +138,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
         Medialibrary.getState().observe(this, { running ->
-            if (!running && !scanPaused) {
+            if (!running) {
                 exitCommand()
             }
         })
@@ -389,6 +391,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     }
 
     override fun onParsingStatsUpdated(done: Int, scheduled:Int) {
+        lastDone = done
+        lastScheduled = scheduled
         parsing = (done.toFloat() / scheduled.toFloat() * 100F)
         if (parsing != 100F && ::notificationActor.isInitialized) notificationActor.safeOffer(Show(done, scheduled))
     }
@@ -495,6 +499,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     scanPaused = false
                 }
             }
+            notificationActor.safeOffer(Show(lastDone, lastScheduled))
         }
     }
 
