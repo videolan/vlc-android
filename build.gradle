@@ -6,7 +6,6 @@ buildscript {
     repositories {
         flatDir dirs: "gradle/plugins"
         google()
-        jcenter()
         mavenCentral()
         mavenLocal()
    }
@@ -21,7 +20,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     tasks.withType(Javadoc) {
         // Ignores errors from mavenAndroidJavadocs task
