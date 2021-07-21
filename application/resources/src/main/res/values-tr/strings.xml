@@ -28,7 +28,7 @@
     <string name="playback_controls">Oynatma denetimleri</string>
     <string name="medialibrary_scan">Ortam kitaplığı taraması</string>
     <string name="Medialibrary_progress">Ortam kitaplığı tarama işlemi güncellemeleri</string>
-    <string name="play_from_start">Başlangıçtan oynat</string>
+    <string name="play_from_start">Baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
     <string name="video_app_switch_title">Arka Plan/PiP Kipi</string>
@@ -41,23 +41,28 @@
     <string name="append_all">Tümünü ekle</string>
     <string name="resume_playback_short_title">Oynatmayı sürdür</string>
     <string name="resume_playback_long_title">Son oynatma listesini oynatmayı sürdürür</string>
+    <string name="resume_playback_error">Sürdürülecek bir işlem yok</string>
     <string name="delete">Sil</string>
     <string name="remove">Çıkar</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
     <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
+    <string name="confirm_delete_message">Bu işlem kalıcıdır ve geri alınamaz.</string>
     <string name="confirm_delete_album">\'%1$s\' albümü silinsin mi?</string>
     <string name="confirm_delete_several_media">Bu %1$d ortam silinsin mi?</string>
     <string name="confirm_delete_folder">\'%1$s\' klasörü ve tüm içeriği silinsin mi?</string>
+    <string name="confirm_delete_folders">Bu %1$s klasör ve tüm içerikleri silinsin mi?</string>
+    <string name="confirm_delete_files">Bu %1$s dosya silinsin mi?</string>
+    <string name="confirm_delete_folders_and_files">Bu %1$s klasör ve %2$s dosya silinsin mi?</string>
     <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' oynatma listesinden çıkarılsın mı?</string>
     <string name="ringtone_set">\'%1$s\' dosyası zil sesi olarak ayarlandı.</string>
     <string name="ringtone_error">Zil sesi ayarlanırken bir sorun çıktı.</string>
     <string name="pause">Duraklat</string>
-    <string name="unknown_artist">Bilinmeyen Sanatçı</string>
-    <string name="unknown_album">Bilinmeyen Albüm</string>
-    <string name="unknown_genre">Bilinmeyen Tür</string>
+    <string name="unknown_artist">Bilinmeyen sanatçı</string>
+    <string name="unknown_album">Bilinmeyen albüm</string>
+    <string name="unknown_genre">Bilinmeyen tür</string>
     <string name="songs">Parçalar</string>
     <string name="track_info_copied_to_clipboard">Kayıt bilgileri panoya kopyalandı</string>
 
@@ -93,11 +98,15 @@
         <item quantity="one">1 TV dizisi</item>
         <item quantity="other">%d TV dizisi</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 iz</item>
+        <item quantity="other">%d iz</item>
+    </plurals>
 
     <string name="internal_memory">İç bellek</string>
     <string name="audio">Ses</string>
     <string name="video">Görüntü</string>
-    <string name="bookmarks">Yer İmleri</string>
+    <string name="bookmarks">Yer imleri</string>
     <string name="equalizer">Dengeleyici</string>
     <string name="all_albums">Tüm albümler</string>
     <string name="genres">Türler</string>
@@ -114,10 +123,10 @@
     <string name="validation">Emin misiniz?</string>
 
     <string name="cover_art">Kapak görseli</string>
-    <string name="shuffle_all_title">Tümünü Karıştır</string>
+    <string name="shuffle_all_title">Tümünü karıştır</string>
     <string name="shuffle_title">Karıştırma kipi</string>
-    <string name="shuffle">Karıştırma Kapalı</string>
-    <string name="shuffle_on">Karıştırma Açık</string>
+    <string name="shuffle">Karıştırma kapalı</string>
+    <string name="shuffle_on">Karıştırma açık</string>
     <string name="shuffle_play">Karışık</string>
     <string name="repeat_title">Yineleme kipi</string>
     <string name="repeat">Yineleme yok</string>
@@ -141,9 +150,9 @@
     <string name="track_bitrate_info">Bit hızı: %1$s/s\n</string>
     <string name="track_codec_info">Kodlayıcı/Çözücü: %1$s\n</string>
     <string name="track_language_info">Dil: %1$s\n</string>
-    <string name="volume">Ses Düzeyi</string>
-    <string name="sound_on">Ses Açık</string>
-    <string name="sound_off">Ses Kapalı</string>
+    <string name="volume">Ses düzeyi</string>
+    <string name="sound_on">Ses açık</string>
+    <string name="sound_off">Ses kapalı</string>
     <string name="brightness">Parlaklık</string>
     <string name="advanced">gelişmiş ayarlar</string>
     <string name="audio_boost_warning">%100 üzerine çıkmak için yeniden yukarı kaydırın</string>
@@ -160,17 +169,17 @@
     <string name="playback_speed">Oynatma hızı</string>
     <string name="sleep_title">Uyku zamanlayıcı</string>
     <string name="sleep_in">Uykuya dalma süresi</string>
-    <string name="jump_to_time">Sıçranacak Zaman</string>
+    <string name="jump_to_time">Sıçranacak zaman</string>
     <string name="subtitle_select">Alt yazı dosyasını seçin</string>
 
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
     <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
     <string name="server_share_hint">Ağ paylaşımı adı (ya da IP adresi)</string>
     <string name="server_folder_hint">Klasör yolu (isteğe bağlı)</string>
-    <string name="server_username_hint">Kullanıcı Adı</string>
+    <string name="server_username_hint">Kullanıcı adı</string>
     <string name="server_servername_hint">Kolaylık olması için sunucu adı</string>
-    <string name="server_port">Kapı No: </string>
-    <string name="login">Oturum Aç</string>
+    <string name="server_port">Kapı no: </string>
+    <string name="login">Oturum aç</string>
     <string name="password">Parola</string>
 
     <string name="search_no_result">Herhangi bir ortam bulunamadı</string>
@@ -191,10 +200,10 @@
 
     <string name="playback_history_title">Oynatma geçmişi</string>
     <string name="playback_history_summary">Oynatılan tüm ortamlar geçmiş bölümüne kaydedilir</string>
-    <string name="playback_speed_title">Oynatma Hızını Kaydet</string>
-    <string name="playback_speed_summary">Ortamlar arasında oynatma hızı korunsun</string>
+    <string name="playback_speed_title">Oynatma hızı kaydedilsin</string>
+    <string name="playback_speed_summary">Ortamlar arasında oynatma hızı korunur</string>
 
-    <string name="play_button">Oynatma Düğmesi</string>
+    <string name="play_button">Oynatma düğmesi</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
@@ -213,8 +222,8 @@
     <string name="hold_to_seek">Basılı tutarak tarayın</string>
 
     <string name="audio_player_tips">Ses oynatıcı ipuçları</string>
-    <string name="previous_next_song">Önceki/Sonraki parça</string>
-    <string name="show_playlist">Oynatma Listesi Görüntülensin</string>
+    <string name="previous_next_song">Önceki/sonraki parça</string>
+    <string name="show_playlist">Oynatma listesi görüntülensin</string>
     <string name="hold_to_stop">Basılı tutarak durdurun</string>
 
     <!-- About -->
@@ -223,7 +232,7 @@
     <string name="revision">Değişiklik</string>
     <string name="about">Hakkında</string>
     <string name="about_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir parçasıdır. Android™ sürümü çoğu dosya ve ağ akışlarını okuyabilir.</string>
-    <string name="vlc_authors">ve VLC Geliştiricileri.</string>
+    <string name="vlc_authors">ve VLC geliştiricileri.</string>
     <string name="compiled_by">Bu VLC sürümü şu kişiler tarafından oluşturulmuştur:</string>
     <string name="feedback_forum">Geri bildirim forumu</string>
 
@@ -234,24 +243,24 @@
     <string name="add_custom_path">Özel klasör ekle</string>
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
-    <string name="hardware_acceleration">Donanım Hızlandırma</string>
+    <string name="hardware_acceleration">Donanım hızlandırması</string>
     <string name="hardware_acceleration_summary">Devre dışı: daha iyi kararlılık\nKod çözme: başarımı arttırabilir\nTam: başarımı daha çok arttırabilir</string>
-    <string name="hardware_acceleration_disabled">Devre Dışı</string>
+    <string name="hardware_acceleration_disabled">Devre dışı</string>
     <string name="hardware_acceleration_decoding">Kod çözme hızlandırması</string>
     <string name="hardware_acceleration_full">Tam hızlandırma</string>
     <string name="dev_hardware_decoder">Gelişmiş donanımsal kod çözücü</string>
     <string name="dev_hardware_decoder_summary">Donanımsal kod çözücünün kullanılması dayatılır, yalnız deneyimli kullanıcılar için</string>
     <string name="automatic">Otomatik</string>
     <string name="screen_orientation">Görüntü ekranı doğrultusu</string>
-    <string name="screen_orientation_sensor">Otomatik (almaç)</string>
+    <string name="screen_orientation_sensor">Otomatik (algılayıcı)</string>
     <string name="screen_orientation_portrait">Dikey</string>
     <string name="screen_orientation_landscape">Yatay</string>
     <string name="screen_orientation_landscape_reverse">Yatay ters çevrilmiş</string>
     <string name="screen_orientation_last_locked">Son kilitlenmiş doğrultu</string>
     <string name="enable_black_theme">Siyah tema</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
-    <string name="daynight_title">Gündüz/Gece kipi</string>
-    <string name="daynight_follow_system_title">Sistem kipi izlensin</string>
+    <string name="daynight_title">Gündüz/gece kipi</string>
+    <string name="daynight_follow_system_title">Sistemin kipine uyulsun</string>
 
     <string name="extra_prefs_category">Ek ayarlar</string>
 
@@ -291,19 +300,19 @@
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
 
     <string name="subtitles_prefs_category">Alt yazılar</string>
-    <string name="subtitles_size_title">Alt Yazı Boyutu</string>
+    <string name="subtitles_size_title">Alt yazı boyutu</string>
     <string name="subtitles_size_small">Küçük</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Büyük</string>
-    <string name="subtitles_size_huge">Çok Büyük</string>
-    <string name="subtitles_color_title">Alt Yazı Rengi</string>
+    <string name="subtitles_size_huge">Çok büyük</string>
+    <string name="subtitles_color_title">Alt yazı rengi</string>
     <string name="subtitles_color_white">Beyaz</string>
     <string name="subtitles_color_gray">Gri</string>
     <string name="subtitles_color_pink">Pembe</string>
     <string name="subtitles_color_blue">Mavi</string>
     <string name="subtitles_color_yellow">Sarı</string>
     <string name="subtitles_color_green">Yeşil</string>
-    <string name="subtitles_background_title">Alt Yazı Arka Planı</string>
+    <string name="subtitles_background_title">Alt yazı arka planı</string>
     <string name="subtitles_bold_title">Koyu alt yazılar</string>
     <string name="subtitles_autoload_title">Alt yazılar otomatik yüklensin</string>
 
@@ -329,15 +338,15 @@
     <string name="audio_ducking_summary">Bu seçenek etkinleştirildiğinde, bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulması kolaylaşır</string>
     <string name="casting_category">Aktarım</string>
     <string name="casting_switch_title">Kablosuz aktarım</string>
-    <string name="casting_passthrough_title">Doğrudan Ses Geçişi</string>
+    <string name="casting_passthrough_title">Doğrudan ses geçişi</string>
     <string name="casting_passthrough_summary">Ses TV tarafından oluşturulsun</string>
     <string name="casting_conversion_quality_title">Dönüşüm kalitesi</string>
     <string name="casting_conversion_quality_summary">Uzak ekrana aktarım sırasında kullanılacak dönüşüm kalitesini seçin</string>
     <string name="casting_quality_high">Yüksek</string>
     <string name="casting_quality_medium">Orta</string>
     <string name="casting_quality_low">Düşük</string>
-    <string name="casting_quality_lowcpu">En Düşük</string>
-    <string name="casting_connected_renderer">\'%1$s\' görüntüleyiciye bağlanıldı</string>
+    <string name="casting_quality_lowcpu">En düşük</string>
+    <string name="casting_connected_renderer">\'%1$s\' görüntüleyici ile bağlantı kuruldu</string>
     <string name="artists_show_all_title">Tüm sanatçılar görüntülensin</string>
     <string name="show_headers">Başlıklar görüntülensin</string>
     <string name="show_headers_summary">Listeler sıralama türüne bakılarak başlıklara göre ayrılsın</string>
@@ -347,7 +356,7 @@
     <string name="extension_permission_title">Yeni \"%1$s\" eklentisi etkinleştirilsin mi?</string>
     <string name="extension_permission_checkbox_title">%1$s içinde görüntüle</string>
     <string name="extension_prefs_activation_title">Etkinleştir</string>
-    <string name="android_auto">Android Otomatik</string>
+    <string name="android_auto">Android otomatik</string>
 
     <string name="controls_prefs_category">Denetimler</string>
 
@@ -372,6 +381,8 @@
     <string name="dump_media_db_summary">Bu seçenek etkinleştirildiğinde, veritabanı iç depolama kök klasörüne kopyalanır</string>
     <string name="clear_media_db">Ortam veritabanı temizlensin</string>
     <string name="clear_media_database_summary">Baştan başlamak için veritabanını temizler</string>
+    <string name="clear_app_data">Uygulama verilerini temizle</string>
+    <string name="clear_app_data_summary">Android için VLC verilerini temizle</string>
     <string name="clear_history">Geçmişi temizle</string>
     <string name="set_locale">Yerelleştirme ayarı</string>
     <string name="network_caching">Ağ ön bellekleme değeri</string>
@@ -412,13 +423,13 @@
 
     <string name="delete_sub_title">Alt yazıyı sil</string>
     <string name="delete_sub_message">Bu alt yazı silinsin mi?</string>
-    <string name="download_subtitle_title">Alt Yazıyı İndir</string>
+    <string name="download_subtitle_title">Alt yazıyı indir</string>
 
     <string name="no_result">Herhangi bir sonuç bulunamadı</string>
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
     <string name="subs_download_error">Hizmet kullanılamıyor. Lütfen daha sonra yeniden deneyin</string>
 
-    <string name="network_browsing">Yerel Ağ</string>
+    <string name="network_browsing">Yerel ağ</string>
     <string name="browsing">Göz atılıyor</string>
 
     <string name="file_size">Dosya boyutu</string>
@@ -431,7 +442,7 @@
     <string name="search_hint">Ortam arama</string>
     <string name="search_in_list_hint">Geçerli listede ara</string>
     <string name="search_global">Tüm ortam kitaplığında ara</string>
-    <string name="playlist_save">Oynatma Listesini Kaydet</string>
+    <string name="playlist_save">Oynatma listesini kaydet</string>
     <string name="playlist_name_hint">Oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="chapter">Bölüm</string>
@@ -444,15 +455,15 @@
     <string name="medialibrary_directories">Ortam kitaplığı klasörleri</string>
 
     <!-- Accessibility -->
-    <string name="more_actions">Diğer İşlemler</string>
+    <string name="more_actions">Diğer işlemler</string>
     <string name="back_quit_lock">Görüntüden çıkmak için yeniden geriye basın</string>
     <string name="stream_deleted">Akış silindi</string>
     <string name="no_subs_found">Bu klasörde herhangi bir alt yazı yok</string>
-    <string name="music_now_playing">Şimdi Oynatılan</string>
+    <string name="music_now_playing">Şimdi oynatılan</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Açık VLC Gereci</string>
-    <string name="widget_name_b">Koyu VLC Gereci</string>
+    <string name="widget_name_w">Açık VLC gereci</string>
+    <string name="widget_name_b">Koyu VLC gereci</string>
     <string name="allow_storage_access_title">VLC görüntü ve ses dosyalarına erişebilsin</string>
     <string name="allow_storage_access_description">VLC bu aygıttaki ortam dosyalarına erişmek için bu izne gereksinim duyar.</string>
     <string name="allow_settings_access_ringtone_title">VLC zil sesini ayarlayabilsin</string>
@@ -462,23 +473,28 @@
     <string name="allow_draw_overlays_title">VLC oynatıcı diğer uygulamaların üzerine açılabilsin</string>
     <string name="allow_sdraw_overlays_description">VLC oynatıcı penceresini diğer uygulamaların üzerine açmak için bu izne gereksinim duyar.</string>
     <string name="permission_ask_again">İzin ver</string>
+    <string name="permission_not_granted">İzin verilmedi</string>
+    <string name="permission_expanation_no_allow">Ortamlar otomatik olarak algılanmayacak ve dış alt yazılar kullanılmayacak</string>
+    <string name="permission_expanation_allow">Yalnız akışları ya da ağ ortamları kullanılabilecek</string>
+    <string name="permission_expanation_subtitles">Dış alt yazılar kullanılsın</string>
+    <string name="permission_expanation_allow_explanation">İnternet akışları ya da ağ ortamları oynatılsın</string>
     <string name="exit_app">Kapat</string>
     <string name="exit_app_msg">VLC uygulamasından çıkmak istediğinize emin misiniz?</string>
 
     <!-- fast scroller -->
-    <string name="fastscroller_track">Kayıt HızlıKaydırıcı</string>
-    <string name="fastscroller_handle">HızlıKaydırıcı tutmacı</string>
+    <string name="fastscroller_track">Hızlı kayıt kaydırıcı</string>
+    <string name="fastscroller_handle">Hızlı kaydırıcı ucu</string>
 
     <!-- Plugins -->
-    <string name="plugins">Uygulama Ekleri</string>
+    <string name="plugins">Uygulama ekleri</string>
     <string name="download_on_device">İndir</string>
     <string name="extension_empty">Görüntülenecek bir öge yok. Edinmek için eklenti ayarları bölümüne bakın.</string>
 
     <string name="opengl_title">OpenGL ES2 kullanımı</string>
     <string name="opengl_summary">Varsayılan olarak, gerek duyulduğunda yazılımsal ve donanımsal kod çözme için OpenGL ES2 kullanılır (360° görüntüler)</string>
     <string name="opengl_automatic">Otomatik</string>
-    <string name="opengl_on">Zorla Aç</string>
-    <string name="opengl_off">Zorla Kapat</string>
+    <string name="opengl_on">Zorla aç</string>
+    <string name="opengl_off">Zorla kapat</string>
     <string name="network_favorites">Ağ sık kullanılanları</string>
     <string name="network_shared_folders">Paylaşılmış klasörler</string>
     <string name="encryption_warning">Uyarı: Bu android sürümünde şifreleme kullanılamaz, parolalar özel bir alanda olmasına rağmen şifrelenmemiş olarak kaydedilir</string>
@@ -488,9 +504,9 @@
     <string name="popup_playback">Açılan pencerede oynatılıyor</string>
     <string name="popup_expand">Görüntüyü genişlet</string>
     <string name="download_subtitles">Alt yazıları indir</string>
-    <string name="browse_folder">Klasöre gözat</string>
+    <string name="browse_folder">Klasöre göz at</string>
     <string name="listen">Dinle</string>
-    <string name="save_bluetooth_delay">Bluetooth aygıtı için kaydetme gecikmesi</string>
+    <string name="apply_to_bt">Bluetooth aygıtlara uygulanır</string>
     <string name="episodes">bölüm</string>
     <string name="movies">film</string>
     <string name="videos">görüntü</string>
@@ -510,7 +526,7 @@
     <string name="auto_my_library">Kitaplığım</string>
     <string name="auto_home">Ana sayfa</string>
     <string name="no">Hayır</string>
-    <string name="loading_medialibrary">Ortam Kitaplığı Yükleniyor…</string>
+    <string name="loading_medialibrary">Ortam kitaplığı yükleniyor…</string>
     <string name="yes">Evet</string>
 
     <string name="custom_set_save_title">Kaydedilmemiş değişiklikler var</string>
@@ -528,39 +544,39 @@
     <string name="settings_ml_block_scan">Ortam kitaplığı aygıtınızı tarıyor</string>
     <string name="recommendations">Öneriler</string>
     <string name="recommendations_desc">Başlatıcıda öneri kartlarını görüntüler</string>
-    <string name="browser_quick_access">Hızlı Erişim</string>
+    <string name="browser_quick_access">Hızlı erişim</string>
     <string name="browser_storages">Depolamalar</string>
     <string name="msg_delete_failed">%1$s ortamı silinemedi</string>
     <string name="renderer_list_title">Ekranlar</string>
     <string name="sdcard_permission_dialog_title">VLC uygulamasına SD Karta yazma izni verin</string>
     <string name="sdcard_permission_dialog_message">Yazma izni verilmeden VLC uygulaması bu dosyayı silemez.\n\nLütfen SD Kart üzerine giderek \"Seçin\" üzerine tıklayın.\nSağ üst menüdeki birinci öge olan \"SD Kartı Görüntüle\" üzerine tıklamanız gerekebilir</string>
     <string name="dialog_sd_wizard">Bana görüntülensin</string>
-    <string name="renderers_disconnect">Bağlantıyı Kes</string>
-    <string name="audio_digital_failed">Sayısal Ses Çıkışı durumu değiştirilemedi</string>
-    <string name="audio_digital_output_enabled">Sayısal Ses Çıkışı etkinleştirildi</string>
-    <string name="audio_digital_output_disabled">Sayısal Ses Çıkışı devre dışı bırakıldı</string>
-    <string name="audio_digital_title">Sayısal Ses Çıkışı (geçiş)</string>
+    <string name="renderers_disconnect">Bağlantıyı kes</string>
+    <string name="audio_digital_failed">Sayısal ses çıkışı durumu değiştirilemedi</string>
+    <string name="audio_digital_output_enabled">Sayısal ses çıkışı etkinleştirildi</string>
+    <string name="audio_digital_output_disabled">Sayısal ses çıkışı devre dışı bırakıldı</string>
+    <string name="audio_digital_title">Sayısal ses çıkışı (geçiş)</string>
     <string name="audio_task_cleared_title">Uygulama ekran dışına kaydırıldığında durdurulsun</string>
     <string name="audio_task_cleared_summary">Uygulama yok sayıldığında oynatma durdurulsun</string>
     <string name="audio_resume_card_title">Son oynatma listesi ipucu görüntülensin</string>
     <string name="audio_resume_card_summary">Uygulama başlatıldığında oynatma listesini sürdürmek için bir ipucu görüntüler</string>
-    <string name="playback_rewind">Geri Sar</string>
-    <string name="playback_forward">İleri Sar</string>
+    <string name="playback_rewind">Geri sar</string>
+    <string name="playback_forward">İleri sar</string>
     <string name="ml_wizard_scan_checkbox">Aygıttaki ortamlar taransın</string>
     <string name="ml_wizard_description">Bu seçenek etkinleştirildiğinde, VLC ortam kitaplığını düzenlemek için aygıtın depolamasını tarar. Devre dışı bırakıldığında bütünleşik tarayıcı ile basit oynatıcı görüntülenir.</string>
     <string name="tv_my_new_videos">Yeni görüntülerim</string>
     <string name="cast_option_title">Ortamları başka bir ekrana gönder</string>
     <string name="otg_device_title">Dokun yedekle aygıtı</string>
     <string name="browser">Tarayıcı</string>
-    <string name="ab_repeat">A-B Yineleme</string>
+    <string name="ab_repeat">A-B yineleme</string>
     <string name="stop_after_this">Bu kayıttan sonra dur</string>
     <string name="time_category_new">Yeni ortam</string>
     <string name="time_category_current_month">Bu ay</string>
     <string name="time_category_current_year">Bu yıl</string>
     <string name="time_category_last_year">Geçen yıl</string>
     <string name="time_category_older">Daha eski ortamlar</string>
-    <string name="rename">Yeniden Adlandır</string>
-    <string name="rename_media">%1$s Yeniden Adlandır</string>
+    <string name="rename">Yeniden adlandır</string>
+    <string name="rename_media">%1$s yeniden adlandır</string>
     <string name="manual_search">El ile arama</string>
     <string name="subtitle_search_name_hint">Ad</string>
     <string name="subtitle_search_episode_hint">Bölüm</string>
@@ -589,6 +605,8 @@
     <string name="onboarding_theme_title">Kendinizi evinizde hissedin</string>
     <string name="done">Bitti</string>
     <string name="onboarding_scan_title">Ortamlarınızı otomatik olarak tarayın</string>
+    <string name="onboarding_all_set">VLC ayarları tamamlandı!</string>
+    <string name="onboarding_permission_given">Ortamlar otomatik olarak algılanacak, dış alt yazılar kullanılabilecek ve akış ya da ağ ortamları oynatılabilecek</string>
     <string name="daynight_system_explanation">VLC sistem ayarlarına göre otomatik olarak koyu kipe geçecek</string>
     <string name="daynight_legacy_explanation">VLC zamanı geldiğinde otomatik olarak gece kipine geçecek</string>
     <string name="onboarding_scanning_enable">VLC ortamları bulmak için aygıtımı tarayabilsin</string>
@@ -609,15 +627,15 @@
     <string name="eq_snap_bands">Bantlar ayrılsın</string>
     <string name="enable_equalizer">Etkinleştir</string>
     <string name="preamp">Ön güçlendirme</string>
-    <string name="presets">Hazır Ayarlar</string>
+    <string name="presets">Hazır ayarlar</string>
     <string name="reset">Sıfırla</string>
     <plurals name="tracks_inserted">
-        <item quantity="one">%d Kayıt eklendi</item>
-        <item quantity="other">%d Kayıt eklendi</item>
+        <item quantity="one">%d kayıt eklendi</item>
+        <item quantity="other">%d kayıt eklendi</item>
     </plurals>
     <plurals name="tracks_appended">
-        <item quantity="one">%d Kayıt sona eklendi</item>
-        <item quantity="other">%d Kayıt sona eklendi</item>
+        <item quantity="one">%d kayıt sona eklendi</item>
+        <item quantity="other">%d kayıt sona eklendi</item>
     </plurals>
     <string name="remove_current">Geçerli ögeyi çıkar</string>
     <string name="validation_delete_playlist">Bu oynatma listesini silmek istediğinize emin misiniz?</string>
@@ -632,7 +650,7 @@
     <string name="include_medialib">Veritabanınız katılsın</string>
     <string name="vlc_reporter">VLC bildirici</string>
     <string name="welcome_beta_title">VLC Beta</string>
-    <string name="welcome_beta_description">VLC beta programına hoş geldiniz.\nLütfen bu sürümde bazı sorunlar olabileceğini unutmayın.</string>
+    <string name="welcome_beta_description">VLC Beta programına hoş geldiniz.\nLütfen bu sürümde bazı sorunlar olabileceğini unutmayın.</string>
     <string name="welcome_beta_description_bugs">Bir sorun fark ederseniz lütfen forum ya da hata izleyici üzerinden bize bildirin.</string>
     <string name="welcome_beta_description_crashes">Bir çökme yaşarsanız, lütfen bildirmek için başlatıcınızdaki VLC Bildirici simgesini kullanın.</string>
     <string name="send">Gönder</string>
@@ -673,7 +691,9 @@
     <string name="recently_played">Son oynatılanlar</string>
     <string name="recently_added">Son eklenenler</string>
     <string name="playback_multiple_errors">Aynı anda birden çok ortam oynatılamaz</string>
-    <string name="clear_media_db_warning">Oluşturduğunuz işlemler ve oynatma listelerini kaybedeceksiniz.\n%s</string>
+    <string name="clear_media_db_message">Oluşturduğunuz işlemleri, yer imlerini ve oynatma listelerini kaybedeceksiniz. Ancak Android için VLC ayarları korunacak</string>
+    <string name="clear_app_data_message">Oluşturduğunuz işlemleri, yer imlerini, ynatma listelerini ve Android için VLC ayarlarını kaybedeceksiniz</string>
+    <string name="clear">Temizle</string>
     <string name="abrepeat_add_first_marker">Başlangıç noktasını ayarla</string>
     <string name="abrepeat_add_second_marker">Bitiş noktasını ayarla</string>
     <string name="demux_bitrate">Tekleme bit hızı</string>
@@ -690,7 +710,7 @@
     <string name="track_samplerate">Örnekleme hız</string>
     <string name="track_samplerate_value">%1$d Hz\n</string>
     <string name="bitrate">Bir hızı</string>
-    <string name="codec">Kodlayıcı/Çözücü</string>
+    <string name="codec">Kodlayıcı/çözücü</string>
     <string name="text">Metin</string>
     <string name="unknown">Bilinmiyor</string>
     <string name="audio_delay_start">Ses duyuldu</string>
@@ -699,6 +719,7 @@
     <string name="subtitle_delay_end">Metin görüldü</string>
     <string name="track_index">Kayıt: %s</string>
     <string name="audio_queue_progress">İlerleme: %s</string>
+    <string name="audio_queue_progress_remaining">Kalan: %s</string>
     <string name="audio_queue_progress_finished">Şurada bitiyor: %s</string>
     <string name="sortby_track">Kayıt</string>
     <string name="this_folder">Bu klasörü ekle</string>
@@ -734,19 +755,20 @@
     <string name="subscription_cancel">Aboneliğinizi Play Store üzerinden sona erdirebilirsiniz</string>
     <string name="subscription_cancel_tv">Aboneliğimi nasıl sona erdirebilirim</string>
     <string name="donate_unsubscribe_tv">Aboneliğinizi sona erdirmek için bir telefon ya da bilgisayar üzerinde %s uygulamasını açtıktan sonra şu kodu tarayın:</string>
-    <string name="tip_jar">VLC Projesini Destekleyin</string>
+    <string name="tip_jar">VLC projesini destekleyin</string>
     <string name="thank_you">Teşekkürler</string>
     <string name="thank_you_desc">Desteğiniz için teşekkürler!\nVLC uygulamasının geliştirilmesine çok yardımınız olacak!</string>
     <string name="donate_again">Uygulamaya yeniden destek olun</string>
 
     <string name="mark_as_played">Oynatılmış olarak işaretle</string>
+    <string name="mark_as_not_played">Oynatılmamış olarak işaretle</string>
     <string name="mark_all_as_played">Tümünü oynatılmış olarak işaretle</string>
     <string name="new_group">Grup ekle</string>
     <string name="new_group_desc">Yeni bir grup ekler</string>
 
     <string name="air_action_rewind">10 saniye geri atla</string>
     <string name="air_action_forward">10 saniye ileri atla</string>
-    <string name="air_action_play_pause">Oynatmayı Duraklat/Sürdür</string>
+    <string name="air_action_play_pause">Oynatmayı duraklat/sürdür</string>
     <string name="air_action_volume_up">Sesi aç</string>
     <string name="air_action_volume_down">Sesi kıs</string>
     <string name="air_action_next">Oynatma listesinde sonraki öge</string>
@@ -763,17 +785,50 @@
     <string name="prefersmbv1_summary">SMB sunucunuza erişmekte sorun yaşıyorsanız bu seçeneği devre dışı bırakın</string>
     <string name="apply_to_all">Tüm görüntülere uygula</string>
     <string name="audio_delay_global">Tüm görüntüler için ses gecikmesi %s ms olarak ayarlandı</string>
+    <string name="audio_delay_bt">Bluetooth aygıtı için ses gecikmesi %s ms olarak ayarlandı</string>
     <string name="warning_stream_speed">Akışlarda oynatma hızının 1 üzerine çıkarılması takılmaya neden olabilir</string>
     <string name="go_to_folder">Üst ögeye göz at</string>
     <string name="no_sub_renderer">Henüz yayın sırasında alt yazı desteği sunulmuyor</string>
     <string name="enqueuing">Ortamlarınız yükleniyor</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">MIDI ses izlerinin oynatılması için bir SoundFont dosyası seçin</string>
+    <string name="missing_media_snack">Ortam eksik. Tüm eksik ortamlar gizlensin mi?</string>
+    <string name="browser_show_missing_media">Eksik ortamları görüntüle</string>
+    <string name="browser_show_missing_media_summary">Bulunamıyorsa uzak ortam olayı görüntülensin</string>
     <string name="search_prefs">Arama ayarları</string>
     <string name="preferred_resolution">Yeğlenen görüntü çözünürlüğü</string>
     <string name="preferred_resolution_summary">Akışlar için en yüksek görüntü çözünürlüğü, uygulanabildiğinde: %s</string>
     <string name="pref_resolution_best_available">Olabilecek en iyisi</string>
     <string name="pref_resolution_very_low">Çok düşük çözünürlük (240p)</string>
     <string name="stop_unpaubale">Bu ortam duraklatılamaz. Onun yerine durdurmak ister misiniz?</string>
+    <string name="delete_forever">Kalıcı olarak sil</string>
+    <string name="add_to_existing_playlist">Var olan oynatma listesine ekle</string>
+    <string name="bookmarks_title">Yer imleri</string>
+    <string name="no_bookmark">Henüz bir yer imi yok</string>
+    <string name="bookmark_name">%s yer imi</string>
+    <string name="optional_features">İsteğe bağlı özellikler</string>
+    <string name="optional_features_summary">Şu anda denenmekte olan ve kararlı olmayabilecek beta sürüm özellikleri</string>
+    <string name="optional_features_warning">Bu bir beta sürümü özelliği olduğundan çökme ve kararsızlıklara neden olabilir</string>
+    <string name="start_vlc">VLC uygulamasını başlat</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Çift ögeler eklensin mi?</string>
+    <string name="add_button">Ekle</string>
+    <string name="add_all_button">Tümünü ekle</string>
+    <string name="add_new_only_button">Yalnız yeni olanı ekle</string>
+    <string name="discovery_failed">Şunun için keşif yapılamadı: %s</string>
+    <string name="lock_use_sensor_title">Algılayıcı ile kilitlensin</string>
+    <string name="lock_use_sensor_summary">Doğrultu kilitlendiğinde, ters doğrultu için algılayıcı kullanılır</string>
+    <string name="start">Başlat</string>
+    <string name="permission">İzin</string>
+    <string name="customize">Özelleştir</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Bu öge zaten oynatma listesinde var.</item>
+        <item quantity="other">Bu ögeler zaten oynatma listesinde var.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">Seçilmiş ögelerden 1 tanesi zaten oynatma listesinde var.</item>
+        <item quantity="other">Seçilmiş ögelerden %d tanesi zaten oynatma listesinde var.</item>
+    </plurals>
 
 </resources>
