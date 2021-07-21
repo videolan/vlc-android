@@ -57,7 +57,7 @@ open class ShallowVideoPlayer : VideoPlayerActivity() {
     }
 
 
-    override fun onAudioSubClick(anchor: View?) {}
+    override fun onAudioAndSubtitleClick(anchor: View?) {}
 
     override fun onClick(v: View) {}
 }

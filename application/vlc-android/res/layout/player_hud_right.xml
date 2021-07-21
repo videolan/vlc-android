@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:visibility="invisible"
-            tools:visibility="visible">
+            tools:visibility="visible"
+            tools:background="@drawable/video_list_length_bg">
 
 
         <ImageView
@@ -68,11 +69,11 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:srcCompat="@drawable/ic_player_playlist"
-                tools:visibility="visible" />
+                app:srcCompat="@drawable/ic_player_playlist" />
 
         <ImageView
                 android:id="@+id/video_secondary_display"
