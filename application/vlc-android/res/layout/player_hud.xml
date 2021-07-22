@@ -136,6 +136,22 @@
                 vlc:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
                 vlc:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/capture_screenshot"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="screenshot"
+            tools:ignore="MissingConstraints"
+            vlc:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            vlc:layout_constraintEnd_toEndOf="parent"
+            vlc:layout_constraintHorizontal_bias="0.934"
+            vlc:layout_constraintStart_toEndOf="@+id/ab_repeat_stop"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintVertical_bias="0.979"
+            vlc:srcCompat="@drawable/ic_camera" />
 
         <ImageView
                 android:id="@+id/ab_repeat_reset"

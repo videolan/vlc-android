@@ -316,8 +316,8 @@
         <item name="empty_title">@color/grey300</item>
 
     </style>
-    
-    
+
+
     <style name="Theme.VLC.TV.Onboarding" parent="Theme.Leanback.Onboarding">
         <item name="onboardingPageIndicatorStyle">@style/VLC.OnboardingPageIndicatorStyle</item>
     </style>
@@ -454,6 +454,7 @@
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
+        <item name="screenshot">@drawable/ic_camera</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>

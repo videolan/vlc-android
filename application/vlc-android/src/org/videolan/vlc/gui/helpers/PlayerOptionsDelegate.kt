@@ -54,6 +54,7 @@ private const val ID_PASSTHROUGH = 12L
 private const val ID_ABREPEAT = 13L
 private const val ID_LOCK_PLAYER = 14L
 private const val ID_VIDEO_STATS = 15L
+private const val ID_SCREENSHOT = 16L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -111,6 +112,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         val chaptersCount = service.getChapters(-1)?.size ?: 0
         if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
         if (::bookmarkClickedListener.isInitialized) options.add(PlayerOption(ID_BOOKMARK, R.attr.ic_bookmark_normal_style, res.getString(R.string.bookmarks)))
+        if (video) options.add(PlayerOption(ID_SCREENSHOT, R.attr.screenshot, "Screenshot"))
         if (showABReapeat) options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
@@ -183,6 +185,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             ID_BOOKMARK -> {
                 hide()
                 bookmarkClickedListener.invoke()
+            }
+            ID_SCREENSHOT -> {
+                hide()
+                (activity as VideoPlayerActivity).screenshot()
             }
             else -> showFragment(option.id)
         }
@@ -358,6 +364,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     companion object {
         val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
     }
+}
+private fun VideoPlayerActivity.Companion.screenshot() {
+    TODO("Not yet implemented")
+    screenshot()
 }
 
 fun Context.setSleep(time: Calendar?) {

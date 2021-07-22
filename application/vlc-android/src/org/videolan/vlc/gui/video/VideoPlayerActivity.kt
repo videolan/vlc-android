@@ -41,10 +41,7 @@ import android.util.Rational
 import android.view.*
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
-import android.view.animation.Animation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.RotateAnimation
+import android.view.animation.*
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -69,6 +66,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import kotlinx.android.synthetic.main.player.*
 import kotlinx.android.synthetic.main.player_overlay_brightness.*
 import kotlinx.android.synthetic.main.player_overlay_volume.*
 import kotlinx.coroutines.*
@@ -99,6 +97,7 @@ import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
+import org.videolan.vlc.gui.view.Screenshot
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
 import org.videolan.vlc.repository.ExternalSubRepository
@@ -375,6 +374,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun createConfigurationContext(overrideConfiguration: Configuration) = super.createConfigurationContext(overrideConfiguration).getContextWithLocale(AppContextProvider.locale)
 
+    @SuppressLint("RestrictedApi")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -878,14 +878,57 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun exitOK() {
         exit(Activity.RESULT_OK)
     }
+    fun screenshot(view: View) {
+        screenshot()
+    }
+
 
     override fun onTrackballEvent(event: MotionEvent): Boolean {
         if (isLoading) return false
         overlayDelegate.showOverlay()
         return true
     }
+    fun screenshot() {
+        var screenshotPath: String
+        var screenshotImageView: ImageView
+        val screenshotAnimation: Animation =
+            AnimationUtils.loadAnimation(applicationContext, R.anim.capture_animation)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//             Thread {
+            screenshotPath = Screenshot.capture(applicationContext, videoUri?.path, time.toInt())
+            screenshotImageView = ImageView(this)
+            screenshotImageView.layoutParams = videoLayout?.layoutParams
+            screenshotImageView.setImageURI(screenshotPath.toUri())
 
-    override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
+            videoLayout?.addView(screenshotImageView)
+            screenshotImageView.startAnimation(screenshotAnimation)
+            capture_screenshot_smal.visibility = View.VISIBLE
+            capture_screenshot_smal.setImageURI(screenshotPath.toUri())
+            overlayDelegate.hideOverlay(true)
+            capture_screenshot_smal.setOnClickListener(OnClickListener {
+                pause()
+                capture_screenshot_smal.visibility = View.GONE
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(screenshotPath.toUri().toString())
+
+                    )
+                )
+            })
+//             }.start()
+
+            handler.postDelayed({
+                (screenshotImageView.parent as ViewGroup).removeView(screenshotImageView)
+            }, 700)
+            handler.postDelayed({
+                capture_screenshot_smal.visibility = View.GONE
+            }, 2000)
+        }
+    }
+
+
+        override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
         return !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
     }
 

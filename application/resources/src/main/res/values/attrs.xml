@@ -88,6 +88,7 @@
     <attr name="ic_sleep_normal_style" format="reference" />
     <attr name="ic_jumpto_normal_style" format="reference" />
     <attr name="ic_chapter_normal_style" format="reference" />
+    <attr name="screenshot" format="reference" />
     <attr name="ic_bookmark_normal_style" format="reference" />
     <attr name="ic_equalizer_normal_style" format="reference" />
     <attr name="ic_playasaudio_off" format="reference" />

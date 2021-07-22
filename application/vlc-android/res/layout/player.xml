@@ -13,10 +13,19 @@
     -->
 
     <org.videolan.libvlc.util.VLCVideoLayout
-            android:id="@+id/video_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="false" />
+        android:id="@+id/video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false" >
+        <ImageView
+            android:id="@+id/capture_screenshot_smal"
+            android:layout_width="250dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone" />
+    </org.videolan.libvlc.util.VLCVideoLayout>
 
 
     <androidx.appcompat.widget.ViewStubCompat
