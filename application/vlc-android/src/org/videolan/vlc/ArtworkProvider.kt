@@ -47,6 +47,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.nio.ByteBuffer
+import java.security.SecureRandom
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -253,7 +254,7 @@ class ArtworkProvider : ContentProvider() {
             /* Shuffle All */
             val audioCount = ctx.getFromMl { audioCount }
             /* Show cover art from the whole library */
-            val offset = Random().nextInt((audioCount - MediaSessionBrowser.MAX_COVER_ART_ITEMS).coerceAtLeast(1))
+            val offset = SecureRandom().nextInt((audioCount - MediaSessionBrowser.MAX_COVER_ART_ITEMS).coerceAtLeast(1))
             val list = ctx.getFromMl { getPagedAudio(Medialibrary.SORT_ALPHA, false, false, MediaSessionBrowser.MAX_COVER_ART_ITEMS, offset) }
             return@runBlocking getHomeImage(ctx, SHUFFLE_ALL, list)
         }

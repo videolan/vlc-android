@@ -29,6 +29,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import java.security.SecureRandom
 import java.util.*
 import kotlin.math.max
 
@@ -64,7 +65,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     var isHardware = false
     private var parsed = false
     var savedTime = 0L
-    private var random = Random(System.currentTimeMillis())
+    private var random = SecureRandom()
     private var newMedia = false
     @Volatile
     private var expanding = false
@@ -611,10 +612,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         return
                     } else {
                         previous.clear()
-                        random = Random(System.currentTimeMillis())
                     }
                 }
-                random = Random(System.currentTimeMillis())
                 // Find a new index not in previous.
                 do {
                     nextIndex = random.nextInt(size)

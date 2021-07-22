@@ -46,6 +46,7 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.isSchemeStreaming
 import java.io.File
+import java.security.SecureRandom
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -199,7 +200,7 @@ object MediaUtils {
                     }
                 }
             }?.takeIf { it.isNotEmpty() }?.let { list ->
-                service.load(list, if (shuffle) Random().nextInt(count) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(count) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
         }
@@ -210,7 +211,7 @@ object MediaUtils {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
@@ -237,7 +238,7 @@ object MediaUtils {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
@@ -268,7 +269,7 @@ object MediaUtils {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {

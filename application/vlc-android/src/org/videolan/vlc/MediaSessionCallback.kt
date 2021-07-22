@@ -25,6 +25,7 @@ import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
+import java.security.SecureRandom
 import java.util.*
 import kotlin.math.min
 
@@ -136,7 +137,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                             val tracks = context.getFromMl { audio }
                             if (tracks.isNotEmpty() && isActive) {
                                 tracks.sortWith(MediaComparators.ANDROID_AUTO)
-                                loadMedia(tracks.toList(), Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
+                                loadMedia(tracks.toList(), SecureRandom().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
                                 if (!playbackService.isShuffling) playbackService.shuffle()
                             } else {
                                 playbackService.displayPlaybackError(R.string.search_no_result)

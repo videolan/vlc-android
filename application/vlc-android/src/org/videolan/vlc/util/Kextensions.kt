@@ -48,6 +48,7 @@ import org.videolan.vlc.R
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
+import java.security.SecureRandom
 import java.util.*
 
 fun String.validateLocation(): Boolean {
@@ -117,7 +118,7 @@ fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == Media
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
-fun Long.random() = (Random().nextFloat() * this).toLong()
+fun Long.random() = (SecureRandom().nextFloat() * this).toLong()
 
 suspend fun Context.awaitMedialibraryStarted() = getFromMl { isStarted }
 
