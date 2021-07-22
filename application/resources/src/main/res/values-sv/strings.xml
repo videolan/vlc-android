@@ -41,15 +41,20 @@
     <string name="append_all">Kölägg alla</string>
     <string name="resume_playback_short_title">Återuppta uppspelning</string>
     <string name="resume_playback_long_title">Återuppta uppspelning av senaste spellista</string>
+    <string name="resume_playback_error">Ingenting att återuppta</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
     <string name="set_song_question">Ange  \"%1$s\" som ringsignal?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
+    <string name="confirm_delete_message">Detta är permanent och kan inte ångras.</string>
     <string name="confirm_delete_album">Radera albumet \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Radera dessa %1$d mediafiler?</string>
     <string name="confirm_delete_folder">Radera mappen \"%1$s\" och allt innehåll?</string>
+    <string name="confirm_delete_folders">Radera dessa %1$s mappar och allt innehåll?</string>
+    <string name="confirm_delete_files">Radera dessa %1$s filer?</string>
+    <string name="confirm_delete_folders_and_files">Radera dessa %1$s mappar och %2$s filer?</string>
     <string name="confirm_delete_playlist">Radera spellistan \"%1$s\"?</string>
     <string name="confirm_remove_from_playlist">Ta bort \"%1$s\" från spellistan?</string>
     <string name="ringtone_set">Angav filen \"%1$s\" som ringsignal.</string>
@@ -92,6 +97,10 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">1 TV-program</item>
         <item quantity="other">%d TV-program</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 spår</item>
+        <item quantity="other">%d spår</item>
     </plurals>
 
     <string name="internal_memory">Internt minne</string>
@@ -339,6 +348,9 @@
     <string name="casting_quality_lowcpu">Lägst</string>
     <string name="casting_connected_renderer">Ansluten till \"%1$s\"</string>
     <string name="artists_show_all_title">Visa alla artister</string>
+    <string name="show_headers">Visa huvuden</string>
+    <string name="show_headers_summary">Dela upp listor efter huvuden beroende på sorteringstypen</string>
+
     <string name="extensions_prefs_category">Tillägg</string>
     <string name="extensions_empty">Inga tillägg hittades</string>
     <string name="extension_permission_title">Aktivera det nya tillägget \"%1$s\"?</string>
@@ -369,6 +381,8 @@
     <string name="dump_media_db_summary">Kopiera databasen till den interna lagringens hemkatalog</string>
     <string name="clear_media_db">Rensa mediadatabas</string>
     <string name="clear_media_database_summary">Rensar databasen för att börja om</string>
+    <string name="clear_app_data">Rensa appdata</string>
+    <string name="clear_app_data_summary">Rensar data för VLC for Android</string>
     <string name="clear_history">Rensa historik</string>
     <string name="set_locale">Ändra språk</string>
     <string name="network_caching">Cachevärde för nätverk</string>
@@ -459,6 +473,11 @@
     <string name="allow_draw_overlays_title">Tillåt VLC att visa spelaren ovanpå andra appar</string>
     <string name="allow_sdraw_overlays_description">Du måste bevilja detta tillstånd för att VLC ska kunna visa din video i ett popupp över andra applikationer.</string>
     <string name="permission_ask_again">Bevilja tillstånd</string>
+    <string name="permission_not_granted">Behörighet beviljades inte</string>
+    <string name="permission_expanation_no_allow">Du kommer varken kunna upptäcka din media automatiskt eller använda externa undertexter</string>
+    <string name="permission_expanation_allow">Du kommer endast kunna spela upp strömmar eller nätverksmedia</string>
+    <string name="permission_expanation_subtitles">Använd externa undertexter</string>
+    <string name="permission_expanation_allow_explanation">Spela upp internetströmmar eller nätverksmedia</string>
     <string name="exit_app">Avsluta VLC</string>
     <string name="exit_app_msg">Är du säker på att du vill avsluta VLC?</string>
 
@@ -487,7 +506,7 @@
     <string name="download_subtitles">Ladda ned undertexter</string>
     <string name="browse_folder">Bläddra mapp</string>
     <string name="listen">Lyssna</string>
-    <string name="save_bluetooth_delay">Spara fördröjning för Bluetooth-enhet</string>
+    <string name="apply_to_bt">Verställ på Bluetooth-enhet</string>
     <string name="episodes">episoder</string>
     <string name="movies">filmer</string>
     <string name="videos">videor</string>
@@ -586,6 +605,8 @@
     <string name="onboarding_theme_title">Känn dig som hemma</string>
     <string name="done">Färdig</string>
     <string name="onboarding_scan_title">Upptäck din media automatiskt</string>
+    <string name="onboarding_all_set">VLC är redo!</string>
+    <string name="onboarding_permission_given">Du kan nu upptäcka din media automatiskt, använda externa undertexter såväl som spela upp strömmar eller nätverksmedia</string>
     <string name="daynight_system_explanation">VLC kommer automatisk byta till mörkt läge enligt systeminställningarna</string>
     <string name="daynight_legacy_explanation">VLC kommer automatisk byta till nattläge vid lämplig tid</string>
     <string name="onboarding_scanning_enable">Låt VLC söka igenom min enhet efter mediainnehåll</string>
@@ -670,7 +691,9 @@
     <string name="recently_played">Senast uppspelade</string>
     <string name="recently_added">Senast tillagda</string>
     <string name="playback_multiple_errors">Flera mediafiler kan inte spelas upp</string>
-    <string name="clear_media_db_warning">Du kommer att förlora dina framsteg och spellistorna du har skapat:\n%s</string>
+    <string name="clear_media_db_message">Du kommer att förlora dina framsteg, bokmärken och spellistor du har skapat men du kommer att behålla dina inställningar för VLC for Android.</string>
+    <string name="clear_app_data_message">Du kommer att förlora dina framsteg, bokmärken, spellistor och alla VLC-inställningar</string>
+    <string name="clear">Rensa</string>
     <string name="abrepeat_add_first_marker">Ange startpunkt</string>
     <string name="abrepeat_add_second_marker">Ange slutpunkt</string>
     <string name="demux_bitrate">Bitfrekvens för demux</string>
@@ -696,6 +719,7 @@
     <string name="subtitle_delay_end">Text sågs</string>
     <string name="track_index">Spår: %s</string>
     <string name="audio_queue_progress">Förlopp: %s</string>
+    <string name="audio_queue_progress_remaining">Återstående: %s</string>
     <string name="audio_queue_progress_finished">Slutar vid: %s</string>
     <string name="sortby_track">Spår</string>
     <string name="this_folder">Lägg till denna mapp</string>
@@ -737,6 +761,7 @@
     <string name="donate_again">Sponsra appen igen</string>
 
     <string name="mark_as_played">Markera som uppspelad</string>
+    <string name="mark_as_not_played">Markera som ej uppspelad</string>
     <string name="mark_all_as_played">Markera alla som uppspelade</string>
     <string name="new_group">Ny grupp</string>
     <string name="new_group_desc">Skapa en ny grupp</string>
@@ -760,17 +785,50 @@
     <string name="prefersmbv1_summary">Avmarkera denna inställning om du har problem med att bläddra i din SMB-server</string>
     <string name="apply_to_all">Tillämpa på alla videor</string>
     <string name="audio_delay_global">Ljudfördröjningen ändrades till%s ms för alla videor</string>
+    <string name="audio_delay_bt">Ljudfördröjningen ändrades till %s ms för Bluetooth-enheten</string>
     <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
     <string name="go_to_folder">Bläddra i överordnad</string>
     <string name="no_sub_renderer">Det finns ännu inget stöd för att casta med undertexter</string>
     <string name="enqueuing">Läser in dina mediafiler</string>
     <string name="soundfont">MIDI-soundfont</string>
     <string name="soundfont_summary">Välj en soundfont-fil att spela upp midi-ljudspår</string>
+    <string name="missing_media_snack">Mediafiler saknas. Dölj alla mediafiler som saknas?</string>
+    <string name="browser_show_missing_media">Visa mediafiler som saknas</string>
+    <string name="browser_show_missing_media_summary">Visa avlägsna mediafilhändelser om de inte syns</string>
     <string name="search_prefs">Sök efter inställningar</string>
     <string name="preferred_resolution">Föredragen videoupplösning</string>
     <string name="preferred_resolution_summary">Maximal videokvalitet för strömmar kommer, där det går, att vara: %s</string>
     <string name="pref_resolution_best_available">Bästa tillgängliga</string>
     <string name="pref_resolution_very_low">Mycket låg definition (240p)</string>
     <string name="stop_unpaubale">Denna mediafil kan inte pausas. Ska den stoppas istället?</string>
+    <string name="delete_forever">Radera för alltid</string>
+    <string name="add_to_existing_playlist">Lägg till i befintlig spellista</string>
+    <string name="bookmarks_title">Bokmärken</string>
+    <string name="no_bookmark">Inga bokmärken ännu</string>
+    <string name="bookmark_name">Bokmärke %s</string>
+    <string name="optional_features">Valfria funktioner</string>
+    <string name="optional_features_summary">Betafunktioner som för tillfället testas och kanske inte är stabila</string>
+    <string name="optional_features_warning">Denna funktion är i betastadiet och kan orsaka kraschar och instabilitet.</string>
+    <string name="start_vlc">Starta VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Lägg till duplicerade objekt?</string>
+    <string name="add_button">Lägg till</string>
+    <string name="add_all_button">Lägg till alla</string>
+    <string name="add_new_only_button">Lägg endast till nya</string>
+    <string name="discovery_failed">Misslycklades att upptäcka för: %s</string>
+    <string name="lock_use_sensor_title">Lås med sensor</string>
+    <string name="lock_use_sensor_summary">Använd sensorn för att tillåta omvänd orientering när orienteringen är låst</string>
+    <string name="start">Starta</string>
+    <string name="permission">Behörighet</string>
+    <string name="customize">Anpassa</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Detta objekt finns redan i denna spellista.</item>
+        <item quantity="other">Dessa objekt finns redan i denna spellista.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 av de markerade objekten finns redan i denna spellista. </item>
+        <item quantity="other">%d av de markerade objekten finns redan i denna spellista.</item>
+    </plurals>
 
 </resources>
