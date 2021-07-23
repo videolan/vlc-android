@@ -622,7 +622,7 @@ mediaplayer_title_to_object(JNIEnv *env, libvlc_title_description_t *p_title)
         return NULL;
 
     if (p_title->psz_name)
-        jname = (*env)->NewStringUTF(env, p_title->psz_name);
+        jname = vlcNewStringUTF(env, p_title->psz_name);
 
     jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
                         fields.MediaPlayer.createTitleFromNativeID,
@@ -680,7 +680,7 @@ mediaplayer_chapter_to_object(JNIEnv *env,
         return NULL;
 
     if (p_chapter->psz_name)
-        jname = (*env)->NewStringUTF(env, p_chapter->psz_name);
+        jname = vlcNewStringUTF(env, p_chapter->psz_name);
 
     jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
                         fields.MediaPlayer.createChapterFromNativeID,
@@ -740,7 +740,7 @@ mediaplayer_track_to_object(JNIEnv *env, libvlc_track_description_t *p_track)
         return NULL;
 
     if (p_track->psz_name)
-        jname = (*env)->NewStringUTF(env, p_track->psz_name);
+        jname = vlcNewStringUTF(env, p_track->psz_name);
 
     jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
                         fields.MediaPlayer.createTrackDescriptionFromNativeID,
@@ -1022,7 +1022,7 @@ Java_org_videolan_libvlc_MediaPlayer_nativeGetAspectRatio(JNIEnv *env,
         return NULL;
 
     char *psz_aspect = libvlc_video_get_aspect_ratio(p_obj->u.p_mp);
-    jstring jaspect = psz_aspect ? (*env)->NewStringUTF(env, psz_aspect) : NULL;
+    jstring jaspect = psz_aspect ? vlcNewStringUTF(env, psz_aspect) : NULL;
     free(psz_aspect);
     return jaspect;
 }
@@ -1185,7 +1185,7 @@ Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetPresetName(JNIEnv *
 
     psz_name = libvlc_audio_equalizer_get_preset_name(index);
 
-    return psz_name ? (*env)->NewStringUTF(env, psz_name) : NULL;
+    return psz_name ? vlcNewStringUTF(env, psz_name) : NULL;
 }
 
 jint

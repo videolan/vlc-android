@@ -927,7 +927,7 @@ void AndroidMediaLibrary::onDiscoveryProgress( const std::string& entryPoint )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryProgressId, ep);
@@ -953,7 +953,7 @@ void AndroidMediaLibrary::onDiscoveryFailed(const std::string &entryPoint)
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryFailedId, ep);
@@ -965,7 +965,7 @@ void AndroidMediaLibrary::onReloadStarted( const std::string& entryPoint )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadStartedId, ep);
@@ -977,7 +977,7 @@ void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint, bool
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadCompletedId, ep);
@@ -989,7 +989,7 @@ void AndroidMediaLibrary::onEntryPointBanned( const std::string& entryPoint, boo
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointBannedId, ep, success);
@@ -1002,7 +1002,7 @@ void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, b
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointUnbannedId, ep, success);
@@ -1014,7 +1014,7 @@ void AndroidMediaLibrary::onEntryPointAdded( const std::string& entryPoint, bool
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointAddedId, ep, success);
@@ -1026,7 +1026,7 @@ void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bo
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointRemovedId, ep, success);
@@ -1120,8 +1120,8 @@ void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, m
 bool AndroidMediaLibrary::onUnhandledException( const char* context, const char* errMsg, bool clearSuggested )
 {
     JNIEnv *env = getEnv();
-    jstring ctx = env->NewStringUTF(context);
-    jstring msg = env->NewStringUTF(errMsg);
+    jstring ctx = vlcNewStringUTF(env, context);
+    jstring msg = vlcNewStringUTF(env, errMsg);
     env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onUnhandledExceptionId, ctx, msg, clearSuggested);
     env->DeleteLocalRef(ctx);
     env->DeleteLocalRef(msg);

@@ -132,7 +132,7 @@ devices(JNIEnv* env, jobject thiz)
     jobjectArray deviceRefs = (jobjectArray) env->NewObjectArray(devices.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for(auto device : devices) {
-        jstring path = env->NewStringUTF(std::get<1>(device).c_str());
+        jstring path = vlcNewStringUTF(env, std::get<1>(device).c_str());
         env->SetObjectArrayElement(deviceRefs, ++index, path);
         env->DeleteLocalRef(path);
     }
@@ -190,7 +190,7 @@ entryPoints(JNIEnv* env, jobject thiz)
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mrls.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for( const std::string& m : mrls ) {
-        jstring mrl = env->NewStringUTF(m.c_str());
+        jstring mrl = vlcNewStringUTF(env, m.c_str());
         env->SetObjectArrayElement(mediaRefs, ++index, mrl);
         env->DeleteLocalRef(mrl);
     }
@@ -1493,7 +1493,7 @@ getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return 0L;
     const medialibrary::IMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
-    return metadata.isSet() ? env->NewStringUTF(metadata.asStr().c_str()) : nullptr;
+    return metadata.isSet() ? vlcNewStringUTF(env, metadata.asStr().c_str()) : nullptr;
 }
 
 void
@@ -1961,7 +1961,7 @@ groupRemoveId(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong m
 jstring
 groupName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
-    return env->NewStringUTF(MediaLibrary_getInstance(env, medialibrary)->groupName(id).c_str());
+    return vlcNewStringUTF(env, MediaLibrary_getInstance(env, medialibrary)->groupName(id).c_str());
 }
 
 jboolean

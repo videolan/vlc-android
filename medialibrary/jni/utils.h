@@ -142,5 +142,6 @@ jobject convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::Bookmar
 jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing);
 jobjectArray filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount = -1);
 jlongArray idArray(JNIEnv* env, std::set<int64_t> ids);
+jstring vlcNewStringUTF(JNIEnv* env, const char* psz_string);
 
 #endif //VLC_MEDIALIB_UTILS_H
