@@ -86,6 +86,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun canShuffle() = mediaList.size() > 2
 
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
+    private var shouldDisableCookieForwarding: Boolean = false
 
     init {
         repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
@@ -357,6 +358,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val start = getStartTime(mw)
             //todo restore position as well when we move to VLC 4.0
             val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
+            //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
+            if (shouldDisableCookieForwarding) {
+                shouldDisableCookieForwarding = false
+                media.addOption(":no-http-forward-cookies")
+            }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags, PlaybackService.hasRenderer())
@@ -655,6 +661,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             mediaList.remove(index)
             for (i in 0 until ml.count) {
                 val child = ml.getMediaAt(i)
+                //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
+                if (isSchemeHttpOrHttps(child.uri.scheme) && child.uri.authority?.endsWith(".youtube.com") == true) {
+                    shouldDisableCookieForwarding = true
+                }
                 withContext(Dispatchers.IO) { child.parse() }
                 mediaList.insert(index+i, MLServiceLocator.getAbstractMediaWrapper(child))
                 child.release()
