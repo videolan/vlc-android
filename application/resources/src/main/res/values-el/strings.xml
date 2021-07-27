@@ -27,12 +27,12 @@
     <string name="playback">Αναπαραγωγή</string>
     <string name="playback_controls">Χειρισμός αναπαραγωγής</string>
     <string name="medialibrary_scan">Σάρωση βιβλιοθήκης μέσων</string>
-    <string name="Medialibrary_progress">Ενημερώσεις προόδου σάρωσησ βιβλιοθήκης μέσων</string>
+    <string name="Medialibrary_progress">Ενημερώσεις προόδου σάρωσης βιβλιοθήκης μέσων</string>
     <string name="play_from_start">Αναπαραγωγή από την αρχή</string>
     <string name="play_as_audio">Αναπαραγωγή ως ήχος</string>
     <string name="play_as_video">Αναπαραγωγή ως βίντεο</string>
     <string name="video_app_switch_title">Λειτουργία παρασκηνίου/εικόνας-σε-εικόνα</string>
-    <string name="video_app_switch_summary">Επιλέξτε τη συμπεριφορά του VLC όταν αλλάζετε σε άλλη εφαρμογή</string>
+    <string name="video_app_switch_summary">Επιλέξτε τη συμπεριφορά του VLC όταν μεταβαίνετε σε άλλη εφαρμογή κατά την αναπαραγωγή βίντεο</string>
     <string name="play_pip_title">Αναπαραγωγή βίντεο σε λειτουργία εικόνας-σε-εικόνα</string>
     <string name="play_as_audio_background">Αναπαραγωγή βίντεο στο υπόβαθρο</string>
     <string name="append">Προσθήκη</string>
@@ -41,15 +41,20 @@
     <string name="append_all">Προσθήκη όλων</string>
     <string name="resume_playback_short_title">Συνέχιση αναπαραγωγής</string>
     <string name="resume_playback_long_title">Συνέχιση αναπαραγωγής της τελευταίας λίστας</string>
+    <string name="resume_playback_error">Τίποτα για συνέχιση</string>
     <string name="delete">Διαγραφή</string>
     <string name="remove">Αφαίρεση</string>
     <string name="set_song">Ορισμός ως ήχου κλήσης</string>
     <string name="set_song_question">Ορισμός \'%1$s\' ως ήχο κλήσης;</string>
     <string name="info">Πληροφορίες</string>
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
+    <string name="confirm_delete_message">Αυτό είναι μόνιμο και δεν μπορεί να αναιρεθεί.</string>
     <string name="confirm_delete_album">Διαγραφή του άλμπουμ \'%1$s\';</string>
     <string name="confirm_delete_several_media">Διαγραφή των αρχείων  %1$d;</string>
     <string name="confirm_delete_folder">Διαγραφή του φακέλου \'%1$s\' και όλων των περιεχομένων του;</string>
+    <string name="confirm_delete_folders">Διαγραφή αυτών των %1$s φακέλων και όλων των περιεχομένων τους;</string>
+    <string name="confirm_delete_files">Διαγραφή αυτών των %1$s αρχείων;</string>
+    <string name="confirm_delete_folders_and_files">Διαγραφή αυτών των %1$sφακέλων και των %2$s αρχείων;</string>
     <string name="confirm_delete_playlist">Διαγραφή λίστας αναπαραγωγής \'%1$s\';</string>
     <string name="confirm_remove_from_playlist">Αφαίρεση \'%1$s\' από τη λίστα αναπαραγωγής;</string>
     <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
@@ -93,6 +98,10 @@
         <item quantity="one">1 τηλεοπτική εκπομπή</item>
         <item quantity="other">%d τηλεοπτικές εκπομπές</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 κομμάτι</item>
+        <item quantity="other">%d κομμάτια</item>
+    </plurals>
 
     <string name="internal_memory">Εσωτερική μνήμη</string>
     <string name="audio">Ήχος</string>
@@ -105,8 +114,8 @@
     <string name="title">Τίτλος</string>
     <string name="directories">Κατάλογοι</string>
     <string name="loading">Φόρτωση</string>
-    <string name="please_wait">Παρακαλούμε περιμένετε…</string>
-    <string name="nomedia">Δε βρέθηκε κανένα αρχείο πολυμέσων, παρακαλούμε μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις.</string>
+    <string name="please_wait">Περιμένετε…</string>
+    <string name="nomedia">Δε βρέθηκε κανένα αρχείο πολυμέσων, μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις.</string>
     <string name="noplaylist">Δε βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="nosubfolder">Δε βρέθηκε υποφάκελος</string>
     <string name="directorynotfound">Η διαδρομή του φακέλου \'%1$s\' δε βρέθηκε.</string>
@@ -125,8 +134,8 @@
     <string name="repeat_all">Επανάληψη όλων</string>
     <string name="previous">Προηγούμενο</string>
     <string name="stop">Διακοπή</string>
-    <string name="firstsong">Πρώτο τραγούδι στην λίστα αναπαραγωγής</string>
-    <string name="lastsong">Τελευταίο τραγούδι στην λίστα αναπαραγωγής</string>
+    <string name="firstsong">Πρώτο τραγούδι στη λίστα αναπαραγωγής</string>
+    <string name="lastsong">Τελευταίο τραγούδι στη λίστα αναπαραγωγής</string>
 
     <string name="surface_best_fit">Βέλτιστη προσαρμογή</string>
     <string name="surface_fit_screen">Προσαρμογή οθόνης</string>
@@ -159,7 +168,7 @@
 
     <string name="playback_speed">Ταχύτητα αναπαραγωγής</string>
     <string name="sleep_title">Χρονοδιακόπτης ύπνου</string>
-    <string name="sleep_in">Ύπνος</string>
+    <string name="sleep_in">Ύπνος σε</string>
     <string name="jump_to_time">Άλμα στη χρονική στιγμή</string>
     <string name="subtitle_select">Επιλογή αρχείου υποτίτλων</string>
 
@@ -183,7 +192,7 @@
     <string name="streams">Μεταδόσεις</string>
     <string name="open_mrl_dialog_msg">Εισάγετε διεύθυνση δικτύου: πχ http://, mms:// ή rtsp://</string>
     <string name="encountered_error_title">Σφάλμα αναπαραγωγής</string>
-    <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το αρχείο.\n\nΠαρακαλούμε δοκιμάστε να ανανεώσετε τη βιβλιοθήκη πολυμέσων.</string>
+    <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το αρχείο.\nΔοκιμάστε να ανανεώσετε τη βιβλιοθήκη πολυμέσων.</string>
     <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να αναπαραχθεί.</string>
 
     <string name="search">Αναζήτηση</string>
@@ -215,16 +224,16 @@
     <string name="audio_player_tips">Συμβουλές αναπαραγωγής ήχου</string>
     <string name="previous_next_song">Προηγούμενο/επόμενο τραγούδι</string>
     <string name="show_playlist">Προβολή λίστας αναπαραγωγής</string>
-    <string name="hold_to_stop">Κρατήστε για να σταματήσει</string>
+    <string name="hold_to_stop">Κρατήστε για σταμάτημα</string>
 
     <!-- About -->
-    <string name="app_name_full">Το VLC για το Android™</string>
+    <string name="app_name_full">VLC για Android™</string>
     <string name="licence">Άδεια</string>
     <string name="revision">Αναθεώρηση</string>
     <string name="about">Σχετικά</string>
     <string name="about_text">Το VLC για το Android™ είναι μια μεταφορά του αναπαραγωγού μέσων VLC, του δημοφιλούς ανοικτού κώδικα αναπαραγωγού μέσων. Η έκδοση για το Android™ μπορεί να διαβάσει τα περισσότερα αρχεία και μεταδόσεις δικτύου.</string>
-    <string name="vlc_authors">Συγγραφείς του VLC.</string>
-    <string name="compiled_by">Αυτή η έκδοση του VLC συντάχθηκε από:</string>
+    <string name="vlc_authors">Δημιουργούς του VLC.</string>
+    <string name="compiled_by">Αυτή η έκδοση του VLC μεταγλωττίστηκε από:</string>
     <string name="feedback_forum">Φόρουμ σχολιασμού</string>
 
     <!-- Preferences -->
@@ -240,12 +249,14 @@
     <string name="hardware_acceleration_decoding">Επιτάχυνση αποκωδικοποίησης</string>
     <string name="hardware_acceleration_full">Πλήρης επιτάχυνση</string>
     <string name="dev_hardware_decoder">Προχωρημένος αποκωδικοποιητής υλικού</string>
-    <string name="dev_hardware_decoder_summary">Ορίστε τον αποκωδικοποιητή υλικού, για προχωρημένους χρήστες μόνο</string>
+    <string name="dev_hardware_decoder_summary">Εξαναγκασμένη αποκωδικοποίηση μέσω υλικού, για προχωρημένους χρήστες μόνο</string>
     <string name="automatic">Αυτόματο</string>
-    <string name="screen_orientation">Προσανατολισμός της βίντεο-οθόνης</string>
-    <string name="screen_orientation_sensor">Αυτόματο (αισθητήρας)</string>
+    <string name="screen_orientation">Προσανατολισμός της οθόνης βίντεο</string>
+    <string name="screen_orientation_sensor">Αυτόματα (αισθητήρας)</string>
     <string name="screen_orientation_portrait">Κάθετα</string>
     <string name="screen_orientation_landscape">Οριζόντια</string>
+    <string name="screen_orientation_landscape_reverse">Ανάστροφα οριζόντια</string>
+    <string name="screen_orientation_last_locked">Τελευταίος κλειδωμένος προσανατολισμός</string>
     <string name="enable_black_theme">Μαύρο θέμα</string>
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
     <string name="daynight_title">Λειτουργία DayNight</string>
@@ -256,7 +267,7 @@
     <string name="interface_prefs_screen">Διεπαφή</string>
     <string name="interface_secondary_display_category_title">Δευτερεύουσα οθόνη</string>
     <string name="interface_secondary_display_category_summary">Ρυθμίσεις για συνδεδεμένες δευτερεύουσες οθόνες (HDMI/Chromecast).</string>
-    <string name="enable_clone_mode">Προτίμηση του κλώνου</string>
+    <string name="enable_clone_mode">Προτίμηση κλωνοποίησης</string>
     <string name="enable_clone_mode_summary">Κλωνοποίηση της οθόνης της συσκευής χωρίς απομακρυσμένο έλεγχο</string>
 
     <string name="video_prefs_category">Βίντεο</string>
@@ -315,20 +326,20 @@
     <string name="list_title_ellipsize_middle">Μέση</string>
     <string name="list_title_ellipsize_marquee">Μαρκίζα</string>
     <string name="audio_boost_title">Ενίσχυση ήχου</string>
-    <string name="audio_boost_summary">Επιτρέψτε ένταση ως το 200%</string>
-    <string name="headset_prefs_category">Ακουστικό</string>
+    <string name="audio_boost_summary">Να επιτρέπεται ένταση ήχου έως 200%</string>
+    <string name="headset_prefs_category">Ακουστικά</string>
     <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
     <string name="enable_headset_detection_summary">Ανίχνευση σύνδεσης και αποσύνδεσης ακουστικών</string>
     <string name="enable_play_on_headset_insertion">Συνέχιση μετά τη σύνδεση των ακουστικών</string>
     <string name="enable_play_on_headset_insertion_summary">Αλλιώς παύση</string>
     <string name="aout">Έξοδος ήχου</string>
     <string name="aout_summary">Αλλαγή μεθόδου εξόδου του VLC για την αναπαραγωγή ήχου</string>
-    <string name="audio_ducking_title">Χαμηλώστε την ένταση του VLC από τις ειδοποιήσεις</string>
-    <string name="audio_ducking_summary">Βοηθάει να ακούτε ειδοποιήσεις ήχου, εντολές πλοήγησης ή ομιλία βοηθού</string>
+    <string name="audio_ducking_title">Χαμηλώστε την ένταση του VLC κατά την εμφάνιση ειδοποιήσεων</string>
+    <string name="audio_ducking_summary">Βοηθάει να ακούτε ηχητικές ειδοποιήσεις, οδηγίες πλοήγησης ή ομιλία βοηθού</string>
     <string name="casting_category">Μετάδοση</string>
     <string name="casting_switch_title">Ασύρματη μετάδοση</string>
     <string name="casting_passthrough_title">Ήχος Passthrough</string>
-    <string name="casting_passthrough_summary">Επιτρέψτε στην τηλεόραση να διαχειριστεί την απόδοση ήχου</string>
+    <string name="casting_passthrough_summary">Επιτρέψτε στην τηλεόραση να διαχειρίζεται την έξοδο ήχου</string>
     <string name="casting_conversion_quality_title">Ποιότητα μετατροπής</string>
     <string name="casting_conversion_quality_summary">Επιλέξτε την ποιότητα μετατροπής κατά τη μετάδοση σε απομακρυσμένη οθόνη</string>
     <string name="casting_quality_high">Υψηλή</string>
@@ -337,6 +348,9 @@
     <string name="casting_quality_lowcpu">Χαμηλότερη</string>
     <string name="casting_connected_renderer">Συνδέθηκε στον αποτυπωτή \'%1$s\'</string>
     <string name="artists_show_all_title">Εμφάνιση όλων των καλλιτεχνών</string>
+    <string name="show_headers">Εμφάνιση κεφαλίδων</string>
+    <string name="show_headers_summary">Διαχωρισμός λιστών βάσει κεφαλίδων ανάλογα με τον τύπο ταξινόμησης</string>
+
     <string name="extensions_prefs_category">Επεκτάσεις</string>
     <string name="extensions_empty">Δε βρέθηκε επέκταση</string>
     <string name="extension_permission_title">Ενεργοποίηση νέας επέκτασης \"%1$s\";</string>
@@ -346,7 +360,7 @@
 
     <string name="controls_prefs_category">Στοιχεία ελέγχου</string>
 
-    <string name="performance_prefs_category">Απόδοση</string>
+    <string name="performance_prefs_category">Επίδοση</string>
     <string name="chroma_format">Επιβολή chroma βίντεο</string>
     <string name="chroma_format_summary">RGB 32-bit: προεπιλεγμένο chroma\nRGB 16-bit: καλύτερη απόδοση αλλά χαμηλότερη ποιότητα\nYUV: βέλτιστη απόδοση αλλά δε λειτουργεί σε όλες τις συσκευές (Android 2.3 και νεότερες μόνο)</string>
     <string name="deblocking">Επιλογές φίλτρου απεμπλοκής</string>
@@ -367,6 +381,8 @@
     <string name="dump_media_db_summary">Αντιγραφή βάσης δεδομένων στη ρίζα του εσωτερικού χώρου αποθήκευσης</string>
     <string name="clear_media_db">Καθαρισμός βάσης δεδομένων μέσων</string>
     <string name="clear_media_database_summary">Καθαρισμός βάσης δεδομένων για αρχικοποίηση</string>
+    <string name="clear_app_data">Εκκαθάριση δεδομένων εφαρμογής</string>
+    <string name="clear_app_data_summary">Διαγράφει τα δεδομένα του VLC για Android</string>
     <string name="clear_history">Καθαρισμός ιστορικού</string>
     <string name="set_locale">Ορισμός εντοπιότητας</string>
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
@@ -376,7 +392,7 @@
     <string name="blurred_cover_background_title">Παρασκήνιο θολωμένου εξώφυλλου</string>
     <string name="blurred_cover_background_summary">Εμφάνιση θολωμένου εξώφυλλου στο παρασκήνιο κατά την αναπαραγωγή μουσικής</string>
     <string name="network_caching_popup">Αυτή η τιμή πρέπει να είναι μεταξύ 0 και 6000 ms</string>
-    <string name="quit">Κλείσιμο και επανεκκίνηση της εφαρμογής</string>
+    <string name="quit">Έξοδος και επανεκκίνηση της εφαρμογής</string>
     <string name="restart_message">Οι αλλαγές θα πραγματοποιηθούν όταν η εφαρμογή επανεκκινηθεί.\n\nΕπανεκκίνηση τώρα;</string>
     <string name="restart_message_OK">ΟΚ</string>
     <string name="restart_message_Later">Αργότερα</string>
@@ -386,18 +402,18 @@
     <string name="enable_verbose_mode">Αναλυτικό</string>
     <string name="enable_verbose_mode_summary">Αυξήστε την αναλυτικότητα (logcat)</string>
     <string name="debug_logs">Καταγραφές αποσφαλμάτωσης</string>
-    <string name="start_logging">Ξεκινήστε την καταγραφή</string>
+    <string name="start_logging">Έναρξη καταγραφής</string>
     <string name="stop_logging">Τέλος καταγραφής</string>
     <string name="clear_log">Απαλοιφή καταγραφής</string>
-    <string name="log_service_title">Αρχεία καταγράφής του VLC</string>
+    <string name="log_service_title">Αρχεία καταγραφής του VLC</string>
     <string name="log_service_text">Άνοιγμα της κονσόλας καταγραφής</string>
     <string name="copy_to_clipboard">Αντιγραφή στο πρόχειρο</string>
     <string name="copied_to_clipboard">Η καταγραφή αντιγράφηκε στο πρόχειρο.</string>
-    <string name="dump_logcat">Κατεκτύπωση καταγραφών logcat</string>
-    <string name="dump_logcat_success">Επιτυχής κατεκτύπωση logcat στο %1$s!</string>
-    <string name="dump_logcat_failure">Αποτυχία κατεκτύπωσης logcat.</string>
+    <string name="dump_logcat">Αντιγραφή καταγραφών logcat</string>
+    <string name="dump_logcat_success">Επιτυχής αντιγραφή logcat στο %1$s!</string>
+    <string name="dump_logcat_failure">Αποτυχία αντιγραφής logcat.</string>
     <string name="custom_libvlc_options">Προσαρμοσμένες επιλογές libVLC</string>
-    <string name="custom_libvlc_options_invalid">Μη έγκυρες επιλογές libVLC</string>
+    <string name="custom_libvlc_options_invalid">Μη έγκυρες επιλογές libVLC!</string>
 
     <string name="serious_crash">Δυστυχώς, ένα σοβαρό σφάλμα ανάγκασε το VLC να κλείσει.</string>
     <string name="help_us_send_log">Βοηθήστε μας να βελτιώσουμε το VLC αποστέλλοντας το ακόλουθο αρχείο καταγραφής:</string>
@@ -405,15 +421,15 @@
     <string name="send_log">Αποστολή του αρχείου καταγραφής</string>
     <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται…</string>
 
-    <string name="delete_sub_title">Διαγραφή υπότιτλου</string>
-    <string name="delete_sub_message">Θέλετε να διαγράψετε αυτόν τον υπότιτλο;</string>
-    <string name="download_subtitle_title">Λήψη Υπότιτλου</string>
+    <string name="delete_sub_title">Διαγραφή υπότιτλων</string>
+    <string name="delete_sub_message">Θέλετε να διαγράψετε τους υπότιτλους;</string>
+    <string name="download_subtitle_title">Λήψη υπότιτλων</string>
 
     <string name="no_result">Δεν βρέθηκαν αποτελέσματα</string>
     <string name="no_internet_connection">Ελέγξτε τη σύνδεση σας στο διαδίκτυο</string>
     <string name="subs_download_error">Μη διαθέσιμη υπηρεσία. Παρακαλούμε ξαναπροσπαθήστε αργότερα</string>
 
-    <string name="network_browsing">Τοπικό Δίκτυο</string>
+    <string name="network_browsing">Τοπικό δίκτυο</string>
     <string name="browsing">Περιήγηση</string>
 
     <string name="file_size">Μέγεθος αρχείου</string>
@@ -434,12 +450,12 @@
     <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
     <string name="confirm_resume_title">Συνέχιση αναπαραγωγής βίντεο</string>
     <string name="tv_ui_title">Διεπαφή Android TV</string>
-    <string name="tv_ui_summary">Αλλαγή UI στο θέμα TV</string>
-    <string name="medialibrary">Βιβλιοθήκη Μέσων</string>
-    <string name="medialibrary_directories">Φάκελοι βιβλιοθήκης μέσων</string>
+    <string name="tv_ui_summary">Αλλαγή UI στο προσαρμοσμένο θέμα για TV</string>
+    <string name="medialibrary">Βιβλιοθήκη πολυμέσων</string>
+    <string name="medialibrary_directories">Φάκελοι βιβλιοθήκης πολυμέσων</string>
 
     <!-- Accessibility -->
-    <string name="more_actions">Περισσότερες Ενέργειες</string>
+    <string name="more_actions">Περισσότερες ενέργειες</string>
     <string name="back_quit_lock">Πατήστε πάλι το πίσω για να κλείσετε το βίντεο</string>
     <string name="stream_deleted">Η μετάδοση διεγράφη</string>
     <string name="no_subs_found">Δεν υπάρχουν υπότιτλοι σε αυτό τον κατάλογο</string>
@@ -447,16 +463,21 @@
 
     <!-- Widget -->
     <string name="widget_name_w">Λευκό γραφικό στοιχείο VLC</string>
-    <string name="widget_name_b">Σκοτεινό γραφικό στοιχείο VLC</string>
-    <string name="allow_storage_access_title">Δώστε πρόσβαση στο VLC στα αρχεία βίντεο και ήχου</string>
-    <string name="allow_storage_access_description">Το VLC  σας ζητάει να του δώσετε πρόσβαση στα αρχεία μέσων σε αυτή τη συσκευή.</string>
-    <string name="allow_settings_access_ringtone_title">Επιτρέψτε στο VLC να ορίσει τον ήχο κλήσης</string>
+    <string name="widget_name_b">Σκούρο γραφικό στοιχείο VLC</string>
+    <string name="allow_storage_access_title">Παραχώρηση πρόσβασης στα αρχεία βίντεο και ήχου από τον VLC</string>
+    <string name="allow_storage_access_description">Το VLC χρειάζεται παραχώρηση πρόσβασης στα αρχεία πολυμέσων αυτής της συσκευής.</string>
+    <string name="allow_settings_access_ringtone_title">Επιτρέψτε στο VLC να ορίζει τον ήχο κλήσης</string>
     <string name="allow_settings_access_ringtone_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει αυτό το τραγούδι ως ήχο κλήσης.</string>
     <string name="allow_settings_access_brightness_title">Επιτρέψτε στο VLC να ορίσει το επίπεδο φωτεινότητας</string>
-    <string name="allow_settings_access_brightness_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει το επίπεδο φωτεινότητας.</string>
+    <string name="allow_settings_access_brightness_description">Το VLC  σας ζητάει να του επιτρέψετε να μεταβάλλει το επίπεδο φωτεινότητας.</string>
     <string name="allow_draw_overlays_title">Επιτρέψτε το VLC να εμφανίζεται πάνω από άλλες εφαρμογές</string>
     <string name="allow_sdraw_overlays_description">Το VLC σας ζητάει να του επιτρέψετε να παίζει το βίντεο αναδυόμενο πάνω από άλλες εφαρμογές.</string>
-    <string name="permission_ask_again">Δώστε άδεια</string>
+    <string name="permission_ask_again">Παραχώρηση άδειας</string>
+    <string name="permission_not_granted">Δεν παραχωρήθηκε άδεια</string>
+    <string name="permission_expanation_no_allow">Δε θα μπορείτε να ανακαλύψετε αυτόματα τα αρχεία πολυμέσων σας ούτε να χρησιμοποιήσετε εξωτερικούς υπότιτλους</string>
+    <string name="permission_expanation_allow">Θα έχετε τη δυνατότητα αναπαραγωγής μόνο μεταδόσεων ή αρχείων πολυμέσων μέσω δικτύου </string>
+    <string name="permission_expanation_subtitles">Χρήση εξωτερικών υποτίτλων</string>
+    <string name="permission_expanation_allow_explanation">Αναπαραγωγή διαδικτυακών μεταδόσεων ή αρχείων πολυμέσων μέσω δικτύου</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
     <string name="exit_app_msg">Είστε βέβαιοι ότι θέλετε να κλείσετε το VLC;</string>
 
@@ -465,9 +486,9 @@
     <string name="fastscroller_handle">Λαβή FastScroller</string>
 
     <!-- Plugins -->
-    <string name="plugins">Εμφυτεύματα</string>
+    <string name="plugins">Πρόσθετα</string>
     <string name="download_on_device">Λήψη</string>
-    <string name="extension_empty">Κανένα αντικείμενο για εμφάνιση, πήγαινε στις επιλογές του πρόσθετου για να δεις κανένα.</string>
+    <string name="extension_empty">Κανένα αντικείμενο για εμφάνιση, μετάβαση στις επιλογές του πρόσθετου για να βρείτε κάποιο.</string>
 
     <string name="opengl_title">Χρήση OpenGL ES2</string>
     <string name="opengl_summary">Από προεπιλογή, γίνεται χρήση του OpenGL ES2 για την αποκωδικοποίηση μέσω λογισμικού και μέσω υλικού όπου απαιτείται (360° βίντεο)</string>
@@ -476,37 +497,37 @@
     <string name="opengl_off">Επιβολή Απενεργοποίησης</string>
     <string name="network_favorites">Δίκτυο αγαπημένων</string>
     <string name="network_shared_folders">Μοιρασμένοι φάκελοι</string>
-    <string name="encryption_warning">Προειδοποίηση, η κρυπρογράφηση δεν είναι διαθέσιμη σε αυτή την έκδοση του Android, ο κωδικός θα αποθηκευτεί σε ιδιωτικό χώρο αλλά δεν θα είναι κρυπτογραφημένος</string>
+    <string name="encryption_warning">Προειδοποίηση, η κρυπτογράφηση δεν είναι διαθέσιμη σε αυτή την έκδοση του Android, ο κωδικός θα αποθηκευτεί σε ιδιωτικό χώρο αλλά δε θα είναι κρυπτογραφημένος</string>
     <string name="store_password">Αποθήκευση κωδικού</string>
     <string name="add_to_playlist">Προσθήκη στη λίστα αναπαραγωγής</string>
-    <string name="popup_playback_title">Αναπαραγωγή βίντεο σε Αναδυόμενο παράθυρο</string>
-    <string name="popup_playback">Αναπαραγωγή σε Αναδυόμενο παράθυρο</string>
+    <string name="popup_playback_title">Αναπαραγωγή βίντεο σε αναδυόμενο παράθυρο</string>
+    <string name="popup_playback">Αναπαραγωγή σε αναδυόμενο παράθυρο</string>
     <string name="popup_expand">Επέκταση βίντεο</string>
-    <string name="download_subtitles">Κατέβασμα υποτίτλων</string>
+    <string name="download_subtitles">Λήψη υπότιτλων</string>
     <string name="browse_folder">Περιήγηση φακέλου</string>
-    <string name="listen">Ακοή</string>
-    <string name="save_bluetooth_delay">αποθήκευση καθυστέρησης για συσκευή bluetooth</string>
+    <string name="listen">Ακρόαση</string>
+    <string name="apply_to_bt">Εφαρμογή στη συσκευή bluetooth</string>
     <string name="episodes">επεισόδια</string>
     <string name="movies">ταινίες</string>
     <string name="videos">βίντεο</string>
     <string name="videos_all">Όλα τα βίντεο</string>
     <string name="clear_playback_history">Καθαρισμός ιστορικού αναπαραγωγής</string>
-    <string name="ml_scanning">Σάρωση για αρχεία μέσων</string>
-    <string name="ml_parse_media">Ανάλυση μέσων</string>
+    <string name="ml_scanning">Σάρωση για αρχεία πολυμέσων</string>
+    <string name="ml_parse_media">Ανάλυση πολυμέσων</string>
     <string name="ml_discovering">Ανακάλυψη</string>
     <string name="resume">Συνέχιση</string>
     <string name="length">Διάρκεια</string>
-    <string name="tv_settings_hint">Μακρό πάτημα του ΟΚ για να επιλέξετε/απεπιλέξετε καταλόγους</string>
+    <string name="tv_settings_hint">Πατήστε παρατεταμένα στο ΟΚ για να επιλέξετε/απεπιλέξετε καταλόγους</string>
     <string name="ml_external_storage_title">Ανιχνεύτηκε νέος αποθηκευτικός χώρος</string>
-    <string name="ml_external_storage_msg">Θέλετε το VLC να προσθέσει τη συσκευή %1$sστη βιβλιοθήκη μέσων σας;</string>
+    <string name="ml_external_storage_msg">Θέλετε το VLC να προσθέσει τη συσκευή %1$sστη βιβλιοθήκη πολυμέσων σας;</string>
     <string name="ml_external_storage_accept">Ναι</string>
     <string name="ml_external_storage_decline">Όχι</string>
     <string name="auto_last_added_media">Τελευταία προσθήκη</string>
     <string name="auto_my_library">Η βιβλιοθήκη μου</string>
     <string name="auto_home">Αρχική</string>
     <string name="no">Όχι</string>
-    <string name="loading_medialibrary">Φόρτωση βιβλιοθήκης μέσων</string>
-    <string name="yes">ναι</string>
+    <string name="loading_medialibrary">Φόρτωση βιβλιοθήκης πολυμέσων...</string>
+    <string name="yes">Ναι</string>
 
     <string name="custom_set_save_title">Μη αποθηκευμένες αλλαγές</string>
     <string name="custom_set_save_warning">Προσοχή: μη αποθηκευμένες αλλαγές</string>
@@ -527,8 +548,8 @@
     <string name="browser_storages">Αποθηκευτικοί χώροι</string>
     <string name="msg_delete_failed">Αποτυχία διαγραφής του %1$s</string>
     <string name="renderer_list_title">Οθόνες</string>
-    <string name="sdcard_permission_dialog_title">Πρέπει να δώσετε άδεια γραφής στην SD Card στο VLC</string>
-    <string name="sdcard_permission_dialog_message">Το VLC δεν μπορεί να διαγράψει αυτό το αρχείο χωρίς άδεια γραφής.\nΠαρακαλώ πηγαίντε στην SD Card και πατήστε \"Επιλογή\".\nΜπορεί να χρειαστεί να πατήσετε στο \"Προβολή SD Card\" πρώτα στο πάνω δεξιά μενού.</string>
+    <string name="sdcard_permission_dialog_title">Πρέπει να παραχωρήσετε άδεια εγγραφής στην SD Card από τον VLC</string>
+    <string name="sdcard_permission_dialog_message">Το VLC δεν μπορεί να διαγράψει αυτό το αρχείο χωρίς άδεια εγγραφής.\nΜεταβείτε στην SD Card και πατήστε στο \"Επιλογή\".\nΜπορεί να χρειαστεί να πατήσετε στο \"Προβολή SD Card\" πρώτα στο πάνω δεξιά μενού.</string>
     <string name="dialog_sd_wizard">Δείξε μου</string>
     <string name="renderers_disconnect">Αποσύνδεση</string>
     <string name="audio_digital_failed">Αποτυχία αλλαγής κατάστασης σε ψηφιακή έξοδο ήχου</string>
@@ -540,7 +561,7 @@
     <string name="audio_resume_card_title">Εμφάνιση συμβουλής τελευταίας λίστας αναπαραγωγής</string>
     <string name="audio_resume_card_summary">Εμφανίζει μια συμβουλή που βοηθά στη συνέχιση της αναπαραγωγής κατά την εκκίνηση της εφαρμογής</string>
     <string name="playback_rewind">Οπισθοχώρηση</string>
-    <string name="playback_forward">Γρήγορη προώθηση</string>
+    <string name="playback_forward">Γρήγορη μετάβαση μπροστά</string>
     <string name="ml_wizard_scan_checkbox">Σάρωση συσκευής για πολυμέσα</string>
     <string name="ml_wizard_description">Επιλέξτε εάν ο VLC θα σαρώνει τον αποθηκευτικό χώρο της συσκευής σας για την οργάνωση της βιβλιοθήκης μέσων ή απλά θα το χρησιμοποιεί σαν απλός αναπαραγωγός με ενσωματομένο φυλλομετρητή.</string>
     <string name="tv_my_new_videos">Τα νέα μου βίντεο</string>
@@ -549,11 +570,11 @@
     <string name="browser">Φυλλομετρητής</string>
     <string name="ab_repeat">Επανάληψη Α-Β</string>
     <string name="stop_after_this">Σταμάτημα μετά από αυτό το κομμάτι</string>
-    <string name="time_category_new">Νέα μέσα</string>
+    <string name="time_category_new">Νέα πολυμέσα</string>
     <string name="time_category_current_month">Αυτόν το μήνα</string>
     <string name="time_category_current_year">Αυτό το έτος</string>
     <string name="time_category_last_year">Προηγούμενο έτος</string>
-    <string name="time_category_older">Παλιότερα μέσα</string>
+    <string name="time_category_older">Παλιότερα πολυμέσα</string>
     <string name="rename">Μετονομασία</string>
     <string name="rename_media">Μετονομασία %1$s</string>
     <string name="manual_search">Χειροκίνητη αναζήτηση</string>
@@ -569,27 +590,29 @@
     <string name="ctx_player_audio_track"> Κομμάτι ήχου</string>
     <string name="ctx_player_subs_track"> Κομμάτι υποτίτλων</string>
     <string name="ctx_pip_title">Αναδυόμενη αναπαραγωγή</string>
-    <string name="device_dialog_title">Εξωτερική συσκευή εισηχθεί</string>
+    <string name="device_dialog_title">Εξωτερική συσκευή εισήχθη</string>
     <string name="device_dialog_message">Μόλις συνδέσατε μια νέα συσκευή αποθήκευσης στο TV box σας, θέλετε να την ανοίξετε με το VLC;</string>
     <string name="videos_folders_title">Βίντεο ανά φάκελο</string>
     <string name="videos_groups_title">Ομάδες βίντεο</string>
     <string name="video_save_clone_mode">Αυτόματη ενεργοποίηση λειτουργίας κλωνοποίησης;</string>
-    <string name="video_remote_enable">Αλλαγή σε λειτουργία τηλεχειριστηρίου</string>
+    <string name="video_remote_enable">Αλλαγή σε λειτουργία απομακρυσμένου ελέγχου</string>
     <string name="video_remote_disable">Αντίγραφο οθόνης</string>
     <string name="removed_from_playlist_anonymous">Το(α) στοιχείο(α) αφαιρέθηκε(αν) από τη λίστα αναπαραγωγής</string>
     <string name="welcome_title">Καλωσήρθατε στον VLC!</string>
     <string name="welcome_subtitle">Το δωρεάν και ανοιχτού κώδικα αναπαραγωγό μέσων</string>
-    <string name="permission_media">Το VLC χρειάζεται άδεια να έχει πρόσβαση στα μέσα της συσκευής σας</string>
-    <string name="medialibrary_scan_explanation">Το VLC μπορεί να σαρώνει τη συσκευή ασς αυτόματα για να οργανώσει την συλλογή μέσων σας.</string>
+    <string name="permission_media">Ο VLC χρειάζεται άδεια για πρόσβαση στα πολυμέσα της συσκευής σας</string>
+    <string name="medialibrary_scan_explanation">Ο VLC μπορεί να σαρώνει τη συσκευή σας αυτόματα για να οργανώσει τη συλλογή πολυμέσων σας.</string>
     <string name="onboarding_theme_title">Σαν στο σπίτι σας</string>
     <string name="done">Έτοιμο</string>
     <string name="onboarding_scan_title">Αυτόματη-ανίχνευση των πολυμέσων σας</string>
+    <string name="onboarding_all_set">Το VLC είναι έτοιμο!</string>
+    <string name="onboarding_permission_given">Τώρα μπορείτε να ανακαλύψετε αυτόματα τα αρχεία πολυμέσων σας, να χρησιμοποιήσετε εξωτερικούς υπότιτλους, καθώς και να αναπαράγετε μεταδόσεις ή αρχεία πολυμέσων μέσω δικτύου</string>
     <string name="daynight_system_explanation">Το VLC θα μεταβεί αυτόματα σε σκοτεινή λειτουργία σύμφωνα με τις ρυθμίσεις του συστήματος</string>
     <string name="daynight_legacy_explanation">Το VLC θα μεταβεί αυτόματα σε νυχτερινή λειτουργία την κατάλληλη χρονική στιγμή</string>
-    <string name="onboarding_scanning_enable">Επίτρεψε στο VLC να σαρώνει την συσκευή μου για περιεχόμενο μέσων</string>
+    <string name="onboarding_scanning_enable">Επίτρεψε στο VLC να σαρώνει τη συσκευή μου για περιεχόμενο πολυμέσων</string>
     <string name="onboarding_scan_customize">Επίτρεψέ μου να επιλέξω ποιους φακέλους θα σαρώνει το VLC</string>
     <string name="button_medialibrary_preferences">Μετάβαση στις προτιμήσεις της βιβλιοθήκης πολυμέσων</string>
-    <string name="light_theme">Ανοιχτό θέμα</string>
+    <string name="light_theme">Ανοιχτόχρωμο θέμα</string>
     <string name="add">Προσθήκη</string>
     <string name="add_to_new_playlist">Προσθήκη σε νέα λίστα αναπαραγωγής</string>
     <string name="resume_card_message">Συνέχιση αναπαραγωγής του %1$s;</string>
@@ -601,7 +624,7 @@
     <string name="jump_to">Μεταπήδηση στο</string>
     <string name="show_video_thumbnails_summary">Εμφάνιση μικρογραφιών βίντεο στις λίστες</string>
     <string name="show_video_thumbnails">Μικρογραφίες βίντεο</string>
-    <string name="eq_snap_bands">Στιγμιαία εναλλαγή ζωνών</string>
+    <string name="eq_snap_bands">Ελαστικές ζώνες</string>
     <string name="enable_equalizer">Ενεργοποίηση</string>
     <string name="preamp">Προενίσχυση</string>
     <string name="presets">Προρυθμίσεις</string>
@@ -668,7 +691,9 @@
     <string name="recently_played">Πρόσφατη αναπαραγωγή</string>
     <string name="recently_added">Πρόσφατη προσθήκη</string>
     <string name="playback_multiple_errors">Αδύνατη η αναπαραγωγή πολλαπλών αρχείων πολυμέσων</string>
-    <string name="clear_media_db_warning">Θα χάσετε την πρόοδό σας και τις λίστες αναπαραγωγής που έχετε δημιουργήσει.\n %s</string>
+    <string name="clear_media_db_message">Θα χάσετε την πρόοδό σας, τους σελιδοδείκτες σας και τις λίστες αναπαραγωγής που δημιουργήσατε, αλλά θα διατηρηθούν οι ρυθμίσεις του VLC για Android</string>
+    <string name="clear_app_data_message">Θα χάσετε την πρόοδό σας, τους σελιδοδείκτες σας, τις λίστες αναπαραγωγής και τις ρυθμίσεις του VLC</string>
+    <string name="clear">Εκκαθάριση</string>
     <string name="abrepeat_add_first_marker">Ορισμός σημείου αρχής</string>
     <string name="abrepeat_add_second_marker">Ορισμού σημείου τέλους</string>
     <string name="demux_bitrate">Δυφιορρυθμός αποπολυπλέκτη</string>
@@ -694,6 +719,7 @@
     <string name="subtitle_delay_end">Προβεβλημένο κείμενο</string>
     <string name="track_index">Κομμάτι: %s</string>
     <string name="audio_queue_progress">Πρόοδος: %s</string>
+    <string name="audio_queue_progress_remaining">Απομένει: %s</string>
     <string name="audio_queue_progress_finished">Ολοκλήρωση σε: %s</string>
     <string name="sortby_track">Κομμάτι</string>
     <string name="this_folder">Προσθήκη τρέχοντος φακέλου</string>
@@ -735,6 +761,7 @@
     <string name="donate_again">Γίνετε ξανά χορηγοί της εφαρμογής</string>
 
     <string name="mark_as_played">Σήμανση ως αναπαραγμένου</string>
+    <string name="mark_as_not_played">Επισήμανση ως μη αναπαραγμένο</string>
     <string name="mark_all_as_played">Σήμανση όλων ως αναπαραγμένων</string>
     <string name="new_group">Νέα ομάδα</string>
     <string name="new_group_desc">Δημιουργία νέας ομάδας</string>
@@ -758,17 +785,50 @@
     <string name="prefersmbv1_summary">Αποεπιλέξτε αυτή τη ρύθμιση εάν αντιμετωπίζετε δυσκολίες κατά την περιήγηση του διακομιστή SMB σας.</string>
     <string name="apply_to_all">Εφαρμογή σε όλα τα βίντεο</string>
     <string name="audio_delay_global">Η καθυστέρηση ήχου έχει οριστεί σε %s ms για όλα τα βίντεο</string>
+    <string name="audio_delay_bt">Η καθυστέρηση ήχου έχει οριστεί σε %s χιλιοστά δευτερολέπτου για τη συσκευή bluetooth</string>
     <string name="warning_stream_speed">Αύξηση της ταχύτητας αναπαραγωγής πάνω από 1 στις μεταδόσεις μπορεί να προκαλέσει τραύλισμα</string>
     <string name="go_to_folder">Περιήγηση γονικού</string>
     <string name="no_sub_renderer">Δεν υπάρχει υποστήριξη υποτίτλων ακόμη κατά τη μετάδοση</string>
     <string name="enqueuing">Φόρτωση των πολυμέσων σας</string>
     <string name="soundfont">Αρχείο MIDI SoundFont</string>
     <string name="soundfont_summary">Επιλέξτε ένα αρχείο SoundFont για αναπαραγωγή κομματιών ήχου midi</string>
+    <string name="missing_media_snack">Λείπουν πολυμέσα. Απόκρυψη όλων των πολυμέσων που λείπουν;</string>
+    <string name="browser_show_missing_media">Εμφάνιση πολυμέσων που λείπουν</string>
+    <string name="browser_show_missing_media_summary">Εμφάνιση συμβάντος απομακρυσμένων πολυμέσων εάν δεν είναι παρόντα</string>
     <string name="search_prefs">Ρυθμίσεις αναζήτησης</string>
     <string name="preferred_resolution">Προτιμώμενη ανάλυση βίντεο</string>
     <string name="preferred_resolution_summary">Η μέγιστη ανάλυση μεταδόσεων, αν αυτή είναι δυνατή, θα είναι: %s</string>
     <string name="pref_resolution_best_available">Βέλτιστη διαθέσιμη</string>
     <string name="pref_resolution_very_low">Πολύ χαμηλή ανάλυση (240p)</string>
     <string name="stop_unpaubale">Δεν είναι δυνατή η παύση αυτού του αρχείου πολυμέσων. Θέλετε να γίνει διακοπή;</string>
+    <string name="delete_forever">Μόνιμη διαγραφή</string>
+    <string name="add_to_existing_playlist">Προσθήκη σε υπάρχουσα λίστα αναπαραγωγής</string>
+    <string name="bookmarks_title">Σελιδοδείκτες</string>
+    <string name="no_bookmark">Κανένας σελιδοδείκτης</string>
+    <string name="bookmark_name">Προσθήκη σελιδοδείκτη: %s</string>
+    <string name="optional_features">Προαιρετικά χαρακτηριστικά</string>
+    <string name="optional_features_summary">Τα χαρακτηριστικά beta που ακόμα δοκιμάζονται ενδέχεται να περιέχουν σφάλματα</string>
+    <string name="optional_features_warning">Αυτό το χαρακτηριστικό είναι στη φάση beta και μπορεί να δημιουργήσει αστάθειες και κολλήματα.</string>
+    <string name="start_vlc">Έναρξη VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Προσθήκη διπλότυπου(ων) στοιχείου(ων);</string>
+    <string name="add_button">Προσθήκη</string>
+    <string name="add_all_button">Προσθήκη όλων</string>
+    <string name="add_new_only_button">Προσθήκη μόνο νέου</string>
+    <string name="discovery_failed">Η ανακάλυψη απέτυχε για: %s</string>
+    <string name="lock_use_sensor_title">Κλείδωμα με αισθητήρα</string>
+    <string name="lock_use_sensor_summary">Όταν ο προσανατολισμός είναι κλειδωμένος, χρησιμοποιήστε τον αισθητήρα για να επιτρέψετε τον αντίστροφο προσανατολισμό</string>
+    <string name="start">Έναρξη</string>
+    <string name="permission">Άδεια</string>
+    <string name="customize">Προσαρμογή</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
+        <item quantity="other">Αυτά τα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 από τα επιλεγμένα στοιχεία βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
+        <item quantity="other">%d από τα επιλεγμένα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
+    </plurals>
 
 </resources>
