@@ -141,10 +141,12 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
                 }
             binding.container.layoutParams.width = itemSize
             binding.container.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                TvAdapterUtils.itemFocusChange(hasFocus, itemSize, binding.container, false) {
-                    if (layoutPosition in dataset.indices) {
-                        eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
-                        focusListener?.onFocusChanged(layoutPosition)
+                binding.container.post {
+                    TvAdapterUtils.itemFocusChange(hasFocus, itemSize, binding.container, false) {
+                        if (layoutPosition in dataset.indices) {
+                            eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
+                            focusListener?.onFocusChanged(layoutPosition)
+                        }
                     }
                 }
             }
