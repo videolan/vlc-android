@@ -122,6 +122,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
         (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner, {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
+            if (!it && (viewModel as BrowserModel).dataset.isEmpty()) binding.emptyLoading.state = EmptyLoadingState.EMPTY
         })
 
         (viewModel as BrowserModel).getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
