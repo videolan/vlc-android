@@ -1497,7 +1497,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             awaitMedialibraryStarted()
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
+                    result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId, isShuffling))
                 } catch (e: RuntimeException) {
                     Log.e(TAG, "Failed to load children for $parentId", e)
                 }

@@ -115,8 +115,9 @@ class ArtworkProvider : ContentProvider() {
                 MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri))
                 ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri))
                 ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
-                PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri))
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
+                PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri),
+                        uri.getBooleanQueryParameter(SHUFFLE, false))
                 else -> throw FileNotFoundException("Uri is not supported: $uri")
             }
         } catch (e: Exception) {
@@ -217,7 +218,7 @@ class ArtworkProvider : ContentProvider() {
         return getPFDFromByteArray(image)
     }
 
-    private fun getPlayAllImage(ctx: Context, type: String, id: Long): ParcelFileDescriptor {
+    private fun getPlayAllImage(ctx: Context, type: String, id: Long, shuffle: Boolean): ParcelFileDescriptor {
         val bitmap = runBlocking(Dispatchers.IO) {
             val tracks = when (type) {
                 GENRE -> ctx.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
@@ -226,8 +227,13 @@ class ArtworkProvider : ContentProvider() {
                 else -> null
             }
             val cover = tracks?.let {
-                val iconAddition = if (type == PLAYLIST) null else ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
-                ThumbnailsProvider.getPlaylistOrGenreImage("$type:${id}_256", tracks, 256, iconAddition)
+                val iconAddition = when {
+                    type == PLAYLIST -> null
+                    shuffle -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_shuffle_circle)
+                    else -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
+                }
+                val key = if (shuffle) "${type}_shuffle" else type
+                ThumbnailsProvider.getPlaylistOrGenreImage("${key}:${id}_256", tracks, 256, iconAddition)
             }
             return@runBlocking when {
                 cover != null -> cover
@@ -400,6 +406,7 @@ class ArtworkProvider : ContentProvider() {
         const val PLAYLIST = "playlist"
         const val PLAY_ALL = "play_all"
         const val LAST_ADDED = "last_added"
+        const val SHUFFLE = "shuffle"
         const val SHUFFLE_ALL = "shuffle_all"
 
         //Used to store a single webp encoded copy of the currently playing artwork
