@@ -280,10 +280,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun previous(force : Boolean) {
+    fun previous(force: Boolean) {
         mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
-        if (hasPrevious() && currentIndex > 0 &&
-                ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious <  PREVIOUS_LIMIT_DELAY)))) {
+        if (hasPrevious() &&
+                ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious < PREVIOUS_LIMIT_DELAY)))) {
             val size = mediaList.size()
             currentIndex = prevIndex
             if (previous.size > 0) previous.pop()

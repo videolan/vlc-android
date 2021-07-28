@@ -188,15 +188,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                                 }
                                 MediaSessionBrowser.ID_ARTIST -> {
                                     val tracks = context.getFromMl { getArtist(id)?.tracks }
-                                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                                    if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                                 }
                                 MediaSessionBrowser.ID_GENRE -> {
                                     val tracks = context.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
-                                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                                    if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                                 }
                                 MediaSessionBrowser.ID_PLAYLIST -> {
                                     val tracks = context.getFromMl { getPlaylist(id, Settings.includeMissing)?.tracks }
-                                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                                    if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                                 }
                                 MediaSessionBrowser.ID_MEDIA -> {
                                     val tracks = context.getFromMl { getMedia(id)?.tracks }
@@ -217,11 +217,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
-    private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0) {
+    private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0, allowRandom: Boolean = false) {
         mediaList?.let { mediaList ->
             if (AndroidDevices.isCarMode(playbackService.applicationContext))
                 mediaList.forEach { if (it.type == MediaWrapper.TYPE_VIDEO) it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
-            playbackService.load(mediaList, position)
+            // Pick a random first track if allowRandom is true and shuffle is enabled
+            playbackService.load(mediaList, if (allowRandom && playbackService.isShuffling) SecureRandom().nextInt(min(mediaList.size, MEDIALIBRARY_PAGE_SIZE)) else position)
         }
     }
 
