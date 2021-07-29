@@ -55,6 +55,8 @@ fun View?.setGone() = setVisibility(View.GONE)
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
+fun Boolean.toInt() = if (this) 1 else 0
+
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
         action()
