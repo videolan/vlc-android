@@ -175,6 +175,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE) }, { overlayDelegate.showOverlay(true) }) }
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
+    val tipsDelegate: VideoTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoTipsDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
 
     private val dialogsDelegate = DialogDelegate()
@@ -185,9 +186,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      * (e.g. lock screen, or to restore the pause state)
      */
     private var playbackStarted = false
-
-    // Tips
-    var overlayTips: View? = null
 
     // Navigation handling (DVD, Blu-Ray...)
     private var menuIdx = -1
@@ -454,9 +452,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             // Orientation
             // Tips
             if (!BuildConfig.DEBUG && !isTv && !settings.getBoolean(PREF_TIPS_SHOWN, false)
-                    && !isBenchmark) {
-                (findViewById<View>(R.id.player_overlay_tips) as ViewStubCompat).inflate()
-                overlayTips = findViewById(R.id.overlay_tips_layout)
+                && !isBenchmark
+            ) {
+                tipsDelegate.init()
             }
         }
 
@@ -1325,6 +1323,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 setPictureInPictureParams(PictureInPictureParams.Builder().setAspectRatio(ar).build())
             }
         }
+        if (tipsDelegate.currentTip != null) pause()
     }
 
     private fun encounteredError() {
@@ -1641,7 +1640,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     /**
      *
      */
-    private fun play() {
+    fun play() {
         service?.play()
         rootView?.run { keepScreenOn = true }
     }
@@ -1983,13 +1982,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         loadingImageView?.clearAnimation()
     }
 
-    fun onClickOverlayTips(@Suppress("UNUSED_PARAMETER") v: View) {
-        overlayTips.setGone()
+    fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View) {
+        tipsDelegate.close()
     }
 
-    fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View) {
-        overlayTips.setGone()
-        settings.putSingle(PREF_TIPS_SHOWN, true)
+    fun onClickNextTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        tipsDelegate.next()
     }
 
     fun updateNavStatus() {
@@ -2091,7 +2089,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         @Volatile
         internal var sDisplayRemainingTime: Boolean = false
-        private const val PREF_TIPS_SHOWN = "video_player_tips_shown"
 
         private var clone: Boolean? = null
 

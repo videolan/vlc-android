@@ -284,6 +284,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      */
     fun showOverlayTimeout(timeout: Int) {
         player.service?.let { service ->
+            if (player.tipsDelegate.currentTip != null) return
             if (player.isInPictureInPictureMode) return
             initOverlay()
             if (!::hudBinding.isInitialized) return
@@ -704,7 +705,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     fun hideOverlay(fromUser: Boolean) {
         if (player.isShowing) {
             player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
-            player.overlayTips.setInvisible()
             if (!player.displayManager.isPrimary) {
                 overlayBackground?.startAnimation(AnimationUtils.loadAnimation(player, android.R.anim.fade_out))
                 overlayBackground.setInvisible()

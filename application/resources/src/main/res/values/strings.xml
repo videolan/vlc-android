@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -213,14 +214,28 @@
     <string name="play_button">Play Button</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Video player tips:</string>
+    <string name="tips_title">Video player tips</string>
     <string name="seek">Seek</string>
     <string name="subtitles">Subtitles</string>
-    <string name="audio_sub">Audio tracks\nand subtitles</string>
-    <string name="resize">Resize</string>
-    <string name="options">Options</string>
+    <string name="tips_player_controls">Player controls</string>
+    <string name="tips_player_controls_description">Tap on player controls below to discover what they are used for</string>
+    <string name="tips_audio_sub">Audio tracks and subtitles</string>
+    <string name="tips_play_description">Tap to play video</string>
     <string name="lock">Lock</string>
     <string name="ok_got_it">Got it, dismiss&#160;this</string>
+    <string name="tap">Tap to view</string>
+    <string name="lock_orientation">Orientation</string>
+    <string name="lock_orientation_description">Tap to lock/unlock orientation</string>
+    <string name="aspect_ratio">Aspect ratio</string>
+    <string name="aspect_ratio_description">Tap to change the video aspect ratio</string>
+    <string name="advanced_options">Advanced options</string>
+    <string name="advanced_options_description">Such as the playback speed, repeat mode, …</string>
+    <string name="tips_swipe">Swipe up or down</string>
+    <string name="tips_swipe_horizontal">Swipe left or right</string>
+    <string name="pause_description">Double tap to pause</string>
+    <string name="seek_tap">+/- 10 sec.</string>
+    <string name="seek_tap_description">Double tap to go 10 sec forward or backward</string>
+    <string name="close">Close</string>
 
     <string name="playlist_tips">Playlist tips</string>
     <string name="remove_song">Remove song</string>

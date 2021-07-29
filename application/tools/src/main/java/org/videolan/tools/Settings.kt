@@ -75,6 +75,10 @@ const val KEY_MEDIALIBRARY_SCAN = "ml_scan"
 const val ML_SCAN_ON = 0
 const val ML_SCAN_OFF = 1
 
+//Tips
+
+const val PREF_TIPS_SHOWN = "video_player_tips_shown"
+
 const val PREF_TV_UI = "tv_ui"
 const val FORCE_PLAY_ALL = "force_play_all"
 

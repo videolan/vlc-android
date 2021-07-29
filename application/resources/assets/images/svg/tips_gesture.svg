@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="62px"
+   height="144px"
+   viewBox="0 0 62 144"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="tips_gesture.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>bightness gesture</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs13" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1376"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="9.2709556"
+     inkscape:cx="16.230732"
+     inkscape:cy="89.428874"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="bightness-gesture" />
+  <title
+     id="title2">bightness gesture</title>
+  <g
+     id="tips"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd">
+    <g
+       id="tips-video-brightness"
+       transform="translate(-32.000000, -289.000000)"
+       fill="#FF8800">
+      <g
+         id="bightness-gesture"
+         transform="translate(32.000000, 289.000000)">
+        <path
+           d="M31,0 C48.1208272,0 62,13.8791728 62,31 L62,113 C62,130.120827 48.1208272,144 31,144 C13.8791728,144 0,130.120827 0,113 L0,31 C0,13.8791728 13.8791728,0 31,0 Z M31,2 C15.1439048,2 2.2599781,14.7253658 2.00388517,30.520432 L2,31 L2,113 C2,129.016258 14.9837423,142 31,142 C46.8560952,142 59.7400219,129.274634 59.9961148,113.479568 L60,113 L60,31 C60,14.9837423 47.0162577,2 31,2 Z M35.59,120 L37,121.41 L31,127.41 L25,121.41 L26.41,120 L31,124.58 L35.59,120 Z M31,24 L37,30 L35.59,31.41 L31,26.83 L26.41,31.41 L25,30 L31,24 Z"
+           id="Combined-Shape"
+           fill-rule="nonzero" />
+      </g>
+    </g>
+  </g>
+</svg>

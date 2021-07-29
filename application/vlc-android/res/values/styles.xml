@@ -441,7 +441,7 @@
         <item name="bottom_sheet_radius">4dp</item>
 
 
-        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
 
@@ -573,9 +573,13 @@
     </style>
 
 
-        <style name="VLC.Onboarding.Button.Next" parent="Widget.MaterialComponents.Button.OutlinedButton">
-            <item name="android:textColor">@color/white</item>
-        </style>
+    <style name="VLC.Onboarding.Button.Next" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="VLC.Tips.Button.Next" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
