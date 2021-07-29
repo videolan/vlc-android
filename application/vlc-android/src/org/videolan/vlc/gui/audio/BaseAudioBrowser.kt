@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.audio
 
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -65,7 +64,9 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
+import java.security.SecureRandom
 import java.util.*
+import kotlin.math.min
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -356,7 +357,12 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         val flags: Long = when (item.itemType) {
             MediaLibraryItem.TYPE_MEDIA -> CTX_TRACK_FLAGS
-            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> CTX_PLAYLIST_ALBUM_FLAGS
+            MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> {
+                if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+            }
+            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> {
+                if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
+            }
             else -> CTX_AUDIO_FLAGS
         }
         if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
@@ -380,7 +386,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         val media = getCurrentAdapter()?.getItem(position) ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.playTracks(requireActivity(), media, 0)
-            CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(requireActivity(), media, 0, true)
+            CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(requireActivity(), media, SecureRandom().nextInt(min(media.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
