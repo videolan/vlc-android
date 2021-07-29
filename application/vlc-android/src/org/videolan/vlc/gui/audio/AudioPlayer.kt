@@ -416,9 +416,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun shouldHidePlayProgress() = abRepeatAddMarker.visibility != View.GONE || (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) || playlistModel.medias?.size ?: 0 < 2
 
     override fun onSelectionSet(position: Int) {
-        if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != BottomSheetBehavior.STATE_HIDDEN) {
-            binding.songsList.scrollToPosition(position)
-        }
+        binding.songsList.scrollToPosition(position)
     }
 
     override fun playItem(position: Int, item: MediaWrapper) {
