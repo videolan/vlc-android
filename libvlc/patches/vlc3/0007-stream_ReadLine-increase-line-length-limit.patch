@@ -1,10 +1,10 @@
-From f7f93e77086f2cb8ffd53870de60d1a7a0e79244 Mon Sep 17 00:00:00 2001
-Message-Id: <f7f93e77086f2cb8ffd53870de60d1a7a0e79244.1607001652.git.nicolas@videolabs.io>
-In-Reply-To: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
-References: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+From 4c5d2134f93a240bd2fdcecead002e514e86646f Mon Sep 17 00:00:00 2001
+Message-Id: <4c5d2134f93a240bd2fdcecead002e514e86646f.1627899467.git.nicolas@videolabs.io>
+In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
 From: Pierre Ynard <linkfanel@yahoo.fr>
 Date: Mon, 20 Jul 2020 13:11:34 +0200
-Subject: [PATCH 07/10] stream_ReadLine: increase line length limit
+Subject: [PATCH 07/11] stream_ReadLine: increase line length limit
 
 Very long lines are occasionally encountered in text web resources such
 as HTML, JSON or other API data. This bumps the hardcoded limit from
@@ -19,6 +19,7 @@ Message-Id: <c44db7efa3212b2974181646ba1c396cc6540fc4.1601374253.git.nicolas@vid
 Message-Id: <ba941d0b10888ffb960e66b73cbb80ddd9858af6.1602659942.git.nicolas@videolabs.io>
 Message-Id: <e91c696392f6efcab00725488168e8bf2b82ae73.1605192544.git.nicolas@videolabs.io>
 Message-Id: <31f8088b0a2c5080ec28dd611adbb5bde6ca63d0.1605701951.git.nicolas@videolabs.io>
+Message-Id: <f7f93e77086f2cb8ffd53870de60d1a7a0e79244.1607001652.git.nicolas@videolabs.io>
 ---
  src/input/stream.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

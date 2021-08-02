@@ -1,10 +1,10 @@
-From da3ac1b34a7a18dff89f9192ee0cbcec357aab82 Mon Sep 17 00:00:00 2001
-Message-Id: <da3ac1b34a7a18dff89f9192ee0cbcec357aab82.1607001652.git.nicolas@videolabs.io>
-In-Reply-To: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
-References: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+From 94471e415681595e3870833f9cc5c219b1bd5506 Mon Sep 17 00:00:00 2001
+Message-Id: <94471e415681595e3870833f9cc5c219b1bd5506.1627899467.git.nicolas@videolabs.io>
+In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Mar 2019 10:56:26 +0100
-Subject: [PATCH 03/10] network: tls: Handle errors from older kernels
+Subject: [PATCH 03/11] network: tls: Handle errors from older kernels
 
 If MSG_FASTOPEN is defined, but turns out to be unimplemented by the
 underlying kernel (as is the case on android where the NDK claims to
@@ -22,15 +22,16 @@ Message-Id: <6bfd70a03bee179e762df24697b4c2df9107a71d.1601374253.git.nicolas@vid
 Message-Id: <ba4effd2d2805a4838b7b02bafb3064661a329b0.1602659942.git.nicolas@videolabs.io>
 Message-Id: <92b665d5d4ddfe610a2bf59632a8247124042f91.1605192544.git.nicolas@videolabs.io>
 Message-Id: <f45db9f6506fac63858685879e0cfe6aebeb2402.1605701951.git.nicolas@videolabs.io>
+Message-Id: <da3ac1b34a7a18dff89f9192ee0cbcec357aab82.1607001652.git.nicolas@videolabs.io>
 ---
  src/network/tls.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/src/network/tls.c b/src/network/tls.c
-index 56e04d6ce7..3c3c083c30 100644
+index e054f3f59f..1d8e375245 100644
 --- a/src/network/tls.c
 +++ b/src/network/tls.c
-@@ -546,8 +546,11 @@ static ssize_t vlc_tls_ConnectWrite(vlc_tls_t *tls,
+@@ -548,8 +548,11 @@ static ssize_t vlc_tls_ConnectWrite(vlc_tls_t *tls,
              return -1;
      }
      else

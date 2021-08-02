@@ -1,10 +1,10 @@
-From b0108674d37312b6dcff0ed6ae1b2ec5fe381e7c Mon Sep 17 00:00:00 2001
-Message-Id: <b0108674d37312b6dcff0ed6ae1b2ec5fe381e7c.1607001652.git.nicolas@videolabs.io>
-In-Reply-To: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
-References: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+From a3d0ca1d0fee32adb87d72f300b0f2e715fe0a43 Mon Sep 17 00:00:00 2001
+Message-Id: <a3d0ca1d0fee32adb87d72f300b0f2e715fe0a43.1627899467.git.nicolas@videolabs.io>
+In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 2 Jul 2020 15:05:01 +0200
-Subject: [PATCH 06/10] input: es_out: set video exclusive
+Subject: [PATCH 06/11] input: es_out: set video exclusive
 
 Since there can be only one video at a time for now (only one Surface is
 supported).
@@ -14,6 +14,7 @@ Message-Id: <1decddc1682a0923b619a0d1e4ada808134aaf8b.1601374253.git.nicolas@vid
 Message-Id: <cbc704bb25d4bf51aba336d4664fe4099a1e52ef.1602659942.git.nicolas@videolabs.io>
 Message-Id: <c7f3bb5f7cdd593fbb07c2413ea66fe400d33bcf.1605192544.git.nicolas@videolabs.io>
 Message-Id: <964b4ca71858fbb42a56bbee00fd4c5920144a8e.1605701951.git.nicolas@videolabs.io>
+Message-Id: <b0108674d37312b6dcff0ed6ae1b2ec5fe381e7c.1607001652.git.nicolas@videolabs.io>
 ---
  src/input/es_out.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

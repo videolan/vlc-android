@@ -1,17 +1,18 @@
-From 6b6571e1c1999271bf484459195446ec756f1028 Mon Sep 17 00:00:00 2001
-Message-Id: <6b6571e1c1999271bf484459195446ec756f1028.1607001652.git.nicolas@videolabs.io>
-In-Reply-To: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
-References: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+From e4644ba2a7a4a9c3f2f9a11b204d1a25526578b6 Mon Sep 17 00:00:00 2001
+Message-Id: <e4644ba2a7a4a9c3f2f9a11b204d1a25526578b6.1627899467.git.nicolas@videolabs.io>
+In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 3 Dec 2020 09:56:05 +0100
-Subject: [PATCH 10/10] input: display discoverer/preparsers logs
+Subject: [PATCH 09/11] input: display discoverer/preparsers logs
 
+Message-Id: <6b6571e1c1999271bf484459195446ec756f1028.1607001652.git.nicolas@videolabs.io>
 ---
  src/input/input.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/input/input.c b/src/input/input.c
-index f4337f586f..eba9147049 100644
+index 51cb215387..fb4020594e 100644
 --- a/src/input/input.c
 +++ b/src/input/input.c
 @@ -364,7 +364,7 @@ static input_thread_t *Create( vlc_object_t *p_parent, input_item_t *p_item,

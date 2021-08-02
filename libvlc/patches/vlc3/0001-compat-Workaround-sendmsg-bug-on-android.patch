@@ -1,8 +1,8 @@
-From 7505e758ab3f173e530063cea6a221862fb83ab2 Mon Sep 17 00:00:00 2001
-Message-Id: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+From e089efabc5661354409dcad56f1817c2b1867d9d Mon Sep 17 00:00:00 2001
+Message-Id: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 28 Mar 2019 15:23:48 +0100
-Subject: [PATCH 01/10] compat: Workaround sendmsg bug on android
+Subject: [PATCH 01/11] compat: Workaround sendmsg bug on android
 
 This only happens on 64bits builds, see compat/sendmsg.c comments
 Message-Id: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
@@ -11,6 +11,7 @@ Message-Id: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@vid
 Message-Id: <7911214e6bde9e4c74765cea26c5944e8e78ca98.1602659942.git.nicolas@videolabs.io>
 Message-Id: <155aceebce778fcb6fb6877de5bb1cf066f99c6f.1605192544.git.nicolas@videolabs.io>
 Message-Id: <fcaa38ed543fd88a73fa3c6766a8f86b8b053fb6.1605701951.git.nicolas@videolabs.io>
+Message-Id: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
 ---
  compat/sendmsg.c      | 24 ++++++++++++++++++++++++
  configure.ac          |  3 +++
@@ -53,7 +54,7 @@ index 0f42e782f8..8d69048746 100644
  #else
  #error sendmsg not implemented on your platform!
 diff --git a/configure.ac b/configure.ac
-index 1f74566008..569dad1512 100644
+index 7db5256a84..1c53377319 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -405,6 +405,9 @@ AS_IF([test "$SYS" = linux],[
