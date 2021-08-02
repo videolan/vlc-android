@@ -72,6 +72,8 @@
     <attr name="fast_scroller_bubble" format="reference" />
     <attr name="fast_scroller_handle" format="reference" />
     <attr name="empty_title" format="color" />
+    <attr name="audio_player_gradient_bottom" format="reference" />
+    <attr name="audio_player_gradient_top" format="reference" />
     <attr name="tips_item_background" format="color" />
 
     <!--Main Icons-->

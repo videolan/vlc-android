@@ -111,6 +111,8 @@
         <item name="audio_chip_background">@drawable/rounded_corners_audio</item>
         <item name="audio_chip_text_color">@color/white_transparent_60</item>
         <item name="empty_title">@color/grey850</item>
+        <item name="audio_player_gradient_bottom">@drawable/gradient_audio_player_bottom</item>
+        <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top</item>
         <item name="tips_item_background">@color/grey300</item>
     </style>
 
@@ -269,6 +271,8 @@
         <item name="audio_chip_background">@drawable/rounded_corners_audio_dark</item>
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
         <item name="empty_title">@color/grey300</item>
+        <item name="audio_player_gradient_bottom">@drawable/gradient_audio_player_bottom_dark</item>
+        <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top_dark</item>
         <item name="tips_item_background">@color/grey900</item>
     </style>
 
