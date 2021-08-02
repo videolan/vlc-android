@@ -147,7 +147,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
 enum class AudioPlayerTipsStep(@StringRes var titleText: Int, @StringRes var descriptionText: Int) {
     SWIPE_NEXT(R.string.previous_next_song, R.string.tips_swipe_horizontal),
     TAP_PLAYLIST(R.string.tips_playlist, R.string.tap),
-    HOLD_STOP(R.string.stop, R.string.tips_hold_stop);
+    HOLD_STOP(R.string.stop, R.string.hold_to_stop);
 
     /**
      * @return the next step

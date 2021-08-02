@@ -222,7 +222,6 @@
     <string name="tips_audio_sub">Audio tracks and subtitles</string>
     <string name="tips_play_description">Tap to play video</string>
     <string name="lock">Lock</string>
-    <string name="ok_got_it">Got it, dismiss&#160;this</string>
     <string name="tap">Tap to view</string>
     <string name="lock_orientation">Orientation</string>
     <string name="lock_orientation_description">Tap to lock/unlock orientation</string>
@@ -233,7 +232,6 @@
     <string name="tips_swipe">Swipe up or down</string>
     <string name="tips_swipe_horizontal">Swipe left or right</string>
     <string name="tips_playlist">Playlist</string>
-    <string name="tips_hold_stop">Hold to stop</string>
     <string name="tips_hold_seek">Hold to seek</string>
     <string name="tips_long_drop">Long press and drop</string>
     <string name="pause_description">Double tap to pause</string>
