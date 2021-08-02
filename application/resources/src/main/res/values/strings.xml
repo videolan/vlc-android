@@ -232,6 +232,10 @@
     <string name="advanced_options_description">Such as the playback speed, repeat mode, …</string>
     <string name="tips_swipe">Swipe up or down</string>
     <string name="tips_swipe_horizontal">Swipe left or right</string>
+    <string name="tips_playlist">Playlist</string>
+    <string name="tips_hold_stop">Hold to stop</string>
+    <string name="tips_hold_seek">Hold to seek</string>
+    <string name="tips_long_drop">Long press and drop</string>
     <string name="pause_description">Double tap to pause</string>
     <string name="seek_tap">+/- 10 sec.</string>
     <string name="seek_tap_description">Double tap to go 10 sec forward or backward</string>

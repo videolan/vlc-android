@@ -72,6 +72,7 @@
     <attr name="fast_scroller_bubble" format="reference" />
     <attr name="fast_scroller_handle" format="reference" />
     <attr name="empty_title" format="color" />
+    <attr name="tips_item_background" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_playlist" format="reference" />

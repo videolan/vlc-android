@@ -52,7 +52,7 @@
         <item name="header_background">@color/whitetransparent_ea</item>
         <item name="background_default_darker">@color/grey200</item>
         <item name="background_actionbar">@color/white</item>
-        <item name="background_audio_tips">@color/grey50transparent</item>
+        <item name="background_audio_tips">@color/white_transparent_95</item>
         <item name="audio_player_background_tint">@color/white_transparent_50</item>
         <item name="audio_browser_separator">@color/orange800</item>
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
@@ -111,6 +111,7 @@
         <item name="audio_chip_background">@drawable/rounded_corners_audio</item>
         <item name="audio_chip_text_color">@color/white_transparent_60</item>
         <item name="empty_title">@color/grey850</item>
+        <item name="tips_item_background">@color/grey300</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
@@ -208,7 +209,7 @@
         <item name="header_background">@color/blacktransparent</item>
         <item name="background_default_darker">@color/grey875</item>
         <item name="background_actionbar">@color/black</item>
-        <item name="background_audio_tips">@color/grey900transparent</item>
+        <item name="background_audio_tips">@color/black_transparent_90</item>
         <item name="audio_player_background_tint">@color/black_transparent_50</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
@@ -268,6 +269,7 @@
         <item name="audio_chip_background">@drawable/rounded_corners_audio_dark</item>
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
         <item name="empty_title">@color/grey300</item>
+        <item name="tips_item_background">@color/grey900</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7"/>

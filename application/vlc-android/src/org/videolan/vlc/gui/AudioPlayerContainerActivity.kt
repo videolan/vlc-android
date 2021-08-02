@@ -58,6 +58,8 @@ import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
+import org.videolan.vlc.gui.audio.AudioPlaylistTipsDelegate
+import org.videolan.vlc.gui.audio.AudioTipsDelegate
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
 import org.videolan.vlc.gui.helpers.PlayerBehavior
@@ -73,6 +75,7 @@ private const val ACTION_DISPLAY_PROGRESSBAR = 1339
 private const val ACTION_SHOW_PLAYER = 1340
 private const val ACTION_HIDE_PLAYER = 1341
 private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
+private const val SHOWN_TIPS = "shown_tips"
 
 @SuppressLint("Registered")
 @ExperimentalCoroutinesApi
@@ -83,7 +86,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     lateinit var appBarLayout: AppBarLayout
     protected lateinit var toolbar: Toolbar
     private var tabLayout: TabLayout? = null
-    protected lateinit var audioPlayer: AudioPlayer
+    lateinit var audioPlayer: AudioPlayer
     private lateinit var audioPlayerContainer: FrameLayout
     lateinit var playerBehavior: PlayerBehavior<*>
     protected lateinit var fragmentContainer: View
@@ -95,6 +98,9 @@ open class AudioPlayerContainerActivity : BaseActivity() {
 
     private var preventRescan = false
     private var playerShown = false
+    val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
+    val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
+    val shownTips = ArrayList<Int>()
 
     protected val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_placeholder)
@@ -123,6 +129,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         if (savedInstanceState != null) {
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
             bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false)
+            savedInstanceState.getIntegerArrayList(SHOWN_TIPS)?.let { shownTips.addAll(it) }
         }
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
@@ -183,6 +190,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
+        if (playlistTipsDelegate.currentTip != null) lockPlayer(true)
     }
 
     fun updateFragmentMargins(state: Int = STATE_COLLAPSED) {
@@ -197,6 +205,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
                 ?: false)
+        outState.putIntegerArrayList(SHOWN_TIPS, shownTips)
         super.onSaveInstanceState(outState)
     }
 
@@ -265,21 +274,34 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         if (BuildConfig.DEBUG || PlaybackService.hasRenderer()) return
         val vsc = findViewById<View>(stubId)
         if (vsc != null && !settings.getBoolean(settingKey, false) && !Settings.showTvUi) {
-            val v = (vsc as ViewStubCompat).inflate()
-            v.setOnClickListener { removeTipViewIfDisplayed() }
-            val okGotIt = v.findViewById<TextView>(R.id.okgotit_button)
-            okGotIt.setOnClickListener {
-                removeTipViewIfDisplayed()
-                settings.putSingle(settingKey, true)
+            when (stubId) {
+                R.id.audio_player_tips -> if (tipsDelegate.currentTip == null && !shownTips.contains(stubId)) tipsDelegate.init((vsc as ViewStubCompat))
+                R.id.audio_playlist_tips -> if (playlistTipsDelegate.currentTip == null && !shownTips.contains(stubId)) playlistTipsDelegate.init((vsc as ViewStubCompat))
             }
+            if (::audioPlayer.isInitialized) audioPlayer.playlistModel.service?.pause()
         }
+    }
+
+    fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        tipsDelegate.close()
+    }
+    fun onClickNextTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        tipsDelegate.next()
+    }
+
+    fun onClickDismissPlaylistTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        playlistTipsDelegate.close()
+    }
+
+    fun onClickNextPlaylistTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        playlistTipsDelegate.next()
     }
 
     /**
      * Remove the current tip view if there is one displayed.
      */
     fun removeTipViewIfDisplayed() {
-        findViewById<View>(R.id.audio_tips)?.let { (it.parent as ViewGroup).removeView(it) }
+        findViewById<View>(R.id.audio_player_tips)?.let { (it.parent as ViewGroup).removeView(it) }
     }
 
     /**
@@ -299,7 +321,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         playerBehavior.run {
             if (state == STATE_HIDDEN) state = STATE_COLLAPSED
             isHideable = false
-            lock(false)
+            if (tipsDelegate.currentTip == null && playlistTipsDelegate.currentTip == null) lock(false)
         }
     }
 
@@ -423,6 +445,10 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }
         resumeCard.show()
+    }
+
+    fun lockPlayer(lock: Boolean) {
+        if (::playerBehavior.isInitialized) playerBehavior.lock(lock)
     }
 
     private class ProgressHandler(owner: AudioPlayerContainerActivity) : WeakHandler<AudioPlayerContainerActivity>(owner) {

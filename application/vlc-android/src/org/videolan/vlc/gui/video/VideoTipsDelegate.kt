@@ -42,6 +42,7 @@ import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.player_tips.*
 import org.videolan.tools.*
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.view.PlayerProgress
 
 /**
@@ -51,7 +52,6 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
 
     var currentTip: VideoPlayerTipsStep? = null
     var currentControl: Int? = null
-    private var animationCount = 1
     private lateinit var initialConstraintSet: ConstraintSet
     private val transition = Fade().apply {
         interpolator = AccelerateDecelerateInterpolator()
@@ -87,20 +87,6 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         player.tapIndicatorRatio,
         player.tapIndicatorAdvanced
     )
-
-    /**
-     * Start a tap animation on all the tap indcators
-     */
-    private fun startTapAnimation() {
-        animationCount++
-        val scale = if (animationCount % 2 == 0) 0.9f else 1f
-        val delay = if (animationCount % 2 == 0) 1500L else 0L
-        getTapIndicators().forEach {
-            it.animate().scaleX(scale).scaleY(scale).setDuration(200).setInterpolator(AccelerateDecelerateInterpolator())
-                .setStartDelay(delay)
-                .withEndAction(::startTapAnimation)
-        }
-    }
 
     /**
      * Get a double tap anim, with a seek animation if needed
@@ -180,24 +166,6 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
     }
 
     /**
-     * Start and get the horizontal swipe
-     * @return the swipe animation
-     */
-    private fun horizontalSwipe(): ObjectAnimator {
-        player.tapGestureHorizontal.translationY = 0F
-        player.tapGestureHorizontal.clearAnimation()
-        val slideHorizontalAnimator = ObjectAnimator.ofFloat(player.tapGestureHorizontal, TRANSLATION_X, 0F)
-        slideHorizontalAnimator.duration = 1600L
-        slideHorizontalAnimator.setFloatValues(0F, 30F, -30F, 0F)
-        slideHorizontalAnimator.interpolator = LinearInterpolator()
-
-        slideHorizontalAnimator.startDelay = 1000L
-        slideHorizontalAnimator.doOnEnd { slideHorizontalAnimator.start() }
-        slideHorizontalAnimator.start()
-        return slideHorizontalAnimator
-    }
-
-    /**
      * Load the next tip screen depending on the currentTip
      */
     fun next() {
@@ -217,7 +185,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         when (currentTip) {
             VideoPlayerTipsStep.CONTROLS -> {
                 getTapIndicators().forEach { constraintSet.setVisibility(it.id, VISIBLE) }
-                startTapAnimation()
+                TipsUtils.startTapAnimation(getTapIndicators().toList())
             }
             VideoPlayerTipsStep.BRIGHTNESS -> {
                 constraintSet.connect(R.id.helpTitle, ConstraintSet.START, R.id.tap_gesture_background, ConstraintSet.END, 16.dp)
@@ -287,7 +255,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 constraintSet.setVisibility(R.id.tap_gesture_horizontal_background, VISIBLE)
                 constraintSet.setVisibility(R.id.tapGestureHorizontal, VISIBLE)
                 currentAnimations.clear()
-                currentAnimations.add(horizontalSwipe())
+                currentAnimations.add(TipsUtils.horizontalSwipe(player.tapGestureHorizontal))
                 player.nextButton.setText(R.string.close)
             }
         }

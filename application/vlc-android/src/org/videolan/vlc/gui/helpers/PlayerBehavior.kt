@@ -6,18 +6,16 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.dp
-import org.videolan.vlc.R
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
     private var lock = false
+    private var listener : ((top:Int) -> Unit)? = null
 
     constructor() {
         isHideable = true
@@ -28,6 +26,20 @@ class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomS
     init {
         state = STATE_HIDDEN
 
+    }
+
+    override fun setPeekHeight(peekHeight: Int) {
+        super.setPeekHeight(peekHeight)
+        listener?.invoke(peekHeight)
+
+    }
+
+    fun setPeekHeightListener(listener : (top:Int) -> Unit) {
+        this.listener = listener
+    }
+
+    fun removePeekHeightListener() {
+        this.listener = null
     }
 
     fun lock(lock: Boolean) {

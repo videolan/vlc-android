@@ -91,6 +91,7 @@
     <color name="white_transparent_75">#bfffffff</color>
     <color name="white_transparent_80">#ccffffff</color>
     <color name="white_transparent_90">#E6ffffff</color>
+    <color name="white_transparent_95">#F2ffffff</color>
 
     <color name="black_transparent_10">#1a000000</color>
     <color name="black_transparent_20">#33000000</color>
@@ -99,6 +100,7 @@
     <color name="black_transparent_60">#99000000</color>
     <color name="black_transparent_75">#BF000000</color>
     <color name="black_transparent_80">#cc000000</color>
+    <color name="black_transparent_90">#E6000000</color>
 
     <color name="orange_800_transparent_10">#1aff610a</color>
     <color name="orange_800_transparent_20">#33ff610a</color>
