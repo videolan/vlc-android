@@ -605,6 +605,8 @@
     <string name="otg_device_title">OTG device</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B repeat</string>
+    <string name="ab_repeat_reset">Reset A-B repeat</string>
+    <string name="ab_repeat_stop">Stop A-B repeat</string>
     <string name="stop_after_this">Stop after this track</string>
     <string name="time_category_new">New media</string>
     <string name="time_category_current_month">This month</string>

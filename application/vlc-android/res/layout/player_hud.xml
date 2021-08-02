@@ -477,7 +477,7 @@
                     android:layout_marginEnd="@dimen/small_margins_sides"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:contentDescription="@string/advanced"
+                    android:contentDescription="@string/aspect_ratio"
                     android:focusable="true"
                     android:onClick="@{(v) -> player.resizeVideo()}"
                     android:scaleType="center"
