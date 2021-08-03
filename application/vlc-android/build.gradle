@@ -212,7 +212,9 @@ dependencies {
     testApi "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
     testApi "org.robolectric:robolectric:$rootProject.ext.robolectric"
     androidTestApi "androidx.test:rules:$rootProject.ext.testCore"
-    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
+    androidTestImplementation 'com.jraska:falcon:2.2.0'
+    androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
+
 }
 
 
