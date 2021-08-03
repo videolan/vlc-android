@@ -329,6 +329,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.333333333333333" />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/songs_list"
                 android:layout_width="0dp"
@@ -340,7 +347,115 @@
                 app:layout_constraintBottom_toBottomOf="@id/timeline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header"
-                app:layout_constraintWidth_percent="0.6666666666666666" />
+                app:layout_constraintStart_toStartOf="@id/guideline14" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/track_info_container"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                app:layout_constraintStart_toStartOf="@id/guideline14" >
+
+            <TextView
+                    android:id="@+id/song_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="1"
+                    android:textColor="?attr/font_default"
+                    android:textSize="24sp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toTopOf="@+id/song_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="5th Symphony" />
+
+            <TextView
+                    android:id="@+id/song_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_goneMarginBottom="16dp"
+                    android:maxLines="1"
+                    android:textColor="?attr/font_audio_light"
+                    android:textSize="14sp"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toTopOf="@+id/song_track_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/song_title"
+                    tools:text="Beethoven" />
+
+            <TextView
+                    android:id="@+id/song_track_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:maxLines="1"
+                    android:textColor="?attr/font_audio_light"
+                    android:textSize="12sp"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toTopOf="@+id/audio_rewind_10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/song_subtitle"
+                    tools:text="Bitrate: 22.4 KB/s - Codec: Vorbis audio - Sample rate 8000 Hz" />
+
+            <ImageView
+                    android:id="@+id/audio_rewind_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="?attr/actionBarItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/air_action_rewind"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:onClick="@{fragment::onRewind10}"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/audio_forward_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/song_track_info"
+                    app:srcCompat="@drawable/ic_player_rewind_10"
+                    tools:visibility="visible" />
+
+            <ImageView
+                    android:id="@+id/audio_forward_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/actionBarItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/air_action_forward"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:onClick="@{fragment::onForward10}"
+                    app:layout_constraintBottom_toBottomOf="@+id/audio_rewind_10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/audio_rewind_10"
+                    app:layout_constraintTop_toTopOf="@+id/audio_rewind_10"
+                    app:srcCompat="@drawable/ic_player_forward_10"
+                    tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
                 android:id="@+id/audio_play_progress"
@@ -361,7 +476,7 @@
                 android:textSize="12sp"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toTopOf="@+id/time"
-                app:layout_constraintEnd_toStartOf="@id/songs_list"
+                app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -370,9 +485,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/timeline"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/time"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/songs_list"
+                app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header"
                 tools:layout_constraintLeft_creator="1" />

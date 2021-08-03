@@ -145,8 +145,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.songsList.layoutManager = LinearLayoutManager(view.context)
         binding.songsList.adapter = playlistAdapter
         binding.audioMediaSwitcher.setAudioMediaSwitcherListener(headerMediaSwitcherListener)
-        binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
+        binding.coverMediaSwitcher.setAudioMediaSwitcherListener(coverMediaSwitcherListener)
         binding.playlistSearchText.editText?.addTextChangedListener(this)
+        binding.header.setOnClickListener {
+            val activity = activity as AudioPlayerContainerActivity
+            activity.slideUpOrDownAudioPlayer()
+        }
 
         val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
         val touchHelper = ItemTouchHelper(callback)
@@ -213,6 +217,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             showChips()
             true
         }
+
+        binding.songTitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
+        binding.songSubtitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
     }
 
     private fun showChips() {
@@ -290,6 +297,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         updateRepeatMode()
         binding.audioMediaSwitcher.updateMedia(playlistModel.service)
         binding.coverMediaSwitcher.updateMedia(playlistModel.service)
+        binding.songTitle?.text = playlistModel.title
+        binding.songSubtitle?.text = playlistModel.artist
+        binding.songTrackInfo?.text = playlistModel.service?.trackInfo()
+        binding.songTrackInfo?.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
+
         updateBackground()
     }
 
@@ -418,6 +430,28 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         showRemainingTime = !showRemainingTime
         Settings.getInstance(requireContext()).edit().putBoolean(SHOW_REMAINING_TIME, showRemainingTime).apply()
         playlistModel.progress.value?.let { updateProgress(it) }
+    }
+
+    fun onRewind10(view: View) {
+        playlistModel.service ?.let { service ->
+            if (service.length <= 0 || !service.isSeekable) return
+
+            var position = service.time - 10000
+            if (position < 0) position = 0
+            if (position > service.length) position = service.length
+            service.seek(position, service.length.toDouble(), true)
+        }
+    }
+
+    fun onForward10(view: View) {
+        playlistModel.service ?.let { service ->
+            if (service.length <= 0 || !service.isSeekable) return
+
+            var position = service.time + 10000
+            if (position < 0) position = 0
+            if (position > service.length) position = service.length
+            service.seek(position, service.length.toDouble(), true)
+        }
     }
 
     fun onPlayPauseClick(view: View) {
@@ -676,9 +710,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouchDown() {}
 
         override fun onTouchUp() {}
+
+        override fun onTextClicked() { }
     }
 
-    private val mCoverMediaSwitcherListener = object : AudioMediaSwitcherListener by AudioMediaSwitcher.EmptySwitcherListener {
+    private val coverMediaSwitcherListener = object : AudioMediaSwitcherListener by AudioMediaSwitcher.EmptySwitcherListener {
 
         override fun onMediaSwitching() {
             (activity as? AudioPlayerContainerActivity)?.playerBehavior?.lock(true)
@@ -690,6 +726,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 AudioMediaSwitcherListener.NEXT_MEDIA -> playlistModel.next()
             }
             (activity as? AudioPlayerContainerActivity)?.playerBehavior?.lock(false)
+        }
+
+        override fun onTextClicked() {
+            Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_TRACK_INFO, !Settings.showAudioTrackInfo)
+            Settings.showAudioTrackInfo = !Settings.showAudioTrackInfo
+            lifecycleScope.launch { doUpdate() }
         }
     }
 

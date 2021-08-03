@@ -56,9 +56,11 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -118,6 +120,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
      */
     private var widgetPositionTimestamp = System.currentTimeMillis()
     private var popupManager: PopupManager? = null
+
+    private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
@@ -331,6 +335,52 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             val next = playlistManager.getNextMedia()
             return next?.artworkMrl
         }
+
+    suspend fun trackInfo(): String? {
+        val mediaWrapper = playlistManager.getCurrentMedia() ?: return null
+        val media = withContext(Dispatchers.IO) {
+            val libVlc = VLCInstance.getInstance(this@PlaybackService)
+            mediaFactory.getFromUri(libVlc, mediaWrapper.uri).apply { parse() }
+        }
+        val tracks = media.getAudioTracks()
+        return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
+    }
+
+    suspend fun prevTrackInfo(): String? {
+        val mediaWrapper = playlistManager.getPrevMedia() ?: return null
+        val media = withContext(Dispatchers.IO) {
+            val libVlc = VLCInstance.getInstance(this@PlaybackService)
+            mediaFactory.getFromUri(libVlc, mediaWrapper.uri).apply { parse() }
+        }
+        val tracks = media.getAudioTracks()
+        return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
+    }
+
+    suspend fun nextTrackInfo(): String? {
+        val mediaWrapper = playlistManager.getNextMedia() ?: return null
+        val media = withContext(Dispatchers.IO) {
+            val libVlc = VLCInstance.getInstance(this@PlaybackService)
+            mediaFactory.getFromUri(libVlc, mediaWrapper.uri).apply { parse() }
+        }
+        val tracks = media.getAudioTracks()
+        return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
+    }
+
+
+    fun IMedia.AudioTrack.formatTrackInfoString(context: Context) = (context.getString(R.string.track_bitrate_info, bitrate.toLong().readableSize()) +
+            " · " +
+            context.getString(R.string.track_codec_info, codec) +
+            " · " +
+            context.getString(R.string.track_samplerate_info, rate)).replace("\n", "")
+
+    fun IMedia.getAudioTracks(): List<IMedia.AudioTrack> {
+        val tracks = ArrayList<IMedia.AudioTrack>()
+        for (i in 0 until trackCount) {
+            val track = getTrack(i)
+            if (track is IMedia.AudioTrack) tracks.add(track)
+        }
+        return tracks.toList()
+    }
 
     var time: Long
         @MainThread

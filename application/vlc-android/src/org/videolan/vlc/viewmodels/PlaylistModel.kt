@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
@@ -29,11 +30,14 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.tools.readableSize
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.PlaylistFilterDelegate

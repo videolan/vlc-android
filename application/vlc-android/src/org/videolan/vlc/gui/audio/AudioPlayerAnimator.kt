@@ -90,8 +90,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> hidePlaylistLandscapeConstraint
                 else -> hidePlaylistConstraint
             }.applyTo(cl)
-            onSlide(1F)
             field = value
+            onSlide(1F)
         }
 
     override fun switchShowCover() {
@@ -111,9 +111,12 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
 
         hidePlaylistLandscapeConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.track_info_container, View.VISIBLE)
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -154,8 +157,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         binding.progressBar.layoutParams.height = ((1 - slideOffset) * 4.dp).toInt()
         binding.progressBar.requestLayout()
         // 0% to 40%
-        binding.headerBackground.alpha = 0.4F + ((1 - slideOffset) * 0.6F)
-        binding.headerDivider.alpha = slideOffset
+        binding.headerBackground.alpha = if (showCover) (1 - slideOffset) * 0.6F else 0.4F + ((1 - slideOffset) * 0.6F)
+        binding.headerDivider.alpha = if (showCover) 0F else slideOffset
         if (slideOffset != 1f) audioPlayer.clearSearch()
         binding.playlistSearch.alpha = slideOffset
         binding.playlistSwitch.alpha = slideOffset
@@ -169,6 +172,14 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         binding.advFunction.translationY = -(1 - translationOffset) * 48.dp
         binding.headerPlayPause.translationY = translationOffset * 48.dp
         binding.headerTime.translationY = translationOffset * 48.dp
+
+        if (showCover) {
+            binding.audioMediaSwitcher.translationY = translationOffset * 48.dp
+            binding.audioMediaSwitcher.alpha = 1 - slideOffset
+        } else {
+            binding.audioMediaSwitcher.translationY = 0F
+            binding.audioMediaSwitcher.alpha = 1F
+        }
     }
 }
 

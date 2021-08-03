@@ -24,21 +24,43 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.tools.dp
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
-    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?) {
-        val imageView = ImageView(context)
-        imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-        if (cover == null) imageView.setImageResource(R.drawable.icon) else imageView.setImageBitmap(cover)
-        addView(imageView)
-        imageView.setPadding(32.dp, 32.dp, 32.dp, 32.dp)
+    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?, trackInfo: String?) {
+        val v = inflater.inflate(R.layout.cover_media_switcher_item, this, false)
+
+        val coverView = v.findViewById<ImageView>(R.id.cover)
+        val titleView = v.findViewById<TextView>(R.id.song_title)
+        val artistView = v.findViewById<TextView>(R.id.song_subtitle)
+        val trackInfoView = v.findViewById<TextView>(R.id.song_track_info)
+
+        if (cover != null) {
+            coverView.setImageBitmap(cover)
+        } else {
+            coverView.setImageDrawable(ContextCompat.getDrawable(v.context, R.drawable.ic_player_cover_audiotrack))
+        }
+
+        trackInfoView.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
+
+        titleView.setOnClickListener { onTextClicked() }
+        artistView.setOnClickListener { onTextClicked() }
+
+        titleView.text = title
+        artistView.text = artist
+        trackInfoView.text = trackInfo
+
+        addView(v)
+
     }
 }

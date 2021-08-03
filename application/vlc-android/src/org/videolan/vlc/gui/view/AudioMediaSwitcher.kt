@@ -32,7 +32,6 @@ import kotlinx.coroutines.withContext
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 
-
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : FlingViewGroup(context, attrs) {
@@ -78,6 +77,10 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         override fun onBackSwitched() {}
     }
 
+    fun onTextClicked() {
+        audioMediaSwitcherListener.onTextClicked()
+    }
+
     suspend fun updateMedia(service: PlaybackService?) {
         if (service == null) return
         val artMrl = service.coverArt
@@ -97,11 +100,11 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         val inflater = LayoutInflater.from(context)
         if (service.hasPrevious()) {
-            addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev)
+            addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev, service.prevTrackInfo())
             hasPrevious = true
         }
-        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, coverCurrent)
-        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, coverNext)
+        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, coverCurrent, service.trackInfo())
+        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, coverNext, service.nextTrackInfo())
 
         if (service.hasPrevious() && service.hasMedia()) {
             previousPosition = 1
@@ -110,7 +113,7 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             scrollTo(0)
     }
 
-    protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?)
+    protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?, trackInfo: String?)
 
     fun setAudioMediaSwitcherListener(l: AudioMediaSwitcherListener) {
         audioMediaSwitcherListener = l
@@ -130,6 +133,8 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         fun onTouchLongClick()
 
+        fun onTextClicked()
+
         companion object {
             const val PREVIOUS_MEDIA = 1
             const val CURRENT_MEDIA = 2
@@ -144,5 +149,6 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         override fun onTouchUp() {}
         override fun onTouchClick() {}
         override fun onTouchLongClick() = Unit
+        override fun onTextClicked() {}
     }
 }
