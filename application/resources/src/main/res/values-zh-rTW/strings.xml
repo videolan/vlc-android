@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">確定</string>
@@ -196,14 +197,30 @@
     <string name="play_button">播放按鈕</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">影片播放器秘訣：</string>
+    <string name="tips_title">影片播放器秘訣</string>
     <string name="seek">尋找</string>
     <string name="subtitles">字幕</string>
-    <string name="audio_sub">音訊軌\n與字幕</string>
-    <string name="resize">調整大小</string>
-    <string name="options">選項</string>
+    <string name="tips_player_controls">播放器控制</string>
+    <string name="tips_player_controls_description">點擊下方的播放器控制元件以探索其用途</string>
+    <string name="tips_audio_sub">音訊軌與字幕</string>
+    <string name="tips_play_description">點擊以播放影片</string>
     <string name="lock">鎖定</string>
-    <string name="ok_got_it">了解，關閉這個</string>
+    <string name="tap">點擊以檢視</string>
+    <string name="lock_orientation">方向</string>
+    <string name="lock_orientation_description">點擊以鎖定／解鎖方向</string>
+    <string name="aspect_ratio">長寬比</string>
+    <string name="aspect_ratio_description">點擊以變更影片長寬比</string>
+    <string name="advanced_options">進階選項</string>
+    <string name="advanced_options_description">例如播放速度、重複模式等</string>
+    <string name="tips_swipe">向上或向下滑動</string>
+    <string name="tips_swipe_horizontal">向左或向右滑動</string>
+    <string name="tips_playlist">播放清單</string>
+    <string name="tips_hold_seek">按住搜尋</string>
+    <string name="tips_long_drop">長按並拖曳</string>
+    <string name="pause_description">輕觸兩下以暫停</string>
+    <string name="seek_tap">+/- 10 秒</string>
+    <string name="seek_tap_description">輕觸兩下以前進或後退 10 秒</string>
+    <string name="close">關閉</string>
 
     <string name="playlist_tips">播放清單提示</string>
     <string name="remove_song">移除歌曲</string>
@@ -559,6 +576,8 @@
     <string name="otg_device_title">OTG 裝置</string>
     <string name="browser">瀏覽器</string>
     <string name="ab_repeat">A-B 重覆</string>
+    <string name="ab_repeat_reset">重設 A-B 重複</string>
+    <string name="ab_repeat_stop">停止 A-B 重複</string>
     <string name="stop_after_this">在此軌後停止</string>
     <string name="time_category_new">新媒體</string>
     <string name="time_category_current_month">本月</string>
