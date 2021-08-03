@@ -1,3 +1,9 @@
+Changes between 3.4.0 Beta 3 and 3.4.0 Beta 4:
+------------------
+ * Improve the audio player design
+ * Improve the player tips
+ * Bug and crash fixes
+
 Changes between 3.4.0 Beta 2 and 3.4.0 Beta 3:
 ------------------
  * Bug fixes
