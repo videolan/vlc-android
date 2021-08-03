@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Pulsante Riproduci</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Suggerimenti del lettore video:</string>
+    <string name="tips_title">Suggerimenti del lettore video</string>
     <string name="seek">Posiziona</string>
     <string name="subtitles">Sottotitoli</string>
-    <string name="audio_sub">Tracce audio\ne sottotitoli</string>
-    <string name="resize">Ridimensiona</string>
-    <string name="options">Opzioni</string>
+    <string name="tips_player_controls">Controlli del lettore</string>
+    <string name="tips_player_controls_description">Tocca i controlli del lettore seguenti per scoprire a cosa servono</string>
+    <string name="tips_audio_sub">Tracce audio e sottotitoli</string>
+    <string name="tips_play_description">Tocca per riprodurre il video</string>
     <string name="lock">Blocca</string>
-    <string name="ok_got_it">Ricevuto, rimuovilo</string>
+    <string name="tap">Tocca per visualizzare</string>
+    <string name="lock_orientation">Orientazione</string>
+    <string name="lock_orientation_description">Tocca per bloccare/sbloccare l\'orientazione</string>
+    <string name="aspect_ratio">Proporzioni</string>
+    <string name="aspect_ratio_description">Tocca per modificare le proporzioni del video</string>
+    <string name="advanced_options">Opzioni avanzate</string>
+    <string name="advanced_options_description">Come la velocità di riproduzione, la modalità di ripetizione, …</string>
+    <string name="tips_swipe">Scorri verso l\'alto o il basso</string>
+    <string name="tips_swipe_horizontal">Scorri a sinistra o a destra </string>
+    <string name="tips_playlist">Scaletta</string>
+    <string name="tips_hold_seek">Trattieni per posizionare</string>
+    <string name="tips_long_drop">Pressione lunga e rilascio</string>
+    <string name="pause_description">Doppio tocco per sospendere</string>
+    <string name="seek_tap">+/- 10 sec.</string>
+    <string name="seek_tap_description">Doppio tocco per andare 10 sec. in avanti o indietro</string>
+    <string name="close">Chiudi</string>
 
     <string name="playlist_tips">Suggerimenti della scaletta</string>
     <string name="remove_song">Rimuovi brano</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">Ripeti A-B</string>
+    <string name="ab_repeat_reset">Ripristina ripeti A-B</string>
+    <string name="ab_repeat_stop">Ferma ripeti A-B</string>
     <string name="stop_after_this">Ferma dopo questa traccia</string>
     <string name="time_category_new">Nuovo media</string>
     <string name="time_category_current_month">Questo mese</string>
