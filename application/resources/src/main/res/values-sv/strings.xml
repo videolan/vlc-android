@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Uppspelningsknapp</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Tips för videospelaren:</string>
+    <string name="tips_title">Tips om videospelaren</string>
     <string name="seek">Snabbspola</string>
     <string name="subtitles">Undertexter</string>
-    <string name="audio_sub">Ljudspår\noch undertexter</string>
-    <string name="resize">Ändra storlek</string>
-    <string name="options">Alternativ</string>
+    <string name="tips_player_controls">Spelarkontroller</string>
+    <string name="tips_player_controls_description">Tryck på spelarkontrollerna nedan för att upptäcka vad de används till</string>
+    <string name="tips_audio_sub">Ljudspår och undertexter</string>
+    <string name="tips_play_description">Tryck för att spela upp video</string>
     <string name="lock">Lås</string>
-    <string name="ok_got_it">Uppfattat, stäng</string>
+    <string name="tap">Tryck för att visa</string>
+    <string name="lock_orientation">Orientering</string>
+    <string name="lock_orientation_description">Tryck för att låsa/låsa upp orienteringen</string>
+    <string name="aspect_ratio">Bildförhållande</string>
+    <string name="aspect_ratio_description">Tryck för att ändra videons bildförhållande</string>
+    <string name="advanced_options">Avancerade alternativ</string>
+    <string name="advanced_options_description">T.ex. uppspelningshastighet, slingaläge, …</string>
+    <string name="tips_swipe">Svep uppåt eller nedåt</string>
+    <string name="tips_swipe_horizontal">Svep åt vänster eller höger</string>
+    <string name="tips_playlist">Spellista</string>
+    <string name="tips_hold_seek">Håll ned för att snabbspola</string>
+    <string name="tips_long_drop">Tryck länge och släpp</string>
+    <string name="pause_description">Dubbelknacka för att pausa</string>
+    <string name="seek_tap">+/- 10 s</string>
+    <string name="seek_tap_description">Dubbelknacka för att hoppa 10 s framåt eller bakåt</string>
+    <string name="close">Stäng</string>
 
     <string name="playlist_tips">Tips för spellista</string>
     <string name="remove_song">Ta bort låt</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">OTG-enhet</string>
     <string name="browser">Filbläddrare</string>
     <string name="ab_repeat">Slinga A-B</string>
+    <string name="ab_repeat_reset">Nollställ A-B-slinga</string>
+    <string name="ab_repeat_stop">Stoppa A-B-slinga</string>
     <string name="stop_after_this">Stoppa efter detta spår</string>
     <string name="time_category_new">Ny media</string>
     <string name="time_category_current_month">Denna månad</string>
