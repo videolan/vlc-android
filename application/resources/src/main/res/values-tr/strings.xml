@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Tamam</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Oynatma düğmesi</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
+    <string name="tips_title">Görüntü oynatıcı ipuçları</string>
     <string name="seek">Arama</string>
     <string name="subtitles">Alt yazılar</string>
-    <string name="audio_sub">Ses kayıtları\nve alt yazılar</string>
-    <string name="resize">Boyutlandır</string>
-    <string name="options">Ayarlar</string>
+    <string name="tips_player_controls">Oynatıcı denetimleri</string>
+    <string name="tips_player_controls_description">Oynatıcı denetimlerin işlevlerini öğrenmek için üzerlerine dokunun</string>
+    <string name="tips_audio_sub">Ses kayıtları ve alt yazılar</string>
+    <string name="tips_play_description">Görüntüyü oynatmak için dokunun</string>
     <string name="lock">Kilitle</string>
-    <string name="ok_got_it">Anladım, boşver</string>
+    <string name="tap">Görüntülemek için dokunun</string>
+    <string name="lock_orientation">Doğrultu</string>
+    <string name="lock_orientation_description">Doğrultuyu kilitlemek/açmak için dokunun</string>
+    <string name="aspect_ratio">En boy oranı</string>
+    <string name="aspect_ratio_description">Görüntünün en boy oranını değiştirmek için dokunun</string>
+    <string name="advanced_options">Gelişmiş ayarlar</string>
+    <string name="advanced_options_description">Oynatma hızı, yineleme kipi, vb …</string>
+    <string name="tips_swipe">Aşağı ya da yukarı kaydırın</string>
+    <string name="tips_swipe_horizontal">Sola ya da sağa kaydırın</string>
+    <string name="tips_playlist">Oynatma listesi</string>
+    <string name="tips_hold_seek">Taramak için basılı tutun</string>
+    <string name="tips_long_drop">Uzun basın ve bırakın</string>
+    <string name="pause_description">Duraklatmak için çift dokunun</string>
+    <string name="seek_tap">+/- 10 saniye</string>
+    <string name="seek_tap_description">10 saniye ileri ya da geri atlamak için çift dokunun</string>
+    <string name="close">Kapat</string>
 
     <string name="playlist_tips">Oynatma listesi ipuçları</string>
     <string name="remove_song">Şarkıyı çıkar</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">Dokun yedekle aygıtı</string>
     <string name="browser">Tarayıcı</string>
     <string name="ab_repeat">A-B yineleme</string>
+    <string name="ab_repeat_reset">A-B yinelemesini sıfırla</string>
+    <string name="ab_repeat_stop">A-B yinelemesini durdur</string>
     <string name="stop_after_this">Bu kayıttan sonra dur</string>
     <string name="time_category_new">Yeni ortam</string>
     <string name="time_category_current_month">Bu ay</string>
