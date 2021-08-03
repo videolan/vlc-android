@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Wiedergabe-Knopf</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Filmwiedergabetipps:</string>
+    <string name="tips_title">Filmwiedergabetipps</string>
     <string name="seek">Suchen</string>
     <string name="subtitles">Untertitel</string>
-    <string name="audio_sub">Audiotitel\nund Untertitel</string>
-    <string name="resize">Ändern der Größe</string>
-    <string name="options">Optionen</string>
+    <string name="tips_player_controls">Wiedergabesteuerungen</string>
+    <string name="tips_player_controls_description">Die Player-Steuerelemente unten antipen, um herauszufinden, wofür sie verwendet werden</string>
+    <string name="tips_audio_sub">Audiotitel und Untertitel</string>
+    <string name="tips_play_description">Berühren zur Video-Wiedergabe</string>
     <string name="lock">Sperren</string>
-    <string name="ok_got_it">Verstanden und weiter</string>
+    <string name="tap">Berühren zur Anzeige</string>
+    <string name="lock_orientation">Ausrichtung</string>
+    <string name="lock_orientation_description">Berühren um Ausrichtung zu sperren</string>
+    <string name="aspect_ratio">Seitenverhältnis</string>
+    <string name="aspect_ratio_description">Berühren um das Video-Seitenverhältnis zu ändern</string>
+    <string name="advanced_options">Erweiterte Optionen</string>
+    <string name="advanced_options_description">Wie Wiedergabegeschwindigkeit, Wiederholungsmodus, …</string>
+    <string name="tips_swipe">Nach oben oder unten wischen</string>
+    <string name="tips_swipe_horizontal">Nach links oder rechts wischen</string>
+    <string name="tips_playlist">Wiedergabeliste</string>
+    <string name="tips_hold_seek">Zum Suchen gedrückt halten</string>
+    <string name="tips_long_drop">Lange drücken und fallen lassen</string>
+    <string name="pause_description">Doppelt antippen zum Pausieren</string>
+    <string name="seek_tap">+/- 10 Sek.</string>
+    <string name="seek_tap_description">Doppelt antippen um 10 Sek. Vor oder Zurück zu gehen</string>
+    <string name="close">Schließen</string>
 
     <string name="playlist_tips">Wiedergabelistentipps</string>
     <string name="remove_song">Lied entfernen</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">OTG-Gerät</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B-Wiederholung</string>
+    <string name="ab_repeat_reset">A-B-Wiederholung zurücksetzen</string>
+    <string name="ab_repeat_stop">A-B-Wiederholung stoppen</string>
     <string name="stop_after_this">Nach diesem Titel stoppen</string>
     <string name="time_category_new">Neue Medien</string>
     <string name="time_category_current_month">Diesen Monat</string>
