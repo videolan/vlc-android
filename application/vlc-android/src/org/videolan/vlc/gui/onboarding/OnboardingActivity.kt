@@ -99,7 +99,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
 
     override fun onNext() {
         when(viewModel.currentFragment) {
-            FragmentName.WELCOME -> showFragment(FragmentName.ASK_PERMISSION)
+            FragmentName.WELCOME -> if (Permissions.canReadStorage(this)) showFragment(FragmentName.SCAN) else showFragment(FragmentName.ASK_PERMISSION)
             FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
             FragmentName.SCAN -> showFragment(FragmentName.THEME)
