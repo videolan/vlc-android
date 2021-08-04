@@ -51,6 +51,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
@@ -74,6 +75,11 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
 
     override fun createFragment(): Fragment {
         return StorageBrowserFragment()
+    }
+
+    override fun hasFAB(): Boolean {
+        if (requireActivity() is SecondaryActivity) return false
+        return super.hasFAB()
     }
 
     override fun onCreate(bundle: Bundle?) {
