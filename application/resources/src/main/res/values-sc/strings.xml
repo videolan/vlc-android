@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">AB</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Butone de riprodutzione</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Impòsitos de su leghidore de vìdeos:</string>
+    <string name="tips_title">Impòsitos de su leghidore de vìdeos</string>
     <string name="seek">Positziona</string>
     <string name="subtitles">Sutatìtulos</string>
-    <string name="audio_sub">Rastas àudio\ne sutatìtulos</string>
-    <string name="resize">Ridimensiona</string>
-    <string name="options">Optziones</string>
+    <string name="tips_player_controls">Controllos de su leghidore</string>
+    <string name="tips_player_controls_description">Toca sos controllos de su leghidore pro iscobèrrere a ite serbint</string>
+    <string name="tips_audio_sub">Rastas àudio e sutatìtulos</string>
+    <string name="tips_play_description">Toca pro riproduire su vìdeu</string>
     <string name="lock">Bloca</string>
-    <string name="ok_got_it">AB, boga·lu</string>
+    <string name="tap">Toca pro pompiare</string>
+    <string name="lock_orientation">Orientamentu</string>
+    <string name="lock_orientation_description">Toca pro blocare/isblocare s\'orientamentu</string>
+    <string name="aspect_ratio">Proportziones</string>
+    <string name="aspect_ratio_description">Toca pro mudare sas proportziones de su vìdeu</string>
+    <string name="advanced_options">Optziones avantzadas</string>
+    <string name="advanced_options_description">Che a sa lestresa de riprodutzione, sa modalidade de ripetitzione, …</string>
+    <string name="tips_swipe">Iscurre cara a artu o a bassu</string>
+    <string name="tips_swipe_horizontal">Iscurre cara a manca o a dereta</string>
+    <string name="tips_playlist">Iscalita</string>
+    <string name="tips_hold_seek">Mantene incarcadu pro positzionare</string>
+    <string name="tips_long_drop">Incarcada longa e lassada</string>
+    <string name="pause_description">Tocu dòpiu pro pònnere in pàusa</string>
+    <string name="seek_tap">+/- 10 seg.</string>
+    <string name="seek_tap_description">Tocu dòpiu pro andare 10 seg. cara a in antis o a segus</string>
+    <string name="close">Serra</string>
 
     <string name="playlist_tips">Impòsitos de s\'iscalita</string>
     <string name="remove_song">Boga branu</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">Dispositivu OTG</string>
     <string name="browser">Esploradore</string>
     <string name="ab_repeat">Riprodutzione A-B</string>
+    <string name="ab_repeat_reset">Riprìstina sa ripetitzione A-B</string>
+    <string name="ab_repeat_stop">Firma sa ripetitzione A-B</string>
     <string name="stop_after_this">Firma a pustis de custa rasta</string>
     <string name="time_category_new">Documentos multimediales noos</string>
     <string name="time_category_current_month">Custu mese</string>
