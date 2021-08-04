@@ -75,6 +75,7 @@ private const val ACTION_DISPLAY_PROGRESSBAR = 1339
 private const val ACTION_SHOW_PLAYER = 1340
 private const val ACTION_HIDE_PLAYER = 1341
 private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
+private const val PLAYER_OPENED = "player_opened"
 private const val SHOWN_TIPS = "shown_tips"
 
 @SuppressLint("Registered")
@@ -128,7 +129,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
-            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false)
+            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false) && !savedInstanceState.getBoolean(PLAYER_OPENED, false)
             savedInstanceState.getIntegerArrayList(SHOWN_TIPS)?.let { shownTips.addAll(it) }
         }
         super.onCreate(savedInstanceState)
@@ -166,7 +167,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
         val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
-                ?: null
+            ?: null
         if (bottomIsHiddden)  bottomBehavior?.setCollapsed()
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
@@ -205,6 +206,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
                 ?: false)
+        outState.putBoolean(PLAYER_OPENED,  if (::playerBehavior.isInitialized) playerBehavior.state == STATE_EXPANDED else false)
         outState.putIntegerArrayList(SHOWN_TIPS, shownTips)
         super.onSaveInstanceState(outState)
     }
