@@ -399,7 +399,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     public void updateMeta(MediaPlayer mediaPlayer) {
-        if ((!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle)) || !mDisplayTitle.equals(mTitle))
+        if ((!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle)) || (mDisplayTitle != null && !mDisplayTitle.equals(mTitle)))
             mDisplayTitle = mTitle;
         final IMedia media = mediaPlayer.getMedia();
         if (media == null)
