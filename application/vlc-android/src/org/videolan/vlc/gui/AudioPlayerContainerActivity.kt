@@ -245,10 +245,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         // Handle item selection
         when (item.itemId) {
             android.R.id.home -> {
-                // Current fragment loaded
-                val current = currentFragment
-                if (current is StorageBrowserFragment && current.goBack())
-                    return true
                 finish()
                 return true
             }
