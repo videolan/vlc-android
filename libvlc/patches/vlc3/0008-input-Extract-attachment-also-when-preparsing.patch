@@ -1,10 +1,10 @@
-From 3babd8e0a7b22578509f18e15eb52b261fa7ba63 Mon Sep 17 00:00:00 2001
-Message-Id: <3babd8e0a7b22578509f18e15eb52b261fa7ba63.1627899467.git.nicolas@videolabs.io>
-In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
-References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+From dc967e7c2290936691d530a6e64033fadb81b881 Mon Sep 17 00:00:00 2001
+Message-Id: <dc967e7c2290936691d530a6e64033fadb81b881.1628587500.git.thomas@gllm.fr>
+In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Nov 2019 15:41:08 +0100
-Subject: [PATCH 08/11] input: Extract attachment also when preparsing
+Subject: [PATCH 08/13] input: Extract attachment also when preparsing
 
 Message-Id: <90f80f4face6fe96f631651d8c212541a6539a34.1606132271.git.hugo@beauzee.fr>
 Message-Id: <4e829aba815aa6faf4a8d4ee8076abb8e20c7059.1607001652.git.nicolas@videolabs.io>
@@ -1840,5 +1840,5 @@ index a15ba0d923..8ce2287e45 100644
 +vlc_input_attachment_Hold
 +vlc_input_attachment_Release
 -- 
-2.25.1
+2.30.2
 

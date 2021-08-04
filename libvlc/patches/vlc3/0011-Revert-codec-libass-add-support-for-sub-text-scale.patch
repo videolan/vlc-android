@@ -1,10 +1,10 @@
-From 5ca3cf90e729033fdfa1134e4f040d8d5af53a62 Mon Sep 17 00:00:00 2001
-Message-Id: <5ca3cf90e729033fdfa1134e4f040d8d5af53a62.1627899467.git.nicolas@videolabs.io>
-In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
-References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+From c99c1440760b4da7fc0bb038d1d77ade3175e83b Mon Sep 17 00:00:00 2001
+Message-Id: <c99c1440760b4da7fc0bb038d1d77ade3175e83b.1628587500.git.thomas@gllm.fr>
+In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
 From: Francois Cartegnie <fcvlcdev@free.fr>
 Date: Tue, 20 Jul 2021 21:23:13 +0200
-Subject: [PATCH 11/11] Revert "codec: libass: add support for sub-text-scale"
+Subject: [PATCH 11/13] Revert "codec: libass: add support for sub-text-scale"
 
 This reverts commit 72fd3b20f855198959e0dfb6b331acc5cb4502c6.
 
@@ -101,5 +101,5 @@ index 79cd0615c0..b60f6946e4 100644
      const mtime_t i_stream_date = p_subpic->updater.p_sys->i_pts + (i_ts - p_subpic->i_start);
      int i_changed;
 -- 
-2.25.1
+2.30.2
 

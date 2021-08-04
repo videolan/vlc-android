@@ -1,10 +1,10 @@
-From e4644ba2a7a4a9c3f2f9a11b204d1a25526578b6 Mon Sep 17 00:00:00 2001
-Message-Id: <e4644ba2a7a4a9c3f2f9a11b204d1a25526578b6.1627899467.git.nicolas@videolabs.io>
-In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
-References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+From 81f873502fa31e9e5517496425a23a0697a0e1c6 Mon Sep 17 00:00:00 2001
+Message-Id: <81f873502fa31e9e5517496425a23a0697a0e1c6.1628587500.git.thomas@gllm.fr>
+In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 3 Dec 2020 09:56:05 +0100
-Subject: [PATCH 09/11] input: display discoverer/preparsers logs
+Subject: [PATCH 09/13] input: display discoverer/preparsers logs
 
 Message-Id: <6b6571e1c1999271bf484459195446ec756f1028.1607001652.git.nicolas@videolabs.io>
 ---
@@ -25,5 +25,5 @@ index 51cb215387..fb4020594e 100644
      /* Make sure the interaction option is honored */
      if( !var_InheritBool( p_input, "interact" ) )
 -- 
-2.25.1
+2.30.2
 

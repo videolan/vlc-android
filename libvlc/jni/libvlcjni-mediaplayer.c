@@ -432,19 +432,15 @@ Java_org_videolan_libvlc_MediaPlayer_getTime(JNIEnv *env, jobject thiz)
 }
 
 void
-Java_org_videolan_libvlc_MediaPlayer_setTime(JNIEnv *env, jobject thiz,
-                                             jlong time)
+Java_org_videolan_libvlc_MediaPlayer_nativeSetTime(JNIEnv *env, jobject thiz,
+                                                   jlong time, jboolean fast)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
     if (!p_obj)
         return;
 
-#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR < 4
-    libvlc_media_player_set_time(p_obj->u.p_mp, time);
-#else
-    libvlc_media_player_set_time(p_obj->u.p_mp, time, false);
-#endif
+    libvlc_media_player_set_time(p_obj->u.p_mp, time, fast);
 }
 
 jfloat
@@ -459,19 +455,15 @@ Java_org_videolan_libvlc_MediaPlayer_getPosition(JNIEnv *env, jobject thiz)
 }
 
 void
-Java_org_videolan_libvlc_MediaPlayer_setPosition(JNIEnv *env, jobject thiz,
-                                                 jfloat pos)
+Java_org_videolan_libvlc_MediaPlayer_nativeSetPosition(JNIEnv *env, jobject thiz,
+                                                       jfloat pos, jboolean fast)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
     if (!p_obj)
         return;
 
-#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR < 4
-    libvlc_media_player_set_position(p_obj->u.p_mp, pos);
-#else
-    libvlc_media_player_set_position(p_obj->u.p_mp, pos, false);
-#endif
+    libvlc_media_player_set_position(p_obj->u.p_mp, pos, fast);
 
 }
 

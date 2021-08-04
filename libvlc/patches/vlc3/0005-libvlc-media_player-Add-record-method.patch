@@ -1,10 +1,10 @@
-From 86d05a99255a4669f7d23702236da8621f09b728 Mon Sep 17 00:00:00 2001
-Message-Id: <86d05a99255a4669f7d23702236da8621f09b728.1627899467.git.nicolas@videolabs.io>
-In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
-References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+From 3cf63adb805bd113b180c41df8494c7a359e741c Mon Sep 17 00:00:00 2001
+Message-Id: <3cf63adb805bd113b180c41df8494c7a359e741c.1628587500.git.thomas@gllm.fr>
+In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
 From: Soomin Lee <bubu@mikan.io>
 Date: Wed, 31 Oct 2018 10:08:55 +0100
-Subject: [PATCH 05/11] libvlc: media_player: Add record method
+Subject: [PATCH 05/13] libvlc: media_player: Add record method
 
 Message-Id: <4c22fcedd313e51abfc506a8670cd06e3cf6d0e7.1593695247.git.thomas@gllm.fr>
 Message-Id: <369e9c1443a233fb747af79758de0acde8d6ae53.1599040437.git.nicolas@videolabs.io>
@@ -84,5 +84,5 @@ index ab8be9e05c..059e7ed993 100644
 +    return VLC_SUCCESS;
 +}
 -- 
-2.25.1
+2.30.2
 

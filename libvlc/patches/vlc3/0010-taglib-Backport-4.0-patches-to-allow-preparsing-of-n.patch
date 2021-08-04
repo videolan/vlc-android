@@ -1,10 +1,10 @@
-From e984a0fcad6caa74b31fe0bd6dfaf06cad3e2a18 Mon Sep 17 00:00:00 2001
-Message-Id: <e984a0fcad6caa74b31fe0bd6dfaf06cad3e2a18.1627899467.git.nicolas@videolabs.io>
-In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
-References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+From 143e87709c8889f7e8e40e9a0123e48f06114017 Mon Sep 17 00:00:00 2001
+Message-Id: <143e87709c8889f7e8e40e9a0123e48f06114017.1628587500.git.thomas@gllm.fr>
+In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 12 Mar 2021 11:34:02 +0100
-Subject: [PATCH 10/11] taglib: Backport 4.0 patches to allow preparsing of
+Subject: [PATCH 10/13] taglib: Backport 4.0 patches to allow preparsing of
  network files
 
 Cherry-picked from:
@@ -763,5 +763,5 @@ index 123d09c94f..04a44c30e8 100644
      if( f.isNull() )
          return VLC_EGENERIC;
 -- 
-2.25.1
+2.30.2
 

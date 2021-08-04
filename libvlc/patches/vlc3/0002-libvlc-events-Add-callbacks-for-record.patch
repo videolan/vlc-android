@@ -1,10 +1,10 @@
-From e43b5791caa7ac99f096a1253978fa8a7d9d34ee Mon Sep 17 00:00:00 2001
-Message-Id: <e43b5791caa7ac99f096a1253978fa8a7d9d34ee.1627899467.git.nicolas@videolabs.io>
-In-Reply-To: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
-References: <e089efabc5661354409dcad56f1817c2b1867d9d.1627899467.git.nicolas@videolabs.io>
+From 4ae0d163c5954a4e07bd0e6ad984b17c4eecb288 Mon Sep 17 00:00:00 2001
+Message-Id: <4ae0d163c5954a4e07bd0e6ad984b17c4eecb288.1628587500.git.thomas@gllm.fr>
+In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
 From: Soomin Lee <bubu@mikan.io>
 Date: Thu, 27 Sep 2018 18:40:39 +0200
-Subject: [PATCH 02/11] libvlc: events: Add callbacks for record
+Subject: [PATCH 02/13] libvlc: events: Add callbacks for record
 
 Message-Id: <5b9396f1f52bbbde75adaf92922b9e45a1fb1e78.1593695247.git.thomas@gllm.fr>
 Message-Id: <68a0f5e3a48eb05cc647084ec4886986132f83ce.1599040437.git.nicolas@videolabs.io>
@@ -80,5 +80,5 @@ index fda1091cc8..ab8be9e05c 100644
      return VLC_SUCCESS;
  }
 -- 
-2.25.1
+2.30.2
 

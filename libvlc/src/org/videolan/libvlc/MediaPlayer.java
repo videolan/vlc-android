@@ -1302,9 +1302,16 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Sets the movie time (in ms), if any media is being played.
      * @param time: Time in ms.
+     * @param fast: Prefer fast seeking or precise seeking
      * @return the movie time (in ms), or -1 if there is no media.
      */
-    public native long setTime(long time);
+    public long setTime(long time, boolean fast) {
+        return nativeSetTime(time, fast);
+    }
+
+    public long setTime(long time) {
+        return nativeSetTime(time, false);
+    }
 
     /**
      * Gets the movie position.
@@ -1315,8 +1322,14 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Sets the movie position.
      * @param pos: movie position.
+     * @param fast: Prefer fast seeking or precise seeking
      */
-    public native void setPosition(float pos);
+    public void setPosition(float pos, boolean fast) {
+        nativeSetPosition(pos, fast);
+    }
+    public void setPosition(float pos) {
+        nativeSetPosition(pos, false);
+    }
 
     /**
      * Gets current movie's length in ms.
@@ -1404,6 +1417,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /* JNI */
+    public native long nativeSetTime(long time, boolean fast);
+    public native void nativeSetPosition(float pos, boolean fast);
     private native void nativeNewFromLibVlc(ILibVLC ILibVLC, AWindow window);
     private native void nativeNewFromMedia(IMedia media, AWindow window);
     private native void nativeRelease();
