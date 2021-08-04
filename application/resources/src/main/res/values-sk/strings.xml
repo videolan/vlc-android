@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -43,15 +44,20 @@
     <string name="append_all">Pripojiť všetko</string>
     <string name="resume_playback_short_title">Pokračovať v prehrávaní</string>
     <string name="resume_playback_long_title">Pokračovať v prehrávaní posledného playlistu</string>
+    <string name="resume_playback_error">Nie je čím pokračovať</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
     <string name="set_song_question">Nastaviť „%1$s“ ako zvonenie?</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor „%1$s“?</string>
+    <string name="confirm_delete_message">Tento úkon je trvalý a nevratný.</string>
     <string name="confirm_delete_album">Vymazať album „%1$s“?</string>
     <string name="confirm_delete_several_media">Vymazať tieto médiá v počte: %1$d?</string>
     <string name="confirm_delete_folder">Vymazať priečinok „%1$s“ a všetok jeho obsah?</string>
+    <string name="confirm_delete_folders">Chcete vymazať %1$s priečinky/-ov a všetok ich obsah?</string>
+    <string name="confirm_delete_files">Chcete vymazať %1$s súborov?</string>
+    <string name="confirm_delete_folders_and_files">Chcete vymazať %1$s priečinkov a %2$s súborov? </string>
     <string name="confirm_delete_playlist">Vymazať playlist „%1$s“?</string>
     <string name="confirm_remove_from_playlist">Odstrániť „%1$s“ z playlistu?</string>
     <string name="ringtone_set">Súbor „%1$s“ bol nastavený ako tón zvonenia.</string>
@@ -108,6 +114,12 @@
         <item quantity="few"> %d TV show</item>
         <item quantity="many">%d TV show</item>
         <item quantity="other">%d TV show</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 stopa</item>
+        <item quantity="few">Počet stôp: %d</item>
+        <item quantity="many">Počet stôp: %d</item>
+        <item quantity="other">Počet stôp: %d</item>
     </plurals>
 
     <string name="internal_memory">Interná pamäť</string>
@@ -215,14 +227,30 @@
     <string name="play_button">Tlačidlo Prehrať</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Tipy pre prehrávač videa:</string>
+    <string name="tips_title">Tipy pre prehrávač videa</string>
     <string name="seek">Vyhľadať</string>
     <string name="subtitles">Titulky</string>
-    <string name="audio_sub">Zvukové stopy\na titulky</string>
-    <string name="resize">Zmeniť veľkosť</string>
-    <string name="options">Vlastnosti</string>
+    <string name="tips_player_controls">Ovládacie prvky prehrávača</string>
+    <string name="tips_player_controls_description">Po dotknutí sa ovládacích prvkov môžete zistiť, na čo sa používajú</string>
+    <string name="tips_audio_sub">Zvukové stopy a titulky</string>
+    <string name="tips_play_description">Prehrávanie spustíte dotykom</string>
     <string name="lock">Uzamknúť</string>
-    <string name="ok_got_it">Rozumiem,&#160;pokračovať</string>
+    <string name="tap">Zobrazenie vykonáte dotykom</string>
+    <string name="lock_orientation">Orientácia</string>
+    <string name="lock_orientation_description">Dotykom uzamknete/odomknete orientáciu</string>
+    <string name="aspect_ratio">Pomer strán</string>
+    <string name="aspect_ratio_description">Dotykom zmeníte pomer strán videa</string>
+    <string name="advanced_options">Pokročilé nastavenia</string>
+    <string name="advanced_options_description">Také ako rýchlosť prehrávania, režim opakovania, …</string>
+    <string name="tips_swipe">Potiahnite nahor alebo nadol</string>
+    <string name="tips_swipe_horizontal">Potiahnite doľava alebo doprava</string>
+    <string name="tips_playlist">Playlist</string>
+    <string name="tips_hold_seek">Podržte pre spustenie vyhľadávania</string>
+    <string name="tips_long_drop">Dlhé stlačenie a pustenie</string>
+    <string name="pause_description">Pozastavenie = dotknite sa 2x</string>
+    <string name="seek_tap">+/- 10 sek.</string>
+    <string name="seek_tap_description">Dotykom sa posuniete o 10 s dopredu alebo dozadu</string>
+    <string name="close">Zavrieť</string>
 
     <string name="playlist_tips">Tipy k playlistu</string>
     <string name="remove_song">Odstrániť skladbu</string>
@@ -390,6 +418,8 @@
     <string name="dump_media_db_summary">Kopírovať databázu do interného hlavného úložiska (root)</string>
     <string name="clear_media_db">Vyprázdniť databázu médií</string>
     <string name="clear_media_database_summary">Vyprázdni databázu pre začatie odznovu</string>
+    <string name="clear_app_data">Vyčistiť údaje aplikácie</string>
+    <string name="clear_app_data_summary">Vyčistí VLC pre údaje systému Android</string>
     <string name="clear_history">Vyčistiť históriu</string>
     <string name="set_locale">Nastaviť jazyk krajiny</string>
     <string name="network_caching">Hodnota ukladania do vyrovnávacej pamäte zo siete</string>
@@ -480,6 +510,11 @@
     <string name="allow_draw_overlays_title">Povoliť vyskakovacie okno VLC nad ostatnými aplikáciami</string>
     <string name="allow_sdraw_overlays_description">Na zobrazovanie videa vo vyskakovacom okne nad ostatnými aplikáciami musí mať VLC udelené oprávnenie.</string>
     <string name="permission_ask_again">Udeliť oprávnenie</string>
+    <string name="permission_not_granted">Povolenie neudelené</string>
+    <string name="permission_expanation_no_allow">Nebude možné automatické objavovanie médií ani použitie externých titulkov</string>
+    <string name="permission_expanation_allow">Budete môcť len prehrávať streamy alebo sieťové médium</string>
+    <string name="permission_expanation_subtitles">Použiť externé titulky</string>
+    <string name="permission_expanation_allow_explanation">Prehrávanie internetových streamov alebo sieťového média</string>
     <string name="exit_app">Zavrieť VLC</string>
     <string name="exit_app_msg">Naozaj chcete ukončiť aplikáciu VLC?</string>
 
@@ -508,7 +543,7 @@
     <string name="download_subtitles">Stiahnuť titulky</string>
     <string name="browse_folder">Prehľadávať priečinok</string>
     <string name="listen">Vypočuť</string>
-    <string name="save_bluetooth_delay">uložiť oneskorenie pre zariadenie Bluetooth</string>
+    <string name="apply_to_bt">Použiť na zariadenie bluetooth</string>
     <string name="episodes">epizódy</string>
     <string name="movies">filmy</string>
     <string name="videos">videá</string>
@@ -571,6 +606,8 @@
     <string name="otg_device_title">Zariadenie OTG</string>
     <string name="browser">Prehliadač</string>
     <string name="ab_repeat">Opakovať A-B</string>
+    <string name="ab_repeat_reset">Reset opakovania A-B</string>
+    <string name="ab_repeat_stop">Zastaviť opakovanie A-B</string>
     <string name="stop_after_this">Zastaviť po tejto stope</string>
     <string name="time_category_new">Nové médium</string>
     <string name="time_category_current_month">Tento mesiac</string>
@@ -607,6 +644,8 @@
     <string name="onboarding_theme_title">Cíťte sa tu ako doma</string>
     <string name="done">Hotovo</string>
     <string name="onboarding_scan_title">Autom. vyhľadanie médií</string>
+    <string name="onboarding_all_set">VLC je nastavené!</string>
+    <string name="onboarding_permission_given">Teraz môžete automaticky objavovať médiá, používať externé titulky ako aj prehrávať streamy alebo sieťové médium</string>
     <string name="daynight_system_explanation">VLC sa automaticky prepne do tmavého režimu, v súlade s nastaveniami systému</string>
     <string name="daynight_legacy_explanation">VLC sa automaticky prepne do nočného režimu vo vhodnom čase</string>
     <string name="onboarding_scanning_enable">Umožniť VLC vyhľadanie mediálneho obsahu v zariadení</string>
@@ -695,8 +734,9 @@
     <string name="recently_played">Naposledy prehrávané</string>
     <string name="recently_added">Naposledy pridané</string>
     <string name="playback_multiple_errors">Viaceré médiá nemožno prehrať</string>
-    <string name="clear_media_db_warning">Stratíte informácie o priebehu a vytvorené playlisty.
-%s</string>
+    <string name="clear_media_db_message">Dôjde k vymazaniu pozícií prehrávania, záložiek a playlistov, ktoré ste si vytvorili. Zachováte však VLC pre nastavenia systému Android.</string>
+    <string name="clear_app_data_message">Dôjde k vymazaniu pozícií prehrávania, záložiek, playlistov a všetkých nastavení VLC</string>
+    <string name="clear">Vyčistiť</string>
     <string name="abrepeat_add_first_marker">Nastaviť počiatočný bod</string>
     <string name="abrepeat_add_second_marker">Nastaviť koncový bod</string>
     <string name="demux_bitrate">Dátový tok demultiplexovania</string>
@@ -722,6 +762,7 @@
     <string name="subtitle_delay_end">Videný text</string>
     <string name="track_index">Stopa: %s</string>
     <string name="audio_queue_progress">Postup: %s</string>
+    <string name="audio_queue_progress_remaining">Zostávajúce: %s</string>
     <string name="audio_queue_progress_finished">Skončí o: %s</string>
     <string name="sortby_track">Stopa</string>
     <string name="this_folder">Pridať tento priečinok</string>
@@ -763,6 +804,7 @@
     <string name="donate_again">Znovu sponzorsky podporiť aplikáciu</string>
 
     <string name="mark_as_played">Označiť ako prehrané</string>
+    <string name="mark_as_not_played">Označiť ako neprehrané</string>
     <string name="mark_all_as_played">Označiť všetko ako prehrané</string>
     <string name="new_group">Nová skupina</string>
     <string name="new_group_desc">Vytvoriť novú skupinu</string>
@@ -786,17 +828,54 @@
     <string name="prefersmbv1_summary">Ak máte nejaké ťažkosti pri prehliadaní vášho SMB servera, odznačte toto nastavenie</string>
     <string name="apply_to_all">Použiť pri všetkých videách</string>
     <string name="audio_delay_global">Oneskorenie zvuku nastaviť na %s ms pre všetky videá</string>
+    <string name="audio_delay_bt">Pre zariadenie bluetooth nastavte oneskorenie zvuku na %s ms</string>
     <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
     <string name="no_sub_renderer">Počas streamovania (castingu) ešte nie sú podporované titulky</string>
     <string name="enqueuing">Načítavanie médií</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vyberte súbor SoundFont na prehratie zvukových stôp MIDI</string>
+    <string name="missing_media_snack">Médium chýba. Chcete skryť všetky chýbajúce médiá?</string>
+    <string name="browser_show_missing_media">Zobraziť chýbajúce médiá</string>
+    <string name="browser_show_missing_media_summary">Zobrazovať udalosť vzdialených médií aj vtedy, keď tieto nie sú prístupné</string>
     <string name="search_prefs">Nastavenia vyhľadávania</string>
     <string name="preferred_resolution">Preferované rozlíšenie videa</string>
     <string name="preferred_resolution_summary">Maximálna kvalita videa pre streamy, ak sa dá použiť, bude: %s</string>
     <string name="pref_resolution_best_available">Najlepšie dostupné</string>
     <string name="pref_resolution_very_low">Veľmi nízke rozlíšenie (240p)</string>
     <string name="stop_unpaubale">Toto médium nemožno pozastaviť. Chcete ho namiesto toho zastaviť?</string>
+    <string name="delete_forever">Vymazať natrvalo</string>
+    <string name="add_to_existing_playlist">Pridať do existujúceho playlistu</string>
+    <string name="bookmarks_title">Záložky</string>
+    <string name="no_bookmark">Zatiaľ žiadna záložka</string>
+    <string name="bookmark_name">Záložka %s</string>
+    <string name="optional_features">Voliteľné funkcie</string>
+    <string name="optional_features_summary">Skúšobné funkcie (beta), ktoré sa aktuálne testujú a nemusia fungovať stabilne</string>
+    <string name="optional_features_warning">Táto funkcia je v skúšobnej prevádzke (beta) a môže spôsobiť pády a nestabilitu</string>
+    <string name="start_vlc">Spustiť VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Pridať duplikované položky?</string>
+    <string name="add_button">Pridať</string>
+    <string name="add_all_button">Pridať všetko</string>
+    <string name="add_new_only_button">Pridať iba nové</string>
+    <string name="discovery_failed">Zisťovanie bolo neúspešné pre: %s</string>
+    <string name="lock_use_sensor_title">Uzamknutie so snímačom</string>
+    <string name="lock_use_sensor_summary">Ak je uzamknutá orientácia, používať snímač na umožnenie opačnej orientácie</string>
+    <string name="start">Štart</string>
+    <string name="permission">Oprávnenie</string>
+    <string name="customize">Prispôsobiť</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Táto položka už je v playliste.</item>
+        <item quantity="few">Tieto položky už sú v playliste.</item>
+        <item quantity="many">Tieto položky už sú v playliste.</item>
+        <item quantity="other">Tieto položky už sú v playliste.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 z vybraných položiek už je v playliste.</item>
+        <item quantity="few">%d z vybraných položiek už sú v playliste.</item>
+        <item quantity="many">%d z vybraných položiek už je v playliste.</item>
+        <item quantity="other">%d z vybraných položiek už je v playliste.</item>
+    </plurals>
 
 </resources>
