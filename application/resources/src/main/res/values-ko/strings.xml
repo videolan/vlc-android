@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">확인</string>
@@ -196,14 +197,30 @@
     <string name="play_button">재생 버튼</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">비디오 재생기 팁:</string>
+    <string name="tips_title">비디오 재생기 팁</string>
     <string name="seek">탐색</string>
     <string name="subtitles">자막</string>
-    <string name="audio_sub">오디오와\n자막 트랙</string>
-    <string name="resize">크기 조절</string>
-    <string name="options">옵션</string>
+    <string name="tips_player_controls">플레이어 컨트롤</string>
+    <string name="tips_player_controls_description">아래 플레이어 컨트롤을 눌러 어디에 사용되는지 알아보기</string>
+    <string name="tips_audio_sub">오디오 트랙 및 자막</string>
+    <string name="tips_play_description">눌러서 비디오 재생</string>
     <string name="lock">잠그기</string>
-    <string name="ok_got_it">이 화면을 닫습니다</string>
+    <string name="tap">눌러서 보기</string>
+    <string name="lock_orientation">방향</string>
+    <string name="lock_orientation_description">눌러서 방향 고정/해제</string>
+    <string name="aspect_ratio">화면 비율</string>
+    <string name="aspect_ratio_description">눌러서 비디오 화면 비율 조정</string>
+    <string name="advanced_options">고급 옵션</string>
+    <string name="advanced_options_description">재생 속도, 반복 모드, ... 등</string>
+    <string name="tips_swipe">위아래로 스와이프</string>
+    <string name="tips_swipe_horizontal">좌우로 스와이프</string>
+    <string name="tips_playlist">재생목록</string>
+    <string name="tips_hold_seek">길게 눌러 탐색</string>
+    <string name="tips_long_drop">길게 눌렀다 떼기</string>
+    <string name="pause_description">두 번 탭해서 일시정지</string>
+    <string name="seek_tap">+/- 10초.</string>
+    <string name="seek_tap_description">두 번 탭해서 10초 앞 또는 뒤로 이동</string>
+    <string name="close">닫기</string>
 
     <string name="playlist_tips">재생목록 팁</string>
     <string name="remove_song">곡 제거하기</string>
@@ -559,6 +576,8 @@
     <string name="otg_device_title">OTG 기기</string>
     <string name="browser">브라우저</string>
     <string name="ab_repeat">A-B 반복</string>
+    <string name="ab_repeat_reset">A-B 반복 초기화</string>
+    <string name="ab_repeat_stop">A-B 반복 정지</string>
     <string name="stop_after_this">현재 트랙후 정지</string>
     <string name="time_category_new">새 미디어</string>
     <string name="time_category_current_month">이번 달</string>
