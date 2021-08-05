@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Ok</string>
@@ -48,9 +49,13 @@
     <string name="set_song_question">\'%1$s\' als beltoon instellen?</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="confirm_delete_message">Dit is permanent an kan niet ongedaan worden gemaakt</string>
     <string name="confirm_delete_album">Album \'%1$s\' verwijderen?</string>
     <string name="confirm_delete_several_media">Deze %1$d media verwijderen?</string>
     <string name="confirm_delete_folder">Map \'%1$s\' en de volledige inhoud verwijderen?</string>
+    <string name="confirm_delete_folders">Deze %1$s mappen en hun inhoud verwijderen?</string>
+    <string name="confirm_delete_files">Deze %1$s bestanden verwijderen?</string>
+    <string name="confirm_delete_folders_and_files">Deze %1$s mappen en %2$s bestanden verwijderen?</string>
     <string name="confirm_delete_playlist">Afspeellijst \'%1$s\' verwijderen?</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' verwijderen uit afspeellijst?</string>
     <string name="ringtone_set">Het bestand \'%1$s\' werd als beltoon ingesteld.</string>
@@ -93,6 +98,10 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">1 serie</item>
         <item quantity="other">%d series</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 track</item>
+        <item quantity="other">%d tracks</item>
     </plurals>
 
     <string name="internal_memory">Intern geheugen</string>
@@ -198,14 +207,30 @@
     <string name="play_button">Afspeelknop</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Videospeler-tips:</string>
+    <string name="tips_title">Videospeler-tips</string>
     <string name="seek">Zoeken</string>
     <string name="subtitles">Ondertitels</string>
-    <string name="audio_sub">Audiosporen\nen ondertitels</string>
-    <string name="resize">Formaat wijzigen</string>
-    <string name="options">Opties</string>
+    <string name="tips_player_controls">Spelerbediening</string>
+    <string name="tips_player_controls_description">Tik op spelerbedieningen hieronder om te ontdekken waarvoor ze gebruikt worden</string>
+    <string name="tips_audio_sub">Audiosporen en ondertitels</string>
+    <string name="tips_play_description">Tikken om video af te spelen</string>
     <string name="lock">Vergrendelen</string>
-    <string name="ok_got_it">Begrepen</string>
+    <string name="tap">Tikken om weer te geven</string>
+    <string name="lock_orientation">Oriëntatie</string>
+    <string name="lock_orientation_description">Tikken om oriëntatie te vergrendelen/ontgrendelen</string>
+    <string name="aspect_ratio">Beeldverhouding</string>
+    <string name="aspect_ratio_description">Tikken om de beeldverhouding van de video te wijzigen</string>
+    <string name="advanced_options">Geavanceerde opties</string>
+    <string name="advanced_options_description">Zoals de afspeelsnelheid, herhalingsmodus,...</string>
+    <string name="tips_swipe">Omhoog of omlaag vegen</string>
+    <string name="tips_swipe_horizontal">Links of rechts vegen</string>
+    <string name="tips_playlist">Afspeellijst</string>
+    <string name="tips_hold_seek">Inhouden om te zoeken</string>
+    <string name="tips_long_drop">Lang drukken en laten vallen</string>
+    <string name="pause_description">Dubbel tikken om te pauzeren</string>
+    <string name="seek_tap">+/- 10 sec.</string>
+    <string name="seek_tap_description">Dubbel tikken om 10 seconden voorwaarts of achterwaarts te gaan</string>
+    <string name="close">Sluiten</string>
 
     <string name="playlist_tips">Afspeellijst-tips</string>
     <string name="remove_song">Liedje verwijderen</string>
@@ -373,6 +398,8 @@
     <string name="dump_media_db_summary">Database naar interne opslagboom kopiëren</string>
     <string name="clear_media_db">Media-database wissen</string>
     <string name="clear_media_database_summary">Wist de database om opnieuw te beginnen</string>
+    <string name="clear_app_data">App-gegevens wissen</string>
+    <string name="clear_app_data_summary">Wist de gegevens van VLC voor Android</string>
     <string name="clear_history">Geschiedenis wissen</string>
     <string name="set_locale">Taal instellen</string>
     <string name="network_caching">Netwerkbuffergrootte</string>
@@ -463,6 +490,11 @@
     <string name="allow_draw_overlays_title">Popup van VLC-speler toestaan over andere apps</string>
     <string name="allow_sdraw_overlays_description">VLC moet uw toestemming hebben om uw video weer te geven in een popup bovenop andere toepassingen.</string>
     <string name="permission_ask_again">Toegang toestaan</string>
+    <string name="permission_not_granted">Toestemming niet verleend</string>
+    <string name="permission_expanation_no_allow">U zult niet in staat zijn om uw media automatisch te ontdekken of externe ondertitels te gebruiken</string>
+    <string name="permission_expanation_allow">U zult alleen streams of netwerkmedia kunnen afspelen</string>
+    <string name="permission_expanation_subtitles">Externe ondertitels gebruiken</string>
+    <string name="permission_expanation_allow_explanation">Internet-streams of netwerkmedia afspelen</string>
     <string name="exit_app">VLC sluiten</string>
     <string name="exit_app_msg">Weet u zeker dat u VLC wilt afsluiten?</string>
 
@@ -491,7 +523,7 @@
     <string name="download_subtitles">Ondertitels downloaden</string>
     <string name="browse_folder">Bladeren in map</string>
     <string name="listen">Luisteren</string>
-    <string name="save_bluetooth_delay">vertraging voor bluetooth-apparaat opslaan</string>
+    <string name="apply_to_bt">Toepassen op bluetooth-apparaat</string>
     <string name="episodes">afleveringen</string>
     <string name="movies">films</string>
     <string name="videos">video\'s</string>
@@ -554,6 +586,8 @@
     <string name="otg_device_title">OTG-apparaat</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B herhalen</string>
+    <string name="ab_repeat_reset">A-B herhalen herstellen</string>
+    <string name="ab_repeat_stop">A-B herhalen stoppen</string>
     <string name="stop_after_this">Stoppen na deze track</string>
     <string name="time_category_new">Nieuwe media</string>
     <string name="time_category_current_month">Deze maand</string>
@@ -590,6 +624,8 @@
     <string name="onboarding_theme_title">Doe alsof u thuis bent</string>
     <string name="done">Klaar</string>
     <string name="onboarding_scan_title">Uw media automatisch ontdekken</string>
+    <string name="onboarding_all_set">VLC is helemaal klaar!</string>
+    <string name="onboarding_permission_given">U kunt nu uw media automatisch ontdekken, externe ondertitels gebruiken en streams of netwerkmedia afspelen </string>
     <string name="daynight_system_explanation">VLC zal automatisch naar donkere modus wisselen overeenkomstig met de systeeminstelling</string>
     <string name="daynight_legacy_explanation">VLC zal automatisch naar nachtmodus wisselen op het juiste tijdstip</string>
     <string name="onboarding_scanning_enable">Laat VLC mijn apparaat scannen op media-inhoud</string>
@@ -674,7 +710,9 @@
     <string name="recently_played">Recent afgespeeld</string>
     <string name="recently_added">Recent toegevoegd</string>
     <string name="playback_multiple_errors">Meerdere media kunnen niet afgespeeld worden</string>
-    <string name="clear_media_db_warning">U zult uw voortgangen en de afspeellijsten die u aanmaakte, verliezen.\n%s</string>
+    <string name="clear_media_db_message">U verliest uw voortgangen, bladwijzers en de afspeellijsten die u aanmaakte maar u behoudt uw instellingen voor VLC voor Android</string>
+    <string name="clear_app_data_message">U verliest uw voortgangen, bladwijzers, afspeellijsten en alle VLC-instellingen</string>
+    <string name="clear">Wissen</string>
     <string name="abrepeat_add_first_marker">Beginpunt instellen</string>
     <string name="abrepeat_add_second_marker">Eindpunt instellen</string>
     <string name="demux_bitrate">Demux-bitrate</string>
@@ -700,6 +738,7 @@
     <string name="subtitle_delay_end">Tekst gezien</string>
     <string name="track_index">Track: %s</string>
     <string name="audio_queue_progress">Voortgang: %s</string>
+    <string name="audio_queue_progress_remaining">Resterend: %s</string>
     <string name="audio_queue_progress_finished">Eindigt op: %s</string>
     <string name="sortby_track">Track</string>
     <string name="this_folder">Deze map toevoegen</string>
@@ -741,6 +780,7 @@
     <string name="donate_again">De app opnieuw sponsoren</string>
 
     <string name="mark_as_played">Markeren als afgespeeld</string>
+    <string name="mark_as_not_played">Markeren als niet afgespeeld</string>
     <string name="mark_all_as_played">Alles markeren als afgespeeld</string>
     <string name="new_group">Nieuwe groep</string>
     <string name="new_group_desc">Nieuwe groep aanmaken</string>
@@ -764,17 +804,50 @@
     <string name="prefersmbv1_summary">Vink deze instelling uit als u problemen ondervindt bij het bladeren op uw SMB-server.</string>
     <string name="apply_to_all">Toepassen op alle video\'s</string>
     <string name="audio_delay_global">Audiovertraging ingesteld op %s ms voor alle video\'s</string>
+    <string name="audio_delay_bt">Audiovertraging ingesteld op %s ms voor het bluetooth-apparaat</string>
     <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
     <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>
     <string name="enqueuing">Uw media laden</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Kies een SoundFont-bestand om midi-audiotracks af te spelen</string>
+    <string name="missing_media_snack">Media ontbreekt. Alle ontbrekende gegevens verbergen?</string>
+    <string name="browser_show_missing_media">Ontbrekende media weergeven</string>
+    <string name="browser_show_missing_media_summary">Externe media weergeven zelfs als ze niet aanwezig zijn</string>
     <string name="search_prefs">Instellingen doorzoeken</string>
     <string name="preferred_resolution">Voorkeursvideoresolutie</string>
     <string name="preferred_resolution_summary">Maximale videokwaliteit voor streams, indien van toepassing, zal %s zijn.</string>
     <string name="pref_resolution_best_available">Beste beschikbaar</string>
     <string name="pref_resolution_very_low">Zeer lage definitie (240p)</string>
     <string name="stop_unpaubale">Dit medium kan niet gepauzeerd worden. In plaats daarvan stoppen?</string>
+    <string name="delete_forever">Voor altijd verwijderen</string>
+    <string name="add_to_existing_playlist">Aan bestaande afspeellijst toevoegen</string>
+    <string name="bookmarks_title">Bladwijzers</string>
+    <string name="no_bookmark">Nog geen bladwijzers</string>
+    <string name="bookmark_name">Bladwijzer %s</string>
+    <string name="optional_features">Optionele functies</string>
+    <string name="optional_features_summary">Bèta-functies die momenteel worden getest en mogelijk niet stabiel zijn</string>
+    <string name="optional_features_warning">Deze functie is in bèta en kan crashes en instabiliteit veroorzaken</string>
+    <string name="start_vlc">VLC starten</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Dubbele items toevoegen?</string>
+    <string name="add_button">Toevoegen</string>
+    <string name="add_all_button">Alles toevoegen</string>
+    <string name="add_new_only_button">Alleen nieuwe toevoegen</string>
+    <string name="discovery_failed">Ontdekking mislukt voor: %s</string>
+    <string name="lock_use_sensor_title">Vergrendelen met sensor</string>
+    <string name="lock_use_sensor_summary">Wanneer de oriëntatie vergrendeld is, de sensor gebruiken om de omgekeerde oriëntatie toe te staan</string>
+    <string name="start">Start</string>
+    <string name="permission">Machtiging</string>
+    <string name="customize">Aanpassen</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Dit item staat al in deze afspeellijst.</item>
+        <item quantity="other">Deze items staan al in deze afspeellijst.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 van de geselecteerde items staat al in deze afspeellijst.</item>
+        <item quantity="other">%d van de geselecteerde items staan al in deze afspeellijst.</item>
+    </plurals>
 
 </resources>
