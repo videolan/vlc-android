@@ -249,8 +249,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.networkMediaOff.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
             binding.networkOffOverlay.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Card Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
@@ -330,8 +330,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.networkMediaOff.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
             binding.networkOffOverlay.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 

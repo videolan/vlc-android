@@ -198,8 +198,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             if (showProtocol && item is MediaWrapper) binding.protocol = getProtocol(item)
             val cover = if (item is MediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
@@ -279,8 +279,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             if (showProtocol && item is MediaWrapper) binding.protocol = getProtocol(item)
             val cover = if (item is MediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
