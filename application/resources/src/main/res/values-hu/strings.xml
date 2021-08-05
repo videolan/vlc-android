@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -34,7 +35,7 @@
     <string name="video_app_switch_title">Háttér/PiP mód</string>
     <string name="video_app_switch_summary">Válassza ki a VLC viselkedését, ha videolejátszás közben más alkalmazásra vált.</string>
     <string name="play_pip_title">Videók lejátszása „Kép a képben” módban</string>
-    <string name="play_as_audio_background">Videó lejátszása a háttérben</string>
+    <string name="play_as_audio_background">Videók lejátszása a háttérben</string>
     <string name="append">Hozzáfűzés</string>
     <string name="insert_next">Következő beszúrása</string>
     <string name="play_all">Összes lejátszása</string>
@@ -206,20 +207,36 @@
     <string name="play_button">Lejátszás gomb</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Lejátszó tippek:</string>
-    <string name="seek">Keresés</string>
+    <string name="tips_title">Videólejátszó tippek</string>
+    <string name="seek">Tekerés</string>
     <string name="subtitles">Feliratok</string>
-    <string name="audio_sub">Hangsávok\nés feliratok</string>
-    <string name="resize">Átméretezés</string>
-    <string name="options">Beállítások</string>
+    <string name="tips_player_controls">Lejátszásvezérlők</string>
+    <string name="tips_player_controls_description">Koppintson a lejátszásvezérlőkre, hogy megismerje a funkcióikat</string>
+    <string name="tips_audio_sub">Hangsávok és feliratok</string>
+    <string name="tips_play_description">Koppintson a videó lejátszásához</string>
     <string name="lock">Zárolás</string>
-    <string name="ok_got_it">Értettem, elrejtés</string>
+    <string name="tap">Koppintson a megtekintéshez</string>
+    <string name="lock_orientation">Tájolás</string>
+    <string name="lock_orientation_description">Koppintson a tájolás zárolásához/feloldásához</string>
+    <string name="aspect_ratio">Képarány</string>
+    <string name="aspect_ratio_description">Koppintson a videó képarányának módosításához</string>
+    <string name="advanced_options">Speciális beállítások</string>
+    <string name="advanced_options_description">Mint a lejátszási sebesség, ismétlési mód, …</string>
+    <string name="tips_swipe">Húzza fel vagy le</string>
+    <string name="tips_swipe_horizontal">Húzza balra vagy jobbra</string>
+    <string name="tips_playlist">Lejátszólista</string>
+    <string name="tips_hold_seek">Tartsa a tekeréshez</string>
+    <string name="tips_long_drop">Hosszú érintés és elengedés</string>
+    <string name="pause_description">Dupla koppintás a szüneteltetéshez</string>
+    <string name="seek_tap">+/- 10 mp.</string>
+    <string name="seek_tap_description">Dupla koppintás a 10 másodperccel előre- vagy visszatekeréshez</string>
+    <string name="close">Bezárás</string>
 
     <string name="playlist_tips">Lejátszási lista tippek</string>
     <string name="remove_song">Szám eltávolítása</string>
     <string name="remove_playlist_item">A(z) %1$s eltávolítva a lejátszólistáról</string>
     <string name="rearrange_order">Sorrend átrendezése</string>
-    <string name="hold_to_seek">Tartsa a kereséshez</string>
+    <string name="hold_to_seek">Tartsa a tekeréshez</string>
 
     <string name="audio_player_tips">Zenelejátszó tippek</string>
     <string name="previous_next_song">Előző/következő szám</string>
@@ -291,7 +308,7 @@
     <string name="enable_brightness_gesture_summary">Fényerő szabályozása gesztussal videólejátszás közben</string>
     <string name="enable_volume_gesture_title">Hangerő gesztus</string>
     <string name="enable_volume_gesture_summary">Hangerő szabályozása gesztussal videólejátszás közben</string>
-    <string name="enable_seek_buttons">Keresőgombok</string>
+    <string name="enable_seek_buttons">Tekerőgombok</string>
     <string name="enable_seek_buttons_summary">Vissza- és előretekerés gombok megjelenítése a videófelületen</string>
     <string name="enable_double_tap_seek_title">Dupla koppintás a tekeréshez</string>
     <string name="enable_double_tap_seek_summary">Dupla koppintás a képernyő szélen a 10 másodperces tekeréshez</string>
@@ -319,7 +336,7 @@
     <string name="audio_prefs_category">Hang</string>
     <string name="lockscreen_cover_title">Médiaborító a zárképernyőn</string>
     <string name="lockscreen_cover_summary">Ha elérhető, a jelenlegi média borítójának beállítása a képernyőzár háttereként</string>
-    <string name="list_title_ellipsize">Egysoros listacímek végének kipontozása</string>
+    <string name="list_title_ellipsize">Hosszú egysoros listacímek kipontozása</string>
     <string name="list_title_ellipsize_default">Alapértelmezett</string>
     <string name="list_title_ellipsize_left">Bal</string>
     <string name="list_title_ellipsize_right">Jobb</string>
@@ -474,7 +491,7 @@
     <string name="allow_sdraw_overlays_description">A VLC-nek szüksége van erre az engedélyre a videók más appok feletti felugró ablakban megjelenítéshez.</string>
     <string name="permission_ask_again">Engedély megadása</string>
     <string name="permission_not_granted">Az engedély nincs megadva</string>
-    <string name="permission_expanation_no_allow">Nem tudja automatikusan beolvasni a médiafájljait és nem használhat külső feliratokat</string>
+    <string name="permission_expanation_no_allow">Nem tudja automatikusan beolvasni a médiafájljait, és nem használhat külső feliratokat</string>
     <string name="permission_expanation_allow">Csak közvetítéseket vagy hálózati médiát tud majd lejátszani</string>
     <string name="permission_expanation_subtitles">Külső feliratok használata</string>
     <string name="permission_expanation_allow_explanation">Internetes közvetítések vagy hálózati média lejátszása</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">OTG eszköz</string>
     <string name="browser">Böngésző</string>
     <string name="ab_repeat">A-B ismétlés</string>
+    <string name="ab_repeat_reset">A-B ismétlés visszaállítása</string>
+    <string name="ab_repeat_stop">A-B ismétlés leállítása</string>
     <string name="stop_after_this">Leállítás ezután a szám után</string>
     <string name="time_category_new">Új média</string>
     <string name="time_category_current_month">Ebben a hónapban</string>
@@ -739,7 +758,7 @@
     <string name="empty_directory">Üres</string>
     <string name="no_track">Nincs szám</string>
 
-    <string name="swipe_unlock">Seprés a feloldáshoz</string>
+    <string name="swipe_unlock">Húzás a feloldáshoz</string>
     <string name="swipe_unlock_no_touch">Hosszú érintés a feloldáshoz</string>
     <string name="sub_result_by_name">Találatok erre: %s</string>
     <string name="sub_result_by_name_season">%s. évad</string>
@@ -816,7 +835,7 @@
     <string name="add_button">Hozzáadás</string>
     <string name="add_all_button">Összes hozzáadása</string>
     <string name="add_new_only_button">Csak az új hozzáadása</string>
-    <string name="discovery_failed">Sikertelen keresés ezután: %s</string>
+    <string name="discovery_failed">Sikertelen keresés erre: %s</string>
     <string name="lock_use_sensor_title">Zárolás érzékelővel</string>
     <string name="lock_use_sensor_summary">Ha a tájolás zárolva van, használja az érzékelőt a fordított tájolás engedélyezéséhez</string>
     <string name="start">Indítás</string>
