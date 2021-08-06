@@ -119,6 +119,8 @@ struct fields {
 
 static inline jstring vlcNewStringUTF(JNIEnv* env, const char* psz_string)
 {
+    if (psz_string == NULL)
+        return NULL;
     for (int i = 0 ; psz_string[i] != '\0' ; ) {
         uint8_t lead = psz_string[i++];
         uint8_t nbBytes;
