@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">D\'acord</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Botó de reproducció</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Consells del reproductor de vídeo:</string>
+    <string name="tips_title">Consells del reproductor de vídeo</string>
     <string name="seek">Cerca</string>
     <string name="subtitles">Subtítols</string>
-    <string name="audio_sub">Pistes d\'àudio\nand subtítols</string>
-    <string name="resize">Canvia la mida</string>
-    <string name="options">Opcions</string>
+    <string name="tips_player_controls">Controls del reproductor</string>
+    <string name="tips_player_controls_description">Feu un toc sobre els controladors del reproductor a baix i veureu-ho per què serveixen</string>
+    <string name="tips_audio_sub">Pistes d\'àudio i subtítols</string>
+    <string name="tips_play_description">Feu un toc per reproduir el vídeo</string>
     <string name="lock">Bloca</string>
-    <string name="ok_got_it">Entès, treu&#160;això</string>
+    <string name="tap">Feu un toc per visualitzar</string>
+    <string name="lock_orientation">Orientació</string>
+    <string name="lock_orientation_description">Feu un toc per bloquejar/desbloquejar l\'orientació</string>
+    <string name="aspect_ratio">Relació d\'aspecte</string>
+    <string name="aspect_ratio_description">Feu un toc per canviar la relació d\'aspecte del vídeo</string>
+    <string name="advanced_options">Opcions avançades</string>
+    <string name="advanced_options_description">Com ara la velocitat de reproducció, el mode repetició, ...</string>
+    <string name="tips_swipe">Llisca amunt o avall</string>
+    <string name="tips_swipe_horizontal">Llisca esquerra o dreta</string>
+    <string name="tips_playlist">Llista de reproducció</string>
+    <string name="tips_hold_seek">Manté apretat per cercar</string>
+    <string name="tips_long_drop">Pulsació llarga i deixar anar</string>
+    <string name="pause_description">Feu doble toc per posar en pausa</string>
+    <string name="seek_tap">+/- 10 seg.</string>
+    <string name="seek_tap_description">Feu doble toc per anar 10 seg endavant o enrere</string>
+    <string name="close">Tanca</string>
 
     <string name="playlist_tips">Consells de les llistes de reproducció</string>
     <string name="remove_song">Elimina cançó</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">Dispositiu OTG</string>
     <string name="browser">Navegador</string>
     <string name="ab_repeat">Repeteix A-B</string>
+    <string name="ab_repeat_reset">Restablir la repetició A-B</string>
+    <string name="ab_repeat_stop">Aturar la repetició A-B</string>
     <string name="stop_after_this">Atura\'t després d\'aquesta pista</string>
     <string name="time_category_new">Multimèdia nou</string>
     <string name="time_category_current_month">Aquest mes</string>
