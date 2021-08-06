@@ -52,10 +52,8 @@
         <item name="header_background">@color/whitetransparent_ea</item>
         <item name="background_default_darker">@color/grey200</item>
         <item name="background_actionbar">@color/white</item>
-        <item name="background_audio_tips">@color/grey50transparent</item>
         <item name="audio_player_background_tint">@color/white_transparent_75</item>
         <item name="background_audio_tips">@color/white_transparent_95</item>
-        <item name="audio_player_background_tint">@color/white_transparent_50</item>
         <item name="audio_browser_separator">@color/orange800</item>
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
         <item name="font_default">@color/grey900</item>
@@ -483,6 +481,7 @@
         </item>
         <item name="colorControlHighlight">@color/orange500</item>
         <item name="player_icon_color">@color/grey50</item>
+        <item name="background_audio_tips">@color/white_transparent_95</item>
     </style>
 
     <style name="VLCTransparentTheme" parent="VLCTransparentThemeLight" />
