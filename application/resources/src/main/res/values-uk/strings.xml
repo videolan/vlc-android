@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Гаразд</string>
@@ -226,14 +227,30 @@
     <string name="play_button">Кнопка Відтворити</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Поради для відеопрогравача:</string>
+    <string name="tips_title">Поради для відеопрогравача</string>
     <string name="seek">Шукати</string>
     <string name="subtitles">Субтитри</string>
-    <string name="audio_sub">звукові доріжки\nта субтитри</string>
-    <string name="resize">Змінити розміри</string>
-    <string name="options">Параметри</string>
+    <string name="tips_player_controls">Управління програвачем</string>
+    <string name="tips_player_controls_description">Торкніться елементів управління нижче, щоб дізнатися про їхнє використання</string>
+    <string name="tips_audio_sub">Аудіодоріжки та субтитри</string>
+    <string name="tips_play_description">Торкніться для відтворення відео</string>
     <string name="lock">Блокувати</string>
-    <string name="ok_got_it">Зрозуміло, закрити це</string>
+    <string name="tap">Торкніться для перегляду</string>
+    <string name="lock_orientation">Орієнтація</string>
+    <string name="lock_orientation_description">Торкніться, щоб заблокувати/розблокувати поворот</string>
+    <string name="aspect_ratio">Співвідношення сторін</string>
+    <string name="aspect_ratio_description">Торкніться, щоб змінити співвідношення сторін</string>
+    <string name="advanced_options">Додаткові параметри</string>
+    <string name="advanced_options_description">На кшталт швидкості відтворення, режиму повторення, ...</string>
+    <string name="tips_swipe">Проведіть вгору або вниз</string>
+    <string name="tips_swipe_horizontal">Проведіть вліво або вправо</string>
+    <string name="tips_playlist">Список відтворення</string>
+    <string name="tips_hold_seek">Утримуйте для пошуку</string>
+    <string name="tips_long_drop">Довго натисніть та відпустіть</string>
+    <string name="pause_description">Подвійний натиск для паузи</string>
+    <string name="seek_tap">+/- 10 с</string>
+    <string name="seek_tap_description">Подвійний натиск для переходу на 10 с вперед або назад</string>
+    <string name="close">Закрити</string>
 
     <string name="playlist_tips">Поради до списку</string>
     <string name="remove_song">Видалити пісню</string>
@@ -589,6 +606,8 @@
     <string name="otg_device_title">Пристрій OTG</string>
     <string name="browser">Переглядач</string>
     <string name="ab_repeat">Повторювати A-B</string>
+    <string name="ab_repeat_reset">Очистити повторення А-Б</string>
+    <string name="ab_repeat_stop">Зупинити повторення А-Б</string>
     <string name="stop_after_this">Зупинитися після цієї доріжки</string>
     <string name="time_category_new">Нові медіа</string>
     <string name="time_category_current_month">Цього місяця</string>
