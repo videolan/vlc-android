@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -196,16 +197,32 @@
     <string name="play_button">再生ボタン</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">ビデオプレイヤーのTips:</string>
+    <string name="tips_title">ビデオプレイヤーのTips</string>
     <string name="seek">シーク</string>
     <string name="subtitles">字幕</string>
-    <string name="audio_sub">オーディオトラック\n字幕</string>
-    <string name="resize">リサイズ</string>
-    <string name="options">オプション</string>
+    <string name="tips_player_controls">プレイヤー制御</string>
+    <string name="tips_player_controls_description">タップでプレイヤーの制御をどのように行うか設定</string>
+    <string name="tips_audio_sub">オーディオトラックと字幕</string>
+    <string name="tips_play_description">タップでビデオを再生</string>
     <string name="lock">ロック</string>
-    <string name="ok_got_it">このTipsを消去</string>
+    <string name="tap">タップで表示</string>
+    <string name="lock_orientation">方向</string>
+    <string name="lock_orientation_description">タップで画面方向のロック/ロック解除</string>
+    <string name="aspect_ratio">アスペクト比</string>
+    <string name="aspect_ratio_description">タップでビデオのアスペクト比を変更</string>
+    <string name="advanced_options">詳細設定オプション</string>
+    <string name="advanced_options_description">再生速度、繰り返しモードなど…</string>
+    <string name="tips_swipe">上下にスワイプ</string>
+    <string name="tips_swipe_horizontal">左右にスワイプ</string>
+    <string name="tips_playlist">プレイリスト</string>
+    <string name="tips_hold_seek">シークを保持</string>
+    <string name="tips_long_drop">長押ししてドロップ</string>
+    <string name="pause_description">ダブルタップで一時停止</string>
+    <string name="seek_tap">+/- 10 秒</string>
+    <string name="seek_tap_description">ダブルタップで10秒進める・戻る</string>
+    <string name="close">閉じる</string>
 
-    <string name="playlist_tips">プレイリスト活用法</string>
+    <string name="playlist_tips">プレイリストのTips</string>
     <string name="remove_song">曲を削除</string>
     <string name="remove_playlist_item">%1$s は再生リストから削除されました</string>
     <string name="rearrange_order">順序を再調整</string>
@@ -559,6 +576,8 @@
     <string name="otg_device_title">OTGデバイス</string>
     <string name="browser">ブラウザ</string>
     <string name="ab_repeat">A-B間繰り返し</string>
+    <string name="ab_repeat_reset">A-B間繰り返しをリセット</string>
+    <string name="ab_repeat_stop">A-B間繰り返しを停止</string>
     <string name="stop_after_this">このトラックのあとで停止</string>
     <string name="time_category_new">新しいメディア</string>
     <string name="time_category_current_month">今月</string>
