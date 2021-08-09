@@ -36,9 +36,9 @@ class PlaylistActivityUITest: BaseUITest() {
         Thread.sleep(3 * 1000)
 
         val ml = Medialibrary.getInstance()
-        val pl = ml.createPlaylist("test")
-        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        val pl = ml.createPlaylist("test", true)
+        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
 
         val intent = Intent().apply {
             putExtra(AudioBrowserFragment.TAG_ITEM, pl)

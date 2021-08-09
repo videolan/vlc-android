@@ -104,7 +104,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
         val rvMatcher = withRecyclerView(R.id.video_grid)
         Log.d("Espresso", "2")
-        onView(rvMatcher.atPosition(3)).perform(click())
+        onView(rvMatcher.atPosition(2)).perform(click())
         Log.d("Espresso", "3")
 
         rotateLandscape()
