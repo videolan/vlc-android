@@ -88,28 +88,28 @@ platform :android do
     slack(message: 'Successfully created a new internal draft for '+options[:version])
   end
 
-  lane :screenshots do
+  lane :screenshots do |options|
     gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
     gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
-    capture_android_screenshots(app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+    capture_android_screenshots(app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-"+options[:version]+"-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
   end
 
-  lane :screenshots_seven do
+  lane :screenshots_seven do |options|
     gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
     gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
-    capture_android_screenshots(device_type:"sevenInch" ,app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+    capture_android_screenshots(device_type:"sevenInch" ,app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-"+options[:version]+"-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
   end
 
-  lane :screenshots_ten do
+  lane :screenshots_ten do |options|
     gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
     gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
-    capture_android_screenshots(device_type:"tenInch" ,app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+    capture_android_screenshots(device_type:"tenInch" ,app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-"+options[:version]+"-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
   end
 
-  lane :screenshots_tv do
+  lane :screenshots_tv do |options|
     gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
     gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
-    capture_android_screenshots(device_type:"tv",use_tests_in_classes:'org.videolan.vlc.TvScreenhotsInstrumentedTest', app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+    capture_android_screenshots(device_type:"tv",use_tests_in_classes:'org.videolan.vlc.TvScreenhotsInstrumentedTest', app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-"+options[:version]+"-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
   end
 
   lane :huawei_info do
