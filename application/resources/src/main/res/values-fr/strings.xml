@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Bouton Lecture</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Astuces du lecteur vidéo :</string>
+    <string name="tips_title">Conseils pour le lecteur vidéo</string>
     <string name="seek">Naviguer</string>
     <string name="subtitles">Sous-titres</string>
-    <string name="audio_sub">Pistes audio\net de sous-titres</string>
-    <string name="resize">Redimensionner</string>
-    <string name="options">Options</string>
+    <string name="tips_player_controls">Contrôles du lecteur</string>
+    <string name="tips_player_controls_description">Appuyez sur les commandes du lecteur ci-dessous pour découvrir à quoi elles servent</string>
+    <string name="tips_audio_sub">Pistes audio et sous-titres</string>
+    <string name="tips_play_description">Appuyez pour lire la vidéo</string>
     <string name="lock">Verrouiller</string>
-    <string name="ok_got_it">J\'ai compris</string>
+    <string name="tap">Appuyez pour voir</string>
+    <string name="lock_orientation">Orientation</string>
+    <string name="lock_orientation_description">Appuyez pour verrouiller/déverrouiller l\'orientation</string>
+    <string name="aspect_ratio">Ratio d\'aspect</string>
+    <string name="aspect_ratio_description">Appuyez pour modifier le ration d\'aspect</string>
+    <string name="advanced_options">Options avancées</string>
+    <string name="advanced_options_description">Comme la vitesse de lecture, le mode de répétition, ...</string>
+    <string name="tips_swipe">Balayez vers le haut ou vers le bas</string>
+    <string name="tips_swipe_horizontal">Balayer vers la gauche ou la droite</string>
+    <string name="tips_playlist">Liste de lecture</string>
+    <string name="tips_hold_seek">Tenir pour chercher</string>
+    <string name="tips_long_drop">Appui long et déposer</string>
+    <string name="pause_description">Double tapotement pour mettre en pause</string>
+    <string name="seek_tap">+/- 10 sec.</string>
+    <string name="seek_tap_description">Double tapotement pour avancer ou reculer de 10 secondes</string>
+    <string name="close">Fermer</string>
 
     <string name="playlist_tips">Astuces de la liste de lecture</string>
     <string name="remove_song">Retirer le morceau</string>
@@ -569,6 +586,8 @@
     <string name="otg_device_title">Périphérique OTG</string>
     <string name="browser">Navigateur</string>
     <string name="ab_repeat">Répétition A-B</string>
+    <string name="ab_repeat_reset">Réinitialisation de la répétition A-B</string>
+    <string name="ab_repeat_stop">Arrêt de la répétition A-B</string>
     <string name="stop_after_this">Arrêter après cette piste</string>
     <string name="time_category_new">Nouveaux médias</string>
     <string name="time_category_current_month">Ce mois-ci</string>
@@ -604,7 +623,7 @@
     <string name="medialibrary_scan_explanation">VLC peut analyser automatiquement votre appareil pour organiser votre collection de médias.</string>
     <string name="onboarding_theme_title">Faites comme chez vous</string>
     <string name="done">Terminé</string>
-    <string name="onboarding_scan_title">Trouver automatiquement vos médias</string>
+    <string name="onboarding_scan_title">Découverte de vos médias</string>
     <string name="onboarding_all_set">VLC est prêt !</string>
     <string name="onboarding_permission_given">Vous pouvez désormais détecter automatiquement vos médias, utiliser des sous-titres externes et lire des flux ou des médias en réseau. </string>
     <string name="daynight_system_explanation">VLC basculera automatiquement en mode sombre en fonction du paramétrage du système</string>
