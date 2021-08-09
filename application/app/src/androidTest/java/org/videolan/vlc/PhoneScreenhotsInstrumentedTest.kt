@@ -72,7 +72,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
        // ScreenshotUtil.takeScreenshot("01_trash")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(0))
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
-        SystemClock.sleep(300)
+        SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(3, "audio_list")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
