@@ -146,7 +146,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         val media = getItem(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         vh.bindingContainer.setItem(media)
-        val scheme = media.uri.scheme
+        val scheme = media.uri?.scheme ?: ""
         vh.bindingContainer.setHasContextMenu(((!networkRoot || isFavorite)
                 && "content" != scheme
                 && "otg" != scheme))
