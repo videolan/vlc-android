@@ -270,11 +270,11 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     fun showTipViewIfNeeded(stubId: Int, settingKey: String) {
         if (BuildConfig.DEBUG || PlaybackService.hasRenderer()) return
-        val vsc = findViewById<View>(stubId)
+        val vsc = findViewById<ViewStubCompat>(stubId)
         if (vsc != null && !settings.getBoolean(settingKey, false) && !Settings.showTvUi) {
             when (stubId) {
-                R.id.audio_player_tips -> if (tipsDelegate.currentTip == null && !shownTips.contains(stubId)) tipsDelegate.init((vsc as ViewStubCompat))
-                R.id.audio_playlist_tips -> if (playlistTipsDelegate.currentTip == null && !shownTips.contains(stubId)) playlistTipsDelegate.init((vsc as ViewStubCompat))
+                R.id.audio_player_tips -> if (tipsDelegate.currentTip == null && !shownTips.contains(stubId)) tipsDelegate.init(vsc)
+                R.id.audio_playlist_tips -> if (playlistTipsDelegate.currentTip == null && !shownTips.contains(stubId)) playlistTipsDelegate.init(vsc)
             }
             if (::audioPlayer.isInitialized) audioPlayer.playlistModel.service?.pause()
         }

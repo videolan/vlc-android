@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.audio
 
 import android.animation.Animator
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import androidx.annotation.StringRes
@@ -35,12 +34,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.audio_player_tips.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     var currentTip: AudioPlayerTipsStep? = null
     private lateinit var initialConstraintSet: ConstraintSet
@@ -50,16 +54,18 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     }
     private val currentAnimations = ArrayList<Animator>()
 
-
-
-    fun init(vsc: ViewStubCompat) {
-        vsc.inflate()
+    fun init(vsc: ViewStubCompat?) {
+        vsc?.inflate()
+        activity.playerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         activity.playerBehavior.lock(true)
         activity.playerBehavior.setPeekHeightListener {
             updateBackgroundPosition(it)
         }
-        initialConstraintSet = ConstraintSet()
-        initialConstraintSet.clone(activity.audioPlayerTips)
+        if (!::initialConstraintSet.isInitialized) {
+            initialConstraintSet = ConstraintSet()
+            initialConstraintSet.clone(activity.audioPlayerTips)
+        }
+        activity.audioPlayerTips.setVisible()
         activity.audioPlayerTips.setOnTouchListener { _, _ -> true }
         next()
     }
@@ -85,6 +91,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
 
 
         clearAllAnimations()
+        activity.nextButton.setText(R.string.next)
 
         when (currentTip) {
             AudioPlayerTipsStep.SWIPE_NEXT -> {
@@ -116,7 +123,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
      */
     fun close() {
         clearAllAnimations()
-        (activity.audioPlayerTips.parent as? ViewGroup)?.removeView(activity.audioPlayerTips)
+        activity.audioPlayerTips.setGone()
         activity.playerBehavior.removePeekHeightListener()
         Settings.getInstance(activity).putSingle(PREF_AUDIOPLAYER_TIPS_SHOWN, true)
         currentTip = null

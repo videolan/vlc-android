@@ -45,10 +45,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.audio_playlist_tips.*
-import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
-import org.videolan.tools.Settings
-import org.videolan.tools.dp
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -69,46 +66,49 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
 
 
-    fun init(vsc: ViewStubCompat) {
-        vsc.inflate()
+    fun init(vsc: ViewStubCompat?) {
+        vsc?.inflate()
         activity.lockPlayer(true)
-        initialConstraintSet = ConstraintSet()
-        initialConstraintSet.clone(activity.audioPlaylistTips)
+        if (!::initialConstraintSet.isInitialized) {
+            initialConstraintSet = ConstraintSet()
+            initialConstraintSet.clone(activity.audioPlaylistTips)
+        }
 
-        //populate fake tracks
-        val playlistModel = ViewModelProvider(activity).get(PlaylistModel::class.java)
-        playlistModel.currentMediaWrapper?.let {
-            for (i in 0..10) {
-                val v = LayoutInflater.from(activity)
-                    .inflate(R.layout.playlist_item, activity.tracksContainer, false)
-                var binding: PlaylistItemBinding = DataBindingUtil.bind(v)!!
-                binding.media = it
-                binding.scaleType = ImageView.ScaleType.CENTER_CROP
-                binding.subTitle = MediaUtils.getMediaSubtitle(it)
-                activity.tracksContainer.addView(v)
-                if (i == 2) {
-                    binding.playing.stop()
-                    binding.playing.visibility = View.VISIBLE
-                    binding.coverImage.visibility = View.INVISIBLE
-                    binding.audioItemTitle.setTypeface(null, Typeface.BOLD)
-                    binding.audioItemSubtitle.setTypeface(null, Typeface.BOLD)
-                } else {
-                    binding.playing.stop()
-                    binding.playing.visibility = View.INVISIBLE
-                    binding.audioItemTitle.typeface = null
-                    binding.coverImage.visibility = View.VISIBLE
+        if (activity.tracksContainer.childCount == 0) {
+            //populate fake tracks
+            val playlistModel = ViewModelProvider(activity).get(PlaylistModel::class.java)
+            playlistModel.currentMediaWrapper?.let {
+                for (i in 0..10) {
+                    val v = LayoutInflater.from(activity)
+                        .inflate(R.layout.playlist_item, activity.tracksContainer, false)
+                    var binding: PlaylistItemBinding = DataBindingUtil.bind(v)!!
+                    binding.media = it
+                    binding.scaleType = ImageView.ScaleType.CENTER_CROP
+                    binding.subTitle = MediaUtils.getMediaSubtitle(it)
+                    activity.tracksContainer.addView(v)
+                    if (i == 2) {
+                        binding.playing.stop()
+                        binding.playing.visibility = View.VISIBLE
+                        binding.coverImage.visibility = View.INVISIBLE
+                        binding.audioItemTitle.setTypeface(null, Typeface.BOLD)
+                        binding.audioItemSubtitle.setTypeface(null, Typeface.BOLD)
+                    } else {
+                        binding.playing.stop()
+                        binding.playing.visibility = View.INVISIBLE
+                        binding.audioItemTitle.typeface = null
+                        binding.coverImage.visibility = View.VISIBLE
+                    }
+                    binding.masked = true
+                    if (i == 1) {
+                        binding.masked = false
+                        binding.itemContainer.setBackgroundColor(getItemColor())
+                        secondItemBinding = binding
+                    } else if (i == 2) thirdItemBinding = binding
                 }
-                binding.masked = true
-                if (i == 1) {
-                    binding.masked = false
-                    binding.itemContainer.setBackgroundColor(getItemColor())
-                    secondItemBinding = binding
-                } else if( i==2) thirdItemBinding = binding
-
             }
         }
 
-
+        activity.audioPlaylistTips.setVisible()
         next()
     }
 
@@ -249,6 +249,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
 
         clearAllAnimations()
+        activity.nextButton.setText(R.string.next)
 
         when (currentTip) {
             AudioPlaylistTipsStep.REMOVE -> {
@@ -285,6 +286,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
                 constraintSet.connect(R.id.helpTitle, ConstraintSet.BOTTOM, R.id.guideline8, ConstraintSet.TOP, 72.dp)
                 currentAnimations.clear()
                 currentAnimations.add(longTapSeek(activity.tapIndicatorRewind, activity.tapIndicatorForward, activity.plTipsTimeline))
+                activity.nextButton.setText(R.string.close)
             }
         }
 
@@ -299,7 +301,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
      */
     fun close() {
         clearAllAnimations()
-        (activity.audioPlaylistTips.parent as? ViewGroup)?.removeView(activity.audioPlaylistTips)
+        activity.audioPlaylistTips.setGone()
         Settings.getInstance(activity).putSingle(PREF_AUDIOPLAYER_TIPS_SHOWN, true)
         currentTip = null
         activity.audioPlayer.playlistModel.service?.play()

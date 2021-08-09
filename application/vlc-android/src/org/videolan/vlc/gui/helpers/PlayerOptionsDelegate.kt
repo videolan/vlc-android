@@ -22,12 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.videolan.resources.*
-import org.videolan.tools.AppScope
-import org.videolan.tools.Settings
-import org.videolan.tools.formatRateString
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
@@ -54,7 +53,9 @@ private const val ID_PASSTHROUGH = 12L
 private const val ID_ABREPEAT = 13L
 private const val ID_LOCK_PLAYER = 14L
 private const val ID_VIDEO_STATS = 15L
-
+private const val ID_SHOW_VIDEO_TIPS = 16L
+private const val ID_SHOW_AUDIO_TIPS = 17L
+private const val ID_SHOW_PLAYLIST_TIPS = 18L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
@@ -116,6 +117,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
         (recyclerview.adapter as OptionsAdapter).update(options)
+        if (video) {
+            options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.attr.ic_tips, res.getString(R.string.tips_title)))
+        } else {
+            options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.attr.ic_tips, res.getString(R.string.audio_player_tips)))
+            options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.attr.ic_tips, res.getString(R.string.playlist_tips)))
+        }
     }
 
     fun show() {
@@ -179,6 +186,22 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             ID_VIDEO_STATS -> {
                 hide()
                 service.playlistManager.toggleStats()
+            }
+            ID_SHOW_VIDEO_TIPS -> {
+                hide()
+                (activity as VideoPlayerActivity).tipsDelegate.init()
+            }
+            ID_SHOW_AUDIO_TIPS -> {
+                hide()
+                val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
+                val vsc = audioPlayerContainerActivity.findViewById<ViewStubCompat>(R.id.audio_player_tips)
+                audioPlayerContainerActivity.tipsDelegate.init(vsc)
+            }
+            ID_SHOW_PLAYLIST_TIPS -> {
+                hide()
+                val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
+                val vsc = audioPlayerContainerActivity.findViewById<ViewStubCompat>(R.id.audio_playlist_tips)
+                audioPlayerContainerActivity.playlistTipsDelegate.init(vsc)
             }
             ID_BOOKMARK -> {
                 hide()

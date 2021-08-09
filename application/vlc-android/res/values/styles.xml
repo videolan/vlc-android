@@ -85,6 +85,7 @@
         <item name="ic_popup_dim">@drawable/ic_popup_dim</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
+        <item name="ic_tips">@drawable/ic_show_tips</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark</item>
@@ -244,6 +245,7 @@
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
@@ -307,6 +309,7 @@
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
@@ -457,6 +460,7 @@
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>

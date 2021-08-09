@@ -66,12 +66,15 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
      * - Start the tips
      */
     fun init() {
-        (player.findViewById<View>(R.id.player_overlay_tips) as ViewStubCompat).inflate()
+        (player.findViewById<View>(R.id.player_overlay_tips) as? ViewStubCompat)?.inflate()
 
         player.tipsBrightnessProgress.setValue(50)
         player.tipsVolumeProgress.setValue(50)
-        initialConstraintSet = ConstraintSet()
-        initialConstraintSet.clone(player.overlayTipsLayout)
+        if (!::initialConstraintSet.isInitialized) {
+            initialConstraintSet = ConstraintSet()
+            initialConstraintSet.clone(player.overlayTipsLayout)
+        }
+        player.overlayTipsLayout.setVisible()
         next()
         getTapIndicators().forEach { it.setOnClickListener(this) }
     }
@@ -181,6 +184,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         getTapIndicators().forEach { constraintSet.setVisibility(it.id, GONE) }
 
         clearAllAnimations()
+        player.nextButton.setText(R.string.next)
 
         when (currentTip) {
             VideoPlayerTipsStep.CONTROLS -> {
