@@ -443,7 +443,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         @MainThread
         get() = playlistManager.player.getChapterIdx()
         @MainThread
-        set(chapter) = playlistManager.player.setChapterIdx(chapter)
+        set(chapter) {
+            playlistManager.player.setChapterIdx(chapter)
+            getChapters(-1)?.let {
+                publishState(it[chapter].timeOffset)
+            }
+        }
 
     var titleIdx: Int
         @MainThread
@@ -1395,7 +1400,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     @MainThread
-    fun setRate(rate: Float, save: Boolean) = playlistManager.player.setRate(rate, save)
+    fun setRate(rate: Float, save: Boolean) {
+        playlistManager.player.setRate(rate, save)
+        publishState()
+    }
 
     @MainThread
     fun navigate(where: Int) = playlistManager.player.navigate(where)
