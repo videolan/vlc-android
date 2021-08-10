@@ -911,7 +911,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.ESSelected -> {
                     getCurrentMedia()?.let { media ->
-                        if (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true)) {
+                        if (media.id < 1L && (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
                             media.updateMeta(player.mediaplayer)
                             service.onMediaListChanged()
                             service.showNotification()
