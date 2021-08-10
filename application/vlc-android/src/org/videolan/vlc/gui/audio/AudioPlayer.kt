@@ -106,7 +106,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private lateinit var pauseToPlaySmall: AnimatedVectorDrawableCompat
     private lateinit var playToPauseSmall: AnimatedVectorDrawableCompat
 
-    private lateinit var abRepeatAddMarker: Button
+    lateinit var abRepeatAddMarker: Button
     private var audioPlayProgressMode:Boolean = false
     private var lastEndsAt = -1L
 
@@ -222,7 +222,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.songSubtitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
     }
 
-    private fun showChips() {
+    fun showChips() {
         if (playlistModel.speed.value == 1.0F && PlayerOptionsDelegate.playerSleepTime.value == null) {
             binding.playbackChips.setGone()
         } else {

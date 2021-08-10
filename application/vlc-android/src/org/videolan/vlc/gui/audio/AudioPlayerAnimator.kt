@@ -48,6 +48,7 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.util.getScreenWidth
 import kotlin.math.max
 import kotlin.math.min
@@ -72,6 +73,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     private val showPlaylistConstraint = ConstraintSet()
     private val hidePlaylistConstraint = ConstraintSet()
     private val hidePlaylistLandscapeConstraint = ConstraintSet()
+    private val headerShowPlaylistConstraint = ConstraintSet()
+    private val headerHidePlaylistConstraint = ConstraintSet()
+    private val headerHidePlaylistLandscapeConstraint = ConstraintSet()
     private var currentCoverArt: String? = null
     private lateinit var binding: AudioPlayerBinding
     private val transition = AutoTransition().apply {
@@ -90,6 +94,14 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> hidePlaylistLandscapeConstraint
                 else -> hidePlaylistConstraint
             }.applyTo(cl)
+
+            when {
+                !value -> headerShowPlaylistConstraint
+                audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> headerHidePlaylistLandscapeConstraint
+                else -> headerHidePlaylistConstraint
+            }.applyTo(binding.header)
+            audioPlayer.showChips()
+            audioPlayer.playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, audioPlayer.abRepeatAddMarker)
             field = value
             onSlide(1F)
         }
@@ -108,11 +120,18 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         showPlaylistConstraint.clone(cl)
         hidePlaylistConstraint.clone(cl)
         hidePlaylistLandscapeConstraint.clone(cl)
+        headerShowPlaylistConstraint.clone(binding.header)
+        headerHidePlaylistConstraint.clone(binding.header)
+        headerHidePlaylistLandscapeConstraint.clone(binding.header)
 
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_rewind_10, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
+        headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.BOTTOM)
+        headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.TOP)
+        headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.BOTTOM, R.id.guideline_header_bottom, ConstraintSet.BOTTOM)
 
         hidePlaylistLandscapeConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
@@ -172,6 +191,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         binding.advFunction.translationY = -(1 - translationOffset) * 48.dp
         binding.headerPlayPause.translationY = translationOffset * 48.dp
         binding.headerTime.translationY = translationOffset * 48.dp
+        binding.abRepeatReset.translationY = -(1 - translationOffset) * 48.dp
+        binding.abRepeatStop.translationY = -(1 - translationOffset) * 48.dp
 
         if (showCover) {
             binding.audioMediaSwitcher.translationY = translationOffset * 48.dp
