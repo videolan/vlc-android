@@ -101,7 +101,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 else -> headerHidePlaylistConstraint
             }.applyTo(binding.header)
             audioPlayer.showChips()
-            audioPlayer.playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, audioPlayer.abRepeatAddMarker)
+            audioPlayer.retrieveAbRepeatAddMarker()?.let { audioPlayer.playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, it) }
+
             field = value
             onSlide(1F)
         }

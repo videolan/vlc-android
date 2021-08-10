@@ -733,6 +733,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
+    fun retrieveAbRepeatAddMarker():Button? {
+        if (!::abRepeatAddMarker.isInitialized) return null
+        return abRepeatAddMarker
+    }
+
     private val hideSearchRunnable by lazy(LazyThreadSafetyMode.NONE) {
         Runnable {
             hideSearchField()
