@@ -302,7 +302,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
     fun close() {
         clearAllAnimations()
         activity.audioPlaylistTips.setGone()
-        Settings.getInstance(activity).putSingle(PREF_AUDIOPLAYER_TIPS_SHOWN, true)
+        Settings.getInstance(activity).putSingle(PREF_PLAYLIST_TIPS_SHOWN, true)
         currentTip = null
         activity.audioPlayer.playlistModel.service?.play()
         activity.shownTips.add(R.id.audio_playlist_tips)
