@@ -26,6 +26,7 @@ package org.videolan.liveplotgraph
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.ViewGroup
@@ -70,7 +71,7 @@ class LegendView : ConstraintLayout, PlotViewDataChangeListener {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         //workaround for editor
-        if (!isInEditMode) {
+        if (!isInEditMode && context != null) {
             plotView = (context as Activity).findViewById(plotViewId)
             if (!::plotView.isInitialized) throw IllegalStateException("A valid plot view has to be provided")
             plotView.addListener(this)
