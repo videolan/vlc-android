@@ -115,9 +115,11 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         super.onResume()
         //Needed after privacy changes made in Android 10
         editText.doOnLayout {
-            val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-            val text = clipBoardManager?.primaryClip?.getItemAt(0)?.text?.toString()
-            if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+            try {
+                val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+                val text = clipBoardManager?.primaryClip?.getItemAt(0)?.text?.toString()
+                if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+            } catch (e: Exception) { }
         }
     }
 
