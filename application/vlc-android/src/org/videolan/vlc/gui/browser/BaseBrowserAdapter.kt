@@ -297,7 +297,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     }
 
     private fun getProtocol(media: MediaWrapper): String? {
-        return if (media.type != MediaWrapper.TYPE_DIR) null else media.uri.scheme
+        return if (media.type != MediaWrapper.TYPE_DIR) null else media.uri?.scheme
     }
 
     open fun checkBoxAction(v: View, mrl: String) {}
