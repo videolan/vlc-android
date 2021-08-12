@@ -137,7 +137,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
         networkViewModel.dataset.observe(viewLifecycleOwner, { list ->
              list?.let {
-                val filtered = it.filter { item -> item is MediaWrapper && item.uri.scheme == "smb" }
+                val filtered = it.filter { item -> item is MediaWrapper && item.uri?.scheme == "smb" }
                 networkAdapter.update(filtered)
                 updateNetworkEmptyView(networkEntry.loading)
                 if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
