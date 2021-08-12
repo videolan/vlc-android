@@ -58,7 +58,7 @@ private fun Array<VideoGroup>.sanitizeGroups() = map { videoGroup ->
  */
 private fun checkIsNetwork(videoGroup: VideoGroup) {
     videoGroup.media(Medialibrary.SORT_DEFAULT, false, true, videoGroup.mediaCount(), 0).forEach {
-        if (it.uri?.scheme?.isSchemeFile() == false) {
+        if (it?.uri?.scheme?.isSchemeFile() == false) {
             videoGroup.isNetwork = true
             return@forEach
         }
