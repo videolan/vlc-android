@@ -432,23 +432,23 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onRewind10(view: View) {
         playlistModel.service ?.let { service ->
-            if (service.length <= 0 || !service.isSeekable) return
-
             var position = service.time - 10000
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
+            if (service.playlistManager.player.lastPosition == 0.0f && service.time > 0)
+                UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
     }
 
     fun onForward10(view: View) {
         playlistModel.service ?.let { service ->
-            if (service.length <= 0 || !service.isSeekable) return
-
             var position = service.time + 10000
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
+            if (service.playlistManager.player.lastPosition == 0.0f)
+                UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
     }
 
