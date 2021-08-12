@@ -99,10 +99,12 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     @MainThread
     fun restart() {
         val mp = mediaplayer
-        val volume = mp.volume
+        val volume:Int? = if (!mp.isReleased) mp.volume else null
         mediaplayer = newMediaPlayer()
-        if (volume > 100) {
-            mediaplayer.volume = volume
+        volume?.let {
+            if (it > 100) {
+                mediaplayer.volume = it
+            }
         }
         release(mp)
     }
