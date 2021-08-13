@@ -103,6 +103,13 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   # TODO: remove when switching to VLC 4.0
   cd libvlcpp
   git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
+elif [ $RESET -eq 1 ]; then
+    cd ${SRC_DIR}/medialibrary/medialibrary
+    git reset --hard ${MEDIALIBRARY_HASH}
+    git submodule update --init libvlcpp
+    # TODO: remove when switching to VLC 4.0
+    cd libvlcpp
+    git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
 else
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   if ! git cat-file -e ${MEDIALIBRARY_HASH}; then

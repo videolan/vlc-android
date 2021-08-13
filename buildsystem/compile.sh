@@ -102,6 +102,9 @@ while [ $# -gt 0 ]; do
         stub)
             STUB=1
             ;;
+        --reset)
+            RESET=1
+            ;;
         --no-ml)
             NO_ML=1
             ;;
@@ -297,6 +300,14 @@ else
 fi
 if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
     diagnostic "VLC sources: Bypassing checks (required by option)"
+elif [ $RESET -eq 1 ]; then
+    cd vlc
+    git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
+    for patch_file in ../libvlc/patches/vlc3/*.patch; do
+        git am --message-id $patch_file
+        check_patch_is_applied "$patch_file"
+    done
+    cd ..
 else
     diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
     diagnostic "NOTE: checks can be bypass by adding '-b' option to this script."
