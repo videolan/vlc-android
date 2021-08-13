@@ -71,10 +71,12 @@ class LegendView : ConstraintLayout, PlotViewDataChangeListener {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         //workaround for editor
-        if (!isInEditMode && context != null) {
-            plotView = (context as Activity).findViewById(plotViewId)
-            if (!::plotView.isInitialized) throw IllegalStateException("A valid plot view has to be provided")
-            plotView.addListener(this)
+        if (!isInEditMode) {
+            context?.let {
+                plotView = (it as Activity).findViewById(plotViewId)
+                if (!::plotView.isInitialized) throw IllegalStateException("A valid plot view has to be provided")
+                plotView.addListener(this)
+            }
         }
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
     }
