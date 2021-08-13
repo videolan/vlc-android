@@ -93,6 +93,9 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
                     nextArtMrl?.let { AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512) }
             )
         }
+        val trackInfo = service.trackInfo()
+        val prevTrackInfo = service.prevTrackInfo()
+        val nextTrackInfo = service.nextTrackInfo()
         removeAllViews()
 
         hasPrevious = false
@@ -100,11 +103,11 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         val inflater = LayoutInflater.from(context)
         if (service.hasPrevious()) {
-            addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev, service.prevTrackInfo())
+            addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev, prevTrackInfo)
             hasPrevious = true
         }
-        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, coverCurrent, service.trackInfo())
-        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, coverNext, service.nextTrackInfo())
+        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, coverCurrent, trackInfo)
+        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, coverNext, nextTrackInfo)
 
         if (service.hasPrevious() && service.hasMedia()) {
             previousPosition = 1
