@@ -343,6 +343,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             mediaFactory.getFromUri(libVlc, mediaWrapper.uri).apply { parse() }
         }
         val tracks = media.getAudioTracks()
+        media.release()
         return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
     }
 
@@ -353,6 +354,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             mediaFactory.getFromUri(libVlc, mediaWrapper.uri).apply { parse() }
         }
         val tracks = media.getAudioTracks()
+        media.release()
         return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
     }
 
@@ -363,9 +365,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             mediaFactory.getFromUri(libVlc, mediaWrapper.uri).apply { parse() }
         }
         val tracks = media.getAudioTracks()
+        media.release()
         return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
     }
-
 
     fun IMedia.AudioTrack.formatTrackInfoString(context: Context) = (context.getString(R.string.track_bitrate_info, bitrate.toLong().readableSize()) +
             " · " +
