@@ -481,6 +481,7 @@
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
+        <item name="mini_visualizer_color">@color/white_transparent_75</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
