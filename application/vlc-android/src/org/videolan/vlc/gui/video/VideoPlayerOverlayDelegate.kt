@@ -651,6 +651,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (player.isPlaylistVisible) {
             playlistContainer.setGone()
             playlist.setOnClickListener(null)
+            UiTools.setKeyboardVisibility(playlistContainer, false)
             return
         }
         hideOverlay(true)
