@@ -138,7 +138,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 val count = item.mediaCount(Folder.TYPE_FOLDER_VIDEO)
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.binding.setVariable(BR.isNetwork, false)
-                holder.binding.setVariable(BR.isPresent, false)
+                holder.binding.setVariable(BR.isPresent, true)
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
