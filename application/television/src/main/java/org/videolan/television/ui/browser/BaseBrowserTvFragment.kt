@@ -453,7 +453,12 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             setFocus = false
             lifecycleScope.launchWhenStarted {
                 yield()
-                binding.list.requestFocus()
+                // If there is a previous selection, no need to request focus on the list here
+                // as it is requested for the specific item in the onLayoutChildren override above.
+                // This stops a flicker when coming back from playback.
+                if (previouslySelectedItem == -1) {
+                    binding.list.requestFocus()
+                }
             }
         }
         animationDelegate.setVisibility(binding.imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
