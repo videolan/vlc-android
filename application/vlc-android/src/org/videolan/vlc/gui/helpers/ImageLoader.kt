@@ -28,6 +28,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
@@ -204,6 +205,11 @@ fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
     }
+}
+
+@BindingAdapter("missingMedia")
+fun missingMedia(imageView: ImageView, media: MediaLibraryItem) {
+    if (media is VideoGroup && !media.isNetwork()) imageView.setImageResource(R.drawable.ic_sd_media_off) else imageView.setImageResource(R.drawable.ic_network_media_off)
 }
 
 private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
