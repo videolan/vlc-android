@@ -832,7 +832,7 @@
     <string name="soundfont_summary">Pick a SoundFont file to play midi audio tracks</string>
     <string name="missing_media_snack">Media is missing. Hide all missing media?</string>
     <string name="browser_show_missing_media">Show missing medias</string>
-    <string name="browser_show_missing_media_summary">Show distant medias event if they are not present</string>
+    <string name="browser_show_missing_media_summary">Show distant medias even if they are not present</string>
     <string name="search_prefs">Search settings</string>
     <string name="preferred_resolution">Preferred video resolution</string>
     <string name="preferred_resolution_summary">Maximum video quality for streams, when applicable, will be: %s</string>

@@ -57,13 +57,11 @@ import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -83,7 +81,6 @@ import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.VLCBillingDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
-import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -293,13 +290,13 @@ object UiTools {
     }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerMissing(activity: Activity) {
+    fun snackerMissing(activity: FragmentActivity) {
         val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, activity.getString(R.string.missing_media_snack), Snackbar.LENGTH_LONG)
                 .setAction(R.string.ok) {
-                    val intent = Intent(activity, PreferencesActivity::class.java)
-                    intent.putExtra(EXTRA_PREF_END_POINT, "include_missing")
-                    activity.startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
+                    activity.lifecycleScope.launch {
+                        PreferencesActivity.launchWithPref(activity, "include_missing")
+                    }
                 }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
