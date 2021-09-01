@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -49,6 +50,7 @@
     <string name="confirm_delete_album">Eliminar o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Eliminar estes %1$d média?</string>
     <string name="confirm_delete_folder">Eliminar a pasta \'%1$s\' e todo o seu conteúdo?</string>
+    <string name="confirm_delete_files">Apagar estes ficheiros \'%1$s\' ?</string>
     <string name="confirm_delete_playlist">Eliminar a lista de reprodução \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Remover \'%1$s\' da lista de reprodução?</string>
     <string name="ringtone_set">O ficheiro \'%1$s\' foi definido como toque de chamada.</string>
@@ -88,7 +90,6 @@
         <item quantity="one">1 Programa de TV</item>
         <item quantity="other">%d 1 Programas de TV</item>
     </plurals>
-
     <string name="internal_memory">Memória interna</string>
     <string name="audio">Áudio</string>
     <string name="video">Vídeo</string>
@@ -190,16 +191,9 @@
 
     <string name="play_button">Botão de Reproduzir</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
     <string name="seek">Pesquisar</string>
     <string name="subtitles">Legendas</string>
-    <string name="audio_sub">Faixas de áudio\ne legendas</string>
-    <string name="resize">Redimensionar</string>
-    <string name="options">Opções</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">OK</string>
-
     <string name="playlist_tips">Dicas da lista de reprodução</string>
     <string name="remove_song">Remover faixa</string>
     <string name="remove_playlist_item">%1$s foi ignorado da lista de reprodução</string>
@@ -237,7 +231,6 @@
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientação do ecrã do vídeo</string>
     <string name="screen_orientation_sensor">Automática (sensor)</string>
-    <string name="screen_orientation_start_lock">Bloqueado no arranque</string>
     <string name="screen_orientation_portrait">Retrato</string>
     <string name="screen_orientation_landscape">Paisagem</string>
     <string name="enable_black_theme">Tema escuro</string>
@@ -258,8 +251,6 @@
     <string name="video_min_group_length_disable">Não agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
     <string name="video_min_group_length_name">Agrupar por nome</string>
-    <string name="media_fast_seek">Pesquisa rápida</string>
-    <string name="media_fast_seek_summary">Procurar numa multimédia é mais rápido mas menos preciso</string>
     <string name="video_transition_title">Transição de vídeos </string>
     <string name="video_transition_summary">Mostrar o titulo do novo vídeo na transição </string>
     <string name="media_seen">Mostrar marcador de vídeo visto</string>
@@ -331,7 +322,6 @@
     <string name="casting_quality_lowcpu">Baixíssima</string>
     <string name="casting_connected_renderer">Conectado ao processador \'%1$s\'</string>
     <string name="artists_show_all_title">Mostrar todos os artistas</string>
-
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_empty">Nenhuma extensão detetada</string>
     <string name="extension_permission_title">Ativar a nova extensão \"%1$s\"?</string>
@@ -477,7 +467,6 @@
     <string name="download_subtitles">Transferir legendas</string>
     <string name="browse_folder">Explorar pasta</string>
     <string name="listen">Escutar</string>
-    <string name="save_bluetooth_delay">atraso para o dispositivo bluetooth</string>
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
@@ -494,6 +483,8 @@
     <string name="ml_external_storage_accept">Sim</string>
     <string name="ml_external_storage_decline">Não</string>
     <string name="auto_last_added_media">O último adicionado</string>
+    <string name="auto_my_library">A minha biblioteca</string>
+    <string name="auto_home">Início</string>
     <string name="no">Não</string>
     <string name="loading_medialibrary">A carregar mediateca…</string>
     <string name="yes">Sim</string>
@@ -707,10 +698,25 @@
     <string name="donation_description">O seu patrocínio irá ajudar-nos a melhorar a aplicação VLC para Android\n Suportar a VideoLAN Association</string>
     <string name="subscription_purchased">Você está subscrito a um patrocínio mensal</string>
     <string name="subscription_cancel">Pode retirar a subscrição na Play Store</string>
+    <string name="tip_jar">Ajudar o VLC</string>
     <string name="thank_you">Obrigado</string>
+    <string name="mark_as_played">Marcar como visto</string>
+    <string name="mark_as_not_played">Marcar como não visto</string>
+    <string name="mark_all_as_played">Marcar todos como visto</string>
     <string name="new_group">Novo grupo</string>
+    <string name="new_group_desc">Criar um novo grupo</string>
+
+    <string name="air_action_volume_up">Aumentar volume</string>
+    <string name="air_action_volume_down">Diminuir volume</string>
     <string name="timeout_infinite">Infinito</string>
     <string name="timeout_short">Curto</string>
     <string name="timeout_normal">Normal</string>
     <string name="timeout_long">Longo</string>
+    <string name="apply_to_all">Aplicar a todos os videos</string>
+    <string name="search_prefs">Procurar definições</string>
+    <string name="preferred_resolution">Resolução de vídeo preferida</string>
+    <string name="pref_resolution_very_low">Muito baixa definição (240p)</string>
+    <string name="delete_forever">Apagar definitivamente</string>
+    <string name="add_button">Adicionar</string>
+    <string name="add_all_button">Adicionar todos</string>
 </resources>
