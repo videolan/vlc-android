@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">ตกลง</string>
@@ -85,7 +86,6 @@
     <plurals name="tvshow_quantity">
         <item quantity="other">รายการทีวี %d รายการ</item>
     </plurals>
-
     <string name="internal_memory">หน่วยความจำภายใน</string>
     <string name="audio">เสียง</string>
     <string name="video">วิดีโอ</string>
@@ -186,16 +186,9 @@
 
     <string name="play_button">ปุ่มเล่น</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">คำแนะนำโปรแกรมเล่นวิดีโอ:</string>
     <string name="seek">ค้นหา</string>
     <string name="subtitles">คำบรรยาย</string>
-    <string name="audio_sub">แทร็กเสียง\nและคำบรรยาย</string>
-    <string name="resize">ปรับขนาด</string>
-    <string name="options">ตัวเลือก</string>
     <string name="lock">ล็อก</string>
-    <string name="ok_got_it">เข้าใจแล้ว เลิกสนใจสิ่งนี้</string>
-
     <string name="playlist_tips">คำแนะนำเพลย์ลิสต์</string>
     <string name="remove_song">ลบเพลงออก</string>
     <string name="remove_playlist_item">%1$s ได้ถูกลบออกจากเพลย์ลิสต์แล้ว</string>
@@ -234,7 +227,6 @@
     <string name="automatic">อัตโนมัติ</string>
     <string name="screen_orientation">การจัดวางหน้าจอวิดีโอ</string>
     <string name="screen_orientation_sensor">อัตโนมัติ (ตรวจจับ)</string>
-    <string name="screen_orientation_start_lock">ล็อกตั้งแต่เริ่มต้น</string>
     <string name="screen_orientation_portrait">แนวตั้ง</string>
     <string name="screen_orientation_landscape">แนวนอน</string>
     <string name="enable_black_theme">ธีมสีดำ</string>
@@ -255,8 +247,6 @@
     <string name="video_min_group_length_disable">ไม่ต้องจัดกลุ่มวิดีโอ</string>
     <string name="video_min_group_length_folder">จัดกลุ่มตามโฟลเดอร์</string>
     <string name="video_min_group_length_name">จัดกลุ่มตามชื่อ</string>
-    <string name="media_fast_seek">การกรอแบบเร็ว</string>
-    <string name="media_fast_seek_summary">การกรอในสื่อจะเร็วขึ้น แต่จะแม่นยำน้อยลง</string>
     <string name="video_transition_title">การเปลี่ยนวิดีโอ</string>
     <string name="video_transition_summary">แสดงชื่อเรื่องวิดีโอใหม่เมื่อเปลี่ยน</string>
     <string name="media_seen">แสดงเครื่องหมายว่าวิดีโอนี้ดูแล้ว</string>
@@ -328,7 +318,6 @@
     <string name="casting_quality_lowcpu">ต่ำที่สุด</string>
     <string name="casting_connected_renderer">เชื่อมต่อตัวแสดง \'%1$s\' แล้ว</string>
     <string name="artists_show_all_title">แสดงศิลปินทั้งหมด</string>
-
     <string name="extensions_prefs_category">ส่วนขยาย</string>
     <string name="extensions_empty">ตรวจไม่พบส่วนขยาย</string>
     <string name="extension_permission_title">เปิดใช้งานส่วนขยายใหม่ \"%1$s\" หรือไม่</string>
@@ -477,7 +466,6 @@
     <string name="download_subtitles">ดาวน์โหลดคำบรรยาย</string>
     <string name="browse_folder">เรียกดูโฟลเดอร์</string>
     <string name="listen">ฟัง</string>
-    <string name="save_bluetooth_delay">บันทึกการหน่วงเวลาสำหรับอุปกรณ์บลูทูธ</string>
     <string name="episodes">ตอน</string>
     <string name="movies">ภาพยนตร์</string>
     <string name="videos">วิดีโอ</string>
@@ -658,7 +646,6 @@
     <string name="recently_played">ที่เล่นเมื่อล่าสุด</string>
     <string name="recently_added">ที่เพิ่มเมื่อล่าสุด</string>
     <string name="playback_multiple_errors">ไม่สามารถเล่นสื่อหลายรายการได้</string>
-    <string name="clear_media_db_warning">คุณจะสูญเสียความคืบหน้าและเพลย์ลิสต์ที่คุณสร้างไว้\n%s</string>
     <string name="abrepeat_add_first_marker">ตั้งค่าจุดเริ่มต้น</string>
     <string name="abrepeat_add_second_marker">ตั้งค่าจุดสิ้นสุด</string>
     <string name="demux_bitrate">อัตราบิตในการแยกส่งสัญญาณ</string>
