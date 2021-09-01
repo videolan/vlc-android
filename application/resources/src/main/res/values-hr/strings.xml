@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">U redu</string>
@@ -100,7 +101,6 @@
         <item quantity="few">%d TV emisije</item>
         <item quantity="other">%d TV emisija</item>
     </plurals>
-
     <string name="internal_memory">Unutarnja memorija</string>
     <string name="audio">Glazba</string>
     <string name="video">Video</string>
@@ -203,16 +203,9 @@
 
     <string name="play_button">Tipka reprodukcije</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Savjeti video reproduktora:</string>
     <string name="seek">Premotavanje</string>
     <string name="subtitles">Podnaslovi</string>
-    <string name="audio_sub">Zvuk i podnaslovi</string>
-    <string name="resize">Veličina slike</string>
-    <string name="options">Mogućnosti</string>
     <string name="lock">Zaključaj</string>
-    <string name="ok_got_it">Shvaćam, ne prikazuj više savjete</string>
-
     <string name="playlist_tips">Savjeti popisa izvođenja</string>
     <string name="remove_song">Ukloni pjesmu</string>
     <string name="remove_playlist_item">%1$s je uklonjen iz popisa izvođenja</string>
@@ -251,7 +244,6 @@
     <string name="automatic">Automatsko</string>
     <string name="screen_orientation">Zakretanje zaslona</string>
     <string name="screen_orientation_sensor">Automatsko (senzor)</string>
-    <string name="screen_orientation_start_lock">Zaključano pri pokretanju</string>
     <string name="screen_orientation_portrait">Uspravno</string>
     <string name="screen_orientation_landscape">Položeno</string>
     <string name="enable_black_theme">Tamna tema</string>
@@ -270,8 +262,6 @@
     <string name="video_min_group_length_disable">Ne grupiraj video snimke</string>
     <string name="video_min_group_length_folder">Grupiraj po mapama</string>
     <string name="video_min_group_length_name">Grupiraj po imenu</string>
-    <string name="media_fast_seek">Brzo traženje</string>
-    <string name="media_fast_seek_summary">Traženje u medijima je brže, ali manje precizno</string>
     <string name="video_transition_title">Prijelazi videa</string>
     <string name="video_transition_summary">Pokaži naslov videa na prijelazu</string>
     <string name="media_seen">Prikaži oznaku odgledane video snimke</string>
@@ -341,7 +331,6 @@
     <string name="casting_quality_lowcpu">Najmanja</string>
     <string name="casting_connected_renderer">Povezano s prikazivačem \'%1$s\'</string>
     <string name="artists_show_all_title">Prikaži sve izvođače</string>
-
     <string name="extensions_prefs_category">Proširenja</string>
     <string name="extensions_empty">Nema otkrivenih proširenja</string>
     <string name="extension_permission_title">Aktiviraj novo proširenje \"%1$s\"?</string>
@@ -485,7 +474,6 @@
     <string name="download_subtitles">Preuzmi podnaslov</string>
     <string name="browse_folder">Pregledaj mapu</string>
     <string name="listen">Osluškuj</string>
-    <string name="save_bluetooth_delay">spremi odgodu za bluetooth uređaje</string>
     <string name="episodes">epizode</string>
     <string name="movies">filmovi</string>
     <string name="videos">video snimke</string>
