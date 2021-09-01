@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Gruppera inte videor</string>
     <string name="video_min_group_length_folder">Gruppera efter mapp</string>
     <string name="video_min_group_length_name">Gruppera efter namn</string>
-    <string name="media_fast_seek">Snabb snabbspolning</string>
-    <string name="media_fast_seek_summary">Det går snabbare att snabbspola i mediafiler, men är mindre exakt</string>
     <string name="video_transition_title">Videoövergång</string>
     <string name="video_transition_summary">Visa ny videotitel vid övergång</string>
     <string name="media_seen">Visa markör för sedda videor</string>
@@ -813,7 +811,7 @@
     <string name="soundfont_summary">Välj en soundfont-fil att spela upp midi-ljudspår</string>
     <string name="missing_media_snack">Mediafiler saknas. Dölj alla mediafiler som saknas?</string>
     <string name="browser_show_missing_media">Visa mediafiler som saknas</string>
-    <string name="browser_show_missing_media_summary">Visa avlägsna mediafilhändelser om de inte syns</string>
+    <string name="browser_show_missing_media_summary">Visa avlägsna mediafiler även om de inte är närvarande</string>
     <string name="search_prefs">Sök efter inställningar</string>
     <string name="preferred_resolution">Föredragen videoupplösning</string>
     <string name="preferred_resolution_summary">Maximal videokvalitet för strömmar kommer, där det går, att vara: %s</string>
