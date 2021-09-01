@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">ᱴᱷᱤᱠ</string>
     <string name="cancel">ᱵᱟᱹᱰᱨᱟᱹ</string>
-    <string name="other">ᱚᱞᱜᱟ</string>
+    <string name="other">ᱟᱞᱟᱫᱟ</string>
     <string name="sortby">ᱞᱮᱠᱷᱟ ᱥᱮᱴ…</string>
     <string name="sortby_name">ᱧᱩᱛᱩᱢ</string>
-    <string name="sortby_filename">ᱨᱮᱫᱽ ᱨᱮᱭᱟᱜᱽ ᱧᱩᱛᱩᱢ</string>
+    <string name="sortby_filename">ᱨᱮᱫ ᱨᱮᱭᱟᱜ ᱧᱩᱛᱩᱢ</string>
     <string name="sortby_artist_name">ᱟᱨᱴᱤᱥᱴ ᱧᱩᱛᱩᱢ</string>
     <string name="sortby_album_name">ᱟᱞᱵᱟᱹᱢ ᱧᱩᱛᱩᱢ</string>
     <string name="sortby_length">ᱡᱤᱞᱤᱧ</string>
     <string name="sortby_date">ᱢᱟᱹᱦᱤᱛ</string>
-    <string name="sortby_last_modified_date">ᱱᱤᱛᱚᱜ ᱥᱮᱞᱮᱫᱽᱟᱜ</string>
+    <string name="sortby_last_modified_date">ᱱᱤᱛᱚᱜ ᱥᱮᱞᱮᱫᱟᱜ</string>
     <string name="sortby_media_number">ᱢᱤᱰᱤᱭᱟ ᱱᱚᱢᱵᱚᱨ</string>
-    <string name="sortby_number">Nb ᱴᱨᱟᱠ ᱠᱚ</string>
+    <string name="sortby_number">Nb ᱴᱨᱮᱠ ᱠᱚ</string>
     <string name="searchable_hint">ᱥᱮᱸᱫᱽᱨᱟ…</string>
-    <string name="history">ᱦᱤᱛᱟᱹᱞ</string>
+    <string name="history">ᱱᱟᱜᱟᱢ</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d ᱛᱮᱞᱟ ᱧᱟᱢᱮᱱᱟ</item>
@@ -24,32 +25,37 @@
     </plurals>
 
     <string name="play">ᱯᱞᱮ</string>
-    <string name="playback">ᱥᱟᱲᱮ ᱨᱩᱣᱟᱹᱲ</string>
+    <string name="playback">ᱯᱞᱮᱵᱮᱠ</string>
     <string name="playback_controls">ᱯᱞᱮᱵᱮᱠ ᱠᱟᱹᱱᱴᱨᱚᱞ</string>
     <string name="medialibrary_scan">ᱢᱤᱰᱤᱭᱟ ᱚᱱᱟᱜ ᱥᱠᱮᱱ</string>
     <string name="Medialibrary_progress">ᱢᱮᱰᱤᱭᱟ ᱚᱱᱟᱜ ᱥᱠᱮᱱᱤᱝ ᱠᱟᱹᱢᱤ ᱦᱟᱹᱞᱤᱭᱟᱠᱠᱚ</string>
     <string name="play_from_start">ᱮᱛᱦᱚᱵᱽ ᱠᱷᱚᱱ ᱯᱞᱮ</string>
     <string name="play_as_audio">ᱥᱟᱲᱮ ᱞᱮᱠᱷᱟ ᱯᱞᱮ</string>
     <string name="play_as_video">ᱣᱤᱰᱤᱭᱚ ᱞᱮᱠᱷᱟ ᱯᱮᱞ</string>
-    <string name="video_app_switch_title">ᱵᱮᱠᱜᱨᱩᱸᱰ/PiP ᱢᱳᱰ</string>
-    <string name="video_app_switch_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱠᱷᱚᱱ ᱚᱞᱜᱟ ᱮᱯᱯᱞᱤᱠᱮᱥᱚᱱ ᱛᱮ ᱪᱟᱞᱟᱜᱽ ᱡᱷᱚᱜ VLC ᱵᱮᱵᱷᱟᱨ ᱪᱚᱭᱚᱱ ᱢᱮᱸ</string>
-    <string name="play_pip_title">ᱪᱤᱛᱟᱹᱨᱼᱟᱨᱼᱪᱤᱛᱟᱹ ᱢᱳᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮᱸ</string>
-    <string name="play_as_audio_background">ᱵᱮᱠᱜᱨᱟᱩᱸᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮᱸ</string>
-    <string name="append">ᱟᱯᱯᱮᱸᱰ</string>
-    <string name="insert_next">ᱤᱱᱟᱹ ᱛᱟᱭᱚᱢ ᱛᱚᱵᱮᱫᱽ ᱢᱮᱸ</string>
-    <string name="play_all">ᱡᱷᱚᱛᱚ ᱯᱞᱮ ᱢᱮᱸ</string>
-    <string name="append_all">ᱡᱷᱚᱛᱚ ᱟᱯᱯᱮᱸᱰ ᱢᱮᱸ</string>
-    <string name="resume_playback_short_title">ᱯᱞᱮᱵᱮᱠ ᱞᱟᱦᱟᱭ ᱢᱮᱸ</string>
-    <string name="resume_playback_long_title">ᱢᱟᱲᱟᱝ ᱯᱞᱮᱞᱤᱥᱴ ᱠᱚ ᱨᱮᱭᱟᱜ ᱯᱞᱵᱮᱠ ᱞᱟᱦᱟ ᱪᱷᱚᱭ ᱢᱮᱸ</string>
-    <string name="delete">ᱢᱮᱴᱟᱣ ᱢᱮᱸ</string>
-    <string name="remove">ᱚᱪᱚᱜ ᱢᱮᱸ</string>
-    <string name="set_song">ᱨᱤᱝᱴᱚᱱ ᱥᱮᱴ ᱢᱮᱸ</string>
+    <string name="video_app_switch_title">ᱵᱮᱠᱜᱨᱟᱩᱸᱰ/PiP ᱢᱳᱰ</string>
+    <string name="video_app_switch_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱠᱷᱚᱱ ᱚᱞᱜᱟ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱛᱮ ᱪᱟᱞᱟᱜ ᱡᱷᱚᱜ VLC ᱵᱮᱵᱷᱟᱨ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
+    <string name="play_pip_title">ᱪᱤᱛᱟᱹᱨᱼᱟᱨᱼᱪᱤᱛᱟᱹ ᱢᱳᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮ</string>
+    <string name="play_as_audio_background">ᱵᱮᱠᱜᱽᱨᱟᱩᱱᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮ</string>
+    <string name="append">ᱟᱯᱮᱱᱰ</string>
+    <string name="insert_next">ᱤᱱᱟᱹ ᱛᱟᱭᱚᱢ ᱛᱚᱵᱮᱫᱽ ᱢᱮ</string>
+    <string name="play_all">ᱡᱷᱚᱛᱚ ᱯᱞᱮ ᱢᱮ</string>
+    <string name="append_all">ᱡᱷᱚᱛᱚ ᱟᱯᱮᱱᱰ ᱢᱮ</string>
+    <string name="resume_playback_short_title">ᱯᱞᱮᱵᱮᱠ ᱞᱟᱦᱟᱭ ᱢᱮ</string>
+    <string name="resume_playback_long_title">ᱢᱟᱲᱟᱝ ᱯᱞᱮᱞᱤᱥᱴ ᱠᱚ ᱨᱮᱭᱟᱜ ᱯᱞᱵᱮᱠ ᱞᱟᱦᱟ ᱪᱷᱚᱭ ᱢᱮ</string>
+    <string name="resume_playback_error">ᱞᱟᱦᱟ ᱞᱟᱹᱜᱤᱫ ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱹᱱᱩᱜᱼᱟ</string>
+    <string name="delete">ᱢᱮᱴᱟᱣ ᱢᱮ</string>
+    <string name="remove">ᱚᱪᱚᱜᱽ ᱢᱮ</string>
+    <string name="set_song">ᱨᱤᱝᱴᱚᱱ ᱥᱮᱴ ᱢᱮ</string>
     <string name="set_song_question">\'%1$s\' ᱨᱤᱝᱴᱚᱱ ᱞᱮᱠᱷᱟ ᱥᱮᱴ ᱟᱢ ᱥᱮ?</string>
     <string name="info">ᱠᱷᱚᱵᱚᱨ</string>
     <string name="confirm_delete">\'%1$s\' ᱨᱮᱫᱽ ᱢᱮᱴᱟᱣ ᱟᱢ ᱥᱮ?</string>
+    <string name="confirm_delete_message">ᱱᱚᱶᱟ ᱫᱚ ᱯᱟᱨᱢᱟᱱᱮᱱᱴ ᱜᱮᱭᱟ ᱟᱨ ᱨᱩᱟᱹᱲ ᱟᱹᱜᱩ ᱵᱟᱝ ᱜᱟᱱᱚᱜᱼᱟ ᱾</string>
     <string name="confirm_delete_album">\'%1$s\' ᱚᱞᱵᱟᱹᱢ ᱢᱮᱴᱟᱣᱟᱢ ᱥᱮ?</string>
     <string name="confirm_delete_several_media">%1$d ᱢᱮᱰᱤᱭᱟ ᱢᱮᱴᱟᱣᱟᱢ ᱥᱮ?</string>
     <string name="confirm_delete_folder">ᱯᱚᱴᱚᱢ \'%1$s\' ᱟᱨ ᱚᱱᱟ ᱨᱮᱭᱟᱜ ᱡᱤᱱᱤᱥ ᱠᱚ ᱢᱮᱴᱟᱣᱟᱢ ᱥᱮ?</string>
+    <string name="confirm_delete_folders">ᱱᱚᱶᱟ %1$s ᱯᱚᱴᱚᱢ ᱠᱚ ᱟᱨ ᱚᱱᱟ ᱨᱮ ᱢᱮᱱᱟᱜ ᱡᱤᱱᱥᱤ ᱠᱚ ᱢᱮᱴᱟᱣᱼᱟ ᱥᱮ?</string>
+    <string name="confirm_delete_files">%1$s ᱨᱮᱫ ᱠᱚ ᱢᱮᱴᱟᱣ ᱟᱢ ᱥᱮ?</string>
+    <string name="confirm_delete_folders_and_files">%1$s ᱯᱚᱴᱚᱢ ᱟᱨ %2$s ᱨᱮᱫ ᱠᱚ ᱢᱮᱴᱟᱣ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ ᱥᱮ?</string>
     <string name="confirm_delete_playlist">\'%1$s\' ᱯᱞᱮᱞᱤᱥᱴ ᱢᱮᱴᱟᱣᱟᱢ ᱥᱮ?</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' ᱯᱞᱮᱞᱤᱥᱴ ᱠᱷᱚᱱ ᱚᱪᱚᱜ ᱟᱢ ᱥᱮ?</string>
     <string name="ringtone_set">\'%1$s\' ᱨᱮᱫᱽ ᱨᱤᱝᱴᱚᱱ ᱞᱮᱠᱷᱟ ᱥᱮᱴ ᱮᱱᱟ ᱾</string>
@@ -58,20 +64,20 @@
     <string name="unknown_artist">ᱵᱟᱝ ᱵᱟᱲᱟᱭ ᱟᱨᱴᱤᱥᱴ</string>
     <string name="unknown_album">ᱵᱟᱝ ᱵᱟᱲᱟᱭ ᱮᱞᱵᱟᱹᱢ</string>
     <string name="unknown_genre">ᱵᱟᱝ ᱵᱟᱲᱟᱭ ᱡᱮᱱᱨᱮ</string>
-    <string name="songs">ᱥᱮᱨᱮᱧᱠᱚ</string>
+    <string name="songs">ᱥᱮᱨᱮᱧ ᱠᱚ</string>
     <string name="track_info_copied_to_clipboard">ᱴᱨᱟᱠ ᱵᱤᱵᱨᱚᱬ ᱠᱚ  ᱠᱞᱤᱯᱵᱚᱰ ᱛᱮ ᱱᱚᱠᱚᱞ ᱮᱱᱟ</string>
 
     <string name="artists">ᱟᱨᱴᱤᱥᱴ ᱠᱚ</string>
     <string name="albums">ᱟᱞᱵᱟᱹᱢ ᱠᱚ</string>
-    <string name="tracks">ᱴᱨᱟᱠ ᱠᱚ</string>
+    <string name="tracks">ᱴᱨᱮᱠ ᱠᱚ</string>
 
     <plurals name="albums_quantity">
         <item quantity="one">᱑ ᱮᱞᱵᱟᱹᱢ</item>
-        <item quantity="other">%d ᱮᱞᱵᱟᱹᱢᱠᱚ</item>
+        <item quantity="other">%d ᱮᱞᱵᱟᱹᱢ ᱠᱚ</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">᱑ ᱯᱚᱴᱼᱯᱚᱴᱚᱢ</item>
-        <item quantity="other">%d ᱯᱚᱴᱼᱯᱚᱴᱚᱢᱠᱚ</item>
+        <item quantity="other">%d ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱠᱚ</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">᱑ ᱢᱤᱰᱤᱭᱟ</item>
@@ -91,22 +97,26 @@
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">᱑ TV ᱥᱷᱚ</item>
-        <item quantity="other">%d TV ᱥᱷᱚᱠᱚ</item>
+        <item quantity="other">%d TV ᱥᱷᱚ ᱠᱚ</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 ᱴᱨᱮᱠ</item>
+        <item quantity="other">%d ᱴᱨᱮᱠ ᱠᱚ</item>
     </plurals>
 
     <string name="internal_memory">ᱵᱷᱤᱛᱨᱤ ᱩᱭᱦᱟᱹᱨ</string>
-    <string name="audio">ᱟᱸᱰᱤᱭᱚ</string>
+    <string name="audio">ᱚᱰᱤᱭᱚ</string>
     <string name="video">ᱣᱤᱰᱤᱭᱚ</string>
     <string name="bookmarks">ᱵᱩᱠᱢᱟᱨᱠ ᱠᱚ</string>
     <string name="equalizer">ᱤᱠᱣᱤᱞᱟᱭᱡᱚᱨ</string>
     <string name="all_albums">ᱡᱷᱚᱛᱚ ᱟᱹᱞᱵᱟᱹᱢᱠᱚ</string>
-    <string name="genres">ᱡᱮᱱᱨᱮᱠᱚ</string>
+    <string name="genres">ᱡᱮᱱᱨᱮ ᱠᱚ</string>
     <string name="playlists">ᱯᱞᱮᱞᱤᱥᱴᱭ ᱠᱚ</string>
     <string name="title">ᱴᱟᱭᱴᱟᱹᱞ</string>
     <string name="directories">ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭᱠᱚ</string>
-    <string name="loading">ᱞᱟᱫᱮᱜᱽᱠᱟᱱᱟ</string>
+    <string name="loading">ᱞᱟᱫᱮᱜ ᱠᱟᱱᱟ</string>
     <string name="please_wait">ᱫᱟᱭᱟ ᱠᱟᱛᱮ ᱛᱟᱺᱜᱤ ᱢᱮ…</string>
-    <string name="nomedia">ᱢᱮᱰᱤᱭᱟ ᱨᱮᱫᱽ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ, ᱫᱚᱭᱟᱠᱟᱮ ᱡᱟᱦᱟᱱᱟᱜᱽ ᱨᱮᱫ ᱠᱚ ᱩᱪᱟᱹᱲ ᱢᱮᱸ ᱟᱨ ᱵᱟᱝ ᱟᱢᱟᱜ ᱠᱩᱥᱤᱠᱚ ᱮᱰᱡᱟᱹᱥᱴ ᱢᱮᱸ ᱾</string>
+    <string name="nomedia">ᱢᱮᱰᱤᱭᱟ ᱨᱮᱫᱽ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ, ᱫᱚᱭᱟᱠᱟᱮ ᱡᱟᱦᱟᱱᱟᱜᱽ ᱨᱮᱫ ᱠᱚ ᱩᱪᱟᱹᱲ ᱢᱮ ᱟᱨ ᱵᱟᱝ ᱟᱢᱟᱜ ᱠᱩᱥᱤᱠᱚ ᱮᱰᱡᱟᱹᱥᱴ ᱢᱮ ᱾</string>
     <string name="noplaylist">ᱯᱞᱮᱞᱤᱥᱴ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ ᱾</string>
     <string name="nosubfolder">ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱵᱟᱹᱱᱩᱜᱼᱟ</string>
     <string name="directorynotfound">%1$s ᱩᱱᱩᱫᱩᱜ ᱡᱟᱭᱜᱟ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ ᱾</string>
@@ -114,16 +124,17 @@
     <string name="validation">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱛᱮᱢ ᱢᱮᱱᱟᱢ-ᱟ ᱥᱮ?</string>
 
     <string name="cover_art">ᱠᱚᱵᱷᱟᱹᱨ ᱟᱨᱴ</string>
-    <string name="shuffle_all_title">ᱡᱷᱚᱛᱚ ᱯᱷᱮᱸᱴᱟᱣ ᱢᱮᱸ</string>
+    <string name="shuffle_all_title">ᱡᱷᱚᱛᱚ ᱯᱷᱮᱱᱴᱟᱣ ᱢᱮ</string>
     <string name="shuffle_title">ᱯᱷᱮᱱᱴᱟᱣ ᱢᱳᱰ</string>
-    <string name="shuffle">ᱯᱷᱮᱱᱴᱟᱣ ᱵᱚᱸᱫᱽ</string>
+    <string name="shuffle">ᱯᱷᱮᱱᱴᱟᱣ ᱵᱚᱸᱫ</string>
     <string name="shuffle_on">ᱯᱷᱮᱱᱴᱟᱣ ᱮᱢ</string>
-    <string name="repeat_title">ᱨᱤᱯᱤᱴ ᱴᱳᱰ</string>
+    <string name="shuffle_play">ᱯᱷᱮᱱᱴᱟᱣ</string>
+    <string name="repeat_title">ᱨᱤᱯᱤᱴ ᱢᱳᱰ</string>
     <string name="repeat">ᱨᱤᱯᱤᱴ ᱵᱟᱹᱱᱩᱜᱼᱟ</string>
     <string name="repeat_single">ᱨᱤᱯᱤᱴ ᱢᱤᱫᱽᱴᱟᱹᱝ</string>
     <string name="repeat_all">ᱡᱷᱚᱛᱚ ᱨᱤᱯᱤᱴ</string>
     <string name="previous">ᱢᱟᱲᱟᱝ</string>
-    <string name="stop">ᱛᱤᱝᱩ</string>
+    <string name="stop">ᱛᱤᱸᱜᱩ</string>
     <string name="firstsong">ᱯᱞᱮᱞᱤᱥᱴ ᱨᱮᱭᱟᱜ ᱢᱟᱲᱟᱝ ᱥᱮᱨᱮᱧ</string>
     <string name="lastsong">ᱯᱞᱮᱞᱤᱥᱴ ᱨᱮᱭᱟᱜ ᱢᱩᱪᱟᱹᱫ ᱥᱮᱨᱮᱧ</string>
 
@@ -133,19 +144,19 @@
     <string name="surface_original">ᱛᱟᱞᱟ ᱨᱮ</string>
     <string name="unseekable_stream">ᱟᱹᱱᱥᱤᱠᱮᱵᱟᱹᱞ ᱥᱴᱨᱤᱢ</string>
     <string name="refresh">ᱱᱟᱶᱟ ᱟᱹᱨᱩ</string>
-    <string name="track_audio">ᱟᱸᱡᱚᱢᱟᱜ ᱦᱚᱨ</string>
-    <string name="track_video">ᱣᱤᱰᱤᱭᱚ ᱴᱨᱟᱠ</string>
-    <string name="track_text">ᱥᱟᱹᱵᱽᱴᱟᱭᱴᱟᱹᱞ ᱴᱨᱟᱠ</string>
-    <string name="track_unknown">ᱵᱟᱝ ᱵᱟᱲᱟᱭ ᱴᱨᱟᱠ</string>
+    <string name="track_audio">ᱚᱰᱤᱭᱚ ᱴᱨᱮᱠ</string>
+    <string name="track_video">ᱣᱤᱰᱤᱭᱚ ᱴᱨᱮᱠ</string>
+    <string name="track_text">ᱥᱟᱹᱵᱽᱴᱟᱭᱴᱟᱹᱞ ᱴᱨᱮᱠ</string>
+    <string name="track_unknown">ᱵᱟᱝ ᱵᱟᱰᱟᱭᱟᱱ ᱴᱨᱮᱠ</string>
     <string name="track_bitrate_info">ᱵᱤᱴᱨᱮᱴ: %1$s/s\n</string>
     <string name="track_codec_info">ᱠᱳᱰᱮᱠᱺ %1$s\n</string>
     <string name="track_language_info">ᱯᱟᱹᱨᱥᱤ: %1$s\n</string>
     <string name="volume">ᱣᱚᱞᱭᱩᱢ</string>
     <string name="sound_on">ᱥᱟᱲᱮ ᱮᱢ ᱪᱷᱚ</string>
-    <string name="sound_off">ᱥᱟᱲᱮ ᱵᱚᱸᱫᱽ</string>
+    <string name="sound_off">ᱥᱟᱲᱮ ᱵᱚᱸᱫ</string>
     <string name="brightness">ᱪᱚᱠᱢᱚᱠ</string>
     <string name="advanced">ᱮᱰᱵᱷᱟᱱᱥ ᱚᱯᱥᱚᱱᱠᱚ</string>
-    <string name="audio_boost_warning">᱑᱐᱐% ᱠᱷᱟᱱ ᱦᱟᱱᱛᱮ ᱪᱟᱞᱟᱣ ᱞᱟᱹᱜᱤᱫᱽ ᱪᱮᱛᱟᱱ ᱥᱮᱱ ᱫᱩᱦᱲᱟᱹ ᱨᱟᱠᱟᱵᱽ ᱢᱮᱸ</string>
+    <string name="audio_boost_warning">᱑᱐᱐% ᱠᱷᱟᱱ ᱦᱟᱱᱛᱮ ᱪᱟᱞᱟᱣ ᱞᱟᱹᱜᱤᱫ ᱪᱮᱛᱟᱱ ᱥᱮᱱ ᱫᱩᱦᱲᱟᱹ ᱨᱟᱠᱟᱵᱽ ᱢᱮ</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">᱑ ᱪᱟᱱᱱᱮᱞ\n</item>
@@ -159,67 +170,62 @@
     <string name="playback_speed">ᱯᱞᱮᱵᱮᱠ ᱨᱟᱹᱯᱨᱟᱨ</string>
     <string name="sleep_title">ᱜᱤᱛᱤᱡᱽ ᱴᱟᱭᱢᱟᱹᱨ</string>
     <string name="sleep_in">ᱨᱮ ᱜᱤᱛᱤᱡᱽ</string>
-    <string name="jump_to_time">ᱚᱠᱛᱚ ᱛᱮ ᱫᱚᱱ ᱢᱮᱸ</string>
-    <string name="subtitle_select">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱨᱮᱫᱽ ᱪᱚᱭᱚᱱ ᱢᱮᱸ</string>
+    <string name="jump_to_time">ᱚᱠᱛᱚ ᱛᱮ ᱫᱚᱱ ᱢᱮ</string>
+    <string name="subtitle_select">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱨᱮᱫᱽ ᱪᱚᱭᱚᱱ ᱢᱮ</string>
 
-    <string name="server_add_title">ᱱᱟᱶᱟ ᱥᱟᱹᱨᱣᱟᱹᱨ ᱠᱚ ᱠᱩᱥᱤᱠᱚ ᱥᱮᱫᱽ ᱥᱮᱞᱮᱫ ᱢᱮᱸ</string>
+    <string name="server_add_title">ᱱᱟᱶᱟ ᱥᱟᱹᱨᱣᱟᱹᱨ ᱠᱚ ᱠᱩᱥᱤᱠᱚ ᱥᱮᱫᱽ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="server_domain_hint">ᱥᱟᱹᱨᱣᱟᱹᱨ ᱴᱷᱤᱠᱬᱟᱹ (ᱰᱚᱢᱮᱱ ᱧᱩᱛᱩᱢ ᱟᱨ ᱵᱟᱝ IP)</string>
     <string name="server_share_hint">ᱱᱮᱴᱣᱟᱨᱠ ᱦᱟᱹᱴᱤᱧ ᱧᱩᱛᱩᱢ (ᱟᱨ ᱵᱟᱝ IP ᱴᱷᱤᱠᱬᱟᱹ)</string>
     <string name="server_folder_hint">ᱯᱚᱴᱟᱢ ᱡᱟᱭᱜᱟ(ᱚᱯᱥᱚᱱᱟᱞ)</string>
     <string name="server_username_hint">ᱵᱮᱵᱷᱟᱨᱤᱭᱟᱹ ᱧᱩᱛᱩᱢ</string>
-    <string name="server_servername_hint">ᱥᱟᱹᱨᱣᱟᱹᱨ ᱧᱩᱛᱩᱢ, ᱰᱮᱥ ᱞᱟᱹᱜᱤᱫᱽ</string>
+    <string name="server_servername_hint">ᱥᱟᱹᱨᱣᱟᱹᱨ ᱧᱩᱛᱩᱢ, ᱰᱮᱥ ᱞᱟᱹᱜᱤᱫ</string>
     <string name="server_port">ᱯᱚᱨᱴ: </string>
     <string name="login">ᱵᱚᱞᱚ</string>
     <string name="password">ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫᱽ</string>
 
     <string name="search_no_result">ᱚᱠᱟ ᱢᱮᱰᱤᱭᱟ ᱵᱟᱝ ᱧᱟᱢ ᱞᱟᱱᱟ</string>
-    <string name="favorites_add">ᱠᱩᱥᱤ ᱠᱚᱨᱮ ᱥᱮᱞᱮᱫᱽ ᱢᱮᱸ</string>
-    <string name="favorites_remove">ᱠᱩᱥᱤᱠᱚ ᱠᱷᱚᱱ ᱚᱪᱚᱜᱽ ᱢᱮᱸ</string>
+    <string name="favorites_add">ᱠᱩᱥᱤ ᱠᱚᱨᱮ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
+    <string name="favorites_remove">ᱠᱩᱥᱤᱠᱚ ᱠᱷᱚᱱ ᱚᱪᱚᱜᱽ ᱢᱮ</string>
     <string name="favorites_edit">ᱥᱟᱯᱲᱟᱣ</string>
-    <string name="favorite_added">ᱠᱩᱥᱤᱠᱚ ᱥᱮᱫᱽ ᱥᱟᱸᱪᱟᱣ ᱢᱮᱸ</string>
+    <string name="favorite_added">ᱠᱩᱥᱤᱠᱚ ᱥᱮᱫᱽ ᱥᱟᱸᱪᱟᱣ ᱢᱮ</string>
     <string name="favorite_removed">ᱠᱩᱥᱤᱠᱚ ᱠᱷᱚᱱ ᱚᱪᱚᱜᱽ ᱮᱱᱟ</string>
 
     <string name="streams">ᱥᱴᱨᱤᱢᱠᱚ</string>
-    <string name="open_mrl_dialog_msg">ᱱᱮᱴᱣᱟᱨᱠ ᱴᱷᱤᱠᱬᱟᱹ ᱟᱫᱮᱨ ᱢᱮᱸ: ᱡᱮᱢᱚᱱ http://, mms:// ᱟᱨ ᱵᱟᱝ rtsp://</string>
+    <string name="open_mrl_dialog_msg">ᱱᱮᱴᱣᱟᱨᱠ ᱴᱷᱤᱠᱬᱟᱹ ᱟᱫᱮᱨ ᱢᱮ: ᱡᱮᱢᱚᱱ http://, mms:// ᱟᱨ ᱵᱟᱝ rtsp://</string>
     <string name="encountered_error_title">ᱯᱞᱮᱵᱮᱠ ᱵᱷᱩᱞ</string>
-    <string name="encountered_error_message">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱥᱟᱞᱟᱜᱽ VLC ᱵᱷᱤᱞ ᱮ ᱧᱟᱢ ᱠᱮᱜᱼᱟᱭ ᱾\n ᱫᱟᱭᱟᱠᱟᱛᱮ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱤᱯᱷᱨᱮᱥ ᱠᱟᱛᱮ ᱧᱮᱞ ᱵᱤᱲᱟᱹᱣ ᱢᱮᱸ᱾</string>
+    <string name="encountered_error_message">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱥᱟᱞᱟᱜᱽ VLC ᱵᱷᱤᱞ ᱮ ᱧᱟᱢ ᱠᱮᱜᱼᱟᱭ ᱾\n ᱫᱟᱭᱟᱠᱟᱛᱮ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱤᱯᱷᱨᱮᱥ ᱠᱟᱛᱮ ᱧᱮᱞ ᱵᱤᱲᱟᱹᱣ ᱢᱮ᱾</string>
     <string name="invalid_location">ᱡᱟᱭᱜᱟ %1$s ᱵᱟᱝ ᱯᱞᱮ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾</string>
 
     <string name="search">ᱥᱮᱸᱫᱽᱨᱟ</string>
 
 
     <string name="playback_history_title">ᱯᱞᱮᱵᱮᱠ ᱡᱤᱛᱟᱹᱞ</string>
-    <string name="playback_history_summary">ᱱᱟᱜᱟᱢ ᱥᱮᱠᱥᱚᱱ ᱨᱮ ᱡᱷᱚᱛᱚ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱟᱠᱟᱱ ᱠᱚ ᱥᱟᱺᱪᱟᱣ ᱢᱮᱸ</string>
-    <string name="playback_speed_title">ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱥᱟᱺᱪᱟᱣ ᱢᱮᱸ</string>
-    <string name="playback_speed_summary">ᱵᱟᱨᱭᱟ ᱢᱮᱰᱤᱭᱟ ᱠᱚ ᱵᱷᱤᱛᱨᱤ ᱨᱮ ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱫᱚᱦᱚ ᱠᱟᱜᱽ ᱢᱮᱸ</string>
+    <string name="playback_history_summary">ᱱᱟᱜᱟᱢ ᱥᱮᱠᱥᱚᱱ ᱨᱮ ᱡᱷᱚᱛᱚ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱟᱠᱟᱱ ᱠᱚ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
+    <string name="playback_speed_title">ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
+    <string name="playback_speed_summary">ᱵᱟᱨᱭᱟ ᱢᱮᱰᱤᱭᱟ ᱠᱚ ᱵᱷᱤᱛᱨᱤ ᱨᱮ ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱫᱚᱦᱚ ᱠᱟᱜᱽ ᱢᱮ</string>
 
     <string name="play_button">ᱯᱞᱮ ᱵᱩᱛᱟᱹᱢ</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱭᱟᱹᱨ ᱴᱤᱯᱠᱚ:</string>
+    <string name="tips_title">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱭᱟᱹᱨ ᱴᱤᱯᱥ</string>
     <string name="seek">ᱥᱤᱻᱠ</string>
     <string name="subtitles">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ</string>
-    <string name="audio_sub">ᱟᱲᱤᱭᱚ ᱴᱨᱟᱠᱠᱚ\n ᱟᱨ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞᱠᱚ</string>
-    <string name="resize">ᱨᱤᱥᱟᱭᱤᱡ</string>
-    <string name="options">ᱚᱯᱥᱚᱱᱠᱚ</string>
     <string name="lock">ᱠᱩᱞᱩᱯ ᱢᱮ</string>
-    <string name="ok_got_it">ᱧᱟᱢ ᱠᱮᱜᱼᱟᱧ, ᱰᱤᱥᱢᱤᱥ&#160;ᱢᱮᱸ ᱱᱚᱶᱟ</string>
-
     <string name="playlist_tips">ᱯᱞᱮᱞᱤᱥᱴ ᱴᱤᱯᱠᱚ</string>
-    <string name="remove_song">ᱥᱮᱨᱮᱧ ᱚᱪᱚᱜᱽ ᱢᱮᱸ</string>
+    <string name="remove_song">ᱥᱮᱨᱮᱧ ᱚᱪᱚᱜᱽ ᱢᱮ</string>
     <string name="remove_playlist_item">%1$s ᱫᱚ ᱯᱞᱮᱞᱤᱥᱴ ᱠᱷᱚᱱ ᱚᱪᱚᱜᱽ ᱮᱱᱟ</string>
     <string name="rearrange_order">ᱨᱤᱟᱹᱨᱮᱸᱡ ᱚᱨᱰᱟᱹᱨ</string>
-    <string name="hold_to_seek">ᱥᱤᱤᱠ ᱞᱟᱹᱜᱤᱫᱽ ᱥᱟᱵ ᱢᱮᱸ</string>
+    <string name="hold_to_seek">ᱥᱤᱤᱠ ᱞᱟᱹᱜᱤᱫ ᱥᱟᱵ ᱢᱮ</string>
 
     <string name="audio_player_tips">ᱟᱹᱲᱤᱭᱚ ᱯᱮᱭᱟᱹᱨ ᱴᱤᱯᱠᱚ</string>
     <string name="previous_next_song">ᱢᱟᱲᱟᱝ/ᱤᱱᱟᱹ ᱛᱟᱭᱚᱱ ᱥᱮᱨᱮᱧ</string>
-    <string name="show_playlist">ᱯᱞᱮᱞᱤᱥᱴ ᱫᱮᱠᱷᱟᱣᱢᱮᱸ</string>
+    <string name="show_playlist">ᱯᱞᱮᱞᱤᱥᱴ ᱫᱮᱠᱷᱟᱣᱢᱮ</string>
     <string name="hold_to_stop">ᱥᱟᱵ ᱠᱟᱛᱮ ᱛᱤᱸᱜᱩ ᱪᱷᱚ</string>
 
     <!-- About -->
-    <string name="app_name_full">ᱮᱱᱰᱨᱚᱭᱮᱰ ᱞᱟᱹᱜᱤᱫᱽ VLC ᱯᱞᱮᱭᱟᱹᱨ</string>
+    <string name="app_name_full">VlC for Android</string>
     <string name="licence">ᱞᱟᱭᱥᱮᱸᱱᱥ</string>
-    <string name="revision">ᱨᱤᱵᱷᱤᱡᱚᱱ</string>
+    <string name="revision">ᱫᱚᱦᱲᱟᱭᱮᱱ</string>
     <string name="about">ᱵᱟᱵᱚᱛ</string>
     <string name="about_text">VLC for Android™ ᱫᱚ VLC ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱭᱟᱹᱨ ᱨᱮᱭᱟᱜ ᱦᱟᱹᱴᱤᱧ ᱠᱟᱱᱟ, ᱧᱩᱛᱩᱢᱟᱱ ᱠᱷᱩᱞᱟᱹ ᱢᱩᱞ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱭᱟᱹᱨ ᱠᱟᱱᱟ ᱾ The Android™ ᱵᱷᱟᱹᱨᱥᱚᱱ ᱫᱚ ᱟᱭᱢᱟ ᱨᱮᱫᱽ ᱟᱨ ᱱᱮᱴᱣᱟᱨᱠ ᱥᱴᱨᱤᱢ ᱠᱚ ᱯᱟᱲᱦᱟᱣ ᱫᱟᱲᱮᱭᱟᱼᱟᱭ ᱾</string>
     <string name="vlc_authors">ᱟᱨ VLC ᱚᱱᱚᱞᱤᱭᱟᱹᱠᱚ ᱾</string>
@@ -229,13 +235,13 @@
     <!-- Preferences -->
     <string name="preferences">ᱥᱟᱡᱟᱣ ᱠᱚ</string>
 
-    <string name="directories_summary">ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱛᱮ ᱢᱮᱥᱟ ᱞᱟᱹᱜᱤᱫᱽ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱪᱚᱭᱚᱱ ᱢᱮᱸ</string>
-    <string name="add_custom_path">ᱠᱚᱥᱴᱚᱢ ᱡᱟᱭᱜᱟ ᱥᱮᱞᱮᱫᱽ ᱢᱮᱸ</string>
-    <string name="add_custom_path_description">ᱥᱠᱟᱱ ᱞᱟᱹᱜᱤᱫᱽ ᱵᱟᱹᱲᱛᱤᱭᱟᱜᱽ ᱠᱚᱥᱴᱚᱢ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱟᱫᱮᱨ ᱢᱮᱸ:</string>
-    <string name="remove_custom_path">ᱠᱚᱥᱴᱚᱢ ᱡᱟᱭᱜᱟ ᱚᱪᱚᱜᱽ ᱢᱮᱸ</string>
+    <string name="directories_summary">ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱛᱮ ᱢᱮᱥᱟ ᱞᱟᱹᱜᱤᱫ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱪᱚᱭᱚᱱ ᱢᱮ</string>
+    <string name="add_custom_path">ᱠᱚᱥᱴᱚᱢ ᱡᱟᱭᱜᱟ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
+    <string name="add_custom_path_description">ᱥᱠᱟᱱ ᱞᱟᱹᱜᱤᱫ ᱵᱟᱹᱲᱛᱤᱭᱟᱜ ᱠᱚᱥᱴᱚᱢ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱟᱫᱮᱨ ᱢᱮ:</string>
+    <string name="remove_custom_path">ᱠᱚᱥᱴᱚᱢ ᱡᱟᱭᱜᱟ ᱚᱪᱚᱜᱽ ᱢᱮ</string>
     <string name="hardware_acceleration">ᱦᱟᱰᱣᱮᱨ ᱮᱠᱥᱟᱹᱞᱟᱹᱨᱮᱥᱚᱱ</string>
     <string name="hardware_acceleration_summary">ᱵᱚᱸᱫ: ᱵᱮᱥ ᱥᱴᱮᱵᱟᱹᱞᱤᱴᱭ\nᱰᱤᱠᱳᱰᱤᱝ: ᱠᱟᱹᱢᱤᱠᱚ ᱵᱮᱥ ᱠᱚᱨᱟᱣ ᱫᱟᱲᱮᱭᱟᱜᱼᱟᱭ\nᱯᱩᱨᱟ: ᱠᱟᱹᱢᱤᱠᱚ ᱵᱮᱥ ᱪᱚᱨᱚᱠ ᱞᱟᱦᱟ ᱫᱟᱲᱮᱭᱟᱜᱼᱟᱭ</string>
-    <string name="hardware_acceleration_disabled">ᱵᱚᱸᱫᱽ</string>
+    <string name="hardware_acceleration_disabled">ᱵᱚᱸᱫ</string>
     <string name="hardware_acceleration_decoding">ᱮᱠᱥᱟᱹᱞᱮᱨᱚᱱ ᱰᱤᱠᱳᱰᱤᱝ</string>
     <string name="hardware_acceleration_full">ᱯᱩᱨᱟᱹ ᱮᱠᱥᱟᱹᱞᱟᱨᱮᱥᱚᱱ</string>
     <string name="dev_hardware_decoder">ᱮᱰᱵᱷᱟᱸᱰ ᱦᱟᱰᱣᱮᱨ ᱰᱤᱠᱳᱰᱟᱹᱨ</string>
@@ -243,9 +249,10 @@
     <string name="automatic">ᱟᱡᱽᱛᱮ</string>
     <string name="screen_orientation">ᱣᱤᱰᱤᱭᱚ ᱥᱠᱨᱤᱤᱱ ᱚᱨᱤᱭᱮᱱᱴᱮᱥᱚᱱ</string>
     <string name="screen_orientation_sensor">ᱟᱡᱽ ᱛᱮ‌ (ᱥᱮᱱᱥᱚᱨ)</string>
-    <string name="screen_orientation_start_lock">ᱥᱛᱦᱚᱵᱽ ᱠᱷᱚᱱ ᱠᱩᱞᱩᱯ</string>
     <string name="screen_orientation_portrait">ᱯᱚᱴᱨᱮᱴ</string>
     <string name="screen_orientation_landscape">ᱞᱮᱱᱰᱥᱠᱮᱯ</string>
+    <string name="screen_orientation_landscape_reverse">ᱞᱮᱱᱰᱥᱠᱮᱯ ᱩᱞᱴᱟᱹ ᱯᱟᱦᱴᱟ</string>
+    <string name="screen_orientation_last_locked">ᱢᱟᱲᱟᱝ ᱠᱩᱞᱩᱯ ᱠᱟᱱ ᱚᱨᱤᱮᱱᱴᱮᱥᱚᱱ</string>
     <string name="enable_black_theme">ᱦᱮᱸᱫᱮ ᱩᱭᱦᱟᱹᱨ</string>
     <string name="subtitle_text_encoding">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱚᱞ ᱮᱱᱠᱳᱰᱤᱝ</string>
     <string name="daynight_title">ᱫᱤᱱᱧᱤᱸᱫᱟᱹ ᱢᱳᱰ</string>
@@ -257,36 +264,34 @@
     <string name="interface_secondary_display_category_title">ᱥᱮᱠᱮᱱᱰᱚᱨᱭ ᱰᱤᱥᱯᱞᱮ</string>
     <string name="interface_secondary_display_category_summary">ᱥᱮᱠᱮᱱᱰᱚᱨᱭ ᱰᱤᱥᱯᱞᱮ ᱡᱩᱲᱟᱹᱣ ‌ᱡᱷᱚᱜ ᱥᱟᱡᱟᱣᱠᱚ (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">ᱯᱨᱤᱯᱷᱟᱹᱨ ᱠᱞᱚᱱ</string>
-    <string name="enable_clone_mode_summary">ᱵᱤᱱᱟᱹ ᱨᱤᱢᱚᱴ ᱠᱟᱹᱱᱴᱨᱚᱞ ᱛᱮ ᱥᱟᱫᱷᱚᱱ ᱥᱠᱨᱤᱻᱱ ᱠᱞᱳᱱ ᱢᱮᱸ</string>
+    <string name="enable_clone_mode_summary">ᱵᱤᱱᱟᱹ ᱨᱤᱢᱚᱴ ᱠᱟᱹᱱᱴᱨᱚᱞ ᱛᱮ ᱥᱟᱫᱷᱚᱱ ᱥᱠᱨᱤᱻᱱ ᱠᱞᱳᱱ ᱢᱮ</string>
 
     <string name="video_prefs_category">ᱣᱤᱰᱤᱭᱚ</string>
-    <string name="video_min_group_length_title">ᱣᱤᱰᱤᱭᱟ ᱠᱚ ᱫᱳᱞ‌ ᱢᱮᱸ</string>
+    <string name="video_min_group_length_title">ᱣᱤᱰᱤᱭᱟ ᱠᱚ ᱫᱳᱞ‌ ᱢᱮ</string>
     <string name="video_min_group_length_disable">ᱣᱤᱰᱤᱭᱟ ᱠᱚ ᱟᱞᱚ ᱫᱳᱞ ᱟ</string>
     <string name="video_min_group_length_folder">ᱯᱚᱴᱚᱢ ᱛᱮ ᱫᱠᱞ ᱯᱮ</string>
-    <string name="video_min_group_length_name">ᱧᱩᱛᱩᱢ ᱛᱮ ᱫᱳᱞ ᱢᱮᱸ</string>
-    <string name="media_fast_seek">ᱞᱚᱜᱚᱱ ᱢᱮᱸ</string>
-    <string name="media_fast_seek_summary">ᱢᱮᱰᱤᱭᱟ ᱠᱚ ᱥᱤᱻᱠ ᱫᱚ ᱞᱚᱜᱟᱱ ᱜᱮ ᱦᱩᱭᱩᱜᱼᱟ ᱦᱮᱞᱮ ᱠᱚᱢ ᱥᱚᱴᱷᱤᱠ ᱛᱟᱦᱮᱸᱱᱟ</string>
+    <string name="video_min_group_length_name">ᱧᱩᱛᱩᱢ ᱛᱮ ᱫᱳᱞ ᱢᱮ</string>
     <string name="video_transition_title">ᱣᱤᱰᱤᱭᱚ ᱴᱨᱟᱱᱡᱤᱥᱚᱱ</string>
-    <string name="video_transition_summary">ᱴᱨᱟᱱᱡᱤᱥᱚᱱ ᱨᱮ ᱱᱟᱶᱟ ᱣᱤᱰᱤᱭᱚ ᱴᱟᱭᱴᱟᱹᱞ ᱫᱮᱠᱷᱟᱣ ᱢᱮᱸ</string>
-    <string name="media_seen">ᱥᱠᱨᱤᱻᱱ ᱣᱤᱰᱤᱭᱚ ᱢᱮᱠᱟᱹᱨ ᱫᱮᱠᱷᱟᱣᱢᱮᱸ</string>
-    <string name="media_seen_summary">ᱢᱩᱪᱟᱹᱫ ᱦᱟᱹᱵᱤᱡᱽ ᱯᱞᱮ ᱦᱟᱹᱵᱤᱡᱽ ᱣᱤᱰᱤᱭᱚ ᱧᱮᱞ ᱞᱮᱠᱷᱟ ᱢᱟᱨᱠ ᱠᱟᱜ ᱢᱮᱸ</string>
-    <string name="force_play_all_summary">ᱡᱷᱚᱛᱟ ᱣᱤᱰᱤᱭᱚᱠᱚ ᱯᱞᱮ ᱢᱮᱸ, ᱚᱠᱟ ᱠᱷᱚᱱ ᱚᱛᱟ ᱟᱠᱟᱫᱟᱢ ᱚᱱᱟ ᱠᱷᱚᱱ ᱮᱛᱦᱚᱵᱽᱚᱜᱼᱟ</string>
+    <string name="video_transition_summary">ᱴᱨᱟᱱᱡᱤᱥᱚᱱ ᱨᱮ ᱱᱟᱶᱟ ᱣᱤᱰᱤᱭᱚ ᱴᱟᱭᱴᱟᱹᱞ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
+    <string name="media_seen">ᱥᱠᱨᱤᱻᱱ ᱣᱤᱰᱤᱭᱚ ᱢᱮᱠᱟᱹᱨ ᱫᱮᱠᱷᱟᱣᱢᱮ</string>
+    <string name="media_seen_summary">ᱢᱩᱪᱟᱹᱫ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮ ᱦᱟᱹᱵᱤᱡ ᱣᱤᱰᱤᱭᱚ ᱧᱮᱞ ᱞᱮᱠᱷᱟ ᱢᱟᱨᱠ ᱠᱟᱜ ᱢᱮ</string>
+    <string name="force_play_all_summary">ᱡᱷᱚᱛᱟ ᱣᱤᱰᱤᱭᱚᱠᱚ ᱯᱞᱮ ᱢᱮ, ᱚᱠᱟ ᱠᱷᱚᱱ ᱚᱛᱟ ᱟᱠᱟᱫᱟᱢ ᱚᱱᱟ ᱠᱷᱚᱱ ᱮᱛᱦᱚᱵᱚᱜᱼᱟ</string>
     <string name="force_play_all_title">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱞᱤᱥᱴ ᱢᱳᱰ</string>
-    <string name="save_brightness_summary">ᱢᱮᱰᱤᱭᱟ ᱵᱷᱤᱛᱨᱤ ᱨᱮ ᱵᱨᱟᱭᱤᱴᱱᱮᱥ ᱞᱮᱣᱮᱞ ᱫᱚᱦᱚᱭ ᱢᱮᱸ</string>
-    <string name="save_brightness_title">ᱵᱨᱟᱭᱤᱴᱱᱮᱥ ᱞᱮᱣᱮᱞ ᱥᱟᱺᱪᱟᱣ ᱢᱮᱸ</string>
-    <string name="save_audiodelay_summary">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚ ᱞᱟᱹᱜᱤᱫᱽ ᱟᱲᱤᱭᱚ ᱰᱤᱞᱮ ᱥᱟᱺᱪᱟᱣ ᱢᱮᱸ</string>
-    <string name="save_audiodelay_title">ᱟᱲᱤᱭᱚ ᱰᱤᱞᱮ ᱥᱟᱺᱪᱟᱣ ᱢᱮᱸ</string>
+    <string name="save_brightness_summary">ᱢᱮᱰᱤᱭᱟ ᱵᱷᱤᱛᱨᱤ ᱨᱮ ᱵᱨᱟᱭᱤᱴᱱᱮᱥ ᱞᱮᱣᱮᱞ ᱫᱚᱦᱚᱭ ᱢᱮ</string>
+    <string name="save_brightness_title">ᱵᱨᱟᱭᱤᱴᱱᱮᱥ ᱞᱮᱣᱮᱞ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
+    <string name="save_audiodelay_summary">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚ ᱞᱟᱹᱜᱤᱫ ᱟᱲᱤᱭᱚ ᱰᱤᱞᱮ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
+    <string name="save_audiodelay_title">ᱟᱲᱤᱭᱚ ᱰᱤᱞᱮ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
     <string name="enable_brightness_gesture_title">ᱡᱷᱟᱞᱠᱟᱣ ᱜᱮᱥᱪᱚᱨ</string>
     <string name="enable_brightness_gesture_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱡᱷᱚᱜ ᱜᱮᱥᱪᱚᱨ ᱛᱮ ᱡᱷᱟᱞᱠᱟᱣ ᱠᱚᱱᱴᱨᱚᱞ</string>
     <string name="enable_volume_gesture_title">ᱣᱚᱞᱭᱩᱢ ᱜᱮᱥᱪᱚᱨ</string>
-    <string name="enable_volume_gesture_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱡᱷᱚᱜ ᱜᱮᱥᱪᱚᱨ ᱛᱮ ᱣᱚᱞᱭᱩᱢ ᱠᱚᱱᱴᱨᱚᱞ ᱢᱮᱸ</string>
+    <string name="enable_volume_gesture_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱡᱷᱚᱜ ᱜᱮᱥᱪᱚᱨ ᱛᱮ ᱣᱚᱞᱭᱩᱢ ᱠᱚᱱᱴᱨᱚᱞ ᱢᱮ</string>
     <string name="enable_seek_buttons">ᱥᱤᱻᱠ ᱵᱩᱛᱟᱹᱢ</string>
-    <string name="enable_seek_buttons_summary">ᱣᱤᱰᱤᱭᱚ ᱤᱱᱴᱚᱨᱛᱷᱮᱥ ᱨᱮ ᱤᱣᱤᱸᱰ ᱟᱨ ᱯᱷᱚᱨᱣᱟᱰ ᱵᱩᱛᱟᱹᱢ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮᱸ</string>
-    <string name="enable_double_tap_seek_title">ᱥᱤᱻᱠ ᱞᱟᱹᱜᱤᱫᱽ ᱵᱟᱨ ᱡᱮᱠᱷᱟ ᱚᱛᱟᱭ ᱢᱮᱸ</string>
-    <string name="enable_double_tap_seek_summary">᱑᱐ ᱴᱤᱡᱽ ᱞᱟᱹᱤᱫᱽ ᱮᱤᱻᱠ ᱞᱟᱹᱜᱤᱫᱽ ᱥᱠᱨᱤᱻᱱ ᱠᱩᱱᱟᱹ ᱨᱮ ᱵᱟᱨ ᱡᱮᱠᱷᱟ ᱚᱛᱟᱭ ᱢᱮᱸ </string>
-    <string name="popup_keepscreen_title">ᱯᱳᱯᱼᱟᱹᱯ ᱢᱳᱰ ᱨᱮ ᱥᱠᱨᱤᱻᱱ ᱢᱳᱰ ᱮᱢ ᱢᱮᱸ</string>
-    <string name="popup_keepscreen_summary">ᱣᱤᱰᱤᱭᱚ ᱠᱚ ᱯᱚᱡᱽ ᱛᱟᱦᱮᱸ ᱠᱟᱛᱮ ᱨᱮ ᱦᱚᱸ, ᱯᱳᱯᱼᱟᱹᱯ ᱫᱮᱠᱷᱟᱣ ᱠᱟᱛᱮ ᱨᱮ ᱦᱚᱸ ᱥᱠᱨᱤᱻᱱ ᱫᱮᱠᱷᱟᱣ ᱪᱷᱚᱭ ᱢᱮᱸ</string>
-    <string name="browser_show_hidden_files_title">ᱩᱠᱩ ᱨᱮᱫᱽ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮᱸ</string>
+    <string name="enable_seek_buttons_summary">ᱣᱤᱰᱤᱭᱚ ᱤᱱᱴᱚᱨᱛᱷᱮᱥ ᱨᱮ ᱤᱣᱤᱸᱰ ᱟᱨ ᱯᱷᱚᱨᱣᱟᱰ ᱵᱩᱛᱟᱹᱢ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
+    <string name="enable_double_tap_seek_title">ᱥᱤᱻᱠ ᱞᱟᱹᱜᱤᱫ ᱵᱟᱨ ᱡᱮᱠᱷᱟ ᱚᱛᱟᱭ ᱢᱮ</string>
+    <string name="enable_double_tap_seek_summary">᱑᱐ ᱴᱤᱡᱽ ᱞᱟᱹᱤᱫᱽ ᱮᱤᱻᱠ ᱞᱟᱹᱜᱤᱫ ᱥᱠᱨᱤᱻᱱ ᱠᱩᱱᱟᱹ ᱨᱮ ᱵᱟᱨ ᱡᱮᱠᱷᱟ ᱚᱛᱟᱭ ᱢᱮ</string>
+    <string name="popup_keepscreen_title">ᱯᱳᱯᱼᱟᱹᱯ ᱢᱳᱰ ᱨᱮ ᱥᱠᱨᱤᱻᱱ ᱢᱳᱰ ᱮᱢ ᱢᱮ</string>
+    <string name="popup_keepscreen_summary">ᱣᱤᱰᱤᱭᱚ ᱠᱚ ᱯᱚᱡᱽ ᱛᱟᱦᱮᱸ ᱠᱟᱛᱮ ᱨᱮ ᱦᱚᱸ, ᱯᱳᱯᱼᱟᱹᱯ ᱫᱮᱠᱷᱟᱣ ᱠᱟᱛᱮ ᱨᱮ ᱦᱚᱸ ᱥᱠᱨᱤᱻᱱ ᱫᱮᱠᱷᱟᱣ ᱪᱷᱚᱭ ᱢᱮ</string>
+    <string name="browser_show_hidden_files_title">ᱩᱠᱩ ᱨᱮᱫᱽ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
 
     <string name="subtitles_prefs_category">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱠᱚ</string>
     <string name="subtitles_size_title">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱢᱟᱯ</string>
@@ -300,14 +305,14 @@
     <string name="subtitles_color_pink">ᱯᱤᱸᱠ</string>
     <string name="subtitles_color_blue">ᱞᱤᱞ</string>
     <string name="subtitles_color_yellow">ᱥᱟᱥᱟᱝ</string>
-    <string name="subtitles_color_green">ᱥᱟᱹᱵᱡᱟ</string>
+    <string name="subtitles_color_green">ᱦᱟ.ᱨᱭᱟ.ᱲ</string>
     <string name="subtitles_background_title">ᱥᱟᱹᱴᱟᱭᱴᱟᱹᱞ ᱵᱮᱠᱜᱨᱟᱩᱸᱰ</string>
     <string name="subtitles_bold_title">ᱵᱚᱞᱼᱰ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ</string>
     <string name="subtitles_autoload_title">ᱟᱡᱽ ᱛᱮ ᱞᱳᱰ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹ</string>
 
-    <string name="audio_prefs_category">ᱟᱸᱰᱤᱭᱚ</string>
+    <string name="audio_prefs_category">ᱚᱰᱤᱭᱚ</string>
     <string name="lockscreen_cover_title">ᱞᱩᱞᱩᱯᱥᱠᱨᱤᱻᱱ ᱨᱮ ᱢᱮᱰᱤᱭᱟ ᱠᱳᱵᱷᱟᱹᱨ</string>
-    <string name="lockscreen_cover_summary">ᱚᱠᱟ ᱡᱷᱚᱜᱽ ᱧᱟᱢᱚᱜᱼᱟ, ᱱᱤᱛᱚᱜᱼᱟᱜ ᱢᱮᱰᱤᱭᱟ ᱠᱚᱵᱷᱟᱹᱨ ᱟᱨᱴ ᱫᱚ ᱠᱩᱞᱩᱯᱥᱠᱨᱤᱻᱱ ᱣᱟᱞᱯᱮᱯᱟᱹᱨ ᱨᱮ ᱥᱮᱴ ᱢᱮᱸ</string>
+    <string name="lockscreen_cover_summary">ᱚᱠᱟ ᱡᱷᱚᱜ ᱧᱟᱢᱚᱜᱼᱟ, ᱱᱤᱛᱚᱜᱼᱟᱜ ᱢᱮᱰᱤᱭᱟ ᱠᱚᱵᱷᱟᱹᱨ ᱟᱨᱴ ᱫᱚ ᱠᱩᱞᱩᱯᱥᱠᱨᱤᱻᱱ ᱣᱟᱞᱯᱮᱯᱟᱹᱨ ᱨᱮ ᱥᱮᱴ ᱢᱮ</string>
     <string name="list_title_ellipsize">ᱢᱤᱫᱽᱴᱟᱹᱝ ᱢᱟᱯ ᱞᱤᱥᱴ ᱴᱟᱭᱴᱟᱹ ᱮᱞᱞᱤᱯᱥᱟᱭᱤᱡᱽ</string>
     <string name="list_title_ellipsize_default">ᱢᱩᱞ ᱯᱷᱮᱲᱟᱛ</string>
     <string name="list_title_ellipsize_left">ᱞᱮᱸᱜᱟ</string>
@@ -315,10 +320,10 @@
     <string name="list_title_ellipsize_middle">ᱛᱟᱞᱟ</string>
     <string name="list_title_ellipsize_marquee">ᱢᱟᱨᱠᱭᱩ</string>
     <string name="audio_boost_title">ᱥᱟᱲᱮᱼᱵᱩᱻᱥᱴ</string>
-    <string name="audio_boost_summary">᱒᱐᱐% ᱦᱟᱹᱵᱤᱡᱽ ᱮᱢ ᱪᱷᱚᱭ ᱢᱮᱸ</string>
+    <string name="audio_boost_summary">᱒᱐᱐% ᱦᱟᱹᱵᱤᱡ ᱮᱢ ᱪᱷᱚᱭ ᱢᱮ</string>
     <string name="headset_prefs_category">ᱦᱮᱰᱥᱮᱴ</string>
-    <string name="enable_headset_detection">ᱰᱮᱰᱥᱮᱴ ᱪᱤᱱᱦᱟᱹᱣ ᱢᱮᱸ</string>
-    <string name="enable_headset_detection_summary">ᱦᱮᱰᱥᱮᱴ ᱠᱷᱟᱹᱲ ᱟᱨ ᱚᱰᱚᱠ ᱠᱤᱱ ᱪᱤᱱᱦᱟᱹᱣ ᱢᱮᱸ</string>
+    <string name="enable_headset_detection">ᱰᱮᱰᱥᱮᱴ ᱪᱤᱱᱦᱟᱹᱣ ᱢᱮ</string>
+    <string name="enable_headset_detection_summary">ᱦᱮᱰᱥᱮᱴ ᱠᱷᱟᱹᱲ ᱟᱨ ᱚᱰᱚᱠ ᱠᱤᱱ ᱪᱤᱱᱦᱟᱹᱣ ᱢᱮ</string>
     <string name="enable_play_on_headset_insertion">ᱦᱮᱰᱥᱮᱴ ᱠᱷᱟᱹᱲ ᱯᱚᱨᱮ ᱞᱟᱦᱟᱭ ᱪᱷᱚ</string>
     <string name="enable_play_on_headset_insertion_summary">ᱵᱟᱝᱠᱷᱟᱵ ᱯᱚᱡᱽ ᱢᱮ</string>
     <string name="aout">ᱥᱟᱲᱮ ᱟᱩᱴᱯᱩᱴ</string>
@@ -337,7 +342,7 @@
     <string name="casting_quality_lowcpu">ᱡᱷᱚᱛᱚ ᱠᱷᱚᱱ ᱞᱟᱛᱟᱨ</string>
     <string name="casting_connected_renderer">ᱨᱮᱸᱰᱟᱹᱨᱟᱹᱨ \'%1$s\' ᱥᱟᱞᱟᱜ ᱡᱩᱲᱟᱹᱣᱮᱱᱟ</string>
     <string name="artists_show_all_title">ᱡᱷᱚᱛᱚ ᱟᱨᱴᱤᱥᱴ ᱫᱮᱠᱷᱟᱣ ᱠᱚᱢ</string>
-
+    <string name="show_headers">ᱦᱮᱰᱟᱹᱨᱥ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
     <string name="extensions_prefs_category">ᱮᱠᱥᱴᱮᱱᱥᱚᱱᱠᱚ</string>
     <string name="extensions_empty">ᱮᱠᱥᱴᱮᱱᱥᱚᱱ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ</string>
     <string name="extension_permission_title">ᱱᱟᱶᱟ ᱮᱠᱥᱴᱮᱱᱥᱚᱱ \"%1$s\" ᱮᱠᱴᱤᱣᱮᱴ ᱟᱢ ᱥᱮ?</string>
@@ -368,7 +373,8 @@
     <string name="dump_media_db_summary">ᱤᱱᱴᱟᱹᱨᱱᱟᱞ ᱫᱚᱦᱚ ᱨᱩᱴ ᱛᱮ ᱰᱟᱴᱟᱵᱮᱥ ᱱᱚᱠᱚᱞ ᱢᱮ</string>
     <string name="clear_media_db">ᱢᱮᱰᱤᱭᱟ ᱰᱟᱴᱟᱵᱮᱥ ᱢᱮᱴᱟᱣ ᱢᱮ</string>
     <string name="clear_media_database_summary">ᱮᱛᱦᱚᱵ ᱞᱟᱹᱜᱤᱫ ᱰᱟᱴᱟᱵᱮᱥ ᱥᱟᱯᱷᱟᱭᱟ</string>
-    <string name="clear_history">ᱦᱤᱛᱟᱹᱞ ᱯᱷᱟᱨᱪᱟᱭ ᱢᱮᱸ</string>
+    <string name="clear_app_data">ᱮᱯ ᱰᱟᱴᱟ ᱢᱮᱴᱟᱣ ᱢᱮ</string>
+    <string name="clear_history">ᱦᱤᱛᱟᱹᱞ ᱯᱷᱟᱨᱪᱟᱭ ᱢᱮ</string>
     <string name="set_locale">ᱞᱚᱠᱟᱹᱞᱮ ᱥᱟᱡᱟᱣ</string>
     <string name="network_caching">ᱱᱮᱴᱣᱟᱨᱠ ᱠᱮᱪ ᱜᱚᱱᱚᱝ</string>
     <string name="network_caching_summary">ᱥᱚᱯᱷᱴᱣᱮᱨ ᱰᱤᱠᱚᱰᱤᱝ ᱞᱟᱹᱜᱤᱫ ᱱᱮᱴᱣᱟᱨᱠ ᱢᱮᱰᱤᱭᱟ ᱵᱟᱹᱯᱷᱟᱹᱨ ᱚᱠᱛᱚ (ms ᱨᱮ)\nᱨᱤᱥᱮᱴ ᱞᱟᱹᱜᱤᱫ ᱠᱷᱟᱹᱞᱤ ᱟᱲᱟᱜ ᱠᱟᱜ ᱢᱮ</string>
@@ -389,7 +395,7 @@
     <string name="debug_logs">ᱰᱮᱵᱟᱹᱜᱽ ᱞᱚᱜᱽᱠᱚ</string>
     <string name="start_logging">ᱞᱚᱜᱤᱝ ᱮᱦᱚᱵ ᱢᱮ</string>
     <string name="stop_logging">ᱞᱚᱜᱤᱝ ᱵᱚᱸᱫᱚᱭ ᱢᱮ</string>
-    <string name="clear_log">ᱞᱚᱜ ᱯᱷᱟᱨᱪᱟᱭ ᱢᱮᱸ</string>
+    <string name="clear_log">ᱞᱚᱜ ᱯᱷᱟᱨᱪᱟᱭ ᱢᱮ</string>
     <string name="log_service_title">VLC ᱞᱚᱜᱽ ᱠᱚ ᱨᱮᱠᱚᱰᱤᱝ</string>
     <string name="log_service_text">ᱞᱚᱜᱽ ᱠᱚᱱᱥᱚᱞ ᱠᱷᱩᱞᱟᱹᱭ ᱢᱮ</string>
     <string name="copy_to_clipboard">ᱠᱞᱤᱯᱵᱚᱰ ᱛᱮ ᱱᱚᱠᱚᱞ ᱢᱮ</string>
@@ -402,13 +408,13 @@
 
     <string name="serious_crash">ᱟᱹᱱᱷᱚᱨᱪᱩᱱᱮᱴᱞᱭ, ᱟᱹᱰᱤ ᱜᱚᱢᱵᱷᱤᱨ ᱵᱷᱩᱞ ᱦᱩᱭ ᱟᱠᱟᱱᱟ ᱟᱨ VLC ᱵᱚᱸᱫ ᱛᱮ ᱦᱩᱭᱩᱜᱼᱟ ᱾</string>
     <string name="help_us_send_log">ᱞᱟᱛᱟᱨ ᱨᱮᱭᱟᱜ ᱠᱨᱮᱥ ᱞᱳᱜᱽ ᱠᱩᱞ ᱠᱟᱛᱮᱡ VLC ᱩᱛᱷᱱᱟᱹᱣ ᱨᱮ ᱜᱚᱲᱚ ᱟᱞᱮ ᱢᱮ:</string>
-    <string name="restart_vlc">VLC ᱫᱚᱦᱲᱟ ᱮᱦᱚᱵᱽ ᱢᱮᱸ</string>
-    <string name="send_log">ᱞᱚᱜ ᱠᱩᱞ ᱢᱮᱸ</string>
+    <string name="restart_vlc">VLC ᱫᱚᱦᱲᱟ ᱮᱦᱚᱵ ᱢᱮ</string>
+    <string name="send_log">ᱞᱚᱜᱽ ᱠᱩᱞ ᱢᱮ</string>
     <string name="sending_log">ᱞᱚᱜ ᱠᱩᱞ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ…</string>
 
-    <string name="delete_sub_title">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱢᱮᱴᱟᱣ ᱢᱮᱸ</string>
+    <string name="delete_sub_title">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱢᱮᱴᱟᱣ ᱢᱮ</string>
     <string name="delete_sub_message">ᱪᱮᱫ ᱟᱢ ᱱᱚᱶᱟ ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱢᱮᱴᱟᱣ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ?</string>
-    <string name="download_subtitle_title">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱰᱟᱩᱱᱞᱚᱰ ᱢᱮᱸ</string>
+    <string name="download_subtitle_title">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱰᱟᱩᱱᱞᱚᱰ ᱢᱮ</string>
 
     <string name="no_result">ᱚᱠᱟ ᱰᱤᱜᱞᱟᱹᱨ ᱵᱟᱭ ᱧᱟᱢ ᱞᱮᱱᱟ</string>
     <string name="no_internet_connection">ᱟᱢᱟᱜ ᱤᱱᱴᱚᱨᱱᱮᱴ ᱡᱩᱲᱟᱹᱣ ᱧᱮᱞ ᱛᱟᱢ</string>
@@ -424,7 +430,7 @@
     <string name="network_shares_discovery">ᱱᱮᱴᱣᱟᱨᱠ ᱦᱟᱹᱴᱤᱧᱠᱚ ᱧᱮᱞᱚᱜ ᱠᱟᱱᱟ</string>
     <string name="network_empty">ᱱᱚᱶᱟ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱫᱚ ᱠᱷᱟᱹᱞᱤ ᱜᱮᱭᱟ ᱾</string>
     <string name="network_connection_needed">ᱞᱳᱠᱟᱞ ᱱᱮᱴᱣᱟᱨᱠ ᱥᱟᱶ ᱡᱚᱯᱨᱟᱣ ᱵᱟᱹᱱᱩᱜᱼᱟ᱾</string>
-    <string name="search_hint">ᱢᱤᱰᱤᱭᱟ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮᱸ</string>
+    <string name="search_hint">ᱢᱤᱰᱤᱭᱟ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
     <string name="search_in_list_hint">ᱱᱤᱛᱚᱜᱽᱟᱜ ᱞᱤᱥᱴ ᱨᱮ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
     <string name="search_global">ᱡᱷᱚᱛᱚ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱮ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
     <string name="playlist_save">ᱯᱞᱮᱞᱤᱥᱴ ᱥᱟᱸᱪᱟᱣ ᱢᱮ</string>
@@ -458,8 +464,8 @@
     <string name="allow_draw_overlays_title">VLC ᱯᱞᱮᱭᱟᱨ ᱮᱴᱟᱜ ᱮᱯ ᱠᱚ ᱪᱮᱛᱟᱱ ᱯᱚᱯᱟᱯ ᱨᱮᱭᱟᱜ ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢᱟᱭ ᱢᱮ</string>
     <string name="allow_sdraw_overlays_description">VLC ᱮᱴᱟᱜ ᱮᱯ ᱠᱚ ᱪᱮᱛᱟᱱ ᱨᱮ ᱟᱢᱟᱜ ᱵᱷᱤᱰᱤᱭᱳ ᱯᱚᱯᱟᱯ ᱨᱮ ᱩᱫᱩᱜ ᱞᱟᱹᱜᱤᱫ ᱟᱢᱟᱜ ᱚᱱᱩᱢᱚᱛᱤ ᱞᱟᱹᱠᱛᱤᱭᱟᱭ ᱠᱟᱱᱟ᱾</string>
     <string name="permission_ask_again">ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ</string>
-    <string name="exit_app">VLC ᱵᱚᱸᱫᱚᱭ ᱢᱮᱸ</string>
-    <string name="exit_app_msg">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱢᱮᱱᱟᱢ-ᱟ VLC ᱟᱱᱟᱜ ᱞᱟᱹᱜᱤᱫᱽ ᱛᱮ?</string>
+    <string name="exit_app">VLC ᱵᱚᱸᱫᱚᱭ ᱢᱮ</string>
+    <string name="exit_app_msg">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱢᱮᱱᱟᱢ-ᱟ VLC ᱟᱱᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱛᱮ?</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">ᱞᱚᱜᱚᱱᱥᱠᱨᱚᱞᱟᱹᱨ ᱴᱨᱟᱠ</string>
@@ -479,14 +485,13 @@
     <string name="network_shared_folders">ᱦᱟᱹᱴᱤᱧ ᱦᱩᱭᱠᱟᱱ ᱯᱚᱴᱚᱢ ᱠᱚ</string>
     <string name="encryption_warning">ᱥᱚᱱᱛᱚᱨ, ᱮᱱᱠᱨᱤᱯᱥᱟᱱ ᱱᱚᱶᱟ ᱮᱱᱰᱨᱚᱭᱮᱰ ᱵᱷᱟᱨᱥᱟᱱ ᱞᱟᱹᱜᱤᱫ ᱵᱟᱹᱱᱩᱜᱼᱟ, ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫ ᱫᱚ ᱢᱤᱫ ᱟᱯᱱᱟᱨ ᱡᱟᱭᱜᱟ ᱨᱮ ᱫᱚᱦᱚᱜᱼᱟ ᱛᱚᱵᱮ ᱮᱱᱠᱨᱤᱯᱴ ᱵᱟᱝ ᱦᱩᱭᱩᱜᱼᱟ</string>
     <string name="store_password">ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫ ᱢᱚᱱᱮ ᱫᱚᱦᱚᱭ ᱢᱮ</string>
-    <string name="add_to_playlist">ᱯᱞᱮᱞᱤᱥᱴ ᱛᱮ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
+    <string name="add_to_playlist">ᱯᱞᱮᱞᱤᱥᱴ ᱛᱮ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="popup_playback_title">ᱯᱚᱯᱟᱯ ᱣᱤᱱᱰᱳ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱪᱟᱞᱟᱣ ᱢᱮ</string>
     <string name="popup_playback">ᱯᱚᱯᱟᱯ ᱣᱤᱱᱰᱳ ᱨᱮ ᱪᱟᱞᱟᱜ ᱠᱟᱱᱟ</string>
     <string name="popup_expand">ᱣᱤᱲᱤᱭᱚ ᱚᱥᱟᱨ ᱢᱮ</string>
     <string name="download_subtitles">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱠᱚ ᱰᱟᱩᱱᱞᱳᱰ ᱢᱮ</string>
-    <string name="browse_folder">ᱯᱚᱴᱚᱢ ᱵᱨᱟᱩᱡ ᱢᱮᱸ</string>
-    <string name="listen">ᱟᱧᱡᱚᱢ ᱢᱮᱸ</string>
-    <string name="save_bluetooth_delay">ᱵᱽᱞᱩᱴᱩᱛᱷ ᱥᱟᱫᱷᱚᱱ ᱞᱟᱹᱜᱤᱫ ᱵᱤᱞᱚᱸᱢ ᱥᱟᱸᱪᱟᱣ ᱢᱮ</string>
+    <string name="browse_folder">ᱯᱚᱴᱚᱢ ᱵᱨᱟᱩᱡ ᱢᱮ</string>
+    <string name="listen">ᱟᱧᱡᱚᱢ ᱢᱮ</string>
     <string name="episodes">ᱮᱯᱤᱥᱚᱰᱠᱚ</string>
     <string name="movies">ᱥᱤᱱᱮᱢᱟ ᱠᱚ</string>
     <string name="videos">ᱣᱤᱰᱤᱭᱚ ᱠᱚ</string>
@@ -554,7 +559,7 @@
     <string name="next">ᱤᱱᱟ ᱛᱟᱭᱚᱢ</string>
     <string name="download">ᱰᱟᱩᱱᱞᱳᱰ</string>
     <string name="ctx_player_video_track">ᱣᱤᱰᱤᱭᱚ ᱴᱨᱮᱠ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
-    <string name="ctx_player_audio_track">ᱟᱸᱰᱤᱭᱚ ᱴᱨᱮᱠ</string>
+    <string name="ctx_player_audio_track">ᱚᱰᱤᱭᱚ ᱴᱨᱮᱠ</string>
     <string name="ctx_player_subs_track">ᱥᱟᱹᱵᱽᱴᱟᱭᱴᱟᱹᱞ ᱴᱨᱟᱠ</string>
     <string name="ctx_pip_title">ᱯᱚᱯ-ᱚᱯ ᱯᱞᱮᱭᱟᱨ</string>
     <string name="device_dialog_title">ᱵᱟᱦᱨᱮᱭᱟᱜ ᱰᱤᱵᱷᱟᱭᱤᱥ ᱟᱫᱮᱨ ᱦᱩᱭ ᱮᱱᱟ</string>
@@ -565,8 +570,8 @@
     <string name="onboarding_theme_title">ᱟᱢ ᱞᱟᱹᱜᱤᱫ ᱚᱲᱟᱜ ᱵᱮᱱᱟᱣ ᱢᱮ</string>
     <string name="done">ᱦᱩᱭᱮᱱᱟ</string>
     <string name="light_theme">ᱢᱟᱨᱥᱟᱞ ᱩᱭᱦᱟᱹᱨ</string>
-    <string name="add">ᱥᱮᱞᱮᱫ ᱢᱮ</string>
-    <string name="add_to_new_playlist">ᱱᱟᱶ ᱯᱞᱮᱞᱤᱥᱴ ᱨᱮ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
+    <string name="add">ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
+    <string name="add_to_new_playlist">ᱱᱟᱶ ᱯᱞᱮᱞᱤᱥᱴ ᱨᱮ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="resume_card_message">%1$s ᱨᱮᱱᱟᱜ ᱯᱞᱮᱵᱮᱠ ᱞᱟᱦᱟᱭ ᱢᱮ ?</string>
     <string name="misc">ᱥᱮᱥᱟᱥᱟᱱᱟ</string>
     <string name="device_default">ᱥᱟᱫᱷᱚᱱ-ᱟ ᱢᱩᱞ ᱯᱷᱮᱲᱟᱛ</string>
@@ -579,7 +584,7 @@
     <string name="display_in_list">ᱞᱤᱥᱴᱤ ᱨᱮ ᱩᱫᱩᱜ</string>
     <string name="display_in_grid">ᱡᱟᱸᱜᱽᱞᱟ ᱨᱮ ᱩᱫᱩᱜ</string>
     <string name="vlc_reporter">VLC ᱨᱤᱯᱚᱴᱟᱹᱨ</string>
-    <string name="welcome_beta_title">VLC ᱵᱮᱴᱟ</string>
+    <string name="welcome_beta_title">VLC ᱵᱤᱴᱟ</string>
     <string name="welcome_beta_description">VLC ᱵᱮᱴᱟ ᱯᱨᱚᱜᱽᱨᱟᱢ ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ ᱾\nᱫᱚᱭᱟᱠᱟᱛᱮ ᱱᱚᱴ ᱠᱟᱜ ᱯᱮ ᱱᱚᱶᱟ ᱵᱷᱟᱹᱨᱥᱚᱱ ᱨᱮ ᱵᱟᱹᱜ ᱠᱚ ᱮᱢᱟᱱ ᱛᱟᱦᱮᱸ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ ᱾</string>
     <string name="send">ᱠᱩᱞ ᱢᱮ</string>
     <string name="send_crash_action_title">ᱟᱢ ᱪᱮᱫᱽ ᱠᱚᱨᱟᱣ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ?</string>
@@ -598,15 +603,14 @@
     <string name="header_movies">ᱥᱤᱱᱮᱢᱟ ᱠᱚ</string>
     <string name="season_number">ᱥᱤᱡᱚᱱ %s</string>
     <string name="resume_episode">ᱞᱟᱦᱟ(%s)</string>
-    <string name="start_over">ᱮᱦᱚᱵᱽ ᱢᱮᱸ</string>
+    <string name="start_over">ᱮᱦᱚᱵᱽ ᱢᱮ</string>
     <string name="next_episode">ᱤᱱᱟᱹᱛᱟᱭᱚᱢ ᱟᱜᱽ ᱮᱯᱤᱥᱚᱰ</string>
-    <string name="open_network_settings">ᱱᱮᱴᱣᱟᱨᱠ ᱥᱟᱡᱟᱣᱠᱚ ᱠᱷᱩᱞᱟᱹᱭ ᱢᱮᱸ?</string>
+    <string name="open_network_settings">ᱱᱮᱴᱣᱟᱨᱠ ᱥᱟᱡᱟᱣᱠᱚ ᱠᱷᱩᱞᱟᱹᱭ ᱢᱮ?</string>
     <string name="recently_played">ᱱᱮᱛᱟᱨᱟᱜᱽ ᱯᱞᱮᱭᱟᱜᱽ</string>
     <string name="recently_added">ᱱᱮᱛᱟᱨᱟᱜ ᱥᱮᱞᱮᱫᱟᱜ</string>
     <string name="playback_multiple_errors">ᱟᱭᱢᱟ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮ ᱵᱟᱭ ᱜᱟᱱᱚᱜᱼᱟ</string>
-    <string name="clear_media_db_warning">ᱟᱢᱟᱜᱽ  ᱡᱷᱛᱚ ᱞᱟᱦᱟ ᱠᱚ ᱟᱨ ᱛᱮᱭᱟᱨ ᱟᱠᱟᱱᱟ ᱯᱞᱮᱞᱤᱥᱴ ᱠᱚ ᱟᱫᱽ ᱟᱢ\n%s</string>
-    <string name="abrepeat_add_first_marker">ᱮᱦᱚᱵᱽ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮᱸ</string>
-    <string name="abrepeat_add_second_marker">ᱢᱩᱪᱟᱹᱫᱽ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮᱸ</string>
+    <string name="abrepeat_add_first_marker">ᱮᱦᱚᱵ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮ</string>
+    <string name="abrepeat_add_second_marker">ᱢᱩᱪᱟᱹᱫ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮ</string>
     <string name="demux_bitrate">ᱰᱮᱢᱟᱹᱠᱥ ᱵᱤᱴᱨᱮᱴ</string>
     <string name="input_bitrate">ᱤᱱᱯᱩᱴ ᱵᱤᱴᱨᱮᱴ</string>
     <string name="video_information">ᱣᱤᱰᱤᱭᱚ ᱵᱤᱵᱨᱚᱬ</string>
@@ -632,13 +636,13 @@
     <string name="audio_queue_progress">ᱞᱟᱦᱟ: %s</string>
     <string name="audio_queue_progress_finished">ᱪᱟᱵᱟᱜ ᱚᱠᱛᱚ:%s</string>
     <string name="sortby_track">ᱯᱟᱸᱡᱟ</string>
-    <string name="this_folder">ᱱᱚᱶᱟ ᱯᱚᱴᱚᱢ ᱥᱮᱞᱮᱫᱽ ᱢᱮᱸ</string>
+    <string name="this_folder">ᱱᱚᱶᱟ ᱯᱚᱴᱚᱢ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="new_title">ᱱᱟᱶᱟ ᱧᱩᱛᱩᱢ</string>
-    <string name="browse">ᱵᱨᱟᱩᱡᱽ</string>
+    <string name="browse">ᱯᱟᱱᱛᱮ ᱢᱮ</string>
     <string name="more">ᱟᱨᱦᱚᱸ</string>
     <string name="favorites">ᱠᱩᱥᱤᱠᱚ</string>
     <string name="new_stream">ᱱᱟᱶᱟ ᱥᱴᱨᱤᱢ</string>
-    <string name="add_to_group">ᱣᱤᱰᱤᱭᱚ ᱫᱳᱞ ᱨᱮ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
+    <string name="add_to_group">ᱣᱤᱰᱤᱭᱚ ᱫᱳᱞ ᱨᱮ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="ungroup">ᱵᱟᱝᱫᱳᱞ ᱢᱮ</string>
     <string name="empty_directory">ᱠᱷᱟᱹᱞᱤ</string>
     <string name="no_track">ᱴᱨᱮᱠ ᱵᱟᱹᱱᱩᱜ-ᱟ</string>
@@ -646,31 +650,31 @@
     <string name="swipe_unlock">ᱟᱱᱞᱚᱠ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱥᱣᱟᱤᱯ ᱢᱮ</string>
     <string name="sub_result_by_name_episode">ᱮᱯᱤᱥᱚᱰ %s</string>
 
-    <string name="donate">VLC ᱜᱚᱲᱚᱟᱭ ᱢᱮᱸ</string>
+    <string name="donate">VLC ᱜᱚᱲᱚᱟᱭ ᱢᱮ</string>
     <string name="tip_jar">VLC ᱜᱚᱲᱚ ᱞᱮᱢ</string>
     <string name="thank_you">ᱟᱢ ᱥᱟᱨᱦᱟᱣ</string>
-    <string name="thank_you_desc">ᱟᱢᱟᱜᱽ ᱥᱯᱚᱱᱥᱚᱨᱥᱤᱯᱷ ᱞᱟᱹᱜᱤᱫᱽ ᱟᱢ ᱥᱟᱨᱦᱟᱣ!\nᱱᱚᱶᱟ VLC ᱟᱨᱦᱚᱸ ᱵᱮᱥ ᱪᱚᱨᱚᱠ ᱞᱟᱦᱟ ᱦᱚ ᱪᱷᱚᱭᱟᱭ!</string>
-    <string name="donate_again">ᱮᱯᱯ ᱟᱨᱦᱚᱸ ᱥᱯᱚᱱᱥᱚᱨ ᱢᱮᱸ</string>
+    <string name="thank_you_desc">ᱟᱢᱟᱜᱽ ᱥᱯᱚᱱᱥᱚᱨᱥᱤᱯᱷ ᱞᱟᱹᱜᱤᱫ ᱟᱢ ᱥᱟᱨᱦᱟᱣ!\nᱱᱚᱶᱟ VLC ᱟᱨᱦᱚᱸ ᱵᱮᱥ ᱪᱚᱨᱚᱠ ᱞᱟᱦᱟ ᱦᱚ ᱪᱷᱚᱭᱟᱭ!</string>
+    <string name="donate_again">ᱮᱯ ᱟᱨᱦᱚᱸ ᱥᱯᱚᱱᱥᱚᱨ ᱢᱮ</string>
 
-    <string name="mark_as_played">ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜᱽ ᱢᱮᱸ</string>
-    <string name="mark_all_as_played">ᱡᱷᱚᱛᱚ ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜᱽ ᱢᱮᱸ </string>
+    <string name="mark_as_played">ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜᱽ ᱢᱮ</string>
+    <string name="mark_all_as_played">ᱡᱷᱚᱛᱚ ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜ ᱢᱮ</string>
     <string name="new_group">ᱱᱟᱶᱟ ᱫᱳᱞ</string>
-    <string name="new_group_desc">ᱱᱟᱶᱟ ᱫᱳᱞ ᱛᱮᱭᱟᱨ ᱢᱮᱸ</string>
+    <string name="new_group_desc">ᱱᱟᱶᱟ ᱫᱳᱞ ᱛᱮᱭᱟᱨ ᱢᱮ</string>
 
     <string name="air_action_volume_up">ᱣᱚᱞᱭᱩᱢ ᱪᱮᱛᱟᱱ</string>
     <string name="air_action_volume_down">ᱣᱚᱞᱭᱩᱢ ᱞᱟᱛᱟᱨ</string>
     <string name="air_action_next">ᱯᱞᱮᱵᱮᱠ ᱨᱮᱭᱟᱜ ᱤᱱᱟᱹ ᱛᱟᱭᱚᱱ ᱡᱤᱱᱤᱥ</string>
     <string name="air_action_previous">ᱯᱞᱮᱵᱮᱠ ᱨᱮᱭᱟᱜ ᱢᱟᱲᱟᱝ ᱟᱭᱴᱟᱹᱢ</string>
-    <string name="allow_otg">OTG ᱟᱫᱮᱨ ᱪᱷᱚᱭ ᱢᱮᱸ</string>
-    <string name="allow_otg_description">VLC ᱛᱮ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫᱽ ᱫᱚᱭᱟᱠᱟᱛᱮ OTG ᱰᱨᱟᱭᱤᱵᱷ ᱪᱚᱭᱚᱱ ᱢᱮᱸ ᱾</string>
+    <string name="allow_otg">OTG ᱟᱫᱮᱨ ᱪᱷᱚᱭ ᱢᱮ</string>
+    <string name="allow_otg_description">VLC ᱛᱮ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫ ᱫᱚᱭᱟᱠᱟᱛᱮ OTG ᱰᱨᱟᱭᱤᱵᱷ ᱪᱚᱭᱚᱱ ᱢᱮ ᱾</string>
     <string name="timeout_infinite">ᱚᱦᱤᱥᱟᱹᱵᱽ</string>
-    <string name="timeout_short">ᱠᱟᱹᱴᱤᱡᱽ</string>
+    <string name="timeout_short">ᱠᱷᱟᱴᱚ</string>
     <string name="timeout_normal">ᱥᱟᱫᱷᱟᱨᱚᱬ </string>
     <string name="timeout_long">ᱡᱤᱞᱤᱧ</string>
     <string name="video_hud_timeout">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱭᱟᱹᱨ ᱠᱟᱹᱱᱴᱨᱚᱞ ᱜᱷᱟᱲᱤᱡᱽ ᱩᱠᱩ</string>
     <string name="remove_from_history">ᱦᱤᱛᱟᱹᱞ ᱠᱷᱚᱱ ᱚᱪᱚᱜ ᱢᱮ</string>
-    <string name="prefersmbv1">SMB ᱑ ᱠᱩᱥᱤᱭᱟᱜᱽ ᱢᱮᱸ</string>
-    <string name="prefersmbv1_summary">SMB ᱥᱟᱹᱨᱣᱟᱹᱨ ᱵᱨᱟᱩᱡᱽ ᱡᱷᱚᱜᱽ ᱮᱴᱠᱮᱴᱚᱬᱮ ᱦᱩᱭᱩᱜᱽ ᱠᱷᱟᱱ ᱱᱚᱶᱟ ᱥᱟᱡᱟᱣ ᱠᱚ ᱟᱹᱱᱪᱮᱠ ᱢᱮᱸ</string>
+    <string name="prefersmbv1">SMB ᱑ ᱠᱩᱥᱤᱭᱟᱜ ᱢᱮ</string>
+    <string name="prefersmbv1_summary">SMB ᱥᱟᱹᱨᱣᱟᱹᱨ ᱵᱨᱟᱩᱡᱽ ᱡᱷᱚᱜ ᱮᱴᱠᱮᱴᱚᱬᱮ ᱦᱩᱭᱩᱜ ᱠᱷᱟᱱ ᱱᱚᱶᱟ ᱥᱟᱡᱟᱣ ᱠᱚ ᱟᱹᱱᱪᱮᱠ ᱢᱮ</string>
     <string name="apply_to_all">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚ ᱨᱮ ᱮᱢ ᱪᱷᱚ</string>
     <string name="audio_delay_global">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚᱠᱚ ᱞᱟᱹᱫᱜᱤᱹᱫ %s ms ᱜᱷᱟᱹᱲᱤᱡ ᱥᱟᱰᱮ ᱮᱱᱟ </string>
     <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
@@ -680,5 +684,10 @@
     <string name="soundfont">MIDI ᱥᱟᱲᱮᱯᱷᱚᱸᱴ</string>
     <string name="soundfont_summary">midi ᱥᱟᱲᱮ ᱴᱨᱟᱠ ᱠᱚ ᱯᱞᱮ ᱞᱟᱹᱜᱤᱫ ᱥᱟᱲᱮᱯᱷᱚᱸᱴ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="search_prefs">ᱥᱮᱸᱫᱽᱨᱟᱣᱟ ᱥᱟᱡᱟᱣᱠᱚ</string>
+    <string name="start_vlc">VLC ᱮᱦᱚᱵᱽ ᱢᱮ</string>
 
+    <string name="add_button">ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
+    <string name="add_all_button">ᱡᱚᱛᱚ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
+    <string name="add_new_only_button">ᱱᱟᱶᱟᱱᱟᱜ ᱠᱷᱟᱹᱞᱤ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
+    <string name="start">ᱮᱦᱚᱵ</string>
 </resources>
