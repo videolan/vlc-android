@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">እሺ</string>
@@ -132,16 +133,9 @@
 
     <string name="playback_history_title">በድጋሚ ማጫወቻ ታሪክ</string>
     <string name="playback_speed_title">በድጋሚ ማጫወቻ ፍጥነት ማስቀመጫ</string>
-
-    <!-- Tips -->
-    <string name="video_player_tips">የ ቪዲዮ ማጫወቻ ጠቃሚ ምክር:</string>
     <string name="seek">መፈለጊያ</string>
     <string name="subtitles">ንዑስ እርእስቶች</string>
-    <string name="resize">እንደገና መመጠኛ</string>
-    <string name="options">ምርጫዎች</string>
     <string name="lock">መቆለፊያ</string>
-    <string name="ok_got_it">ገብቶኛል ይህን አጥፋው</string>
-
     <string name="playlist_tips">የ ማጫወቻ ዝርዝር ጠቃሚ ምክር</string>
     <string name="remove_song">ዘፈን ማስወገጃ</string>
     <string name="hold_to_seek">ተጭነው ይያዙ ለ መፈለግ</string>
@@ -172,7 +166,6 @@
     <string name="interface_secondary_display_category_title">ሁለተኛ ማሳያ</string>
     <string name="video_prefs_category">ቪዲዮ</string>
     <string name="video_min_group_length_title">የ ቪዲዮዎች ቡድን</string>
-    <string name="media_fast_seek">በፍጥነት መፈለጊያ</string>
     <string name="force_play_all_title">በ ቪዲዮ ማጫወቻ ዘዴ</string>
     <string name="save_audiodelay_title">የ ድምፅ ማዘግያ ማስቀመጫ</string>
     <string name="enable_seek_buttons">መፍለጊያ ቁልፎች</string>
@@ -203,7 +196,6 @@
     <string name="casting_quality_low">ዝቅተኛ</string>
     <string name="casting_quality_lowcpu">ዝቅተኛ</string>
     <string name="artists_show_all_title">ሁሉንም ከያኒዎች ማሳያ</string>
-
     <string name="extensions_prefs_category">ተጨማሪዎች</string>
     <string name="extension_permission_checkbox_title">ማሳያ በ %1$s</string>
     <string name="extension_prefs_activation_title">ማስነሻ</string>
