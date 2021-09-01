@@ -176,7 +176,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Playing")
                 executeUpdate()
                 publishState()
-                lastTime = time
+                lastTime = getTime()
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 showNotification()
@@ -198,8 +198,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
             MediaPlayer.Event.PositionChanged -> {
                 if (length == 0L) position = (NO_LENGTH_PROGRESS_MAX.toLong() * event.positionChanged).toLong()
-                if (time < 1000L && time < lastTime) publishState()
-                lastTime = time
+                if (getTime() < 1000L && getTime() < lastTime) publishState()
+                lastTime = getTime()
                 if (widget != 0) updateWidgetPosition(event.positionChanged)
             }
             MediaPlayer.Event.ESAdded -> if (event.esChangedType == IMedia.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
@@ -383,15 +383,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
         return tracks.toList()
     }
-
-    var time: Long
-        @MainThread
-        get() = playlistManager.player.getCurrentTime()
-        @MainThread
-        set(time) {
-            playlistManager.player.setTime(time)
-            publishState(time)
-        }
 
     val length: Long
         @MainThread
@@ -711,6 +702,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         playlistManager.isHardware = true
     }
 
+    fun setTime(time:Long, fast:Boolean = false) {
+        playlistManager.player.setTime(time, fast)
+    }
+
+    fun getTime() = playlistManager.player.getCurrentTime()
+
     fun onMediaPlayerEvent(event: MediaPlayer.Event) = mediaPlayerListener.onEvent(event)
 
     fun onPlaybackStopped(systemExit: Boolean) {
@@ -951,7 +948,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val pscb = PlaybackStateCompat.Builder()
         var actions = PLAYBACK_BASE_ACTIONS
         val hasMedia = playlistManager.hasCurrentMedia()
-        var time = position ?: time
+        var time = position ?: getTime()
         var state = PlayerController.playbackState
         when (state) {
             PlaybackStateCompat.STATE_PLAYING -> actions = actions or (PlaybackStateCompat.ACTION_PAUSE or PlaybackStateCompat.ACTION_STOP)
@@ -1294,7 +1291,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         /* HACK: flush when activating a video track. This will force an
          * I-Frame to be displayed right away. */
         if (isSeekable) {
-            val time = time
+            val time = getTime()
             if (time > 0)
                 seek(time)
         }
@@ -1418,8 +1415,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     @MainThread
     @JvmOverloads
-    fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false) {
-        if (length > 0.0) this.time = time else setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
+    fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false, fast:Boolean = false) {
+        if (length > 0.0) this.setTime(time, fast) else setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
         if (fromUser) {
             publishState(time)
         }

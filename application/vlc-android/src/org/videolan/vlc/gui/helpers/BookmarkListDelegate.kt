@@ -155,7 +155,7 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
     }
 
     override fun onBookmarkClick(position: Int, item: Bookmark) {
-        service.time = item.time
+        service.setTime(item.time)
     }
 
     fun setProgressHeight(y: Float) {

@@ -113,7 +113,7 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
         service?.currentMediaWrapper?.let {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    val bookmark = it.addBookmark(service!!.time)
+                    val bookmark = it.addBookmark(service!!.getTime())
                     bookmark?.setName(context.getString(R.string.bookmark_name, it.bookmarks.size.toString()))
                 }
                 refresh()

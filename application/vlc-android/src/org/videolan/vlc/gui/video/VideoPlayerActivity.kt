@@ -55,7 +55,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
@@ -268,11 +267,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
             isDragging = false
             overlayDelegate.showOverlay(true)
+            seek(seekBar.progress.toLong(), fromUser = true, fast = false)
         }
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!isFinishing && fromUser && service?.isSeekable == true) {
-                seek(progress.toLong(), fromUser)
+                seek(progress.toLong(), fromUser, isDragging)
                 if (service?.length != 0L) overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
             }
             if (fromUser) {
@@ -298,7 +298,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
              */
     val time: Long
         get() {
-            var time = service?.time ?: 0L
+            var time = service?.getTime() ?: 0L
             if (forcedTime != -1L && lastTime != -1L) {
                 if (lastTime > forcedTime) {
                     if (time in (forcedTime + 1)..lastTime || time > lastTime) {
@@ -1595,11 +1595,15 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         service?.let { seek(position, it.length, fromUser) }
     }
 
-    internal fun seek(position: Long, length: Long, fromUser: Boolean = false) {
+    fun seek(position: Long, fromUser: Boolean = false, fast:Boolean = false) {
+        service?.let { seek(position, it.length, fromUser, fast) }
+    }
+
+    internal fun seek(position: Long, length: Long, fromUser: Boolean = false, fast:Boolean = false) {
         service?.let { service ->
             forcedTime = position
-            lastTime = service.time
-            service.seek(position, length.toDouble(), fromUser)
+            lastTime = service.getTime()
+            service.seek(position, length.toDouble(), fromUser, fast)
             service.playlistManager.player.updateProgress(position)
         }
     }

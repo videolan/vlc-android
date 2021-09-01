@@ -155,7 +155,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
                 VideoTracksDialog.TrackType.VIDEO -> {
                     player.service?.let { service ->
-                        player.seek(service.time)
+                        player.seek(service.getTime())
                         service.setVideoTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)

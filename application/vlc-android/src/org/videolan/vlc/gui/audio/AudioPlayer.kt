@@ -109,6 +109,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     lateinit var abRepeatAddMarker: Button
     private var audioPlayProgressMode:Boolean = false
     private var lastEndsAt = -1L
+    private var isDragging = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -369,7 +370,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
             binding.headerTime.text = displayTime
             binding.time.text = displayTime
-            binding.timeline.progress = progress.time.toInt()
+            if (!isDragging) binding.timeline.progress = progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
         }
 
@@ -432,18 +433,18 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onRewind10(view: View) {
         playlistModel.service ?.let { service ->
-            var position = service.time - 10000
+            var position = service.getTime() - 10000
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
-            if (service.playlistManager.player.lastPosition == 0.0f && service.time > 0)
+            if (service.playlistManager.player.lastPosition == 0.0f && service.getTime() > 0)
                 UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
     }
 
     fun onForward10(view: View) {
         playlistModel.service ?.let { service ->
-            var position = service.time + 10000
+            var position = service.getTime() + 10000
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
@@ -624,7 +625,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    possibleSeek = playlistModel.time.toInt()
+                    possibleSeek = playlistModel.getTime().toInt()
                     previewingSeek = true
                     vibrated = false
                     length = playlistModel.length
@@ -636,7 +637,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     handler.removeCallbacks(seekRunnable)
                     previewingSeek = false
                     if (event.eventTime - event.downTime >= 1000L) {
-                        playlistModel.time = possibleSeek.toLong().coerceAtLeast(0L).coerceAtMost(playlistModel.length)
+                        playlistModel.setTime(possibleSeek.toLong().coerceAtLeast(0L).coerceAtMost(playlistModel.length))
                         v.isPressed = false
                         return true
                     }
@@ -669,13 +670,18 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     private var timelineListener: OnSeekBarChangeListener = object : OnSeekBarChangeListener {
 
-        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar) {
+             playlistModel.setTime(seekBar.progress.toLong())
+            isDragging = false
+        }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+        override fun onStartTrackingTouch(seekBar: SeekBar) {
+            isDragging = true
+        }
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
             if (fromUser) {
-                playlistModel.time = progress.toLong()
+                playlistModel.setTime(progress.toLong(), true)
                 binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
             }

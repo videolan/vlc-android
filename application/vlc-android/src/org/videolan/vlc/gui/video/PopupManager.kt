@@ -229,7 +229,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     }
 
     private fun stopPlayback() {
-        var time = service.time
+        var time = service.getTime()
         if (time != -1L) {
             // remove saved position if in the last 5 seconds
             // else, go back 2 seconds, to compensate loading time

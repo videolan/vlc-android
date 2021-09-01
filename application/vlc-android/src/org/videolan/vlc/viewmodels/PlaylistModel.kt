@@ -154,12 +154,6 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         } else false
     } ?: false
 
-    var time
-        get() = service?.time ?: 0L
-        set(value) {
-            service?.time = value
-        }
-
     val length : Long
         get() = service?.length ?: 0L
 
@@ -191,6 +185,12 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         get() = service?.previousTotalTime
 
     fun shuffle() = service?.shuffle()
+
+    fun getTime() = service?.getTime() ?: 0L
+
+    fun setTime(time:Long, fast:Boolean = false) {
+        service?.setTime(time, fast)
+    }
 
     fun load(medialist: List<MediaWrapper>, position: Int) = service?.load(medialist, position)
 

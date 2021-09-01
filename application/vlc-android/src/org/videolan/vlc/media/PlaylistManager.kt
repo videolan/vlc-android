@@ -908,7 +908,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.TimeChanged -> {
                     abRepeat.value?.let {
-                        if (it.stop != -1L && player.getCurrentTime() > it.stop) player.seek(it.start)
+                        if (it.stop != -1L && player.getCurrentTime() > it.stop) player.setTime(it.start)
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
                 }

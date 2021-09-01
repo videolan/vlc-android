@@ -317,7 +317,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         touchAction = TOUCH_SEEK
 
         val length = player.service!!.length
-        val time = player.service!!.time
+        val time = player.service!!.getTime()
 
         // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
         var jump = (sign(gesturesize) * (600000 * (gesturesize / 8).toDouble().pow(4.0) + 3000) / coef).toInt()
@@ -455,9 +455,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             nbTimesTaped++
 
             lastSeekWasForward = seekForward
-            if (service.time > 0 && service.time < service.length) sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * (delta / 1000f).toInt()))
+            if (service.getTime() > 0 && service.getTime() < service.length) sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * (delta / 1000f).toInt()))
                 .append("s ")
-            sb.append("(").append(Tools.millisToString(service.time))
+            sb.append("(").append(Tools.millisToString(service.getTime()))
                 .append(')')
 
             val container = if (seekForward) player.rightContainer else player.leftContainer

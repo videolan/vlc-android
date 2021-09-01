@@ -229,7 +229,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
-        playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
+        playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.getTime(), 1.0f).build())
         playbackService.lifecycleScope.launch(Dispatchers.IO) {
             if (!isActive) return@launch
             playbackService.awaitMedialibraryStarted()
@@ -273,11 +273,11 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSkipToPrevious() = playbackService.previous(false)
 
-    override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.time + pos else pos, fromUser = true)
+    override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.getTime() + pos else pos, fromUser = true)
 
-    override fun onFastForward() = playbackService.seek((playbackService.time + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
+    override fun onFastForward() = playbackService.seek((playbackService.getTime() + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
 
-    override fun onRewind() = playbackService.seek((playbackService.time - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
+    override fun onRewind() = playbackService.seek((playbackService.getTime() - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
 
     override fun onSkipToQueueItem(id: Long) = playbackService.playIndexOrLoadLastPlaylist(id.toInt())
 }

@@ -135,7 +135,7 @@ class AudioPlayerActivity : BaseTvActivity() {
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
             if (fromUser) {
-                model.time = progress.toLong()
+                model.setTime(progress.toLong())
             }
         }
     }
@@ -273,9 +273,9 @@ class AudioPlayerActivity : BaseTvActivity() {
     }
 
     private fun seek(delta: Int) {
-        val time = model.time.toInt() + delta
+        val time = model.getTime().toInt() + delta
         if (time < 0 || time > model.length) return
-        model.time = time.toLong()
+        model.setTime(time.toLong())
     }
 
     fun onClick(v: View) {
