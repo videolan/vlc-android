@@ -282,8 +282,6 @@
     <string name="video_min_group_length_disable">不要將影片分組</string>
     <string name="video_min_group_length_folder">依資料夾分組</string>
     <string name="video_min_group_length_name">依名稱分組</string>
-    <string name="media_fast_seek">快速尋找</string>
-    <string name="media_fast_seek_summary">在媒體中尋找會比較快，但比較不準確</string>
     <string name="video_transition_title">影片轉場</string>
     <string name="video_transition_summary">在轉場時顯示新影片標題</string>
     <string name="media_seen">顯示已看過影片的標記</string>
@@ -801,7 +799,7 @@
     <string name="soundfont_summary">挑選 SoundFont 檔案來播放 midi 音訊軌</string>
     <string name="missing_media_snack">媒體遺失。隱藏所有遺失的媒體嗎？</string>
     <string name="browser_show_missing_media">顯示遺失的媒體</string>
-    <string name="browser_show_missing_media_summary">如果媒體不存在，則顯示遠端活動</string>
+    <string name="browser_show_missing_media_summary">即便不存在也要顯示遠端媒體</string>
     <string name="search_prefs">搜尋設定</string>
     <string name="preferred_resolution">偏好的視訊解析度</string>
     <string name="preferred_resolution_summary">若可用的話，串流的最大視訊品質將為：%s</string>
