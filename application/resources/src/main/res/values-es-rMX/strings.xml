@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
@@ -93,7 +94,6 @@
         <item quantity="one">1 programa de TV</item>
         <item quantity="other">%d programas de TV</item>
     </plurals>
-
     <string name="internal_memory">Memoria interna</string>
     <string name="audio">Audio</string>
     <string name="video">Vídeo</string>
@@ -195,16 +195,9 @@
 
     <string name="play_button">Botón reproducir</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Consejos acerca del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtitulos</string>
-    <string name="audio_sub">Pistas de audio \ny subtítulos</string>
-    <string name="resize">Cambiar el tamaño</string>
-    <string name="options">Opciones</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">Entendido, descartar&#160;esto</string>
-
     <string name="playlist_tips">Consejos de la lista de reproducción</string>
     <string name="remove_song">Quitar canción</string>
     <string name="remove_playlist_item">%1$s ha sido descartado de la lista</string>
@@ -243,7 +236,6 @@
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
-    <string name="screen_orientation_start_lock">Bloqueado al inicio</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Horizontal</string>
     <string name="enable_black_theme">Tema negro</string>
@@ -264,8 +256,6 @@
     <string name="video_min_group_length_disable">No agrupar videos</string>
     <string name="video_min_group_length_folder">Agrupar por carpeta</string>
     <string name="video_min_group_length_name">Agrupar por nombre</string>
-    <string name="media_fast_seek">Rebobinar rápidamente</string>
-    <string name="media_fast_seek_summary">Adelantar y atrasar en un medio es más rápido pero menos preciso</string>
     <string name="video_transition_title">Transición en vídeos</string>
     <string name="video_transition_summary">Mostrar título del nuevo vídeo en la transición</string>
     <string name="media_seen">Mostrar una marca en vídeos vistos</string>
@@ -337,7 +327,6 @@
     <string name="casting_quality_lowcpu">Muy baja</string>
     <string name="casting_connected_renderer">Conectado al visualizador \'%1$s\'</string>
     <string name="artists_show_all_title">Mostrar todos los artistas</string>
-
     <string name="extensions_prefs_category">Extensiones</string>
     <string name="extensions_empty">Extension no detectada</string>
     <string name="extension_permission_title">¿Activar nueva extensión \"%1$s\"?</string>
@@ -486,7 +475,6 @@
     <string name="download_subtitles">Descargar subtítulos</string>
     <string name="browse_folder">Examinar carpeta</string>
     <string name="listen">Escuchar</string>
-    <string name="save_bluetooth_delay">guardar retraso para dispositivo bluetooth</string>
     <string name="episodes">episodios</string>
     <string name="movies">películas</string>
     <string name="videos">vídeos</string>
@@ -669,7 +657,6 @@
     <string name="recently_played">Reproducido recientemente</string>
     <string name="recently_added">Agregado recientemente</string>
     <string name="playback_multiple_errors">No se pueden ver múltiples medios </string>
-    <string name="clear_media_db_warning">Perderás el progreso y la lista creada.\n%s</string>
     <string name="abrepeat_add_first_marker">Establecer punto inicial</string>
     <string name="abrepeat_add_second_marker">Establecer punto final</string>
     <string name="demux_bitrate">Tasa de bits de Demux</string>
