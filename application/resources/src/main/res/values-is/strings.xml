@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Í lagi</string>
@@ -93,7 +94,6 @@
         <item quantity="one">1 sjónvarpsþáttur</item>
         <item quantity="other">%d sjónvarpsþættir</item>
     </plurals>
-
     <string name="internal_memory">Innra minni</string>
     <string name="audio">Hljóð</string>
     <string name="video">Vídeó</string>
@@ -195,16 +195,9 @@
 
     <string name="play_button">Afspilunarhnappur</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
     <string name="seek">Leita</string>
     <string name="subtitles">Skjátextar</string>
-    <string name="audio_sub">Hljóðspor\nog skjátextar</string>
-    <string name="resize">Breyta stærð</string>
-    <string name="options">Valkostir</string>
     <string name="lock">Læsa</string>
-    <string name="ok_got_it">Náði því, hunsa þetta</string>
-
     <string name="playlist_tips">Ábendingar spilunarlista</string>
     <string name="remove_song">Fjarlægja lag</string>
     <string name="remove_playlist_item">%1$s var hent út úr spilunarlista</string>
@@ -263,8 +256,6 @@
     <string name="video_min_group_length_disable">Ekki hópa myndskeið</string>
     <string name="video_min_group_length_folder">Hópa eftir möppum</string>
     <string name="video_min_group_length_name">Hópa eftir nafni</string>
-    <string name="media_fast_seek">Hraðleit</string>
-    <string name="media_fast_seek_summary">Leit í efni er hraðari en ekki eins nákvæm</string>
     <string name="video_transition_title">Millifærslur myndskeiða</string>
     <string name="video_transition_summary">Birta titil nýs myndskeiðs við millifærslu</string>
     <string name="media_seen">Birta merkingu um áhorf</string>
@@ -484,7 +475,6 @@
     <string name="download_subtitles">Sækja skjátexta</string>
     <string name="browse_folder">Flakka í möppu</string>
     <string name="listen">Hlusta</string>
-    <string name="save_bluetooth_delay">töf á vistun fyrir bluetooth-tæki</string>
     <string name="episodes">þættir</string>
     <string name="movies">kvikmyndir</string>
     <string name="videos">myndskeið</string>
@@ -667,7 +657,6 @@
     <string name="recently_played">Nýlega spilað</string>
     <string name="recently_added">Nýlega bætt við</string>
     <string name="playback_multiple_errors">Ekki er hægt að spila margar gagnaskrár</string>
-    <string name="clear_media_db_warning">Þú munt tapa allri framvindu og þeim spilunarlistum sem þú hefur útbúið.\n%s</string>
     <string name="abrepeat_add_first_marker">Setja upphafspunkt</string>
     <string name="abrepeat_add_second_marker">Setja endapunkt</string>
     <string name="demux_bitrate">Bitahraði affléttara (demux)</string>
@@ -769,5 +758,4 @@
     <string name="pref_resolution_best_available">Besta sem er í boði</string>
     <string name="pref_resolution_very_low">Mjög lág gæði (240p)</string>
     <string name="stop_unpaubale">Þennan gagnamiðil er ekki hægt að setja á bið. Stöðva það í staðinn?</string>
-
 </resources>
