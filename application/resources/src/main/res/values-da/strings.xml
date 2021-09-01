@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Gruppér ikke videoer</string>
     <string name="video_min_group_length_folder">Gruppér efter mappe</string>
     <string name="video_min_group_length_name">Gruppér efter navn</string>
-    <string name="media_fast_seek">Hurtig søgning</string>
-    <string name="media_fast_seek_summary">Søgning i et medie er hurtigere men mindre præcist</string>
     <string name="video_transition_title">Videoovergang</string>
     <string name="video_transition_summary">Vis ny videotitel på overgang</string>
     <string name="media_seen">Vis set video-markør</string>
@@ -813,7 +811,7 @@
     <string name="soundfont_summary">Vælg en lydskrifttype fil for at afspille MIDI lydspor</string>
     <string name="missing_media_snack">Medie mangler. Skjul alle manglende medier?</string>
     <string name="browser_show_missing_media">Vis manglende medier</string>
-    <string name="browser_show_missing_media_summary">Vis fjernmedier selv hvis de ikke er tilgængelige</string>
+    <string name="browser_show_missing_media_summary">Vis fjernmedier selvom de ikke er til stede</string>
     <string name="search_prefs">Indstillinger for søgning</string>
     <string name="preferred_resolution">Foretrukken video opløsning</string>
     <string name="preferred_resolution_summary">Maksimal video kvalitet for strømme, når det er relevant, vil være: %s</string>
