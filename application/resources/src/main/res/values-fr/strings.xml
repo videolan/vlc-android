@@ -219,7 +219,7 @@
     <string name="lock_orientation">Orientation</string>
     <string name="lock_orientation_description">Appuyez pour verrouiller/déverrouiller l\'orientation</string>
     <string name="aspect_ratio">Ratio d\'aspect</string>
-    <string name="aspect_ratio_description">Appuyez pour modifier le ration d\'aspect</string>
+    <string name="aspect_ratio_description">Appuyez pour modifier le ratio d\'aspect</string>
     <string name="advanced_options">Options avancées</string>
     <string name="advanced_options_description">Comme la vitesse de lecture, le mode de répétition, ...</string>
     <string name="tips_swipe">Balayez vers le haut ou vers le bas</string>
@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Ne pas grouper les vidéos</string>
     <string name="video_min_group_length_folder">Grouper par dossier</string>
     <string name="video_min_group_length_name">Grouper par nom</string>
-    <string name="media_fast_seek">Déplacement rapide</string>
-    <string name="media_fast_seek_summary">Le déplacement dans un média est plus rapide mais moins précis</string>
     <string name="video_transition_title">Transition entre les vidéos</string>
     <string name="video_transition_summary">Afficher le titre de la nouvelle vidéo en transition</string>
     <string name="media_seen">Afficher le marqueur de vidéo vue</string>
@@ -813,7 +811,7 @@
     <string name="soundfont_summary">Sélectionnez un fichier SoundFont pour jouer les pistes audio MIDI</string>
     <string name="missing_media_snack">Les médias sont manquants. Masquer tous les médias manquants ?</string>
     <string name="browser_show_missing_media">Afficher les médias manquants</string>
-    <string name="browser_show_missing_media_summary">Montrer l\'événement aux médias éloignés s\'ils ne sont pas présents</string>
+    <string name="browser_show_missing_media_summary">Montrer les médias distants même s\'ils ne sont pas présents.</string>
     <string name="search_prefs">Paramètres de recherche</string>
     <string name="preferred_resolution">Résolution vidéo préférée</string>
     <string name="preferred_resolution_summary">La qualité vidéo maximale pour les flux, le cas échéant, sera : %s</string>
