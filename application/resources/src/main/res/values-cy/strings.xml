@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Iawn</string>
@@ -109,7 +110,6 @@
         <item quantity="many">%d rhaglen deledu</item>
         <item quantity="other">%d rhaglen deledu</item>
     </plurals>
-
     <string name="internal_memory">Cof mewnol</string>
     <string name="audio">Sain</string>
     <string name="video">Fideo</string>
@@ -213,16 +213,9 @@
 
     <string name="play_button">Botwm Chwarae</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Awgrymiadau chwaraeydd fideo:</string>
     <string name="seek">Canfod</string>
     <string name="subtitles">Isdeitlau</string>
-    <string name="audio_sub">Traciau sain\nac isdeitlau</string>
-    <string name="resize">Newid maint</string>
-    <string name="options">Dewisiadau</string>
     <string name="lock">Cloi</string>
-    <string name="ok_got_it">Iawn, dwi\'n deall.</string>
-
     <string name="playlist_tips">Awgrymiadau rhestr chwarae</string>
     <string name="remove_song">Tynnu trac</string>
     <string name="remove_playlist_item">Mae %1$s wedi ei dynnu o\'r rhestr chwarae</string>
@@ -261,7 +254,6 @@
     <string name="automatic">Awtomatig</string>
     <string name="screen_orientation">Gorweddiad sgrin fideo</string>
     <string name="screen_orientation_sensor">Awtomatig (synhwyro)</string>
-    <string name="screen_orientation_start_lock">Ar glo wrth ddechrau</string>
     <string name="screen_orientation_portrait">Darlun</string>
     <string name="screen_orientation_landscape">Tirlun</string>
     <string name="enable_black_theme">Thema ddu</string>
@@ -282,8 +274,6 @@
     <string name="video_min_group_length_disable">Peidio â grwpio fideos</string>
     <string name="video_min_group_length_folder">Grwpio fesul ffolder</string>
     <string name="video_min_group_length_name">Grwpio yn ôl enw</string>
-    <string name="media_fast_seek">Chwilio cyflym</string>
-    <string name="media_fast_seek_summary">Mae chwilio o fewn cyfrwng yn gynt ond yn llai cywir</string>
     <string name="video_transition_title">Trawsnewidiad fideos</string>
     <string name="video_transition_summary">Dangos teitl y fideo newydd wrth drawsnewid</string>
     <string name="media_seen">Dangos nod bod y fideo wedi\'i gwylio</string>
@@ -355,7 +345,6 @@
     <string name="casting_quality_lowcpu">Isaf</string>
     <string name="casting_connected_renderer">Cysylltwyd â\'r rendrwr \'%1$s\'</string>
     <string name="artists_show_all_title">Dangos pob artist</string>
-
     <string name="extensions_prefs_category">Estyniadau</string>
     <string name="extensions_empty">Heb ganfod unrhyw estyniad</string>
     <string name="extension_permission_title">Rhoi\'r estyniad \"%1$s\" ar waith?</string>
@@ -504,7 +493,6 @@
     <string name="download_subtitles">Lawrlwytho isdeitlau</string>
     <string name="browse_folder">Pori\'r ffolder</string>
     <string name="listen">Gwrando</string>
-    <string name="save_bluetooth_delay">oediad cadw ar gyfer dyfais ddantlas</string>
     <string name="episodes">penodau</string>
     <string name="movies">ffilmiau</string>
     <string name="videos">fideos</string>
@@ -691,7 +679,6 @@
     <string name="recently_played">Chwaraewyd yn ddiweddar</string>
     <string name="recently_added">Ychwanegwyd yn ddiweddar</string>
     <string name="playback_multiple_errors">Ni ellir chwarae cyfryngau aml-gyfrwng</string>
-    <string name="clear_media_db_warning">Byddi yn colli dy gynnydd a\'r rhestrau chwarae rwyt wedi eu creu.\n%s</string>
     <string name="abrepeat_add_first_marker">Gosod pwynt dechrau</string>
     <string name="abrepeat_add_second_marker">Gosod pwynt gorffen</string>
     <string name="demux_bitrate">Didradd datblecsu</string>
