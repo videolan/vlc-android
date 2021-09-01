@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">ठीक</string>
@@ -93,7 +94,6 @@
         <item quantity="one">1 TV show</item>
         <item quantity="other">%dटिभी कार्यक्रमहरू</item>
     </plurals>
-
     <string name="internal_memory">आन्तरिक भन्डारण</string>
     <string name="audio">अडियो</string>
     <string name="video">भिडियो</string>
@@ -195,13 +195,8 @@
 
     <string name="play_button">प्ले बटन</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">भिडियो प्लेयर जानकारी:</string>
     <string name="seek">खोज्नुहोस्</string>
     <string name="subtitles">उपशिर्षकहरु</string>
-    <string name="audio_sub">ध्वनि ट्र्याकहरू\nर उपशीर्षकहरू</string>
-    <string name="resize">आकार परिवर्तन</string>
-    <string name="options">विकल्प</string>
     <string name="lock">लक गर्नुहोस्</string>
     <string name="playlist_tips">प्लेलिस्ट जानकारीहरू</string>
     <string name="remove_song">गीत हटाउनुहोस</string>
@@ -238,7 +233,6 @@
     <string name="automatic">स्वचालित</string>
     <string name="screen_orientation">भिडियो पर्दा ढल्काइ</string>
     <string name="screen_orientation_sensor">स्वतः (सेन्सर)</string>
-    <string name="screen_orientation_start_lock">सुरुमा बन्द गरिएको</string>
     <string name="screen_orientation_portrait">पोट्रेट</string>
     <string name="screen_orientation_landscape">ल्यान्डस्केप</string>
     <string name="enable_black_theme">कालो थिम</string>
@@ -256,8 +250,6 @@
     <string name="video_min_group_length_disable">भिडियाहरुलाई समुहमा नराख्नुहोस्</string>
     <string name="video_min_group_length_folder">फोल्डरका आधारमा समुह बनाउनुहोस्</string>
     <string name="video_min_group_length_name">नामका आधारमा समुह बनाउनुहोस्</string>
-    <string name="media_fast_seek">द्रुत खोजी</string>
-    <string name="media_fast_seek_summary">मिडियामा खोजी गर्नु द्रुत छ तर कम सटीक हुन्छ।</string>
     <string name="video_transition_title">भिडियो रूपान्तरण</string>
     <string name="video_transition_summary">रूपान्तरणमा नयाँ भिडियो शीर्षक देखाउनुहोस्</string>
     <string name="media_seen">हेरिएको भिडियो मार्कर देखाउनुहोस्</string>
@@ -416,7 +408,6 @@
     <string name="download_subtitles">उपशीर्षकहरू डाउनलोड</string>
     <string name="browse_folder">फोल्डर अन्वेषण गर्नुहोस्</string>
     <string name="listen">सुन्नुहोस्</string>
-    <string name="save_bluetooth_delay">ब्लुटुथ यन्त्रका लागि ढिलाइ बचत गर्नुहोस्</string>
     <string name="episodes">भागहरू</string>
     <string name="movies">चलचित्रहरू</string>
     <string name="videos">भिडियोहरू</string>
@@ -609,5 +600,4 @@
     <string name="preferred_resolution_summary">लागू हुने समयमा स्ट्रिमहरूको लागि अधिकतम भिडियो गुणस्तर %s हुनेछ</string>
     <string name="pref_resolution_best_available">उत्तम उपलब्ध</string>
     <string name="pref_resolution_very_low">धैरै कम स्पष्टता (240p)</string>
-
 </resources>
