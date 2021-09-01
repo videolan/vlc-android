@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Vai</string>
@@ -41,15 +42,20 @@
     <string name="append_all">Aghjunghje tutti</string>
     <string name="resume_playback_short_title">Ripiglià a ripruduzzione</string>
     <string name="resume_playback_long_title">Ripiglià a ripruduzzione di l’ultima lista di lettura</string>
+    <string name="resume_playback_error">Nunda à riprincipià</string>
     <string name="delete">Squassà</string>
     <string name="remove">Caccià</string>
     <string name="set_song">Definisce cum’è suneria</string>
     <string name="set_song_question">Definisce « %1$s » cum’è suneria</string>
     <string name="info">Infurmazione</string>
     <string name="confirm_delete">Squassà u schedariu « %1$s » ?</string>
+    <string name="confirm_delete_message">St’azzione hè permanente è irriversibule.</string>
     <string name="confirm_delete_album">Squassà l’albumu « %1$s » ?</string>
     <string name="confirm_delete_several_media">Squassà sti %1$d media ?</string>
     <string name="confirm_delete_folder">Squassà u cartulare « %1$s » è tuttu u so cuntenutu ?</string>
+    <string name="confirm_delete_folders">Squassà sti %1$s cartulari è tuttu u so cuntenutu.</string>
+    <string name="confirm_delete_files">Squassà sti %1$s schedarii ?</string>
+    <string name="confirm_delete_folders_and_files">Squassà sti %1$s cartulari è %2$s schedarii ?</string>
     <string name="confirm_delete_playlist">Squassà a lista di lettura « %1$s » ?</string>
     <string name="confirm_remove_from_playlist">Caccià « %1$s » da a lista di lettura ?</string>
     <string name="ringtone_set">U schedariu « %1$s » hè statu definitu cum’è suneria.</string>
@@ -93,6 +99,10 @@
         <item quantity="one">1 spettaculu TV</item>
         <item quantity="other">%d spettaculi TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 traccia</item>
+        <item quantity="other">%d traccie</item>
+    </plurals>
 
     <string name="internal_memory">Memoria interna</string>
     <string name="audio">Audio</string>
@@ -118,6 +128,7 @@
     <string name="shuffle_title">Modu di lettura aleatoria</string>
     <string name="shuffle">Lettura aleatoria disattivata</string>
     <string name="shuffle_on">Lettura aleatoria attivata</string>
+    <string name="shuffle_play">Aleatoriu</string>
     <string name="repeat_title">Modu di ripetizione</string>
     <string name="repeat">Senza ripetizione </string>
     <string name="repeat_single">Ripete u pezzu</string>
@@ -195,15 +206,15 @@
 
     <string name="play_button">Buttone Sunà</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Minichichje di u lettore video :</string>
     <string name="seek">Pusiziunà</string>
     <string name="subtitles">Sottutituli</string>
-    <string name="audio_sub">Traccie audio\nè sottutituli</string>
-    <string name="resize">Cambià a dimensione</string>
-    <string name="options">Ozzioni</string>
+    <string name="tips_play_description">Picchichjà per leghje a video</string>
     <string name="lock">Bluccà</string>
-    <string name="ok_got_it">Ricevutu, cacciatellu</string>
+    <string name="tap">Picchichjà per fighjà</string>
+    <string name="lock_orientation">Orientazione</string>
+    <string name="advanced_options">Ozzioni esperte</string>
+    <string name="seek_tap">+/- 10 sec.</string>
+    <string name="close">Chjode</string>
 
     <string name="playlist_tips">Minichichje di lista di lettura</string>
     <string name="remove_song">Caccià a canzona</string>
@@ -243,9 +254,10 @@
     <string name="automatic">Autumaticu</string>
     <string name="screen_orientation">Orientazione di u screnu video</string>
     <string name="screen_orientation_sensor">Autumaticu (cattore)</string>
-    <string name="screen_orientation_start_lock">Bluccatu à l’iniziiu</string>
     <string name="screen_orientation_portrait">Verticale</string>
     <string name="screen_orientation_landscape">Orizuntale</string>
+    <string name="screen_orientation_landscape_reverse">Orizuntale à l’arritrosa</string>
+    <string name="screen_orientation_last_locked">Ultima orientazione ammarchjunata</string>
     <string name="enable_black_theme">Tema neru</string>
     <string name="subtitle_text_encoding">Cudificazione di u testu di i sottutituli</string>
     <string name="daynight_title">Modu Ghjornu-Notte</string>
@@ -264,8 +276,6 @@
     <string name="video_min_group_length_disable">Ùn gruppà micca e video</string>
     <string name="video_min_group_length_folder">Gruppà da cartulare</string>
     <string name="video_min_group_length_name">Gruppà da u nome</string>
-    <string name="media_fast_seek">Pusiziunà rapidu</string>
-    <string name="media_fast_seek_summary">Pusiziunà in un mediu hè più rapidu ma menu precisu</string>
     <string name="video_transition_title">Transizione di video</string>
     <string name="video_transition_summary">Affissà u titulu di a nova video durante a transizione</string>
     <string name="media_seen">Affissà a marca di video vista</string>
@@ -337,6 +347,8 @@
     <string name="casting_quality_lowcpu">U più bassu</string>
     <string name="casting_connected_renderer">Cunnettu à u trasfurmatore « %1$s »</string>
     <string name="artists_show_all_title">Affissà tutti l’artisti</string>
+    <string name="show_headers">Affissà l’intestature</string>
+    <string name="show_headers_summary">Frazziunà e liste da l’intestature secondu à u tipu d’ordine</string>
 
     <string name="extensions_prefs_category">Stinzioni</string>
     <string name="extensions_empty">Alcuna estensione avvintata</string>
@@ -486,7 +498,7 @@
     <string name="download_subtitles">Scaricà i sottutituli</string>
     <string name="browse_folder">Sfuglià u cartulare</string>
     <string name="listen">Stà à sente</string>
-    <string name="save_bluetooth_delay">arregistrà u cumportu per l’apparechju bluetooth</string>
+    <string name="apply_to_bt">Appiecà à l’apparechju bluetooth</string>
     <string name="episodes">episodii</string>
     <string name="movies">filmi</string>
     <string name="videos">video</string>
@@ -669,7 +681,6 @@
     <string name="recently_played">Sunatu pocu fà</string>
     <string name="recently_added">Aghjuntu pocu fà</string>
     <string name="playback_multiple_errors">Parechji media ùn ponu micca esse sunati</string>
-    <string name="clear_media_db_warning">Pirderete e vostre prugressioni è e liste di lettura chì vo avete create.\n%s</string>
     <string name="abrepeat_add_first_marker">Definisce u puntu di principiu</string>
     <string name="abrepeat_add_second_marker">Definisce u puntu di fine</string>
     <string name="demux_bitrate">Ghjettu di demultiplezzione</string>
@@ -736,6 +747,7 @@
     <string name="donate_again">Finanzià torna l’appiecazione</string>
 
     <string name="mark_as_played">Marcà cum’è issendu vistu</string>
+    <string name="mark_as_not_played">Marcà cum’è ùn issendu micca visti</string>
     <string name="mark_all_as_played">Tuttu marcà cum’è issendu vistu</string>
     <string name="new_group">Novu gruppu</string>
     <string name="new_group_desc">Creà un novu gruppu</string>
@@ -759,6 +771,7 @@
     <string name="prefersmbv1_summary">Disattivà st’ozzione s’è vò avete qualchì difficultà à navigà nant’à u vostru servitore SMB</string>
     <string name="apply_to_all">Appiecà à tutte e video</string>
     <string name="audio_delay_global">Cumportu audio definitu à %s ms per tutte e video</string>
+    <string name="audio_delay_bt">Cumportu audio definitu à %s ms per l’apparechju bluetooth</string>
     <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
     <string name="go_to_folder">Navigà à u livellu superiore</string>
     <string name="no_sub_renderer">I sottutituli ùn sò ancu accettati durante a diffusione</string>
@@ -766,5 +779,28 @@
     <string name="soundfont">Banca di soni SoundFont MIDI</string>
     <string name="soundfont_summary">Sceglie un schedariu di banca di soni per leghje traccie audio midi</string>
     <string name="search_prefs">Preferenze di ricerca</string>
+    <string name="preferred_resolution">Risuluzione video preferita</string>
+    <string name="preferred_resolution_summary">A qualità video massima per i flussi, s’ella casca, serà : %s</string>
+    <string name="pref_resolution_best_available">U megliu pussibule</string>
+    <string name="pref_resolution_very_low">Definizione assai bassa (240p)</string>
+    <string name="stop_unpaubale">Ùn si pò micca mette in pausa stu media. Piantatelu piuttostu ?</string>
+    <string name="delete_forever">Squassà ab eternu</string>
+    <string name="add_to_existing_playlist">Aghjunghje à a lista di lettura esistente</string>
+    <string name="bookmarks_title">Indette</string>
+    <string name="no_bookmark">Alcuna indetta fin’avà</string>
+    <string name="bookmark_name">Indettà %s</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Aghjunghje l’elementu(i) duplicatu(i) ?</string>
+    <string name="add_button">Aghjunghje</string>
+    <string name="add_all_button">Tuttu aghjunghje</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">St’elementu hè dighjà in sta lista di lettura.</item>
+        <item quantity="other">St’elementi sò dighjà in sta lista di lettura.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 trà l’elementi selezziunati hè dighjà in sta lista di lettura.</item>
+        <item quantity="other">%d trà l’elementi selezziunati sò dighjà in sta lista di lettura.</item>
+    </plurals>
 
 </resources>
