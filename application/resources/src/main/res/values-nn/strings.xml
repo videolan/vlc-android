@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -93,7 +94,6 @@
         <item quantity="one">1 TV-show</item>
         <item quantity="other">%d TV-show</item>
     </plurals>
-
     <string name="internal_memory">Internminne</string>
     <string name="audio">Lyd</string>
     <string name="video">Video</string>
@@ -166,16 +166,9 @@
     <string name="playback_history_title">Avspelingshistorikk</string>
     <string name="play_button">Spel av-knapp</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Videospelar- tips:</string>
     <string name="seek">Søk</string>
     <string name="subtitles">Undertekstar</string>
-    <string name="audio_sub">Lydspor\nog undertekstar</string>
-    <string name="resize">Skaler</string>
-    <string name="options">Innstillingar</string>
     <string name="lock">Lås</string>
-    <string name="ok_got_it">Det er&#160;greitt</string>
-
     <string name="playlist_tips">Spelelistetips</string>
     <string name="remove_song">Fjern song</string>
     <string name="remove_playlist_item">%1$ser fjerna frå spelelista</string>
@@ -201,8 +194,6 @@
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grupper videoar</string>
     <string name="video_min_group_length_folder">Grupper etter mappe</string>
-    <string name="media_fast_seek">Rask spoling</string>
-    <string name="media_fast_seek_summary">Å spole i eit medium er raskare, men mindre nøyaktig </string>
     <string name="video_transition_title">Overgang mellom videoar</string>
     <string name="video_transition_summary">Vis ny videotittel ved overgang</string>
     <string name="force_play_all_title">Videospeleliste-modus</string>
@@ -234,7 +225,6 @@
     <string name="casting_quality_lowcpu">Lågast</string>
     <string name="casting_connected_renderer">Tilkopla til opptiknaren \'%1$s\'</string>
     <string name="artists_show_all_title">Vis alle artistar</string>
-
     <string name="extensions_prefs_category">Utvidingar</string>
     <string name="extensions_empty">Ingen utvidingar oppdaga</string>
     <string name="extension_permission_title">Aktivere ny utviding \"%1$s\"?</string>
