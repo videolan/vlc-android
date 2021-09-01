@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -105,7 +106,6 @@
         <item quantity="many">%d тэлеперадач</item>
         <item quantity="other">%d тэлеперадач</item>
     </plurals>
-
     <string name="internal_memory">Унутраная памяць</string>
     <string name="audio">Аўдыя</string>
     <string name="video">Відэа</string>
@@ -176,13 +176,8 @@
     <string name="search">Шукаць</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">Парады па відэаплэеры:</string>
     <string name="seek">Шукаць</string>
     <string name="subtitles">Субтытры</string>
-    <string name="audio_sub">Аўдыядарожкі\nі субтытры</string>
-    <string name="resize">Змяніць памер</string>
-    <string name="options">Параметры</string>
     <string name="lock">Заблакаваць</string>
     <string name="playlist_tips">Парады па плэйлісце</string>
     <string name="remove_song">Выдаліць песню</string>
@@ -218,7 +213,6 @@
     <string name="automatic">Аўтаматычна</string>
     <string name="screen_orientation">Арыентацыя экрана відэа</string>
     <string name="screen_orientation_sensor">Аўтаматычна (сэнсар)</string>
-    <string name="screen_orientation_start_lock">Блакіруецца пры запуску</string>
     <string name="screen_orientation_portrait">Кніжная</string>
     <string name="screen_orientation_landscape">Альбомная</string>
     <string name="enable_black_theme">Цёмная тэма</string>
