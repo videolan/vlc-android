@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -40,15 +41,20 @@
     <string name="append_all">Tambah semua</string>
     <string name="resume_playback_short_title">Sambung semula main balik</string>
     <string name="resume_playback_long_title">Sambung semula main balik bagi senarai main terakhir</string>
+    <string name="resume_playback_error">Tidak apa untuk disambung semula</string>
     <string name="delete">Padam</string>
     <string name="remove">Buang</string>
     <string name="set_song">Tetapkan sebagai nada dering</string>
     <string name="set_song_question">Tetapkan \'%1$s\' sebagai nada dering?</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
+    <string name="confirm_delete_message">Tindakan ini kekal dan tidak boleh dikembalikan.</string>
     <string name="confirm_delete_album">Padam album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Padam media %1$d ini?</string>
     <string name="confirm_delete_folder">Padam folder \'%1$s\' dan semua isi kandungannya?</string>
+    <string name="confirm_delete_folders">Padam folder \'%1$s\' ini dan semua isi kandungannya?</string>
+    <string name="confirm_delete_files">Padam %1$s fail ini?</string>
+    <string name="confirm_delete_folders_and_files"> Padam %1$s folder dan %2$s fail ini?</string>
     <string name="confirm_delete_playlist">Padam senarai main \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Buang \'%1$s\' daripada senarai main?</string>
     <string name="ringtone_set">Fail \'%1$s\' telah ditetapkan sebagai nada dering.</string>
@@ -85,6 +91,9 @@
     <plurals name="tvshow_quantity">
         <item quantity="other">%d Rancangan TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">%d trek</item>
+    </plurals>
 
     <string name="internal_memory">Ingatan dalaman</string>
     <string name="audio">Audio</string>
@@ -110,6 +119,7 @@
     <string name="shuffle_title">Mod kocok</string>
     <string name="shuffle">Kocok Mati</string>
     <string name="shuffle_on">Kocok Hidup</string>
+    <string name="shuffle_play">Kocok</string>
     <string name="repeat_title">Mod ulang</string>
     <string name="repeat">Jangan ulang</string>
     <string name="repeat_single">Ulang sekali</string>
@@ -186,16 +196,9 @@
 
     <string name="play_button">Butang Main</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Petua pemain video:</string>
     <string name="seek">Jangkau</string>
     <string name="subtitles">Sari kata</string>
-    <string name="audio_sub">Trek dan\nsari kata audio</string>
-    <string name="resize">Saiz semula</string>
-    <string name="options">Pilihan</string>
     <string name="lock">Kunci</string>
-    <string name="ok_got_it">Dapat, singkir ia</string>
-
     <string name="playlist_tips">Petua senarai main</string>
     <string name="remove_song">Buang lagu</string>
     <string name="remove_playlist_item">%1$s telah dikeluarkan daripada senarai main</string>
@@ -234,9 +237,10 @@
     <string name="automatic">Automatik</string>
     <string name="screen_orientation">Orientasi skrin video</string>
     <string name="screen_orientation_sensor">Automatik (penderia)</string>
-    <string name="screen_orientation_start_lock">Dikunci ketika mula</string>
     <string name="screen_orientation_portrait">Potret</string>
     <string name="screen_orientation_landscape">Landskap</string>
+    <string name="screen_orientation_landscape_reverse">Songsang lanskap</string>
+    <string name="screen_orientation_last_locked">Orientasi kunci terakhir</string>
     <string name="enable_black_theme">Tema gelap</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="daynight_title">Mod SiangMalam</string>
@@ -255,8 +259,6 @@
     <string name="video_min_group_length_disable">Jangan kelompokkan video</string>
     <string name="video_min_group_length_folder">Kelompok mengikut folder</string>
     <string name="video_min_group_length_name">Kelompok mengikut nama</string>
-    <string name="media_fast_seek">Jangkau pantas</string>
-    <string name="media_fast_seek_summary">Menjangkau media lebih pantas tetapi kurang tepat</string>
     <string name="video_transition_title">Peralihan video</string>
     <string name="video_transition_summary">Tunjuk tajuk video baharu ketika peralihan</string>
     <string name="media_seen">Tunjuk penanda video ditonton</string>
@@ -328,6 +330,8 @@
     <string name="casting_quality_lowcpu">Paling Rendah</string>
     <string name="casting_connected_renderer">Bersambung dengan pengemas gabung \'%1$s\'</string>
     <string name="artists_show_all_title">Tunjuk semua artis</string>
+    <string name="show_headers">Tunjuk pengepala</string>
+    <string name="show_headers_summary">Asing senarai mengikut pengepala yang bergantung kepada jenis isih</string>
 
     <string name="extensions_prefs_category">Sambungan</string>
     <string name="extensions_empty">Tiada sambungan dikesan</string>
@@ -477,7 +481,7 @@
     <string name="download_subtitles">Muat turun sarikata</string>
     <string name="browse_folder">Layar folder</string>
     <string name="listen">Dengar</string>
-    <string name="save_bluetooth_delay">simpan lengah untuk peranti bluetooth</string>
+    <string name="apply_to_bt">Terap ke peranti bluetooth</string>
     <string name="episodes">episod</string>
     <string name="movies">filem</string>
     <string name="videos">video</string>
@@ -658,7 +662,6 @@
     <string name="recently_played">Baru-Baru ini dimainkan</string>
     <string name="recently_added">Baru-baru Ini ditambah</string>
     <string name="playback_multiple_errors">Media berbilang tidak dapat dimainkan</string>
-    <string name="clear_media_db_warning">You will lose your progresses and the playlists you created.\n%s</string>
     <string name="abrepeat_add_first_marker">Set start point</string>
     <string name="abrepeat_add_second_marker">Set end point</string>
     <string name="demux_bitrate">Demux bitrate</string>
@@ -684,6 +687,8 @@
     <string name="subtitle_delay_end">Teks dilihat</string>
     <string name="track_index">Trek: %s</string>
     <string name="audio_queue_progress">Kemajuan: %s</string>
+    <string name="audio_queue_progress_remaining">Berbaki: %s</string>
+    <string name="audio_queue_progress_finished">Tamat pada: %s</string>
     <string name="sortby_track">Trek</string>
     <string name="this_folder">Tambah folder ini</string>
     <string name="all_subfolders">Tambah folder dan subfolder ini</string>
@@ -724,6 +729,7 @@
     <string name="donate_again">Taja apl sekali lagi</string>
 
     <string name="mark_as_played">Tanda sebagai telah dimainkan</string>
+    <string name="mark_as_not_played">Tanda sebagai tidak dimainkan</string>
     <string name="mark_all_as_played">Tanda semua sebagai telah dimainkan</string>
     <string name="new_group">Kumpulan baharu</string>
     <string name="new_group_desc">Cipta satu kumpulan baharu</string>
@@ -747,7 +753,35 @@
     <string name="prefersmbv1_summary">Nyahtanda tetapan ini jika anda menghadapi kesukaran ketika melayari pelayan SMB anda</string>
     <string name="apply_to_all">Terap pada semua video</string>
     <string name="audio_delay_global">Lengah audio ditetapkan pada %s ms untuk semua video</string>
+    <string name="audio_delay_bt">Lengah audio ditetapkan pada %s ms untuk peranti bluetooth</string>
     <string name="warning_stream_speed">Peningkatan kelajuan main balik melebihi 1 untuk strim boleh menyebabkan kegagapan</string>
     <string name="go_to_folder">Layar induk</string>
     <string name="no_sub_renderer">Sari kata belum disokong ketika casting</string>
+    <string name="enqueuing">Memuatkan media-media anda</string>
+    <string name="soundfont">SoundFont MIDI</string>
+    <string name="soundfont_summary">Ambil satu fail SoundFont untuk memainkan trek audio midi</string>
+    <string name="search_prefs">Tetapan gelintar</string>
+    <string name="preferred_resolution">Resolusi video dikehendaki</string>
+    <string name="preferred_resolution_summary">Kualiti video maksimum bagi strim, bila boleh, akan menjadi: %s</string>
+    <string name="pref_resolution_best_available">Terbaik ada</string>
+    <string name="pref_resolution_very_low">Definisi sangat rendah (240p)</string>
+    <string name="stop_unpaubale">Media ini tidak boleh dijeda. Hentikannya?</string>
+    <string name="delete_forever">Padam selamanya</string>
+    <string name="add_to_existing_playlist">Tambah ke senarai main sedia ada</string>
+    <string name="bookmarks_title">Tanda buku</string>
+    <string name="no_bookmark">Tiada tanda buku lagi</string>
+    <string name="bookmark_name">Tanda buku %s</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Tambah item pendua?</string>
+    <string name="add_button">Tambah</string>
+    <string name="add_all_button">Tambah semua</string>
+    <string name="add_new_only_button">Tambah baharu sahaja</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="other">Item-item ini sudah ada dalam senarai main ini.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="other">\':>%d item terpilih sudah ada dalam senarai main.</item>
+    </plurals>
+
 </resources>
