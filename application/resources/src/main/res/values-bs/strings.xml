@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Uredu</string>
@@ -112,12 +113,8 @@
     <string name="search">Pretraga</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">Savjeti video izvođača:</string>
     <string name="seek">Traži</string>
     <string name="subtitles">Podtitlovi</string>
-    <string name="resize">Promijeni veličinu</string>
-    <string name="options">Opcije</string>
     <string name="lock">Zaključaj</string>
     <string name="playlist_tips">Savjeti za listu izvođenja</string>
     <string name="remove_song">Izbriši pjesmu</string>
@@ -145,7 +142,6 @@
     <string name="automatic">Automatski</string>
     <string name="screen_orientation">Orijentacija video ekrana</string>
     <string name="screen_orientation_sensor">Automatski (senzor)</string>
-    <string name="screen_orientation_start_lock">Zaključan na početku</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Pejzaž</string>
     <string name="subtitle_text_encoding">Kodiranje teksta podtitla</string>
