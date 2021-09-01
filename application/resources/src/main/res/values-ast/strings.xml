@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Aceutar</string>
@@ -58,7 +59,6 @@
         <item quantity="one">1 programa de TV</item>
         <item quantity="other">%d programes de TV</item>
     </plurals>
-
     <string name="internal_memory">Memoria interna</string>
     <string name="audio">Audiu</string>
     <string name="video">Videu</string>
@@ -107,7 +107,6 @@
 
     <string name="playback_speed_title">Guardar la velocidá de reproducción</string>
     <string name="subtitles">Sotítulos</string>
-    <string name="options">Opciones</string>
     <string name="lock">Bloquiar</string>
 
     <!-- About -->
@@ -168,7 +167,6 @@
     <string name="audio_ducking_summary">Ayuda a oyer los avisos d\'audiu, les instrucciones de navegación o l\'asistente per voz</string>
     <string name="casting_conversion_quality_title">Calidá de la conversión</string>
     <string name="artists_show_all_title">Amosar tolos artistes</string>
-
     <string name="extensions_prefs_category">Estensiones</string>
     <string name="extensions_empty">Nun se deteutó nenguna estensión</string>
     <string name="extension_permission_title">¿Activar la estensicón nueva «%1$s»?</string>
