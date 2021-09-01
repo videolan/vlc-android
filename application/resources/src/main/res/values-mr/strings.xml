@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">ठीक आहे</string>
@@ -111,12 +112,8 @@
     <string name="search">शोधा</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">व्हिडिओ प्लेअर टिपा:</string>
     <string name="seek">पुढे/मागे जा</string>
     <string name="subtitles">उपशीर्षके</string>
-    <string name="resize">आकार बदला</string>
-    <string name="options">पर्याय</string>
     <string name="lock">लाॅक</string>
     <string name="playlist_tips">प्लेलिस्ट टिपा</string>
     <string name="remove_song">गाणे काढा</string>
@@ -144,7 +141,6 @@
     <string name="automatic">स्वयंचलित</string>
     <string name="screen_orientation">चित्रफीत पडद्याची अभिमुखता</string>
     <string name="screen_orientation_sensor">स्वयंचलित (सेन्सर)</string>
-    <string name="screen_orientation_start_lock">सुरुवातीला लॉक केलेले</string>
     <string name="screen_orientation_portrait">पोर्ट्रेट</string>
     <string name="screen_orientation_landscape">लॅन्डस्केप</string>
     <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
