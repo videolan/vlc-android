@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">വിഡിയോകളെ സംഘങ്ങളായി ചേർക്കാതിരിക്കുക </string>
     <string name="video_min_group_length_folder">ഫോൾഡറുകളെ സംഘങ്ങളാക്കുക</string>
     <string name="video_min_group_length_name">പേരിന് അനുസരിച്ചുള്ള സംഘങ്ങളാക്കുക </string>
-    <string name="media_fast_seek">വേഗത്തിൽ തേടുക </string>
-    <string name="media_fast_seek_summary">മീഡിയ തേടുന്നത് വേഗത്തിലാക്കും പക്ഷെ ക്രത്യത കുറയും </string>
     <string name="video_transition_title">വിഡിയോകളുടെ പരിവർത്തനം </string>
     <string name="video_transition_summary">പരിവർത്തന സമയത്തു വീഡിയോയുടെ പുതിയ ശീർഷകം കാണിക്കുക </string>
     <string name="media_seen">മുൻപേ കണ്ടിട്ടുള്ള വീഡിയോ മാർക്കർ കാണിക്കുക</string>
@@ -814,7 +812,6 @@
     <string name="soundfont_summary">മിഡി ശബ്ദ ചാലുകൾ പ്ലേ ചെയ്യുന്നതിന് ഒരു ശബ്ദ ഫോണ്ട് ഫയൽ തിരഞ്ഞെടുക്കുക</string>
     <string name="missing_media_snack">മീഡിയ കാണുന്നില്ല. കാണാതായ എല്ലാ മാധ്യമങ്ങളും മറയ്‌ക്കണോ?</string>
     <string name="browser_show_missing_media">കാണാതായ മീഡിയകൾ കാണിക്കുക</string>
-    <string name="browser_show_missing_media_summary">ലഭ്യമല്ലെങ്കിൽ കൂടി വിദൂര മീഡിയ ഇവെന്റുകൾ കാണിക്കുക</string>
     <string name="search_prefs">തിരയൽ ക്രമീകരണങ്ങൾ</string>
     <string name="preferred_resolution">തിരഞ്ഞെടുത്ത വീഡിയോ മിഴിവ്</string>
     <string name="preferred_resolution_summary">ഒഴുക്കുകൾക്കായുള്ള പരമാവധി ദൃശ്യ നിലവാരം, ബാധകമാകുമ്പോൾ: %s</string>
