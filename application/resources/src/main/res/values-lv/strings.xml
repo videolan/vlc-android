@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Labi</string>
@@ -180,16 +181,8 @@
     <string name="playback_history_title">Atskaņošanas vēsture</string>
     <string name="playback_history_summary">Visu, kas tiek atskaņots, saglabāt \"Vēsturē\"</string>
     <string name="playback_speed_title">Saglabāt atskaņošanas ātrumu</string>
-
-    <!-- Tips -->
-    <string name="video_player_tips">Video atskaņošanas padomi:</string>
     <string name="seek">Pārtīt</string>
     <string name="subtitles">Subtitri</string>
-    <string name="audio_sub">Audio celiņi\nun subtitri</string>
-    <string name="resize">Mainīt izmēru</string>
-    <string name="options">Opcijas</string>
-    <string name="ok_got_it">Sapratu,&#160;aizvērt</string>
-
     <string name="playlist_tips">Atskaņošanas saraksta padomi</string>
     <string name="remove_song">Noņemt dziesmu</string>
     <string name="remove_playlist_item">%1$sir izņemts no atskaņošanas saraksta</string>
@@ -226,7 +219,6 @@
     <string name="automatic">Automātisks</string>
     <string name="screen_orientation">Video ekrāna orientācija</string>
     <string name="screen_orientation_sensor">Automātisks (sensors)</string>
-    <string name="screen_orientation_start_lock">Bloķēts sākumā</string>
     <string name="screen_orientation_portrait">Portrets</string>
     <string name="screen_orientation_landscape">Ainava</string>
     <string name="enable_black_theme">Melnā apdare</string>
@@ -240,8 +232,6 @@
     <string name="video_min_group_length_disable">Negrupēt video</string>
     <string name="video_min_group_length_folder">Grupēt pēc mapes</string>
     <string name="video_min_group_length_name">Grupēt pēc nosaukuma</string>
-    <string name="media_fast_seek">Ātrā pārtīšana</string>
-    <string name="media_fast_seek_summary">Pārtīšana ir ātrāka bet nav tik precīza</string>
     <string name="force_play_all_title">Video atskaņošanas saraksta režīms</string>
     <string name="enable_brightness_gesture_title">Spilgtuma žests</string>
     <string name="enable_brightness_gesture_summary">Kontrolējiet spilgtumu ar žestu video atskaņošanas laikā</string>
