@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">IH</string>
@@ -87,7 +88,6 @@
         <item quantity="one">1  n umazrar n tiliẓri</item>
         <item quantity="other">%d n yimazraren n tiliẓri</item>
     </plurals>
-
     <string name="internal_memory">Tkatut tadigant</string>
     <string name="audio">Imesli</string>
     <string name="video">Avidyu</string>
@@ -185,15 +185,9 @@
 
     <string name="play_button">Taqeffalt n tɣuri</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Tixidas n yimeɣri n uvidyu:</string>
     <string name="seek">Inig</string>
     <string name="subtitles">Iduzewlen</string>
-    <string name="resize">Beddel tiddi</string>
-    <string name="options">Tixtiṛiyin</string>
     <string name="lock">Sekkeṛ</string>
-    <string name="ok_got_it">Fehmeɣ</string>
-
     <string name="playlist_tips">Tixidas n tebdart n tɣuri</string>
     <string name="remove_song">Kkes taɣect</string>
     <string name="remove_playlist_item">%1$s yettwakkes si tebdart n tɣuri</string>
@@ -223,7 +217,6 @@
     <string name="automatic">Awurman</string>
     <string name="screen_orientation">Taɣda n wegdil</string>
     <string name="screen_orientation_sensor">Awurman  (sensor)</string>
-    <string name="screen_orientation_start_lock">Yesekker seg mi ara yekker</string>
     <string name="screen_orientation_landscape">Agama</string>
     <string name="enable_black_theme">Asentel imsulles</string>
     <string name="subtitle_text_encoding">Asettengel n iduzwilen</string>
@@ -238,7 +231,6 @@
     <string name="video_min_group_length_disable">Ur ssegraw ara tividyutin</string>
     <string name="video_min_group_length_folder">Segrew s ukaram</string>
     <string name="video_min_group_length_name">Segrew s yisem</string>
-    <string name="media_fast_seek">Amutti arurad</string>
     <string name="video_transition_title">Asaka gar tvidyutin</string>
     <string name="media_seen">Beqqeḍ amecraḍ n tvidyut i twalaḍ yakan</string>
     <string name="media_seen_summary">Creḍ tavidyut belli twalaḍ-tt ticki twalaḍ-tt alama tfuk</string>
@@ -286,7 +278,6 @@
     <string name="casting_quality_low">Adday</string>
     <string name="casting_quality_lowcpu">Adday maḍi</string>
     <string name="artists_show_all_title">Sken akk inaẓuren</string>
-
     <string name="extensions_prefs_category">Iseɣzaf</string>
     <string name="extensions_empty">Ulac aseɣzef yettwafen</string>
     <string name="extension_permission_title">Sermed asiɣzef amaynut \"%1$s\"?</string>
