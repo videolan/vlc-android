@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">No agrupes sos vìdeos</string>
     <string name="video_min_group_length_folder">Agrupa pro cartella</string>
     <string name="video_min_group_length_name">Agrupa pro nùmene</string>
-    <string name="media_fast_seek">Abìlita s\'optzione de positzionamentu lestru</string>
-    <string name="media_fast_seek_summary">Su positzionamentu in unu documentu multimediale est prus lestru, ma prus pagu acuradu</string>
     <string name="video_transition_title">Transitzione de sos vìdeos</string>
     <string name="video_transition_summary">Ammustra su tìtulu de su vìdeu nou in sa transitzione</string>
     <string name="media_seen">Ammustra su marcadore de su vìdeu pompiadu</string>
@@ -813,7 +811,7 @@
     <string name="soundfont_summary">Issèbera unu documentu SoundFont pro riproduire rastas àudio midi</string>
     <string name="missing_media_snack">Mancant elementos multimediales. Cheres cuare totu sos mèdios chi mancant?</string>
     <string name="browser_show_missing_media">Ammustra sos mèdios chi mancant</string>
-    <string name="browser_show_missing_media_summary">Ammustra s\'eventu de sos mèdios indedda si non sunt presentes</string>
+    <string name="browser_show_missing_media_summary">Ammustra sos mèdios indedda fintzas si non sunt presentes</string>
     <string name="search_prefs">Paràmetros de chirca</string>
     <string name="preferred_resolution">Risolutzione de su vìdeu preferida</string>
     <string name="preferred_resolution_summary">Sa calidade màssima de su vìdeu pro sos flussos, si s\'at a pòdere aplicare, at a èssere: %s</string>
