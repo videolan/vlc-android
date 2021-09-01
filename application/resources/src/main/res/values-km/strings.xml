@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">យល់ព្រម</string>
@@ -134,12 +135,8 @@
     <string name="search">ស្វែងរក</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">គន្លឹះកម្មវិធីចាក់វីដេអូ:</string>
     <string name="seek">ស្វែងរក</string>
     <string name="subtitles">ចំណងជើង</string>
-    <string name="resize">ផ្លាស់ប្តូរទំហំ</string>
-    <string name="options">ជម្រើស</string>
     <string name="lock">ចាក់សោ</string>
     <string name="licence">អាជ្ញាប័ណ្ណ</string>
     <string name="revision">កំណែ</string>
@@ -157,7 +154,6 @@
     <string name="automatic">ស្វ័យប្រវត្តិ</string>
     <string name="screen_orientation">ទិស​អេក្រង់​វីដេអូ</string>
     <string name="screen_orientation_sensor">​ស្វ័យប្រវត្តិ (ចាប់​សញ្ញា)</string>
-    <string name="screen_orientation_start_lock">ជាប់​សោ​នៅ​ពេល​ចាប់ផ្ដើម</string>
     <string name="screen_orientation_portrait">បញ្ឈរ</string>
     <string name="screen_orientation_landscape">ផ្ដេក</string>
     <string name="subtitle_text_encoding">ការ​ដាក់​លេខ​កូដ​អត្ថបទ​ចំណង​ជើង​រង</string>
