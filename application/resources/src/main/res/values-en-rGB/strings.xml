@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -106,12 +107,8 @@
     <string name="search">Search</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>
     <string name="subtitles">Subtitles</string>
-    <string name="resize">Resize</string>
-    <string name="options">Options</string>
     <string name="lock">Lock</string>
     <string name="playlist_tips">Playlist tips</string>
     <string name="remove_song">Remove song</string>
@@ -139,7 +136,6 @@
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
-    <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Landscape</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
