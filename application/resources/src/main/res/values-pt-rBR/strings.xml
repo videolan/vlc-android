@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Botão de Reprodução</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
+    <string name="tips_title">Dicas do reprodutor de vídeos</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Legendas</string>
-    <string name="audio_sub">Trilhas de áudio\ne legendas</string>
-    <string name="resize">Redimensionar</string>
-    <string name="options">Opções</string>
+    <string name="tips_player_controls">Controles de reprodução</string>
+    <string name="tips_player_controls_description">Toque nos controles de reprodução abaixo para descobrir para que eles servem</string>
+    <string name="tips_audio_sub">Trilhas de áudio e legendas</string>
+    <string name="tips_play_description">Toque para reproduzir o vídeo</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">Entendi, pode fechar&#160;</string>
+    <string name="tap">Toque para exibir</string>
+    <string name="lock_orientation">Orientação</string>
+    <string name="lock_orientation_description">Toque para bloquear/desbloquear a orientação</string>
+    <string name="aspect_ratio">Proporção</string>
+    <string name="aspect_ratio_description">Toque para modificar a proporção de vídeo</string>
+    <string name="advanced_options">Opções avançadas</string>
+    <string name="advanced_options_description">Tais como a velocidade de reprodução. modo de repetição, ...</string>
+    <string name="tips_swipe">Deslizar para cima ou para baixo</string>
+    <string name="tips_swipe_horizontal">Deslizar para a esquerda ou para a direita</string>
+    <string name="tips_playlist">Lista de reprodução</string>
+    <string name="tips_hold_seek">Segure para buscar</string>
+    <string name="tips_long_drop">Pressione e segure, depois solte</string>
+    <string name="pause_description">Duplo toque para pausar</string>
+    <string name="seek_tap">+/- 10 s</string>
+    <string name="seek_tap_description">Duplo toque para avançar ou retroagir 10 s</string>
+    <string name="close">Fechar</string>
 
     <string name="playlist_tips">Dicas da lista de reprodução</string>
     <string name="remove_song">Excluir música</string>
@@ -275,8 +292,6 @@
     <string name="video_min_group_length_disable">Não agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
     <string name="video_min_group_length_name">Agrupar por nome</string>
-    <string name="media_fast_seek">Busca rápida</string>
-    <string name="media_fast_seek_summary">Buscar em uma mídia é mais rápido, embora menos preciso</string>
     <string name="video_transition_title">Transição de vídeos</string>
     <string name="video_transition_summary">Exibir o título do novo vídeo na transição</string>
     <string name="media_seen">Exibir marcador em vídeo visto</string>
@@ -569,6 +584,8 @@
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Navegador</string>
     <string name="ab_repeat">Repetir trecho A-B</string>
+    <string name="ab_repeat_reset">Restaurar repetição A-B</string>
+    <string name="ab_repeat_stop">Parar repetição A-B</string>
     <string name="stop_after_this">Para após esta trilha</string>
     <string name="time_category_new">Nova mídia</string>
     <string name="time_category_current_month">Este mês</string>
