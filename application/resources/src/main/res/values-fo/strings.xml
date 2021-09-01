@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Í lagi</string>
@@ -106,12 +107,8 @@
     <string name="search">Leita</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">Prei til videospælara:</string>
     <string name="seek">Søk</string>
     <string name="subtitles">Undirtekstir</string>
-    <string name="resize">Umstødda</string>
-    <string name="options">Stillingar</string>
     <string name="lock">Stong</string>
     <string name="playlist_tips">Prei til spælilistar</string>
     <string name="remove_song">Strika song</string>
@@ -139,7 +136,6 @@
     <string name="automatic">Sjálvvirkandi</string>
     <string name="screen_orientation">Skíggjastøða</string>
     <string name="screen_orientation_sensor">Sjálvirkandi (varnari)</string>
-    <string name="screen_orientation_start_lock">Stongt við byrjan</string>
     <string name="screen_orientation_portrait">Steyrrætt</string>
     <string name="screen_orientation_landscape">Loddrætt</string>
     <string name="subtitle_text_encoding">Kota undirtekstir inn</string>
