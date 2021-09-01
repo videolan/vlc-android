@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">No agrupis els vídeos</string>
     <string name="video_min_group_length_folder">Agrupa per carpeta</string>
     <string name="video_min_group_length_name">Agrupa pel nom</string>
-    <string name="media_fast_seek">Cerca ràpida</string>
-    <string name="media_fast_seek_summary">La cerca ràpida no triga gens però és menys acurada</string>
     <string name="video_transition_title">Transició de vídeos</string>
     <string name="video_transition_summary">Mostra el títol del nou vídeo a la transició</string>
     <string name="media_seen">Mostra el marcador de vídeo vist</string>
@@ -813,7 +811,6 @@
     <string name="soundfont_summary">Trieu un fitxer SoundFont per reproduir pistes d\'àudio MIDI</string>
     <string name="missing_media_snack">Multimèdia falta. Amaga tots els multimèdia que falten?</string>
     <string name="browser_show_missing_media">Mostra els multimèdia que falten</string>
-    <string name="browser_show_missing_media_summary">Mostra esdeveniment de multimèdies distants si no són presents</string>
     <string name="search_prefs">Configuració de cerca</string>
     <string name="preferred_resolution">Resolució de vídeo preferida</string>
     <string name="preferred_resolution_summary">La qualitat màxima de vídeo per a fluxos, quan pertoqui, serà: %s</string>
