@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Video\'s niet groeperen</string>
     <string name="video_min_group_length_folder">Groeperen volgens map</string>
     <string name="video_min_group_length_name">Groeperen op naam</string>
-    <string name="media_fast_seek">Snelzoeken</string>
-    <string name="media_fast_seek_summary">Zoeken in media is sneller maar minder accuraat</string>
     <string name="video_transition_title">Video-overgang</string>
     <string name="video_transition_summary">Nieuwe videotitel weergeven bij overgang</string>
     <string name="media_seen">Gezien-videomarker weergeven</string>
