@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Ярар</string>
@@ -156,17 +157,9 @@
     <string name="playback_history_title">Уйнату тарихы</string>
     <string name="playback_history_summary">Бөтен уйнатылганны тарихта саклау</string>
     <string name="playback_speed_title">Уйнату тизлеген саклау</string>
-
-    <!-- Tips -->
-    <string name="video_player_tips">Видео уйнаткыч киңәше:</string>
     <string name="seek">Эзләү</string>
     <string name="subtitles">Субтитрлар</string>
-    <string name="audio_sub">Аудиоязмалар\nһәм субтитрлар</string>
-    <string name="resize">Кисү</string>
-    <string name="options">Шартлар</string>
     <string name="lock">Тыю</string>
-    <string name="ok_got_it">Аны алу, моны кире кагу</string>
-
     <string name="playlist_tips">Уйнату бит киңәше</string>
     <string name="remove_song">Җырны бетерергә</string>
     <string name="remove_playlist_item">%1$s уйнату битеннән алынды</string>
@@ -203,7 +196,6 @@
     <string name="automatic">Үзе</string>
     <string name="screen_orientation">Экран урнашуы</string>
     <string name="screen_orientation_sensor">Үзе (сенсордан)</string>
-    <string name="screen_orientation_start_lock">Кабызганда тыела</string>
     <string name="screen_orientation_portrait">Альбом</string>
     <string name="screen_orientation_landscape">Китап</string>
     <string name="subtitle_text_encoding">Субтитрлар тексты кодировкасы</string>
@@ -372,7 +364,6 @@
     <string name="download_subtitles">Субтитрларны йөкләү</string>
     <string name="browse_folder">Папканы карау</string>
     <string name="listen">Тыңлау</string>
-    <string name="save_bluetooth_delay">Bluetooth җайланмасы өчен соңаруны саклау</string>
     <string name="episodes">эпизодлар</string>
     <string name="movies">фильмнар</string>
     <string name="videos">видеолар</string>
