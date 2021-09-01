@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">حسنًا</string>
@@ -245,16 +246,9 @@
 
     <string name="play_button">زر التشغيل</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
     <string name="seek">سعي</string>
     <string name="subtitles">التّرجمات</string>
-    <string name="audio_sub">المقاطع الصوتية \ ترجمات</string>
-    <string name="resize">غيّر الحجم</string>
-    <string name="options">خيارات</string>
     <string name="lock">اقفلْ</string>
-    <string name="ok_got_it">حسنًا، تجاهل&#160;هذا</string>
-
     <string name="playlist_tips">نصائح حول قائمة التشغيل</string>
     <string name="remove_song">أزِل الأغنية</string>
     <string name="remove_playlist_item">%1$s تم تجاهله من قائمة التشغيل</string>
@@ -315,8 +309,6 @@
     <string name="video_min_group_length_disable">لا تجمع الفيديو</string>
     <string name="video_min_group_length_folder">جمع بحسب المجلدات</string>
     <string name="video_min_group_length_name">جمع بحسب الاسم</string>
-    <string name="media_fast_seek">تقدم سريع</string>
-    <string name="media_fast_seek_summary">التقدم في الوسائط اسرع لكن ليس بدقيق</string>
     <string name="video_transition_title">تنقل الفيديوهات</string>
     <string name="video_transition_summary">اعرض عنوان الفيديو الجديد عند الانتقال </string>
     <string name="media_seen">عرض صانع الفيديو المشاهد</string>
@@ -842,7 +834,6 @@
     <string name="soundfont_summary">اختر ملف خط الصوت \"SoundFont\" لتشغيل مسارات الصوت لـ وصلة بينية رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="missing_media_snack">الوسائط مفقودة. إخفاء جميع الوسائط المفقودة؟</string>
     <string name="browser_show_missing_media">إظهار الوسائط المفقودة</string>
-    <string name="browser_show_missing_media_summary">اعرض حالة الوسائط البعيدة إذا لم تكن موجودة</string>
     <string name="search_prefs">إعدادات البحث</string>
     <string name="preferred_resolution">دقة الفيديو المفضلة</string>
     <string name="preferred_resolution_summary">ستكون جودة الفيديو القصوى لعمليات البث ، عند الاقتضاء ، هي: %s</string>
