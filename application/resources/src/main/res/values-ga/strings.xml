@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Tá go maith</string>
@@ -193,16 +194,9 @@
 
     <string name="play_button">An Cnaipe Seinn</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Leideanna don seinnteoir físeáin</string>
     <string name="seek">Cuardaigh</string>
     <string name="subtitles">Fotheidil</string>
-    <string name="audio_sub">Fuaimrianta\nagus fotheidil</string>
-    <string name="resize">Athmhéadaigh é</string>
-    <string name="options">Roghanna</string>
     <string name="lock">Glasáil é</string>
-    <string name="ok_got_it">Tuigim, ná bac le seo</string>
-
     <string name="playlist_tips">Leideanna do sheinmliostaí</string>
     <string name="remove_song">Bain an t-amhrán</string>
     <string name="remove_playlist_item">Cuireadh %1$samach as an seinmliosta</string>
@@ -235,7 +229,6 @@
     <string name="automatic">Uathoibríoch</string>
     <string name="screen_orientation">Treoshuíomh an scáileáin fhíseáin</string>
     <string name="screen_orientation_sensor">Uathoibríoch (braiteoir)</string>
-    <string name="screen_orientation_start_lock">Glasaithe ag an tús</string>
     <string name="screen_orientation_portrait">Portráid</string>
     <string name="screen_orientation_landscape">Tírdhreach</string>
     <string name="enable_black_theme">Cuma dhubh</string>
@@ -250,7 +243,6 @@
     <string name="video_min_group_length_disable">Ná cnuasaigh na físeáin</string>
     <string name="video_min_group_length_folder">Cnuasaigh de réir fillteáin</string>
     <string name="video_min_group_length_name">Cnuasaigh de réir ainm</string>
-    <string name="media_fast_seek">Lorg tapa</string>
     <string name="video_transition_title">Trasdul i bhfíseáin</string>
     <string name="media_seen_summary">Rianaigh físeán mar fheicthe nuair atá sé seinnte go dtí an deireadh agat</string>
     <string name="force_play_all_summary">Seinn gach físeán, ag tosú leis an gceann a bhrúigh tú</string>
@@ -315,7 +307,6 @@
     <string name="casting_quality_low">Íseal</string>
     <string name="casting_quality_lowcpu">Is ísle</string>
     <string name="artists_show_all_title">Taispeáin gach ceoltóir</string>
-
     <string name="extensions_prefs_category">Breiseáin</string>
     <string name="extensions_empty">Níor aimsíodh aon bhreiseán</string>
     <string name="extension_permission_title">Gníomhachtaigh an breiseán nua \"%1$s\"?</string>
@@ -421,7 +412,6 @@
     <string name="download_subtitles">Íosluchtaigh na fotheidil</string>
     <string name="browse_folder">Siortaigh an fillteán</string>
     <string name="listen">Éist</string>
-    <string name="save_bluetooth_delay">coinnigh an mhoill do ghléas Bluetooth</string>
     <string name="episodes">eagráin</string>
     <string name="movies">scannáin</string>
     <string name="videos">físeáin</string>
@@ -560,7 +550,6 @@
     <string name="recently_played">A seinneadh le déanaí</string>
     <string name="recently_added">A cuireadh leis le déanaí</string>
     <string name="playback_multiple_errors">Ní féidir iliomad meán a sheinm</string>
-    <string name="clear_media_db_warning">Caillfear an dul chun cinn a rinne tú agus na seinmliostaí a chruthaigh tú.\n%s</string>
     <string name="abrepeat_add_first_marker">Socraigh áit thosaigh</string>
     <string name="abrepeat_add_second_marker">Socraigh áit chríochnaithe</string>
     <string name="input_bitrate">Ráta giotán an ionchuir</string>
