@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Gerai</string>
@@ -109,7 +110,6 @@
         <item quantity="many">%d serialų</item>
         <item quantity="other">%d serialų</item>
     </plurals>
-
     <string name="internal_memory">Vidinė atmintis</string>
     <string name="audio">Garso įrašai</string>
     <string name="video">Vaizdo įrašai</string>
@@ -213,16 +213,9 @@
 
     <string name="play_button">Grojimo mygtukas</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Vaizdo leistuvės paaiškinimai:</string>
     <string name="seek">Prasukti</string>
     <string name="subtitles">Subtitrai</string>
-    <string name="audio_sub">Garso takeliai\nir subtitrai</string>
-    <string name="resize">Keisti dydį</string>
-    <string name="options">Parinktys</string>
     <string name="lock">Užrakinimas</string>
-    <string name="ok_got_it">Supratau!</string>
-
     <string name="playlist_tips">Grojaraščio paaiškinimai</string>
     <string name="remove_song">Pašalinti</string>
     <string name="remove_playlist_item">%1$s buvo pašalintas iš grojaraščio</string>
@@ -261,7 +254,6 @@
     <string name="automatic">Automatinis</string>
     <string name="screen_orientation">Vaizdo padėtis</string>
     <string name="screen_orientation_sensor">Automatinis (jutiklis)</string>
-    <string name="screen_orientation_start_lock">Užrakintas paleidžiant</string>
     <string name="screen_orientation_portrait">Stačias</string>
     <string name="screen_orientation_landscape">Gulsčias</string>
     <string name="enable_black_theme">Tamsus apipavidalinimas</string>
@@ -282,8 +274,6 @@
     <string name="video_min_group_length_disable">Negrupuoti vaizdo įrašų</string>
     <string name="video_min_group_length_folder">Grupuoti pagal aplanką</string>
     <string name="video_min_group_length_name">Grupuoti pagal vardą</string>
-    <string name="media_fast_seek">Greitas prasukimas</string>
-    <string name="media_fast_seek_summary">Kūrinių prasukimas greitesnis, bet mažiau tikslus</string>
     <string name="video_transition_title">Perėjimas tarp vaizdo įrašų</string>
     <string name="video_transition_summary">Rodyti pavadinimą keičiantis vaizdo įrašams</string>
     <string name="media_seen">Rodyti peržiūrėto vaizdo įrašo žymeklį</string>
@@ -355,7 +345,6 @@
     <string name="casting_quality_lowcpu">Prasčiausia</string>
     <string name="casting_connected_renderer">Prisijungta prie „%1$s“</string>
     <string name="artists_show_all_title">Rodyti visus atlikėjus</string>
-
     <string name="extensions_prefs_category">Plėtiniai</string>
     <string name="extensions_empty">Nerasta plėtinių</string>
     <string name="extension_permission_title">Suaktyvinti naują plėtinį „%1$s“?</string>
@@ -504,7 +493,6 @@
     <string name="download_subtitles">Parsisiųsti subtitrus</string>
     <string name="browse_folder">Atverti aplanką</string>
     <string name="listen">Perklausyti</string>
-    <string name="save_bluetooth_delay">išsaugoti „Bluetooth“ įrenginio vėlavimą</string>
     <string name="episodes">serijos</string>
     <string name="movies">filmai</string>
     <string name="videos">vaizdo įrašai</string>
@@ -690,7 +678,6 @@
     <string name="recently_played">Neseniai grota</string>
     <string name="recently_added">Neseniai pridėta</string>
     <string name="playback_multiple_errors">Kai kurių medijos rinkmenų negalima atkurti</string>
-    <string name="clear_media_db_warning">Prarasite peržiūrėtų kūrinių istoriją ir sukurtus grojaraščius.\n%s</string>
     <string name="abrepeat_add_first_marker">Nustatyti pradžios tašką</string>
     <string name="abrepeat_add_second_marker">Nustatyti pabaigos tašką</string>
     <string name="demux_bitrate">Demux bitų dažnis</string>
