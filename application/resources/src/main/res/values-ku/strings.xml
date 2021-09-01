@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Baş e</string>
@@ -93,7 +94,6 @@
         <item quantity="one">Rêzefilîmek</item>
         <item quantity="other">%d Rêzefilîm</item>
     </plurals>
-
     <string name="internal_memory">bîrdanka navxweyî</string>
     <string name="audio">Deng</string>
     <string name="video">Vîdyo</string>
@@ -192,15 +192,9 @@
     <string name="playback_speed_title">Leza lêdanê tomar bike</string>
     <string name="play_button">Bişkoka lêdanê</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Serbendên lêdera vîdyoyê: </string>
     <string name="seek">Lêgerîn</string>
     <string name="subtitles">Jêrnivîs</string>
-    <string name="audio_sub">Tomarên dengî\nû jêrnivîs</string>
-    <string name="options">Vebijark</string>
     <string name="lock">Kilîd bike</string>
-    <string name="ok_got_it">Baş e, dev jê berde</string>
-
     <string name="playlist_tips">Serbendên lîsteya lêdanê</string>
     <string name="remove_song">Stranê rake</string>
     <string name="remove_playlist_item">%1$s ji lîsteya lêdanê hat rakirin</string>
@@ -242,7 +236,6 @@
     <string name="video_min_group_length_disable">Vîdyoyan neke kom</string>
     <string name="video_min_group_length_folder">Li gorî peldankê bike kom</string>
     <string name="video_min_group_length_name">Li gorî nav bike kom</string>
-    <string name="media_fast_seek">Lêgerîna bilez</string>
     <string name="video_transition_title">Veguhertina vîdyoyan</string>
     <string name="save_brightness_title">Asta ronahiyê tomar bike</string>
     <string name="subtitles_prefs_category">Jêrnivîs</string>
@@ -280,7 +273,6 @@
     <string name="casting_quality_low">Lawaz</string>
     <string name="casting_quality_lowcpu">Lawaztir</string>
     <string name="artists_show_all_title">Hemû hunermendan nîşan bide</string>
-
     <string name="extensions_prefs_category">Pêvek</string>
     <string name="extensions_empty">Ti pêvek nehat dîtin</string>
     <string name="extension_permission_checkbox_title">Di nav %1$s\'ê de nîşan bide</string>
