@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">У реду</string>
@@ -97,7 +98,6 @@
         <item quantity="few">%d ТВ серије</item>
         <item quantity="other">%d ТВ серија</item>
     </plurals>
-
     <string name="internal_memory">Интерна меморија</string>
     <string name="audio">Аудио</string>
     <string name="video">Видео</string>
@@ -194,16 +194,9 @@
     <string name="playback_speed_title">Сачувај брзину пуштања</string>
     <string name="play_button">Дугме за пуштање</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Савети за видео-плејер:</string>
     <string name="seek">Премотај</string>
     <string name="subtitles">Титлови</string>
-    <string name="audio_sub">Аудио-записи\nи титлови</string>
-    <string name="resize">Промени величину</string>
-    <string name="options">Опције</string>
     <string name="lock">Закључај</string>
-    <string name="ok_got_it">Одбаци</string>
-
     <string name="playlist_tips">Савети за плејлисту</string>
     <string name="remove_song">Уклони</string>
     <string name="rearrange_order">Промени редослед</string>
@@ -239,7 +232,6 @@
     <string name="automatic">Аутоматско</string>
     <string name="screen_orientation">Усмерење екрана</string>
     <string name="screen_orientation_sensor">Аутоматски (сензор)</string>
-    <string name="screen_orientation_start_lock">Закључано при покретању</string>
     <string name="screen_orientation_portrait">Усправно</string>
     <string name="screen_orientation_landscape">Положено</string>
     <string name="enable_black_theme">Црна тема</string>
@@ -257,7 +249,6 @@
     <string name="video_min_group_length_disable">Не групиши</string>
     <string name="video_min_group_length_folder">Фасцикли</string>
     <string name="video_min_group_length_name">Називу</string>
-    <string name="media_fast_seek">Брзо премотавање</string>
     <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
     <string name="aout">Звучни излаз</string>
