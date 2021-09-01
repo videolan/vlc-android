@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Ne csoportosítsa a videókat</string>
     <string name="video_min_group_length_folder">Csoportosítás mappa szerint</string>
     <string name="video_min_group_length_name">Csoportosítás név szerint</string>
-    <string name="media_fast_seek">Gyors tekerés</string>
-    <string name="media_fast_seek_summary">A tekerés a médiában gyorsabb, de kevésbe pontos</string>
     <string name="video_transition_title">Videoátmenetek</string>
     <string name="video_transition_summary">Az új videó címének megjelenítése átváltáskor</string>
     <string name="media_seen">Megtekintett videók megjelölése</string>
@@ -813,7 +811,7 @@
     <string name="soundfont_summary">Válasszon egy SoundFont fájlt a MIDI hangsávok lejátszásához</string>
     <string name="missing_media_snack">Hiányzik a média. Elrejti az összes hiányzó médiát?</string>
     <string name="browser_show_missing_media">Hiányzó médiák mutatása</string>
-    <string name="browser_show_missing_media_summary">Távoli média eseményeinek megjelenítése akkor is, ha nincs jelen</string>
+    <string name="browser_show_missing_media_summary">Mutasson távoli médiákat, még akkor is, ha nincsenek jelen</string>
     <string name="search_prefs">Keresési beállítások</string>
     <string name="preferred_resolution">Előnyben részesített videófelbontás</string>
     <string name="preferred_resolution_summary">A közvetítések maximális videóminősége, ha alkalmazható, legyen: %s</string>
