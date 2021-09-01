@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Videos nicht gruppieren</string>
     <string name="video_min_group_length_folder">Nach Ordner gruppieren</string>
     <string name="video_min_group_length_name">Nach Name gruppieren</string>
-    <string name="media_fast_seek">Schnelles durchsuchen</string>
-    <string name="media_fast_seek_summary">Durchsuchen in einem Medium ist schneller, aber weniger genau</string>
     <string name="video_transition_title">Videoübergänge</string>
     <string name="video_transition_summary">Video-Titel beim Übergang anzeigen</string>
     <string name="media_seen">\"Markierung gesehen\" einblenden</string>
