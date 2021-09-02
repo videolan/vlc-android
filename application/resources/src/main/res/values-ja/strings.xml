@@ -282,8 +282,6 @@
     <string name="video_min_group_length_disable">ビデオをグループ化しない</string>
     <string name="video_min_group_length_folder">フォルダーごとにグループ化</string>
     <string name="video_min_group_length_name">名前でグループ化</string>
-    <string name="media_fast_seek">高速シーク</string>
-    <string name="media_fast_seek_summary">メディアを高速にシークしますが、正確でない可能性があります</string>
     <string name="video_transition_title">ビデオの切替</string>
     <string name="video_transition_summary">新しいビデオのタイトルを切替時に表示</string>
     <string name="media_seen">ビデオの再生記録マーカー</string>
