@@ -282,8 +282,6 @@
     <string name="video_min_group_length_disable">不要分组视频</string>
     <string name="video_min_group_length_folder">按文件夹分组</string>
     <string name="video_min_group_length_name">按名称分组</string>
-    <string name="media_fast_seek">快速定位</string>
-    <string name="media_fast_seek_summary">更快地定位播放进度，代价是降低精确度</string>
     <string name="video_transition_title">视频切换</string>
     <string name="video_transition_summary">切换时显示新视频标题</string>
     <string name="media_seen">显示视频已看过标记</string>
@@ -801,7 +799,7 @@
     <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
     <string name="missing_media_snack">媒体文件缺失。隐藏所有的媒体文件？</string>
     <string name="browser_show_missing_media">显示缺失的媒体文件</string>
-    <string name="browser_show_missing_media_summary">如果远距离媒体事件，即使它们不存在</string>
+    <string name="browser_show_missing_media_summary">显示远程媒体，即使它们不存在</string>
     <string name="search_prefs">搜索设置</string>
     <string name="preferred_resolution">首选视频分辨率</string>
     <string name="preferred_resolution_summary">可适用的流媒体播放最高视频分辨率为：%s</string>
