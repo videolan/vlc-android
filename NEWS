@@ -1,3 +1,8 @@
+Changes between 3.4.0 Beta 6 and 3.4.0 RC 1:
+------------------
+ * Better media seeking
+ * Bug and crash fixes
+
 Changes between 3.4.0 Beta 5 and 3.4.0 Beta 6:
 ------------------
  * Allow seeing the tips again
