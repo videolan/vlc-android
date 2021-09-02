@@ -369,11 +369,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
     }
 
-    fun IMedia.AudioTrack.formatTrackInfoString(context: Context) = (context.getString(R.string.track_bitrate_info, bitrate.toLong().readableSize()) +
-            " · " +
-            context.getString(R.string.track_codec_info, codec) +
-            " · " +
-            context.getString(R.string.track_samplerate_info, rate)).replace("\n", "")
+    fun IMedia.AudioTrack.formatTrackInfoString(context: Context) = buildString {
+        if (bitrate > 0) {
+            append(context.getString(R.string.track_bitrate_info, bitrate.toLong().readableSize()))
+            append(" ⋅ ")
+        }
+        append(context.getString(R.string.track_codec_info, codec))
+        append(" ⋅ ")
+        append(context.getString(R.string.track_samplerate_info, rate))
+    }.replace("\n", "")
 
     fun IMedia.getAudioTracks(): List<IMedia.AudioTrack> {
         val tracks = ArrayList<IMedia.AudioTrack>()
