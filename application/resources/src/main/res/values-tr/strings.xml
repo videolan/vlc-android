@@ -292,8 +292,6 @@
     <string name="video_min_group_length_disable">Görüntüler gruplanmasın</string>
     <string name="video_min_group_length_folder">Klasöre göre grupla</string>
     <string name="video_min_group_length_name">Ada göre grupla</string>
-    <string name="media_fast_seek">Hızlı tarama</string>
-    <string name="media_fast_seek_summary">Ortam taraması daha hızlı ancak daha az hassastır</string>
     <string name="video_transition_title">Görüntü dönüştürme</string>
     <string name="video_transition_summary">Dönüştürme sırasında yeni görüntü başlığı görüntülensin</string>
     <string name="media_seen">Görüldü görüntü işareti görüntülensin</string>
@@ -813,7 +811,7 @@
     <string name="soundfont_summary">MIDI ses izlerinin oynatılması için bir SoundFont dosyası seçin</string>
     <string name="missing_media_snack">Ortam eksik. Tüm eksik ortamlar gizlensin mi?</string>
     <string name="browser_show_missing_media">Eksik ortamları görüntüle</string>
-    <string name="browser_show_missing_media_summary">Bulunamıyorsa uzak ortam olayı görüntülensin</string>
+    <string name="browser_show_missing_media_summary">Uzak ortamlar var olmasalar da görüntülensin</string>
     <string name="search_prefs">Arama ayarları</string>
     <string name="preferred_resolution">Yeğlenen görüntü çözünürlüğü</string>
     <string name="preferred_resolution_summary">Akışlar için en yüksek görüntü çözünürlüğü, uygulanabildiğinde: %s</string>
