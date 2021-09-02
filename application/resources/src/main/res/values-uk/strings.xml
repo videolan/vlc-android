@@ -312,8 +312,6 @@
     <string name="video_min_group_length_disable">Не групувати відео</string>
     <string name="video_min_group_length_folder">Групувати за текою</string>
     <string name="video_min_group_length_name">Групувати за назвою</string>
-    <string name="media_fast_seek">Швидкий пошук</string>
-    <string name="media_fast_seek_summary">Пошук медіа стає швидшим, але менш точним</string>
     <string name="video_transition_title">Відео переходи</string>
     <string name="video_transition_summary">Показувати нові заголовки відео на переході</string>
     <string name="media_seen">Показувати заголовок медіа на початку відтворення</string>
@@ -837,7 +835,7 @@
     <string name="soundfont_summary">Підберіть файл звукового шрифту для відтворення аудіо доріжок midi</string>
     <string name="missing_media_snack">Медіа відсутнє. Приховати усі відсутні медіа?</string>
     <string name="browser_show_missing_media">Показати відсутні медіа</string>
-    <string name="browser_show_missing_media_summary">Показати віддалені медіа, якщо вони відсутні</string>
+    <string name="browser_show_missing_media_summary">Показувати віддалені медіа навіть якщо вони не присутні</string>
     <string name="search_prefs">Налаштування пошуку</string>
     <string name="preferred_resolution">Бажана роздільна здатність</string>
     <string name="preferred_resolution_summary">Максимальна якість відео для потоків, коли застосовна, буде: %s</string>
