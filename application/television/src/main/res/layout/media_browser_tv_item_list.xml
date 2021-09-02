@@ -98,7 +98,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/tv_card_content_dark"
+            android:background="@drawable/tv_list_background_transition"
             android:clickable="true"
             android:focusable="true"
             android:longClickable="true"
