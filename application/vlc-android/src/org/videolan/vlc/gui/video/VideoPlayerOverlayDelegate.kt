@@ -575,14 +575,9 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (::hudBinding.isInitialized) {
             val largeMargin = player.resources.getDimension(R.dimen.large_margins_center)
             val smallMargin = player.resources.getDimension(R.dimen.small_margins_sides)
-            applyMargin(hudBinding.playlistPrevious, largeMargin.toInt(), true)
-            applyMargin(hudBinding.playerOverlayRewind, largeMargin.toInt(), true)
-            applyMargin(hudBinding.playlistNext, largeMargin.toInt(), false)
-            applyMargin(hudBinding.playerOverlayForward, largeMargin.toInt(), false)
+
 
             applyMargin(hudBinding.playerOverlayTracks, if (!player.isTv) smallMargin.toInt() else overscanHorizontal, false)
-            applyMargin(hudBinding.orientationToggle, smallMargin.toInt(), false)
-            applyMargin(hudBinding.playerResize, smallMargin.toInt(), true)
             applyMargin(hudBinding.playerOverlayAdvFunction, if (!player.isTv) smallMargin.toInt() else overscanHorizontal, true)
 
             hudBinding.playerOverlaySeekbar.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
@@ -598,11 +593,25 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.playerSpaceRight.setGone()
                 applyMargin(hudBinding.playerOverlaySeekbar, 0, true)
                 applyMargin(hudBinding.playerOverlaySeekbar, 0, false)
+
+                applyMargin(hudBinding.playlistPrevious, 0, true)
+                applyMargin(hudBinding.playerOverlayRewind, 0, true)
+                applyMargin(hudBinding.playlistNext, 0, false)
+                applyMargin(hudBinding.playerOverlayForward, 0, false)
+                applyMargin(hudBinding.orientationToggle, 0, false)
+                applyMargin(hudBinding.playerResize, 0, true)
             } else {
                 hudBinding.playerSpaceLeft.setVisible()
                 hudBinding.playerSpaceRight.setVisible()
                 applyMargin(hudBinding.playerOverlaySeekbar, 20.dp, true)
                 applyMargin(hudBinding.playerOverlaySeekbar, 20.dp, false)
+
+                applyMargin(hudBinding.playlistPrevious, largeMargin.toInt(), true)
+                applyMargin(hudBinding.playerOverlayRewind, largeMargin.toInt(), true)
+                applyMargin(hudBinding.playlistNext, largeMargin.toInt(), false)
+                applyMargin(hudBinding.playerOverlayForward, largeMargin.toInt(), false)
+                applyMargin(hudBinding.orientationToggle, smallMargin.toInt(), false)
+                applyMargin(hudBinding.playerResize, smallMargin.toInt(), true)
             }
         }
         if (::hudRightBinding.isInitialized) {
