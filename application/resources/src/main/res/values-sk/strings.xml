@@ -312,8 +312,6 @@
     <string name="video_min_group_length_disable">Nezoskupovať videá</string>
     <string name="video_min_group_length_folder">Zoskupiť podľa priečinka</string>
     <string name="video_min_group_length_name">Zoskupiť podľa názvu</string>
-    <string name="media_fast_seek">Rýchle vyhľadávanie</string>
-    <string name="media_fast_seek_summary">Vyhľadávanie v médiu je rýchlejšie, ale menej presné</string>
     <string name="video_transition_title">Prechody videí</string>
     <string name="video_transition_summary">Zobraziť názov nového videa pri prechode</string>
     <string name="media_seen">Zobraziť značku pre už videné video</string>
@@ -837,7 +835,7 @@
     <string name="soundfont_summary">Vyberte súbor SoundFont na prehratie zvukových stôp MIDI</string>
     <string name="missing_media_snack">Médium chýba. Chcete skryť všetky chýbajúce médiá?</string>
     <string name="browser_show_missing_media">Zobraziť chýbajúce médiá</string>
-    <string name="browser_show_missing_media_summary">Zobrazovať udalosť vzdialených médií aj vtedy, keď tieto nie sú prístupné</string>
+    <string name="browser_show_missing_media_summary">Zobrazovať vzdialené médiá aj keď nie sú prítomné</string>
     <string name="search_prefs">Nastavenia vyhľadávania</string>
     <string name="preferred_resolution">Preferované rozlíšenie videa</string>
     <string name="preferred_resolution_summary">Maximálna kvalita videa pre streamy, ak sa dá použiť, bude: %s</string>
