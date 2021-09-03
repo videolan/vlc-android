@@ -623,6 +623,7 @@
                 android:background="?attr/actionBarItemBackground"
                 android:contentDescription="@string/repeat_title"
                 android:elevation="4dp"
+                android:padding="8dp"
                 android:focusable="true"
                 android:onClick="@{fragment::onRepeatClick}"
                 android:scaleType="fitXY"
