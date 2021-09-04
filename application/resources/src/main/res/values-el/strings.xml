@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -206,25 +207,41 @@
     <string name="play_button">Κουμπί αναπαραγωγής</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Συμβουλές αναπαραγωγής βίντεο:</string>
+    <string name="tips_title">Συμβουλές αναπαραγωγής βίντεο</string>
     <string name="seek">Ανίχνευση</string>
     <string name="subtitles">Υπότιτλοι</string>
-    <string name="audio_sub">Κομμάτια ήχου \nκαι υπότιτλοι</string>
-    <string name="resize">Αλλαγή μεγέθους</string>
-    <string name="options">Επιλογές</string>
+    <string name="tips_player_controls">Έλεγχος αναπαραγωγής</string>
+    <string name="tips_player_controls_description">Πατήστε στο \'έλεγχος αναπαραγωγής\' παρακάτω, για να ανακαλύψετε τη χρήση τους</string>
+    <string name="tips_audio_sub">Κομμάτια ήχου και υπότιτλοι</string>
+    <string name="tips_play_description">Πατήστε για αναπαραγωγή βίντεο</string>
     <string name="lock">Κλείδωμα</string>
-    <string name="ok_got_it">Κατανοητό, κλείσε&#160;το</string>
+    <string name="tap">Πατήστε για προβολή</string>
+    <string name="lock_orientation">Προσανατολισμός</string>
+    <string name="lock_orientation_description">Πατήστε για να κλειδώσετε/ξεκλειδώσετε τον προσανατολισμό</string>
+    <string name="aspect_ratio">Λόγος διαστάσεων</string>
+    <string name="aspect_ratio_description">Πατήστε για να αλλάξετε το λόγο διαστάσεων του βίντεο</string>
+    <string name="advanced_options">Επιλογές για προχωρημένους</string>
+    <string name="advanced_options_description">Όπως την ταχύτητα αναπαραγωγής, τη λειτουργία επανάληψης, …</string>
+    <string name="tips_swipe">Σύρετε το δάχτυλο προς τα πάνω ή κάτω</string>
+    <string name="tips_swipe_horizontal">Σύρετε το δάχτυλο προς τα αριστερά ή δεξιά</string>
+    <string name="tips_playlist">Λίστα αναπαραγωγής</string>
+    <string name="tips_hold_seek">Παρατεταμένο πάτημα για ανίχνευση</string>
+    <string name="tips_long_drop">Παρατεταμένο πάτημα και απόθεση</string>
+    <string name="pause_description">Διπλό άγγιγμα οθόνης για παύση</string>
+    <string name="seek_tap">+/- 10 δεύτ.</string>
+    <string name="seek_tap_description">Διπλό άγγιγμα οθόνης για μετάβαση 10 δεύτ. μπροστά ή πίσω</string>
+    <string name="close">Κλείσιμο</string>
 
     <string name="playlist_tips">Συμβουλές λίστας αναπαραγωγής</string>
     <string name="remove_song">Αφαίρεση τραγουδιού</string>
     <string name="remove_playlist_item">%1$s έχει αφαιρεθεί από τη λίστα αναπαραγωγής</string>
     <string name="rearrange_order">Αναδιάταξη σειράς</string>
-    <string name="hold_to_seek">Κρατήστε για ανίχνευση</string>
+    <string name="hold_to_seek">Παρατεταμένο πάτημα για ανίχνευση</string>
 
     <string name="audio_player_tips">Συμβουλές αναπαραγωγής ήχου</string>
     <string name="previous_next_song">Προηγούμενο/επόμενο τραγούδι</string>
     <string name="show_playlist">Προβολή λίστας αναπαραγωγής</string>
-    <string name="hold_to_stop">Κρατήστε για σταμάτημα</string>
+    <string name="hold_to_stop">Παρατεταμένο πάτημα για σταμάτημα</string>
 
     <!-- About -->
     <string name="app_name_full">VLC για Android™</string>
@@ -275,8 +292,6 @@
     <string name="video_min_group_length_disable">Να μην ομαδοποιηθούν τα βίντεο</string>
     <string name="video_min_group_length_folder">Οργάνωση κατά φάκελο</string>
     <string name="video_min_group_length_name">Ομαδοποίηση κατά όνομα</string>
-    <string name="media_fast_seek"> Γρήγορη ανίχνευση</string>
-    <string name="media_fast_seek_summary">Η ανίχνευση σε ένα μέσο είναι γρηγορότερη αλλά λιγότερο ακριβής</string>
     <string name="video_transition_title">Μετάβαση μεταξύ βίντεο</string>
     <string name="video_transition_summary">Προβολή τίτλου νέου βίντεο κατά τη μετάβαση</string>
     <string name="media_seen">Εμφάνιση δείκτη \"προβεβλημένο\"</string>
@@ -569,6 +584,8 @@
     <string name="otg_device_title">Συσκευή OTG</string>
     <string name="browser">Φυλλομετρητής</string>
     <string name="ab_repeat">Επανάληψη Α-Β</string>
+    <string name="ab_repeat_reset">Επαναφορά επανάληψης Α-Β</string>
+    <string name="ab_repeat_stop">Παύση επανάληψης Α-Β</string>
     <string name="stop_after_this">Σταμάτημα μετά από αυτό το κομμάτι</string>
     <string name="time_category_new">Νέα πολυμέσα</string>
     <string name="time_category_current_month">Αυτόν το μήνα</string>
@@ -794,7 +811,7 @@
     <string name="soundfont_summary">Επιλέξτε ένα αρχείο SoundFont για αναπαραγωγή κομματιών ήχου midi</string>
     <string name="missing_media_snack">Λείπουν πολυμέσα. Απόκρυψη όλων των πολυμέσων που λείπουν;</string>
     <string name="browser_show_missing_media">Εμφάνιση πολυμέσων που λείπουν</string>
-    <string name="browser_show_missing_media_summary">Εμφάνιση συμβάντος απομακρυσμένων πολυμέσων εάν δεν είναι παρόντα</string>
+    <string name="browser_show_missing_media_summary">Εμφάνιση απομακρυσμένων πολυμέσων ακόμη και εάν δεν είναι διαθέσιμα</string>
     <string name="search_prefs">Ρυθμίσεις αναζήτησης</string>
     <string name="preferred_resolution">Προτιμώμενη ανάλυση βίντεο</string>
     <string name="preferred_resolution_summary">Η μέγιστη ανάλυση μεταδόσεων, αν αυτή είναι δυνατή, θα είναι: %s</string>
