@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
@@ -206,14 +207,30 @@
     <string name="play_button">Botón de reprodución</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Suxestións para o reprodutor de vídeo:</string>
+    <string name="tips_title">Suxestións para o reprodutor de vídeo</string>
     <string name="seek">Desprazamento</string>
     <string name="subtitles">Subtítulos</string>
-    <string name="audio_sub">Pistas de son\ne subtítulos</string>
-    <string name="resize">Redimensionar</string>
-    <string name="options">Opcións</string>
+    <string name="tips_player_controls">Controis do reprodutor</string>
+    <string name="tips_player_controls_description">Toque nos controis do reprodutor para saber a súa función</string>
+    <string name="tips_audio_sub">Pistas de son e subtítulos</string>
+    <string name="tips_play_description">Toque para reproducir o vídeo</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">Entendín, non mostrar isto máis</string>
+    <string name="tap">Toque para ver</string>
+    <string name="lock_orientation">Orientación</string>
+    <string name="lock_orientation_description">Toque para bloquear/desbloquear a orientación</string>
+    <string name="aspect_ratio">Proporción de aspecto</string>
+    <string name="aspect_ratio_description">Toque para cambiar a proporción de aspecto do vídeo</string>
+    <string name="advanced_options">Opcións avanzadas</string>
+    <string name="advanced_options_description">Tales como a velocidade de reprodución,  o modo repetición...</string>
+    <string name="tips_swipe">Arrastre arriba ou abaixo</string>
+    <string name="tips_swipe_horizontal">Arrastre á esquerda ou dereita</string>
+    <string name="tips_playlist">Lista de reprodución</string>
+    <string name="tips_hold_seek">Manter para desprazarse</string>
+    <string name="tips_long_drop">Presión longa e soltar</string>
+    <string name="pause_description">Dobre toque para pausar</string>
+    <string name="seek_tap">+/- 10 s.</string>
+    <string name="seek_tap_description">Dobre toque para avanzar ou retroceder 10s.</string>
+    <string name="close">Pechar</string>
 
     <string name="playlist_tips">Suxestións para listas de reprodución</string>
     <string name="remove_song">Eliminar canción</string>
@@ -275,8 +292,6 @@
     <string name="video_min_group_length_disable">Non agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por cartafol</string>
     <string name="video_min_group_length_name">Agrupar polo nome</string>
-    <string name="media_fast_seek">Desprazamento rápido</string>
-    <string name="media_fast_seek_summary">Desprazarse nun multimedia é máis rápido pero menos preciso</string>
     <string name="video_transition_title">Transicións de vídeo</string>
     <string name="video_transition_summary">Mostrar o título do novo vídeo durante as transicións</string>
     <string name="media_seen">Mostrar o marcador de vídeos vistos</string>
@@ -556,7 +571,7 @@
     <string name="audio_digital_output_enabled">Saída dixital de son activada</string>
     <string name="audio_digital_output_disabled">Saída dixital de son desactivada</string>
     <string name="audio_digital_title">Saída de son dixital (passthrough)</string>
-    <string name="audio_task_cleared_title">Parar ao esvarar o dedo pola aplicación</string>
+    <string name="audio_task_cleared_title">Parar ao arrastrar o dedo pola aplicación</string>
     <string name="audio_task_cleared_summary">Parar a reprodución cando se saia da aplicación</string>
     <string name="audio_resume_card_title">Mostrar suxestión da última lista</string>
     <string name="audio_resume_card_summary">Mostra unha suxestión para continuar a reprodución do son ao iniciar a aplicación</string>
@@ -569,6 +584,8 @@
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Navegador</string>
     <string name="ab_repeat">Repetir A-B</string>
+    <string name="ab_repeat_reset">Restabelecer a repetición A-B</string>
+    <string name="ab_repeat_stop">Parar a repetición A-B</string>
     <string name="stop_after_this">Parar despois desta pista</string>
     <string name="time_category_new">Novo multimedia</string>
     <string name="time_category_current_month">Este mes</string>
@@ -794,7 +811,7 @@
     <string name="soundfont_summary">Seleccione un ficheiro de SoundFont para reproducir as pistas de son midi</string>
     <string name="missing_media_snack">Faltan multimedia. Desexa ocultar todos os multimedia que faltan?</string>
     <string name="browser_show_missing_media">Mostrar os multimedia que faltan</string>
-    <string name="browser_show_missing_media_summary">Mostrar o evento dos multimedia distantes se non están presentes</string>
+    <string name="browser_show_missing_media_summary">Mostrar multimedia distantes incluso se non están presentes</string>
     <string name="search_prefs">Axustes de busca</string>
     <string name="preferred_resolution">Resolución de vídeo preferida</string>
     <string name="preferred_resolution_summary">A calidade máxima de vídeo nos fluxos, se é aplicábel, será: %s</string>
