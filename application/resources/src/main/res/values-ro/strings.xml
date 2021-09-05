@@ -302,8 +302,6 @@
     <string name="video_min_group_length_disable">Nu grupa videoclipurile</string>
     <string name="video_min_group_length_folder">Grupați după dosar</string>
     <string name="video_min_group_length_name">Grupate după nume</string>
-    <string name="media_fast_seek">Căutare rapidă</string>
-    <string name="media_fast_seek_summary">Căutarea în media este mai rapidă, dar mai puțin exactă</string>
     <string name="video_transition_title">Tranziții video</string>
     <string name="video_transition_summary">Afișează titlul noului videoclip în tranziție</string>
     <string name="media_seen">Afișează marcajul pentru video văzut</string>
@@ -825,7 +823,7 @@
     <string name="soundfont_summary">Alegeți un fișier SoundFont pentru a reda piese audio midi</string>
     <string name="missing_media_snack">Mass-media lipsește. Ascundeți toate mediile lipsă?</string>
     <string name="browser_show_missing_media">Afișați mediile lipsă</string>
-    <string name="browser_show_missing_media_summary">Afișați evenimentul mediilor îndepărtate dacă acestea nu sunt prezente</string>
+    <string name="browser_show_missing_media_summary">Afișați mediile îndepărtate chiar dacă acestea nu sunt prezente</string>
     <string name="search_prefs">Setări de căutare</string>
     <string name="preferred_resolution">Rezoluția video preferată</string>
     <string name="preferred_resolution_summary">Calitatea video maximă pentru fluxuri, atunci când este cazul, va fi următoarea: %s</string>
