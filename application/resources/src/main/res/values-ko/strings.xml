@@ -282,8 +282,6 @@
     <string name="video_min_group_length_disable">비디오 그룹 만들지 않기</string>
     <string name="video_min_group_length_folder">폴더로 분류하기</string>
     <string name="video_min_group_length_name">이름으로 분류하기</string>
-    <string name="media_fast_seek">빠른 탐색</string>
-    <string name="media_fast_seek_summary">미디어 탐색은 더 빠르나 정확도가 떨어집니</string>
     <string name="video_transition_title">비디오 이행</string>
     <string name="video_transition_summary">이행 시 새로운 비디오를 표시하기</string>
     <string name="media_seen">시청한 비디오에 마커 표시하기</string>
@@ -801,7 +799,7 @@
     <string name="soundfont_summary">미디 오디오 트랙을 재생할 SoundFont 파일 선택</string>
     <string name="missing_media_snack">미디어가 없습니다. 누락된 미디어를 모두 숨기시겠습니까?</string>
     <string name="browser_show_missing_media">누락된 미디어 표시</string>
-    <string name="browser_show_missing_media_summary">존재하지 않는 경우 먼 미디어 이벤트 표시</string>
+    <string name="browser_show_missing_media_summary">원격 미디어가 없는 경우에도 표시</string>
     <string name="search_prefs">검색 설정</string>
     <string name="preferred_resolution">선호하는 비디오 해상도</string>
     <string name="preferred_resolution_summary">해당되는 경우 스트림의 최대 비디오 화질은 다음과 같습니다: %s</string>
