@@ -631,7 +631,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun previousTotalTime() = when {
-        mediaList.size() == 0 -> {
+        mediaList.size() == 0 || currentIndex < 0 -> {
             0
         }
         shuffling -> {
