@@ -208,7 +208,7 @@ fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
 }
 
 @BindingAdapter("missingMedia")
-fun missingMedia(imageView: ImageView, media: MediaLibraryItem) {
+fun missingMedia(imageView: ImageView, media: MediaLibraryItem?) {
     if (media is VideoGroup && !media.isNetwork()) imageView.setImageResource(R.drawable.ic_sd_media_off) else imageView.setImageResource(R.drawable.ic_network_media_off)
 }
 
