@@ -183,6 +183,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 if (!isListMode) holder.binding.setVariable(BR.resolution, resolution)
             }
         }
+        holder.binding.setVariable(BR.inSelection, multiSelectHelper.inActionMode)
     }
 
 

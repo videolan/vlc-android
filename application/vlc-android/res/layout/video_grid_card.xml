@@ -22,6 +22,10 @@
                 type="boolean" />
 
         <variable
+                name="inSelection"
+                type="boolean" />
+
+        <variable
                 name="selected"
                 type="boolean" />
 
@@ -207,7 +211,7 @@
                         android:contentDescription="@string/more_actions"
                         android:onClick="@{holder::onMoreClick}"
                         android:scaleType="fitEnd"
-                        android:visibility="@{isPresent ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:layout_constraintTop_toTopOf="parent"
                         vlc:srcCompat="@drawable/ic_more_w" />
