@@ -489,6 +489,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
         binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
+        lifecycleScope.launch { doUpdate() }
     }
 
     fun onShuffleClick(view: View) {
