@@ -141,6 +141,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         holder.selectView(isSelected)
         holder.binding.setVariable(BR.isNetwork,(item as? MediaWrapper)?.uri?.scheme?.isSchemeDistant() ?: false)
         holder.binding.setVariable(BR.isPresent,(item as? MediaWrapper)?.isPresent ?: true)
+        holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
         holder.binding.executePendingBindings()
         if (position == focusNext) {
             holder.binding.root.requestFocus()
