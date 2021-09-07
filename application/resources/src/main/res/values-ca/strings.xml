@@ -811,6 +811,7 @@
     <string name="soundfont_summary">Trieu un fitxer SoundFont per reproduir pistes d\'àudio MIDI</string>
     <string name="missing_media_snack">Multimèdia falta. Amaga tots els multimèdia que falten?</string>
     <string name="browser_show_missing_media">Mostra els multimèdia que falten</string>
+    <string name="browser_show_missing_media_summary">Mostra multimèdies distants tot i que no estiguin presents</string>
     <string name="search_prefs">Configuració de cerca</string>
     <string name="preferred_resolution">Resolució de vídeo preferida</string>
     <string name="preferred_resolution_summary">La qualitat màxima de vídeo per a fluxos, quan pertoqui, serà: %s</string>
