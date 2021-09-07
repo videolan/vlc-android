@@ -39,7 +39,6 @@ import org.videolan.tools.setGone
 import org.videolan.vlc.databinding.PreferencesSearchActivityBinding
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
-import org.videolan.vlc.gui.preferences.PreferenceItem
 import org.videolan.vlc.viewmodels.PreferenceSearchModel
 import java.util.*
 

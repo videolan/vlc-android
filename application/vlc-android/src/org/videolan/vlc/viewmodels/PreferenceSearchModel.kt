@@ -33,8 +33,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.vlc.gui.preferences.PreferenceItem
-import org.videolan.vlc.gui.preferences.PreferenceParser
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import java.util.*
 
 class PreferenceSearchModel(context: Context) : ViewModel() {
@@ -74,8 +74,8 @@ class PreferenceSearchModel(context: Context) : ViewModel() {
             }.toMutableList()
     }
 
-    fun getSummary(item:PreferenceItem)= if (showTranslations.value == true) item.summaryEng else item.summary
-    fun getTitle(item:PreferenceItem)= if (showTranslations.value == true) item.titleEng else item.title
+    fun getSummary(item: PreferenceItem)= if (showTranslations.value == true) item.summaryEng else item.summary
+    fun getTitle(item: PreferenceItem)= if (showTranslations.value == true) item.titleEng else item.title
 
     /**
      * Determinate a score for [item] to sort the results for a [query]:

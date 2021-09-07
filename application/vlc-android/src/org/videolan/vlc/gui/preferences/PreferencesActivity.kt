@@ -41,6 +41,8 @@ import org.videolan.tools.RESULT_UPDATE_ARTISTS
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.gui.preferences.search.PreferenceSearchActivity
 
 const val EXTRA_PREF_END_POINT = "extra_pref_end_point"

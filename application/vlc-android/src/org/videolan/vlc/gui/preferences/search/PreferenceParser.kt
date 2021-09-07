@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.vlc.gui.preferences
+package org.videolan.vlc.gui.preferences.search
 
 import android.content.Context
 import android.content.ContextWrapper

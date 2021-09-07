@@ -34,6 +34,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.hack.MultiSelectListPreferenceDialogFragmentCompat
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
