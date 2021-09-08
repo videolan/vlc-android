@@ -115,6 +115,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private var prevUpdateInCarMode = true
     private var lastTime = 0L
     private var lastLength = 0L
+    private var lastChapter = 0
+    private var lastChaptersCount = 0
     private var widget = 0
     /**
      * Last widget position update timestamp
@@ -192,6 +194,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
             MediaPlayer.Event.EncounteredError -> executeUpdate()
             MediaPlayer.Event.LengthChanged -> {
+                lastChaptersCount = getChapters(-1)?.size ?: 0
                 if (lastLength == 0L) {
                     executeUpdate()
                     publishState()
@@ -202,6 +205,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 if (getTime() < 1000L && getTime() < lastTime) publishState()
                 lastTime = getTime()
                 if (widget != 0) updateWidgetPosition(event.positionChanged)
+                val curChapter = chapterIdx
+                if (lastChapter != curChapter) {
+                    executeUpdate()
+                    showNotification()
+                }
+                lastChapter = curChapter
             }
             MediaPlayer.Event.ESAdded -> if (event.esChangedType == IMedia.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
                 /* CbAction notification content intent: resume video or resume audio activity */
@@ -904,6 +913,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val ctx = this
         val length = length
         lastLength = length
+        val chapterTitle = if (lastChaptersCount > 0) getChapters(-1)?.elementAtOrNull(lastChapter)?.name else null
         val bob = withContext(Dispatchers.Default) {
             val carMode = AndroidDevices.isCarMode(ctx)
             val title = media.nowPlaying ?: media.title
@@ -919,7 +929,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 putLong(MediaMetadataCompat.METADATA_KEY_DURATION, if (length != 0L) length else -1L)
             }
             if (carMode) {
-                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, title)
+                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, chapterTitle ?: title)
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
