@@ -106,8 +106,10 @@ suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
             while (it.moveToNext()) {
                 if (!it.isNull(1) && mw.id.toString() == cursor.getString(1)) {
                     // Found a row that contains the matching ID
+                    isProgramPresent = true
                     val watchNextProgramId = cursor.getLong(0)
-                    if (it.getInt(2) == 0 || mw.time == 0L) { //Row removed by user or progress null
+                    if (it.getInt(2) == 0 || mw.time == 0L ||
+                        (mw.time != 0L && mw.length.toDouble() / mw.time.toDouble() > 0.95)) { //Row removed by user or progress null
                         if (deleteWatchNext(context, watchNextProgramId) < 1) {
                             Log.e(TAG, "Delete program failed")
                             return
@@ -115,7 +117,6 @@ suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
                     } else { // Update the program
                         val existingProgram = WatchNextProgram.fromCursor(cursor)
                         updateWatchNext(context, existingProgram, mw.time, watchNextProgramId)
-                        isProgramPresent = true
                     }
                     break
                 }
