@@ -835,6 +835,7 @@
     <string name="soundfont_summary">Za predvajanje midi zvočnih vsebin izberite datoteko SoundFont</string>
     <string name="missing_media_snack">Manjkajoča vsebina. Ali skrijem vso manjkajočo vsebino?</string>
     <string name="browser_show_missing_media">Prikaži manjkajočo vsebino</string>
+    <string name="browser_show_missing_media_summary">Prikaži oddaljene vsebine, četudi niso na voljo</string>
     <string name="search_prefs">Nastavitve iskanja</string>
     <string name="preferred_resolution">Prednostna ločljivost videa</string>
     <string name="preferred_resolution_summary">Največja kakovost pretoka, če je ta na voljo, bo: %s</string>
