@@ -259,7 +259,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val audio = isAudioList() // check before dispatching in saveMediaMeta()
             launch(start = CoroutineStart.UNDISPATCHED) {
                 saveMediaMeta().join()
-                if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !audio) setResumeProgram(service.applicationContext, it)
+                if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && video) {
+                    setResumeProgram(service.applicationContext, it)
+                }
             }
         }
         mediaList.removeEventListener(this)
