@@ -792,9 +792,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     val artist = if (metaData == null) mw.artist else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST)
                     val album = if (metaData == null) mw.album else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM)
                     var cover = if (coverOnLockscreen && metaData != null)
-                        AudioUtil.fetchBitmapFromContentResolver(ctx, metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
-                    else
-                        AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), 256)
+                        metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) else null
+                    if (coverOnLockscreen && cover == null)
+                        cover = AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), 256)
                     if (cover == null || cover.isRecycled)
                         cover = ctx.getBitmapFromDrawable(R.drawable.ic_no_media)
 
@@ -905,6 +905,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val length = length
         lastLength = length
         val bob = withContext(Dispatchers.Default) {
+            val carMode = AndroidDevices.isCarMode(ctx)
             val title = media.nowPlaying ?: media.title
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
             val bob = MediaMetadataCompat.Builder().apply {
@@ -917,7 +918,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(ctx, media))
                 putLong(MediaMetadataCompat.METADATA_KEY_DURATION, if (length != 0L) length else -1L)
             }
-            if (AndroidDevices.isCarMode(ctx)) {
+            if (carMode) {
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, title)
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
@@ -939,6 +940,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     }
                 }
                 bob.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, albumArtUri.toString())
+                if (!carMode) {
+                    val cover = AudioUtil.readCoverBitmap(Uri.decode(media.artworkMrl), 512)
+                    if (cover?.config != null)
+                    //In case of format not supported
+                        bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.config, false))
+                    else
+                        bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, ctx.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512))
+                }
             }
             bob.putLong("shuffle", 1L)
             bob.putLong("repeat", repeatType.toLong())
