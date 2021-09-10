@@ -33,9 +33,14 @@ import android.util.Log
 import android.util.LruCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IMediaFactory
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
@@ -210,6 +215,7 @@ class ArtworkProvider : ContentProvider() {
         val image = getOrPutImage(mw?.artworkMrl ?: "${mediaId}}") {
             runBlocking(Dispatchers.IO) {
                 var bitmap = if (mw != null) ThumbnailsProvider.obtainBitmap(mw, width) else null
+                if (bitmap == null) bitmap = readEmbeddedArtwork(mw, width)
                 if (bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
                 return@runBlocking encodeImage(bitmap)
@@ -347,6 +353,24 @@ class ArtworkProvider : ContentProvider() {
             Log.d(TAG, "encImage() Time: ${getTimestamp()} Duration: " + (endTime - startTime) + "ms Comp. Ratio: $ratio Thread: ${Thread.currentThread().name}")
         }
         return bos.toByteArray()
+    }
+
+    /**
+     * Attempt to directly load embedded artwork.
+     */
+    private fun readEmbeddedArtwork(mw: MediaLibraryItem?, width: Int): Bitmap? {
+        if (mw is MediaWrapper && mw.artworkMrl == null && mw.uri != null) {
+            var media: IMedia? = null
+            return try {
+                val libVlc = VLCInstance.getInstance(ctx)
+                val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+                media = mediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
+                AudioUtil.readCoverBitmap(Uri.decode(MLServiceLocator.getAbstractMediaWrapper(media).artworkMrl), width)
+            } finally {
+                media?.release()
+            }
+        }
+        return null
     }
 
     /**
