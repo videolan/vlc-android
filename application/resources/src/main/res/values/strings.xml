@@ -861,6 +861,7 @@
     <string name="start">Start</string>
     <string name="permission">Permission</string>
     <string name="customize">Customize</string>
+    <string name="controls_setting">Controls settings</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">This item is already in this playlist.</item>
         <item quantity="other">These items are already in this playlist.</item>

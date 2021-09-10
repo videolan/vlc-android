@@ -49,11 +49,10 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onStart() {
         super.onStart()
-        val activity = activity as PreferencesActivity?
-        if (activity != null) {
-            activity.expandBar()
-            if (activity.supportActionBar != null && getTitleId() != 0)
-                activity.supportActionBar!!.title = getString(getTitleId())
+        (activity as? PreferencesActivity)?.let {
+            it.expandBar()
+            if (it.supportActionBar != null && getTitleId() != 0)
+                it.supportActionBar!!.title = getString(getTitleId())
         }
     }
 

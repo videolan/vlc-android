@@ -461,19 +461,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
 
         medialibrary = Medialibrary.getInstance()
-        val touch = if (!isTv) {
-            val audioTouch = (!AndroidUtil.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
-            val brightnessTouch = !AndroidDevices.isChromeBook && settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)
-            ((if (audioTouch) TOUCH_FLAG_AUDIO_VOLUME else 0)
-                    + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
-                    + if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_SEEK else 0)
-        } else 0
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         val yRange = dm.widthPixels.coerceAtMost(dm.heightPixels)
         val xRange = dm.widthPixels.coerceAtLeast(dm.heightPixels)
         val sc = ScreenConfig(dm, xRange, yRange, resources.configuration.orientation)
-        touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
+        touchDelegate = VideoTouchDelegate(this, generateTouchFlags(), sc, isTv)
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
@@ -489,6 +482,19 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         overlayDelegate.pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
     }
+
+    /**
+     * Generates the touch flags for the [overlayDelegate] based on the controls settings
+     *
+     * @return the flag corresponding to the gesture the user wants to use
+     */
+    private fun generateTouchFlags() = if (!isTv) {
+        val audioTouch = (!AndroidUtil.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
+        val brightnessTouch = !AndroidDevices.isChromeBook && settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)
+        ((if (audioTouch) TOUCH_FLAG_AUDIO_VOLUME else 0)
+                + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
+                + if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_SEEK else 0)
+    } else 0
 
     override fun fireDialog(dialog: Dialog) {
         DialogActivity.dialog = dialog
@@ -2073,6 +2079,16 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             removeDownloadedSubtitlesObserver()
             previousMediaPath = null
         }
+    }
+
+    /**
+     * Callback called when a Control setting has been changed in the advanced options
+     */
+    fun onChangedControlSetting(key: String) = when(key) {
+        AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(AUDIO_BOOST, true)
+        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK -> touchDelegate.touchControls = generateTouchFlags()
+        ENABLE_SEEK_BUTTONS -> overlayDelegate.seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
+        else -> {}
     }
 
     companion object {

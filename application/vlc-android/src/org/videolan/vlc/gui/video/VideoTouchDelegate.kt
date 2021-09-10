@@ -48,7 +48,7 @@ private const val JOYSTICK_INPUT_DELAY = 300
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
-                         private val touchControls: Int,
+                         var touchControls: Int,
                          var screenConfig: ScreenConfig,
                          private val tv: Boolean) {
 

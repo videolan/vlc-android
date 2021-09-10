@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  PreferencesVideo.java
+ *  PreferencesVideoControls.java
  * **************************************************************************
  *  Copyright © 2016 VLC authors and VideoLAN
  *
@@ -20,39 +20,35 @@
  *  ***************************************************************************
  */
 
-package org.videolan.television.ui.preferences
+package org.videolan.vlc.gui.preferences
 
-import android.annotation.TargetApi
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.VLCInstance
 import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.preferences.PreferencesActivity
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 
-@ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+@ExperimentalCoroutinesApi
+class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
-    override fun getXml() = R.xml.preferences_video
+    override fun getXml() = R.xml.preferences_video_controls
 
-    override fun getTitleId() = R.string.video_prefs_category
+    override fun getTitleId() = R.string.controls_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        findPreference<Preference>("secondary_display_category")?.isVisible = false
-        findPreference<Preference>("secondary_display_category_summary")?.isVisible = false
-        findPreference<Preference>("enable_clone_mode")?.isVisible = false
-        findPreference<Preference>(SAVE_BRIGHTNESS)?.isVisible = false
-        findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = false
-        findPreference<Preference>(LOCK_USE_SENSOR)?.isVisible = false
+        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
+        findPreference<Preference>(AUDIO_BOOST)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
+        findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
+        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
     }
 
     override fun onStart() {
@@ -67,10 +63,10 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
         when (key) {
-            "preferred_resolution" -> {
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+            VIDEO_HUD_TIMEOUT -> {
+                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
             }
         }
     }

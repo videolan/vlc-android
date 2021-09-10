@@ -107,7 +107,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     private lateinit var abRepeatAddMarker: Button
 
-    private var seekButtons: Boolean = false
+    var seekButtons: Boolean = false
     var hasPlaylist: Boolean = false
 
     var enableSubs = true
