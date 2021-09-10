@@ -53,6 +53,7 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.deleteAllWatchNext
 import java.io.File
 import java.io.IOException
 
@@ -129,6 +130,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         activity.stopService(Intent(activity, MediaParsingService::class.java))
                         withContext((Dispatchers.IO)) {
                             medialibrary.clearDatabase(false)
+                            deleteAllWatchNext(activity)
                             //delete thumbnails
                             try {
                                 activity.getExternalFilesDir(null)?. let {

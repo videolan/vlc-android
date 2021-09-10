@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.cleanupWatchNextList
 import org.videolan.vlc.util.scanAllowed
 
 private const val TAG = "VLC/MediaParsingService"
@@ -243,6 +244,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         if (reload > 0) return
         if (path.isNullOrEmpty()) medialibrary.reload()
         else medialibrary.reload(path)
+        val ctx = this
+        lifecycleScope.launch(Dispatchers.IO) {
+            cleanupWatchNextList(ctx)
+        }
     }
 
     private fun setupMedialibrary(upgrade: Boolean, parse: Boolean, removeDevices:Boolean) {

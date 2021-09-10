@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.checkWatchNextId
 import videolan.org.commontools.TV_CHANNEL_PATH_APP
 import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
 import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
@@ -157,8 +158,14 @@ class StartActivity : FragmentActivity() {
             if (path == "/$TV_CHANNEL_PATH_APP")
                 startApplication(tv, firstRun, upgrade, 0, removeOldDevices)
             else if (path == "/$TV_CHANNEL_PATH_VIDEO") {
-                val id = java.lang.Long.valueOf(data.getQueryParameter(TV_CHANNEL_QUERY_VIDEO_ID)!!)
-                MediaUtils.openMediaNoUi(this, id)
+                var id = java.lang.Long.valueOf(data.getQueryParameter(TV_CHANNEL_QUERY_VIDEO_ID)!!)
+                val ctx = this
+                lifecycleScope.launch(Dispatchers.IO) {
+                    id = checkWatchNextId(ctx, id)
+                    withContext(Dispatchers.Main) {
+                        MediaUtils.openMediaNoUi(ctx, id)
+                    }
+                }
             }
         } else {
             val target = idFromShortcut

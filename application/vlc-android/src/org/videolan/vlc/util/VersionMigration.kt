@@ -37,7 +37,7 @@ import org.videolan.tools.*
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 2
+private const val CURRENT_VERSION = 3
 
 object VersionMigration {
 
@@ -49,6 +49,9 @@ object VersionMigration {
         }
         if (lastVersion < 2) {
             migrateToVersion2(context)
+        }
+        if (lastVersion < 3) {
+            migrateToVersion3(context)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
@@ -93,5 +96,16 @@ object VersionMigration {
             }
         }
         context.getFromMl { flushUserProvidedThumbnails() }
+    }
+
+    /**
+     * Deletes all the programs from the WatchNext channel on the TV Home.
+     * After reindexing media ids can change, so programs now also have the uri of their media file.
+     */
+    private suspend fun migrateToVersion3(context: Context) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 3: remove all WatchNext programs")
+        withContext(Dispatchers.IO) {
+            deleteAllWatchNext(context)
+        }
     }
 }
