@@ -427,13 +427,27 @@
                     android:contentDescription="@string/air_action_rewind"
                     android:focusable="true"
                     android:padding="8dp"
-                    android:onClick="@{fragment::onRewind10}"
+                    android:onClick="@{fragment::onJumpBack}"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/audio_forward_10"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/song_track_info"
                     app:srcCompat="@drawable/ic_player_rewind_10"
+                    tools:visibility="visible" />
+
+            <TextView
+                    android:id="@+id/audio_rewind_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/player_icon_color"
+                    android:textSize="8dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/audio_rewind_10"
+                    app:layout_constraintEnd_toEndOf="@+id/audio_rewind_10"
+                    app:layout_constraintStart_toStartOf="@+id/audio_rewind_10"
+                    app:layout_constraintTop_toTopOf="@+id/audio_rewind_10"
+                    tools:text="88"
                     tools:visibility="visible" />
 
             <ImageView
@@ -446,7 +460,7 @@
                     android:contentDescription="@string/air_action_forward"
                     android:focusable="true"
                     android:padding="8dp"
-                    android:onClick="@{fragment::onForward10}"
+                    android:onClick="@{fragment::onJumpForward}"
                     app:layout_constraintBottom_toBottomOf="@+id/audio_rewind_10"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -454,6 +468,19 @@
                     app:layout_constraintTop_toTopOf="@+id/audio_rewind_10"
                     app:srcCompat="@drawable/ic_player_forward_10"
                     tools:visibility="visible" />
+
+            <TextView
+                    android:id="@+id/audio_forward_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/player_icon_color"
+                    android:textSize="8dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/audio_forward_10"
+                    app:layout_constraintEnd_toEndOf="@+id/audio_forward_10"
+                    app:layout_constraintStart_toStartOf="@+id/audio_forward_10"
+                    app:layout_constraintTop_toTopOf="@+id/audio_forward_10"
+                    tools:text="88" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

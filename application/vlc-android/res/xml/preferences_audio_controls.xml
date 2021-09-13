@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="video_category"
+        android:title="@string/video_prefs_category">
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="blurred_cover_background"
+            android:summary="@string/blurred_cover_background_summary"
+            android:title="@string/blurred_cover_background_title"/>
+
+    <org.videolan.vlc.gui.view.NumberPickerPreference
+            app:key="audio_jump_delay"
+            app:title="@string/jump_delay"
+            android:summary="%ss"
+            android:defaultValue="10"/>
+
+    <org.videolan.vlc.gui.view.NumberPickerPreference
+            app:key="audio_long_jump_delay"
+            app:title="@string/long_jump_delay"
+            android:summary="%ss"
+            android:defaultValue="20"/>
+
+
+
+</androidx.preference.PreferenceScreen>

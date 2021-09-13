@@ -102,6 +102,7 @@
     <attr name="ic_video_stats" format="reference" />
     <attr name="ic_lock_player" format="reference" />
     <attr name="ic_video_controls" format="reference" />
+    <attr name="ic_audio_controls" format="reference" />
     <attr name="player_icon_color" format="reference" />
     <attr name="dialog_circle_background" format="reference"/>
     <attr name="ic_tips" format="reference"/>

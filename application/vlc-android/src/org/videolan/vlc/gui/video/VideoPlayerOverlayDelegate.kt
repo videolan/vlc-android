@@ -527,8 +527,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (!::hudBinding.isInitialized) return
         hudBinding.playerOverlayRewind.setOnClickListener(player)
         hudBinding.playerOverlayForward.setOnClickListener(player)
-        hudBinding.playerOverlayRewind.setOnTouchListener(OnRepeatListenerTouch(player))
-        hudBinding.playerOverlayForward.setOnTouchListener(OnRepeatListenerTouch(player))
+        hudBinding.playerOverlayRewind.setOnLongClickListener(player)
+        hudBinding.playerOverlayForward.setOnLongClickListener(player)
         hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player))
         hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player))
     }
@@ -675,7 +675,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.playerOverlayPlay.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (seekButtons) {
                 hudBinding.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
+                hudBinding.playerOverlayRewindText.text = "${Settings.videoJumpDelay}"
+                hudBinding.playerOverlayRewindText.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
+                hudBinding.playerOverlayForwardText.text = "${Settings.videoJumpDelay}"
+                hudBinding.playerOverlayForwardText.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
             hudBinding.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayAdvFunction.visibility = if (show) View.VISIBLE else View.INVISIBLE

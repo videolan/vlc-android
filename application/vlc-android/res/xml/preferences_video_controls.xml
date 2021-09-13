@@ -35,6 +35,21 @@
             android:summary="@string/enable_seek_buttons_summary"
             android:title="@string/enable_seek_buttons"
             app:singleLineTitle="false" />
+
+    <org.videolan.vlc.gui.view.NumberPickerPreference
+            app:key="video_jump_delay"
+            app:title="@string/jump_delay"
+            android:dependency="enable_seek_buttons"
+            android:summary="%ss"
+            android:defaultValue="10"/>
+
+    <org.videolan.vlc.gui.view.NumberPickerPreference
+            app:key="video_long_jump_delay"
+            app:title="@string/long_jump_delay"
+            android:dependency="enable_seek_buttons"
+            android:summary="%ss"
+            android:defaultValue="20"/>
+
     <CheckBoxPreference
             android:defaultValue="false"
             android:key="popup_keepscreen"

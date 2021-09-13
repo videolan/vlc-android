@@ -41,7 +41,6 @@ private const val ACTION_SPU_DELAY = 3
 private const val ID_PLAY_AS_AUDIO = 0L
 private const val ID_SLEEP = 1L
 private const val ID_JUMP_TO = 2L
-private const val ID_VIDEO_CONTROLS_SETTING = 3L
 private const val ID_BOOKMARK = 4L
 private const val ID_CHAPTER_TITLE = 5L
 private const val ID_PLAYBACK_SPEED = 6L
@@ -57,6 +56,8 @@ private const val ID_VIDEO_STATS = 15L
 private const val ID_SHOW_VIDEO_TIPS = 16L
 private const val ID_SHOW_AUDIO_TIPS = 17L
 private const val ID_SHOW_PLAYLIST_TIPS = 18L
+private const val ID_VIDEO_CONTROLS_SETTING = 19L
+private const val ID_AUDIO_CONTROLS_SETTING = 20L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
@@ -123,6 +124,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.attr.ic_video_controls, res.getString(R.string.controls_setting)))
                 options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.attr.ic_tips, res.getString(R.string.tips_title)))
             } else {
+            options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.attr.ic_audio_controls, res.getString(R.string.controls_setting)))
                 options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.attr.ic_tips, res.getString(R.string.audio_player_tips)))
                 options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.attr.ic_tips, res.getString(R.string.playlist_tips)))
             }
@@ -216,7 +218,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             ID_VIDEO_CONTROLS_SETTING -> {
                 hide()
                 val videoControlsSettingsDialog = VideoControlsSettingsDialog()
-                videoControlsSettingsDialog.show((activity as VideoPlayerActivity).supportFragmentManager, "fragment_video_controls_settings")
+                videoControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_video_controls_settings")
+            }
+            ID_AUDIO_CONTROLS_SETTING -> {
+                hide()
+                val audioControlsSettingsDialog = AudioControlsSettingsDialog()
+                audioControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_audio_controls_settings")
             }
             else -> showFragment(option.id)
         }

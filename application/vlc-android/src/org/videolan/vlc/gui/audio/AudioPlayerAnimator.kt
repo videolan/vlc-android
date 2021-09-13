@@ -117,6 +117,10 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         showCover = value
     }
 
+    /**
+     * Init the [ConstraintSet]s for the audio player.
+     * It is used to switch between play queue and cover display modes.
+     */
     private fun initConstraintSets() {
         showPlaylistConstraint.clone(cl)
         hidePlaylistConstraint.clone(cl)
@@ -128,7 +132,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_rewind_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_text, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_text, View.VISIBLE)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.BOTTOM)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.TOP)
         headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -139,6 +145,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         hidePlaylistLandscapeConstraint.setVisibility(R.id.track_info_container, View.VISIBLE)
     }
 
+    /**
+     * Updates the player background with or without a blurred cover depending on the user setting
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
@@ -156,6 +165,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                     binding.backgroundView.visibility = View.VISIBLE
                 } else setDefaultBackground()
             }
+        } else {
+            currentCoverArt = null
+            setDefaultBackground()
         }
     }
 

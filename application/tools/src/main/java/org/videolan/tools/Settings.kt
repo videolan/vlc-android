@@ -25,6 +25,11 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var includeMissing = true
     var showHeaders = true
     var showAudioTrackInfo = false
+    var videoJumpDelay = 10
+    var videoLongJumpDelay = 20
+    var audioJumpDelay = 10
+    var audioLongJumpDelay = 20
+    private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
 
@@ -38,7 +43,22 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         showHeaders = prefs.getBoolean(KEY_SHOW_HEADERS, true)
         showAudioTrackInfo = prefs.getBoolean(KEY_SHOW_TRACK_INFO, false)
+        videoJumpDelay = prefs.getInt(KEY_VIDEO_JUMP_DELAY, 10)
+        videoLongJumpDelay = prefs.getInt(KEY_VIDEO_LONG_JUMP_DELAY, 20)
+        audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
+        audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
         return prefs
+    }
+
+    /**
+     * Trigger the [audioControlsChangeListener] to update the UI
+     */
+    fun onAudioControlsChanged() {
+        audioControlsChangeListener?.invoke()
+    }
+
+    fun setAudioControlsChangeListener(listener:() -> Unit) {
+        audioControlsChangeListener = listener
     }
 
     val showTvUi : Boolean
@@ -61,6 +81,10 @@ const val KEY_INCLUDE_MISSING = "include_missing"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
+const val KEY_VIDEO_JUMP_DELAY = "video_jump_delay"
+const val KEY_VIDEO_LONG_JUMP_DELAY = "video_long_jump_delay"
+const val KEY_AUDIO_JUMP_DELAY = "audio_jump_delay"
+const val KEY_AUDIO_LONG_JUMP_DELAY = "audio_long_jump_delay"
 
 
 // AudioPlayer

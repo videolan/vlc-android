@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  PreferencesVideoControls.java
+ *  PreferencesAudioControls.kt
  * **************************************************************************
  *  Copyright © 2016 VLC authors and VideoLAN
  *
@@ -23,33 +23,21 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
-import android.os.Bundle
-import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.resources.AndroidDevices
-import org.videolan.tools.*
+import org.videolan.tools.KEY_AUDIO_JUMP_DELAY
+import org.videolan.tools.KEY_AUDIO_LONG_JUMP_DELAY
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
+class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
-    override fun getXml() = R.xml.preferences_video_controls
+    override fun getXml() = R.xml.preferences_audio_controls
 
     override fun getTitleId() = R.string.controls_prefs_category
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
-        findPreference<Preference>(AUDIO_BOOST)?.isVisible = !AndroidDevices.isAndroidTv
-        findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
-        findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
-        findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
-        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
-    }
 
     override fun onStart() {
         super.onStart()
@@ -65,15 +53,13 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
         when (key) {
-            VIDEO_HUD_TIMEOUT -> {
-                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
+            KEY_AUDIO_JUMP_DELAY -> {
+                Settings.audioJumpDelay = sharedPreferences.getInt(KEY_AUDIO_JUMP_DELAY, 10)
             }
-            KEY_VIDEO_JUMP_DELAY -> {
-                Settings.videoJumpDelay = sharedPreferences.getInt(KEY_VIDEO_JUMP_DELAY, 10)
-            }
-            KEY_VIDEO_LONG_JUMP_DELAY -> {
-                Settings.videoLongJumpDelay = sharedPreferences.getInt(KEY_VIDEO_LONG_JUMP_DELAY, 20)
+            KEY_AUDIO_LONG_JUMP_DELAY -> {
+                Settings.audioLongJumpDelay = sharedPreferences.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
             }
         }
+        Settings.onAudioControlsChanged()
     }
 }

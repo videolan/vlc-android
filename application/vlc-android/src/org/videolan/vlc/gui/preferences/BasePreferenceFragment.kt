@@ -35,6 +35,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.hack.MultiSelectListPreferenceDialogFragmentCompat
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
+import org.videolan.vlc.gui.view.NumberPickerPreference
+import org.videolan.vlc.gui.view.NumberPickerPreferenceDialog
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -66,7 +68,13 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         if (preference is MultiSelectListPreference) {
             val dialogFragment = MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             dialogFragment.setTargetFragment(this, 0)
-            dialogFragment.show(fragmentManager!!, DIALOG_FRAGMENT_TAG)
+            dialogFragment.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
+            return
+        }
+        if (preference is NumberPickerPreference) {
+            val dialog = NumberPickerPreferenceDialog.newInstance(preference.key)
+            dialog.setTargetFragment(this, 0)
+            dialog.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
             return
         }
         super.onDisplayPreferenceDialog(preference)

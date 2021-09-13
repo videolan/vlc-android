@@ -48,6 +48,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.widget_b.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.onEach
@@ -133,6 +134,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer, {
             showChips()
         })
+        Settings.setAudioControlsChangeListener{
+            lifecycleScope.launch {
+                doUpdate()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -303,6 +309,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.songTrackInfo?.text = playlistModel.service?.trackInfo()
         binding.songTrackInfo?.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
 
+        binding.audioRewindText.text = "${Settings.audioJumpDelay}"
+        binding.audioForwardText.text = "${Settings.audioJumpDelay}"
         updateBackground()
     }
 
@@ -431,24 +439,40 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.progress.value?.let { updateProgress(it) }
     }
 
-    fun onRewind10(view: View) {
-        playlistModel.service ?.let { service ->
-            var position = service.getTime() - 10000
-            if (position < 0) position = 0
-            if (position > service.length) position = service.length
-            service.seek(position, service.length.toDouble(), true)
-            if (service.playlistManager.player.lastPosition == 0.0f && service.getTime() > 0)
-                UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
-        }
+    fun onJumpBack(view: View) {
+        jump(forward = false, long = false)
     }
 
-    fun onForward10(view: View) {
+    fun onJumpBackLong(view: View):Boolean {
+        jump(forward = false, long = true)
+        return true
+    }
+
+    fun onJumpForward(view: View) {
+        jump(forward = true, long = false)
+    }
+
+    fun onJumpForwardLong(view: View):Boolean {
+        jump(forward = true, long = true)
+        return true
+    }
+
+    /**
+     * Jump backward or forward, with a long or small delay
+     * depending on the audio control setting chosen by the user
+     *
+     * @param forward is the jump forward?
+     * @param long has it been triggered by a long tap?
+     */
+    private fun jump(forward:Boolean, long:Boolean) {
         playlistModel.service ?.let { service ->
-            var position = service.getTime() + 10000
+            val jumpDelay = if (long) Settings.videoLongJumpDelay else Settings.videoJumpDelay
+            val delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
+            var position = service.getTime() + delay
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
-            if (service.playlistManager.player.lastPosition == 0.0f)
+            if (service.playlistManager.player.lastPosition == 0.0f && (forward || service.getTime() > 0))
                 UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
     }

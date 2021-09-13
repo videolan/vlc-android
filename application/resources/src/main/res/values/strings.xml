@@ -849,6 +849,9 @@
     <string name="network_indexation">Network indexation</string>
     <string name="network_indexation_warning">Network indexation is currently in beta.\nKnown issues:\n• Slow performance\n\nIf you encounter some other issues, please report them on our forum.</string>
     <string name="start_vlc">Start VLC</string>
+    <string name="jump_delay">Forward/backward time delay</string>
+    <string name="long_jump_delay">Long tap forward/backward time delay</string>
+    <string name="jump_delay_summary">%s seconds</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Add duplicated item(s)?</string>

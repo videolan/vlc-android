@@ -1531,8 +1531,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         when (v.id) {
             R.id.orientation_toggle -> toggleOrientation()
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
-            R.id.player_overlay_forward -> touchDelegate.seekDelta(10000)
-            R.id.player_overlay_rewind -> touchDelegate.seekDelta(-10000)
+            R.id.player_overlay_forward -> touchDelegate.seekDelta(Settings.videoJumpDelay * 1000)
+            R.id.player_overlay_rewind -> touchDelegate.seekDelta(-Settings.videoJumpDelay * 1000)
             R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
             R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues()
             R.id.ab_repeat_stop -> service?.playlistManager?.clearABRepeat()
@@ -1568,6 +1568,16 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onLongClick(v: View): Boolean {
+        when (v.id) {
+            R.id.player_overlay_forward -> {
+                touchDelegate.seekDelta(Settings.videoLongJumpDelay * 1000)
+                return true
+            }
+            R.id.player_overlay_rewind -> {
+                touchDelegate.seekDelta(-Settings.videoLongJumpDelay * 1000)
+                return true
+            }
+        }
         return false
     }
 

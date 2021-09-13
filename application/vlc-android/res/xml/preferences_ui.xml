@@ -75,12 +75,6 @@
     <PreferenceCategory
             android:title="@string/audio"
             android:key="ui_audio_category">
-        <CheckBoxPreference
-                app:singleLineTitle="false"
-                android:defaultValue="true"
-                android:key="blurred_cover_background"
-                android:summary="@string/blurred_cover_background_summary"
-                android:title="@string/blurred_cover_background_title"/>
 
         <CheckBoxPreference
                 app:singleLineTitle="false"
