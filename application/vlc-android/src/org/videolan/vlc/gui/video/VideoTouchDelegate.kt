@@ -223,8 +223,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                                 val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
                                 if (BuildConfig.DEBUG) Log.d("VideoTouchDelegate", "Landscape: ${screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE} range: $range eventx: ${event.x}")
                                 when {
-                                    event.x < range / 4f -> seekDelta(-10000)
-                                    event.x > range * 0.75 -> seekDelta(10000)
+                                    event.x < range / 4f -> seekDelta(-org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
+                                    event.x > range * 0.75 -> seekDelta(org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
                                     else -> player.doPlayPause()
                                 }
                             }

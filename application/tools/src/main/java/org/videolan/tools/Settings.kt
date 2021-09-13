@@ -27,6 +27,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showAudioTrackInfo = false
     var videoJumpDelay = 10
     var videoLongJumpDelay = 20
+    var videoDoubleTapJumpDelay = 20
     var audioJumpDelay = 10
     var audioLongJumpDelay = 20
     private var audioControlsChangeListener: (() -> Unit)? = null
@@ -45,6 +46,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showAudioTrackInfo = prefs.getBoolean(KEY_SHOW_TRACK_INFO, false)
         videoJumpDelay = prefs.getInt(KEY_VIDEO_JUMP_DELAY, 10)
         videoLongJumpDelay = prefs.getInt(KEY_VIDEO_LONG_JUMP_DELAY, 20)
+        videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
         return prefs
@@ -83,6 +85,7 @@ const val KEY_INCLUDE_MISSING = "include_missing"
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
 const val KEY_VIDEO_JUMP_DELAY = "video_jump_delay"
 const val KEY_VIDEO_LONG_JUMP_DELAY = "video_long_jump_delay"
+const val KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY = "video_double_tap_jump_delay"
 const val KEY_AUDIO_JUMP_DELAY = "audio_jump_delay"
 const val KEY_AUDIO_LONG_JUMP_DELAY = "audio_long_jump_delay"
 

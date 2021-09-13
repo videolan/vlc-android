@@ -11,61 +11,71 @@
             android:summary="@string/audio_boost_summary"
             android:title="@string/audio_boost_title"
             app:singleLineTitle="false" />
-    <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_volume_gesture"
-            android:summary="@string/enable_volume_gesture_summary"
-            android:title="@string/enable_volume_gesture_title"
-            app:singleLineTitle="false" />
-    <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_brightness_gesture"
-            android:summary="@string/enable_brightness_gesture_summary"
-            android:title="@string/enable_brightness_gesture_title"
-            app:singleLineTitle="false" />
-    <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_double_tap_seek"
-            android:summary="@string/enable_double_tap_seek_summary"
-            android:title="@string/enable_double_tap_seek_title"
-            app:singleLineTitle="false" />
-    <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_seek_buttons"
-            android:summary="@string/enable_seek_buttons_summary"
-            android:title="@string/enable_seek_buttons"
-            app:singleLineTitle="false" />
 
-    <org.videolan.vlc.gui.view.NumberPickerPreference
-            app:key="video_jump_delay"
-            app:title="@string/jump_delay"
-            android:dependency="enable_seek_buttons"
-            android:summary="%ss"
-            android:defaultValue="10"/>
+    <PreferenceCategory android:title="@string/gestures">
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="enable_volume_gesture"
+                android:summary="@string/enable_volume_gesture_summary"
+                android:title="@string/enable_volume_gesture_title"
+                app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="enable_brightness_gesture"
+                android:summary="@string/enable_brightness_gesture_summary"
+                android:title="@string/enable_brightness_gesture_title"
+                app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="enable_double_tap_seek"
+                android:summary="@string/enable_double_tap_seek_summary"
+                android:title="@string/enable_double_tap_seek_title"
+                app:singleLineTitle="false" />
+        <org.videolan.vlc.gui.view.NumberPickerPreference
+                android:defaultValue="10"
+                android:dependency="enable_double_tap_seek"
+                app:key="video_double_tap_jump_delay"
+                app:title="@string/video_double_tap_jump_delay" />
 
-    <org.videolan.vlc.gui.view.NumberPickerPreference
-            app:key="video_long_jump_delay"
-            app:title="@string/long_jump_delay"
-            android:dependency="enable_seek_buttons"
-            android:summary="%ss"
-            android:defaultValue="20"/>
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="popup_keepscreen"
-            android:summary="@string/popup_keepscreen_summary"
-            android:title="@string/popup_keepscreen_title"
-            app:singleLineTitle="false" />
+    <PreferenceCategory android:title="@string/player_controls">
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="enable_seek_buttons"
+                android:summary="@string/enable_seek_buttons_summary"
+                android:title="@string/enable_seek_buttons"
+                app:singleLineTitle="false" />
+
+        <org.videolan.vlc.gui.view.NumberPickerPreference
+                android:defaultValue="10"
+                android:dependency="enable_seek_buttons"
+                app:key="video_jump_delay"
+                app:title="@string/jump_delay" />
+
+        <org.videolan.vlc.gui.view.NumberPickerPreference
+                android:defaultValue="20"
+                android:dependency="enable_seek_buttons"
+                app:key="video_long_jump_delay"
+                app:title="@string/long_jump_delay" />
+
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="popup_keepscreen"
+                android:summary="@string/popup_keepscreen_summary"
+                android:title="@string/popup_keepscreen_title"
+                app:singleLineTitle="false" />
 
 
-    <ListPreference
-            android:defaultValue="2"
-            android:entries="@array/video_hud_timeout_entries"
-            android:entryValues="@array/video_hud_timeout_values"
-            android:key="video_hud_timeout"
-            android:summary="%s"
-            android:title="@string/video_hud_timeout"
-            app:singleLineTitle="false" />
+        <ListPreference
+                android:defaultValue="2"
+                android:entries="@array/video_hud_timeout_entries"
+                android:entryValues="@array/video_hud_timeout_values"
+                android:key="video_hud_timeout"
+                android:summary="%s"
+                android:title="@string/video_hud_timeout"
+                app:singleLineTitle="false" />
+    </PreferenceCategory>
 
 
 </androidx.preference.PreferenceScreen>

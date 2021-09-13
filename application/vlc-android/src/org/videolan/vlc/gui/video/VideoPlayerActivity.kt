@@ -938,11 +938,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
         when (keyCode) {
             KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
-                touchDelegate.seekDelta(10000)
+                touchDelegate.seekDelta(Settings.videoDoubleTapJumpDelay * 1000)
                 return true
             }
             KeyEvent.KEYCODE_MEDIA_REWIND -> {
-                touchDelegate.seekDelta(-10000)
+                touchDelegate.seekDelta(-Settings.videoDoubleTapJumpDelay * 1000)
                 return true
             }
             KeyEvent.KEYCODE_BUTTON_R1 -> {
@@ -1016,7 +1016,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     } else if (event.isCtrlPressed) {
                         touchDelegate.seekDelta(-60000)
                     } else if (fov == 0f)
-                        touchDelegate.seekDelta(-10000)
+                        touchDelegate.seekDelta(-Settings.videoDoubleTapJumpDelay * 1000)
                     else
                         service?.updateViewpoint(-5f, 0f, 0f, 0f, false)
                     return true
@@ -1037,7 +1037,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     } else if (event.isCtrlPressed) {
                         touchDelegate.seekDelta(60000)
                     } else if (fov == 0f)
-                        touchDelegate.seekDelta(10000)
+                        touchDelegate.seekDelta(Settings.videoDoubleTapJumpDelay * 1000)
                     else
                         service?.updateViewpoint(5f, 0f, 0f, 0f, false)
                     return true

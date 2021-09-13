@@ -49,6 +49,8 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
+        findPreference<Preference>(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY)?.title = getString(if (AndroidDevices.isAndroidTv) R.string.video_key_jump_delay else R.string.video_double_tap_jump_delay)
+
     }
 
     override fun onStart() {
@@ -73,6 +75,9 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
             }
             KEY_VIDEO_LONG_JUMP_DELAY -> {
                 Settings.videoLongJumpDelay = sharedPreferences.getInt(KEY_VIDEO_LONG_JUMP_DELAY, 20)
+            }
+            KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY -> {
+                Settings.videoDoubleTapJumpDelay = sharedPreferences.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
             }
         }
     }
