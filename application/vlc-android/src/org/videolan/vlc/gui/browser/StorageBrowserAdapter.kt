@@ -64,7 +64,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             vh.bindingContainer.setItem(storage)
             updateJob?.join()
             if (updateJob?.isCancelled == true) return@launch
-            val hasContextMenu = customDirsLocation.contains(storagePath)
+            val hasContextMenu = customDirsLocation.contains(storagePath) && !multiSelectHelper.inActionMode
             val checked = browserContainer.scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.bindingContainer.setHasContextMenu(hasContextMenu)
             when {
