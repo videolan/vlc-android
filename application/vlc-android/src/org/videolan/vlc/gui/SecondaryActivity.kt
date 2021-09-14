@@ -115,18 +115,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
 
     override fun dialogCanceled(dialog: Dialog?) {}
 
-    override fun forceLoadVideoFragment() {
-        val fragmentId = intent.getStringExtra(KEY_FRAGMENT)
-        fetchSecondaryFragment(fragmentId)
-        if (fragment == null) {
-            finish()
-            return
-        }
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_placeholder, fragment!!)
-            .commit()
-    }
-
     override fun onResume() {
         if (!intent.getBooleanExtra(KEY_ANIMATED, false)) overridePendingTransition(0, 0)
         super.onResume()

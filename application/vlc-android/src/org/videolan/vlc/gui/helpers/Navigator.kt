@@ -125,10 +125,6 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
         showFragment(fragment, id, tag)
     }
 
-    override fun forceLoadVideoFragment() {
-        showFragment(R.id.nav_video)
-    }
-
     private fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id)) {
         val fm = activity.supportFragmentManager
         if (currentFragment is BaseBrowserFragment) fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -317,5 +313,4 @@ interface INavigator {
     fun currentIdIsExtension() : Boolean
     fun displayExtensionItems(extensionId: Int, title: String, items: List<VLCExtensionItem>, showParams: Boolean, refresh: Boolean)
     fun reloadPreferences()
-    fun forceLoadVideoFragment()
 }

@@ -163,7 +163,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
                 val displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true)
                 settings.putSingle(KEY_VIDEOS_CARDS, !displayInCards)
-                (activity as ContentActivity).forceLoadVideoFragment()
+                updateViewMode()
             }
             R.id.video_min_group_length_disable -> {
                 settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NONE)
