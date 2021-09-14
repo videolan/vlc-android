@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +67,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     var isListMode = false
     var dataType = VideoGroupingType.NONE
-    private var gridCardWidth = 0
     val showFilename = ObservableBoolean(false)
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
@@ -90,9 +90,13 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     val all: List<MediaLibraryItem>
         get() = currentList?.snapshot() ?: emptyList()
 
+    override fun getItemViewType(position: Int): Int {
+        return if (isListMode) 0 else 1
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (isListMode) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (viewType == 0) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Creating View Holder with list: $isListMode")
         return ViewHolder(binding)
     }
 
@@ -186,10 +190,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         holder.binding.setVariable(BR.inSelection, multiSelectHelper.inActionMode)
     }
 
-
-    fun setGridCardWidth(gridCardWidth: Int) {
-        this.gridCardWidth = gridCardWidth
-    }
 
     override fun getItemId(position: Int) = 0L
 

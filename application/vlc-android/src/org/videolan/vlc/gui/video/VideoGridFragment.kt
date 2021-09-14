@@ -285,14 +285,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val margin = binding.videoGrid.paddingStart + binding.videoGrid.paddingEnd
             val columnWidth = binding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin) - res.getDimensionPixelSize(R.dimen.left_right_1610_margin) * 2
             binding.videoGrid.columnWidth = columnWidth
-            videoListAdapter.setGridCardWidth(binding.videoGrid.columnWidth)
             binding.videoGrid.addItemDecoration(gridItemDecoration!!)
             binding.videoGrid.setPadding(4.dp, 4.dp, 4.dp, 4.dp)
         } else {
             binding.videoGrid.setPadding(0, 0, 0, 0)
         }
         binding.videoGrid.setNumColumns(if (listMode) 1 else -1)
-        if (videoListAdapter.isListMode != listMode) videoListAdapter.isListMode = listMode
+        videoListAdapter.isListMode = listMode
     }
 
     override fun onFabPlayClick(view: View) {
