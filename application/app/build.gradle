@@ -154,26 +154,26 @@ dependencies {
     implementation project(':application:television')
     testImplementation project(':application:television')
 
-    androidTestApi "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestApi "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestApi "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    testApi "junit:junit:$rootProject.ext.junitVersion"
-    androidTestApi "androidx.room:room-testing:$rootProject.ext.roomVersion"
-    testApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.orchestrator"
-    testApi "androidx.test:core:$rootProject.ext.testCore"
-    testApi "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
-    testApi "org.mockito:mockito-core:$rootProject.ext.mockito"
-    testApi "io.mockk:mockk:$rootProject.ext.mockk"
-    testApi "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
-    testApi "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
-    testApi "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
-    testApi "org.robolectric:robolectric:$rootProject.ext.robolectric"
-    androidTestApi "com.android.support:multidex:1.0.3"
+    testImplementation "androidx.test:core:$rootProject.ext.testCore"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
+    testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
+    testImplementation "io.mockk:mockk:$rootProject.ext.mockk"
+    testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
+    testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
+    testImplementation "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
+    testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric"
+    androidTestImplementation "com.android.support:multidex:1.0.3"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
-    androidTestApi 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation 'com.jraska:falcon:2.2.0'
     androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
 }

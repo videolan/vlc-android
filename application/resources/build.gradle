@@ -13,8 +13,6 @@ android {
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
@@ -66,8 +64,8 @@ dependencies {
     api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
 
     api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
-    testApi "androidx.test:core:$rootProject.ext.testCore"
-    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    testImplementation "androidx.test:core:$rootProject.ext.testCore"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
 }
 repositories {
     mavenCentral()

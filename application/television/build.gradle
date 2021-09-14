@@ -22,8 +22,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -45,6 +43,6 @@ android {
 dependencies {
     implementation project(':application:vlc-android')
     api project(':application:moviepedia')
-    testApi "androidx.test:core:$rootProject.ext.testCore"
-    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    testImplementation "androidx.test:core:$rootProject.ext.testCore"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
 }

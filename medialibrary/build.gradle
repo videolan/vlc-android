@@ -21,7 +21,6 @@
  *  ***************************************************************************
  */
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "com.vanniktech.maven.publish"
 
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
@@ -41,8 +40,6 @@ android {
 
     sourceSets {
         main {
-            jni.srcDirs = []
-            // Prevent gradle from building native code with ndk; we have our own Makefile for it.
             jniLibs.srcDir 'jni/libs' // Where generated .so files are placed.
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
