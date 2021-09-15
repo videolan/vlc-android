@@ -289,7 +289,9 @@ private suspend fun MediaWrapper.artUri() : Uri {
     if (!isThumbnailGenerated) {
         withContext(Dispatchers.IO) { ThumbnailsProvider.getVideoThumbnail(this@artUri, 512) }
     }
-    val resourceUri = "android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}".toUri()
+
+    val resourceUri = "android.resource://${BuildConfig.APP_ID}/${R.drawable.tv_channel_default}".toUri()
+
     val mrl = artworkMrl ?: return resourceUri
     return try {
         getFileUri(mrl)
