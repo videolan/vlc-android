@@ -217,7 +217,7 @@
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
                 android:scaleType="center"
-                android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.GONE}"
+                android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
