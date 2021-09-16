@@ -129,10 +129,10 @@
     <string name="shuffle">Blanda av</string>
     <string name="shuffle_on">Blanda på</string>
     <string name="shuffle_play">Blanda</string>
-    <string name="repeat_title">Slingaläge</string>
-    <string name="repeat">Slinga ingen</string>
-    <string name="repeat_single">Slinga en</string>
-    <string name="repeat_all">Slinga alla</string>
+    <string name="repeat_title">Upprepningsläge</string>
+    <string name="repeat">Upprepa ingen</string>
+    <string name="repeat_single">Upprepa en</string>
+    <string name="repeat_all">Upprepa alla</string>
     <string name="previous">Föregående</string>
     <string name="stop">Stoppa</string>
     <string name="firstsong">Första låten i spellistan</string>
@@ -221,7 +221,7 @@
     <string name="aspect_ratio">Bildförhållande</string>
     <string name="aspect_ratio_description">Tryck för att ändra videons bildförhållande</string>
     <string name="advanced_options">Avancerade alternativ</string>
-    <string name="advanced_options_description">T.ex. uppspelningshastighet, slingaläge, …</string>
+    <string name="advanced_options_description">T.ex. uppspelningshastighet, upprepningsläge, …</string>
     <string name="tips_swipe">Svep uppåt eller nedåt</string>
     <string name="tips_swipe_horizontal">Svep åt vänster eller höger</string>
     <string name="tips_playlist">Spellista</string>
@@ -583,9 +583,9 @@
     <string name="cast_option_title">Casta media på en annan skärm</string>
     <string name="otg_device_title">OTG-enhet</string>
     <string name="browser">Filbläddrare</string>
-    <string name="ab_repeat">Slinga A-B</string>
-    <string name="ab_repeat_reset">Nollställ A-B-slinga</string>
-    <string name="ab_repeat_stop">Stoppa A-B-slinga</string>
+    <string name="ab_repeat">Upprepa A-B</string>
+    <string name="ab_repeat_reset">Nollställ A-B-upprepning</string>
+    <string name="ab_repeat_stop">Stoppa A-B-upprepning</string>
     <string name="stop_after_this">Stoppa efter detta spår</string>
     <string name="time_category_new">Ny media</string>
     <string name="time_category_current_month">Denna månad</string>
