@@ -959,8 +959,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                         bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, ctx.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512))
                 }
             }
-            bob.putLong("shuffle", 1L)
-            bob.putLong("repeat", repeatType.toLong())
             return@withContext bob.build()
         }
         if (this@PlaybackService::mediaSession.isInitialized) mediaSession.setMetadata(bob)
@@ -998,8 +996,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-        if (isSeekable)
-            actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
         if (playlistManager.canRepeat()) {
             actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
             val repeatResId = when (repeatType) {
@@ -1007,7 +1003,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_auto_repeat_one_pressed
                 else -> R.drawable.ic_auto_repeat_normal
             }
-            pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)
+            pscb.addCustomAction("${BuildConfig.APP_ID}.repeat", getString(R.string.repeat_title), repeatResId)
         }
         if (playlistManager.canShuffle()) {
             actions = actions or PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE
@@ -1015,7 +1011,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 isShuffling -> R.drawable.ic_auto_shuffle_enabled
                 else -> R.drawable.ic_auto_shuffle_disabled
             }
-            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), shuffleResId)
+            pscb.addCustomAction("${BuildConfig.APP_ID}.shuffle", getString(R.string.shuffle_title), shuffleResId)
+        }
+        if (isSeekable) {
+            actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
+            pscb.addCustomAction("${BuildConfig.APP_ID}.rewind", getString(R.string.playback_rewind), R.drawable.ic_auto_rewind_10)
+            pscb.addCustomAction("${BuildConfig.APP_ID}.fast_forward", getString(R.string.playback_forward), R.drawable.ic_auto_forward_10)
         }
         pscb.setActions(actions)
         mediaSession.setRepeatMode(repeatType)
