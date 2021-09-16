@@ -992,11 +992,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         pscb.setState(state, time, playlistManager.player.getRate())
         pscb.setActiveQueueItemId(playlistManager.currentIndex.toLong())
         val repeatType = playlistManager.repeating
+        val podcastMode = playlistManager.getMediaListSize() == 1 && playlistManager.getCurrentMedia()?.isPodcast == true
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasNext())
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-        if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || isSeekable)
+        if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || (isSeekable && !podcastMode))
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-        if (playlistManager.canRepeat()) {
+        if (playlistManager.canRepeat() && !podcastMode) {
             actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
             val repeatResId = when (repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_auto_repeat_pressed
@@ -1022,8 +1023,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         mediaSession.setRepeatMode(repeatType)
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
         mediaSession.setExtras(Bundle().apply {
-            putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, true)
-            putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, true)
+            putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, !podcastMode)
+            putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, !podcastMode)
         })
         val mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED
         val update = mediaSession.isActive != mediaIsActive
