@@ -254,7 +254,7 @@
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
@@ -322,7 +322,7 @@
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
@@ -475,7 +475,7 @@
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
