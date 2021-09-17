@@ -129,7 +129,7 @@
             <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_speed_white" />
+                    android:src="@drawable/ic_speed" />
 
             <TextView
                     android:id="@+id/playback_speed_quick_action_text"

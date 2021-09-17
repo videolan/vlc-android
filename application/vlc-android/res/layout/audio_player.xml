@@ -312,7 +312,7 @@
                         android:onClick="onClick"
                         android:textColor="?attr/audio_chips_text_color"
                         app:chipBackgroundColor="?attr/audio_chips_color"
-                        app:chipIcon="@drawable/ic_speed_on"
+                        app:chipIcon="@drawable/ic_speed"
                         app:chipIconTint="?attr/audio_chips_text_color"
                         app:iconStartPadding="8dp"
                         tools:text="1.25x" />

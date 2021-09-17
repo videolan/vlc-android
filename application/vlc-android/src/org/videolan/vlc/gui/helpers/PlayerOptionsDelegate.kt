@@ -318,7 +318,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_speed_normal_style))
         } else {
             binding.optionTitle.text = service.rate.formatRateString()
-            binding.optionIcon.setImageResource(R.drawable.ic_speed_on)
+            binding.optionIcon.setImageResource(R.drawable.ic_speed)
         }
     }
 

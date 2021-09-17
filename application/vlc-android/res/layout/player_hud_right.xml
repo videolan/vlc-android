@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="onClick"
                         app:chipBackgroundColor="@color/playerbackground"
-                        app:chipIcon="@drawable/ic_speed_on"
+                        app:chipIcon="@drawable/ic_speed"
                         app:chipIconTint="@color/white"
                         app:iconStartPadding="8dp"
                         tools:text="1.25x" />
