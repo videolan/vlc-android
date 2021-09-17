@@ -58,7 +58,7 @@ platform :android do
   desc "Deploy a new version to the Google Play"
   lane :deploy_release do |options|
     checkAPKFileExists options[:version], false
-    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_screenshots:true, release_status:"draft", apk_paths:getFileList(options[:version]))
+    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, skip_upload_images:true, skip_upload_screenshots:true, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new draft for '+options[:version])
   end
 
@@ -72,19 +72,19 @@ platform :android do
   end
 
   lane :deploy_screenshots do
-    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft")
+    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft")
     slack(message: 'Successfully uploaded screenshots to Play Store')
   end
 
   lane :deploy_beta do |options|
     checkAPKFileExists options[:version], false
-    upload_to_play_store(skip_upload_changelogs:true, track: 'beta', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
+    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, track: 'beta', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new beta draft for '+options[:version])
   end
 
   lane :deploy_internal do |options|
     checkAPKFileExists options[:version], false
-    upload_to_play_store(skip_upload_changelogs:true, track: 'internal', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
+    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, track: 'internal', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new internal draft for '+options[:version])
   end
 
