@@ -250,7 +250,7 @@
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
@@ -318,7 +318,7 @@
         <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
@@ -471,7 +471,7 @@
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>

@@ -163,7 +163,7 @@
             <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_sleep_white" />
+                    android:src="@drawable/ic_sleep" />
 
             <TextView
                     android:id="@+id/sleep_quick_action_text"

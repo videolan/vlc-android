@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="onClick"
                         app:chipBackgroundColor="@color/playerbackground"
-                        app:chipIcon="@drawable/ic_sleep_w"
+                        app:chipIcon="@drawable/ic_sleep"
                         app:chipIconTint="@color/white"
                         app:iconStartPadding="8dp"
                         tools:text="12h55AM" />

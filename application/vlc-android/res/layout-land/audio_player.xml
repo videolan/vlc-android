@@ -186,7 +186,7 @@
                         android:onClick="onClick"
                         android:textColor="?attr/audio_chips_text_color"
                         app:chipBackgroundColor="?attr/audio_chips_color"
-                        app:chipIcon="@drawable/ic_sleep_w"
+                        app:chipIcon="@drawable/ic_sleep"
                         app:chipIconTint="?attr/audio_chips_text_color"
                         app:iconStartPadding="8dp"
                         tools:text="12h55AM" />
