@@ -121,10 +121,18 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
         }
     }
 
-    suspend fun rename(bookmark: Bookmark, name: String) {
-        withContext(Dispatchers.IO) {
-            bookmark.setName(name)
+    suspend fun rename(bookmark: Bookmark, name: String) : List<Bookmark> {
+        var bookmarks: List<Bookmark> = listOf()
+        service?.currentMediaWrapper?.let {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    bookmark.setName(name)
+                    bookmarks = it.bookmarks.toList()
+                    bookmarks[bookmarks.indexOf(bookmark)].setName(name)
+                }
+            }
         }
-        refresh()
+        return bookmarks
     }
+
 }

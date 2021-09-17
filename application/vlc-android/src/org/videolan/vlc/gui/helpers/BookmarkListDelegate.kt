@@ -139,7 +139,9 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
                     dialog.show(activity.supportFragmentManager, RenameDialog::class.simpleName)
                     dialog.setListener { media, name ->
                         activity.lifecycleScope.launch {
-                            bookmarkModel.rename(media as Bookmark, name)
+                            val bookmarks = bookmarkModel.rename(media as Bookmark, name)
+                            adapter.update(bookmarks)
+                            bookmarkModel.refresh()
                         }
                     }
                     true
