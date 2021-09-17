@@ -246,8 +246,8 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
-        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
+        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
@@ -468,7 +468,7 @@
 
         <item name="background_default">@color/grey850</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>

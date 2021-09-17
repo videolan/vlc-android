@@ -1,45 +1,76 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" height="24"
-        id="svg4682" version="1.1" inkscape:version="0.91 r13725"
-        sodipodi:docname="ic_playasaudio_off_normal.svg"
-        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
-    <defs id="defs4684" />
-    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
-            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="22.4"
-            inkscape:cx="11.414383" inkscape:cy="15.548271" inkscape:document-units="px"
-            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
-            inkscape:window-height="1056" inkscape:window-x="1920" inkscape:window-y="24"
-            inkscape:window-maximized="1" inkscape:snap-global="true" inkscape:snap-bbox="true"
-            inkscape:bbox-paths="true" inkscape:bbox-nodes="true"
-            inkscape:snap-bbox-edge-midpoints="true" inkscape:snap-bbox-midpoints="true"
-            inkscape:object-paths="true" inkscape:snap-intersection-paths="true"
-            inkscape:object-nodes="true" inkscape:snap-smooth-nodes="true"
-            inkscape:snap-midpoints="true" inkscape:snap-object-midpoints="true"
-            inkscape:snap-center="true">
-        <inkscape:grid type="xygrid" id="grid3002" />
-    </sodipodi:namedview>
-    <metadata id="metadata4687">
-        <rdf:RDF>
-            <cc:Work rdf:about="">
-                <dc:format>image/svg+xml</dc:format>
-                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                <dc:title></dc:title>
-            </cc:Work>
-        </rdf:RDF>
-    </metadata>
-    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
-            transform="translate(0,-1028.3622)">
-        <g id="g5269"
-                style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
-                transform="translate(-64,740.00002)" />
-        <path style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"
-                d="m 6,1034.3622 c -1.108,0 -2,0.892 -2,2 l 0,8 c 0,1.108 0.892,2 2,2 l 12,0 c 1.108,0 2,-0.892 2,-2 l 0,-8 c 0,-1.108 -0.892,-2 -2,-2 l -12,0 z m 0,2 12,0 0,8 -12,0 0,-8 z m 4.5,1.5 0,5 4,-2.5 -4,-2.5 z"
-                id="rect5297" inkscape:connector-curvature="0" />
-    </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48.0px"
+   height="48.0px"
+   viewBox="0 0 48.0 48.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_playasaudio_off.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
+  <defs
+     id="defs3529" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="8"
+     inkscape:cx="27.583707"
+     inkscape:cy="20.278789"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     inkscape:window-width="1514"
+     inkscape:window-height="968"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:snap-page="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-center="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4099" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3532">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path6626"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       d="M 8 8 C 5.784 8 4 9.784 4 12 L 4 36 C 4 38.216 5.784 40 8 40 L 40 40 C 42.216 40 44 38.216 44 36 L 44 12 C 44 9.784 42.216 8 40 8 L 8 8 z M 8 12 L 40 12 L 40 36 L 8 36 L 8 12 z M 20 17 C 19.447738 17.000055 19.000055 17.447738 19 18 L 19 30 C 18.999825 30.798464 19.879943 31.271266 20.554688 30.832031 L 29.554688 24.832031 C 30.148274 24.436148 30.148274 23.563852 29.554688 23.167969 L 20.554688 17.167969 C 20.390424 17.058458 20.197422 17.000014 20 17 z " />
+  </g>
 </svg>
