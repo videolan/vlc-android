@@ -107,8 +107,8 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
                 options.add(PlayerOption(ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
             if (primary)
-            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
                 options.add(PlayerOption(ID_REPEAT, R.drawable.ic_repeat_48dp, res.getString(R.string.repeat_title)))
+            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_shuffle_48dp, res.getString(R.string.shuffle_title)))
             options.add(PlayerOption(ID_VIDEO_STATS, R.attr.ic_video_stats, res.getString(R.string.video_information)))
         }
         val chaptersCount = service.getChapters(-1)?.size ?: 0
@@ -297,13 +297,13 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     }
 
     private fun setShuffle() {
-        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
+        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle_48dp)
     }
 
     private fun initShuffle(binding: PlayerOptionItemBinding) {
         shuffleBinding = binding
         AppScope.launch(Dispatchers.Main) {
-            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
+            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle_48dp)
         }
     }
 
