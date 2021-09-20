@@ -149,7 +149,7 @@
     <string name="shuffle_play">Premešaj</string>
     <string name="repeat_title">Način ponavljanja</string>
     <string name="repeat">Ne ponavljaj</string>
-    <string name="repeat_single">Ponovi trenutno</string>
+    <string name="repeat_single">Ponovi eno</string>
     <string name="repeat_all">Ponovi vse</string>
     <string name="previous">Predhodni</string>
     <string name="stop">Zaustavi</string>
@@ -241,7 +241,7 @@
     <string name="aspect_ratio">Razmerje slike</string>
     <string name="aspect_ratio_description">Tapnite za spremembo razmerja slike</string>
     <string name="advanced_options">Napredne možnosti</string>
-    <string name="advanced_options_description">Kot so hitrost predvajanja, ponavljanje, ...</string>
+    <string name="advanced_options_description">Kot so hitrost predvajanja, načina ponavljanja, ...</string>
     <string name="tips_swipe">Potegnite gor ali dol</string>
     <string name="tips_swipe_horizontal">Potegnite levo ali desno</string>
     <string name="tips_playlist">Seznam predvajanja</string>
@@ -603,7 +603,7 @@
     <string name="cast_option_title">Predvajaj vsebine na drugem zaslonu</string>
     <string name="otg_device_title">Naprava OTG</string>
     <string name="browser">Brskalnik</string>
-    <string name="ab_repeat">Ponavajanje A-B</string>
+    <string name="ab_repeat">Ponavljanje A-B</string>
     <string name="ab_repeat_reset">Ponastavi A-B ponavljanje</string>
     <string name="ab_repeat_stop">Zaustavi A-B ponavljanje</string>
     <string name="stop_after_this">Zaustavi po tem posnetku</string>
@@ -820,7 +820,7 @@
     <string name="timeout_short">Kratko</string>
     <string name="timeout_normal">Navadno</string>
     <string name="timeout_long">Dolgo</string>
-    <string name="video_hud_timeout">Zamik pred skritjem upravljalnika za predvajanje</string>
+    <string name="video_hud_timeout">Čas preden se nadzorne tipke predvajanja skrijejo</string>
     <string name="remove_from_history">Odstrani iz zgodovine</string>
     <string name="prefersmbv1">Prednost za SMB 1</string>
     <string name="prefersmbv1_summary">Izklopite to možnost, če imate težave z brskanjem po SMB strežniku</string>
