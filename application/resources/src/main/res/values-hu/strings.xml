@@ -811,7 +811,7 @@
     <string name="soundfont_summary">Válasszon egy SoundFont fájlt a MIDI hangsávok lejátszásához</string>
     <string name="missing_media_snack">Hiányzik a média. Elrejti az összes hiányzó médiát?</string>
     <string name="browser_show_missing_media">Hiányzó médiák mutatása</string>
-    <string name="browser_show_missing_media_summary">Mutasson távoli médiákat, még akkor is, ha nincsenek jelen</string>
+    <string name="browser_show_missing_media_summary">Távoli médiák megjelenítése, még akkor is, ha nincsenek jelen</string>
     <string name="search_prefs">Keresési beállítások</string>
     <string name="preferred_resolution">Előnyben részesített videófelbontás</string>
     <string name="preferred_resolution_summary">A közvetítések maximális videóminősége, ha alkalmazható, legyen: %s</string>
@@ -822,7 +822,7 @@
     <string name="add_to_existing_playlist">Hozzáadás a meglévő lejátszási listához</string>
     <string name="bookmarks_title">Könyvjelzők</string>
     <string name="no_bookmark">Még nincsenek könyvjelzők</string>
-    <string name="bookmark_name">Könyvjelző %s</string>
+    <string name="bookmark_name">%s könyvjelzőzése</string>
     <string name="optional_features">Opcionális szolgáltatások</string>
     <string name="optional_features_summary">Béta funkciók, melyek jelenleg tesztelés alatt állnak, és nem biztos, hogy stabilak</string>
     <string name="optional_features_warning">Ez a funkció béta állapotú és összeomlást vagy instabilitást okozhat</string>
