@@ -86,5 +86,10 @@
                 android:tint="@color/grey50" />
 
         <include layout="@layout/audioplayercontainer" />
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/audio_player_tips"
+                android:layout="@layout/audio_player_tips"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
