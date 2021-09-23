@@ -420,6 +420,8 @@
                 <data android:pathPattern=".*.PLS" />
                 <data android:pathPattern=".*.ram" />
                 <data android:pathPattern=".*.RAM" />
+                <data android:pathPattern=".*.wpl" />
+                <data android:pathPattern=".*.WPL" />
                 <data android:pathPattern=".*.xspf" />
                 <data android:pathPattern=".*.XSPF" />
             </intent-filter>
