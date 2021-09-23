@@ -7,77 +7,57 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   enable-background="new 0 0 24 24"
-   height="24px"
-   viewBox="0 0 24 24"
-   width="24px"
-   fill="#000000"
+   width="48.0px"
+   height="48.0px"
+   viewBox="0 0 48.0 48.0"
    version="1.1"
-   id="svg16"
+   id="SVGRoot"
    sodipodi:docname="ic_video_controls.svg"
-   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
+  <defs
+     id="defs3853" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.839192"
+     inkscape:cx="32.715179"
+     inkscape:cy="40.169908"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4423" />
+  </sodipodi:namedview>
   <metadata
-     id="metadata22">
+     id="metadata3856">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs20" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="2560"
-     inkscape:window-height="1376"
-     id="namedview18"
-     showgrid="true"
-     inkscape:zoom="55.625733"
-     inkscape:cx="10.870288"
-     inkscape:cy="12.817025"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="g14">
-    <inkscape:grid
-       type="xygrid"
-       id="grid840" />
-  </sodipodi:namedview>
   <g
-     id="g4">
-    <rect
-       fill="none"
-       height="24"
-       width="24"
-       id="rect2" />
-  </g>
-  <g
-     id="g14">
-    <g
-       id="g12"
-       transform="matrix(0.72727273,0,0,0.72727273,3.2727273,3.2849999)">
-      <path
-         d="m 3,6 h 18 v 5 h 2 V 6 C 23,4.9 22.1,4 21,4 H 3 C 1.9,4 1,4.9 1,6 v 12 c 0,1.1 0.9,2 2,2 h 9 V 18 H 3 Z"
-         id="path6"
-         inkscape:connector-curvature="0" />
-      <polygon
-         points="9,8 9,16 15,12 "
-         id="polygon8" />
-      <path
-         d="m 22.71,18.43 c 0.03,-0.29 0.04,-0.58 0.01,-0.86 l 1.07,-0.85 c 0.1,-0.08 0.12,-0.21 0.06,-0.32 L 22.82,14.61 C 22.76,14.5 22.63,14.46 22.51,14.5 L 21.23,15 C 21,14.83 20.75,14.69 20.48,14.58 l -0.2,-1.36 C 20.26,13.09 20.16,13 20.03,13 h -2.07 c -0.12,0 -0.23,0.09 -0.25,0.21 l -0.2,1.36 c -0.26,0.11 -0.51,0.26 -0.74,0.42 l -1.28,-0.5 c -0.12,-0.05 -0.25,0 -0.31,0.11 l -1.03,1.79 c -0.06,0.11 -0.04,0.24 0.06,0.32 l 1.07,0.86 c -0.03,0.29 -0.04,0.58 -0.01,0.86 l -1.07,0.85 c -0.1,0.08 -0.12,0.21 -0.06,0.32 l 1.03,1.79 c 0.06,0.11 0.19,0.15 0.31,0.11 L 16.75,21 c 0.23,0.17 0.48,0.31 0.75,0.42 l 0.2,1.36 c 0.02,0.12 0.12,0.21 0.25,0.21 h 2.07 c 0.12,0 0.23,-0.09 0.25,-0.21 l 0.2,-1.36 c 0.26,-0.11 0.51,-0.26 0.74,-0.42 l 1.28,0.5 c 0.12,0.05 0.25,0 0.31,-0.11 l 1.03,-1.79 c 0.06,-0.11 0.04,-0.24 -0.06,-0.32 z M 19,19.5 c -0.83,0 -1.5,-0.67 -1.5,-1.5 0,-0.83 0.67,-1.5 1.5,-1.5 0.83,0 1.5,0.67 1.5,1.5 0,0.83 -0.67,1.5 -1.5,1.5 z"
-         id="path10"
-         inkscape:connector-curvature="0" />
-    </g>
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect3843"
+       style="color:#000000;overflow:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 8 8 C 5.784 8 4 9.784 4 12 L 4 36 C 4 38.216 5.784 40 8 40 L 24 40 L 24 36 L 8 36 L 8 12 L 40 12 L 40 20 L 44 20 L 44 12 C 44 9.784 42.216 8 40 8 L 8 8 z M 20 17 C 19.447738 17.000055 19.000055 17.447738 19 18 L 19 30 C 18.999419 30.798475 19.866316 31.271312 20.554688 30.832031 L 29.554688 24.832031 C 30.148274 24.436148 30.148274 23.563852 29.554688 23.167969 L 20.554688 17.167969 C 20.390424 17.058458 20.197422 17.000014 20 17 z M 36 26 L 35.691406 28.46875 C 35.218506 28.668586 34.780153 28.931542 34.376953 29.240234 L 32.072266 28.267578 L 30.072266 31.732422 L 32.054688 33.234375 C 32.021987 33.4858 32 33.740299 32 34 C 32 34.259701 32.021687 34.5142 32.054688 34.765625 L 30.072266 36.267578 L 32.072266 39.732422 L 34.376953 38.759766 C 34.780153 39.068458 35.218506 39.331414 35.691406 39.53125 L 36 42 L 40 42 L 40.308594 39.53125 C 40.781494 39.331414 41.219847 39.068458 41.623047 38.759766 L 43.927734 39.732422 L 45.927734 36.267578 L 43.945312 34.765625 C 43.978013 34.5142 44 34.259701 44 34 C 44 33.740299 43.978312 33.4858 43.945312 33.234375 L 45.927734 31.732422 L 43.927734 28.267578 L 41.623047 29.240234 C 41.219847 28.931542 40.781494 28.668586 40.308594 28.46875 L 40 26 L 36 26 z M 38 32 C 39.1283 32 40 32.871741 40 34 C 40 35.128259 39.1283 36 38 36 C 36.8717 36 36 35.128259 36 34 C 36 32.871741 36.8717 32 38 32 z " />
   </g>
 </svg>
