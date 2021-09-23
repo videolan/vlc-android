@@ -89,6 +89,7 @@
         <item name="ic_tips">@drawable/ic_show_tips</item>
         <item name="ic_videotips">@drawable/ic_videotips</item>
         <item name="ic_audiotips">@drawable/ic_audiotips</item>
+        <item name="ic_playlisttips">@drawable/ic_playlisttips</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap_500</item>
         <item name="ic_tips_tap">@drawable/tips_tap_500</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
@@ -256,6 +257,7 @@
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_videotips">@drawable/ic_videotips</item>
         <item name="ic_audiotips">@drawable/ic_audiotips</item>
+        <item name="ic_playlisttips">@drawable/ic_playlisttips</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
@@ -326,6 +328,7 @@
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_videotips">@drawable/ic_videotips</item>
         <item name="ic_audiotips">@drawable/ic_audiotips</item>
+        <item name="ic_playlisttips">@drawable/ic_playlisttips</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
@@ -481,6 +484,7 @@
         <item name="ic_tips">@drawable/ic_show_tips_w</item>
         <item name="ic_videotips">@drawable/ic_videotips</item>
         <item name="ic_audiotips">@drawable/ic_audiotips</item>
+        <item name="ic_playlisttips">@drawable/ic_playlisttips</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>

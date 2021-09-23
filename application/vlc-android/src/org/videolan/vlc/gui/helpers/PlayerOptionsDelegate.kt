@@ -126,7 +126,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             } else {
             options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.attr.ic_audio_controls, res.getString(R.string.controls_setting)))
             options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.attr.ic_audiotips, res.getString(R.string.audio_player_tips)))
-                options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.attr.ic_tips, res.getString(R.string.playlist_tips)))
+            options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.attr.ic_playlisttips, res.getString(R.string.playlist_tips)))
             }
         }
     }
