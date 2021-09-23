@@ -80,7 +80,7 @@
     <attr name="ic_playlist" format="reference" />
     <attr name="ic_playlist_on" format="reference" />
     <attr name="ic_menu_search" format="reference" />
-    <attr name="ic_save" format="reference" />
+    <attr name="ic_addtoplaylist" format="reference" />
     <attr name="gridview_progressbar" format="reference" />
     <attr name="toolbar_popup_style" format="reference" />
     <attr name="progress_mini_player" format="reference" />
