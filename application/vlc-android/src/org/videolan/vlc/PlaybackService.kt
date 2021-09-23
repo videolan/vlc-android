@@ -66,6 +66,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
@@ -1188,6 +1189,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     }
                 } catch (e: java.lang.NullPointerException) {
                     Log.e("PlaybackService", "Caught NullPointerException", e)
+                    VLCCrashHandler.saveLog(e)
                 }
             }
             artworkToUriCache.clear()

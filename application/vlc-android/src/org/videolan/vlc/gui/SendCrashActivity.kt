@@ -99,7 +99,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 try {
                     val folder = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
                     File(folder).listFiles().forEach {
-                        if (it.isFile && it.name.contains("crash")) filesToAdd.add(it.path)
+                        if (it.isFile && (it.name.contains("crash") || it.name.contains("logcat"))) filesToAdd.add(it.path)
                     }
                 } catch (exception: IOException) {
 
