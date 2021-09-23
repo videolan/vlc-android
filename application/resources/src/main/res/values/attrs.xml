@@ -107,6 +107,7 @@
     <attr name="dialog_circle_background" format="reference"/>
     <attr name="ic_tips" format="reference"/>
     <attr name="ic_videotips" format="reference"/>
+    <attr name="ic_audiotips" format="reference"/>
     <attr name="ic_tips_double_tap" format="reference"/>
     <attr name="ic_tips_tap" format="reference"/>
 
