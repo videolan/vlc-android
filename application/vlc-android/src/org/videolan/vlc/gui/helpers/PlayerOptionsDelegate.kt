@@ -122,7 +122,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (!Settings.showTvUi) {
             if (video) {
             options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.attr.ic_video_controls, res.getString(R.string.controls_setting)))
-                options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.attr.ic_tips, res.getString(R.string.tips_title)))
+            options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.attr.ic_videotips, res.getString(R.string.tips_title)))
             } else {
             options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.attr.ic_audio_controls, res.getString(R.string.controls_setting)))
                 options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.attr.ic_tips, res.getString(R.string.audio_player_tips)))
