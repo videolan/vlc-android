@@ -1179,10 +1179,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         artworkMap = HashMap<String, Uri>().also {
             val artworkToUriCache = HashMap<String, Uri>()
             for (media in playlistManager.getMediaList()) {
-                if (!media.artworkMrl.isNullOrEmpty() && isPathValid(media.artworkMrl)) {
-                    val artworkUri = artworkToUriCache.getOrPut(media.artworkMrl, { ArtworkProvider.buildMediaUri(media) } )
-                    val key = MediaSessionBrowser.generateMediaId(media)
-                    it[key] = artworkUri
+                try {
+                    val artworkMrl = media.artworkMrl
+                    if (!artworkMrl.isNullOrEmpty() && isPathValid(artworkMrl)) {
+                        val artworkUri = artworkToUriCache.getOrPut(artworkMrl, { ArtworkProvider.buildMediaUri(media) } )
+                        val key = MediaSessionBrowser.generateMediaId(media)
+                        it[key] = artworkUri
+                    }
+                } catch (e: java.lang.NullPointerException) {
+                    Log.e("PlaybackService", "Caught NullPointerException", e)
                 }
             }
             artworkToUriCache.clear()
