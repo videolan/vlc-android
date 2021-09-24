@@ -264,7 +264,7 @@
         <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
-        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_video_stats">@drawable/ic_video_stats</item>
@@ -336,7 +336,7 @@
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
         <item name="ic_addtoplaylist">@drawable/ic_addtoplaylist</item>
-        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="colorControlNormal">@color/grey700</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="background_default">@color/grey850</item>
@@ -491,7 +491,7 @@
         <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
         <item name="ic_bookmark_normal_style">@drawable/ic_bookmark</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
-        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_addtoplaylist">@drawable/ic_addtoplaylist</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
