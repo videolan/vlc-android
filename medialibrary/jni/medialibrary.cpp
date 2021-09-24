@@ -288,15 +288,15 @@ lastMediaPLayed(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::MediaPtr> mediaPlayed = aml->lastMediaPlayed();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaPlayed.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(mediaPlayed.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaPlayed) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+        env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
         if (item == nullptr)
             ++drops;
     }
-    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( mediaRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jboolean
@@ -338,15 +338,15 @@ getInternalVideos(JNIEnv* env, jobject thiz, const medialibrary::QueryParameters
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const auto query = aml->videoFiles(params);
     std::vector<medialibrary::MediaPtr> videoFiles = nbItems != 0 ? query->items(nbItems, offset) : query->all();
-    jobjectArray videoRefs = (jobjectArray) env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray videoRefs{ env, (jobjectArray) env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : videoFiles) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(videoRefs, ++index, item.get());
+        env->SetObjectArrayElement(videoRefs.get(), ++index, item.get());
         if (item == nullptr)
             ++drops;
     }
-    return filteredArray(env, videoRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( videoRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jobjectArray
@@ -382,15 +382,15 @@ getInternalAudio(JNIEnv* env, jobject thiz, const medialibrary::QueryParameters*
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const auto query = aml->audioFiles(params);
     std::vector<medialibrary::MediaPtr> audioFiles = nbItems != 0 ? query->items(nbItems, offset) : query->all();
-    jobjectArray audioRefs = (jobjectArray) env->NewObjectArray(audioFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray audioRefs{ env, (jobjectArray) env->NewObjectArray(audioFiles.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : audioFiles) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(audioRefs, ++index, item.get());
+        env->SetObjectArrayElement(audioRefs.get(), ++index, item.get());
         if (item == nullptr)
             ++drops;
     }
-    return filteredArray(env, audioRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( audioRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jobjectArray
@@ -967,14 +967,14 @@ getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
     const auto query = aml->tracksFromAlbum(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> tracks = query->all();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(tracks.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(tracks.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : tracks) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+        env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
         if (item == nullptr) ++drops;
     }
-    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( mediaRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jint
@@ -1043,14 +1043,14 @@ getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
     const auto query = aml->mediaFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+        env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
         if (item == nullptr) ++drops;
     }
-    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( mediaRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jobjectArray
@@ -1179,15 +1179,15 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jbo
     const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+        env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
         if (item == nullptr)
             ++drops;
     }
-    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( mediaRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jobjectArray
@@ -1373,14 +1373,14 @@ getBookmarks(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
     const auto query = media->bookmarks(nullptr);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Bookmark.clazz, NULL);
     std::vector<medialibrary::BookmarkPtr> bookmarks = query->all();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(bookmarks.size(), ml_fields.Bookmark.clazz, NULL);
+    utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(bookmarks.size(), ml_fields.Bookmark.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::BookmarkPtr const& bookmark : bookmarks) {
         auto item = convertBookmarkObject(env, &ml_fields, bookmark);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+        env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
         if (item == nullptr) ++drops;
     }
-    return filteredArray(env, mediaRefs, ml_fields.Bookmark.clazz, drops);
+    return filteredArray(env, std::move( mediaRefs ), ml_fields.Bookmark.clazz, drops).release();
 }
 
 jobject
@@ -1536,15 +1536,15 @@ getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
     const auto query = aml->mediaFromPlaylist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
+    utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
         auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+        env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
         if (item == nullptr)
             ++drops;
     }
-    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
+    return filteredArray(env, std::move( mediaRefs ), ml_fields.MediaWrapper.clazz, drops).release();
 }
 
 jobjectArray

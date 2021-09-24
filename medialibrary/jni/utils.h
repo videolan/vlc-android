@@ -134,6 +134,7 @@ private:
 
 using string = localref<jstring>;
 using object = localref<jobject>;
+using objectArray = localref<jobjectArray>;
 
 }
 }
@@ -237,7 +238,7 @@ utils::jni::object convertFolderObject(JNIEnv* env, fields *fields, medialibrary
 utils::jni::object convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr);
 utils::jni::object convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr);
 utils::jni::object convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing);
-jobjectArray filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount = -1);
+utils::jni::objectArray filteredArray(JNIEnv* env, utils::jni::objectArray array, jclass clazz, int removalCount = -1);
 jlongArray idArray(JNIEnv* env, std::set<int64_t> ids);
 utils::jni::string vlcNewStringUTF(JNIEnv* env, const char* psz_string);
 

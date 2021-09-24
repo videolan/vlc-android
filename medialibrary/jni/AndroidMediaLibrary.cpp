@@ -682,15 +682,15 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
         JNIEnv *env = getEnv();
         if (env == NULL /*|| env->IsSameObject(weak_thiz, NULL)*/)
             return;
-        jobjectArray mediaRefs, results;
+        utils::jni::objectArray mediaRefs;
         int index;
         if ((m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO)) == 0)
         {
             index = 0;
-            mediaRefs = (jobjectArray) env->NewObjectArray(0, p_fields->MediaWrapper.clazz, NULL);
+            mediaRefs = utils::jni::objectArray{ env, (jobjectArray) env->NewObjectArray(0, p_fields->MediaWrapper.clazz, NULL) };
         } else
         {
-            mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), p_fields->MediaWrapper.clazz, NULL);
+            mediaRefs = utils::jni::objectArray{ env, (jobjectArray) env->NewObjectArray(mediaList.size(), p_fields->MediaWrapper.clazz, NULL) };
             index = -1;
             for (medialibrary::MediaPtr const& media : mediaList) {
                 medialibrary::IMedia::Type type = media->type();
@@ -700,7 +700,7 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
                 {
                     item = mediaToMediaWrapper(env, p_fields, media);
                 }
-                env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+                env->SetObjectArrayElement(mediaRefs.get(), ++index, item.get());
             }
         }
 
@@ -708,11 +708,9 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
         {
             if (weak_thiz)
             {
-                results = filteredArray(env, mediaRefs, p_fields->MediaWrapper.clazz, -1);
-                env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaAddedId, results);
-                env->DeleteLocalRef(results);
-            } else
-                env->DeleteLocalRef(mediaRefs);
+                auto results = filteredArray(env, std::move( mediaRefs ), p_fields->MediaWrapper.clazz, -1);
+                env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaAddedId, results.get());
+            }
         }
     }
 }
