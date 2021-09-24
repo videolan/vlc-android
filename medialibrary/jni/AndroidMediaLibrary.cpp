@@ -735,7 +735,7 @@ void AndroidMediaLibrary::onMediaDeleted( std::set<int64_t> ids )
     {
         JNIEnv *env = getEnv();
         if (env != NULL && weak_thiz) {
-            auto results = idArray(env, ids);
+            auto results = idArray(env, std::move(ids));
             env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaDeletedId, results.get());
         }
     }
@@ -747,7 +747,7 @@ void AndroidMediaLibrary::onMediaConvertedToExternal( std::set<int64_t> ids )
     {
         JNIEnv *env = getEnv();
         if (env != NULL && weak_thiz) {
-            auto results = idArray(env, ids);
+            auto results = idArray(env, std::move(ids));
             env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaConvertedToExternalId, results.get());
         }
     }
