@@ -3,14 +3,14 @@
 #define LOG_TAG "VLC/JNI/Utils"
 #include "log.h"
 
-jobject
+utils::jni::object
 mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& mediaPtr)
 {
     if (mediaPtr == nullptr)
-        return nullptr;
+        return {};
     const std::vector<medialibrary::FilePtr> files = mediaPtr->files();
     if (files.empty())
-        return nullptr;
+        return {};
     //TODO get track, audio & spu track numbers
     jint type;
     switch (mediaPtr->type()) {
@@ -58,7 +58,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     try {
         mrl = vlcNewStringUTF(env, files.at(0)->mrl().c_str());
     } catch(const medialibrary::fs::errors::DeviceRemoved&) {
-        return nullptr;
+        return {};
     }
     auto thumbnailStr = mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail);
     if (!thumbnailStr.empty())
@@ -70,16 +70,16 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     int64_t duration = mediaPtr->duration();
 
     auto hasThumbnail = mediaPtr->thumbnailStatus(medialibrary::ThumbnailSizeType::Thumbnail) == medialibrary::ThumbnailStatus::Available;
-    jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
+    return { env, env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl.get(), (jlong) mediaPtr->lastTime(), (jfloat) mediaPtr->lastPosition(), (jlong) duration, type,
                           title.get(), filename.get(), artist.get(), genre.get(), album.get(),
                           albumArtist.get(), width, height, thumbnail.get(),
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
-                          (jlong) mediaPtr->playCount(), hasThumbnail, mediaPtr->releaseDate(), isPresent);
-    return item;
+                          (jlong) mediaPtr->playCount(), hasThumbnail, mediaPtr->releaseDate(), isPresent)
+    };
 }
 
-jobject
+utils::jni::object
 convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr)
 {
     auto title = vlcNewStringUTF(env, albumPtr->title().c_str());
@@ -89,35 +89,35 @@ convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& al
     utils::jni::string artistName;
     if ( artist != nullptr )
         artistName = vlcNewStringUTF(env, artist->name().c_str());
-    jobject item = env->NewObject(fields->Album.clazz, fields->Album.initID,
+    return utils::jni::object{ env, env->NewObject(fields->Album.clazz, fields->Album.initID,
                           (jlong) albumPtr->id(), title.get(), albumPtr->releaseYear(),
-                                  thumbnailMrl.get(), artistName.get(), albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration());
-    return item;
+                                  thumbnailMrl.get(), artistName.get(), albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration())
+    };
 }
 
-jobject
+utils::jni::object
 convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr)
 {
     auto name = vlcNewStringUTF(env, artistPtr->name().c_str());
     auto thumbnailMrl = vlcNewStringUTF(env, artistPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
     auto shortBio = vlcNewStringUTF(env, artistPtr->shortBio().c_str());
     auto musicBrainzId = vlcNewStringUTF(env, artistPtr->musicBrainzId().c_str());
-    jobject item = env->NewObject(fields->Artist.clazz, fields->Artist.initID,
+    return utils::jni::object{ env, env->NewObject(fields->Artist.clazz, fields->Artist.initID,
                           (jlong) artistPtr->id(), name.get(), shortBio.get(), thumbnailMrl.get(),
-                                  musicBrainzId.get(), (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks());
-    return item;
+                                  musicBrainzId.get(), (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks())
+    };
 }
 
-jobject
+utils::jni::object
 convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr)
 {
     auto name = vlcNewStringUTF(env, genrePtr->name().c_str());
-    jobject item = env->NewObject(fields->Genre.clazz, fields->Genre.initID,
-                          (jlong) genrePtr->id(), name.get(), (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks());
-    return item;
+    return utils::jni::object{ env, env->NewObject(fields->Genre.clazz, fields->Genre.initID,
+                          (jlong) genrePtr->id(), name.get(), (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks())
+    };
 }
 
-jobject
+utils::jni::object
 convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr, jboolean includeMissing)
 {
     auto name = vlcNewStringUTF(env, playlistPtr->name().c_str());
@@ -126,41 +126,41 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
            false,
            static_cast<bool>( includeMissing )
         };
-    jobject item = env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count());
-    return item;
+    return utils::jni::object{ env, env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
+                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count())
+    };
 }
 
-jobject
+utils::jni::object
 convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count)
 {
     auto name = vlcNewStringUTF(env, folderPtr->name().c_str());
     auto mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
-    jobject item = env->NewObject(fields->Folder.clazz, fields->Folder.initID,
-                          (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count);
-    return item;
+    return utils::jni::object{ env, env->NewObject(fields->Folder.clazz, fields->Folder.initID,
+                          (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count)
+    };
 }
 
-jobject
+utils::jni::object
 convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr)
 {
     auto name = vlcNewStringUTF(env, videogroupPtr->name().c_str());
-    jobject item = env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo());
-    return item;
+    return utils::jni::object{ env, env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
+                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo())
+    };
 }
 
-jobject
+utils::jni::object
 convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr)
 {
     auto name = vlcNewStringUTF(env, bookmarkPtr->name().c_str());
     auto description = vlcNewStringUTF(env, bookmarkPtr->description().c_str());
-    jobject item = env->NewObject(fields->Bookmark.clazz, fields->Bookmark.initID,
-                          (jlong) bookmarkPtr->id(), name.get(), description.get(), (jlong) bookmarkPtr->mediaId(), (jlong) bookmarkPtr->time());
-    return item;
+    return utils::jni::object{ env, env->NewObject(fields->Bookmark.clazz, fields->Bookmark.initID,
+                          (jlong) bookmarkPtr->id(), name.get(), description.get(), (jlong) bookmarkPtr->mediaId(), (jlong) bookmarkPtr->time())
+    };
 }
 
-jobject
+utils::jni::object
 convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing)
 {
     //Albums
@@ -169,9 +169,8 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
     if (searchAggregatePtr.albums != nullptr) {
         albums = (jobjectArray) env->NewObjectArray(searchAggregatePtr.albums->count(), fields->Album.clazz, NULL);
         for(medialibrary::AlbumPtr const& album : searchAggregatePtr.albums->all()) {
-            jobject item = convertAlbumObject(env, fields, album);
-            env->SetObjectArrayElement(albums, ++index, item);
-            env->DeleteLocalRef(item);
+            auto item = convertAlbumObject(env, fields, album);
+            env->SetObjectArrayElement(albums, ++index, item.get());
         }
     }
     //Artists
@@ -180,9 +179,8 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         index = -1;
         artists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.artists->count(), fields->Artist.clazz, NULL);
         for(medialibrary::ArtistPtr const& artist : searchAggregatePtr.artists->all()) {
-            jobject item = convertArtistObject(env, fields, artist);
-            env->SetObjectArrayElement(artists, ++index, item);
-            env->DeleteLocalRef(item);
+            auto item = convertArtistObject(env, fields, artist);
+            env->SetObjectArrayElement(artists, ++index, item.get());
         }
     }
     //Genres
@@ -191,9 +189,8 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         index = -1;
         genres = (jobjectArray) env->NewObjectArray(searchAggregatePtr.genres->count(), fields->Genre.clazz, NULL);
         for(medialibrary::GenrePtr const& genre : searchAggregatePtr.genres->all()) {
-            jobject item = convertGenreObject(env, fields, genre);
-            env->SetObjectArrayElement(genres, ++index, item);
-            env->DeleteLocalRef(item);
+            auto item = convertGenreObject(env, fields, genre);
+            env->SetObjectArrayElement(genres, ++index, item.get());
         }
     }
     //Playlists
@@ -202,9 +199,8 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         index = -1;
         playlists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.playlists->count(), fields->Playlist.clazz, NULL);
         for(medialibrary::PlaylistPtr const& playlist : searchAggregatePtr.playlists->all()) {
-            jobject item = convertPlaylistObject(env, fields, playlist, includeMissing);
-            env->SetObjectArrayElement(playlists, ++index, item);
-            env->DeleteLocalRef(item);
+            auto item = convertPlaylistObject(env, fields, playlist, includeMissing);
+            env->SetObjectArrayElement(playlists, ++index, item.get());
         }
     }
     //Media
@@ -220,20 +216,19 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         videoList = (jobjectArray) env->NewObjectArray(videos.size(), fields->MediaWrapper.clazz, NULL);
         index = -1;
         for(medialibrary::MediaPtr const& media : videos) {
-            jobject item = mediaToMediaWrapper(env, fields, media);
-            env->SetObjectArrayElement(videoList, ++index, item);
-            env->DeleteLocalRef(item);
+            auto item = mediaToMediaWrapper(env, fields, media);
+            env->SetObjectArrayElement(videoList, ++index, item.get());
         }
         tracksList = (jobjectArray) env->NewObjectArray(tracks.size(), fields->MediaWrapper.clazz, NULL);
         index = -1;
         for(medialibrary::MediaPtr const& media : tracks) {
-            jobject item = mediaToMediaWrapper(env, fields, media);
-            env->SetObjectArrayElement(tracksList, ++index, item);
-            env->DeleteLocalRef(item);
+            auto item = mediaToMediaWrapper(env, fields, media);
+            env->SetObjectArrayElement(tracksList, ++index, item.get());
         }
     }
-    return env->NewObject(fields->SearchAggregate.clazz, fields->SearchAggregate.initID,
-                          albums, artists, genres, videoList, tracksList, playlists);
+    return { env, env->NewObject(fields->SearchAggregate.clazz, fields->SearchAggregate.initID,
+                          albums, artists, genres, videoList, tracksList, playlists)
+    };
 }
 
 jlongArray
@@ -261,10 +256,9 @@ filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount)
         size = env->GetArrayLength(array);
         for (int i = 0; i<size; ++i)
         {
-            jobject item = env->GetObjectArrayElement(array, i);
+            utils::jni::object item{ env, env->GetObjectArrayElement(array, i) };
             if (item == nullptr)
                 ++removalCount;
-            env->DeleteLocalRef(item);
         }
     }
     if (removalCount == 0)
@@ -274,13 +268,12 @@ filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount)
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(size-removalCount, clazz, NULL);
     for (int i = 0; i<size; ++i)
     {
-        jobject item = env->GetObjectArrayElement(array, i);
+        utils::jni::object item{ env, env->GetObjectArrayElement(array, i) };
         if (item != nullptr)
         {
-            env->SetObjectArrayElement(mediaRefs, ++index, item);
+            env->SetObjectArrayElement(mediaRefs, ++index, item.get());
             --removalCount;
         }
-        env->DeleteLocalRef(item);
     }
     env->DeleteLocalRef(array);
     return mediaRefs;

@@ -692,17 +692,15 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
         {
             mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), p_fields->MediaWrapper.clazz, NULL);
             index = -1;
-            jobject item;
             for (medialibrary::MediaPtr const& media : mediaList) {
                 medialibrary::IMedia::Type type = media->type();
+                utils::jni::object item;
                 if ((type == medialibrary::IMedia::Type::Audio && m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO) ||
                         (type == medialibrary::IMedia::Type::Video && m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO))
+                {
                     item = mediaToMediaWrapper(env, p_fields, media);
-                else
-                    item = nullptr;
-                env->SetObjectArrayElement(mediaRefs, ++index, item);
-                if (item != nullptr)
-                    env->DeleteLocalRef(item);
+                }
+                env->SetObjectArrayElement(mediaRefs, ++index, item.get());
             }
         }
 

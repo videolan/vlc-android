@@ -133,6 +133,7 @@ private:
 };
 
 using string = localref<jstring>;
+using object = localref<jobject>;
 
 }
 }
@@ -227,15 +228,15 @@ struct fields {
     } Bookmark;
 };
 
-jobject mediaToMediaWrapper(JNIEnv*, fields*, const medialibrary::MediaPtr &);
-jobject convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr);
-jobject convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr);
-jobject convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr);
-jobject convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr, jboolean includeMissing);
-jobject convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count);
-jobject convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr);
-jobject convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr);
-jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing);
+utils::jni::object mediaToMediaWrapper(JNIEnv*, fields*, const medialibrary::MediaPtr &);
+utils::jni::object convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr);
+utils::jni::object convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr);
+utils::jni::object convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr);
+utils::jni::object convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr, jboolean includeMissing);
+utils::jni::object convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count);
+utils::jni::object convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr);
+utils::jni::object convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr);
+utils::jni::object convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing);
 jobjectArray filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount = -1);
 jlongArray idArray(JNIEnv* env, std::set<int64_t> ids);
 utils::jni::string vlcNewStringUTF(JNIEnv* env, const char* psz_string);
