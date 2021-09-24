@@ -190,7 +190,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             binding.buttonShuffle.setImageResource(if (shuffling)
                 R.drawable.ic_shuffle_on
             else
-                R.drawable.ic_shuffle)
+                R.drawable.ic_shuffle_audio)
             if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
             currentCoverArt = mw.artworkMrl
             updateBackground()
@@ -324,14 +324,14 @@ class AudioPlayerActivity : BaseTvActivity() {
     private fun updateRepeatMode() {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
             }
         }
     }
@@ -340,15 +340,15 @@ class AudioPlayerActivity : BaseTvActivity() {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
             }
         }
     }

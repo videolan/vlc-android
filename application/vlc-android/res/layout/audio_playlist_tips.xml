@@ -172,7 +172,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/pl_tips_play_pause"
-            app:srcCompat="@drawable/ic_shuffle"
+            app:srcCompat="@drawable/ic_shuffle_audio"
             tools:visibility="visible" />
 
     <ImageView
@@ -252,7 +252,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/pl_tips_next"
             app:layout_constraintTop_toTopOf="@+id/pl_tips_play_pause"
-            app:srcCompat="@drawable/ic_repeat"
+            app:srcCompat="@drawable/ic_repeat_audio"
             tools:visibility="visible" />
 
     <SeekBar

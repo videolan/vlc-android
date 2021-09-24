@@ -107,8 +107,8 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
                 options.add(PlayerOption(ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
             if (primary)
-                options.add(PlayerOption(ID_REPEAT, R.drawable.ic_repeat_48dp, res.getString(R.string.repeat_title)))
-            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_shuffle_48dp, res.getString(R.string.shuffle_title)))
+                options.add(PlayerOption(ID_REPEAT, R.drawable.ic_repeat, res.getString(R.string.repeat_title)))
+            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
             options.add(PlayerOption(ID_VIDEO_STATS, R.attr.ic_video_stats, res.getString(R.string.video_information)))
         }
         val chaptersCount = service.getChapters(-1)?.size ?: 0
@@ -279,31 +279,31 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     private fun setRepeatMode() {
         when (service.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one_48dp)
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> if (service.hasPlaylist()) {
-                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all_48dp)
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
             } else {
-                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_48dp)
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_48dp)
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
             }
         }
     }
 
     private fun setShuffle() {
-        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle_48dp)
+        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
     }
 
     private fun initShuffle(binding: PlayerOptionItemBinding) {
         shuffleBinding = binding
         AppScope.launch(Dispatchers.Main) {
-            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle_48dp)
+            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
         }
     }
 
@@ -342,9 +342,9 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
             repeatBinding.optionIcon.setImageResource(when (service.repeatType) {
-                PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_repeat_one_48dp
-                PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_repeat_all_48dp
-                else -> R.drawable.ic_repeat_48dp
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_repeat_one
+                PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_repeat_all
+                else -> R.drawable.ic_repeat
             })
         }
     }

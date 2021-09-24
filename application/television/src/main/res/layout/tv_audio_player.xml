@@ -255,8 +255,8 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@+id/media_progress"
                 app:layout_constraintTop_toTopOf="@+id/button_previous"
-                app:srcCompat="@drawable/ic_shuffle"
-                tools:src="@drawable/ic_shuffle" />
+                app:srcCompat="@drawable/ic_shuffle_audio"
+                tools:src="@drawable/ic_shuffle_audio" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_previous"
@@ -334,8 +334,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/media_progress"
                 app:layout_constraintStart_toEndOf="@+id/button_next"
                 app:layout_constraintTop_toTopOf="@+id/button_next"
-                app:srcCompat="@drawable/ic_repeat"
-                tools:src="@drawable/ic_repeat" />
+                app:srcCompat="@drawable/ic_repeat_audio"
+                tools:src="@drawable/ic_repeat_audio" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_more"

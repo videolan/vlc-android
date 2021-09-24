@@ -529,7 +529,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
-                app:srcCompat="@drawable/ic_shuffle" />
+                app:srcCompat="@drawable/ic_shuffle_audio" />
 
         <ImageView
                 android:id="@+id/previous"
@@ -605,7 +605,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/next"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
-                app:srcCompat="@drawable/ic_repeat" />
+                app:srcCompat="@drawable/ic_repeat_audio" />
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_options_stub"
