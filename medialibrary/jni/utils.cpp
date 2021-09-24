@@ -25,7 +25,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         break;
     }
     medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
-    jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL, filename = NULL;
+    utils::jni::string artist, genre, album, albumArtist, mrl, title, thumbnail, filename;
     jint trackNumber = 0, discNumber = 0;
 
     const bool isPresent = mediaPtr->isPresent();
@@ -71,118 +71,92 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
 
     auto hasThumbnail = mediaPtr->thumbnailStatus(medialibrary::ThumbnailSizeType::Thumbnail) == medialibrary::ThumbnailStatus::Available;
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
-                          (jlong) mediaPtr->id(), mrl, (jlong) mediaPtr->lastTime(), (jfloat) mediaPtr->lastPosition(), (jlong) duration, type,
-                          title, filename, artist, genre, album,
-                          albumArtist, width, height, thumbnail,
+                          (jlong) mediaPtr->id(), mrl.get(), (jlong) mediaPtr->lastTime(), (jfloat) mediaPtr->lastPosition(), (jlong) duration, type,
+                          title.get(), filename.get(), artist.get(), genre.get(), album.get(),
+                          albumArtist.get(), width, height, thumbnail.get(),
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
                           (jlong) mediaPtr->playCount(), hasThumbnail, mediaPtr->releaseDate(), isPresent);
-    if (artist != NULL)
-        env->DeleteLocalRef(artist);
-    if (genre != NULL)
-        env->DeleteLocalRef(genre);
-    if (album != NULL)
-        env->DeleteLocalRef(album);
-    if (albumArtist != NULL)
-        env->DeleteLocalRef(albumArtist);
-    if (title != NULL)
-        env->DeleteLocalRef(title);
-    if (mrl != NULL)
-        env->DeleteLocalRef(mrl);
-    if (thumbnail != NULL)
-        env->DeleteLocalRef(thumbnail);
-    if (filename != NULL)
-        env->DeleteLocalRef(filename);
     return item;
 }
 
 jobject
 convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr)
 {
-    jstring title = vlcNewStringUTF(env, albumPtr->title().c_str());
-    jstring thumbnailMrl = vlcNewStringUTF(env, albumPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
+    auto title = vlcNewStringUTF(env, albumPtr->title().c_str());
+    auto thumbnailMrl = vlcNewStringUTF(env, albumPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
     medialibrary::ArtistPtr artist = albumPtr->albumArtist();
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
-    jstring artistName = artist != nullptr ? vlcNewStringUTF(env, artist->name().c_str()) : NULL;
+    utils::jni::string artistName;
+    if ( artist != nullptr )
+        artistName = vlcNewStringUTF(env, artist->name().c_str());
     jobject item = env->NewObject(fields->Album.clazz, fields->Album.initID,
-                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration());
-    env->DeleteLocalRef(title);
-    env->DeleteLocalRef(thumbnailMrl);
-    env->DeleteLocalRef(artistName);
+                          (jlong) albumPtr->id(), title.get(), albumPtr->releaseYear(),
+                                  thumbnailMrl.get(), artistName.get(), albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration());
     return item;
 }
 
 jobject
 convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr)
 {
-    jstring name = vlcNewStringUTF(env, artistPtr->name().c_str());
-    jstring thumbnailMrl = vlcNewStringUTF(env, artistPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
-    jstring shortBio = vlcNewStringUTF(env, artistPtr->shortBio().c_str());
-    jstring musicBrainzId = vlcNewStringUTF(env, artistPtr->musicBrainzId().c_str());
+    auto name = vlcNewStringUTF(env, artistPtr->name().c_str());
+    auto thumbnailMrl = vlcNewStringUTF(env, artistPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
+    auto shortBio = vlcNewStringUTF(env, artistPtr->shortBio().c_str());
+    auto musicBrainzId = vlcNewStringUTF(env, artistPtr->musicBrainzId().c_str());
     jobject item = env->NewObject(fields->Artist.clazz, fields->Artist.initID,
-                          (jlong) artistPtr->id(), name, shortBio, thumbnailMrl, musicBrainzId, (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks());
-    env->DeleteLocalRef(name);
-    env->DeleteLocalRef(thumbnailMrl);
-    env->DeleteLocalRef(shortBio);
-    env->DeleteLocalRef(musicBrainzId);
+                          (jlong) artistPtr->id(), name.get(), shortBio.get(), thumbnailMrl.get(),
+                                  musicBrainzId.get(), (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks());
     return item;
 }
 
 jobject
 convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr)
 {
-    jstring name = vlcNewStringUTF(env, genrePtr->name().c_str());
+    auto name = vlcNewStringUTF(env, genrePtr->name().c_str());
     jobject item = env->NewObject(fields->Genre.clazz, fields->Genre.initID,
-                          (jlong) genrePtr->id(), name, (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks());
-    env->DeleteLocalRef(name);
+                          (jlong) genrePtr->id(), name.get(), (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks());
     return item;
 }
 
 jobject
 convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr, jboolean includeMissing)
 {
-    jstring name = vlcNewStringUTF(env, playlistPtr->name().c_str());
+    auto name = vlcNewStringUTF(env, playlistPtr->name().c_str());
      medialibrary::QueryParameters params {
            medialibrary::SortingCriteria::Default,
            false,
            static_cast<bool>( includeMissing )
         };
     jobject item = env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name, (jint)playlistPtr->media(&params)->count());
-    env->DeleteLocalRef(name);
+                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count());
     return item;
 }
 
 jobject
 convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count)
 {
-    jstring name = vlcNewStringUTF(env, folderPtr->name().c_str());
-    jstring mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
+    auto name = vlcNewStringUTF(env, folderPtr->name().c_str());
+    auto mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
     jobject item = env->NewObject(fields->Folder.clazz, fields->Folder.initID,
-                          (jlong) folderPtr->id(), name, mrl, (jint) count);
-    env->DeleteLocalRef(name);
-    env->DeleteLocalRef(mrl);
+                          (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count);
     return item;
 }
 
 jobject
 convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr)
 {
-    jstring name = vlcNewStringUTF(env, videogroupPtr->name().c_str());
+    auto name = vlcNewStringUTF(env, videogroupPtr->name().c_str());
     jobject item = env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          (jlong) videogroupPtr->id(), name, (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo());
-    env->DeleteLocalRef(name);
+                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo());
     return item;
 }
 
 jobject
 convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr)
 {
-    jstring name = vlcNewStringUTF(env, bookmarkPtr->name().c_str());
-    jstring description = vlcNewStringUTF(env, bookmarkPtr->description().c_str());
+    auto name = vlcNewStringUTF(env, bookmarkPtr->name().c_str());
+    auto description = vlcNewStringUTF(env, bookmarkPtr->description().c_str());
     jobject item = env->NewObject(fields->Bookmark.clazz, fields->Bookmark.initID,
-                          (jlong) bookmarkPtr->id(), name, description, (jlong) bookmarkPtr->mediaId(), (jlong) bookmarkPtr->time());
-    env->DeleteLocalRef(name);
-    env->DeleteLocalRef(description);
+                          (jlong) bookmarkPtr->id(), name.get(), description.get(), (jlong) bookmarkPtr->mediaId(), (jlong) bookmarkPtr->time());
     return item;
 }
 
@@ -312,7 +286,7 @@ filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount)
     return mediaRefs;
 }
 
-jstring
+utils::jni::string
 vlcNewStringUTF(JNIEnv* env, const char* psz_string)
 {
     for (int i = 0 ; psz_string[i] != '\0' ; ) {
@@ -328,15 +302,15 @@ vlcNewStringUTF(JNIEnv* env, const char* psz_string)
             nbBytes = 3;
         else {
             LOGE("Invalid UTF lead character\n");
-            return NULL;
+            return {};
         }
         for (int j = 0 ; j < nbBytes && psz_string[i] != '\0' ; j++) {
             uint8_t byte = psz_string[i++];
             if ((byte & 0x80) == 0) {
                 LOGE("Invalid UTF byte\n");
-                return NULL;
+                return {};
             }
         }
     }
-    return env->NewStringUTF(psz_string);
+    return utils::jni::string{ env, env->NewStringUTF(psz_string) };
 }

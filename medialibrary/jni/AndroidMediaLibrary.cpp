@@ -927,13 +927,11 @@ void AndroidMediaLibrary::onDiscoveryProgress( const std::string& entryPoint )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryProgressId, ep);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryProgressId, ep.get());
     }
-    env->DeleteLocalRef(ep);
-
 }
 
 void AndroidMediaLibrary::onDiscoveryCompleted()
@@ -953,48 +951,44 @@ void AndroidMediaLibrary::onDiscoveryFailed(const std::string &entryPoint)
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryFailedId, ep);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryFailedId, ep.get());
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onReloadStarted( const std::string& entryPoint )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadStartedId, ep);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadStartedId, ep.get());
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadCompletedId, ep);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadCompletedId, ep.get());
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointBanned( const std::string& entryPoint, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointBannedId, ep, success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointBannedId, ep.get(), success);
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, bool success )
@@ -1002,36 +996,33 @@ void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, b
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointUnbannedId, ep, success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointUnbannedId, ep.get(), success);
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointAdded( const std::string& entryPoint, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointAddedId, ep, success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointAddedId, ep.get(), success);
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    jstring ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointRemovedId, ep, success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointRemovedId, ep.get(), success);
     }
-    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t opsDone, uint32_t opsScheduled )
@@ -1113,18 +1104,17 @@ void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, m
     if (env != NULL && weak_thiz)
     {
         auto item = mediaToMediaWrapper(env, p_fields, media);
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaThumbnailReadyId, item, success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaThumbnailReadyId, item.get(), success);
     }
 }
 
 bool AndroidMediaLibrary::onUnhandledException( const char* context, const char* errMsg, bool clearSuggested )
 {
     JNIEnv *env = getEnv();
-    jstring ctx = vlcNewStringUTF(env, context);
-    jstring msg = vlcNewStringUTF(env, errMsg);
-    env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onUnhandledExceptionId, ctx, msg, clearSuggested);
-    env->DeleteLocalRef(ctx);
-    env->DeleteLocalRef(msg);
+    auto ctx = vlcNewStringUTF(env, context);
+    auto msg = vlcNewStringUTF(env, errMsg);
+    env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onUnhandledExceptionId,
+                        ctx.get(), msg.get(), clearSuggested);
     return true;
 }
 

@@ -132,9 +132,8 @@ devices(JNIEnv* env, jobject thiz)
     jobjectArray deviceRefs = (jobjectArray) env->NewObjectArray(devices.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for(auto device : devices) {
-        jstring path = vlcNewStringUTF(env, std::get<1>(device).c_str());
-        env->SetObjectArrayElement(deviceRefs, ++index, path);
-        env->DeleteLocalRef(path);
+        auto path = vlcNewStringUTF(env, std::get<1>(device).c_str());
+        env->SetObjectArrayElement(deviceRefs, ++index, path.get());
     }
     return deviceRefs;
 }
@@ -190,9 +189,8 @@ entryPoints(JNIEnv* env, jobject thiz)
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mrls.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for( const std::string& m : mrls ) {
-        jstring mrl = vlcNewStringUTF(env, m.c_str());
-        env->SetObjectArrayElement(mediaRefs, ++index, mrl);
-        env->DeleteLocalRef(mrl);
+        auto mrl = vlcNewStringUTF(env, m.c_str());
+        env->SetObjectArrayElement(mediaRefs, ++index, mrl.get());
     }
     return mediaRefs;
 }
@@ -1493,7 +1491,9 @@ getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return 0L;
     const medialibrary::IMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
-    return metadata.isSet() ? vlcNewStringUTF(env, metadata.asStr().c_str()) : nullptr;
+    if (!metadata.isSet())
+        return nullptr;
+    return vlcNewStringUTF(env, metadata.asStr().c_str()).release();
 }
 
 void
@@ -1961,7 +1961,7 @@ groupRemoveId(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong m
 jstring
 groupName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
-    return vlcNewStringUTF(env, MediaLibrary_getInstance(env, medialibrary)->groupName(id).c_str());
+    return vlcNewStringUTF(env, MediaLibrary_getInstance(env, medialibrary)->groupName(id).c_str()).release();
 }
 
 jboolean
