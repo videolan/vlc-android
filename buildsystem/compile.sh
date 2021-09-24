@@ -47,6 +47,7 @@ check_patch_is_applied()
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
 
 RELEASE=0
+RESET=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
