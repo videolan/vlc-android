@@ -51,14 +51,18 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     jint  audioTrack = metaAudioTrack.isSet() ? metaAudioTrack.asInt() : -2;
     const medialibrary::IMetadata& metaSpuTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::SubtitleTrack);
     jint  spuTrack = metaSpuTrack.isSet() ? metaSpuTrack.asInt() : -2;
-    title = mediaPtr->title().empty() ? NULL : vlcNewStringUTF(env, mediaPtr->title().c_str());
-    filename = mediaPtr->fileName().empty() ? NULL : vlcNewStringUTF(env, mediaPtr->fileName().c_str());
+    if (!mediaPtr->title().empty())
+        title = vlcNewStringUTF(env, mediaPtr->title().c_str());
+    if (!mediaPtr->fileName().empty())
+        filename = vlcNewStringUTF(env, mediaPtr->fileName().c_str());
     try {
         mrl = vlcNewStringUTF(env, files.at(0)->mrl().c_str());
     } catch(const medialibrary::fs::errors::DeviceRemoved&) {
         return nullptr;
     }
-    thumbnail = mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).empty() ? NULL : vlcNewStringUTF(env, mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
+    auto thumbnailStr = mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail);
+    if (!thumbnailStr.empty())
+        thumbnail = vlcNewStringUTF(env, thumbnailStr.c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks()->all();
     bool hasVideoTracks = !videoTracks.empty();
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
@@ -336,4 +340,3 @@ vlcNewStringUTF(JNIEnv* env, const char* psz_string)
     }
     return env->NewStringUTF(psz_string);
 }
-
