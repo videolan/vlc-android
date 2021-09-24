@@ -39,7 +39,103 @@
 #include <medialibrary/IBookmark.h>
 #include <medialibrary/filesystem/Errors.h>
 
+#include <type_traits>
+
 #define VLC_JNI_VERSION JNI_VERSION_1_2
+
+namespace utils
+{
+namespace jni
+{
+template <typename T>
+class localref
+{
+    static_assert( std::is_pointer<T>::value, "T must be a pointer type");
+public:
+    localref(JNIEnv* env, T ref)
+        : m_env( env )
+        , m_ref( ref )
+    {
+    }
+
+    localref()
+        : m_env( nullptr )
+        , m_ref( nullptr )
+    {
+    }
+
+    ~localref()
+    {
+        if ( m_ref )
+        {
+            assert( m_env != nullptr );
+            m_env->DeleteLocalRef( m_ref );
+        }
+    }
+    /* Disable copy since there's no good reason to copy those and not move then */
+    localref( const localref& ) = delete;
+    localref& operator=( const localref& ) = delete;
+
+    localref( localref&& old )
+        : m_env( nullptr )
+        , m_ref( nullptr )
+    {
+        using std::swap;
+        swap( m_env, old.m_env );
+        swap( m_ref, old.m_ref );
+    }
+
+    localref& operator=( localref&& rhs )
+    {
+        if ( m_ref != nullptr )
+        {
+            assert( m_env != nullptr );
+            m_env->DeleteLocalRef( m_ref );
+        }
+        using std::swap;
+        swap( m_env, rhs.m_env );
+        swap( m_ref, rhs.m_ref );
+        return *this;
+    }
+
+    T get() const
+    {
+        return m_ref;
+    }
+
+    /**
+     * @brief release Will release the wrapper ownership but will *not* invoke DeleteLocalRef
+     * @return The underlying raw pointer
+     *
+     * This is meant to be used when a JNI value needs to be provided back to java
+     * which is expected to release the value itself
+     */
+    T release()
+    {
+        auto ref = m_ref;
+        m_ref = nullptr;
+        return ref;
+    }
+
+    bool operator==( std::nullptr_t ) const
+    {
+        return m_ref == nullptr;
+    }
+
+    bool operator!=( std::nullptr_t ) const
+    {
+        return m_ref != nullptr;
+    }
+
+private:
+    JNIEnv* m_env;
+    T m_ref;
+};
+
+using string = localref<jstring>;
+
+}
+}
 
 struct fields {
     jint SDK_INT;
