@@ -614,11 +614,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     override fun afterTextChanged(editable: Editable) {}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (this::optionsDelegate.isInitialized) optionsDelegate.release()
-    }
-
     private inner class LongSeekListener(var forward: Boolean) : View.OnTouchListener {
         var length = -1L
 

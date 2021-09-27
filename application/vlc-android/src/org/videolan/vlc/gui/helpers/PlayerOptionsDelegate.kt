@@ -80,19 +80,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     private lateinit var shuffleBinding: PlayerOptionItemBinding
     private lateinit var sleepBinding: PlayerOptionItemBinding
 
-    private val abrObs = Observer<Boolean> { abr ->
-        if (abr == null || !this::abrBinding.isInitialized) return@Observer
-        val resid = when {
-            abr -> R.attr.ic_abrepeat_reset
-            else -> R.attr.ic_abrepeat
-        }
-        abrBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, resid))
-    }
-
-    init {
-        service.playlistManager.abRepeatOn.observe(activity, abrObs)
-    }
-
     fun setup() {
         if (!this::recyclerview.isInitialized || PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED) return
         val options = mutableListOf<PlayerOption>()
@@ -154,11 +141,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
 
     fun hide() {
         rootView.visibility = View.GONE
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun release() {
-        service.playlistManager.abRepeatOn.removeObserver(abrObs)
     }
 
     fun setBookmarkClickedListener(listener:()->Unit) {
@@ -307,21 +289,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         }
     }
 
-    private fun initPlaybackSpeed(binding: PlayerOptionItemBinding) {
-        if (!service.isSeekable) {
-            binding.root.isEnabled = false
-            binding.optionIcon.setImageResource(R.drawable.ic_speed_disable)
-            return
-        }
-        if (service.rate == 1.0f) {
-            binding.optionTitle.text = null
-            binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_speed_normal_style))
-        } else {
-            binding.optionTitle.text = service.rate.formatRateString()
-            binding.optionIcon.setImageResource(R.drawable.ic_speed)
-        }
-    }
-
     private fun initChapters(binding: PlayerOptionItemBinding) {
         val chapters = service.getChapters(-1) ?: return
         if (chapters.isEmpty()) return
@@ -329,13 +296,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (chapters[index].name.isNullOrEmpty())
             binding.optionTitle.text = String.format("%s %d", res.getString(R.string.chapter), index)
         else binding.optionTitle.text = chapters[index].name
-    }
-
-    private fun initJumpTo(binding: PlayerOptionItemBinding) {
-        binding.root.isEnabled = service.isSeekable
-        binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, if (service.isSeekable)
-            UiTools.getResourceFromAttribute(activity, R.attr.ic_jumpto_normal_style)
-        else R.drawable.ic_jumpto_disable))
     }
 
     private fun initRepeat(binding: PlayerOptionItemBinding) {
@@ -382,8 +342,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 option.id == ID_SHUFFLE -> initShuffle(holder.binding)
                 option.id == ID_SLEEP -> sleepBinding = holder.binding
                 option.id == ID_CHAPTER_TITLE -> initChapters(holder.binding)
-                option.id == ID_PLAYBACK_SPEED -> initPlaybackSpeed(holder.binding)
-                option.id == ID_JUMP_TO -> initJumpTo(holder.binding)
             }
             holder.binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, option.icon))
         }

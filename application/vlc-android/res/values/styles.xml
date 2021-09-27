@@ -98,7 +98,6 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_lock_player">@drawable/ic_lock_player</item>
         <item name="ic_video_controls">@drawable/ic_video_controls</item>
@@ -266,7 +265,6 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_lock_player">@drawable/ic_lock_player</item>
         <item name="ic_video_controls">@drawable/ic_video_controls</item>
@@ -505,7 +503,6 @@
         <item name="list_title">@color/white</item>
         <item name="progress_background">@color/grey200</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_lock_player">@drawable/ic_lock_player</item>
         <item name="ic_video_controls">@drawable/ic_video_controls</item>
