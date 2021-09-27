@@ -265,7 +265,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
             builder.addAction(R.drawable.ic_popup_pause, service.getString(R.string.pause), piPlay)
         else
             builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
-        builder.addAction(R.drawable.ic_popup_expand_w, service.getString(R.string.popup_expand), piExpand)
+        builder.addAction(R.drawable.ic_popup_fullscreen, service.getString(R.string.popup_expand), piExpand)
         service.startForeground(42, builder.build())
     }
 
