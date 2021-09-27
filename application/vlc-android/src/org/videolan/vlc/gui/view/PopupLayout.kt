@@ -125,7 +125,9 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
         scaleGestureDetector = ScaleGestureDetector(context, this)
         setOnTouchListener(this)
         windowManager!!.addView(this, params)
-        mLayoutParams = layoutParams as WindowManager.LayoutParams
+        if (!isInEditMode) {
+            mLayoutParams = layoutParams as WindowManager.LayoutParams
+        }
 
         updateWindowSize()
     }
