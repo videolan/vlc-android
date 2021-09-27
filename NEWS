@@ -1,4 +1,10 @@
-Changes between 3.4.0 RC 2 and 3.4.0:
+Changes between 3.4.0 and 3.4.1 Beta 1:
+------------------
+ * Android auto: better covers
+ * Android auto: +/- 10 seconds quick seek
+ * Crash fixes
+
+ Changes between 3.4.0 RC 2 and 3.4.0:
 ------------------
  * UI fixes
 
