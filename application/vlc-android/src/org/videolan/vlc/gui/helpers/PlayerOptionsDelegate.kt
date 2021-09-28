@@ -117,11 +117,13 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
         (recyclerview.adapter as OptionsAdapter).update(options)
-        if (video) {
-            options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.attr.ic_tips, res.getString(R.string.tips_title)))
-        } else {
-            options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.attr.ic_tips, res.getString(R.string.audio_player_tips)))
-            options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.attr.ic_tips, res.getString(R.string.playlist_tips)))
+        if (!Settings.showTvUi) {
+            if (video) {
+                options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.attr.ic_tips, res.getString(R.string.tips_title)))
+            } else {
+                options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.attr.ic_tips, res.getString(R.string.audio_player_tips)))
+                options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.attr.ic_tips, res.getString(R.string.playlist_tips)))
+            }
         }
     }
 
