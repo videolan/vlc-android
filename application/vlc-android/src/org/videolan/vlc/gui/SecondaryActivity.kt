@@ -138,10 +138,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return true
-    }
-
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.ml_menu_refresh)?.isVisible = Permissions.canReadStorage(this)
         return super.onPrepareOptionsMenu(menu)

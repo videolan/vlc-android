@@ -50,7 +50,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(!AndroidDevices.isAndroidTv)
+        setHasOptionsMenu(true)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
