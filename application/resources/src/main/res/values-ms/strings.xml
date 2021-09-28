@@ -196,9 +196,32 @@
 
     <string name="play_button">Butang Main</string>
 
+    <!-- Tips -->
+    <string name="tips_title">Petua pemain video</string>
     <string name="seek">Jangkau</string>
     <string name="subtitles">Sari kata</string>
+    <string name="tips_player_controls">Kawalan pemain</string>
+    <string name="tips_player_controls_description">Ketika pada kawalan pemain di bawah untuk mengetahui kegunaannya</string>
+    <string name="tips_audio_sub">Trek dan sari kata audio</string>
+    <string name="tips_play_description">Ketika untuk main video</string>
     <string name="lock">Kunci</string>
+    <string name="tap">Ketika untuk lihat</string>
+    <string name="lock_orientation">Orientasi</string>
+    <string name="lock_orientation_description">Ketika untuk buka/kunci orientasi</string>
+    <string name="aspect_ratio">Nisbah bidang</string>
+    <string name="aspect_ratio_description">Ketika untuk mengubah nisbah bidang video</string>
+    <string name="advanced_options">Pilhan lanjutan</string>
+    <string name="advanced_options_description">Seperti kelajuan main balik, mod ulang, …</string>
+    <string name="tips_swipe">Leret atas atau bawah</string>
+    <string name="tips_swipe_horizontal">Leret kiri atau kanan</string>
+    <string name="tips_playlist">Senarai main</string>
+    <string name="tips_hold_seek">Tahan untuk jangkau</string>
+    <string name="tips_long_drop">Tekan lama untuk lepas</string>
+    <string name="pause_description">Ketika dua kali untuk jeda</string>
+    <string name="seek_tap">+/- 10 saat.</string>
+    <string name="seek_tap_description">Ketik dua kali untuk maju atau undur 10 saat</string>
+    <string name="close">Tutup</string>
+
     <string name="playlist_tips">Petua senarai main</string>
     <string name="remove_song">Buang lagu</string>
     <string name="remove_playlist_item">%1$s telah dikeluarkan daripada senarai main</string>
@@ -363,6 +386,8 @@
     <string name="dump_media_db_summary">Salin pangkalan data ke dalam root storan dalaman</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
     <string name="clear_media_database_summary">Clears the database to start over</string>
+    <string name="clear_app_data">Kosongkan data apl</string>
+    <string name="clear_app_data_summary">Kosongkan data VLC untuk Android</string>
     <string name="clear_history">Kosongkan sejarah</string>
     <string name="set_locale">Tetapkan lokaliti</string>
     <string name="network_caching">Nilai caching rangkaian</string>
@@ -453,6 +478,11 @@
     <string name="allow_draw_overlays_title">Benarkan pemain VLC timbul berbanding apl lain</string>
     <string name="allow_sdraw_overlays_description">VLC perlu kebenaran anda untuk paparkan video anda secara timbul berbanding aplikasi lain.</string>
     <string name="permission_ask_again">Beri keizinan</string>
+    <string name="permission_not_granted">Keizinan dinafikan</string>
+    <string name="permission_expanation_no_allow">Anda tidak berupaya untuk auto-temui media anda atau guna sari kata luar</string>
+    <string name="permission_expanation_allow">Anda hanya boleh memainkan media strim atau rangkaian</string>
+    <string name="permission_expanation_subtitles">Guna sari kata luar</string>
+    <string name="permission_expanation_allow_explanation">Main strim Internet atau media rangkaian</string>
     <string name="exit_app">Tutup VLC</string>
     <string name="exit_app_msg">Anda pasti mahu menutup VLC?</string>
 
@@ -544,6 +574,8 @@
     <string name="otg_device_title">Peranti OTG</string>
     <string name="browser">Pelayar</string>
     <string name="ab_repeat">Ulang A-B</string>
+    <string name="ab_repeat_reset">Tetap semula ulang A-B</string>
+    <string name="ab_repeat_stop">Henti ulang A-B</string>
     <string name="stop_after_this">Henti selepas trek ini</string>
     <string name="time_category_new">Media baharu</string>
     <string name="time_category_current_month">Bulan ini</string>
@@ -580,6 +612,8 @@
     <string name="onboarding_theme_title">Buat seperti rumah sendiri</string>
     <string name="done">Selesai</string>
     <string name="onboarding_scan_title">Temui media anda secara automatik</string>
+    <string name="onboarding_all_set">VLC telah ditetapkan!</string>
+    <string name="onboarding_permission_given">Anda kini boleh auto-temui media anda, guna sari kata luar serta dapat memainkan media strim atau rangkaian</string>
     <string name="daynight_system_explanation">VLC akan bertukar ke mod gelap secara automatk berdasarkan tetapan sistem</string>
     <string name="daynight_legacy_explanation">VLC akan beralih ke mod malam pada waktu berkaitan</string>
     <string name="onboarding_scanning_enable">Biar VLC mengimbas peranti saya untuk dapatkan kandungan media</string>
@@ -662,6 +696,9 @@
     <string name="recently_played">Baru-Baru ini dimainkan</string>
     <string name="recently_added">Baru-baru Ini ditambah</string>
     <string name="playback_multiple_errors">Media berbilang tidak dapat dimainkan</string>
+    <string name="clear_media_db_message">Anda akan kehilangan kemajuan, tanda buku dan senarai main yang telah dicipta tetapi anda masih dapat mengekalkan tetapan VLC untuk Android anda</string>
+    <string name="clear_app_data_message">Anda akan kehilangan kemajuan, tanda buku, senarai main dan semua tetapan VLC anda</string>
+    <string name="clear">Kosongkan</string>
     <string name="abrepeat_add_first_marker">Set start point</string>
     <string name="abrepeat_add_second_marker">Set end point</string>
     <string name="demux_bitrate">Demux bitrate</string>
@@ -760,6 +797,9 @@
     <string name="enqueuing">Memuatkan media-media anda</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Ambil satu fail SoundFont untuk memainkan trek audio midi</string>
+    <string name="missing_media_snack">Media hilang. Sembunyi semua media yang hilang?</string>
+    <string name="browser_show_missing_media">Tunjuk media yang hilang</string>
+    <string name="browser_show_missing_media_summary">Tunjuk media jauh walaupun ia tidak hadir</string>
     <string name="search_prefs">Tetapan gelintar</string>
     <string name="preferred_resolution">Resolusi video dikehendaki</string>
     <string name="preferred_resolution_summary">Kualiti video maksimum bagi strim, bila boleh, akan menjadi: %s</string>
@@ -771,12 +811,22 @@
     <string name="bookmarks_title">Tanda buku</string>
     <string name="no_bookmark">Tiada tanda buku lagi</string>
     <string name="bookmark_name">Tanda buku %s</string>
+    <string name="optional_features">Ciri-ciri pilihan</string>
+    <string name="optional_features_summary">Ciri-ciri beta sedang diuji buat masa ini dan masih tidak stabil</string>
+    <string name="optional_features_warning">Ciri-ciri ini ada di dalam beta dan boleh mengakibatkan kerosakan dan ketidakstabilan.</string>
+    <string name="start_vlc">Mulakan VLC</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Tambah item pendua?</string>
     <string name="add_button">Tambah</string>
     <string name="add_all_button">Tambah semua</string>
     <string name="add_new_only_button">Tambah baharu sahaja</string>
+    <string name="discovery_failed">Penemuan gagal: %s</string>
+    <string name="lock_use_sensor_title">Kunci dengan penderia</string>
+    <string name="lock_use_sensor_summary">Apabila orientasi dikunci, guna penderia untuk membolehkan orientasi songsang</string>
+    <string name="start">Mula</string>
+    <string name="permission">Keizinan</string>
+    <string name="customize">Suai</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">Item-item ini sudah ada dalam senarai main ini.</item>
     </plurals>
