@@ -1506,6 +1506,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun onSelectionSet(position: Int) = overlayDelegate.playlist.scrollToPosition(position)
 
     override fun playItem(position: Int, item: MediaWrapper) {
+        service?.saveMediaMeta()
         service?.playlistManager?.getMedia(position)
         service?.playlistManager?.getMediaList()?.let {
             if (it[position] == item)  service?.playIndex(position)

@@ -225,7 +225,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun next(force : Boolean = false) {
-        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) saveMediaMeta() }
         val size = mediaList.size()
         if (force || repeating != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
@@ -283,7 +283,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun previous(force: Boolean) {
-        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) saveMediaMeta() }
         if (hasPrevious() &&
                 ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious < PREVIOUS_LIMIT_DELAY)))) {
             val size = mediaList.size()
@@ -487,11 +487,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     media.position = player.lastPosition
                     medialibrary.setLastPosition(media.id, media.position)
                 } else {
-                    media.time = time
                     //todo verify that this info is persisted in DB
                     if (media.length <= 0 && length > 0) media.length = length
 
                     medialibrary.setLastTime(media.id, time)
+                    //todo this is not really optimised. The ML should return the new time value right away to let us save the processed new time.
+                    // See https://code.videolan.org/videolan/medialibrary/-/issues/369
+                    media.time = medialibrary.getMedia(media.id).time
                 }
             }
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
