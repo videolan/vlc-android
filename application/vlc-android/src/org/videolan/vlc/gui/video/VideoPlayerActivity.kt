@@ -1001,6 +1001,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(-300000)
+                    } else if (event.isShiftPressed && event.isCtrlPressed) {
+                        touchDelegate.seekDelta(-30000)
+                    } else if (event.isShiftPressed) {
+                        touchDelegate.seekDelta(-5000)
                     } else if (event.isCtrlPressed) {
                         touchDelegate.seekDelta(-60000)
                     } else if (fov == 0f)
@@ -1018,6 +1022,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(300000)
+                    } else if (event.isShiftPressed && event.isCtrlPressed) {
+                        touchDelegate.seekDelta(30000)
+                    } else if (event.isShiftPressed) {
+                        touchDelegate.seekDelta(5000)
                     } else if (event.isCtrlPressed) {
                         touchDelegate.seekDelta(60000)
                     } else if (fov == 0f)
