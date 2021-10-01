@@ -124,6 +124,14 @@ class BenchActivity : ShallowVideoPlayer() {
 
     override fun onServiceChanged(service: PlaybackService?) {
         super.onServiceChanged(service)
+        if (isSpeed && this.service != null) {
+            oldRate = service!!.rate
+            oldRepeating = service.playlistManager.repeating
+            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_ONE)
+        } else if (!isSpeed && this.service != null) {
+            oldRepeating = service!!.playlistManager.repeating
+            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_NONE)
+        }
         if (isHardware && this.service != null) {
             val sharedPref = Settings.getInstance(this)
             oldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
@@ -136,13 +144,6 @@ class BenchActivity : ShallowVideoPlayer() {
             }
             VLCInstance.restart()
             this.service?.restartMediaPlayer()
-        } else if (isSpeed && this.service != null) {
-            oldRate = service!!.rate
-            oldRepeating = service.playlistManager.repeating
-            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_ONE)
-        } else if (!isSpeed && this.service != null) {
-            oldRepeating = service!!.playlistManager.repeating
-            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_NONE)
         }
     }
 
@@ -543,6 +544,11 @@ class BenchActivity : ShallowVideoPlayer() {
      * before calling super
      */
     override fun finish() {
+        if (isSpeed) {
+            service!!.setRate(oldRate, true)
+        } else {
+            service!!.playlistManager.setRepeatType(oldRepeating)
+        }
         /* Resetting vout preference to it value before the benchmark */
         if (isHardware && oldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
@@ -551,11 +557,6 @@ class BenchActivity : ShallowVideoPlayer() {
                     putString(PREFERENCE_OPENGL, oldOpenglValue)
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
                 }
-            }
-            if (isSpeed) {
-                service!!.setRate(oldRate, true)
-            } else {
-                service!!.playlistManager.setRepeatType(oldRepeating)
             }
             VLCInstance.restart()
         }
