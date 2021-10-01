@@ -535,10 +535,12 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     @Override
     public String getTitle() {
-        if (!TextUtils.isEmpty(mDisplayTitle))
-            return mDisplayTitle;
-        if (!TextUtils.isEmpty(mTitle))
-            return mTitle;
+        String displayTitle = mDisplayTitle;
+        if (!TextUtils.isEmpty(displayTitle))
+            return displayTitle;
+        String title = mTitle;
+        if (!TextUtils.isEmpty(title))
+            return title;
         String fileName = getFileName();
         if (fileName == null)
             return "";
