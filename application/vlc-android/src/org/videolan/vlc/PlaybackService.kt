@@ -718,6 +718,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     fun setTime(time:Long, fast:Boolean = false) {
         playlistManager.player.setTime(time, fast)
+        publishState(time)
     }
 
     fun getTime() = playlistManager.player.getCurrentTime()
