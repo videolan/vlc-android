@@ -1017,13 +1017,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
         if (isSeekable) {
             actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
-            pscb.addCustomAction("${BuildConfig.APP_ID}.rewind", getString(R.string.playback_rewind), R.drawable.ic_auto_rewind_10)
-            pscb.addCustomAction("${BuildConfig.APP_ID}.fast_forward", getString(R.string.playback_forward), R.drawable.ic_auto_forward_10)
+            addCustomSeekActions(pscb)
         }
         pscb.setActions(actions)
         mediaSession.setRepeatMode(repeatType)
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
         mediaSession.setExtras(Bundle().apply {
+            putBoolean(WEARABLE_RESERVE_SLOT_SKIP_TO_NEXT, !podcastMode)
+            putBoolean(WEARABLE_RESERVE_SLOT_SKIP_TO_PREV, !podcastMode)
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, !podcastMode)
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, !podcastMode)
         })
@@ -1038,6 +1039,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             if (mediaIsActive) sendStartSessionIdIntent()
             else sendStopSessionIdIntent()
         }
+    }
+
+    private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder) {
+        pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder("${BuildConfig.APP_ID}.rewind",
+                getString(R.string.playback_rewind), R.drawable.ic_auto_rewind_10)
+                .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
+                .build())
+        pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder("${BuildConfig.APP_ID}.fast_forward",
+                getString(R.string.playback_forward), R.drawable.ic_auto_forward_10)
+                .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
+                .build())
     }
 
     fun notifyTrackChanged() {
