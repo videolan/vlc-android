@@ -883,6 +883,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         newMedia = false
                         if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
                         savePlaycount(mw)
+                        if ((mw.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || mw.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
+                            // used for initial metadata update. We avoid the metadata load when the initial MediaPlayer.Event.ESSelected is sent to avoid race conditions
+                            refreshTrackMeta(mw)
+                        }
                     }
                 }
                 MediaPlayer.Event.EndReached -> {
@@ -921,16 +925,27 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.ESSelected -> {
                     getCurrentMedia()?.let { media ->
-                        if (media.id < 1L && (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
-                            media.updateMeta(player.mediaplayer)
-                            service.onMediaListChanged()
-                            service.showNotification()
+                        if (player.isPlaying()) {
+                            if ((media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
+                                refreshTrackMeta(media)
+                            }
                         }
                     }
                 }
             }
             service.onMediaPlayerEvent(event)
         }
+    }
+
+    /**
+     * Refresh the track meta as the title and then updates the player
+     * Useful for web radios changing the metadata during playback
+     * @param mw: The [MediaWrapper] to be updated
+     */
+    private fun refreshTrackMeta(mw: MediaWrapper) {
+        mw.updateMeta(player.mediaplayer)
+        service.onMediaListChanged()
+        service.showNotification()
     }
 
     private suspend fun savePlaycount(mw: MediaWrapper) {
@@ -956,7 +971,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val length = player.getLength()
             val canSwitchToVideo = player.canSwitchToVideo()
-            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (length == 0L) medialibrary.setLastPosition(mw.id, 1.0f) else  medialibrary.setLastTime(mw.id, length)
+            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (length == 0L) medialibrary.setLastPosition(id, 1.0f) else  medialibrary.setLastTime(id, length)
         }
     }
 
