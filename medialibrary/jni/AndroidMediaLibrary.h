@@ -35,7 +35,7 @@ public:
     bool isDeviceKnown(const std::string& uuid, const std::string& path, bool removable);
     bool deleteRemovableDevices();
     void addDevice(const std::string& uuid, const std::string& path, bool removable);
-    void clearDatabase(bool restorePlaylists);
+    bool clearDatabase(bool restorePlaylists);
     std::vector<std::tuple<std::string, std::string, bool>> devices();
     bool removeDevice(const std::string& uuid, const std::string& path);
     void banFolder(const std::string& path);

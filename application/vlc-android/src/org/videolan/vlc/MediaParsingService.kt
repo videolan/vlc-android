@@ -471,7 +471,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     val initCode = medialibrary.init(context)
                     medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).getInstance())
                     medialibrary.setDiscoverNetworkEnabled(true)
-                    if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
+                    if (initCode == Medialibrary.ML_INIT_DB_UNRECOVERABLE) {
+                        throw IllegalStateException("Medialibrary DB file is corrupted and unrecoverable")
+                    } else  if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
                         shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)
                         if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade, action.removeDevices)
                         else exitCommand()

@@ -1992,7 +1992,7 @@ static JNINativeMethod methods[] = {
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)I", (void*)init },
     {"nativeStart", "()V", (void*)start },
     {"nativeRelease", "()V", (void*)release },
-    {"nativeClearDatabase", "(Z)V", (void*)clearDatabase },
+    {"nativeClearDatabase", "(Z)Z", (void*)clearDatabase },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },
     {"nativeIsDeviceKnown", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)isDeviceKnown },
     {"nativeDeleteRemovableDevices", "()Z", (void*)deleteRemovableDevices },

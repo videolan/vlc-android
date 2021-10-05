@@ -86,6 +86,7 @@ abstract public class Medialibrary {
     public static final int ML_INIT_FAILED = 2;
     public static final int ML_INIT_DB_RESET = 3;
     public static final int ML_INIT_DB_CORRUPTED = 4;
+    public static final int ML_INIT_DB_UNRECOVERABLE = 5;
 
     public static final MediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";

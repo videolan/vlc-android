@@ -84,7 +84,8 @@ public class MedialibraryImpl extends Medialibrary {
         int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
         if (initCode == ML_INIT_DB_CORRUPTED) {
             Log.e(TAG, "Medialib database is corrupted. Clearing it and try to restore playlists");
-            nativeClearDatabase(true);
+            if (!nativeClearDatabase(true)) return ML_INIT_DB_UNRECOVERABLE;
+
         }
 
         mIsInitiated = initCode != ML_INIT_FAILED;
@@ -595,7 +596,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeStart();
     private native void nativeRelease();
 
-    private native void nativeClearDatabase(boolean keepPlaylist);
+    private native boolean nativeClearDatabase(boolean keepPlaylist);
     private native void nativeBanFolder(String path);
     private native void nativeUnbanFolder(String path);
     private native void nativeAddDevice(String uuid, String path, boolean removable);

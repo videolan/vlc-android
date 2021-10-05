@@ -62,9 +62,9 @@ AndroidMediaLibrary::start()
 }
 
 
-void
+bool
 AndroidMediaLibrary::clearDatabase(bool restorePlaylists) {
-    p_ml->clearDatabase(restorePlaylists);
+    return p_ml->clearDatabase(restorePlaylists);
 }
 
 void
