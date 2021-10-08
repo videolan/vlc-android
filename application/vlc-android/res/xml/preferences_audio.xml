@@ -31,6 +31,12 @@
             android:key="audio_digital_output"
             android:title="@string/audio_digital_title"/>
 
+    <EditTextPreference
+        android:defaultValue=""
+        android:key="audio_preferred_language"
+        android:persistent="true"
+        android:title="@string/audio_preferred_language"/>
+
     <PreferenceCategory
             android:title="@string/headset_prefs_category"
             android:key="headset_prefs_category">

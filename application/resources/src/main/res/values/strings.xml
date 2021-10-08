@@ -291,6 +291,7 @@
     <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
+    <string name="subtitle_preferred_language">Preferred subtitle language</string>
     <string name="daynight_title">DayNight mode</string>
     <string name="daynight_follow_system_title">Follow system mode</string>
 
@@ -590,6 +591,7 @@
     <string name="audio_digital_failed">Failed to change Audio Digital Output state</string>
     <string name="audio_digital_output_enabled">Audio Digital Output enabled</string>
     <string name="audio_digital_output_disabled">Audio Digital Output disabled</string>
+    <string name="audio_preferred_language">Preferred audio language</string>
     <string name="audio_digital_title">Digital audio output (passthrough)</string>
     <string name="audio_task_cleared_title">Stop on application swipe</string>
     <string name="audio_task_cleared_summary">Stop playback when application is dismissed</string>

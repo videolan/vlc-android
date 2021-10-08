@@ -1254,20 +1254,46 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         if (event.esChangedType == IMedia.Track.Type.Audio) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
-                                val audioTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()
+                                var preferredTrack: Int = 0
+                                val contains = settings.getString("audio_preferred_language", null)
+                                val it = PlaybackService.instance?.audioTracks?.iterator()
+                                while (it?.hasNext() === true) {
+                                    val next = it?.next()
+                                    if (next.name.contains(contains.toString(), ignoreCase = true)) {
+                                        preferredTrack = next.id
+                                        break
+                                    }
+                                }
+                                val audioTrack = when (val savedTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()) {
+                                    0 -> preferredTrack
+                                    else -> savedTrack
+                                }
                                 if (audioTrack != 0 || currentAudioTrack != -2)
-                                    service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
+                                    service.setAudioTrack(audioTrack)
                             }
                         } else if (event.esChangedType == IMedia.Track.Type.Text) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
-                                val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
+                                var preferredTrack: Int = 0
+                                val contains = settings.getString("subtitle_preferred_language", null)
+                                val it = PlaybackService.instance?.spuTracks?.iterator()
+                                while (it?.hasNext() === true) {
+                                    val next = it?.next()
+                                    if (next.name.contains(contains.toString(), ignoreCase = true)) {
+                                        preferredTrack = next.id
+                                        break
+                                    }
+                                }
+                                val spuTrack = when (val savedTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()) {
+                                    0 -> preferredTrack
+                                    else -> savedTrack
+                                }
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
                                     if (!(tracks as Array<MediaPlayer.TrackDescription>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].id)
                                     addNextTrack = false
                                 } else if (spuTrack != 0 || currentSpuTrack != -2) {
-                                    service.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)
+                                    service.setSpuTrack(spuTrack)
                                     lastSpuTrack = -2
                                 }
                             }
