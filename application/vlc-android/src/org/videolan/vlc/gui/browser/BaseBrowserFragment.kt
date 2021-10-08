@@ -627,4 +627,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
     }
+
+
+    override fun setSearchVisibility(visible: Boolean) {
+        // prevents the medialibrary search to be displayed in a browser context
+    }
 }
