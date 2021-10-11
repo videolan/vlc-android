@@ -139,7 +139,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
             when(val prov = provider) {
                 is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
                 is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)
-                is VideoGroupsProvider -> MediaUtils.playAllTracks(context, prov, position, false)
+                is VideoGroupsProvider -> MediaUtils.playAllTracks(context, prov, mw, false)
             }
         } else {
             if (fromStart) mw.addFlags(MediaWrapper.MEDIA_FROM_START)
@@ -151,7 +151,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         if (activity?.isStarted() == true) when (groupingType) {
             VideoGroupingType.NONE -> MediaUtils.playAll(activity, provider as VideosProvider, position, false)
             VideoGroupingType.FOLDER -> MediaUtils.playAllTracks(activity, (provider as FoldersProvider), position, false)
-            VideoGroupingType.NAME -> MediaUtils.playAllTracks(activity, (provider as VideoGroupsProvider), position, false)
+            VideoGroupingType.NAME -> MediaUtils.playAllTracks(activity, (provider as VideoGroupsProvider), null, false)
         }
     }
 

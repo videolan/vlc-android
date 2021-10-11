@@ -233,32 +233,37 @@ object MediaUtils {
         }
     }
 
-    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, position: Int, shuffle: Boolean) {
+    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list: List<MediaWrapper>) {
+            fun play(list: List<MediaWrapper>, position:Int) {
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
                 0 -> return@SuspendDialogCallback
-                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
-                    provider.getAll().flatMap {
-                        it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
+                in 1..MEDIALIBRARY_PAGE_SIZE -> {
+                    val flatList =  withContext(Dispatchers.IO) {
+                        val allGroups = provider.getAll()
+                        allGroups.flatMap {
+                            it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
+                        }
                     }
-                })
+                    play(flatList, flatList.indexOf(mediaToPlay))
+                }
                 else -> {
                     var index = 0
-                    while (index < count) {
-                        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                        val list = withContext(Dispatchers.IO) {
-                            provider.getPage(pageCount, index).toList() as List<MediaWrapper>
+                    val completeList = ArrayList<MediaWrapper>()
+                    withContext(Dispatchers.IO) {
+                        while (index < count) {
+                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+                            val list = provider.getPage(pageCount, index).toList()
+                            completeList.addAll(list)
+                            index += pageCount
                         }
-                        if (index == 0) play(list)
-                        else service.append(list)
-                        index += pageCount
                     }
+                    play(completeList, completeList.indexOf(mediaToPlay))
                 }
             }
         }
