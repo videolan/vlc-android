@@ -153,6 +153,8 @@ const val AUDIO_DUCKING = "audio_ducking"
 const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
 const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 const val AUDIO_STOP_AFTER = "audio_stop_after"
+const val AUDIO_PREFERRED_LANGUAGE = "audio_preferred_language"
+const val SUBTITLE_PREFERRED_LANGUAGE = "subtitle_preferred_language"
 
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
