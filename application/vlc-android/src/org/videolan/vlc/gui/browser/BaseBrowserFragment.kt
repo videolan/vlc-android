@@ -166,7 +166,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     open fun registerSwiperRefreshlayout() = swipeRefreshLayout.setOnRefreshListener(this)
 
     override fun setBreadcrumb() {
-        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
+        val ariane = binding.ariane
         val media = currentMedia
         if (media != null && isSchemeSupported(media.uri?.scheme)) {
             ariane.visibility = View.VISIBLE
@@ -194,8 +194,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
         if (!poped) {
-            viewModel.setDestination(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()))
-            supportFragmentManager.beginTransaction().detach(this).attach(this).commit()
+            browse(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()),false)
         }
     }
 
@@ -214,12 +213,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         (activity as? AudioPlayerContainerActivity)?.expandAppBar()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAndRemoveDestination()?.let {
-            browse(it, true)
-        }
-    }
 
     override fun onStop() {
         super.onStop()
