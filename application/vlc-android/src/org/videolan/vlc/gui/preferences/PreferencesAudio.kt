@@ -28,6 +28,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.*
@@ -38,6 +39,7 @@ import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.Settings
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
@@ -50,6 +52,8 @@ private const val FILE_PICKER_RESULT_CODE = 10000
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private lateinit var preferredAudioTrack: EditTextPreference
 
     override fun getXml() = R.xml.preferences_audio
 
@@ -67,6 +71,16 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         updatePassThroughSummary()
         val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
+        preferredAudioTrack = findPreference("audio_preferred_language")!!
+        updatePreferredAudioTrack()
+    }
+
+    private fun updatePreferredAudioTrack() {
+        val value = Settings.getInstance(requireActivity()).getString("audio_preferred_language", null)
+        if (value.isNullOrEmpty())
+            preferredAudioTrack.summary = getString(R.string.no_track_preference)
+         else
+            preferredAudioTrack.summary = getString(R.string.track_preference, value)
     }
 
     private fun updatePassThroughSummary() {
@@ -125,6 +139,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
             "audio_digital_output" -> updatePassThroughSummary()
+            "audio_preferred_language" -> updatePreferredAudioTrack()
         }
     }
 }

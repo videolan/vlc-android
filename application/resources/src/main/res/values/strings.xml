@@ -294,6 +294,8 @@
     <string name="subtitle_preferred_language">Preferred subtitle language</string>
     <string name="daynight_title">DayNight mode</string>
     <string name="daynight_follow_system_title">Follow system mode</string>
+    <string name="no_track_preference">No language preference</string>
+    <string name="track_preference">Track preference: %s</string>
 
     <string name="extra_prefs_category">Extra settings</string>
 
