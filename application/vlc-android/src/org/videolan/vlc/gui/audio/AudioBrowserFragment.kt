@@ -39,12 +39,14 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.util.waitForML
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
@@ -193,7 +195,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     }
 
     private fun setupProvider(index: Int = viewModel.currentTab) {
-        val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size-1)]
+        val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size - 1)]
         if (provider.loading.hasObservers()) return
         provider.pagedList.observe(viewLifecycleOwner, { items ->
             @Suppress("UNCHECKED_CAST")
@@ -218,6 +220,19 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         provider.liveHeaders.observe(viewLifecycleOwner, {
             lists[currentTab].invalidateItemDecorations()
         })
+        lifecycleScope.launchWhenStarted {
+            waitForML()
+                provider.pagedList.observe(viewLifecycleOwner, { items ->
+                    @Suppress("UNCHECKED_CAST")
+                    if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
+                    updateEmptyView()
+                    restorePositions.get(index)?.let {
+                        lists[index].scrollToPosition(it)
+                        restorePositions.delete(index)
+                    }
+                    setFabPlayShuffleAllVisibility(items.isNotEmpty())
+                })
+        }
     }
 
     override fun onStart() {
@@ -288,7 +303,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
         empty_loading.state =
-            if (!Permissions.canReadStorage(requireActivity())) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                if (!Permissions.canReadStorage(requireActivity())) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
     override fun onPageSelected(position: Int) {

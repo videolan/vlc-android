@@ -45,10 +45,10 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.FolderImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.waitForML
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
-import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -60,7 +60,6 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
@@ -125,15 +124,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
-        viewModel.provider.pagedList.observe(requireActivity(), {
-            (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
-            updateEmptyView()
-            restoreMultiSelectHelper()
-            if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
-            setFabPlayVisibility(true)
-        })
-
-        viewModel.provider.loading.observe(this, { loading ->
+        viewModel.provider.loading.observe(this@VideoGridFragment, { loading ->
             setRefreshing(loading) { refresh ->
                 if (!refresh) {
                     menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
@@ -142,6 +133,16 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
         })
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == Medialibrary.SORT_FILENAME)
+        lifecycleScope.launch {
+            waitForML()
+            viewModel.provider.pagedList.observe(requireActivity(), {
+                (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
+                updateEmptyView()
+                restoreMultiSelectHelper()
+                if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
+                setFabPlayVisibility(true)
+            })
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

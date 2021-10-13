@@ -24,7 +24,7 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
         val medias = if (model.filterQuery.isNullOrEmpty()) {
             medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, loadSize, startposition)
         } else {
-        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+            medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
         }.sanitizeGroups().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
         model.viewModelScope.launch { completeHeaders(medias, startposition) }
         return medias
