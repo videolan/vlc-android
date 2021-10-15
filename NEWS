@@ -1,3 +1,8 @@
+Changes between 3.4.1 and 3.4.2:
+------------------
+ * Fix loading of media when opening the app
+ * Crash fixes
+
 Changes between 3.4.0 Beta 3 and 3.4.1:
 ------------------
  * Playback fix for TV
