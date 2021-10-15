@@ -1257,6 +1257,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                 var preferredTrack = 0
                                 val preferredAudioLang = settings.getString(AUDIO_PREFERRED_LANGUAGE, "")
                                 if (!preferredAudioLang.isNullOrEmpty()) {
+                                    /** ⚠️limitation: See [LocaleUtil] header comment */
                                     val allTracks = getCurrentMediaTracks()
                                     service.audioTracks?.iterator()?.let { audioTracks ->
                                         while (audioTracks.hasNext()) {

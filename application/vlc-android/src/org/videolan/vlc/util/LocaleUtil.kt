@@ -28,10 +28,23 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.firstLetterUppercase
 import java.util.*
 
+/**
+ * This is a temporary workaround to translate [IMedia.Track.language] sent by libvlc as a string to a real locale.
+ * libvlc 4 should expose the ISO 639 code of the track and therefore [LocaleUtil] and vlc_locales.json could be removed then
+ *
+ * ⚠️ Current limitation: as the language is only exposed in [IMedia.Track.language] that can be retrieved from a media,
+ * external tracks (as subtitle from files) won't be checked during the playback. This is because the tracks retrieved from the
+ * [MediaPlayer] only have a description and no language. So we have to compare them to the tracks from the media that doesn't
+ * include the external tracks.
+ *
+ * FIXME Remove this when libvlc exposes a track locale ISO code
+ */
 object LocaleUtil {
 
     /**
