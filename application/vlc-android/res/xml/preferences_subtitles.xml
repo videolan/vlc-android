@@ -41,7 +41,7 @@
             android:key="subtitle_text_encoding"
             android:persistent="true"
             android:title="@string/subtitle_text_encoding"/>
-    <EditTextPreference
+    <ListPreference
             android:defaultValue=""
             android:key="subtitle_preferred_language"
             android:persistent="true"

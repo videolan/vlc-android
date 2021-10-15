@@ -1255,13 +1255,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 var preferredTrack = 0
-                                val contains = settings.getString(AUDIO_PREFERRED_LANGUAGE, null)
-                                PlaybackService.instance?.audioTracks?.iterator()?.let {
-                                    while (it.hasNext()) {
-                                        val next = it.next()
-                                        if (next.name.contains(contains.toString(), ignoreCase = true)) {
-                                            preferredTrack = next.id
-                                            break
+                                val preferredAudioLang = settings.getString(AUDIO_PREFERRED_LANGUAGE, "")
+                                if (!preferredAudioLang.isNullOrEmpty()) {
+                                    val allTracks = getCurrentMediaTracks()
+                                    service.audioTracks?.iterator()?.let { audioTracks ->
+                                        while (audioTracks.hasNext()) {
+                                            val next = audioTracks.next()
+                                            val realTrack = allTracks.find { it.id == next.id }
+                                            if (LocaleUtil.getLocaleFromVLC(realTrack?.language
+                                                            ?: "") == preferredAudioLang) {
+                                                preferredTrack = next.id
+                                                break
+                                            }
                                         }
                                     }
                                 }
@@ -1276,13 +1281,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 var preferredTrack = 0
-                                val contains = settings.getString(SUBTITLE_PREFERRED_LANGUAGE, null)
-                                PlaybackService.instance?.spuTracks?.iterator()?.let {
-                                    while (it.hasNext()) {
-                                        val next = it.next()
-                                        if (next.name.contains(contains.toString(), ignoreCase = true)) {
-                                            preferredTrack = next.id
-                                            break
+                                val preferredSpuLang = settings.getString(SUBTITLE_PREFERRED_LANGUAGE, "")
+                                if (!preferredSpuLang.isNullOrEmpty()) {
+                                    val allTracks = getCurrentMediaTracks()
+                                    service.spuTracks?.iterator()?.let { spuTracks ->
+                                        while (spuTracks.hasNext()) {
+                                            val next = spuTracks.next()
+                                            val realTrack = allTracks.find {it.id == next.id }
+                                            if (LocaleUtil.getLocaleFromVLC(realTrack?.language
+                                                            ?: "") == preferredSpuLang) {
+                                                preferredTrack = next.id
+                                                break
+                                            }
                                         }
                                     }
                                 }
@@ -1337,6 +1347,31 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
             }
         }
+    }
+
+    private var currentTracks: Pair<String, List<IMedia.Track>>? = null
+
+    /**
+     * Extract all the tracks from the current media
+     * The tracks are also cached in [currentTracks] to avoid some native calls
+     *
+     * @return a list of [IMedia.Track]
+     */
+    private fun getCurrentMediaTracks():List<IMedia.Track> {
+
+        service?.let { service ->
+            val allTracks= ArrayList<IMedia.Track>()
+            service.mediaplayer.media?.let { media ->
+                if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
+                for (i in 0..media.trackCount) {
+                    val track = media.getTrack(i)
+                    if (track != null) allTracks.add(track)
+                }
+                currentTracks = Pair(media.uri.toString(), allTracks)
+            }
+            return allTracks
+        }
+        return listOf()
     }
 
     private fun onPlaying() {

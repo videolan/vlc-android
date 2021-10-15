@@ -26,20 +26,21 @@ import android.annotation.TargetApi
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-
-import org.videolan.vlc.R
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private lateinit var preferredSubtitleTrack: EditTextPreference
+    private lateinit var preferredSubtitleTrack: ListPreference
 
     override fun getXml(): Int {
         return R.xml.preferences_subtitles
@@ -53,6 +54,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         super.onCreate(savedInstanceState)
         preferredSubtitleTrack = findPreference("subtitle_preferred_language")!!
         updatePreferredSubtitleTrack()
+        prepareLocaleList()
     }
 
     private fun updatePreferredSubtitleTrack() {
@@ -79,4 +81,10 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         }
     }
 
+    private fun prepareLocaleList() {
+        val localePair = LocaleUtils.getLocalesUsedInProject(activity, BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        preferredSubtitleTrack.entries = localePair.localeEntries
+        preferredSubtitleTrack.entryValues = localePair.localeEntryValues
+    }
 }
+

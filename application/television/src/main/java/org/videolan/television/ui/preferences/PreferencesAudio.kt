@@ -27,24 +27,27 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
-import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
-import org.videolan.vlc.R
-import org.videolan.tools.AUDIO_DUCKING
-import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
+import org.videolan.vlc.util.LocaleUtil
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private lateinit var preferredAudioTrack: EditTextPreference
+    private lateinit var preferredAudioTrack: ListPreference
 
     override fun getXml(): Int {
         return R.xml.preferences_audio
@@ -73,6 +76,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         preferredAudioTrack = findPreference("audio_preferred_language")!!
         updatePreferredAudioTrack()
+        prepareLocaleList()
     }
 
     private fun updatePreferredAudioTrack() {
@@ -80,7 +84,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         if (value.isNullOrEmpty())
             preferredAudioTrack.summary = getString(R.string.no_track_preference)
         else
-            preferredAudioTrack.summary = getString(R.string.track_preference, value)
+            preferredAudioTrack.summary = getString(R.string.track_preference, LocaleUtil.getLocaleName(value))
     }
 
     private fun updatePassThroughSummary() {
@@ -106,5 +110,11 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             "audio_digital_output" -> updatePassThroughSummary()
             "audio_preferred_language" -> updatePreferredAudioTrack()
         }
+    }
+
+    private fun prepareLocaleList() {
+        val localePair = LocaleUtils.getLocalesUsedInProject(activity, BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        preferredAudioTrack.entries = localePair.localeEntries
+        preferredAudioTrack.entryValues = localePair.localeEntryValues
     }
 }
