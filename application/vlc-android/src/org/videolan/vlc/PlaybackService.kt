@@ -1017,7 +1017,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
         if (isSeekable) {
             actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
-            addCustomSeekActions(pscb)
+            if (settings.getBoolean("enable_android_auto_seek_buttons", false)) addCustomSeekActions(pscb)
         }
         pscb.setActions(actions)
         mediaSession.setRepeatMode(repeatType)

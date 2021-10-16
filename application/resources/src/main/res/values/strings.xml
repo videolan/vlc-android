@@ -325,7 +325,9 @@
     <string name="enable_volume_gesture_title">Volume gesture</string>
     <string name="enable_volume_gesture_summary">Control volume by gesture during video playback</string>
     <string name="enable_seek_buttons">Seek buttons</string>
-    <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
+    <string name="enable_seek_buttons_summary">Show rewind and fast forward buttons on the video interface</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto seek buttons</string>
+    <string name="enable_android_auto_seek_buttons_summary">Show rewind and fast forward on the Android Auto interface. Try holding steering wheel previous and next buttons before enabling.</string>
     <string name="enable_double_tap_seek_title">Double tap to seek</string>
     <string name="enable_double_tap_seek_summary">Double tap on screen edges to seek by 10 seconds</string>
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>

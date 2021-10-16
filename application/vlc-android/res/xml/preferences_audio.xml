@@ -55,6 +55,15 @@
                 android:title="@string/enable_play_on_headset_insertion"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/controls_prefs_category">
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="enable_android_auto_seek_buttons"
+            android:summary="@string/enable_android_auto_seek_buttons_summary"
+            android:title="@string/enable_android_auto_seek_buttons"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/advanced_prefs_category">
         <CheckBoxPreference
                 app:singleLineTitle="false"
