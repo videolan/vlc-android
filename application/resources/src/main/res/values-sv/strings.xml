@@ -258,7 +258,7 @@
 
     <string name="directories_summary">Välj filkataloger att inkludera i mediabiblioteket</string>
     <string name="add_custom_path">Lägg till anpassad sökväg</string>
-    <string name="add_custom_path_description">Ange ytterligare valfri katalog att skanna:</string>
+    <string name="add_custom_path_description">Ange ytterligare valfri mapp att skanna:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet\nAvkodning: Kan förbättra prestandan\nFull: Kan förbättra prestandan ytterligare</string>
@@ -452,7 +452,7 @@
     <string name="audio_delay">Ljudfördröjning</string>
     <string name="spu_delay">Undertextfördröjning</string>
     <string name="network_shares_discovery">Letar efter nätverksdelningar</string>
-    <string name="network_empty">Denna filkatalog är tom.</string>
+    <string name="network_empty">Denna mapp är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
     <string name="search_in_list_hint">Sök i nuvarande lista</string>
@@ -473,7 +473,7 @@
     <string name="more_actions">Fler åtgärder</string>
     <string name="back_quit_lock">Tryck på tillbaka igen för att avsluta videon</string>
     <string name="stream_deleted">Ström raderades</string>
-    <string name="no_subs_found">Inga undertexter i denna katalog</string>
+    <string name="no_subs_found">Inga undertexter i denna mapp</string>
     <string name="music_now_playing">Spelar nu</string>
 
     <!-- Widget -->
@@ -680,7 +680,7 @@
     <string name="never">Aldrig</string>
     <string name="ask_confirmation">Fråga</string>
     <string name="add_to_scanned">Sök igenom denna mapp</string>
-    <string name="directory_not_scanned">Denna filkatalog har inte sökts igenom</string>
+    <string name="directory_not_scanned">Denna mapp har inte sökts igenom</string>
     <string name="scanned_directory_added">%s lades till i dina filkataloger att söka igenom</string>
     <string name="video_group_size_summary">Gruppera efter de %s första bokstäverna</string>
     <string name="url_copied_to_clipboard">Webbadressen kopierades till urklipp</string>
