@@ -110,7 +110,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         when (actionId) {
             "${BuildConfig.APP_ID}.rewind" -> onRewind()
             "${BuildConfig.APP_ID}.fast_forward" -> onFastForward()
-            "${BuildConfig.APP_ID}.shuffle" -> playbackService.shuffle()
+            "${BuildConfig.APP_ID}.shuffle" -> if (playbackService.canShuffle()) playbackService.shuffle()
             "${BuildConfig.APP_ID}.repeat" -> playbackService.repeatType = when (playbackService.repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
                 PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE

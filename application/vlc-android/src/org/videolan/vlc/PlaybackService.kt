@@ -998,27 +998,28 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || (isSeekable && !podcastMode))
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-        if (playlistManager.canRepeat() && !podcastMode) {
-            actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
+        if (podcastMode) {
+            addCustomSeekActions(pscb)
+        } else {
+            if (playlistManager.canRepeat())
+                actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
+            if (playlistManager.canShuffle())
+                actions = actions or PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE
+            /* Always add the icons, regardless of the allowed actions */
+            val shuffleResId = when {
+                isShuffling -> R.drawable.ic_auto_shuffle_enabled
+                else -> R.drawable.ic_auto_shuffle_disabled
+            }
+            pscb.addCustomAction("${BuildConfig.APP_ID}.shuffle", getString(R.string.shuffle_title), shuffleResId)
             val repeatResId = when (repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_auto_repeat_pressed
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_auto_repeat_one_pressed
                 else -> R.drawable.ic_auto_repeat_normal
             }
             pscb.addCustomAction("${BuildConfig.APP_ID}.repeat", getString(R.string.repeat_title), repeatResId)
-        }
-        if (playlistManager.canShuffle()) {
-            actions = actions or PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE
-            val shuffleResId = when {
-                isShuffling -> R.drawable.ic_auto_shuffle_enabled
-                else -> R.drawable.ic_auto_shuffle_disabled
-            }
-            pscb.addCustomAction("${BuildConfig.APP_ID}.shuffle", getString(R.string.shuffle_title), shuffleResId)
-        }
-        if (isSeekable) {
-            actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
             if (settings.getBoolean("enable_android_auto_seek_buttons", false)) addCustomSeekActions(pscb)
         }
+        actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
         pscb.setActions(actions)
         mediaSession.setRepeatMode(repeatType)
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
