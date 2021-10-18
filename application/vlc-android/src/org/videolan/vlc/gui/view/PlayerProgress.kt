@@ -41,6 +41,8 @@ class PlayerProgress : View {
 
     private val progressColor = ContextCompat.getColor(context, R.color.white)
     private val boostColor = ContextCompat.getColor(context, R.color.orange700)
+    private val shadowColor = ContextCompat.getColor(context, R.color.blacktransparent)
+    private val backgroundColor = ContextCompat.getColor(context, R.color.white_transparent_50)
 
     private val paintProgress = Paint()
     private val paintBackground = Paint()
@@ -66,7 +68,7 @@ class PlayerProgress : View {
     }
 
     private fun initialize() {
-        paintBackground.color = ContextCompat.getColor(context, R.color.white_transparent_50)
+        paintBackground.color = backgroundColor
         paintBackground.isAntiAlias = true
         paintProgress.isAntiAlias = true
     }
@@ -80,6 +82,12 @@ class PlayerProgress : View {
 
         //draw background
         roundedRectanglePath(left, top, right, bottom, radius, radius)
+        paintBackground.setShadowLayer(6F,0F,0F, shadowColor)
+        canvas?.drawPath(path, paintBackground)
+        paintBackground.clearShadowLayer()
+        paintBackground.color = 0x00000000
+        canvas?.drawPath(path, paintBackground)
+        paintBackground.color = backgroundColor
         canvas?.drawPath(path, paintBackground)
 
         //draw progress
