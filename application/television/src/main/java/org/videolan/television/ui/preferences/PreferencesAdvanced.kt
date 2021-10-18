@@ -73,7 +73,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (BuildConfig.DEBUG) findPreference<Preference>("debug_logs")?.isVisible = false
-        if (BuildConfig.DEBUG && FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
+        if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
     }
 
     override fun onStart() {
