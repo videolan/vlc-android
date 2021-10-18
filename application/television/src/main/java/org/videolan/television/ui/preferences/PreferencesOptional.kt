@@ -27,10 +27,14 @@ import android.annotation.TargetApi
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import androidx.preference.CheckBoxPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceScreen
 import kotlinx.coroutines.*
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.FeatureFlagWarningDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FeatureFlagManager
 
@@ -75,6 +79,23 @@ class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         val enabled = findPreference<CheckBoxPreference>(key)!!.isChecked
         FeatureFlagManager.getByKey(key)?.let { FeatureFlagManager.enable(activity,it, enabled) }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == null) return super.onPreferenceTreeClick(preference)
+        FeatureFlagManager.getByKey(preference.key)?.let {
+            if (it.warning != null) {
+                val currentPreference = findPreference<CheckBoxPreference>(preference.key)!!
+                if (!currentPreference.isChecked) return true
+                currentPreference.isChecked = false
+                val dialog = FeatureFlagWarningDialog.newInstance(it) {
+                    currentPreference.isChecked = true
+                }
+                dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                return true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 
 }

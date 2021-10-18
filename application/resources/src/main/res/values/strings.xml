@@ -846,7 +846,8 @@
     <string name="optional_features">Optional features</string>
     <string name="optional_features_summary">Beta features that are currently being tested and may not be stable</string>
     <string name="optional_features_warning">This feature is in beta and may cause crashes and instabilities</string>
-    <string name="network_indexation" translatable="false">Network indexation</string>
+    <string name="network_indexation">Network indexation</string>
+    <string name="network_indexation_warning">Network indexation is currently in beta.\nKnown issues:\n• Slow performance\n\nIf you encounter some other issues, please report them on our forum.</string>
     <string name="start_vlc">Start VLC</string>
 
     <!-- Duplication Warning Dialog -->
