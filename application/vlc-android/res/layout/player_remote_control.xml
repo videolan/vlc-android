@@ -15,6 +15,12 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="false" />
 
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_overlay_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/player_tips" />
+
     <RelativeLayout
             android:id="@+id/player_overlay_background"
             android:layout_width="match_parent"
