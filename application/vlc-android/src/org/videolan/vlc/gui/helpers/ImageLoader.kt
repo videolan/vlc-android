@@ -326,8 +326,13 @@ private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean): Med
         val type = mw.type
         val isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO
         val uri = mw.uri
-        if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
-        if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
+        val scheme = try {
+            uri.scheme
+        } catch (e: NullPointerException) {
+            ""
+        }
+        if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == scheme)) return item
+        if (isMediaFile && "file" == scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
                 ?: item
     }
     return item

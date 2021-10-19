@@ -1265,28 +1265,33 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val queue = withContext(Dispatchers.Default) {
             ArrayList<MediaSessionCompat.QueueItem>(toIndex - fromIndex).also {
                 for ((position, media) in mediaList.subList(fromIndex, toIndex).withIndex()) {
-                    val title: String = media.nowPlaying ?: media.title
-                    val mediaId = MediaSessionBrowser.generateMediaId(media)
-                    val iconUri = when {
-                        isSchemeHttpOrHttps(media.artworkMrl) -> {
-                            //ArtworkProvider will cache remote images
-                            ArtworkProvider.buildUri(Uri.Builder()
-                                    .appendPath(ArtworkProvider.REMOTE)
-                                    .appendQueryParameter(ArtworkProvider.PATH, media.artworkMrl)
-                                    .build())
+                    try {
+                        val title: String = media.nowPlaying ?: media.title
+                        val mediaId = MediaSessionBrowser.generateMediaId(media)
+                        val iconUri = when {
+                            isSchemeHttpOrHttps(media.artworkMrl) -> {
+                                //ArtworkProvider will cache remote images
+                                ArtworkProvider.buildUri(Uri.Builder()
+                                        .appendPath(ArtworkProvider.REMOTE)
+                                        .appendQueryParameter(ArtworkProvider.PATH, media.artworkMrl)
+                                        .build())
+                            }
+                            ThumbnailsProvider.isMediaVideo(media) -> ArtworkProvider.buildMediaUri(media)
+                            else -> artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON
                         }
-                        ThumbnailsProvider.isMediaVideo(media) -> ArtworkProvider.buildMediaUri(media)
-                        else -> artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON
+                        val mediaDesc = MediaDescriptionCompat.Builder()
+                                .setTitle(title)
+                                .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
+                                .setDescription(MediaUtils.getMediaAlbum(ctx, media))
+                                .setIconUri(iconUri)
+                                .setMediaUri(media.uri)
+                                .setMediaId(mediaId)
+                                .build()
+                        it.add(MediaSessionCompat.QueueItem(mediaDesc, (fromIndex + position).toLong()))
+                    } catch (e: NullPointerException) {
+                        Log.e("PlaybackService", e.message, e)
+                        VLCCrashHandler.saveLog(e)
                     }
-                    val mediaDesc = MediaDescriptionCompat.Builder()
-                            .setTitle(title)
-                            .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
-                            .setDescription(MediaUtils.getMediaAlbum(ctx, media))
-                            .setIconUri(iconUri)
-                            .setMediaUri(media.uri)
-                            .setMediaId(mediaId)
-                            .build()
-                    it.add(MediaSessionCompat.QueueItem(mediaDesc, (fromIndex + position).toLong()))
                 }
             }
         }
