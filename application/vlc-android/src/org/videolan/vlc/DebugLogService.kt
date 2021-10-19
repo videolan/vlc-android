@@ -182,6 +182,9 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
                 bw.write("Useful info\r\n")
                 bw.write("____________________________\r\n")
                 bw.write("App version: ${BuildConfig.VLC_VERSION_CODE} / ${BuildConfig.VLC_VERSION_NAME}\r\n")
+                bw.write("libvlc: ${BuildConfig.LIBVLC_VERSION}\r\n")
+                bw.write("medialibrary: ${BuildConfig.ML_VERSION}\r\n")
+                bw.write("____________________________\r\n")
                 try {
                     bw.write("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(this)}\r\n")
                 } catch (e: Exception) {
