@@ -45,6 +45,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.audio_playlist_tips.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
@@ -53,6 +55,8 @@ import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     private lateinit var thirdItemBinding: PlaylistItemBinding
     private lateinit var secondItemBinding: PlaylistItemBinding

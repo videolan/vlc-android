@@ -196,14 +196,16 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             ID_SHOW_AUDIO_TIPS -> {
                 hide()
                 val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
-                val vsc = audioPlayerContainerActivity.findViewById<ViewStubCompat>(R.id.audio_player_tips)
-                audioPlayerContainerActivity.tipsDelegate.init(vsc)
+                audioPlayerContainerActivity.findViewById<ViewStubCompat>(R.id.audio_player_tips)?.let {
+                    audioPlayerContainerActivity.tipsDelegate.init(it)
+                }
             }
             ID_SHOW_PLAYLIST_TIPS -> {
                 hide()
                 val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
-                val vsc = audioPlayerContainerActivity.findViewById<ViewStubCompat>(R.id.audio_playlist_tips)
-                audioPlayerContainerActivity.playlistTipsDelegate.init(vsc)
+                audioPlayerContainerActivity.findViewById<ViewStubCompat>(R.id.audio_playlist_tips)?.let {
+                    audioPlayerContainerActivity.playlistTipsDelegate.init(it)
+                }
             }
             ID_BOOKMARK -> {
                 hide()
