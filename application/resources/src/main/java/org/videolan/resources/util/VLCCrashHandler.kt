@@ -52,17 +52,18 @@ class VLCCrashHandler : UncaughtExceptionHandler {
          * @param ex: the [Throwable] to log
          * @return the [Throwable] with versions appended
          */
-        fun saveLog(ex: Throwable):Throwable {
+        fun saveLog(ex: Throwable, watermark:String = ""):Throwable {
             val result = StringWriter()
             val printWriter = PrintWriter(result)
 
             // Inject some info about android version and the device, since google can't provide them in the developer console
             val trace = ex.stackTrace
-            val trace2 = arrayOfNulls<StackTraceElement>(trace.size + 3)
+            val trace2 = arrayOfNulls<StackTraceElement>(trace.size + if (watermark.isNotEmpty()) 4  else 3)
             System.arraycopy(trace, 0, trace2, 0, trace.size)
             trace2[trace.size + 0] = StackTraceElement("Android", "MODEL", android.os.Build.MODEL, -1)
             trace2[trace.size + 1] = StackTraceElement("Android", "VERSION", android.os.Build.VERSION.RELEASE, -1)
             trace2[trace.size + 2] = StackTraceElement("Android", "FINGERPRINT", android.os.Build.FINGERPRINT, -1)
+           if (watermark.isNotEmpty()) trace2[trace.size + 3] = StackTraceElement("VLC", "Watermark", watermark, -1)
             ex.stackTrace = trace2
 
             ex.printStackTrace(printWriter)

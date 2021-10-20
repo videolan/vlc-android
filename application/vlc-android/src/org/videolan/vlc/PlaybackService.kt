@@ -1223,7 +1223,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     }
                 } catch (e: java.lang.NullPointerException) {
                     Log.e("PlaybackService", "Caught NullPointerException", e)
-                    VLCCrashHandler.saveLog(e)
+                    VLCCrashHandler.saveLog(e, "NullPointerException in PlaybackService updateMediaQueue")
                 }
             }
             artworkToUriCache.clear()
@@ -1290,7 +1290,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                         it.add(MediaSessionCompat.QueueItem(mediaDesc, (fromIndex + position).toLong()))
                     } catch (e: NullPointerException) {
                         Log.e("PlaybackService", e.message, e)
-                        VLCCrashHandler.saveLog(e)
+                        VLCCrashHandler.saveLog(e, "NullPointerException in PlaybackService buildQueue")
                     }
                 }
             }
