@@ -22,6 +22,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -493,7 +494,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     medialibrary.setLastTime(media.id, time)
                     //todo this is not really optimised. The ML should return the new time value right away to let us save the processed new time.
                     // See https://code.videolan.org/videolan/medialibrary/-/issues/369
-                    media.time = medialibrary.getMedia(media.id).time
+                    try {
+                        media.time = medialibrary.getMedia(media.id).time
+                    } catch (e: NullPointerException) {
+                        VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
+                    }
                 }
             }
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
