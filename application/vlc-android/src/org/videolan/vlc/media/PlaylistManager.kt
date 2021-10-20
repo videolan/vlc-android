@@ -634,21 +634,25 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    fun previousTotalTime() = when {
-        mediaList.size() == 0 || currentIndex < 0 -> {
-            0
-        }
-        shuffling -> {
-            mediaList.copy.asSequence()
-                .filterIndexed { index, _ -> previous.contains(index) }
-                .map { it.length }
-                .sum()
-        }
-        else -> {
-            mediaList.copy.asSequence()
-                .take(currentIndex)
-                .map { it.length }
-                .sum()
+    fun previousTotalTime(): Long {
+        val index = currentIndex
+        val copy = mediaList.copy
+        return when {
+            copy.size == 0 || index < 0 -> {
+                0
+            }
+            shuffling -> {
+                copy.asSequence()
+                        .filterIndexed { index, _ -> previous.contains(index) }
+                        .map { it.length }
+                        .sum()
+            }
+            else -> {
+                copy.asSequence()
+                        .take(index)
+                        .map { it.length }
+                        .sum()
+            }
         }
     }
 
