@@ -30,6 +30,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import java.lang.Exception
 import java.security.SecureRandom
 import java.util.*
 import kotlin.math.max
@@ -103,6 +104,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     fun loadLocations(mediaPathList: List<String>, position: Int) {
+        if (BuildConfig.BETA) {
+            Log.d(TAG, "loadLocations with values: ", Exception("Call stack"))
+            mediaPathList.forEach { Log.d(TAG, "Media location: $it") }
+        }
         launch {
             val mediaList = ArrayList<MediaWrapper>()
             withContext(Dispatchers.IO) {
@@ -116,8 +121,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         }
                         Log.v(TAG, "Creating on-the-fly Media object for $location")
                         mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(location.toUri())
+                        if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
                         mediaList.add(mediaWrapper)
                     } else
+                        if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
                         mediaList.add(mediaWrapper)
                 }
             }
@@ -132,6 +139,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.removeEventListener(this@PlaylistManager)
         previous.clear()
         videoBackground = false
+        if (BuildConfig.BETA) {
+            Log.d(TAG, "load with values: ", Exception("Call stack"))
+            list.forEach { Log.d(TAG, "Media location: ${it.uri}") }
+        }
         mediaList.replaceWith(list)
         if (!hasMedia()) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -152,6 +163,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (mlUpdate) {
             service.awaitMedialibraryStarted()
             mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
+            if (BuildConfig.BETA) {
+                Log.d(TAG, "load after ml update with values: ")
+                mediaList.copy.forEach { Log.d(TAG, "Media location: ${it.uri}") }
+            }
             service.onMediaListChanged()
             service.showNotification()
         }
@@ -667,6 +682,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     private suspend fun expand(updateHistory: Boolean): Int {
+        if (BuildConfig.BETA) Log.d(TAG, "expand with values: ", Exception("Call stack"))
         val index = currentIndex
         val expandedMedia = getCurrentMedia()
         val stream = expandedMedia?.type == MediaWrapper.TYPE_STREAM
@@ -684,7 +700,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     shouldDisableCookieForwarding = true
                 }
                 withContext(Dispatchers.IO) { child.parse() }
-                mediaList.insert(index+i, MLServiceLocator.getAbstractMediaWrapper(child))
+                if (BuildConfig.BETA)  Log.d(TAG, "inserting: ${child.uri}")
+                mediaList.insert(index + i, MLServiceLocator.getAbstractMediaWrapper(child))
                 child.release()
             }
             mediaList.addEventListener(this)
@@ -757,6 +774,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     suspend fun append(list: List<MediaWrapper>) {
+        if (BuildConfig.BETA) Log.d(TAG, "append with values: ", Exception("Call stack"))
         if (!hasCurrentMedia()) {
             launch { load(list, 0, mlUpdate = true) }
             return
@@ -764,6 +782,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
         mediaList.removeEventListener(this)
         for (media in list) mediaList.add(media)
+        if (BuildConfig.BETA) list.forEach { Log.d(TAG, "Media location: ${it.uri}") }
         mediaList.addEventListener(this)
         addUpdateActor.offer(Unit)
     }
@@ -774,6 +793,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun insertNext(list: List<MediaWrapper>) {
+        if (BuildConfig.BETA) Log.d(TAG, "insertNext with values: ", Exception("Call stack"))
+        if (BuildConfig.BETA) list.forEach { Log.d(TAG, "Media location: ${it.uri}") }
         if (!hasCurrentMedia()) {
             launch { load(list, 0) }
             return
@@ -789,7 +810,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun moveItem(positionStart: Int, positionEnd: Int) = mediaList.move(positionStart, positionEnd)
 
     @MainThread
-    fun insertItem(position: Int, mw: MediaWrapper) = mediaList.insert(position, mw)
+    fun insertItem(position: Int, mw: MediaWrapper) {
+        if (BuildConfig.BETA) Log.d(TAG, "insertItem with values: ", Exception("Call stack"))
+        if (BuildConfig.BETA) Log.d(TAG, "Media location: ${mw.uri}")
+        mediaList.insert(position, mw)
+    }
 
 
     @MainThread
