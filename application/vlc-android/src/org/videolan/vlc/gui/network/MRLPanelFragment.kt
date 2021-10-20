@@ -44,6 +44,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.ContentActivity
@@ -60,8 +61,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         View.OnClickListener, BrowserFragmentInterface,
         IStreamsFragmentDelegate by StreamsFragmentDelegate(), KeyboardListener {
 
+    private lateinit var binding: MrlPanelBinding
     private lateinit var adapter: MRLAdapter
-    private lateinit var editText: com.google.android.material.textfield.TextInputLayout
     private lateinit var viewModel: StreamsModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,12 +72,11 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = MrlPanelBinding.inflate(inflater, container, false)
+        binding = MrlPanelBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
-        editText = binding.mrlEdit
-        editText.editText?.setOnKeyListener(this)
-        editText.editText?.setOnEditorActionListener(this)
-        editText.editText?.requestFocus()
+        binding.mrlEdit.editText?.setOnKeyListener(this)
+        binding.mrlEdit.editText?.setOnEditorActionListener(this)
+        binding.mrlEdit.editText?.requestFocus()
 
         adapter = MRLAdapter(getlistEventActor())
         val recyclerView = binding.mrlList
@@ -114,11 +114,14 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     override fun onResume() {
         super.onResume()
         //Needed after privacy changes made in Android 10
-        editText.doOnLayout {
+        binding.mrlEdit.doOnLayout {
             try {
                 val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
                 val text = clipBoardManager?.primaryClip?.getItemAt(0)?.text?.toString()
-                if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+                if (text.isValidUrl()) {
+                    viewModel.observableSearchText.set(text)
+                    binding.clipboardIndicator.setVisible()
+                }
             } catch (e: Exception) { }
         }
     }
@@ -157,6 +160,6 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     }
 
     override fun hideKeyboard() {
-        UiTools.setKeyboardVisibility(editText, false)
+        UiTools.setKeyboardVisibility(binding.mrlEdit, false)
     }
 }
