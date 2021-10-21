@@ -31,6 +31,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/orange800</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="actionBarSize">@dimen/toolbar_height</item>
         <item name="colorOnSurface">@color/black</item>
         <item name="colorControlHighlight">@color/orange800</item>
         <item name="colorControlNormal">@color/grey700</item>
@@ -180,6 +181,7 @@
     <style name="Theme.VLC.Apearance.Black" parent="Theme.MaterialComponents.NoActionBar">
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="actionBarSize">@dimen/toolbar_height</item>
 
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
