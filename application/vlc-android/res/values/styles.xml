@@ -183,7 +183,7 @@
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/grey875</item>
-        <item name="background_default">@color/black</item>
+        <item name="background_default">@color/dark_background</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background_dark</item>
         <item name="audio_header_background">@color/mini_player_dark</item>
         <item name="audio_header_divider">@color/black</item>
@@ -196,9 +196,9 @@
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="bottom_sheet_radius">16dp</item>
         <item name="bottom_navigation_color">@color/grey500</item>
-        <item name="header_background">@color/blacktransparent</item>
+        <item name="header_background">@color/dark_background</item>
         <item name="background_default_darker">@color/grey875</item>
-        <item name="background_actionbar">@color/black</item>
+        <item name="background_actionbar">@color/dark_background</item>
         <item name="background_audio_tips">@color/black_transparent_90</item>
         <item name="audio_player_background_tint">@color/black_transparent_50</item>
         <item name="audio_browser_separator">@color/orange500</item>
@@ -210,7 +210,7 @@
         <item name="list_title">@color/list_title_dark</item>
         <item name="donate_card">@color/orange500transparent</item>
         <item name="donate_item_background">@drawable/donate_background_color_dark</item>
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@color/dark_background</item>
         <item name="audio_chips_color">@color/white_transparent_90</item>
         <item name="audio_chips_text_color">@color/black_transparent_60</item>
         <item name="bottom_navigation_focus">@color/white_transparent_10</item>
