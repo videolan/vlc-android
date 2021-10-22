@@ -104,6 +104,7 @@ import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.FileUtils.getUri
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
@@ -848,7 +849,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (data == null) return
 
         if (data.hasExtra(EXTRA_MRL)) {
-            service?.addSubtitleTrack(data.getStringExtra(EXTRA_MRL)!!.toUri(), false)
+            val subtitleUri = data.getStringExtra(EXTRA_MRL)!!.toUri()
+            service?.addSubtitleTrack(getUri(subtitleUri) ?: subtitleUri, false)
             service?.currentMediaWrapper?.let {
                 SlaveRepository.getInstance(this).saveSlave(it.location, IMedia.Slave.Type.Subtitle, 2, data.getStringExtra(EXTRA_MRL)!!)
             }
