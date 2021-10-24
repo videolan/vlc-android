@@ -177,8 +177,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         when (event.type) {
             MediaPlayer.Event.Playing -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Playing")
-                executeUpdate()
-                publishState()
+                executeUpdate(true)
                 lastTime = getTime()
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
@@ -187,8 +186,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
             MediaPlayer.Event.Paused -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Paused")
-                executeUpdate()
-                publishState()
+                executeUpdate(true)
                 showNotification()
                 if (wakeLock.isHeld) wakeLock.release()
             }
@@ -196,8 +194,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             MediaPlayer.Event.LengthChanged -> {
                 lastChaptersCount = getChapters(-1)?.size ?: 0
                 if (lastLength == 0L) {
-                    executeUpdate()
-                    publishState()
+                    executeUpdate(true)
                 }
             }
             MediaPlayer.Event.PositionChanged -> {
@@ -740,11 +737,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     fun onMediaEvent(event: IMedia.Event) = cbActor.safeOffer(CbMediaEvent(event))
 
-    fun executeUpdate() {
+    fun executeUpdate(pubState: Boolean = false) {
         cbActor.safeOffer(CbUpdate)
         updateWidget()
         updateMetadata()
         broadcastMetadata()
+        if (pubState)
+            publishState()
     }
 
     private class PlaybackServiceHandler(owner: PlaybackService) : WeakHandler<PlaybackService>(owner) {

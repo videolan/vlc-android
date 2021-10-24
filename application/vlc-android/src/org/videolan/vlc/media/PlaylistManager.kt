@@ -493,7 +493,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private fun executeUpdate() {
-        service.executeUpdate()
+        service.executeUpdate(true)
     }
 
     fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
