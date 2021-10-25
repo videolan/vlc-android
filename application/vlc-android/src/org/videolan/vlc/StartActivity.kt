@@ -114,7 +114,7 @@ class StartActivity : FragmentActivity() {
             val cd = intent.clipData
             val item = if (cd != null && cd.itemCount > 0) cd.getItemAt(0) else null
             if (item != null) {
-                var uri: Uri? = item.uri
+                var uri: Uri? = FileUtils.getUri(item.uri)
                 if (uri == null && item.text != null) uri = item.text.toString().toUri()
                 if (uri != null) {
                     MediaUtils.openMediaNoUi(uri)
