@@ -51,6 +51,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ActionMode
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -74,6 +75,7 @@ import org.videolan.resources.util.launchForeground
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.tools.isStarted
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -710,6 +712,20 @@ fun setTouchListener(view: View, onTouchListener: View.OnTouchListener?) {
 @BindingAdapter("selected")
 fun isSelected(v: View, isSelected: Boolean?) {
     v.isSelected = isSelected!!
+}
+
+@BindingAdapter("selectedPadding")
+fun selectedPadding(v: View, isSelected: Boolean?) {
+    val padding = if (isSelected == true) 16.dp else 0.dp
+    v.setPadding(padding, padding, padding, padding)
+}
+
+@BindingAdapter("selectedElevation")
+fun selectedElevation(v: View, isSelected: Boolean?) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        val elevation = if (isSelected == true) 0.dp else 4.dp
+        if (v is CardView) v.cardElevation = elevation.toFloat() else v.elevation = elevation.toFloat()
+    }
 }
 
 fun BaseActivity.applyTheme() {

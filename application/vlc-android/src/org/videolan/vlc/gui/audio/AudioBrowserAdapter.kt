@@ -297,6 +297,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             super.selectView(selected)
             binding.setVariable(BR.selected, selected)
             binding.itemMore.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
+            binding.mainActionButton.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
         override fun setItem(item: MediaLibraryItem?) {
