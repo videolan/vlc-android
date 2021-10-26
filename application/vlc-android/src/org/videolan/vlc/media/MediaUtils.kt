@@ -582,6 +582,34 @@ fun VideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = fal
     return all
 }
 
+@WorkerThread
+fun Album.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+    var index = 0
+    val count = realTracksCount
+    val all = mutableListOf<MediaWrapper>()
+    while (index < count) {
+        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+        val list = getPagedTracks(sort, desc, includeMissing, pageCount, index)
+        all.addAll(list)
+        index += pageCount
+    }
+    return all
+}
+
+@WorkerThread
+fun Artist.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+    var index = 0
+    val count = tracksCount
+    val all = mutableListOf<MediaWrapper>()
+    while (index < count) {
+        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+        val list = getPagedTracks(sort, desc, includeMissing, pageCount, index)
+        all.addAll(list)
+        index += pageCount
+    }
+    return all
+}
+
 fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
     when (it) {
         is VideoGroup -> it.getAll(sort, desc)

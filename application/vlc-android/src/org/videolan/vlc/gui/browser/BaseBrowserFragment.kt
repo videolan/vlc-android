@@ -392,6 +392,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             stopActionMode()
             return false
         }
+        mode.title = requireActivity().getString(R.string.selection_count, count)
         val fileBrowser = this is FileBrowserFragment
         val single = fileBrowser && count == 1
         val selection = if (single) adapter.multiSelectHelper.getSelection() else null

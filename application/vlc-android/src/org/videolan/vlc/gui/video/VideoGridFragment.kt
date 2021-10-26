@@ -38,6 +38,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.onEach
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -59,6 +60,7 @@ import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
@@ -336,6 +338,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             stopActionMode()
             return false
         }
+        lifecycleScope.launch { fillActionMode(requireActivity(), mode, multiSelectHelper) }
         when (viewModel.groupingType) {
             VideoGroupingType.NONE -> {
                 menu.findItem(R.id.action_video_append).isVisible = PlaylistManager.hasMedia()
@@ -551,7 +554,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun onLongClick(position: Int) {
         multiSelectHelper.toggleSelection(position, true)
-        if (actionMode == null) startActionMode()
+        if (actionMode == null) startActionMode() else invalidateActionMode()
     }
 
     private fun onClick(position: Int, item: MediaLibraryItem) {

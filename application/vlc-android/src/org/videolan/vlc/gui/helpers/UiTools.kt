@@ -50,6 +50,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -64,12 +65,14 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.MediaParsingService
@@ -83,6 +86,7 @@ import org.videolan.vlc.gui.dialogs.VLCBillingDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
 
@@ -758,4 +762,32 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
         }
     }
     else -> R.drawable.ic_browser_unknown_big_normal
+}
+
+suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper: MultiSelectHelper<MediaLibraryItem>) {
+    var realCount = 0
+    var length = 0L
+    withContext(Dispatchers.IO) {
+        multiSelectHelper.getSelection().forEach { mediaItem ->
+            when (mediaItem) {
+                is MediaWrapper -> realCount += 1
+                is Album -> realCount += mediaItem.realTracksCount
+                is Artist -> realCount += mediaItem.tracksCount
+                is VideoGroup -> realCount += mediaItem.mediaCount()
+                is Folder -> realCount += mediaItem.mediaCount(Folder.TYPE_FOLDER_VIDEO)
+            }
+        }
+
+        multiSelectHelper.getSelection().forEach { mediaItem ->
+            when (mediaItem) {
+                is MediaWrapper -> length += mediaItem.length
+                is Album -> mediaItem.getAll().forEach { length += it.length }
+                is Artist -> mediaItem.getAll().forEach { length += it.length }
+                is VideoGroup -> mediaItem.getAll().forEach { length += it.length }
+                is Folder -> mediaItem.getAll().forEach { length += it.length }
+            }
+        }
+    }
+    mode.title = context.getString(R.string.selection_count, realCount)
+    mode.subtitle = "${ Tools.millisToString(length)}"
 }

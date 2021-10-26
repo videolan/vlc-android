@@ -223,6 +223,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             stopActionMode()
             return false
         }
+        mode.title = requireActivity().getString(R.string.selection_count, selectionCount)
         menu.findItem(R.id.action_history_info).isVisible = selectionCount == 1
         menu.findItem(R.id.action_history_append).isVisible = PlaylistManager.hasMedia()
         return true

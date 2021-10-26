@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
@@ -270,6 +271,9 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             stopActionMode()
             return false
         }
+        getCurrentAdapter()?.multiSelectHelper?.let {
+            lifecycleScope.launch { fillActionMode(requireActivity(), mode, it) }
+        }
         val isMedia = selection.first().itemType == MediaLibraryItem.TYPE_MEDIA
         val isSong = count == 1 && isMedia
         menu.findItem(R.id.action_mode_audio_set_song).isVisible = isSong && AndroidDevices.isPhone
@@ -342,7 +346,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position, true)
-        if (actionMode == null) startActionMode()
+        if (actionMode == null) startActionMode() else invalidateActionMode()
         return true
     }
 
