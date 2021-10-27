@@ -9,6 +9,7 @@
         android:name="android.permission.READ_LOGS"
         android:maxSdkVersion="18"/> <!-- android:maxSdkVersion="15" -->
     <!-- vibration on audioplayer buttons long press -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE"/> <!-- used for setting ringtone -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/> <!-- STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- Internet -->
