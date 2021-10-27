@@ -95,7 +95,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
 
         if (supportFragmentManager.findFragmentById(R.id.fragment_placeholder) == null) {
             val fragmentId = intent.getStringExtra(KEY_FRAGMENT)
-            fetchSecondaryFragment(fragmentId)
+            fragmentId?.let { fetchSecondaryFragment(it) }
             if (fragment == null) {
                 finish()
                 return
@@ -185,10 +185,11 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 setResult(RESULT_RESTART)
             }
             FILE_BROWSER -> {
-                val media = intent.getParcelableExtra(KEY_MEDIA) as MediaWrapper
-                fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
-                else FileBrowserFragment()
-                fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
+                (intent.getParcelableExtra(KEY_MEDIA) as? MediaWrapper)?.let { media ->
+                    fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+                    else FileBrowserFragment()
+                    fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
+                }
             }
             else -> throw IllegalArgumentException("Wrong fragment id.")
         }

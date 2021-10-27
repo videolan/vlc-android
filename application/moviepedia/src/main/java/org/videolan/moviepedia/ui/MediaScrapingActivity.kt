@@ -66,7 +66,13 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
         binding.nextResults.adapter = mediaScrapingResultAdapter
         binding.nextResults.layoutManager = GridLayoutManager(this, 2)
 
-        media = intent.getParcelableExtra(MOVIEPEDIA_MEDIA)
+        intent.getParcelableExtra<MediaWrapper>(MOVIEPEDIA_MEDIA)?.let {
+            media = it
+        }
+        if (!::media.isInitialized) {
+            finish()
+            return
+        }
 
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)

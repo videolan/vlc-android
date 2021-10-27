@@ -104,13 +104,13 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
                     val device = intent.getParcelableExtra<UsbDevice>(UsbManager.EXTRA_DEVICE)
-                    devices.add(device)
+                    device?.let { devices.add(it) }
                 }
             }
             UsbManager.ACTION_USB_DEVICE_DETACHED -> if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
                 OtgAccess.otgRoot.value = null
                 val device = intent.getParcelableExtra<UsbDevice>(UsbManager.EXTRA_DEVICE)
-                devices.remove(device)
+                device?.let { devices.remove(it) }
             }
         }
     }

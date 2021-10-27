@@ -101,9 +101,10 @@ object AudioUtil {
                     values.put(MediaStore.Audio.Media.DATA, newRingtone.absolutePath)
 
                     val uri = withContext(Dispatchers.IO) {
-                        val tmpUri = MediaStore.Audio.Media.getContentUriForPath(newRingtone.absolutePath)
-                        contentResolver.delete(tmpUri, MediaStore.MediaColumns.DATA + "=\"" + newRingtone.absolutePath + "\"", null)
-                        contentResolver.insert(tmpUri, values)
+                        MediaStore.Audio.Media.getContentUriForPath(newRingtone.absolutePath)?.let { tmpUri ->
+                            contentResolver.delete(tmpUri, MediaStore.MediaColumns.DATA + "=\"" + newRingtone.absolutePath + "\"", null)
+                            contentResolver.insert(tmpUri, values)
+                        }
                     }
                     RingtoneManager.setActualDefaultRingtoneUri(
                             applicationContext,

@@ -184,8 +184,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             }
             ACTION_RELOAD -> actions.safeOffer(Reload(intent.getStringExtra(EXTRA_PATH)))
             ACTION_FORCE_RELOAD -> actions.safeOffer(ForceReload)
-            ACTION_DISCOVER -> discover(intent.getStringExtra(EXTRA_PATH))
-            ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(EXTRA_PATH))
+            ACTION_DISCOVER -> intent.getStringExtra(EXTRA_PATH)?.let { discover(it) }
+            ACTION_DISCOVER_DEVICE -> intent.getStringExtra(EXTRA_PATH)?.let { discoverStorage(it) }
             ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.safeOffer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()

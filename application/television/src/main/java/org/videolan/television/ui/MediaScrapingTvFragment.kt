@@ -101,7 +101,7 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
         setOnItemViewClickedListener(defaultItemClickedListener)
         val intent = requireActivity().intent
         if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action)
-            onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY))
+            intent.getStringExtra(SearchManager.QUERY)?.let { onQueryTextSubmit(it) }
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         media = extras.getParcelable(MediaScrapingTvActivity.MEDIA) ?: return

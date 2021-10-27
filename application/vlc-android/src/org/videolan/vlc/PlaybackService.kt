@@ -623,9 +623,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             ACTION_REMOTE_STOP -> stop()
             ACTION_PLAY_FROM_SEARCH -> {
                 if (!this::mediaSession.isInitialized) initMediaSession()
-                val extras = intent.getBundleExtra(EXTRA_SEARCH_BUNDLE)
-                mediaSession.controller.transportControls
-                        .playFromSearch(extras.getString(SearchManager.QUERY), extras)
+                intent.getBundleExtra(EXTRA_SEARCH_BUNDLE)?.let {
+                    mediaSession.controller.transportControls
+                            .playFromSearch(it.getString(SearchManager.QUERY), it)
+                }
             }
             ACTION_REMOTE_SWITCH_VIDEO -> {
                 removePopup()
