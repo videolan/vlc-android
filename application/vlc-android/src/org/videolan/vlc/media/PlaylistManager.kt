@@ -489,7 +489,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val currentMedia = getCurrentMedia() ?: return@launch
         if (currentMedia.uri.scheme == "fd") return@launch
         //Save progress
-        val time = player.getCurrentTime()
+        val time = player.mediaplayer.time
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
         val rate = player.getRate()
