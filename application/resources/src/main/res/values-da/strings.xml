@@ -65,7 +65,7 @@
     <string name="unknown_album">Ukendt album</string>
     <string name="unknown_genre">Ukendt genre</string>
     <string name="songs">Sange</string>
-    <string name="track_info_copied_to_clipboard">Sporinformationen blev kopieret til udklipsholderen</string>
+    <string name="track_info_copied_to_clipboard">Sporinformationen blev kopieret til udklipsholder</string>
 
     <string name="artists">Kunstnere</string>
     <string name="albums">Album</string>
@@ -683,7 +683,7 @@
     <string name="directory_not_scanned">Mappen er ikke blevet skannet</string>
     <string name="scanned_directory_added">%s blevet tilføjet til dine skannet mapper</string>
     <string name="video_group_size_summary">Gruppér efter %s første bogstaver</string>
-    <string name="url_copied_to_clipboard">Url\'en blev kopieret til udklipsholderen</string>
+    <string name="url_copied_to_clipboard">Url\'en blev kopieret til udklipsholder</string>
     <string name="share">Del</string>
     <string name="invalid_file">Ugyldig fil. Kan ikke deles.</string>
     <string name="share_file">Del %s</string>
