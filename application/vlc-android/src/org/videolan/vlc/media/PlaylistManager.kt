@@ -106,7 +106,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun loadLocations(mediaPathList: List<String>, position: Int) {
         if (BuildConfig.BETA) {
             Log.d(TAG, "loadLocations with values: ", Exception("Call stack"))
-            mediaPathList.forEach { Log.d(TAG, "Media location: $it") }
+            mediaPathList.forEach {
+                try {
+                    Log.d(TAG, "Media location: $it")
+                } catch (e: NullPointerException) {
+                    Log.d(TAG, "Media crash", e)
+                }
+            }
         }
         launch {
             val mediaList = ArrayList<MediaWrapper>()
@@ -141,7 +147,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         videoBackground = false
         if (BuildConfig.BETA) {
             Log.d(TAG, "load with values: ", Exception("Call stack"))
-            list.forEach { Log.d(TAG, "Media location: ${it.uri}") }
+            list.forEach {
+                try {
+                    Log.d(TAG, "Media location: ${it.uri}")
+                } catch (e: NullPointerException) {
+                    Log.d(TAG, "Media crash", e)
+                }
+            }
         }
         mediaList.replaceWith(list)
         if (!hasMedia()) {
@@ -782,7 +794,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
         mediaList.removeEventListener(this)
         for (media in list) mediaList.add(media)
-        if (BuildConfig.BETA) list.forEach { Log.d(TAG, "Media location: ${it.uri}") }
+        if (BuildConfig.BETA) list.forEach {
+            try {
+                Log.d(TAG, "Media location: ${it.uri}")
+            } catch (e: NullPointerException) {
+                Log.d(TAG, "Media crash", e)
+            }
+        }
         mediaList.addEventListener(this)
         addUpdateActor.offer(Unit)
     }
