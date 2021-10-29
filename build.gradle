@@ -53,7 +53,7 @@ ext {
     androidxLeanbackVersion = '1.0.0'
     //fixme : When we update this dep, please verify of this issue is fixed: https://github.com/material-components/material-components-android/issues/1086
     // if so, revert application/vlc-android/res/values[-v21]/styles.xml -> AppModalStyle
-    androidxMaterialVersion = '1.3.0'
+    androidxMaterialVersion = '1.4.0'
     //fixme: when updating to 2.1.x+, we should remove the 'layout_optimizationLevel' attribute we added in some layouts as a workaround for this issue: https://issuetracker.google.com/issues/170313444
     constraintLayoutVersion = '2.0.4'
     viewPager2Version = "1.0.0"

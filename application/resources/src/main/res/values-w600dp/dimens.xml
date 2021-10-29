@@ -6,4 +6,5 @@
     <dimen name="subs_dl_dialog_width">512dp</dimen>
     <dimen name="wizard_dialog_width">448dp</dimen>
     <dimen name="default_context_width">512dp</dimen>
+    <dimen name="navigation_margin">72dp</dimen>
 </resources>

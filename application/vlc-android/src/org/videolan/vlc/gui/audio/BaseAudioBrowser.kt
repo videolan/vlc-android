@@ -54,6 +54,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
@@ -173,7 +174,9 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         }
         when (providerInCard) {
             true -> {
-                adapter.cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+                val screenWidth = (requireActivity() as? INavigator)?.getFragmentWidth(requireActivity()) ?: requireActivity().getScreenWidth()
+                val itemSize = RecyclerSectionItemGridDecoration.getItemSize(screenWidth, nbColumns, spacing)
+                adapter.cardSize = itemSize
                 displayListInGrid(list, adapter, provider, spacing)
             }
             else -> {

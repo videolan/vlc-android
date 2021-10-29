@@ -41,6 +41,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -57,6 +58,9 @@ import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.audio.AudioPlaylistTipsDelegate
 import org.videolan.vlc.gui.audio.AudioTipsDelegate
+import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
+import org.videolan.vlc.gui.helpers.PlayerBehavior
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IRefreshable
@@ -82,6 +86,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     lateinit var appBarLayout: AppBarLayout
     protected lateinit var toolbar: Toolbar
     private var tabLayout: TabLayout? = null
+    private var navigationRail: NavigationRailView? = null
     lateinit var audioPlayer: AudioPlayer
     private lateinit var audioPlayerContainer: FrameLayout
     lateinit var playerBehavior: PlayerBehavior<*>
@@ -142,13 +147,14 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         setSupportActionBar(toolbar)
         appBarLayout = findViewById(R.id.appbar)
         tabLayout = findViewById(R.id.sliding_tabs)
+        navigationRail = findViewById(R.id.navigation_rail)
         tabLayout?.visibility = View.VISIBLE
         appBarLayout.setExpanded(true)
         bottomBar = findViewById(R.id.navigation)
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
-            val isTabLayoutShown = (tabLayout?.layoutParams?.height != 0)
-            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (isTabLayoutShown) 4.dp.toFloat() else 0.dp.toFloat()
+            val needToElevate = (tabLayout?.layoutParams?.height != 0) || navigationRail?.visibility != View.GONE
+            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (needToElevate) 9.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
     }

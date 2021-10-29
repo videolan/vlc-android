@@ -62,6 +62,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "VLC/MainActivity"
 
@@ -110,6 +111,7 @@ class MainActivity : ContentActivity(),
                 AllAccessPermissionDialog.newInstance().show(supportFragmentManager, AllAccessPermissionDialog::class.simpleName)
             }?.show()
         }
+        configurationChanged(getScreenWidth())
     }
 
 
