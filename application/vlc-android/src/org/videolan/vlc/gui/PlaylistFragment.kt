@@ -22,10 +22,13 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -186,6 +189,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         lp.width = if (viewModel.providerInCard) ViewGroup.LayoutParams.MATCH_PARENT else {
             dimension.toInt()
         }
+        (playlists.parent as View).setBackgroundColor(if (!viewModel.providerInCard && dimension != -1F) backgroundColor else ContextCompat.getColor(requireContext(), R.color.transparent))
+        playlists.setBackgroundColor(if (!viewModel.providerInCard && dimension != -1F) listColor else ContextCompat.getColor(requireContext(), R.color.transparent))
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
