@@ -158,14 +158,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         for (i in 0 until MODE_TOTAL) {
             if (i >= lists.size || i >= adapters.size) continue
             if (lists[i].layoutManager is GridLayoutManager) {
                 val gridLayoutManager = lists[i].layoutManager as GridLayoutManager
                 gridLayoutManager.spanCount = nbColumns
                 lists[i].layoutManager = gridLayoutManager
-                adapters[i].cardSize = itemSize
                 adapters[i].notifyItemRangeChanged(gridLayoutManager.findFirstVisibleItemPosition(), gridLayoutManager.findLastVisibleItemPosition() - gridLayoutManager.findFirstVisibleItemPosition())
             }
         }
@@ -184,11 +182,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel = getViewModel()
         currentTab = viewModel.currentTab
 
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
-
-        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = if (viewModel.providersInCard[1]) itemSize else -1)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[2]) itemSize else -1)
+        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
         genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
         setupProvider()
