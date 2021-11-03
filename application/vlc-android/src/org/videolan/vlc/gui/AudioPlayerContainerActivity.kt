@@ -235,6 +235,14 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         super.onDestroy()
     }
 
+    override fun onResume() {
+        if (playerShown)
+            applyMarginToProgressBar(playerBehavior.peekHeight)
+        else
+            applyMarginToProgressBar(0)
+        super.onResume()
+    }
+
     override fun onBackPressed() {
         if (slideDownAudioPlayer()) return
         super.onBackPressed()
