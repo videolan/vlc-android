@@ -432,7 +432,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 updateTitleConstraints()
                 updateHudMargins()
 
-                if (seekButtons) initSeekButton()
+                initSeekButton()
 
 
                 resetHudLayout()
