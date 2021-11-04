@@ -466,7 +466,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
      */
     private fun jump(forward:Boolean, long:Boolean) {
         playlistModel.service ?.let { service ->
-            val jumpDelay = if (long) Settings.videoLongJumpDelay else Settings.videoJumpDelay
+            val jumpDelay = if (long) Settings.audioLongJumpDelay else Settings.audioJumpDelay
             val delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
             var position = service.getTime() + delay
             if (position < 0) position = 0
