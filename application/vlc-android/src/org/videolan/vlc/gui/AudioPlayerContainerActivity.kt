@@ -171,6 +171,9 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         if (bottomIsHiddden)  bottomBehavior?.setCollapsed()
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
+        playerBehavior.setPeekHeightListener {
+            applyMarginToProgressBar(playerBehavior.peekHeight)
+        }
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 audioPlayer.onSlide(slideOffset)
