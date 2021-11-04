@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.browser
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
 import android.text.InputType
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -129,7 +128,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         })
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
-        networkEntry.visibility = if (FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXATION)) View.VISIBLE else View.GONE
+        networkEntry.visibility = if (FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXING)) View.VISIBLE else View.GONE
         networkEntry.loading.showNoMedia = false
         networkEntry.loading.emptyText = R.string.nomedia
         val networkAdapter = StorageBrowserAdapter(getBrowserContainer(true))

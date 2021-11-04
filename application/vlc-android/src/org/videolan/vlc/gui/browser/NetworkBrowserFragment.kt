@@ -27,7 +27,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -90,7 +89,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
             mrl?.let {
                 val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
-                menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("smb") && !isScanned && FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXATION)
+                menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("smb") && !isScanned && FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXING)
             }
         }
 

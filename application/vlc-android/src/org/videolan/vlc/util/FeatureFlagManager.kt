@@ -53,7 +53,7 @@ object FeatureFlagManager {
  * @param title: a string reference for this feature's title
  */
 enum class FeatureFlag(var dependsOn:FeatureFlag?, @StringRes var title:Int, @StringRes var warning:Int?) {
-    NETWORK_INDEXATION(null, R.string.network_indexation, R.string.network_indexation_warning);
+    NETWORK_INDEXING(null, R.string.network_indexing, R.string.network_indexing_warning);
 
     @SuppressLint("DefaultLocale")
     fun getKey() = "ff_${name.toLowerCase()}"
