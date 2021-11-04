@@ -67,12 +67,14 @@
                 app:singleLineTitle="false" />
 
 
-        <ListPreference
-                android:defaultValue="2"
-                android:entries="@array/video_hud_timeout_entries"
-                android:entryValues="@array/video_hud_timeout_values"
-                android:key="video_hud_timeout"
+        <SeekBarPreference
+                android:defaultValue="4"
+                android:key="video_hud_timeout_in_s"
+                app:updatesContinuously="true"
                 android:summary="%s"
+                android:max="15"
+                app:min="0"
+                app:seekBarIncrement="1"
                 android:title="@string/video_hud_timeout"
                 app:singleLineTitle="false" />
     </PreferenceCategory>

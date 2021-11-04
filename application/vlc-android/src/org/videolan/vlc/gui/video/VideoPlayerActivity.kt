@@ -935,7 +935,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             return false
         }
         if (isShowing || fov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !overlayDelegate.playlistContainer.isVisible())
-            overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+            overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
         when (keyCode) {
             KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
                 touchDelegate.seekDelta(Settings.videoDoubleTapJumpDelay * 1000)
@@ -1005,7 +1005,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(-300000)
@@ -1026,7 +1026,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(300000)
@@ -1047,7 +1047,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
                 } else if (event.isCtrlPressed) {
                     volumeUp()
                     return true
@@ -1063,7 +1063,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
                 } else if (event.isCtrlPressed) {
                     volumeDown()
                     return true
@@ -1076,7 +1076,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(OVERLAY_TIMEOUT)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
                 } else if (!isShowing) {
                     doPlayPause()
                     return true
@@ -1384,7 +1384,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updateOverlayPausePlay()
         updateNavStatus()
         if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
-            handler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT.toLong())
+            handler.sendEmptyMessageDelayed(FADE_OUT, Settings.videoHudDelay.toLong())
         else {
             mw.removeFlags(MediaWrapper.MEDIA_PAUSED)
             wasPaused = false
@@ -2181,7 +2181,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val KEY_TIME = "saved_time"
         private const val KEY_LIST = "saved_list"
         private const val KEY_URI = "saved_uri"
-        const val OVERLAY_TIMEOUT = 4000
         const val OVERLAY_INFINITE = -1
         const val FADE_OUT = 1
         const val FADE_OUT_INFO = 2

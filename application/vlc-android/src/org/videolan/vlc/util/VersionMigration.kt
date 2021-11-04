@@ -37,7 +37,7 @@ import org.videolan.tools.*
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 3
+private const val CURRENT_VERSION = 4
 
 object VersionMigration {
 
@@ -52,6 +52,9 @@ object VersionMigration {
         }
         if (lastVersion < 3) {
             migrateToVersion3(context)
+        }
+        if (lastVersion < 4) {
+            migrateToVersion4(settings)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
@@ -106,6 +109,23 @@ object VersionMigration {
         Log.i(this::class.java.simpleName, "Migrating to Version 3: remove all WatchNext programs")
         withContext(Dispatchers.IO) {
             deleteAllWatchNext(context)
+        }
+    }
+
+    /**
+     * Migrate the video hud timeout preference to a value in seconds
+     */
+    private fun migrateToVersion4(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 4: migrate from video_hud_timeout to video_hud_timeout_in_s")
+        val hudTimeOut = settings.getString("video_hud_timeout", "2")?.toInt() ?: 2
+        settings.edit {
+            when  {
+                hudTimeOut < 0 -> putInt(VIDEO_HUD_TIMEOUT, -1)
+                hudTimeOut == 2 -> putInt(VIDEO_HUD_TIMEOUT, 4)
+                hudTimeOut == 3 -> putInt(VIDEO_HUD_TIMEOUT, 8)
+                else -> putInt(VIDEO_HUD_TIMEOUT, 2)
+            }
+            remove("video_hud_timeout")
         }
     }
 }

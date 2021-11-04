@@ -50,7 +50,15 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
         findPreference<Preference>(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY)?.title = getString(if (AndroidDevices.isAndroidTv) R.string.video_key_jump_delay else R.string.video_double_tap_jump_delay)
+        updateHudTimeoutSummary()
 
+    }
+
+    private fun updateHudTimeoutSummary() {
+        when (Settings.videoHudDelay) {
+            0 -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary = getString(R.string.timeout_infinite)
+            else -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary =  getString(R.string.video_hud_timeout_summary, Settings.videoHudDelay.toString())
+        }
     }
 
     override fun onStart() {
@@ -68,7 +76,8 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
         when (key) {
             VIDEO_HUD_TIMEOUT -> {
-                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
+                Settings.videoHudDelay = sharedPreferences.getInt(VIDEO_HUD_TIMEOUT, 4)
+                updateHudTimeoutSummary()
             }
             KEY_VIDEO_JUMP_DELAY -> {
                 Settings.videoJumpDelay = sharedPreferences.getInt(KEY_VIDEO_JUMP_DELAY, 10)

@@ -39,7 +39,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
-        videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
+        videoHudDelay = prefs.getInt(VIDEO_HUD_TIMEOUT, 4)
         device = DeviceInfo(context)
         includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         showHeaders = prefs.getBoolean(KEY_SHOW_HEADERS, true)
@@ -136,7 +136,7 @@ const val KEY_PLAYBACK_SPEED_PERSIST = "playback_speed"
 const val KEY_PLAYBACK_SPEED_PERSIST_VIDEO = "playback_speed_video"
 const val KEY_VIDEO_APP_SWITCH = "video_action_switch"
 const val VIDEO_TRANSITION_SHOW = "video_transition_show"
-const val VIDEO_HUD_TIMEOUT = "video_hud_timeout"
+const val VIDEO_HUD_TIMEOUT = "video_hud_timeout_in_s"
 const val RESULT_RESCAN = Activity.RESULT_FIRST_USER + 1
 const val RESULT_RESTART = Activity.RESULT_FIRST_USER + 2
 const val RESULT_RESTART_APP = Activity.RESULT_FIRST_USER + 3
