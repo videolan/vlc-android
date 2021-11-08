@@ -255,16 +255,16 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android</string>
-    <string name="licence">License</string>
     <string name="revision">Revision</string>
     <string name="about">About</string>
     <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
-    <string name="about_link" translatable="false">        &lt;a href=&quot;https://www.videolan.org/vlc/&quot;&gt;https://www.videolan.org/vlc/&lt;/a&gt;</string>
-    <string name="authors" translatable="false">Edward&#160;Wang, Sébastien&#160;Toque, Adrien&#160;Maglo, Jean-Baptiste&#160;Kempf, Ludovic&#160;Fauvet, Rafaël&#160;Carré, Alexandre&#160;Perraud, Michael&#160;Merg, Martin&#160;Storsjö, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Felix&#160;Abecassis, Christoph&#160;Miebach, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John&#160;Mooring, Pavol&#160;Rusnak, Rohit&#160;Yadav, Tanguy&#160;Pruvot, Thomas&#160;Clavier, Asad&#160;Mehmood, Garret&#160;Kelly, Philipp&#160;Dreimann, Walter&#160;Heck, Thomas&#160;Guillem, Geoffrey&#160;Métais, Habib&#160;Kazemi, Nicolas&#160;Pomepuy</string>
-    <string name="feedback_link" translatable="false">&lt;a href=&quot;https://forum.videolan.org/viewforum.php?f=35&quot;&gt;%s&lt;/a&gt;</string>
-    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2021 by VideoLAN.\n</string>
+    <string name="authors">Authors</string>
+    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2021 by VideoLAN</string>
+    <string name="about_license" translatable="false">GNU General Public License v2.0</string>
     <string name="vlc_authors">and VLC Authors.</string>
-    <string name="compiled_by">This version of VLC is compiled by:</string>
+    <string name="is_compiled_by">Compiled by</string>
+    <string name="sources">Source code</string>
+    <string name="libraries">Libraries</string>
     <string name="feedback_forum">Feedback forum</string>
 
     <!-- Preferences -->
@@ -898,5 +898,7 @@
         <item quantity="one">1 of the selected items is already in this playlist.</item>
         <item quantity="other">%d of the selected items are already in this playlist.</item>
     </plurals>
+    <string name="official_website">Official website</string>
+    <string name="view_online">View online</string>
 
 </resources>

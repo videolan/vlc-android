@@ -1,0 +1,86 @@
+/**
+ * **************************************************************************
+ * LicenseDialog.kt
+ * ****************************************************************************
+ * Copyright © 2015 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * ***************************************************************************
+ */
+package org.videolan.vlc.gui.dialogs
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.databinding.DialogLicenseBinding
+import org.videolan.vlc.gui.LibraryWithLicense
+
+const val LICENSE_ITEM = "LICENSE_ITEM"
+
+/**
+ * Dialog showing a license text
+ */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+class LicenseDialog : VLCBottomSheetDialogFragment() {
+
+    private lateinit var licenseItem: LibraryWithLicense
+    private lateinit var binding: DialogLicenseBinding
+
+    companion object {
+
+        fun newInstance(libraryWithLicense: LibraryWithLicense): LicenseDialog {
+            return LicenseDialog().apply {
+                arguments = bundleOf(LICENSE_ITEM to libraryWithLicense)
+            }
+        }
+    }
+
+    override fun getDefaultState(): Int {
+        return STATE_EXPANDED
+    }
+
+    override fun needToManageOrientation(): Boolean {
+        return false
+    }
+
+    override fun initialFocusedView(): View = binding.title
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        licenseItem = arguments?.getParcelable(LICENSE_ITEM) ?: return
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DialogLicenseBinding.inflate(layoutInflater, container, false)
+        binding.library = licenseItem
+        binding.licenseButton.setOnClickListener {
+            if (licenseItem.licenseLink.isNotEmpty()) requireActivity().startActivity(Intent(Intent.ACTION_VIEW, licenseItem.licenseLink.toUri()))
+        }
+        return binding.root
+    }
+}
+
+
+
+
+

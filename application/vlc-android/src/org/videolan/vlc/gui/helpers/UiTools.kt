@@ -37,7 +37,6 @@ import android.os.Handler
 import android.os.Looper
 import android.renderscript.*
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
@@ -56,7 +55,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -72,16 +70,17 @@ import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.launchForeground
-import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.Settings
-import org.videolan.tools.dp
-import org.videolan.tools.isStarted
+import org.videolan.tools.*
+import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
+//import org.videolan.vlc.donations.BillingStatus
+//import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.LibrariesActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
@@ -334,25 +333,16 @@ object UiTools {
         v?.setOnClickListener(ocl)
     }
 
-
-    fun fillAboutView(v: View) {
-        val link = v.findViewById<TextView>(R.id.main_link)
-        link.text = HtmlCompat.fromHtml(v.context.getString(R.string.about_link),
-            HtmlCompat.FROM_HTML_MODE_LEGACY)
-
-        val feedback : TextView= v.findViewById(R.id.feedback)
-        feedback.text = HtmlCompat.fromHtml(v.context.getString(R.string.feedback_link,
-                v.context.getString(R.string.feedback_forum)), HtmlCompat.FROM_HTML_MODE_LEGACY)
-        feedback.movementMethod = LinkMovementMethod.getInstance()
-
-        val revision = v.context.getString(R.string.build_revision) + " VLC: " + v.context.getString(R.string.build_vlc_revision)
+    /**
+     * Fill the about main view for mobile and TV
+     */
+    fun fillAboutView(activity: FragmentActivity, v: View) {
         val builddate = v.context.getString(R.string.build_time)
-        val builder = v.context.getString(R.string.build_host)
-
-        val compiled = v.findViewById<TextView>(R.id.main_compiled)
-        compiled.text = "$builder ($builddate)"
-        val textViewRev = v.findViewById<TextView>(R.id.main_revision)
-        textViewRev.text = v.context.getString(R.string.revision) + " " + revision + " (" + builddate + ") "
+        val appVersion = v.findViewById<TextView>(R.id.app_version)
+        appVersion.text = VLC_VERSION_NAME
+        val appVersionDate = v.findViewById<TextView>(R.id.app_version_date)
+        appVersionDate.text = builddate
+        v.findViewById<View>(R.id.sliding_tabs).setGone()
 
         val logo = v.findViewById<ImageView>(R.id.logo)
         logo.setOnClickListener {
@@ -363,7 +353,42 @@ object UiTools {
             anim.addAnimation(rotate)
             logo.startAnimation(anim)
         }
+
+        v.findViewById<View>(R.id.version_card).setOnClickListener {
+            AboutVersionDialog.newInstance().show(activity.supportFragmentManager, "AboutVersionDialog")
+        }
+        v.findViewById<View>(R.id.about_website_container).setOnClickListener {
+            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://www.videolan.org/vlc/".toUri()))
+        }
+        v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
+            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://forum.videolan.org/viewforum.php?f=35".toUri()))
+        }
+        v.findViewById<View>(R.id.about_sources_container).setOnClickListener {
+            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://code.videolan.org/videolan/vlc-android".toUri()))
+        }
+
+        v.findViewById<View>(R.id.about_authors_container).setOnClickListener {
+            AboutAuthorsDialog.newInstance().show(activity.supportFragmentManager, "AboutAuthorsDialog")
+        }
+        v.findViewById<View>(R.id.about_libraries_container).setOnClickListener {
+            activity.startActivity(Intent(activity, LibrariesActivity::class.java))
+        }
+
+        val donationsButton = v.findViewById<CardView>(R.id.donationsButton)
+//        VLCBilling.getInstance(activity.application).addStatusListener {
+//            manageDonationVisibility(activity,donationsButton)
+//        }
+//        manageDonationVisibility(activity,donationsButton)
+
+
+        donationsButton.setOnClickListener {
+            activity.showDonations()
+        }
     }
+
+//    private fun manageDonationVisibility(activity: FragmentActivity, donationsButton:View) {
+//        if (VLCBilling.getInstance(activity.application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(activity.application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
+//    }
 
     fun setKeyboardVisibility(v: View?, show: Boolean) {
         if (v == null) return
@@ -766,7 +791,7 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             HEADER_MOVIES, CATEGORY_NOW_PLAYING_PIP -> R.drawable.ic_browser_movie_big
             HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
             ID_SETTINGS -> R.drawable.ic_menu_preferences_big
-            ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
+            ID_ABOUT_TV -> R.drawable.ic_default_cone
             ID_SPONSOR -> R.drawable.ic_donate_big
             CATEGORY_ARTISTS -> R.drawable.ic_artist_big
             CATEGORY_ALBUMS -> R.drawable.ic_album_big

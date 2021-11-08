@@ -22,6 +22,7 @@ android {
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
+        resValue "string", "changelog", changelog()
         resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
@@ -229,6 +230,26 @@ def revision() {
         standardOutput = code
     }
     return code.toString()
+}
+
+/**
+ * Generate a changelog string from the NEWS file
+ * @return a string containing the latest changelog entry
+ */
+def changelog() {
+    def newsFile = new File("NEWS")
+    def line, output = "", started = false
+    newsFile.withReader { reader ->
+        while ((line = reader.readLine()) != null) {
+            if (started && !line?.trim()) break
+            if (started) {
+                if (output != "") output += "\\n"
+                output += line.trim()
+            }
+            if (line.contains("---")) started = true
+        }
+    }
+    return output
 }
 
 def isBeta() {
