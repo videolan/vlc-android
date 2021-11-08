@@ -228,6 +228,11 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
+    private fun checkforSeekFailure(forward: Boolean) {
+        if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0))
+            playbackService.displayPlaybackMessage(R.string.unseekable_stream)
+    }
+
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
@@ -277,9 +282,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.getTime() + pos else pos, fromUser = true)
 
-    override fun onFastForward() = playbackService.seek((playbackService.getTime() + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
+    override fun onFastForward() {
+        playbackService.seek((playbackService.getTime() + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
+        checkforSeekFailure(forward = true)
+    }
 
-    override fun onRewind() = playbackService.seek((playbackService.getTime() - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
+    override fun onRewind() {
+        playbackService.seek((playbackService.getTime() - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
+        checkforSeekFailure(forward = false)
+    }
 
     override fun onSkipToQueueItem(id: Long) = playbackService.playIndexOrLoadLastPlaylist(id.toInt())
 }

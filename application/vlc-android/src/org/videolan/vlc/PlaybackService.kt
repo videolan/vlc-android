@@ -103,6 +103,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private lateinit var artworkMap: MutableMap<String, Uri>
 
     private val callbacks = mutableListOf<Callback>()
+    private val subtitleMessage = ArrayDeque<String>(1)
     private lateinit var cbActor : SendChannel<CbAction>
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
@@ -915,6 +916,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val length = length
         lastLength = length
         val chapterTitle = if (lastChaptersCount > 0) getChapters(-1)?.elementAtOrNull(lastChapter)?.name else null
+        val displayMsg = subtitleMessage.poll()
         val bob = withContext(Dispatchers.Default) {
             val carMode = AndroidDevices.isCarMode(ctx)
             val title = media.nowPlaying ?: media.title
@@ -931,7 +933,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
             if (carMode) {
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, chapterTitle ?: title)
-                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
+                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, displayMsg ?: MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
             if (Permissions.canReadStorage(this@PlaybackService) && coverOnLockscreen) {
@@ -1310,6 +1312,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 .setErrorMessage(PlaybackStateCompat.ERROR_CODE_NOT_SUPPORTED, ctx.getString(resId))
                 .build()
         mediaSession.setPlaybackState(playbackState)
+    }
+
+    fun displayPlaybackMessage(@StringRes resId: Int, vararg formatArgs: String) {
+        val ctx = this@PlaybackService
+        subtitleMessage.push(ctx.getString(resId, *formatArgs))
+        updateMetadata()
     }
 
     @MainThread
