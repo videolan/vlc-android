@@ -117,6 +117,7 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             })
             bookmarkModel.refresh()
         }
+        bookmarkModel.refresh()
         rootView.setVisible()
         markerContainer.setVisible()
         visibilityListener.invoke()

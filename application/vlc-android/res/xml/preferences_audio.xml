@@ -59,6 +59,12 @@
         <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
+            android:key="enable_android_auto_speed_buttons"
+            android:summary="@string/enable_android_auto_speed_buttons_summary"
+            android:title="@string/enable_android_auto_speed_buttons"/>
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
             android:key="enable_android_auto_seek_buttons"
             android:summary="@string/enable_android_auto_seek_buttons_summary"
             android:title="@string/enable_android_auto_seek_buttons"/>

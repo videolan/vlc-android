@@ -27,6 +27,7 @@ import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import java.security.SecureRandom
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.min
 
 @Suppress("unused")
@@ -108,6 +109,22 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onCustomAction(actionId: String?, extras: Bundle?) {
         when (actionId) {
+            "${BuildConfig.APP_ID}.speed" -> {
+                val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
+                val index = 1 + steps.indexOf(steps.minByOrNull { abs(playbackService.rate - it) })
+                playbackService.setRate(steps[index % steps.size], false)
+            }
+            "${BuildConfig.APP_ID}.bookmark" -> {
+                playbackService.lifecycleScope.launch {
+                    val context = playbackService.applicationContext
+                    playbackService.currentMediaWrapper?.let {
+                        val bookmark = it.addBookmark(playbackService.getTime())
+                        val bookmarkName = context.getString(R.string.bookmark_name, it.bookmarks.size.toString())
+                        bookmark?.setName(bookmarkName)
+                        playbackService.displayPlaybackMessage(R.string.saved, bookmarkName)
+                    }
+                }
+            }
             "${BuildConfig.APP_ID}.rewind" -> onRewind()
             "${BuildConfig.APP_ID}.fast_forward" -> onFastForward()
             "${BuildConfig.APP_ID}.shuffle" -> if (playbackService.canShuffle()) playbackService.shuffle()

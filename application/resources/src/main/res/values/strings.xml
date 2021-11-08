@@ -326,8 +326,10 @@
     <string name="enable_volume_gesture_summary">Control volume by gesture during video playback</string>
     <string name="enable_seek_buttons">Seek buttons</string>
     <string name="enable_seek_buttons_summary">Show rewind and fast forward buttons on the video interface</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto playback speed</string>
+    <string name="enable_android_auto_speed_buttons_summary">Show speed control in the overflow menu</string>
     <string name="enable_android_auto_seek_buttons">Android Auto seek buttons</string>
-    <string name="enable_android_auto_seek_buttons_summary">Show rewind and fast forward on the Android Auto interface. Try holding steering wheel previous and next buttons before enabling.</string>
+    <string name="enable_android_auto_seek_buttons_summary">Show rewind and fast forward in the overflow menu. Try holding steering wheel previous and next buttons before enabling.</string>
     <string name="enable_double_tap_seek_title">Double tap to seek</string>
     <string name="enable_double_tap_seek_summary">Double tap on screen edges to seek by 10 seconds</string>
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
@@ -574,6 +576,7 @@
     <string name="existing_custom_set_save_message">Save equalizer-set as…</string>
     <string name="new_custom_set_save_message">Save new equalizer-set as…</string>
     <string name="save">Save</string>
+    <string name="saved">Saved %s</string>
     <string name="do_not_save">Do not save</string>
     <string name="custom_set_deleted_message">Custom equalizer-set \"%1$s\" deleted.</string>
     <string name="custom_set_wrong_input">Invalid name.</string>
@@ -849,6 +852,7 @@
     <string name="bookmarks_title">Bookmarks</string>
     <string name="no_bookmark">No bookmark yet</string>
     <string name="bookmark_name">Bookmark %s</string>
+    <string name="add_bookmark">Add bookmark</string>
     <string name="optional_features">Optional features</string>
     <string name="optional_features_summary">Beta features that are currently being tested and may not be stable</string>
     <string name="optional_features_warning">This feature is in beta and may cause crashes and instabilities</string>

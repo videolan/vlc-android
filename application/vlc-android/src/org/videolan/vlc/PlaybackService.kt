@@ -82,6 +82,7 @@ import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 import videolan.org.commontools.LiveEvent
 import java.util.*
+import kotlin.math.abs
 
 private const val TAG = "VLC/PlaybackService"
 
@@ -1002,6 +1003,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
         if (podcastMode) {
             addCustomSeekActions(pscb)
+            addCustomSpeedActions(pscb)
+            pscb.addCustomAction("${BuildConfig.APP_ID}.bookmark", getString(R.string.add_bookmark), R.drawable.ic_bookmark_add)
         } else {
             if (playlistManager.canRepeat())
                 actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
@@ -1019,7 +1022,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 else -> R.drawable.ic_auto_repeat_normal
             }
             pscb.addCustomAction("${BuildConfig.APP_ID}.repeat", getString(R.string.repeat_title), repeatResId)
-            if (settings.getBoolean("enable_android_auto_seek_buttons", false)) addCustomSeekActions(pscb)
+            addCustomSpeedActions(pscb, settings.getBoolean("enable_android_auto_speed_buttons", false))
+            addCustomSeekActions(pscb, settings.getBoolean("enable_android_auto_seek_buttons", false))
         }
         actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
         pscb.setActions(actions)
@@ -1044,7 +1048,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
     }
 
-    private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder) {
+    private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder, showSeekActions: Boolean = true) {
+        if (!showSeekActions) return
         pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder("${BuildConfig.APP_ID}.rewind",
                 getString(R.string.playback_rewind), R.drawable.ic_auto_rewind_10)
                 .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
@@ -1053,6 +1058,23 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 getString(R.string.playback_forward), R.drawable.ic_auto_forward_10)
                 .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
                 .build())
+    }
+
+    private fun addCustomSpeedActions(pscb: PlaybackStateCompat.Builder, showSpeedActions: Boolean = true) {
+        val speed = playlistManager.player.speed.value ?: 1.0F
+        if (speed != 1.0F || showSpeedActions) {
+            val speedIcons = hashMapOf(
+                0.50f to R.drawable.ic_auto_speed_0_50,
+                0.80f to R.drawable.ic_auto_speed_0_80,
+                1.00f to R.drawable.ic_auto_speed_1_00,
+                1.10f to R.drawable.ic_auto_speed_1_10,
+                1.20f to R.drawable.ic_auto_speed_1_20,
+                1.50f to R.drawable.ic_auto_speed_1_50,
+                2.00f to R.drawable.ic_auto_speed_2_00
+            )
+            val speedResId = speedIcons[speedIcons.keys.minByOrNull { abs(speed - it) }] ?: R.drawable.ic_auto_speed
+            pscb.addCustomAction("${BuildConfig.APP_ID}.speed", getString(R.string.playback_speed), speedResId)
+        }
     }
 
     fun notifyTrackChanged() {
