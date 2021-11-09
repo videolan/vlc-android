@@ -57,11 +57,11 @@ class LegendView : ConstraintLayout, PlotViewDataChangeListener {
     private fun initAttributes(attrs: AttributeSet, defStyle: Int) {
         attrs.let {
 
-            val a = context.theme.obtainStyledAttributes(attrs, R.styleable.LPGPlotView, 0, defStyle)
+            val a = context.theme.obtainStyledAttributes(attrs, R.styleable.LPGLegendView, 0, defStyle)
             try {
-                plotViewId = a.getResourceId(a.getIndex(R.styleable.LPGLegendView_lpg_plot_view), -1)
+                plotViewId = a.getResourceId(R.styleable.LPGLegendView_lpg_plot_view, -1)
             } catch (e: Exception) {
-                Log.w("", e.message, e)
+                Log.w("LegendView", e.message, e)
             } finally {
                 a.recycle()
             }
@@ -72,11 +72,12 @@ class LegendView : ConstraintLayout, PlotViewDataChangeListener {
         super.onAttachedToWindow()
         //workaround for editor
         if (!isInEditMode) {
-            context?.let {
-                plotView = (it as Activity).findViewById(plotViewId)
-                if (!::plotView.isInitialized) throw IllegalStateException("A valid plot view has to be provided")
-                plotView.addListener(this)
-            }
+            (context as? Activity)?.let { activity ->
+                activity.findViewById<PlotView>(plotViewId)?.let {
+                    plotView = it
+                    plotView.addListener(this)
+                }
+            } ?: Log.w("LegendView", "Cannot find the plot view with id $plotViewId")
         }
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
     }
