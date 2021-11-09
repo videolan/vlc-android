@@ -61,6 +61,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
@@ -74,8 +76,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
-//import org.videolan.vlc.donations.BillingStatus
-//import org.videolan.vlc.donations.VLCBilling
+import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.LibrariesActivity
@@ -372,6 +373,15 @@ object UiTools {
         }
         v.findViewById<View>(R.id.about_libraries_container).setOnClickListener {
             activity.startActivity(Intent(activity, LibrariesActivity::class.java))
+        }
+        v.findViewById<View>(R.id.about_vlc_card).setOnClickListener {
+           var licenseText = ""
+            activity.lifecycleScope.launchWhenStarted {
+                licenseText = AppContextProvider.appContext.assets.open("vlc_license.txt").bufferedReader().use {
+                   it.readText()
+               }
+            }
+            LicenseDialog.newInstance(LibraryWithLicense(activity.getString(R.string.app_name),activity.getString(R.string.about_copyright) , activity.getString(R.string.about_license), licenseText, "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")).show(activity.supportFragmentManager, "LicenseDialog")
         }
 
         val donationsButton = v.findViewById<CardView>(R.id.donationsButton)
