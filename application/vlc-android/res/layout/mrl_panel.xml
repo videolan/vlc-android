@@ -13,8 +13,7 @@
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/background_default"
-            app:layout_behavior="org.videolan.vlc.gui.helpers.BottomSheetBehavior">
+            android:background="?attr/background_default">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/mrl_root"

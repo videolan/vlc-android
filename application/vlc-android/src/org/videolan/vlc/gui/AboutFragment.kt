@@ -21,26 +21,35 @@
 package org.videolan.vlc.gui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.view.ActionMode
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import org.videolan.tools.dp
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class AboutFragment : Fragment() {
+class AboutFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.about, container, false)
     }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) = false
+
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?) = false
+
+    override fun onDestroyActionMode(mode: ActionMode?) {}
+
+    override fun getTitle() = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

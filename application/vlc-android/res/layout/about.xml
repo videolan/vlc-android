@@ -431,5 +431,15 @@
 
 
         </androidx.cardview.widget.CardView>
+
+        <nl.dionsegijn.konfetti.KonfettiView
+                android:id="@+id/konfetti"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:elevation="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

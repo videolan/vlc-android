@@ -38,10 +38,7 @@ import android.os.Looper
 import android.renderscript.*
 import android.text.TextUtils
 import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.RotateAnimation
+import android.view.animation.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -61,9 +58,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
+import nl.dionsegijn.konfetti.KonfettiView
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
@@ -346,13 +344,37 @@ object UiTools {
         v.findViewById<View>(R.id.sliding_tabs).setGone()
 
         val logo = v.findViewById<ImageView>(R.id.logo)
+        val konfettiView = v.findViewById<KonfettiView>(R.id.konfetti)
         logo.setOnClickListener {
-            val anim = AnimationSet(true)
-            val rotate = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-            rotate.duration = 800
-            rotate.interpolator = DecelerateInterpolator()
-            anim.addAnimation(rotate)
-            logo.startAnimation(anim)
+            logo.animate().rotationBy(360F).translationY(-24.dp.toFloat()).setDuration(600).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+                logo.animate().translationY(0F).setStartDelay(75).setDuration(300).setInterpolator(OvershootInterpolator(3.0F)).withEndAction {
+
+                }
+                konfettiView.build()
+                        .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
+                        .setDirection(315.0, 360.0)
+                        .setSpeed(3f, 9f)
+                        .setFadeOutEnabled(true)
+                        .setTimeToLive(2000L)
+                        .addShapes(Shape.Circle, Shape.Square)
+                        .addSizes(Size(4))
+                        .setPosition(logo.x + logo.width - 12.dp, logo.x + logo.width - 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
+                        .setRotationEnabled(false)
+                        .setDelay(275)
+                        .burst(35)
+                konfettiView.build()
+                        .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
+                        .setDirection(180.0, 225.0)
+                        .setSpeed(3f, 9f)
+                        .setFadeOutEnabled(true)
+                        .setTimeToLive(2000L)
+                        .addShapes(Shape.Circle, Shape.Square)
+                        .addSizes(Size(4))
+                        .setPosition(logo.x + 12.dp, logo.x + 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
+                        .setRotationEnabled(false)
+                        .setDelay(275)
+                        .burst(35)
+            }
         }
 
         v.findViewById<View>(R.id.version_card).setOnClickListener {

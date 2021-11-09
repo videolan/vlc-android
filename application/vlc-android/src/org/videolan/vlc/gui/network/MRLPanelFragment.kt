@@ -24,13 +24,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
@@ -47,6 +45,7 @@ import org.videolan.tools.isValidUrl
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
+import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.UiTools
@@ -57,13 +56,14 @@ const val TAG = "VLC/MrlPanelFragment"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorActionListener,
+class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorActionListener,
         View.OnClickListener, BrowserFragmentInterface,
         IStreamsFragmentDelegate by StreamsFragmentDelegate(), KeyboardListener {
 
     private lateinit var binding: MrlPanelBinding
     private lateinit var adapter: MRLAdapter
     private lateinit var viewModel: StreamsModel
+    override fun getTitle() = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +105,12 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         return binding.root
     }
 
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) = false
+
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?) = false
+
+    override fun onDestroyActionMode(mode: ActionMode?) {}
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.dataset.observe(requireActivity(), { adapter.update(it) })
@@ -122,7 +128,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
                     viewModel.observableSearchText.set(text)
                     binding.clipboardIndicator.setVisible()
                 }
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+            }
         }
     }
 
