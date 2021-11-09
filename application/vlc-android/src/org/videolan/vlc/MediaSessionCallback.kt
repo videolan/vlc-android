@@ -12,6 +12,7 @@ import android.view.KeyEvent
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -119,7 +120,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     val context = playbackService.applicationContext
                     playbackService.currentMediaWrapper?.let {
                         val bookmark = it.addBookmark(playbackService.getTime())
-                        val bookmarkName = context.getString(R.string.bookmark_name, it.bookmarks.size.toString())
+                        val bookmarkName = context.getString(R.string.bookmark_default_name, Tools.millisToString(playbackService.getTime()))
                         bookmark?.setName(bookmarkName)
                         playbackService.displayPlaybackMessage(R.string.saved, bookmarkName)
                     }
