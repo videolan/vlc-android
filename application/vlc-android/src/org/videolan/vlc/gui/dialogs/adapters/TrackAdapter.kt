@@ -24,15 +24,19 @@
 
 package org.videolan.vlc.gui.dialogs.adapters
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.tools.Settings
 import org.videolan.vlc.databinding.VideoTrackItemBinding
+import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 
 class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var selectedTrack: MediaPlayer.TrackDescription?) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
 
     lateinit var trackSelectedListener: (MediaPlayer.TrackDescription) -> Unit
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -49,6 +53,12 @@ class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(tracks[position], tracks[position] == selectedTrack)
     }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+    }
+
 
     inner class ViewHolder(val binding: VideoTrackItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
