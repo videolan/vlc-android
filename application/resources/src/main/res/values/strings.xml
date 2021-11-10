@@ -257,7 +257,7 @@
     <string name="app_name_full">VLC for Android</string>
     <string name="revision">Revision</string>
     <string name="about">About</string>
-    <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
+    <string name="about_vlc_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read all files and network streams.</string>
     <string name="authors">Authors</string>
     <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2021 by VideoLAN</string>
     <string name="about_license" translatable="false">GNU General Public License v2.0</string>

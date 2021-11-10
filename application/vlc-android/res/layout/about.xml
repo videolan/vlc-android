@@ -45,7 +45,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-                android:text="@string/about_text"
+                android:text="@string/about_vlc_text"
                 android:textAlignment="center"
                 android:textColor="?attr/font_light"
                 app:layout_constraintEnd_toEndOf="parent"
