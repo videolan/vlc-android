@@ -179,7 +179,7 @@
     <string name="server_share_hint">Network share name (or IP address)</string>
     <string name="server_folder_hint">Folder path (optional)</string>
     <string name="server_username_hint">Username</string>
-    <string name="server_servername_hint">Server name, for conveniency</string>
+    <string name="server_servername_hint">Server name, for convenience</string>
     <string name="server_port">Port: </string>
     <string name="login">Login</string>
     <string name="password">Password</string>
