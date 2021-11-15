@@ -174,6 +174,13 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         playerBehavior.setPeekHeightListener {
             applyMarginToProgressBar(playerBehavior.peekHeight)
         }
+        playerBehavior.setLayoutListener {
+            // [AudioPlayer.showCover] applies a new [ConstraintSet]. It cannot be done in [AudioPlayer.onCreate] because it would compete with
+            // [BottomSheetBehavior.onLayoutChild] and prevent any scroll event to be forwarded by the ConstraintLayout views (the bookmark list for example)
+            // That why we wait that the layout has been done to perform this. See https://code.videolan.org/videolan/vlc-android/-/issues/2241#note_291050
+            audioPlayer.showCover(settings.getBoolean("audio_player_show_cover", false))
+            if (playerBehavior.state == STATE_COLLAPSED) audioPlayer.onSlide(0f)
+        }
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 audioPlayer.onSlide(slideOffset)

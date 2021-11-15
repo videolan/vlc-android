@@ -170,7 +170,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         registerForContextMenu(binding.songsList)
         userVisibleHint = true
-        showCover(settings.getBoolean("audio_player_show_cover", false))
         binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
 
