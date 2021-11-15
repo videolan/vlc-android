@@ -285,10 +285,10 @@
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="background_default">@color/grey850</item>
         <item name="actionBarItemBackground">@drawable/ic_circle_audio_player</item>
-        <item name="selectableItemBackgroundBorderless">@drawable/ic_circle_audio_player</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
         <item name="empty_title">@color/grey300</item>
-
+        <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
     
     
