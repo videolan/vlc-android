@@ -1,118 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ *************************************************************************
-  ~  cover_media_switcher_item.xml
-  ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#00000000"
-        android:orientation="horizontal">
+        xmlns:tools="http://schemas.android.com/tools">
+    <!--
+      ~ *************************************************************************
+      ~  cover_media_switcher_item.xml
+      ~ **************************************************************************
+      ~ Copyright © 2021 VLC authors and VideoLAN
+      ~ Author: Nicolas POMEPUY
+      ~ This program is free software; you can redistribute it and/or modify
+      ~ it under the terms of the GNU General Public License as published by
+      ~ the Free Software Foundation; either version 2 of the License, or
+      ~ (at your option) any later version.
+      ~
+      ~ This program is distributed in the hope that it will be useful,
+      ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+      ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      ~ GNU General Public License for more details.
+      ~
+      ~ You should have received a copy of the GNU General Public License
+      ~ along with this program; if not, write to the Free Software
+      ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+      ~ ***************************************************************************
+      ~
+      ~
+      -->
 
-    <androidx.cardview.widget.CardView
-            android:id="@+id/cover_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="16dp"
-            app:layout_constrainedHeight="true"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00000000"
-                android:scaleType="fitCenter"
-                app:elevation="8dp"
-                tools:srcCompat="@tools:sample/avatars" />
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+                android:id="@+id/cover_card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="16dp"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed">
 
-
-    <TextView
-            android:id="@+id/song_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:fontFamily="sans-serif-light"
-            android:maxLines="1"
-            android:textColor="?attr/font_default"
-            android:textSize="24sp"
-            android:visibility="gone"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toTopOf="@+id/song_subtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cover_card"
-            tools:text="5th Symphony" />
-
-    <TextView
-            android:id="@+id/song_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:maxLines="1"
-            android:textColor="?attr/font_audio_light"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toTopOf="@+id/song_track_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/song_title"
-            tools:text="Beethoven" />
-
-    <TextView
-            android:id="@+id/song_track_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="32dp"
-            android:maxLines="1"
-            android:textColor="?attr/font_audio_light"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/song_subtitle"
-            tools:text="Bitrate: 22.4 KB/s - Codec: Vorbis audio - Sample rate 8000 Hz" />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    app:elevation="8dp"
+                    tools:srcCompat="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+                android:id="@+id/song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="?attr/font_default"
+                android:textSize="24sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toTopOf="@+id/song_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cover_card"
+                tools:text="5th Symphony" />
+
+        <TextView
+                android:id="@+id/song_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="?attr/font_audio_light"
+                android:textSize="14sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toTopOf="@+id/song_track_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/song_title"
+                tools:text="Beethoven" />
+
+        <TextView
+                android:id="@+id/song_track_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="32dp"
+                android:maxLines="1"
+                android:textColor="?attr/font_audio_light"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/song_subtitle"
+                tools:text="Bitrate: 22.4 KB/s - Codec: Vorbis audio - Sample rate 8000 Hz" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

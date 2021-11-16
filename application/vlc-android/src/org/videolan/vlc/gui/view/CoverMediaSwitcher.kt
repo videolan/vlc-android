@@ -32,6 +32,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.setEllipsizeModeByPref
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -59,6 +60,11 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         titleView.text = title
         artistView.text = artist
         trackInfoView?.text = trackInfo
+
+        setEllipsizeModeByPref(titleView, true)
+        if (Settings.listTitleEllipsize == 4) titleView.isSelected = true
+        setEllipsizeModeByPref(artistView, true)
+        if (Settings.listTitleEllipsize == 4) artistView.isSelected = true
 
         addView(v)
 
