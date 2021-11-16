@@ -39,6 +39,7 @@
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:paddingBottom="48dp"
                     android:fastScrollEnabled="true"
                     android:scrollbars="vertical"
                     vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
