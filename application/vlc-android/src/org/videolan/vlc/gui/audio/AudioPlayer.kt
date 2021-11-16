@@ -476,7 +476,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun onPlayPauseClick(view: View) {
+    fun onPlayPauseClick(view: View?) {
         if (playlistModel.service?.isPausable == false) {
             UiTools.snackerConfirm(requireActivity(), getString(R.string.stop_unpaubale)) {
                 playlistModel.stop()
@@ -486,16 +486,16 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.togglePlayPause()
     }
 
-    fun onStopClick(view: View): Boolean {
+    fun onStopClick(view: View?): Boolean {
         playlistModel.stop()
         return true
     }
 
-    fun onNextClick(view: View) {
+    fun onNextClick(view: View?) {
         if (!playlistModel.next()) UiTools.snacker(requireActivity(), R.string.lastsong)
     }
 
-    fun onPreviousClick(view: View) {
+    fun onPreviousClick(view: View?) {
         if (!playlistModel.previous()) UiTools.snacker(requireActivity(),  R.string.firstsong)
     }
 
@@ -531,7 +531,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun showAdvancedOptions(v: View) {
+    fun showAdvancedOptions(v: View?) {
         if (!isVisible) return
         if (!this::optionsDelegate.isInitialized) {
             val service = playlistModel.service ?: return

@@ -95,6 +95,8 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.helpers.KeycodeListener
+import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
@@ -113,7 +115,7 @@ import kotlin.math.roundToInt
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager {
+open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
@@ -175,6 +177,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE) }, { overlayDelegate.showOverlay(true) }) }
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
+    private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@VideoPlayerActivity) }
     val tipsDelegate: VideoTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoTipsDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
 
@@ -946,14 +949,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 touchDelegate.seekDelta(-Settings.videoDoubleTapJumpDelay * 1000)
                 return true
             }
-            KeyEvent.KEYCODE_BUTTON_R1 -> {
-                touchDelegate.seekDelta(60000)
-                return true
-            }
-            KeyEvent.KEYCODE_BUTTON_L1 -> {
-                touchDelegate.seekDelta(-60000)
-                return true
-            }
             KeyEvent.KEYCODE_BUTTON_A -> {
                 if (overlayDelegate.isHudBindingInitialized() && overlayDelegate.hudBinding.progressOverlay.isVisible())
                     return false
@@ -974,10 +969,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 return true
             }
-            KeyEvent.KEYCODE_O, KeyEvent.KEYCODE_BUTTON_Y, KeyEvent.KEYCODE_MENU -> {
-                showAdvancedOptions()
-                return true
-            }
             KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK, KeyEvent.KEYCODE_BUTTON_X -> {
                 onAudioSubClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
                 return true
@@ -992,14 +983,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
                 exitOK()
-                return true
-            }
-            KeyEvent.KEYCODE_E -> {
-                if (event.isCtrlPressed) {
-                    val newFragment = EqualizerFragment()
-                    newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
-                    newFragment.show(supportFragmentManager, "equalizer")
-                }
                 return true
             }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
@@ -1123,14 +1106,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 resizeVideo()
                 return true
             }
-            KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_CHANNEL_UP, KeyEvent.KEYCODE_BUTTON_R1 -> {
-                next()
-                return true
-            }
-            KeyEvent.KEYCODE_P, KeyEvent.KEYCODE_CHANNEL_DOWN, KeyEvent.KEYCODE_BUTTON_L1 -> {
-                previous()
-                return true
-            }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 volumeDown()
                 return true
@@ -1143,27 +1118,63 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 onAudioSubClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
                 return true
             }
-            KeyEvent.KEYCODE_PLUS -> {
-                service?.run { setRate(rate * 1.2f, true) }
-                return true
-            }
-            KeyEvent.KEYCODE_EQUALS -> {
-                if (event.isShiftPressed) {
-                    service?.run { setRate(rate * 1.2f, true) }
-                    return true
-                } else service?.run { setRate(1f, true) }
-                return false
-            }
-            KeyEvent.KEYCODE_MINUS -> {
-                service?.run { setRate(rate / 1.2f, true) }
-                return true
-            }
             KeyEvent.KEYCODE_C -> {
                 resizeVideo()
                 return true
             }
         }
+        if (playerKeyListenerDelegate.onKeyDown(keyCode, event)) return true
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun showEqualizer() {
+        val newFragment = EqualizerFragment()
+        newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
+        newFragment.show(supportFragmentManager, "equalizer")
+    }
+
+    override fun next() {
+        service?.next()
+    }
+
+    override fun previous() {
+        service?.previous(false)
+    }
+
+    override fun stop() {
+        service?.stop()
+    }
+
+    override fun seek(delta: Int) {
+        touchDelegate.seekDelta(delta)
+    }
+
+
+    override fun togglePlayPause() {
+        doPlayPause()
+    }
+
+    override fun increaseRate() {
+        service?.increaseRate()
+    }
+
+    override fun decreaseRate() {
+        service?.decreaseRate()
+    }
+
+    override fun resetRate() {
+        service?.resetRate()
+    }
+
+    override fun showAdvancedOptions() {
+        if (optionsDelegate == null) service?.let {
+            optionsDelegate = PlayerOptionsDelegate(this, it)
+            optionsDelegate!!.setBookmarkClickedListener {
+                overlayDelegate.showBookmarks()
+            }
+        }
+        optionsDelegate?.show()
+        overlayDelegate.hideOverlay(false)
     }
 
     private fun volumeUp() {
@@ -1758,14 +1769,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         rootView?.run { keepScreenOn = false }
     }
 
-    fun next() {
-        service?.next()
-    }
-
-    fun previous() {
-        service?.previous(false)
-    }
-
     /*
      * Additionnal method to prevent alert dialog to pop up
      */
@@ -2034,17 +2037,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     })
                     show()
                 }
-    }
-
-    fun showAdvancedOptions() {
-        if (optionsDelegate == null) service?.let {
-            optionsDelegate = PlayerOptionsDelegate(this, it)
-            optionsDelegate!!.setBookmarkClickedListener {
-                overlayDelegate.showBookmarks()
-            }
-        }
-        optionsDelegate?.show()
-        overlayDelegate.hideOverlay(false)
     }
 
     fun toggleOrientation() {

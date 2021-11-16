@@ -28,10 +28,7 @@ import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -60,10 +57,8 @@ import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.audio.AudioPlaylistTipsDelegate
 import org.videolan.vlc.gui.audio.AudioTipsDelegate
-import org.videolan.vlc.gui.browser.StorageBrowserFragment
-import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
-import org.videolan.vlc.gui.helpers.PlayerBehavior
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.audio.EqualizerFragment
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
 import kotlin.math.max
@@ -81,7 +76,7 @@ private const val SHOWN_TIPS = "shown_tips"
 @SuppressLint("Registered")
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class AudioPlayerContainerActivity : BaseActivity() {
+open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     private var bottomBar: BottomNavigationView? = null
     lateinit var appBarLayout: AppBarLayout
@@ -101,6 +96,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     private var playerShown = false
     val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
     val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
+    private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerContainerActivity) }
     val shownTips = ArrayList<Int>()
 
     protected val currentFragment: Fragment?
@@ -202,6 +198,53 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
         if (playlistTipsDelegate.currentTip != null) lockPlayer(true)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (playerKeyListenerDelegate.onKeyDown(keyCode, event)) return true
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun showAdvancedOptions() {
+        audioPlayer.showAdvancedOptions(null)
+    }
+
+    override fun togglePlayPause() {
+        audioPlayer.onPlayPauseClick(null)
+    }
+
+    override fun next() {
+        audioPlayer.onNextClick(null)
+    }
+
+    override fun previous() {
+        audioPlayer.onPreviousClick(null)
+    }
+
+    override fun stop() {
+        audioPlayer.onStopClick(null)
+    }
+
+    override fun seek(delta: Int) {
+        val time = audioPlayer.playlistModel.getTime().toInt() + delta
+        if (time < 0 || time > audioPlayer.playlistModel.length) return
+        audioPlayer.playlistModel.setTime(time.toLong())
+    }
+
+    override fun showEqualizer() {
+        EqualizerFragment().show(supportFragmentManager, "equalizer")
+    }
+
+    override fun increaseRate() {
+        audioPlayer.playlistModel.service?.increaseRate()
+    }
+
+    override fun decreaseRate() {
+        audioPlayer.playlistModel.service?.decreaseRate()
+    }
+
+    override fun resetRate() {
+        audioPlayer.playlistModel.service?.resetRate()
     }
 
     fun updateFragmentMargins(state: Int = STATE_COLLAPSED) {

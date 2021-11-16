@@ -1486,6 +1486,21 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     @MainThread
+    fun increaseRate() {
+       if (rate < 4) setRate(rate + 0.2F, true)
+    }
+
+    @MainThread
+    fun decreaseRate() {
+        if (rate > 0.4) setRate(rate - 0.2F, true)
+    }
+
+    @MainThread
+    fun resetRate() {
+        setRate(1F, true)
+    }
+
+    @MainThread
     fun navigate(where: Int) = playlistManager.player.navigate(where)
 
     @MainThread

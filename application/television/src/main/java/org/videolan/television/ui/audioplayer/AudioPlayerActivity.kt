@@ -45,6 +45,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
+import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.*
@@ -59,7 +60,7 @@ import kotlin.math.abs
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioPlayerActivity : BaseTvActivity() {
+class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
@@ -74,6 +75,7 @@ class AudioPlayerActivity : BaseTvActivity() {
     private lateinit var optionsDelegate: PlayerOptionsDelegate
     lateinit var bookmarkModel: BookmarkModel
     private lateinit var bookmarkListDelegate: BookmarkListDelegate
+    private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerActivity) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,37 +215,51 @@ class AudioPlayerActivity : BaseTvActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        when (keyCode) {
-            /*
-             * Playback control
-             */
-            KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_SPACE -> {
-                togglePlayPause()
-                return true
-            }
-            KeyEvent.KEYCODE_MEDIA_STOP -> {
-                model.stop()
-                finish()
-                return true
-            }
-            KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_BUTTON_R1, KeyEvent.KEYCODE_CHANNEL_UP -> {
-                goNext()
-                return true
-            }
-            KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
-                seek(10000)
-                return true
-            }
-            KeyEvent.KEYCODE_MEDIA_REWIND -> {
-                seek(-10000)
-                return true
-            }
-            KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_CHANNEL_DOWN -> {
-                goPrevious()
-                return true
-            }
-            else -> return super.onKeyDown(keyCode, event)
-        }
+        if (playerKeyListenerDelegate.onKeyDown(keyCode, event)) return true
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun stop() {
+        model.stop()
+        finish()
+    }
+
+    override fun seek(delta: Int) {
+        val time = model.getTime().toInt() + delta
+        if (time < 0 || time > model.length) return
+        model.setTime(time.toLong())
+    }
+
+    override fun showAdvancedOptions() {
+        showAdvancedOptions(null)
+    }
+
+    override fun previous() {
+        model.previous(false)
+    }
+
+    override fun next() {
+        model.next()
+    }
+
+    override fun togglePlayPause() {
+        model.togglePlayPause()
+    }
+
+    override fun showEqualizer() {
+        EqualizerFragment().show(supportFragmentManager, "equalizer")
+    }
+
+    override fun increaseRate() {
+        model.service?.increaseRate()
+    }
+
+    override fun decreaseRate() {
+        model.service?.decreaseRate()
+    }
+
+    override fun resetRate() {
+        model.service?.resetRate()
     }
 
     fun playSelection() {
@@ -272,24 +288,18 @@ class AudioPlayerActivity : BaseTvActivity() {
         return true
     }
 
-    private fun seek(delta: Int) {
-        val time = model.getTime().toInt() + delta
-        if (time < 0 || time > model.length) return
-        model.setTime(time.toLong())
-    }
-
     fun onClick(v: View) {
         when (v.id) {
             R.id.button_play -> togglePlayPause()
-            R.id.button_next -> goNext()
-            R.id.button_previous -> goPrevious()
+            R.id.button_next -> next()
+            R.id.button_previous -> previous()
             R.id.button_repeat -> switchRepeatMode()
             R.id.button_shuffle -> setShuffleMode(!shuffling)
             R.id.button_more -> showAdvancedOptions(v)
         }
     }
 
-    private fun showAdvancedOptions(v: View) {
+    private fun showAdvancedOptions(v: View?) {
         if (!this::optionsDelegate.isInitialized) {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
@@ -351,18 +361,6 @@ class AudioPlayerActivity : BaseTvActivity() {
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
             }
         }
-    }
-
-    private fun goPrevious() {
-        model.previous(false)
-    }
-
-    private fun goNext() {
-        model.next()
-    }
-
-    private fun togglePlayPause() {
-        model.togglePlayPause()
     }
 
     fun onUpdateFinished() {
