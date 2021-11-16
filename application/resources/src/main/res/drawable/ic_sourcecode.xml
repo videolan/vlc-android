@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_sourcecode.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            tools:fillColor="#FFFFFF"
+            android:fillColor="?attr/font_default"
+            android:pathData="M24.9316,8.0001 L19,40.0001h4.0684L29,8.0001ZM14,14.0001l-10,10 10,10 2.8008,-2.8008 -7.2012,-7.1992 7.2012,-7.1992zM34,14.0001 L31.1992,16.8009 38.4004,24.0001 31.1992,31.1993 34,34.0001 44,24.0001z"
+            android:strokeWidth="2" />
+</vector>
