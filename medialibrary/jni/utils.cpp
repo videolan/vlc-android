@@ -146,7 +146,7 @@ convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr
 {
     auto name = vlcNewStringUTF(env, videogroupPtr->name().c_str());
     return utils::jni::object{ env, env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo())
+                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo(), (jint)videogroupPtr->nbPresentSeen())
     };
 }
 

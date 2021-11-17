@@ -149,7 +149,8 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else item.getPresenceDescription())
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
-                holder.binding.setVariable(BR.seen, 0L)
+                val seen = if (item.presentSeen == item.presentCount) 1L else 0L
+                holder.binding.setVariable(BR.seen, seen)
                 holder.binding.setVariable(BR.max, 0)
                 holder.binding.setVariable(BR.isNetwork, item.isNetwork)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
