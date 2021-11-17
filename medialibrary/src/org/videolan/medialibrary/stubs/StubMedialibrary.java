@@ -496,7 +496,7 @@ public class StubMedialibrary extends Medialibrary {
 
     public void requestThumbnail(long id) {}
 
-    public boolean setLastTime(long mediaId, long time) {
+    public int setLastTime(long mediaId, long time) {
         for (int i = 0; i < dt.mVideoMediaWrappers.size(); i++) {
             MediaWrapper media = dt.mVideoMediaWrappers.get(i);
             if (media.getId() == mediaId) {
@@ -504,7 +504,7 @@ public class StubMedialibrary extends Medialibrary {
                 dt.mVideoMediaWrappers.set(i, media);
             }
         }
-        return true;
+        return ML_SET_TIME_BEGIN;
     }
 
     public boolean setLastPosition(long mediaId, float poistion) {

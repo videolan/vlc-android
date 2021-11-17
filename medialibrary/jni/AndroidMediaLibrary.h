@@ -52,8 +52,8 @@ public:
     void reload( const std::string& entryPoint );
     void forceParserRetry();
     void forceRescan();
-    bool setLastPosition(int64_t mediaId, float progress);
-    bool setLastTime(int64_t mediaId, int64_t progress);
+    jint setLastPosition(int64_t mediaId, float progress);
+    jint setLastTime(int64_t mediaId, int64_t progress);
     bool removeMediaFromHistory(int64_t mediaId);
     void setLibvlcInstance(libvlc_instance_t* inst);
     /* History */

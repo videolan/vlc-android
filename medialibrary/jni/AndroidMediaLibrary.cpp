@@ -183,22 +183,22 @@ AndroidMediaLibrary::forceRescan()
     p_ml->forceRescan();
 }
 
-bool
+jint
 AndroidMediaLibrary::setLastPosition(int64_t mediaId, float lastPosition)
 {
     auto media = p_ml->media(mediaId);
     if (media != nullptr)
-        return media->setLastPosition( lastPosition );
-    return false;
+        return (int) media->setLastPosition( lastPosition );
+    return -1;
 }
 
-bool
+jint
 AndroidMediaLibrary::setLastTime(int64_t mediaId, int64_t time)
 {
     auto media = p_ml->media(mediaId);
     if (media != nullptr)
-        return media->setLastTime( time );
-    return false;
+        return (int) media->setLastTime( time );
+    return -1;
 }
 
 bool
@@ -441,7 +441,7 @@ AndroidMediaLibrary::genre(int64_t genreId)
 medialibrary::Query<medialibrary::IPlaylist>
 AndroidMediaLibrary::playlists(const medialibrary::QueryParameters* params)
 {
-    return p_ml->playlists(params);
+    return p_ml->playlists(medialibrary::PlaylistType::All, params);
 }
 
 medialibrary::PlaylistPtr

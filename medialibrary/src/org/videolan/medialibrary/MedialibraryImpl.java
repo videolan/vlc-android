@@ -483,8 +483,11 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetFoldersCount(type) : 0;
     }
 
-    public boolean setLastTime(long mediaId, long lastTime) {
-        return mIsInitiated && mediaId > 0 && nativeSetLastTime(mediaId, lastTime);
+    public int setLastTime(long mediaId, long lastTime) {
+        if (!mIsInitiated || mediaId < 1) {
+            return ML_SET_TIME_ERROR;
+        }
+        return nativeSetLastTime(mediaId, lastTime);
     }
 
     public boolean setLastPosition(long mediaId, float position) {
@@ -665,7 +668,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeReload(String entryPoint);
     private native void nativeForceParserRetry();
     private native void nativeForceRescan();
-    private native boolean nativeSetLastTime(long mediaId, long progress);
+    private native int nativeSetLastTime(long mediaId, long progress);
     private native boolean nativeSetLastPosition(long mediaId, float position);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);

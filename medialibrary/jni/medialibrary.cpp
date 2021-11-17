@@ -2074,7 +2074,7 @@ static JNINativeMethod methods[] = {
     {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
     {"nativeForceParserRetry", "()V", (void*)forceParserRetry },
     {"nativeForceRescan", "()V", (void*)forceRescan },
-    {"nativeSetLastTime", "(JJ)Z", (void*)setLastTime },
+    {"nativeSetLastTime", "(JJ)I", (void*)setLastTime },
     {"nativeSetLastPosition", "(JF)Z", (void*)setLastPosition },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },

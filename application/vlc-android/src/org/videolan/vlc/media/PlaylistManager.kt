@@ -516,12 +516,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 } else {
                     //todo verify that this info is persisted in DB
                     if (media.length <= 0 && length > 0) media.length = length
-
-                    medialibrary.setLastTime(media.id, time)
-                    //todo this is not really optimised. The ML should return the new time value right away to let us save the processed new time.
-                    // See https://code.videolan.org/videolan/medialibrary/-/issues/369
                     try {
-                        media.time = medialibrary.getMedia(media.id).time
+                        when (medialibrary.setLastTime(media.id, time)) {
+                            Medialibrary.ML_SET_TIME_ERROR -> {
+                            }
+                            Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
+                            Medialibrary.ML_SET_TIME_AS_IS -> media.time = time
+                        }
                     } catch (e: NullPointerException) {
                         VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
                     }
