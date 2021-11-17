@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=755f4dbf7a7ef4ab2fedc8ca3ae46b1103a26a17
+MEDIALIBRARY_TAG=0.10.0
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -92,31 +92,25 @@ cd ${SRC_DIR}
 # FETCH MEDIALIBRARY SOURCES #
 ##############################
 
+# Source directory doesn't exist: checking out the TAG.
+# The CI will always use this block
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
-  git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
+  git clone --depth 1 -b ${MEDIALIBRARY_TAG}  http://code.videolan.org/videolan/medialibrary.git "${MEDIALIBRARY_MODULE_DIR}/medialibrary"
   avlc_checkfail "medialibrary source: git clone failed"
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
-  #    git checkout 0.5.x
-  git reset --hard ${MEDIALIBRARY_HASH}
   git submodule update --init libvlcpp
   # TODO: remove when switching to VLC 4.0
   cd libvlcpp
   git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
 elif [ "$RESET" = "1" ]; then
     cd ${SRC_DIR}/medialibrary/medialibrary
-    git reset --hard ${MEDIALIBRARY_HASH}
+    git fetch --all --tags
+    git checkout ${MEDIALIBRARY_TAG} -b ${MEDIALIBRARY_TAG}-branch
     git submodule update --init libvlcpp
     # TODO: remove when switching to VLC 4.0
     cd libvlcpp
     git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
-else
-  cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
-  if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
-    git pull --rebase
-    rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
-    rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
-  fi
 fi
 cd ${SRC_DIR}
 
