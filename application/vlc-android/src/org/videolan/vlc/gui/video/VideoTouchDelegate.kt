@@ -33,6 +33,7 @@ import kotlin.math.sign
 const val TOUCH_FLAG_AUDIO_VOLUME = 1
 const val TOUCH_FLAG_BRIGHTNESS = 1 shl 1
 const val TOUCH_FLAG_SEEK = 1 shl 2
+const val TOUCH_FLAG_PLAY = 1 shl 3
 //Touch Events
 private const val TOUCH_NONE = 0
 private const val TOUCH_VOLUME = 1
@@ -217,16 +218,11 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
                         //handle multi taps
                         if (numberOfTaps > 1 && !player.isLocked) {
-                            if (touchControls and TOUCH_FLAG_SEEK == 0) {
-                                player.doPlayPause()
-                            } else {
-                                val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
-                                if (BuildConfig.DEBUG) Log.d("VideoTouchDelegate", "Landscape: ${screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE} range: $range eventx: ${event.x}")
-                                when {
-                                    event.x < range / 4f -> seekDelta(-org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
-                                    event.x > range * 0.75 -> seekDelta(org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
-                                    else -> player.doPlayPause()
-                                }
+                            val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
+                            when {
+                                (touchControls and TOUCH_FLAG_SEEK != 0) && event.x < range / 4f -> seekDelta(-org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
+                                (touchControls and TOUCH_FLAG_SEEK != 0) && event.x > range * 0.75 -> seekDelta(org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
+                                else -> if (touchControls and TOUCH_FLAG_PLAY != 0) player.doPlayPause()
                             }
                         }
 

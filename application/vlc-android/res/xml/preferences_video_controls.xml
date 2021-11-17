@@ -31,6 +31,12 @@
                 android:summary="@string/enable_double_tap_seek_summary"
                 android:title="@string/enable_double_tap_seek_title"
                 app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="enable_double_tap_play"
+                android:summary="@string/enable_double_tap_play_summary"
+                android:title="@string/enable_double_tap_play_title"
+                app:singleLineTitle="false" />
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="10"
                 android:dependency="enable_double_tap_seek"
