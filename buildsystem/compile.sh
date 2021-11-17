@@ -339,7 +339,7 @@ if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/" ]; then
 fi
 
 if [ "$NO_ML" != 1 ]; then
-    ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE buildsystem/compile-medialibrary.sh
+    ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE RESET=$RESET buildsystem/compile-medialibrary.sh
     cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
 
