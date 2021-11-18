@@ -11,10 +11,18 @@ import java.util.List;
 public abstract class Playlist extends MediaLibraryItem {
 
     protected int mTracksCount;
+    protected long mDuration;
+    protected long mNbVideo;
+    protected long mNbAudio;
+    protected long mNbUnknown;
 
-    protected Playlist(long id, String name, int trackCount) {
+    protected Playlist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown) {
         super(id, name);
         mTracksCount = trackCount;
+        mDuration = duration;
+        mNbVideo = nbVideo;
+        mNbAudio = nbAudio;
+        mNbUnknown = nbUnknown;
     }
 
     abstract public MediaWrapper[] getTracks(boolean includeMissing);
@@ -33,6 +41,22 @@ public abstract class Playlist extends MediaLibraryItem {
     @Override
     public int getTracksCount() {
         return mTracksCount;
+    }
+
+    public long getDuration() {
+        return mDuration;
+    }
+
+    public long getNbVideo() {
+        return mNbVideo;
+    }
+
+    public long getNbAudio() {
+        return mNbAudio;
+    }
+
+    public long getNbUnknown() {
+        return mNbUnknown;
     }
 
     @Override

@@ -15,8 +15,8 @@ public class StubPlaylist extends Playlist {
     private ArrayList<Long> mTracksId = new ArrayList<>();
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubPlaylist(long id, String name, int trackCount) {
-        super(id, name, trackCount);
+    public StubPlaylist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown) {
+        super(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown);
     }
 
     public StubPlaylist(Parcel in) {

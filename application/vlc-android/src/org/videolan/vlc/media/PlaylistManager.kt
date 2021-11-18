@@ -31,7 +31,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import java.lang.Exception
 import java.security.SecureRandom
 import java.util.*
 import kotlin.math.max
