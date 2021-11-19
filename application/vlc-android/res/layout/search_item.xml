@@ -16,6 +16,10 @@
                 type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <variable
+                name="description"
+                type="String" />
+
+        <variable
                 name="holder"
                 type="org.videolan.vlc.gui.SearchResultAdapter.ViewHolder" />
 
@@ -54,6 +58,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                vlc:imageWidth="@{coverWidth}"
                 vlc:coverWidth="@{coverWidth}"
                 vlc:constraintRatio="@{isSquare}"
                 vlc:media="@{item}"
@@ -84,7 +89,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:maxLines="2"
-                android:text="@{item.description}"
+                android:text="@{description}"
                 android:textColor="?attr/font_light"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

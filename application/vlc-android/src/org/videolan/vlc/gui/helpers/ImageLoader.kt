@@ -343,10 +343,10 @@ private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean): Med
 
 @MainThread
 @BindingAdapter(value = ["constraintRatio", "coverWidth"], requireAll = false)
-fun constraintRatio(v: View, isSquare: Boolean, width: Int = -2) {
-    if (width != -2) {
+fun constraintRatio(v: View, isSquare: Boolean, imageWidth: Int = -2) {
+    if (imageWidth != -2) {
         val layoutParams: ViewGroup.LayoutParams = v.layoutParams
-        layoutParams.width = width
+        layoutParams.width = imageWidth
         v.layoutParams = layoutParams
     }
     val constraintLayout = v.parent as? ConstraintLayout
