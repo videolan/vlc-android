@@ -42,6 +42,7 @@
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background</item>
         <item name="audio_header_background">@color/white</item>
         <item name="audio_header_divider">@color/grey400</item>
+        <item name="default_divider">@color/black_transparent_20</item>
         <item name="audio_menu_icon">@color/black_transparent_50</item>
         <item name="audio_list_background">@drawable/audio_list_background</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar</item>
@@ -188,6 +189,7 @@
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background_dark</item>
         <item name="audio_header_background">@color/mini_player_dark</item>
         <item name="audio_header_divider">@color/black</item>
+        <item name="default_divider">@color/white_transparent_20</item>
         <item name="audio_menu_icon">@color/white_transparent_50</item>
         <item name="audio_list_background">@drawable/audio_list_background_black</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
@@ -583,14 +585,9 @@
     </style>
 
     <style name="Result.Title" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">?attr/font_light</item>
+        <item name="android:textSize">14sp</item>
         <item name="textAllCaps">true</item>
-        <item name="android:textColor">@color/orange500</item>
-    </style>
-
-    <style name="Result.List" parent="Base.Widget.AppCompat.ListView">
-        <item name="android:background">@color/white</item>
-        <item name="android:elevation" tools:targetApi="lollipop">2sp</item>
-        <item name="android:layout_margin">10dp</item>
     </style>
 
     <!--Preferences-->

@@ -466,16 +466,3 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         animationDelegate.setVisibility(binding.headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
     }
 }
-
-@MainThread
-@BindingAdapter("constraintRatio")
-fun constraintRatio(v: View, isSquare: Boolean) {
-    val constraintLayout = v.parent as? ConstraintLayout
-    constraintLayout?.let {
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(constraintLayout)
-        constraintSet.setDimensionRatio(v.id, if (isSquare) "1" else "16:10")
-        constraintLayout.setConstraintSet(constraintSet)
-
-    }
-}

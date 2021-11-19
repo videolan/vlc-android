@@ -10,11 +10,14 @@ import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
@@ -336,4 +339,22 @@ private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean): Med
                 ?: item
     }
     return item
+}
+
+@MainThread
+@BindingAdapter(value = ["constraintRatio", "coverWidth"], requireAll = false)
+fun constraintRatio(v: View, isSquare: Boolean, width: Int = -2) {
+    if (width != -2) {
+        val layoutParams: ViewGroup.LayoutParams = v.layoutParams
+        layoutParams.width = width
+        v.layoutParams = layoutParams
+    }
+    val constraintLayout = v.parent as? ConstraintLayout
+    constraintLayout?.let {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+        constraintSet.setDimensionRatio(v.id, if (isSquare) "1" else "16:10")
+        constraintLayout.setConstraintSet(constraintSet)
+
+    }
 }

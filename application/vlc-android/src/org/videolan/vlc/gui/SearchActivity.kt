@@ -112,9 +112,6 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
         }
     }
 
-    private fun setupMediaLibraryReceiver(query: String) {
-    }
-
     companion object {
 
         const val TAG = "VLC/SearchActivity"

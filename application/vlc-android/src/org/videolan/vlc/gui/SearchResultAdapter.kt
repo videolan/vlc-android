@@ -3,7 +3,9 @@ package org.videolan.vlc.gui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.dp
 import org.videolan.vlc.databinding.SearchItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
@@ -22,6 +24,9 @@ class SearchResultAdapter internal constructor(private val mLayoutInflater: Layo
         if (mDataList!![position].artworkMrl.isNullOrEmpty())
             holder.binding.cover = UiTools.getDefaultCover(holder.itemView.context, mDataList!![position])
         holder.binding.item = mDataList!![position]
+        val isNotVideo = mDataList!![position] !is MediaWrapper || (mDataList!![position] as MediaWrapper).type != MediaWrapper.TYPE_VIDEO
+        holder.binding.isSquare = isNotVideo
+        holder.binding.coverWidth = if (isNotVideo) 48.dp else 100.dp
     }
 
     fun add(newList: Array<MediaLibraryItem>) {
