@@ -193,7 +193,7 @@
     <string name="jump_to_time">Šokti į laiką</string>
     <string name="subtitle_select">Pasirinkti subtitrų rinkmeną</string>
 
-    <string name="server_add_title">Pažymėti naują serverį kaip mėgstamiausią</string>
+    <string name="server_add_title">Pridėti naują mėgst. serverį</string>
     <string name="server_domain_hint">Serverio adresas (domeno vardas ar IP)</string>
     <string name="server_share_hint">Bendrinamo tinklo vardas (arba IP adresas)</string>
     <string name="server_folder_hint">Aplanko kelias (nebūtinas)</string>
@@ -495,7 +495,7 @@
     <string name="confirm_resume">Tęsti nuo paskutinės padėties?</string>
     <string name="confirm_resume_title">Tęsti vaizdo įrašų peržiūrą</string>
     <string name="tv_ui_title">Android TV sąsaja</string>
-    <string name="tv_ui_summary">Pakeisti vartotojo sąsają į TV pritaikytą temą</string>
+    <string name="tv_ui_summary">Pakeisti naudotojo sąsają į TV skirtąjį apipavidalinimą</string>
     <string name="medialibrary">Fonoteka</string>
     <string name="medialibrary_directories">Fonotekos aplankai</string>
 
@@ -829,7 +829,7 @@
     <string name="allow_otg">Leisti OTG prieigą</string>
     <string name="allow_otg_description">Pasirinkite žvalgytiną OTG diską.</string>
     <string name="timeout_infinite">Nepranykstantis</string>
-    <string name="video_hud_timeout">Vaizdo grotuvo nuostatų slėpimo laikas</string>
+    <string name="video_hud_timeout">Vaizdo grotuvo valdiklių slėpimo laikas</string>
     <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Pašalinti iš istorijos</string>
     <string name="prefersmbv1">Pirmenybė SMB 1</string>
