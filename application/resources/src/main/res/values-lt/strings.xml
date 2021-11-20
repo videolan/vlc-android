@@ -45,20 +45,20 @@
     <string name="resume_playback_short_title">Tęsti grojimą</string>
     <string name="resume_playback_long_title">Tęsti paskutinio grojaraščio grojimą</string>
     <string name="resume_playback_error">Nėra ką pratęsti</string>
-    <string name="delete">Šalinti</string>
+    <string name="delete">Pašalinti</string>
     <string name="remove">Pašalinti</string>
     <string name="set_song">Naudoti kaip skambučio toną</string>
     <string name="set_song_question">Norite, kad „%1$s“ būtų skambėjimo tonu?</string>
     <string name="info">Išsami informacija</string>
     <string name="confirm_delete">Pašalinti rinkmeną „%1$s“?</string>
     <string name="confirm_delete_message">Šis veiksmas yra negrįžtamas ir jo negalima bus anuliuoti.</string>
-    <string name="confirm_delete_album">Ištrinti albumą „%1$s“?</string>
+    <string name="confirm_delete_album">Pašalinti albumą „%1$s“?</string>
     <string name="confirm_delete_several_media">Pašalinti šias rinkmenas: %1$d?</string>
     <string name="confirm_delete_folder">Pašalinti aplanką „%1$s“ ir jo turinį?</string>
-    <string name="confirm_delete_folders">Ištrinti šiuos %1$s aplankus ir visą jų turinį?</string>
+    <string name="confirm_delete_folders">Pašalinti šiuos %1$s aplankus ir visą jų turinį?</string>
     <string name="confirm_delete_files">Pašalinti šias %1$s rinkmenas?</string>
     <string name="confirm_delete_folders_and_files">Pašalinti šiuos %1$s aplankus ir %2$s rinkmenas?</string>
-    <string name="confirm_delete_playlist">Ištrinti grojaraštį „%1$s“?</string>
+    <string name="confirm_delete_playlist">Pašalinti grojaraštį „%1$s“?</string>
     <string name="confirm_remove_from_playlist">Pašalinti „%1$s“ iš grojaraščio?</string>
     <string name="ringtone_set">„%1$s“ nustatytas kaip skambučio tonas.</string>
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
@@ -279,7 +279,7 @@
     <string name="directories_summary">Pasirinkite katalogus, kuriuos norite įtraukti į fonoteką</string>
     <string name="add_custom_path">Pridėti savitą kelią</string>
     <string name="add_custom_path_description">Įtraukti papildomą žvalgytiną katalogą:</string>
-    <string name="remove_custom_path">Šalinti papildomą kelią</string>
+    <string name="remove_custom_path">Pašalinti papildomą kelią</string>
     <string name="hardware_acceleration">Aparatinis spartinimas</string>
     <string name="hardware_acceleration_summary">Išjungtas: geresnis stabilumas\nIškodavimo: gali pagerinti našumą\nVisiškas: gali dar labiau pagerinti našumą</string>
     <string name="hardware_acceleration_disabled">Išjungtas</string>
@@ -298,7 +298,7 @@
     <string name="subtitle_text_encoding">Subtitrų koduotė</string>
     <string name="subtitle_preferred_language">Pageidaujama subtitrų kalba</string>
     <string name="daynight_title">Dienos / nakties veiksena</string>
-    <string name="daynight_follow_system_title">Priklausomai nuo sistemos nustatymų</string>
+    <string name="daynight_follow_system_title">Priklausomai nuo sistemos nuostatų</string>
     <string name="no_track_preference">Be kalbos pirmenybės</string>
     <string name="track_preference">Takelio pirmenybė: %s</string>
 
@@ -424,9 +424,9 @@
     <string name="dump_media_db">Sukurti duomenų bazę</string>
     <string name="dump_media_db_summary">Nukopijuoti duomenų bazę į vidinę atmintį</string>
     <string name="clear_media_db">Išvalyti kūrinių duombazę</string>
-    <string name="clear_media_database_summary">Išvalo kūrinių duombazę</string>
+    <string name="clear_media_database_summary">Išvalyti kūrinių duombazę jos sukūrimui iš naujo</string>
     <string name="clear_app_data">Išvalyti programos duomenis</string>
-    <string name="clear_app_data_summary">Išvalo VLC duomenis „Android“ sistemoje</string>
+    <string name="clear_app_data_summary">Išvalyti VLC duomenis „Android“ sistemoje</string>
     <string name="clear_history">Išvalyti žurnalą</string>
     <string name="set_locale">Nustatyti kalbą</string>
     <string name="network_caching">Tinklo podėlio reikšmė</string>
@@ -481,7 +481,7 @@
 
     <string name="audio_delay">Garso vėlinimas</string>
     <string name="spu_delay">Subtitrų vėlinimas</string>
-    <string name="network_shares_discovery">Ieškoma tinklo ištekliaus</string>
+    <string name="network_shares_discovery">Ieškoma tinklo išteklių</string>
     <string name="network_empty">Katalogas tuščias</string>
     <string name="network_connection_needed">Nėra ryšio su vietiniu tinklu.</string>
     <string name="search_hint">Ieškoti kūrinio</string>
@@ -522,7 +522,7 @@
     <string name="permission_expanation_no_allow">Negalėsite automatiškai žvalgyti įrenginyje esančius įvairialypės terpės kūrinius ar naudotis išoriniais subtitrais</string>
     <string name="permission_expanation_allow">Galėsite leisti tik srautus ir tinklo kūrinius</string>
     <string name="permission_expanation_subtitles">Naudoti išorinius subtitrus</string>
-    <string name="permission_expanation_allow_explanation">Leidžia groti internetinius srautus ir kūrinius per tinklą</string>
+    <string name="permission_expanation_allow_explanation">Leidžia groti internetinius srautus ir nutolusius kūrinius</string>
     <string name="exit_app">Uždaryti VLC</string>
     <string name="exit_app_msg">Ar tikrai norite uždaryti VLC?</string>
 
@@ -533,10 +533,10 @@
     <!-- Plugins -->
     <string name="plugins">Papildiniai</string>
     <string name="download_on_device">Parsisiųsti</string>
-    <string name="extension_empty">Plėtinių sąrašas tuščias. Pereikite į plėtinių nustatymus, kad jie būtų parodyti.</string>
+    <string name="extension_empty">Plėtinių sąrašas tuščias. Pereikite į plėtinių nuostatas, kad jie būtų parodyti.</string>
 
     <string name="opengl_title">OpenGL ES2 naudojimas</string>
-    <string name="opengl_summary">Pagal numatytuosius nustatymus „OpenGL ES2“ prireikus naudojamas programinės ir aparatinės įrangos dekodavimui (360° vaizdo įrašams)</string>
+    <string name="opengl_summary">Pagal numatytąsias nuostatas „OpenGL ES2“ prireikus naudojamas programinės ir aparatinės įrangos dekodavimui (360° vaizdo įrašams)</string>
     <string name="opengl_automatic">Automatiškai</string>
     <string name="opengl_on">Visada įjungta</string>
     <string name="opengl_off">Visada išjungta</string>
@@ -559,12 +559,12 @@
     <string name="clear_playback_history">Išvalyti grojimo žurnalą</string>
     <string name="ml_scanning">Žvalgomasi kūrinių</string>
     <string name="ml_parse_media">Žvalgomi kūriniai</string>
-    <string name="ml_discovering">Aptikimas</string>
+    <string name="ml_discovering">Žvalgomas</string>
     <string name="resume">Tęsti</string>
     <string name="length">Trukmė</string>
     <string name="tv_settings_hint">Laikykite nuspaudę mygtuką „Gerai“, kad pažymėtumėte / atžymėtumėte katalogus</string>
     <string name="ml_external_storage_title">Aptikta nauja laikmena</string>
-    <string name="ml_external_storage_msg">Ar norite, kad laikmena %1$s būtų pridėta prie fonotekos?</string>
+    <string name="ml_external_storage_msg">Ar norite, kad %1$s būtų pridėta(s) prie fonotekos?</string>
     <string name="ml_external_storage_accept">Taip</string>
     <string name="ml_external_storage_decline">Ne</string>
     <string name="auto_last_added_media">Paskutinis pridėtas</string>
@@ -585,17 +585,17 @@
     <string name="custom_set_wrong_input">Netinkamas pavadinimas.</string>
     <string name="custom_set_already_exist">Toks glodintuvas jau yra</string>
     <string name="custom_set_restored">Pasirinktinis glodintuvas atstatytas.</string>
-    <string name="unsaved_set_deleted_message">Neišsaugotas glodintuvo rinkinys ištrintas.</string>
+    <string name="unsaved_set_deleted_message">Neišsaugotas glodintuvo rinkinys pašalintas.</string>
     <string name="equalizer_new_preset_name">Naujas</string>
     <string name="settings_ml_block_scan">Šiuo metu žvalgomasi kūrinių ir sudarinėjama fonoteka</string>
     <string name="recommendations">Pasiūlymai</string>
     <string name="recommendations_desc">Paleisties rekomendacinės kortelės</string>
     <string name="browser_quick_access">Greitoji prieiga</string>
     <string name="browser_storages">Laikmenos</string>
-    <string name="msg_delete_failed">Nepavyko ištrinti rinkmenos %1$s</string>
+    <string name="msg_delete_failed">Nepavyko pašalinti rinkmenos %1$s</string>
     <string name="renderer_list_title">Ekranai</string>
     <string name="sdcard_permission_dialog_title">Jūs turite suteikti VLC programai leidimą rašyti į SD kortelę</string>
-    <string name="sdcard_permission_dialog_message">VLC negali ištrinti šios rinkmenos neturėdama leidimo rašyti į saugyklą.\nEikite į savo SD kortelę ir paspauskite „Pasirinkti“.\nPrieš tai gali tekti viršuje dešinėje esančiame meniu paspausti „Rodyti SD kortelę“</string>
+    <string name="sdcard_permission_dialog_message">VLC negali pašalinti šios rinkmenos neturėdama leidimo rašyti į saugyklą.\nEikite į savo SD kortelę ir paspauskite „Pasirinkti“.\nPrieš tai gali tekti viršuje dešinėje esančiame meniu paspausti „Rodyti SD kortelę“</string>
     <string name="dialog_sd_wizard">Parodyti</string>
     <string name="renderers_disconnect">Atjungti</string>
     <string name="audio_digital_failed">Nepavyko pakeisti skaitmeninės garso išvesties būsenos</string>
@@ -740,7 +740,7 @@
     <string name="resume_episode">Tęsti (%s)</string>
     <string name="start_over">Pradėti iš naujo</string>
     <string name="next_episode">Kitas epizodas</string>
-    <string name="open_network_settings">Atidaryti tinklo nustatymus?</string>
+    <string name="open_network_settings">Atverti tinklo nuostatas?</string>
     <string name="recently_played">Neseniai grota</string>
     <string name="recently_added">Neseniai pridėta</string>
     <string name="playback_multiple_errors">Kai kurių rinkmenų nepavyko atkurti</string>
@@ -829,11 +829,11 @@
     <string name="allow_otg">Leisti OTG prieigą</string>
     <string name="allow_otg_description">Pasirinkite žvalgytiną OTG diską.</string>
     <string name="timeout_infinite">Nepranykstantis</string>
-    <string name="video_hud_timeout">Vaizdo grotuvo nustatymų slėpimo laikas</string>
+    <string name="video_hud_timeout">Vaizdo grotuvo nuostatų slėpimo laikas</string>
     <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Pašalinti iš istorijos</string>
     <string name="prefersmbv1">Pirmenybė SMB 1</string>
-    <string name="prefersmbv1_summary">Panaikinkite šio nustatymo pasirinkimą, jei kyla sunkumų naršant SMB serverį</string>
+    <string name="prefersmbv1_summary">Panaikinkite šios nuostatos pasirinkimą, jei kyla sunkumų naršant SMB serverį</string>
     <string name="apply_to_all">Pritaikyti visiems vaizdo įr.</string>
     <string name="audio_delay_global">Pritaikyti vėlinimą %s ms visiems įrašams</string>
     <string name="audio_delay_bt">Pritaikyti %s ms garso vėlinimą „Bluetooth“ įrenginiui</string>
@@ -852,7 +852,7 @@
     <string name="pref_resolution_best_available">Pati geriausia</string>
     <string name="pref_resolution_very_low">Pati prasčiausia (240p)</string>
     <string name="stop_unpaubale">Šio kūrinio negalima pristabdyti. Nutraukti jo grojimą?</string>
-    <string name="delete_forever">Ištrinti visam laikui</string>
+    <string name="delete_forever">Pašalinti visam laikui</string>
     <string name="add_to_existing_playlist">Įtraukti į esamą grojaraštį</string>
     <string name="bookmarks_title">Žymelės</string>
     <string name="no_bookmark">Žymelių nėra</string>
