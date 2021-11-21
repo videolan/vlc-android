@@ -15,7 +15,6 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -255,37 +254,49 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
-        playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.getTime(), 1.0f).build())
+        val playbackState = PlaybackStateCompat.Builder()
+                .setActions(playbackService.enabledActions)
+                .setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.getTime(), playbackService.speed)
+                .build()
+        playbackService.mediaSession.setPlaybackState(playbackState)
         playbackService.lifecycleScope.launch(Dispatchers.IO) {
             if (!isActive) return@launch
             playbackService.awaitMedialibraryStarted()
             val vsp = VoiceSearchParams(query ?: "", extras)
-            var items: Array<out MediaLibraryItem>? = null
-            var tracks: Array<MediaWrapper>? = null
-            when {
-                vsp.isAny -> {
-                    items = playbackService.medialibrary.audio.also { if (!playbackService.isShuffling) playbackService.shuffle() }
-                }
-                vsp.isArtistFocus -> items = playbackService.medialibrary.searchArtist(vsp.artist)
-                vsp.isAlbumFocus -> items = playbackService.medialibrary.searchAlbum(vsp.album)
-                vsp.isGenreFocus -> items = playbackService.medialibrary.searchGenre(vsp.genre)
-                vsp.isPlaylistFocus -> items = playbackService.medialibrary.searchPlaylist(vsp.playlist, Settings.includeMissing)
-                vsp.isSongFocus -> tracks = playbackService.medialibrary.searchMedia(vsp.song)
+            var tracks = when {
+                vsp.isAny -> playbackService.medialibrary.audio
+                vsp.isSongFocus -> playbackService.medialibrary.searchMedia(vsp.song)
+                else -> null
+            }
+            tracks?.sortWith(MediaComparators.ANDROID_AUTO)
+            val items = when {
+                vsp.isAlbumFocus -> playbackService.medialibrary.searchAlbum(vsp.album)
+                vsp.isGenreFocus -> playbackService.medialibrary.searchGenre(vsp.genre)
+                vsp.isArtistFocus -> playbackService.medialibrary.searchArtist(vsp.artist)
+                vsp.isPlaylistFocus -> playbackService.medialibrary.searchPlaylist(vsp.playlist, Settings.includeMissing)
+                else -> null
             }
             if (!isActive) return@launch
-            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
-                when {
-                    !albums.isNullOrEmpty() -> tracks = albums!![0].tracks
-                    !artists.isNullOrEmpty() -> tracks = artists!![0].tracks
-                    !playlists.isNullOrEmpty() -> tracks = playlists!![0].tracks
-                    !genres.isNullOrEmpty() -> tracks = genres!![0].tracks
+            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) {
+                playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
+                    tracks = when {
+                        !albums.isNullOrEmpty() -> albums!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        !artists.isNullOrEmpty() -> artists!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        !playlists.isNullOrEmpty() -> playlists!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        !genres.isNullOrEmpty() -> genres!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        else -> null
+                    }
                 }
             }
             if (!isActive) return@launch
-            if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
+            if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items.flatMap { it.tracks.toList() }.toTypedArray()
             playbackService.lifecycleScope.launch(Dispatchers.Main) {
                 when {
-                    !tracks.isNullOrEmpty() -> loadMedia(tracks?.toList())
+                    !tracks.isNullOrEmpty() -> {
+                        loadMedia(tracks?.toList(), if (vsp.isAny) SecureRandom().nextInt(min(tracks!!.size, MEDIALIBRARY_PAGE_SIZE)) else 0)
+                        // Enable shuffle when isAny is true and disable when false
+                        if (vsp.isAny == !playbackService.isShuffling) playbackService.shuffle()
+                    }
                     playbackService.hasMedia() -> playbackService.play()
                     else -> playbackService.displayPlaybackError(R.string.search_no_result)
                 }
