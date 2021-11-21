@@ -283,10 +283,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             }
             if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
-            when {
-                !tracks.isNullOrEmpty() -> loadMedia(tracks?.toList())
-                playbackService.hasMedia() -> playbackService.play()
-                else -> playbackService.displayPlaybackError(R.string.search_no_result)
+            playbackService.lifecycleScope.launch(Dispatchers.Main) {
+                when {
+                    !tracks.isNullOrEmpty() -> loadMedia(tracks?.toList())
+                    playbackService.hasMedia() -> playbackService.play()
+                    else -> playbackService.displayPlaybackError(R.string.search_no_result)
+                }
             }
         }
     }

@@ -246,6 +246,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private var currentWidgetCover: String? = null
 
+    val speed: Float
+        @MainThread
+        get() = playlistManager.player.speed.value ?: 1.0F
+
     val isPlaying: Boolean
         @MainThread
         get() = playlistManager.player.isPlaying()
@@ -1061,7 +1065,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     private fun addCustomSpeedActions(pscb: PlaybackStateCompat.Builder, showSpeedActions: Boolean = true) {
-        val speed = playlistManager.player.speed.value ?: 1.0F
         if (speed != 1.0F || showSpeedActions) {
             val speedIcons = hashMapOf(
                 0.50f to R.drawable.ic_auto_speed_0_50,
