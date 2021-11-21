@@ -247,7 +247,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
-    private fun checkforSeekFailure(forward: Boolean) {
+    private fun checkForSeekFailure(forward: Boolean) {
         if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0))
             playbackService.displayPlaybackMessage(R.string.unseekable_stream)
     }
@@ -303,12 +303,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onFastForward() {
         playbackService.seek((playbackService.getTime() + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
-        checkforSeekFailure(forward = true)
+        checkForSeekFailure(forward = true)
     }
 
     override fun onRewind() {
         playbackService.seek((playbackService.getTime() - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
-        checkforSeekFailure(forward = false)
+        checkForSeekFailure(forward = false)
     }
 
     override fun onSkipToQueueItem(id: Long) = playbackService.playIndexOrLoadLastPlaylist(id.toInt())
