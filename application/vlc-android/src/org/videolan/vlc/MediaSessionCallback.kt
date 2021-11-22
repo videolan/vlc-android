@@ -18,6 +18,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
@@ -42,14 +43,14 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
-        else if (!AndroidDevices.isAndroidTv) PlaybackService.loadLastAudio(playbackService)
+        else if (!AndroidDevices.isAndroidTv && Settings.getInstance(playbackService).getBoolean(PLAYBACK_HISTORY, true)) PlaybackService.loadLastAudio(playbackService)
     }
 
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
         val keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent? ?: return false
         if (!playbackService.hasMedia()
                 && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)) {
-            return if (keyEvent.action == KeyEvent.ACTION_DOWN) {
+            return if (keyEvent.action == KeyEvent.ACTION_DOWN && Settings.getInstance(playbackService).getBoolean(PLAYBACK_HISTORY, true)) {
                 PlaybackService.loadLastAudio(playbackService)
                 true
             } else false
