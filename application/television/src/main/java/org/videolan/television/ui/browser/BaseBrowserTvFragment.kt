@@ -158,14 +158,14 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         binding.imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
-        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
+        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, spacing, true, viewModel.nbColumns, viewModel.provider)
         inGrid = Settings.getInstance(requireActivity()).getBoolean(getDisplayPrefId(), true)
         setupDisplayIcon()
         setupLayoutManager()
 
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight, viewModel.nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight, viewModel.nbColumns, spacing, spacing)
 
         adapter = provideAdapter(this, itemSize)
         adapter.displaySwitch(inGrid)

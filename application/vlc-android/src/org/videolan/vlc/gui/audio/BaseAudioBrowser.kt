@@ -138,6 +138,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             RecyclerSectionItemGridDecoration(
                 resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
                 spacing,
+                16.dp,
                 true,
                 nbColumns,
                 provider
@@ -175,7 +176,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         when (providerInCard) {
             true -> {
                 val screenWidth = (requireActivity() as? INavigator)?.getFragmentWidth(requireActivity()) ?: requireActivity().getScreenWidth()
-                val itemSize = RecyclerSectionItemGridDecoration.getItemSize(screenWidth, nbColumns, spacing)
+                val itemSize = RecyclerSectionItemGridDecoration.getItemSize(screenWidth, nbColumns, spacing, 16.dp)
                 adapter.cardSize = itemSize
                 displayListInGrid(list, adapter, provider, spacing)
             }
