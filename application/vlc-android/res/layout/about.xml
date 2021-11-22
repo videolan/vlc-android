@@ -15,7 +15,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -27,12 +26,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/app_name_full"
                 android:textAlignment="center"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="?attr/about_text_primary"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +58,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -71,29 +70,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView26"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
 
                 <TextView
                         android:id="@+id/app_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:fontFamily="sans-serif-medium"
-                        android:textColor="?attr/font_default"
-                        android:textSize="20sp"
+                        android:textColor="?attr/about_text_primary"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="3.4.0" />
 
                 <TextView
                         android:id="@+id/app_version_date"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/app_version"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/app_version"
+                        app:layout_constraintTop_toTopOf="@+id/app_version"
                         tools:text="Revision" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -103,21 +110,23 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="?attr/donate_card"
                 app:cardCornerRadius="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/version_card"
-                app:layout_constraintWidth_max="600dp">
+                app:layout_constraintWidth_max="600dp"
+                tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="48dp">
 
                 <ImageView
                         android:id="@+id/imageView13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginStart="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -178,18 +187,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/donationsButton"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imageView16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_website" />
 
                 <TextView
@@ -197,14 +208,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/official_website"
                         android:textColor="?attr/font_default"
-                        android:textSize="16sp" />
-            </LinearLayout>
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageView16"
+                        app:layout_constraintTop_toTopOf="@+id/imageView16" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
 
@@ -213,7 +228,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -226,18 +240,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/about_website_container"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/forum_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_forum" />
 
                 <TextView
@@ -245,14 +261,19 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/feedback_forum"
                         android:textColor="?attr/font_default"
-                        android:textSize="16sp" />
-            </LinearLayout>
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/forum_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/forum_icon"
+                        app:layout_constraintTop_toTopOf="@+id/forum_icon" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
 
@@ -261,7 +282,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -274,18 +294,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/about_forum_container"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sources_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_sourcecode" />
 
                 <TextView
@@ -293,14 +315,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/sources"
                         android:textColor="?attr/font_default"
-                        android:textSize="16sp" />
-            </LinearLayout>
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/sources_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/sources_icon"
+                        app:layout_constraintTop_toTopOf="@+id/sources_icon" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -308,7 +334,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -321,18 +346,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/about_sources_container"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="48dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/libraries_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_sources" />
 
                 <TextView
@@ -340,14 +367,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/libraries"
                         android:textColor="?attr/font_default"
-                        android:textSize="16sp" />
-            </LinearLayout>
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/libraries_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/libraries_icon"
+                        app:layout_constraintTop_toTopOf="@+id/libraries_icon" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -355,7 +386,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -368,18 +398,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/about_libraries_container"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="48dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/authors_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_authors" />
 
                 <TextView
@@ -387,14 +419,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/authors"
                         android:textColor="?attr/font_default"
-                        android:textSize="16sp" />
-            </LinearLayout>
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/authors_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/authors_icon"
+                        app:layout_constraintTop_toTopOf="@+id/authors_icon" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -402,7 +438,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
@@ -416,28 +452,44 @@
                 app:layout_constraintTop_toBottomOf="@+id/about_authors_container"
                 app:layout_constraintWidth_max="600dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
                 <TextView
                         android:id="@+id/copyleft"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="2dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/about_copyright"
                         android:textColor="?attr/font_default"
-                        android:textSize="18sp" />
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@+id/license"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                         android:id="@+id/license"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/about_license" />
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/about_license"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/copyleft" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>

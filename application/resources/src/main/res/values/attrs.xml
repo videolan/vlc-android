@@ -76,6 +76,7 @@
     <attr name="audio_player_gradient_bottom" format="reference" />
     <attr name="audio_player_gradient_top" format="reference" />
     <attr name="tips_item_background" format="color" />
+    <attr name="about_text_primary" format="color" />
 
     <!--Main Icons-->
     <attr name="gridview_progressbar" format="reference" />

@@ -101,6 +101,7 @@
         <item name="audio_player_gradient_bottom">@drawable/gradient_audio_player_bottom</item>
         <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top</item>
         <item name="tips_item_background">@color/grey300</item>
+        <item name="about_text_primary">@color/black</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
@@ -248,6 +249,7 @@
         <item name="audio_player_gradient_bottom">@drawable/gradient_audio_player_bottom_dark</item>
         <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top_dark</item>
         <item name="tips_item_background">@color/grey900</item>
+        <item name="about_text_primary">@color/orange500</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7"/>
