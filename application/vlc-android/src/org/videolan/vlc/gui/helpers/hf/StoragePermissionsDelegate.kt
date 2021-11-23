@@ -27,6 +27,7 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -43,12 +44,14 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.INITIAL_PERMISSION_ASKED
 import org.videolan.tools.Settings
+import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
-import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
@@ -104,10 +107,10 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 return@registerForActivityResult
             }
             when (askedPermission) {
-                Permissions.PERMISSION_STORAGE_TAG -> {
+                Permissions.PERMISSION_STORAGE_TAG, Permissions.MANAGE_EXTERNAL_STORAGE -> {
                     // If request is cancelled, the result arrays are empty.
                     if(activity == null) return@registerForActivityResult
-                    if (isGranted) {
+                    if (isGranted || isExternalStorageManager()) {
                         storageAccessGranted.value = true
                         model.deferredGrant.complete(true)
                         exit()
@@ -125,6 +128,22 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
 
     private fun requestStorageAccess(write: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val uri = Uri.parse("package:${BuildConfig.APP_ID}")
+            val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
+            if (intent.isCallable(requireActivity())) {
+                Permissions.showExternalPermissionDialog(requireActivity()) { asked ->
+                    if (asked) {
+                        val code = android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                        askedPermission = Permissions.MANAGE_EXTERNAL_STORAGE
+                        timeAsked = System.currentTimeMillis()
+                        activityResultLauncher.launch(code)
+                        startActivity(intent)
+                    }
+                }
+                return
+            }
+        }
         val code = if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE
         askedPermission = if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG
         timeAsked = System.currentTimeMillis()

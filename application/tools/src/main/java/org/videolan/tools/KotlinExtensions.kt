@@ -1,11 +1,15 @@
 package org.videolan.tools
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Uri
@@ -150,4 +154,16 @@ fun Uri?.removeQuery(): Uri? {
     } catch (e: Exception) {
     }
     return null
+}
+
+/**
+ * Checks if the intent is callable
+ *
+ * @param context: the context to use to test the intent
+ * @return true if the intent is callable
+ */
+fun Intent.isCallable(context: Context): Boolean {
+    val list: List<ResolveInfo> = context.packageManager.queryIntentActivities(this,
+            PackageManager.MATCH_DEFAULT_ONLY)
+    return list.isNotEmpty()
 }
