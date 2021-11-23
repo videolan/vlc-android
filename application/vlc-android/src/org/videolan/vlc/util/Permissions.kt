@@ -30,6 +30,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -49,7 +50,9 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.Settings
+import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
@@ -88,6 +91,14 @@ object Permissions {
         return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
     }
+
+    /**
+     * Check if the app has a complete access to the files especially on Android 11
+     *
+     * @param context: the context to check with
+     * @return true if the app has been granted the whole permissions including [Manifest.permission.MANAGE_EXTERNAL_STORAGE]
+     */
+    fun hasAllAccess(context: Context) = !Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,  Uri.parse("package:${BuildConfig.APP_ID}")).isCallable(context) || isExternalStorageManager()
 
     @JvmOverloads
     fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {
