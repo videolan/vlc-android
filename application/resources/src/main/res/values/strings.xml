@@ -499,6 +499,8 @@
     <string name="widget_default_text" translatable="false">VLC mini player</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
+    <string name="allow_storage_manager_title">Allow VLC all file access</string>
+    <string name="allow_storage_manager_description">VLC needs you to grant this permission to access all your files on this device.\nGrant permission?</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
     <string name="allow_settings_access_ringtone_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
     <string name="allow_settings_access_brightness_title">Allow VLC to change brightness mode</string>
