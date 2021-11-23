@@ -50,6 +50,7 @@ import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
+import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
@@ -93,6 +94,12 @@ class MainActivity : ContentActivity(),
         mediaLibrary = Medialibrary.getInstance()
 
         VLCBilling.getInstance(application).retrieveSkus()
+        //Only the partial permission is granted for Android 11+
+        if (!settings.getBoolean(PERMISSION_NEVER_ASK, false) && Permissions.canReadStorage(this) && !Permissions.hasAllAccess(this)) {
+            UiTools.snackerMessageInfinite(this, getString(R.string.partial_content))?.setAction(R.string.more) {
+                AllAccessPermissionDialog.newInstance().show(supportFragmentManager, AllAccessPermissionDialog::class.simpleName)
+            }?.show()
+        }
     }
 
 

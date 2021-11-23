@@ -159,6 +159,7 @@ const val SUBTITLE_PREFERRED_LANGUAGE = "subtitle_preferred_language"
 
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
+const val PERMISSION_NEVER_ASK = "permission_never_ask"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
