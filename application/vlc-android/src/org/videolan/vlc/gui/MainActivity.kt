@@ -236,6 +236,8 @@ class MainActivity : ContentActivity(),
         } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == RESULT_RESCAN) {
                 forceRefresh(currentFragment)
+            } else {
+                scanNeeded = false
             }
         }
     }
