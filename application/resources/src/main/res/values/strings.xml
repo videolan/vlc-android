@@ -500,9 +500,10 @@
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="allow_storage_manager_title">Allow VLC all file access</string>
-    <string name="allow_storage_manager_description">VLC needs you to grant this permission to access all your files on this device.\nGrant permission?</string>
+    <string name="allow_storage_manager_description">%s\n\nGrant permission?</string>
+    <string name="allow_storage_manager_explanation">To get all the capabilities of VLC and the support of all types of media files, we strongly suggest you to grant this permission.</string>
     <string name="partial_content">VLC cannot access all of your files</string>
-    <string name="partial_content_description">Starting with Android 11, applications cannot access all of the device\'s files without a special permission.\n\nIn order to allow VLC for Android to access all your files, including files that are not considered as media by the system, please grant this new permission to VLC.</string>
+    <string name="partial_content_description">Starting with Android 11, applications need a special permission to access all device\'s files.\n\n%s</string>
     <string name="never_ask_again">Never ask again</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
     <string name="allow_settings_access_ringtone_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
