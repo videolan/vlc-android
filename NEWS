@@ -1,3 +1,8 @@
+Changes between 3.4.3 Beta 2 and 3.4.3 Beta 3:
+------------------
+ * Use the new file permission
+ * Crash fixes
+
 Changes between 3.4.3 Beta 1 and 3.4.3 Beta 2:
 ------------------
  * Translation update
