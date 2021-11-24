@@ -178,7 +178,7 @@
     <string name="server_share_hint">Netzwerkfreigabename (oder IP-Adresse)</string>
     <string name="server_folder_hint">Ordnerpfad (optional)</string>
     <string name="server_username_hint">Benutzername</string>
-    <string name="server_servername_hint">Servername zur Einfachheit</string>
+    <string name="server_servername_hint">Servername, der Einfachheit halber</string>
     <string name="server_port">Port: </string>
     <string name="login">Benutzername</string>
     <string name="password">Passwort</string>
@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
+    <string name="subtitle_preferred_language">Bevorzugte Untertitelsprache</string>
     <string name="daynight_title">Tag-/Nachtmodus</string>
     <string name="daynight_follow_system_title">Wie im Systemmodus</string>
+    <string name="no_track_preference">Keine Sprachpräferenz</string>
+    <string name="track_preference">Titel-Einstellung: %s</string>
 
     <string name="extra_prefs_category">Extra-Einstellungen</string>
 
@@ -307,9 +310,15 @@
     <string name="enable_volume_gesture_title">Lautstärkengeste</string>
     <string name="enable_volume_gesture_summary">Lautstärke durch Gesten während der Videowiedergabe steuern</string>
     <string name="enable_seek_buttons">Suchen-Knöpfe</string>
-    <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
+    <string name="enable_seek_buttons_summary">Schaltflächen zum Zurückspulen und schnelles Vorspulen auf der Videooberfläche anzeigen</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto Wiedergabegeschwindigkeit</string>
+    <string name="enable_android_auto_speed_buttons_summary">Geschwindigkeitssteuerung im Überlaufmenü anzeigen</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto Suchtasten</string>
+    <string name="enable_android_auto_seek_buttons_summary">Rücklauf und Vorlauf im Überlaufmenü anzeigen. Versuchen Sie, die Tasten Zurück und Weiter am Lenkrad gedrückt zu halten, bevor Sie sie aktivieren.</string>
     <string name="enable_double_tap_seek_title">Doppelt antippen zum Suchen</string>
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
+    <string name="enable_double_tap_play_title">Doppelt antippen zum Abspielen/Pausieren</string>
+    <string name="enable_double_tap_play_summary">Doppelt auf der Bildschirmmitte antippen, um abzuspielen oder zu pausieren</string>
     <string name="popup_keepscreen_title">Im Pop-Up-Modus Anzeige nicht ausschalten</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up-Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
     <string name="browser_show_hidden_files_title">Versteckte Dateien anzeigen</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Protokollkonsole öffnen</string>
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
+    <string name="copied_from_clipboard">Adresse aus Ihrer Zwischenablage eingefügt</string>
     <string name="dump_logcat">Logcat-Protokoll erstellen</string>
     <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter %1$s erstellt!</string>
     <string name="dump_logcat_failure">Erstellen des Logcat-Auszugs fehlgeschlagen.</string>
@@ -481,6 +491,12 @@
     <string name="widget_name_b">VLC dunkles Widget</string>
     <string name="allow_storage_access_title">VLC Zugriff auf Video- und Audio-Dateien erlauben</string>
     <string name="allow_storage_access_description">VLC benötigt diese Berechtigung, um auf die Mediendateien auf diesem Gerät zugreifen zu können.</string>
+    <string name="allow_storage_manager_title">VLC Zugriff auf alle Dateien erlauben</string>
+    <string name="allow_storage_manager_description">%s\n\nGenehmigung erteilen?</string>
+    <string name="allow_storage_manager_explanation">Um alle Funktionen von VLC und die Unterstützung aller Arten von Mediendateien zu nutzen, empfehlen wir Ihnen dringend, diese Berechtigung zu erteilen.</string>
+    <string name="partial_content">VLC kann nicht auf alle Ihre Dateien zugreifen</string>
+    <string name="partial_content_description">Ab Android 11 benötigen Anwendungen eine spezielle Berechtigung, um auf alle Gerätedateien zuzugreifen.\n\n%s</string>
+    <string name="never_ask_again">Nicht erneut fragen</string>
     <string name="allow_settings_access_ringtone_title">VLC das Einstellen des Klingeltons erlauben</string>
     <string name="allow_settings_access_ringtone_description">VLC benötigt diese Berechtigung um, dieses Lied als Klingelton einzurichten.</string>
     <string name="allow_settings_access_brightness_title">VLC das Einstellen des Helligkeitsmodus erlauben</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Equalizer-Einstellung speichern als…</string>
     <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als…</string>
     <string name="save">Speichern</string>
+    <string name="saved">%s gespeichert</string>
     <string name="do_not_save">Nicht speichern</string>
     <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung \"%1$s\" gelöscht</string>
     <string name="custom_set_wrong_input">Ungültiger Name</string>
@@ -570,6 +587,7 @@
     <string name="audio_digital_failed">Status des Audio-Digitalausgangs konnte nicht geändert werden</string>
     <string name="audio_digital_output_enabled">Audio-Digitalausgang aktiviert</string>
     <string name="audio_digital_output_disabled">Audio-Digitalausgang deaktiviert</string>
+    <string name="audio_preferred_language">Bevorzugte Audiosprache</string>
     <string name="audio_digital_title">Digitaler Audio-Ausgang (Passthrough)</string>
     <string name="audio_task_cleared_title">Wiedergabe stoppen beim Beenden</string>
     <string name="audio_task_cleared_summary">Wiedergabe wird gestoppt, wenn VLC aus der Liste der letzten Anwendungen entfernt wurde</string>
@@ -793,10 +811,8 @@
     <string name="allow_otg">OTG-Zugriff erlauben</string>
     <string name="allow_otg_description">Bitte wählen Sie Ihr OTG-Laufwerk aus, um den Zugriff auf VLC zu ermöglichen</string>
     <string name="timeout_infinite">Unendlich</string>
-    <string name="timeout_short">Kurz</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Lange</string>
     <string name="video_hud_timeout">Der Video-Player steuert die Verzögerung beim Ausblenden</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Aus dem Verlauf entfernen</string>
     <string name="prefersmbv1">SMB 1 aktivieren</string>
     <string name="prefersmbv1_summary">Deaktivieren Sie diese Einstellung, wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Zur vorhandenen Wiedergabeliste hinzufügen</string>
     <string name="bookmarks_title">Lesezeichen</string>
     <string name="no_bookmark">Bisher kein Lesezeichen vorhanden</string>
+    <string name="bookmark_default_name">Lesezeichen bei %s</string>
     <string name="bookmark_name">%s - Lesezeichen</string>
+    <string name="add_bookmark">Lesezeichen hinzufügen</string>
     <string name="optional_features">Optionale Funktionen</string>
     <string name="optional_features_summary">Beta-Funktionen, die derzeit getestet werden, könnten nicht stabil sein</string>
     <string name="optional_features_warning">Diese Funktion befindet sich in der Betaphase und kann zu Abstürzen und Instabilitäten führen</string>
+    <string name="network_indexing">Netzwerkindexierung</string>
+    <string name="network_indexing_warning">Die Netzwerkindexierung befindet sich derzeit in der Betaphase.\nBekannte Probleme:\n• Geringe Leistung\n\nWenn Sie auf andere Probleme stoßen, melden Sie diese bitte in unserem Forum.</string>
     <string name="start_vlc">VLC starten</string>
+    <string name="jump_delay">Zeitverzögerung vorwärts/rückwärts</string>
+    <string name="long_jump_delay">Zeitverzögerung für langes tippen vorwärts/rückwärts</string>
+    <string name="jump_delay_summary">%s Sekunden</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Dupliziertes Element hinzufügen?</string>
@@ -839,6 +862,12 @@
     <string name="start">Start</string>
     <string name="permission">Berechtigungen</string>
     <string name="customize">Anpassen</string>
+    <string name="selection_count">%s ausgewählt</string>
+    <string name="controls_setting">Steuerungseinstellungen</string>
+    <string name="gestures">Gesten</string>
+    <string name="player_controls">Wiedergabesteuerungen</string>
+    <string name="video_double_tap_jump_delay">Zeitverzögerung für doppeltes tippen</string>
+    <string name="video_key_jump_delay">Zeitverzögerung für Navigationstasten</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Dieses Element befinden sich bereits in dieser Wiedergabeliste. </item>
         <item quantity="other">Diese Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
