@@ -186,7 +186,7 @@ object Permissions {
     private fun createExternalManagerDialog(activity: FragmentActivity, listener: (boolean: Boolean) -> Unit): Dialog {
         val dialogBuilder = android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_manager_title))
-                .setMessage(activity.getString(R.string.allow_storage_manager_description))
+                .setMessage(activity.getString(R.string.allow_storage_manager_description, activity.getString(R.string.allow_storage_manager_explanation)))
                 .setIcon(R.drawable.ic_warning)
                 .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
                     listener.invoke(true)
