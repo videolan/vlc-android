@@ -42,8 +42,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.vlc.donations.BillingStatus
-import org.videolan.vlc.donations.VLCBilling
+//import org.videolan.vlc.donations.BillingStatus
+//import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
@@ -153,9 +153,9 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             i.putExtra("fragment", SecondaryActivity.ABOUT)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        VLCBilling.getInstance(requireActivity().application).addStatusListener {
-            manageDonationVisibility()
-        }
+//        VLCBilling.getInstance(requireActivity().application).addStatusListener {
+//            manageDonationVisibility()
+//        }
         manageDonationVisibility()
         donationsButton.setOnClickListener {
             requireActivity().showDonations()
@@ -164,7 +164,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
 
     private fun manageDonationVisibility() {
         if (activity == null) return
-         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
+//         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
     }
 
     override fun onStart() {

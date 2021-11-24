@@ -79,7 +79,6 @@ import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.dialogs.VLCBillingDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
@@ -412,8 +411,8 @@ object UiTools {
 
     fun FragmentActivity.showDonations() {
         if (!isStarted()) return
-        val videoTracksDialog = VLCBillingDialog()
-        videoTracksDialog.show(supportFragmentManager, "fragment_donations")
+//        val videoTracksDialog = VLCBillingDialog()
+//        videoTracksDialog.show(supportFragmentManager, "fragment_donations")
     }
 
     fun FragmentActivity.showMediaInfo(mediaWrapper: MediaWrapper) {

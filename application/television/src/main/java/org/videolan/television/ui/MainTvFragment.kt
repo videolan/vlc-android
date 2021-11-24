@@ -49,8 +49,8 @@ import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
-import org.videolan.vlc.donations.BillingStatus
-import org.videolan.vlc.donations.VLCBilling
+//import org.videolan.vlc.donations.BillingStatus
+//import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.reloadLibrary
@@ -168,9 +168,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content_dark))
         val donateCard = GenericCardItem(ID_SPONSOR, getString(R.string.tip_jar), "", R.drawable.ic_donate_big, R.color.tv_card_content_dark)
-        VLCBilling.getInstance(requireActivity().application).addStatusListener {
-            manageDonationVisibility(donateCard)
-        }
+//        VLCBilling.getInstance(requireActivity().application).addStatusListener {
+//            manageDonationVisibility(donateCard)
+//        }
         manageDonationVisibility(donateCard)
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
@@ -189,7 +189,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private fun manageDonationVisibility(donateCard: GenericCardItem) {
         if (activity == null) return
         otherAdapter.remove(donateCard)
-        if (VLCBilling.getInstance(requireActivity().application).status != BillingStatus.FAILURE && VLCBilling.getInstance(requireActivity().application).skuDetails.isNotEmpty()) otherAdapter.add(1, donateCard)
+//        if (VLCBilling.getInstance(requireActivity().application).status != BillingStatus.FAILURE && VLCBilling.getInstance(requireActivity().application).skuDetails.isNotEmpty()) otherAdapter.add(1, donateCard)
     }
 
     private fun registerDatasets() {

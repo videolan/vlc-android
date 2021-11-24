@@ -152,7 +152,6 @@ dependencies {
     api project(':application:resources')
     api project(':application:mediadb')
     api project(':application:live-plot-graph')
-    api project(':application:donations')
 
 
     // AppCompat
