@@ -258,7 +258,7 @@
 
     <string name="directories_summary">Välj filkataloger att inkludera i mediabiblioteket</string>
     <string name="add_custom_path">Lägg till anpassad sökväg</string>
-    <string name="add_custom_path_description">Ange ytterligare valfri mapp att skanna:</string>
+    <string name="add_custom_path_description">Ange ytterligare valfria kataloger att söka igenom:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet\nAvkodning: Kan förbättra prestandan\nFull: Kan förbättra prestandan ytterligare</string>
@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Senast låsta orientering</string>
     <string name="enable_black_theme">Mörkt tema</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
+    <string name="subtitle_preferred_language">Föredraget språk för undertexter</string>
     <string name="daynight_title">Dagnattläge</string>
     <string name="daynight_follow_system_title">Följ systemläge</string>
+    <string name="no_track_preference">Inget föredraget språk</string>
+    <string name="track_preference">Föredraget spår: %s</string>
 
     <string name="extra_prefs_category">Extra inställningar</string>
 
@@ -307,9 +310,15 @@
     <string name="enable_volume_gesture_title">Volymgester</string>
     <string name="enable_volume_gesture_summary">Kontrollera volymen med gester under videouppspelning</string>
     <string name="enable_seek_buttons">Snabbspolningsknappar</string>
-    <string name="enable_seek_buttons_summary">Visa knappar för fram- och bakåtspolning i videogränssnittet</string>
+    <string name="enable_seek_buttons_summary">Visa knappar för att spola fram och tillbaka på videogränssnittet</string>
+    <string name="enable_android_auto_speed_buttons">Uppspelningshastighet för Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Visa hastighetskontroll i överlödesmenyn</string>
+    <string name="enable_android_auto_seek_buttons">Snabbspolningsknappar för Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Visa knappar i överflödesmenyn för att spola fram- och tillbaka. Försök att hålla ned knapparna föregående och nästa innan du aktiverar detta.</string>
     <string name="enable_double_tap_seek_title">Dubbelknacka för att snabbspola framåt/bakåt</string>
     <string name="enable_double_tap_seek_summary">Dubbelknacka på skärmens kanter för att snabbspola framåt/bakåt 10 sekunder</string>
+    <string name="enable_double_tap_play_title">Tryck två gånger för att spela upp/pausa</string>
+    <string name="enable_double_tap_play_summary">Tryck två gånger på mitten av skärmen för att spela upp eller pausa</string>
     <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
     <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popupp visas, även om videon är pausad.</string>
     <string name="browser_show_hidden_files_title">Visa dolda filer</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Öppna loggkonsolen</string>
     <string name="copy_to_clipboard">Kopiera till urklipp</string>
     <string name="copied_to_clipboard">Kopierade logg till urklipp.</string>
+    <string name="copied_from_clipboard">Adressen klistrades in från ditt urklipp</string>
     <string name="dump_logcat">Spara logg</string>
     <string name="dump_logcat_success">Logcat sparades till %1$s!</string>
     <string name="dump_logcat_failure">Misslyckades att spara logcat.</string>
@@ -452,7 +462,7 @@
     <string name="audio_delay">Ljudfördröjning</string>
     <string name="spu_delay">Undertextfördröjning</string>
     <string name="network_shares_discovery">Letar efter nätverksdelningar</string>
-    <string name="network_empty">Denna mapp är tom.</string>
+    <string name="network_empty">Denna katalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
     <string name="search_in_list_hint">Sök i nuvarande lista</string>
@@ -473,7 +483,7 @@
     <string name="more_actions">Fler åtgärder</string>
     <string name="back_quit_lock">Tryck på tillbaka igen för att avsluta videon</string>
     <string name="stream_deleted">Ström raderades</string>
-    <string name="no_subs_found">Inga undertexter i denna mapp</string>
+    <string name="no_subs_found">Inga undertexter i denna katalog</string>
     <string name="music_now_playing">Spelar nu</string>
 
     <!-- Widget -->
@@ -481,6 +491,12 @@
     <string name="widget_name_b">VLC - mörk widget</string>
     <string name="allow_storage_access_title">Tillåt VLC att få åtkomst till video- och ljudfiler</string>
     <string name="allow_storage_access_description">Du måste bevilja detta tillstånd för att VLC ska kunna komma åt mediafilerna på denna enhet.</string>
+    <string name="allow_storage_manager_title">Ge VLC all filåtkomst</string>
+    <string name="allow_storage_manager_description">%s\n\nBevilja behörighet?</string>
+    <string name="allow_storage_manager_explanation">För att få alla funktioner i VLC och stöd för alla slags mediafiler rekommenderar vi att du beviljar denna behörighet.</string>
+    <string name="partial_content">VLC kan inte komma åt alla dina filer</string>
+    <string name="partial_content_description">Från och med Android 11 behöver appar en specialbehörighet för att komma åt alla filer på enheten.\n\n%s</string>
+    <string name="never_ask_again">Fråga inte igen</string>
     <string name="allow_settings_access_ringtone_title">Tillåt VLC att ändra ringsignalen</string>
     <string name="allow_settings_access_ringtone_description">Du måste bevilja detta tillstånd för att VLC ska kunna ändra din ringsignal till denna låt.</string>
     <string name="allow_settings_access_brightness_title">Tillåt VLC att ändra ljusstyrkeläge</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Spara equalizerinställning som…</string>
     <string name="new_custom_set_save_message">Spara ny equalizerinställning som…</string>
     <string name="save">Spara</string>
+    <string name="saved">Sparade %s</string>
     <string name="do_not_save">Spara inte</string>
     <string name="custom_set_deleted_message">Anpassade equalizer-inställningen \"%1$s\" raderades.</string>
     <string name="custom_set_wrong_input">Ogiltigt namn.</string>
@@ -570,6 +587,7 @@
     <string name="audio_digital_failed">Misslyckades att ändra tillståndet för digital ljudutmatning</string>
     <string name="audio_digital_output_enabled">Digital ljudutmatning är aktiverad</string>
     <string name="audio_digital_output_disabled">Digital ljudutmatning är inaktiverad</string>
+    <string name="audio_preferred_language">Ljudspråk att föredra</string>
     <string name="audio_digital_title">Digital ljudutmatning (passthrough)</string>
     <string name="audio_task_cleared_title">Stoppa när appen avvisas</string>
     <string name="audio_task_cleared_summary">Stoppa uppspelningen när applikationen avvisas</string>
@@ -680,7 +698,7 @@
     <string name="never">Aldrig</string>
     <string name="ask_confirmation">Fråga</string>
     <string name="add_to_scanned">Sök igenom denna mapp</string>
-    <string name="directory_not_scanned">Denna mapp har inte sökts igenom</string>
+    <string name="directory_not_scanned">Denna katalog har inte sökts igenom</string>
     <string name="scanned_directory_added">%s lades till i dina filkataloger att söka igenom</string>
     <string name="video_group_size_summary">Gruppera efter de %s första bokstäverna</string>
     <string name="url_copied_to_clipboard">Webbadressen kopierades till urklipp</string>
@@ -793,10 +811,8 @@
     <string name="allow_otg">Tillåt OTG-åtkomst</string>
     <string name="allow_otg_description">Välj din OTG-enhet att ge åtkomst till VLC.</string>
     <string name="timeout_infinite">Oändlig</string>
-    <string name="timeout_short">Kort</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Lång</string>
     <string name="video_hud_timeout">Fördröjning innan videospelarens kontroller döljs</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Ta bort från historiken</string>
     <string name="prefersmbv1">Föredra SMB 1</string>
     <string name="prefersmbv1_summary">Avmarkera denna inställning om du har problem med att bläddra i din SMB-server</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Lägg till i befintlig spellista</string>
     <string name="bookmarks_title">Bokmärken</string>
     <string name="no_bookmark">Inga bokmärken ännu</string>
+    <string name="bookmark_default_name">Bokmärke vid %s</string>
     <string name="bookmark_name">Bokmärke %s</string>
+    <string name="add_bookmark">Lägg till bokmärke</string>
     <string name="optional_features">Valfria funktioner</string>
     <string name="optional_features_summary">Betafunktioner som för tillfället testas och kanske inte är stabila</string>
     <string name="optional_features_warning">Denna funktion är i betastadiet och kan orsaka kraschar och instabilitet.</string>
+    <string name="network_indexing">Nätverksindexering</string>
+    <string name="network_indexing_warning">Nätverksindexering är för tillfället i betastadiet.\nKända fel:\n• Långsam prestanda\n\nRapportera problem på vårt forum om du stöter på andra problem.</string>
     <string name="start_vlc">Starta VLC</string>
+    <string name="jump_delay">Tidsfördröjning av framåt/bakåt</string>
+    <string name="long_jump_delay">Tidsfördröjning när framåt/bakåt hålls ned</string>
+    <string name="jump_delay_summary">%s sekunder</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Lägg till duplicerade objekt?</string>
@@ -839,6 +862,12 @@
     <string name="start">Starta</string>
     <string name="permission">Behörighet</string>
     <string name="customize">Anpassa</string>
+    <string name="selection_count">%s markerade</string>
+    <string name="controls_setting">Kontrollinställningar</string>
+    <string name="gestures">Gester</string>
+    <string name="player_controls">Spelarkontroller</string>
+    <string name="video_double_tap_jump_delay">Tidsfördröjning av dubbeltryck</string>
+    <string name="video_key_jump_delay">Tidsfördröjning av navigeringstangenter</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Detta objekt finns redan i denna spellista.</item>
         <item quantity="other">Dessa objekt finns redan i denna spellista.</item>
