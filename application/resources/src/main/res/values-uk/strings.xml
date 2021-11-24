@@ -296,8 +296,11 @@
     <string name="screen_orientation_last_locked">Остання заблокована орієнтація</string>
     <string name="enable_black_theme">Чорна тема</string>
     <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
+    <string name="subtitle_preferred_language">Переважна мова субтитрів</string>
     <string name="daynight_title">Режим день-ніч</string>
     <string name="daynight_follow_system_title">Дотримуватися системного режиму</string>
+    <string name="no_track_preference">Нема мовних вподобань</string>
+    <string name="track_preference">Установка відстежування: %s</string>
 
     <string name="extra_prefs_category">Додаткове параметри</string>
 
@@ -327,9 +330,15 @@
     <string name="enable_volume_gesture_title">Жест гучності</string>
     <string name="enable_volume_gesture_summary">Управляти гучністю через жести під час відтворення відео</string>
     <string name="enable_seek_buttons">Кнопки пошуку</string>
-    <string name="enable_seek_buttons_summary">Показувати кнопки перемотування та переходу вперед на відеоінтерфейсі</string>
+    <string name="enable_seek_buttons_summary">Показувати кнопки перемотування та швидкого переходу вперед на відео інтерфейсі</string>
+    <string name="enable_android_auto_speed_buttons">Швидкість відтворення Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Показати управління швидкістю в меню переповнення</string>
+    <string name="enable_android_auto_seek_buttons">Кнопки пошуку Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Показувати перемотування та швидкий перехід вперед у меню переповнення. Спробуйте утримувати кнопки «Назад» і «Далі» на кермі, перш ніж увімкнути.</string>
     <string name="enable_double_tap_seek_title">Подвійний натиск для пошуку</string>
     <string name="enable_double_tap_seek_summary">Подвійний натиск по краях екрану, щоб шукати за 10 секунд</string>
+    <string name="enable_double_tap_play_title">Подвійний натиск для відтворення/паузи</string>
+    <string name="enable_double_tap_play_summary">Подвійний натиск по центру екрана, щоб відтворювати або призупинити</string>
     <string name="popup_keepscreen_title">Зберігати увімкненим екран у режимі вигульків</string>
     <string name="popup_keepscreen_summary">Завжди зберігає увімкненим екран, коли показуються вигульки, навіть при зупинці відео.</string>
     <string name="browser_show_hidden_files_title">Показати приховані файли</string>
@@ -391,7 +400,7 @@
     <string name="extension_permission_title">Активувати нове розширення \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Показати у %1$s</string>
     <string name="extension_prefs_activation_title">Активувати</string>
-    <string name="android_auto">Android авто</string>
+    <string name="android_auto">Android Auto</string>
 
     <string name="controls_prefs_category">Засоби управління</string>
 
@@ -444,6 +453,7 @@
     <string name="log_service_text">Відкрити консоль журналу</string>
     <string name="copy_to_clipboard">Копіювати у буфер обміну</string>
     <string name="copied_to_clipboard">Скопійовано журнал у буфер обміну.</string>
+    <string name="copied_from_clipboard">Адреса вставлена з вашого буферу обміну</string>
     <string name="dump_logcat">Викинути журнал logcat</string>
     <string name="dump_logcat_success">Logcat успішно викинули до %1$s!</string>
     <string name="dump_logcat_failure">Не вдалося викинути logcat.</string>
@@ -501,6 +511,12 @@
     <string name="widget_name_b">Темний віджет VLC</string>
     <string name="allow_storage_access_title">Надати VLC доступ до відео та аудіофайлів</string>
     <string name="allow_storage_access_description">VLV потрібно, щоби ви надали цей доступ для доступу до медіафайлів на відповідному пристрої.</string>
+    <string name="allow_storage_manager_title">Дозволити VLC доступ до всіх файлів</string>
+    <string name="allow_storage_manager_description">%s\n\nНадати дозвіл?</string>
+    <string name="allow_storage_manager_explanation">Щоб отримати усі можливості VLC та підтримувати усі типи медіафайлів, ми наполегливо рекомендуємо вам надати цей дозвіл.</string>
+    <string name="partial_content">VLC не має доступу  до всіх ваших файлів</string>
+    <string name="partial_content_description">Починаючи з Android 11, застосунки потребують особливого дозволу для доступу до всіх файлів вашого пристрою.\nn%s</string>
+    <string name="never_ask_again">Ніколи не запитувати знову</string>
     <string name="allow_settings_access_ringtone_title">Дозволити VLC задавати мелодію дзвінків</string>
     <string name="allow_settings_access_ringtone_description">VLC потрібно, що ви надали цей дозвіл для установки цієї пісні як вашої мелодії.</string>
     <string name="allow_settings_access_brightness_title">Дозволити VLC змінювати режим яскравості</string>
@@ -569,6 +585,7 @@
     <string name="existing_custom_set_save_message">Зберегти параметри еквалайзера як…</string>
     <string name="new_custom_set_save_message">Зберегти нові параметри еквалайзера як…</string>
     <string name="save">Зберігати</string>
+    <string name="saved">Збережено %s</string>
     <string name="do_not_save">Не зберігати</string>
     <string name="custom_set_deleted_message">Особливий набір параметрів еквалайзера %1$s вилучений.</string>
     <string name="custom_set_wrong_input">Неправильна назва.</string>
@@ -590,6 +607,7 @@
     <string name="audio_digital_failed">Не вдалося змінити стан цифрового виводу аудіо</string>
     <string name="audio_digital_output_enabled">Цифровий вивід аудіо ввімкнено</string>
     <string name="audio_digital_output_disabled">Цифровий вивід аудіо вимкнено</string>
+    <string name="audio_preferred_language">Переважна мова аудіо</string>
     <string name="audio_digital_title">Цифровий вивід аудіо (роз\'єм)</string>
     <string name="audio_task_cleared_title">Зупиняти при натисканні на програму</string>
     <string name="audio_task_cleared_summary">Призупиняти відтворення, якщо програму відхилено</string>
@@ -817,10 +835,8 @@
     <string name="allow_otg">Дозволити доступ через  OTG</string>
     <string name="allow_otg_description">Будь ласка, виберіть ваш носій OTG, щоб дозволити доступ для VLC.</string>
     <string name="timeout_infinite">Нескінченна</string>
-    <string name="timeout_short">Коротка</string>
-    <string name="timeout_normal">Нормальна</string>
-    <string name="timeout_long">Довга</string>
     <string name="video_hud_timeout">Відео програвач управляє затримкою</string>
+    <string name="video_hud_timeout_summary">%sс</string>
     <string name="remove_from_history">Вилучити з історії</string>
     <string name="prefersmbv1">Віддати перевагу SMB 1</string>
     <string name="prefersmbv1_summary">Вимкніть цей параметр, якщо у вас наявні труднощі при перегляді вашого сервера SMB.</string>
@@ -846,11 +862,18 @@
     <string name="add_to_existing_playlist">Додати до наявного списку відтворення</string>
     <string name="bookmarks_title">Закладки</string>
     <string name="no_bookmark">Ще нема закладок</string>
+    <string name="bookmark_default_name">Закладка в %s</string>
     <string name="bookmark_name">Закладка %s</string>
+    <string name="add_bookmark">Додати закладку</string>
     <string name="optional_features">Додаткові можливості</string>
     <string name="optional_features_summary">Бета-функції, що наразі тестуються і можуть бути нестійкими</string>
     <string name="optional_features_warning">Ця функція перебуває у бета-тестуванні та може спричиняти збої та нестабільну роботу</string>
+    <string name="network_indexing">Мережна індексація</string>
+    <string name="network_indexing_warning">Мережна індексація наразі перебуває у беті.\nВідомі проблеми:\n• повільна робота\n\nЯкщо ви зіткнулися з іншими неполадками, то, будь ласка, повідомте про них на нашому форумі.</string>
     <string name="start_vlc">Запустити VLC</string>
+    <string name="jump_delay">Затримка у часі для відтворення вперед/назад</string>
+    <string name="long_jump_delay">Затримка у часі для довгого натиску вперед/назад</string>
+    <string name="jump_delay_summary">%s секунд</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Додати повторювані елемент(и)?</string>
@@ -863,6 +886,12 @@
     <string name="start">Запустити</string>
     <string name="permission">Дозвіл</string>
     <string name="customize">Налаштувати</string>
+    <string name="selection_count">%s обрано</string>
+    <string name="controls_setting">Параметри управління</string>
+    <string name="gestures">Жести</string>
+    <string name="player_controls">Управління програвачем</string>
+    <string name="video_double_tap_jump_delay">Затримка у часі для подвійного дотику</string>
+    <string name="video_key_jump_delay">Затримка у часі для кнопок навігації</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Цей елемент вже наявний у цьому списку.</item>
         <item quantity="few">Ці елементи вже наявні у цьому списку.</item>
