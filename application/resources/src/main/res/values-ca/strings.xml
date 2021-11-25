@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Darrera orientació bloquejada</string>
     <string name="enable_black_theme">Tema fosc</string>
     <string name="subtitle_text_encoding">Codificació del text del subtítol</string>
+    <string name="subtitle_preferred_language">Idioma preferit per als subtítols</string>
     <string name="daynight_title">Mode dia/nit</string>
     <string name="daynight_follow_system_title">Segueix el mode del sistema</string>
+    <string name="no_track_preference">Sense idioma preferent</string>
+    <string name="track_preference">Preferència de pista: %s</string>
 
     <string name="extra_prefs_category">Paràmetres extres</string>
 
@@ -307,9 +310,15 @@
     <string name="enable_volume_gesture_title">Gestos de volum</string>
     <string name="enable_volume_gesture_summary">Controla el volum mitjançant gestos durant la reproducció</string>
     <string name="enable_seek_buttons">Botons de cerca</string>
-    <string name="enable_seek_buttons_summary">Ensenya els botons de tirar enrere i endavant a la interfície del vídeo</string>
+    <string name="enable_seek_buttons_summary">Mostra els botons de tirar enrere i ràpid endavant a la interfície del vídeo</string>
+    <string name="enable_android_auto_speed_buttons">Velocitat de reproducció de l\'Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Mostra el control de la velocitat en el menú de desbordament</string>
+    <string name="enable_android_auto_seek_buttons">Botons de cerca de l\'Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Mostra els botons de tirar enrere i ràpid endavant al menú de desbordament. Abans d\'activar-ho, proveu els botons previ i següent del volant.</string>
     <string name="enable_double_tap_seek_title">Doble toc per buscar</string>
     <string name="enable_double_tap_seek_summary">Doble toc als extrems de la pantalla per buscar durant 10 segons</string>
+    <string name="enable_double_tap_play_title">Feu doble toc per reproduir/pausar</string>
+    <string name="enable_double_tap_play_summary">Feu doble toc al centre de la pantalla per reproduir o pausar</string>
     <string name="popup_keepscreen_title">Manté la pantalla engegada en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manté la pantalla oberta mentre es mostra un Pop-Up, encara que el vídeo estigui en pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Obre la consola dels registres</string>
     <string name="copy_to_clipboard">Còpia cap al porta-retalls</string>
     <string name="copied_to_clipboard">Copiat el fitxer de registre al porta-retalls</string>
+    <string name="copied_from_clipboard">L\'adreça s\'ha enganxat des del porta-retalls</string>
     <string name="dump_logcat">Aboca el registre logcat</string>
     <string name="dump_logcat_success">S\'ha abocat el registre logcat a %1$s!</string>
     <string name="dump_logcat_failure">No s\'ha pogut bolcar el logcat.</string>
@@ -481,6 +491,12 @@
     <string name="widget_name_b">Widget fosc del VLC</string>
     <string name="allow_storage_access_title">Deixa que el VLC accedeixi als fitxers de vídeo i àudio</string>
     <string name="allow_storage_access_description">VLC necessita permís per accedir als fitxers multimèdia en aquest dispositiu.</string>
+    <string name="allow_storage_manager_title">Permetre l\'accés del VLC a tots els fitxers</string>
+    <string name="allow_storage_manager_description">%s\n\nDoneu permís?</string>
+    <string name="allow_storage_manager_explanation">Recomanem donar aquest permís per gaudir de totes les possibilitats del VLC i la compatiblitat de tota mena de fitxers multimèdia.</string>
+    <string name="partial_content">El VLC no pot accedir a tots els vostres fitxers</string>
+    <string name="partial_content_description">Amb l\'Android 11 cal un permís especial perquè les aplicacions accedeixin a tots els fitxers del dispositiu.\n\n%s</string>
+    <string name="never_ask_again">No ho tornis a demanar</string>
     <string name="allow_settings_access_ringtone_title">Deixa que el VLC configuri la melodia del telèfon</string>
     <string name="allow_settings_access_ringtone_description">VLC necessita permís per configurar aquesta cançó com a melodia del telèfon.</string>
     <string name="allow_settings_access_brightness_title">Deixa que el VLC canviï el mode de brillantor</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Guarda l\'equalitzador com a...</string>
     <string name="new_custom_set_save_message">Guarda un nou equalitzador com a...</string>
     <string name="save">Desa</string>
+    <string name="saved">Desat %s</string>
     <string name="do_not_save">No desis</string>
     <string name="custom_set_deleted_message">Equalitzador personalitzat \"%1$s\" esborrat.</string>
     <string name="custom_set_wrong_input">El nom no és vàlid.</string>
@@ -570,6 +587,7 @@
     <string name="audio_digital_failed">No s\'ha pogut canviar la sortida d\'àudio digital</string>
     <string name="audio_digital_output_enabled">Activada la sortida d\'àudio digital</string>
     <string name="audio_digital_output_disabled">Desactivada la sortida d\'àudio digital</string>
+    <string name="audio_preferred_language">Idioma de l\'àudio preferit</string>
     <string name="audio_digital_title">Sortida d\'àudio digital (contrasenya)</string>
     <string name="audio_task_cleared_title">Para al fer un swipe</string>
     <string name="audio_task_cleared_summary">Para la reproducció quan l\'aplicació es descarta</string>
@@ -793,10 +811,8 @@
     <string name="allow_otg">Permeteu l\'accés a la memòria externa</string>
     <string name="allow_otg_description">Seleccioneu la unitat OTG per permetre l\'accés al VLC.</string>
     <string name="timeout_infinite">Infinit</string>
-    <string name="timeout_short">Curt</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Llarg</string>
     <string name="video_hud_timeout">Retard per amagar els controls de vídeo</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Suprimeix de l\'historial</string>
     <string name="prefersmbv1">Preferit SMB 1</string>
     <string name="prefersmbv1_summary">Desmarqueu aquesta opció si teniu problemes en accedir al servidor SMB</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Afegeix a la llista de reproducció existent</string>
     <string name="bookmarks_title">Preferits</string>
     <string name="no_bookmark">Encara no hi ha cap preferit</string>
+    <string name="bookmark_default_name">Preferit a %s</string>
     <string name="bookmark_name">Preferit %s</string>
+    <string name="add_bookmark">Afegir preferit</string>
     <string name="optional_features">Característiques opcionals</string>
     <string name="optional_features_summary">Característiques beta que estan actualment en fase de proves i poden ser inestables</string>
     <string name="optional_features_warning">Aquesta característica està en fase de proves beta i pot provocar penjades i inestabilitats</string>
+    <string name="network_indexing">Indexació de la xarxa</string>
+    <string name="network_indexing_warning">Actualment la indexació de xarxa està en fase beta.\nProblemes coneguts:\n• Baix rendimentn\nSi trobeu altres problemes, reporteu-los sisplau al nostre fòrum. </string>
     <string name="start_vlc">Inicia el VLC</string>
+    <string name="jump_delay">Retard d\'endavant/enrere</string>
+    <string name="long_jump_delay">Retard del toc llarg endavant/enrere</string>
+    <string name="jump_delay_summary">%s segons</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Afegir element(s) duplicat(s)?</string>
@@ -839,6 +862,12 @@
     <string name="start">Inicia</string>
     <string name="permission">Permís</string>
     <string name="customize">Personalitza</string>
+    <string name="selection_count">%s seleccionat</string>
+    <string name="controls_setting">Configuració dels controls</string>
+    <string name="gestures">Gestos</string>
+    <string name="player_controls">Controls del reproductor</string>
+    <string name="video_double_tap_jump_delay">Retard del doble toc</string>
+    <string name="video_key_jump_delay">Retard de les tecles de navegació</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Aquest element ja està a la llista de reproducció.</item>
         <item quantity="other">Aquests elements ja estan a la llista de reproducció.</item>
