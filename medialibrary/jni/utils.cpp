@@ -127,7 +127,7 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
            static_cast<bool>( includeMissing )
         };
     return utils::jni::object{ env, env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count(), (jlong)playlistPtr->duration(), (jint)playlistPtr->nbVideo(), (jint)playlistPtr->nbAudio(), (jint)playlistPtr->nbUnknown())
+                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count(), (jlong)playlistPtr->duration(), (jint)playlistPtr->nbVideo(), (jint)playlistPtr->nbAudio(), (jint)playlistPtr->nbUnknown(), (jint)playlistPtr->nbDurationUnknown())
     };
 }
 

@@ -15,14 +15,16 @@ public abstract class Playlist extends MediaLibraryItem {
     protected long mNbVideo;
     protected long mNbAudio;
     protected long mNbUnknown;
+    protected long mNbDurationUnknown;
 
-    protected Playlist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown) {
+    protected Playlist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
         super(id, name);
         mTracksCount = trackCount;
         mDuration = duration;
         mNbVideo = nbVideo;
         mNbAudio = nbAudio;
         mNbUnknown = nbUnknown;
+        mNbDurationUnknown = nbDurationUnknown;
     }
 
     abstract public MediaWrapper[] getTracks(boolean includeMissing);
@@ -57,6 +59,10 @@ public abstract class Playlist extends MediaLibraryItem {
 
     public long getNbUnknown() {
         return mNbUnknown;
+    }
+
+    public long getNbDurationUnknown() {
+        return mNbDurationUnknown;
     }
 
     @Override

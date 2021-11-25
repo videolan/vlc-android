@@ -13,6 +13,7 @@ import android.text.SpannableString
 import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.WorkerThread
@@ -31,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import org.videolan.BuildConfig
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
@@ -175,7 +177,8 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         return
     }
     val text = if (item is Playlist){
-        TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.duration != 0L) Tools.millisToString(item.duration) else null)
+        val duration =if (item.duration != 0L) Tools.millisToString(item.duration) else null
+        TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.nbDurationUnknown > 0) "$duration+" else duration)
     } else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
