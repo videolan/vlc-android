@@ -23,7 +23,6 @@
 #include <jni.h>
 #include <medialibrary/Types.h>
 #include <medialibrary/IMediaLibrary.h>
-#include <medialibrary/IAlbumTrack.h>
 #include <medialibrary/IVideoTrack.h>
 #include <medialibrary/IFile.h>
 #include <medialibrary/IMedia.h>

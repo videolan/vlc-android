@@ -24,29 +24,25 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         type = -1; //MediaWrapper.TYPE_ALL
         break;
     }
-    medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
     utils::jni::string artist, genre, album, albumArtist, mrl, title, thumbnail, filename;
     jint trackNumber = 0, discNumber = 0;
 
     const bool isPresent = mediaPtr->isPresent();
-    if (p_albumTrack)
-    {
-        medialibrary::ArtistPtr artistPtr = p_albumTrack->artist();
-        medialibrary::GenrePtr genrePtr = p_albumTrack->genre();
-        medialibrary::AlbumPtr albumPtr = p_albumTrack->album();
-        if (artistPtr != NULL)
-            artist = vlcNewStringUTF(env, artistPtr->name().c_str());
-        if (genrePtr != NULL)
-            genre = vlcNewStringUTF(env, genrePtr->name().c_str());
-        if (albumPtr!= NULL) {
-            album = vlcNewStringUTF(env, albumPtr->title().c_str());
-            medialibrary::ArtistPtr albumArtistPtr = albumPtr->albumArtist();
-            if (albumArtistPtr != NULL)
-                albumArtist = vlcNewStringUTF(env, albumArtistPtr->name().c_str());
-        }
-        trackNumber = p_albumTrack->trackNumber();
-        discNumber = p_albumTrack->discNumber();
+    medialibrary::ArtistPtr artistPtr = mediaPtr->artist();
+    medialibrary::GenrePtr genrePtr = mediaPtr->genre();
+    medialibrary::AlbumPtr albumPtr = mediaPtr->album();
+    if (artistPtr != NULL)
+        artist = vlcNewStringUTF(env, artistPtr->name().c_str());
+    if (genrePtr != NULL)
+        genre = vlcNewStringUTF(env, genrePtr->name().c_str());
+    if (albumPtr!= NULL) {
+        album = vlcNewStringUTF(env, albumPtr->title().c_str());
+        medialibrary::ArtistPtr albumArtistPtr = albumPtr->albumArtist();
+        if (albumArtistPtr != NULL)
+            albumArtist = vlcNewStringUTF(env, albumArtistPtr->name().c_str());
     }
+    trackNumber = mediaPtr->trackNumber();
+    discNumber = mediaPtr->discNumber();
     const medialibrary::IMetadata& metaAudioTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::AudioTrack);
     jint  audioTrack = metaAudioTrack.isSet() ? metaAudioTrack.asInt() : -2;
     const medialibrary::IMetadata& metaSpuTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::SubtitleTrack);
