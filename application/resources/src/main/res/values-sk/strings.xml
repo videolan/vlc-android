@@ -198,7 +198,7 @@
     <string name="server_share_hint">Názov zdieľania v sieti (alebo IP adresa)</string>
     <string name="server_folder_hint">Cesta k priečinku (voliteľne)</string>
     <string name="server_username_hint">Meno používateľa</string>
-    <string name="server_servername_hint">Názov servera, pre zjednodušenie</string>
+    <string name="server_servername_hint">Názov servera, kvôli zjednodušeniu</string>
     <string name="server_port">Port:</string>
     <string name="login">Prihlasovacie meno</string>
     <string name="password">Heslo</string>
@@ -296,8 +296,11 @@
     <string name="screen_orientation_last_locked">Posledná uzamknutá orientácia</string>
     <string name="enable_black_theme">Čierna téma</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
+    <string name="subtitle_preferred_language">Preferovaný jazyk titulkov</string>
     <string name="daynight_title">Režim deň/noc</string>
     <string name="daynight_follow_system_title">Sledovať režim systému</string>
+    <string name="no_track_preference">Žiadny preferovaný jazyk</string>
+    <string name="track_preference">Preferencia stopy: %s</string>
 
     <string name="extra_prefs_category">Extra nastavenia</string>
 
@@ -327,9 +330,15 @@
     <string name="enable_volume_gesture_title">Gesto pre hlasitosť</string>
     <string name="enable_volume_gesture_summary">Počas prehrávania videa ovládať hlasitosť gestom</string>
     <string name="enable_seek_buttons">Tlačidlá pre vyhľadávanie</string>
-    <string name="enable_seek_buttons_summary">Zobraziť tlačidlá na posúvanie dopredu/dozadu v rozhraní s videom</string>
+    <string name="enable_seek_buttons_summary">Zobraziť tlačidlá na posúvanie dozadu a rýchlo dopredu v rozhraní s videom</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto - rýchlosť prehrávania</string>
+    <string name="enable_android_auto_speed_buttons_summary">Zobraziť kontrolu rýchlosti v prekrývacom menu</string>
+    <string name="enable_android_auto_seek_buttons">Tlačidlá vyhľadávania Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Zobraziť prevíjanie dozadu a rýchlo dopredu v prekrývacom menu. Pred aktivovaním skúste podržať tlačidlá Dozadu a Dopredu na volante.</string>
     <string name="enable_double_tap_seek_title">Pre hľadanie/posun sa 2x dotknite</string>
     <string name="enable_double_tap_seek_summary">Pre posun o 10 sekúnd sa 2x dotknite rohov obrazovky</string>
+    <string name="enable_double_tap_play_title">Dvojitým dotykom spustíte/pozastavíte prehrávanie</string>
+    <string name="enable_double_tap_play_summary">Pre prehrávanie/pozastavenie dvakrát ťuknite na stred obrazovky</string>
     <string name="popup_keepscreen_title">V režime vyskakovacieho okna ponechať ZAPNUTÝ displej</string>
     <string name="popup_keepscreen_summary">Počas zobrazenia vyskakovacieho okna ponechať displej ZAPNUTÝ, aj pri pozastavení videa.</string>
     <string name="browser_show_hidden_files_title">Zobraziť skryté súbory</string>
@@ -444,6 +453,7 @@
     <string name="log_service_text">Otvoriť konzolu pre záznamy</string>
     <string name="copy_to_clipboard">Kopírovať do schránky</string>
     <string name="copied_to_clipboard">Záznam bol skopírovaný do schránky.</string>
+    <string name="copied_from_clipboard">Adresa vložená zo schránky</string>
     <string name="dump_logcat">Analyzovať záznam logcat</string>
     <string name="dump_logcat_success">Záznam logcat bol úspešne analyzovaný a uložený do %1$s!</string>
     <string name="dump_logcat_failure">Nepodarilo sa analyzovať záznam logcat.</string>
@@ -501,6 +511,12 @@
     <string name="widget_name_b">Widget pre tmavý VLC</string>
     <string name="allow_storage_access_title">Povoliť prístup VLC k zvukovým a video-súborom</string>
     <string name="allow_storage_access_description">VLC potrebuje toto oprávnenie na prístup k mediálnym súborom na tomto zariadení.</string>
+    <string name="allow_storage_manager_title">Povoliť VLC prístup ku všetkým súborom</string>
+    <string name="allow_storage_manager_description">%s\n\nUdeliť oprávnenie?</string>
+    <string name="allow_storage_manager_explanation">Pre využitie všetkých schopností aplikácie VLC a kvôli podpore všetkých typov médií dôrazne odporúčame toto povolenie udeliť.</string>
+    <string name="partial_content">VLC nemôže pristupovať ku všetkým vašim súborom</string>
+    <string name="partial_content_description">Počínajúc systémom Android 11 vyžadujú aplikácie osobitné povolenie na prístup ku všetkým súborom zariadenia.\n\n%s</string>
+    <string name="never_ask_again">Už sa nikdy nepýtať</string>
     <string name="allow_settings_access_ringtone_title">Povoliť VLC nastavovať tón vyzváňania</string>
     <string name="allow_settings_access_ringtone_description">Na nastavenie tejto skladby ako tónu vyzváňania musí mať VLC udelené oprávnenie.</string>
     <string name="allow_settings_access_brightness_title">Povoliť VLC zmenu režimu jasu</string>
@@ -569,6 +585,7 @@
     <string name="existing_custom_set_save_message">Uložiť nastavenie ekvalizéra ako…</string>
     <string name="new_custom_set_save_message">Uložiť nové nastavenie ekvalizéra ako…</string>
     <string name="save">Uložiť</string>
+    <string name="saved">Uložené: %s</string>
     <string name="do_not_save">Neukladať</string>
     <string name="custom_set_deleted_message">Používateľské nastavenie ekvalizéra \"%1$s\" bolo vymazané.</string>
     <string name="custom_set_wrong_input">Neplatný názov.</string>
@@ -590,6 +607,7 @@
     <string name="audio_digital_failed">Nepodarilo sa zmeniť stav zvukového digitálneho výstupu</string>
     <string name="audio_digital_output_enabled">Zvukový digitálny výstup zapnutý</string>
     <string name="audio_digital_output_disabled">Zvukový digitálny výstup vypnutý</string>
+    <string name="audio_preferred_language">Preferovaný jazyk zvuku</string>
     <string name="audio_digital_title">Zvukový digitálny výstup (prechod)</string>
     <string name="audio_task_cleared_title">Zastaviť pri presune apl. prstom</string>
     <string name="audio_task_cleared_summary">Zastaviť prehrávanie ak aplikácia zmizla</string>
@@ -817,10 +835,8 @@
     <string name="allow_otg">Povoliť prístup OTG</string>
     <string name="allow_otg_description">Prosím vyberte jednotku OTG pre umožnenie prístupu k VLC.</string>
     <string name="timeout_infinite">Nekonečno</string>
-    <string name="timeout_short">Krátko</string>
-    <string name="timeout_normal">Normálne</string>
-    <string name="timeout_long">Dlho</string>
     <string name="video_hud_timeout">Oneskorenie skrytia ovládačov prehrávača videa</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Odstrániť z histórie</string>
     <string name="prefersmbv1">Uprednostniť SMB 1</string>
     <string name="prefersmbv1_summary">Ak máte nejaké ťažkosti pri prehliadaní vášho SMB servera, odznačte toto nastavenie</string>
@@ -846,11 +862,18 @@
     <string name="add_to_existing_playlist">Pridať do existujúceho playlistu</string>
     <string name="bookmarks_title">Záložky</string>
     <string name="no_bookmark">Zatiaľ žiadna záložka</string>
+    <string name="bookmark_default_name">Záložka na %s</string>
     <string name="bookmark_name">Záložka %s</string>
+    <string name="add_bookmark">Pridať záložku</string>
     <string name="optional_features">Voliteľné funkcie</string>
     <string name="optional_features_summary">Skúšobné funkcie (beta), ktoré sa aktuálne testujú a nemusia fungovať stabilne</string>
     <string name="optional_features_warning">Táto funkcia je v skúšobnej prevádzke (beta) a môže spôsobiť pády a nestabilitu</string>
+    <string name="network_indexing">Sieťové indexovanie</string>
+    <string name="network_indexing_warning">Sieťové indexovanie je momentálne vo fáze beta.\nZnáme problémy:\n• Nízky výkon\n\nAk zaznamenáte nejaké iné problémy, prosím ohláste ich na našom fóre.</string>
     <string name="start_vlc">Spustiť VLC</string>
+    <string name="jump_delay">Časový posun dopredu/dozadu</string>
+    <string name="long_jump_delay">Časový posun dopredu/dozadu pri dlhom ťuknutí</string>
+    <string name="jump_delay_summary">%s sek.</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Pridať duplikované položky?</string>
@@ -863,6 +886,12 @@
     <string name="start">Štart</string>
     <string name="permission">Oprávnenie</string>
     <string name="customize">Prispôsobiť</string>
+    <string name="selection_count">vybrané: %s</string>
+    <string name="controls_setting">Nastavenia ovládacích prvkov</string>
+    <string name="gestures">Gestá</string>
+    <string name="player_controls">Ovládacie prvky prehrávača</string>
+    <string name="video_double_tap_jump_delay">Časový posun pri dvojitom ťuknutí</string>
+    <string name="video_key_jump_delay">Časové oneskorenie - navigačné klávesy</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Táto položka už je v playliste.</item>
         <item quantity="few">Tieto položky už sú v playliste.</item>
