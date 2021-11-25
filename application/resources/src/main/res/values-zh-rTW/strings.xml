@@ -168,7 +168,7 @@
     <string name="server_share_hint">網路共享名稱（或 IP 位址）</string>
     <string name="server_folder_hint">資料夾路徑 (可選)</string>
     <string name="server_username_hint">使用者名稱</string>
-    <string name="server_servername_hint">伺服器名稱(方便日後使用)</string>
+    <string name="server_servername_hint">伺服器名稱（方便之後使用）</string>
     <string name="server_port">連接埠:</string>
     <string name="login">登入</string>
     <string name="password">密碼</string>
@@ -266,8 +266,11 @@
     <string name="screen_orientation_last_locked">最後鎖定方向</string>
     <string name="enable_black_theme">黑色主題</string>
     <string name="subtitle_text_encoding">字幕編碼</string>
+    <string name="subtitle_preferred_language">偏好的字幕語言</string>
     <string name="daynight_title">日夜模式</string>
     <string name="daynight_follow_system_title">跟隨系統模式</string>
+    <string name="no_track_preference">無語言偏好</string>
+    <string name="track_preference">軌道偏好：%s</string>
 
     <string name="extra_prefs_category">額外設定</string>
 
@@ -297,9 +300,15 @@
     <string name="enable_volume_gesture_title">音量手勢</string>
     <string name="enable_volume_gesture_summary">在影片播放時透過手勢控制音量</string>
     <string name="enable_seek_buttons">搜尋按鈕</string>
-    <string name="enable_seek_buttons_summary">在播放介面上顯示倒帶和快轉按鈕</string>
+    <string name="enable_seek_buttons_summary">在影片介面顯示向後與向前快轉按鈕</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto 播放速度</string>
+    <string name="enable_android_auto_speed_buttons_summary">在選單中顯示速度控制</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto 搜尋按鈕</string>
+    <string name="enable_android_auto_seek_buttons_summary">在選單中顯示向後與向前快轉按鈕。啟用前請試著按住方向盤的上一個與下一個按鈕。</string>
     <string name="enable_double_tap_seek_title">輕觸兩下以尋找</string>
     <string name="enable_double_tap_seek_summary">在螢幕邊緣輕觸兩下來快轉 10 秒</string>
+    <string name="enable_double_tap_play_title">輕觸兩下以播放／暫停</string>
+    <string name="enable_double_tap_play_summary">輕觸螢幕中央兩下以播放或暫停</string>
     <string name="popup_keepscreen_title">在彈出式視窗模式中保持螢幕開啟</string>
     <string name="popup_keepscreen_summary">當彈出式視窗顯示時，即便影片已暫停，也總是保持螢幕開啟。</string>
     <string name="browser_show_hidden_files_title">顯示隱藏檔案</string>
@@ -414,6 +423,7 @@
     <string name="log_service_text">開啟記錄控制台</string>
     <string name="copy_to_clipboard">複製到剪貼簿</string>
     <string name="copied_to_clipboard">已複製記錄到剪貼簿</string>
+    <string name="copied_from_clipboard">從剪貼簿貼上的地址</string>
     <string name="dump_logcat">傾印 logcat 記錄檔</string>
     <string name="dump_logcat_success">Logcat 成功傾印到 %1$s！</string>
     <string name="dump_logcat_failure">傾印 logcat 失敗。</string>
@@ -471,6 +481,12 @@
     <string name="widget_name_b">VLC 暗色小工具</string>
     <string name="allow_storage_access_title">允許 VLC 存取視訊與音訊檔案</string>
     <string name="allow_storage_access_description">VLC 需要您的授權才能存取這個裝置上的媒體檔案。</string>
+    <string name="allow_storage_manager_title">允許 VLC 存取所有檔案</string>
+    <string name="allow_storage_manager_description">%s\n\n授予權限？</string>
+    <string name="allow_storage_manager_explanation">要取得 VLC 的所有功能以及所有媒體檔案類型的支援，我們強烈建議您授予此權限。</string>
+    <string name="partial_content">VLC 無法存取您所有的檔案</string>
+    <string name="partial_content_description">從 Android 11 開始，應用程式需要特別權限才能存取裝置上所有的檔案。\n\n%s</string>
+    <string name="never_ask_again">不再詢問</string>
     <string name="allow_settings_access_ringtone_title">允許 VLC 設定鈴聲</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
     <string name="allow_settings_access_brightness_title">允許 VLC 改變亮度模式</string>
@@ -539,6 +555,7 @@
     <string name="existing_custom_set_save_message">另存等化器...</string>
     <string name="new_custom_set_save_message">儲存新的等化器為...</string>
     <string name="save">儲存</string>
+    <string name="saved">已儲存 %s</string>
     <string name="do_not_save">不儲存</string>
     <string name="custom_set_deleted_message">自訂等化器「%1$s」已刪除。</string>
     <string name="custom_set_wrong_input">無效的名稱。</string>
@@ -560,6 +577,7 @@
     <string name="audio_digital_failed">無法變更音訊數位輸出狀態</string>
     <string name="audio_digital_output_enabled">音訊數位輸出已啟用</string>
     <string name="audio_digital_output_disabled">音訊數位輸出已停用</string>
+    <string name="audio_preferred_language">偏好的音訊語言</string>
     <string name="audio_digital_title">數位音訊輸出(passthrough)</string>
     <string name="audio_task_cleared_title">停用應用程式滑動</string>
     <string name="audio_task_cleared_summary">在應用程式離開時停止播放</string>
@@ -781,10 +799,8 @@
     <string name="allow_otg">允許 OTG 存取</string>
     <string name="allow_otg_description">請選取您的 OTG 磁碟以允許 VLC 存取。</string>
     <string name="timeout_infinite">無限</string>
-    <string name="timeout_short">短</string>
-    <string name="timeout_normal">正常</string>
-    <string name="timeout_long">長</string>
     <string name="video_hud_timeout">影片播放器控制介面隱藏延遲</string>
+    <string name="video_hud_timeout_summary">%s秒</string>
     <string name="remove_from_history">從歷史紀錄中移除</string>
     <string name="prefersmbv1">偏好 SMB 1</string>
     <string name="prefersmbv1_summary">如果您在瀏覽您的 SMB 伺服器時遇到一些問題，請取消勾選此設定</string>
@@ -810,11 +826,18 @@
     <string name="add_to_existing_playlist">加入至現有播放清單</string>
     <string name="bookmarks_title">書籤</string>
     <string name="no_bookmark">尚無書籤</string>
+    <string name="bookmark_default_name">新增書籤於 %s</string>
     <string name="bookmark_name">書籤 %s</string>
+    <string name="add_bookmark">新增書籤</string>
     <string name="optional_features">可選功能</string>
     <string name="optional_features_summary">目前正在測試中的 Beta 版功能可能不夠穩定</string>
     <string name="optional_features_warning">此功能處於測試階段，可能造成當機與不穩定</string>
+    <string name="network_indexing">網路索引</string>
+    <string name="network_indexing_warning">網路索引目前正在測試中。\n已知問題：\n• 效能較差\n\n若您愈到了其他問題，請在我們的論壇上回報。</string>
     <string name="start_vlc">啟動 VLC</string>
+    <string name="jump_delay">向前／向後快轉時間延遲</string>
+    <string name="long_jump_delay">長按向前／向後快轉時間延遲</string>
+    <string name="jump_delay_summary">%s秒</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">新增重複的項目？</string>
@@ -827,6 +850,12 @@
     <string name="start">開始</string>
     <string name="permission">權限</string>
     <string name="customize">自訂</string>
+    <string name="selection_count">已選取 %s</string>
+    <string name="controls_setting">控制設定</string>
+    <string name="gestures">手勢</string>
+    <string name="player_controls">播放器控制</string>
+    <string name="video_double_tap_jump_delay">雙擊時間延遲</string>
+    <string name="video_key_jump_delay">導航鍵時間延遲</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">這些項目已在此播放清單中。</item>
     </plurals>
