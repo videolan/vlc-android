@@ -34,7 +34,7 @@
     <string name="play_as_video">Toista videona</string>
     <string name="video_app_switch_title">Taustalle / PiP-tila</string>
     <string name="video_app_switch_summary">Valitse miten VLC käyttäytyy kun siirryt toiseen ohjelmaan kun video pyörii</string>
-    <string name="play_pip_title">Toista videot Picture-In-Picture-tilassa</string>
+    <string name="play_pip_title">Toista videot tilassa \"Kuva kuvassa\"</string>
     <string name="play_as_audio_background">Toista videot taustalla</string>
     <string name="append">Lisää loppuun</string>
     <string name="insert_next">Lisää seuraava</string>
@@ -178,7 +178,7 @@
     <string name="server_share_hint">Verkkojaon nimi (tai IP-osoite)</string>
     <string name="server_folder_hint">Kansioin osoite (valinnainen)</string>
     <string name="server_username_hint">Käyttäjänimi</string>
-    <string name="server_servername_hint">Palvelimen nimi, mukavuudeksi</string>
+    <string name="server_servername_hint">Palvelimen nimi, mukavuuden vuoksi</string>
     <string name="server_port">Portti:</string>
     <string name="login">Käyttäjänimi</string>
     <string name="password">Salasana</string>
@@ -278,8 +278,11 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="screen_orientation_last_locked">Viimeinen lukittu suunta</string>
     <string name="enable_black_theme">Musta teema</string>
     <string name="subtitle_text_encoding">Tekstityksen merkistökoodaus</string>
+    <string name="subtitle_preferred_language">Ensisijainen tekstityksen kieli</string>
     <string name="daynight_title">PäiväYö tila</string>
     <string name="daynight_follow_system_title">Noudata järjestelmän tilaa</string>
+    <string name="no_track_preference">Ei kielivalintaa</string>
+    <string name="track_preference">Kappalevalinta: %s</string>
 
     <string name="extra_prefs_category">Lisäasetukset</string>
 
@@ -309,9 +312,15 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_volume_gesture_title">Äänenvoimakkuuden ele</string>
     <string name="enable_volume_gesture_summary">Säädä äänenvoimakkuutta eleellä videotoiston aikana</string>
     <string name="enable_seek_buttons">Kelauksen painikkeet</string>
-    <string name="enable_seek_buttons_summary">Näytä videon liittymässä kelaus- ja eteenpäin-painikkeet</string>
+    <string name="enable_seek_buttons_summary">Näytä käyttöliittymässä kelauspainikkeet eteen ja taakse</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto, toistonopeus</string>
+    <string name="enable_android_auto_speed_buttons_summary">Näytä nopeudensäätö pudotusvalikossa</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto, hakupainikkeet</string>
+    <string name="enable_android_auto_seek_buttons_summary">Näytä kelaus eteen- ja taaksepäin pudotusvalikossa. Kokeile ensin ohjauspyörän edellinen- ja seuraava-painiketta ennen kuin otat tämän käyttöön.</string>
     <string name="enable_double_tap_seek_title">Kelaa kaksoisnapauttamalla</string>
     <string name="enable_double_tap_seek_summary">Kaksoisnapauta näytön reunalla, kelaa 10 sekunnilla</string>
+    <string name="enable_double_tap_play_title">Toista/keskeytä napauttamalla kahdesti</string>
+    <string name="enable_double_tap_play_summary">Toista tai keskeytä napauttamalla kahdesti näytön keskiosaa</string>
     <string name="popup_keepscreen_title">Pidä näyttö PÄÄLLÄ Pop-Up tilassa</string>
     <string name="popup_keepscreen_summary">Pidä näyttö aina PÄÄLLÄ, kun ponnahdusikkuna on näkyvissä, vaikka video olisi tauolla. </string>
     <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
@@ -428,6 +437,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="log_service_text">Avaa lokitiedosto konsolissa</string>
     <string name="copy_to_clipboard">Kopioi leikepöydälle</string>
     <string name="copied_to_clipboard">Loki kopioitu leikepöydälle.</string>
+    <string name="copied_from_clipboard">Osoite liitetty leikepöydältä</string>
     <string name="dump_logcat">Vedos logcat:n kautta</string>
     <string name="dump_logcat_success">Logcat:n vedos luotiin onnistuneesti kohteeseen %1$s!</string>
     <string name="dump_logcat_failure">Logcat:n vedoksen luonti epäonnistui.</string>
@@ -485,6 +495,12 @@ Käynnistä uudelleen nyt?</string>
     <string name="widget_name_b">VLC tumma pienoisohjelma</string>
     <string name="allow_storage_access_title">Salli VLC:lle pääsy video- ja äänitiedostoihin</string>
     <string name="allow_storage_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle siirtyä tämän laitteen mediatiedostoihin.</string>
+    <string name="allow_storage_manager_title">Salli VLC:lle käyttö kaikille tiedostoille</string>
+    <string name="allow_storage_manager_description">%s\n\nMyönnetäänkö lupa?</string>
+    <string name="allow_storage_manager_explanation">Saadaksesi VLC:n kaikki ominaisuudet ja mediatiedostojen laajan tuen, suosittelemme, että myönnät tämän luvan.</string>
+    <string name="partial_content">VLC ei voi käyttää kaikkia tiedostojasi</string>
+    <string name="partial_content_description">Android 11 alkaen, sovellukset tarvitsevat erityisluvan käyttää kaikkia laitteen tiedostoja.\n\n%s</string>
+    <string name="never_ask_again">Älä kysy uudestaan</string>
     <string name="allow_settings_access_ringtone_title">Salli VLC:n asettaa soittoäänen</string>
     <string name="allow_settings_access_ringtone_description">Sinun tarvitsee myöntää oikeudet VLC:lle asettaa tämä kappale soittoääneksi.</string>
     <string name="allow_settings_access_brightness_title">Salli VLC:n muuttaa kirkkautta</string>
@@ -509,7 +525,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="download_on_device">Lataa</string>
     <string name="extension_empty">Ei näytettäviä kohteita, voit hankkia lisäosia laajennusten asetuksista.</string>
 
-    <string name="opengl_title">OpenGL ES2 käyttö</string>
+    <string name="opengl_title">OpenGL ES2:n käyttö</string>
     <string name="opengl_summary">Oletuksena OpenGL ES2:ta käytetään ohjelmallisen ja laitetason purkukoodaamiseen tarvitaessa (360 ° videot)</string>
     <string name="opengl_automatic">Automaattinen</string>
     <string name="opengl_on">Pakota päälle</string>
@@ -553,6 +569,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="existing_custom_set_save_message">Tallenna taajuuskorjain nimellä...</string>
     <string name="new_custom_set_save_message">Tallenna uusi taajuuskorjain nimellä...</string>
     <string name="save">Tallenna</string>
+    <string name="saved">Tallennettu %s</string>
     <string name="do_not_save">Älä tallenna</string>
     <string name="custom_set_deleted_message">Muokattu taajuuskorjain \"%1$s\" poistettu.</string>
     <string name="custom_set_wrong_input">Virheellinen nimi.</string>
@@ -574,6 +591,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="audio_digital_failed">Digitaalisen äänen ulostulon tilan vaihto epäonnistui </string>
     <string name="audio_digital_output_enabled">Digitaalisen äänen ulostulo käytössä</string>
     <string name="audio_digital_output_disabled">Digitaalisen äänen ulostulo suljettu</string>
+    <string name="audio_preferred_language">Ensisijainen kieli äänelle</string>
     <string name="audio_digital_title">Digitaalisen äänen ulostulon (läpivienti)</string>
     <string name="audio_task_cleared_title">Lopeta sovellus pyyhkäisyllä</string>
     <string name="audio_task_cleared_summary">Lopeta toisto, kun sovellus poistuu</string>
@@ -619,7 +637,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="video_remote_enable">Vaihda kaukosäätötilaan</string>
     <string name="video_remote_disable">Kopioi näyttö</string>
     <string name="removed_from_playlist_anonymous">Kohteet poistettiin soittolistalta</string>
-    <string name="welcome_title">Tervetuloa! soittimeen VLC</string>
+    <string name="welcome_title">Tervetuloa, tämä on VLC!</string>
     <string name="welcome_subtitle">Ilmainen ja avoimen lähdekoodin multimediasoitin</string>
     <string name="permission_media">VLC tarvitsee luvan päästäksesi laitteesi mediaan</string>
     <string name="medialibrary_scan_explanation">VLC voi hakea laitteesi median automaattisesti ja järjestää sen kokoelmaksi.</string>
@@ -797,10 +815,8 @@ Käynnistä uudelleen nyt?</string>
     <string name="allow_otg">Salli OTG-yhteys</string>
     <string name="allow_otg_description">Valitse OTG-asema, jolle sallit oikeudet VLC:n käyttöön.</string>
     <string name="timeout_infinite">Loputon</string>
-    <string name="timeout_short">Lyhyt</string>
-    <string name="timeout_normal">Tavallinen</string>
-    <string name="timeout_long">Pitkä</string>
     <string name="video_hud_timeout">Videosoittimen ohjainten piilottamisen viive</string>
+    <string name="video_hud_timeout_summary">%s s</string>
     <string name="remove_from_history">Poista historiasta</string>
     <string name="prefersmbv1">Suosi SMB 1</string>
     <string name="prefersmbv1_summary">Poista asetuksen valinta, jos on ongelmia SMB-palvelimen selaamisessa</string>
@@ -826,11 +842,18 @@ Käynnistä uudelleen nyt?</string>
     <string name="add_to_existing_playlist">Lisää nykyiseen soittolistaan </string>
     <string name="bookmarks_title">Kirjanmerkit</string>
     <string name="no_bookmark">Ei vielä kirjanmerkkiä</string>
+    <string name="bookmark_default_name">Kirjanmerkki %s</string>
     <string name="bookmark_name">Kirjanmerkki %s</string>
+    <string name="add_bookmark">Lisää kirjanmerkki</string>
     <string name="optional_features">Valinnaiset ominaisuudet</string>
     <string name="optional_features_summary">Testiversion ominaisuudet, joita testataan - eivätkä välttämättä ole vakaita</string>
     <string name="optional_features_warning">Tämä ominaisuus on testiversiossa ja saattaa olla epävakaa</string>
+    <string name="network_indexing">Verkon indeksointi</string>
+    <string name="network_indexing_warning">Verkon indeksointi on tällä hetkellä testauksessa.\nKnown issues:\n• Slow performance\n\nJos kohtaat muita ongelmia, ilmoita niistä meidän foorumilla.</string>
     <string name="start_vlc">Aloita VLC</string>
+    <string name="jump_delay">Viive eteen/taakse</string>
+    <string name="long_jump_delay">Pitkä painallus viiveelle eteenpäin/taaksepäin</string>
+    <string name="jump_delay_summary">%s sekuntia</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Lisätäänkö päällekkäiset tuotteet?</string>
@@ -843,8 +866,19 @@ Käynnistä uudelleen nyt?</string>
     <string name="start">Aloita</string>
     <string name="permission">Luvat</string>
     <string name="customize">Mukauta</string>
+    <string name="selection_count">%s valittu</string>
+    <string name="controls_setting">Ohjauksen asetukset</string>
+    <string name="gestures">Eleet</string>
+    <string name="player_controls">Soittimen säätimet</string>
+    <string name="video_double_tap_jump_delay">Kaksoisnapauta viive</string>
+    <string name="video_key_jump_delay">Ohjausnäppäinten viive</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Nämä ovat jo tässä soittolistassa.</item>
         <item quantity="other">Nämä ovat jo tässä soittolistassa.</item>
     </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 valituista kohteista on jo soittolistalla.</item>
+        <item quantity="other">%d valituista kohteista on jo soittolistalla.</item>
+    </plurals>
+
 </resources>
