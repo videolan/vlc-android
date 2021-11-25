@@ -178,7 +178,7 @@
     <string name="server_share_hint">Ağ paylaşımı adı (ya da IP adresi)</string>
     <string name="server_folder_hint">Klasör yolu (isteğe bağlı)</string>
     <string name="server_username_hint">Kullanıcı adı</string>
-    <string name="server_servername_hint">Kolaylık olması için sunucu adı</string>
+    <string name="server_servername_hint">Sunucu adı, kolaylık olması için</string>
     <string name="server_port">Kapı no: </string>
     <string name="login">Oturum aç</string>
     <string name="password">Parola</string>
@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Son kilitlenmiş doğrultu</string>
     <string name="enable_black_theme">Siyah tema</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
+    <string name="subtitle_preferred_language">Yeğlenen alt yazı dili</string>
     <string name="daynight_title">Gündüz/gece kipi</string>
     <string name="daynight_follow_system_title">Sistemin kipine uyulsun</string>
+    <string name="no_track_preference">Herhangi bir dil ayarı yapılmamış</string>
+    <string name="track_preference">İz ayarı: %s</string>
 
     <string name="extra_prefs_category">Ek ayarlar</string>
 
@@ -307,9 +310,15 @@
     <string name="enable_volume_gesture_title">Ses el hareketi</string>
     <string name="enable_volume_gesture_summary">Görüntü oynatılırken ses el hareketi ile ayarlanabilir</string>
     <string name="enable_seek_buttons">Tarama düğmeleri</string>
-    <string name="enable_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde ileri ve geri tarama düğmeleri görüntülenir</string>
+    <string name="enable_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde ileri ve geri atlama düğmeleri görüntülenir</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto oynatma hızı</string>
+    <string name="enable_android_auto_speed_buttons_summary">Bu seçenek etkinleştirildiğinde, üste açılan menüde hız denetimini görüntülenir</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto atlama düğmeleri</string>
+    <string name="enable_android_auto_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, üste açılan menüde ileri ve geri atlama düğmeleri görüntülenir. Etkinleştirmeden önce direksiyondaki ileri ve geri düğmelerini basılı tutmayı deneyin.</string>
     <string name="enable_double_tap_seek_title">Taramak için çift dokunun</string>
     <string name="enable_double_tap_seek_summary">10 saniye ileri ya da geri atlamak için ekran kenarlarına çift dokunun</string>
+    <string name="enable_double_tap_play_title">Oynatmak/duraklatmak için çift dokunun</string>
+    <string name="enable_double_tap_play_summary">Oynatmak ya da duraklatmak için ekranın ortasına çift dokunun</string>
     <string name="popup_keepscreen_title">Açılan pencere kipinde ekran açık kalsın</string>
     <string name="popup_keepscreen_summary">Açılan pencere görüntülenirken görüntü duraklatılmış olsa bile ekran açık kalır.</string>
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Günlük panosunu aç</string>
     <string name="copy_to_clipboard">Panoya kopyala</string>
     <string name="copied_to_clipboard">Günlük panoya kopyalandı.</string>
+    <string name="copied_from_clipboard">Adres panonuzdan kopyalandı</string>
     <string name="dump_logcat">Logcat günlüğünü indir</string>
     <string name="dump_logcat_success">Logcat %1$s dosyasına yazıldı!</string>
     <string name="dump_logcat_failure">Logcat indirilemedi.</string>
@@ -481,6 +491,12 @@
     <string name="widget_name_b">Koyu VLC gereci</string>
     <string name="allow_storage_access_title">VLC görüntü ve ses dosyalarına erişebilsin</string>
     <string name="allow_storage_access_description">VLC bu aygıttaki ortam dosyalarına erişmek için bu izne gereksinim duyar.</string>
+    <string name="allow_storage_manager_title">VLC tüm dosyalara erişebilsin</string>
+    <string name="allow_storage_manager_description">%s\n\nİzin verilsin mi?</string>
+    <string name="allow_storage_manager_explanation">Tüm VLC özelliklerini kullanmak ve her tür ortam dosyasını desteklemek için bu izni vermeniz önerilir.</string>
+    <string name="partial_content">VLC tüm dosyalarınıza erişemiyor</string>
+    <string name="partial_content_description">Android 11 sürümünden itibaren, uygulamaların tüm aygıt dosyalarına erişmesi için özel bir izin verilmesi gerekir.\n\n%s</string>
+    <string name="never_ask_again">Bir daha sorma</string>
     <string name="allow_settings_access_ringtone_title">VLC zil sesini ayarlayabilsin</string>
     <string name="allow_settings_access_ringtone_description">VLC geçerli parçayı zil sesiniz olarak ayarlamak için bu izne gereksinim duyar.</string>
     <string name="allow_settings_access_brightness_title">VLC parlaklık kipini ayarlayabilsin</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Dengeleyici ayarlarını farklı kaydet…</string>
     <string name="new_custom_set_save_message">Yeni dengeleyici ayarlarını farklı kaydet…</string>
     <string name="save">Kaydet</string>
+    <string name="saved">%s kaydedildi</string>
     <string name="do_not_save">Kaydetme</string>
     <string name="custom_set_deleted_message">Özel \"%1$s\" dengeleyici ayarları silindi.</string>
     <string name="custom_set_wrong_input">Ad geçersiz.</string>
@@ -570,13 +587,14 @@
     <string name="audio_digital_failed">Sayısal ses çıkışı durumu değiştirilemedi</string>
     <string name="audio_digital_output_enabled">Sayısal ses çıkışı etkinleştirildi</string>
     <string name="audio_digital_output_disabled">Sayısal ses çıkışı devre dışı bırakıldı</string>
+    <string name="audio_preferred_language">Yeğlenen ses dili</string>
     <string name="audio_digital_title">Sayısal ses çıkışı (geçiş)</string>
     <string name="audio_task_cleared_title">Uygulama ekran dışına kaydırıldığında durdurulsun</string>
     <string name="audio_task_cleared_summary">Uygulama yok sayıldığında oynatma durdurulsun</string>
     <string name="audio_resume_card_title">Son oynatma listesi ipucu görüntülensin</string>
     <string name="audio_resume_card_summary">Uygulama başlatıldığında oynatma listesini sürdürmek için bir ipucu görüntüler</string>
-    <string name="playback_rewind">Geri sar</string>
-    <string name="playback_forward">İleri sar</string>
+    <string name="playback_rewind">Geri atla</string>
+    <string name="playback_forward">İleri atla</string>
     <string name="ml_wizard_scan_checkbox">Aygıttaki ortamlar taransın</string>
     <string name="ml_wizard_description">Bu seçenek etkinleştirildiğinde, VLC ortam kitaplığını düzenlemek için aygıtın depolamasını tarar. Devre dışı bırakıldığında bütünleşik tarayıcı ile basit oynatıcı görüntülenir.</string>
     <string name="tv_my_new_videos">Yeni görüntülerim</string>
@@ -793,10 +811,8 @@
     <string name="allow_otg">OTG erişimi kullanılsın</string>
     <string name="allow_otg_description">VLC tarafından erişilmesini istediğiniz OTG sürücüsünü seçin.</string>
     <string name="timeout_infinite">Sonsuz</string>
-    <string name="timeout_short">Kısa</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Uzun</string>
     <string name="video_hud_timeout">Görüntü oynatıcı denetimlerini gizleme gecikmesi</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Geçmiş kaydını sil</string>
     <string name="prefersmbv1">SMB 1 yeğlensin</string>
     <string name="prefersmbv1_summary">SMB sunucunuza erişmekte sorun yaşıyorsanız bu seçeneği devre dışı bırakın</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Var olan oynatma listesine ekle</string>
     <string name="bookmarks_title">Yer imleri</string>
     <string name="no_bookmark">Henüz bir yer imi yok</string>
+    <string name="bookmark_default_name">%s konumundaki yer imi</string>
     <string name="bookmark_name">%s yer imi</string>
+    <string name="add_bookmark">Yer imi ekle</string>
     <string name="optional_features">İsteğe bağlı özellikler</string>
     <string name="optional_features_summary">Şu anda denenmekte olan ve kararlı olmayabilecek beta sürüm özellikleri</string>
     <string name="optional_features_warning">Bu bir beta sürümü özelliği olduğundan çökme ve kararsızlıklara neden olabilir</string>
+    <string name="network_indexing">Ağ dizini oluşturma</string>
+    <string name="network_indexing_warning">Ağ dizini oluşturma özelliği şu anda beta aşamasındadır.\nBilinen sorunlar:\n• Düşük başarım\n\nBaşka sorunlarla karşılaşırsanız, lütfen forumumuzda yazın.</string>
     <string name="start_vlc">VLC uygulamasını başlat</string>
+    <string name="jump_delay">İleri/geri zaman gecikmesi</string>
+    <string name="long_jump_delay">İleri/geri zaman gecikmesi için uzun dokunun</string>
+    <string name="jump_delay_summary">%s saniye</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Çift ögeler eklensin mi?</string>
@@ -839,6 +862,12 @@
     <string name="start">Başlat</string>
     <string name="permission">İzin</string>
     <string name="customize">Özelleştir</string>
+    <string name="selection_count">%s seçilmiş</string>
+    <string name="controls_setting">Denetim ayarları</string>
+    <string name="gestures">El hareketleri</string>
+    <string name="player_controls">Oynatıcı denetimleri</string>
+    <string name="video_double_tap_jump_delay">Çift dokunma zaman gecikmesi</string>
+    <string name="video_key_jump_delay">Gezinme tuşları zaman gecikmesi</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Bu öge zaten oynatma listesinde var.</item>
         <item quantity="other">Bu ögeler zaten oynatma listesinde var.</item>
