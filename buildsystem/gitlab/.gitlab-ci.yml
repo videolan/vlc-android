@@ -5,11 +5,13 @@ cache:
         - gradle/
         - gradlew
 
+default:
+  image: registry.videolan.org/vlc-debian-android:20210915065913
+  tags:
+    - amd64
+    - docker
+
 .build-all-base:
-    image: registry.videolan.org/vlc-debian-android:20210915065913
-    tags:
-        - amd64
-        - docker
     stage: build
     script:
         - mkdir -p ~/.android
