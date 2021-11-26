@@ -328,8 +328,6 @@ fi
 diagnostic "Configuring"
 compile() {
     # Build LibVLC if asked for it, or needed by medialibrary
-    copy_tmp="$1"
-
     OUT_DBG_DIR=.dbg/${ANDROID_ABI}
     mkdir -p $OUT_DBG_DIR
 
@@ -337,19 +335,11 @@ compile() {
         AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
         avlc_build
 
-        if [ "$copy_tmp" = "--copy-tmp=libvlc" ];then
-            cp -r $VLC_OUT_PATH/libs/${ANDROID_ABI} libvlc/jni/libs/${ANDROID_ABI} build/tmp
-        fi
-
         cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 
     if [ "$NO_ML" != 1 ]; then
         ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE buildsystem/compile-medialibrary.sh
-        if [ "$copy_tmp" = "--copy-tmp=medialibrary" ];then
-            cp -r medialibrary/jni/libs/${ANDROID_ABI} build/tmp
-        fi
-
         cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 }
