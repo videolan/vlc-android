@@ -145,8 +145,6 @@ elif [ "$ANDROID_ABI" = "x86" ]; then
     GRADLE_ABI="x86"
 elif [ "$ANDROID_ABI" = "x86_64" ]; then
     GRADLE_ABI="x86_64"
-elif [ "$ANDROID_ABI" = "all" ]; then
-    GRADLE_ABI="all"
 else
     diagnostic "Invalid arch specified: '$ANDROID_ABI'."
     diagnostic "Try --help for more information"
@@ -356,33 +354,8 @@ compile() {
     fi
 }
 
-if [ "$ANDROID_ABI" = "all" ]; then
-    if [ -d build/tmp ]; then
-        rm -rf build/tmp
-    fi
-    mkdir -p build/tmp
-    LIB_DIR="libvlc"
-    if [ "$NO_ML" != 1 ]; then
-        LIB_DIR="medialibrary"
-    fi
-    copy_tmp="--copy-tmp=$LIB_DIR"
-
-    # The compile function is sourcing ./compile-libvlc.sh and is configured
-    # with env variables (ANDROID_ABI), therefore it need to be run from a new
-    # context for each ABI
-
-    (ANDROID_ABI=armeabi-v7a RELEASE=$RELEASE compile $copy_tmp)
-    (ANDROID_ABI=arm64-v8a RELEASE=$RELEASE compile $copy_tmp)
-    (ANDROID_ABI=x86 RELEASE=$RELEASE compile $copy_tmp)
-    (ANDROID_ABI=x86_64 RELEASE=$RELEASE compile $copy_tmp)
-    rm -rf $LIB_DIR/jni/libs/
-    mv build/tmp $LIB_DIR/jni/libs/
-
-    GRADLE_VLC_SRC_DIRS="''"
-else
-    compile
-    GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
-fi
+compile
+GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
 
 ##################
 # Compile the UI #
