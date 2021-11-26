@@ -44,6 +44,8 @@ import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
 class EmptyLoadingStateView : FrameLayout {
@@ -64,7 +66,7 @@ class EmptyLoadingStateView : FrameLayout {
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
             emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY || value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            emptyImageView.setImageDrawable(ContextCompat.getDrawable(context, if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
+            emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
             permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
