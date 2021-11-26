@@ -326,25 +326,23 @@ fi
 # Make VLC #
 ############
 diagnostic "Configuring"
-compile() {
-    # Build LibVLC if asked for it, or needed by medialibrary
-    OUT_DBG_DIR=.dbg/${ANDROID_ABI}
-    mkdir -p $OUT_DBG_DIR
 
-    if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/" ]; then
-        AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
-        avlc_build
+# Build LibVLC if asked for it, or needed by medialibrary
+OUT_DBG_DIR=.dbg/${ANDROID_ABI}
+mkdir -p $OUT_DBG_DIR
 
-        cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-    fi
+if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/" ]; then
+    AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
+    avlc_build
 
-    if [ "$NO_ML" != 1 ]; then
-        ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE buildsystem/compile-medialibrary.sh
-        cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-    fi
-}
+    cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+fi
 
-compile
+if [ "$NO_ML" != 1 ]; then
+    ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE buildsystem/compile-medialibrary.sh
+    cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+fi
+
 GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
 
 ##################
