@@ -32,7 +32,7 @@
     <string name="play_as_audio">오디오로 재생</string>
     <string name="play_as_video">비디오로 재생</string>
     <string name="video_app_switch_title">백그라운드/PIP 모드</string>
-    <string name="video_app_switch_summary">비디오 재생 중에 다른 앱으로 전환시 VLC의 동작을 선택합니다</string>
+    <string name="video_app_switch_summary">비디오 재생에서 다른 응용 프로그램으로 전환할 때 VLC 동작 선택</string>
     <string name="play_pip_title">PIP 모드에서 비디오 재생하기</string>
     <string name="play_as_audio_background">백그라운드로 비디오 재생하기</string>
     <string name="append">추가</string>
@@ -98,7 +98,7 @@
     <string name="internal_memory">내부 메모리</string>
     <string name="audio">오디오</string>
     <string name="video">비디오</string>
-    <string name="bookmarks">책갈피</string>
+    <string name="bookmarks">바로찾기</string>
     <string name="equalizer">이퀄라이저</string>
     <string name="all_albums">모든 앨범</string>
     <string name="genres">장르</string>
@@ -125,7 +125,7 @@
     <string name="repeat_single">한 곡 반복</string>
     <string name="repeat_all">전체 반복</string>
     <string name="previous">이전</string>
-    <string name="stop">정지</string>
+    <string name="stop">중지</string>
     <string name="firstsong">재생목록의 첫 번째 곡</string>
     <string name="lastsong">재생목록의 마지막 곡</string>
 
@@ -168,7 +168,7 @@
     <string name="server_share_hint">네트워크 공유 이름 (또는 IP 주소)</string>
     <string name="server_folder_hint">폴더 경로 (선택 사항)</string>
     <string name="server_username_hint">사용자명</string>
-    <string name="server_servername_hint">서버 이름 (편의상)</string>
+    <string name="server_servername_hint">편의상, 서버 이름</string>
     <string name="server_port">포트:</string>
     <string name="login">로그인</string>
     <string name="password">비밀번호</string>
@@ -266,8 +266,11 @@
     <string name="screen_orientation_last_locked">마지막으로 잠긴 방향</string>
     <string name="enable_black_theme">검정 테마</string>
     <string name="subtitle_text_encoding">자막 텍스트 인코딩</string>
+    <string name="subtitle_preferred_language">선호하는 자막 언어</string>
     <string name="daynight_title">낮밤 모드</string>
     <string name="daynight_follow_system_title">안드로이드 시스템 모드를 따르기</string>
+    <string name="no_track_preference">언어 설정 없음</string>
+    <string name="track_preference">트랙 설정: %s</string>
 
     <string name="extra_prefs_category">추가 설정</string>
 
@@ -298,8 +301,14 @@
     <string name="enable_volume_gesture_summary">비디오 재생 중에 제스처로 볼륨을 조절합니다</string>
     <string name="enable_seek_buttons">탐색 버튼</string>
     <string name="enable_seek_buttons_summary">비디오 인터페이스에 뒤로/앞으로 감기 버튼을 표시합니다</string>
+    <string name="enable_android_auto_speed_buttons">안드로이드 자동 재생 속도</string>
+    <string name="enable_android_auto_speed_buttons_summary">오버플로 메뉴에 속도 제어 표시</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto 탐색 버튼</string>
+    <string name="enable_android_auto_seek_buttons_summary">오버플로 메뉴에 되감기 및 빨리감기를 표시합니다. 활성화하기 전에 스티어링 휠을 이전 및 다음 버튼으로 유지하십시오.</string>
     <string name="enable_double_tap_seek_title">두 번 탭해서 탐색하기</string>
     <string name="enable_double_tap_seek_summary">화면 가장자리에서 두 번 탭하여 10초씩 탐색합니다</string>
+    <string name="enable_double_tap_play_title">재생/일시 중지하려면 두 번 누르십시오</string>
+    <string name="enable_double_tap_play_summary">화면 중앙을 두 번 눌러 재생 또는 일시 중지</string>
     <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
     <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 비디오가 일시중지여도 화면 켜짐을 유지합니다</string>
     <string name="browser_show_hidden_files_title">숨김 파일 표시</string>
@@ -381,7 +390,7 @@
 
     <string name="advanced_prefs_category">고급</string>
     <string name="auto_rescan">자동 재검색</string>
-    <string name="auto_rescan_summary">앱 시작시 기기에서 새로운 미디어를 자동으로 검색합니다</string>
+    <string name="auto_rescan_summary">응용 프로그램 시작 시 자동으로 장치에서 새 미디어 또는 삭제된 미디어 검색</string>
     <string name="dump_media_db">미디어 데이터베이스 덤프</string>
     <string name="dump_media_db_summary">내부 저장소 루트에 데이터베이스 복사하기</string>
     <string name="clear_media_db">미디어 데이터베이스 지우기</string>
@@ -397,23 +406,24 @@
     <string name="blurred_cover_background_title">흐릿한 음반 전면을 배경으로</string>
     <string name="blurred_cover_background_summary">흐릿한 음반 전면을 오디오 재생기 배경으로</string>
     <string name="network_caching_popup">0에서 6000 ms 사이의 값만 사용할 수 있습니다</string>
-    <string name="quit">앱 종료 후 재시작하기</string>
-    <string name="restart_message">어플리케이션 재시작후 변경사항이 적용됩니다.\n\n지금 재시작 할까요?</string>
+    <string name="quit">응용 프로그램 종료 및 다시 시작</string>
+    <string name="restart_message">응용 프로그램이 다시 시작되면 변경 사항이 적용됩니다.\n\n지금 다시 시작하시겠습니까?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">나중에</string>
     <string name="browser_show_all_title">모든 파일 표시</string>
 
     <string name="developer_prefs_category">개발자</string>
     <string name="enable_verbose_mode">상세 설명</string>
-    <string name="enable_verbose_mode_summary">더 자세히 설명을 기록합니다 (logcat)</string>
+    <string name="enable_verbose_mode_summary">상세설명 증가 (logcat)</string>
     <string name="debug_logs">디버그 로그</string>
     <string name="start_logging">로깅 시작하기</string>
-    <string name="stop_logging">로깅 정지하기</string>
+    <string name="stop_logging">로깅 중지하기</string>
     <string name="clear_log">로그 지우기</string>
     <string name="log_service_title">VLC 로그 기록</string>
     <string name="log_service_text">로그 콘솔 열기</string>
     <string name="copy_to_clipboard">클립보드에 복사하기</string>
     <string name="copied_to_clipboard">로그를 클립보드에 복사했습니다</string>
+    <string name="copied_from_clipboard">주소를 클립보드에서 붙여 넣었습니다</string>
     <string name="dump_logcat">logcat 로그 덤프하기</string>
     <string name="dump_logcat_success">Logcat이 %1$s에 성공적으로 덤프했습니다!</string>
     <string name="dump_logcat_failure">Logcat 덤프에 실패했습니다.</string>
@@ -471,6 +481,12 @@
     <string name="widget_name_b">VLC 검은색 위젯</string>
     <string name="allow_storage_access_title">VLC에서 비디오와 오디오 파일에 접근합니다</string>
     <string name="allow_storage_access_description">이 장치에서 VLC가 미디어 파일에 접근하려면 귀하의 승인이 필요합니다.</string>
+    <string name="allow_storage_manager_title">VLC 모든 파일 액세스 허용</string>
+    <string name="allow_storage_manager_description">%s\n\n권한을 부여하시겠습니까?</string>
+    <string name="allow_storage_manager_explanation">VLC의 모든 기능과 모든 유형의 미디어 파일 지원을 얻으려면 이 권한을 부여하는 것이 좋습니다.</string>
+    <string name="partial_content">VLC가 일부 파일에 액세스할 수 없습니다</string>
+    <string name="partial_content_description">Android 11부터 응용 프로그램은 모든 기기의 파일에 액세스하려면 특별한 권한이 필요합니다.\n\n%s</string>
+    <string name="never_ask_again">다시 묻지 않음</string>
     <string name="allow_settings_access_ringtone_title">VLC에서 전화벨 소리 설정 허용하기</string>
     <string name="allow_settings_access_ringtone_description">VLC에서 이 곡을 전화벨 소리로 등록하려면 귀하의 승인이 필요합니다.</string>
     <string name="allow_settings_access_brightness_title">VLC에서 밝기 모드 변경 허용하기</string>
@@ -539,6 +555,7 @@
     <string name="existing_custom_set_save_message">이퀄라이저 세트를 다른 이름으로 저장…</string>
     <string name="new_custom_set_save_message">새 이퀄라이저 세트를 다른 이름으로 저장…</string>
     <string name="save">저장</string>
+    <string name="saved">%s 저장됨</string>
     <string name="do_not_save">저장하지 않기</string>
     <string name="custom_set_deleted_message">사용자 지정 \"%1$s\" 이퀄라이저 세트를 감지했습니다.</string>
     <string name="custom_set_wrong_input">무효한 이름.</string>
@@ -560,9 +577,10 @@
     <string name="audio_digital_failed">오디오 디지털 출력 상태를 변경하는데 실패했습니다</string>
     <string name="audio_digital_output_enabled">오디오 디지털 출력 활성화됨</string>
     <string name="audio_digital_output_disabled">오디오 디지털 출력 비활성화됨</string>
+    <string name="audio_preferred_language">선호하는 음성 언어</string>
     <string name="audio_digital_title">디지털 오디오 출력 (패스쓰루)</string>
-    <string name="audio_task_cleared_title">앱 스와이프 시 끄기</string>
-    <string name="audio_task_cleared_summary">앱이 닫힐 때 재생 중지</string>
+    <string name="audio_task_cleared_title">응용 프로그램 스와이프 시 중지</string>
+    <string name="audio_task_cleared_summary">응용 프로그램이 취소될 때 재생 중지</string>
     <string name="audio_resume_card_title">마지막 재생목록 팁 표시</string>
     <string name="audio_resume_card_summary">앱 시작시 오디오 플레이백 재생 관련 팁을 보여줍니다</string>
     <string name="playback_rewind">되감기</string>
@@ -575,8 +593,8 @@
     <string name="browser">브라우저</string>
     <string name="ab_repeat">A-B 반복</string>
     <string name="ab_repeat_reset">A-B 반복 초기화</string>
-    <string name="ab_repeat_stop">A-B 반복 정지</string>
-    <string name="stop_after_this">현재 트랙후 정지</string>
+    <string name="ab_repeat_stop">A-B 반복 중지</string>
+    <string name="stop_after_this">현재 트랙후 중지</string>
     <string name="time_category_new">새 미디어</string>
     <string name="time_category_current_month">이번 달</string>
     <string name="time_category_current_year">올해</string>
@@ -696,8 +714,8 @@
     <string name="recently_played">최근 재생한 항목</string>
     <string name="recently_added">최근에 추가한 항목</string>
     <string name="playback_multiple_errors">다수의 미디어는 재생할 수 없습니다</string>
-    <string name="clear_media_db_message">진행상황, 책갈피 및 생성 한 재생목록을 잃게되지만 VLC는 Android 설정을 유지합니다.</string>
-    <string name="clear_app_data_message">진행률, 책갈피, 재생 목록 및 모든 VLC 설정을 잃게됩니다</string>
+    <string name="clear_media_db_message">진행상황, 바로찾기 및 생성 한 재생목록을 잃게되지만 VLC는 Android 설정을 유지합니다.</string>
+    <string name="clear_app_data_message">진행률, 바로찾기, 재생 목록 및 모든 VLC 설정을 잃게됩니다</string>
     <string name="clear">지우기</string>
     <string name="abrepeat_add_first_marker">시작 지점 설정</string>
     <string name="abrepeat_add_second_marker">종료 지점 설정</string>
@@ -781,10 +799,8 @@
     <string name="allow_otg">OTG 접근 허용</string>
     <string name="allow_otg_description">VLC가 접근할 OTG 드라이브를 선택해 주세요.</string>
     <string name="timeout_infinite">무한</string>
-    <string name="timeout_short">짧게</string>
-    <string name="timeout_normal">보통</string>
-    <string name="timeout_long">길게</string>
     <string name="video_hud_timeout">비디오 재생기 제어 숨기기 지연 시간</string>
+    <string name="video_hud_timeout_summary">%s초</string>
     <string name="remove_from_history">기록내역에서 제거하기</string>
     <string name="prefersmbv1">SMB 1 선호</string>
     <string name="prefersmbv1_summary">SMB 서버를 탐색하는 데에 문제가 있다면 이 설정을 해제하세요</string>
@@ -808,13 +824,20 @@
     <string name="stop_unpaubale">이 미디어는 일시중지할 수 없습니다. 대신 중지하시겠습니까?</string>
     <string name="delete_forever">영구 삭제하기</string>
     <string name="add_to_existing_playlist">기존 재생목록에 추가</string>
-    <string name="bookmarks_title">책갈피</string>
-    <string name="no_bookmark">아직 책갈피가 없습니다</string>
-    <string name="bookmark_name">책갈피 %s</string>
+    <string name="bookmarks_title">바로찾기</string>
+    <string name="no_bookmark">아직 바로찾기가 없습니다</string>
+    <string name="bookmark_default_name">%s에서 바로찾기</string>
+    <string name="bookmark_name">바로찾기 %s</string>
+    <string name="add_bookmark">바로찾기 추가</string>
     <string name="optional_features">옵션 기능</string>
     <string name="optional_features_summary">현재 테스트 중이며 안정적이지 않은 베타 기능</string>
     <string name="optional_features_warning">이 기능은 베타 버전이며 충돌 및 불안정성을 유발할 수 있습니다</string>
+    <string name="network_indexing">네트워크 인덱싱</string>
+    <string name="network_indexing_warning">네트워크 인덱싱은 현재 베타 버전입니다.\n알려진 문제:\n• 성능 저하\n\n다른 문제가 발생하면 포럼에 보고해 주십시오.</string>
     <string name="start_vlc">VLC 시작</string>
+    <string name="jump_delay">앞 또는 뒤로 이동 시간 지연</string>
+    <string name="long_jump_delay">길게 눌러 앞 또는 뒤로 이동 시 지연 시간</string>
+    <string name="jump_delay_summary">%s초</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">중복된 항목(들)을 추가하시겠습니까?</string>
@@ -827,6 +850,12 @@
     <string name="start">시작</string>
     <string name="permission">권한</string>
     <string name="customize">사용자 맞춤 설정</string>
+    <string name="selection_count">%s개 선택됨</string>
+    <string name="controls_setting">컨트롤 설정</string>
+    <string name="gestures">제스처</string>
+    <string name="player_controls">플레이어 컨트롤</string>
+    <string name="video_double_tap_jump_delay">두 번 탭 지연 시간</string>
+    <string name="video_key_jump_delay">내비게이션 키 지연 시간</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">이 항목들은 이미 이 재생 목록에 있습니다.</item>
     </plurals>
