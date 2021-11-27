@@ -266,8 +266,11 @@
     <string name="screen_orientation_last_locked">上次锁定方向</string>
     <string name="enable_black_theme">黑色主题</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
+    <string name="subtitle_preferred_language">首选字母语言</string>
     <string name="daynight_title">自动切换夜间模式</string>
     <string name="daynight_follow_system_title">跟随系统模式</string>
+    <string name="no_track_preference">无语言偏好</string>
+    <string name="track_preference">音轨偏好：%s</string>
 
     <string name="extra_prefs_category">附加设置</string>
 
@@ -297,9 +300,15 @@
     <string name="enable_volume_gesture_title">音量手势</string>
     <string name="enable_volume_gesture_summary">在视频回放过程中，通过手势控制音量</string>
     <string name="enable_seek_buttons">定位按钮</string>
-    <string name="enable_seek_buttons_summary">在视频界面显示倒退与前进按钮</string>
+    <string name="enable_seek_buttons_summary">在视频界面显示倒退与快进按钮</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto 播放速度</string>
+    <string name="enable_android_auto_speed_buttons_summary">在溢出菜单中显示速度控制</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto 定位按钮</string>
+    <string name="enable_android_auto_seek_buttons_summary">在溢出菜单中显示后退和快进。启用前，试着按住方向盘上的前一个和下一个按钮。</string>
     <string name="enable_double_tap_seek_title">双击可进退</string>
     <string name="enable_double_tap_seek_summary">双击屏幕边缘可按十秒快进／快退</string>
+    <string name="enable_double_tap_play_title">按两次播放/暂停</string>
+    <string name="enable_double_tap_play_summary">按屏幕中央两次播放/暂停</string>
     <string name="popup_keepscreen_title">浮层模式保持屏幕常亮</string>
     <string name="popup_keepscreen_summary">浮层模式显示时总保持屏幕常亮，即使视频已暂停。</string>
     <string name="browser_show_hidden_files_title">显示隐藏文件</string>
@@ -414,6 +423,7 @@
     <string name="log_service_text">打开日志控制台</string>
     <string name="copy_to_clipboard">复制到剪贴板</string>
     <string name="copied_to_clipboard">日志内容已复制到剪贴板。</string>
+    <string name="copied_from_clipboard">从剪贴板粘贴的地址</string>
     <string name="dump_logcat">logcat 日志转储</string>
     <string name="dump_logcat_success">Logcat 日志已成功转储至 %1$s!</string>
     <string name="dump_logcat_failure">logcat 转储失败。</string>
@@ -471,6 +481,12 @@
     <string name="widget_name_b">VLC 深色小挂件</string>
     <string name="allow_storage_access_title">允许 VLC 访问视频与音频文件</string>
     <string name="allow_storage_access_description">VLC 需要您授权方可访问该设备上的媒体文件。</string>
+    <string name="allow_storage_manager_title">允许 VLC 访问所有文件</string>
+    <string name="allow_storage_manager_description">%s\n\n授予权限？</string>
+    <string name="allow_storage_manager_explanation">为了获得 VLC 的所有功能和对所有类型媒体文件的支持，我们强烈建议您授予此权限。</string>
+    <string name="partial_content">VLC 无法访问您的所有文件</string>
+    <string name="partial_content_description">从 Android 11 开始，应用程序需要获得特殊权限才能访问所有设备的文件。\n\n%s</string>
+    <string name="never_ask_again">不再询问</string>
     <string name="allow_settings_access_ringtone_title">允许 VLC 设置铃声</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授权方可将该歌曲设为您的铃声。</string>
     <string name="allow_settings_access_brightness_title">允许 VLC 更改亮度模式</string>
@@ -539,6 +555,7 @@
     <string name="existing_custom_set_save_message">将均衡器配置另存为…</string>
     <string name="new_custom_set_save_message">将新的均衡器配置另存为…</string>
     <string name="save">保存</string>
+    <string name="saved">已保存 %s</string>
     <string name="do_not_save">不保存</string>
     <string name="custom_set_deleted_message">已删除自定义均衡器配置「%1$s」。</string>
     <string name="custom_set_wrong_input">无效名称。</string>
@@ -560,6 +577,7 @@
     <string name="audio_digital_failed">无法更改音频数字输出状态</string>
     <string name="audio_digital_output_enabled">音频数字输出已启用</string>
     <string name="audio_digital_output_disabled">音频数字输出已禁用</string>
+    <string name="audio_preferred_language">首选的音频语言</string>
     <string name="audio_digital_title">数字音频输出 (直通)</string>
     <string name="audio_task_cleared_title">滑开应用时停止</string>
     <string name="audio_task_cleared_summary">应用程序被滑开时停止播放</string>
@@ -781,10 +799,8 @@
     <string name="allow_otg">允许 OTG 访问</string>
     <string name="allow_otg_description">请选择允许访问VLC的OTG驱动器。</string>
     <string name="timeout_infinite">无限</string>
-    <string name="timeout_short">短</string>
-    <string name="timeout_normal">正常</string>
-    <string name="timeout_long">长</string>
     <string name="video_hud_timeout">视频播放器控件隐藏延迟</string>
+    <string name="video_hud_timeout_summary">%s 秒</string>
     <string name="remove_from_history">从历史记录中删除</string>
     <string name="prefersmbv1">优先使用SMB 1协议</string>
     <string name="prefersmbv1_summary">如您浏览SMB服务器有困难，请取消选中这个设置</string>
@@ -810,12 +826,19 @@
     <string name="add_to_existing_playlist">添加到现有播放列表</string>
     <string name="bookmarks_title">书签</string>
     <string name="no_bookmark">尚无书签</string>
+    <string name="bookmark_default_name">位于%s 的书签</string>
     <string name="bookmark_name">添加 %s 为书签</string>
+    <string name="add_bookmark">添加书签</string>
     <string name="optional_features">可选功能</string>
     <string name="optional_features_summary">目前正在测试中的 Beta 功能，可能并不稳定 </string>
     <string name="optional_features_warning">此功能尚处于测试阶段，可能会导致崩溃和不稳定 
 </string>
+    <string name="network_indexing">网络索引</string>
+    <string name="network_indexing_warning">网络索引目前处于测试阶段。\n 已知问题：\n・性能较差 \n\n 如果您遇到其他问题，请在我们的论坛上报告。</string>
     <string name="start_vlc">启动 VLC</string>
+    <string name="jump_delay">向前/向后时延</string>
+    <string name="long_jump_delay">长按向前/向后时延</string>
+    <string name="jump_delay_summary">%s 秒  </string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">添加重复项？</string>
@@ -829,6 +852,12 @@
     <string name="start">启动</string>
     <string name="permission">权限</string>
     <string name="customize">自定义</string>
+    <string name="selection_count">选中了 %s 个</string>
+    <string name="controls_setting">操控设置</string>
+    <string name="gestures">手势</string>
+    <string name="player_controls">播放器控制</string>
+    <string name="video_double_tap_jump_delay">双击时延</string>
+    <string name="video_key_jump_delay">导航键时延</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">这些项目已经在这个播放列表内</item>
     </plurals>
