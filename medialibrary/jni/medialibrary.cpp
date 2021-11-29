@@ -1657,7 +1657,8 @@ jobjectArray
 mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
-    const auto query = aml->mediaFromFolder(id, (medialibrary::IMedia::Type)type, &params);
+    auto folder = aml->folder(id);
+    const auto query = aml->mediaFromFolder(folder.get(), (medialibrary::IMedia::Type)type, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1671,7 +1672,9 @@ mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint 
 
 jint
 mediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromFolder(id, (medialibrary::IMedia::Type)type);
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    auto folder = aml->folder(id);
+    const auto query = aml->mediaFromFolder(folder.get(), (medialibrary::IMedia::Type)type);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -1716,7 +1719,7 @@ subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sorti
     jobjectArray foldersRefs = (jobjectArray) env->NewObjectArray(foldersList.size(), ml_fields.Folder.clazz, NULL);
     int index = -1;
     for(medialibrary::FolderPtr const& folder : foldersList) {
-        const auto query = aml->mediaFromFolder(folder->id(), medialibrary::IMedia::Type::Video);
+        const auto query = aml->mediaFromFolder(folder.get(), medialibrary::IMedia::Type::Video);
         int count = (query != nullptr ? query->count() : 0);
 
         auto item = convertFolderObject(env, &ml_fields, folder, count);
@@ -1743,7 +1746,7 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
     for(medialibrary::FolderPtr const& folder : foldersList) {
         try
         {
-            const auto query = aml->mediaFromFolder(folder->id(), (medialibrary::IMedia::Type)type);
+            const auto query = aml->mediaFromFolder(folder.get(), (medialibrary::IMedia::Type)type);
             int count = (query != nullptr ? query->count() : 0);
 
             auto item = convertFolderObject(env, &ml_fields, folder, count);
@@ -1821,7 +1824,7 @@ searchFolders(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriter
     int index = -1;
     for(medialibrary::FolderPtr const& folder : folders)
     {
-        const auto query = aml->mediaFromFolder(folder->id(), medialibrary::IMedia::Type::Video);
+        const auto query = aml->mediaFromFolder(folder.get(), medialibrary::IMedia::Type::Video);
         int count = (query != nullptr ? query->count() : 0);
         auto item = convertFolderObject(env, &ml_fields, folder, count);
         env->SetObjectArrayElement(folderRefs, ++index, item.get());

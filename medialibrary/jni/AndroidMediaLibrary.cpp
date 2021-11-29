@@ -544,9 +544,8 @@ AndroidMediaLibrary::folders(const medialibrary::QueryParameters* params, medial
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::mediaFromFolder(const medialibrary::IFolder* folder, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params )
 {
-    medialibrary::FolderPtr folder = p_ml->folder(folderId);
     return folder != nullptr ? folder->media(type, params) : nullptr;
 }
 
