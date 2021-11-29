@@ -115,7 +115,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                     if(activity == null) return@registerForActivityResult
                     if (isGranted || isExternalStorageManager()) {
                         storageAccessGranted.value = true
-                        model.deferredGrant.complete(true)
+                        model.complete(true)
                         exit()
                         return@registerForActivityResult
                     }
