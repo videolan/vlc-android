@@ -185,7 +185,7 @@ object MediaUtils {
                 0 -> null
                 in 1..MEDIALIBRARY_PAGE_SIZE -> withContext(Dispatchers.IO) {
                     mutableListOf<MediaWrapper>().apply {
-                        for (album in provider.getAll()) album.tracks?.let { addAll(it) }
+                        for (album in provider.getAll(false)) album.tracks?.let { addAll(it) }
                     }
                 }
                 else -> withContext(Dispatchers.IO) {
@@ -193,7 +193,7 @@ object MediaUtils {
                         var index = 0
                         while (index < count) {
                             val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                            val albums = withContext(Dispatchers.IO) { provider.getPage(pageCount, index) }
+                            val albums = withContext(Dispatchers.IO) { provider.getPage(pageCount, index, false) }
                             for (album in albums) addAll(album.tracks)
                             index += pageCount
                         }
@@ -216,13 +216,13 @@ object MediaUtils {
             }
             when (count) {
                 0 -> return@SuspendDialogCallback
-                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { provider.getAll().toList() })
+                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { provider.getAll(false).toList() })
                 else -> {
                     var index = 0
                     val appendList = mutableListOf<MediaWrapper>()
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                        val list = withContext(Dispatchers.IO) { provider.getPage(pageCount, index).toList() }
+                        val list = withContext(Dispatchers.IO) { provider.getPage(pageCount, index, false).toList() }
                         if (index == 0) play(list)
                         else appendList.addAll(list)
                         index += pageCount
@@ -245,7 +245,7 @@ object MediaUtils {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> {
                     val flatList =  withContext(Dispatchers.IO) {
-                        val allGroups = provider.getAll()
+                        val allGroups = provider.getAll(false)
                         allGroups.flatMap {
                             it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
                         }
@@ -258,7 +258,7 @@ object MediaUtils {
                     withContext(Dispatchers.IO) {
                         while (index < count) {
                             val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                            val list = provider.getPage(pageCount, index).toList()
+                            val list = provider.getPage(pageCount, index, false).toList()
                             completeList.addAll(list)
                             index += pageCount
                         }
@@ -280,7 +280,7 @@ object MediaUtils {
             when (count) {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
-                    provider.getAll().flatMap {
+                    provider.getAll(false).flatMap {
                         it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(provider.type), 0).toList()
                     }
                 })
@@ -289,7 +289,7 @@ object MediaUtils {
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
-                            provider.getPage(pageCount, index).flatMap {
+                            provider.getPage(pageCount, index, false).flatMap {
                                 it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(provider.type), 0).toList()
                             }
                         }
