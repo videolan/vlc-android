@@ -28,13 +28,13 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 @ExperimentalCoroutinesApi
 class FoldersProvider(context: Context, model: SortableModel, val type: Int) : MedialibraryProvider<Folder>(context, model) {
-    override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, desc, Settings.includeMissing, getTotalCount(), 0)
+    override fun getAll(includeMissing:Boolean) : Array<Folder> = medialibrary.getFolders(type, sort, desc, includeMissing, getTotalCount(), 0)
 
     override fun getTotalCount() = if (model.filterQuery.isNullOrEmpty()) medialibrary.getFoldersCount(type) else medialibrary.getFoldersCount(model.filterQuery)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = if (model.filterQuery.isNullOrEmpty()) {
-        medialibrary.getFolders(type, sort, desc, Settings.includeMissing, loadSize, startposition).also { completeHeaders(it, startposition) }
+    override fun getPage(loadSize: Int, startposition: Int, includeMissing:Boolean) : Array<Folder> = if (model.filterQuery.isNullOrEmpty()) {
+        medialibrary.getFolders(type, sort, desc, includeMissing, loadSize, startposition).also { completeHeaders(it, startposition) }
     } else {
-        medialibrary.searchFolders(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        medialibrary.searchFolders(model.filterQuery, sort, desc, includeMissing, loadSize, startposition)
     }.also { if (Settings.showTvUi) completeHeaders(it, startposition) }
 }
