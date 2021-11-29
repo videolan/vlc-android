@@ -24,13 +24,13 @@ object MedialibraryUtils {
     fun addDir(path: String, context: Context = AppContextProvider.appContext) {
         val intent = Intent(ACTION_DISCOVER, null, context, MediaParsingService::class.java)
         intent.putExtra(EXTRA_PATH, path)
-        context.launchForeground(context, intent)
+        context.launchForeground(intent)
     }
 
     fun addDevice(path: String, context: Context) {
         val intent = Intent(ACTION_DISCOVER_DEVICE, null, context, MediaParsingService::class.java)
         intent.putExtra(EXTRA_PATH, path)
-        context.launchForeground(context, intent)
+        context.launchForeground(intent)
     }
 
     fun isScanned(path: String): Boolean {

@@ -145,7 +145,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             val scanOpt = if (Settings.showTvUi) ML_SCAN_ON
             else Settings.getInstance(ctx).getInt(KEY_MEDIALIBRARY_SCAN, -1)
             if (scanOpt == ML_SCAN_ON)
-                AppScope.launch { ctx.launchForeground(ctx,Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
+                AppScope.launch { ctx.launchForeground(Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
         }
         val usbManager = ctx.getSystemService<UsbManager>() ?: return
         devices.add(ArrayList(usbManager.deviceList.values))
