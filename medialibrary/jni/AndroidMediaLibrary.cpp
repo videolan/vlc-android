@@ -556,6 +556,11 @@ medialibrary::Query<medialibrary::IFolder> AndroidMediaLibrary::subFolders(int64
     return folder != nullptr ? folder->subfolders(params) : nullptr;
 }
 
+medialibrary::FolderPtr AndroidMediaLibrary::folder(int64_t folderId)
+{
+    return p_ml->folder(folderId);
+}
+
 medialibrary::Query<medialibrary::IMediaGroup>
 AndroidMediaLibrary::videoGroups( const medialibrary::QueryParameters* params )
 {
