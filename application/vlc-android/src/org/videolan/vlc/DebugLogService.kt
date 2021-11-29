@@ -145,7 +145,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         logcat = Logcat()
         logcat!!.start(this)
 
-        launchForeground(this, Intent(this, DebugLogService::class.java))
+        launchForeground(Intent(this, DebugLogService::class.java))
         sendMessage(MSG_STARTED, null)
     }
 

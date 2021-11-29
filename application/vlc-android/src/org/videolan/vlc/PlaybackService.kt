@@ -1641,12 +1641,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         fun start(context: Context) {
             if (instance != null) return
             val serviceIntent = Intent(context, PlaybackService::class.java)
-            context.launchForeground(context, serviceIntent)
+            context.launchForeground(serviceIntent)
         }
 
         fun loadLastAudio(context: Context) {
             val i = Intent(ACTION_REMOTE_LAST_PLAYLIST, null, context, PlaybackService::class.java)
-            context.launchForeground(context, i)
+            context.launchForeground(i)
         }
 
         fun hasRenderer() = renderer.value != null

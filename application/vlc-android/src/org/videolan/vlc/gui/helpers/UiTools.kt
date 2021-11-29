@@ -543,7 +543,7 @@ object UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept) { _, _ ->
-                        activity.launchForeground(activity, si)
+                        activity.launchForeground(si)
                     }
                     .setNegativeButton(R.string.ml_external_storage_decline) { dialog, _ -> dialog.dismiss() }
             builder.show()
@@ -553,7 +553,7 @@ object UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept) { _, _ ->
-                        activity.launchForeground(activity, si)
+                        activity.launchForeground(si)
                     }
                     .setNegativeButton(R.string.ml_external_storage_decline) { dialog, _ -> dialog.dismiss() }
             builder.show()

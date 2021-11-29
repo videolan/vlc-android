@@ -531,11 +531,11 @@ data class ScanProgress(val parsing: Float, val progressText: String, val inDisc
 data class DiscoveryError(val entryPoint: String)
 
 fun Context.reloadLibrary() {
-    launchForeground(this, Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
+    launchForeground(Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
 }
 
 fun Context.rescan() {
-    launchForeground(this, Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
+    launchForeground(Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
 }
 
 private sealed class MLAction

@@ -2,6 +2,8 @@ package org.videolan.resources.util
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -76,7 +78,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
         if (dbExists(coroutineContextProvider)) prefs.putSingle(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON)
     }
     val intent = Intent(ACTION_INIT).setClassName(applicationContext, MEDIAPARSING_SERVICE)
-    launchForeground(this@startMedialibrary, intent
+    launchForeground(intent
             .putExtra(EXTRA_FIRST_RUN, firstRun)
             .putExtra(EXTRA_UPGRADE, upgrade)
             .putExtra(EXTRA_REMOVE_DEVICE, removeDevices)
@@ -87,11 +89,11 @@ suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider 
     File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
-fun Context.launchForeground(context: Context, intent: Intent) {
+fun Context.launchForeground(intent: Intent) {
     try {
-        context.startService(intent)
+        startService(intent)
     } catch (e: IllegalStateException) {
         intent.putExtra("foreground", true)
-        ContextCompat.startForegroundService(context, intent)
+        ContextCompat.startForegroundService(this, intent)
     }
 }
