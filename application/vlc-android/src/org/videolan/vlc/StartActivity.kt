@@ -30,7 +30,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +37,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
+import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.gui.BetaWelcomeActivity
@@ -151,7 +151,7 @@ class StartActivity : FragmentActivity() {
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH == action) {
             val serviceInent = Intent(ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService::class.java)
                     .putExtra(EXTRA_SEARCH_BUNDLE, intent.extras)
-            ContextCompat.startForegroundService(this, serviceInent)
+            launchForeground(serviceInent)
         } else if (Intent.ACTION_VIEW == action && intent.data != null) { //launch from TV Channel
             val data = intent.data
             val path = data!!.path
