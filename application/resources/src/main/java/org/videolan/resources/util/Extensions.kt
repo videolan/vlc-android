@@ -93,7 +93,11 @@ fun Context.launchForeground(intent: Intent) {
     try {
         startService(intent)
     } catch (e: IllegalStateException) {
-        intent.putExtra("foreground", true)
-        ContextCompat.startForegroundService(this, intent)
+        //wait for the UI thread to be ready
+        val ctx = this
+        AppScope.launch(Dispatchers.Main) {
+            intent.putExtra("foreground", true)
+            ContextCompat.startForegroundService(ctx, intent)
+        }
     }
 }
