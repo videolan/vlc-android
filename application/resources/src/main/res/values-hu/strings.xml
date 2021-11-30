@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Utolsó zárolt tájolás</string>
     <string name="enable_black_theme">Fekete téma</string>
     <string name="subtitle_text_encoding">Feliratszöveg kódolása</string>
+    <string name="subtitle_preferred_language">Felirat előnyben részesített nyelve</string>
     <string name="daynight_title">Éjjel-nappali mód</string>
     <string name="daynight_follow_system_title">Rendszer módjának követése</string>
+    <string name="no_track_preference">Nincs előnyben részesített nyelv</string>
+    <string name="track_preference">Előnyben részesített sáv: %s</string>
 
     <string name="extra_prefs_category">További beállítások</string>
 
@@ -307,9 +310,15 @@
     <string name="enable_volume_gesture_title">Hangerő gesztus</string>
     <string name="enable_volume_gesture_summary">Hangerő szabályozása gesztussal videólejátszás közben</string>
     <string name="enable_seek_buttons">Tekerőgombok</string>
-    <string name="enable_seek_buttons_summary">Vissza- és előretekerés gombok megjelenítése a videófelületen</string>
+    <string name="enable_seek_buttons_summary">A hátra- és előretekerés gombok megjelenítése a videós felületen</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto lejátszási sebessége</string>
+    <string name="enable_android_auto_speed_buttons_summary">Sebességvezérlők megjelenítése a túlcsorduló menüben</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto tekerőgombok</string>
+    <string name="enable_android_auto_seek_buttons_summary">A hátra- és előretekerés gombok megjelenítése a túlcsorduló menüben. Mielőtt engedélyezi, próbálja meg nyomva tartani a kormányon lévő előző és következő gombokat.</string>
     <string name="enable_double_tap_seek_title">Dupla koppintás a tekeréshez</string>
     <string name="enable_double_tap_seek_summary">Dupla koppintás a képernyő szélen a 10 másodperces tekeréshez</string>
+    <string name="enable_double_tap_play_title">Dupla koppintás a lejátszáshoz/szüneteltetéshez</string>
+    <string name="enable_double_tap_play_summary">Dupla koppintás a képernyő közepén a lejátszáshoz vagy szüneteltetéshez</string>
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
     <string name="popup_keepscreen_summary">A képernyő bekapcsolva tartása, ha a felugró megjelenített, akkor is, ha a videó szüneteltetett.</string>
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Naplókonzol megnyitása</string>
     <string name="copy_to_clipboard">Másolás a vágólapra</string>
     <string name="copied_to_clipboard">Másolva a vágólapra.</string>
+    <string name="copied_from_clipboard">Cím beillesztve a vágólapról</string>
     <string name="dump_logcat">Logcat napló mentése</string>
     <string name="dump_logcat_success">Logcat sikeresen kimentve ide: %1$s!</string>
     <string name="dump_logcat_failure">Logcat mentése sikertelen.</string>
@@ -481,6 +491,12 @@
     <string name="widget_name_b">VLC sötét ablakelem</string>
     <string name="allow_storage_access_title">A VLC hozzáférhet a videó- és hangfájlokhoz</string>
     <string name="allow_storage_access_description">A VLC-nek szüksége van erre az engedélyre a médiafájlok eléréséhez az eszközén.</string>
+    <string name="allow_storage_manager_title">Engedélyezés, hogy a VLC elérje az összes fájlt</string>
+    <string name="allow_storage_manager_description">%s\n\nMegadja az engedélyt?</string>
+    <string name="allow_storage_manager_explanation">A VLC összes képességének kiaknázásához, és az összes médiafájltípus támogatásához erősen javasoljuk, hogy adja meg ezt az engedélyt.</string>
+    <string name="partial_content">A VLC nem éri el az összes fájlját</string>
+    <string name="partial_content_description">Az Android 11-től kezdve az alkalmazásoknak egy speciális engedélyre van szükségük az eszköz összes fájljának eléréséhez.\n\n%s</string>
+    <string name="never_ask_again">Ne kérdezze újra</string>
     <string name="allow_settings_access_ringtone_title">A VLC beállíthatja a csengőhangot</string>
     <string name="allow_settings_access_ringtone_description">A VLC-nek szüksége van erre az engedélyre a számok csengőhangként beállításához.</string>
     <string name="allow_settings_access_brightness_title">A VLC beállíthatja a fényerősséget</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Hangszínszabályzó beállítás mentése másként…</string>
     <string name="new_custom_set_save_message">Új hangszínszabályzó beállítás mentése másként…</string>
     <string name="save">Mentés</string>
+    <string name="saved">%s mentve</string>
     <string name="do_not_save">Ne mentse</string>
     <string name="custom_set_deleted_message">A(z) „%1$s” egyéni hangszínszabályzó beállítás törölve.</string>
     <string name="custom_set_wrong_input">Érvénytelen név.</string>
@@ -570,6 +587,7 @@
     <string name="audio_digital_failed">Digitális hangkimenet állapotának módosítása meghiúsult</string>
     <string name="audio_digital_output_enabled">Digitális hangkimenet engedélyezve</string>
     <string name="audio_digital_output_disabled">Digitális hangkimenet letiltva</string>
+    <string name="audio_preferred_language">Hangsáv előnyben részesített nyelve</string>
     <string name="audio_digital_title">Digitális hangkimenet (áteresztés)</string>
     <string name="audio_task_cleared_title">Szüneteltetés alkalmazásváltáskor</string>
     <string name="audio_task_cleared_summary">Lejátszás szüneteltetése az alkalmazás eltüntetésekor</string>
@@ -793,10 +811,8 @@
     <string name="allow_otg">OTG hozzáférés bekapcsolása</string>
     <string name="allow_otg_description">Válassza ki az OTG eszközt, hogy hozzáférést kérjen a VLC-hez</string>
     <string name="timeout_infinite">Végtelen</string>
-    <string name="timeout_short">Rövid</string>
-    <string name="timeout_normal">Normál</string>
-    <string name="timeout_long">Hosszú</string>
     <string name="video_hud_timeout">Videó vezérlők elrejtési késleltetése</string>
+    <string name="video_hud_timeout_summary">%s mp</string>
     <string name="remove_from_history">Eltávolítás az előzményekből</string>
     <string name="prefersmbv1">SMB 1 előnyben részesítése</string>
     <string name="prefersmbv1_summary">Kapcsolja ki ezt a beállítást, ha problémákba ütközik az SMB-kiszolgálók tallózásakor</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Hozzáadás a meglévő lejátszási listához</string>
     <string name="bookmarks_title">Könyvjelzők</string>
     <string name="no_bookmark">Még nincsenek könyvjelzők</string>
+    <string name="bookmark_default_name">Könyvjelző itt: %s</string>
     <string name="bookmark_name">%s könyvjelzőzése</string>
+    <string name="add_bookmark">Könyvjelző hozzáadása</string>
     <string name="optional_features">Opcionális szolgáltatások</string>
     <string name="optional_features_summary">Béta funkciók, melyek jelenleg tesztelés alatt állnak, és nem biztos, hogy stabilak</string>
     <string name="optional_features_warning">Ez a funkció béta állapotú és összeomlást vagy instabilitást okozhat</string>
+    <string name="network_indexing">Hálózati indexelés</string>
+    <string name="network_indexing_warning">A hálózati indexelés jelenleg béta állapotú.\nIsmert problémák:\n• Alacsony teljesítmény\n\nHa más problémákat is tapasztal, jelentse azt a fórumon.</string>
     <string name="start_vlc">VLC indítása</string>
+    <string name="jump_delay">Előre-/hátratekerés késleltetése</string>
+    <string name="long_jump_delay">Hosszú érintéses előre-/hátratekerés időbeni késleltetése</string>
+    <string name="jump_delay_summary">%s mp</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Hozzáadja az ismételt elemeket?</string>
@@ -839,6 +862,12 @@
     <string name="start">Indítás</string>
     <string name="permission">Engedély</string>
     <string name="customize">Testreszabás</string>
+    <string name="selection_count">%s kiválasztva</string>
+    <string name="controls_setting">Vezérlőbeállítások</string>
+    <string name="gestures">Gesztusok</string>
+    <string name="player_controls">Lejátszásvezérlők</string>
+    <string name="video_double_tap_jump_delay">Dupla koppintás késleltetése</string>
+    <string name="video_key_jump_delay">Navigációs gombok késleltetése</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Ez az elem már rajta van a lejátszási listán.</item>
         <item quantity="other">Ezek az elemek már rajta vannak a lejátszási listán.</item>
