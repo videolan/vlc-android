@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import org.videolan.tools.PERMISSION_NEVER_ASK
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 
@@ -63,12 +64,15 @@ class AllAccessPermissionDialog : VLCBottomSheetDialogFragment() {
         view.findViewById<TextView>(R.id.description).text = getString(R.string.partial_content_description, getString(R.string.allow_storage_manager_explanation))
         grantAllAccessButton = view.findViewById(R.id.grant_all_access_button)
         neverAskAgain = view.findViewById(R.id.never_ask_again)
+        val settings = Settings.getInstance(requireActivity())
+        if (!settings.getBoolean("permission_already_asked", false)) neverAskAgain.setGone()
+        settings.putSingle("permission_already_asked", true)
         grantAllAccessButton.setOnClickListener {
             lifecycleScope.launch { requireActivity().getStoragePermission(withDialog = false) }
             dismiss()
         }
         neverAskAgain.setOnCheckedChangeListener { _, isChecked ->
-            Settings.getInstance(requireActivity()).putSingle(PERMISSION_NEVER_ASK, isChecked)
+            settings.putSingle(PERMISSION_NEVER_ASK, isChecked)
         }
         return view
     }
