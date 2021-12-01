@@ -80,6 +80,11 @@ class MainActivity : ContentActivity(),
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
 
+    override fun getSnackAnchorView(): View? {
+        val view = super.getSnackAnchorView()
+        return if (view?.id == android.R.id.content) findViewById(R.id.appbar) else view
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +102,10 @@ class MainActivity : ContentActivity(),
         mediaLibrary = Medialibrary.getInstance()
 
 //        VLCBilling.getInstance(application).retrieveSkus()
+    }
+
+    override fun onResume() {
+        super.onResume()
         //Only the partial permission is granted for Android 11+
         if (!settings.getBoolean(PERMISSION_NEVER_ASK, false) && Permissions.canReadStorage(this) && !Permissions.hasAllAccess(this)) {
             UiTools.snackerMessageInfinite(this, getString(R.string.partial_content))?.setAction(R.string.more) {
