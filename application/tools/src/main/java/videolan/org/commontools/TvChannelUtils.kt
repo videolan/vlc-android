@@ -166,6 +166,7 @@ fun updateWatchNext(context: Context, program: WatchNextProgram, pDesc: ProgramD
             .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
             .setLastPlaybackPositionMillis(pDesc.time)
             .setContentId(pDesc.contentId)
+            .setPosterArtUri(pDesc.artUri)
             .build().toContentValues()
     val watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(watchNextProgramId)
     val rowsUpdated = context.contentResolver.update(watchNextProgramUri,values, null, null)
