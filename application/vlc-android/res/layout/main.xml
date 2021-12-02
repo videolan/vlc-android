@@ -12,6 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:labelVisibilityMode="labeled"
+            app:headerLayout="@layout/navigation_rail_fab"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:menu="@menu/bottom_navigation" />
 

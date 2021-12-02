@@ -304,7 +304,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.fab -> playAll(null)
+            R.id.fab, R.id.fab_large -> playAll(null)
         }
     }
 
@@ -620,10 +620,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private fun updateFab() {
         fabPlay?.let {
             if (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true) {
-                it.show()
+                setFabPlayVisibility(true)
                 it.setOnClickListener(this)
             } else {
-                it.hide()
+                setFabPlayVisibility(false)
                 it.setOnClickListener(null)
             }
         }

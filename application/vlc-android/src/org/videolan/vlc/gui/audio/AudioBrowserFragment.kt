@@ -48,10 +48,7 @@ import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.util.waitForML
 import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.PlaylistActivity
-import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils

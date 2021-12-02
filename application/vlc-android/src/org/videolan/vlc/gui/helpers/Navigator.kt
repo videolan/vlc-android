@@ -158,12 +158,12 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
     }
 
     override fun configurationChanged(size: Int) {
-            navigationView.forEach {
-                when (it) {
-                    is BottomNavigationView -> if (size > 600.dp) it.setGone() else it.setVisible()
-                    else -> if (size <= 600.dp) it.setGone() else it.setVisible()
-                }
+        navigationView.forEach {
+            when (it) {
+                is BottomNavigationView -> if (size > 600.dp) it.setGone() else it.setVisible()
+                else -> if (size <= 600.dp) it.setGone() else it.setVisible()
             }
+        }
     }
 
     override fun getFragmentWidth(activity: Activity): Int {

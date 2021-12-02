@@ -284,7 +284,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.fab) showAddServerDialog(null)
+        if (v.id == R.id.fab || v.id == R.id.fab_large) showAddServerDialog(null)
     }
 
     private fun showAddServerDialog(mw: MediaWrapper?) {
