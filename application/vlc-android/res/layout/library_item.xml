@@ -35,7 +35,7 @@
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{library.title}"
                 android:textColor="?attr/font_default"

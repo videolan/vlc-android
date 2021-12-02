@@ -391,7 +391,7 @@ object UiTools {
         }
 
         v.findViewById<View>(R.id.about_authors_container).setOnClickListener {
-            AboutAuthorsDialog.newInstance().show(activity.supportFragmentManager, "AboutAuthorsDialog")
+            activity.startActivity(Intent(activity, AuthorsActivity::class.java))
         }
         v.findViewById<View>(R.id.about_libraries_container).setOnClickListener {
             activity.startActivity(Intent(activity, LibrariesActivity::class.java))

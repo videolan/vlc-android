@@ -34,14 +34,14 @@
                     android:id="@+id/author_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:textColor="?attr/font_default"
-                    tools:text="Jean-Baptiste Kempf"
-                    android:textSize="16sp"
+                    android:layout_marginStart="32dp"
                     android:text="@{author}"
+                    android:textColor="?attr/font_default"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView17"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Jean-Baptiste Kempf" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

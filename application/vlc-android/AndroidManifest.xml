@@ -481,6 +481,9 @@
             android:name=".gui.LibrariesActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
+            android:name=".gui.AuthorsActivity"
+            android:theme="@style/Theme.VLC"/>
+        <activity
             android:name=".gui.SearchActivity"
             android:theme="@style/Theme.VLC"/>
         <activity

@@ -37,8 +37,6 @@
                     android:layout_gravity="center_horizontal|top"
                     android:background="?attr/background_default"
                     android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingBottom="48dp"
                     android:fastScrollEnabled="true"
                     android:scrollbars="vertical"
