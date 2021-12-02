@@ -218,8 +218,8 @@
     <string name="tap">Appuyez pour voir</string>
     <string name="lock_orientation">Orientation</string>
     <string name="lock_orientation_description">Appuyez pour verrouiller/déverrouiller l\'orientation</string>
-    <string name="aspect_ratio">Ratio d\'aspect</string>
-    <string name="aspect_ratio_description">Appuyez pour modifier le ratio d\'aspect</string>
+    <string name="aspect_ratio">Rapport de cadre</string>
+    <string name="aspect_ratio_description">Appuyer pour modifier le rapport de cadre</string>
     <string name="advanced_options">Options avancées</string>
     <string name="advanced_options_description">Comme la vitesse de lecture, le mode de répétition, ...</string>
     <string name="tips_swipe">Balayez vers le haut ou vers le bas</string>
@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Dernière orientation verrouillée</string>
     <string name="enable_black_theme">Thème sombre</string>
     <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
+    <string name="subtitle_preferred_language">Langue préférée des sous-titres</string>
     <string name="daynight_title">Mode Jour-Nuit</string>
     <string name="daynight_follow_system_title">Suivre le mode système</string>
+    <string name="no_track_preference">Aucune préférence linguistique</string>
+    <string name="track_preference">Préférence de piste : %s</string>
 
     <string name="extra_prefs_category">Réglages supplémentaires</string>
 
@@ -305,11 +308,17 @@
     <string name="enable_brightness_gesture_title">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
     <string name="enable_volume_gesture_title">Volume sonore au toucher</string>
-    <string name="enable_volume_gesture_summary">Pendant la lecture d’une vidéo, contrôler le volume au toucher</string>
+    <string name="enable_volume_gesture_summary">Contrôler le volume par gestes durant la lecture vidéo</string>
     <string name="enable_seek_buttons">Boutons de déplacement</string>
-    <string name="enable_seek_buttons_summary">Afficher les boutons d\'avance et retour rapides sur l\'interface vidéo</string>
+    <string name="enable_seek_buttons_summary">Afficher les boutons de rembobinage et d\'avance rapide sur l\'interface vidéo</string>
+    <string name="enable_android_auto_speed_buttons">Vitesse de lecture sur Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Afficher le contrôle de la vitesse dans le menu déroulant</string>
+    <string name="enable_android_auto_seek_buttons">Boutons de recherche d\'Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Affichez les boutons retour arrière et avance rapide dans le menu déroulant. Essayez de maintenir les boutons précédent et suivant du volant avant de les activer.</string>
     <string name="enable_double_tap_seek_title">Appuyer deux fois pour décaler</string>
     <string name="enable_double_tap_seek_summary">Un double appui sur les bords de l\'écran fait avancer ou reculer de 10 secondes</string>
+    <string name="enable_double_tap_play_title">Double appui pour jouer/pause</string>
+    <string name="enable_double_tap_play_summary">Double appui sur le centre de l\'écran pour lire ou mettre en pause</string>
     <string name="popup_keepscreen_title">Maintenir l\'écran allumé en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Maintenir l\'écran allumé en mode Pop-Up, y compris lorsque la vidéo est en pause</string>
     <string name="browser_show_hidden_files_title">Afficher les fichiers cachés</string>
@@ -349,7 +358,7 @@
     <string name="enable_play_on_headset_insertion_summary">Mettre en pause dans le cas contraire</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement audio</string>
-    <string name="audio_ducking_title">Baisser le volume de VLC à la réception d\'une notification</string>
+    <string name="audio_ducking_title">Réduire le volume de VLC lors des notifications</string>
     <string name="audio_ducking_summary">Aide à l\'écoute des notifications audio, instructions de navigation ou assistant vocal</string>
     <string name="casting_category">Diffusion</string>
     <string name="casting_switch_title">Diffusion sans fil</string>
@@ -391,7 +400,7 @@
 
     <string name="advanced_prefs_category">Avancé</string>
     <string name="auto_rescan">Réanalyser automatiquement</string>
-    <string name="auto_rescan_summary">Analyser automatiquement au démarrage de l\'application les médias ajoutés ou supprimés sur l\'appareil</string>
+    <string name="auto_rescan_summary">Analyser automatiquement au démarrage de l\'application, les médias ajoutés ou supprimés sur l\'appareil</string>
     <string name="dump_media_db">Exporter la base de données de médias</string>
     <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Ouvrir la console du journal</string>
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
+    <string name="copied_from_clipboard">Adresse collée depuis votre presse-papiers</string>
     <string name="dump_logcat">Cliché du journal logcat</string>
     <string name="dump_logcat_success">Cliché logcat enregistré avec succès dans : %1$s !</string>
     <string name="dump_logcat_failure">Échec du cliché logcat.</string>
@@ -481,6 +491,12 @@
     <string name="widget_name_b">Widget VLC noir</string>
     <string name="allow_storage_access_title">Permettre l\'accès aux fichiers vidéos et audios à VLC</string>
     <string name="allow_storage_access_description">VLC a besoin de votre permission pour accéder aux fichiers multimédias de cet appareil.</string>
+    <string name="allow_storage_manager_title">Autoriser VLC à accéder à tous les fichiers</string>
+    <string name="allow_storage_manager_description">%s\n\nAccorder la permission ?</string>
+    <string name="allow_storage_manager_explanation">Pour bénéficier de toutes les capacités de VLC et de la prise en charge de tous les types de fichiers multimédias, nous vous conseillons vivement d\'accorder cette autorisation.</string>
+    <string name="partial_content">VLC ne peut pas accéder à tous vos fichiers</string>
+    <string name="partial_content_description">À partir d\'Android 11, les applications ont besoin d\'une autorisation spéciale pour accéder à tous les fichiers de l\'appareil.\n\n%s</string>
+    <string name="never_ask_again">Ne plus jamais demander</string>
     <string name="allow_settings_access_ringtone_title">Autoriser VLC à changer la sonnerie du téléphone</string>
     <string name="allow_settings_access_ringtone_description">VLC a besoin de votre autorisation pour définir ce morceau comme sonnerie.</string>
     <string name="allow_settings_access_brightness_title">Autoriser VLC à modifier la luminosité de l\'écran</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Enregistrer le profil d\'égaliseur sous…</string>
     <string name="new_custom_set_save_message">Enregistrer le nouveau profil d\'égaliseur sous…</string>
     <string name="save">Enregistrer</string>
+    <string name="saved">Sauvegardé %s</string>
     <string name="do_not_save">Ne pas enregistrer</string>
     <string name="custom_set_deleted_message">Ensemble d\'égaliseurs personnalisé « %1$s » supprimé.</string>
     <string name="custom_set_wrong_input">Nom invalide.</string>
@@ -570,6 +587,7 @@
     <string name="audio_digital_failed">Échec de modification de l\'état de la sortie audio numérique</string>
     <string name="audio_digital_output_enabled">Sortie audio activée</string>
     <string name="audio_digital_output_disabled">Sortie audio désactivée</string>
+    <string name="audio_preferred_language">Langue audio préférée</string>
     <string name="audio_digital_title">Sortie audio (passthrough)</string>
     <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
     <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
@@ -787,16 +805,14 @@
     <string name="air_action_forward">Chercher 10s en avant</string>
     <string name="air_action_play_pause">Pause/reprise de la lecture</string>
     <string name="air_action_volume_up">Augmenter le volume</string>
-    <string name="air_action_volume_down">Baisser le volume</string>
+    <string name="air_action_volume_down">Réduire le volume</string>
     <string name="air_action_next">Élément suivant en lecture</string>
     <string name="air_action_previous">Élément précédent en lecture</string>
     <string name="allow_otg">Autoriser l\'accès OTG</string>
     <string name="allow_otg_description">Veuillez sélectionner votre périphérique OTG pour y autoriser l\'accès a VLC.</string>
     <string name="timeout_infinite">Infini</string>
-    <string name="timeout_short">Court</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Long</string>
     <string name="video_hud_timeout">Lecteur vidéo controle le délai de masquage</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Retirer de l\'historique</string>
     <string name="prefersmbv1">Préfère SMB 1</string>
     <string name="prefersmbv1_summary">Décochez ce paramètre si vous avez des difficultés à naviguer sur votre serveur SMB</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Ajouter à une liste de lecture existante</string>
     <string name="bookmarks_title">Favoris</string>
     <string name="no_bookmark">Pas encore de favori</string>
+    <string name="bookmark_default_name">Favori a %s</string>
     <string name="bookmark_name">Favori %s</string>
+    <string name="add_bookmark">Ajouter un signet</string>
     <string name="optional_features">Fonctions optionnelles</string>
     <string name="optional_features_summary">Fonctionnalités bêta qui sont en cours de test et peuvent ne pas être stables</string>
     <string name="optional_features_warning">Cette fonctionnalité est en version bêta et peut provoquer des pannes et des instabilités.</string>
+    <string name="network_indexing">Indexation du réseau</string>
+    <string name="network_indexing_warning">L\'indexation du réseau est actuellement en version bêta.\nProblèmes connus :\n• Performance lente\n\nIf si vous rencontrez d\'autres problèmes, veuillez les signaler sur notre forum.</string>
     <string name="start_vlc">Démarrer VLC</string>
+    <string name="jump_delay">Délai d\'avance ou retour</string>
+    <string name="long_jump_delay">Délai d\'avance ou retour par appui long</string>
+    <string name="jump_delay_summary">%s secondes</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Ajouter un/des élément(s) en double ?</string>
@@ -839,6 +862,12 @@
     <string name="start">Démarrer</string>
     <string name="permission">Permission</string>
     <string name="customize">Personnaliser</string>
+    <string name="selection_count">%s sélectionné</string>
+    <string name="controls_setting">Paramètres de contrôle</string>
+    <string name="gestures">Gestes</string>
+    <string name="player_controls">Contrôles du lecteur</string>
+    <string name="video_double_tap_jump_delay">Délai par double appui</string>
+    <string name="video_key_jump_delay">Délai ou temporisation des touches de navigation</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Cet élément est déjà dans cette liste de lecture.</item>
         <item quantity="other">Ces éléments sont déjà dans cette liste de lecture.</item>
