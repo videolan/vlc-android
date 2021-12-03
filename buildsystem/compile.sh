@@ -332,7 +332,7 @@ compile() {
     OUT_DBG_DIR=.dbg/${ANDROID_ABI}
     mkdir -p $OUT_DBG_DIR
 
-    if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
+    if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/" ]; then
         AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
         avlc_build
 
