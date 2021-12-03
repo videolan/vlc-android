@@ -28,9 +28,12 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
@@ -101,6 +104,41 @@ suspend fun insertWatchNext(context: Context, mw: MediaWrapper) {
     val program = buildWatchNextProgram(cn, desc)
     val watchNextProgramUri = context.contentResolver.insert(TvContractCompat.WatchNextPrograms.CONTENT_URI, program.toContentValues())
     if (watchNextProgramUri == null || watchNextProgramUri == Uri.EMPTY) Log.e(TAG, "Insert watch next program failed")
+}
+
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
+suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleOwner, context: Context, mw: MediaWrapper) {
+    Medialibrary.lastThumb.observe(lifecycleOwner) { media ->
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            var cursor: Cursor? = null
+            try {
+                cursor = context.contentResolver.query(
+                    TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
+                    null, null)
+                cursor?.let {
+                    while (it.moveToNext()) {
+                        val wnp = WatchNextProgram.fromCursor(it)
+                        val existingProgram = WatchNextProgram.fromCursor(cursor)
+                        val watchNextProgramId = cursor.getLong(0)
+                        val content = wnp.toContentValues()
+                        val contentId = content.getAsString(TvContractCompat.PreviewPrograms.COLUMN_CONTENT_ID)
+                        if (contentId.toUri() == mw.uri && mw.uri == media.uri) {
+                            val desc = ProgramDesc(
+                                0L, media.id, media.title, media.description,
+                                media.artUri(), media.length.toInt(), media.time.toInt(),
+                                media.width, media.height, BuildConfig.APP_ID, media.uri.toString()
+                            )
+                            updateWatchNext(context, existingProgram, desc, watchNextProgramId)
+                        }
+                    }
+                }
+            } finally {
+                cursor?.close()
+            }
+        }
+        Medialibrary.lastThumb.removeObservers(lifecycleOwner)
+    }
 }
 
 suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {

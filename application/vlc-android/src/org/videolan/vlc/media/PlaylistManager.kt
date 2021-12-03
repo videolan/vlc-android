@@ -289,6 +289,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 saveMediaMeta().join()
                 if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && video) {
                     setResumeProgram(service.applicationContext, it)
+                    updateNextProgramAfterThumbnailGeneration(service, service.applicationContext, it)
                 }
             }
         }
@@ -955,7 +956,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         if (isBenchmark) player.setCurrentStats()
                         determinePrevAndNextIndices(true)
                         if (!hasNext()) getCurrentMedia()?.let {
-                            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
+                            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) {
+                                setResumeProgram(service.applicationContext, it)
+                                updateNextProgramAfterThumbnailGeneration(service, service.applicationContext, it)
+                            }
                         }
                         next()
                     }
