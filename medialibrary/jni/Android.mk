@@ -1,4 +1,5 @@
 LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
 LOCAL_SRC_FILES := medialibrary.cpp AndroidMediaLibrary.cpp AndroidDeviceLister.cpp utils.cpp
 LOCAL_MODULE    := mla
 LOCAL_MODULE_FILENAME := libmla
