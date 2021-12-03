@@ -1,7 +1,7 @@
-From 143e87709c8889f7e8e40e9a0123e48f06114017 Mon Sep 17 00:00:00 2001
-Message-Id: <143e87709c8889f7e8e40e9a0123e48f06114017.1628587500.git.thomas@gllm.fr>
-In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
-References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+From c607e4d9bb01310bb0f67ad8fb476fa13ad401c2 Mon Sep 17 00:00:00 2001
+Message-Id: <c607e4d9bb01310bb0f67ad8fb476fa13ad401c2.1638531287.git.hugo@beauzee.fr>
+In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 12 Mar 2021 11:34:02 +0100
 Subject: [PATCH 10/13] taglib: Backport 4.0 patches to allow preparsing of
@@ -23,6 +23,7 @@ d375284a144e6b18896deda3a86b9560bc04f3d8
 8ec8b0d2add84b6d6b0c043e1c4f241998915ecd
 8191ac5727a3525a6bee99e1674167a7894f9ccb
 Message-Id: <2049af159b241b9f7786ad02bd144c1ae8f25c5c.1615545496.git.hugo@beauzee.fr>
+Message-Id: <143e87709c8889f7e8e40e9a0123e48f06114017.1628587500.git.thomas@gllm.fr>
 ---
  configure.ac                                  |   2 +-
  ...ent-ID3v2-readStyle-avoid-worst-case.patch | 148 +++++++
@@ -32,7 +33,7 @@ Message-Id: <2049af159b241b9f7786ad02bd144c1ae8f25c5c.1615545496.git.hugo@beauze
  create mode 100644 contrib/src/taglib/0001-Implement-ID3v2-readStyle-avoid-worst-case.patch
 
 diff --git a/configure.ac b/configure.ac
-index 1c53377319..37b4ce0cb6 100644
+index 30f89e33a1..2a54721b34 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -4158,7 +4158,7 @@ AC_ARG_ENABLE(taglib,
@@ -46,11 +47,11 @@ index 1c53377319..37b4ce0cb6 100644
      AC_MSG_WARN([${TAGLIB_PKG_ERRORS}.])])
 diff --git a/contrib/src/taglib/0001-Implement-ID3v2-readStyle-avoid-worst-case.patch b/contrib/src/taglib/0001-Implement-ID3v2-readStyle-avoid-worst-case.patch
 new file mode 100644
-index 0000000000..756250a3c8
+index 0000000000..9af972117b
 --- /dev/null
 +++ b/contrib/src/taglib/0001-Implement-ID3v2-readStyle-avoid-worst-case.patch
 @@ -0,0 +1,148 @@
-+From 94b8f426233e87c0b3783b743ad5e3ed458147b1 Mon Sep 17 00:00:00 2001
++From be17e6084a151c901c3946ec7b37afabc3b84f5f Mon Sep 17 00:00:00 2001
 +From: Francois Cartegnie <fcvlcdev@free.fr>
 +Date: Tue, 11 Aug 2020 10:53:31 +0200
 +Subject: [PATCH] Implement ID3v2 readStyle, avoid worst case
@@ -62,10 +63,10 @@ index 0000000000..756250a3c8
 + 3 files changed, 24 insertions(+), 14 deletions(-)
 +
 +diff --git a/taglib/mpeg/mpegfile.cpp b/taglib/mpeg/mpegfile.cpp
-+index af7253fa..59443027 100644
++index 5f14e49d..30124e0d 100644
 +--- a/taglib/mpeg/mpegfile.cpp
 ++++ b/taglib/mpeg/mpegfile.cpp
-+@@ -80,30 +80,31 @@ public:
++@@ -132,30 +132,31 @@ bool MPEG::File::isSupported(IOStream *stream)
 + // public members
 + ////////////////////////////////////////////////////////////////////////////////
 + 
@@ -103,7 +104,7 @@ index 0000000000..756250a3c8
 + }
 + 
 + MPEG::File::~File()
-+@@ -441,11 +442,11 @@ bool MPEG::File::hasAPETag() const
++@@ -498,11 +499,11 @@ bool MPEG::File::hasAPETag() const
 + // private members
 + ////////////////////////////////////////////////////////////////////////////////
 + 
@@ -117,7 +118,7 @@ index 0000000000..756250a3c8
 + 
 +   if(d->ID3v2Location >= 0) {
 +     d->tag.set(ID3v2Index, new ID3v2::Tag(this, d->ID3v2Location, d->ID3v2FrameFactory));
-+@@ -478,7 +479,7 @@ void MPEG::File::read(bool readProperties)
++@@ -535,7 +536,7 @@ void MPEG::File::read(bool readProperties)
 +   ID3v1Tag(true);
 + }
 + 
@@ -126,21 +127,21 @@ index 0000000000..756250a3c8
 + {
 +   if(!isValid())
 +     return -1;
-+@@ -499,6 +500,9 @@ long MPEG::File::findID3v2()
-+   if(firstSyncByte(data[0]) && secondSynchByte(data[1]))
-+     return -1;
++@@ -558,6 +559,9 @@ long MPEG::File::findID3v2()
++   ByteVector tagHeaderBytes(3, '\0');
++   long position = 0;
 + 
-++  if(readStyle < Properties::ReadStyle::Accurate)
+++  if(readStyle < Properties::Accurate)
 ++    return -1;
 ++
-+   // Look for the entire file, if neither an MEPG frame or ID3v2 tag was found
-+   // at the beginning of the file.
-+   // We don't care about the inefficiency of the code, since this is a seldom case.
++   while(true) {
++     seek(position);
++     const ByteVector buffer = readBlock(bufferSize());
 +diff --git a/taglib/mpeg/mpegfile.h b/taglib/mpeg/mpegfile.h
-+index e9e97387..fb04c625 100644
++index 3fcb7272..22a282d9 100644
 +--- a/taglib/mpeg/mpegfile.h
 ++++ b/taglib/mpeg/mpegfile.h
-+@@ -74,7 +74,8 @@ namespace TagLib {
++@@ -76,7 +76,8 @@ namespace TagLib {
 +        * Constructs an MPEG file from \a file.  If \a readProperties is true the
 +        * file's audio properties will also be read.
 +        *
@@ -150,7 +151,7 @@ index 0000000000..756250a3c8
 +        *
 +        * \deprecated This constructor will be dropped in favor of the one below
 +        * in a future version.
-+@@ -89,7 +90,8 @@ namespace TagLib {
++@@ -91,7 +92,8 @@ namespace TagLib {
 +        * If this file contains and ID3v2 tag the frames will be created using
 +        * \a frameFactory.
 +        *
@@ -160,7 +161,7 @@ index 0000000000..756250a3c8
 +        */
 +       // BIC: merge with the above constructor
 +       File(FileName file, ID3v2::FrameFactory *frameFactory,
-+@@ -106,7 +108,8 @@ namespace TagLib {
++@@ -108,7 +110,8 @@ namespace TagLib {
 +        * If this file contains and ID3v2 tag the frames will be created using
 +        * \a frameFactory.
 +        *
@@ -170,7 +171,7 @@ index 0000000000..756250a3c8
 +        */
 +       File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
 +            bool readProperties = true,
-+@@ -374,8 +377,8 @@ namespace TagLib {
++@@ -375,8 +378,8 @@ namespace TagLib {
 +       File(const File &);
 +       File &operator=(const File &);
 + 
@@ -182,11 +183,11 @@ index 0000000000..756250a3c8
 +       class FilePrivate;
 +       FilePrivate *d;
 +diff --git a/taglib/toolkit/taglib.h b/taglib/toolkit/taglib.h
-+index bd4886bd..dfabe3d4 100644
++index ffce61f7..38fee5d1 100644
 +--- a/taglib/toolkit/taglib.h
 ++++ b/taglib/toolkit/taglib.h
-+@@ -44,6 +44,9 @@
-+ #define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long>(x)
++@@ -54,6 +54,9 @@
++ #define TAGLIB_DEPRECATED
 + #endif
 + 
 ++/* VLC Specific patches implementations */
@@ -196,16 +197,16 @@ index 0000000000..756250a3c8
 + 
 + //! A namespace for all TagLib related classes and functions
 +-- 
-+2.25.4
++2.33.0
 +
 diff --git a/contrib/src/taglib/rules.mak b/contrib/src/taglib/rules.mak
-index 9568c973aa..b6204859e9 100644
+index a5872c1a19..1e4cdf5657 100644
 --- a/contrib/src/taglib/rules.mak
 +++ b/contrib/src/taglib/rules.mak
-@@ -19,6 +19,7 @@ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
- 	$(APPLY) $(SRC)/taglib/0002-use-GetFileInformationByHandleEx-on-newer-builds-of-.patch
- 	$(APPLY) $(SRC)/taglib/0003-don-t-use-CreateFile-in-UWP-builds.patch
- 	$(APPLY) $(SRC)/taglib/use_resolvers_on_streams.patch
+@@ -15,6 +15,7 @@ $(TARBALLS)/taglib-$(TAGLIB_VERSION).tar.gz:
+ 
+ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
+ 	$(UNPACK)
 +	$(APPLY) $(SRC)/taglib/0001-Implement-ID3v2-readStyle-avoid-worst-case.patch
  	$(MOVE)
  
@@ -763,5 +764,5 @@ index 123d09c94f..04a44c30e8 100644
      if( f.isNull() )
          return VLC_EGENERIC;
 -- 
-2.30.2
+2.33.0
 

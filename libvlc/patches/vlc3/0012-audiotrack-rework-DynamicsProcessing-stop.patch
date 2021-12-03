@@ -1,24 +1,25 @@
-From b0d5fa154e0fc27f6d368977886348269a527aa8 Mon Sep 17 00:00:00 2001
-Message-Id: <b0d5fa154e0fc27f6d368977886348269a527aa8.1628587500.git.thomas@gllm.fr>
-In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
-References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+From 10dff21dd637cd9dde39c53fd255ee19bb62a143 Mon Sep 17 00:00:00 2001
+Message-Id: <10dff21dd637cd9dde39c53fd255ee19bb62a143.1638531287.git.hugo@beauzee.fr>
+In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Tue, 10 Aug 2021 11:06:25 +0200
-Subject: [PATCH 13/13] audiotrack: rework DynamicsProcessing stop
+Subject: [PATCH 12/13] audiotrack: rework DynamicsProcessing stop
 
 Specifically disable it before unreferencing the jobject and destroy it
 before AudioTrack.
 
 This commit tries to fix a very rare crash with DP.
+Message-Id: <b0d5fa154e0fc27f6d368977886348269a527aa8.1628587500.git.thomas@gllm.fr>
 ---
  modules/audio_output/audiotrack.c | 15 +++++++++------
  1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
-index eb3ee4f4dc..b77205acb9 100644
+index f271d26772..89783c598b 100644
 --- a/modules/audio_output/audiotrack.c
 +++ b/modules/audio_output/audiotrack.c
-@@ -1426,6 +1426,15 @@ Stop( audio_output_t *p_aout )
+@@ -1439,6 +1439,15 @@ Stop( audio_output_t *p_aout )
      else
          vlc_mutex_unlock(  &p_sys->lock );
  
@@ -34,7 +35,7 @@ index eb3ee4f4dc..b77205acb9 100644
      /* Release the AudioTrack object */
      if( p_sys->p_audiotrack )
      {
-@@ -1439,12 +1448,6 @@ Stop( audio_output_t *p_aout )
+@@ -1452,12 +1461,6 @@ Stop( audio_output_t *p_aout )
          p_sys->p_audiotrack = NULL;
      }
  
@@ -48,5 +49,5 @@ index eb3ee4f4dc..b77205acb9 100644
      if( p_sys->timestamp.p_obj )
      {
 -- 
-2.30.2
+2.33.0
 
