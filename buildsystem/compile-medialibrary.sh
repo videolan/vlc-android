@@ -170,7 +170,6 @@ cd ${SRC_DIR}
 
 MEDIALIBRARY_LDLIBS="$VLC_OUT_LDLIBS \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
--L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
 -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
 
 $NDK_BUILD -C medialibrary \
@@ -183,6 +182,7 @@ $NDK_BUILD -C medialibrary \
   NDK_TOOLCHAIN_VERSION=clang \
   MEDIALIBRARY_LDLIBS="${MEDIALIBRARY_LDLIBS}" \
   MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
-  NDK_DEBUG=${NDK_DEBUG}
+  NDK_DEBUG=${NDK_DEBUG} \
+  SQLITE_RELEASE=$SQLITE_RELEASE
 
 avlc_checkfail "nkd-build medialibrary failed"
