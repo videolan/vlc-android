@@ -1,7 +1,7 @@
-From 139768f14b8a509b1c949974590e3c6b1f54ce5c Mon Sep 17 00:00:00 2001
-Message-Id: <139768f14b8a509b1c949974590e3c6b1f54ce5c.1628587500.git.thomas@gllm.fr>
-In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
-References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+From 291e6252e29c0ee280c22cc0abe9cddbdd6462e0 Mon Sep 17 00:00:00 2001
+Message-Id: <291e6252e29c0ee280c22cc0abe9cddbdd6462e0.1638531287.git.hugo@beauzee.fr>
+In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Mar 2019 10:56:26 +0100
 Subject: [PATCH 03/13] network: tls: Handle errors from older kernels
@@ -23,6 +23,7 @@ Message-Id: <ba4effd2d2805a4838b7b02bafb3064661a329b0.1602659942.git.nicolas@vid
 Message-Id: <92b665d5d4ddfe610a2bf59632a8247124042f91.1605192544.git.nicolas@videolabs.io>
 Message-Id: <f45db9f6506fac63858685879e0cfe6aebeb2402.1605701951.git.nicolas@videolabs.io>
 Message-Id: <da3ac1b34a7a18dff89f9192ee0cbcec357aab82.1607001652.git.nicolas@videolabs.io>
+Message-Id: <139768f14b8a509b1c949974590e3c6b1f54ce5c.1628587500.git.thomas@gllm.fr>
 ---
  src/network/tls.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
@@ -45,5 +46,5 @@ index e054f3f59f..1d8e375245 100644
  #else
      tls->writev = vlc_tls_SocketWrite;
 -- 
-2.30.2
+2.33.0
 

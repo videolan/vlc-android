@@ -1,7 +1,7 @@
-From ab4ee97a6102316e29de2932653f17a72477bd4c Mon Sep 17 00:00:00 2001
-Message-Id: <ab4ee97a6102316e29de2932653f17a72477bd4c.1628587500.git.thomas@gllm.fr>
-In-Reply-To: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
-References: <725e37106e83190ea20042aa9dc01c1c7646b37d.1628587500.git.thomas@gllm.fr>
+From ad0d7fa0818e1cc33d900e29abd02778401ff286 Mon Sep 17 00:00:00 2001
+Message-Id: <ad0d7fa0818e1cc33d900e29abd02778401ff286.1638531287.git.hugo@beauzee.fr>
+In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
 From: Pierre Ynard <linkfanel@yahoo.fr>
 Date: Mon, 20 Jul 2020 13:11:34 +0200
 Subject: [PATCH 07/13] stream_ReadLine: increase line length limit
@@ -20,6 +20,7 @@ Message-Id: <ba941d0b10888ffb960e66b73cbb80ddd9858af6.1602659942.git.nicolas@vid
 Message-Id: <e91c696392f6efcab00725488168e8bf2b82ae73.1605192544.git.nicolas@videolabs.io>
 Message-Id: <31f8088b0a2c5080ec28dd611adbb5bde6ca63d0.1605701951.git.nicolas@videolabs.io>
 Message-Id: <f7f93e77086f2cb8ffd53870de60d1a7a0e79244.1607001652.git.nicolas@videolabs.io>
+Message-Id: <ab4ee97a6102316e29de2932653f17a72477bd4c.1628587500.git.thomas@gllm.fr>
 ---
  src/input/stream.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -38,5 +39,5 @@ index b94279b431..6be87f8551 100644
  {
      stream_priv_t *priv = (stream_priv_t *)s;
 -- 
-2.30.2
+2.33.0
 
