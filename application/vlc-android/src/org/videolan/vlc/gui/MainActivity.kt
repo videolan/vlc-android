@@ -81,7 +81,7 @@ class MainActivity : ContentActivity(),
 
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
         val view = super.getSnackAnchorView(overAudioPlayer)
-        return if (view?.id == android.R.id.content) {if(overAudioPlayer) findViewById(android.R.id.content) else findViewById(R.id.appbar)} else view
+        return if (view?.id == android.R.id.content && getScreenWidth() < 600.dp) {if(overAudioPlayer) findViewById(android.R.id.content) else findViewById(R.id.appbar)} else view
     }
 
     @SuppressLint("SetTextI18n")
