@@ -169,7 +169,6 @@ avlc_checkfail "medialibrary: build failed"
 cd ${SRC_DIR}
 
 MEDIALIBRARY_LDLIBS="$VLC_OUT_LDLIBS \
--L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/src/ -lmedialibrary \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
 -L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
 -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
