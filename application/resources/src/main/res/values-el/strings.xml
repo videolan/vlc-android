@@ -276,8 +276,11 @@
     <string name="screen_orientation_last_locked">Τελευταίος κλειδωμένος προσανατολισμός</string>
     <string name="enable_black_theme">Μαύρο θέμα</string>
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
+    <string name="subtitle_preferred_language">Προτιμώμενη γλώσσα υποτίτλων</string>
     <string name="daynight_title">Λειτουργία DayNight</string>
     <string name="daynight_follow_system_title">Ακολούθηση λειτουργίας συστήματος</string>
+    <string name="no_track_preference">Καμία προτίμηση γλώσσας</string>
+    <string name="track_preference">Προτίμηση κομματιού: %s</string>
 
     <string name="extra_prefs_category">Επιπλέον επιλογές</string>
 
@@ -307,9 +310,15 @@
     <string name="enable_volume_gesture_title">Χειρονομία ήχου</string>
     <string name="enable_volume_gesture_summary">Έλεγχος έντασης ήχου με χειρονομία κατά την αναπαραγωγή βίντεο</string>
     <string name="enable_seek_buttons">Ενεργοποίηση πλήκτρων ανίχνευσης</string>
-    <string name="enable_seek_buttons_summary">Εμφάνιση των κουμπιών μετακίνησης πίσω και μπροστά στη διεπαφή βίντεο</string>
+    <string name="enable_seek_buttons_summary">Εμφάνιση των κουμπιών γρήγορης μετακίνησης πίσω και μπροστά στη διεπαφή βίντεο</string>
+    <string name="enable_android_auto_speed_buttons">Ταχύτητα αναπαραγωγής Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Εμφάνιση ελέγχου ταχύτητας στο overflow μενού</string>
+    <string name="enable_android_auto_seek_buttons">Κουμπιά ανίχνευσης Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Εμφάνιση επαναφοράς και γρήγορης προώθησης στο overflow μενού. Δοκιμάστε να κρατήσετε πατημένο το προηγούμενο και το επόμενο κουμπί του τιμονιού πριν το ενεργοποιήσετε.</string>
     <string name="enable_double_tap_seek_title">Διπλό άγγιγμα για ανίχνευση</string>
     <string name="enable_double_tap_seek_summary">Αγγίξτε δύο φορές στις άκρες της οθόνης για ανίχνευση 10 δευτερολέπτων</string>
+    <string name="enable_double_tap_play_title">Διπλό πάτημα για αναπαραγωγή/παύση</string>
+    <string name="enable_double_tap_play_summary">Διπλό πάτημα στο κέντρο της οθόνης για αναπαραγωγή ή παύση</string>
     <string name="popup_keepscreen_title">Διατήρηση της οθόνης αναμμένης κατά την αναδυόμενη λειτουργία</string>
     <string name="popup_keepscreen_summary">Πάντα διατήρηση της οθόνης αναμμένης κατά τη διάρκεια αναδυόμενης λειτουργίας, ακόμα και με το βίντεο σε παύση.</string>
     <string name="browser_show_hidden_files_title">Εμφάνιση κρυφών αρχείων</string>
@@ -424,6 +433,7 @@
     <string name="log_service_text">Άνοιγμα της κονσόλας καταγραφής</string>
     <string name="copy_to_clipboard">Αντιγραφή στο πρόχειρο</string>
     <string name="copied_to_clipboard">Η καταγραφή αντιγράφηκε στο πρόχειρο.</string>
+    <string name="copied_from_clipboard">Η διεύθυνση επικολλήθηκε από το πρόχειρό σας</string>
     <string name="dump_logcat">Αντιγραφή καταγραφών logcat</string>
     <string name="dump_logcat_success">Επιτυχής αντιγραφή logcat στο %1$s!</string>
     <string name="dump_logcat_failure">Αποτυχία αντιγραφής logcat.</string>
@@ -481,6 +491,12 @@
     <string name="widget_name_b">Σκούρο γραφικό στοιχείο VLC</string>
     <string name="allow_storage_access_title">Παραχώρηση πρόσβασης στα αρχεία βίντεο και ήχου από τον VLC</string>
     <string name="allow_storage_access_description">Το VLC χρειάζεται παραχώρηση πρόσβασης στα αρχεία πολυμέσων αυτής της συσκευής.</string>
+    <string name="allow_storage_manager_title">Επιτρέψτε στο VLC την πρόσβαση σε όλα τα αρχεία</string>
+    <string name="allow_storage_manager_description">%s\n\nΠαραχώρηση άδειας;</string>
+    <string name="allow_storage_manager_explanation">Για να αποκτήσετε όλες τις δυνατότητες του VLC και την υποστήριξη όλων των τύπων αρχείων πολυμέσων, σας προτείνουμε ανεπιφύλακτα να παραχωρήσετε αυτήν την άδεια.</string>
+    <string name="partial_content">Το VLC δεν μπορεί να έχει πρόσβαση σε όλα τα αρχεία σας</string>
+    <string name="partial_content_description">Ξεκινώντας με το Android 11, οι εφαρμογές χρειάζονται ειδική άδεια για πρόσβαση σε όλα τα αρχεία της συσκευής.\n\n%s</string>
+    <string name="never_ask_again">Να μην ερωτηθώ ξανά</string>
     <string name="allow_settings_access_ringtone_title">Επιτρέψτε στο VLC να ορίζει τον ήχο κλήσης</string>
     <string name="allow_settings_access_ringtone_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει αυτό το τραγούδι ως ήχο κλήσης.</string>
     <string name="allow_settings_access_brightness_title">Επιτρέψτε στο VLC να ορίσει το επίπεδο φωτεινότητας</string>
@@ -549,6 +565,7 @@
     <string name="existing_custom_set_save_message">Αποθήκευση συλλογής-ισοσταθμιστή ως...</string>
     <string name="new_custom_set_save_message">Αποθήκευση νέας συλλογής-ισοσταθμιστή ως...</string>
     <string name="save">Αποθήκευση</string>
+    <string name="saved">Αποθηκεύτηκε %s</string>
     <string name="do_not_save">Να μην αποθηκευτεί</string>
     <string name="custom_set_deleted_message">Η προσαρμοσμένη συλλογή-ισοσταθμιστή \"%1$s\" διαγράφηκε.</string>
     <string name="custom_set_wrong_input"> Μη έγκυρο όνομα.</string>
@@ -570,6 +587,7 @@
     <string name="audio_digital_failed">Αποτυχία αλλαγής κατάστασης σε ψηφιακή έξοδο ήχου</string>
     <string name="audio_digital_output_enabled">Ενεργοποιήθηκε η ψηφιακή έξοδος ήχου</string>
     <string name="audio_digital_output_disabled">Απενεργοποιήθηκε η ψηφιακή έξοδος ήχου</string>
+    <string name="audio_preferred_language">Προτιμώμενη γλώσσα ήχου</string>
     <string name="audio_digital_title">Ψηφιακή έξοδος ήχου (passthrough)</string>
     <string name="audio_task_cleared_title">Σταμάτημα κατά την εναλλαγή εφαρμογών</string>
     <string name="audio_task_cleared_summary">Σταμάτημα αναπαραγωγής κατά την απόρριψη της εφαρμογής</string>
@@ -793,10 +811,8 @@
     <string name="allow_otg">Παραχώρηση πρόσβασης OTG</string>
     <string name="allow_otg_description">Παρακαλούμε επιλέξτε τον οδηγό OTG στον οποίο θα παραχωρηθεί πρόσβαση από το VLC.</string>
     <string name="timeout_infinite">Απεριόριστο</string>
-    <string name="timeout_short">Σύντομο</string>
-    <string name="timeout_normal">Κανονικό</string>
-    <string name="timeout_long">Μεγάλο</string>
     <string name="video_hud_timeout">Χρόνος καθυστέρησης απόκρυψης επιλογών χειρισμού αναπαραγωγής βίντεο</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Αφαίρεση από το ιστορικό</string>
     <string name="prefersmbv1">Προτίμηση SMBv1</string>
     <string name="prefersmbv1_summary">Αποεπιλέξτε αυτή τη ρύθμιση εάν αντιμετωπίζετε δυσκολίες κατά την περιήγηση του διακομιστή SMB σας.</string>
@@ -822,11 +838,18 @@
     <string name="add_to_existing_playlist">Προσθήκη σε υπάρχουσα λίστα αναπαραγωγής</string>
     <string name="bookmarks_title">Σελιδοδείκτες</string>
     <string name="no_bookmark">Κανένας σελιδοδείκτης</string>
+    <string name="bookmark_default_name">Σελιδοδείκτης στο %s</string>
     <string name="bookmark_name">Προσθήκη σελιδοδείκτη: %s</string>
+    <string name="add_bookmark">Προσθήκη σελιδοδείκτη</string>
     <string name="optional_features">Προαιρετικά χαρακτηριστικά</string>
     <string name="optional_features_summary">Τα χαρακτηριστικά beta που ακόμα δοκιμάζονται ενδέχεται να περιέχουν σφάλματα</string>
     <string name="optional_features_warning">Αυτό το χαρακτηριστικό είναι στη φάση beta και μπορεί να δημιουργήσει αστάθειες και κολλήματα.</string>
+    <string name="network_indexing">Ευρετηρίαση δικτύου</string>
+    <string name="network_indexing_warning">Η ευρετηρίαση δικτύου βρίσκεται αυτήν τη στιγμή σε beta.\Γνωστά ζητήματα:\και• Αργή απόδοση\in\nΕάν αντιμετωπίζετε άλλα προβλήματα, αναφέρετέ τα στο φόρουμ μας.</string>
     <string name="start_vlc">Έναρξη VLC</string>
+    <string name="jump_delay">Χρονική καθυστέρηση εμπρός/πίσω</string>
+    <string name="long_jump_delay">Παρατεταμένο πάτημα για χρονική καθυστέρηση προς τα εμπρός/πίσω</string>
+    <string name="jump_delay_summary">%s δευτερόλεπτα</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Προσθήκη διπλότυπου(ων) στοιχείου(ων);</string>
@@ -839,6 +862,12 @@
     <string name="start">Έναρξη</string>
     <string name="permission">Άδεια</string>
     <string name="customize">Προσαρμογή</string>
+    <string name="selection_count">%s επιλεγμένο</string>
+    <string name="controls_setting">Ρυθμίσεις ελέγχου</string>
+    <string name="gestures">Χειρονομίες</string>
+    <string name="player_controls">Έλεγχος αναπαραγωγής</string>
+    <string name="video_double_tap_jump_delay">Χρονική καθυστέρηση με διπλό πάτημα</string>
+    <string name="video_key_jump_delay">Χρονική καθυστέρηση πλήκτρων πλοήγησης</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
         <item quantity="other">Αυτά τα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
