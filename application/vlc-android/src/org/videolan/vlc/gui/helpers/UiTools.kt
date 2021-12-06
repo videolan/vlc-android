@@ -422,6 +422,8 @@ object UiTools {
         startActivity(i)
     }
 
+    fun Context.isTablet() = resources.getBoolean(R.bool.is_tablet)
+
     fun getDefaultCover(context: Context, item: MediaLibraryItem): BitmapDrawable {
         return when (item.itemType) {
             MediaLibraryItem.TYPE_ARTIST -> getDefaultArtistDrawable(context)

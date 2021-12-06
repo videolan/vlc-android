@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.browser.MainBrowserFragment
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.util.getScreenWidth
@@ -160,8 +161,8 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
     override fun configurationChanged(size: Int) {
         navigationView.forEach {
             when (it) {
-                is BottomNavigationView -> if (size > 600.dp) it.setGone() else it.setVisible()
-                else -> if (size <= 600.dp) it.setGone() else it.setVisible()
+                is BottomNavigationView -> if (activity.isTablet()) it.setGone() else it.setVisible()
+                else -> if (!activity.isTablet()) it.setGone() else it.setVisible()
             }
         }
     }

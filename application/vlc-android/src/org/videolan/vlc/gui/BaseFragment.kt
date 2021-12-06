@@ -29,6 +29,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.KEY_IN_MEDIALIB
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.util.getScreenWidth
 
@@ -84,7 +85,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         val fabLarge = requireActivity().findViewById<FloatingActionButton>(R.id.fab_large)
         fab.setGone()
         fabLarge.setGone()
-        fabPlay = if (requireActivity().getScreenWidth() >= 600.dp) fabLarge else fab
+        fabPlay = if (requireActivity().isTablet()) fabLarge else fab
         visibility?.let { fabPlay?.visibility = it }
     }
 

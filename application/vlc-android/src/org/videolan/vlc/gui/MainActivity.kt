@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
@@ -81,7 +82,7 @@ class MainActivity : ContentActivity(),
 
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
         val view = super.getSnackAnchorView(overAudioPlayer)
-        return if (view?.id == android.R.id.content && getScreenWidth() < 600.dp) {if(overAudioPlayer) findViewById(android.R.id.content) else findViewById(R.id.appbar)} else view
+        return if (view?.id == android.R.id.content && !isTablet()) {if(overAudioPlayer) findViewById(android.R.id.content) else findViewById(R.id.appbar)} else view
     }
 
     @SuppressLint("SetTextI18n")
