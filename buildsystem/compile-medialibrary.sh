@@ -168,7 +168,7 @@ avlc_checkfail "medialibrary: build failed"
 
 cd ${SRC_DIR}
 
-MEDIALIBRARY_LDLIBS="$VLC_OUT_LDLIBS \
+MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
 -L${NDK_LIB_DIR} -lc++abi"
 

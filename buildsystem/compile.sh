@@ -336,22 +336,10 @@ compile() {
         AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
         avlc_build
 
-        $NDK_BUILD -C libvlc \
-            VLC_SRC_DIR="$VLC_SRC_DIR" \
-            VLC_BUILD_DIR="$VLC_BUILD_DIR" \
-            VLC_OUT_LDLIBS="$VLC_OUT_LDLIBS" \
-            APP_BUILD_SCRIPT=jni/Android.mk \
-            APP_PLATFORM=android-${ANDROID_API} \
-            APP_ABI=${ANDROID_ABI} \
-            NDK_PROJECT_PATH=jni \
-            NDK_TOOLCHAIN_VERSION=clang \
-            NDK_DEBUG=${NDK_DEBUG}
-
         if [ "$copy_tmp" = "--copy-tmp=libvlc" ];then
             cp -r $VLC_OUT_PATH/libs/${ANDROID_ABI} libvlc/jni/libs/${ANDROID_ABI} build/tmp
         fi
 
-        cp -a $VLC_OUT_PATH/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
         cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 
