@@ -63,6 +63,7 @@ import org.videolan.vlc.gui.helpers.PlayerBehavior
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
 import kotlin.math.max
@@ -449,6 +450,13 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             scanProgressText = findViewById(R.id.scan_progress_text)
             scanProgressBar = findViewById(R.id.scan_progress_bar)
         } else scanProgressLayout?.visibility = View.VISIBLE
+        vsc?.let {
+            val lp = it.layoutParams as CoordinatorLayout.LayoutParams
+            lp.anchorId = if (isTablet()) R.id.fragment_placeholder else R.id.navigation
+            lp.anchorGravity = if (isTablet()) Gravity.BOTTOM else Gravity.TOP
+            lp.marginStart = if (isTablet()) 72.dp else 0.dp
+            it.layoutParams = lp
+        }
         scanProgressText?.text = discovery
     }
 
