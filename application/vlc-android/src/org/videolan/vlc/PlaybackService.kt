@@ -891,10 +891,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         mediaButtonIntent.setClass(this, MediaButtonReceiver::class.java)
         val mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0)
         val mbrName = ComponentName(this, MediaButtonReceiver::class.java)
-
-        mediaSession = MediaSessionCompat(this, "VLC", mbrName, mbrIntent)
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-        mediaSession.setCallback(MediaSessionCallback(this))
+        val playbackState = PlaybackStateCompat.Builder()
+                .setActions(enabledActions)
+                .setState(PlaybackStateCompat.STATE_NONE, 0, 0f)
+                .build()
+        mediaSession = MediaSessionCompat(this, "VLC", mbrName, mbrIntent).apply {
+            setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+            setCallback(MediaSessionCallback(this@PlaybackService))
+            setPlaybackState(playbackState)
+        }
         try {
             mediaSession.isActive = true
         } catch (e: NullPointerException) {
