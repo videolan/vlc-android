@@ -6,6 +6,7 @@ cache:
         - gradlew
 
 default:
+  interruptible: true
   image: registry.videolan.org/vlc-debian-android:20210915065913
   tags:
     - amd64
