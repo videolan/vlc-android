@@ -6,7 +6,7 @@
     <application
         android:name=".VLCApplication"
         android:allowBackup="true"
-        android:appCategory="video"
+        android:appCategory="audio"
         android:banner="@drawable/banner"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
