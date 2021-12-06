@@ -38,6 +38,7 @@ import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
 import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
@@ -153,6 +154,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         const val ID_ROOT = "//${BuildConfig.APP_ID}/r"
         const val ID_MEDIA = "$ID_ROOT/media"
         const val ID_SEARCH = "$ID_ROOT/search"
+        const val ID_SUGGESTED = "$ID_ROOT/suggested"
         const val ID_NO_MEDIA = "$ID_ROOT/error/media"
         const val ID_NO_PLAYLIST = "$ID_ROOT/error/playlist"
 
@@ -175,6 +177,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         const val MAX_HISTORY_SIZE = 100
         const val MAX_COVER_ART_ITEMS = 50
         private const val MAX_EXTENSION_SIZE = 100
+        private const val MAX_SUGGESTED_SIZE = 15
         const val MAX_RESULT_SIZE = 800
 
         // Extensions management
@@ -399,6 +402,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         limitSize = true
                         list = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }?.toTypedArray()
                     }
+                    ID_SUGGESTED -> return buildSuggestions(context, parentId, ml)
                     else -> {
                         val id = ContentUris.parseId(parentIdUri)
                         when (parentIdUri.retrieveParent().toString()) {
@@ -494,6 +498,39 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         }
 
         /**
+         * This function constructs a list of suggestions to display in driving mode. A max of fifteen
+         * items are returned to the caller. The first item is always shuffle all.
+         */
+        private fun buildSuggestions(context: Context, parentId: String, ml: Medialibrary): List<MediaBrowserCompat.MediaItem> {
+            val audioCount = ml.audioCount
+            if (audioCount == 0) return emptyList()
+            /* Obtain the most recently played albums from history */
+            val albumNames = mutableSetOf<String>()
+            if (Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) {
+                val lastMediaPlayed = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }
+                if (!lastMediaPlayed.isNullOrEmpty()) for (mw in lastMediaPlayed) mw.album?.let { albumNames.add(it) }
+            }
+            /* Pad the end with recently added albums. We may end up dropping a few due to absent artwork. */
+            val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MAX_HISTORY_SIZE, 0)
+            if (!recentAudio.isNullOrEmpty()) for (mw in recentAudio) mw.album?.let { albumNames.add(it) }
+            /* Build the list of media items */
+            val results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()
+            val shuffleAllPath = Uri.Builder()
+                    .appendPath(ArtworkProvider.SHUFFLE_ALL)
+                    .appendPath(ArtworkProvider.computeExpiration())
+                    .appendPath("$audioCount")
+                    .build()
+            val shuffleAllMediaDesc = getPlayAllBuilder(context.resources, ID_SHUFFLE_ALL, R.string.shuffle_all_title, audioCount, shuffleAllPath).build()
+            results.add(MediaBrowserCompat.MediaItem(shuffleAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
+            /* Query albums by name */
+            val albums = mutableSetOf<Album>()
+            for (albumName in albumNames) ml.searchAlbum(albumName)?.let { albums.addAll(it.toList()) }
+            results.addAll(buildMediaItems(context, parentId, albums.toTypedArray(), null, limitSize = false, suggestionMode = true)
+                    .take((MAX_SUGGESTED_SIZE - results.size).coerceAtLeast(0)))
+            return results
+        }
+
+        /**
          * This function constructs a collection of MediaBrowserCompat.MediaItems for each applicable
          * array element in the MediaLibraryItems list passed from either the browse or search methods.
          *
@@ -506,7 +543,8 @@ class MediaSessionBrowser : ExtensionManagerActivity {
          * @param limitSize Limit the number of items returned (default is false)
          * @return List containing fully constructed MediaBrowser MediaItem
          */
-        private fun buildMediaItems(context: Context, parentId: String, list: Array<out MediaLibraryItem>?, groupTitle: String?, limitSize: Boolean = false): List<MediaBrowserCompat.MediaItem> {
+        private fun buildMediaItems(context: Context, parentId: String, list: Array<out MediaLibraryItem>?, groupTitle: String?,
+                                    limitSize: Boolean = false, suggestionMode: Boolean = false): List<MediaBrowserCompat.MediaItem> {
             if (list.isNullOrEmpty()) return emptyList()
             val res = context.resources
             val artworkToUriCache = HashMap<String, Uri>()
@@ -619,9 +657,14 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         .build()
 
                 /* Set Flags */
-                val flags = when (libraryItem.itemType) {
+                var flags = when (libraryItem.itemType) {
                     MediaLibraryItem.TYPE_MEDIA, MediaLibraryItem.TYPE_PLAYLIST -> MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
                     else -> MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+                }
+                /* Suggestions must be playable. Skip entries without artwork. */
+                if (suggestionMode) {
+                    flags = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+                    if (iconUri == null || iconUri.toString().startsWith(BASE_DRAWABLE_URI)) continue
                 }
                 results.add(MediaBrowserCompat.MediaItem(description, flags))
                 if ((limitSize && results.size == MAX_HISTORY_SIZE) || results.size == MAX_RESULT_SIZE) break

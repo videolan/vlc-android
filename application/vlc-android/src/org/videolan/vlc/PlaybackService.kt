@@ -1589,12 +1589,20 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
         AccessControl.logCaller(clientUid, clientPackageName)
-        return if (Permissions.canReadStorage(this@PlaybackService)) {
-            val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
-            extras.putBoolean(TABS_OPT_IN_HINT, true)
-            extras.putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
-            BrowserRoot(MediaSessionBrowser.ID_ROOT, extras)
-        } else null
+        if (!Permissions.canReadStorage(this@PlaybackService)) {
+            Log.w(TAG, "Returning null MediaBrowserService root. READ_EXTERNAL_STORAGE permission not granted.")
+            return null
+        }
+        return when {
+            rootHints?.containsKey(BrowserRoot.EXTRA_SUGGESTED) == true -> BrowserRoot(MediaSessionBrowser.ID_SUGGESTED, null)
+            else -> {
+                val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE).apply {
+                    putBoolean(TABS_OPT_IN_HINT, true)
+                    putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
+                }
+                BrowserRoot(MediaSessionBrowser.ID_ROOT, extras)
+            }
+        }
     }
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
