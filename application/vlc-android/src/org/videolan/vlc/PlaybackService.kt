@@ -1596,11 +1596,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         return when {
             rootHints?.containsKey(BrowserRoot.EXTRA_SUGGESTED) == true -> BrowserRoot(MediaSessionBrowser.ID_SUGGESTED, null)
             else -> {
+                val rootId = when(clientPackageName) {
+                    "com.google.android.googlequicksearchbox" -> MediaSessionBrowser.ID_ROOT_NO_TABS
+                    else -> MediaSessionBrowser.ID_ROOT
+                }
                 val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE).apply {
                     putBoolean(TABS_OPT_IN_HINT, true)
                     putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
                 }
-                BrowserRoot(MediaSessionBrowser.ID_ROOT, extras)
+                BrowserRoot(rootId, extras)
             }
         }
     }

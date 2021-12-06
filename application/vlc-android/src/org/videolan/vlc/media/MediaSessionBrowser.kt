@@ -78,7 +78,7 @@ import java.util.concurrent.Semaphore
  * The reduction of space consumed by the mediaId enables an increased number of records per page.
  *
  * Root node
- * //org.videolan.vlc/{r}oot
+ * //org.videolan.vlc/{r}oot[?{f}latten=1]
  * Root menu
  * //org.videolan.vlc/{r}oot/home
  * //org.videolan.vlc/{r}oot/playlist/<id>
@@ -152,6 +152,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         // Root item
         // MediaIds are all strings. Maintain in uri parsable format.
         const val ID_ROOT = "//${BuildConfig.APP_ID}/r"
+        const val ID_ROOT_NO_TABS = "$ID_ROOT?f=1"
         const val ID_MEDIA = "$ID_ROOT/media"
         const val ID_SEARCH = "$ID_ROOT/search"
         const val ID_SUGGESTED = "$ID_ROOT/suggested"
@@ -225,6 +226,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                 val parentIdUri = parentId.toUri()
                 val page = parentIdUri.getQueryParameter("p")
                 val pageOffset = page?.toInt()?.times(MAX_RESULT_SIZE) ?: 0
+                val flatten = parentIdUri.getBooleanQueryParameter("f", false)
                 when (parentIdUri.removeQuery().toString()) {
                     ID_ROOT -> {
                         //List of Extensions
@@ -257,13 +259,16 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                             }
                         }
                         //Home
-                        val homeMediaDesc = MediaDescriptionCompat.Builder()
-                                .setMediaId(ID_HOME)
-                                .setTitle(res.getString(R.string.auto_home))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_home}".toUri())
-                                .setExtras(getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
-                                .build()
-                        results.add(MediaBrowserCompat.MediaItem(homeMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+                        if (flatten) browse(context, ID_HOME, isShuffling)?.let { results.addAll(it) }
+                        else {
+                            val homeMediaDesc = MediaDescriptionCompat.Builder()
+                                    .setMediaId(ID_HOME)
+                                    .setTitle(res.getString(R.string.auto_home))
+                                    .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_home}".toUri())
+                                    .setExtras(getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
+                                    .build()
+                            results.add(MediaBrowserCompat.MediaItem(homeMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+                        }
                         //Playlists
                         val playlistMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_PLAYLIST)
@@ -273,12 +278,15 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(playlistMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //My library
-                        val libraryMediaDesc = MediaDescriptionCompat.Builder()
-                                .setMediaId(ID_LIBRARY)
-                                .setTitle(res.getString(R.string.auto_my_library))
-                                .setIconUri(MENU_AUDIO_ICON)
-                                .build()
-                        results.add(MediaBrowserCompat.MediaItem(libraryMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+                        if (flatten) browse(context, ID_LIBRARY, isShuffling)?.let { results.addAll(it) }
+                        else {
+                            val libraryMediaDesc = MediaDescriptionCompat.Builder()
+                                    .setMediaId(ID_LIBRARY)
+                                    .setTitle(res.getString(R.string.auto_my_library))
+                                    .setIconUri(MENU_AUDIO_ICON)
+                                    .build()
+                            results.add(MediaBrowserCompat.MediaItem(libraryMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+                        }
                         //Streams
                         val streamsMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_STREAM)
