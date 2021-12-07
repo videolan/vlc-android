@@ -47,11 +47,14 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.Settings
 import org.videolan.tools.WeakHandler
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.view.MiniVisualizer
@@ -138,6 +141,11 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             holder.binding.cover = defaultCoverAudio
         }
 
+        val tablet = holder.binding.itemDelete.context.isTablet()
+        if (tablet) holder.binding.itemDelete.setVisible() else holder.binding.itemDelete.setGone()
+        if (tablet) holder.binding.itemMoveDown.setVisible() else holder.binding.itemMoveDown.setGone()
+        if (tablet) holder.binding.itemMoveUp.setVisible() else holder.binding.itemMoveUp.setGone()
+
         holder.binding.executePendingBindings()
     }
 
@@ -214,12 +222,23 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             val position = layoutPosition
             player.onPopupMenu(v, position, getItem(position))
         }
+
+        fun onDeleteClick(v: View) {
+            onItemDismiss(layoutPosition)
+        }
+        fun onMoveUpClick(v: View) {
+            if (layoutPosition != 0) onItemMove(layoutPosition, layoutPosition - 1)
+        }
+
+        fun onMoveDownClick(v: View) {
+            if (layoutPosition != itemCount - 1) onItemMove(layoutPosition, layoutPosition + 1)
+        }
     }
 
-    private class PlaylistHandler internal constructor(owner: PlaylistAdapter) : WeakHandler<PlaylistAdapter>(owner) {
+    private class PlaylistHandler(owner: PlaylistAdapter) : WeakHandler<PlaylistAdapter>(owner) {
 
-        internal var from = -1
-        internal var to = -1
+        var from = -1
+        var to = -1
 
         override fun handleMessage(msg: Message) {
             when (msg.what) {
