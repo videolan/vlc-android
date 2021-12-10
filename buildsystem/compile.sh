@@ -277,9 +277,6 @@ if [ ! -d "gradle/wrapper" ]; then
     rm -rf gradle-${GRADLE_VERSION}-bin.zip
 fi
 
-if [ "$GRADLE_SETUP" = 1 ]; then
-    exit 0
-fi
 ####################
 # Fetch VLC source #
 ####################
@@ -319,6 +316,12 @@ else
         check_patch_is_applied "$patch_file"
     done
     cd ..
+fi
+
+# Always clone VLC when using --init since we'll need to package some files
+# during the final assembly (lua/hrtfs/..)
+if [ "$GRADLE_SETUP" = 1 ]; then
+    exit 0
 fi
 
 ############
