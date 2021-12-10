@@ -28,7 +28,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/app_name_full"
                 android:textAlignment="center"
                 android:textColor="?attr/about_text_primary"
@@ -65,6 +65,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/background_default_darker"
                 app:cardCornerRadius="4dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView26"
@@ -73,7 +74,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:orientation="horizontal">
 
                 <TextView
@@ -121,7 +122,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="52dp">
 
                 <ImageView
                         android:id="@+id/imageView13"
@@ -189,7 +190,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -242,7 +243,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -296,7 +297,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -348,7 +349,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -400,7 +401,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -443,6 +444,7 @@
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
                 android:focusable="true"
+                app:cardElevation="0dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="?attr/background_default_darker"
                 app:cardCornerRadius="4dp"
