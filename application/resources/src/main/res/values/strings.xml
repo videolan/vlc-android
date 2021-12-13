@@ -225,6 +225,7 @@
     <string name="tap">Tap to view</string>
     <string name="tap_to_remove">Tap to remove</string>
     <string name="tap_to_rearrange">Tap to rearrange</string>
+    <string name="tap_to_previous_next">Tap to go to previous/next</string>
     <string name="lock_orientation">Orientation</string>
     <string name="lock_orientation_description">Tap to lock/unlock orientation</string>
     <string name="aspect_ratio">Aspect ratio</string>
