@@ -109,6 +109,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
+    private lateinit var browserCallback: MediaBrowserCallback
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
@@ -119,6 +120,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private var lastLength = 0L
     private var lastChapter = 0
     private var lastChaptersCount = 0
+    private var lastParentId = ""
     private var widget = 0
     /**
      * Last widget position update timestamp
@@ -551,6 +553,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         medialibrary = Medialibrary.getInstance()
         artworkMap = HashMap<String,Uri>()
 
+        browserCallback = MediaBrowserCallback(this)
+        browserCallback.registerMediaCallback { if (lastParentId.isNotEmpty()) notifyChildrenChanged(lastParentId) }
+        browserCallback.registerHistoryCallback {
+            when (lastParentId) {
+                MediaSessionBrowser.ID_HOME, MediaSessionBrowser.ID_HISTORY -> notifyChildrenChanged(lastParentId)
+            }
+        }
+
         detectHeadset = settings.getBoolean("enable_headset_detection", true)
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
@@ -651,6 +661,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
+        browserCallback.removeCallbacks()
         if (this::mediaSession.isInitialized) mediaSession.release()
         //Call it once mediaSession is null, to not publish playback state
         stop(systemExit = true)
@@ -1611,6 +1622,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
+        lastParentId = parentId
         lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             awaitMedialibraryStarted()
             lifecycleScope.launch(Dispatchers.IO) {

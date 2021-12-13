@@ -160,7 +160,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         const val ID_NO_PLAYLIST = "$ID_ROOT/error/playlist"
 
         // Top-level menu
-        private const val ID_HOME = "$ID_ROOT/home"
+        const val ID_HOME = "$ID_ROOT/home"
         const val ID_PLAYLIST = "$ID_ROOT/playlist"
         private const val ID_LIBRARY = "$ID_ROOT/l"
         const val ID_STREAM = "$ID_ROOT/stream"
