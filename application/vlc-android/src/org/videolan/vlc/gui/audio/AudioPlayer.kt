@@ -68,6 +68,7 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
@@ -228,6 +229,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.songSubtitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
     }
 
+    fun isTablet() = requireActivity().isTablet()
+
     fun showChips() {
         if (playlistModel.speed.value == 1.0F && PlayerOptionsDelegate.playerSleepTime.value == null) {
             binding.playbackChips.setGone()
@@ -323,6 +326,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         val drawable = if (playing) playToPause else pauseToPlay
         val drawableSmall = if (playing) playToPauseSmall else pauseToPlaySmall
         binding.playPause.setImageDrawable(drawable)
+        binding.headerLargePlayPause.setImageDrawable(drawable)
         binding.headerPlayPause.setImageDrawable(drawableSmall)
         if (playing != wasPlaying) {
             drawable.start()
@@ -338,11 +342,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private var wasShuffling = false
     private fun updateShuffleMode() {
         val ctx = context ?: return
-        binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
+        val shuffleButtons = arrayOf(binding.shuffle, binding.headerShuffle)
+        shuffleButtons.forEach { it.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE }
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
-        binding.shuffle.setImageResource(if (shuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle_audio)
-        binding.shuffle.contentDescription = ctx.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
+        shuffleButtons.forEach {
+            it.setImageResource(if (shuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle_audio)
+            it.contentDescription = ctx.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
+        }
         wasShuffling = shuffling
     }
 
@@ -353,16 +360,22 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         if (previousRepeatType == repeatType) return
         when (repeatType) {
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
-                binding.repeat.setImageResource(R.drawable.ic_repeat_one_audio)
-                binding.repeat.contentDescription = ctx.getString(R.string.repeat_single)
+                arrayOf(binding.repeat, binding.headerRepeat).forEach {
+                    it.setImageResource(R.drawable.ic_repeat_one_audio)
+                    it.contentDescription = ctx.getString(R.string.repeat_single)
+                }
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                binding.repeat.setImageResource(R.drawable.ic_repeat_all_audio)
-                binding.repeat.contentDescription = ctx.getString(R.string.repeat_all)
+                arrayOf(binding.repeat, binding.headerRepeat).forEach {
+                    it.setImageResource(R.drawable.ic_repeat_all_audio)
+                    it.contentDescription = ctx.getString(R.string.repeat_all)
+                }
             }
             else -> {
-                binding.repeat.setImageResource(R.drawable.ic_repeat_audio)
-                binding.repeat.contentDescription = ctx.getString(R.string.repeat)
+                arrayOf(binding.repeat, binding.headerRepeat).forEach {
+                    it.setImageResource(R.drawable.ic_repeat_audio)
+                    it.contentDescription = ctx.getString(R.string.repeat)
+                }
             }
         }
         previousRepeatType = repeatType
