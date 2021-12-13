@@ -42,16 +42,25 @@ import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import kotlinx.android.synthetic.main.audio_player_tips.*
 import kotlinx.android.synthetic.main.audio_playlist_tips.*
+import kotlinx.android.synthetic.main.audio_playlist_tips.helpDescription
+import kotlinx.android.synthetic.main.audio_playlist_tips.helpTitle
+import kotlinx.android.synthetic.main.audio_playlist_tips.nextButton
+import kotlinx.android.synthetic.main.audio_playlist_tips.tapGestureHorizontal
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
 
@@ -113,7 +122,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
         }
 
         activity.audioPlaylistTips.setVisible()
-        next()
+        activity.lifecycleScope.launch(Dispatchers.Main) { next() }
     }
 
     private fun getItemColor(): Int {
@@ -257,12 +266,23 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
         when (currentTip) {
             AudioPlaylistTipsStep.REMOVE -> {
-                constraintSet.setVisibility(R.id.tap_gesture_horizontal_background, View.VISIBLE)
-                constraintSet.setVisibility(R.id.tapGestureHorizontal, View.VISIBLE)
-                currentAnimations.clear()
-                currentAnimations.add(TipsUtils.horizontalSwipe(activity.tapGestureHorizontal) {
-                    secondItemBinding.itemContainer.translationX = (it.animatedValue as Float) * 4
-                })
+                if (activity.isTablet()){
+                    val indicatorY = secondItemBinding.itemContainer.top + (secondItemBinding.itemContainer.height / 2) - 24.dp
+                    constraintSet.setMargin(R.id.tapIndicatorRearrange, ConstraintSet.TOP, indicatorY)
+                    currentAnimations.clear()
+                    constraintSet.setVisibility(R.id.tapIndicatorRearrange, View.VISIBLE)
+                    val indicatorX = secondItemBinding.itemDelete.left + (secondItemBinding.itemDelete.width / 2) - 24.dp
+                    constraintSet.setMargin(R.id.tapIndicatorRearrange, ConstraintSet.START, indicatorX)
+                    constraintSet.clear(R.id.tapIndicatorRearrange, ConstraintSet.END)
+                    TipsUtils.startTapAnimation(listOf(activity.tapIndicatorRearrange))
+                } else {
+                    constraintSet.setVisibility(R.id.tap_gesture_horizontal_background, View.VISIBLE)
+                    constraintSet.setVisibility(R.id.tapGestureHorizontal, View.VISIBLE)
+                    currentAnimations.clear()
+                    currentAnimations.add(TipsUtils.horizontalSwipe(activity.tapGestureHorizontal) {
+                        secondItemBinding.itemContainer.translationX = (it.animatedValue as Float) * 4
+                    })
+                }
             }
             AudioPlaylistTipsStep.REARRANGE -> {
                 secondItemBinding.itemContainer.translationX = 0F
@@ -274,7 +294,12 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
                 val indicatorY = thirdItemBinding.itemContainer.top + (thirdItemBinding.itemContainer.height / 2) - 24.dp
                 constraintSet.setMargin(R.id.tapIndicatorRearrange, ConstraintSet.TOP, indicatorY)
                 currentAnimations.clear()
-                currentAnimations.add(dragAndDrop(activity.tapIndicatorRearrange, thirdItemBinding.itemContainer))
+                if (activity.isTablet()){
+                    val indicatorX = thirdItemBinding.itemMoveUp.left + (thirdItemBinding.itemMoveUp.width / 2) - 24.dp
+                    constraintSet.setMargin(R.id.tapIndicatorRearrange, ConstraintSet.START, indicatorX)
+                    constraintSet.clear(R.id.tapIndicatorRearrange, ConstraintSet.END)
+                    TipsUtils.startTapAnimation(listOf(activity.tapIndicatorRearrange))
+                } else currentAnimations.add(dragAndDrop(activity.tapIndicatorRearrange, thirdItemBinding.itemContainer))
 
             }
             AudioPlaylistTipsStep.SEEK -> {
@@ -297,7 +322,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
         constraintSet.applyTo(activity.audioPlaylistTips)
 
         activity.helpTitle.setText(currentTip!!.titleText)
-        activity.helpDescription.setText(currentTip!!.descriptionText)
+        activity.helpDescription.setText(if (activity.isTablet()) currentTip!!.descriptionTextTablet else currentTip!!.descriptionText)
     }
 
     /**
@@ -329,10 +354,10 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
  * @param titleText: the string resource to display in the title [TextView]
  * @param descriptionText: the string resource to display in the description [TextView]
  */
-enum class AudioPlaylistTipsStep(@StringRes var titleText: Int, @StringRes var descriptionText: Int) {
-    REMOVE(R.string.remove_song, R.string.tips_swipe_horizontal),
-    REARRANGE(R.string.rearrange_order, R.string.tips_long_drop),
-    SEEK(R.string.seek, R.string.tips_hold_seek);
+enum class AudioPlaylistTipsStep(@StringRes var titleText: Int, @StringRes var descriptionText: Int, @StringRes var descriptionTextTablet: Int) {
+    REMOVE(R.string.remove_song, R.string.tips_swipe_horizontal, R.string.tap_to_remove),
+    REARRANGE(R.string.rearrange_order, R.string.tips_long_drop, R.string.tap_to_rearrange),
+    SEEK(R.string.seek, R.string.tips_hold_seek, R.string.tips_hold_seek);
 
     /**
      * @return the next step
