@@ -724,4 +724,12 @@
 
     </style>
 
+        <style name="About"/>
+        <style name="About.Title">
+            <item name="android:textSize">16sp</item>
+            <item name="android:textColor">?attr/font_default</item>
+            <item name="android:fontFamily">sans-serif-medium</item>
+
+        </style>
+
 </resources>
