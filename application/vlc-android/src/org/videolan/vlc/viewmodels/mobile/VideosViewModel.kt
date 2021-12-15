@@ -87,8 +87,8 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
-                is Folder -> item.getAll()
-                is VideoGroup -> item.getAll()
+                is Folder -> item.getAll(includeMissing = false)
+                is VideoGroup -> item.getAll(includeMissing = false)
                 is MediaWrapper -> listOf(item)
                 else -> null
             }
@@ -99,15 +99,15 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
-                is Folder -> item.getAll()
-                is VideoGroup -> item.getAll()
+                is Folder -> item.getAll(includeMissing = false)
+                is VideoGroup -> item.getAll(includeMissing = false)
                 else -> null
             }
         }?.let { MediaUtils.appendMedia(context, it) }
     }
 
     internal fun playFoldersSelection(selection: List<Folder>) = viewModelScope.launch {
-        val list = selection.flatMap { it.getAll() }
+        val list = selection.flatMap { it.getAll(includeMissing = false) }
         MediaUtils.openList(context, list, 0)
     }
 
@@ -115,15 +115,15 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
-                is Folder -> item.getAll()
-                is VideoGroup -> item.getAll()
+                is Folder -> item.getAll(includeMissing = false)
+                is VideoGroup -> item.getAll(includeMissing = false)
                 else -> null
             }
         }?.let { if (activity.isStarted()) activity.addToPlaylist(it) }
     }
 
     internal fun appendFoldersSelection(selection: List<Folder>) = viewModelScope.launch {
-        val list = selection.flatMap { it.getAll() }
+        val list = selection.flatMap { it.getAll(includeMissing = false) }
         MediaUtils.appendMedia(context, list)
     }
 
