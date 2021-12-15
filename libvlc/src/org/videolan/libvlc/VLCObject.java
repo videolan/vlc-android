@@ -29,8 +29,6 @@ import org.videolan.libvlc.interfaces.AbstractVLCEvent;
 import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.interfaces.IVLCObject;
 
-import java.lang.ref.WeakReference;
-
 @SuppressWarnings("JniMissingFunction")
 abstract class VLCObject<T extends AbstractVLCEvent> implements IVLCObject<T> {
     private AbstractVLCEvent.Listener<T> mEventListener = null;
@@ -178,19 +176,6 @@ abstract class VLCObject<T extends AbstractVLCEvent> implements IVLCObject<T> {
             mHandler.post(new EventRunnable(mEventListener, event));
     }
     private native void nativeDetachEvents();
-
-    /* used only before API 7: substitute for NewWeakGlobalRef */
-    @SuppressWarnings("unused") /* Used from JNI */
-    private Object getWeakReference() {
-        return new WeakReference<IVLCObject>(this);
-    }
-    @SuppressWarnings("unchecked,unused") /* Used from JNI */
-    private static void dispatchEventFromWeakNative(Object weak, int eventType, long arg1, long arg2,
-                                                    float argf1, @Nullable String args1) {
-        VLCObject obj = ((WeakReference<VLCObject>)weak).get();
-        if (obj != null)
-            obj.dispatchEventFromNative(eventType, arg1, arg2, argf1, args1);
-    }
 
     public native long getInstance();
 }
