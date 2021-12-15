@@ -127,7 +127,7 @@ class MainActivity : ContentActivity(),
         super.onStart()
         if (mediaLibrary.isInitiated) {
             /* Load media items from database and storage */
-            if (scanNeeded && Permissions.canReadStorage(this)) this.reloadLibrary()
+            if (scanNeeded && Permissions.canReadStorage(this) && !mediaLibrary.isWorking) this.reloadLibrary()
         }
     }
 
