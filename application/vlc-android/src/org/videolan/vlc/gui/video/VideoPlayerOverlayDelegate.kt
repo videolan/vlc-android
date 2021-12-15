@@ -391,7 +391,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
-                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else Settings.videoHudDelay)
+                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else Settings.videoHudDelay * 1000)
                 })
                 service.playlistManager.abRepeatOn.observe(player, {
                     abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
@@ -472,7 +472,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.orientationToggle.setOnClickListener(if (enabled) player else null)
             hudBinding.orientationToggle.setOnLongClickListener(if (enabled) player else null)
             hudBinding.swipeToUnlock.setOnStartTouchingListener { showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE) }
-            hudBinding.swipeToUnlock.setOnStopTouchingListener { showOverlayTimeout(Settings.videoHudDelay) }
+            hudBinding.swipeToUnlock.setOnStopTouchingListener { showOverlayTimeout(Settings.videoHudDelay * 1000) }
             hudBinding.swipeToUnlock.setOnUnlockListener { player.toggleLock() }
         }
         if (::hudRightBinding.isInitialized){
@@ -808,7 +808,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 bookmarkListDelegate.markerContainer = hudBinding.bookmarkMarkerContainer
                 bookmarkListDelegate.visibilityListener = {
                     if (bookmarkListDelegate.visible) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
-                    else showOverlayTimeout(Settings.videoHudDelay)
+                    else showOverlayTimeout(Settings.videoHudDelay * 1000)
                 }
             }
             bookmarkListDelegate.show()

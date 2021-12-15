@@ -939,7 +939,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             return false
         }
         if (isShowing || fov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !overlayDelegate.playlistContainer.isVisible())
-            overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
+            overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
         when (keyCode) {
             KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
                 touchDelegate.seekDelta(Settings.videoDoubleTapJumpDelay * 1000)
@@ -989,7 +989,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(-300000)
@@ -1010,7 +1010,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
                 } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(300000)
@@ -1031,7 +1031,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
                 } else if (event.isCtrlPressed) {
                     volumeUp()
                     return true
@@ -1047,7 +1047,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
                 } else if (event.isCtrlPressed) {
                     volumeDown()
                     return true
@@ -1060,7 +1060,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
-                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay)
+                    overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
                 } else if (!isShowing) {
                     doPlayPause()
                     return true
@@ -1396,7 +1396,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updateOverlayPausePlay()
         updateNavStatus()
         if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
-            handler.sendEmptyMessageDelayed(FADE_OUT, Settings.videoHudDelay.toLong())
+            handler.sendEmptyMessageDelayed(FADE_OUT, Settings.videoHudDelay.toLong() * 1000)
         else {
             mw.removeFlags(MediaWrapper.MEDIA_PAUSED)
             wasPaused = false
