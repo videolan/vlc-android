@@ -1,6 +1,7 @@
 package org.videolan.vlc.media
 
 import android.content.Intent
+import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.widget.Toast
@@ -122,7 +123,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (mediaWrapper === null) {
                         if (!location.validateLocation()) {
                             Log.w(TAG, "Invalid location $location")
-                            service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
+                            service.showToast(if (Uri.parse(location).scheme == "missing")service.resources.getString(R.string.missing_location) else service.resources.getString(R.string.invalid_location,  location), Toast.LENGTH_SHORT)
                             continue
                         }
                         Log.v(TAG, "Creating on-the-fly Media object for $location")
@@ -963,7 +964,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
                 MediaPlayer.Event.EncounteredError -> {
-                    service.showToast(service.getString(
+                    Log.w(TAG, "Invalid location ${getCurrentMedia()?.location}")
+
+                    service.showToast(if (Uri.parse(getCurrentMedia()?.location).scheme == "missing") service.getString(R.string.missing_location) else service.getString(
                             R.string.invalid_location,
                             getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT, true)
                     if (currentIndex != nextIndex) next() else stop()
