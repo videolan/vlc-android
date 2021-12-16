@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -17,6 +18,10 @@
         <variable
                 name="media"
                 type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
+
+        <variable
+            name="isNetwork"
+            type="boolean" />
 
         <variable
                 name="cover"
@@ -74,6 +79,20 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:media="@{media}" />
+
+            <ImageView
+                android:id="@+id/network_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isNetwork &amp;&amp; media.isPresent ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintBottom_toBottomOf="@+id/song_marker"
+                vlc:layout_constraintStart_toStartOf="@+id/song_marker"
+                vlc:layout_goneMarginBottom="4dp"
+                vlc:srcCompat="@drawable/ic_network_media" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
