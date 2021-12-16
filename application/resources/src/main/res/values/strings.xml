@@ -202,6 +202,7 @@
     <string name="encountered_error_title">Playback error</string>
     <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
     <string name="invalid_location">The location %1$s cannot be played.</string>
+    <string name="missing_location">This media is from a unavailable storage and cannot be played.</string>
 
     <string name="search">Search</string>
 

@@ -58,7 +58,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     try {
         mrl = vlcNewStringUTF(env, files.at(0)->mrl().c_str());
     } catch(const medialibrary::fs::errors::DeviceRemoved&) {
-        return {};
+        mrl = vlcNewStringUTF(env, "missing://");
     }
     auto thumbnailStr = mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail);
     if (!thumbnailStr.empty())
