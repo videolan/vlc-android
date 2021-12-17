@@ -343,7 +343,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private fun updateShuffleMode() {
         val ctx = context ?: return
         val shuffleButtons = arrayOf(binding.shuffle, binding.headerShuffle)
-        shuffleButtons.forEach { it.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE }
+        binding.canShuffle = playlistModel.canShuffle
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
         shuffleButtons.forEach {

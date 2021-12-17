@@ -18,6 +18,10 @@
         <variable
                 name="ab_repeat_b"
                 type="Float" />
+
+        <variable
+                name="can_shuffle"
+                type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +108,7 @@
                     android:focusable="true"
                     android:onClick="@{fragment::onShuffleClick}"
                     android:padding="8dp"
-                    android:visibility="@{fragment.isTablet() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{fragment.isTablet() &amp;&amp; can_shuffle ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/header_large_play_pause"
                     app:layout_constraintEnd_toStartOf="@+id/header_previous"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -624,6 +628,7 @@
                 android:elevation="4dp"
                 android:focusable="true"
                 android:onClick="@{fragment::onShuffleClick}"
+                android:visibility="@{can_shuffle ? View.VISIBLE : View.INVISIBLE}"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
                 app:layout_constraintEnd_toStartOf="@+id/previous"
