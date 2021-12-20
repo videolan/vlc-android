@@ -53,7 +53,7 @@ class PreferencesActivity : BaseActivity() {
     private val searchRequestCode = 167
     private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

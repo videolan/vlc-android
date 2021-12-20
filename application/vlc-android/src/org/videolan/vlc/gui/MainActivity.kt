@@ -78,9 +78,9 @@ class MainActivity : ContentActivity(),
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
 
-    override fun getSnackAnchorView(): View? {
-        val view = super.getSnackAnchorView()
-        return if (view?.id == android.R.id.content) findViewById(R.id.appbar) else view
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
+        val view = super.getSnackAnchorView(overAudioPlayer)
+        return if (view?.id == android.R.id.content) {if(overAudioPlayer) findViewById(android.R.id.content) else findViewById(R.id.appbar)} else view
     }
 
     @SuppressLint("SetTextI18n")

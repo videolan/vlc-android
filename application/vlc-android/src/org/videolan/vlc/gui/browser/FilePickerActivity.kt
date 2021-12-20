@@ -39,7 +39,7 @@ import kotlin.reflect.jvm.jvmName
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class FilePickerActivity : BaseActivity() {
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     /**
      * Forces the dark theme if the dialog is opened from the VideoPlayerActivity

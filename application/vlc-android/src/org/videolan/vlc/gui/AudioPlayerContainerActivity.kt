@@ -116,7 +116,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     var bottomIsHiddden: Boolean = false
 
-    override fun getSnackAnchorView(): View? {
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
       return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
           audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else if (::playerBehavior.isInitialized) findViewById(R.id.coordinator) else findViewById(android.R.id.content)
     }

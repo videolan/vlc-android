@@ -47,7 +47,7 @@ class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdap
     private lateinit var viewmodel: PreferenceSearchModel
     private lateinit var adapter: PreferenceItemAdapter
 
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

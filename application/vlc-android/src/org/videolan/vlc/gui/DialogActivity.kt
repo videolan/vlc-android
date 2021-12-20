@@ -37,7 +37,7 @@ import org.videolan.vlc.util.showVlcDialog
 
 @ExperimentalCoroutinesApi
 class DialogActivity : BaseActivity() {
-    override fun getSnackAnchorView(): View? = findViewById<View>(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById<View>(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

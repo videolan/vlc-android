@@ -30,7 +30,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
     private lateinit var medialibrary: Medialibrary
     private lateinit var binding: SearchActivityBinding
     private val clickHandler = ClickHandler()
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

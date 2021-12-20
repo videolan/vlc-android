@@ -271,7 +271,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     val mw = playlistAdapter.getItem(position)
                     val cancelAction = Runnable { playlistModel.insertMedia(position, mw) }
                     val message = String.format(getString(R.string.remove_playlist_item), mw.title)
-                    UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
+                    UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction,true)
                     playlistModel.remove(position)
                 }
                 CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
@@ -478,9 +478,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onPlayPauseClick(view: View?) {
         if (playlistModel.service?.isPausable == false) {
-            UiTools.snackerConfirm(requireActivity(), getString(R.string.stop_unpaubale)) {
+            UiTools.snackerConfirm(requireActivity(), getString(R.string.stop_unpaubale), {
                 playlistModel.stop()
-            }
+            },true)
             return
         }
         playlistModel.togglePlayPause()
@@ -492,7 +492,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onNextClick(view: View?) {
-        if (!playlistModel.next()) UiTools.snacker(requireActivity(), R.string.lastsong)
+        if (!playlistModel.next()) UiTools.snacker(requireActivity(), R.string.lastsong,true)
     }
 
     fun onPreviousClick(view: View?) {
