@@ -265,9 +265,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         }
-        if (repeating == PlaybackStateCompat.REPEAT_MODE_ONE) {
-            mediaList.getMedia(currentIndex)?.addFlags(MediaWrapper.MEDIA_FROM_START)
-        }
         launch { playIndex(currentIndex) }
     }
 
@@ -944,6 +941,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.EndReached -> {
                     clearABRepeat()
+                    getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_FROM_START)
                     if (currentIndex != nextIndex) {
                         saveMediaMeta()
                         if (isBenchmark) player.setPreviousStats()
