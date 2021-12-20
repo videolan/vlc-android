@@ -87,7 +87,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/equalizer_preamp" />
 
-            <SeekBar
+            <com.google.android.material.slider.Slider
                     android:id="@+id/equalizer_preamp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -96,6 +96,11 @@
                     android:layout_marginEnd="8dp"
                     android:maxHeight="4dip"
                     android:minHeight="4dip"
+                    android:valueFrom="-20"
+                    android:valueTo="20"
+                    android:stepSize="1"
+                    app:tickVisible="false"
+                    android:contentDescription="@string/preamp"
                     android:progressDrawable="@drawable/po_seekbar"
                     android:splitTrack="false"
                     android:thumb="@drawable/ic_seekbar_thumb"
