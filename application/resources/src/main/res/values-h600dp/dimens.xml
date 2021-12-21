@@ -2,6 +2,6 @@
 <resources>
     <dimen name="subs_dl_dialog_height">448dp</dimen>
     <dimen name="audio_player_seekbar_bottom_margin">32dp</dimen>
-    <dimen name="toolbar_height">-2px</dimen>
+    <dimen name="toolbar_height">40dp</dimen>
     <dimen name="tab_layout_height">-2px</dimen>
 </resources>
