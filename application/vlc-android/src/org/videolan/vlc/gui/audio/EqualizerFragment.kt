@@ -38,6 +38,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.slider.Slider
+import kotlinx.android.synthetic.main.vlc_login_dialog.*
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
@@ -385,21 +386,19 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
         if (getEqualizerType(oldPos) == TYPE_CUSTOM) {
 
             val savedEqualizerSet = VLCOptions.getCustomSet(requireActivity(), oldName) ?: return
-            val cancelAction = Runnable {
-                VLCOptions.saveCustomSet(requireActivity(), savedEqualizerSet, oldName)
-                equalizer = savedEqualizerSet
-                allSets.add(oldPos, oldName)
-                customCount++
-                binding.equalizerPresets.setSelection(oldPos)
-            }
-
             VLCOptions.deleteCustomSet(requireActivity(), oldName)
             allSets.remove(oldName)
             customCount--
             state.update(0, true)
             binding.equalizerPresets.setSelection(0)
             val message = getString(R.string.custom_set_deleted_message, oldName)
-            UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
+            UiTools.snackerWithCancel(requireActivity(), message, action = {}) {
+                VLCOptions.saveCustomSet(requireActivity(), savedEqualizerSet, oldName)
+                equalizer = savedEqualizerSet
+                allSets.add(oldPos, oldName)
+                customCount++
+                binding.equalizerPresets.setSelection(oldPos)
+            }
         }
     }
 
@@ -411,15 +410,6 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
         for (i in 0 until MediaPlayer.Equalizer.getBandCount())
             temporarySet.setAmp(i, equalizer.getAmp(i))
 
-        val cancelAction = Runnable {
-            state.update(pos, false)
-            equalizer = temporarySet
-            updateAlreadyHandled = true
-            if (pos == revertPos)
-                updateEqualizer(pos)
-            else
-                binding.equalizerPresets.setSelection(pos)
-        }
         state.update(revertPos, true)
         if (pos == revertPos)
             updateEqualizer(revertPos)
@@ -430,7 +420,15 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             getString(R.string.custom_set_restored)
         else
             getString(R.string.unsaved_set_deleted_message)
-        UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
+        UiTools.snackerWithCancel(requireActivity(), message, action = {}) {
+            state.update(pos, false)
+            equalizer = temporarySet
+            updateAlreadyHandled = true
+            if (pos == revertPos)
+                updateEqualizer(pos)
+            else
+                binding.equalizerPresets.setSelection(pos)
+        }
     }
 
     private fun updateEqualizer(pos: Int) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {

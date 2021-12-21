@@ -219,27 +219,15 @@ object UiTools {
         return DEFAULT_COVER_FOLDER_DRAWABLE_BIG!!
     }
 
-    private fun getSnackAnchorView(activity: Activity, overAudioPlayer:Boolean = false)=
-        if (activity is BaseActivity && activity.getSnackAnchorView(overAudioPlayer) != null) activity.getSnackAnchorView(overAudioPlayer) else activity.findViewById(android.R.id.content)
+    private fun getSnackAnchorView(activity: Activity, overAudioPlayer: Boolean = false) =
+            if (activity is BaseActivity && activity.getSnackAnchorView(overAudioPlayer) != null) activity.getSnackAnchorView(overAudioPlayer) else activity.findViewById(android.R.id.content)
 
     /**
      * Print an on-screen message to alert the user
      */
-    fun snacker(activity:Activity, stringId: Int) {
-        val view = getSnackAnchorView(activity) ?: return
+    fun snacker(activity: Activity, stringId: Int, overAudioPlayer: Boolean = false) {
+        val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         val snack = Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT)
-//        snack.setAnchorView()
-                snack.show()
-    }
-
-    /**
-     * forces snackbar to display over audio player
-     * Print an on-screen message to alert the user
-     */
-    fun snacker(activity:Activity, stringId: Int,overAudioPlayer:Boolean = false) {
-        val view = getSnackAnchorView(activity,overAudioPlayer) ?: return
-        val snack = Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT)
-//        snack.setAnchorView()
         snack.show()
     }
 
@@ -259,24 +247,10 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerConfirm(activity:Activity, message: String, action: Runnable) {
-        val view = getSnackAnchorView(activity) ?: return
+    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, action: () -> Unit) {
+        val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                .setAction(R.string.ok) { action.run() }
-        if (AndroidUtil.isLolliPopOrLater)
-            snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
-        snack.show()
-    }
-
-    /**
-     * forces snackbar to display over audio player
-     * Print an on-screen message to alert the user, with undo action
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerConfirm(activity:Activity, message: String, action: Runnable,overAudioPlayer:Boolean = false) {
-        val view = getSnackAnchorView(activity,overAudioPlayer) ?: return
-        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                .setAction(R.string.ok) { action.run() }
+                .setAction(R.string.ok) { action.invoke() }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
@@ -297,39 +271,17 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerWithCancel(activity:Activity, message: String, action: Runnable?, cancelAction: Runnable?) {
-        val view = getSnackAnchorView(activity) ?: return
+    fun snackerWithCancel(activity: Activity, message: String, overAudioPlayer: Boolean = false, action: () -> Unit, cancelAction: () -> Unit) {
+        val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         @SuppressLint("WrongConstant") val snack = Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(R.string.cancel) {
-                    if (action != null)
-                        sHandler.removeCallbacks(action)
-                    cancelAction?.run()
+                    sHandler.removeCallbacks(action)
+                    cancelAction.invoke()
                 }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
-        if (action != null)
-            sHandler.postDelayed(action, DELETE_DURATION.toLong())
-    }
-
-    /**
-     * forces snackbar to display over audio player
-     * Print an on-screen message to alert the user, with undo action
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerWithCancel(activity:Activity, message: String, action: Runnable?, cancelAction: Runnable?,overAudioPlayer:Boolean = false) {
-        val view = getSnackAnchorView(activity,overAudioPlayer) ?: return
-        @SuppressLint("WrongConstant") val snack = Snackbar.make(view, message, DELETE_DURATION)
-                .setAction(R.string.cancel) {
-                    if (action != null)
-                        sHandler.removeCallbacks(action)
-                    cancelAction?.run()
-                }
-        if (AndroidUtil.isLolliPopOrLater)
-            snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
-        snack.show()
-        if (action != null)
-            sHandler.postDelayed(action, DELETE_DURATION.toLong())
+        sHandler.postDelayed(action, DELETE_DURATION.toLong())
     }
 
     fun snackerMessageInfinite(activity:Activity, message: String):Snackbar? {

@@ -402,7 +402,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
     private fun removeItem(position: Int, media: MediaWrapper) {
         if (isPlaylist) {
-            snackerConfirm(this, getString(R.string.confirm_remove_from_playlist, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+            snackerConfirm(this, getString(R.string.confirm_remove_from_playlist, media.title)) { (viewModel.playlist as Playlist).remove(position) }
         } else {
             removeItems(listOf(media))
         }
@@ -453,11 +453,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                     playlist.remove(playlistIndex - index)
                 }
             }
-            UiTools.snackerWithCancel(this@PlaylistActivity, getString(R.string.removed_from_playlist_anonymous), null, {
+            UiTools.snackerWithCancel(this@PlaylistActivity, getString(R.string.removed_from_playlist_anonymous), action = {}) {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
                 }
-            })
+            }
         }
     }
 
