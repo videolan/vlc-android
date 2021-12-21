@@ -20,6 +20,9 @@
 
 package org.videolan.libvlc.util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
@@ -59,5 +62,12 @@ public class AndroidUtil {
 
     public static Uri FileToUri(File file) {
         return Uri.fromFile(file);
+    }
+
+    public static Activity resolveActivity(Context context) {
+        if (context instanceof Activity) return (Activity) context;
+        if (context instanceof ContextWrapper) return resolveActivity(((ContextWrapper)context).getBaseContext());
+        return null;
+
     }
 }
