@@ -146,6 +146,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         if (audioPlayer.isTablet()) {
             hidePlaylistLandscapeConstraint.constrainHeight(R.id.track_info_container, ConstraintSet.WRAP_CONTENT)
             hidePlaylistLandscapeConstraint.setDimensionRatio(R.id.cover_media_switcher, null)
+            hidePlaylistLandscapeConstraint.setMargin(R.id.track_info_container, ConstraintSet.TOP, 0)
             hidePlaylistLandscapeConstraint.connect(R.id.cover_media_switcher, ConstraintSet.TOP, R.id.header, ConstraintSet.BOTTOM)
             hidePlaylistLandscapeConstraint.connect(R.id.cover_media_switcher, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
             hidePlaylistLandscapeConstraint.connect(R.id.track_info_container, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
