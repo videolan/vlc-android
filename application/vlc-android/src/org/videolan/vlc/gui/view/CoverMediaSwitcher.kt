@@ -43,7 +43,7 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         val coverView = v.findViewById<ImageView>(R.id.cover)
         val titleView = v.findViewById<TextView>(R.id.song_title)
         val artistView = v.findViewById<TextView>(R.id.song_subtitle)
-        val trackInfoView = v.findViewById<TextView>(R.id.song_track_info)
+        val trackInfoView = v.findViewById<TextView?>(R.id.song_track_info)
 
         if (cover != null) {
             coverView.setImageBitmap(cover)
@@ -51,14 +51,14 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
             coverView.setImageDrawable(ContextCompat.getDrawable(v.context, R.drawable.ic_player_cover_audiotrack))
         }
 
-        trackInfoView.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
+        trackInfoView?.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
 
         titleView.setOnClickListener { onTextClicked() }
         artistView.setOnClickListener { onTextClicked() }
 
         titleView.text = title
         artistView.text = artist
-        trackInfoView.text = trackInfo
+        trackInfoView?.text = trackInfo
 
         addView(v)
 

@@ -613,7 +613,6 @@
                 android:id="@+id/cover_media_switcher"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="visible"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/time"
@@ -621,7 +620,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header"
-                tools:layout_constraintLeft_creator="1" />
+                tools:layout_constraintLeft_creator="1"
+                tools:visibility="visible" />
 
 
         <TextView
