@@ -473,7 +473,7 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".gui.PlaylistActivity"
-            android:theme="@style/Theme.VLC"/>
+            android:theme="@style/Theme.VLC.NoStatus"/>
         <activity
             android:name=".gui.InfoActivity"
             android:theme="@style/Theme.VLC.NoStatus"/>
