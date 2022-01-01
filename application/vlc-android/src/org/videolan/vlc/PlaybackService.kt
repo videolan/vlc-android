@@ -268,12 +268,25 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         @MainThread
         get() = playlistManager.shuffling
 
+    var shuffleType: Int
+        @MainThread
+        get() = if (playlistManager.shuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE
+        @MainThread
+        set(shuffleType) {
+            when {
+                shuffleType == PlaybackStateCompat.SHUFFLE_MODE_ALL && !isShuffling -> shuffle()
+                shuffleType == PlaybackStateCompat.SHUFFLE_MODE_NONE && isShuffling -> shuffle()
+                shuffleType == PlaybackStateCompat.SHUFFLE_MODE_GROUP && !isShuffling -> shuffle()
+                shuffleType == PlaybackStateCompat.SHUFFLE_MODE_GROUP && isShuffling -> publishState()
+            }
+        }
+
     var repeatType: Int
         @MainThread
         get() = playlistManager.repeating
         @MainThread
         set(repeatType) {
-            playlistManager.setRepeatType(repeatType)
+            playlistManager.setRepeatType(if (repeatType == PlaybackStateCompat.REPEAT_MODE_GROUP) PlaybackStateCompat.REPEAT_MODE_ALL else repeatType)
             publishState()
         }
 

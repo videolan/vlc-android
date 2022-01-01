@@ -304,6 +304,14 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
+    override fun onSetShuffleMode(shuffleMode: Int) {
+        playbackService.shuffleType = shuffleMode
+    }
+
+    override fun onSetRepeatMode(repeatMode: Int) {
+        playbackService.repeatType = repeatMode
+    }
+
     override fun onPause() = playbackService.pause()
 
     override fun onStop() = playbackService.stop()
