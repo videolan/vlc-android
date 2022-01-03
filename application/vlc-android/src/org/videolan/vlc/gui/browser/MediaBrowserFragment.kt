@@ -120,6 +120,24 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     abstract fun onRefresh()
     open fun clear() {}
 
+    private fun deleteItem(item: MediaLibraryItem) {
+        val deletionAction = when (item) {
+            is MediaWrapper, is Album -> Runnable {
+                if (isStarted()) lifecycleScope.launch {
+                    if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
+                }
+            }
+            is Playlist -> Runnable { MediaUtils.deletePlaylist(item) }
+            else -> Runnable { onDeleteFailed(item) }
+        }
+
+        if (item is MediaWrapper) {
+            if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run()
+        } else {
+            deletionAction.run()
+        }
+    }
+
     protected open fun removeItems(items: List<MediaLibraryItem>) {
         if (items.size == 1) {
             removeItem(items[0])
@@ -128,41 +146,17 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
-            lifecycleScope.launch {
-                for (item in items) {
-                    if (!isStarted()) break
-                    when(item) {
-                        is MediaWrapper -> if (getWritePermission(item.uri)) MediaUtils.deleteMedia(item)
-                        is Playlist -> withContext(Dispatchers.IO) { item.delete() }
-                    }
-                }
+            for (item in items) {
+                deleteItem(item)
             }
         }
     }
 
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
-        val deletionAction = when (item) {
-            is Playlist -> Runnable {
-                MediaUtils.deletePlaylist(item)
-                    }
-            is MediaWrapper-> Runnable {
-                    if (isStarted()) lifecycleScope.launch {
-                        if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
-                    }
-                }
-
-            is Album -> Runnable {
-                    if (isStarted()) lifecycleScope.launch {
-                        if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
-                    }
-                }
-            else -> return false
-        }
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(item))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
-            if (item is MediaWrapper) if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run() else deletionAction.run()
-            else deletionAction.run()
+            deleteItem(item)
         }
         return true
     }
