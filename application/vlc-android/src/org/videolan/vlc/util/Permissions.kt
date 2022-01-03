@@ -102,7 +102,7 @@ object Permissions {
 
     @JvmOverloads
     fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {
-        return ContextCompat.checkSelfPermission(context,
+        return hasAllAccess(context) || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
