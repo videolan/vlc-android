@@ -268,13 +268,15 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     }
 
     private fun Click.process() {
-        val item = viewModel.dataset.get(position)
-        when (this) {
-            is SimpleClick -> onClick(position, item)
-            is LongClick -> onLongClick(position, item)
-            is ImageClick -> {
-                if (actionMode != null) onClick(position, item)
-                else onLongClick(position, item)
+        if (position >= 0) {
+            val item = viewModel.dataset.get(position)
+            when (this) {
+                is SimpleClick -> onClick(position, item)
+                is LongClick -> onLongClick(position, item)
+                is ImageClick -> {
+                    if (actionMode != null) onClick(position, item)
+                    else onLongClick(position, item)
+                }
             }
         }
     }
