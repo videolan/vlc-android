@@ -1,3 +1,8 @@
+Changes between 3.4.3 Beta 6 and 3.4.3:
+------------------
+ * Fix some rare crashes on the Sony Bravia devices
+ * Other crash fixes
+
 Changes between 3.4.3 Beta 5 and 3.4.3 Beta 6:
 ------------------
  * Fix the grid/list button state
