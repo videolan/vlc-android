@@ -110,7 +110,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         return true
                     }
                 }
-                if (touchControls == 0 || player.isLocked) {
+                // fov == 0f -> not a 360 video
+                if ((touchControls == 0  && player.fov == 0f) || player.isLocked) {
                     // locked or swipe disabled, only handle show/hide & ignore all actions
                     if (event.action == MotionEvent.ACTION_UP && touchAction != TOUCH_IGNORE) player.overlayDelegate.toggleOverlay()
                     return false
