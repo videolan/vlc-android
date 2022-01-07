@@ -128,6 +128,14 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         headerShowPlaylistConstraint.clone(binding.header)
         headerHidePlaylistConstraint.clone(binding.header)
         headerHidePlaylistLandscapeConstraint.clone(binding.header)
+        arrayOf(headerShowPlaylistConstraint, headerHidePlaylistConstraint, headerHidePlaylistLandscapeConstraint).forEach {constraintSet ->
+            constraintSet.setVisibility(R.id.header_shuffle, if (audioPlayer.isTablet() && audioPlayer.playlistModel.canShuffle) View.VISIBLE else View.GONE)
+            arrayOf(R.id.header_previous, R.id.header_large_play_pause, R.id.header_next, R.id.header_repeat).forEach {
+                constraintSet.setVisibility(it, if (audioPlayer.isTablet()) View.VISIBLE else View.GONE)
+            }
+            constraintSet.setVisibility(R.id.header_play_pause, if (audioPlayer.isTablet()) View.GONE else View.VISIBLE)
+        }
+        headerShowPlaylistConstraint.applyTo(binding.header)
 
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
