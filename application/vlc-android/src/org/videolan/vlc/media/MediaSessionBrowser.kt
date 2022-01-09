@@ -463,6 +463,9 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         .setMediaId(ID_NO_MEDIA)
                         .setIconUri(DEFAULT_TRACK_ICON)
                         .setTitle(context.getString(R.string.search_no_result))
+                        .setExtras(Bundle().apply {
+                            putInt(EXTRA_CONTENT_STYLE_SINGLE_ITEM, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
+                        })
                 when (parentId) {
                     ID_ARTIST -> emptyMediaDesc.setIconUri(DEFAULT_ARTIST_ICON)
                     ID_ALBUM -> emptyMediaDesc.setIconUri(DEFAULT_ALBUM_ICON)
