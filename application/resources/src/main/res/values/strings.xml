@@ -903,6 +903,7 @@
     <string name="player_controls">Player controls</string>
     <string name="video_double_tap_jump_delay">Double tap time delay</string>
     <string name="video_key_jump_delay">Navigation keys time delay</string>
+    <string name="banned">Banned folder</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">This item is already in this playlist.</item>
         <item quantity="other">These items are already in this playlist.</item>

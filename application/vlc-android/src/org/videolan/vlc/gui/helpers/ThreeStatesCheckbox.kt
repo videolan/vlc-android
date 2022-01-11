@@ -64,7 +64,7 @@ class ThreeStatesCheckbox : AppCompatCheckBox {
         val btnDrawable: Int = when (currentState) {
             STATE_PARTIAL -> R.drawable.ic_checkbox_partialy
             STATE_CHECKED -> R.drawable.ic_checkbox_true
-            else -> R.drawable.ic_checkbox_false
+            else -> R.drawable.ic_checkbox_not_checked
         }
         setButtonDrawable(btnDrawable)
 
