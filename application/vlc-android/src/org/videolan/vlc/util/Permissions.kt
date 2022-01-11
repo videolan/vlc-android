@@ -285,6 +285,7 @@ object Permissions {
 
     fun checkWritePermission(activity: FragmentActivity, media: MediaWrapper, callback: Runnable): Boolean {
         val uri = media.uri
+        if (isExternalStorageManager()) return true
         if ("file" != uri.scheme) return false
         if (uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
             //Check write permission starting Oreo

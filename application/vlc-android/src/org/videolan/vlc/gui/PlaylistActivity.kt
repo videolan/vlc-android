@@ -50,6 +50,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.copy
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -414,10 +415,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         dialog.setListener {
             lifecycleScope.launch {
                 for (item in items) {
-                    if (!isStarted()) break
-                    if (getWritePermission(item.uri)) deleteMedia(item)
+                    val deleteAction = kotlinx.coroutines.Runnable {
+                        lifecycleScope.launch {
+                            MediaUtils.deleteItem(this@PlaylistActivity, item) {
+                                UiTools.snacker(this@PlaylistActivity, getString(R.string.msg_delete_failed, it.title))
+                            }
+                            if (isStarted()) viewModel.refresh()
+                        }
+                    }
+                    if (Permissions.checkWritePermission(this@PlaylistActivity, item, deleteAction)) deleteAction.run()
                 }
-                if (isStarted()) viewModel.refresh()
             }
         }
     }

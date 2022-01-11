@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -28,11 +29,7 @@ import org.videolan.resources.*
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.AppScope
-import org.videolan.tools.Settings
-import org.videolan.tools.localBroadcastManager
-import org.videolan.tools.markBidi
-import org.videolan.tools.safeOffer
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -77,6 +74,25 @@ object MediaUtils {
         }
         if (Permissions.canWriteStorage()) callBack.run()
         else Permissions.askWriteStoragePermission(activity, false, callBack)
+    }
+
+
+    fun deleteItem(activity:FragmentActivity, item: MediaLibraryItem, onDeleteFailed:(MediaLibraryItem)->Unit) {
+        val deletionAction = when (item) {
+            is MediaWrapper, is Album -> Runnable {
+                activity.lifecycleScope.launchWhenStarted {
+                    if (!deleteMedia(item, null)) onDeleteFailed.invoke(item)
+                }
+            }
+            is Playlist -> Runnable { deletePlaylist(item) }
+            else -> Runnable { onDeleteFailed.invoke(item) }
+        }
+
+        if (item is MediaWrapper) {
+            if (Permissions.checkWritePermission(activity, item, deletionAction)) deletionAction.run()
+        } else {
+            deletionAction.run()
+        }
     }
 
     suspend fun deleteMedia(mw: MediaLibraryItem, failCB: Runnable? = null) = withContext(Dispatchers.IO) {

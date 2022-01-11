@@ -29,32 +29,24 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Album
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
-import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.prepareOptionsMenu
 import org.videolan.vlc.viewmodels.sortMenuTitles
-import java.lang.Runnable
 
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
@@ -120,24 +112,6 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     abstract fun onRefresh()
     open fun clear() {}
 
-    private fun deleteItem(item: MediaLibraryItem) {
-        val deletionAction = when (item) {
-            is MediaWrapper, is Album -> Runnable {
-                if (isStarted()) lifecycleScope.launch {
-                    if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
-                }
-            }
-            is Playlist -> Runnable { MediaUtils.deletePlaylist(item) }
-            else -> Runnable { onDeleteFailed(item) }
-        }
-
-        if (item is MediaWrapper) {
-            if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run()
-        } else {
-            deletionAction.run()
-        }
-    }
-
     protected open fun removeItems(items: List<MediaLibraryItem>) {
         if (items.size == 1) {
             removeItem(items[0])
@@ -147,7 +121,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
             for (item in items) {
-                deleteItem(item)
+                MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
             }
         }
     }
@@ -156,7 +130,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(item))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
-            deleteItem(item)
+            MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
         }
         return true
     }

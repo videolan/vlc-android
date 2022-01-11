@@ -344,10 +344,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun removeItem(item: MediaLibraryItem): Boolean {
         val mw = item as? MediaWrapper
                 ?: return false
-        val cancel = Runnable { viewModel.refresh() }
         val deleteAction = Runnable {
             lifecycleScope.launch {
-                MediaUtils.deleteMedia(mw, cancel)
+                MediaUtils.deleteItem(requireActivity(), mw) { viewModel.refresh() }
                 viewModel.remove(mw)
             }
         }
