@@ -32,15 +32,18 @@ import kotlin.math.sign
 
 const val TOUCH_FLAG_AUDIO_VOLUME = 1
 const val TOUCH_FLAG_BRIGHTNESS = 1 shl 1
-const val TOUCH_FLAG_SEEK = 1 shl 2
+const val TOUCH_FLAG_DOUBLE_TAP_SEEK = 1 shl 2
 const val TOUCH_FLAG_PLAY = 1 shl 3
+const val TOUCH_FLAG_SWIPE_SEEK = 1 shl 4
 //Touch Events
 private const val TOUCH_NONE = 0
 private const val TOUCH_VOLUME = 1
 private const val TOUCH_BRIGHTNESS = 2
 private const val TOUCH_MOVE = 3
-private const val TOUCH_SEEK = 4
+private const val TOUCH_TAP_SEEK = 4
 private const val TOUCH_IGNORE = 5
+private const val TOUCH_SWIPE_SEEK = 6
+
 private const val MIN_FOV = 20f
 private const val MAX_FOV = 150f
 //stick event
@@ -155,7 +158,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         if (player.fov == 0f) {
                             // No volume/brightness action if coef < 2 or a secondary display is connected
                             //TODO : Volume action when a secondary display is connected
-                            if (touchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
+                            if (touchAction != TOUCH_TAP_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
                                 if (!verticalTouchActive) {
                                     if (abs(yChanged / screenConfig.yRange) >= 0.05) {
                                         verticalTouchActive = true
@@ -188,7 +191,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         touchX = -1f
                         touchY = -1f
                         // Seek
-                        if (touchAction == TOUCH_SEEK) {
+                        if (touchAction == TOUCH_TAP_SEEK) {
                             doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
                             return true
                         }
@@ -221,8 +224,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         if (numberOfTaps > 1 && !player.isLocked) {
                             val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
                             when {
-                                (touchControls and TOUCH_FLAG_SEEK != 0) && event.x < range / 4f -> seekDelta(-org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
-                                (touchControls and TOUCH_FLAG_SEEK != 0) && event.x > range * 0.75 -> seekDelta(org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
+                                (touchControls and TOUCH_FLAG_DOUBLE_TAP_SEEK != 0) && event.x < range / 4f -> seekDelta(-org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
+                                (touchControls and TOUCH_FLAG_DOUBLE_TAP_SEEK != 0) && event.x > range * 0.75 -> seekDelta(org.videolan.tools.Settings.videoDoubleTapJumpDelay * 1000)
                                 else -> if (touchControls and TOUCH_FLAG_PLAY != 0) player.doPlayPause()
                             }
                         }
@@ -280,7 +283,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         return true
     }
 
-    fun isSeeking() = touchAction == TOUCH_SEEK
+    fun isSeeking() = touchAction == TOUCH_TAP_SEEK
 
     fun clearTouchAction() {
         touchAction = TOUCH_NONE
@@ -304,35 +307,48 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         player.overlayDelegate.hideOverlay(true)
     }
 
+
+    private val TAG = this::class.java.name
+
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
-        var coef = coef
-        if (coef == 0) coef = 1
-        // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (abs(gesturesize) < 1 || !player.service!!.isSeekable) return
+        Log.d(TAG, "doSeekTouch: ${touchControls and TOUCH_FLAG_SWIPE_SEEK}")
+        if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {
+            var coef = coef
+            if (coef == 0) coef = 1
+            Log.d(TAG, "doSeekTouch: coef: $coef")
+            Log.d(TAG, "doSeekTouch: abs(gesturesize): ${abs(gesturesize)}")
+            // No seek action if coef > 0.5 and gesturesize < 1cm
+            if (abs(gesturesize) < 1 || !player.service!!.isSeekable) return
 
-        if (touchAction != TOUCH_NONE && touchAction != TOUCH_SEEK) return
-        touchAction = TOUCH_SEEK
+            if (touchAction != TOUCH_NONE && touchAction != TOUCH_TAP_SEEK) return
+            touchAction = TOUCH_TAP_SEEK
 
-        val length = player.service!!.length
-        val time = player.service!!.getTime()
+            val length = player.service!!.length
+            val time = player.service!!.getTime()
 
-        // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
-        var jump = (sign(gesturesize) * (600000 * (gesturesize / 8).toDouble().pow(4.0) + 3000) / coef).toInt()
+            // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
+            var jump = (sign(gesturesize) * (600000 * (gesturesize / 8).toDouble()
+                .pow(4.0) + 3000) / coef).toInt()
 
-        // Adjust the jump
-        if (jump > 0 && time + jump > length) jump = (length - time).toInt()
-        if (jump < 0 && time + jump < 0) jump = (-time).toInt()
+            // Adjust the jump
+            if (jump > 0 && time + jump > length) jump = (length - time).toInt()
+            if (jump < 0 && time + jump < 0) jump = (-time).toInt()
 
-        //Jump !
-        if (seek && length > 0) player.seek(time + jump, length)
+            //Jump !
+            if (seek && length > 0) player.seek(time + jump, length)
 
-        //Show the jump's size
-        if (length > 0) player.overlayDelegate.showInfo(String.format("%s%s (%s)%s",
-                if (jump >= 0) "+" else "",
-                Tools.millisToString(jump.toLong()),
-                Tools.millisToString(time + jump),
-                if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""), 50)
-        else player.overlayDelegate.showInfo(R.string.unseekable_stream, 1000)
+            //Show the jump's size
+            if (length > 0) player.overlayDelegate.showInfo(
+                String.format(
+                    "%s%s (%s)%s",
+                    if (jump >= 0) "+" else "",
+                    Tools.millisToString(jump.toLong()),
+                    Tools.millisToString(time + jump),
+                    if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""
+                ), 50
+            )
+            else player.overlayDelegate.showInfo(R.string.unseekable_stream, 1000)
+        }
     }
 
     private fun doVolumeTouch(y_changed: Float) {
