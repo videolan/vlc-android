@@ -39,8 +39,8 @@ import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 
 interface IStorageFragmentDelegate {
     fun checkBoxAction(v: View, mrl: String)
-    fun addEntryPointsCallabck()
-    fun removeEntryPointsCallabck()
+    fun addEntryPointsCallback()
+    fun removeEntryPointsCallback()
     val processingFolders: SimpleArrayMap<String, CheckBox>
 
     fun withContext(context: Context)
@@ -67,11 +67,11 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         bannedFolderCallback = callback
     }
 
-    override fun addEntryPointsCallabck() {
+    override fun addEntryPointsCallback() {
         Medialibrary.getInstance().addEntryPointsEventsCb(this)
     }
 
-    override fun removeEntryPointsCallabck() {
+    override fun removeEntryPointsCallback() {
         Medialibrary.getInstance().removeEntryPointsEventsCb(this)
     }
 

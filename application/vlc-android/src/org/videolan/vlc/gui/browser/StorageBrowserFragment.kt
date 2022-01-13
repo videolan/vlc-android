@@ -105,7 +105,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
 
     override fun onStart() {
         super.onStart()
-        addEntryPointsCallabck()
+        addEntryPointsCallback()
         snack?.show()
         lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
         addBannedFoldersCallback { folder, banned ->
@@ -118,7 +118,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
 
     override fun onStop() {
         super.onStop()
-        removeEntryPointsCallabck()
+        removeEntryPointsCallback()
         snack?.dismiss()
         alertDialog?.let { if (it.isShowing) it.dismiss() }
     }

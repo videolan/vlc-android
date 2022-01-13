@@ -232,7 +232,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     return
                 }
                 medialibrary.addDevice(uuid, path, true)
-                for (folder in Medialibrary.getBlackList())
+                for (folder in Medialibrary.getBanList())
                     medialibrary.banFolder(path + folder)
             }
         }
@@ -287,7 +287,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
         when {
             shouldInit -> {
-                for (folder in Medialibrary.getBlackList())
+                for (folder in Medialibrary.getBanList())
                     medialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder)
                 if (preselectedStorages.isEmpty()) {
                     medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
@@ -453,7 +453,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private suspend fun ActorScope<MLAction>.processAction() {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
-                for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
+                for (folder in Medialibrary.getBanList()) medialibrary.banFolder(action.path + folder)
                 medialibrary.discover(action.path)
             }
             is DiscoverFolder -> {

@@ -166,7 +166,7 @@ abstract public class Medialibrary {
         return mIsInitiated;
     }
 
-    public static String[] getBlackList() {
+    public static String[] getBanList() {
         return new String[] {
                 "/Android/data/",
                 "/Android/media/",
