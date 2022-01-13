@@ -40,6 +40,7 @@ public:
     bool removeDevice(const std::string& uuid, const std::string& path);
     void banFolder(const std::string& path);
     void unbanFolder(const std::string& path);
+    std::vector<medialibrary::FolderPtr> bannedEntryPoints();
     void discover(const std::string&);
     bool setDiscoverNetworkEnabled(bool enabled);
     void removeEntryPoint(const std::string& entryPoint);

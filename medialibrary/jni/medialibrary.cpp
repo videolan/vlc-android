@@ -93,6 +93,34 @@ unbanFolder(JNIEnv* env, jobject thiz, jstring folderPath)
     env->ReleaseStringUTFChars(folderPath, path);
 }
 
+jobjectArray
+bannedFolders(JNIEnv* env, jobject thiz)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    std::vector<medialibrary::FolderPtr> folders = aml->bannedEntryPoints();
+
+
+    std::vector<std::string> mrls;
+    mrls.reserve(folders.size());
+    for(medialibrary::FolderPtr& folder : folders) {
+        try
+        {
+            mrls.push_back( std::move( folder->mrl() ) );
+        }
+        catch ( const medialibrary::fs::errors::DeviceRemoved& )
+        {
+            // Just ignore, the device isn't available anymore
+        }
+    }
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mrls.size(), env->FindClass("java/lang/String"), NULL);
+    int index = -1;
+    for( const std::string& m : mrls ) {
+        auto mrl = vlcNewStringUTF(env, m.c_str());
+        env->SetObjectArrayElement(mediaRefs, ++index, mrl.get());
+    }
+    return mediaRefs;
+}
+
 void
 addDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboolean removable)
 {
@@ -2008,6 +2036,7 @@ static JNINativeMethod methods[] = {
     {"nativeRemoveDevice", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeUnbanFolder", "(Ljava/lang/String;)V", (void*)unbanFolder },
+    {"nativeBannedFolders", "()[Ljava/lang/String;", (void*)bannedFolders },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)lastMediaPLayed },
     {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)lastStreamsPlayed },
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },

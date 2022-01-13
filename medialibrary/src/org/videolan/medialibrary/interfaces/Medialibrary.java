@@ -701,6 +701,7 @@ abstract public class Medialibrary {
     abstract public void start();
     abstract public void banFolder(@NonNull String path);
     abstract public void unbanFolder(@NonNull String path);
+    abstract public String[] bannedFolders();
     abstract public String[] getDevices();
     abstract public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable);
     abstract public boolean isDeviceKnown(@NonNull String uuid, @NonNull String path, boolean removable);

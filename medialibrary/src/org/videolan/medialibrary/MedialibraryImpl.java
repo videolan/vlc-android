@@ -114,6 +114,10 @@ public class MedialibraryImpl extends Medialibrary {
             nativeUnbanFolder(Tools.encodeVLCMrl(path));
     }
 
+    public String[] bannedFolders() {
+        return mIsInitiated ? nativeBannedFolders() : new String[0];
+    }
+
     public String[] getDevices() {
         return mIsInitiated ? nativeDevices() : new String[0];
     }
@@ -602,6 +606,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native boolean nativeClearDatabase(boolean keepPlaylist);
     private native void nativeBanFolder(String path);
     private native void nativeUnbanFolder(String path);
+    private native String[] nativeBannedFolders();
     private native void nativeAddDevice(String uuid, String path, boolean removable);
     private native boolean nativeIsDeviceKnown(String uuid, String path, boolean removable);
     private native boolean nativeDeleteRemovableDevices();

@@ -110,6 +110,12 @@ AndroidMediaLibrary::unbanFolder(const std::string& path)
     p_ml->unbanFolder(path);
 }
 
+std::vector<medialibrary::FolderPtr>
+AndroidMediaLibrary::bannedEntryPoints()
+{
+    return p_ml->bannedEntryPoints()->all();
+}
+
 void
 AndroidMediaLibrary::discover(const std::string& libraryPath)
 {

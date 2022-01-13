@@ -56,6 +56,10 @@ public class StubMedialibrary extends Medialibrary {
         dt.mBannedFolders.remove(path);
     }
 
+    public String[] bannedFolders() {
+        return new String[0];
+    }
+
     public String[] getDevices() {
         return new String[0];
     }
