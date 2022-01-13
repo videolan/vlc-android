@@ -26,14 +26,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.Settings
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
@@ -127,6 +126,11 @@ open class BrowserModel(
     }
 
     override fun canSortByFileNameName(): Boolean = true
+
+    suspend fun toggleBanState(path: String) = withContext(Dispatchers.IO) {
+        val bannedFolders = Medialibrary.getInstance().bannedFolders()
+        if (MedialibraryUtils.isStrictlyBanned(path, bannedFolders.toList())) Medialibrary.getInstance().unbanFolder(path) else if (!MedialibraryUtils.isBanned(path, bannedFolders.toList())) Medialibrary.getInstance().banFolder(path)
+    }
 }
 
 @ExperimentalCoroutinesApi

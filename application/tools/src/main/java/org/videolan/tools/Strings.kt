@@ -52,6 +52,7 @@ import java.util.*
 private const val TAG = "VLC/UiTools/Strings"
 
 fun String.stripTrailingSlash() = if (endsWith("/") && length > 1) dropLast(1) else this
+fun String.addTrailingSlashIfNeeded() = if (endsWith("/")) this else "$this/"
 
 //TODO: Remove this after convert the dependent code to kotlin
 fun startsWith(array: Array<String>, text: String) = array.any { text.startsWith(it)}

@@ -27,7 +27,6 @@ import android.annotation.TargetApi
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
@@ -37,12 +36,10 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -86,6 +83,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         var bundle = bundle
         super.onCreate(bundle)
         adapter = StorageBrowserAdapter(this)
+        (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
         if (bundle == null) bundle = arguments
         if (bundle != null) scannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB)
         withContext(requireActivity())
@@ -110,6 +108,12 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         addEntryPointsCallabck()
         snack?.show()
         lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
+        addBannedFoldersCallback { folder, banned ->
+            (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
+            adapter.dataset.forEachIndexed{ index, mediaLibraryItem ->
+                if ("${(mediaLibraryItem as Storage).uri}/" == folder) adapter.notifyItemChanged(index)
+            }
+        }
     }
 
     override fun onStop() {
@@ -165,6 +169,15 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         val mw = (item as? Storage)?.let { MLServiceLocator.getAbstractMediaWrapper(it.uri) } ?: return
         mw.type = MediaWrapper.TYPE_DIR
         browse(mw, scannedDirectory || (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED, createFragment(),if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
+    }
+
+    override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
+        (item as Storage).uri.path?.let { path ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.toggleBanState(path)
+            }
+        }
+        return true
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}

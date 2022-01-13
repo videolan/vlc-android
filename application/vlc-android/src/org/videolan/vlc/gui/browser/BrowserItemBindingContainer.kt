@@ -83,6 +83,12 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         }
     }
 
+    fun setIsBannedByParent(banned: Boolean) {
+        when (binding) {
+            is BrowserItemBinding -> binding.isBannedParent = banned
+        }
+    }
+
     fun setItem(item: MediaLibraryItem) {
         when (binding) {
             is CardBrowserItemBinding -> binding.item = item

@@ -38,15 +38,13 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.isExternalStorageManager
-import org.videolan.tools.AppScope
-import org.videolan.tools.CloseableUtils
-import org.videolan.tools.Settings
-import org.videolan.tools.runIO
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
@@ -552,6 +550,11 @@ fun String?.getParentFolder(): String? {
     } else if (index == 0)
         parentPath = "/"
     return parentPath
+}
+
+fun String.encodeMrlWithTrailingSlash():String {
+    val encoded = Tools.encodeVLCMrl(this)
+    return if (encoded.endsWith("/")) encoded else encoded.addTrailingSlashIfNeeded()
 }
 
 fun Uri?.isSoundFont():Boolean {

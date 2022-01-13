@@ -45,6 +45,7 @@ interface IStorageFragmentDelegate {
 
     fun withContext(context: Context)
     fun withAdapters(adapters: Array<StorageBrowserAdapter>)
+    fun addBannedFoldersCallback(callback: (folder:String, banned: Boolean)-> Unit)
 }
 
 class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
@@ -52,6 +53,7 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
     private lateinit var context:Context
     override val processingFolders = SimpleArrayMap<String, CheckBox>()
     private  val handler = Handler()
+    private var bannedFolderCallback: ((folder: String, banned: Boolean) -> Unit)? = null
 
     override fun withContext(context: Context) {
         this.context = context
@@ -59,6 +61,10 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
 
     override fun withAdapters(adapters: Array<StorageBrowserAdapter>) {
         this.adapters = adapters
+    }
+
+    override fun addBannedFoldersCallback(callback: (folder: String, banned: Boolean) -> Unit) {
+        bannedFolderCallback = callback
     }
 
     override fun addEntryPointsCallabck() {
@@ -96,9 +102,13 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         processingFolders.put(mrl, cbp)
     }
 
-    override fun onEntryPointBanned(entryPoint: String, success: Boolean) {}
+    override fun onEntryPointBanned(entryPoint: String, success: Boolean) {
+        handler.post { bannedFolderCallback?.invoke(entryPoint, true) }
+    }
 
-    override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {}
+    override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {
+        handler.post { bannedFolderCallback?.invoke(entryPoint, false) }
+    }
 
     override fun onEntryPointAdded(entryPoint: String, success: Boolean) {}
 

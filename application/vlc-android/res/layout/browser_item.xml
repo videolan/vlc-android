@@ -33,6 +33,10 @@
                 type="boolean" />
 
         <variable
+                name="isBannedParent"
+                type="boolean" />
+
+        <variable
                 name="checkEnabled"
                 type="boolean" />
 
@@ -140,7 +144,7 @@
                 android:textSize="12sp"
                 android:enabled="@{!isBanned}"
                 android:visibility="@{TextUtils.isEmpty(item.description) &amp;&amp; !isBanned ? View.GONE : View.VISIBLE, default=gone}"
-                app:browserDescription="@{isBanned ? @string/banned : item.description}"
+                app:browserDescription="@{isBannedParent ? @string/banned_parent : isBanned ? @string/banned : item.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toStartOf="@+id/title"

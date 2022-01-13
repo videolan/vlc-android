@@ -33,10 +33,9 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.resources.AndroidDevices
 import org.videolan.tools.containsPath
 import org.videolan.vlc.MediaParsingService
-import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.getDescriptionSpan
@@ -48,6 +47,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
+    var bannedFolders: List<String> = listOf()
     private var updateJob : Job? = null
 
     init {
@@ -70,10 +70,11 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             val hasContextMenu = customDirsLocation.contains(storagePath) && !multiSelectHelper.inActionMode
             val checked = browserContainer.scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.bindingContainer.setHasContextMenu(hasContextMenu)
-            val banned = isBanned(uri)
+            val banned = MedialibraryUtils.isBanned(uri, bannedFolders)
+            val bannedParent = banned && !MedialibraryUtils.isStrictlyBanned(uri, bannedFolders)
 
-            //.map { "${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}$it" }.contains(uri.path + "/")
             vh.bindingContainer.setIsBanned(banned)
+            vh.bindingContainer.setIsBannedByParent(bannedParent)
             when {
                 banned -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
                 checked -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
@@ -86,14 +87,12 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty() && payloads[0] is CharSequence) {
-            if (!isBanned((getItem(position) as Storage).uri)) {
+            if (!MedialibraryUtils.isBanned((getItem(position) as Storage).uri, bannedFolders)) {
                 (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
                 holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
             }
         } else super.onBindViewHolder(holder, position, payloads)
     }
-
-    private fun isBanned(uri: Uri) = Medialibrary.getBlackList().any { "${uri.path}/".startsWith("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}$it") }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
         (holder as MediaViewHolder).apply {

@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.helpers
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_DISCOVER
@@ -13,6 +14,7 @@ import org.videolan.resources.util.launchForeground
 import org.videolan.tools.runIO
 import org.videolan.tools.stripTrailingSlash
 import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.util.encodeMrlWithTrailingSlash
 
 object MedialibraryUtils {
 
@@ -44,4 +46,20 @@ object MedialibraryUtils {
         }
         return isScanned
     }
+
+    /**
+     * Return true if this uri/path is banned (because it is or a parent is)
+     * @param uri the uri to test
+     * return true is the uri is banned
+     */
+    fun isBanned(uri: Uri, bannedFolders: List<String>) = isBanned(uri.toString(), bannedFolders)
+    fun isBanned(path: String, bannedFolders: List<String>) = bannedFolders.any { path.encodeMrlWithTrailingSlash().startsWith("$it") }
+
+    /**
+     * Return true if this uri/path is banned (but false if a parent is)
+     * @param uri the uri to test
+     * return true is the uri is strictly banned
+     */
+    fun isStrictlyBanned(uri: Uri, bannedFolders: List<String>) = isStrictlyBanned(uri.toString(), bannedFolders)
+    fun isStrictlyBanned(path: String, bannedFolders: List<String>) = bannedFolders.any { path.encodeMrlWithTrailingSlash() == "$it" }
 }
