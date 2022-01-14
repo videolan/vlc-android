@@ -202,12 +202,21 @@ val migration_28_29 = object:Migration(28, 29) {
     }
 }
 
+val migration_29_30 = object:Migration(29, 30) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Insert the new whatsapp path
+        val uri = AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI_A11
+        database.execSQL("INSERT INTO  $FAV_TABLE_NAME(uri, type, title, icon_url) VALUES (\"$uri\", 1, \"${uri.lastPathSegment}\", null)")
+    }
+}
+
 fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI,
-            AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI)
+            AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI,
+            AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI_A11)
     val browserFavDao = MediaDatabase.getInstance(context).browserFavDao()
 
     for (uri in uris) browserFavDao.insert(org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_LOCAL_FAV, uri.lastPathSegment

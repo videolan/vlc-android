@@ -203,6 +203,7 @@ object AndroidDevices {
         private val EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         private val EXTERNAL_PUBLIC_DCIM_DIRECTORY_FILE: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
         private val WHATSAPP_VIDEOS_FILE: File = File("$EXTERNAL_PUBLIC_DIRECTORY/WhatsApp/Media/WhatsApp Video/")
+        private val WHATSAPP_VIDEOS_FILE_A11: File = File("$EXTERNAL_PUBLIC_DIRECTORY/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Video/")
 
         val EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE)
         val EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE)
@@ -210,6 +211,7 @@ object AndroidDevices {
         val EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE)
         val EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_DCIM_DIRECTORY_FILE)
         val WHATSAPP_VIDEOS_FILE_URI = getFolderUri(WHATSAPP_VIDEOS_FILE)
+        val WHATSAPP_VIDEOS_FILE_URI_A11 = getFolderUri(WHATSAPP_VIDEOS_FILE_A11)
 
         private fun getFolderUri(file: File): Uri {
             return try {
