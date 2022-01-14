@@ -105,7 +105,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.drawable.ic_addtoplaylist, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
-        (recyclerview.adapter as OptionsAdapter).update(options)
         if (!Settings.showTvUi) {
             if (video) {
             options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
@@ -116,6 +115,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
             }
         }
+        (recyclerview.adapter as OptionsAdapter).update(options)
     }
 
     fun show() {
