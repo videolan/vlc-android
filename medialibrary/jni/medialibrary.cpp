@@ -105,7 +105,7 @@ bannedFolders(JNIEnv* env, jobject thiz)
     for(medialibrary::FolderPtr& folder : folders) {
         try
         {
-            mrls.push_back( std::move( folder->mrl() ) );
+            mrls.push_back( folder->mrl() );
         }
         catch ( const medialibrary::fs::errors::DeviceRemoved& )
         {
@@ -207,7 +207,7 @@ entryPoints(JNIEnv* env, jobject thiz)
     for(medialibrary::FolderPtr& entryPoint : entryPoints) {
         try
         {
-            mrls.push_back( std::move( entryPoint->mrl() ) );
+            mrls.push_back( entryPoint->mrl() );
         }
         catch ( const medialibrary::fs::errors::DeviceRemoved& )
         {
