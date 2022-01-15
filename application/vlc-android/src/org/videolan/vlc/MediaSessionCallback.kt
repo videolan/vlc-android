@@ -110,12 +110,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onCustomAction(actionId: String?, extras: Bundle?) {
         when (actionId) {
-            "${BuildConfig.APP_ID}.speed" -> {
+            CUSTOM_ACTION_SPEED -> {
                 val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
                 val index = 1 + steps.indexOf(steps.minByOrNull { abs(playbackService.rate - it) })
                 playbackService.setRate(steps[index % steps.size], false)
             }
-            "${BuildConfig.APP_ID}.bookmark" -> {
+            CUSTOM_ACTION_BOOKMARK -> {
                 playbackService.lifecycleScope.launch {
                     val context = playbackService.applicationContext
                     playbackService.currentMediaWrapper?.let {
@@ -126,10 +126,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     }
                 }
             }
-            "${BuildConfig.APP_ID}.rewind" -> onRewind()
-            "${BuildConfig.APP_ID}.fast_forward" -> onFastForward()
-            "${BuildConfig.APP_ID}.shuffle" -> if (playbackService.canShuffle()) playbackService.shuffle()
-            "${BuildConfig.APP_ID}.repeat" -> playbackService.repeatType = when (playbackService.repeatType) {
+            CUSTOM_ACTION_REWIND -> onRewind()
+            CUSTOM_ACTION_FAST_FORWARD -> onFastForward()
+            CUSTOM_ACTION_SHUFFLE -> if (playbackService.canShuffle()) playbackService.shuffle()
+            CUSTOM_ACTION_REPEAT -> playbackService.repeatType = when (playbackService.repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
                 PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
                 PlaybackStateCompat.REPEAT_MODE_ONE -> PlaybackStateCompat.REPEAT_MODE_NONE

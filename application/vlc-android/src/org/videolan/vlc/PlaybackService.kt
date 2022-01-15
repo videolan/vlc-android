@@ -1055,7 +1055,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         if (podcastMode) {
             addCustomSeekActions(pscb)
             addCustomSpeedActions(pscb)
-            pscb.addCustomAction("${BuildConfig.APP_ID}.bookmark", getString(R.string.add_bookmark), R.drawable.ic_bookmark_add)
+            pscb.addCustomAction(CUSTOM_ACTION_BOOKMARK, getString(R.string.add_bookmark), R.drawable.ic_bookmark_add)
         } else {
             if (playlistManager.canRepeat())
                 actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
@@ -1066,13 +1066,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 isShuffling -> R.drawable.ic_auto_shuffle_enabled
                 else -> R.drawable.ic_auto_shuffle_disabled
             }
-            pscb.addCustomAction("${BuildConfig.APP_ID}.shuffle", getString(R.string.shuffle_title), shuffleResId)
+            pscb.addCustomAction(CUSTOM_ACTION_SHUFFLE, getString(R.string.shuffle_title), shuffleResId)
             val repeatResId = when (repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_auto_repeat_pressed
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_auto_repeat_one_pressed
                 else -> R.drawable.ic_auto_repeat_normal
             }
-            pscb.addCustomAction("${BuildConfig.APP_ID}.repeat", getString(R.string.repeat_title), repeatResId)
+            pscb.addCustomAction(CUSTOM_ACTION_REPEAT, getString(R.string.repeat_title), repeatResId)
             addCustomSpeedActions(pscb, settings.getBoolean("enable_android_auto_speed_buttons", false))
             addCustomSeekActions(pscb, settings.getBoolean("enable_android_auto_seek_buttons", false))
         }
@@ -1101,11 +1101,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder, showSeekActions: Boolean = true) {
         if (!showSeekActions) return
-        pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder("${BuildConfig.APP_ID}.rewind",
+        pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder(CUSTOM_ACTION_REWIND,
                 getString(R.string.playback_rewind), R.drawable.ic_auto_rewind_10)
                 .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
                 .build())
-        pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder("${BuildConfig.APP_ID}.fast_forward",
+        pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder(CUSTOM_ACTION_FAST_FORWARD,
                 getString(R.string.playback_forward), R.drawable.ic_auto_forward_10)
                 .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
                 .build())
@@ -1123,7 +1123,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 2.00f to R.drawable.ic_auto_speed_2_00
             )
             val speedResId = speedIcons[speedIcons.keys.minByOrNull { abs(speed - it) }] ?: R.drawable.ic_auto_speed
-            pscb.addCustomAction("${BuildConfig.APP_ID}.speed", getString(R.string.playback_speed), speedResId)
+            pscb.addCustomAction(CUSTOM_ACTION_SPEED, getString(R.string.playback_speed), speedResId)
         }
     }
 
