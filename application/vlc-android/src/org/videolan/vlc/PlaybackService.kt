@@ -837,7 +837,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
         val mw = playlistManager.getCurrentMedia()
         if (mw != null) {
-            val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
+            val coverOnLockscreen = settings.getBoolean(LOCKSCREEN_COVER, true)
+            val seekInCompactView = settings.getBoolean(SHOW_SEEK_IN_COMPACT_NOTIFICATION, false)
             val playing = isPlaying
             val sessionToken = mediaSession.sessionToken
             val ctx = this
@@ -972,7 +973,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val bob = withContext(Dispatchers.Default) {
             val carMode = AndroidDevices.isCarMode(ctx)
             val title = media.nowPlaying ?: media.title
-            val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
+            val coverOnLockscreen = settings.getBoolean(LOCKSCREEN_COVER, true)
             val bob = MediaMetadataCompat.Builder().apply {
                 putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
                 putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaSessionBrowser.generateMediaId(media))

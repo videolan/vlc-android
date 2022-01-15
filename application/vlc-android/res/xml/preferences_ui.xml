@@ -88,5 +88,11 @@
                 android:key="lockscreen_cover"
                 android:summary="@string/lockscreen_cover_summary"
                 android:title="@string/lockscreen_cover_title"/>
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="show_seek_in_compact_notification"
+            android:summary="@string/show_seek_in_compact_notif_summary"
+            android:title="@string/show_seek_in_compact_notif_title"/>
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

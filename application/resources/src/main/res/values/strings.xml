@@ -364,6 +364,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
     <string name="lockscreen_cover_summary">When available, set the current media cover art as lockscreen wallpaper</string>
+    <string name="show_seek_in_compact_notif_title">Seek buttons in notification panel</string>
+    <string name="show_seek_in_compact_notif_summary">Show rewind and fast forward buttons in compact media controls</string>
     <string name="list_title_ellipsize">Single line list title ellipsize</string>
     <string name="list_title_ellipsize_default">Default</string>
     <string name="list_title_ellipsize_left">Left</string>
