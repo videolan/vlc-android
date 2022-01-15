@@ -152,6 +152,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
              * Remote / headset control events
              */
             when (action) {
+                CUSTOM_ACTION -> intent.getStringExtra(EXTRA_CUSTOM_ACTION_ID)?.let { actionId ->
+                    mediaSession.controller.transportControls.sendCustomAction(actionId, null)
+                    executeUpdate()
+                    showNotification()
+                }
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 SLEEP_INTENT -> {
@@ -248,6 +253,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private var isForeground = false
 
     private var currentWidgetCover: String? = null
+
+    val isPodcastMode: Boolean
+        @MainThread
+        get() = playlistManager.getMediaListSize() == 1 && playlistManager.getCurrentMedia()?.isPodcast == true
 
     val speed: Float
         @MainThread
@@ -608,6 +617,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
             addAction(ACTION_CAR_MODE_EXIT)
             addAction(SLEEP_INTENT)
+            addAction(CUSTOM_ACTION)
         }
         registerReceiver(receiver, filter)
 
@@ -721,8 +731,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         else {
             val pi = if (::playlistManager.isInitialized) sessionPendingIntent else null
             NotificationHelper.createPlaybackNotification(ctx, false,
-                    ctx.resources.getString(R.string.loading), "", "", null,
-                    false, true, null, pi)
+                    ctx.resources.getString(R.string.loading), "", "", null, false, true,
+                    true, speed, isPodcastMode, false, enabledActions, null, pi)
         }
         startForeground(3, notification)
         isForeground = true
@@ -858,8 +868,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                         cover = ctx.getBitmapFromDrawable(R.drawable.ic_no_media)
 
                     notification = NotificationHelper.createPlaybackNotification(ctx,
-                            canSwitchToVideo(), title, artist, album,
-                            cover, playing, isPausable, sessionToken, sessionPendingIntent)
+                            canSwitchToVideo(), title, artist, album, cover, playing, isPausable,
+                            isSeekable, speed, isPodcastMode, seekInCompactView, enabledActions,
+                            sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {

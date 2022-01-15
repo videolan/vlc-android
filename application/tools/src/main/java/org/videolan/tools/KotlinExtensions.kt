@@ -61,6 +61,7 @@ val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).to
 val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 fun Boolean.toInt() = if (this) 1 else 0
+fun Long.hasFlag(flag: Long) = (flag and this) != 0L
 
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
