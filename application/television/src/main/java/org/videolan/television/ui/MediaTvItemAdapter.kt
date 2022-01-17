@@ -24,6 +24,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.R
 import org.videolan.resources.UPDATE_PAYLOAD
+import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.resources.interfaces.FocusListener
 import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
@@ -82,16 +83,11 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
     }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
-        if (payloads.isNullOrEmpty())
-            onBindViewHolder(holder, position)
-        else {
-            val payload = payloads[0]
-            if (payload is MediaLibraryItem) {
-                val isSelected = payload.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
+        if (!payloads.isNullOrEmpty() && payloads[0] is MediaLibraryItem)  {
+            val isSelected = (payloads[0] as MediaLibraryItem).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
                 holder.setCoverlay(isSelected)
                 holder.selectView(isSelected)
-            }
-        }
+        } else onBindViewHolder(holder, position)
     }
 
     override fun onViewRecycled(holder: AbstractMediaItemViewHolder<ViewDataBinding>) {

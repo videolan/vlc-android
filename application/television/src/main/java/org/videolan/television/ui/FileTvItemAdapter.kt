@@ -85,8 +85,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
         if (payloads.isNullOrEmpty()) onBindViewHolder(holder, position)
         else for (payload in payloads) {
             when (holder.binding) {
-                is MediaBrowserTvItemBinding -> (holder.binding as MediaBrowserTvItemBinding).description = if (payload is String) payload else getItem(position).description
-                is MediaBrowserTvItemListBinding -> (holder.binding as MediaBrowserTvItemListBinding).description = if (payload is String) payload else getItem(position).description
+                is MediaBrowserTvItemBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemBinding).description =  payload else onBindViewHolder(holder, position)
+                is MediaBrowserTvItemListBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemListBinding).description = payload else onBindViewHolder(holder, position)
             }
 
         }
