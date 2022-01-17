@@ -880,6 +880,10 @@
     <string name="jump_delay">Forward/backward time delay</string>
     <string name="long_jump_delay">Long tap forward/backward time delay</string>
     <string name="jump_delay_summary">%s seconds</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+    <string name="play_media">Play %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Add duplicated item(s)?</string>

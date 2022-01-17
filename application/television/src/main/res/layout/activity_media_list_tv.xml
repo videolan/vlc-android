@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:targetApi="jelly_bean">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:targetApi="jelly_bean">
 
     <data>
 
@@ -14,39 +14,38 @@
 
 
         <variable
-            name="item"
-            type="MediaLibraryItem" />
+                name="item"
+                type="MediaLibraryItem" />
 
         <variable
-            name="title"
-            type="String" />
+                name="title"
+                type="String" />
 
         <variable
-            name="subtitle"
-            type="String" />
+                name="subtitle"
+                type="String" />
 
         <variable
-            name="totalTime"
-            type="String" />
+                name="totalTime"
+                type="String" />
 
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="org.videolan.television.ui.details.MediaListActivity"
-        tools:theme="@style/Theme.VLC.TV">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="org.videolan.television.ui.details.MediaListActivity"
+            tools:theme="@style/Theme.VLC.TV">
 
         <Space
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/tv_card_content_darker"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </Space>
+                android:id="@+id/spacer"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/tv_card_content_darker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></Space>
 
         <ImageView
                 android:id="@+id/cover"
@@ -59,17 +58,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:media="@{item}"
                 app:tv="@{true}"
-                tools:srcCompat="@tools:sample/avatars"/>
+                tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
                 android:id="@+id/albumTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{title}"
                 android:textColor="@color/white"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
                 app:layout_constraintStart_toEndOf="@+id/cover"
@@ -81,23 +80,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@{subtitle}"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{subtitle}"
                 app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
                 app:layout_constraintStart_toEndOf="@+id/cover"
                 app:layout_constraintTop_toBottomOf="@+id/albumTitle"
                 tools:text="Ludwig van Beethoven" />
 
         <TextView
-            android:id="@+id/albumTotalTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@{totalTime}"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toBottomOf="@+id/albumSubtitle"
-            tools:text="01:38:27" />
+                android:id="@+id/albumTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{totalTime}"
+                app:layout_constraintStart_toEndOf="@+id/cover"
+                app:layout_constraintTop_toBottomOf="@+id/albumSubtitle"
+                tools:text="01:38:27" />
 
         <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
@@ -120,6 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/button_circle_white_selector"
+                        android:contentDescription="@string/play"
                         android:padding="8dp"
                         android:text="@string/play"
                         app:srcCompat="@drawable/ic_tv_list_play" />
@@ -130,6 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/button_circle_white_selector"
+                        android:contentDescription="@string/delete"
                         android:padding="8dp"
                         android:text="@string/delete"
                         app:srcCompat="@drawable/ic_tv_list_delete" />
@@ -140,6 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/button_circle_white_selector"
+                        android:contentDescription="@string/insert_next"
                         android:padding="8dp"
                         android:text="@string/insert_next"
                         app:srcCompat="@drawable/ic_tv_list_playnext" />
@@ -150,6 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/button_circle_white_selector"
+                        android:contentDescription="@string/append"
                         android:padding="8dp"
                         android:text="@string/append"
                         app:srcCompat="@drawable/ic_tv_list_append" />
@@ -159,6 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_circle_white_selector"
+                        android:contentDescription="@string/add_to_playlist"
                         android:padding="8dp"
                         android:text="@string/add_to_playlist"
                         app:srcCompat="@drawable/ic_tv_list_addtoplaylist" />
@@ -167,16 +171,16 @@
         </HorizontalScrollView>
 
         <org.videolan.television.ui.FocusableRecyclerView
-            android:id="@+id/media_list"
-            android:layout_width="800dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:paddingTop="40dp"
-            android:paddingBottom="150dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spacer" />
+                android:id="@+id/media_list"
+                android:layout_width="800dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:paddingTop="40dp"
+                android:paddingBottom="150dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spacer" />
 
         <include layout="@layout/tv_time" />
 

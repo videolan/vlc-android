@@ -12,6 +12,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.interfaces.FocusListener
+import org.videolan.television.R
 import org.videolan.television.databinding.ActivityMediaListTvItemBinding
 import org.videolan.television.ui.TvFocusableAdapter
 import org.videolan.vlc.BuildConfig
@@ -49,6 +50,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
         holder.binding.itemMoveDown.visibility = if (moveVisibility == View.VISIBLE && position == itemCount - 1) View.INVISIBLE else moveVisibility
         holder.binding.itemMoveUp.visibility = if (moveVisibility == View.VISIBLE && position == 0) View.INVISIBLE else moveVisibility
         holder.binding.itemRemove.visibility = moveVisibility
+        holder.binding.itemSelector.contentDescription = holder.binding.itemSelector.context.getString(R.string.play_media, item.title)
         if (type == MediaLibraryItem.TYPE_ALBUM) (holder.binding.itemAddPlaylist.layoutParams as ConstraintLayout.LayoutParams).marginEnd = 0
 
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:targetApi="jelly_bean">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:targetApi="jelly_bean">
 
     <data>
 
@@ -16,53 +16,54 @@
 
 
         <variable
-            name="item"
-            type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
+                name="item"
+                type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
 
         <variable
-            name="cover"
-            type="android.graphics.drawable.BitmapDrawable" />
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
 
         <variable
-            name="holder"
-            type="org.videolan.television.ui.details.MediaListAdapter.MediaListViewHolder" />
+                name="holder"
+                type="org.videolan.television.ui.details.MediaListAdapter.MediaListViewHolder" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/tv_card_content_dark"
-        android:descendantFocusability="afterDescendants"
-        tools:context="org.videolan.television.ui.details.MediaListActivity"
-        tools:theme="@style/Theme.VLC.TV">
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/tv_card_content_dark"
+            android:descendantFocusability="afterDescendants"
+            tools:context="org.videolan.television.ui.details.MediaListActivity"
+            tools:theme="@style/Theme.VLC.TV">
 
 
         <ImageView
-            android:id="@+id/im_cover"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:background="@{cover}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:media="@{item}"
+                android:id="@+id/im_cover"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@{cover}"
+                android:contentDescription="@string/cover_art"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:media="@{item}"
                 app:tv="@{true}"
-            tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/item_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            android:background="@color/blacktransparent"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/item_selector"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_play_big" />
+                android:id="@+id/item_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0"
+                android:background="@color/blacktransparent"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/item_selector"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_play_big" />
 
         <TextView
                 android:id="@+id/title"
@@ -70,11 +71,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{item.title}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 app:layout_constraintBottom_toTopOf="@+id/textView16"
                 app:layout_constraintEnd_toStartOf="@+id/textView17"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -89,9 +90,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{item.artist}"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{item.artist}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView17"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -100,125 +101,131 @@
                 tools:text="Ludwig van Beethoven" />
 
         <TextView
-            android:id="@+id/textView17"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@{Tools.millisToString(item.length)}"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/item_selector"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="1:05:56" />
+                android:id="@+id/textView17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@{Tools.millisToString(item.length)}"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/item_selector"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1:05:56" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_move_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:alpha="0"
-            android:focusableInTouchMode="true"
-            tools:alpha="1"
-            android:background="@drawable/button_circle_white_selector"
-            android:onClick="@{holder::onClickMoveUp}"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_move_down"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_moveup" />
+                android:id="@+id/item_move_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:alpha="0"
+                android:background="@drawable/button_circle_white_selector"
+                android:contentDescription="@string/move_up"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickMoveUp}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_move_down"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_moveup"
+                tools:alpha="1" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_move_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:alpha="0"
-            android:background="@drawable/button_circle_white_selector"
-            android:focusableInTouchMode="true"
-            android:onClick="@{holder::onClickMoveDown}"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_insert_next"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_movedown"
-            tools:alpha="1" />
+                android:id="@+id/item_move_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:alpha="0"
+                android:background="@drawable/button_circle_white_selector"
+                android:contentDescription="@string/move_down"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickMoveDown}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_insert_next"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_movedown"
+                tools:alpha="1" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            android:background="@drawable/button_circle_white_selector"
-            android:focusableInTouchMode="true"
-            android:onClick="@{holder::onClickRemove}"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_removefromplaylist"
-            tools:alpha="1" />
+                android:id="@+id/item_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0"
+                android:background="@drawable/button_circle_white_selector"
+                android:contentDescription="@string/remove_from_playlist"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickRemove}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_removefromplaylist"
+                tools:alpha="1" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_insert_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:alpha="0"
-            android:background="@drawable/button_circle_white_selector"
-            android:focusableInTouchMode="true"
-            android:padding="8dp"
-            android:onClick="@{holder::onClickPlayNext}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_append"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_playnext"
-            tools:alpha="1" />
+                android:id="@+id/item_insert_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:alpha="0"
+                android:background="@drawable/button_circle_white_selector"
+                android:contentDescription="@string/insert_next"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickPlayNext}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_append"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_playnext"
+                tools:alpha="1" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_append"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:focusableInTouchMode="true"
-            android:alpha="0"
-            tools:alpha="1"
-            android:background="@drawable/button_circle_white_selector"
-            android:onClick="@{holder::onClickAppend}"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_add_playlist"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_append" />
+                android:id="@+id/item_append"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:alpha="0"
+                android:background="@drawable/button_circle_white_selector"
+                android:contentDescription="@string/append"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickAppend}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_add_playlist"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_append"
+                tools:alpha="1" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_add_playlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:alpha="0"
-            android:background="@drawable/button_circle_white_selector"
-            android:focusableInTouchMode="true"
-            android:onClick="@{holder::onClickAddToPlaylist}"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_remove"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_tv_list_addtoplaylist"
-            tools:alpha="1" />
+                android:id="@+id/item_add_playlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:alpha="0"
+                android:background="@drawable/button_circle_white_selector"
+                android:contentDescription="@string/add_to_playlist"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickAddToPlaylist}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_remove"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tv_list_addtoplaylist"
+                tools:alpha="1" />
 
         <View
-            android:id="@+id/item_selector"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:focusableInTouchMode="true"
-            android:onClick="@{holder::onClickPlay}"
-            android:focusable="true"
-            android:background="@drawable/rectangle_circle_right_white_selector"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_move_up"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/item_selector"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangle_circle_right_white_selector"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:onClick="@{holder::onClickPlay}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_move_up"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
