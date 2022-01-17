@@ -214,7 +214,7 @@
                 android:max="@{(int)progress.length}"
                 android:maxHeight="4dip"
                 android:minHeight="4dip"
-                android:nextFocusUp="@+id/sleep_quick_action"
+                android:nextFocusUp="@+id/playlist"
                 android:nextFocusDown="@+id/button_play"
                 android:padding="0dp"
                 android:paddingStart="16dp"
