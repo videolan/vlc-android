@@ -33,7 +33,7 @@ import kotlin.math.min
 
 @Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
-private const val TEN_SECONDS = 10000L
+private const val ONE_SECOND = 1000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -323,12 +323,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.getTime() + pos else pos, fromUser = true)
 
     override fun onFastForward() {
-        playbackService.seek((playbackService.getTime() + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
+        playbackService.seek((playbackService.getTime() + Settings.audioJumpDelay * ONE_SECOND).coerceAtMost(playbackService.length), fromUser = true)
         checkForSeekFailure(forward = true)
     }
 
     override fun onRewind() {
-        playbackService.seek((playbackService.getTime() - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
+        playbackService.seek((playbackService.getTime() - Settings.audioJumpDelay * ONE_SECOND).coerceAtLeast(0), fromUser = true)
         checkForSeekFailure(forward = false)
     }
 
