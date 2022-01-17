@@ -177,7 +177,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         val drawable = if (state.playing) playToPause else pauseToPlay
         binding.buttonPlay.setImageDrawable(drawable)
         if (state.playing != wasPlaying) {
-            drawable.start()
+            binding.buttonPlay.post { drawable.start() }
         }
 
         wasPlaying = state.playing

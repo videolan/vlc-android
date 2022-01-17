@@ -175,7 +175,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             holder.cardView.badgeImage = badge
             badge.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
                 override fun onAnimationEnd(drawable: Drawable?) {
-                    badge.start()
+                    holder.cardView.post { badge.start() }
                     super.onAnimationEnd(drawable)
                 }
             })
