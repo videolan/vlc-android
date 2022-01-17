@@ -62,26 +62,32 @@
                 tools:srcCompat="@tools:sample/avatars"/>
 
         <TextView
-            android:id="@+id/albumTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@{title}"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toTopOf="@+id/cover"
-            tools:text="Symphony No. 1" />
+                android:id="@+id/albumTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{title}"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
+                app:layout_constraintStart_toEndOf="@+id/cover"
+                app:layout_constraintTop_toTopOf="@+id/cover"
+                tools:text="Symphony No. 1" />
 
         <TextView
-            android:id="@+id/albumSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@{subtitle}"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toBottomOf="@+id/albumTitle"
-            tools:text="Ludwig van Beethoven" />
+                android:id="@+id/albumSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{subtitle}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
+                app:layout_constraintStart_toEndOf="@+id/cover"
+                app:layout_constraintTop_toBottomOf="@+id/albumTitle"
+                tools:text="Ludwig van Beethoven" />
 
         <TextView
             android:id="@+id/albumTotalTime"
@@ -93,15 +99,8 @@
             app:layout_constraintTop_toBottomOf="@+id/albumSubtitle"
             tools:text="01:38:27" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="albumSubtitle,albumTitle"
-            tools:layout_editor_absoluteX="960dp" />
-
         <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
