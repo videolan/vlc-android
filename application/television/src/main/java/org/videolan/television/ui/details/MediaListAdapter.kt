@@ -19,6 +19,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.interfaces.ITVEventsHandler
+import org.videolan.vlc.util.ModelsHelper.getDiscNumberString
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -45,6 +46,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
         val item = getItem(position)
         holder.binding.item = item
         holder.binding.holder = holder
+        holder.binding.subtitle = if (item.getDiscNumberString() != null) "${item.artist} · ${item.getDiscNumberString()}" else item.artist
 
         val moveVisibility = if (type == MediaLibraryItem.TYPE_ALBUM) View.GONE else View.VISIBLE
         holder.binding.itemMoveDown.visibility = if (moveVisibility == View.VISIBLE && position == itemCount - 1) View.INVISIBLE else moveVisibility

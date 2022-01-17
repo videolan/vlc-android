@@ -20,6 +20,10 @@
                 type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
 
         <variable
+                name="subtitle"
+                type="String" />
+
+        <variable
                 name="cover"
                 type="android.graphics.drawable.BitmapDrawable" />
 
@@ -76,8 +80,8 @@
                 android:text="@{item.title}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView16"
-                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                app:layout_constraintBottom_toTopOf="@+id/item_subtitle"
+                app:layout_constraintEnd_toStartOf="@+id/item_length"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/item_play"
                 app:layout_constraintTop_toTopOf="parent"
@@ -85,23 +89,23 @@
                 tools:text="Symphony No. 1" />
 
         <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/item_subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{item.artist}"
+                android:text="@{subtitle}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                app:layout_constraintEnd_toStartOf="@+id/item_length"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/item_play"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:text="Ludwig van Beethoven" />
 
         <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/item_length"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
