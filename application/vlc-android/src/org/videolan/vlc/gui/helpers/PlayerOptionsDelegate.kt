@@ -16,8 +16,9 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import androidx.leanback.widget.BrowseFrameLayout
+import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
 import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
@@ -125,6 +126,11 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         activity.findViewById<ViewStubCompat>(R.id.player_options_stub)?.let {
             rootView = it.inflate() as FrameLayout
             recyclerview = rootView.findViewById(R.id.options_list)
+            val browseFrameLayout =  rootView.findViewById<BrowseFrameLayout>(R.id.options_background)
+            browseFrameLayout.onFocusSearchListener = OnFocusSearchListener { focused, direction ->
+                if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
+                else null // someone else will find the next focus
+            }
             service.lifecycle.addObserver(this)
             activity.lifecycle.addObserver(this)
             if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.leanback.widget.BrowseFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/options_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,4 +17,4 @@
             android:clipToPadding="false"
             android:paddingTop="@dimen/default_margin"
             android:paddingBottom="@dimen/default_margin" />
-</FrameLayout>
+</androidx.leanback.widget.BrowseFrameLayout>
