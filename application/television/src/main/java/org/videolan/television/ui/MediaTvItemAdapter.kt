@@ -218,7 +218,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                 if (item.type == MediaWrapper.TYPE_VIDEO) {
                     resolution = generateResolutionClass(item.width, item.height) ?: ""
                     isSquare = false
-                    description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
+                    description = if (item.time <= 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
                     binding.badge = resolution
                     seen = item.seen
                     var max = 0
