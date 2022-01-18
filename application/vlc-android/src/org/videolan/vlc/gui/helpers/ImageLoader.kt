@@ -354,7 +354,6 @@ fun constraintRatio(v: View, isSquare: Boolean, imageWidth: Int = -2) {
         val constraintSet = ConstraintSet()
         constraintSet.clone(constraintLayout)
         constraintSet.setDimensionRatio(v.id, if (isSquare) "1" else "16:10")
-        constraintLayout.setConstraintSet(constraintSet)
-
+        constraintSet.applyTo(constraintLayout)
     }
 }
