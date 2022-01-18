@@ -65,10 +65,10 @@ open class BrowserModel(
     private val tv = Settings.showTvUi
 
     override val provider: BrowserProvider = when (type) {
-        TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType).also { if (tv) it.desc = desc }
-        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles).also { if (tv) it.desc = desc }
+        TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType)
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles)
         TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory).also { if (tv) it.desc = desc }
+        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory)
     }
 
     override val loading = provider.loading
