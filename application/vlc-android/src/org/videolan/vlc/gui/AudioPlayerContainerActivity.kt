@@ -452,9 +452,11 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         } else scanProgressLayout?.visibility = View.VISIBLE
         vsc?.let {
             val lp = it.layoutParams as CoordinatorLayout.LayoutParams
-            lp.anchorId = if (isTablet()) R.id.fragment_placeholder else R.id.navigation
-            lp.anchorGravity = if (isTablet()) Gravity.BOTTOM else Gravity.TOP
-            lp.marginStart = if (isTablet()) 72.dp else 0.dp
+            if (this is MainActivity) {
+                lp.anchorId =if (isTablet()) R.id.fragment_placeholder else  R.id.navigation
+                lp.anchorGravity = if (isTablet()) Gravity.BOTTOM else Gravity.TOP
+                lp.marginStart = if (isTablet()) 72.dp else 0.dp
+            }
             it.layoutParams = lp
         }
         scanProgressText?.text = discovery
