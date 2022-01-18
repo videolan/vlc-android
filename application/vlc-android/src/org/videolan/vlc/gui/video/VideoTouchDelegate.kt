@@ -42,7 +42,6 @@ private const val TOUCH_BRIGHTNESS = 2
 private const val TOUCH_MOVE = 3
 private const val TOUCH_TAP_SEEK = 4
 private const val TOUCH_IGNORE = 5
-private const val TOUCH_SWIPE_SEEK = 6
 
 private const val MIN_FOV = 20f
 private const val MAX_FOV = 150f
@@ -311,12 +310,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private val TAG = this::class.java.name
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
-        Log.d(TAG, "doSeekTouch: ${touchControls and TOUCH_FLAG_SWIPE_SEEK}")
         if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {
             var coef = coef
             if (coef == 0) coef = 1
-            Log.d(TAG, "doSeekTouch: coef: $coef")
-            Log.d(TAG, "doSeekTouch: abs(gesturesize): ${abs(gesturesize)}")
             // No seek action if coef > 0.5 and gesturesize < 1cm
             if (abs(gesturesize) < 1 || !player.service!!.isSeekable) return
 
@@ -437,6 +433,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 } else if (!grow && player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     player.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
                 }
+                touchAction = TOUCH_NONE
             }
         }
     }
