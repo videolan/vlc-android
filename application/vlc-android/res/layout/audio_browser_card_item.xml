@@ -127,20 +127,6 @@
                         vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:srcCompat="@drawable/ic_play_circle_card" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/item_more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:contentDescription="@string/more_actions"
-                        android:onClick="@{holder::onMoreClick}"
-                        android:scaleType="center"
-                        android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.GONE}"
-                        vlc:layout_constraintEnd_toEndOf="parent"
-                        vlc:layout_constraintTop_toTopOf="parent"
-                        vlc:srcCompat="@drawable/ic_more_w" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -199,7 +185,7 @@
                 tools:text="Title"
                 vlc:asyncText="@{item.title}"
                 vlc:ellipsizeMode="@{true}"
-                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toBottomOf="@id/media_cover_container"
                 vlc:placeholder="@{item}" />
@@ -216,10 +202,25 @@
                 tools:text="Subitle"
                 vlc:asyncText="@{item}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
-                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toBottomOf="@+id/title"
                 vlc:placeholder="@{item}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/more_actions"
+                android:onClick="@{holder::onMoreClick}"
+                android:scaleType="center"
+                android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:srcCompat="@drawable/ic_more" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/selected_check"
