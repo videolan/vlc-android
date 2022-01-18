@@ -56,6 +56,8 @@ import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.DialogActivity.Companion.EXTRA_MEDIA
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -64,6 +66,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeNetwork
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
@@ -79,6 +82,7 @@ private const val ID_GET_INFO = 10
 private const val ID_FAVORITE = 11
 private const val ID_REMOVE_FROM_HISTORY = 12
 private const val ID_NAVIGATE_PARENT = 13
+private const val ID_FAVORITE_EDIT = 14
 const val EXTRA_FROM_HISTORY = "from_history"
 
 @ExperimentalCoroutinesApi
@@ -293,6 +297,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         val activity = requireActivity()
         detailsOverview = DetailsOverviewRow(viewModel.mediaItemDetails)
         val actionAdd = Action(ID_FAVORITE_ADD.toLong(), getString(R.string.favorites_add))
+        val actionEdit = Action(ID_FAVORITE_EDIT.toLong(), getString(R.string.favorites_edit))
         val actionDelete = Action(ID_FAVORITE_DELETE.toLong(), getString(R.string.favorites_remove))
 
         rowPresenter.backgroundColor = ContextCompat.getColor(activity, R.color.orange500)
@@ -341,6 +346,11 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_added, Toast.LENGTH_SHORT).show()
                 }
+                ID_FAVORITE_EDIT -> {
+                    requireActivity().startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).apply {
+                        putExtra(EXTRA_MEDIA, viewModel.media)
+                    })
+                }
                 ID_FAVORITE_DELETE -> {
                     lifecycleScope.launch { browserFavRepository.deleteBrowserFav(viewModel.mediaItemDetails.location!!.toUri()) }
                     actionsAdapter.set(ID_FAVORITE, actionAdd)
@@ -374,6 +384,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             val isDir = viewModel.media.type == MediaWrapper.TYPE_DIR
             val canSave = isDir && withContext(Dispatchers.IO) { FileUtils.canSave(viewModel.media) }
             if (activity.isFinishing) return@launchWhenStarted
+            val isNetwork = viewModel.media.uri.scheme.isSchemeNetwork()
             val res = resources
             if (isDir) {
                 detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, if (viewModel.media.uri.scheme == "file")
@@ -383,6 +394,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 detailsOverview.isImageScaleUpAllowed = true
                 actionsAdapter.set(ID_BROWSE, Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
                 if (canSave) actionsAdapter.set(ID_FAVORITE, if (browserFavExists) actionDelete else actionAdd)
+                if (isDir && isNetwork && browserFavExists) actionsAdapter.set(ID_FAVORITE_EDIT, actionEdit)
             } else if (viewModel.media.type == MediaWrapper.TYPE_AUDIO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
