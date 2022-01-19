@@ -158,6 +158,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     override fun onQueryTextSubmit(query: String) = false
 
     private fun openSearchActivity() {
+        setSearchVisibility(false)
         startActivity(Intent(Intent.ACTION_SEARCH, null, this, SearchActivity::class.java)
                 .putExtra(SearchManager.QUERY, searchView.query.toString()))
     }
