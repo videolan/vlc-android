@@ -2,6 +2,7 @@ package org.videolan.vlc.gui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
@@ -42,6 +43,13 @@ class AuthorsActivity : BaseActivity() {
         binding.authorsList.layoutManager = LinearLayoutManager(this)
         loadAuthors()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     /**
