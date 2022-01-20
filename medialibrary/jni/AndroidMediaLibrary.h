@@ -163,6 +163,10 @@ public:
     void onGenresModified( std::set<int64_t> );
     void onGenresDeleted( std::set<int64_t> );
 
+    void onFoldersAdded( std::vector<medialibrary::FolderPtr> );
+    void onFoldersModified( std::set<int64_t> );
+    void onFoldersDeleted( std::set<int64_t> );
+
     void onDiscoveryStarted();
     void onDiscoveryProgress( const std::string& entryPoint );
     void onDiscoveryCompleted();

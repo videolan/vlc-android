@@ -1150,3 +1150,17 @@ void
 AndroidMediaLibrary::detachCurrentThread() {
     myVm->DetachCurrentThread();
 }
+
+void
+AndroidMediaLibrary::onFoldersAdded( std::vector<medialibrary::FolderPtr> )
+{
+}
+
+void
+AndroidMediaLibrary::onFoldersModified( std::set<int64_t> )
+{
+}
+
+void AndroidMediaLibrary::onFoldersDeleted( std::set<int64_t> )
+{
+}

@@ -165,6 +165,9 @@ struct fields {
         jmethodID onGenresAddedId;
         jmethodID onGenresModifiedId;
         jmethodID onGenresDeletedId;
+        jmethodID onFoldersAddedId;
+        jmethodID onFoldersModifiedId;
+        jmethodID onFoldersDeletedId;
         jmethodID onPlaylistsAddedId;
         jmethodID onPlaylistsModifiedId;
         jmethodID onPlaylistsDeletedId;
