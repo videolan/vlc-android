@@ -27,11 +27,13 @@ static void key_init(void)
 }
 
 AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject thiz, const char* dbPath, const char* mlFolder)
-    : p_ml( NewMediaLibrary( dbPath, mlFolder, false ) )
-    , p_fields ( ref_fields )
+    : p_fields ( ref_fields )
 {
     myVm = vm;
     p_lister = std::make_shared<AndroidDeviceLister>();
+    medialibrary::SetupConfig config;
+    config.deviceListers["file://"] = p_lister;
+    p_ml = NewMediaLibrary( dbPath, mlFolder, false, &config);
     p_ml->setLogger( new AndroidMediaLibraryLogger );
     p_ml->setVerbosity(medialibrary::LogLevel::Debug);
     pthread_once(&key_once, key_init);
@@ -50,7 +52,6 @@ AndroidMediaLibrary::~AndroidMediaLibrary()
 medialibrary::InitializeResult
 AndroidMediaLibrary::initML()
 {
-    p_ml->registerDeviceLister(p_lister, "file://");
     return p_ml->initialize(this);
 }
 
