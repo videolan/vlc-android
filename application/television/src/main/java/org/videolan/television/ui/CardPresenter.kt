@@ -141,6 +141,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
         val holder = viewHolder as ViewHolder
         when (item) {
             is MediaWrapper -> {
+                Tools.setMediaDescription(item)
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.description
                 holder.updateCardViewImage(item)
@@ -191,7 +192,10 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             val media = item as MediaLibraryItem
             for (data in payloads) {
                 when (data as Int) {
-                    UPDATE_DESCRIPTION -> holder.cardView.contentText = media.description
+                    UPDATE_DESCRIPTION -> {
+                        Tools.setMediaDescription(item)
+                        holder.cardView.contentText = media.description
+                    }
                     UPDATE_THUMB -> loadImage(holder.cardView, media)
                     UPDATE_TIME -> {
                         val mediaWrapper = item as MediaWrapper

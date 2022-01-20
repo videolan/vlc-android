@@ -88,18 +88,15 @@ public class Tools {
             final MediaWrapper mw = (MediaWrapper) item;
             if (mw.getType() == MediaWrapper.TYPE_VIDEO) {
                 final String progress = mw.getLength() == 0L ? null : mw.getTime() == 0L ? Tools.millisToString(mw.getLength()) : getProgressText(mw);
-                final String resolution = getResolution(mw);
-                boolean hasprogress = !TextUtils.isEmpty(progress), hasResolution = !TextUtils.isEmpty(resolution);
+                boolean hasprogress = !TextUtils.isEmpty(progress);
                 final StringBuilder sb = new StringBuilder();
-                if (hasprogress && hasResolution) sb.append(resolution).append(" - ").append(progress);
-                else if (hasprogress) sb.append(progress);
-                else sb.append(resolution);
+                if (hasprogress) sb.append(progress); else sb.append(Tools.millisToString(mw.getLength()));
                 item.setDescription(sb.toString());
             } else if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
                 final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
                 final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);
-                if (hasArtist && hasAlbum) sb.append(artist).append(" - ").append(album);
+                if (hasArtist && hasAlbum) sb.append(artist).append(" · ").append(album);
                 else if (hasArtist) sb.append(artist);
                 else sb.append(album);
                 item.setDescription(sb.toString());
