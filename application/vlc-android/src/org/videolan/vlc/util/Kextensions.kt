@@ -175,9 +175,7 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         return
     }
     val text = if (item is Playlist){
-        val sb = StringBuilder(view.context.getString(R.string.track_number, item.tracksCount))
-        if (item.duration != 0L) sb.append(" · ${Tools.millisToString(item.duration)}")
-        sb.toString()
+        TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.duration != 0L) Tools.millisToString(item.duration) else null)
     } else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
@@ -211,7 +209,7 @@ const val presentReplacementMarker = "§*§"
 const val missingReplacementMarker = "*§*"
 
 fun MediaLibraryItem.getPresenceDescription() = when (this) {
-    is VideoGroup -> "${this.presentCount} §*§ · ${this.mediaCount() - this.presentCount} *§*"
+    is VideoGroup -> TextUtils.separatedString("${this.presentCount} §*§", "${this.mediaCount() - this.presentCount} *§*")
     else -> ""
 }
 

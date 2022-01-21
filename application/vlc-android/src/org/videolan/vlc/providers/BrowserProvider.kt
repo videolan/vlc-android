@@ -313,17 +313,13 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     fun hasSubfolders(media: MediaWrapper): Boolean = foldersContentMap.get(media)?.map { it as MediaWrapper }?.filter { it.type == MediaWrapper.TYPE_DIR }?.size ?: 0 > 0
     fun hasMedias(media: MediaWrapper): Boolean = foldersContentMap.get(media)?.map { it as MediaWrapper }?.filter { it.type != MediaWrapper.TYPE_DIR }?.size ?: 0 > 0
 
-    private val sb = StringBuilder()
     open fun getDescription(folderCount: Int, mediaFileCount: Int): String {
         val res = context.resources
-        sb.clear()
-        if (folderCount > 0) {
-            sb.append("$folderCount $folderReplacementMarker")
-            if (mediaFileCount > 0) sb.append(" · ")
-        }
-        if (mediaFileCount > 0) sb.append("$mediaFileCount $fileReplacementMarker")
-        else if (folderCount == 0 && mediaFileCount == 0) sb.append(res.getString(R.string.empty_directory))
-        return sb.toString()
+        val texts = ArrayList<String>()
+        if (folderCount > 0)  texts.add("$folderCount $folderReplacementMarker")
+        if (mediaFileCount > 0) texts.add("$mediaFileCount $fileReplacementMarker")
+        if(texts.isEmpty()) texts.add(res.getString(R.string.empty_directory))
+        return TextUtils.separatedString(texts.toTypedArray())
     }
 
     protected open suspend fun findMedia(media: IMedia): MediaLibraryItem? {

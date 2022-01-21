@@ -26,6 +26,7 @@ package org.videolan.moviepedia.database.models
 
 import androidx.room.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.vlc.util.TextUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -96,7 +97,7 @@ fun MediaMetadataWithImages.movieSubtitle(): String {
     subtitle.add(metadata.genres)
     subtitle.add(metadata.countries)
 
-    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
+    return TextUtils.separatedString(subtitle.toTypedArray())
 }
 
 fun MediaMetadataWithImages.tvshowSubtitle(): String {
@@ -108,7 +109,7 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
     subtitle.add(show.title)
     subtitle.add("S${metadata.season.toString().padStart(2, '0')}E${metadata.episode.toString().padStart(2, '0')}")
 
-    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
+    return TextUtils.separatedString(subtitle.toTypedArray())
 }
 
 fun MediaMetadataWithImages.tvEpisodeSubtitle(): String {

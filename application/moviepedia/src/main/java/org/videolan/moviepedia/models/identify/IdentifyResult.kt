@@ -30,6 +30,7 @@ import org.videolan.moviepedia.models.resolver.ResolverImage
 import org.videolan.moviepedia.models.resolver.ResolverMedia
 import org.videolan.moviepedia.models.resolver.ResolverMediaType
 import org.videolan.moviepedia.models.resolver.ResolverResult
+import org.videolan.vlc.util.TextUtils
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Comparator
@@ -168,7 +169,7 @@ fun MediaType.toResolverClass(): ResolverMediaType = when (this) {
 }
 
 
-fun MoviepediaMedia.getShow() = "$showTitle · S${season.toString().padStart(2, '0')}E${episode.toString().padStart(2, '0')}"
+fun MoviepediaMedia.getShow() = TextUtils.separatedString(showTitle, "S${season.toString().padStart(2, '0')}E${episode.toString().padStart(2, '0')}")
 
 fun MoviepediaMedia.retrievePosters(languages: List<String>) = images?.posters?.sortedWith(Comparator { p0, p1 ->
     -(languages.indexOf(p0.language) - languages.indexOf(p1.language))

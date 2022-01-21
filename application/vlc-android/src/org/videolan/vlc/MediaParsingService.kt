@@ -55,10 +55,8 @@ import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.cleanupWatchNextList
-import org.videolan.vlc.util.scanAllowed
 
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
@@ -354,7 +352,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         val discovery = withContext(Dispatchers.Default) {
             val progressText = when {
                 inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
-                parsing > 0 -> getString(R.string.ml_parse_media) + " " + String.format("%.02f",parsing) + "% · $done/$scheduled"
+                parsing > 0 -> TextUtils.separatedString(getString(R.string.ml_parse_media) + " " + String.format("%.02f",parsing) + "%", "$done/$scheduled")
                 else -> getString(R.string.ml_parse_media)
             }
             if (!isActive) return@withContext ""

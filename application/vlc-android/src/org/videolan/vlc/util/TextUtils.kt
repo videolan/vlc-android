@@ -26,11 +26,26 @@ package org.videolan.vlc.util
 
 object TextUtils {
 
-    fun separator() = "·"
+    /**
+     * Common string separator used in the whole app
+     */
+    private const val separator = '·'
 
-    @JvmName("separatedStringArr")
+    /**
+     * Create a string separated by the common [separator]
+     *
+     * @param pieces the strings to join
+     * @return a string containing all the [pieces] if they are not blanked, spearated by the [separator]
+     */
+    @JvmName("separatedStringArgs")
     fun separatedString(vararg pieces: String?) = separatedString(arrayOf(*pieces))
 
-    private fun separatedString(pieces: Array<String?>) = pieces.filter { it?.isNotBlank() == true }.joinToString(separator = " ${separator()} ")
+    /**
+     * Create a string separated by the common [separator]
+     *
+     * @param pieces the strings to join in an [Array]
+     * @return a string containing all the [pieces] if they are not blanked, spearated by the [separator]
+     */
+    fun separatedString(pieces: Array<String?>) = pieces.filter { it?.isNotBlank() == true }.joinToString(separator = " $separator ")
 
 }
