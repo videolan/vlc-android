@@ -177,7 +177,7 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         return
     }
     val text = if (item is Playlist){
-        val duration =if (item.duration != 0L) Tools.millisToString(item.duration) else null
+        val duration = if (item.duration != 0L) Tools.millisToString(item.duration) else null
         TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.nbDurationUnknown > 0) "$duration+" else duration)
     } else item.description
     if (text.isNullOrEmpty()) {
