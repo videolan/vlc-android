@@ -103,11 +103,11 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         val inflater = LayoutInflater.from(context)
         if (service.hasPrevious()) {
-            addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev, prevTrackInfo)
+            addMediaView(inflater, service.titlePrev, service.artistPrev, service.albumPrev, coverPrev, prevTrackInfo)
             hasPrevious = true
         }
-        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, coverCurrent, trackInfo)
-        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, coverNext, nextTrackInfo)
+        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, service.album, coverCurrent, trackInfo)
+        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, service.albumNext, coverNext, nextTrackInfo)
 
         if (service.hasPrevious() && service.hasMedia()) {
             previousPosition = 1
@@ -116,7 +116,7 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             scrollTo(0)
     }
 
-    protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?, trackInfo: String?)
+    protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, album: String?, cover: Bitmap?, trackInfo: String?)
 
     fun setAudioMediaSwitcherListener(l: AudioMediaSwitcherListener) {
         audioMediaSwitcherListener = l

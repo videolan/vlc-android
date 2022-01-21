@@ -109,6 +109,9 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val artist
         get() = service?.artist
 
+    val album
+        get() = service?.album
+
     public override fun onCleared() {
         service?.apply {
             removeCallback(this@PlaylistModel)

@@ -301,6 +301,20 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             return if (media != null) MediaUtils.getMediaAlbum(this@PlaybackService, media) else null
         }
 
+    val albumPrev: String?
+        @MainThread
+        get() {
+            val prev = playlistManager.getPrevMedia()
+            return if (prev != null) MediaUtils.getMediaAlbum(this@PlaybackService, prev) else null
+        }
+
+    val albumNext: String?
+        @MainThread
+        get() {
+            val next = playlistManager.getNextMedia()
+            return if (next != null) MediaUtils.getMediaAlbum(this@PlaybackService, next) else null
+        }
+
     val artist: String?
         @MainThread
         get() {

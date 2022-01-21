@@ -74,6 +74,7 @@ import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.BookmarkModel
@@ -308,7 +309,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.audioMediaSwitcher.updateMedia(playlistModel.service)
         binding.coverMediaSwitcher.updateMedia(playlistModel.service)
         binding.songTitle?.text = playlistModel.title
-        binding.songSubtitle?.text = playlistModel.artist
+        binding.songSubtitle?.text = TextUtils.separatedString(playlistModel.artist, playlistModel.album)
+        binding.songTitle?.isSelected = true
+        binding.songSubtitle?.isSelected = true
         binding.songTrackInfo?.text = playlistModel.service?.trackInfo()
         binding.songTrackInfo?.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
 

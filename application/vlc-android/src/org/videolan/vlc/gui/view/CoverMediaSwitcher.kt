@@ -33,12 +33,13 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.setEllipsizeModeByPref
+import org.videolan.vlc.util.TextUtils
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
-    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?, trackInfo: String?) {
+    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, album: String?, cover: Bitmap?, trackInfo: String?) {
         val v = inflater.inflate(R.layout.cover_media_switcher_item, this, false)
 
         val coverView = v.findViewById<ImageView>(R.id.cover)
@@ -58,7 +59,7 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         artistView.setOnClickListener { onTextClicked() }
 
         titleView.text = title
-        artistView.text = artist
+        artistView.text = TextUtils.separatedString(artist, album)
         trackInfoView?.text = trackInfo
 
         setEllipsizeModeByPref(titleView, true)
