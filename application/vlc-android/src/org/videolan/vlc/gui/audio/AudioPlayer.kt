@@ -136,8 +136,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer, {
             showChips()
         })
-        Settings.setAudioControlsChangeListener{
-            lifecycleScope.launch {
+        Settings.setAudioControlsChangeListener {
+            lifecycleScope.launchWhenStarted {
                 doUpdate()
             }
         }
