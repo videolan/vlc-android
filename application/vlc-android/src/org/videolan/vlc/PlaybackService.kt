@@ -1113,12 +1113,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder, showSeekActions: Boolean = true) {
         if (!showSeekActions) return
+        val ctx = applicationContext
+        /* Rewind */
         pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder(CUSTOM_ACTION_REWIND,
-                getString(R.string.playback_rewind), R.drawable.ic_auto_rewind_10)
+                getString(R.string.playback_rewind),
+                DrawableCache.getDrawableFromMemCache(ctx, "ic_auto_rewind_${Settings.audioJumpDelay}", R.drawable.ic_auto_rewind))
                 .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
                 .build())
+        /* Fast Forward */
         pscb.addCustomAction(PlaybackStateCompat.CustomAction.Builder(CUSTOM_ACTION_FAST_FORWARD,
-                getString(R.string.playback_forward), R.drawable.ic_auto_forward_10)
+                getString(R.string.playback_forward),
+                DrawableCache.getDrawableFromMemCache(ctx, "ic_auto_forward_${Settings.audioJumpDelay}", R.drawable.ic_auto_forward))
                 .setExtras(Bundle().apply { putBoolean(WEARABLE_SHOW_CUSTOM_ACTION, true) })
                 .build())
     }
