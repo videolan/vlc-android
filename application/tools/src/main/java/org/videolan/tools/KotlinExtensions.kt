@@ -17,6 +17,7 @@ import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -166,4 +167,10 @@ fun Intent.isCallable(context: Context): Boolean {
     val list: List<ResolveInfo> = context.packageManager.queryIntentActivities(this,
             PackageManager.MATCH_DEFAULT_ONLY)
     return list.isNotEmpty()
+}
+
+fun Resources.getDrawableOrDefault(name: String, defPackage: String, @DrawableRes defaultDrawable: Int): Int {
+    return getIdentifier(name, "drawable", defPackage).let {
+        if (it == 0) defaultDrawable else it
+    }
 }
