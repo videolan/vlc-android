@@ -107,6 +107,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="32dp"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="?attr/font_audio_light"
                 android:textSize="12sp"
                 app:layout_constrainedWidth="true"

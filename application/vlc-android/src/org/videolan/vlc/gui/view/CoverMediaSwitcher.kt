@@ -66,6 +66,8 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         if (Settings.listTitleEllipsize == 4) titleView.isSelected = true
         setEllipsizeModeByPref(artistView, true)
         if (Settings.listTitleEllipsize == 4) artistView.isSelected = true
+        setEllipsizeModeByPref(trackInfoView, true)
+        if (Settings.listTitleEllipsize == 4) trackInfoView.isSelected = true
 
         addView(v)
 

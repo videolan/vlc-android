@@ -316,6 +316,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.songSubtitle?.isSelected = true
         binding.songTrackInfo?.text = playlistModel.service?.trackInfo()
         binding.songTrackInfo?.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE
+        binding.songTrackInfo?.isSelected = true
 
         binding.audioRewindText.text = "${Settings.audioJumpDelay}"
         binding.audioForwardText.text = "${Settings.audioJumpDelay}"

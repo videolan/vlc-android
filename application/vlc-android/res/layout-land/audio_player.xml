@@ -517,6 +517,8 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="16dp"
                     android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="1"
                     android:textColor="?attr/font_audio_light"
                     android:textSize="12sp"
                     app:layout_constrainedWidth="true"
