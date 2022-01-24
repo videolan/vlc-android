@@ -495,7 +495,6 @@
     <string name="playlist_save">Save Playlist</string>
     <string name="playlist_name_hint">Playlist name</string>
     <string name="go_to_chapter">Go to chapter…</string>
-    <string name="chapter">Chapter</string>
     <string name="current_chapter">Chapter: %s</string>
     <string name="resume_from_position">Resume from last position</string>
     <string name="confirm_resume">Resume from last position?</string>

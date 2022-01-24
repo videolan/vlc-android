@@ -37,6 +37,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ChapterListItemBinding
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
 import java.util.*
 
@@ -78,10 +79,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
         val chapterData = ArrayList<Chapter>()
 
         for (i in 0 until chaptersCount) {
-            val name: String = if (chapters!![i].name == null || chapters[i].name == "")
-                resources.getString(R.string.chapter) + " " + i
-            else
-                chapters[i].name
+            val name: String = TextUtils.formatChapterTitle(requireActivity(), chapters!![i].name)
             chapterData.add(Chapter(name, Tools.millisToString(chapters[i].timeOffset)))
         }
 

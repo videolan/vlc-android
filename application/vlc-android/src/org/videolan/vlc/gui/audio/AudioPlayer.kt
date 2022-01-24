@@ -309,8 +309,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.audioMediaSwitcher.updateMedia(playlistModel.service)
         binding.coverMediaSwitcher.updateMedia(playlistModel.service)
 
-        val chapter = playlistModel.service!!.getChapters(-1)?.get(playlistModel.service!!.chapterIdx)?.name
-        binding.songTitle?.text = if (!chapter.isNullOrEmpty()) getString(R.string.current_chapter, chapter) else  playlistModel.title
+        val chapter = playlistModel.service?.getCurrentChapter(true)
+        binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
         binding.songTitle?.isSelected = true
         binding.songSubtitle?.isSelected = true

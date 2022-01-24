@@ -24,6 +24,9 @@
 
 package org.videolan.vlc.util
 
+import android.content.Context
+import org.videolan.vlc.R
+
 object TextUtils {
 
     /**
@@ -47,5 +50,14 @@ object TextUtils {
      * @return a string containing all the [pieces] if they are not blanked, spearated by the [separator]
      */
     fun separatedString(pieces: Array<String?>) = pieces.filter { it?.isNotBlank() == true }.joinToString(separator = " $separator ")
+
+    /**
+     * Formats the chapter title by prepending "Chapter:" if the current title is made of only non alpha chars
+     *
+     * @param context the context to use to retrieve the string
+     * @param title the title to format
+     * @return a formatted string
+     */
+    fun formatChapterTitle(context: Context, title: String?) = if (title?.firstOrNull { it.isLetter() } == null) context.getString(R.string.current_chapter, title) else title
 
 }

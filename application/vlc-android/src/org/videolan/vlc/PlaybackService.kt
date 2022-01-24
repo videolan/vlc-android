@@ -388,6 +388,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             return next?.artworkMrl
         }
 
+    suspend fun getCurrentChapter(formatted:Boolean = false):String? {
+        val currentChapter = withContext(Dispatchers.IO) {
+             getChapters(-1)?.get(chapterIdx)?.name
+        }
+        return if (formatted) TextUtils.formatChapterTitle(this, currentChapter) else currentChapter
+    }
+
     suspend fun trackInfo(): String? {
         val mediaWrapper = playlistManager.getCurrentMedia() ?: return null
         val media = withContext(Dispatchers.IO) {
@@ -979,7 +986,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val ctx = this
         val length = length
         lastLength = length
-        val chapterTitle = if (lastChaptersCount > 0) getChapters(-1)?.elementAtOrNull(lastChapter)?.name else null
+        val chapterTitle = if (lastChaptersCount > 0) getCurrentChapter(true) else null
         val displayMsg = subtitleMessage.poll()
         val bob = withContext(Dispatchers.Default) {
             val carMode = AndroidDevices.isCarMode(ctx)
