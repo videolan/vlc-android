@@ -289,15 +289,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         }
     }
 
-    private fun initChapters(binding: PlayerOptionItemBinding) {
-        val chapters = service.getChapters(-1) ?: return
-        if (chapters.isEmpty()) return
-        val index = service.chapterIdx
-        if (chapters[index].name.isNullOrEmpty())
-            binding.optionTitle.text = String.format("%s %d", res.getString(R.string.chapter), index)
-        else binding.optionTitle.text = chapters[index].name
-    }
-
     private fun initRepeat(binding: PlayerOptionItemBinding) {
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
@@ -335,13 +326,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val option = dataset[position]
             holder.binding.option = option
-            when {
-                option.id == ID_ABREPEAT -> abrBinding = holder.binding
-                option.id == ID_PASSTHROUGH -> ptBinding = holder.binding
-                option.id == ID_REPEAT -> initRepeat(holder.binding)
-                option.id == ID_SHUFFLE -> initShuffle(holder.binding)
-                option.id == ID_SLEEP -> sleepBinding = holder.binding
-                option.id == ID_CHAPTER_TITLE -> initChapters(holder.binding)
+            when (option.id) {
+                ID_ABREPEAT -> abrBinding = holder.binding
+                ID_PASSTHROUGH -> ptBinding = holder.binding
+                ID_REPEAT -> initRepeat(holder.binding)
+                ID_SHUFFLE -> initShuffle(holder.binding)
+                ID_SLEEP -> sleepBinding = holder.binding
             }
             holder.binding.optionIcon.setImageResource(option.icon)
         }
