@@ -71,7 +71,7 @@ suspend inline fun waitForML() = withContext(Dispatchers.IO) {
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true, removeDevices:Boolean = false, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = AppScope.launch {
-    if (Medialibrary.getInstance().isStarted || !canReadStorage(this@startMedialibrary)) return@launch
+    if (Medialibrary.getInstance().isStarted) return@launch
     val prefs = withContext(coroutineContextProvider.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
