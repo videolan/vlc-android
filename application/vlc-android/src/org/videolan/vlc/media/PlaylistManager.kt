@@ -964,11 +964,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
                 MediaPlayer.Event.EncounteredError -> {
-                    Log.w(TAG, "Invalid location ${getCurrentMedia()?.location}")
+                    val location = try {
+                        getCurrentMedia()?.location
+                    } catch (e: NullPointerException) {
+                        null
+                    }
+                    Log.w(TAG, "Invalid location $location")
 
-                    service.showToast(if (Uri.parse(getCurrentMedia()?.location).scheme == "missing") service.getString(R.string.missing_location) else service.getString(
-                            R.string.invalid_location,
-                            getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT, true)
+                    service.showToast(if (Uri.parse(location).scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location
+                            ?: ""), Toast.LENGTH_SHORT, true)
                     if (currentIndex != nextIndex) next() else stop()
                 }
                 MediaPlayer.Event.TimeChanged -> {
