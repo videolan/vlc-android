@@ -30,7 +30,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
 
 @ObsoleteCoroutinesApi
@@ -107,8 +106,8 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             addMediaView(inflater, service.titlePrev, service.artistPrev, service.albumPrev, coverPrev, prevTrackInfo)
             hasPrevious = true
         }
-        val chapter = service.getChapters(-1)?.get(service.chapterIdx)?.name
-        if (service.hasMedia()) addMediaView(inflater, if (!chapter.isNullOrEmpty()) service.getCurrentChapter(true) else  service.title, if (!chapter.isNullOrEmpty()) service.title else service.artist, if (!chapter.isNullOrEmpty()) service.artist else service.album, coverCurrent, trackInfo)
+        val chapter = service.getCurrentChapter(true)
+        if (service.hasMedia()) addMediaView(inflater, if (!chapter.isNullOrEmpty()) chapter else  service.title, if (!chapter.isNullOrEmpty()) service.title else service.artist, if (!chapter.isNullOrEmpty()) service.artist else service.album, coverCurrent, trackInfo)
         if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, service.albumNext, coverNext, nextTrackInfo)
 
         if (service.hasPrevious() && service.hasMedia()) {

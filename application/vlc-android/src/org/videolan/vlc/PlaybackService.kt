@@ -390,9 +390,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     suspend fun getCurrentChapter(formatted:Boolean = false):String? {
         val currentChapter = withContext(Dispatchers.IO) {
-             getChapters(-1)?.get(chapterIdx)?.name
+            val chapters = getChapters(-1)
+            if (chapters?.size ?: 0 > 0 && chapterIdx >= 0) chapters?.get(chapterIdx)?.name else null
         }
-        return if (formatted) TextUtils.formatChapterTitle(this, currentChapter) else currentChapter
+        return if (currentChapter == null) null else if (formatted) TextUtils.formatChapterTitle(this, currentChapter) else currentChapter
     }
 
     suspend fun trackInfo(): String? {
