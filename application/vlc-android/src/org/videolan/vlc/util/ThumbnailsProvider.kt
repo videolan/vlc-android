@@ -66,6 +66,7 @@ object ThumbnailsProvider {
 
     private fun getMediaThumbnailPath(isMedia: Boolean, item: MediaLibraryItem): String? {
         if (isMedia && isMediaVideo(item as MediaWrapper)) {
+            if (item.id == 0L) return item.uri.toString()
             if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
@@ -82,7 +83,7 @@ object ThumbnailsProvider {
         if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
         val hasCache = appDir?.exists() == true
         val thumbPath = getMediaThumbnailPath(true, media) ?: return null
-        val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(getMediaCacheKey(true, media)) else null
+        val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(getMediaCacheKey(true, media, width.toString())) else null
         if (cacheBM != null) return cacheBM
         if (hasCache && File(thumbPath).exists()) return readCoverBitmap(thumbPath, width)
         if (media.isThumbnailGenerated) return null
