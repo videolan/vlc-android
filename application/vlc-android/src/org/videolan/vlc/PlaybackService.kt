@@ -19,6 +19,7 @@
 
 package org.videolan.vlc
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetManager
@@ -793,8 +794,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private class PlaybackServiceHandler(owner: PlaybackService) : WeakHandler<PlaybackService>(owner) {
 
         var currentToast: Toast? = null
+        var lastErrorTime = 0L
         var nbErrors = 0
 
+        @SuppressLint("ShowToast")
         override fun handleMessage(msg: Message) {
             val service = owner ?: return
             when (msg.what) {
@@ -805,11 +808,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     val isError = bundle.getBoolean("isError")
                     if (isError) {
                         when {
-                            nbErrors > 5 -> return
-                            nbErrors == 5 -> text = service.getString(R.string.playback_multiple_errors)
+                            nbErrors > 2 && System.currentTimeMillis() - lastErrorTime < 500 -> return
+                            nbErrors >= 2 -> text = service.getString(R.string.playback_multiple_errors)
                         }
                         currentToast?.cancel()
                         nbErrors++
+                        lastErrorTime = System.currentTimeMillis()
                     }
                     currentToast = Toast.makeText(AppContextProvider.appContext, text, duration)
                     currentToast?.show()
