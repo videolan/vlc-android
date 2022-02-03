@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Excluir esses %1$s arquivos?</string>
     <string name="confirm_delete_folders_and_files">Excluir essas %1$s pastas e %2$s arquivos?</string>
     <string name="confirm_delete_playlist">Excluir a lista de reprodução \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Excluir \'%1$s\' da lista de reprodução?</string>
     <string name="ringtone_set">O arquivo \'%1$s\' foi definido como toque.</string>
     <string name="ringtone_error">Ocorreu um erro ao definir o toque.</string>
     <string name="pause">Pausar</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um erro nesta mídia.\nPor favor, tente atualizar a biblioteca de mídias.</string>
     <string name="invalid_location">Não é possível reproduzir na área %1$s.</string>
+    <string name="missing_location">Essa mídia está em um armazenamento indisponível e não pode ser reproduzida.</string>
 
     <string name="search">Pesquisar</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Toque para reproduzir o vídeo</string>
     <string name="lock">Bloquear</string>
     <string name="tap">Toque para exibir</string>
+    <string name="tap_to_remove">Toque para excluir</string>
+    <string name="tap_to_rearrange">Toque para reorganizar</string>
+    <string name="tap_to_previous_next">Toque para ir ao anterior/próximo</string>
     <string name="lock_orientation">Orientação</string>
     <string name="lock_orientation_description">Toque para bloquear/desbloquear a orientação</string>
     <string name="aspect_ratio">Proporção</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
-    <string name="licence">Licença</string>
     <string name="revision">Revisão</string>
     <string name="about">Sobre</string>
-    <string name="about_text">O VLC para Android™ é uma versão do Reprodutor de Mídias VLC, o popular reprodutor de mídias livre. A versão Android™ lê a maioria dos arquivos e transmissões de rede.</string>
+    <string name="about_vlc_text">O VLC para Android™ é uma versão do reprodutor de mídias VLC, o reprodutor de mídias livre popular. A versão para Android™ pode ler todos os tipos de arquivos e transmissões de rede.</string>
+    <string name="authors">Autores</string>
     <string name="vlc_authors">e autores do VLC.</string>
-    <string name="compiled_by">Esta versão do VLC foi compilada por:</string>
+    <string name="is_compiled_by">Compilado por</string>
+    <string name="sources">Código fonte</string>
+    <string name="libraries">Bibliotecas</string>
     <string name="feedback_forum">Fórum de avaliação</string>
 
     <!-- Preferences -->
@@ -319,6 +324,8 @@
     <string name="enable_double_tap_seek_summary">Toque duplo nos cantos da tela para pesquisar por 10 segundos</string>
     <string name="enable_double_tap_play_title">Duplo toque para reproduzir/pausar</string>
     <string name="enable_double_tap_play_summary">Duplo toque no centro da tela para reproduzir ou pausar</string>
+    <string name="enable_swipe_seek_title">Deslizar para pesquisar</string>
+    <string name="enable_swipe_seek_summary">Deslize seu dedo pela tela para pesquisar</string>
     <string name="popup_keepscreen_title">Manter a tela ativa no modo Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manter a tela ativa enquanto um Pop-Up é exibido, mesmo se o vídeo estiver pausado</string>
     <string name="browser_show_hidden_files_title">Exibir arquivos ocultos</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Áudio</string>
     <string name="lockscreen_cover_title">Capa da mídia na Tela de Bloqueio</string>
     <string name="lockscreen_cover_summary">Quando disponível, define a capa da mídia atual como papel de parede</string>
+    <string name="show_seek_in_compact_notif_title">Botões de busca no painel de notificações</string>
+    <string name="show_seek_in_compact_notif_summary">Exibir os botões de avançar rápido e retroceder nos controles de mídia compactos</string>
     <string name="list_title_ellipsize">Título em linha única encurtado com reticências</string>
     <string name="list_title_ellipsize_default">Padrão</string>
     <string name="list_title_ellipsize_left">Esquerda</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Nome da Lista de Reprodução</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
     <string name="chapter">Capítulo</string>
+    <string name="current_chapter">Capítulo: %s</string>
     <string name="resume_from_position">Continuar a reprodução da última posição</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
     <string name="confirm_resume_title">Retomar vídeos já reproduzidos</string>
@@ -876,5 +886,7 @@
         <item quantity="one">1 dos itens selecionados já está na lista de reprodução.</item>
         <item quantity="other">%d dos itens selecionados já está na lista de reprodução.</item>
     </plurals>
+    <string name="official_website">Site oficial</string>
+    <string name="view_online">Ver online</string>
 
 </resources>
