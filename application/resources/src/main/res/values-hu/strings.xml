@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Törli ezt a(z) %1$sfájlt?</string>
     <string name="confirm_delete_folders_and_files">Törli ezt a(z) %1$smappát és %2$sfájlt?</string>
     <string name="confirm_delete_playlist">Törli a(z) „%1$s” lejátszólistát?</string>
-    <string name="confirm_remove_from_playlist">Eltávolítja a(z) „%1$s” elemet a lejátszólistáról?</string>
     <string name="ringtone_set">A(z) „%1$s” fájl beállítva csengőhangként.</string>
     <string name="ringtone_error">Hiba történt a csengőhang beállításakor.</string>
     <string name="pause">Szünet</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Lejátszási hiba</string>
     <string name="encountered_error_message">A VLC hibát tapasztalt ezzel a médiával.\nPróbálja meg frissíteni a médiatárat.</string>
     <string name="invalid_location">A(z) %1$s helyet nem lehet lejátszani.</string>
+    <string name="missing_location">A média egy nem elérhető tárhelyen található, ezért nem lehet lejátszani.</string>
 
     <string name="search">Keresés</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Koppintson a videó lejátszásához</string>
     <string name="lock">Zárolás</string>
     <string name="tap">Koppintson a megtekintéshez</string>
+    <string name="tap_to_remove">Koppintson az eltávolításhoz</string>
+    <string name="tap_to_rearrange">Koppintson az átrendezéshez</string>
+    <string name="tap_to_previous_next">Koppintson az előzőhöz/következőhöz ugráshoz</string>
     <string name="lock_orientation">Tájolás</string>
     <string name="lock_orientation_description">Koppintson a tájolás zárolásához/feloldásához</string>
     <string name="aspect_ratio">Képarány</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
-    <string name="licence">Licenc</string>
     <string name="revision">Revízió</string>
     <string name="about">Névjegy</string>
-    <string name="about_text">A VLC for Android™ a népszerű nyílt forráskódú VLC médialejátszó androidos változata. Ez a változat képes a legtöbb fájlból és hálózati forrásból lejátszani.</string>
+    <string name="about_vlc_text">A VLC for Android™  a népszerű nyílt forráskódú médialejátszó, a VLC Media Player portja. Az androidos verzió minden fájlt és hálózati adatfolyamot képes olvasni.</string>
+    <string name="authors">Szerzők</string>
     <string name="vlc_authors">és a VLC szerzői.</string>
-    <string name="compiled_by">Ezt a VLC verziót készítették:</string>
+    <string name="is_compiled_by">Fordította:</string>
+    <string name="sources">Forráskód</string>
+    <string name="libraries">Programkönyvtárak</string>
     <string name="feedback_forum">Visszajelző fórum</string>
 
     <!-- Preferences -->
@@ -319,6 +324,8 @@
     <string name="enable_double_tap_seek_summary">Dupla koppintás a képernyő szélen a 10 másodperces tekeréshez</string>
     <string name="enable_double_tap_play_title">Dupla koppintás a lejátszáshoz/szüneteltetéshez</string>
     <string name="enable_double_tap_play_summary">Dupla koppintás a képernyő közepén a lejátszáshoz vagy szüneteltetéshez</string>
+    <string name="enable_swipe_seek_title">Csúsztassa a tekeréshez</string>
+    <string name="enable_swipe_seek_summary">Csúsztassa az ujjait a képernyőn a tekeréshez</string>
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
     <string name="popup_keepscreen_summary">A képernyő bekapcsolva tartása, ha a felugró megjelenített, akkor is, ha a videó szüneteltetett.</string>
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Hang</string>
     <string name="lockscreen_cover_title">Médiaborító a zárképernyőn</string>
     <string name="lockscreen_cover_summary">Ha elérhető, a jelenlegi média borítójának beállítása a képernyőzár háttereként</string>
+    <string name="show_seek_in_compact_notif_title">Tekerőgombok az értesítési panelen</string>
+    <string name="show_seek_in_compact_notif_summary">Előre- és visszatekerési gombok megjelenítése a kompakt médiavezérlők között</string>
     <string name="list_title_ellipsize">Hosszú egysoros listacímek kipontozása</string>
     <string name="list_title_ellipsize_default">Alapértelmezett</string>
     <string name="list_title_ellipsize_left">Bal</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Lejátszólista neve</string>
     <string name="go_to_chapter">Fejezethez ugrás…</string>
     <string name="chapter">Fejezet</string>
+    <string name="current_chapter">Fejezet: %s</string>
     <string name="resume_from_position">Folytatás az utolsó pozícióról</string>
     <string name="confirm_resume">Folytatja az utolsó pozícióról?</string>
     <string name="confirm_resume_title">Lejátszott videók folytatása</string>
@@ -876,5 +886,7 @@
         <item quantity="one">A kiválasztott elemek közül 1 már rajta van a lejátszási listán.</item>
         <item quantity="other">A kiválasztott elemek közül %d már rajta van a lejátszási listán.</item>
     </plurals>
+    <string name="official_website">Hivatalos honlap</string>
+    <string name="view_online">Online megtekintés</string>
 
 </resources>
