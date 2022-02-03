@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Bu %1$s dosya silinsin mi?</string>
     <string name="confirm_delete_folders_and_files">Bu %1$s klasör ve %2$s dosya silinsin mi?</string>
     <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
-    <string name="confirm_remove_from_playlist">\'%1$s\' oynatma listesinden çıkarılsın mı?</string>
     <string name="ringtone_set">\'%1$s\' dosyası zil sesi olarak ayarlandı.</string>
     <string name="ringtone_error">Zil sesi ayarlanırken bir sorun çıktı.</string>
     <string name="pause">Duraklat</string>
@@ -142,7 +141,7 @@
     <string name="surface_fit_screen">Ekrana sığdır</string>
     <string name="surface_fill">Doldur</string>
     <string name="surface_original">Ortala</string>
-    <string name="unseekable_stream">Arama yapılamayan akış</string>
+    <string name="unseekable_stream">Atlama yapılamayan akış</string>
     <string name="refresh">Yenile</string>
     <string name="track_audio">Ses kaydı</string>
     <string name="track_video">Görüntü kaydı</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Oynatma sorunu</string>
     <string name="encountered_error_message">VLC bu ortamı kullanırken bir sorun çıktı.\nLütfen ortam kitaplığını yenilemeyi deneyin.</string>
     <string name="invalid_location">%1$s konumu oynatılamadı.</string>
+    <string name="missing_location">Bu ortam kullanılamayan bir depolama üzerinde bulunduğundan oynatılamaz.</string>
 
     <string name="search">Arama</string>
 
@@ -208,7 +208,7 @@
 
     <!-- Tips -->
     <string name="tips_title">Görüntü oynatıcı ipuçları</string>
-    <string name="seek">Arama</string>
+    <string name="seek">Atlama</string>
     <string name="subtitles">Alt yazılar</string>
     <string name="tips_player_controls">Oynatıcı denetimleri</string>
     <string name="tips_player_controls_description">Oynatıcı denetimlerin işlevlerini öğrenmek için üzerlerine dokunun</string>
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Görüntüyü oynatmak için dokunun</string>
     <string name="lock">Kilitle</string>
     <string name="tap">Görüntülemek için dokunun</string>
+    <string name="tap_to_remove">Silmek için dokunun</string>
+    <string name="tap_to_rearrange">Düzenlemek için dokunun</string>
+    <string name="tap_to_previous_next">Önceki/sonraki için dokunun</string>
     <string name="lock_orientation">Doğrultu</string>
     <string name="lock_orientation_description">Doğrultuyu kilitlemek/açmak için dokunun</string>
     <string name="aspect_ratio">En boy oranı</string>
@@ -225,7 +228,7 @@
     <string name="tips_swipe">Aşağı ya da yukarı kaydırın</string>
     <string name="tips_swipe_horizontal">Sola ya da sağa kaydırın</string>
     <string name="tips_playlist">Oynatma listesi</string>
-    <string name="tips_hold_seek">Taramak için basılı tutun</string>
+    <string name="tips_hold_seek">Atlamak için basılı tutun</string>
     <string name="tips_long_drop">Uzun basın ve bırakın</string>
     <string name="pause_description">Duraklatmak için çift dokunun</string>
     <string name="seek_tap">+/- 10 saniye</string>
@@ -236,7 +239,7 @@
     <string name="remove_song">Şarkıyı çıkar</string>
     <string name="remove_playlist_item">%1$s oynatma listesinden kaldırıldı</string>
     <string name="rearrange_order">Sıralamayı değiştir</string>
-    <string name="hold_to_seek">Basılı tutarak tarayın</string>
+    <string name="hold_to_seek">Basılı tutarak atlayın</string>
 
     <string name="audio_player_tips">Ses oynatıcı ipuçları</string>
     <string name="previous_next_song">Önceki/sonraki parça</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">Android için VLC</string>
-    <string name="licence">Lisans</string>
     <string name="revision">Değişiklik</string>
     <string name="about">Hakkında</string>
-    <string name="about_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir parçasıdır. Android™ sürümü çoğu dosya ve ağ akışlarını okuyabilir.</string>
+    <string name="about_vlc_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir parçasıdır. Android™ sürümü tüm dosya ve ağ akışlarını okuyabilir.</string>
+    <string name="authors">Geliştirenler</string>
     <string name="vlc_authors">ve VLC geliştiricileri.</string>
-    <string name="compiled_by">Bu VLC sürümü şu kişiler tarafından oluşturulmuştur:</string>
+    <string name="is_compiled_by">Derleyici</string>
+    <string name="sources">Kaynak kodu</string>
+    <string name="libraries">Kitaplıklar</string>
     <string name="feedback_forum">Geri bildirim forumu</string>
 
     <!-- Preferences -->
@@ -309,16 +314,18 @@
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
     <string name="enable_volume_gesture_title">Ses el hareketi</string>
     <string name="enable_volume_gesture_summary">Görüntü oynatılırken ses el hareketi ile ayarlanabilir</string>
-    <string name="enable_seek_buttons">Tarama düğmeleri</string>
+    <string name="enable_seek_buttons">Atlama düğmeleri</string>
     <string name="enable_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde ileri ve geri atlama düğmeleri görüntülenir</string>
     <string name="enable_android_auto_speed_buttons">Android Auto oynatma hızı</string>
     <string name="enable_android_auto_speed_buttons_summary">Bu seçenek etkinleştirildiğinde, üste açılan menüde hız denetimini görüntülenir</string>
     <string name="enable_android_auto_seek_buttons">Android Auto atlama düğmeleri</string>
     <string name="enable_android_auto_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, üste açılan menüde ileri ve geri atlama düğmeleri görüntülenir. Etkinleştirmeden önce direksiyondaki ileri ve geri düğmelerini basılı tutmayı deneyin.</string>
-    <string name="enable_double_tap_seek_title">Taramak için çift dokunun</string>
+    <string name="enable_double_tap_seek_title">Atlamak için çift dokunun</string>
     <string name="enable_double_tap_seek_summary">10 saniye ileri ya da geri atlamak için ekran kenarlarına çift dokunun</string>
     <string name="enable_double_tap_play_title">Oynatmak/duraklatmak için çift dokunun</string>
     <string name="enable_double_tap_play_summary">Oynatmak ya da duraklatmak için ekranın ortasına çift dokunun</string>
+    <string name="enable_swipe_seek_title">Atlamak için kaydırın</string>
+    <string name="enable_swipe_seek_summary">Atlamak için parmağınızı ekran boyunca kaydırın</string>
     <string name="popup_keepscreen_title">Açılan pencere kipinde ekran açık kalsın</string>
     <string name="popup_keepscreen_summary">Açılan pencere görüntülenirken görüntü duraklatılmış olsa bile ekran açık kalır.</string>
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Ses</string>
     <string name="lockscreen_cover_title">Kilit ekranında ortam görseli</string>
     <string name="lockscreen_cover_summary">Yapılabildiğinde, kilit ekranının duvar kağıdı olarak geçerli ortam kapağı görseli görüntülenir</string>
+    <string name="show_seek_in_compact_notif_title">Bildirim panosunda atlama düğmeleri</string>
+    <string name="show_seek_in_compact_notif_summary">Bu seçenek etkinleştirildiğinde, küçük görünümdeki ortam denetimlerinde ileri ve geri atlama düğmeleri görüntülenir</string>
     <string name="list_title_ellipsize">Tek satır liste başlığı elips boyutu</string>
     <string name="list_title_ellipsize_default">Varsayılan</string>
     <string name="list_title_ellipsize_left">Solda</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="chapter">Bölüm</string>
+    <string name="current_chapter">Bölüm: %s</string>
     <string name="resume_from_position">Oynatmayı kalınan konumdan sürdür</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Oynatılan görüntüleri sürdür</string>
@@ -876,5 +886,7 @@
         <item quantity="one">Seçilmiş ögelerden 1 tanesi zaten oynatma listesinde var.</item>
         <item quantity="other">Seçilmiş ögelerden %d tanesi zaten oynatma listesinde var.</item>
     </plurals>
+    <string name="official_website">Resmi web sitesi</string>
+    <string name="view_online">Çevrimiçi görüntüle</string>
 
 </resources>
