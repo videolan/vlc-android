@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Diese Dateien %1$s löschen?</string>
     <string name="confirm_delete_folders_and_files">Diese Ordner %1$s und Dateien %2$s löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
-    <string name="confirm_remove_from_playlist">Entfernen von \'%1$s\' aus der Wiedergabeliste?</string>
     <string name="ringtone_set">Die Datei \'%1$s\' wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Wiedergabefehler</string>
     <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
     <string name="invalid_location">Ort %1$s kann nicht abgespielt werden.</string>
+    <string name="missing_location">Diese Medien stammen aus einem nicht verfügbaren Speicher und können nicht abgespielt werden.</string>
 
     <string name="search">Suchen</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Berühren zur Video-Wiedergabe</string>
     <string name="lock">Sperren</string>
     <string name="tap">Berühren zur Anzeige</string>
+    <string name="tap_to_remove">Zum Entfernen tippen</string>
+    <string name="tap_to_rearrange">Zum Neuanordnen tippen</string>
+    <string name="tap_to_previous_next">Zum vorherigen/nächsten zu wechseln, tippen</string>
     <string name="lock_orientation">Ausrichtung</string>
     <string name="lock_orientation_description">Berühren um Ausrichtung zu sperren</string>
     <string name="aspect_ratio">Seitenverhältnis</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
-    <string name="licence">Lizenz</string>
     <string name="revision">Revision</string>
     <string name="about">Über</string>
-    <string name="about_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann die meisten Dateien und Netzwerk-Streams lesen.</string>
+    <string name="about_vlc_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann alle Dateien und Netzwerk-Streams lesen.</string>
+    <string name="authors">Autoren</string>
     <string name="vlc_authors">und VLC-Autoren.</string>
-    <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
+    <string name="is_compiled_by">Kompiliert durch</string>
+    <string name="sources">Quellcode</string>
+    <string name="libraries">Bibliotheken</string>
     <string name="feedback_forum">Bewertungsportal</string>
 
     <!-- Preferences -->
@@ -319,6 +324,8 @@
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
     <string name="enable_double_tap_play_title">Doppelt antippen zum Abspielen/Pausieren</string>
     <string name="enable_double_tap_play_summary">Doppelt auf der Bildschirmmitte antippen, um abzuspielen oder zu pausieren</string>
+    <string name="enable_swipe_seek_title">Zum Suchen wischen</string>
+    <string name="enable_swipe_seek_summary">Streichen Sie zum Suchen mit dem Finger über den Bildschirm</string>
     <string name="popup_keepscreen_title">Im Pop-Up-Modus Anzeige nicht ausschalten</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up-Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
     <string name="browser_show_hidden_files_title">Versteckte Dateien anzeigen</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Medien-Cover auf Sperrbildschirm</string>
     <string name="lockscreen_cover_summary">Wenn verfügbar, wird das Medien-Cover als Sperrbildschirm-Hintergrund angezeigt</string>
+    <string name="show_seek_in_compact_notif_title">Suchschaltflächen im Benachrichtigungsfeld</string>
+    <string name="show_seek_in_compact_notif_summary">Schaltflächen zum Zurückspulen und Vorspulen in kompakten Mediensteuerelementen anzeigen</string>
     <string name="list_title_ellipsize">Einzeiliger Listentitel mit Auslassungspunkten</string>
     <string name="list_title_ellipsize_default">Standard</string>
     <string name="list_title_ellipsize_left">Links</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
     <string name="go_to_chapter">Wechsle zum Kapitel…</string>
     <string name="chapter">Kapitel</string>
+    <string name="current_chapter">Kapitel: %s</string>
     <string name="resume_from_position">Fortsetzen von letzter Position</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
     <string name="confirm_resume_title">Wiedergegebene Videos fortsetzen</string>
@@ -876,5 +886,7 @@
         <item quantity="one">Eines der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
         <item quantity="other">%d der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
     </plurals>
+    <string name="official_website">Offizielle Webseite</string>
+    <string name="view_online">Online ansehen</string>
 
 </resources>
