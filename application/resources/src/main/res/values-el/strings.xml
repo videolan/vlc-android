@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Διαγραφή αυτών των %1$s αρχείων;</string>
     <string name="confirm_delete_folders_and_files">Διαγραφή αυτών των %1$sφακέλων και των %2$s αρχείων;</string>
     <string name="confirm_delete_playlist">Διαγραφή λίστας αναπαραγωγής \'%1$s\';</string>
-    <string name="confirm_remove_from_playlist">Αφαίρεση \'%1$s\' από τη λίστα αναπαραγωγής;</string>
     <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
     <string name="ringtone_error">Ένα σφάλμα παρουσιάστηκε κατά τον ορισμό του ήχου κλήσης.</string>
     <string name="pause">Παύση</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Σφάλμα αναπαραγωγής</string>
     <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το αρχείο.\nΔοκιμάστε να ανανεώσετε τη βιβλιοθήκη πολυμέσων.</string>
     <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να αναπαραχθεί.</string>
+    <string name="missing_location">Αυτό το μέσο προέρχεται από μη διαθέσιμο χώρο αποθήκευσης και δεν μπορεί να αναπαραχθεί.</string>
 
     <string name="search">Αναζήτηση</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Πατήστε για αναπαραγωγή βίντεο</string>
     <string name="lock">Κλείδωμα</string>
     <string name="tap">Πατήστε για προβολή</string>
+    <string name="tap_to_remove">Πατήστε για κατάργηση</string>
+    <string name="tap_to_rearrange">Πατήστε για αναδιάταξη</string>
+    <string name="tap_to_previous_next">Πατήστε για μετάβαση στο προηγούμενο/επόμενο</string>
     <string name="lock_orientation">Προσανατολισμός</string>
     <string name="lock_orientation_description">Πατήστε για να κλειδώσετε/ξεκλειδώσετε τον προσανατολισμό</string>
     <string name="aspect_ratio">Λόγος διαστάσεων</string>
@@ -227,9 +230,9 @@
     <string name="tips_playlist">Λίστα αναπαραγωγής</string>
     <string name="tips_hold_seek">Παρατεταμένο πάτημα για ανίχνευση</string>
     <string name="tips_long_drop">Παρατεταμένο πάτημα και απόθεση</string>
-    <string name="pause_description">Διπλό άγγιγμα οθόνης για παύση</string>
+    <string name="pause_description">Διπλό πάτημα για παύση</string>
     <string name="seek_tap">+/- 10 δεύτ.</string>
-    <string name="seek_tap_description">Διπλό άγγιγμα οθόνης για μετάβαση 10 δεύτ. μπροστά ή πίσω</string>
+    <string name="seek_tap_description">Διπλό πάτημα για μετάβαση 10 δεύτ. μπροστά ή πίσω</string>
     <string name="close">Κλείσιμο</string>
 
     <string name="playlist_tips">Συμβουλές λίστας αναπαραγωγής</string>
@@ -245,21 +248,23 @@
 
     <!-- About -->
     <string name="app_name_full">VLC για Android™</string>
-    <string name="licence">Άδεια</string>
     <string name="revision">Αναθεώρηση</string>
     <string name="about">Σχετικά</string>
-    <string name="about_text">Το VLC για το Android™ είναι μια μεταφορά του αναπαραγωγού μέσων VLC, του δημοφιλούς ανοικτού κώδικα αναπαραγωγού μέσων. Η έκδοση για το Android™ μπορεί να διαβάσει τα περισσότερα αρχεία και μεταδόσεις δικτύου.</string>
+    <string name="about_vlc_text">Το VLC για Android™ είναι ένα port του προγράμματος αναπαραγωγής πολυμέσων VLC, του δημοφιλούς προγράμματος αναπαραγωγής πολυμέσων ανοιχτού κώδικα. Η έκδοση Android™ μπορεί να διαβάσει όλα τα αρχεία και τις ροές δικτύου.</string>
+    <string name="authors">Συντάκτες</string>
     <string name="vlc_authors">Δημιουργούς του VLC.</string>
-    <string name="compiled_by">Αυτή η έκδοση του VLC μεταγλωττίστηκε από:</string>
+    <string name="is_compiled_by">Συντάχθηκε από</string>
+    <string name="sources">Πηγαίος κώδικας</string>
+    <string name="libraries">Βιβλιοθήκες</string>
     <string name="feedback_forum">Φόρουμ σχολιασμού</string>
 
     <!-- Preferences -->
     <string name="preferences">Επιλογές</string>
 
     <string name="directories_summary">Επιλέξτε τους καταλόγους που θα συμπεριληφθούν στη βιβλιοθήκη πολυμέσων</string>
-    <string name="add_custom_path">Προσθέστε μια προσαρμοσμένη διαδρομή</string>
-    <string name="add_custom_path_description">Καταχωρήστε πρόσθετους προσαρμοσμένους καταλόγους για σάρωση:</string>
-    <string name="remove_custom_path">Αφαίρεση προσαρμοσμένης διαδρομής</string>
+    <string name="add_custom_path">Προσθέστε μια εξατομικευμένη διαδρομή</string>
+    <string name="add_custom_path_description">Καταχωρήστε πρόσθετους εξατομικευμένους καταλόγους για σάρωση:</string>
+    <string name="remove_custom_path">Αφαίρεση εξατομικευμένης διαδρομής</string>
     <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
     <string name="hardware_acceleration_summary">Απενεργοποιημένο: μεγαλύτερη σταθερότητα \nΑποκωδικοποίηση: ενδέχεται να βελτιώσει την απόδοση\nΠλήρης: ενδέχεται να βελτιώσει περαιτέρω την απόδοση</string>
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
@@ -314,11 +319,13 @@
     <string name="enable_android_auto_speed_buttons">Ταχύτητα αναπαραγωγής Android Auto</string>
     <string name="enable_android_auto_speed_buttons_summary">Εμφάνιση ελέγχου ταχύτητας στο overflow μενού</string>
     <string name="enable_android_auto_seek_buttons">Κουμπιά ανίχνευσης Android Auto</string>
-    <string name="enable_android_auto_seek_buttons_summary">Εμφάνιση επαναφοράς και γρήγορης προώθησης στο overflow μενού. Δοκιμάστε να κρατήσετε πατημένο το προηγούμενο και το επόμενο κουμπί του τιμονιού πριν το ενεργοποιήσετε.</string>
-    <string name="enable_double_tap_seek_title">Διπλό άγγιγμα για ανίχνευση</string>
-    <string name="enable_double_tap_seek_summary">Αγγίξτε δύο φορές στις άκρες της οθόνης για ανίχνευση 10 δευτερολέπτων</string>
+    <string name="enable_android_auto_seek_buttons_summary">Εμφάνιση γρήγορης μετακίνησης πίσω και μπροστά στο overflow μενού. Δοκιμάστε να κρατήσετε πατημένα τα κουμπιά προηγούμενο και επόμενο στο τιμόνι, πριν το ενεργοποιήσετε.</string>
+    <string name="enable_double_tap_seek_title">Διπλό πάτημα για ανίχνευση</string>
+    <string name="enable_double_tap_seek_summary">Πατήστε δύο φορές στις άκρες της οθόνης για ανίχνευση 10 δευτερολέπτων</string>
     <string name="enable_double_tap_play_title">Διπλό πάτημα για αναπαραγωγή/παύση</string>
-    <string name="enable_double_tap_play_summary">Διπλό πάτημα στο κέντρο της οθόνης για αναπαραγωγή ή παύση</string>
+    <string name="enable_double_tap_play_summary">Πατήστε δύο φορές στο κέντρο της οθόνης για αναπαραγωγή ή παύση</string>
+    <string name="enable_swipe_seek_title">Σύρετε για αναζήτηση</string>
+    <string name="enable_swipe_seek_summary">Σύρετε το δάχτυλό σας στην οθόνη για αναζήτηση</string>
     <string name="popup_keepscreen_title">Διατήρηση της οθόνης αναμμένης κατά την αναδυόμενη λειτουργία</string>
     <string name="popup_keepscreen_summary">Πάντα διατήρηση της οθόνης αναμμένης κατά τη διάρκεια αναδυόμενης λειτουργίας, ακόμα και με το βίντεο σε παύση.</string>
     <string name="browser_show_hidden_files_title">Εμφάνιση κρυφών αρχείων</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Ήχος</string>
     <string name="lockscreen_cover_title">Εξώφυλλο στην οθόνη κλειδώματος</string>
     <string name="lockscreen_cover_summary">Όταν είναι διαθέσιμο, όρισε το εξώφυλλο του τρέχοντος αρχείου πολυμέσων ως ταπετσαρία της οθόνης κλειδώματος</string>
+    <string name="show_seek_in_compact_notif_title">Κουμπιά αναζήτησης στο πάνελ ειδοποιήσεων</string>
+    <string name="show_seek_in_compact_notif_summary">Εμφάνιση κουμπιών επαναφοράς και γρήγορης προώθησης στα χειριστήρια συμπαγούς πολυμέσων</string>
     <string name="list_title_ellipsize">Ελλειψοειδής τίτλος λίστας μονής γραμμής</string>
     <string name="list_title_ellipsize_default">Προεπιλογή</string>
     <string name="list_title_ellipsize_left">Αριστερά</string>
@@ -437,7 +446,7 @@
     <string name="dump_logcat">Αντιγραφή καταγραφών logcat</string>
     <string name="dump_logcat_success">Επιτυχής αντιγραφή logcat στο %1$s!</string>
     <string name="dump_logcat_failure">Αποτυχία αντιγραφής logcat.</string>
-    <string name="custom_libvlc_options">Προσαρμοσμένες επιλογές libVLC</string>
+    <string name="custom_libvlc_options">Εξατομικευμένες επιλογές libVLC</string>
     <string name="custom_libvlc_options_invalid">Μη έγκυρες επιλογές libVLC!</string>
 
     <string name="serious_crash">Δυστυχώς, ένα σοβαρό σφάλμα ανάγκασε το VLC να κλείσει.</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Όνομα λίστας αναπαραγωγής</string>
     <string name="go_to_chapter">Πήγαινε στο κεφάλαιο…</string>
     <string name="chapter">Κεφάλαιο</string>
+    <string name="current_chapter">Κεφάλαιο: %s</string>
     <string name="resume_from_position">Συνέχιση από την τελευταία θέση</string>
     <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
     <string name="confirm_resume_title">Συνέχιση αναπαραγωγής βίντεο</string>
@@ -494,7 +504,7 @@
     <string name="allow_storage_manager_title">Επιτρέψτε στο VLC την πρόσβαση σε όλα τα αρχεία</string>
     <string name="allow_storage_manager_description">%s\n\nΠαραχώρηση άδειας;</string>
     <string name="allow_storage_manager_explanation">Για να αποκτήσετε όλες τις δυνατότητες του VLC και την υποστήριξη όλων των τύπων αρχείων πολυμέσων, σας προτείνουμε ανεπιφύλακτα να παραχωρήσετε αυτήν την άδεια.</string>
-    <string name="partial_content">Το VLC δεν μπορεί να έχει πρόσβαση σε όλα τα αρχεία σας</string>
+    <string name="partial_content">Το VLC δεν έχει πρόσβαση σε όλα τα αρχεία σας</string>
     <string name="partial_content_description">Ξεκινώντας με το Android 11, οι εφαρμογές χρειάζονται ειδική άδεια για πρόσβαση σε όλα τα αρχεία της συσκευής.\n\n%s</string>
     <string name="never_ask_again">Να μην ερωτηθώ ξανά</string>
     <string name="allow_settings_access_ringtone_title">Επιτρέψτε στο VLC να ορίζει τον ήχο κλήσης</string>
@@ -567,10 +577,10 @@
     <string name="save">Αποθήκευση</string>
     <string name="saved">Αποθηκεύτηκε %s</string>
     <string name="do_not_save">Να μην αποθηκευτεί</string>
-    <string name="custom_set_deleted_message">Η προσαρμοσμένη συλλογή-ισοσταθμιστή \"%1$s\" διαγράφηκε.</string>
+    <string name="custom_set_deleted_message">Η εξατομικευμένη συλλογή-ισοσταθμιστή \"%1$s\" διαγράφηκε.</string>
     <string name="custom_set_wrong_input"> Μη έγκυρο όνομα.</string>
     <string name="custom_set_already_exist">Η συλλογή-ισοσταθμιστή με αυτό το όνομα υπάρχει ήδη</string>
-    <string name="custom_set_restored">Η προσαρμοσμένη συλλογή-ισοσταθμιστή επαναφέρθηκε.</string>
+    <string name="custom_set_restored">Η εξατομικευμένη συλλογή-ισοσταθμιστή επαναφέρθηκε.</string>
     <string name="unsaved_set_deleted_message">Η μη αποθηκευμένη συλλογή-ισοσταθμιστή διαγράφηκε.</string>
     <string name="equalizer_new_preset_name">Νέο</string>
     <string name="settings_ml_block_scan">Η βιβλιοθήκη αρχείων πολυμέσων σαρώνει τώρα τις συσκευές σας</string>
@@ -652,8 +662,8 @@
     <string name="add_to_new_playlist">Προσθήκη σε νέα λίστα αναπαραγωγής</string>
     <string name="resume_card_message">Συνέχιση αναπαραγωγής του %1$s;</string>
     <string name="misc">Διάφορα</string>
-    <string name="popup_force_legacy_title">Χρήση προσαρμοσμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα</string>
-    <string name="popup_force_legacy_summary">Χρήση προσαρμοσμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα μεταβλητού μεγέθους</string>
+    <string name="popup_force_legacy_title">Χρήση εξατομικευμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα</string>
+    <string name="popup_force_legacy_summary">Χρήση εξατομικευμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα μεταβλητού μεγέθους</string>
     <string name="device_default">Προεπιλογή συσκευής</string>
     <string name="track_number">%d κομμάτια</string>
     <string name="jump_to">Μεταπήδηση στο</string>
@@ -842,10 +852,10 @@
     <string name="bookmark_name">Προσθήκη σελιδοδείκτη: %s</string>
     <string name="add_bookmark">Προσθήκη σελιδοδείκτη</string>
     <string name="optional_features">Προαιρετικά χαρακτηριστικά</string>
-    <string name="optional_features_summary">Τα χαρακτηριστικά beta που ακόμα δοκιμάζονται ενδέχεται να περιέχουν σφάλματα</string>
+    <string name="optional_features_summary">Τα χαρακτηριστικά beta που είναι σε δοκιμή ενδέχεται να περιέχουν σφάλματα</string>
     <string name="optional_features_warning">Αυτό το χαρακτηριστικό είναι στη φάση beta και μπορεί να δημιουργήσει αστάθειες και κολλήματα.</string>
     <string name="network_indexing">Ευρετηρίαση δικτύου</string>
-    <string name="network_indexing_warning">Η ευρετηρίαση δικτύου βρίσκεται αυτήν τη στιγμή σε beta.\Γνωστά ζητήματα:\και• Αργή απόδοση\in\nΕάν αντιμετωπίζετε άλλα προβλήματα, αναφέρετέ τα στο φόρουμ μας.</string>
+    <string name="network_indexing_warning">Η ευρετηρίαση δικτύου βρίσκεται αυτή την στιγμή σε δοκιμαστική έκδοση.\nΓνωστά ζητήματα:\n• Αργή απόδοση\n\nΕάν αντιμετωπίζετε άλλα προβλήματα, αναφέρατέ τα στο φόρουμ μας.</string>
     <string name="start_vlc">Έναρξη VLC</string>
     <string name="jump_delay">Χρονική καθυστέρηση εμπρός/πίσω</string>
     <string name="long_jump_delay">Παρατεταμένο πάτημα για χρονική καθυστέρηση προς τα εμπρός/πίσω</string>
@@ -861,7 +871,7 @@
     <string name="lock_use_sensor_summary">Όταν ο προσανατολισμός είναι κλειδωμένος, χρησιμοποιήστε τον αισθητήρα για να επιτρέψετε τον αντίστροφο προσανατολισμό</string>
     <string name="start">Έναρξη</string>
     <string name="permission">Άδεια</string>
-    <string name="customize">Προσαρμογή</string>
+    <string name="customize">Εξατομίκευση</string>
     <string name="selection_count">%s επιλεγμένο</string>
     <string name="controls_setting">Ρυθμίσεις ελέγχου</string>
     <string name="gestures">Χειρονομίες</string>
@@ -876,5 +886,7 @@
         <item quantity="one">1 από τα επιλεγμένα στοιχεία βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
         <item quantity="other">%d από τα επιλεγμένα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
     </plurals>
+    <string name="official_website">Επίσημη ιστοσελίδα</string>
+    <string name="view_online">Προβολή διαδικτυακά</string>
 
 </resources>
