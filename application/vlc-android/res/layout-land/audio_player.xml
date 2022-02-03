@@ -18,6 +18,10 @@
         <variable
                 name="ab_repeat_b"
                 type="Float" />
+
+        <variable
+                name="can_shuffle"
+                type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -683,6 +687,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="?attr/actionBarItemBackground"
                 android:contentDescription="@string/shuffle_title"
+                android:visibility="@{can_shuffle ? View.VISIBLE : View.INVISIBLE}"
                 android:elevation="4dp"
                 android:focusable="true"
                 android:onClick="@{fragment::onShuffleClick}"
