@@ -72,8 +72,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     val pagedList by lazy(LazyThreadSafetyMode.NONE) { MLDatasourceFactory().toLiveData(pagingConfig) }
 
     abstract fun getTotalCount(): Int
-    abstract fun getPage(loadSize: Int, startposition: Int, includeMissing:Boolean): Array<T>
-    abstract fun getAll(includeMissing:Boolean): Array<out T>
+    abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
+    abstract fun getAll(): Array<out T>
 
     override fun sort(sort: Int) {
         if (canSortBy(sort)) {
@@ -125,7 +125,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     inner class MLDataSource : PositionalDataSource<T>() {
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-            val page = getPage(params.requestedLoadSize, params.requestedStartPosition, Settings.includeMissing)
+            val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
             val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()
             try {
                 callback.onResult(page.toList(), params.requestedStartPosition, count)
@@ -134,7 +134,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
 
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-            val result = getPage(params.loadSize, params.startPosition, Settings.includeMissing).toList()
+            val result = getPage(params.loadSize, params.startPosition).toList()
             callback.onResult(result)
         }
     }

@@ -234,7 +234,7 @@ object TvUtil {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_AUDIO -> {
                     val list = withContext(Dispatchers.IO) {
-                        (provider.getAll(false).toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                        (provider.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
                     }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
@@ -254,7 +254,7 @@ object TvUtil {
                 }
                 else -> {
                     val list = withContext(Dispatchers.IO) {
-                        (provider.getAll(false).toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        (provider.getAll().toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
                     }
                     val position = list.getposition(item)
                     MediaUtils.openList(activity, list, position)
