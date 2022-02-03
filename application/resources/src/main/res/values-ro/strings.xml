@@ -58,7 +58,6 @@
     <string name="confirm_delete_files">Doriti sa stergeti aceste fisiere %1$s?</string>
     <string name="confirm_delete_folders_and_files">Doriti sa stergeti folderele %1$s si fisierele %2$s?</string>
     <string name="confirm_delete_playlist">Stergeti playlist-ul \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Eliminați \'%1$s\' din lista de redare?</string>
     <string name="ringtone_set">Fişierul \'%1$s\' a fost stabilit ca ton apel.</string>
     <string name="ringtone_error">A apărut o eroare la setarea tonului de apel.</string>
     <string name="pause">Pauză</string>
@@ -188,7 +187,7 @@
     <string name="server_share_hint">Numele rețelei partajate (sau adresa IP)</string>
     <string name="server_folder_hint">Calea la director (opțional)</string>
     <string name="server_username_hint">Nume utilizator</string>
-    <string name="server_servername_hint">Nume server, pentru conveniență</string>
+    <string name="server_servername_hint">Numele serverului, pentru comoditate</string>
     <string name="server_port">Port: </string>
     <string name="login">Loghin</string>
     <string name="password">Parola</string>
@@ -205,6 +204,7 @@
     <string name="encountered_error_title">Eroare de redare</string>
     <string name="encountered_error_message">VLC a întâmpinat o eroare cu acest suport. \ nÎncercați să reîmprospătați biblioteca media.</string>
     <string name="invalid_location">Locaţia %1$s nu poate fi redată.</string>
+    <string name="missing_location">Locația nu poate fi găsită.</string>
 
     <string name="search">Căutare</string>
 
@@ -226,6 +226,9 @@
     <string name="tips_play_description">Apasă pentru a porni video-ul</string>
     <string name="lock">Blochează</string>
     <string name="tap">Apasă pentru a vizuazliza</string>
+    <string name="tap_to_remove">Atingeți ușor pentru a elimina</string>
+    <string name="tap_to_rearrange">Atingeți pentru a rearanja</string>
+    <string name="tap_to_previous_next">Atingeți ușor pentru a merge la precedentul/următorul</string>
     <string name="lock_orientation">Orientare</string>
     <string name="lock_orientation_description">Apasă pentru a bloca/debloca orientarea</string>
     <string name="aspect_ratio">Raportul de aspect</string>
@@ -255,12 +258,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC pentru Android</string>
-    <string name="licence">Licență</string>
     <string name="revision">Revizie</string>
     <string name="about">Despre</string>
-    <string name="about_text">VLC pentru Android™ este o portare a media player-ului VLC, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>
+    <string name="about_vlc_text">VLC pentru Android™ este o portare a media player-ului VLC, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>
+    <string name="authors">Autori</string>
     <string name="vlc_authors">și autorii VLC.</string>
-    <string name="compiled_by">Această versiune de VLC este compilată de:</string>
+    <string name="is_compiled_by">este compilată de:</string>
+    <string name="sources">Surse</string>
+    <string name="libraries">Biblioteci</string>
     <string name="feedback_forum">Forum feedback</string>
 
     <!-- Preferences -->
@@ -286,8 +291,11 @@
     <string name="screen_orientation_last_locked">Ultima orientare blocată</string>
     <string name="enable_black_theme">Tematica neagră</string>
     <string name="subtitle_text_encoding">Codificarea textului din subtitlu</string>
+    <string name="subtitle_preferred_language">Limba preferată pentru subtitrare</string>
     <string name="daynight_title">Modul noapte zi</string>
     <string name="daynight_follow_system_title">Urmărește modul sistemului</string>
+    <string name="no_track_preference">Fără preferinţă de limbă</string>
+    <string name="track_preference">Urmăreşte preferinţele: %s</string>
 
     <string name="extra_prefs_category">Extra Configurări</string>
 
@@ -317,9 +325,17 @@
     <string name="enable_volume_gesture_title">Gest pentru volum</string>
     <string name="enable_volume_gesture_summary">Controlează volumul prin gesturi în timpul redării video</string>
     <string name="enable_seek_buttons">Butoane de căutare</string>
-    <string name="enable_seek_buttons_summary">Afișați butoanele derulare înapoi și înainte pe interfața video</string>
+    <string name="enable_seek_buttons_summary">Afișați butoanele de derulare înapoi și de avansare rapidă pe interfața video</string>
+    <string name="enable_android_auto_speed_buttons">Viteza de redare Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Afișați controlul vitezei în meniul de depășire</string>
+    <string name="enable_android_auto_seek_buttons">Butoane de căutare Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Afișați derularea înapoi și înaintarea rapidă în meniul de revărsare. Încercați să țineți apăsate butoanele anterior și următor de pe volan înainte de a le activa.</string>
     <string name="enable_double_tap_seek_title">Atingeți de două ori pentru a căuta</string>
     <string name="enable_double_tap_seek_summary">Atingeți de două ori marginile ecranului pentru a căuta cu câte 10 secunde de redare</string>
+    <string name="enable_double_tap_play_title">Atingeți de două ori pentru a reda/opri</string>
+    <string name="enable_double_tap_play_summary">Atingeți de două ori în centrul ecranului pentru a reda sau a pune pe pauză</string>
+    <string name="enable_swipe_seek_title">Glisați pentru a derula</string>
+    <string name="enable_swipe_seek_summary">Glisați degetele pe ecran pentru a derula</string>
     <string name="popup_keepscreen_title">Mențineți ecranul activat în modul Pop-Up</string>
     <string name="popup_keepscreen_summary">Mențineți întotdeauna ecranul activat în timp ce se afișează ferestrele pop-up, chiar dacă videoclipul este întrerupt.</string>
     <string name="browser_show_hidden_files_title">Afișați fișierele ascunse</string>
@@ -344,6 +360,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Coperta media din Lockscreen</string>
     <string name="lockscreen_cover_summary">Când este disponibilă, setați coperta curentă a suportului media ca tapet de fundal</string>
+    <string name="show_seek_in_compact_notif_title">Căutarea butoanelor în panoul de notificări</string>
+    <string name="show_seek_in_compact_notif_summary">Afișarea butoanelor de derulare înapoi și înainte rapidă în comenzile media compacte</string>
     <string name="list_title_ellipsize">Titlu de listă cu o singură linie ellipsize</string>
     <string name="list_title_ellipsize_default">Implicit</string>
     <string name="list_title_ellipsize_left">Stânga</string>
@@ -434,6 +452,7 @@
     <string name="log_service_text">Deschide consola jurnal</string>
     <string name="copy_to_clipboard">Copiază în clipboard</string>
     <string name="copied_to_clipboard">Jurnal copiat în clipboard.</string>
+    <string name="copied_from_clipboard">Adresa este copiată din clipboard</string>
     <string name="dump_logcat">Colectează jurnalul logcat</string>
     <string name="dump_logcat_success">Logcat a fost colectat cu succes în %1$s!</string>
     <string name="dump_logcat_failure">Colectarea logcat a eșuat.</string>
@@ -471,6 +490,7 @@
     <string name="playlist_name_hint">Numele listei de redare</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="chapter">Capitol</string>
+    <string name="current_chapter">Capitolul curent</string>
     <string name="resume_from_position">Reia de la ultima poziție</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
     <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
@@ -491,6 +511,12 @@
     <string name="widget_name_b">VLC  Widget Intunecat</string>
     <string name="allow_storage_access_title">Permiteți VLC să acceseze fișiere video și audio</string>
     <string name="allow_storage_access_description">VLC cere permisiunea pentru a accesa fișierele media de pe acest dispozitiv.</string>
+    <string name="allow_storage_manager_title">Permiteți accesul VLC la toate fișierele</string>
+    <string name="allow_storage_manager_description">%s\nOferiți permisiunea?</string>
+    <string name="allow_storage_manager_explanation">Pentru a beneficia de toate capacitățile lui VLC și de suportul pentru toate tipurile de fișiere media, vă sugerăm cu tărie să acordați această permisiune.</string>
+    <string name="partial_content">VLC nu poate accesa toate fișierele dumneavoastră</string>
+    <string name="partial_content_description">Începând cu Android 11, aplicațiile au nevoie de o permisiune specială pentru a accesa toate fișierele dispozitivului.\n\n\n%s</string>
+    <string name="never_ask_again">Să nu mai întrebi niciodată</string>
     <string name="allow_settings_access_ringtone_title">Permite programului VLC să stabilească tonul de apel</string>
     <string name="allow_settings_access_ringtone_description">VLC are nevoie de permisiune pentru a configura acest cântec ca ton de sonerie.</string>
     <string name="allow_settings_access_brightness_title">Permite programului VLC să modifice modul de luminozitate</string>
@@ -559,6 +585,7 @@
     <string name="existing_custom_set_save_message">Salvează setul egalizator ca…</string>
     <string name="new_custom_set_save_message">Salvează noul set egalizator ca…</string>
     <string name="save">Salvare</string>
+    <string name="saved">Salvat %s</string>
     <string name="do_not_save">Nu salva</string>
     <string name="custom_set_deleted_message">Egalizatorul personalizat \"%1$s\" a fost sters.</string>
     <string name="custom_set_wrong_input">Nume invalid</string>
@@ -580,6 +607,7 @@
     <string name="audio_digital_failed">Eroare la modificarea stării de ieșire Audio Digital</string>
     <string name="audio_digital_output_enabled">Ieșirea Audio Digital activată</string>
     <string name="audio_digital_output_disabled">Ieșirea Audio Digital dezactivată</string>
+    <string name="audio_preferred_language">Limba preferată pentru audio</string>
     <string name="audio_digital_title">Ieșire audio digitală (passthrough)</string>
     <string name="audio_task_cleared_title">Oprire la glisarea aplicației</string>
     <string name="audio_task_cleared_summary">Opriți redarea când aplicația este respinsă</string>
@@ -805,10 +833,8 @@
     <string name="allow_otg">Permiteți accesul OTG</string>
     <string name="allow_otg_description">Vă rugăm să selectați unitatea OTG pentru a permite accesul la VLC.</string>
     <string name="timeout_infinite">Infinit</string>
-    <string name="timeout_short">Scurt</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Lung</string>
     <string name="video_hud_timeout">Video player controlează ascunderea întârzierii</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Eliminați din istoric</string>
     <string name="prefersmbv1">Preferați SMB 1</string>
     <string name="prefersmbv1_summary">Debifați această setare dacă întâmpinați dificultăți în navigarea pe serverul SMB</string>
@@ -834,11 +860,18 @@
     <string name="add_to_existing_playlist">Adaugati la un playlist existent</string>
     <string name="bookmarks_title">Semne de carte</string>
     <string name="no_bookmark">Niciun semn de carte deocamdată</string>
+    <string name="bookmark_default_name">Marcați la %s</string>
     <string name="bookmark_name">Semnul de carte %s</string>
+    <string name="add_bookmark">Adăugați un marcaj</string>
     <string name="optional_features">Funcții opționale</string>
     <string name="optional_features_summary">Funcții beta care sunt în curs de testare și este posibil să nu fie stabile</string>
     <string name="optional_features_warning">Această funcție este în versiune beta și poate provoca erori și instabilități.</string>
+    <string name="network_indexing">Indexarea rețelei</string>
+    <string name="network_indexing_warning">Indexarea rețelei este în prezent în versiune beta.\nProbleme cunoscute:\n- Performanță lentă\n\n\nDacă întâmpinați alte probleme, vă rugăm să le raportați pe forumul nostru.</string>
     <string name="start_vlc">Porniți VLC</string>
+    <string name="jump_delay">intârziere de timp pentru funcţia Înainte/Înapoi </string>
+    <string name="long_jump_delay">Apăsare lungă pentru funcţia de întarziere înainte/înapoi</string>
+    <string name="jump_delay_summary">%s secunde</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Adăugați element(e) duplicate?</string>
@@ -851,6 +884,12 @@
     <string name="start">Start</string>
     <string name="permission">Permisiune</string>
     <string name="customize">Personalizați</string>
+    <string name="selection_count">%s selectat</string>
+    <string name="controls_setting">Setările de control</string>
+    <string name="gestures">Gesturi</string>
+    <string name="player_controls">Controlul player-ului</string>
+    <string name="video_double_tap_jump_delay">Întarzierea pentru funcţia de dublu apăsare</string>
+    <string name="video_key_jump_delay">Întârzierea pentru butoanele de navigare</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Acest element este deja în lista de redare.</item>
         <item quantity="few">Aceste elemente sunt deja în lista de redare.</item>
@@ -861,5 +900,7 @@
         <item quantity="few">%d dintre elementele selectate sunt deja în lista de redare.</item>
         <item quantity="other">%d dintre elementele selectate sunt deja în lista de redare.</item>
     </plurals>
+    <string name="official_website">Site-ul oficial</string>
+    <string name="view_online">Vizualizare online</string>
 
 </resources>
