@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Voleu suprimir aquests %1$s fitxers?</string>
     <string name="confirm_delete_folders_and_files">Voleu suprimir aquestes %1$s carpetes i %2$s fitxers?</string>
     <string name="confirm_delete_playlist">Voleu esborrar la llista de reproducció «%1$s»?</string>
-    <string name="confirm_remove_from_playlist">Voleu eliminar «%1$s» de la llista de reproducció?</string>
     <string name="ringtone_set">S\'ha establert el fitxer «%1$s» com a to de trucada.</string>
     <string name="ringtone_error">S\'ha produït un error en establir el to de trucada.</string>
     <string name="pause">Pausa</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Error de reproducció</string>
     <string name="encountered_error_message">VLC ha trobat un error en aquest suport.\nActualitzeu la llibreria multimèdia.</string>
     <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
+    <string name="missing_location">Aquest element multimèdia no es pot reproduir perquè s\'ubica en un magatzem no disponible.</string>
 
     <string name="search">Cerca</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Feu un toc per reproduir el vídeo</string>
     <string name="lock">Bloca</string>
     <string name="tap">Feu un toc per visualitzar</string>
+    <string name="tap_to_remove">Feu un toc per eliminar</string>
+    <string name="tap_to_rearrange">Feu un toc per reordenar</string>
+    <string name="tap_to_previous_next">Feu un toc per anar a l\'anterior/següent</string>
     <string name="lock_orientation">Orientació</string>
     <string name="lock_orientation_description">Feu un toc per bloquejar/desbloquejar l\'orientació</string>
     <string name="aspect_ratio">Relació d\'aspecte</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC per a l\'Android</string>
-    <string name="licence">Llicència</string>
     <string name="revision">Revisió</string>
     <string name="about">Quant a</string>
-    <string name="about_text">VLC per a l\'Android™ és una versió portada del reproductor multimèdia VLC. La versió per l\'Android™ permet llegir la gran majoria de fitxers i streams.</string>
+    <string name="about_vlc_text">VLC per a l\'Android™ és una versió portada del reproductor multimèdia VLC, el popular reproductor de codi obert. La versió per l\'Android™ permet llegir tota mena de fitxers i fluxos de xarxa.</string>
+    <string name="authors">Autors</string>
     <string name="vlc_authors">i autors del VLC</string>
-    <string name="compiled_by">Aquesta versió del VLC s\'ha compilat per:</string>
+    <string name="is_compiled_by">Compilat per</string>
+    <string name="sources">Codi font</string>
+    <string name="libraries">Biblioteques</string>
     <string name="feedback_forum">Fòrum de feedback</string>
 
     <!-- Preferences -->
@@ -319,6 +324,8 @@
     <string name="enable_double_tap_seek_summary">Doble toc als extrems de la pantalla per buscar durant 10 segons</string>
     <string name="enable_double_tap_play_title">Feu doble toc per reproduir/pausar</string>
     <string name="enable_double_tap_play_summary">Feu doble toc al centre de la pantalla per reproduir o pausar</string>
+    <string name="enable_swipe_seek_title">Llisca per cercar</string>
+    <string name="enable_swipe_seek_summary">Lliscar el dit per la pantalla per cercar</string>
     <string name="popup_keepscreen_title">Manté la pantalla engegada en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manté la pantalla oberta mentre es mostra un Pop-Up, encara que el vídeo estigui en pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Àudio</string>
     <string name="lockscreen_cover_title">Portada del multimèdia a la pantalla de bloqueig</string>
     <string name="lockscreen_cover_summary">Quan està disponible, configura l\'actual portada de l\'arxiu multimèdia com a fons de la pantalla de bloqueig</string>
+    <string name="show_seek_in_compact_notif_title">Cerca els botons al panell de notificació</string>
+    <string name="show_seek_in_compact_notif_summary">Mostra els botons de tirar enrere i ràpid endavant amb controls compactes</string>
     <string name="list_title_ellipsize">Redueix els títols per ocupar només una línia a les llistes</string>
     <string name="list_title_ellipsize_default">Per defecte</string>
     <string name="list_title_ellipsize_left">Esquerra</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Nom de la llista de reproducció</string>
     <string name="go_to_chapter">Vés al capítol…</string>
     <string name="chapter">Capítol</string>
+    <string name="current_chapter">Capítol: %s</string>
     <string name="resume_from_position">Reprèn des de l\'última posició</string>
     <string name="confirm_resume">Reprèn des de l\'última posició?</string>
     <string name="confirm_resume_title">Reprèn els vídeos reproduits</string>
@@ -774,7 +784,7 @@
     <string name="empty_directory">Buit</string>
     <string name="no_track">Sense pista</string>
 
-    <string name="swipe_unlock">Passi el dit per a desbloquejar</string>
+    <string name="swipe_unlock">Lliscar per desbloquejar</string>
     <string name="swipe_unlock_no_touch">Pulsació llarga per a desbloquejar</string>
     <string name="sub_result_by_name">Resultats per a %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
@@ -876,5 +886,7 @@
         <item quantity="one">1 dels elements seleccionats ja està a la llista de reproducció.</item>
         <item quantity="other">%d dels elements seleccionats ja estan a la llista de reproducció.</item>
     </plurals>
+    <string name="official_website">Lloc web oficial</string>
+    <string name="view_online">Veure en línia</string>
 
 </resources>
