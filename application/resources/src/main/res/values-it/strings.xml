@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Vuoi eliminare questi %1$s file?</string>
     <string name="confirm_delete_folders_and_files">Vuoi eliminare queste %1$s cartelle e %2$s file?</string>
     <string name="confirm_delete_playlist">Vuoi eliminare la scaletta \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Vuoi rimuovere \'%1$s\' dalla scaletta?</string>
     <string name="ringtone_set">Il file \'%1$s\' è stato impostato come suoneria.</string>
     <string name="ringtone_error">Si è verificato un errore durante l\'impostazione della suoneria.</string>
     <string name="pause">Pausa</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Errore di riproduzione</string>
     <string name="encountered_error_message">VLC ha riscontrato un errore con questo media.\nProva ad aggiornare la raccolta multimediale.</string>
     <string name="invalid_location">La posizione %1$s non può essere riprodotta.</string>
+    <string name="missing_location">Questo media proviene da un\'archiviazione non disponibile e non può essere riprodotto.</string>
 
     <string name="search">Cerca</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Tocca per riprodurre il video</string>
     <string name="lock">Blocca</string>
     <string name="tap">Tocca per visualizzare</string>
+    <string name="tap_to_remove">Tocca per rimuovere</string>
+    <string name="tap_to_rearrange">Tocca per riorganizzare</string>
+    <string name="tap_to_previous_next">Tocca per andare al successivo/precedente</string>
     <string name="lock_orientation">Orientazione</string>
     <string name="lock_orientation_description">Tocca per bloccare/sbloccare l\'orientazione</string>
     <string name="aspect_ratio">Proporzioni</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC per Android</string>
-    <string name="licence">Licenza</string>
     <string name="revision">Revisione</string>
     <string name="about">Informazioni</string>
-    <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La versione per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
+    <string name="about_vlc_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La versione per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
+    <string name="authors">Autori</string>
     <string name="vlc_authors">e gli autori di VLC.</string>
-    <string name="compiled_by">Questa versione di VLC è compilata da:</string>
+    <string name="is_compiled_by">Compilato da:</string>
+    <string name="sources">Codice sorgente</string>
+    <string name="libraries">Librerie</string>
     <string name="feedback_forum">Forum per le segnalazioni</string>
 
     <!-- Preferences -->
@@ -319,6 +324,8 @@
     <string name="enable_double_tap_seek_summary">Doppio tocco sui bordi dello schermo per spostare la posizione di 10 secondi</string>
     <string name="enable_double_tap_play_title">Doppio tocco per riprodurre/sospendere</string>
     <string name="enable_double_tap_play_summary">Doppio tocco al centro dello schermo per riprodurre o sospendere</string>
+    <string name="enable_swipe_seek_title">Scorri per posizionare</string>
+    <string name="enable_swipe_seek_summary">Scorri il tuo dito sullo schermo per posizionare</string>
     <string name="popup_keepscreen_title">Mantieni lo schermo attivo in modalità con finestra a comparsa</string>
     <string name="popup_keepscreen_summary">Mantieni lo schermo sempre attivo quando la finestra a comparsa è visualizzata, anche se il video è in pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Copertina al blocco dello schermo</string>
     <string name="lockscreen_cover_summary">Se disponibili, imposta la copertina del media corrente come sfondo del salvaschermo</string>
+    <string name="show_seek_in_compact_notif_title">Pulsanti di posizionamento nel pannello delle notifiche</string>
+    <string name="show_seek_in_compact_notif_summary">Mostra i pulsanti di riavvolgimento e avanzamento rapido nei controlli multimediali compatti</string>
     <string name="list_title_ellipsize">Titolo elenchi a riga singola con punti di sospensione </string>
     <string name="list_title_ellipsize_default">Predefinito</string>
     <string name="list_title_ellipsize_left">Sinistra</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Nome scaletta</string>
     <string name="go_to_chapter">Vai al capitolo…</string>
     <string name="chapter">Capitolo</string>
+    <string name="current_chapter">Capitolo: %s</string>
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
     <string name="confirm_resume_title">Riprendi video riprodotti</string>
@@ -876,5 +886,7 @@
         <item quantity="one">1 degli elementi selezionati è già in questa scaletta.</item>
         <item quantity="other">%d degli elementi selezionati sono già in questa scaletta.</item>
     </plurals>
+    <string name="official_website">Sito web ufficiale</string>
+    <string name="view_online">Visualizza in linea</string>
 
 </resources>
