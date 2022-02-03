@@ -59,7 +59,6 @@
     <string name="confirm_delete_files">Вилучити ці %1$s файли?</string>
     <string name="confirm_delete_folders_and_files">Вилучити ці  %1$s теки та %2$s файли?</string>
     <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Вилучити \'%1$s\' зі списку відтворення?</string>
     <string name="ringtone_set">Файл \'%1$s\' встановлено як мелодія.</string>
     <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
     <string name="pause">Пауза</string>
@@ -215,6 +214,7 @@
     <string name="encountered_error_title">Помилка відтворення</string>
     <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
     <string name="invalid_location">Розташування %1$s не можливо відтворити.</string>
+    <string name="missing_location">Цей медіафайл лежить на недоступному носієві, а тому його неможливо відтворити.</string>
 
     <string name="search">Пошук</string>
 
@@ -236,6 +236,9 @@
     <string name="tips_play_description">Торкніться для відтворення відео</string>
     <string name="lock">Блокувати</string>
     <string name="tap">Торкніться для перегляду</string>
+    <string name="tap_to_remove">Торкніться, щоб вилучити</string>
+    <string name="tap_to_rearrange">Торкніться, щоб упорядкувати</string>
+    <string name="tap_to_previous_next">Торкніться, щоб перейти до попереднє/наступне</string>
     <string name="lock_orientation">Орієнтація</string>
     <string name="lock_orientation_description">Торкніться, щоб заблокувати/розблокувати поворот</string>
     <string name="aspect_ratio">Співвідношення сторін</string>
@@ -265,12 +268,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
-    <string name="licence">Ліцензія</string>
     <string name="revision">Збірка</string>
     <string name="about">Про програму</string>
-    <string name="about_text">VLC для Android™ ­— це порт медіаплеєра VLC, відомого плеєра з відкритим вихідним кодом. Версія для Android™ може відтворювати більшість файлів і мережевих потоків.</string>
+    <string name="about_vlc_text">VLC для Android™ ­— це порт медіаплеєра VLC, відомого плеєра з відкритим вихідним кодом. Версія для Android™ може читати усі файли і мережеві потоки.</string>
+    <string name="authors">Автори</string>
     <string name="vlc_authors">та автори VLC.</string>
-    <string name="compiled_by">Цю версію VLC скомпільовано:</string>
+    <string name="is_compiled_by">Скомпільовано</string>
+    <string name="sources">Джерельний код</string>
+    <string name="libraries">Бібліотеки</string>
     <string name="feedback_forum">Форум для відгуків</string>
 
     <!-- Preferences -->
@@ -339,6 +344,8 @@
     <string name="enable_double_tap_seek_summary">Подвійний натиск по краях екрану, щоб шукати за 10 секунд</string>
     <string name="enable_double_tap_play_title">Подвійний натиск для відтворення/паузи</string>
     <string name="enable_double_tap_play_summary">Подвійний натиск по центру екрана, щоб відтворювати або призупинити</string>
+    <string name="enable_swipe_seek_title">Провести для пошуку</string>
+    <string name="enable_swipe_seek_summary">Проведіть своїм пальцем через екран, щоб шукати</string>
     <string name="popup_keepscreen_title">Зберігати увімкненим екран у режимі вигульків</string>
     <string name="popup_keepscreen_summary">Завжди зберігає увімкненим екран, коли показуються вигульки, навіть при зупинці відео.</string>
     <string name="browser_show_hidden_files_title">Показати приховані файли</string>
@@ -363,6 +370,8 @@
     <string name="audio_prefs_category">Аудіо</string>
     <string name="lockscreen_cover_title">Обкладинка екрану блокування</string>
     <string name="lockscreen_cover_summary">Якщо доступно, то встановіть обкладинку як шпалери екрану блокування</string>
+    <string name="show_seek_in_compact_notif_title">Кнопки пошуку на панелі сповіщень</string>
+    <string name="show_seek_in_compact_notif_summary">Показувати кнопки перемотування та швидкого переходу вперед у компактних елементах управління</string>
     <string name="list_title_ellipsize">Скорочення назв в однорядкові заголовки на списках</string>
     <string name="list_title_ellipsize_default">Усталено</string>
     <string name="list_title_ellipsize_left">Зліва</string>
@@ -491,6 +500,7 @@
     <string name="playlist_name_hint">Назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
     <string name="chapter">Глава</string>
+    <string name="current_chapter">Розділ: %s</string>
     <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Відновити відтворене відео</string>
@@ -904,5 +914,7 @@
         <item quantity="many">%d з обраних елементів вже наявні у цьому списку.</item>
         <item quantity="other">%d з обраних елементів вже наявні у цьому списку.</item>
     </plurals>
+    <string name="official_website">Офіційна веб-сторінка</string>
+    <string name="view_online">Переглянути онлайн</string>
 
 </resources>
