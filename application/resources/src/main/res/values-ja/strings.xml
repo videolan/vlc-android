@@ -56,7 +56,6 @@
     <string name="confirm_delete_files">これらのファイル %1$s を削除しますか?</string>
     <string name="confirm_delete_folders_and_files">これらのフォルダ %1$s とファイル %2$s を削除しますか?</string>
     <string name="confirm_delete_playlist">プレイリスト \'%1$s\' を削除しますか?</string>
-    <string name="confirm_remove_from_playlist">プレイリストから \'%1$s\' を削除しますか?</string>
     <string name="ringtone_set">\'%1$s\' は着信音として設定されました。</string>
     <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
     <string name="pause">一時停止</string>
@@ -185,6 +184,7 @@
     <string name="encountered_error_title">再生エラー</string>
     <string name="encountered_error_message">このメディアでエラーを検出しました。\nメディアライブラリをリフレッシュしてみてください。</string>
     <string name="invalid_location">その場所 %1$s は再生できません</string>
+    <string name="missing_location">このメディアは現在利用不可能なストレージ上にあるため再生できません。</string>
 
     <string name="search">検索</string>
 
@@ -206,6 +206,9 @@
     <string name="tips_play_description">タップでビデオを再生</string>
     <string name="lock">ロック</string>
     <string name="tap">タップで表示</string>
+    <string name="tap_to_remove">タップして削除</string>
+    <string name="tap_to_rearrange">タップして再アレンジ</string>
+    <string name="tap_to_previous_next">タップして前/次</string>
     <string name="lock_orientation">方向</string>
     <string name="lock_orientation_description">タップで画面方向のロック/ロック解除</string>
     <string name="aspect_ratio">アスペクト比</string>
@@ -235,12 +238,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
-    <string name="licence">ライセンス</string>
     <string name="revision">リビジョン</string>
     <string name="about">VLCについて</string>
-    <string name="about_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
+    <string name="about_vlc_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
+    <string name="authors">作成者</string>
     <string name="vlc_authors">およびVLCの著作者。</string>
-    <string name="compiled_by">このバージョンのVLCのコンパイラ:</string>
+    <string name="is_compiled_by">コンパイラー</string>
+    <string name="sources">ソースコード</string>
+    <string name="libraries">ライブラリ</string>
     <string name="feedback_forum">フィードバックフォーム</string>
 
     <!-- Preferences -->
@@ -300,7 +305,7 @@
     <string name="enable_volume_gesture_title">ジェスチャーで音量変更</string>
     <string name="enable_volume_gesture_summary">ビデオ再生中のジェスチャーによる音量調整</string>
     <string name="enable_seek_buttons">シークボタン</string>
-    <string name="enable_seek_buttons_summary">進めると戻るボタンをビデオインターゲースに表示</string>
+    <string name="enable_seek_buttons_summary">進めると戻るボタンをビデオインターフェースに表示</string>
     <string name="enable_android_auto_speed_buttons">Androidの自動再生速度</string>
     <string name="enable_android_auto_speed_buttons_summary">オーバーフローメニューで速度制御を表示</string>
     <string name="enable_android_auto_seek_buttons">アンドロイド自動シークボタン</string>
@@ -309,6 +314,8 @@
     <string name="enable_double_tap_seek_summary">スクリーン端をダブルタップすると10秒間シークします</string>
     <string name="enable_double_tap_play_title">ダブルタップで再生/一時停止</string>
     <string name="enable_double_tap_play_summary">画面の中心をダブルタップで再生/一時停止</string>
+    <string name="enable_swipe_seek_title">スワイプでシーク</string>
+    <string name="enable_swipe_seek_summary">スクリーンを横切るように指でスワイプすることでシークできます。</string>
     <string name="popup_keepscreen_title">ポップアップモードでスクリーンをオンに保持</string>
     <string name="popup_keepscreen_summary">ビデオが一時停止状態にポップアップが表示されている間もスクリーンをオンに保持します。</string>
     <string name="browser_show_hidden_files_title">隠しファイルを表示</string>
@@ -333,6 +340,8 @@
     <string name="audio_prefs_category">オーディオ</string>
     <string name="lockscreen_cover_title">メディアのカバーをロックスクリーンに表示</string>
     <string name="lockscreen_cover_summary">可能な場合、現在のメディアのカバーアートをロック画面の背景に設定</string>
+    <string name="show_seek_in_compact_notif_title">シークボタンを通知パネルに表示</string>
+    <string name="show_seek_in_compact_notif_summary">進めると戻るボタンをコンパクトなメディアコントロールに表示</string>
     <string name="list_title_ellipsize">タイトルを省略して1行表示</string>
     <string name="list_title_ellipsize_default">デフォルト</string>
     <string name="list_title_ellipsize_left">左</string>
@@ -461,6 +470,7 @@
     <string name="playlist_name_hint">プレイリスト名</string>
     <string name="go_to_chapter">チャプター指定…</string>
     <string name="chapter">チャプター</string>
+    <string name="current_chapter">チャプター: %s</string>
     <string name="resume_from_position">前回の位置から再生</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
     <string name="confirm_resume_title">再生していたビデオを再開</string>
@@ -862,5 +872,7 @@
     <plurals name="duplication_three_options_secondary">
         <item quantity="other">選択された項目の %d 個は既にこのプレイリストに存在します。</item>
     </plurals>
+    <string name="official_website">公式ウェブサイト</string>
+    <string name="view_online">オンラインで表示</string>
 
 </resources>
