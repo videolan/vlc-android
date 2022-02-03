@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Radera dessa %1$s filer?</string>
     <string name="confirm_delete_folders_and_files">Radera dessa %1$s mappar och %2$s filer?</string>
     <string name="confirm_delete_playlist">Radera spellistan \"%1$s\"?</string>
-    <string name="confirm_remove_from_playlist">Ta bort \"%1$s\" från spellistan?</string>
     <string name="ringtone_set">Angav filen \"%1$s\" som ringsignal.</string>
     <string name="ringtone_error">Ett fel uppstod när ringsignalen ändrades.</string>
     <string name="pause">Pausa</string>
@@ -195,6 +194,7 @@
     <string name="encountered_error_title">Uppspelningsfel</string>
     <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nVar god försök att uppdatera mediebiblioteket.</string>
     <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
+    <string name="missing_location">Denna mediafil kommer från ett otillgängligt lagringsutrymme och kan inte spelas upp.</string>
 
     <string name="search">Sök</string>
 
@@ -216,6 +216,9 @@
     <string name="tips_play_description">Tryck för att spela upp video</string>
     <string name="lock">Lås</string>
     <string name="tap">Tryck för att visa</string>
+    <string name="tap_to_remove">Tryck för att ta bort</string>
+    <string name="tap_to_rearrange">Tryck för att ordna om</string>
+    <string name="tap_to_previous_next">Tryck för att gå till föregående/nästa</string>
     <string name="lock_orientation">Orientering</string>
     <string name="lock_orientation_description">Tryck för att låsa/låsa upp orienteringen</string>
     <string name="aspect_ratio">Bildförhållande</string>
@@ -245,12 +248,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC för Android</string>
-    <string name="licence">Licens</string>
     <string name="revision">Version</string>
     <string name="about">Om</string>
-    <string name="about_text">VLC för Android™ är en portering av VLC media player, den populära mediaspelaren med öppen källkod. Android™-versionen kan läsa de flesta filerna och nätverksströmmarna.</string>
+    <string name="about_vlc_text">VLC for Android™ är en portering av VLC media player, den populära mediaspelaren med öppen källkod. Android™-versionen kan läsa alla filer och nätverksströmmar.</string>
+    <string name="authors">Författare</string>
     <string name="vlc_authors">och VLC:s upphovsmän.</string>
-    <string name="compiled_by">Denna version av VLC är kompilerad av:</string>
+    <string name="is_compiled_by">Kompilerad av</string>
+    <string name="sources">Källkod</string>
+    <string name="libraries">Bibliotek</string>
     <string name="feedback_forum">Återkopplingsforum</string>
 
     <!-- Preferences -->
@@ -319,6 +324,8 @@
     <string name="enable_double_tap_seek_summary">Dubbelknacka på skärmens kanter för att snabbspola framåt/bakåt 10 sekunder</string>
     <string name="enable_double_tap_play_title">Tryck två gånger för att spela upp/pausa</string>
     <string name="enable_double_tap_play_summary">Tryck två gånger på mitten av skärmen för att spela upp eller pausa</string>
+    <string name="enable_swipe_seek_title">Svep för att snabbspola</string>
+    <string name="enable_swipe_seek_summary">Svep ditt finger över skärmen för att snabbspola.</string>
     <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
     <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popupp visas, även om videon är pausad.</string>
     <string name="browser_show_hidden_files_title">Visa dolda filer</string>
@@ -343,6 +350,8 @@
     <string name="audio_prefs_category">Ljud</string>
     <string name="lockscreen_cover_title">Mediaomslag på låsskärmen</string>
     <string name="lockscreen_cover_summary">Ändra låsskärmens bakgrundsbild till aktuell mediaomslagbild om ett finns.</string>
+    <string name="show_seek_in_compact_notif_title">Snabbspolningsknappar i aviseringsfältet</string>
+    <string name="show_seek_in_compact_notif_summary">Visa knappar för att spola fram och tillbaka i de kompakta mediakontrollerna</string>
     <string name="list_title_ellipsize">Avsluta enradiga titlar med punkter</string>
     <string name="list_title_ellipsize_default">Standard</string>
     <string name="list_title_ellipsize_left">Vänster</string>
@@ -471,6 +480,7 @@
     <string name="playlist_name_hint">Spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel…</string>
     <string name="chapter">Kapitel</string>
+    <string name="current_chapter">Kapitel: %s</string>
     <string name="resume_from_position">Återuppta från senaste position</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
     <string name="confirm_resume_title">Återuppta uppspelade videor</string>
@@ -876,5 +886,7 @@
         <item quantity="one">1 av de markerade objekten finns redan i denna spellista. </item>
         <item quantity="other">%d av de markerade objekten finns redan i denna spellista.</item>
     </plurals>
+    <string name="official_website">Officiell webbplats</string>
+    <string name="view_online">Visa på internet</string>
 
 </resources>
