@@ -227,9 +227,9 @@
                     android:onClick="@{fragment::onResumeToVideoClick}"
                     android:scaleType="fitXY"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/audio_media_switcher"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/audio_media_switcher"
                     app:srcCompat="?attr/ic_playasaudio_off"
                     tools:visibility="visible" />
 
