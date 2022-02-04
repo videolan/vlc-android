@@ -12,10 +12,12 @@ android {
     dataBinding {
         enabled = true
     }
-
     packagingOptions {
-        pickFirst '**/*.so'
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
     }
+
 
     defaultConfig {
 

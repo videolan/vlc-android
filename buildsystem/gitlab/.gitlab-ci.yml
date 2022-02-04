@@ -1,7 +1,7 @@
 cache:
     paths:
         - .gradle/
-        - gradle-7.0.2/
+        - gradle-7.2/
         - gradle/
         - gradlew
 

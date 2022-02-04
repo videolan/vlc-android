@@ -6,10 +6,12 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     kotlinOptions.jvmTarget = "1.8"
-
     packagingOptions {
-        pickFirst '**/*.so'
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
     }
+
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
