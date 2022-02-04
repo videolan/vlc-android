@@ -59,7 +59,6 @@
     <string name="confirm_delete_files">Chcete vymazať %1$s súborov?</string>
     <string name="confirm_delete_folders_and_files">Chcete vymazať %1$s priečinkov a %2$s súborov? </string>
     <string name="confirm_delete_playlist">Vymazať playlist „%1$s“?</string>
-    <string name="confirm_remove_from_playlist">Odstrániť „%1$s“ z playlistu?</string>
     <string name="ringtone_set">Súbor „%1$s“ bol nastavený ako tón zvonenia.</string>
     <string name="ringtone_error">Počas nastavovania tónu zvonenia nastala chyba.</string>
     <string name="pause">Pozastaviť</string>
@@ -215,6 +214,7 @@
     <string name="encountered_error_title">Chyba počas prehrávania</string>
     <string name="encountered_error_message">Aplikácia VLC zaznamenala chybu spojenú s týmto médiom.\nProsím obnovte knižnicu médií.</string>
     <string name="invalid_location">Z umiestnenia %1$s nie je možné prehrávanie.</string>
+    <string name="missing_location">Toto médium je uložené na nedostupnom úložisku a nedá sa prehrať.</string>
 
     <string name="search">Vyhľadať</string>
 
@@ -236,6 +236,9 @@
     <string name="tips_play_description">Prehrávanie spustíte dotykom</string>
     <string name="lock">Uzamknúť</string>
     <string name="tap">Zobrazenie vykonáte dotykom</string>
+    <string name="tap_to_remove">Odstránenie vykonáte dotykom</string>
+    <string name="tap_to_rearrange">Usporiadanie zmeníte dotykom</string>
+    <string name="tap_to_previous_next">Na predchádzajúce/ďalšie prejdete dotykom</string>
     <string name="lock_orientation">Orientácia</string>
     <string name="lock_orientation_description">Dotykom uzamknete/odomknete orientáciu</string>
     <string name="aspect_ratio">Pomer strán</string>
@@ -265,12 +268,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android</string>
-    <string name="licence">Licencia</string>
     <string name="revision">Revízia</string>
     <string name="about">O aplikácii</string>
-    <string name="about_text">VLC for Android™ je portom programu VLC media player, populárneho open-source prehrávača médií. Verzia pre systém Android™ dokáže prečítať väčšinu súborov a sieťových streamov.</string>
+    <string name="about_vlc_text">VLC for Android™ je portom programu VLC media player, populárneho open-source prehrávača médií. Verzia pre systém Android™ dokáže prečítať všetky súbory a sieťové streamy.</string>
+    <string name="authors">Autori</string>
     <string name="vlc_authors">a autori VLC</string>
-    <string name="compiled_by">Túto verziu VLC skompiloval:</string>
+    <string name="is_compiled_by">Skompilované</string>
+    <string name="sources">Zdrojový kód</string>
+    <string name="libraries">Knižnice</string>
     <string name="feedback_forum">Fórum pre spätnú väzbu</string>
 
     <!-- Preferences -->
@@ -339,6 +344,8 @@
     <string name="enable_double_tap_seek_summary">Pre posun o 10 sekúnd sa 2x dotknite rohov obrazovky</string>
     <string name="enable_double_tap_play_title">Dvojitým dotykom spustíte/pozastavíte prehrávanie</string>
     <string name="enable_double_tap_play_summary">Pre prehrávanie/pozastavenie dvakrát ťuknite na stred obrazovky</string>
+    <string name="enable_swipe_seek_title">Vyhľadávanie spustíte potiahnutím</string>
+    <string name="enable_swipe_seek_summary">Pre vyhľadávanie potiahnite prst cez obrazovku</string>
     <string name="popup_keepscreen_title">V režime vyskakovacieho okna ponechať ZAPNUTÝ displej</string>
     <string name="popup_keepscreen_summary">Počas zobrazenia vyskakovacieho okna ponechať displej ZAPNUTÝ, aj pri pozastavení videa.</string>
     <string name="browser_show_hidden_files_title">Zobraziť skryté súbory</string>
@@ -363,6 +370,8 @@
     <string name="audio_prefs_category">Zvuk</string>
     <string name="lockscreen_cover_title">Obal média na obrazovke uzamknutia</string>
     <string name="lockscreen_cover_summary">Ak je dostupný, nastaví obal média ako pozadie na obrazovke uzamknutia</string>
+    <string name="show_seek_in_compact_notif_title">Tlačidlá vyhľadávania v notifikačnom paneli</string>
+    <string name="show_seek_in_compact_notif_summary">Zobraziť tlačidlá na posúvanie dozadu a rýchlo dopredu v kompaktných ovládacích prvkoch média</string>
     <string name="list_title_ellipsize">Skrátenie názvu v jednoriadkovom zozname</string>
     <string name="list_title_ellipsize_default">Predvolené</string>
     <string name="list_title_ellipsize_left">Vľavo</string>
@@ -491,6 +500,7 @@
     <string name="playlist_name_hint">Názov playlistu</string>
     <string name="go_to_chapter">Prejsť na kapitolu…</string>
     <string name="chapter">Kapitola</string>
+    <string name="current_chapter">Kapitola: %s</string>
     <string name="resume_from_position">Pokračovať od poslednej pozície</string>
     <string name="confirm_resume">Pokračovať od poslednej pozície?</string>
     <string name="confirm_resume_title">Pokračovať v prehrávaných videách</string>
@@ -904,5 +914,7 @@
         <item quantity="many">%d z vybraných položiek už je v playliste.</item>
         <item quantity="other">%d z vybraných položiek už je v playliste.</item>
     </plurals>
+    <string name="official_website">Oficiálna webová stránka</string>
+    <string name="view_online">Zobraziť online</string>
 
 </resources>
