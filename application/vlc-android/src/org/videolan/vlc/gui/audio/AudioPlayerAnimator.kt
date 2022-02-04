@@ -232,6 +232,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         if (showCover) {
             binding.audioMediaSwitcher.translationY = translationOffset * 48.dp
             binding.audioMediaSwitcher.alpha = 1 - slideOffset
+            binding.playbackChips.translationY = -(1 - translationOffset) * 48.dp
+            binding.playbackChips.alpha = slideOffset
         } else {
             binding.audioMediaSwitcher.translationY = 0F
             binding.audioMediaSwitcher.alpha = 1F
