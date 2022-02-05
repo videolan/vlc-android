@@ -56,7 +56,6 @@
     <string name="confirm_delete_files">이 %1$s 파일들을 삭제하시겠습니까?</string>
     <string name="confirm_delete_folders_and_files">이 %1$s 폴더와 %2$s 파일을 삭제하시겠습니까?</string>
     <string name="confirm_delete_playlist">재생목록 \'%1$s\' 을 삭제할까요?</string>
-    <string name="confirm_remove_from_playlist">재생목록에서 \'%1$s\'을 제거할까요?</string>
     <string name="ringtone_set">\'%1$s\' 파일을 벨소리로 설정했습니다.</string>
     <string name="ringtone_error">벨소리 설정 중 오류가 발생했습니다.</string>
     <string name="pause">일시중지</string>
@@ -155,7 +154,7 @@
 
     <string name="track_samplerate_info">샘플 레이트: %1$d Hz\n</string>
     <string name="track_resolution_info">해상도: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">프레임 레이트: %1$.3f\n</string>
+    <string name="track_framerate_info">프레임 속도: %1$.3f\n</string>
 
     <string name="playback_speed">재생 속도</string>
     <string name="sleep_title">수면 타이머</string>
@@ -185,6 +184,7 @@
     <string name="encountered_error_title">재생 오류</string>
     <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.\n미디어 라이브러리를 새로 고침 해보세요.</string>
     <string name="invalid_location">%1$s 위치를 재생할 수 없습니다.</string>
+    <string name="missing_location">이 미디어는 사용할 수 없는 저장소에 있으며 재생할 수 없습니다.</string>
 
     <string name="search">검색</string>
 
@@ -206,6 +206,9 @@
     <string name="tips_play_description">눌러서 비디오 재생</string>
     <string name="lock">잠그기</string>
     <string name="tap">눌러서 보기</string>
+    <string name="tap_to_remove">탭하여 제거</string>
+    <string name="tap_to_rearrange">탭하여 재정렬</string>
+    <string name="tap_to_previous_next">탭하여 이전/다음으로 이동</string>
     <string name="lock_orientation">방향</string>
     <string name="lock_orientation_description">눌러서 방향 고정/해제</string>
     <string name="aspect_ratio">화면 비율</string>
@@ -235,12 +238,14 @@
 
     <!-- About -->
     <string name="app_name_full">안드로이드용 VLC</string>
-    <string name="licence">라이센스</string>
     <string name="revision">리비전</string>
     <string name="about">정보</string>
-    <string name="about_text">안드로이드용 VLC 미디어 재생기는 인기 있는 오픈 소스 미디어 재생기인 VLC 미디어 재생기로 만든 것입니다. 안드로이드 버전은 대부분의 파일 및 네트워크 스트림을 읽을 수 있습니다.</string>
+    <string name="about_vlc_text">Android™용 VLC는 인기 있는 오픈 소스 미디어 플레이어인 VLC 미디어 플레이어의 이식된 버전입니다. Android™ 버전은 모든 파일과 네트워크 스트림을 읽을 수 있습니다.</string>
+    <string name="authors">작성자</string>
     <string name="vlc_authors">및 VLC 제작자들.</string>
-    <string name="compiled_by">이 버전의 VLC 컴파일러:</string>
+    <string name="is_compiled_by">편집자:</string>
+    <string name="sources">소스 코드</string>
+    <string name="libraries">라이브러리</string>
     <string name="feedback_forum">의견 포럼</string>
 
     <!-- Preferences -->
@@ -300,7 +305,7 @@
     <string name="enable_volume_gesture_title">볼륨 제스처</string>
     <string name="enable_volume_gesture_summary">비디오 재생 중에 제스처로 볼륨을 조절합니다</string>
     <string name="enable_seek_buttons">탐색 버튼</string>
-    <string name="enable_seek_buttons_summary">비디오 인터페이스에 뒤로/앞으로 감기 버튼을 표시합니다</string>
+    <string name="enable_seek_buttons_summary">비디오 인터페이스에 되감기 및 빨리감기 버튼 표시</string>
     <string name="enable_android_auto_speed_buttons">안드로이드 자동 재생 속도</string>
     <string name="enable_android_auto_speed_buttons_summary">오버플로 메뉴에 속도 제어 표시</string>
     <string name="enable_android_auto_seek_buttons">Android Auto 탐색 버튼</string>
@@ -309,6 +314,8 @@
     <string name="enable_double_tap_seek_summary">화면 가장자리에서 두 번 탭하여 10초씩 탐색합니다</string>
     <string name="enable_double_tap_play_title">재생/일시 중지하려면 두 번 누르십시오</string>
     <string name="enable_double_tap_play_summary">화면 중앙을 두 번 눌러 재생 또는 일시 중지</string>
+    <string name="enable_swipe_seek_title">스와이프하여 검색</string>
+    <string name="enable_swipe_seek_summary">화면을 가로질러 손가락을 스와이프하여 검색</string>
     <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
     <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 비디오가 일시중지여도 화면 켜짐을 유지합니다</string>
     <string name="browser_show_hidden_files_title">숨김 파일 표시</string>
@@ -333,6 +340,8 @@
     <string name="audio_prefs_category">오디오</string>
     <string name="lockscreen_cover_title">잠금 화면에 미디어 커버 보기</string>
     <string name="lockscreen_cover_summary">이용 가능할 때 현재 미디어의 커버 아트를 잠금 화면의 배경으로 설정합니다</string>
+    <string name="show_seek_in_compact_notif_title">알림 패널의 탐색 버튼</string>
+    <string name="show_seek_in_compact_notif_summary">컴팩트 미디어 컨트롤에 되감기 및 빨리감기 버튼 표시</string>
     <string name="list_title_ellipsize">한줄 리스트로 제목 줄임</string>
     <string name="list_title_ellipsize_default">기본값</string>
     <string name="list_title_ellipsize_left">왼쪽</string>
@@ -461,6 +470,7 @@
     <string name="playlist_name_hint">재생목록 이름</string>
     <string name="go_to_chapter">챕터 이동하기…</string>
     <string name="chapter">챕터</string>
+    <string name="current_chapter">챕터: %s</string>
     <string name="resume_from_position">마지막 위치에서 재생 시작하기</string>
     <string name="confirm_resume">마지막 위치에서 재생을 시작할까요?</string>
     <string name="confirm_resume_title">재생된 비디오 다시 재생하기</string>
@@ -862,5 +872,7 @@
     <plurals name="duplication_three_options_secondary">
         <item quantity="other">선택한 항목의 %d이(가) 이미 이 재생 목록에 있습니다.</item>
     </plurals>
+    <string name="official_website">공식 웹사이트</string>
+    <string name="view_online">온라인 보기</string>
 
 </resources>
