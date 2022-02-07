@@ -56,7 +56,6 @@
     <string name="confirm_delete_files">刪除這些 %1$s 檔案？</string>
     <string name="confirm_delete_folders_and_files">刪除這些 %1$s 資料夾和 %2$s 檔案？</string>
     <string name="confirm_delete_playlist">是否刪除播放清單「%1$s」？</string>
-    <string name="confirm_remove_from_playlist">從播放清單中移除「%1$s」嗎？</string>
     <string name="ringtone_set">「%1$s」已經設為鈴聲。</string>
     <string name="ringtone_error">設為鈴聲時發生錯誤。</string>
     <string name="pause">暫停</string>
@@ -185,6 +184,7 @@
     <string name="encountered_error_title">播放錯誤</string>
     <string name="encountered_error_message">VLC 處理該媒體時發生錯誤。\n請嘗試重新整理媒體櫃。</string>
     <string name="invalid_location">位置 %1$s 無法被播放。</string>
+    <string name="missing_location">此媒體來自不可用的儲存空間，無法播放。</string>
 
     <string name="search">搜尋</string>
 
@@ -206,6 +206,9 @@
     <string name="tips_play_description">點擊以播放影片</string>
     <string name="lock">鎖定</string>
     <string name="tap">點擊以檢視</string>
+    <string name="tap_to_remove">點擊以移除</string>
+    <string name="tap_to_rearrange">點擊以重新排列</string>
+    <string name="tap_to_previous_next">點擊以進入上一個／下一個</string>
     <string name="lock_orientation">方向</string>
     <string name="lock_orientation_description">點擊以鎖定／解鎖方向</string>
     <string name="aspect_ratio">長寬比</string>
@@ -235,12 +238,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android</string>
-    <string name="licence">授權</string>
     <string name="revision">修訂版</string>
     <string name="about">關於</string>
-    <string name="about_text">VLC for Android™ 移植自VLC媒體播放器，是相當受歡迎的開源媒體播放器。此Android™版本可以讀取大部分的媒體檔案和網路串流。</string>
+    <string name="about_vlc_text">Android™ 版本的 VLC 是 VLC 媒體播放程式的移植版本，是相當受歡迎的開放原始碼媒體播放程式。Android™ 版本可以讀取所有檔案與網路串流。</string>
+    <string name="authors">作者</string>
     <string name="vlc_authors">和 VLC 作者。</string>
-    <string name="compiled_by">此版本 VLC 由以下人員編譯：</string>
+    <string name="is_compiled_by">編譯由：</string>
+    <string name="sources">原始碼</string>
+    <string name="libraries">函式庫</string>
     <string name="feedback_forum">回饋討論區</string>
 
     <!-- Preferences -->
@@ -309,6 +314,8 @@
     <string name="enable_double_tap_seek_summary">在螢幕邊緣輕觸兩下來快轉 10 秒</string>
     <string name="enable_double_tap_play_title">輕觸兩下以播放／暫停</string>
     <string name="enable_double_tap_play_summary">輕觸螢幕中央兩下以播放或暫停</string>
+    <string name="enable_swipe_seek_title">滑動以快轉</string>
+    <string name="enable_swipe_seek_summary">在螢幕上用手指滑動以快轉</string>
     <string name="popup_keepscreen_title">在彈出式視窗模式中保持螢幕開啟</string>
     <string name="popup_keepscreen_summary">當彈出式視窗顯示時，即便影片已暫停，也總是保持螢幕開啟。</string>
     <string name="browser_show_hidden_files_title">顯示隱藏檔案</string>
@@ -333,6 +340,8 @@
     <string name="audio_prefs_category">音訊</string>
     <string name="lockscreen_cover_title">鎖定畫面中的媒體封面</string>
     <string name="lockscreen_cover_summary">可用時，會將目前的媒體封面圖片設定為鎖定畫面桌布</string>
+    <string name="show_seek_in_compact_notif_title">在通知面板中的「尋找」按鈕</string>
+    <string name="show_seek_in_compact_notif_summary">在簡潔媒體控制元件中顯示「快退」與「快進」按鈕</string>
     <string name="list_title_ellipsize">單行清單標題省略</string>
     <string name="list_title_ellipsize_default">預設</string>
     <string name="list_title_ellipsize_left">左</string>
@@ -461,6 +470,7 @@
     <string name="playlist_name_hint">播放清單名稱</string>
     <string name="go_to_chapter">轉到章節...</string>
     <string name="chapter">章節</string>
+    <string name="current_chapter">章節：%s</string>
     <string name="resume_from_position">從上次播放的位置繼續</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
     <string name="confirm_resume_title">恢復播放過的影片</string>
@@ -862,5 +872,7 @@
     <plurals name="duplication_three_options_secondary">
         <item quantity="other">選定項目中的 %d 個已在此播放清單中。</item>
     </plurals>
+    <string name="official_website">官方網站</string>
+    <string name="view_online">線上檢視</string>
 
 </resources>
