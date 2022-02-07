@@ -600,7 +600,11 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioOutputDevice(JNIEnv *env,
         return false;
     }
 
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+    libvlc_audio_output_device_set(p_obj->u.p_mp, psz_id);
+#else
     libvlc_audio_output_device_set(p_obj->u.p_mp, NULL, psz_id);
+#endif
     (*env)->ReleaseStringUTFChars(env, jid, psz_id);
     return true;
 }
