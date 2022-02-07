@@ -969,7 +969,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                     Log.w(TAG, "Invalid location $location")
 
-                    service.showToast(if (Uri.parse(location).scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location
+                    service.showToast(if (location != null && Uri.parse(location).scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location
                             ?: ""), Toast.LENGTH_SHORT, true)
                     if (currentIndex != nextIndex) next() else stop()
                 }
