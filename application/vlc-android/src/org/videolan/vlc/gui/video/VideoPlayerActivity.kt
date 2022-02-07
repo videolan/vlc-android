@@ -1167,6 +1167,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         service?.resetRate()
     }
 
+    override fun bookmark() {
+        bookmarkModel.addBookmark(this)
+        UiTools.snackerConfirm(this, getString(R.string.bookmark_added), confirmMessage = R.string.show) {
+            overlayDelegate.showOverlay()
+            overlayDelegate.showBookmarks()
+        }
+    }
+
     override fun showAdvancedOptions() {
         if (optionsDelegate == null) service?.let {
             optionsDelegate = PlayerOptionsDelegate(this, it)

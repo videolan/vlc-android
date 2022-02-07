@@ -45,6 +45,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
@@ -262,6 +263,13 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         model.service?.resetRate()
     }
 
+    override fun bookmark() {
+        bookmarkModel.addBookmark(this)
+        UiTools.snackerConfirm(this, getString(org.videolan.vlc.R.string.bookmark_added), confirmMessage = org.videolan.vlc.R.string.show) {
+            showBookmarks()
+        }
+    }
+
     fun playSelection() {
         model.play(adapter.selectedItem)
     }
@@ -304,21 +312,30 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
             optionsDelegate.setBookmarkClickedListener {
-                if (!this::bookmarkListDelegate.isInitialized) {
-                    bookmarkListDelegate = BookmarkListDelegate(this, service, bookmarkModel)
-                    bookmarkListDelegate.visibilityListener = {
-                        if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
-                        binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
-                        binding.playlist.isFocusable = !bookmarkListDelegate.visible
-                        binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
-                        binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
-                    }
-                    bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
-                }
-                bookmarkListDelegate.show()
+                showBookmarks()
             }
         }
         optionsDelegate.show()
+    }
+
+    /**
+     * Show the bookmarks and initialize the delegate if needed
+     */
+    private fun showBookmarks() {
+        model.service?.let {
+            if (!this::bookmarkListDelegate.isInitialized) {
+                bookmarkListDelegate = BookmarkListDelegate(this, it, bookmarkModel)
+                bookmarkListDelegate.visibilityListener = {
+                    if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
+                    binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
+                    binding.playlist.isFocusable = !bookmarkListDelegate.visible
+                    binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
+                    binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
+                }
+                bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+            }
+            bookmarkListDelegate.show()
+        }
     }
 
     private fun setShuffleMode(shuffle: Boolean) {

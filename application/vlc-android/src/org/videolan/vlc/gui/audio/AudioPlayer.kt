@@ -557,18 +557,26 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val activity = activity as? AppCompatActivity ?: return
             optionsDelegate = PlayerOptionsDelegate(activity, service)
             optionsDelegate.setBookmarkClickedListener {
-                if (!this::bookmarkListDelegate.isInitialized) {
-                    bookmarkListDelegate = BookmarkListDelegate(activity, service, bookmarkModel)
-                    bookmarkListDelegate.visibilityListener = {
-                        binding.audioPlayProgress.visibility = if (shouldHidePlayProgress()) View.GONE else View.VISIBLE
-                    }
-                    bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
-                }
-                bookmarkListDelegate.show()
-                bookmarkListDelegate.setProgressHeight(binding.time.y)
+                showBookmarks()
             }
         }
         optionsDelegate.show()
+    }
+
+    /**
+     * Show bookmark and initialize the delegate if needed
+     */
+    fun showBookmarks() {
+        val service = playlistModel.service ?: return
+        if (!this::bookmarkListDelegate.isInitialized) {
+            bookmarkListDelegate = BookmarkListDelegate(requireActivity(), service, bookmarkModel)
+            bookmarkListDelegate.visibilityListener = {
+                binding.audioPlayProgress.visibility = if (shouldHidePlayProgress()) View.GONE else View.VISIBLE
+            }
+            bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+        }
+        bookmarkListDelegate.show()
+        bookmarkListDelegate.setProgressHeight(binding.time.y)
     }
 
     fun onSearchClick(v: View) {

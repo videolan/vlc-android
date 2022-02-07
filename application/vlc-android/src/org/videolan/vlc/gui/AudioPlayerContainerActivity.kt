@@ -254,6 +254,13 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         audioPlayer.playlistModel.service?.resetRate()
     }
 
+    override fun bookmark() {
+        audioPlayer.bookmarkModel.addBookmark(this)
+        UiTools.snackerConfirm(this, getString(R.string.bookmark_added), overAudioPlayer = true, confirmMessage = R.string.show) {
+            audioPlayer.showBookmarks()
+        }
+    }
+
     fun updateFragmentMargins(state: Int = STATE_COLLAPSED) {
         playerShown = state != STATE_HIDDEN
         supportFragmentManager.fragments.forEach { fragment ->

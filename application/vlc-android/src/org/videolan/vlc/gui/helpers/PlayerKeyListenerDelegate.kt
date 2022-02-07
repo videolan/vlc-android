@@ -96,6 +96,10 @@ class PlayerKeyListenerDelegate(private val keycodeListener: KeycodeListener) {
             keycodeListener.decreaseRate()
             true
         }
+        KeyEvent.KEYCODE_B -> {
+            keycodeListener.bookmark()
+            true
+        }
         else -> false
     }
 }
@@ -154,4 +158,9 @@ interface KeycodeListener {
      * Reset the playback speed rate
      */
     fun resetRate()
+
+    /**
+     * Add a new bookmark at current time
+     */
+    fun bookmark()
 }

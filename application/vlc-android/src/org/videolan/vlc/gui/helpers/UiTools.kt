@@ -43,6 +43,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -247,10 +248,10 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, action: () -> Unit) {
+    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, @StringRes confirmMessage:Int = R.string.ok, action: () -> Unit) {
         val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                .setAction(R.string.ok) { action.invoke() }
+                .setAction(confirmMessage) { action.invoke() }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
