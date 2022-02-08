@@ -48,7 +48,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.widget_b.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.onEach
@@ -81,7 +80,6 @@ import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.text.DateFormat.getTimeInstance
-import java.util.*
 import kotlin.math.absoluteValue
 
 private const val TAG = "VLC/AudioPlayer"
@@ -124,8 +122,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
-        playlistModel.progress.observe(this@AudioPlayer, { it?.let { updateProgress(it) } })
-        playlistModel.speed.observe(this@AudioPlayer, { showChips() })
+        playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }
+        playlistModel.speed.observe(this@AudioPlayer) { showChips() }
         playlistAdapter.setModel(playlistModel)
         playlistModel.dataset.asFlow().conflate().onEach {
             doUpdate()
@@ -133,9 +131,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             delay(50L)
         }.launchWhenStarted(lifecycleScope)
         bookmarkModel = BookmarkModel.get(requireActivity())
-        PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer, {
+        PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer) {
             showChips()
-        })
+        }
         Settings.setAudioControlsChangeListener {
             lifecycleScope.launchWhenStarted {
                 doUpdate()
@@ -182,20 +180,20 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play_video)!!
         onSlide(0f)
         abRepeatAddMarker = binding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
-        playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner, { abvalues ->
+        playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner) { abvalues ->
             binding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
             binding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
-        })
-        playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner, {
+        }
+        playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner) {
             binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
             abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
             binding.audioPlayProgress.visibility = if (!shouldHidePlayProgress()) View.VISIBLE else View.GONE
 
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
-        })
+        }
 
         abRepeatAddMarker.setOnClickListener {
             playlistModel.service?.playlistManager?.setABRepeatValue(binding.timeline.progress.toLong())
@@ -428,11 +426,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     )
                 } else if (showRemainingTime && totalTime > 0) getString(
                     R.string.audio_queue_progress_remaining,
-                    "$currentProgressText"
+                        currentProgressText
                 )
                 else getString(
                         R.string.audio_queue_progress,
-                        if (totalTimeText.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / $totalTimeText"
+                        if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText"
                     )
                 "$textTrack  •  $textProgress"
             }
@@ -440,7 +438,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun shouldHidePlayProgress() = abRepeatAddMarker.visibility != View.GONE || (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) || playlistModel.medias?.size ?: 0 < 2
+    private fun shouldHidePlayProgress() = abRepeatAddMarker.visibility != View.GONE || (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) || playlistModel.medias?.size ?: 0 < 2
 
     override fun onSelectionSet(position: Int) {
         binding.songsList.scrollToPosition(position)
