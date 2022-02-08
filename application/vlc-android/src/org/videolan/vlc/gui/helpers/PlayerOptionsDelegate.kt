@@ -41,6 +41,7 @@ private const val ACTION_SPU_DELAY = 3
 private const val ID_PLAY_AS_AUDIO = 0L
 private const val ID_SLEEP = 1L
 private const val ID_JUMP_TO = 2L
+private const val ID_PLAY_AS_VIDEO = 3L
 private const val ID_BOOKMARK = 4L
 private const val ID_CHAPTER_TITLE = 5L
 private const val ID_PLAYBACK_SPEED = 6L
@@ -97,6 +98,8 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 options.add(PlayerOption(ID_REPEAT, R.drawable.ic_repeat, res.getString(R.string.repeat_title)))
             if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
             options.add(PlayerOption(ID_VIDEO_STATS, R.drawable.ic_video_stats, res.getString(R.string.video_information)))
+        } else {
+            if (service.videoTracksCount > 0) options.add(PlayerOption(ID_PLAY_AS_VIDEO, R.drawable.ic_playasaudio_off, res.getString(R.string.play_as_video)))
         }
         val chaptersCount = service.getChapters(-1)?.size ?: 0
         if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.drawable.ic_chapter, res.getString(R.string.go_to_chapter)))
@@ -153,6 +156,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 showFragment(ID_SLEEP)
             }
             ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
+            ID_PLAY_AS_VIDEO -> {
+                val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
+                audioPlayerContainerActivity.audioPlayer.onResumeToVideoClick()
+            }
             ID_POPUP_VIDEO -> {
                 (activity as VideoPlayerActivity).switchToPopup()
                 hide()
