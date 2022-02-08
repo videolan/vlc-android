@@ -33,6 +33,7 @@
     <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">Play as audio</string>
     <string name="play_as_video">Play as video</string>
+    <string name="return_to_video">Long tap the cover to restore the video</string>
     <string name="video_app_switch_title">Background/PiP mode</string>
     <string name="video_app_switch_summary">Select VLC behavior when you switch to other application from video playback</string>
     <string name="play_pip_title">Play videos in Picture-in-picture mode</string>
