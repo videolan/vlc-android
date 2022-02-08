@@ -84,7 +84,6 @@
     <attr name="progress_mini_player" format="reference" />
 
     <!--Advance Options Icons-->
-    <attr name="ic_playasaudio_off" format="reference" />
     <attr name="ic_playasaudio_on" format="reference" />
     <attr name="ic_passthrough" format="reference" />
     <attr name="player_icon_color" format="reference" />

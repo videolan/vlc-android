@@ -302,7 +302,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     private suspend fun doUpdate() {
         if (isVisible && playlistModel.switchToVideo()) return
-        binding.playlistPlayasaudioOff.visibility = if (playlistModel.videoTrackCount > 0) View.VISIBLE else View.GONE
         updatePlayPause()
         updateShuffleMode()
         updateRepeatMode()
@@ -540,9 +539,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         updateShuffleMode()
     }
 
-    fun onResumeToVideoClick(v: View) {
+    fun onResumeToVideoClick() {
         playlistModel.currentMediaWrapper?.let {
-            if (PlaybackService.hasRenderer()) VideoPlayerActivity.startOpened(v.context,
+            if (PlaybackService.hasRenderer()) VideoPlayerActivity.startOpened(requireActivity(),
                     it.uri, playlistModel.currentMediaPosition)
             else if (hasMedia()) {
                 it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
@@ -754,8 +753,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouchLongClick() {
             val trackInfo = playlistModel.title ?: return
 
-            requireActivity().copy("VLC - song name", trackInfo)
-            UiTools.snacker(requireActivity(), R.string.track_info_copied_to_clipboard)
+            if (playlistModel.videoTrackCount > 0) onResumeToVideoClick()
+            else {
+                requireActivity().copy("VLC - song name", trackInfo)
+                UiTools.snacker(requireActivity(), R.string.track_info_copied_to_clipboard)
+            }
         }
 
         override fun onTouchDown() {}

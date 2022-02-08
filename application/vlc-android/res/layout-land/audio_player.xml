@@ -232,22 +232,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
 
-            <ImageView
-                    android:id="@+id/playlist_playasaudio_off"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/half_default_margin"
-                    android:contentDescription="@string/play_as_audio"
-                    android:focusable="true"
-                    android:onClick="@{fragment::onResumeToVideoClick}"
-                    android:scaleType="fitXY"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="?attr/ic_playasaudio_off"
-                    tools:visibility="visible" />
 
             <org.videolan.vlc.gui.view.HeaderMediaSwitcher
                     android:id="@+id/audio_media_switcher"

@@ -217,21 +217,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
 
-            <ImageView
-                    android:id="@+id/playlist_playasaudio_off"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:contentDescription="@string/play_as_audio"
-                    android:focusable="true"
-                    android:onClick="@{fragment::onResumeToVideoClick}"
-                    android:scaleType="fitXY"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/audio_media_switcher"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/audio_media_switcher"
-                    app:srcCompat="?attr/ic_playasaudio_off"
-                    tools:visibility="visible" />
 
             <org.videolan.vlc.gui.view.HeaderMediaSwitcher
                     android:id="@+id/audio_media_switcher"
@@ -239,7 +224,7 @@
                     android:layout_height="68dp"
                     android:background="#00000000"
                     app:layout_constraintEnd_toStartOf="@+id/barrier"
-                    app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -255,7 +240,7 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/guideline_header_bottom"
                     app:layout_constraintEnd_toEndOf="@+id/header_play_pause"
-                    app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
