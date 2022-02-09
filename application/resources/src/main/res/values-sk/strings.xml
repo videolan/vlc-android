@@ -34,6 +34,7 @@
     <string name="play_from_start">Prehrať od začiatku</string>
     <string name="play_as_audio">Prehrať ako audio</string>
     <string name="play_as_video">Prehrať ako video</string>
+    <string name="return_to_video">Pre obnovenie videa dlhšie ťuknite na jeho obal</string>
     <string name="video_app_switch_title">Pozadie/režim PiP</string>
     <string name="video_app_switch_summary">Vyberte si úkon VLC, ktorý prebehne pri prepnutí na inú aplikáciu počas prehrávania videa</string>
     <string name="play_pip_title">Prehrať videá v režime obrazu v obraze</string>
@@ -499,7 +500,6 @@
     <string name="playlist_save">Uložiť playlist</string>
     <string name="playlist_name_hint">Názov playlistu</string>
     <string name="go_to_chapter">Prejsť na kapitolu…</string>
-    <string name="chapter">Kapitola</string>
     <string name="current_chapter">Kapitola: %s</string>
     <string name="resume_from_position">Pokračovať od poslednej pozície</string>
     <string name="confirm_resume">Pokračovať od poslednej pozície?</string>
@@ -875,6 +875,8 @@
     <string name="bookmark_default_name">Záložka na %s</string>
     <string name="bookmark_name">Záložka %s</string>
     <string name="add_bookmark">Pridať záložku</string>
+    <string name="bookmark_added">Záložka pridaná</string>
+    <string name="show">Zobraziť</string>
     <string name="optional_features">Voliteľné funkcie</string>
     <string name="optional_features_summary">Skúšobné funkcie (beta), ktoré sa aktuálne testujú a nemusia fungovať stabilne</string>
     <string name="optional_features_warning">Táto funkcia je v skúšobnej prevádzke (beta) a môže spôsobiť pády a nestabilitu</string>
@@ -884,6 +886,10 @@
     <string name="jump_delay">Časový posun dopredu/dozadu</string>
     <string name="long_jump_delay">Časový posun dopredu/dozadu pri dlhom ťuknutí</string>
     <string name="jump_delay_summary">%s sek.</string>
+    <string name="move_up">Posunúť nahor</string>
+    <string name="move_down">Posunúť nadol</string>
+    <string name="remove_from_playlist">Odstrániť z playlistu</string>
+    <string name="play_media">Prehrať %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Pridať duplikované položky?</string>
