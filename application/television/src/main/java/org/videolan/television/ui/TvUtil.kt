@@ -69,7 +69,7 @@ object TvUtil {
 
     var diffCallback: DiffCallback<MediaLibraryItem> = object : DiffCallback<MediaLibraryItem>() {
         override fun areItemsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            return oldItem.equals(newItem)
+            return oldItem.equals(newItem) && oldItem.title == newItem.title
         }
 
         @SuppressLint("DiffUtilEquals")
