@@ -296,7 +296,7 @@ object TvUtil {
         when (mediaLibraryItem.itemType) {
             MediaLibraryItem.TYPE_ALBUM, MediaLibraryItem.TYPE_PLAYLIST -> {
                 val intent = Intent(context, MediaListActivity::class.java)
-                intent.putExtra(ITEM, mediaLibraryItem)
+                intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 context.startActivity(intent)
             }
             MediaLibraryItem.TYPE_MEDIA -> {
@@ -305,7 +305,7 @@ object TvUtil {
             }
             else -> {
                 val intent = Intent(context, VerticalGridActivity::class.java)
-                intent.putExtra(ITEM, mediaLibraryItem)
+                intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 context.startActivity(intent)

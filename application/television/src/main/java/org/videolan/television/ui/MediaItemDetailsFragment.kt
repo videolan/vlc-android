@@ -84,6 +84,8 @@ private const val ID_REMOVE_FROM_HISTORY = 12
 private const val ID_NAVIGATE_PARENT = 13
 private const val ID_FAVORITE_EDIT = 14
 const val EXTRA_FROM_HISTORY = "from_history"
+const val EXTRA_ITEM = "item"
+const val EXTRA_MEDIA = "media"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -126,10 +128,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
-        viewModel.mediaItemDetails = extras.getParcelable("item") ?: return
-        val hasMedia = extras.containsKey("media")
+        viewModel.mediaItemDetails = extras.getParcelable(EXTRA_ITEM) ?: return
+        val hasMedia = extras.containsKey(org.videolan.television.ui.EXTRA_MEDIA)
         fromHistory = extras.getBoolean(EXTRA_FROM_HISTORY, false)
-        val media = (extras.getParcelable<Parcelable>("media")
+        val media = (extras.getParcelable<Parcelable>(org.videolan.television.ui.EXTRA_MEDIA)
                 ?: MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.LocationToUri(viewModel.mediaItemDetails.location))) as MediaWrapper
 
         viewModel.media = media
@@ -171,8 +173,8 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable("item", viewModel.mediaItemDetails)
-        outState.putParcelable("media", viewModel.media)
+        outState.putParcelable(EXTRA_ITEM, viewModel.mediaItemDetails)
+        outState.putParcelable(org.videolan.television.ui.EXTRA_MEDIA, viewModel.media)
         super.onSaveInstanceState(outState)
     }
 

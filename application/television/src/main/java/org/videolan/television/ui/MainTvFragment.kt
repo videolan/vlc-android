@@ -30,10 +30,8 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -55,7 +53,6 @@ import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.cleanupWatchNextList
 
 private const val TAG = "VLC/MainTvFragment"
 
@@ -293,8 +290,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         if (media.type != MediaWrapper.TYPE_DIR) return false
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
-        intent.putExtra("media", media)
-        intent.putExtra("item", MediaItemDetails(media.title, media.artist, media.album, media.location, media.artworkURL))
+        intent.putExtra(EXTRA_MEDIA, media)
+        intent.putExtra(EXTRA_ITEM, MediaItemDetails(media.title, media.artist, media.album, media.location, media.artworkURL))
         startActivity(intent)
         return true
     }
