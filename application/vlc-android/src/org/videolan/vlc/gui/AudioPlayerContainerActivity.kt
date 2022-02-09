@@ -201,6 +201,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
                 updateFragmentMargins(newState)
+                applyMarginToProgressBar(playerBehavior.peekHeight)
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
@@ -469,10 +470,14 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         scanProgressText?.text = discovery
     }
 
+    fun closeMiniPlayer() {
+        hideAudioPlayerImpl()
+    }
+
     private fun applyMarginToProgressBar(marginValue: Int) {
         if (scanProgressLayout != null && scanProgressLayout?.visibility == View.VISIBLE) {
             val lp = scanProgressLayout!!.layoutParams as CoordinatorLayout.LayoutParams
-            lp.bottomMargin = marginValue
+            lp.bottomMargin = if (playerShown) marginValue else 0
             scanProgressLayout?.layoutParams = lp
         }
     }

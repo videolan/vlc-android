@@ -509,6 +509,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onStopClick(view: View?): Boolean {
         playlistModel.stop()
+        if (activity is AudioPlayerContainerActivity)
+            (activity as AudioPlayerContainerActivity).closeMiniPlayer()
         return true
     }
 
