@@ -32,6 +32,7 @@
     <string name="play_from_start">Reproduzir do início</string>
     <string name="play_as_audio">Reproduzir como áudio</string>
     <string name="play_as_video">Reproduzir como vídeo</string>
+    <string name="return_to_video">Toque longo na tela para restaurar o vídeo</string>
     <string name="video_app_switch_title">Modo Segundo Plano/PiP</string>
     <string name="video_app_switch_summary">Selecionar o comportamento para quando alternar da reprodução de vídeos para outro aplicativo</string>
     <string name="play_pip_title">Reproduzir vídeos em modo de mini tela</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Salvar Lista de Reprodução</string>
     <string name="playlist_name_hint">Nome da Lista de Reprodução</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
-    <string name="chapter">Capítulo</string>
     <string name="current_chapter">Capítulo: %s</string>
     <string name="resume_from_position">Continuar a reprodução da última posição</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">Favorito %s</string>
     <string name="bookmark_name">Favorito %s</string>
     <string name="add_bookmark">Adicionar aos favoritos</string>
+    <string name="bookmark_added">Adicionado aos Favoritos</string>
+    <string name="show">Exibir</string>
     <string name="optional_features">Funcionalidades opcionais</string>
     <string name="optional_features_summary">Funcionalidades beta que estão sendo testadas atualmente e podem não estar estáveis</string>
     <string name="optional_features_warning">Esta funcionalidade está beta e pode causar falhas e instabilidades</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Atraso de Avanço/Retrocesso</string>
     <string name="long_jump_delay">Atraso no toque longo do avanço/retrocesso</string>
     <string name="jump_delay_summary">%s segundos</string>
+    <string name="move_up">Subir</string>
+    <string name="move_down">Descer</string>
+    <string name="remove_from_playlist">Excluir da lista de reprodução</string>
+    <string name="play_media">Reproduzir %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Adicionar item(ns) duplicado(s)?</string>
