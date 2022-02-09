@@ -63,3 +63,16 @@ fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
         setStateFlags(MediaLibraryItem.FLAG_FAVORITE)
     }
 } ?: emptyList()
+
+/**
+ * Converts a [BrowserFav] to a [MediaWrapper]
+ * @return a [MediaWrapper]
+ */
+fun convertFavorite(browserFav: BrowserFav): MediaWrapper? {
+    return  MLServiceLocator.getAbstractMediaWrapper(browserFav.uri).apply {
+        setDisplayTitle(Uri.decode(browserFav.title))
+        type = MediaWrapper.TYPE_DIR
+        browserFav.iconUrl?.let { artworkURL = Uri.decode(it) }
+        setStateFlags(MediaLibraryItem.FLAG_FAVORITE)
+    }
+}

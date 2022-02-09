@@ -21,10 +21,12 @@
 package org.videolan.television.ui
 
 import android.annotation.TargetApi
+import android.app.Application
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -32,10 +34,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -64,9 +69,7 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.util.isSchemeNetwork
+import org.videolan.vlc.util.*
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
@@ -147,6 +150,14 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
 
         mediaMetadataModel.updateLiveData.observe(this) {
             updateMetadata(it)
+        }
+
+        viewModel.browserFavUpdated.observe(this) { newMedia ->
+            val intent = Intent(requireActivity(), DetailsActivity::class.java)
+            intent.putExtra(org.videolan.television.ui.EXTRA_MEDIA, newMedia)
+            intent.putExtra(EXTRA_ITEM, MediaItemDetails(newMedia.title, newMedia.artist, newMedia.album, newMedia.location, newMedia.artworkURL))
+            startActivity(intent)
+            requireActivity().finish()
         }
 
         mediaMetadataModel.nextEpisode.observe(this) {
@@ -349,6 +360,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     Toast.makeText(activity, R.string.favorite_added, Toast.LENGTH_SHORT).show()
                 }
                 ID_FAVORITE_EDIT -> {
+                    viewModel.listenForNetworkFav = true
                     requireActivity().startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).apply {
                         putExtra(EXTRA_MEDIA, viewModel.media)
                     })
@@ -437,10 +449,37 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     }
 }
 
-class MediaItemDetailsModel : ViewModel() {
+class MediaItemDetailsModel(context: Application) : AndroidViewModel(context), CoroutineScope by MainScope() {
     lateinit var mediaItemDetails: MediaItemDetails
     lateinit var media: MediaWrapper
     var mediaStarted = false
+    private val repository = BrowserFavRepository.getInstance(context)
+    // Triggered when the current BrowserFav is updated to be able to relaunch the whole activity
+    val browserFavUpdated: MediatorLiveData<MediaWrapper> = MediatorLiveData()
+    private val oldList = ArrayList<MediaWrapper>()
+    var listenForNetworkFav = false
+    private val updateActor = actor<MediaWrapper>(capacity = Channel.CONFLATED) {
+        for (entry in channel) {
+            browserFavUpdated.value = entry
+        }
+    }
+
+    init {
+        browserFavUpdated.addSource(repository.networkFavs) { favList ->
+            val convertFavorites = convertFavorites(favList)
+            if (oldList.isEmpty()) oldList.addAll(convertFavorites)
+            if (listenForNetworkFav)
+                convertFavorites.forEach { media ->
+                    if (oldList.none { it.uri == media.uri && it.title == media.title }) {
+                        oldList.clear()
+                        oldList.addAll(convertFavorites)
+                        // we convert this new entry to a [MediaWrapper] and re-launch the activity with this new item
+                        listenForNetworkFav = false
+                       updateActor.offer(media)
+                    }
+                }
+        }
+    }
 }
 
 class VideoDetailsOverviewRow(val item: MediaMetadata) : DetailsOverviewRow(item)

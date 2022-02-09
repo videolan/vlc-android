@@ -44,7 +44,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     private val networkMonitor = NetworkMonitor.getInstance(AppContextProvider.appContext)
 
-    private val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
+    val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
 
     val browserFavorites by lazy { browserFavDao.getAll() }
 
