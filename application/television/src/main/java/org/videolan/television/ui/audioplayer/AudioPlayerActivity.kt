@@ -89,19 +89,19 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
         binding.progress = model.progress
-        model.dataset.observe(this, { mediaWrappers ->
+        model.dataset.observe(this) { mediaWrappers ->
             if (mediaWrappers != null) {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
             updateRepeatMode()
-        })
-        model.speed.observe(this, { showChips() })
-        PlayerOptionsDelegate.playerSleepTime.observe(this, {
+        }
+        model.speed.observe(this) { showChips() }
+        PlayerOptionsDelegate.playerSleepTime.observe(this) {
             showChips()
-        })
+        }
         binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
-        model.playerState.observe(this, { playerState -> update(playerState) })
+        model.playerState.observe(this) { playerState -> update(playerState) }
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (intent.hasExtra(MEDIA_PLAYLIST))
             intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it, position) }

@@ -91,11 +91,11 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
         if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             viewModel = getViewModel(item)
-            viewModel.tracksProvider.pagedList.observe(this, { tracks ->
+            viewModel.tracksProvider.pagedList.observe(this) { tracks ->
                 if (tracks != null) {
                     adapter.update(tracks)
                 }
-            })
+            }
         } else {
             binding.delete.visibility = View.GONE
         }

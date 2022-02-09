@@ -192,51 +192,51 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun registerDatasets() {
-        model.browsers.observe(requireActivity(), {
+        model.browsers.observe(requireActivity()) {
             browserAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NETWORK)
-        })
-        model.audioCategories.observe(requireActivity(), {
+        }
+        model.audioCategories.observe(requireActivity()) {
             categoriesAdapter.setItems(it.toList(), diffCallback)
             addAndCheckLoadedLines(HEADER_CATEGORIES)
-        })
-        model.videos.observe(requireActivity(), {
+        }
+        model.videos.observe(requireActivity()) {
             videoAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_VIDEO)
-        })
-        model.nowPlaying.observe(requireActivity(), {
+        }
+        model.nowPlaying.observe(requireActivity()) {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NOW_PLAYING)
-        })
-        model.recentlyPlayed.observe(requireActivity(), {
+        }
+        model.recentlyPlayed.observe(requireActivity()) {
             displayRecentlyPlayed = it.isNotEmpty()
             recentlyPlayedAdapter.setItems(it, metadataDiffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_RECENTLY_PLAYED)
-        })
-        model.recentlyAdded.observe(requireActivity(), {
+        }
+        model.recentlyAdded.observe(requireActivity()) {
             displayRecentlyAdded = it.isNotEmpty()
             recentlyAddedAdapter.setItems(it, metadataDiffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_RECENTLY_ADDED)
-        })
-        model.history.observe(requireActivity(), {
+        }
+        model.history.observe(requireActivity()) {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
                 historyAdapter.setItems(it, diffCallback)
             }
             resetLines()
             addAndCheckLoadedLines(HEADER_HISTORY)
-        })
+        }
 
-        model.playlist.observe(requireActivity(), {
+        model.playlist.observe(requireActivity()) {
             displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_PLAYLISTS)
 
-        })
+        }
     }
 
     /**

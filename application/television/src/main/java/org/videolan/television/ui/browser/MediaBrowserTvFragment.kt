@@ -71,7 +71,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
         viewModel = getMediaBrowserModel(arguments?.getLong(CATEGORY, CATEGORY_SONGS) ?: CATEGORY_SONGS, currentItem)
 
-        (viewModel.provider as MedialibraryProvider<*>).pagedList.observe(this, { items ->
+        (viewModel.provider as MedialibraryProvider<*>).pagedList.observe(this) { items ->
             submitList(items)
 
             binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
@@ -81,20 +81,20 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
             binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as MediaBrowserViewModel).sort
-        })
+        }
 
-        viewModel.provider.liveHeaders.observe(this, {
+        viewModel.provider.liveHeaders.observe(this) {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
-        })
+        }
 
-        (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, {
+        (viewModel.provider as MedialibraryProvider<*>).loading.observe(this) {
             binding.emptyLoading.state = when {
                 it -> EmptyLoadingState.LOADING
                 viewModel.isEmpty() && adapter.isEmpty() -> EmptyLoadingState.EMPTY
                 else -> EmptyLoadingState.NONE
             }
-        })
+        }
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
