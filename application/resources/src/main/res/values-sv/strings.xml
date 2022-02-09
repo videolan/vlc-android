@@ -32,6 +32,7 @@
     <string name="play_from_start">Spela upp från början</string>
     <string name="play_as_audio">Spela upp som ljud</string>
     <string name="play_as_video">Spela upp som video</string>
+    <string name="return_to_video">Håll ned på omslaget för att återställa videon</string>
     <string name="video_app_switch_title">Bakgrunds-/BiB-läge</string>
     <string name="video_app_switch_summary">Välj VLC:s beteende när du växlar till en annan applikation ifrån videouppspelning</string>
     <string name="play_pip_title">Spela upp videor i Bild i bild-läge</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Spara spellista</string>
     <string name="playlist_name_hint">Spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel…</string>
-    <string name="chapter">Kapitel</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="resume_from_position">Återuppta från senaste position</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">Bokmärke vid %s</string>
     <string name="bookmark_name">Bokmärke %s</string>
     <string name="add_bookmark">Lägg till bokmärke</string>
+    <string name="bookmark_added">Lade till bokmärke</string>
+    <string name="show">Visa</string>
     <string name="optional_features">Valfria funktioner</string>
     <string name="optional_features_summary">Betafunktioner som för tillfället testas och kanske inte är stabila</string>
     <string name="optional_features_warning">Denna funktion är i betastadiet och kan orsaka kraschar och instabilitet.</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Tidsfördröjning av framåt/bakåt</string>
     <string name="long_jump_delay">Tidsfördröjning när framåt/bakåt hålls ned</string>
     <string name="jump_delay_summary">%s sekunder</string>
+    <string name="move_up">Flytta upp</string>
+    <string name="move_down">Flytta ned</string>
+    <string name="remove_from_playlist">Ta bort från spellistan</string>
+    <string name="play_media">Spela upp %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Lägg till duplicerade objekt?</string>
