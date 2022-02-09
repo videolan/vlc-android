@@ -130,29 +130,29 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
-        viewModel.albumsProvider.pagedList.observe(requireActivity(), { albums ->
+        viewModel.albumsProvider.pagedList.observe(requireActivity()) { albums ->
             @Suppress("UNCHECKED_CAST")
             (albums as? PagedList<MediaLibraryItem>)?.let { albumsAdapter.submitList(it) }
             if (viewModel.albumsProvider.loading.value == false && empty && !viewModel.isFiltering()) currentTab = 1
-        })
-        viewModel.tracksProvider.pagedList.observe(requireActivity(), { tracks ->
+        }
+        viewModel.tracksProvider.pagedList.observe(requireActivity()) { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { songsAdapter.submitList(it) }
-        })
+        }
         for (i in 0..1) setupLayoutManager(viewModel.providersInCard[i], lists[i], viewModel.providers[i] as MedialibraryProvider<MediaLibraryItem>, adapters[i], spacing)
-        viewModel.albumsProvider.loading.observe(requireActivity(), { loading ->
+        viewModel.albumsProvider.loading.observe(requireActivity()) { loading ->
             if (!loading) {
                 fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
             }
             setRefreshing(loading)
-        })
+        }
 
-        viewModel.albumsProvider.liveHeaders.observe(viewLifecycleOwner, {
+        viewModel.albumsProvider.liveHeaders.observe(viewLifecycleOwner) {
             lists[0].invalidateItemDecorations()
-        })
-        viewModel.tracksProvider.liveHeaders.observe(viewLifecycleOwner, {
+        }
+        viewModel.tracksProvider.liveHeaders.observe(viewLifecycleOwner) {
             lists[1].invalidateItemDecorations()
-        })
+        }
     }
 
     override fun sortBy(sort: Int) {

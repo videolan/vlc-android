@@ -111,17 +111,17 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.provider.pagedList.observe(requireActivity(), {
+        viewModel.provider.pagedList.observe(requireActivity()) {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             updateEmptyView()
-        })
-        viewModel.provider.loading.observe(requireActivity(), { loading ->
-            setRefreshing(loading) {  }
-        })
+        }
+        viewModel.provider.loading.observe(requireActivity()) { loading ->
+            setRefreshing(loading) { }
+        }
 
-        viewModel.provider.liveHeaders.observe(requireActivity(), {
+        viewModel.provider.liveHeaders.observe(requireActivity()) {
             playlists.invalidateItemDecorations()
-        })
+        }
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
 

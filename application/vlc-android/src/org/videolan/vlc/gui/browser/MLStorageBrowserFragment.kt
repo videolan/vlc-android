@@ -109,7 +109,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         val storageBrowserAdapter = StorageBrowserAdapter(getBrowserContainer(false))
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_STORAGE, url = null, showHiddenFiles = false)
-        localViewModel.dataset.observe(viewLifecycleOwner, { list ->
+        localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
                 localEntry.loading.state = when {
@@ -118,14 +118,14 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
                     else -> EmptyLoadingState.EMPTY
                 }
             }
-        })
-        localViewModel.loading.observe(viewLifecycleOwner, {
+        }
+        localViewModel.loading.observe(viewLifecycleOwner) {
             if (it) localEntry.loading.state = EmptyLoadingState.LOADING
-        })
+        }
         localViewModel.browseRoot()
-        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
+        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner) { pair ->
             if (pair != null) storageBrowserAdapter.notifyItemChanged(pair.first, pair.second)
-        })
+        }
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
         networkEntry.visibility = if (FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXING)) View.VISIBLE else View.GONE
@@ -134,18 +134,18 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         val networkAdapter = StorageBrowserAdapter(getBrowserContainer(true))
         networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
-        networkViewModel.dataset.observe(viewLifecycleOwner, { list ->
-             list?.let {
+        networkViewModel.dataset.observe(viewLifecycleOwner) { list ->
+            list?.let {
                 val filtered = it.filter { item -> item is MediaWrapper && item.uri?.scheme == "smb" }
                 networkAdapter.update(filtered)
                 updateNetworkEmptyView(networkEntry.loading)
                 if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
-        })
-        networkViewModel.loading.observe(viewLifecycleOwner, {
+        }
+        networkViewModel.loading.observe(viewLifecycleOwner) {
             if (it) networkEntry.loading.state = EmptyLoadingState.LOADING
             updateNetworkEmptyView(networkEntry.loading)
-        })
+        }
         networkViewModel.browseRoot()
 
         localEntry.displayInCards = false

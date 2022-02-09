@@ -630,10 +630,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         registerReceiver(receiver, filter)
 
         keyguardManager = getSystemService()!!
-        renderer.observe(this, { setRenderer(it) })
-        restartPlayer.observe(this, { restartPlaylistManager() })
-        headSetDetection.observe(this, { detectHeadset(it) })
-        equalizer.observe(this, { setEqualizer(it) })
+        renderer.observe(this) { setRenderer(it) }
+        restartPlayer.observe(this) { restartPlaylistManager() }
+        headSetDetection.observe(this) { detectHeadset(it) }
+        equalizer.observe(this) { setEqualizer(it) }
         serviceFlow.value = this
     }
 
@@ -1317,7 +1317,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 try {
                     val artworkMrl = media.artworkMrl
                     if (!artworkMrl.isNullOrEmpty() && isPathValid(artworkMrl)) {
-                        val artworkUri = artworkToUriCache.getOrPut(artworkMrl, { ArtworkProvider.buildMediaUri(media) } )
+                        val artworkUri = artworkToUriCache.getOrPut(artworkMrl) { ArtworkProvider.buildMediaUri(media) }
                         val key = MediaSessionBrowser.generateMediaId(media)
                         it[key] = artworkUri
                     }

@@ -629,7 +629,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         }
                     }
                     iconUri.appendPath("${libraryItem.id}")
-                    artworkToUriCache.getOrPut(libraryItem.artworkMrl, { ArtworkProvider.buildUri(iconUri.build()) })
+                    artworkToUriCache.getOrPut(libraryItem.artworkMrl) { ArtworkProvider.buildUri(iconUri.build()) }
                 } else if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).type == MediaWrapper.TYPE_STREAM)
                     DEFAULT_STREAM_ICON
                 else {

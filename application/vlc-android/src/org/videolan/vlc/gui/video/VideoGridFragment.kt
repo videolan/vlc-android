@@ -125,24 +125,24 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
-        viewModel.provider.loading.observe(this@VideoGridFragment, { loading ->
+        viewModel.provider.loading.observe(this@VideoGridFragment) { loading ->
             setRefreshing(loading) { refresh ->
                 if (!refresh) {
                     menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
                     restoreMultiSelectHelper()
                 }
             }
-        })
+        }
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == Medialibrary.SORT_FILENAME)
         lifecycleScope.launch {
             waitForML()
-            viewModel.provider.pagedList.observe(requireActivity(), {
+            viewModel.provider.pagedList.observe(requireActivity()) {
                 (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
                 updateEmptyView()
                 restoreMultiSelectHelper()
                 if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
                 setFabPlayVisibility(true)
-            })
+            }
         }
     }
 

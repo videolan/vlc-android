@@ -52,12 +52,12 @@ class RenderersDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RendererDelegate.renderers.observe(this, {
+        RendererDelegate.renderers.observe(this) {
             if (it !== null) {
                 renderers = it
                 mAdapter.update(it)
             }
-        })
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

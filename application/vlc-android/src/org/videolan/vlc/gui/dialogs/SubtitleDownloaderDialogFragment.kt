@@ -164,17 +164,17 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.result.observe(viewLifecycleOwner, {
+        viewModel.result.observe(viewLifecycleOwner) {
             downloadAdapter.setList(it)
             if (it.isNotEmpty()) focusOnView(binding.scrollView)
-        })
-        viewModel.isApiLoading.observe(viewLifecycleOwner, {
+        }
+        viewModel.isApiLoading.observe(viewLifecycleOwner) {
             binding.subDownloadLoading.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        viewModel.history.observe(this, {
+        viewModel.history.observe(this) {
             historyAdapter.setList(it)
-        })
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

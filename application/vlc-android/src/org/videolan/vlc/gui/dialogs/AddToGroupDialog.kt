@@ -110,7 +110,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         binding.list.adapter = adapter
         //we have to create the viewmodel that way to avoid the cache from ViewModelProvider which will send the model from the calling activity that may have a different groupingType
         val viewModel = VideosViewModel.Factory(requireContext(), VideoGroupingType.NAME, null, null).create(VideosViewModel::class.java)
-        viewModel.provider.pagedList.observe(viewLifecycleOwner, {
+        viewModel.provider.pagedList.observe(viewLifecycleOwner) {
 
             adapter.submitList(it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply {
                 forEach { mediaLibraryItem -> mediaLibraryItem.description = resources.getQuantityString(R.plurals.media_quantity, mediaLibraryItem.tracksCount, mediaLibraryItem.tracksCount) }
@@ -120,7 +120,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
                 }
             })
             updateEmptyView()
-        })
+        }
         updateEmptyView()
     }
 

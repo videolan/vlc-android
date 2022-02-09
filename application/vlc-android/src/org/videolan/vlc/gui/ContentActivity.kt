@@ -59,16 +59,16 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         super.initAudioPlayerContainerActivity()
         if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv
                 && Settings.getInstance(this).getBoolean("enable_casting", true)) {
-            PlaybackService.renderer.observe(this, {
+            PlaybackService.renderer.observe(this) {
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers) ?: return@observe
                 item.isVisible = !hideRenderers() && showRenderers
                 item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
-            })
-            RendererDelegate.renderers.observe(this, { rendererItems ->
+            }
+            RendererDelegate.renderers.observe(this) { rendererItems ->
                 showRenderers = !rendererItems.isNullOrEmpty()
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers)
                 if (item != null) item.isVisible = !hideRenderers() && showRenderers
-            })
+            }
         }
     }
 

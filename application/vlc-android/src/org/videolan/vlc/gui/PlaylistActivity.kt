@@ -113,16 +113,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         isPlaylist = playlist.itemType == MediaLibraryItem.TYPE_PLAYLIST
         binding.playlist = playlist
         viewModel = getViewModel(playlist)
-        viewModel.tracksProvider.pagedList.observe(this, { tracks ->
+        viewModel.tracksProvider.pagedList.observe(this) { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
             if (::itemTouchHelperCallback.isInitialized) itemTouchHelperCallback.swipeEnabled = true
-        })
+        }
 
-        viewModel.tracksProvider.liveHeaders.observe(this, {
+        viewModel.tracksProvider.liveHeaders.observe(this) {
             binding.songs.invalidateItemDecorations()
-        })
+        }
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)

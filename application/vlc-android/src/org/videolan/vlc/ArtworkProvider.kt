@@ -378,21 +378,21 @@ class ArtworkProvider : ContentProvider() {
      * compressed data stream directly to the file descriptor with no intermediate byte array.
      */
     private fun getPFDFromBitmap(bitmap: Bitmap?): ParcelFileDescriptor {
-        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap,
-                { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bitmap: Bitmap? ->
-                    /* Compression is performed on an AsyncTask thread within openPipeHelper() */
-                    bitmap?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
-                })
+        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bitmap: Bitmap? ->
+            /* Compression is performed on an AsyncTask thread within openPipeHelper() */
+            bitmap?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
+        }
     }
 
     /**
      * Return a ParcelFileDescriptor from an existing image in a byte array.
      */
     private fun getPFDFromByteArray(byteArray: ByteArray?): ParcelFileDescriptor {
-        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray,
-                { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, byteArray: ByteArray? ->
-                    if (byteArray != null) FileOutputStream(pfd.fileDescriptor).write(byteArray)
-                })
+        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, byteArray: ByteArray? ->
+            if (byteArray != null) FileOutputStream(pfd.fileDescriptor).write(byteArray)
+        }
     }
 
     private val dateFormatter by lazy {

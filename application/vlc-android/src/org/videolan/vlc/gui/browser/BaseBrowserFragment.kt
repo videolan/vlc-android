@@ -152,15 +152,15 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
         registerSwiperRefreshlayout()
-        viewModel.dataset.observe(viewLifecycleOwner, { mediaLibraryItems ->
+        viewModel.dataset.observe(viewLifecycleOwner) { mediaLibraryItems ->
             adapter.update(mediaLibraryItems!!)
             if (::addPlaylistFolderOnly.isInitialized) addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
-        })
-        viewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
-        viewModel.loading.observe(viewLifecycleOwner, { loading ->
+        }
+        viewModel.getDescriptionUpdate().observe(viewLifecycleOwner) { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
             swipeRefreshLayout.isRefreshing = loading
             updateEmptyView()
-        })
+        }
     }
 
     open fun registerSwiperRefreshlayout() = swipeRefreshLayout.setOnRefreshListener(this)

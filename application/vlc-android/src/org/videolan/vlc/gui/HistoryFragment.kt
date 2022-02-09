@@ -66,7 +66,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, { list ->
+        viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()
@@ -74,7 +74,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                     cleanMenuItem.isVisible = list.isNotEmpty()
                 }
             }
-        })
+        }
         viewModel.loading.observe(viewLifecycleOwner) {
             (activity as? MainActivity)?.refreshing = it
         }

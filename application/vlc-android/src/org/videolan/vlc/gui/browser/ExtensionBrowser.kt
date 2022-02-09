@@ -80,7 +80,7 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
     override fun onResume() {
         super.onResume()
         if (mustBeTerminated)
-            activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
         mustBeTerminated = true
     }
 
@@ -89,7 +89,7 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         setTitle(mTitle)
         updateDisplay()
         if (showSettings) {
-            if (mAddDirectoryFAB == null) mAddDirectoryFAB = activity!!.findViewById(R.id.fab)
+            if (mAddDirectoryFAB == null) mAddDirectoryFAB = requireActivity().findViewById(R.id.fab)
             mAddDirectoryFAB!!.setImageResource(R.drawable.ic_fab_add)
             mAddDirectoryFAB!!.show()
             mAddDirectoryFAB!!.setOnClickListener(this)
@@ -108,13 +108,13 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         val activity = activity as AppCompatActivity?
         if (activity != null && activity.supportActionBar != null) {
             activity.supportActionBar!!.title = title
-            getActivity()!!.invalidateOptionsMenu()
+            requireActivity().invalidateOptionsMenu()
         }
     }
 
     fun goBack() {
         val activity = activity
-        if (activity != null && activity.supportFragmentManager.popBackStackImmediate()) getActivity()!!.finish()
+        if (activity != null && activity.supportFragmentManager.popBackStackImmediate()) requireActivity().finish()
     }
 
     fun doRefresh(title: String, items: List<VLCExtensionItem>) {

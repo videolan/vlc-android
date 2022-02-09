@@ -78,9 +78,9 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
         binding.searchEditText.setOnEditorActionListener(this)
         viewModel = ViewModelProvider(this).get(media.uri.path
                 ?: "", MediaScrapingModel::class.java)
-        viewModel.apiResult.observe(this, {
+        viewModel.apiResult.observe(this) {
             mediaScrapingResultAdapter.setItems(it.getAllResults())
-        })
+        }
         viewModel.search(media.uri)
         binding.searchEditText.setText(media.title)
     }

@@ -59,7 +59,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     }
 
     protected fun loadFragment(fragment: Fragment) {
-        activity!!.supportFragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
                 .addToBackStack("main")
                 .commit()
     }

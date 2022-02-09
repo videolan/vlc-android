@@ -136,11 +136,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
-        Medialibrary.getState().observe(this, { running ->
+        Medialibrary.getState().observe(this) { running ->
             if (!running) {
                 exitCommand()
             }
-        })
+        }
         medialibrary.exceptionHandler = exceptionHandler
         setupScope()
     }

@@ -480,14 +480,14 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     protected open fun onPlayerStateChanged(bottomSheet: View, newState: Int) {}
 
     private fun registerLiveData() {
-        PlaylistManager.showAudioPlayer.observe(this, { showPlayer ->
+        PlaylistManager.showAudioPlayer.observe(this) { showPlayer ->
             if (showPlayer == true) showAudioPlayer()
             else {
                 hideAudioPlayer()
                 if (isAudioPlayerReady) playerBehavior.lock(true)
             }
-        })
-        MediaParsingService.progress.observe(this, { scanProgress ->
+        }
+        MediaParsingService.progress.observe(this) { scanProgress ->
             if (scanProgress == null || !Medialibrary.getInstance().isWorking) {
                 updateProgressVisibility(false)
                 return@observe
@@ -506,15 +506,15 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 scanProgressBar?.isIndeterminate = false
                 scanProgressBar?.isVisible = true
             }
-        })
+        }
         MediaParsingService.discoveryError.observe(this) {
             UiTools.snacker(this, getString(R.string.discovery_failed, it.entryPoint))
         }
-        MediaParsingService.newStorages.observe(this, { devices ->
+        MediaParsingService.newStorages.observe(this) { devices ->
             if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)
             MediaParsingService.newStorages.setValue(null)
-        })
+        }
     }
 
     @SuppressLint("RestrictedApi")

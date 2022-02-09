@@ -113,8 +113,8 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(requireActivity(), { adapter.update(it) })
-        viewModel.loading.observe(requireActivity(), { (activity as? MainActivity)?.refreshing = it })
+        viewModel.dataset.observe(requireActivity()) { adapter.update(it) }
+        viewModel.loading.observe(requireActivity()) { (activity as? MainActivity)?.refreshing = it }
     }
 
     override fun onResume() {

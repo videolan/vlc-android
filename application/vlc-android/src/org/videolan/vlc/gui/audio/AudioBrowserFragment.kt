@@ -184,7 +184,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private fun setupProvider(index: Int = viewModel.currentTab) {
         val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size - 1)]
         if (provider.loading.hasObservers()) return
-        provider.pagedList.observe(viewLifecycleOwner, { items ->
+        provider.pagedList.observe(viewLifecycleOwner) { items ->
             @Suppress("UNCHECKED_CAST")
             if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
             updateEmptyView()
@@ -193,8 +193,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 restorePositions.delete(index)
             }
             setFabPlayShuffleAllVisibility(items.isNotEmpty())
-        })
-        provider.loading.observe(viewLifecycleOwner, { loading ->
+        }
+        provider.loading.observe(viewLifecycleOwner) { loading ->
             if (loading == null || currentTab != index) return@observe
             setRefreshing(loading) { refresh ->
                 if (refresh) updateEmptyView()
@@ -203,13 +203,13 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                     songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
                 }
             }
-        })
-        provider.liveHeaders.observe(viewLifecycleOwner, {
+        }
+        provider.liveHeaders.observe(viewLifecycleOwner) {
             lists[currentTab].invalidateItemDecorations()
-        })
+        }
         lifecycleScope.launchWhenStarted {
             waitForML()
-                provider.pagedList.observe(viewLifecycleOwner, { items ->
+                provider.pagedList.observe(viewLifecycleOwner) { items ->
                     @Suppress("UNCHECKED_CAST")
                     if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
                     updateEmptyView()
@@ -218,7 +218,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                         restorePositions.delete(index)
                     }
                     setFabPlayShuffleAllVisibility(items.isNotEmpty())
-                })
+                }
         }
     }
 

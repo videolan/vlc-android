@@ -100,7 +100,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         historyEntry = view.findViewById(R.id.history_entry)
         if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, { list ->
+        viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 historyAdapter.update(it)
                 if (list.isEmpty()) historyEntry.setGone() else {
@@ -110,7 +110,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
                 if (list.isNotEmpty()) historyEntry.actionButton.setVisible() else historyEntry.actionButton.setGone()
             }
             restoreMultiSelectHelper()
-        })
+        }
         viewModel.loading.observe(viewLifecycleOwner) {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
@@ -132,18 +132,18 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             i.putExtra("fragment", SecondaryActivity.STREAMS)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        streamsViewModel.dataset.observe(requireActivity(), {
+        streamsViewModel.dataset.observe(requireActivity()) {
             streamsAdapter.update(it)
             streamsEntry.loading.state = EmptyLoadingState.NONE
 
-        })
-        streamsViewModel.loading.observe(requireActivity(), {
+        }
+        streamsViewModel.loading.observe(requireActivity()) {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
                 (activity as? MainActivity)?.refreshing = it
                 if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
             }
-        })
+        }
 
         settingsButton.setOnClickListener {
             requireActivity().startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)

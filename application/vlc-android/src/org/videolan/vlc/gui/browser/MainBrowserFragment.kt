@@ -166,7 +166,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null, showHiddenFiles = false)
         containerAdapterAssociation[storageBbrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
-        localViewModel.dataset.observe(viewLifecycleOwner, { list ->
+        localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 if (Permissions.canReadStorage(requireActivity())) storageBrowserAdapter.update(it)
                 localEntry.loading.state = when {
@@ -176,14 +176,14 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                     else -> EmptyLoadingState.EMPTY
                 }
             }
-        })
-        localViewModel.loading.observe(viewLifecycleOwner, {
-            if (it) localEntry.loading.state = EmptyLoadingState.LOADING else if (!Permissions.canReadStorage(requireActivity()))localEntry.loading.state = EmptyLoadingState.MISSING_PERMISSION
-        })
+        }
+        localViewModel.loading.observe(viewLifecycleOwner) {
+            if (it) localEntry.loading.state = EmptyLoadingState.LOADING else if (!Permissions.canReadStorage(requireActivity())) localEntry.loading.state = EmptyLoadingState.MISSING_PERMISSION
+        }
         localViewModel.browseRoot()
-        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
+        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner) { pair ->
             if (pair != null) storageBrowserAdapter.notifyItemChanged(pair.first, pair.second)
-        })
+        }
 
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
         favoritesEntry.loading.showNoMedia = false
@@ -193,9 +193,9 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
-        favoritesViewModel.favorites.observe(viewLifecycleOwner, { list ->
+        favoritesViewModel.favorites.observe(viewLifecycleOwner) { list ->
             list.let {
-                if (list.isEmpty() || !Permissions.canReadStorage(requireActivity())) favoritesEntry.setGone() else   favoritesEntry.setVisible()
+                if (list.isEmpty() || !Permissions.canReadStorage(requireActivity())) favoritesEntry.setGone() else favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
                 favoritesEntry.loading.state = when {
                     list.isNotEmpty() -> EmptyLoadingState.NONE
@@ -203,13 +203,13 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                     else -> EmptyLoadingState.EMPTY
                 }
             }
-        })
-        favoritesViewModel.provider.loading.observe(viewLifecycleOwner, {
+        }
+        favoritesViewModel.provider.loading.observe(viewLifecycleOwner) {
             if (it) localEntry.loading.state = EmptyLoadingState.LOADING
-        })
-        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, { pair ->
+        }
+        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner) { pair ->
             if (pair != null) favoritesAdapter.notifyItemChanged(pair.first, pair.second)
-        })
+        }
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
         networkEntry.loading.showNoMedia = false
@@ -219,17 +219,17 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
         containerAdapterAssociation[networkBrowserContainer] = Pair(networkAdapter, networkViewModel)
-        networkViewModel.dataset.observe(viewLifecycleOwner, { list ->
+        networkViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 networkAdapter.update(it)
                 updateNetworkEmptyView(networkEntry.loading)
                 if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
-        })
-        networkViewModel.loading.observe(viewLifecycleOwner, {
+        }
+        networkViewModel.loading.observe(viewLifecycleOwner) {
             if (it) networkEntry.loading.state = EmptyLoadingState.LOADING
             updateNetworkEmptyView(networkEntry.loading)
-        })
+        }
         networkViewModel.browseRoot()
 
         localEntry.displayInCards = !displayInList

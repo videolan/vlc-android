@@ -60,13 +60,13 @@ class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdap
         }
         viewmodel = ViewModelProvider(this, PreferenceSearchModel.Factory(this)).get(PreferenceSearchModel::class.java)
         binding.searchText.addTextChangedListener(this)
-        viewmodel.filtered.observe(this, {
+        viewmodel.filtered.observe(this) {
             adapter.submitList(it)
-        })
-        viewmodel.showTranslations.observe(this, {
+        }
+        viewmodel.showTranslations.observe(this) {
             adapter.showTranslation = it
             binding.translateButton.isSelected = it
-        })
+        }
         adapter = PreferenceItemAdapter(this)
         binding.list.adapter = adapter
         binding.list.layoutManager = LinearLayoutManager(this)
