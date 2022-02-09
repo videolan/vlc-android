@@ -32,6 +32,7 @@
     <string name="play_from_start">Αναπαραγωγή από την αρχή</string>
     <string name="play_as_audio">Αναπαραγωγή ως ήχος</string>
     <string name="play_as_video">Αναπαραγωγή ως βίντεο</string>
+    <string name="return_to_video">Πατήστε παρατεταμένα το εξώφυλλο για να επαναφέρετε το βίντεο</string>
     <string name="video_app_switch_title">Λειτουργία παρασκηνίου/εικόνας-σε-εικόνα</string>
     <string name="video_app_switch_summary">Επιλέξτε τη συμπεριφορά του VLC όταν μεταβαίνετε σε άλλη εφαρμογή κατά την αναπαραγωγή βίντεο</string>
     <string name="play_pip_title">Αναπαραγωγή βίντεο σε λειτουργία εικόνας-σε-εικόνα</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Αποθήκευση λίστας αναπαραγωγής</string>
     <string name="playlist_name_hint">Όνομα λίστας αναπαραγωγής</string>
     <string name="go_to_chapter">Πήγαινε στο κεφάλαιο…</string>
-    <string name="chapter">Κεφάλαιο</string>
     <string name="current_chapter">Κεφάλαιο: %s</string>
     <string name="resume_from_position">Συνέχιση από την τελευταία θέση</string>
     <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">Σελιδοδείκτης στο %s</string>
     <string name="bookmark_name">Προσθήκη σελιδοδείκτη: %s</string>
     <string name="add_bookmark">Προσθήκη σελιδοδείκτη</string>
+    <string name="bookmark_added">Προστέθηκε σελιδοδείκτης</string>
+    <string name="show">Προβολή</string>
     <string name="optional_features">Προαιρετικά χαρακτηριστικά</string>
     <string name="optional_features_summary">Τα χαρακτηριστικά beta που είναι σε δοκιμή ενδέχεται να περιέχουν σφάλματα</string>
     <string name="optional_features_warning">Αυτό το χαρακτηριστικό είναι στη φάση beta και μπορεί να δημιουργήσει αστάθειες και κολλήματα.</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Χρονική καθυστέρηση εμπρός/πίσω</string>
     <string name="long_jump_delay">Παρατεταμένο πάτημα για χρονική καθυστέρηση προς τα εμπρός/πίσω</string>
     <string name="jump_delay_summary">%s δευτερόλεπτα</string>
+    <string name="move_up">Μετακίνηση επάνω</string>
+    <string name="move_down">Μετακινήση κάτω</string>
+    <string name="remove_from_playlist">Κατάργηση από τη λίστα αναπαραγωγής</string>
+    <string name="play_media">Αναπαραγωγή %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Προσθήκη διπλότυπου(ων) στοιχείου(ων);</string>
