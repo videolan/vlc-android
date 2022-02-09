@@ -32,6 +32,7 @@
     <string name="play_from_start">Riproduci all\'avvio</string>
     <string name="play_as_audio">Riproduci come audio</string>
     <string name="play_as_video">Riproduci come video</string>
+    <string name="return_to_video">Tocco lungo sulla copertina per ripristinare il video</string>
     <string name="video_app_switch_title">Modalità sfondo/PiP</string>
     <string name="video_app_switch_summary">Seleziona il comportamento di VLC quando passi ad altra applicazione dalla riproduzione video</string>
     <string name="play_pip_title">Riproduci video in modalità Picture-in-Picture</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Salva scaletta</string>
     <string name="playlist_name_hint">Nome scaletta</string>
     <string name="go_to_chapter">Vai al capitolo…</string>
-    <string name="chapter">Capitolo</string>
     <string name="current_chapter">Capitolo: %s</string>
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">Segnalibro a %s</string>
     <string name="bookmark_name">Segnalibro %s</string>
     <string name="add_bookmark">Aggiungi segnalibri</string>
+    <string name="bookmark_added">Segnalibro aggiunto</string>
+    <string name="show">Mostra</string>
     <string name="optional_features">Funzionalità opzionali</string>
     <string name="optional_features_summary">Le funzionalità in beta che sono attualmente in fase di test e potrebbero non essere stabili</string>
     <string name="optional_features_warning">Questa funzionalità è in fase beta e potrebbe causare chiusure inattese e instabilità</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Ritardo di tempo avanti/indietro</string>
     <string name="long_jump_delay">Ritardo di tempo avanti/indietro tocco lungo</string>
     <string name="jump_delay_summary">%s secondi</string>
+    <string name="move_up">Sposta su</string>
+    <string name="move_down">Sposta giù</string>
+    <string name="remove_from_playlist">Rimuovi dalla scaletta</string>
+    <string name="play_media">Riproduci %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Vuoi aggiungere gli elementi duplicati?</string>
