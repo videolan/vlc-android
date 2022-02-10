@@ -306,7 +306,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val empty = viewModel.isEmpty() && videoListAdapter.currentList.isNullOrEmpty()
         val working = viewModel.provider.loading.value != false
         binding.emptyLoading.state = when {
-            !Permissions.canReadStorage(AppContextProvider.appContext) -> EmptyLoadingState.MISSING_PERMISSION
+            !Permissions.canReadStorage(AppContextProvider.appContext) && empty -> EmptyLoadingState.MISSING_PERMISSION
             empty && working -> EmptyLoadingState.LOADING
             empty && !working -> EmptyLoadingState.EMPTY
             else -> EmptyLoadingState.NONE
