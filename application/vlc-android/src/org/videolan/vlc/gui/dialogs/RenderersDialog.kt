@@ -40,7 +40,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
-const private val TAG = "VLC/RenderersDialog"
+private const val TAG = "VLC/RenderersDialog"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -70,13 +70,12 @@ class RenderersDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setStyle(DialogFragment.STYLE_NO_FRAME, 0)
         mBinding = DialogRenderersBinding.inflate(inflater, container, false)
         return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mBinding.holder = mClickHandler;
+        mBinding.holder = mClickHandler
         mBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
         mBinding.renderersList.adapter = mAdapter
         mBinding.renderersDisconnect.isEnabled = PlaybackService.hasRenderer()
