@@ -40,54 +40,52 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
-private const val TAG = "VLC/RenderersDialog"
-
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class RenderersDialog : DialogFragment() {
     private var renderers = RendererDelegate.renderers.value
-    private lateinit var mBinding: DialogRenderersBinding
-    private val mAdapter = RendererAdapter()
-    private val mClickHandler = RendererClickhandler()
+    private lateinit var dialogRenderersBinding: DialogRenderersBinding
+    private val adapter = RendererAdapter()
+    private val clickHandler = RendererClickhandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RendererDelegate.renderers.observe(this) {
             if (it !== null) {
                 renderers = it
-                mAdapter.update(it)
+                adapter.update(it)
             }
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(requireContext())
-        mBinding = DialogRenderersBinding.inflate(inflater, null)
+        dialogRenderersBinding = DialogRenderersBinding.inflate(inflater, null, false)
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(mBinding.root)
+        dialog.setContentView(dialogRenderersBinding.root)
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DialogRenderersBinding.inflate(inflater, container, false)
-        return mBinding.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        dialogRenderersBinding = DialogRenderersBinding.inflate(inflater, container, false)
+        return dialogRenderersBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mBinding.holder = mClickHandler
-        mBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
-        mBinding.renderersList.adapter = mAdapter
-        mBinding.renderersDisconnect.isEnabled = PlaybackService.hasRenderer()
-        mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (PlaybackService.hasRenderer()) R.color.orange800 else R.color.grey400))
-        mAdapter.update(renderers)
+        dialogRenderersBinding.holder = clickHandler
+        dialogRenderersBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
+        dialogRenderersBinding.renderersList.adapter = adapter
+        dialogRenderersBinding.renderersDisconnect.isEnabled = PlaybackService.hasRenderer()
+        dialogRenderersBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (PlaybackService.hasRenderer()) R.color.orange800 else R.color.grey400))
+        adapter.update(renderers)
     }
 
     private inner class RendererAdapter : DiffUtilAdapter<RendererItem, SelectorViewHolder<ItemRendererBinding>>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectorViewHolder<ItemRendererBinding> {
             val binding = ItemRendererBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            binding.clicHandler = mClickHandler
+            binding.clicHandler = clickHandler
             return SelectorViewHolder(binding)
         }
 
