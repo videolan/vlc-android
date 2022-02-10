@@ -20,12 +20,16 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.app.Dialog
+import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,6 +43,7 @@ import org.videolan.vlc.databinding.ItemRendererBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
+
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -76,12 +81,19 @@ class RenderersDialog : DialogFragment() {
         dialogRenderersBinding.holder = clickHandler
         dialogRenderersBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
         dialogRenderersBinding.renderersList.adapter = adapter
-        dialogRenderersBinding.renderersDisconnect.isEnabled = PlaybackService.hasRenderer()
-        dialogRenderersBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (PlaybackService.hasRenderer()) R.color.orange800 else R.color.grey400))
+        dialogRenderersBinding.renderersDisconnect.visibility = if (PlaybackService.hasRenderer()) View.VISIBLE else View.GONE
         adapter.update(renderers)
     }
 
     private inner class RendererAdapter : DiffUtilAdapter<RendererItem, SelectorViewHolder<ItemRendererBinding>>() {
+
+        val orangeColor by lazy {
+            val typedValue = TypedValue()
+            val theme: Resources.Theme = context!!.theme
+            theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+            typedValue.data
+
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectorViewHolder<ItemRendererBinding> {
             val binding = ItemRendererBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -91,8 +103,11 @@ class RenderersDialog : DialogFragment() {
 
         override fun onBindViewHolder(holder: SelectorViewHolder<ItemRendererBinding>, position: Int) {
             holder.binding.renderer = renderers[position]
-            if (renderers[position] == PlaybackService.renderer.value)
-            holder.binding.rendererName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.orange800))
+            holder.binding.rendererIcon.setImageDrawable(ContextCompat.getDrawable(holder.binding.rendererIcon.context, if (renderers[position].type == "chromecast")  R.drawable.ic_dialog_renderer else R.drawable.ic_dialog_unknown))
+            if (renderers[position] == PlaybackService.renderer.value) {
+                holder.binding.rendererName.setTextColor(orangeColor)
+                ImageViewCompat.setImageTintList(holder.binding.rendererIcon, ColorStateList.valueOf(orangeColor))
+            } else ImageViewCompat.setImageTintList(holder.binding.rendererIcon, null)
         }
 
         override fun getItemCount() = dataset.size

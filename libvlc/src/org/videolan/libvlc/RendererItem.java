@@ -14,7 +14,7 @@ public class RendererItem extends VLCObject<RendererItem.Event> {
 
     final public String name;
     final public String displayName;
-    final String type;
+    final public String type;
     final String iconUrl;
     final int flags;
     private final long ref;

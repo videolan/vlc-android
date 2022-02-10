@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_unknown_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="36dp"
+        android:viewportHeight="24"
+        android:viewportWidth="24"
+        android:width="36dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="?attr/font_default"
+            android:fillType="nonZero"
+            android:pathData="m12,4c-0.5624,0 -1.1664,0.3892 -1.3333,0.8889l-4.4444,12.8889 -1.3333,0c-0.4909,0 -0.8889,0.3979 -0.8889,0.8889l0,1.3333c5.0909,-0.019 10.9091,-0.019 16,0l0,-1.3333c0,-0.491 -0.398,-0.8889 -0.8889,-0.8889l-1.3333,0 -4.4444,-12.8889C13.1616,4.3909 12.5624,4 12,4zM12,9.3612c1.4756,0 2.6667,1.1911 2.6667,2.6666 0,0.5867 -0.2289,1.1178 -0.6111,1.5 0,0 -0.3533,0.3811 -0.6111,0.6389 -0.4267,0.4266 -0.7222,1.0167 -0.7222,1.4167l-1.4444,0c0,-0.7378 0.4156,-1.3511 0.8333,-1.7778l0.8333,-0.8333c0.24,-0.24 0.3889,-0.58 0.3889,-0.9445 0,-0.7378 -0.5956,-1.3333 -1.3333,-1.3333 -0.7378,0 -1.3333,0.5955 -1.3333,1.3333l-1.3333,0c0,-1.4755 1.1911,-2.6666 2.6667,-2.6666zM11.1667,16.5278 L12.8333,16.5278 12.8333,18.2223 11.1667,18.2223 11.1667,16.5278z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="1" />
+</vector>
