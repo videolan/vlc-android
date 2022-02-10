@@ -32,6 +32,7 @@
     <string name="play_from_start">Baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
+    <string name="return_to_video">Görüntüyü geri yüklemek için kapak üzerine uzun dokunun</string>
     <string name="video_app_switch_title">Arka Plan/PiP Kipi</string>
     <string name="video_app_switch_summary">Görüntü oynatılırken başka bir uygulamaya geçildiğinde VLC tarafından yapılacak işlemi seçin</string>
     <string name="play_pip_title">Görüntüler görsel içinde görsel kipinde oynatılsın</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Oynatma listesini kaydet</string>
     <string name="playlist_name_hint">Oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme git…</string>
-    <string name="chapter">Bölüm</string>
     <string name="current_chapter">Bölüm: %s</string>
     <string name="resume_from_position">Oynatmayı kalınan konumdan sürdür</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">%s konumundaki yer imi</string>
     <string name="bookmark_name">%s yer imi</string>
     <string name="add_bookmark">Yer imi ekle</string>
+    <string name="bookmark_added">Yer imi eklendi</string>
+    <string name="show">Görüntüle</string>
     <string name="optional_features">İsteğe bağlı özellikler</string>
     <string name="optional_features_summary">Şu anda denenmekte olan ve kararlı olmayabilecek beta sürüm özellikleri</string>
     <string name="optional_features_warning">Bu bir beta sürümü özelliği olduğundan çökme ve kararsızlıklara neden olabilir</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">İleri/geri zaman gecikmesi</string>
     <string name="long_jump_delay">İleri/geri zaman gecikmesi için uzun dokunun</string>
     <string name="jump_delay_summary">%s saniye</string>
+    <string name="move_up">Yukarı taşı</string>
+    <string name="move_down">Aşağı taşı</string>
+    <string name="remove_from_playlist">Oynatma listesinden çıkar</string>
+    <string name="play_media">%s oynat</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Çift ögeler eklensin mi?</string>
