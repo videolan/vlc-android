@@ -195,7 +195,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
         favoritesViewModel.favorites.observe(viewLifecycleOwner) { list ->
             list.let {
-                if (list.isEmpty() || !Permissions.canReadStorage(requireActivity())) favoritesEntry.setGone() else favoritesEntry.setVisible()
+                if (list.isEmpty()) favoritesEntry.setGone() else favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
                 favoritesEntry.loading.state = when {
                     list.isNotEmpty() -> EmptyLoadingState.NONE
