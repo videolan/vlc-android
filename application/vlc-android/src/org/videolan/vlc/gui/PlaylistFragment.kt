@@ -130,7 +130,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
         binding.emptyLoading.state =
-            if (!Permissions.canReadStorage(AppContextProvider.appContext)) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+            if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
