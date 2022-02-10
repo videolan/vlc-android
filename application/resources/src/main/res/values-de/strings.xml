@@ -32,6 +32,7 @@
     <string name="play_from_start">Vom Anfang wiedergeben</string>
     <string name="play_as_audio">Als Audio wiedergeben</string>
     <string name="play_as_video">Als Video wiedergeben</string>
+    <string name="return_to_video">Lange auf das Cover tippen, um das Video wiederherzustellen</string>
     <string name="video_app_switch_title">Hintergrund-/PiP-Modus</string>
     <string name="video_app_switch_summary">VLC-Verhalten auswählen, wenn Sie von der Filmwiedergabe zu einer anderen Anwendung wechseln</string>
     <string name="play_pip_title">Videos im Bild-in-Bild-Modus wiedergeben</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Wiedergabeliste speichern</string>
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
     <string name="go_to_chapter">Wechsle zum Kapitel…</string>
-    <string name="chapter">Kapitel</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="resume_from_position">Fortsetzen von letzter Position</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">Lesezeichen bei %s</string>
     <string name="bookmark_name">%s - Lesezeichen</string>
     <string name="add_bookmark">Lesezeichen hinzufügen</string>
+    <string name="bookmark_added">Lesezeichen hinzugefügt</string>
+    <string name="show">Sendung</string>
     <string name="optional_features">Optionale Funktionen</string>
     <string name="optional_features_summary">Beta-Funktionen, die derzeit getestet werden, könnten nicht stabil sein</string>
     <string name="optional_features_warning">Diese Funktion befindet sich in der Betaphase und kann zu Abstürzen und Instabilitäten führen</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Zeitverzögerung vorwärts/rückwärts</string>
     <string name="long_jump_delay">Zeitverzögerung für langes tippen vorwärts/rückwärts</string>
     <string name="jump_delay_summary">%s Sekunden</string>
+    <string name="move_up">Nach oben verschieben</string>
+    <string name="move_down">Nach unten verschieben</string>
+    <string name="remove_from_playlist">Aus der Wiedergabeliste entfernen</string>
+    <string name="play_media">%s wiedergeben</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Dupliziertes Element hinzufügen?</string>
