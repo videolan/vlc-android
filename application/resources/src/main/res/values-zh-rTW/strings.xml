@@ -31,6 +31,7 @@
     <string name="play_from_start">從開頭播放</string>
     <string name="play_as_audio">作為音訊播放</string>
     <string name="play_as_video">作為視訊播放</string>
+    <string name="return_to_video">長按封面還原影片</string>
     <string name="video_app_switch_title">背景/子母畫面模式</string>
     <string name="video_app_switch_summary">選擇當您在播放影片時切換到其他應用程式時，VLC 的行為</string>
     <string name="play_pip_title">以子母畫面模式播放影片</string>
@@ -469,7 +470,6 @@
     <string name="playlist_save">儲存播放清單</string>
     <string name="playlist_name_hint">播放清單名稱</string>
     <string name="go_to_chapter">轉到章節...</string>
-    <string name="chapter">章節</string>
     <string name="current_chapter">章節：%s</string>
     <string name="resume_from_position">從上次播放的位置繼續</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
@@ -839,6 +839,8 @@
     <string name="bookmark_default_name">新增書籤於 %s</string>
     <string name="bookmark_name">書籤 %s</string>
     <string name="add_bookmark">新增書籤</string>
+    <string name="bookmark_added">已新增書籤</string>
+    <string name="show">顯示</string>
     <string name="optional_features">可選功能</string>
     <string name="optional_features_summary">目前正在測試中的 Beta 版功能可能不夠穩定</string>
     <string name="optional_features_warning">此功能處於測試階段，可能造成當機與不穩定</string>
@@ -848,6 +850,10 @@
     <string name="jump_delay">向前／向後快轉時間延遲</string>
     <string name="long_jump_delay">長按向前／向後快轉時間延遲</string>
     <string name="jump_delay_summary">%s秒</string>
+    <string name="move_up">上移</string>
+    <string name="move_down">下移</string>
+    <string name="remove_from_playlist">從播放清單中移除</string>
+    <string name="play_media">播放 %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">新增重複的項目？</string>
