@@ -34,6 +34,7 @@
     <string name="play_from_start">Відтворити з початку</string>
     <string name="play_as_audio">Відтворити як аудіо</string>
     <string name="play_as_video">Відтворити як відео</string>
+    <string name="return_to_video">Довго натисніть на обкладинку для відновлення відео</string>
     <string name="video_app_switch_title">Тло/Режим PiP</string>
     <string name="video_app_switch_summary">Виберіть поводження VLC, коли ви перемикаєтеся на іншу програму при відтворенні відео</string>
     <string name="play_pip_title">Відтворювати відео у режимі Картинка в картинці</string>
@@ -499,7 +500,6 @@
     <string name="playlist_save">Зберегти список відтворення</string>
     <string name="playlist_name_hint">Назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
-    <string name="chapter">Глава</string>
     <string name="current_chapter">Розділ: %s</string>
     <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
@@ -875,6 +875,8 @@
     <string name="bookmark_default_name">Закладка в %s</string>
     <string name="bookmark_name">Закладка %s</string>
     <string name="add_bookmark">Додати закладку</string>
+    <string name="bookmark_added">Додано закладку</string>
+    <string name="show">Показати</string>
     <string name="optional_features">Додаткові можливості</string>
     <string name="optional_features_summary">Бета-функції, що наразі тестуються і можуть бути нестійкими</string>
     <string name="optional_features_warning">Ця функція перебуває у бета-тестуванні та може спричиняти збої та нестабільну роботу</string>
@@ -884,6 +886,10 @@
     <string name="jump_delay">Затримка у часі для відтворення вперед/назад</string>
     <string name="long_jump_delay">Затримка у часі для довгого натиску вперед/назад</string>
     <string name="jump_delay_summary">%s секунд</string>
+    <string name="move_up">Перемістити вгору</string>
+    <string name="move_down">Перемістити вниз</string>
+    <string name="remove_from_playlist">Вилучити зі списку відтворення</string>
+    <string name="play_media">Відтворити %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Додати повторювані елемент(и)?</string>
