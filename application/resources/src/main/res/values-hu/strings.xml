@@ -32,6 +32,7 @@
     <string name="play_from_start">Lejátszás indításkor</string>
     <string name="play_as_audio">Lejátszás hangként</string>
     <string name="play_as_video">Lejátszás videóként</string>
+    <string name="return_to_video">Koppintson hosszan a borítóra a videó helyreállításához</string>
     <string name="video_app_switch_title">Háttér/PiP mód</string>
     <string name="video_app_switch_summary">Válassza ki a VLC viselkedését, ha videolejátszás közben más alkalmazásra vált.</string>
     <string name="play_pip_title">Videók lejátszása „Kép a képben” módban</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Lejátszólista mentése</string>
     <string name="playlist_name_hint">Lejátszólista neve</string>
     <string name="go_to_chapter">Fejezethez ugrás…</string>
-    <string name="chapter">Fejezet</string>
     <string name="current_chapter">Fejezet: %s</string>
     <string name="resume_from_position">Folytatás az utolsó pozícióról</string>
     <string name="confirm_resume">Folytatja az utolsó pozícióról?</string>
@@ -845,12 +845,14 @@
     <string name="pref_resolution_very_low">Nagyon alacsony felbontás (240p)</string>
     <string name="stop_unpaubale">Ez a média nem szüneteltethető. Megállítja helyette?</string>
     <string name="delete_forever">Törlés örökre</string>
-    <string name="add_to_existing_playlist">Hozzáadás a meglévő lejátszási listához</string>
+    <string name="add_to_existing_playlist">Hozzáadás a meglévő lejátszólistához</string>
     <string name="bookmarks_title">Könyvjelzők</string>
     <string name="no_bookmark">Még nincsenek könyvjelzők</string>
     <string name="bookmark_default_name">Könyvjelző itt: %s</string>
     <string name="bookmark_name">%s könyvjelzőzése</string>
     <string name="add_bookmark">Könyvjelző hozzáadása</string>
+    <string name="bookmark_added">Könyvjelző hozzáadva</string>
+    <string name="show">Megjelenítés</string>
     <string name="optional_features">Opcionális szolgáltatások</string>
     <string name="optional_features_summary">Béta funkciók, melyek jelenleg tesztelés alatt állnak, és nem biztos, hogy stabilak</string>
     <string name="optional_features_warning">Ez a funkció béta állapotú és összeomlást vagy instabilitást okozhat</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Előre-/hátratekerés késleltetése</string>
     <string name="long_jump_delay">Hosszú érintéses előre-/hátratekerés időbeni késleltetése</string>
     <string name="jump_delay_summary">%s mp</string>
+    <string name="move_up">Mozgatás felfelé</string>
+    <string name="move_down">Mozgatás lefelé</string>
+    <string name="remove_from_playlist">Eltávolítás a lejátszólistáról</string>
+    <string name="play_media">%s lejátszása</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Hozzáadja az ismételt elemeket?</string>
@@ -879,12 +885,12 @@
     <string name="video_double_tap_jump_delay">Dupla koppintás késleltetése</string>
     <string name="video_key_jump_delay">Navigációs gombok késleltetése</string>
     <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Ez az elem már rajta van a lejátszási listán.</item>
-        <item quantity="other">Ezek az elemek már rajta vannak a lejátszási listán.</item>
+        <item quantity="one">Ez az elem már rajta van a lejátszólistán.</item>
+        <item quantity="other">Ezek az elemek már rajta vannak a lejátszólistán.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
-        <item quantity="one">A kiválasztott elemek közül 1 már rajta van a lejátszási listán.</item>
-        <item quantity="other">A kiválasztott elemek közül %d már rajta van a lejátszási listán.</item>
+        <item quantity="one">A kiválasztott elemek közül 1 már rajta van a lejátszólistán.</item>
+        <item quantity="other">A kiválasztott elemek közül %d már rajta van a lejátszólistán.</item>
     </plurals>
     <string name="official_website">Hivatalos honlap</string>
     <string name="view_online">Online megtekintés</string>
