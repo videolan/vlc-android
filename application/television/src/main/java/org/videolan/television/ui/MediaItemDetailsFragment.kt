@@ -33,10 +33,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -464,7 +461,7 @@ class MediaItemDetailsModel(context: Application) : AndroidViewModel(context), C
     }
 
     init {
-        browserFavUpdated.addSource(repository.networkFavs) { favList ->
+        browserFavUpdated.addSource(repository.networkFavs.asLiveData()) { favList ->
             val convertFavorites = convertFavorites(favList)
             if (oldList.isEmpty()) oldList.addAll(convertFavorites)
             if (listenForNetworkFav)
