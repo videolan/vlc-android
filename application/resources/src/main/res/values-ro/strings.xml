@@ -33,6 +33,7 @@
     <string name="play_from_start">Redare de la început</string>
     <string name="play_as_audio">Redare ca audio</string>
     <string name="play_as_video">Redare ca video</string>
+    <string name="return_to_video">Atinge lung coperta pentru a restabili videoclipul</string>
     <string name="video_app_switch_title">Mod fundal/PIP</string>
     <string name="video_app_switch_summary">Selectați comportamentul VLC atunci când comutați la altă aplicație din redarea video</string>
     <string name="play_pip_title">Redați videoclipuri în modul Imagine în imagine</string>
@@ -489,8 +490,7 @@
     <string name="playlist_save">Salvare Playlist</string>
     <string name="playlist_name_hint">Numele listei de redare</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
-    <string name="chapter">Capitol</string>
-    <string name="current_chapter">Capitolul curent</string>
+    <string name="current_chapter">Chapter: %s</string>
     <string name="resume_from_position">Reia de la ultima poziție</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
     <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
@@ -863,6 +863,8 @@
     <string name="bookmark_default_name">Marcați la %s</string>
     <string name="bookmark_name">Semnul de carte %s</string>
     <string name="add_bookmark">Adăugați un marcaj</string>
+    <string name="bookmark_added">Semn de carte adăugat</string>
+    <string name="show">Arată</string>
     <string name="optional_features">Funcții opționale</string>
     <string name="optional_features_summary">Funcții beta care sunt în curs de testare și este posibil să nu fie stabile</string>
     <string name="optional_features_warning">Această funcție este în versiune beta și poate provoca erori și instabilități.</string>
@@ -872,6 +874,10 @@
     <string name="jump_delay">intârziere de timp pentru funcţia Înainte/Înapoi </string>
     <string name="long_jump_delay">Apăsare lungă pentru funcţia de întarziere înainte/înapoi</string>
     <string name="jump_delay_summary">%s secunde</string>
+    <string name="move_up">Mută sus</string>
+    <string name="move_down">Mută jos</string>
+    <string name="remove_from_playlist">Șterge din lista de redare</string>
+    <string name="play_media">Redă%s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Adăugați element(e) duplicate?</string>
