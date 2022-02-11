@@ -229,6 +229,7 @@ object UiTools {
     fun snacker(activity: Activity, stringId: Int, overAudioPlayer: Boolean = false) {
         val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         val snack = Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT)
+        if (overAudioPlayer) snack.setAnchorView(R.id.time)
         snack.show()
     }
 
@@ -252,6 +253,7 @@ object UiTools {
         val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(confirmMessage) { action.invoke() }
+        if (overAudioPlayer) snack.setAnchorView(R.id.time)
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
@@ -281,6 +283,7 @@ object UiTools {
                 }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
+        if (overAudioPlayer) snack.setAnchorView(R.id.time)
         snack.show()
         sHandler.postDelayed(action, DELETE_DURATION.toLong())
     }

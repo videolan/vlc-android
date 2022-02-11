@@ -186,7 +186,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         val media = getItem(position)
         val message = String.format(AppContextProvider.appResources.getString(R.string.remove_playlist_item), media.title)
         if (player is Fragment) {
-            UiTools.snackerWithCancel(player.requireActivity(), message, action = {}) {
+            UiTools.snackerWithCancel(player.requireActivity(), message, overAudioPlayer = true, action = {}) {
                  model?.run { insertMedia(position, media) }
             }
         } else if (player is Context) {
