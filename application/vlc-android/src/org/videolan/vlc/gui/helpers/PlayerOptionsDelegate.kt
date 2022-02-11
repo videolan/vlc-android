@@ -245,7 +245,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 tag = "select_chapter"
             }
             ID_EQUALIZER -> {
-                newFragment = EqualizerFragment()
+                newFragment = EqualizerFragment.newInstance()
                 tag = "equalizer"
             }
             ID_SAVE_PLAYLIST -> {

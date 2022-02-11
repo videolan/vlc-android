@@ -50,6 +50,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.EqualizerBinding
+import org.videolan.vlc.gui.dialogs.SelectChapterDialog
 import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
@@ -62,7 +63,7 @@ import kotlin.math.roundToInt
 class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListener {
     override fun getDefaultState() = STATE_EXPANDED
 
-    override fun needToManageOrientation() = false
+    override fun needToManageOrientation() = true
 
     override fun initialFocusedView(): View = binding.equalizerContainer
 
@@ -503,6 +504,10 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                 }
                 return presets.toTypedArray()
             }
+
+        fun newInstance(): EqualizerFragment {
+            return EqualizerFragment()
+        }
     }
 
     override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
