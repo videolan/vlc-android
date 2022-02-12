@@ -32,6 +32,7 @@
     <string name="play_from_start">Lire du début</string>
     <string name="play_as_audio">Lire comme audio</string>
     <string name="play_as_video">Lire comme vidéo</string>
+    <string name="return_to_video">Appui long sur la jaquette pour restaurer la vidéo</string>
     <string name="video_app_switch_title">Mode arrière-plan / Image-sur-image (PiP)</string>
     <string name="video_app_switch_summary">Sélectionnez le comportement que VLC doit adopter lorsque vous passez à une autre application au cours de la lecture d\'une vidéo</string>
     <string name="play_pip_title">Lire les vidéos en mode Image-sur-image</string>
@@ -479,7 +480,6 @@
     <string name="playlist_save">Enregistrer la liste de lecture</string>
     <string name="playlist_name_hint">Nom de liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre…</string>
-    <string name="chapter">Chapitre</string>
     <string name="current_chapter">Chapitre : %s</string>
     <string name="resume_from_position">Reprendre depuis la dernière position</string>
     <string name="confirm_resume">Reprendre depuis la dernière position ?</string>
@@ -851,6 +851,8 @@
     <string name="bookmark_default_name">Favori à %s</string>
     <string name="bookmark_name">Favori %s</string>
     <string name="add_bookmark">Ajouter un favori</string>
+    <string name="bookmark_added">Favori ajouté</string>
+    <string name="show">Montrer</string>
     <string name="optional_features">Fonctions optionnelles</string>
     <string name="optional_features_summary">Fonctionnalités bêta qui sont en cours de test et peuvent ne pas être stables</string>
     <string name="optional_features_warning">Cette fonctionnalité est en version bêta et peut provoquer des pannes et des instabilités.</string>
@@ -860,6 +862,10 @@
     <string name="jump_delay">Délai d\'avance ou retour</string>
     <string name="long_jump_delay">Délai d\'avance ou retour par appui long</string>
     <string name="jump_delay_summary">%s secondes</string>
+    <string name="move_up">Monter</string>
+    <string name="move_down">Descendre</string>
+    <string name="remove_from_playlist">Supprimer de la liste de lecture</string>
+    <string name="play_media">Lire %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Ajouter un ou des élément(s) en double ?</string>
