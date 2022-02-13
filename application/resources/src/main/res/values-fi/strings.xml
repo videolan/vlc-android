@@ -32,6 +32,7 @@
     <string name="play_from_start">Toista alusta</string>
     <string name="play_as_audio">Toista äänenä</string>
     <string name="play_as_video">Toista videona</string>
+    <string name="return_to_video">Pitkä kosketus kanteen palauttaa videon</string>
     <string name="video_app_switch_title">Taustalle / PiP-tila</string>
     <string name="video_app_switch_summary">Valitse miten VLC käyttäytyy kun siirryt toiseen ohjelmaan kun video pyörii</string>
     <string name="play_pip_title">Toista videot tilassa \"Kuva kuvassa\"</string>
@@ -57,7 +58,6 @@
     <string name="confirm_delete_files">Poistetaanko nämä %1$s tiedostot?</string>
     <string name="confirm_delete_folders_and_files">Poistetaanko nämä %1$s kansiot ja %2$s tiedostot?</string>
     <string name="confirm_delete_playlist">Poista soittolista ´%1$s´?</string>
-    <string name="confirm_remove_from_playlist">Poistetaanko \"%1$s\" soittolistasta?</string>
     <string name="ringtone_set">Tiedosto \'%1$s\' asetettiin soittoääneksi.</string>
     <string name="ringtone_error">Virhe asetettaessa soittoääntä.</string>
     <string name="pause">Tauota</string>
@@ -195,6 +195,7 @@
     <string name="encountered_error_title">Toistovirhe</string>
     <string name="encountered_error_message">VLC kohtasi virheen tämän median kanssa.\nKokeilethan mediakirjastosi päivittämistä.</string>
     <string name="invalid_location">Kohdetta %1$s ei voida toistaa.</string>
+    <string name="missing_location">Tämä media on muistikotilla, joka ei ole käytettävissä, eikä sitä voi toistaa.</string>
 
     <string name="search">Etsi</string>
 
@@ -216,6 +217,9 @@
     <string name="tips_play_description">Toista video napauttamalla</string>
     <string name="lock">Lukko</string>
     <string name="tap">Napauta nähdäksesi</string>
+    <string name="tap_to_remove">Poista napauttamalla</string>
+    <string name="tap_to_rearrange">Järjestä napauttamalla</string>
+    <string name="tap_to_previous_next">Napauta edelliseen / seuraavaan</string>
     <string name="lock_orientation">Suunta</string>
     <string name="lock_orientation_description">Napauta lukitaksesi/avataksesi suunnan</string>
     <string name="aspect_ratio">Kuvasuhde</string>
@@ -245,12 +249,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC Android™:lle</string>
-    <string name="licence">Lisenssi</string>
     <string name="revision">Uudistus</string>
     <string name="about">Tietoja</string>
-    <string name="about_text">VLC Android™:lle on käännös VLC-mediatoistimesta, joka on tunnettu avoimen lähdekoodin mediasoitin. Android™-versio pystyy toistamaan suurimman osan tiedostoista ja streameista.</string>
+    <string name="about_vlc_text">VLC Androidille™ on VLC porttaus mediasoittimesta, tuosta suositusta avoimen ohjelmakoodin toisto-ohjelmasta. Android™ versio osaa lukea kaikkia tarvittavia tiedostoja ja verkkovirtauksia.</string>
+    <string name="authors">Tekijät</string>
     <string name="vlc_authors">ja VLC:n tekijät</string>
-    <string name="compiled_by">Tämän VLC-version on koonnut:</string>
+    <string name="is_compiled_by">Kokooman toteuttivat</string>
+    <string name="sources">Lähdekoodi</string>
+    <string name="libraries">Kirjastot</string>
     <string name="feedback_forum">Palaute foorumi</string>
 
     <!-- Preferences -->
@@ -321,6 +327,8 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_double_tap_seek_summary">Kaksoisnapauta näytön reunalla, kelaa 10 sekunnilla</string>
     <string name="enable_double_tap_play_title">Toista/keskeytä napauttamalla kahdesti</string>
     <string name="enable_double_tap_play_summary">Toista tai keskeytä napauttamalla kahdesti näytön keskiosaa</string>
+    <string name="enable_swipe_seek_title">Pyyhkäise etsiäksesi</string>
+    <string name="enable_swipe_seek_summary">Pyyhkäise sormella halki ruudun etsiäksesi</string>
     <string name="popup_keepscreen_title">Pidä näyttö PÄÄLLÄ Pop-Up tilassa</string>
     <string name="popup_keepscreen_summary">Pidä näyttö aina PÄÄLLÄ, kun ponnahdusikkuna on näkyvissä, vaikka video olisi tauolla. </string>
     <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
@@ -345,6 +353,8 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Median kansikuva lukitusnäytöllä</string>
     <string name="lockscreen_cover_summary">Kun mahdollista, aseta nykyisen mediatiedoston kuva lukitusnäytön taustakuvaksi</string>
+    <string name="show_seek_in_compact_notif_title">Etsi painikkeet ilmoituspaneelissa</string>
+    <string name="show_seek_in_compact_notif_summary">Näytä säätimessä kelauksen painikkeet taakse ja pikakelaus eteen</string>
     <string name="list_title_ellipsize">Otsikon kolme pistettä</string>
     <string name="list_title_ellipsize_default">Oletus</string>
     <string name="list_title_ellipsize_left">Vasen</string>
@@ -474,7 +484,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="playlist_save">Tallenna soittolista</string>
     <string name="playlist_name_hint">Soittolistan nimi</string>
     <string name="go_to_chapter">Siirry lukuun...</string>
-    <string name="chapter">Luku</string>
+    <string name="current_chapter">Osio: %s</string>
     <string name="resume_from_position">Jatka viimeisimmästä kohdasta</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
     <string name="confirm_resume_title">Jatka toistettuja videoita</string>
@@ -845,6 +855,8 @@ Käynnistä uudelleen nyt?</string>
     <string name="bookmark_default_name">Kirjanmerkki %s</string>
     <string name="bookmark_name">Kirjanmerkki %s</string>
     <string name="add_bookmark">Lisää kirjanmerkki</string>
+    <string name="bookmark_added">Kirjanmerkki lisätty</string>
+    <string name="show">Näytä</string>
     <string name="optional_features">Valinnaiset ominaisuudet</string>
     <string name="optional_features_summary">Testiversion ominaisuudet, joita testataan - eivätkä välttämättä ole vakaita</string>
     <string name="optional_features_warning">Tämä ominaisuus on testiversiossa ja saattaa olla epävakaa</string>
@@ -854,6 +866,10 @@ Käynnistä uudelleen nyt?</string>
     <string name="jump_delay">Viive eteen/taakse</string>
     <string name="long_jump_delay">Pitkä painallus viiveelle eteenpäin/taaksepäin</string>
     <string name="jump_delay_summary">%s sekuntia</string>
+    <string name="move_up">Siirrä ylös</string>
+    <string name="move_down">Siirrä alas</string>
+    <string name="remove_from_playlist">Poista soittolistalta</string>
+    <string name="play_media">Toista %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Lisätäänkö päällekkäiset tuotteet?</string>
@@ -880,5 +896,7 @@ Käynnistä uudelleen nyt?</string>
         <item quantity="one">1 valituista kohteista on jo soittolistalla.</item>
         <item quantity="other">%d valituista kohteista on jo soittolistalla.</item>
     </plurals>
+    <string name="official_website">Virallinen verkkosivu</string>
+    <string name="view_online">Katso verkossa</string>
 
 </resources>
