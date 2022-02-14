@@ -478,6 +478,7 @@
 
     <string name="no_result">No results found</string>
     <string name="no_internet_connection">Check your internet connection</string>
+    <string name="retry">Retry</string>
     <string name="subs_download_error">Service unavailable. Please try again later</string>
 
     <string name="network_browsing">Local Network</string>

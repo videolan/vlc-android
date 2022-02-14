@@ -17,6 +17,10 @@
                 name="state"
                 type="org.videolan.vlc.gui.dialogs.SubDownloadDialogState" />
 
+        <variable
+                name="inError"
+                type="Boolean" />
+
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -142,13 +146,26 @@
                     android:layout_marginBottom="9dp"
                     android:gravity="center_horizontal"
                     android:text="@{viewmodel.observableMessage}"
-                    android:textColor="@color/orange500"
+                    android:textColor="?attr/font_light"
                     android:visibility="@{state == state.Download &amp;&amp; !TextUtils.isEmpty(viewmodel.observableMessage) ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/subs_download_list"
+                    app:layout_constraintBottom_toTopOf="@+id/retry_button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/subs_download_list"
-                    app:layout_goneMarginTop="40dp" />
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_goneMarginTop="40dp"
+                    tools:text="No results found" />
+
+            <Button
+                    android:id="@+id/retry_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/retry"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="@{viewmodel.observableError ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/message"
+                    app:layout_constraintBottom_toBottomOf="@id/subs_download_list"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/subs_history_list"

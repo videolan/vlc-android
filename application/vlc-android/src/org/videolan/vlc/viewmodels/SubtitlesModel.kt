@@ -43,6 +43,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
 
     val isApiLoading: MediatorLiveData<Boolean> = MediatorLiveData()
     val observableMessage = ObservableField<String>()
+    val observableError = ObservableField<Boolean>()
     val observableResultDescription = ObservableField<Spanned>()
 
     private val apiResultLiveData: MutableLiveData<List<OpenSubtitle>> = MutableLiveData()
@@ -141,6 +142,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         searchJob?.cancel()
         isApiLoading.postValue(true)
         observableMessage.set("")
+        observableError.set(false)
         apiResultLiveData.postValue(listOf())
 
         searchJob = viewModelScope.launch {
@@ -168,6 +170,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                 if (subs.isEmpty()) observableMessage.set(context.getString(R.string.no_result))
             } catch (e: Exception) {
                 Log.e("SubtitlesModel", e.message, e)
+                observableError.set(true)
                 if (e is NoConnectivityException)
                     observableMessage.set(context.getString(R.string.no_internet_connection))
                 else

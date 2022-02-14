@@ -91,6 +91,11 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         if (uris.isEmpty()) dismiss()
     }
 
+    override fun onResume() {
+        viewModel.onRefresh()
+        super.onResume()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = SubtitleDownloaderDialogBinding.inflate(inflater, container, false)
@@ -148,6 +153,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
+
+        binding.retryButton.setOnClickListener {
+            viewModel.onRefresh()
+        }
 
         binding.languageListSpinner.setSelection(viewModel.getLastUsedLanguage().map { binding.languageListSpinner.allValuesOfLanguages.indexOf(it) })
 
