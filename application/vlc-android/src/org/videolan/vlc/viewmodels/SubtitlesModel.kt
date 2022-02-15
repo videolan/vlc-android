@@ -167,7 +167,12 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                     } ?: listOf()
                 }
                 if (isActive) apiResultLiveData.postValue(subs)
-                if (subs.isEmpty()) observableMessage.set(context.getString(R.string.no_result))
+                if (subs.isEmpty()) {
+                    observableMessage.set(context.getString(R.string.no_result))
+                } else {
+                    observableMessage.set("")
+                }
+                observableError.set(false)
             } catch (e: Exception) {
                 Log.e("SubtitlesModel", e.message, e)
                 observableError.set(true)
