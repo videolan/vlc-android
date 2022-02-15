@@ -115,6 +115,20 @@
                     vlc:layout_goneMarginBottom="4dp"
                     vlc:srcCompat="@drawable/ic_network_media" />
 
+                <ImageView
+                    android:id="@+id/missing_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/rounded_corners_black_more_transparent"
+                    android:padding="3dp"
+                    android:visibility="@{media.isPresent ?  View.GONE : View.VISIBLE}"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/song_marker"
+                    vlc:layout_constraintStart_toStartOf="@+id/song_marker"
+                    vlc:layout_goneMarginBottom="4dp"
+                    vlc:srcCompat="@drawable/ic_network_media_off" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
