@@ -80,6 +80,17 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:media="@{media}" />
 
+            <View
+                android:id="@+id/missing_overlay"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{!media.isPresent ? View.VISIBLE : View.GONE}"
+                android:background="?attr/disabled_overlay_color"
+                vlc:layout_constraintBottom_toBottomOf="@+id/song_marker"
+                vlc:layout_constraintEnd_toEndOf="@+id/icon"
+                vlc:layout_constraintStart_toStartOf="@+id/song_marker"
+                vlc:layout_constraintTop_toTopOf="@+id/song_marker" />
+
             <ImageView
                 android:id="@+id/network_media"
                 android:layout_width="wrap_content"
@@ -118,6 +129,7 @@
                 android:maxLines="1"
                 android:layout_marginStart="16dp"
                 android:text="@{media.title}"
+                android:enabled="@{media.isPresent}"
                 app:layout_constraintBottom_toTopOf="@+id/subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
@@ -131,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{media.description}"
+                android:enabled="@{media.isPresent}"
                 android:visibility="@{TextUtils.isEmpty(media.description) ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
