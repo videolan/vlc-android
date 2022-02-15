@@ -46,10 +46,7 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ServiceLifecycleDispatcher
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
@@ -89,7 +86,9 @@ private const val TAG = "VLC/PlaybackService"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
+class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope {
+    override val coroutineContext = Dispatchers.IO + SupervisorJob()
+
     private var position: Long = -1L
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
@@ -111,6 +110,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private lateinit var wakeLock: PowerManager.WakeLock
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
     private lateinit var browserCallback: MediaBrowserCallback
+    var sleepTimerJob: Job? = null
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
@@ -159,11 +159,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 }
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
-                SLEEP_INTENT -> {
-                    if (isPlaying) {
-                        stop()
-                    }
-                }
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 ACTION_CAR_MODE_EXIT -> MediaSessionBrowser.unbindExtensionConnection()
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> if (detectHeadset) {
@@ -624,7 +619,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
             addAction(ACTION_CAR_MODE_EXIT)
-            addAction(SLEEP_INTENT)
             addAction(CUSTOM_ACTION)
         }
         registerReceiver(receiver, filter)
@@ -1707,6 +1701,39 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
     }
 
+    /**
+     * Start the loop that checks for the sleep timer consumption
+     */
+    private fun startSleepTimerJob() {
+        stopSleepTimerJob()
+        sleepTimerJob = launch {
+            while (isActive) {
+                playerSleepTime.value?.let {
+                    if (System.currentTimeMillis() > it.timeInMillis) {
+                        withContext(Dispatchers.Main) { if (isPlaying) stop() else setSleepTimer(null) }
+                    }
+                }
+                delay(1000)
+            }
+        }
+    }
+
+    private fun stopSleepTimerJob() {
+        if (BuildConfig.DEBUG) Log.d("SleepTimer", "stopSleepTimerJob")
+        sleepTimerJob?.cancel()
+        sleepTimerJob = null
+    }
+
+    /**
+     * Change the sleep timer time
+     * @param time a [Calendar] object for the new sleep timer time. Set to null to cancel the sleep timer
+     */
+    fun setSleepTimer(time: Calendar?) {
+        if (time != null && time.timeInMillis < System.currentTimeMillis()) return
+        playerSleepTime.value = time
+        if (time == null) stopSleepTimerJob() else startSleepTimerJob()
+    }
+
     companion object {
         val serviceFlow = MutableStateFlow<PlaybackService?>(null)
         val instance : PlaybackService?
@@ -1719,6 +1746,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
+
+        val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
 
         fun start(context: Context) {
             if (instance != null) return

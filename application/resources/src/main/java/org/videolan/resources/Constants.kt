@@ -101,7 +101,6 @@ const val ACTION_CONTENT_INDEXING = "action_content_indexing"
 @JvmField val PLAY_FROM_VIDEOGRID = "gui.video.PLAY_FROM_VIDEOGRID".buildPkgString()
 @JvmField val PLAY_FROM_SERVICE = "gui.video.PLAY_FROM_SERVICE".buildPkgString()
 @JvmField val EXIT_PLAYER = "gui.video.EXIT_PLAYER".buildPkgString()
-@JvmField val SLEEP_INTENT = "SleepIntent".buildPkgString()
 const val PLAY_EXTRA_ITEM_LOCATION = "item_location"
 const val PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location"
 const val PLAY_EXTRA_ITEM_TITLE = "title"

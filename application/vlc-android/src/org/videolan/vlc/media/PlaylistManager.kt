@@ -290,6 +290,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
         }
+        service.setSleepTimer(null)
         mediaList.removeEventListener(this)
         previous.clear()
         currentIndex = -1

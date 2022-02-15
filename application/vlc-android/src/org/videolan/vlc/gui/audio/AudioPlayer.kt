@@ -135,7 +135,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             delay(50L)
         }.launchWhenStarted(lifecycleScope)
         bookmarkModel = BookmarkModel.get(requireActivity())
-        PlayerOptionsDelegate.playerSleepTime.observe(this@AudioPlayer) {
+        PlaybackService.playerSleepTime.observe(this@AudioPlayer) {
             showChips()
         }
         Settings.setAudioControlsChangeListener {
@@ -223,7 +223,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             newFragment.show(requireActivity().supportFragmentManager, "time")
         }
         binding.sleepQuickAction.setOnLongClickListener {
-            playlistModel.service?.setSleep(null)
+            playlistModel.service?.setSleepTimer(null)
             showChips()
             true
         }
@@ -235,7 +235,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun isTablet() = requireActivity().isTablet()
 
     fun showChips() {
-        if (playlistModel.speed.value == 1.0F && PlayerOptionsDelegate.playerSleepTime.value == null) {
+        if (playlistModel.speed.value == 1.0F && PlaybackService.playerSleepTime.value == null) {
             binding.playbackChips.setGone()
         } else {
             binding.playbackChips.setVisible()
@@ -245,7 +245,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
                 binding.playbackSpeedQuickAction.text = it.formatRateString()
             }
-            PlayerOptionsDelegate.playerSleepTime.value?.let {
+            PlaybackService.playerSleepTime.value?.let {
                 binding.sleepQuickAction.setVisible()
                 binding.sleepQuickAction.text = DateFormat.getTimeFormat(requireContext()).format(it.time)
             }

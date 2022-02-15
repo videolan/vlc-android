@@ -97,7 +97,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             updateRepeatMode()
         }
         model.speed.observe(this) { showChips() }
-        PlayerOptionsDelegate.playerSleepTime.observe(this) {
+        PlaybackService.playerSleepTime.observe(this) {
             showChips()
         }
         binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
@@ -123,7 +123,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             newFragment.show(supportFragmentManager, "time")
         }
         binding.sleepQuickAction.setOnLongClickListener {
-            model.service?.setSleep(null)
+            model.service?.setSleepTimer(null)
             showChips()
             true
         }
@@ -150,7 +150,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
             binding.playbackSpeedQuickActionText.text = it.formatRateString()
         }
-        PlayerOptionsDelegate.playerSleepTime.value?.let {
+        PlaybackService.playerSleepTime.value?.let {
             binding.sleepQuickAction.setVisible()
             binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
         }

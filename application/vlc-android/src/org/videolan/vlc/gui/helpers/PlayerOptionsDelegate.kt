@@ -1,11 +1,7 @@
 package org.videolan.vlc.gui.helpers
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -13,17 +9,18 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.ViewStubCompat
-import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
-import org.videolan.resources.*
-import org.videolan.tools.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.VLCOptions
+import org.videolan.tools.AppScope
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
@@ -34,7 +31,6 @@ import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
-import java.util.*
 
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
@@ -356,20 +352,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             }
         }
     }
-
-    companion object {
-        val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
-    }
-}
-
-fun Context.setSleep(time: Calendar?) {
-    val alarmMgr = applicationContext.getSystemService<AlarmManager>()!!
-    val intent = Intent(SLEEP_INTENT)
-    val sleepPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-    if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
-    else alarmMgr.cancel(sleepPendingIntent)
-    PlayerOptionsDelegate.playerSleepTime.value = time
 }
 
 data class PlayerOption(val id: Long, val icon: Int, val title: String)
