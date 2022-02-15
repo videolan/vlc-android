@@ -38,7 +38,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation(): Boolean = true
 
-    override fun initialFocusedView(): View = binding.languageListSpinner
+    override fun initialFocusedView(): View = binding.movieName
 
     private lateinit var downloadAdapter: SubtitlesAdapter
     private lateinit var historyAdapter: SubtitlesAdapter
