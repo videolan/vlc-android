@@ -471,7 +471,7 @@ class MediaItemDetailsModel(context: Application) : AndroidViewModel(context), C
                         oldList.addAll(convertFavorites)
                         // we convert this new entry to a [MediaWrapper] and re-launch the activity with this new item
                         listenForNetworkFav = false
-                       updateActor.offer(media)
+                       updateActor.trySend(media)
                     }
                 }
         }

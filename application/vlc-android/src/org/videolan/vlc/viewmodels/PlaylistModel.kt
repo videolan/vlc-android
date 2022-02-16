@@ -35,7 +35,6 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.readableSize
-import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.media.PlaylistManager
@@ -100,7 +99,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             this.filtering = filtering
             originalDataset = if (filtering) dataset.value.toMutableList() else null
         }
-        filterActor.safeOffer(query)
+        filterActor.trySend(query)
     }
 
     val title

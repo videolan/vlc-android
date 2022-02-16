@@ -127,13 +127,13 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
 
         init {
             itemView.setOnClickListener(this)
-            itemView.setOnLongClickListener { eventActor.offer(ShowContext(layoutPosition)) }
-            binding.mrlCtx.setOnClickListener { eventActor.offer(ShowContext(layoutPosition)) }
+            itemView.setOnLongClickListener { eventActor.trySend(ShowContext(layoutPosition)).isSuccess }
+            binding.mrlCtx.setOnClickListener { eventActor.trySend(ShowContext(layoutPosition)) }
             binding.selector.setOnClickListener { onClick(it) }
         }
 
         override fun onClick(v: View) {
-            dataset.getOrNull(layoutPosition)?.let { eventActor.offer(Playmedia(it)) }
+            dataset.getOrNull(layoutPosition)?.let { eventActor.trySend(Playmedia(it)) }
         }
 
         fun recycle() {}
@@ -143,12 +143,12 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
 
         init {
             binding.container.setOnClickListener(this)
-            binding.container.setOnLongClickListener { eventActor.offer(ShowContext(layoutPosition)) }
-            binding.mrlCtx.setOnClickListener { eventActor.offer(ShowContext(layoutPosition)) }
+            binding.container.setOnLongClickListener { eventActor.trySend(ShowContext(layoutPosition)).isSuccess }
+            binding.mrlCtx.setOnClickListener { eventActor.trySend(ShowContext(layoutPosition)) }
         }
 
         override fun onClick(v: View) {
-            dataset.getOrNull(layoutPosition)?.let { eventActor.offer(Playmedia(it)) }
+            dataset.getOrNull(layoutPosition)?.let { eventActor.trySend(Playmedia(it)) }
         }
 
         fun recycle() {

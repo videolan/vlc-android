@@ -35,12 +35,12 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
             itemView.setOnClickListener {
                 dataset?.get(layoutPosition)?.let {
                     if(!eventActor.isClosedForSend)
-                        eventActor.offer(SubtitleClick(it)) }
+                        eventActor.trySend(SubtitleClick(it)) }
             }
             itemView.setOnLongClickListener {
                 dataset?.get(layoutPosition)?.let {
                     if(!eventActor.isClosedForSend)
-                        eventActor.offer(SubtitleLongClick(it))
+                        eventActor.trySend(SubtitleLongClick(it))
                 }
                 true
             }

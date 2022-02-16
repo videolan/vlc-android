@@ -180,11 +180,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 val removeDevices = intent.getBooleanExtra(EXTRA_REMOVE_DEVICE, false)
                 setupMedialibrary(upgrade, parse, removeDevices)
             }
-            ACTION_RELOAD -> actions.safeOffer(Reload(intent.getStringExtra(EXTRA_PATH)))
-            ACTION_FORCE_RELOAD -> actions.safeOffer(ForceReload)
+            ACTION_RELOAD -> actions.trySend(Reload(intent.getStringExtra(EXTRA_PATH)))
+            ACTION_FORCE_RELOAD -> actions.trySend(ForceReload)
             ACTION_DISCOVER -> intent.getStringExtra(EXTRA_PATH)?.let { discover(it) }
             ACTION_DISCOVER_DEVICE -> intent.getStringExtra(EXTRA_PATH)?.let { discoverStorage(it) }
-            ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.safeOffer(UpdateStorages) else exitCommand()
+            ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.trySend(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
                 return START_NOT_STICKY
@@ -206,7 +206,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             return
         }
         discoverTriggered = true
-        actions.safeOffer(DiscoverStorage(path))
+        actions.trySend(DiscoverStorage(path))
     }
 
     private fun discover(path: String) {
@@ -214,7 +214,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             exitCommand()
             return
         }
-        actions.safeOffer(DiscoverFolder(path))
+        actions.trySend(DiscoverFolder(path))
     }
 
     private fun addDeviceIfNeeded(path: String) {
@@ -251,8 +251,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun setupMedialibrary(upgrade: Boolean, parse: Boolean, removeDevices:Boolean) {
         if (medialibrary.isInitiated) {
             medialibrary.resumeBackgroundOperations()
-            if (parse && !scanActivated) actions.safeOffer(StartScan(upgrade))
-        } else actions.safeOffer(Init(upgrade, parse, removeDevices))
+            if (parse && !scanActivated) actions.trySend(StartScan(upgrade))
+        } else actions.trySend(Init(upgrade, parse, removeDevices))
     }
 
     private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean, removeDevices: Boolean) {
@@ -387,7 +387,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     override fun onDiscoveryProgress(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryProgress: $entryPoint")
         currentDiscovery = entryPoint
-        if (::notificationActor.isInitialized) notificationActor.safeOffer(Show(-1, -1))
+        if (::notificationActor.isInitialized) notificationActor.trySend(Show(-1, -1))
     }
 
     override fun onDiscoveryCompleted() {
@@ -396,14 +396,14 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     override fun onDiscoveryFailed(entryPoint: String) {
         Log.e(TAG, "onDiscoveryFailed")
-        notificationActor.safeOffer(Error(entryPoint))
+        notificationActor.trySend(Error(entryPoint))
     }
 
     override fun onParsingStatsUpdated(done: Int, scheduled:Int) {
         lastDone = done
         lastScheduled = scheduled
         parsing = (done.toFloat() / scheduled.toFloat() * 100F)
-        if (parsing != 100F && ::notificationActor.isInitialized) notificationActor.safeOffer(Show(done, scheduled))
+        if (parsing != 100F && ::notificationActor.isInitialized) notificationActor.trySend(Show(done, scheduled))
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -427,7 +427,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             }
             localBroadcastManager.sendBroadcast(Intent(ACTION_CONTENT_INDEXING))
             //todo reenable entry point when ready
-            if (::notificationActor.isInitialized) notificationActor.safeOffer(Hide)
+            if (::notificationActor.isInitialized) notificationActor.trySend(Hide)
             //Delay service stop to ensure service goes foreground.
             // Otherwise, we get some RemoteServiceException: Context.startForegroundService() did not then call Service.startForeground()
             lifecycleScope.launch {
@@ -516,7 +516,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     scanPaused = false
                 }
             }
-            notificationActor.safeOffer(Show(lastDone, lastScheduled))
+            notificationActor.trySend(Show(lastDone, lastScheduled))
         }
     }
 

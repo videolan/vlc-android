@@ -335,7 +335,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     override fun onEvent(event: MediaPlayer.Event?) {
-        if (event != null) eventActor.offer(event)
+        if (event != null) eventActor.trySend(event)
     }
 
     private fun setPlaybackStopped() {

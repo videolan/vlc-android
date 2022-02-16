@@ -36,7 +36,6 @@ import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
-import org.videolan.tools.safeOffer
 import org.videolan.vlc.BR
 import org.videolan.vlc.databinding.HistoryItemBinding
 import org.videolan.vlc.databinding.HistoryItemCardBinding
@@ -73,16 +72,16 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
         }
 
         fun onClick(v: View) {
-            eventsChannel.safeOffer(SimpleClick(layoutPosition))
+            eventsChannel.trySend(SimpleClick(layoutPosition))
         }
 
-        fun onLongClick(v: View) = eventsChannel.safeOffer(LongClick(layoutPosition))
+        fun onLongClick(v: View) = eventsChannel.trySend(LongClick(layoutPosition)).isSuccess
 
         fun onImageClick(v: View) {
             if (inCards)
-                eventsChannel.safeOffer(SimpleClick(layoutPosition))
+                eventsChannel.trySend(SimpleClick(layoutPosition))
             else
-                eventsChannel.safeOffer(ImageClick(layoutPosition))
+                eventsChannel.trySend(ImageClick(layoutPosition))
         }
 
         override fun isSelected() = getItem(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)

@@ -220,7 +220,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             }
             MediaPlayer.Event.MediaChanged -> if (BuildConfig.DEBUG) Log.d(TAG, "onEvent: MediaChanged")
         }
-        cbActor.safeOffer(CbMediaPlayerEvent(event))
+        cbActor.trySend(CbMediaPlayerEvent(event))
     }
 
     private val handler = PlaybackServiceHandler(this)
@@ -792,10 +792,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     private fun canSwitchToVideo() = playlistManager.player.canSwitchToVideo()
 
-    fun onMediaEvent(event: IMedia.Event) = cbActor.safeOffer(CbMediaEvent(event))
+    fun onMediaEvent(event: IMedia.Event) = cbActor.trySend(CbMediaEvent(event))
 
     fun executeUpdate(pubState: Boolean = false) {
-        cbActor.safeOffer(CbUpdate)
+        cbActor.trySend(CbUpdate)
         updateWidget()
         updateMetadata()
         broadcastMetadata()
@@ -837,7 +837,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     fun showNotification(): Boolean {
         notificationShowing = true
-        return cbActor.safeOffer(ShowNotification)
+        return cbActor.trySend(ShowNotification).isSuccess
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -911,7 +911,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     private fun hideNotification(remove: Boolean): Boolean {
         notificationShowing = false
-        return if (::cbActor.isInitialized) cbActor.safeOffer(HideNotification(remove)) else false
+        return if (::cbActor.isInitialized) cbActor.trySend(HideNotification(remove)).isSuccess else false
     }
 
     private fun hideNotificationInternal(remove: Boolean) {
@@ -972,7 +972,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     private fun updateMetadata() {
-        cbActor.safeOffer(UpdateMeta)
+        cbActor.trySend(UpdateMeta)
     }
 
     private suspend fun updateMetadataInternal() {
@@ -1267,10 +1267,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     fun hasPlaylist() = playlistManager.hasPlaylist()
 
     @MainThread
-    fun addCallback(cb: Callback) = cbActor.safeOffer(CbAdd(cb))
+    fun addCallback(cb: Callback) = cbActor.trySend(CbAdd(cb))
 
     @MainThread
-    fun removeCallback(cb: Callback) = cbActor.safeOffer(CbRemove(cb))
+    fun removeCallback(cb: Callback) = cbActor.trySend(CbRemove(cb))
 
     private fun restartPlaylistManager() = playlistManager.restart()
     fun restartMediaPlayer() = playlistManager.player.restart()

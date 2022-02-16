@@ -101,7 +101,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         list.nextFocusForwardId = android.R.id.list
 
         itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(historyAdapter))
-        itemTouchHelper!!.attachToRecyclerView(list)
+        itemTouchHelper.attachToRecyclerView(list)
 
         multiSelectHelper = historyAdapter.multiSelectHelper
         list.requestFocus()

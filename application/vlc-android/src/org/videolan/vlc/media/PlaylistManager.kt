@@ -461,7 +461,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     override fun onItemAdded(index: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        addUpdateActor.offer(Unit)
+        addUpdateActor.trySend(Unit)
     }
 
     private val addUpdateActor = actor<Unit>(capacity = Channel.CONFLATED) {
@@ -609,7 +609,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        addUpdateActor.safeOffer(Unit)
+        addUpdateActor.trySend(Unit)
     }
 
     private suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
@@ -717,7 +717,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 child.release()
             }
             mediaList.addEventListener(this)
-            addUpdateActor.offer(Unit)
+            addUpdateActor.trySend(Unit)
             service.onMediaListChanged()
             if (mrl !== null && ml.count == 1) {
                 getCurrentMedia()?.apply {
@@ -802,7 +802,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
         }
         mediaList.addEventListener(this)
-        addUpdateActor.offer(Unit)
+        addUpdateActor.trySend(Unit)
     }
 
     /**

@@ -116,14 +116,8 @@ fun String?.isValidUrl(): Boolean {
 }
 
 fun View.clicks(): Flow<Unit> = callbackFlow {
-    setOnClickListener { safeOffer(Unit) }
+    setOnClickListener { trySend(Unit) }
     awaitClose { setOnClickListener(null) }
-}
-
-fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
-    offer(value)
-} catch (e: CancellationException) {
-    false
 }
 
 @SuppressLint("MissingPermission")

@@ -25,7 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.conflatedActor
-import org.videolan.tools.safeOffer
 
 /**
  * @see org.videolan.vlc.viewmodels.ICallBackHandler
@@ -57,7 +56,7 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
     }
 
     override fun onHistoryModified() {
-        historyActor.safeOffer(Unit)
+        historyActor.trySend(Unit)
     }
 
     override fun registerMediaCallback(refresh: () -> Unit) {
@@ -70,11 +69,11 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
     }
 
     override fun onMediaAdded() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onMediaDeleted(id: LongArray?) {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onMediaModified() {
@@ -82,55 +81,55 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
     }
 
     override fun onMediaConvertedToExternal(id: LongArray?) {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onArtistsAdded() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onArtistsModified() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onArtistsDeleted() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onAlbumsAdded() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onAlbumsModified() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onAlbumsDeleted() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onGenresAdded() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onGenresModified() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onGenresDeleted() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onPlaylistsAdded() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onPlaylistsModified() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun onPlaylistsDeleted() {
-        refreshActor.safeOffer(Unit)
+        refreshActor.trySend(Unit)
     }
 
     override fun removeCallbacks() {

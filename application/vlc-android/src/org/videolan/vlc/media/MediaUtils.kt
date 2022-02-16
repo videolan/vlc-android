@@ -463,11 +463,11 @@ object MediaUtils {
             for (action in channel) when (action) {
                 Connect -> {
                     val service = PlaybackService.instance
-                    if (service != null) channel.offer(Task(service, task))
+                    if (service != null) channel.trySend(Task(service, task))
                     else {
                         PlaybackService.start(context)
                         PlaybackService.serviceFlow.filterNotNull().first().let {
-                            channel.offer(Task(it, task))
+                            channel.trySend(Task(it, task))
                         }
                     }
                 }
@@ -488,9 +488,9 @@ object MediaUtils {
                         "${context.applicationContext.getString(R.string.loading)}…",
                         context.applicationContext.getString(R.string.please_wait), true)
                 dialog.setCancelable(true)
-                dialog.setOnCancelListener { actor.offer(Disconnect) }
+                dialog.setOnCancelListener { actor.trySend(Disconnect) }
             }
-            actor.safeOffer(Connect)
+            actor.trySend(Connect)
         }
 
         private fun dismiss() {

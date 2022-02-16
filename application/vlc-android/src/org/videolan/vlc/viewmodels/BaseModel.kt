@@ -32,7 +32,6 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.tools.safeOffer
 import org.videolan.vlc.util.FilterDelegate
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.map
@@ -72,17 +71,17 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineCo
     fun isEmpty() = dataset.isEmpty()
 
     override fun refresh() {
-        updateActor.safeOffer(Refresh)
+        updateActor.trySend(Refresh)
     }
 
     fun remove(mw: T) {
-        updateActor.safeOffer(Remove(mw))
+        updateActor.trySend(Remove(mw))
     }
 
     override fun filter(query: String?) {
         if (!updateActor.isClosedForSend) {
             filterQuery = query
-            updateActor.offer(Filter(query))
+            updateActor.trySend(Filter(query))
         }
     }
 

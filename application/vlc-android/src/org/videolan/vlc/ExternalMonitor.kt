@@ -82,7 +82,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
                 delay(100L)
                 Log.i("ExternalMonitor", "Storage management: unmount: ${action.uuid} - ${action.path}")
                 Medialibrary.getInstance().removeDevice(action.uuid, action.path)
-                storageChannel.safeOffer(action)
+                storageChannel.trySend(action)
             }
         }
     }
@@ -96,10 +96,10 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     override fun onReceive(context: Context, intent: Intent) {
         if (!this::ctx.isInitialized) ctx = context.applicationContext
         when (intent.action) {
-            Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.offer(MediaMounted(it)) }
+            Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.trySend(MediaMounted(it)) }
             Intent.ACTION_MEDIA_UNMOUNTED,
             Intent.ACTION_MEDIA_EJECT -> intent.data?.let {
-                actor.offer(MediaUnmounted(it))
+                actor.trySend(MediaUnmounted(it))
             }
             UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
@@ -165,7 +165,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     private fun notifyNewStorage(mediaMounted: MediaMounted) {
         val activity = storageObserver?.get() ?: return
         UiTools.newStorageDetected(activity, mediaMounted.path)
-        storageChannel.safeOffer(mediaMounted)
+        storageChannel.trySend(mediaMounted)
     }
 
     @Synchronized

@@ -48,7 +48,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.safeOffer
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
@@ -212,22 +211,22 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
         fun onImageClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoImageClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoImageClick(layoutPosition, it)) }
         }
 
         fun onClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoClick(layoutPosition, it)) }
         }
 
         fun onMoreClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoCtxClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoCtxClick(layoutPosition, it)) }
         }
 
         fun onLongClick(v: View): Boolean {
             val position = layoutPosition
-            return isPositionValid(position) && getItem(position)?.let { eventsChannel.safeOffer(VideoLongClick(layoutPosition, it)) } == true
+            return isPositionValid(position) && getItem(position)?.let { eventsChannel.trySend(VideoLongClick(layoutPosition, it)).isSuccess } == true
         }
 
         override fun selectView(selected: Boolean) {

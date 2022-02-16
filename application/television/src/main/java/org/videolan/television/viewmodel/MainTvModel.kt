@@ -105,7 +105,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoriteList = convertFavorites(list)
-        if (!updateActor.isClosedForSend) updateActor.offer(Unit)
+        if (!updateActor.isClosedForSend) updateActor.trySend(Unit)
     }
 
     private val playerObserver = Observer<Boolean> { updateAudioCategories() }
@@ -116,8 +116,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.addOnMedialibraryReadyListener(this)
         medialibrary.addOnDeviceChangeListener(this)
         favorites.observeForever(favObserver)
-        networkMonitor.connectionFlow.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
-        ExternalMonitor.storageEvents.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
+        networkMonitor.connectionFlow.onEach { updateActor.trySend(Unit) }.launchIn(viewModelScope)
+        ExternalMonitor.storageEvents.onEach { updateActor.trySend(Unit) }.launchIn(viewModelScope)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
         mediaMetadataRepository.getAllLive().observeForever(videoObserver)
     }
@@ -128,8 +128,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         updateRecentlyPlayed()
         updateRecentlyAdded()
         updateAudioCategories()
-        historyActor.offer(Unit)
-        updateActor.offer(Unit)
+        historyActor.trySend(Unit)
+        updateActor.trySend(Unit)
         updatePlaylists()
     }
 
