@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Environment
+import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
@@ -84,8 +85,17 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         subtitleItem.run {
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             downloadedPaths.forEach {
-                if (Extensions.SUBTITLES.contains(".${it.split('.').last()}"))
-                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaUri.path!!, subLanguageID, movieReleaseName)
+                if (Extensions.SUBTITLES.contains(".${it.split('.').last()}")) {
+                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(
+                        idSubtitle,
+                        it,
+                        mediaUri.path!!,
+                        subLanguageID,
+                        movieReleaseName
+                    )
+                }
+                else
+                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
             }
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         }
@@ -101,6 +111,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
     }
 
     private fun downloadFailed(id: Long, context: Context) {
+        Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
         ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
     }
 
