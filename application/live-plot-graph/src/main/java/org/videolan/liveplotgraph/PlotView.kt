@@ -86,7 +86,7 @@ class PlotView : FrameLayout {
                 invalidate()
                 val listenerValue = ArrayList<Pair<LineGraph, String>>(data.size)
                 data.forEach { lineGraph ->
-                    listenerValue.add(Pair(lineGraph, "${String.format("%.0f", lineGraph.data[lineGraph.data.keys.max()])} kb/s"))
+                    listenerValue.add(Pair(lineGraph, "${String.format("%.0f", lineGraph.data[lineGraph.data.keys.maxOrNull()])} kb/s"))
                 }
                 listeners.forEach { it.onDataChanged(listenerValue) }
             }
@@ -109,19 +109,19 @@ class PlotView : FrameLayout {
         minsX.clear()
 
         data.forEach {
-            maxsY.add(it.data.maxBy { it.value }?.value ?: 0f)
+            maxsY.add(it.data.maxByOrNull { it.value }?.value ?: 0f)
         }
-        val maxY = maxsY.max() ?: 0f
+        val maxY = maxsY.maxOrNull() ?: 0f
 
         data.forEach {
-            maxsX.add(it.data.maxBy { it.key }?.key ?: 0L)
+            maxsX.add(it.data.maxByOrNull { it.key }?.key ?: 0L)
         }
-        val maxX = maxsX.max() ?: 0L
+        val maxX = maxsX.maxOrNull() ?: 0L
 
         data.forEach {
-            minsX.add(it.data.minBy { it.key }?.key ?: 0L)
+            minsX.add(it.data.minByOrNull { it.key }?.key ?: 0L)
         }
-        val minX = minsX.min() ?: 0L
+        val minX = minsX.maxOrNull() ?: 0L
 
         drawLines(maxY, minX, maxX, canvas)
         drawGrid(canvas, maxY, minX, maxX)

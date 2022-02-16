@@ -62,7 +62,7 @@ dependencies {
 
     api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
 
-    api "androidx.preference:preference:$androidxPreferencesVersion"
+    api "androidx.preference:preference-ktx:$androidxPreferencesVersion"
     api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
     api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
 

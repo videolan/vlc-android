@@ -73,7 +73,7 @@ class PreferencesActivity : BaseActivity() {
         mAppBarLayout!!.setExpanded(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_prefs, menu)
         return true
     }

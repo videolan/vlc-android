@@ -203,7 +203,6 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }
@@ -284,7 +283,6 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }

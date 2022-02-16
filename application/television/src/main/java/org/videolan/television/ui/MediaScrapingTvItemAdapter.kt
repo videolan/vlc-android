@@ -268,7 +268,6 @@ class MediaScrapingTvItemAdapter(
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }
@@ -343,7 +342,6 @@ class MediaScrapingTvItemAdapter(
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }

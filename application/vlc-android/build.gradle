@@ -175,7 +175,7 @@ dependencies {
     api "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
 
-    kapt ('org.xerial:sqlite-jdbc:3.34.0')
+    kapt ('org.xerial:sqlite-jdbc:3.36.0')
     kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
 
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
@@ -185,7 +185,6 @@ dependencies {
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
 
     // Kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"

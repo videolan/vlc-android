@@ -250,7 +250,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }
@@ -331,7 +330,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {}
     }
 }
