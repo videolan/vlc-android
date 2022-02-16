@@ -68,8 +68,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         val request = DownloadManager.Request(subtitleItem.zipDownloadLink.toUri())
         request.setDescription(subtitleItem.movieReleaseName)
         request.setTitle(context.resources.getString(R.string.download_subtitle_title))
-        request.setVisibleInDownloadsUi(false)
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, getDownloadPath(subtitleItem))
+        request.setDestinationInExternalFilesDir(context, getDownloadPath(subtitleItem), "")
         val id = downloadManager.enqueue(request)
         val deferred = CompletableDeferred<SubDlResult>().also { dlDeferred = it }
         ExternalSubRepository.getInstance(context.applicationContext).addDownloadingItem(id, subtitleItem)

@@ -69,11 +69,7 @@ object MediaUtils {
     fun getSubs(activity: FragmentActivity, media: MediaWrapper) = getSubs(activity, listOf(media))
 
     fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: List<Uri>, mediaTitles:List<String>) {
-        val callBack = java.lang.Runnable {
-            SubtitleDownloaderDialogFragment.newInstance(mediaUris, mediaTitles).show(activity.supportFragmentManager, "Subtitle_downloader")
-        }
-        if (Permissions.canWriteStorage()) callBack.run()
-        else Permissions.askWriteStoragePermission(activity, false, callBack)
+        SubtitleDownloaderDialogFragment.newInstance(mediaUris, mediaTitles).show(activity.supportFragmentManager, "Subtitle_downloader")
     }
 
 
