@@ -16,6 +16,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.util.Extensions
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -84,7 +85,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         subtitleItem.run {
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             downloadedPaths.forEach {
-                if (it.endsWith(".srt"))
+                if (Extensions.SUBTITLES.contains(".${it.split('.').last()}"))
                     ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaUri.path!!, subLanguageID, movieReleaseName)
             }
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
