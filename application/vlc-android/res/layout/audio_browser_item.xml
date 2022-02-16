@@ -52,7 +52,6 @@
             android:focusable="true"
             android:background="?attr/video_list_background"
             selected="@{selected}"
-            vlc:layout_optimizationLevel="cache_measures"
             android:longClickable="true"
             android:foreground="?attr/selectableItemBackground"
             android:minHeight="@dimen/audio_browser_item_size"

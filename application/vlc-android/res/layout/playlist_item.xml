@@ -40,8 +40,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/item_container"
-            app:layout_optimizationLevel="cache_measures">
+            android:id="@+id/item_container">
 
         <View
                 android:id="@+id/selector"
