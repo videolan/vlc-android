@@ -51,8 +51,6 @@ ext {
     androidxRecyclerviewVersion = '1.2.1'
     androidxMediaVersion = '1.1.0'
     androidxLeanbackVersion = '1.0.0'
-    //fixme : When we update this dep, please verify of this issue is fixed: https://github.com/material-components/material-components-android/issues/1086
-    // if so, revert application/vlc-android/res/values[-v21]/styles.xml -> AppModalStyle
     androidxMaterialVersion = '1.5.0'
     constraintLayoutVersion = '2.1.3'
     viewPager2Version = "1.0.0"
