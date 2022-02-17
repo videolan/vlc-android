@@ -61,6 +61,8 @@ import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
@@ -484,6 +486,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         bookmarkModel = BookmarkModel.get(this)
         overlayDelegate.playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         overlayDelegate.pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
+
+        ViewCompat.getWindowInsetsController(window.decorView)?.let { windowInsetsController ->
+            windowInsetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+        }
     }
 
     /**
