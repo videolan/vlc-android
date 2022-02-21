@@ -241,14 +241,16 @@ def revision() {
 def changelog() {
     def newsFile = new File("NEWS")
     def line, output = "", started = false
-    newsFile.withReader { reader ->
-        while ((line = reader.readLine()) != null) {
-            if (started && !line?.trim()) break
-            if (started) {
-                if (output != "") output += "\\n"
-                output += line.trim()
+    if (newsFile.exists()) {
+        newsFile.withReader { reader ->
+            while ((line = reader.readLine()) != null) {
+                if (started && !line?.trim()) break
+                if (started) {
+                    if (output != "") output += "\\n"
+                    output += line.trim()
+                }
+                if (line.contains("---")) started = true
             }
-            if (line.contains("---")) started = true
         }
     }
     return output
