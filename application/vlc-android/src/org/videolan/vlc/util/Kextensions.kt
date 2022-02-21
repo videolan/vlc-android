@@ -248,6 +248,13 @@ fun Activity.getScreenHeight(): Int {
     return dm.heightPixels
 }
 
+/**
+ * Detect if the device has a notch.
+ * @return true if the device has a notch
+ * @throws NullPointerException if the window is not attached yet
+ */
+fun Activity.hasNotch() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && window.decorView.rootWindowInsets.displayCutout != null
+
 @TargetApi(Build.VERSION_CODES.O)
 fun Context.getPendingIntent(iPlay: Intent): PendingIntent {
     return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)

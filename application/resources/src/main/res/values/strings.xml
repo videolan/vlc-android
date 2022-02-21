@@ -915,5 +915,7 @@
     </plurals>
     <string name="official_website">Official website</string>
     <string name="view_online">View online</string>
+    <string name="player_under_notch">Display video under notch</string>
+    <string name="notch">Notch</string>
 
 </resources>

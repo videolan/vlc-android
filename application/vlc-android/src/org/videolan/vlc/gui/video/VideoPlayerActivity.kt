@@ -179,6 +179,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE) }, { overlayDelegate.showOverlay(true) }) }
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
+    val resizeDelegate: VideoPlayerResizeDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerResizeDelegate(this@VideoPlayerActivity) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@VideoPlayerActivity) }
     val tipsDelegate: VideoTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoTipsDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
@@ -490,6 +491,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         ViewCompat.getWindowInsetsController(window.decorView)?.let { windowInsetsController ->
             windowInsetsController.systemBarsBehavior =
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (hasNotch()) {
+            window.attributes.layoutInDisplayCutoutMode = settings.getInt(DISPLAY_UNDER_NOTCH, WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES)
         }
     }
 
@@ -910,6 +918,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun onBackPressed() {
         if (optionsDelegate?.isShowing() == true) {
             optionsDelegate?.hide()
+        } else if (resizeDelegate.isShowing()) {
+            resizeDelegate.hideResizeOverlay()
         } else if (lockBackButton) {
             lockBackButton = false
             handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
@@ -998,7 +1008,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
-                } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
+                } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible() && !resizeDelegate.isShowing()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(-300000)
                     } else if (event.isShiftPressed && event.isCtrlPressed) {
@@ -1019,7 +1029,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
-                } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible()) {
+                } else if (!isShowing && !overlayDelegate.playlistContainer.isVisible() && !resizeDelegate.isShowing()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(300000)
                     } else if (event.isShiftPressed && event.isCtrlPressed) {
@@ -1069,7 +1079,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (isLocked) {
                     overlayDelegate.showOverlayTimeout(Settings.videoHudDelay * 1000)
-                } else if (!isShowing) {
+                } else if (!isShowing && !resizeDelegate.isShowing()) {
                     doPlayPause()
                     return true
                 }
@@ -1727,25 +1737,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    fun resizeVideo() = service?.run {
-        val next = (mediaplayer.videoScale.ordinal + 1) % MediaPlayer.SURFACE_SCALES_COUNT
-        val scale = MediaPlayer.ScaleType.values()[next]
-        setVideoScale(scale)
-        handler.sendEmptyMessage(SHOW_INFO)
-    }
+    fun resizeVideo() = resizeDelegate.resizeVideo()
 
-    internal fun setVideoScale(scale: MediaPlayer.ScaleType) = service?.run {
-        mediaplayer.videoScale = scale
-        when (scale) {
-            MediaPlayer.ScaleType.SURFACE_BEST_FIT -> overlayDelegate.showInfo(R.string.surface_best_fit, 1000)
-            MediaPlayer.ScaleType.SURFACE_FIT_SCREEN -> overlayDelegate.showInfo(R.string.surface_fit_screen, 1000)
-            MediaPlayer.ScaleType.SURFACE_FILL -> overlayDelegate.showInfo(R.string.surface_fill, 1000)
-            MediaPlayer.ScaleType.SURFACE_16_9 -> overlayDelegate.showInfo("16:9", 1000)
-            MediaPlayer.ScaleType.SURFACE_4_3 -> overlayDelegate.showInfo("4:3", 1000)
-            MediaPlayer.ScaleType.SURFACE_ORIGINAL -> overlayDelegate.showInfo(R.string.surface_original, 1000)
-        }
-        settings.putSingle(VIDEO_RATIO, scale.ordinal)
-    }
+    fun displayResize() = resizeDelegate.displayResize()
 
     private fun showTitle() {
         if (isNavMenu) return

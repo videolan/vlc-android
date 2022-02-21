@@ -510,6 +510,7 @@
                     android:contentDescription="@string/aspect_ratio"
                     android:focusable="true"
                     android:onClick="@{(v) -> player.resizeVideo()}"
+                    android:onLongClick="@{(v) -> player.displayResize()}"
                     android:scaleType="center"
                     tools:visibility="visible"
                     vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_play"

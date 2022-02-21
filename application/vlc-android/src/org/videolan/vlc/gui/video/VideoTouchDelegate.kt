@@ -55,6 +55,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                          var screenConfig: ScreenConfig,
                          private val tv: Boolean) {
 
+    private val resizeDelegate: VideoPlayerResizeDelegate
+        get() = player.resizeDelegate
     var handler = Handler()
 
     var numberOfTaps = 0
@@ -426,12 +428,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val grow = detector.scaleFactor > 1.0f
                 if (grow && player.currentScaleType != MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     savedScale = player.currentScaleType
-                    player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
+                    resizeDelegate.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
                 } else if (!grow && savedScale != null) {
-                    player.setVideoScale(savedScale!!)
+                    resizeDelegate.setVideoScale(savedScale!!)
                     savedScale = null
                 } else if (!grow && player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
-                    player.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
+                    resizeDelegate.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
                 }
                 touchAction = TOUCH_NONE
             }
