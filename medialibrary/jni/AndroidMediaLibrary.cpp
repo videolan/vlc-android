@@ -910,7 +910,6 @@ void AndroidMediaLibrary::onAlbumsDeleted( std::set<int64_t> )
 
 void AndroidMediaLibrary::onDiscoveryStarted()
 {
-    ++m_nbDiscovery;
     JNIEnv *env = getEnv();
     if (env == NULL) return;
     if (weak_thiz)
@@ -932,7 +931,6 @@ void AndroidMediaLibrary::onDiscoveryProgress( const std::string& entryPoint )
 
 void AndroidMediaLibrary::onDiscoveryCompleted()
 {
-    --m_nbDiscovery;
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;

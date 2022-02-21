@@ -197,6 +197,6 @@ private:
     medialibrary::IMediaLibrary* p_ml;
     std::shared_ptr<AndroidDeviceLister> p_lister;
     bool m_paused = false;
-    uint32_t m_nbDiscovery = 0, m_progress = 0, m_mediaAddedType = 0, m_mediaUpdatedType = 0;
+    uint32_t m_mediaAddedType = 0, m_mediaUpdatedType = 0;
 };
 #endif // ANDROIDMEDIALIBRARY_H
