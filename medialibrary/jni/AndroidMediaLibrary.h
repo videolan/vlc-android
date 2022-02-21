@@ -31,7 +31,6 @@ public:
     ~AndroidMediaLibrary();
 
     medialibrary::InitializeResult initML();
-    void start();
     bool isDeviceKnown(const std::string& uuid, const std::string& path, bool removable);
     bool deleteRemovableDevices();
     void addDevice(const std::string& uuid, const std::string& path, bool removable);

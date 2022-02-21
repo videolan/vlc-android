@@ -95,7 +95,6 @@ public class MedialibraryImpl extends Medialibrary {
     @Override
     public void start() {
         if (isStarted()) return;
-        nativeStart();
         isMedialibraryStarted = true;
         synchronized (onMedialibraryReadyListeners) {
             for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryReady();
@@ -600,7 +599,6 @@ public class MedialibraryImpl extends Medialibrary {
 
     // Native methods
     private native int nativeInit(String dbPath, String thumbsPath);
-    private native void nativeStart();
     private native void nativeRelease();
 
     private native boolean nativeClearDatabase(boolean keepPlaylist);

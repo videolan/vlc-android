@@ -42,12 +42,6 @@ init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
 }
 
 void
-start(JNIEnv* env, jobject thiz)
-{
-    MediaLibrary_getInstance(env, thiz)->start();
-}
-
-void
 release(JNIEnv* env, jobject thiz)
 {
     LOGD("/!\\ release medialib. /!\\");
@@ -2021,7 +2015,6 @@ regroup(JNIEnv* env, jobject thiz, jlong id)
   */
 static JNINativeMethod methods[] = {
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)I", (void*)init },
-    {"nativeStart", "()V", (void*)start },
     {"nativeRelease", "()V", (void*)release },
     {"nativeClearDatabase", "(Z)Z", (void*)clearDatabase },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },

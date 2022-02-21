@@ -14,7 +14,6 @@
 
 static pthread_key_t jni_env_key;
 static JavaVM *myVm;
-static bool m_started = false;
 
 static void jni_detach_thread(void *data)
 {
@@ -54,14 +53,6 @@ AndroidMediaLibrary::initML()
 {
     return p_ml->initialize(this);
 }
-
-void
-AndroidMediaLibrary::start()
-{
-//    p_ml->start();
-    m_started = true;
-}
-
 
 bool
 AndroidMediaLibrary::clearDatabase(bool restorePlaylists) {
