@@ -393,12 +393,32 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     //Video size constants
     public enum ScaleType {
-        SURFACE_BEST_FIT,
-        SURFACE_FIT_SCREEN,
-        SURFACE_FILL,
-        SURFACE_16_9,
-        SURFACE_4_3,
-        SURFACE_ORIGINAL
+        SURFACE_BEST_FIT(null),
+        SURFACE_FIT_SCREEN(null),
+        SURFACE_FILL(null),
+        SURFACE_16_9(16F/9F),
+        SURFACE_4_3(4F/3F),
+        SURFACE_16_10(16F/10F),
+        SURFACE_221_1(2.21F),
+        SURFACE_235_1(2.35F),
+        SURFACE_239_1(2.39F),
+        SURFACE_5_4(5F/4F),
+        SURFACE_ORIGINAL(null);
+
+
+        private final Float ratio;
+
+        ScaleType(Float ratio) {
+            this.ratio = ratio;
+        }
+
+        public Float getRatio() {
+            return ratio;
+        }
+
+        static public ScaleType[] getMainScaleTypes() {
+            return new ScaleType[]{SURFACE_BEST_FIT, SURFACE_FIT_SCREEN, SURFACE_FILL, SURFACE_16_9, SURFACE_4_3, SURFACE_ORIGINAL};
+        }
     }
     public static final int SURFACE_SCALES_COUNT = ScaleType.values().length;
 
