@@ -202,7 +202,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 var hasOneSelected = false
                 for (i in 0 until savedSelection.size) {
 
-                    it.selectionMap.addAll(savedSelection)
+                    it.selectionMap.add(savedSelection[i])
                     hasOneSelected = savedSelection.isNotEmpty()
                 }
                 if (hasOneSelected) startActionMode()
