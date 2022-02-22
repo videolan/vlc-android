@@ -174,7 +174,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         registerForContextMenu(binding.songsList)
         userVisibleHint = true
-        binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
 
         //For resizing purpose, we have to cache this twice even if it's from the same resource
@@ -534,7 +533,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun onPlaylistSwitchClick(view: View) {
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
-        binding.playlistSwitch.setImageResource(if (isShowingCover()) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         lifecycleScope.launch { doUpdate() }
     }
 

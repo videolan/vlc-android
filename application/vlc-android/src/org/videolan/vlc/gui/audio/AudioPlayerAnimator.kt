@@ -105,6 +105,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
             field = value
             onSlide(1F)
+            binding.playlistSwitch.setImageResource(if (value) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         }
 
     override fun switchShowCover() {

@@ -362,7 +362,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/adv_function"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_playlist_audio" />
+                    app:srcCompat="@drawable/ic_playlist_audio_on" />
 
             <ImageView
                     android:id="@+id/adv_function"
