@@ -94,6 +94,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private lateinit var volumeValueText: TextView
     private lateinit var playerVolumeProgress: PlayerProgress
     var info: TextView? = null
+    var subinfo: TextView? = null
     var overlayInfo: View? = null
     lateinit var playerUiContainer:RelativeLayout
 
@@ -173,8 +174,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         })
     }
 
-    fun showInfo(@StringRes textId: Int, duration: Int) {
-        showInfo(player.getString(textId), duration)
+    fun showInfo(@StringRes textId: Int , duration: Int ,@StringRes subtextId: Int = -1) {
+        showInfo(player.getString(textId), duration, if (subtextId == -1) "" else player.getString(subtextId))
     }
 
     /**
@@ -182,12 +183,16 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param text
      * @param duration
      */
-    fun showInfo(text: String, duration: Int) {
+    fun showInfo(text: String, duration: Int, subText:String = "") {
         if (player.isInPictureInPictureMode) return
         initInfoOverlay()
         overlayInfo.setVisible()
         info.setVisible()
         info?.text = text
+        if (subText.isNotBlank()) {
+            subinfo?.text = subText
+            subinfo.setVisible()
+        } else subinfo.setGone()
         player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_INFO)
         player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_INFO, duration.toLong())
     }
@@ -206,6 +211,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             vsc.setVisible()
             // the info textView is not on the overlay
             info = player.findViewById(R.id.player_overlay_textinfo)
+            subinfo = player.findViewById(R.id.player_overlay_subtextinfo)
             overlayInfo = player.findViewById(R.id.player_overlay_info)
         }
     }

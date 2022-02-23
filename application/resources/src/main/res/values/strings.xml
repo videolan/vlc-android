@@ -143,6 +143,7 @@
     <string name="surface_fit_screen">Fit screen</string>
     <string name="surface_fill">Fill</string>
     <string name="surface_original">Center</string>
+    <string name="resize_tip">Long tap for more options</string>
     <string name="unseekable_stream">Unseekable stream</string>
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
