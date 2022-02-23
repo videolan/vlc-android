@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_TAG=0.10.0
+MEDIALIBRARY_TAG=0.11.0
 
 while [ $# -gt 0 ]; do
   case $1 in
