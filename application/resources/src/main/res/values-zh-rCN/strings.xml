@@ -868,7 +868,7 @@
     <string name="start">启动</string>
     <string name="permission">权限</string>
     <string name="customize">自定义</string>
-    <string name="selection_count">选中了 %s 个</string>
+    <string name="selection_count">选中了 %d 个</string>
     <string name="controls_setting">操控设置</string>
     <string name="gestures">手势</string>
     <string name="player_controls">播放器控制</string>

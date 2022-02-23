@@ -860,7 +860,7 @@
     <string name="start">시작</string>
     <string name="permission">권한</string>
     <string name="customize">사용자 맞춤 설정</string>
-    <string name="selection_count">%s개 선택됨</string>
+    <string name="selection_count">%d개 선택됨</string>
     <string name="controls_setting">컨트롤 설정</string>
     <string name="gestures">제스처</string>
     <string name="player_controls">플레이어 컨트롤</string>

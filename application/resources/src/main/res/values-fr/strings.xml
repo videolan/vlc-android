@@ -878,7 +878,7 @@
     <string name="start">Démarrer</string>
     <string name="permission">Permission</string>
     <string name="customize">Personnaliser</string>
-    <string name="selection_count">%s sélectionné</string>
+    <string name="selection_count">%d sélectionné</string>
     <string name="controls_setting">Paramètres de contrôle</string>
     <string name="gestures">Gestes</string>
     <string name="player_controls">Contrôles du lecteur</string>

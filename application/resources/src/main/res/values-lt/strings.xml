@@ -877,7 +877,7 @@
     <string name="start">Pradėti!</string>
     <string name="permission">Leidimas</string>
     <string name="customize">Derinti</string>
-    <string name="selection_count">pasirinkote %s </string>
+    <string name="selection_count">pasirinkote %d </string>
     <string name="controls_setting">Valdiklių nuostatos</string>
     <string name="gestures">Gestai</string>
     <string name="player_controls">Leistuvės valdikliai</string>

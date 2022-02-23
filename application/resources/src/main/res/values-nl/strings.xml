@@ -878,7 +878,7 @@
     <string name="start">Start</string>
     <string name="permission">Machtiging</string>
     <string name="customize">Aanpassen</string>
-    <string name="selection_count">%s geselecteerd</string>
+    <string name="selection_count">%d geselecteerd</string>
     <string name="controls_setting">Bedieningsinstellingen</string>
     <string name="gestures">Gebaren</string>
     <string name="player_controls">Spelerbediening</string>

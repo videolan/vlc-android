@@ -878,7 +878,7 @@
     <string name="start">Indítás</string>
     <string name="permission">Engedély</string>
     <string name="customize">Testreszabás</string>
-    <string name="selection_count">%s kiválasztva</string>
+    <string name="selection_count">%d kiválasztva</string>
     <string name="controls_setting">Vezérlőbeállítások</string>
     <string name="gestures">Gesztusok</string>
     <string name="player_controls">Lejátszásvezérlők</string>

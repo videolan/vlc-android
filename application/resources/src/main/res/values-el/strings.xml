@@ -878,7 +878,7 @@
     <string name="start">Έναρξη</string>
     <string name="permission">Άδεια</string>
     <string name="customize">Εξατομίκευση</string>
-    <string name="selection_count">%s επιλεγμένο</string>
+    <string name="selection_count">%d επιλεγμένο</string>
     <string name="controls_setting">Ρυθμίσεις ελέγχου</string>
     <string name="gestures">Χειρονομίες</string>
     <string name="player_controls">Έλεγχος αναπαραγωγής</string>

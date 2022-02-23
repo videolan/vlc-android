@@ -890,7 +890,7 @@
     <string name="start">Start</string>
     <string name="permission">Permisiune</string>
     <string name="customize">Personalizați</string>
-    <string name="selection_count">%s selectat</string>
+    <string name="selection_count">%d selectat</string>
     <string name="controls_setting">Setările de control</string>
     <string name="gestures">Gesturi</string>
     <string name="player_controls">Controlul player-ului</string>

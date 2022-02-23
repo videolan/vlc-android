@@ -872,7 +872,7 @@
     <string name="start">Inicia</string>
     <string name="permission">Permís</string>
     <string name="customize">Personalitza</string>
-    <string name="selection_count">%s seleccionat</string>
+    <string name="selection_count">%d seleccionat</string>
     <string name="controls_setting">Configuració dels controls</string>
     <string name="gestures">Gestos</string>
     <string name="player_controls">Controls del reproductor</string>

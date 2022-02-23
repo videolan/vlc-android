@@ -882,7 +882,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="start">Aloita</string>
     <string name="permission">Luvat</string>
     <string name="customize">Mukauta</string>
-    <string name="selection_count">%s valittu</string>
+    <string name="selection_count">%d valittu</string>
     <string name="controls_setting">Ohjauksen asetukset</string>
     <string name="gestures">Eleet</string>
     <string name="player_controls">Soittimen säätimet</string>

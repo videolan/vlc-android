@@ -878,7 +878,7 @@
     <string name="start">Starta</string>
     <string name="permission">Behörighet</string>
     <string name="customize">Anpassa</string>
-    <string name="selection_count">%s markerade</string>
+    <string name="selection_count">%d markerade</string>
     <string name="controls_setting">Kontrollinställningar</string>
     <string name="gestures">Gester</string>
     <string name="player_controls">Spelarkontroller</string>

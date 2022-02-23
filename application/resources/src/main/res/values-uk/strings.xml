@@ -902,7 +902,7 @@
     <string name="start">Запустити</string>
     <string name="permission">Дозвіл</string>
     <string name="customize">Налаштувати</string>
-    <string name="selection_count">%s обрано</string>
+    <string name="selection_count">%d обрано</string>
     <string name="controls_setting">Параметри управління</string>
     <string name="gestures">Жести</string>
     <string name="player_controls">Управління програвачем</string>

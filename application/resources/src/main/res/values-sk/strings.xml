@@ -902,7 +902,7 @@
     <string name="start">Štart</string>
     <string name="permission">Oprávnenie</string>
     <string name="customize">Prispôsobiť</string>
-    <string name="selection_count">vybrané: %s</string>
+    <string name="selection_count">vybrané: %d</string>
     <string name="controls_setting">Nastavenia ovládacích prvkov</string>
     <string name="gestures">Gestá</string>
     <string name="player_controls">Ovládacie prvky prehrávača</string>

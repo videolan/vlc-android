@@ -878,7 +878,7 @@
     <string name="start">Başlat</string>
     <string name="permission">İzin</string>
     <string name="customize">Özelleştir</string>
-    <string name="selection_count">%s seçilmiş</string>
+    <string name="selection_count">%d seçilmiş</string>
     <string name="controls_setting">Denetim ayarları</string>
     <string name="gestures">El hareketleri</string>
     <string name="player_controls">Oynatıcı denetimleri</string>

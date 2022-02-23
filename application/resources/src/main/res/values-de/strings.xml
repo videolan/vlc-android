@@ -878,7 +878,7 @@
     <string name="start">Start</string>
     <string name="permission">Berechtigungen</string>
     <string name="customize">Anpassen</string>
-    <string name="selection_count">%s ausgewählt</string>
+    <string name="selection_count">%d ausgewählt</string>
     <string name="controls_setting">Steuerungseinstellungen</string>
     <string name="gestures">Gesten</string>
     <string name="player_controls">Wiedergabesteuerungen</string>

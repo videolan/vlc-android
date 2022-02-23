@@ -860,7 +860,7 @@
     <string name="start">開始</string>
     <string name="permission">権限</string>
     <string name="customize">カスタマイズ</string>
-    <string name="selection_count">%s 件選択されました</string>
+    <string name="selection_count">%d 件選択されました</string>
     <string name="controls_setting">制御設定</string>
     <string name="gestures">ジェスチャー</string>
     <string name="player_controls">プレイヤー制御</string>
