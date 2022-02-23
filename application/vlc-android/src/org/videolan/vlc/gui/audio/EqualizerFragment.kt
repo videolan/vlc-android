@@ -258,8 +258,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
 
                     if (binding.equalizerButton.isChecked) {
 
-                        val newValue = (eqBandsViews[i].getProgress() - EqualizerBar.RANGE) / EqualizerBar.PRECISION.toFloat()
-                        equalizer.setAmp(i, newValue)
+                        equalizer.setAmp(i, eqBandsViews[i].getValue())
                     }
 
                 }
