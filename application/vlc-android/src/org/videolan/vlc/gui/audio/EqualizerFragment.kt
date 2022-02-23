@@ -101,6 +101,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.equalizer, container, false)
         binding.state = state
+        customCount = 0
         return binding.root
     }
 
