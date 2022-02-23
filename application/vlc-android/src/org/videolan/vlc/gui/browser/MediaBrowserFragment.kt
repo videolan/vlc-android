@@ -29,11 +29,14 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
@@ -41,6 +44,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
@@ -208,6 +212,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 if (hasOneSelected) startActionMode()
                 savedSelection.clear()
             }
+            if (actionMode != null)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    fillActionMode(requireActivity(), actionMode!!, it as MultiSelectHelper<MediaLibraryItem>)
+                }
         }
     }
 
