@@ -466,6 +466,12 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 } else {
                     val context = this@MediaParsingService
                     var shouldInit = !dbExists()
+                    val constructed = medialibrary.construct(context)
+                    if (!constructed) {
+                        exitCommand()
+                        return
+                    }
+                    addDevices(context, action.parse, action.removeDevices)
                     val initCode = medialibrary.init(context)
                     medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).getInstance())
                     medialibrary.setDiscoverNetworkEnabled(true)

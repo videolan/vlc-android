@@ -28,9 +28,14 @@ public class StubMedialibrary extends Medialibrary {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public int init(Context context) {
-        if (context == null) return ML_INIT_FAILED;
+    public boolean construct(Context context) {
+        if (context == null) return false;
         sContext = context;
+        return true;
+    }
+
+    public int init(Context context) {
+        if (context == null || sContext == null) return ML_INIT_FAILED;
         return ML_INIT_SUCCESS;
     }
 

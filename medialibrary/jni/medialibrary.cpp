@@ -27,16 +27,21 @@ AndroidMediaLibrary *MediaLibrary_getInstance(JNIEnv *env, jobject thiz);
 static void
 MediaLibrary_setInstance(JNIEnv *env, jobject thiz, AndroidMediaLibrary *p_obj);
 
-jint
-init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
+void
+constructML(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
 {
-    const char *db_utfchars = env->GetStringUTFChars(dbPath, JNI_FALSE);
     const char *thumbs_utfchars = env->GetStringUTFChars(thumbsPath, JNI_FALSE);
+    const char *db_utfchars = env->GetStringUTFChars(dbPath, JNI_FALSE);
     AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz, db_utfchars, thumbs_utfchars);
     MediaLibrary_setInstance(env, thiz, aml);
-    medialibrary::InitializeResult initCode = aml->initML();
+}
+
+jint
+init(JNIEnv* env, jobject thiz, jstring thumbsPath)
+{
+    const char *thumbs_utfchars = env->GetStringUTFChars(thumbsPath, JNI_FALSE);
+    medialibrary::InitializeResult initCode = MediaLibrary_getInstance(env, thiz)->initML();
     m_IsInitialized = initCode != medialibrary::InitializeResult::Failed;
-    env->ReleaseStringUTFChars(dbPath, db_utfchars);
     env->ReleaseStringUTFChars(thumbsPath, thumbs_utfchars);
     return (int) initCode;
 }
@@ -2014,7 +2019,8 @@ regroup(JNIEnv* env, jobject thiz, jlong id)
   * JNI stuff
   */
 static JNINativeMethod methods[] = {
-    {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)I", (void*)init },
+    {"nativeConstruct", "(Ljava/lang/String;Ljava/lang/String;)V", (void*)constructML },
+    {"nativeInit", "(Ljava/lang/String;)I", (void*)init },
     {"nativeRelease", "()V", (void*)release },
     {"nativeClearDatabase", "(Z)Z", (void*)clearDatabase },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },

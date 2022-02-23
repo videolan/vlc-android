@@ -46,42 +46,47 @@ import java.io.File;
 public class MedialibraryImpl extends Medialibrary {
     private static final String TAG = "VLC/JMedialibrary";
 
-    public int init(Context context) {
-        if (context == null) return ML_INIT_FAILED;
-        if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;
+    public boolean construct(Context context) {
+        if (context == null) throw new IllegalStateException("context cannot be null");
+        if (mIsInitiated) return false;
         sContext = context;
         final File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists()
                 || dbDirectory == null || !dbDirectory.canWrite())
-            return ML_INIT_FAILED;
+            return false;
         LibVLC.loadLibraries();
         try {
             System.loadLibrary("c++_shared");
             System.loadLibrary("mla");
         } catch (UnsatisfiedLinkError ule) {
             Log.e(TAG, "Can't load mla: " + ule);
-            return ML_INIT_FAILED;
+            return false;
         }
         final File oldDir = new File(extFilesDir + THUMBS_FOLDER_NAME);
         if (oldDir.isDirectory()) {
             //remove old thumbnails directory
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            new Thread(() -> {
 
-                    String[] children = oldDir.list();
-                    if (children != null) {
-                        for (String child : children) {
-                            new File(oldDir, child).delete();
-                        }
+                String[] children = oldDir.list();
+                if (children != null) {
+                    for (String child : children) {
+                        new File(oldDir, child).delete();
                     }
-                    oldDir.delete();
                 }
+                oldDir.delete();
             }).start();
         }
+        nativeConstruct(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
+        return true;
+    }
 
-        int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
+    public int init(Context context) {
+        if (context == null) return ML_INIT_FAILED;
+        if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;
+        if (sContext == null) throw new IllegalStateException("Medialibrary construct has to be called before init");
+        File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
+        int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME);
         if (initCode == ML_INIT_DB_CORRUPTED) {
             Log.e(TAG, "Medialib database is corrupted. Clearing it and try to restore playlists");
             if (!nativeClearDatabase(true)) return ML_INIT_DB_UNRECOVERABLE;
@@ -130,7 +135,6 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
-        if (!mIsInitiated) return;
         nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
         synchronized (onDeviceChangeListeners) {
             for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
@@ -598,7 +602,8 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     // Native methods
-    private native int nativeInit(String dbPath, String thumbsPath);
+    private native void nativeConstruct(String dbPath, String thumbsPath);
+    private native int nativeInit(String dbPath);
     private native void nativeRelease();
 
     private native boolean nativeClearDatabase(boolean keepPlaylist);

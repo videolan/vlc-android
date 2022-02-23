@@ -697,6 +697,7 @@ abstract public class Medialibrary {
         }
     }
 
+    abstract public boolean construct(Context context);
     abstract public int init(Context context);
     abstract public void start();
     abstract public void banFolder(@NonNull String path);
