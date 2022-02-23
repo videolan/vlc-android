@@ -56,6 +56,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 import java.lang.Runnable
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @ObsoleteCoroutinesApi
@@ -96,7 +97,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
         override fun onNothingSelected(parent: AdapterView<*>) {}
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.equalizer, container, false)
         binding.state = state
@@ -106,7 +107,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.equalizerBands.setOnTouchListener { v, event ->
+        binding.equalizerBands.setOnTouchListener { v, _ ->
             v.parent.requestDisallowInterceptTouchEvent(true)
             true
         }
@@ -203,7 +204,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             val pos = binding.equalizerPresets.selectedItemPosition
             if (::equalizer.isInitialized) VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[pos], true, state.saved)
         } else {
-            VLCOptions.saveEqualizerInSettings(requireActivity(), MediaPlayer.Equalizer.createFromPreset(0), allSets[0], false, true)
+            VLCOptions.saveEqualizerInSettings(requireActivity(), MediaPlayer.Equalizer.createFromPreset(0), allSets[0], enabled = false, saved = true)
         }
     }
 
@@ -219,7 +220,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
         PlaybackService.equalizer.clear()
     }
 
-    private inner class BandListener internal constructor(private val index: Int) : OnEqualizerBarChangeListener {
+    private inner class BandListener(private val index: Int) : OnEqualizerBarChangeListener {
 
         private var oldBands: MutableList<Int> = ArrayList()
 
@@ -252,7 +253,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                         continue
                     }
 
-                    eqBandsViews[i].setProgress(oldBands[i] + delta / (Math.abs(i - index) * Math.abs(i - index) * Math.abs(i - index) + 1))
+                    eqBandsViews[i].setProgress(oldBands[i] + delta / (abs(i - index) * abs(i - index) * abs(i - index) + 1))
 
                     if (binding.equalizerButton.isChecked) {
 
@@ -332,7 +333,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                         VLCOptions.saveEqualizerInSettings(AppContextProvider.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .create()
-        input.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        input.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Enter pressed")
@@ -360,7 +361,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             VLCOptions.saveCustomSet(ctx, temporarySet, newName)
             if (onPause) {
                 if (binding.equalizerButton.isChecked)
-                    VLCOptions.saveEqualizerInSettings(ctx, temporarySet, newName, true, true)
+                    VLCOptions.saveEqualizerInSettings(ctx, temporarySet, newName, enabled = true, saved = true)
             } else {
                 if (newName == oldName) {
                     if (displayedByUser) {
