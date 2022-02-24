@@ -63,7 +63,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
      * Check if the resize overlay is currently shown
      * @return true if it's shown
      */
-    fun isShowing() = resizeMainView.visibility == View.VISIBLE
+    fun isShowing() = ::resizeMainView.isInitialized && resizeMainView.visibility == View.VISIBLE
 
     /**
      * Show the resize overlay. Inflate it if it's not yet
