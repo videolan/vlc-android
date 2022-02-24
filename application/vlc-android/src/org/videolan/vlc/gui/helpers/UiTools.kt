@@ -76,14 +76,8 @@ import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.*
-import org.videolan.vlc.gui.BaseActivity
-import org.videolan.vlc.gui.InfoActivity
-import org.videolan.vlc.gui.LibrariesActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
-import org.videolan.vlc.gui.dialogs.AddToGroupDialog
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
@@ -842,8 +836,13 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
 suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper: MultiSelectHelper<MediaLibraryItem>) {
     var realCount = 0
     var length = 0L
+    //checks if the selection can be retrieved (if the adapter is populated).
+    // If not, we want to prevent changing the title to avoid flashing an invalid empty title
+    var ready: Boolean
     withContext(Dispatchers.IO) {
-        multiSelectHelper.getSelection().forEach { mediaItem ->
+        val selection = multiSelectHelper.getSelection()
+        ready = selection.size == multiSelectHelper.getSelectionCount()
+        selection.forEach { mediaItem ->
             when (mediaItem) {
                 is MediaWrapper -> realCount += 1
                 is Album -> realCount += mediaItem.realTracksCount
@@ -853,7 +852,7 @@ suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper
             }
         }
 
-        multiSelectHelper.getSelection().forEach { mediaItem ->
+        selection.forEach { mediaItem ->
             when (mediaItem) {
                 is MediaWrapper -> length += mediaItem.length
                 is Album -> mediaItem.getAll().forEach { length += it.length }
@@ -863,6 +862,8 @@ suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper
             }
         }
     }
-    mode.title = context.getString(R.string.selection_count, realCount)
-    mode.subtitle = "${ Tools.millisToString(length)}"
+    if (ready) {
+        mode.title = context.getString(R.string.selection_count, realCount)
+        mode.subtitle = "${ Tools.millisToString(length)}"
+    }
 }
