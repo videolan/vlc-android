@@ -75,13 +75,12 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
             super.onConfigurationChanged(newConfig)
             return
         }
-        val fragmentManager = fragmentManager
-        if (fragmentManager != null) {
+        if (isAdded) {
             dismiss()
         }
         super.onConfigurationChanged(newConfig)
-        if (fragmentManager != null) {
-            show(fragmentManager, tag)
+        if (isAdded) {
+            show(parentFragmentManager.beginTransaction().setReorderingAllowed(false), tag)
         }
     }
 
