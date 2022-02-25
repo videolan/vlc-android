@@ -640,30 +640,28 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     private fun initPlaylistUi() {
-        if (player.service?.hasPlaylist() == true) {
-            if (!::playlistAdapter.isInitialized) {
-                playlistAdapter = PlaylistAdapter(player)
-                val layoutManager = LinearLayoutManager(player, RecyclerView.VERTICAL, false)
-                playlist.layoutManager = layoutManager
-            }
-            if (player.playlistModel == null) {
-                player.playlistModel = ViewModelProvider(player).get(PlaylistModel::class.java).apply {
-                    playlistAdapter.setModel(this)
-                    dataset.observe(player, player.playlistObserver)
-                }
-            }
-            hudRightBinding.playlistToggle.setVisible()
-            if (::hudBinding.isInitialized) {
-                hudBinding.playlistPrevious.setVisible()
-                hudBinding.playlistNext.setVisible()
-            }
-            hudRightBinding.playlistToggle.setOnClickListener(player)
-            closeButton.setOnClickListener { togglePlaylist() }
-
-            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
-            val touchHelper = ItemTouchHelper(callback)
-            touchHelper.attachToRecyclerView(playlist)
+        if (!::playlistAdapter.isInitialized) {
+            playlistAdapter = PlaylistAdapter(player)
+            val layoutManager = LinearLayoutManager(player, RecyclerView.VERTICAL, false)
+            playlist.layoutManager = layoutManager
         }
+        if (player.playlistModel == null) {
+            player.playlistModel = ViewModelProvider(player).get(PlaylistModel::class.java).apply {
+                playlistAdapter.setModel(this)
+                dataset.observe(player, player.playlistObserver)
+            }
+        }
+        if (player.service?.hasPlaylist() == true) hudRightBinding.playlistToggle.setVisible() else hudRightBinding.playlistToggle.setGone()
+        if (::hudBinding.isInitialized) {
+            hudBinding.playlistPrevious.setVisible()
+            hudBinding.playlistNext.setVisible()
+        }
+        hudRightBinding.playlistToggle.setOnClickListener(player)
+        closeButton.setOnClickListener { togglePlaylist() }
+
+        val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(playlist)
     }
 
     fun togglePlaylist() {
