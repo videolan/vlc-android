@@ -3,15 +3,15 @@
 
 This default template purpose is to be used to report a bug you found in VLC for Android.
 
+To use a different template, follow the instructions here: https://code.videolan.org/videolan/vlc-android/-/wikis/Create-an-issue-and-use-a-template
+
 If you want to ask for a new feature, please use the "VLC for Android - Feature Request.md" template above.
 
 If you're a libvlc java developer, please use the "libvlc - Bug" template.
 
 If you just want to ask questions on how to use VLC for Android, please use our forum at https://forum.videolan.org/viewforum.php?f=35
 
-To use a template, follow the instructions here: https://code.videolan.org/videolan/vlc-android/-/wikis/Create-an-issue-and-use-a-template
-
-Please not that any ticket not using a template may be closed without notice as it won't provide the necessary information.
+Please note that any ticket not using a template may be closed without notice as it won't provide the necessary information.
 
 -->
 
