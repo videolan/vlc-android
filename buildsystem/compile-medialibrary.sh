@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_TAG=0.11.0
+MEDIALIBRARY_HASH=725ff59a2ac3c8107f2cc2ae34bce627aa1202c5
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -96,9 +96,11 @@ cd ${SRC_DIR}
 # The CI will always use this block
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
-  git clone --depth 1 -b ${MEDIALIBRARY_TAG}  http://code.videolan.org/videolan/medialibrary.git "${MEDIALIBRARY_MODULE_DIR}/medialibrary"
+  git clone http://code.videolan.org/videolan/medialibrary.git "${MEDIALIBRARY_MODULE_DIR}/medialibrary"
   avlc_checkfail "medialibrary source: git clone failed"
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
+  git reset --hard ${MEDIALIBRARY_HASH}
+  avlc_checkfail "medialibrary source: Failed to switch to expected commit hash"
   git submodule update --init libvlcpp
   # TODO: remove when switching to VLC 4.0
   cd libvlcpp
@@ -106,7 +108,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
 elif [ "$RESET" = "1" ]; then
     cd ${SRC_DIR}/medialibrary/medialibrary
     git fetch --all --tags
-    git checkout ${MEDIALIBRARY_TAG} -b ${MEDIALIBRARY_TAG}-branch
+    git reset --hard ${MEDIALIBRARY_HASH}
+    avlc_checkfail "medialibrary source: Failed to switch to expected commit hash"
     git submodule update --init libvlcpp
     # TODO: remove when switching to VLC 4.0
     cd libvlcpp
