@@ -42,8 +42,8 @@ import kotlinx.coroutines.channels.ActorScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.LibVLC
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -256,27 +256,33 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     }
 
     private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean, removeDevices: Boolean) {
-        addDevices(context, parse, removeDevices)
+        checkNewDevicesForDialog(context, parse, removeDevices)
         if (upgrade) medialibrary.forceParserRetry()
         medialibrary.start()
         if (parse) startScan(shouldInit, upgrade)
         else exitCommand()
     }
 
-    private suspend fun addDevices(context: Context, addExternal: Boolean, removeDevices: Boolean) {
+    private suspend fun addDevices(context: Context, removeDevices: Boolean) {
         if (removeDevices) medialibrary.deleteRemovableDevices()
         val devices = DirectoryRepository.getInstance(context).getMediaDirectories()
-        val knownDevices = if (AndroidDevices.watchDevices) medialibrary.devices else null
         for (device in devices) {
             val isMainStorage = device == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY
             val uuid = FileUtils.getFileNameFromPath(device)
             if (device.isEmpty() || uuid.isEmpty() || !device.scanAllowed()) continue
-
-            val isNewForML =  !medialibrary.isDeviceKnown(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
-            val isNew = (isMainStorage || (addExternal && knownDevices?.contains(device) != true))
-                    && isNewForML
             medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
-            if (!isMainStorage && isNew && preselectedStorages.isEmpty()) showStorageNotification(device)
+        }
+    }
+
+    private suspend fun checkNewDevicesForDialog(context: Context, addExternal: Boolean, removeDevices: Boolean) {
+        if (removeDevices) medialibrary.deleteRemovableDevices()
+        val devices = DirectoryRepository.getInstance(context).getMediaDirectories()
+        val knownDevices = if (AndroidDevices.watchDevices) medialibrary.devices else null
+        for (device in devices) {
+            if (device == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) continue
+            val uuid = FileUtils.getFileNameFromPath(device)
+            if (device.isEmpty() || uuid.isEmpty() || !device.scanAllowed()) continue
+            if (addExternal && knownDevices?.contains(device) != true && !medialibrary.isDeviceKnown(uuid, device, true) && preselectedStorages.isEmpty()) showStorageNotification(device)
         }
     }
 
@@ -471,7 +477,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                         exitCommand()
                         return
                     }
-                    addDevices(context, action.parse, action.removeDevices)
+                    addDevices(context, action.parse)
                     val initCode = medialibrary.init(context)
                     medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).getInstance())
                     medialibrary.setDiscoverNetworkEnabled(true)
@@ -486,7 +492,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             }
             is StartScan -> {
                 scanActivated = true
-                addDevices(this@MediaParsingService, addExternal = true, removeDevices = false)
+                addDevices(this@MediaParsingService, removeDevices = false)
                 startScan(false, action.upgrade)
             }
             UpdateStorages -> updateStorages()
