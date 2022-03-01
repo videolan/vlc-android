@@ -1,10 +1,10 @@
-From f4fccb212e82aba2fc0438e450ab87a253216d22 Mon Sep 17 00:00:00 2001
-Message-Id: <f4fccb212e82aba2fc0438e450ab87a253216d22.1638531287.git.hugo@beauzee.fr>
-In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
-References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+From 6da91cb486679ff20850c6222a2674e4f5539511 Mon Sep 17 00:00:00 2001
+Message-Id: <6da91cb486679ff20850c6222a2674e4f5539511.1646986976.git.thomas@gllm.fr>
+In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
 From: Soomin Lee <bubu@mikan.io>
 Date: Mon, 1 Oct 2018 15:37:57 +0200
-Subject: [PATCH 04/13] access_output: file: Add error dialog for write/open
+Subject: [PATCH 04/23] access_output: file: Add error dialog for write/open
 
 Message-Id: <b95a09a0bb9cb649ab7c8f0ac0034013dad55247.1593695247.git.thomas@gllm.fr>
 Message-Id: <edf369375dd3937286034267c8a614f188fb51e4.1599040437.git.nicolas@videolabs.io>
@@ -47,5 +47,5 @@ index ef4f2d18d1..55e4822b90 100644
                  break;
              flags &= ~O_EXCL;
 -- 
-2.33.0
+2.30.2
 

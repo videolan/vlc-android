@@ -1,10 +1,10 @@
-From dbc24448caf86983751f5f72db91acd53c0d04ae Mon Sep 17 00:00:00 2001
-Message-Id: <dbc24448caf86983751f5f72db91acd53c0d04ae.1638531287.git.hugo@beauzee.fr>
-In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
-References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+From 191493707db486aa1e0d113e41ac0de4e23a0e67 Mon Sep 17 00:00:00 2001
+Message-Id: <191493707db486aa1e0d113e41ac0de4e23a0e67.1646986976.git.thomas@gllm.fr>
+In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 2 Jul 2020 15:05:01 +0200
-Subject: [PATCH 06/13] input: es_out: set video exclusive
+Subject: [PATCH 06/23] input: es_out: set video exclusive
 
 Since there can be only one video at a time for now (only one Surface is
 supported).
@@ -34,5 +34,5 @@ index 112cf5fe1d..1b4c08f3ec 100644
      EsOutPropsInit( &p_sys->audio, true, p_input, ES_OUT_ES_POLICY_EXCLUSIVE,
                      "audio-track-id", "audio-track", "audio-language", "audio" );
 -- 
-2.33.0
+2.30.2
 

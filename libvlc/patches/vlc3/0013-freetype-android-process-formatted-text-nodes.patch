@@ -1,10 +1,10 @@
-From 779007a1d92c8f133de440529e56da4cbbcefb05 Mon Sep 17 00:00:00 2001
-Message-Id: <779007a1d92c8f133de440529e56da4cbbcefb05.1638531287.git.hugo@beauzee.fr>
-In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
-References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+From b29af7f4134750ef1d083ee31da73badb92bc90b Mon Sep 17 00:00:00 2001
+Message-Id: <b29af7f4134750ef1d083ee31da73badb92bc90b.1646986976.git.thomas@gllm.fr>
+In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
 From: Francois Cartegnie <fcvlcdev@free.fr>
 Date: Thu, 2 Dec 2021 10:06:28 +0100
-Subject: [PATCH 13/13] freetype: android: process formatted text nodes
+Subject: [PATCH 13/23] freetype: android: process formatted text nodes
 
 Trims filenames as they are not stored as attributes.
 
@@ -53,5 +53,5 @@ index 08e7007c48..ab77d5acf5 100644
      return VLC_SUCCESS;
  }
 -- 
-2.33.0
+2.30.2
 

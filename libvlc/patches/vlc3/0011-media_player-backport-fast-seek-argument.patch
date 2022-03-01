@@ -1,10 +1,10 @@
-From 40570da656da27eb0b49b9e5a98b9fd3e8cfffb6 Mon Sep 17 00:00:00 2001
-Message-Id: <40570da656da27eb0b49b9e5a98b9fd3e8cfffb6.1638531287.git.hugo@beauzee.fr>
-In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
-References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+From ca015fe630f41b16fc9e6630d6b97715d80b1b15 Mon Sep 17 00:00:00 2001
+Message-Id: <ca015fe630f41b16fc9e6630d6b97715d80b1b15.1646986976.git.thomas@gllm.fr>
+In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Wed, 4 Aug 2021 13:33:50 +0200
-Subject: [PATCH 11/13] media_player: backport fast seek argument
+Subject: [PATCH 11/23] media_player: backport fast seek argument
 
 The fast-seek option is not global anymore but related to each seek
 requests.
@@ -132,5 +132,5 @@ index b79df99cac..a43864ef36 100644
      /* Output */
      bool            b_out_pace_control; /* XXX Move it ot es_sout ? */
 -- 
-2.33.0
+2.30.2
 

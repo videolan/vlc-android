@@ -1,0 +1,173 @@
+From afa69fcf25b156625ad3754a5e0df0868471fea8 Mon Sep 17 00:00:00 2001
+Message-Id: <afa69fcf25b156625ad3754a5e0df0868471fea8.1646986976.git.thomas@gllm.fr>
+In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Tue, 25 Jan 2022 13:17:02 +0100
+Subject: [PATCH 23/23] dsm: use the cache helper
+
+Cache the dsm session when closing. It will be re-used if an other
+access is opened on the same server/share/username within 5 seconds.
+
+Small benchmark, time to open the dsm access:
+ - 100 - 150 ms without cache
+ - 1 ms with a cache
+
+(cherry picked from commit 31f97cbea3e4d24874817ae2cc09e2c3b6a38d81)
+Signed-off-by: Thomas Guillem <thomas@gllm.fr>
+---
+ modules/access/Makefile.am  |  2 +-
+ modules/access/dsm/access.c | 72 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 71 insertions(+), 3 deletions(-)
+
+diff --git a/modules/access/Makefile.am b/modules/access/Makefile.am
+index 2e75013bad..eb6ba6f3ff 100644
+--- a/modules/access/Makefile.am
++++ b/modules/access/Makefile.am
+@@ -347,7 +347,7 @@ EXTRA_LTLIBRARIES += libsmb_plugin.la
+ 
+ libdsm_plugin_la_SOURCES = access/dsm/access.c access/dsm/sd.c access/smb_common.h
+ libdsm_plugin_la_CFLAGS = $(AM_CFLAGS) $(DSM_CFLAGS)
+-libdsm_plugin_la_LIBADD = $(DSM_LIBS)
++libdsm_plugin_la_LIBADD = $(DSM_LIBS) libvlc_access_cache.la
+ libdsm_plugin_la_LDFLAGS = $(AM_LDFLAGS) -rpath '$(accessdir)'
+ access_LTLIBRARIES += $(LTLIBdsm)
+ EXTRA_LTLIBRARIES += libdsm_plugin.la
+diff --git a/modules/access/dsm/access.c b/modules/access/dsm/access.c
+index 220b3ff7dc..15b677109b 100644
+--- a/modules/access/dsm/access.c
++++ b/modules/access/dsm/access.c
+@@ -49,6 +49,7 @@
+ 
+ #include <bdsm/bdsm.h>
+ #include "../smb_common.h"
++#include "../cache.h"
+ 
+ /*****************************************************************************
+  * Module descriptor
+@@ -108,6 +109,15 @@ vlc_module_end ()
+ /*****************************************************************************
+  * Local prototypes
+  *****************************************************************************/
++
++struct dsm_cache_context
++{
++    smb_session *session;
++    smb_tid tid;
++};
++
++VLC_ACCESS_CACHE_REGISTER(dsm_cache);
++
+ static ssize_t Read( stream_t *, void *, size_t );
+ static int Seek( stream_t *, uint64_t );
+ static int Control( stream_t *, int, va_list );
+@@ -134,6 +144,8 @@ struct access_sys_t
+ 
+     smb_fd              i_fd;               /**< SMB fd for the file we're reading */
+     smb_tid             i_tid;              /**< SMB Tree ID we're connected to */
++
++    struct vlc_access_cache_entry *cache_entry;
+ };
+ 
+ /*****************************************************************************
+@@ -233,6 +245,7 @@ static int OpenNotForced( vlc_object_t *p_this )
+ /*****************************************************************************
+  * Close: free unused data structures
+  *****************************************************************************/
++
+ static void Close( vlc_object_t *p_this )
+ {
+     stream_t     *p_access = (stream_t*)p_this;
+@@ -242,11 +255,12 @@ static void Close( vlc_object_t *p_this )
+         netbios_ns_destroy( p_sys->p_ns );
+     if( p_sys->i_fd )
+         smb_fclose( p_sys->p_session, p_sys->i_fd );
+-    if( p_sys->p_session )
+-        smb_session_destroy( p_sys->p_session );
+     vlc_UrlClean( &p_sys->url );
+     free( p_sys->psz_fullpath );
+ 
++    if( p_sys->cache_entry )
++        vlc_access_cache_AddEntry( &dsm_cache, p_sys->cache_entry );
++
+     free( p_sys );
+ }
+ 
+@@ -339,6 +353,14 @@ error:
+         == NT_STATUS_ACCESS_DENIED ? EACCES : ENOENT;
+ }
+ 
++static void
++dsm_FreeContext(void *context_)
++{
++    struct dsm_cache_context *context = context_;
++    smb_session_destroy( context->session );
++    free( context );
++}
++
+ /* Performs login with existing credentials and ask the user for new ones on
+    failure */
+ static int login( stream_t *p_access )
+@@ -370,6 +392,30 @@ static int login( stream_t *p_access )
+     }
+     psz_domain = credential.psz_realm ? credential.psz_realm : p_sys->netbios_name;
+ 
++    struct vlc_access_cache_entry *cache_entry =
++        vlc_access_cache_GetSmbEntry( &dsm_cache, p_sys->netbios_name, p_sys->psz_share,
++                                      credential.psz_username);
++
++    if( cache_entry != NULL )
++    {
++        struct dsm_cache_context *context = cache_entry->context;
++
++        int ret = smb_fopen( context->session, context->tid,
++                             p_sys->psz_path, SMB_MOD_RO, &p_sys->i_fd );
++        if( ret == DSM_SUCCESS )
++        {
++            p_sys->cache_entry = cache_entry;
++
++            smb_session_destroy( p_sys->p_session );
++
++            p_sys->p_session = context->session;
++            p_sys->i_tid = context->tid;
++            i_ret = VLC_SUCCESS;
++            msg_Dbg( p_access, "re-using old dsm session" );
++            goto error;
++        }
++    }
++
+     /* Now that we have the required data, let's establish a session */
+     int status = smb_session_connect( p_sys->p_session, p_sys->netbios_name,
+                                       p_sys->addr.s_addr, SMB_TRANSPORT_TCP );
+@@ -426,6 +472,28 @@ static int login( stream_t *p_access )
+     if( !b_guest )
+         vlc_credential_store( &credential, p_access );
+ 
++    if( p_sys->psz_share )
++    {
++        struct dsm_cache_context *context = malloc(sizeof(*context));
++        if( context )
++        {
++            context->session = p_sys->p_session;
++            context->tid = p_sys->i_tid;
++            p_sys->cache_entry =
++                vlc_access_cache_entry_NewSmb( context, p_sys->netbios_name,
++                                               p_sys->psz_share,
++                                               credential.psz_username,
++                                               dsm_FreeContext);
++        }
++        else
++            p_sys->cache_entry = NULL;
++
++        if( p_sys->cache_entry == NULL )
++        {
++            smb_session_destroy( p_sys->p_session );
++            goto error;
++        }
++    }
+     i_ret = VLC_SUCCESS;
+ error:
+     vlc_credential_clean( &credential );
+-- 
+2.30.2
+

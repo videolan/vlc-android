@@ -1,10 +1,10 @@
-From ad0d7fa0818e1cc33d900e29abd02778401ff286 Mon Sep 17 00:00:00 2001
-Message-Id: <ad0d7fa0818e1cc33d900e29abd02778401ff286.1638531287.git.hugo@beauzee.fr>
-In-Reply-To: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
-References: <44d38b73fc1fcda2f222640f2537a5b0e1c2415e.1638531287.git.hugo@beauzee.fr>
+From b80938a2a1399a2742e9ad5d1c80ef62b084bfd5 Mon Sep 17 00:00:00 2001
+Message-Id: <b80938a2a1399a2742e9ad5d1c80ef62b084bfd5.1646986976.git.thomas@gllm.fr>
+In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
 From: Pierre Ynard <linkfanel@yahoo.fr>
 Date: Mon, 20 Jul 2020 13:11:34 +0200
-Subject: [PATCH 07/13] stream_ReadLine: increase line length limit
+Subject: [PATCH 07/23] stream_ReadLine: increase line length limit
 
 Very long lines are occasionally encountered in text web resources such
 as HTML, JSON or other API data. This bumps the hardcoded limit from
@@ -39,5 +39,5 @@ index b94279b431..6be87f8551 100644
  {
      stream_priv_t *priv = (stream_priv_t *)s;
 -- 
-2.33.0
+2.30.2
 
