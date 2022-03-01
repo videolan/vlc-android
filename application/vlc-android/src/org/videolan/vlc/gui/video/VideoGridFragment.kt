@@ -31,6 +31,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.InitialPagedList
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -73,7 +74,6 @@ import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
-import java.util.*
 
 private const val TAG = "VLC/VideoListFragment"
 
@@ -140,7 +140,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
                 updateEmptyView()
                 restoreMultiSelectHelper()
-                if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
+                if (it !is InitialPagedList<*, *> && activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
                 setFabPlayVisibility(true)
             }
         }
