@@ -60,7 +60,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent?): IBinder {
         return binder
     }
 
@@ -227,7 +227,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         saveThread!!.start()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (AndroidUtil.isOOrLater) forceForeground()
         return START_STICKY
     }
