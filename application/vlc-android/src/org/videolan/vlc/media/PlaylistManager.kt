@@ -76,9 +76,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
+    val waitForConfirmation by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
     private var lastPrevious = -1L
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    lateinit var videoResumeStatus: VideoResumeStatus
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
@@ -93,6 +95,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     init {
         repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+        resetResumeStatus()
+    }
+
+    fun resetResumeStatus() {
+        val string = settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0")
+        videoResumeStatus = if (string == "2") VideoResumeStatus.ASK else if (string == "0") VideoResumeStatus.ALWAYS else VideoResumeStatus.NEVER
+        waitForConfirmation.postValue(null)
     }
 
     /**
@@ -350,7 +359,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         showAudioPlayer.value = PlayerController.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
-    suspend fun playIndex(index: Int, flags: Int = 0) {
+    suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -385,7 +394,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
-            val start = getStartTime(mw)
+            val start = if (forceRestart || videoResumeStatus == VideoResumeStatus.NEVER) 0L else getStartTime(mw)
+            if (isVideoPlaying) {
+                if (!forceResume && videoResumeStatus == VideoResumeStatus.ASK && start > 0) {
+                    waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
+                    return
+                }
+            }
             //todo restore position as well when we move to VLC 4.0
             val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
             //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
@@ -1042,3 +1057,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
 class DelayValues(var start: Long = -1L, var stop: Long = -1L)
+class WaitConfirmation(val title: String, val index: Int, val flags: Int)
+enum class VideoResumeStatus {
+    ALWAYS, ASK, NEVER
+}

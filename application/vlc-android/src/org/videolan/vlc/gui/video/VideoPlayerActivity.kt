@@ -45,11 +45,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
-import android.widget.SeekBar
+import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -104,6 +101,8 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
+import org.videolan.vlc.media.VideoResumeStatus
+import org.videolan.vlc.media.WaitConfirmation
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
@@ -730,6 +729,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (savedTime != -1L) settings.putSingle(VIDEO_RESUME_TIME, savedTime)
 
         saveBrightness()
+        service?.playlistManager?.resetResumeStatus()
 
         service?.removeCallback(this)
         service = null
@@ -1881,31 +1881,17 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     } else media = openedMedia
                     if (media != null) {
                         // in media library
-                        if (askResume && !fromStart && positionInPlaylist <= 0 && media.time > 0) {
-                            showConfirmResumeDialog()
-                            return
-                        }
 
                         lastAudioTrack = media.audioTrack
                         lastSpuTrack = media.spuTrack
                     } else if (!fromStart) {
                         // not in media library
-                        if (askResume && startTime > 0L) {
-                            showConfirmResumeDialog()
-                            return
-                        } else {
                             val rTime = settings.getLong(VIDEO_RESUME_TIME, -1L)
                             val lastUri = settings.getString(VIDEO_RESUME_URI, "")
                             if (rTime > 0 && service.currentMediaLocation == lastUri) {
-                                if (askResume) {
-                                    showConfirmResumeDialog()
-                                    return
-                                } else {
                                     settings.putSingle(VIDEO_RESUME_TIME, -1L)
                                     startTime = rTime
-                                }
                             }
-                        }
                     }
                 }
 
@@ -2027,14 +2013,27 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    private fun showConfirmResumeDialog() {
+    private fun showConfirmResumeDialog(confirmation: WaitConfirmation) {
         if (isFinishing) return
+        if (isInPictureInPictureMode) {
+            lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceResume = true) }
+            return
+        }
         service?.pause()
-        /* Encountered Error, exit player with a message */
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_video_resume, null)
+        val resumeAllCheck = dialogView.findViewById<CheckBox>(R.id.video_resume_checkbox)
         alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-                .setMessage(R.string.confirm_resume)
-                .setPositiveButton(R.string.resume_from_position) { _, _ -> loadMedia(false) }
-                .setNegativeButton(R.string.play_from_start) { _, _ -> loadMedia(true) }
+                .setTitle(confirmation.title)
+                .setView(dialogView)
+                .setPositiveButton(R.string.resume) { _, _ ->
+                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = VideoResumeStatus.ALWAYS
+                    lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceResume = true) }
+                }
+                .setNegativeButton(R.string.no) { _, _ ->
+                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = VideoResumeStatus.NEVER
+                    lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceRestart = true) }
+                }
                 .create().apply {
                     setCancelable(false)
                     setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
@@ -2149,6 +2148,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (volSave > 100 && service.volume != volSave) service.setVolume(volSave)
             }
             service.addCallback(this)
+            service.playlistManager.waitForConfirmation.observe(this) {
+                if (it != null) showConfirmResumeDialog(it)
+            }
         } else if (this.service != null) {
             this.service?.removeCallback(this)
             this.service = null
