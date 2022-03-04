@@ -28,7 +28,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.onboarding_permission.*
+import android.widget.Button
 import org.videolan.tools.INITIAL_PERMISSION_ASKED
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
@@ -41,9 +41,10 @@ class OnboardingPermissionFragment : OnboardingFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        grantPermissionButton.setOnClickListener {
+        view.findViewById<Button>(R.id.grantPermissionButton).setOnClickListener {
             onboardingFragmentListener.askPermission()
         }
+        val nextButton = view.findViewById<Button>(R.id.nextButton)
         nextButton.visibility = if (Settings.getInstance(requireActivity()).getBoolean(INITIAL_PERMISSION_ASKED, false)) View.VISIBLE else View.GONE
         nextButton.setOnClickListener { onboardingFragmentListener.onNext() }
     }

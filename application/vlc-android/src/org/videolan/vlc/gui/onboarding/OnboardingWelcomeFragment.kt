@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.onboarding_welcome.*
+import android.widget.Button
 import org.videolan.vlc.R
 
 class OnboardingWelcomeFragment : OnboardingFragment() {
@@ -15,7 +15,7 @@ class OnboardingWelcomeFragment : OnboardingFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startButton.setOnClickListener {
+        view.findViewById<Button>(R.id.startButton).setOnClickListener {
             onboardingFragmentListener.onNext()
         }
     }

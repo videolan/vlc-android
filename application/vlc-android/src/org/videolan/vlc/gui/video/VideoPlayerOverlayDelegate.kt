@@ -830,4 +830,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     fun hideBookmarks() {
         bookmarkListDelegate.hide()
     }
+
+    fun getOverlayBrightness() = if (::playerOverlayBrightness.isInitialized) playerOverlayBrightness else null
+
+    fun getOverlayVolume() = if (::playerOverlayVolume.isInitialized) playerOverlayVolume else null
 }

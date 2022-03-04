@@ -21,6 +21,7 @@ package org.videolan.vlc.gui
 
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +30,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
@@ -58,6 +58,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(listEventsHandler = this)
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private lateinit var list: RecyclerView
+    private lateinit var empty: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.history_list, container, false)
@@ -65,6 +67,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        list = view.findViewById(R.id.list)
+        empty = view.findViewById(R.id.empty)
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {

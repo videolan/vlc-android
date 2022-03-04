@@ -41,8 +41,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,9 +58,6 @@ import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.audio.AudioPlaylistTipsDelegate
 import org.videolan.vlc.gui.audio.AudioTipsDelegate
-import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
-import org.videolan.vlc.gui.helpers.PlayerBehavior
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.isTablet

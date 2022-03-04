@@ -67,8 +67,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import kotlinx.android.synthetic.main.player_overlay_brightness.*
-import kotlinx.android.synthetic.main.player_overlay_volume.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -231,8 +229,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 when (msg.what) {
                     FADE_OUT -> overlayDelegate.hideOverlay(false)
                     FADE_OUT_INFO -> overlayDelegate.fadeOutInfo(overlayDelegate.overlayInfo)
-                    FADE_OUT_BRIGHTNESS_INFO -> overlayDelegate.fadeOutInfo(player_overlay_brightness)
-                    FADE_OUT_VOLUME_INFO -> overlayDelegate.fadeOutInfo(player_overlay_volume)
+                    FADE_OUT_BRIGHTNESS_INFO -> overlayDelegate.fadeOutInfo(overlayDelegate.getOverlayBrightness())
+                    FADE_OUT_VOLUME_INFO -> overlayDelegate.fadeOutInfo(overlayDelegate.getOverlayVolume())
                     START_PLAYBACK -> startPlayback()
                     AUDIO_SERVICE_CONNECTION_FAILED -> exit(RESULT_CONNECTION_FAILED)
                     RESET_BACK_LOCK -> lockBackButton = true

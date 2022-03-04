@@ -32,7 +32,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -45,7 +44,6 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-//import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.audio.AudioBrowserFragment

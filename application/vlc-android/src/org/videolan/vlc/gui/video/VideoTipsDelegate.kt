@@ -31,15 +31,19 @@ import android.view.View
 import android.view.View.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.ViewStubCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import kotlinx.android.synthetic.main.player_tips.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.TipsUtils
@@ -48,6 +52,8 @@ import org.videolan.vlc.gui.view.PlayerProgress
 /**
  * Delegate to manage the video tips workflow.
  */
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListener {
 
     var currentTip: VideoPlayerTipsStep? = null
@@ -58,6 +64,28 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         duration = 300
     }
     private val currentAnimations = ArrayList<Animator>()
+    private lateinit var tipsBrightnessProgress: PlayerProgress
+    private lateinit var tipsVolumeProgress: PlayerProgress
+    private lateinit var overlayTipsLayout: ConstraintLayout
+    private lateinit var tapIndicatorTracks: View
+    private lateinit var tapIndicatorOrientation: View
+    private lateinit var tapIndicatorPlay: View
+    private lateinit var tapIndicatorRatio: View
+    private lateinit var tapIndicatorAdvanced: View
+    private lateinit var tapGesture: View
+    private lateinit var nextButton: Button
+    private lateinit var tipsBrightnessText: TextView
+    private lateinit var tipsVolumeText: TextView
+    private lateinit var doubleTapCenter: View
+    private lateinit var doubleTapLeft: View
+    private lateinit var doubleTapRight: View
+    private lateinit var seekRewindFirst: ImageView
+    private lateinit var seekRewindSecond: ImageView
+    private lateinit var seekForwardFirst: ImageView
+    private lateinit var seekForwardSecond: ImageView
+    private lateinit var tapGestureHorizontal: View
+    private lateinit var helpTitle: TextView
+    private lateinit var helpDescription: TextView
 
     /**
      * Init the tips:
@@ -68,13 +96,36 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
     fun init() {
         (player.findViewById<View>(R.id.player_overlay_tips) as? ViewStubCompat)?.inflate()
 
-        player.tipsBrightnessProgress.setValue(50)
-        player.tipsVolumeProgress.setValue(50)
+        tipsBrightnessProgress = player.findViewById(R.id.tipsBrightnessProgress)
+        tipsVolumeProgress = player.findViewById(R.id.tipsVolumeProgress)
+        overlayTipsLayout = player.findViewById(R.id.overlayTipsLayout)
+        tapIndicatorTracks = player.findViewById(R.id.tapIndicatorTracks)
+        tapIndicatorOrientation = player.findViewById(R.id.tapIndicatorOrientation)
+        tapIndicatorPlay = player.findViewById(R.id.tapIndicatorPlay)
+        tapIndicatorRatio = player.findViewById(R.id.tapIndicatorRatio)
+        tapIndicatorAdvanced = player.findViewById(R.id.tapIndicatorAdvanced)
+        tapGesture = player.findViewById(R.id.tapGesture)
+        nextButton = player.findViewById(R.id.nextButton)
+        tipsBrightnessText = player.findViewById(R.id.tipsBrightnessText)
+        tipsVolumeText = player.findViewById(R.id.tipsVolumeText)
+        doubleTapCenter = player.findViewById(R.id.doubleTapCenter)
+        doubleTapLeft = player.findViewById(R.id.doubleTapLeft)
+        doubleTapRight = player.findViewById(R.id.doubleTapRight)
+        seekRewindFirst = player.findViewById(R.id.seekRewindFirst)
+        seekRewindSecond = player.findViewById(R.id.seekRewindSecond)
+        seekForwardFirst = player.findViewById(R.id.seekForwardFirst)
+        seekForwardSecond = player.findViewById(R.id.seekForwardSecond)
+        tapGestureHorizontal = player.findViewById(R.id.tapGestureHorizontal)
+        helpTitle = player.findViewById(R.id.helpTitle)
+        helpDescription = player.findViewById(R.id.helpDescription)
+
+        tipsBrightnessProgress.setValue(50)
+        tipsVolumeProgress.setValue(50)
         if (!::initialConstraintSet.isInitialized) {
             initialConstraintSet = ConstraintSet()
-            initialConstraintSet.clone(player.overlayTipsLayout)
+            initialConstraintSet.clone(overlayTipsLayout)
         }
-        player.overlayTipsLayout.setVisible()
+        overlayTipsLayout.setVisible()
         next()
         getTapIndicators().forEach { it.setOnClickListener(this) }
     }
@@ -84,11 +135,11 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
      * @return the list of all the tap indicators
      */
     private fun getTapIndicators() = arrayOf(
-        player.tapIndicatorTracks,
-        player.tapIndicatorOrientation,
-        player.tapIndicatorPlay,
-        player.tapIndicatorRatio,
-        player.tapIndicatorAdvanced
+        tapIndicatorTracks,
+        tapIndicatorOrientation,
+        tapIndicatorPlay,
+        tapIndicatorRatio,
+        tapIndicatorAdvanced
     )
 
     /**
@@ -151,8 +202,8 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
      */
     private fun swipe(progress: PlayerProgress, textView: TextView): ObjectAnimator {
 
-        player.tapGesture.translationY = 0F
-        val slideAnimator = ObjectAnimator.ofFloat(player.tapGesture, TRANSLATION_Y, 0F)
+        tapGesture.translationY = 0F
+        val slideAnimator = ObjectAnimator.ofFloat(tapGesture, TRANSLATION_Y, 0F)
         slideAnimator.duration = 1600L
         slideAnimator.setFloatValues(0F, 30F, -30F, 0F)
         slideAnimator.interpolator = LinearInterpolator()
@@ -179,12 +230,12 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         currentTip = currentTip?.next() ?: VideoPlayerTipsStep.CONTROLS
 
         val constraintSet = ConstraintSet().apply { clone(initialConstraintSet) }
-        TransitionManager.beginDelayedTransition(player.overlayTipsLayout, transition)
+        TransitionManager.beginDelayedTransition(overlayTipsLayout, transition)
 
         getTapIndicators().forEach { constraintSet.setVisibility(it.id, GONE) }
 
         clearAllAnimations()
-        player.nextButton.setText(R.string.next)
+        nextButton.setText(R.string.next)
 
         when (currentTip) {
             VideoPlayerTipsStep.CONTROLS -> {
@@ -205,7 +256,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 constraintSet.setVisibility(R.id.tips_brightness_icon, VISIBLE)
                 constraintSet.setVisibility(R.id.tipsBrightnessProgress, VISIBLE)
                 currentAnimations.clear()
-                currentAnimations.add(swipe(player.tipsBrightnessProgress, player.tipsBrightnessText))
+                currentAnimations.add(swipe(tipsBrightnessProgress, tipsBrightnessText))
             }
             VideoPlayerTipsStep.VOLUME -> {
                 constraintSet.clear(R.id.tap_gesture_background, ConstraintSet.START)
@@ -224,13 +275,13 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 constraintSet.setVisibility(R.id.tips_volume_icon, VISIBLE)
                 constraintSet.setVisibility(R.id.tipsVolumeProgress, VISIBLE)
                 currentAnimations.clear()
-                currentAnimations.add(swipe(player.tipsVolumeProgress, player.tipsVolumeText))
+                currentAnimations.add(swipe(tipsVolumeProgress, tipsVolumeText))
             }
             VideoPlayerTipsStep.PAUSE -> {
 
                 constraintSet.setVisibility(R.id.doubleTapCenter, VISIBLE)
                 currentAnimations.clear()
-                currentAnimations.add(doubleTap(player.doubleTapCenter))
+                currentAnimations.add(doubleTap(doubleTapCenter))
             }
             VideoPlayerTipsStep.SEEK_TAP -> {
 
@@ -241,8 +292,8 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 constraintSet.setVisibility(R.id.seekForwardFirst, VISIBLE)
                 constraintSet.setVisibility(R.id.seekForwardSecond, VISIBLE)
                 currentAnimations.clear()
-                val tapLeft = doubleTap(player.doubleTapLeft, false, player.seekRewindFirst, player.seekRewindSecond)
-                val tapRight = doubleTap(player.doubleTapRight, false, player.seekForwardFirst, player.seekForwardSecond)
+                val tapLeft = doubleTap(doubleTapLeft, false, seekRewindFirst, seekRewindSecond)
+                val tapRight = doubleTap(doubleTapRight, false, seekForwardFirst, seekForwardSecond)
 
                 tapLeft.doOnEnd { tapRight.start() }
                 tapRight.doOnEnd { tapLeft.start() }
@@ -259,14 +310,14 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 constraintSet.setVisibility(R.id.tap_gesture_horizontal_background, VISIBLE)
                 constraintSet.setVisibility(R.id.tapGestureHorizontal, VISIBLE)
                 currentAnimations.clear()
-                currentAnimations.add(TipsUtils.horizontalSwipe(player.tapGestureHorizontal))
-                player.nextButton.setText(R.string.close)
+                currentAnimations.add(TipsUtils.horizontalSwipe(tapGestureHorizontal))
+                nextButton.setText(R.string.close)
             }
         }
 
-        constraintSet.applyTo(player.overlayTipsLayout)
-        player.helpTitle.setText(currentTip!!.titleText)
-        player.helpDescription.setText(currentTip!!.descriptionText)
+        constraintSet.applyTo(overlayTipsLayout)
+        helpTitle.setText(currentTip!!.titleText)
+        helpDescription.setText(currentTip!!.descriptionText)
     }
 
     /**
@@ -274,8 +325,8 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
      */
     private fun clearAllAnimations() {
         getTapIndicators().forEach { it.animate().cancel() }
-        player.tapGesture.clearAnimation()
-        player.tapGestureHorizontal.clearAnimation()
+        tapGesture.clearAnimation()
+        tapGestureHorizontal.clearAnimation()
         currentAnimations.forEach {
             it.cancel()
             it.removeAllListeners()
@@ -287,7 +338,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
      */
     fun close() {
         clearAllAnimations()
-        player.overlayTipsLayout.setGone()
+        overlayTipsLayout.setGone()
         Settings.getInstance(player).putSingle(PREF_TIPS_SHOWN, true)
         currentTip = null
         player.play()
@@ -299,39 +350,39 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
     override fun onClick(v: View?) {
         getTapIndicators().forEach { it.setBackgroundResource(0) }
         if (currentControl == v?.id) {
-            player.helpTitle.setText(R.string.tips_player_controls)
-            player.helpDescription.setText(R.string.tips_player_controls_description)
+            helpTitle.setText(R.string.tips_player_controls)
+            helpDescription.setText(R.string.tips_player_controls_description)
             currentControl = null
             return
         }
         when (v?.id) {
             R.id.tapIndicatorTracks -> {
-                player.helpTitle.setText(R.string.tips_audio_sub)
-                player.helpDescription.setText(R.string.tap)
+                helpTitle.setText(R.string.tips_audio_sub)
+                helpDescription.setText(R.string.tap)
                 v.background = ContextCompat.getDrawable(player, R.drawable.tips_tap)
                 currentControl = v.id
             }
             R.id.tapIndicatorOrientation -> {
-                player.helpTitle.setText(R.string.lock_orientation)
-                player.helpDescription.setText(R.string.lock_orientation_description)
+                helpTitle.setText(R.string.lock_orientation)
+                helpDescription.setText(R.string.lock_orientation_description)
                 v.background = ContextCompat.getDrawable(player, R.drawable.tips_tap)
                 currentControl = v.id
             }
             R.id.tapIndicatorPlay -> {
-                player.helpTitle.setText(R.string.play)
-                player.helpDescription.setText(R.string.tips_play_description)
+                helpTitle.setText(R.string.play)
+                helpDescription.setText(R.string.tips_play_description)
                 v.background = ContextCompat.getDrawable(player, R.drawable.tips_tap)
                 currentControl = v.id
             }
             R.id.tapIndicatorRatio -> {
-                player.helpTitle.setText(R.string.aspect_ratio)
-                player.helpDescription.setText(R.string.aspect_ratio_description)
+                helpTitle.setText(R.string.aspect_ratio)
+                helpDescription.setText(R.string.aspect_ratio_description)
                 v.background = ContextCompat.getDrawable(player, R.drawable.tips_tap)
                 currentControl = v.id
             }
             R.id.tapIndicatorAdvanced -> {
-                player.helpTitle.setText(R.string.advanced_options)
-                player.helpDescription.setText(R.string.advanced_options_description)
+                helpTitle.setText(R.string.advanced_options)
+                helpDescription.setText(R.string.advanced_options_description)
                 v.background = ContextCompat.getDrawable(player, R.drawable.tips_tap)
                 currentControl = v.id
             }

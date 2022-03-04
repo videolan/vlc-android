@@ -31,14 +31,12 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.slider.Slider
-import kotlinx.android.synthetic.main.vlc_login_dialog.*
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
@@ -50,12 +48,10 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.EqualizerBinding
-import org.videolan.vlc.gui.dialogs.SelectChapterDialog
 import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
-import java.lang.Runnable
 import kotlin.math.abs
 import kotlin.math.roundToInt
 

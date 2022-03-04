@@ -27,6 +27,8 @@ package org.videolan.vlc.gui.audio
 import android.animation.Animator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.ViewStubCompat
@@ -36,14 +38,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.audio_player.*
-import kotlinx.android.synthetic.main.audio_player_tips.*
-import kotlinx.android.synthetic.main.audio_player_tips.audio_tips_background
-import kotlinx.android.synthetic.main.audio_player_tips.helpDescription
-import kotlinx.android.synthetic.main.audio_player_tips.helpTitle
-import kotlinx.android.synthetic.main.audio_player_tips.nextButton
-import kotlinx.android.synthetic.main.audio_player_tips.tapGestureHorizontal
-import kotlinx.android.synthetic.main.audio_playlist_tips.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -59,6 +53,17 @@ import org.videolan.vlc.gui.helpers.UiTools.isTablet
 class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     var currentTip: AudioPlayerTipsStep? = null
     private lateinit var initialConstraintSet: ConstraintSet
+    private lateinit var audioPlayerTips: ConstraintLayout
+    private lateinit var audioTipsBackground: View
+    private lateinit var headerPrevious: ImageView
+    private lateinit var tapIndicatorPlaylist: View
+    private lateinit var headerLargePlayPause: ImageView
+    private lateinit var tapIndicatorStop: View
+    private lateinit var nextButton: Button
+    private lateinit var tapGestureHorizontal: View
+    private lateinit var helpTitle: TextView
+    private lateinit var helpDescription: TextView
+
     private val transition = Fade().apply {
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
@@ -67,6 +72,16 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
 
     fun init(vsc: ViewStubCompat?) {
         vsc?.inflate()
+        audioTipsBackground = activity.findViewById(R.id.audio_tips_background)
+        headerPrevious = activity.findViewById(R.id.header_previous)
+        audioPlayerTips = activity.findViewById(R.id.audioPlayerTips)
+        tapIndicatorPlaylist = activity.findViewById(R.id.tapIndicatorPlaylist)
+        headerLargePlayPause = activity.findViewById(R.id.header_large_play_pause)
+        tapIndicatorStop = activity.findViewById(R.id.tapIndicatorStop)
+        nextButton = activity.findViewById(R.id.nextButton)
+        tapGestureHorizontal = activity.findViewById(R.id.tapGestureHorizontal)
+        helpTitle = activity.findViewById(R.id.helpTitle)
+        helpDescription = activity.findViewById(R.id.helpDescription)
         activity.playerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         activity.playerBehavior.lock(true)
         activity.playerBehavior.setPeekHeightListener {
@@ -74,17 +89,17 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
         }
         if (!::initialConstraintSet.isInitialized) {
             initialConstraintSet = ConstraintSet()
-            initialConstraintSet.clone(activity.audioPlayerTips)
+            initialConstraintSet.clone(audioPlayerTips)
         }
-        activity.audioPlayerTips.setVisible()
-        activity.audioPlayerTips.setOnTouchListener { _, _ -> true }
+        audioPlayerTips.setVisible()
+        audioPlayerTips.setOnTouchListener { _, _ -> true }
         activity.lifecycleScope.launch(Dispatchers.Main) { next() }
     }
 
     private fun updateBackgroundPosition(peek: Int) {
-        val lp = (activity.audio_tips_background.layoutParams as ConstraintLayout.LayoutParams)
+        val lp = (audioTipsBackground.layoutParams as ConstraintLayout.LayoutParams)
         lp.bottomMargin = peek
-        activity.audio_tips_background.layoutParams = lp
+        audioTipsBackground.layoutParams = lp
     }
 
     /**
@@ -98,51 +113,51 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
         currentTip = currentTip?.next() ?: AudioPlayerTipsStep.SWIPE_NEXT
 
         val constraintSet = ConstraintSet().apply { clone(initialConstraintSet) }
-        TransitionManager.beginDelayedTransition(activity.audioPlayerTips, transition)
+        TransitionManager.beginDelayedTransition(audioPlayerTips, transition)
 
 
         clearAllAnimations()
-        activity.nextButton.setText(R.string.next)
+        nextButton.setText(R.string.next)
 
         when (currentTip) {
             AudioPlayerTipsStep.SWIPE_NEXT -> {
                 if (activity.isTablet()) {
                     currentAnimations.clear()
                     constraintSet.setVisibility(R.id.tapIndicatorPlaylist, View.VISIBLE)
-                    val indicatorX = activity.header_previous.left + (activity.header_previous.width / 2) - 24.dp
+                    val indicatorX = headerPrevious.left + (headerPrevious.width / 2) - 24.dp
                     constraintSet.setMargin(R.id.tapIndicatorPlaylist, ConstraintSet.START, indicatorX)
-                    TipsUtils.startTapAnimation(listOf(activity.tapIndicatorPlaylist))
+                    TipsUtils.startTapAnimation(listOf(tapIndicatorPlaylist))
                 } else {
                     constraintSet.setVisibility(R.id.tap_gesture_horizontal_background, View.VISIBLE)
                     constraintSet.setVisibility(R.id.tapGestureHorizontal, View.VISIBLE)
                     currentAnimations.clear()
-                    currentAnimations.add(TipsUtils.horizontalSwipe(activity.tapGestureHorizontal))
+                    currentAnimations.add(TipsUtils.horizontalSwipe(tapGestureHorizontal))
                 }
             }
             AudioPlayerTipsStep.TAP_PLAYLIST -> {
                 constraintSet.setVisibility(R.id.tapIndicatorPlaylist, View.VISIBLE)
-                TipsUtils.startTapAnimation(listOf(activity.tapIndicatorPlaylist))
+                TipsUtils.startTapAnimation(listOf(tapIndicatorPlaylist))
             }
             AudioPlayerTipsStep.HOLD_STOP -> {
                 if (activity.isTablet()) {
-                    val indicatorX = activity.header_large_play_pause.left + (activity.header_large_play_pause.width / 2) - 24.dp
+                    val indicatorX = headerLargePlayPause.left + (headerLargePlayPause.width / 2) - 24.dp
                     constraintSet.connect(R.id.tapIndicatorStop, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
                     constraintSet.setMargin(R.id.tapIndicatorStop, ConstraintSet.START, indicatorX)
                     constraintSet.clear(R.id.tapIndicatorStop, ConstraintSet.END)
-                    TipsUtils.startTapAnimation(listOf(activity.tapIndicatorPlaylist))
+                    TipsUtils.startTapAnimation(listOf(tapIndicatorPlaylist))
                     constraintSet.setVisibility(R.id.tapIndicatorStop, View.VISIBLE)
                 }
 
-                TipsUtils.startTapAnimation(listOf(activity.tapIndicatorStop), true)
-                activity.nextButton.setText(R.string.close)
+                TipsUtils.startTapAnimation(listOf(tapIndicatorStop), true)
+                nextButton.setText(R.string.close)
             }
         }
 
-        constraintSet.applyTo(activity.audioPlayerTips)
+        constraintSet.applyTo(audioPlayerTips)
         updateBackgroundPosition(activity.playerBehavior.peekHeight)
 
-        activity.helpTitle.setText(currentTip!!.titleText)
-        activity.helpDescription.setText(if ( activity.isTablet()) currentTip!!.descriptionTextTablet else currentTip!!.descriptionText)
+        helpTitle.setText(currentTip!!.titleText)
+        helpDescription.setText(if ( activity.isTablet()) currentTip!!.descriptionTextTablet else currentTip!!.descriptionText)
     }
 
     /**
@@ -150,7 +165,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
      */
     fun close() {
         clearAllAnimations()
-        activity.audioPlayerTips.setGone()
+        audioPlayerTips.setGone()
         activity.playerBehavior.removePeekHeightListener()
         Settings.getInstance(activity).putSingle(PREF_AUDIOPLAYER_TIPS_SHOWN, true)
         currentTip = null
@@ -168,8 +183,8 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
             it.cancel()
             it.removeAllListeners()
         }
-        activity.tapIndicatorPlaylist.animate().cancel()
-        activity.tapIndicatorStop.animate().cancel()
+        tapIndicatorPlaylist.animate().cancel()
+        tapIndicatorStop.animate().cancel()
     }
 }
 

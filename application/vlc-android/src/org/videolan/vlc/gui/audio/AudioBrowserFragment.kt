@@ -36,7 +36,6 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -46,11 +45,19 @@ import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.util.waitForML
-import org.videolan.tools.*
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.*
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.ContentActivity
+import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.gui.view.EmptyLoadingStateView
+import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
@@ -65,6 +72,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private lateinit var artistsAdapter: AudioBrowserAdapter
     private lateinit var albumsAdapter: AudioBrowserAdapter
     private lateinit var genresAdapter: AudioBrowserAdapter
+    private lateinit var emptyView: EmptyLoadingStateView
+    private lateinit var fastScroller: FastScroller
 
     private val lists = mutableListOf<RecyclerView>()
     private lateinit var settings: SharedPreferences
@@ -96,8 +105,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         val appbar = view.rootView.findViewById<AppBarLayout>(R.id.appbar)
         val coordinator = view.rootView.findViewById<CoordinatorLayout>(R.id.coordinator)
         val fab = view.rootView.findViewById<FloatingActionButton>(R.id.fab)
-        songs_fast_scroller.attachToCoordinator(appbar, coordinator, fab)
-        empty_loading.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
+        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller)
+        emptyView = view.rootView.findViewById(R.id.empty_loading)
+        fastScroller.attachToCoordinator(appbar, coordinator, fab)
+        emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -200,7 +211,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 if (refresh) updateEmptyView()
                 else {
                     swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                    songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                    fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
                 }
             }
         }
@@ -289,7 +300,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        empty_loading.state =
+        emptyView.state =
                 if (!Permissions.canReadStorage(requireActivity()) && empty) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
@@ -303,7 +314,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel.currentTab = tab.position
         setupProvider()
         super.onTabSelected(tab)
-        songs_fast_scroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
+        fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.putSingle(KEY_AUDIO_CURRENT_TAB, tab.position)
         if (Medialibrary.getInstance().isInitiated) setRefreshing(viewModel.providers[currentTab].isRefreshing)
         activity?.invalidateOptionsMenu()
@@ -359,7 +370,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         lifecycleScope.launchWhenStarted { // force a dispatch
             if (adapter === getCurrentAdapter()) {
                 swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
             } else
                 setFabPlayShuffleAllVisibility()
         }

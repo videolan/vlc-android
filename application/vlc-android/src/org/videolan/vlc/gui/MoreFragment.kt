@@ -26,12 +26,12 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.view.*
+import android.widget.Button
 import androidx.appcompat.view.ActionMode
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.more_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
@@ -42,9 +42,10 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
 import org.videolan.vlc.R
-//import org.videolan.vlc.donations.BillingStatus
-//import org.videolan.vlc.donations.VLCBilling
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.Click
+import org.videolan.vlc.gui.helpers.ImageClick
+import org.videolan.vlc.gui.helpers.LongClick
+import org.videolan.vlc.gui.helpers.SimpleClick
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
 import org.videolan.vlc.gui.network.KeyboardListener
@@ -74,6 +75,9 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     private lateinit var streamsAdapter: MRLAdapter
     private lateinit var historyEntry: TitleListView
     private lateinit var streamsEntry: TitleListView
+    private lateinit var settingsButton: Button
+    private lateinit var aboutButton: Button
+    private lateinit var donationsButton: CardView
     private lateinit var viewModel: HistoryModel
     private lateinit var streamsViewModel: StreamsModel
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
@@ -98,6 +102,9 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyEntry = view.findViewById(R.id.history_entry)
+        settingsButton = view.findViewById(R.id.settingsButton)
+        aboutButton = view.findViewById(R.id.aboutButton)
+        donationsButton = view.findViewById(R.id.donationsButton)
         if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner) { list ->

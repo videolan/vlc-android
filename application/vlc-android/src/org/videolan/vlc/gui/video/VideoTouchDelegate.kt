@@ -11,11 +11,15 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.ViewStubCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ScaleGestureDetectorCompat
 import com.google.android.material.circularreveal.CircularRevealCompat
-import kotlinx.android.synthetic.main.player_overlay_seek.*
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
@@ -25,6 +29,7 @@ import org.videolan.resources.AndroidDevices.isTv
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.view.HalfCircleView
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -76,6 +81,18 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private var lastSeekWasForward = true
     private var seekAnimRunning = false
     private var animatorSet: AnimatorSet = AnimatorSet()
+    private lateinit var rightContainer: CircularRevealFrameLayout
+    private lateinit var leftContainer: CircularRevealFrameLayout
+    private lateinit var rightContainerBackground: HalfCircleView
+    private lateinit var leftContainerBackground: HalfCircleView
+    private lateinit var seekRightText: TextView
+    private lateinit var seekLeftText: TextView
+    private lateinit var seekRewindFirst: ImageView
+    private lateinit var seekForwardFirst: ImageView
+    private lateinit var seekForwardSecond: ImageView
+    private lateinit var seekRewindSecond: ImageView
+    private lateinit var seekContainer: ConstraintLayout
+    private lateinit var seekBackground: FrameLayout
 
     companion object {
         private const val SEEK_TIMEOUT = 750L
@@ -472,18 +489,31 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             sb.append("(").append(Tools.millisToString(service.getTime()))
                 .append(')')
 
-            val container = if (seekForward) player.rightContainer else player.leftContainer
-            val containerBackground = if (seekForward) player.rightContainerBackground else player.leftContainerBackground
-            val textView = if (seekForward) player.seekRightText else player.seekLeftText
-            val imageFirst = if (seekForward) player.seekForwardFirst else player.seekRewindFirst
-            val imageSecond = if (seekForward) player.seekForwardSecond else player.seekRewindSecond
+            rightContainer = player.findViewById(R.id.rightContainer)
+            leftContainer = player.findViewById(R.id.leftContainer)
+            rightContainerBackground = player.findViewById(R.id.rightContainerBackground)
+            leftContainerBackground = player.findViewById(R.id.leftContainerBackground)
+            seekRightText = player.findViewById(R.id.seekRightText)
+            seekLeftText = player.findViewById(R.id.seekLeftText)
+            seekRewindFirst = player.findViewById(R.id.seekRewindFirst)
+            seekForwardFirst = player.findViewById(R.id.seekForwardFirst)
+            seekForwardSecond = player.findViewById(R.id.seekForwardSecond)
+            seekRewindSecond = player.findViewById(R.id.seekRewindSecond)
+            seekContainer = player.findViewById(R.id.seekContainer)
+            seekBackground = player.findViewById(R.id.seek_background)
+
+            val container = if (seekForward) rightContainer else leftContainer
+            val containerBackground = if (seekForward) rightContainerBackground else leftContainerBackground
+            val textView = if (seekForward) seekRightText else seekLeftText
+            val imageFirst = if (seekForward) seekForwardFirst else seekRewindFirst
+            val imageSecond = if (seekForward) seekForwardSecond else seekRewindSecond
 
             container.post {
 
                 //On TV, seek text and animation should be centered in parent
                 if (isTv) {
                     val seekTVConstraintSet = ConstraintSet()
-                    seekTVConstraintSet.clone(player.seekContainer)
+                    seekTVConstraintSet.clone(seekContainer)
 
                     seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.START, R.id.seekRightContainer, ConstraintSet.START)
                     seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.TOP, R.id.seekRightContainer, ConstraintSet.TOP)
@@ -494,17 +524,17 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.TOP, R.id.seekLeftContainer, ConstraintSet.TOP)
                     seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.BOTTOM, R.id.seekLeftContainer, ConstraintSet.BOTTOM)
                     seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, player.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
-                    player.seekForwardFirst.setImageResource(R.drawable.ic_half_seek_forward_tv)
-                    player.seekForwardSecond.setImageResource(R.drawable.ic_half_seek_forward_tv)
-                    player.seekRewindFirst.setImageResource(R.drawable.ic_half_seek_rewind_tv)
-                    player.seekRewindSecond.setImageResource(R.drawable.ic_half_seek_rewind_tv)
+                    seekForwardFirst.setImageResource(R.drawable.ic_half_seek_forward_tv)
+                    seekForwardSecond.setImageResource(R.drawable.ic_half_seek_forward_tv)
+                    seekRewindFirst.setImageResource(R.drawable.ic_half_seek_rewind_tv)
+                    seekRewindSecond.setImageResource(R.drawable.ic_half_seek_rewind_tv)
 
-                    player.seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                    player.seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                    seekTVConstraintSet.applyTo(player.seekContainer)
+                    seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                    seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                    seekTVConstraintSet.applyTo(seekContainer)
                 }
 
-                val backgroundAnim = ObjectAnimator.ofFloat(player.seek_background, "alpha", 1f)
+                val backgroundAnim = ObjectAnimator.ofFloat(seekBackground, "alpha", 1f)
                 backgroundAnim.duration = 200
 
                 val firstImageAnim = ObjectAnimator.ofFloat(imageFirst, "alpha", 1f, 0f)
@@ -539,14 +569,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
                 seekAnimRunning = true
 
-                player.seekRightText.animate().cancel()
-                player.seekLeftText.animate().cancel()
-                player.rightContainerBackground.animate().cancel()
-                player.leftContainerBackground.animate().cancel()
+                seekRightText.animate().cancel()
+                seekLeftText.animate().cancel()
+                rightContainerBackground.animate().cancel()
+                leftContainerBackground.animate().cancel()
 
                 animatorSet.playTogether(anims)
 
-                val mainAnimOut = ObjectAnimator.ofFloat(player.seek_background, "alpha", 0f)
+                val mainAnimOut = ObjectAnimator.ofFloat(seekBackground, "alpha", 0f)
                 backgroundAnim.duration = 200
 
                 val seekAnimatorSet = AnimatorSet()
@@ -568,28 +598,28 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     fun hideSeekOverlay(immediate: Boolean = false) {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "hideSeekOverlay $immediate")
         seekAnimRunning = false
-        player.rightContainer.visibility = View.INVISIBLE
-        player.leftContainer.visibility = View.INVISIBLE
+        rightContainer.visibility = View.INVISIBLE
+        leftContainer.visibility = View.INVISIBLE
         if (immediate) {
-            player.seekRightText.animate().cancel()
-            player.seekLeftText.animate().cancel()
-            player.rightContainerBackground.animate().cancel()
-            player.leftContainerBackground.animate().cancel()
-            player.seekRightText.alpha = 0f
-            player.seekLeftText.alpha = 0f
-            player.rightContainerBackground.alpha = 0f
-            player.leftContainerBackground.alpha = 0f
+            seekRightText.animate().cancel()
+            seekLeftText.animate().cancel()
+            rightContainerBackground.animate().cancel()
+            leftContainerBackground.animate().cancel()
+            seekRightText.alpha = 0f
+            seekLeftText.alpha = 0f
+            rightContainerBackground.alpha = 0f
+            leftContainerBackground.alpha = 0f
         } else {
-            player.seekRightText.animate().alpha(0f).withEndAction { player.seekRightText.text = "" }
-            player.seekLeftText.animate().alpha(0f).withEndAction { player.seekLeftText.text = "" }
-            player.rightContainerBackground.animate().alpha(0f)
-            player.leftContainerBackground.animate().alpha(0f)
+            seekRightText.animate().alpha(0f).withEndAction { seekRightText.text = "" }
+            seekLeftText.animate().alpha(0f).withEndAction { seekLeftText.text = "" }
+            rightContainerBackground.animate().alpha(0f)
+            leftContainerBackground.animate().alpha(0f)
         }
         nbTimesTaped = 0
-        player.seekForwardFirst.alpha = 0f
-        player.seekForwardSecond.alpha = 0f
-        player.seekRewindFirst.alpha = 0f
-        player.seekRewindSecond.alpha = 0f
+        seekForwardFirst.alpha = 0f
+        seekForwardSecond.alpha = 0f
+        seekRewindFirst.alpha = 0f
+        seekRewindSecond.alpha = 0f
     }
 
     private fun initSeekOverlay() = player.findViewById<ViewStubCompat>(R.id.player_seek_stub)?.setVisible()
