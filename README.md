@@ -46,7 +46,9 @@ And more.
 ![LibVLC stack](https://images.videolan.org/images/libvlc_stack.png)
 
 You can use our LibVLC module to power your own Android media player.
-Have a look at our  [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
+Download the `.aar` directly from [Maven](https://search.maven.org/artifact/org.videolan.android/libvlc-all) or build from source.
+
+Have a look at our [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
 
 ## License
 
