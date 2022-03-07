@@ -918,5 +918,7 @@
     <string name="view_online">View online</string>
     <string name="player_under_notch">Display video under notch</string>
     <string name="notch">Notch</string>
+    <string name="always_fast_seek">Always use fast seek</string>
+    <string name="always_fast_seek_summary">Seek is faster but may be less precise</string>
 
 </resources>

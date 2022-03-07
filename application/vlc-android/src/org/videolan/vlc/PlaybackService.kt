@@ -772,7 +772,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     fun setTime(time:Long, fast:Boolean = false) {
-        playlistManager.player.setTime(time, fast)
+        val shouldFast = fast || (!playlistManager.isBenchmark && settings.getBoolean("always_fast_seek", false))
+        playlistManager.player.setTime(time, shouldFast)
         publishState(time)
     }
 
