@@ -36,10 +36,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.navigationrail.NavigationRailView
@@ -65,6 +66,7 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
 import kotlin.math.max
 import kotlin.math.min
+
 
 private const val TAG = "VLC/APCActivity"
 
@@ -94,14 +96,13 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     private var scanProgressText: TextView? = null
     private var scanProgressBar: ProgressBar? = null
     private lateinit var resumeCard: Snackbar
-
     private var preventRescan = false
+
     private var playerShown = false
     val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
     val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerContainerActivity) }
     val shownTips = ArrayList<Int>()
-
     protected val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_placeholder)
 
@@ -111,6 +112,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     @Suppress("LeakingThis")
     protected val handler: Handler = ProgressHandler(this)
 
+    private var topInset: Int = 0
+
     val isAudioPlayerReady: Boolean
         get() = ::audioPlayer.isInitialized
 
@@ -118,6 +121,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
 
     var bottomIsHiddden: Boolean = false
+    open val managePlayerTopMargin = false
 
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
       return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
@@ -134,6 +138,20 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
         registerLiveData()
+        if (managePlayerTopMargin) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                view.updateLayoutParams<ViewGroup.MarginLayoutParams>{
+                    leftMargin = insets.left
+                    rightMargin = insets.right
+                    bottomMargin = insets.bottom
+                    (findViewById<Toolbar>(R.id.main_toolbar).layoutParams as CollapsingToolbarLayout.LayoutParams).topMargin = insets.top
+                }
+
+                WindowInsetsCompat.CONSUMED
+            }
+        }
     }
 
     protected open fun initAudioPlayerContainerActivity() {
@@ -187,7 +205,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 val translationpercent = min(1f, max(0f, slideOffset))
                 bottomBehavior?.let { bottomBehavior ->
                     bottomBar?.let { bottomBar ->
-                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat())
+                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat()) - if (managePlayerTopMargin) topInset else 0
                         bottomBehavior.translate(bottomBar, translation)
                     }
                 }
@@ -195,6 +213,12 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 onPlayerStateChanged(bottomSheet, newState)
+                if (managePlayerTopMargin) {
+                    WindowInsetsControllerCompat(window, window.decorView).apply {
+                        systemBarsBehavior = if (newState == STATE_EXPANDED)  WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
+                        if (newState == STATE_EXPANDED) hide( WindowInsetsCompat.Type.statusBars()) else show( WindowInsetsCompat.Type.statusBars())
+                    }
+                }
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
                 updateFragmentMargins(newState)

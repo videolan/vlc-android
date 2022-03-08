@@ -50,7 +50,6 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
-import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.copy
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -65,8 +64,6 @@ import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
-import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
@@ -75,9 +72,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
-import java.lang.Runnable
 import java.util.*
-import kotlin.collections.ArrayList
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -91,6 +86,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     private var isPlaylist: Boolean = false
     private lateinit var viewModel: PlaylistViewModel
     private var itemTouchHelper: ItemTouchHelper? = null
+    override val managePlayerTopMargin = true
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
