@@ -7,8 +7,7 @@
         android:background="#00000000"
         android:orientation="horizontal"
         android:paddingStart="10dip"
-        android:paddingLeft="10dip"
-        android:paddingTop="5dp">
+        android:paddingLeft="10dip">
 
     <ImageView
             android:id="@+id/cover"
@@ -19,6 +18,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars"
             tools:visibility="visible" />
 
     <TextView
@@ -56,6 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cover"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="artist" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
