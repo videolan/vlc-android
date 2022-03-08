@@ -146,10 +146,11 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         val media = getItem(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         vh.bindingContainer.setItem(media)
-        val scheme = media.uri.scheme
+        val scheme = media.uri?.scheme ?: ""
         vh.bindingContainer.setHasContextMenu(((!networkRoot || isFavorite)
                 && "content" != scheme
-                && "otg" != scheme))
+                && "otg" != scheme)
+                && !multiSelectHelper.inActionMode)
         vh.bindingContainer.setFileName(if (media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
@@ -297,7 +298,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     }
 
     private fun getProtocol(media: MediaWrapper): String? {
-        return if (media.type != MediaWrapper.TYPE_DIR) null else media.uri.scheme
+        return if (media.type != MediaWrapper.TYPE_DIR) null else media.uri?.scheme
     }
 
     open fun checkBoxAction(v: View, mrl: String) {}

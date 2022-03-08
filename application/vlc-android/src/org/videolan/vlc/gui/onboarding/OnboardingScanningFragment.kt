@@ -1,13 +1,13 @@
 package org.videolan.vlc.gui.onboarding
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.activityViewModels
-import kotlinx.android.synthetic.main.onboarding_scanning.*
+import com.google.android.material.switchmaterial.SwitchMaterial
 import org.videolan.resources.KEY_ANIMATED
 import org.videolan.tools.*
 import org.videolan.vlc.R
@@ -21,15 +21,15 @@ class OnboardingScanningFragment : OnboardingFragment() {
         return inflater.inflate(R.layout.onboarding_scanning, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        scanningEnableSwitch.setOnCheckedChangeListener { _, isChecked ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val customizeButton = view.findViewById<Button>(R.id.customizeButton)
+        view.findViewById<SwitchMaterial>(R.id.scanningEnableSwitch).setOnCheckedChangeListener { _, isChecked ->
             preferences.putSingle(KEY_MEDIALIBRARY_SCAN, if (isChecked) ML_SCAN_ON else ML_SCAN_OFF)
             viewModel.scanStorages = isChecked
             customizeButton.isEnabled = isChecked
         }
-        nextButton.setOnClickListener {
+        view.findViewById<Button>(R.id.nextButton).setOnClickListener {
             onboardingFragmentListener.onNext()
         }
         customizeButton.setOnClickListener {
@@ -39,7 +39,7 @@ class OnboardingScanningFragment : OnboardingFragment() {
             intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER_ONBOARDING)
             intent.putExtra(KEY_ANIMATED, true)
             requireActivity().startActivity(intent)
-            activity.overridePendingTransition( R.anim.slide_in_bottom, R.anim.no_animation )
+            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.no_animation)
         }
     }
 

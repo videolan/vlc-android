@@ -24,8 +24,8 @@ class StoragesMonitor : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action ?: return
         if (!isAppStarted()) when (action) {
-            Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.offer(Mount(context, it)) }
-            Intent.ACTION_MEDIA_UNMOUNTED -> intent.data?.let { actor.offer(Unmount(context, it)) }
+            Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.trySend(Mount(context, it)) }
+            Intent.ACTION_MEDIA_UNMOUNTED -> intent.data?.let { actor.trySend(Unmount(context, it)) }
             else -> return
         }
     }

@@ -93,7 +93,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner, { items ->
+        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner) { items ->
             if (items == null) return@observe
             val lm = binding.list.layoutManager as LinearLayoutManager
             val selectedItem = lm.focusedChild
@@ -113,20 +113,21 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
             binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as BrowserModel).sort
-        })
+        }
 
-        viewModel.provider.liveHeaders.observe(viewLifecycleOwner, {
+        viewModel.provider.liveHeaders.observe(viewLifecycleOwner) {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
-        })
+        }
 
-        (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner, {
+        (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner) {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
-        })
+            if (!it && (viewModel as BrowserModel).dataset.isEmpty()) binding.emptyLoading.state = EmptyLoadingState.EMPTY
+        }
 
-        (viewModel as BrowserModel).getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
+        (viewModel as BrowserModel).getDescriptionUpdate().observe(viewLifecycleOwner) { pair ->
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
-        })
+        }
     }
 
     override fun onStart() {

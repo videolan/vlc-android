@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.tools.readableSize
 import org.videolan.vlc.R
+import org.videolan.vlc.util.LocaleUtil
 
 class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
     private lateinit var inflater: LayoutInflater
@@ -80,7 +81,7 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
             textBuilder.append(res.getString(R.string.track_bitrate_info, track.bitrate.toLong().readableSize()))
         textBuilder.append(res.getString(R.string.track_codec_info, track.codec))
         if (track.language != null && !track.language.equals("und", ignoreCase = true))
-            textBuilder.append(res.getString(R.string.track_language_info, track.language))
+            textBuilder.append(res.getString(R.string.track_language_info, LocaleUtil.getLocaleName(track.language)))
     }
 
     private fun appendAudio(textBuilder: StringBuilder, res: Resources, track: IMedia.AudioTrack) {

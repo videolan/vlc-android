@@ -22,6 +22,10 @@
                 type="boolean" />
 
         <variable
+                name="inSelection"
+                type="boolean" />
+
+        <variable
                 name="selected"
                 type="boolean" />
 
@@ -107,7 +111,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="?attr/disabled_overlay_color"
-                        android:visibility="@{!selected &amp;&amp; isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{!selected &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
@@ -134,10 +138,10 @@
                         android:layout_marginTop="4dp"
                         android:background="@drawable/rounded_corners_black_more_transparent"
                         android:padding="3dp"
-                        android:visibility="@{isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
-                        vlc:srcCompat="@drawable/ic_network_media_off" />
+                        vlc:missingMedia="@{media}"/>
 
                 <ImageView
                         android:id="@+id/ml_item_seen"
@@ -195,7 +199,7 @@
                 android:gravity="center_vertical"
                 android:lineSpacingMultiplier="1"
                 android:text="@{media.title}"
-                android:enabled="@{!isNetwork || isPresent}"
+                android:enabled="@{isPresent}"
                 android:textSize="16sp"
                 tools:text="Star wars Episode 1"
                 vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
@@ -213,7 +217,7 @@
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
                 android:scaleType="center"
-                android:visibility="@{isPresent ? View.VISIBLE : View.GONE}"
+                android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
@@ -228,7 +232,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
                 android:gravity="start"
-                android:text="@{time}"
+                vlc:presenceDescription="@{time}"
                 android:textSize="12sp"
                 android:enabled="@{!isNetwork || isPresent}"
                 android:visibility="@{TextUtils.isEmpty(time) ? View.GONE : View.VISIBLE}"

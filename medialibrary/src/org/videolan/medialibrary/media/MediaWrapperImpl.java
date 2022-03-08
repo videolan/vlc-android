@@ -25,7 +25,6 @@ package org.videolan.medialibrary.media;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
-import android.text.TextUtils;
 
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.Tools;
@@ -76,21 +75,6 @@ public class MediaWrapperImpl extends MediaWrapper {
 
     public void setArtist(String artist) {
         mArtist = artist;
-    }
-
-    @Override
-    public String getTitle() {
-        if (!TextUtils.isEmpty(mDisplayTitle))
-            return mDisplayTitle;
-        if (!TextUtils.isEmpty(mTitle))
-            return mTitle;
-        String fileName = getFileName();
-        if (fileName == null)
-            return "";
-        int end = fileName.lastIndexOf(".");
-        if (end <= 0)
-            return fileName;
-        return fileName.substring(0, end);
     }
 
     public String getReferenceArtist() {

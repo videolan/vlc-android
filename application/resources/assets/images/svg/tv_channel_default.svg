@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="640"
+   height="352"
+   viewBox="0 0 640 352"
+   version="1.1"
+   id="svg6518"
+   inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+   sodipodi:docname="tv_channel_default.svg"
+   inkscape:export-filename="/home/skantes/w/videolan/vlc-android/application/resources/src/main/res/drawable/tv_channel_default.png"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs6512">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4792">
+      <path
+         style="fill:#ff8800"
+         d="m 48.196759,963.10825 c -1.65441,1.23855 -2.321076,3.2256 -3.761719,7.51954 -1.440643,4.29394 -1.503906,4.51171 -1.503906,4.51171 l -5.265625,15.79688 -6.015625,18.05082 -3.007812,9.0234 h -6.34375 c -2,0 -3.860873,1.5107 -4.445313,3.5039 l -3.503906,11.9199 c -1.144783,3.9115 -2.279638,7.7947 -3.429687,11.7266 -0.481394,1.6434 0.0011,2.852 0.777343,3.6875 0.481014,0.5172 1.074588,0.8913 1.621094,1.1406 0.54688,0.2429 0.920775,0.3731 1.351562,0.3731 1.004345,0 18.539258,-0.01 36.572266,-0.01 v 0 c 18.033008,0 35.567921,0.01 36.572266,0.01 0.430787,0 0.804682,-0.1302 1.351562,-0.3731 0.546506,-0.2493 1.14008,-0.6234 1.621094,-1.1406 0.776228,-0.8355 1.258738,-2.0441 0.777344,-3.6875 -1.150049,-3.9319 -2.284905,-7.8151 -3.429688,-11.7266 l -3.503906,-11.9199 c -0.58444,-1.9932 -2.445313,-3.5039 -4.445313,-3.5039 h -6.34375 l -3.007812,-9.0234 -6.015625,-18.05082 -5.265625,-15.79688 c 0,0 -0.06885,-0.23443 -1.503906,-4.51171 -1.435052,-4.27728 -2.097358,-6.25133 -3.761719,-7.51954 -0.831195,-0.63336 -1.999923,-0.74609 -3.044922,-0.74609 -1.044999,0 -2.208378,0.11982 -3.044922,0.74609 z"
+         id="path4794"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="szccccscccccsccscccccscccczsas" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.11313708"
+     inkscape:cx="-1012.0466"
+     inkscape:cy="190.03495"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1015"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0"
+     units="px"
+     width="640px">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1504" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata6515">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-143.06398,-118.25506)">
+    <rect
+       ry="0"
+       rx="0"
+       y="118.25506"
+       x="143.06398"
+       height="352"
+       width="640"
+       id="rect5885"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#1b1b1b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.20475;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
+       inkscape:export-filename="/home/skantes/benchmark-vlc/vlc-bench/VLCBenchmark/app/src/main/res/mipmap-xhdpi/tv_banner.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 520.20884,218.05503 19.04994,38.10006 h -28.575 l -19.04994,-38.10006 h -19.05012 l 19.05012,38.10006 h -28.575 l -19.05012,-38.10006 h -19.04994 l 19.04994,38.10006 h -28.575 l -19.04994,-38.10006 h -9.52506 c -10.47744,0 -18.95472,8.5725 -18.95472,19.04994 l -0.09,114.3 c 0,10.47762 8.5725,19.05012 19.04994,19.05012 H 539.264 c 10.47744,0 19.04994,-8.5725 19.04994,-19.05012 V 218.05503 Z"
+       id="path4"
+       style="fill:#757575;fill-opacity:1;stroke-width:9.525" />
+  </g>
+</svg>

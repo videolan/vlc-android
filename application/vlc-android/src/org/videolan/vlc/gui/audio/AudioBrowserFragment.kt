@@ -36,7 +36,6 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -45,6 +44,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.util.waitForML
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
@@ -56,11 +56,11 @@ import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
+import org.videolan.vlc.gui.view.EmptyLoadingStateView
+import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -72,6 +72,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private lateinit var artistsAdapter: AudioBrowserAdapter
     private lateinit var albumsAdapter: AudioBrowserAdapter
     private lateinit var genresAdapter: AudioBrowserAdapter
+    private lateinit var emptyView: EmptyLoadingStateView
+    private lateinit var fastScroller: FastScroller
 
     private val lists = mutableListOf<RecyclerView>()
     private lateinit var settings: SharedPreferences
@@ -103,8 +105,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         val appbar = view.rootView.findViewById<AppBarLayout>(R.id.appbar)
         val coordinator = view.rootView.findViewById<CoordinatorLayout>(R.id.coordinator)
         val fab = view.rootView.findViewById<FloatingActionButton>(R.id.fab)
-        songs_fast_scroller.attachToCoordinator(appbar, coordinator, fab)
-        empty_loading.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
+        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller)
+        emptyView = view.rootView.findViewById(R.id.empty_loading)
+        fastScroller.attachToCoordinator(appbar, coordinator, fab)
+        emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -156,14 +160,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         for (i in 0 until MODE_TOTAL) {
             if (i >= lists.size || i >= adapters.size) continue
             if (lists[i].layoutManager is GridLayoutManager) {
                 val gridLayoutManager = lists[i].layoutManager as GridLayoutManager
                 gridLayoutManager.spanCount = nbColumns
                 lists[i].layoutManager = gridLayoutManager
-                adapters[i].cardSize = itemSize
                 adapters[i].notifyItemRangeChanged(gridLayoutManager.findFirstVisibleItemPosition(), gridLayoutManager.findLastVisibleItemPosition() - gridLayoutManager.findFirstVisibleItemPosition())
             }
         }
@@ -182,20 +184,18 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel = getViewModel()
         currentTab = viewModel.currentTab
 
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
-
-        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = if (viewModel.providersInCard[1]) itemSize else -1)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[2]) itemSize else -1)
+        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
         genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
         setupProvider()
     }
 
     private fun setupProvider(index: Int = viewModel.currentTab) {
-        val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size-1)]
+        val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size - 1)]
         if (provider.loading.hasObservers()) return
-        provider.pagedList.observe(viewLifecycleOwner, { items ->
+        provider.pagedList.observe(viewLifecycleOwner) { items ->
             @Suppress("UNCHECKED_CAST")
             if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
             updateEmptyView()
@@ -204,25 +204,33 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 restorePositions.delete(index)
             }
             setFabPlayShuffleAllVisibility(items.isNotEmpty())
-        })
-        provider.loading.observe(viewLifecycleOwner, { loading ->
+        }
+        provider.loading.observe(viewLifecycleOwner) { loading ->
             if (loading == null || currentTab != index) return@observe
             setRefreshing(loading) { refresh ->
                 if (refresh) updateEmptyView()
                 else {
                     swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                    songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                    fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
                 }
             }
-        })
-        provider.liveHeaders.observe(viewLifecycleOwner, {
+        }
+        provider.liveHeaders.observe(viewLifecycleOwner) {
             lists[currentTab].invalidateItemDecorations()
-        })
-    }
-
-    override fun onResume() {
-        swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        super.onResume()
+        }
+        lifecycleScope.launchWhenStarted {
+            waitForML()
+                provider.pagedList.observe(viewLifecycleOwner) { items ->
+                    @Suppress("UNCHECKED_CAST")
+                    if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
+                    updateEmptyView()
+                    restorePositions.get(index)?.let {
+                        lists[index].scrollToPosition(it)
+                        restorePositions.delete(index)
+                    }
+                    setFabPlayShuffleAllVisibility(items.isNotEmpty())
+                }
+        }
     }
 
     override fun onStart() {
@@ -283,7 +291,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     }
 
     private fun setFabPlayShuffleAllVisibility(force: Boolean = false) {
-        setFabPlayVisibility(force || songsAdapter.itemCount > 2)
+        setFabPlayVisibility(force || viewModel.providers[currentTab].pagedList.value?.size ?: 0 > 2)
     }
 
     override fun getTitle(): String = getString(R.string.audio)
@@ -291,8 +299,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun enableSearchOption() = true
 
     private fun updateEmptyView() {
-        empty_loading.state =
-            if (!Permissions.canReadStorage(requireActivity())) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
+        emptyView.state =
+                if (!Permissions.canReadStorage(requireActivity()) && empty) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
     override fun onPageSelected(position: Int) {
@@ -305,7 +314,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel.currentTab = tab.position
         setupProvider()
         super.onTabSelected(tab)
-        songs_fast_scroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
+        fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.putSingle(KEY_AUDIO_CURRENT_TAB, tab.position)
         if (Medialibrary.getInstance().isInitiated) setRefreshing(viewModel.providers[currentTab].isRefreshing)
         activity?.invalidateOptionsMenu()
@@ -361,7 +370,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         lifecycleScope.launchWhenStarted { // force a dispatch
             if (adapter === getCurrentAdapter()) {
                 swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
             } else
                 setFabPlayShuffleAllVisibility()
         }

@@ -108,6 +108,8 @@ class EqualizerBar : LinearLayout {
         updateValueText()
     }
 
+    fun getValue() = ((verticalSeekBar.progress - RANGE) / PRECISION.toFloat())
+
     fun setListener(listener: OnEqualizerBarChangeListener?) {
         this.listener = listener
     }

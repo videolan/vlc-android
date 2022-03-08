@@ -23,15 +23,21 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
+import android.os.Bundle
+import androidx.preference.ListPreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-
-import org.videolan.vlc.R
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private lateinit var preferredSubtitleTrack: ListPreference
 
     override fun getXml(): Int {
         return R.xml.preferences_subtitles
@@ -39,6 +45,21 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun getTitleId(): Int {
         return R.string.subtitles_prefs_category
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        preferredSubtitleTrack = findPreference("subtitle_preferred_language")!!
+        updatePreferredSubtitleTrack()
+        prepareLocaleList()
+    }
+
+    private fun updatePreferredSubtitleTrack() {
+        val value = Settings.getInstance(requireActivity()).getString("subtitle_preferred_language", null)
+        if (value.isNullOrEmpty())
+            preferredSubtitleTrack.summary = getString(R.string.no_track_preference)
+        else
+            preferredSubtitleTrack.summary = getString(R.string.track_preference, value)
     }
 
     override fun onStart() {
@@ -58,7 +79,14 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
                 if (activity != null)
                     (activity as PreferencesActivity).restartMediaPlayer()
             }
+            "subtitle_preferred_language" -> updatePreferredSubtitleTrack()
         }
+    }
+
+    private fun prepareLocaleList() {
+        val localePair = LocaleUtils.getLocalesUsedInProject(requireActivity(), BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        preferredSubtitleTrack.entries = localePair.localeEntries
+        preferredSubtitleTrack.entryValues = localePair.localeEntryValues
     }
 
 }

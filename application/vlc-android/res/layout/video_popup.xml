@@ -25,7 +25,7 @@
             android:id="@+id/popup_expand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_popup_expand_w"
+            android:src="@drawable/ic_popup_fullscreen"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/popup_close"
             app:layout_constraintTop_toTopOf="parent"

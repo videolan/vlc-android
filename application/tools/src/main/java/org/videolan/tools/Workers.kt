@@ -41,6 +41,5 @@ fun runIO(runnable: Runnable) {
 }
 
 object AppScope : CoroutineScope {
-    @ExperimentalCoroutinesApi
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 }

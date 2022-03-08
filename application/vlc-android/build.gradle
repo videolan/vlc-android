@@ -12,17 +12,22 @@ android {
     dataBinding {
         enabled = true
     }
-
     packagingOptions {
-        pickFirst '**/*.so'
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
     }
+
 
     defaultConfig {
 
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
+        resValue "string", "changelog", changelog()
         resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".tv"
+        buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
+        buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
         buildConfigField 'int', 'VLC_VERSION_CODE', "${rootProject.ext.versionCode}"
         buildConfigField 'String', 'VLC_VERSION_NAME', "\"${rootProject.ext.versionName}\""
@@ -36,8 +41,6 @@ android {
 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true
 
         javaCompileOptions {
@@ -154,14 +157,12 @@ dependencies {
     api project(':application:resources')
     api project(':application:mediadb')
     api project(':application:live-plot-graph')
-    api project(':application:donations')
 
 
     // AppCompat
     api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
     api "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
     api "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
-    api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     api "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     api "androidx.viewpager2:viewpager2:$rootProject.ext.viewPager2Version"
@@ -174,19 +175,16 @@ dependencies {
     api "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
 
-    kapt ('org.xerial:sqlite-jdbc:3.34.0')
+    kapt ('org.xerial:sqlite-jdbc:3.36.0')
     kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
 
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
 
 
     //TV
-    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
-    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
 
     // Kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
@@ -194,25 +192,27 @@ dependencies {
     implementation 'nl.dionsegijn:konfetti:1.2.2'
 
     // Tests
-    androidTestApi "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestApi "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestApi "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    testApi "junit:junit:$rootProject.ext.junitVersion"
-    androidTestApi "androidx.room:room-testing:$rootProject.ext.roomVersion"
-    testApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.orchestrator"
-    testApi "androidx.test:core:$rootProject.ext.testCore"
-    testApi "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
-    testApi "org.mockito:mockito-core:$rootProject.ext.mockito"
-    testApi "io.mockk:mockk:$rootProject.ext.mockk"
-    testApi "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
-    testApi "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
-    testApi "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
-    testApi "org.robolectric:robolectric:$rootProject.ext.robolectric"
-    androidTestApi "androidx.test:rules:$rootProject.ext.testCore"
-    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
+    testImplementation "androidx.test:core:$rootProject.ext.testCore"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
+    testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
+    testImplementation "io.mockk:mockk:$rootProject.ext.mockk"
+    testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
+    testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
+    testImplementation "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
+    testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric"
+    androidTestImplementation "androidx.test:rules:$rootProject.ext.testCore"
+    androidTestImplementation 'com.jraska:falcon:2.2.0'
+    androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
+
 }
 
 
@@ -231,6 +231,28 @@ def revision() {
         standardOutput = code
     }
     return code.toString()
+}
+
+/**
+ * Generate a changelog string from the NEWS file
+ * @return a string containing the latest changelog entry
+ */
+def changelog() {
+    def newsFile = new File("NEWS")
+    def line, output = "", started = false
+    if (newsFile.exists()) {
+        newsFile.withReader { reader ->
+            while ((line = reader.readLine()) != null) {
+                if (started && !line?.trim()) break
+                if (started) {
+                    if (output != "") output += "\\n"
+                    output += line.trim()
+                }
+                if (line.contains("---")) started = true
+            }
+        }
+    }
+    return output
 }
 
 def isBeta() {

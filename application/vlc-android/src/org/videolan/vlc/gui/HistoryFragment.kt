@@ -21,6 +21,7 @@ package org.videolan.vlc.gui
 
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,10 +30,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.*
@@ -57,6 +58,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(listEventsHandler = this)
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private lateinit var list: RecyclerView
+    private lateinit var empty: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.history_list, container, false)
@@ -64,8 +67,10 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        list = view.findViewById(R.id.list)
+        empty = view.findViewById(R.id.empty)
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, { list ->
+        viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()
@@ -73,7 +78,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                     cleanMenuItem.isVisible = list.isNotEmpty()
                 }
             }
-        })
+        }
         viewModel.loading.observe(viewLifecycleOwner) {
             (activity as? MainActivity)?.refreshing = it
         }
@@ -100,7 +105,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         list.nextFocusForwardId = android.R.id.list
 
         itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(historyAdapter))
-        itemTouchHelper!!.attachToRecyclerView(list)
+        itemTouchHelper.attachToRecyclerView(list)
 
         multiSelectHelper = historyAdapter.multiSelectHelper
         list.requestFocus()
@@ -180,6 +185,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             stopActionMode()
             return false
         }
+        lifecycleScope.launch { fillActionMode(requireActivity(), mode, multiSelectHelper as MultiSelectHelper<MediaLibraryItem>) }
         menu.findItem(R.id.action_history_info).isVisible = selectionCount == 1
         menu.findItem(R.id.action_history_append).isVisible = PlaylistManager.hasMedia()
         menu.findItem(R.id.action_go_to_folder).isVisible = selectionCount == 1 && multiSelectHelper.getSelection().first().uri.retrieveParent() != null

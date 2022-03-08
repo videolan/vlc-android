@@ -22,10 +22,13 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,12 +43,14 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
+import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
@@ -91,7 +96,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         val dimension = resources.getDimension(R.dimen.default_content_width)
         val totalWidth = if (dimension > 0) min(requireActivity().getScreenWidth(), dimension.toInt()) else requireActivity().getScreenWidth()
 
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(totalWidth - spacing * 2, nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(totalWidth - spacing * 2, nbColumns, spacing, 16.dp)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, cardSize = itemSize)
         playlistAdapter.onAnyChange { updateEmptyView() }
@@ -106,30 +111,26 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.provider.pagedList.observe(requireActivity(), {
+        viewModel.provider.pagedList.observe(requireActivity()) {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             updateEmptyView()
-        })
-        viewModel.provider.loading.observe(requireActivity(), { loading ->
-            setRefreshing(loading) {  }
-        })
+        }
+        viewModel.provider.loading.observe(requireActivity()) { loading ->
+            setRefreshing(loading) { }
+        }
 
-        viewModel.provider.liveHeaders.observe(requireActivity(), {
+        viewModel.provider.liveHeaders.observe(requireActivity()) {
             playlists.invalidateItemDecorations()
-        })
+        }
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
 
     }
 
-    override fun onResume() {
-        swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        super.onResume()
-    }
-
     private fun updateEmptyView() {
+        swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
         binding.emptyLoading.state =
-            if (!Permissions.canReadStorage(AppContextProvider.appContext)) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+            if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -167,7 +168,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         }
         when (viewModel.providerInCard) {
             true -> {
-                adapter?.cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+                val screenWidth = (requireActivity() as? INavigator)?.getFragmentWidth(requireActivity()) ?: requireActivity().getScreenWidth()
+                adapter?.cardSize = RecyclerSectionItemGridDecoration.getItemSize(screenWidth, nbColumns, spacing, 16.dp)
                 adapter?.let { adapter -> displayListInGrid(playlists, adapter, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing) }
             }
             else -> {
@@ -182,6 +184,14 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 playlists.layoutManager = LinearLayoutManager(activity)
             }
         }
+
+        val lp = playlists.layoutParams
+        val dimension = requireActivity().resources.getDimension(R.dimen.default_content_width)
+        lp.width = if (viewModel.providerInCard) ViewGroup.LayoutParams.MATCH_PARENT else {
+            dimension.toInt()
+        }
+        (playlists.parent as View).setBackgroundColor(if (!viewModel.providerInCard && dimension != -1F) backgroundColor else ContextCompat.getColor(requireContext(), R.color.transparent))
+        playlists.setBackgroundColor(if (!viewModel.providerInCard && dimension != -1F) listColor else ContextCompat.getColor(requireContext(), R.color.transparent))
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {

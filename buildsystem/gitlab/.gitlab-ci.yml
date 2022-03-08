@@ -1,19 +1,22 @@
 cache:
     paths:
         - .gradle/
-        - gradle-5.4.1/
-        - gradle-6.1.1/
-        - gradle-6.5/
-        - gradle-6.6/
-        - gradle-6.7.1/
+        - gradle-7.2/
         - gradle/
         - gradlew
 
+default:
+  interruptible: true
+  image: registry.videolan.org/vlc-debian-android:20220224093321
+  tags:
+    - amd64
+    - docker
+
+stages:
+  - build
+  - package
+
 .build-all-base:
-    image: registry.videolan.org/vlc-debian-android:20200529135226
-    tags:
-        - amd64
-        - docker
     stage: build
     script:
         - mkdir -p ~/.android
@@ -149,18 +152,59 @@ nightly-x86_64:
             - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
-publish_libs:
-    extends: .build-all-base
+.build-release-libs-base:
     rules:
-        - if: '$CI_COMMIT_TAG =~ /^libvlc-.*$/'
+      - if: '$CI_COMMIT_TAG =~ /^libvlc-.*$/'
     variables:
-        ARCH: all
-        M2_REPO: "$CI_PROJECT_DIR/aars/repository"
+      M2_REPO: "$CI_PROJECT_DIR/aars/repository"
+
+.build-libs-base:
+    extends: .build-release-libs-base
+    stage: build
+    script:
+      - mkdir -p $M2_REPO
+      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b
+    artifacts:
+      expire_in: 1h
+      when: on_success
+      paths:
+        - $CI_PROJECT_DIR/libvlc/jni/libs/*
+        - $CI_PROJECT_DIR/medialibrary/jni/libs/*
+        - $CI_PROJECT_DIR/.dbg/*
+
+build-libs-arm64:
+    extends: .build-libs-base
+    variables:
+        ARCH: arm64
+
+build-libs-armv7:
+    extends: .build-libs-base
+    variables:
+        ARCH: arm
+
+build-libs-x86:
+    extends: .build-libs-base
+    variables:
+        ARCH: x86
+
+build-libs-x86_64:
+    extends: .build-libs-base
+    variables:
+        ARCH: x86_64
+
+publish_libs:
+    extends: .build-release-libs-base
+    stage: package
+    needs: 
+      - job: "build-libs-arm64"
+      - job: "build-libs-armv7"
+      - job: "build-libs-x86"
+      - job: "build-libs-x86_64"
     script:
         - mkdir -p $M2_REPO
-        - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release
+        - ./buildsystem/compile.sh --init -b
         - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlc publishToMavenLocal
-        - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release
         - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
@@ -170,7 +214,7 @@ publish_libs:
         expire_in: 2 weeks
 
 release:
-    extends: .build-all-base
+    stage: build
     rules:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
     script:

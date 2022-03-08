@@ -105,7 +105,6 @@ class TvScreenhotsInstrumentedTest : BaseUITest() {
         pressDPadCenter()
 
         waitForActivity(VerticalGridActivity::class.java)
-        waitId(org.videolan.television.R.id.list, 5000)
 
         getCurrentActivity()?.let { activity ->
             UiUtils.waitUntilLoaded { activity.findViewById(org.videolan.television.R.id.list) }
@@ -124,7 +123,6 @@ class TvScreenhotsInstrumentedTest : BaseUITest() {
         pressDPadCenter()
 
         waitForActivity(VerticalGridActivity::class.java)
-        waitId(org.videolan.television.R.id.list, 5000)
         getCurrentActivity()?.let { activity ->
             UiUtils.waitUntilLoaded { activity.findViewById(org.videolan.television.R.id.list) }
         }
@@ -135,12 +133,11 @@ class TvScreenhotsInstrumentedTest : BaseUITest() {
         pressDPadCenter()
         pressDPadCenter()
         waitForActivity(VerticalGridActivity::class.java)
-        waitId(org.videolan.television.R.id.list, 5000)
         getCurrentActivity()?.let { activity ->
             UiUtils.waitUntilLoaded { activity.findViewById(org.videolan.television.R.id.list) }
         }
         ScreenshotUtil.takeScreenshot(2,"tv_video_list")
-        pressDPad(Direction.DOWN, 3)
+        pressDPad(Direction.DOWN, 1)
         pressDPadCenter()
         SystemClock.sleep(1500)
         pressDPad(Direction.DOWN)

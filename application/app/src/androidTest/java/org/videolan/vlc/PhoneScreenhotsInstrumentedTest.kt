@@ -72,7 +72,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
        // ScreenshotUtil.takeScreenshot("01_trash")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(0))
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
-        SystemClock.sleep(300)
+        SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(3, "audio_list")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
@@ -104,7 +104,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
         val rvMatcher = withRecyclerView(R.id.video_grid)
         Log.d("Espresso", "2")
-        onView(rvMatcher.atPosition(3)).perform(click())
+        onView(rvMatcher.atPosition(2)).perform(click())
         Log.d("Espresso", "3")
 
         rotateLandscape()

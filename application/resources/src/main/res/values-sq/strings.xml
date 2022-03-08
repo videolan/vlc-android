@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Dakord</string>
@@ -44,6 +45,7 @@
     <string name="set_song_question">Vendos \'%1$s\' si zile?</string>
     <string name="info">Informacion</string>
     <string name="confirm_delete">Fshi skedarin \'%1$s\'?</string>
+    <string name="confirm_delete_album">Fshi albumin \'%1$s\'?</string>
     <string name="confirm_delete_folder">Fshij dosjen \'%1$s\' dhe gjithë përmbajtjen?</string>
     <string name="confirm_delete_playlist">Fshij listën \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Hiq \'%1$s\' nga lista?</string>
@@ -173,12 +175,7 @@
 
     <string name="seek">Kërko</string>
     <string name="subtitles">Titra</string>
-    <string name="audio_sub">Këngë Audio\ndhe titra</string>
-    <string name="resize">Ridimensionim</string>
-    <string name="options">Alternativat</string>
     <string name="lock">Kyç</string>
-    <string name="ok_got_it">E kuptova, anulo&#160;këtë</string>
-
     <string name="playlist_tips">Këshilla listkëngësh</string>
     <string name="remove_song">Hiq kengen</string>
     <string name="remove_playlist_item">%1$s është anuluar nga listkënga</string>
@@ -214,7 +211,6 @@
     <string name="dev_hardware_decoder_summary">Sforco dekodimin e pajisjes, vetëm për përdoruesit e avancuar</string>
     <string name="automatic">Automatikisht</string>
     <string name="screen_orientation_sensor">Automatik (sensor)</string>
-    <string name="screen_orientation_start_lock">Kyçur në fillim</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Peizazh</string>
     <string name="enable_black_theme">Temë zezë</string>

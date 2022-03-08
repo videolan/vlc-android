@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="playlist"
+                type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+    </data>
+
+    <merge
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <include
+                    layout="@layout/toolbar"
+                    android:nextFocusLeft="@+id/ml_menu_search"
+                    android:nextFocusRight="@+id/ml_menu_search"
+                    android:nextFocusUp="@+id/ml_menu_search"
+                    android:nextFocusDown="@+id/ml_menu_search"
+                    android:nextFocusForward="@+id/ml_menu_search" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/licenses"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="?attr/background_default"
+                    android:clipToPadding="false"
+                    android:paddingBottom="48dp"
+                    android:fastScrollEnabled="true"
+                    android:scrollbars="vertical"
+                    vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </merge>
+</layout>

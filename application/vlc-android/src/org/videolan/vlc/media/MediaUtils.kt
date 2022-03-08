@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -28,11 +29,7 @@ import org.videolan.resources.*
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.AppScope
-import org.videolan.tools.Settings
-import org.videolan.tools.localBroadcastManager
-import org.videolan.tools.markBidi
-import org.videolan.tools.safeOffer
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -46,6 +43,7 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.isSchemeStreaming
 import java.io.File
+import java.security.SecureRandom
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -71,11 +69,26 @@ object MediaUtils {
     fun getSubs(activity: FragmentActivity, media: MediaWrapper) = getSubs(activity, listOf(media))
 
     fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: List<Uri>, mediaTitles:List<String>) {
-        val callBack = java.lang.Runnable {
-            SubtitleDownloaderDialogFragment.newInstance(mediaUris, mediaTitles).show(activity.supportFragmentManager, "Subtitle_downloader")
+        SubtitleDownloaderDialogFragment.newInstance(mediaUris, mediaTitles).show(activity.supportFragmentManager, "Subtitle_downloader")
+    }
+
+
+    fun deleteItem(activity:FragmentActivity, item: MediaLibraryItem, onDeleteFailed:(MediaLibraryItem)->Unit) {
+        val deletionAction = when (item) {
+            is MediaWrapper, is Album -> Runnable {
+                activity.lifecycleScope.launchWhenStarted {
+                    if (!deleteMedia(item, null)) onDeleteFailed.invoke(item)
+                }
+            }
+            is Playlist -> Runnable { deletePlaylist(item) }
+            else -> Runnable { onDeleteFailed.invoke(item) }
         }
-        if (Permissions.canWriteStorage()) callBack.run()
-        else Permissions.askWriteStoragePermission(activity, false, callBack)
+
+        if (item is MediaWrapper) {
+            if (Permissions.checkWritePermission(activity, item, deletionAction)) deletionAction.run()
+        } else {
+            deletionAction.run()
+        }
     }
 
     suspend fun deleteMedia(mw: MediaLibraryItem, failCB: Runnable? = null) = withContext(Dispatchers.IO) {
@@ -199,7 +212,7 @@ object MediaUtils {
                     }
                 }
             }?.takeIf { it.isNotEmpty() }?.let { list ->
-                service.load(list, if (shuffle) Random().nextInt(count) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(count) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
         }
@@ -210,7 +223,7 @@ object MediaUtils {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
@@ -232,32 +245,37 @@ object MediaUtils {
         }
     }
 
-    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, position: Int, shuffle: Boolean) {
+    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+            fun play(list: List<MediaWrapper>, position:Int) {
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
                 0 -> return@SuspendDialogCallback
-                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
-                    provider.getAll().flatMap {
-                        it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
+                in 1..MEDIALIBRARY_PAGE_SIZE -> {
+                    val flatList =  withContext(Dispatchers.IO) {
+                        val allGroups = provider.getAll()
+                        allGroups.flatMap {
+                            it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
+                        }
                     }
-                })
+                    play(flatList, flatList.indexOf(mediaToPlay))
+                }
                 else -> {
                     var index = 0
-                    while (index < count) {
-                        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                        val list = withContext(Dispatchers.IO) {
-                            provider.getPage(pageCount, index).toList() as List<MediaWrapper>
+                    val completeList = ArrayList<MediaWrapper>()
+                    withContext(Dispatchers.IO) {
+                        while (index < count) {
+                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+                            val list = provider.getPage(pageCount, index).toList()
+                            completeList.addAll(list)
+                            index += pageCount
                         }
-                        if (index == 0) play(list)
-                        else service.append(list)
-                        index += pageCount
                     }
+                    play(completeList, completeList.indexOf(mediaToPlay))
                 }
             }
         }
@@ -268,7 +286,7 @@ object MediaUtils {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
@@ -365,10 +383,10 @@ object MediaUtils {
             if (media.type == MediaWrapper.TYPE_VIDEO) {
                 subtitle = Tools.millisToText(media.length)
                 val resolution = generateResolutionClass(media.width, media.height)
-                if (resolution != null) subtitle = "$subtitle  •  $resolution"
+                if (resolution != null) subtitle = "$subtitle ⋅ $resolution"
             } else {
                 subtitle = if (subtitle.isNullOrEmpty()) Tools.millisToString(media.length)
-                else "$subtitle  •  ${Tools.millisToString(media.length)}"
+                else "$subtitle ⋅ ${Tools.millisToString(media.length)}"
             }
         }
         return subtitle
@@ -445,11 +463,11 @@ object MediaUtils {
             for (action in channel) when (action) {
                 Connect -> {
                     val service = PlaybackService.instance
-                    if (service != null) channel.offer(Task(service, task))
+                    if (service != null) channel.trySend(Task(service, task))
                     else {
                         PlaybackService.start(context)
                         PlaybackService.serviceFlow.filterNotNull().first().let {
-                            channel.offer(Task(it, task))
+                            channel.trySend(Task(it, task))
                         }
                     }
                 }
@@ -470,9 +488,9 @@ object MediaUtils {
                         "${context.applicationContext.getString(R.string.loading)}…",
                         context.applicationContext.getString(R.string.please_wait), true)
                 dialog.setCancelable(true)
-                dialog.setOnCancelListener { actor.offer(Disconnect) }
+                dialog.setOnCancelListener { actor.trySend(Disconnect) }
             }
-            actor.safeOffer(Connect)
+            actor.trySend(Connect)
         }
 
         private fun dismiss() {
@@ -570,6 +588,34 @@ fun VideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = fal
     while (index < count) {
         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
         val list = media(sort, desc, includeMissing, pageCount, index)
+        all.addAll(list)
+        index += pageCount
+    }
+    return all
+}
+
+@WorkerThread
+fun Album.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+    var index = 0
+    val count = realTracksCount
+    val all = mutableListOf<MediaWrapper>()
+    while (index < count) {
+        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+        val list = getPagedTracks(sort, desc, includeMissing, pageCount, index)
+        all.addAll(list)
+        index += pageCount
+    }
+    return all
+}
+
+@WorkerThread
+fun Artist.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+    var index = 0
+    val count = tracksCount
+    val all = mutableListOf<MediaWrapper>()
+    while (index < count) {
+        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+        val list = getPagedTracks(sort, desc, includeMissing, pageCount, index)
         all.addAll(list)
         index += pageCount
     }

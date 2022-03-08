@@ -24,7 +24,7 @@ class MediaBrowserViewModel(context: Context, val category: Long, val parent : M
 
     override val provider = when (category) {
         CATEGORY_ALBUMS -> AlbumsProvider(parent, context, this)
-        CATEGORY_ARTISTS -> ArtistsProvider(context, this, true)
+        CATEGORY_ARTISTS -> ArtistsProvider(context, this, false)
         CATEGORY_GENRES -> GenresProvider(context, this)
         CATEGORY_VIDEOS -> VideosProvider(null, null, context, this)
         else -> TracksProvider(null, context, this)

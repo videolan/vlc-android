@@ -98,7 +98,6 @@
 
     <dimen name="default_margin_plus_audio_margin">24dp</dimen>
     <dimen name="audio_player_seekbar_bottom_margin">16dp</dimen>
-    <dimen name="toolbar_height">40dp</dimen>
     <dimen name="tab_layout_height">24dp</dimen>
 
     <!-- Audio items -->
@@ -112,5 +111,9 @@
     <dimen name="recycler_section_header_spacing">12dp</dimen>
 
     <dimen name="tv_card_padding">16dp</dimen>
+    <dimen name="navigation_margin">0dp</dimen>
+
+    <dimen name="audio_cover">48dp</dimen>
+    <dimen name="video_cover">100dp</dimen>
 
 </resources>

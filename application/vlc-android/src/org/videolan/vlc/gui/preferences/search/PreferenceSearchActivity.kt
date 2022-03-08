@@ -39,7 +39,6 @@ import org.videolan.tools.setGone
 import org.videolan.vlc.databinding.PreferencesSearchActivityBinding
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
-import org.videolan.vlc.gui.preferences.PreferenceItem
 import org.videolan.vlc.viewmodels.PreferenceSearchModel
 import java.util.*
 
@@ -48,7 +47,7 @@ class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdap
     private lateinit var viewmodel: PreferenceSearchModel
     private lateinit var adapter: PreferenceItemAdapter
 
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,13 +60,13 @@ class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdap
         }
         viewmodel = ViewModelProvider(this, PreferenceSearchModel.Factory(this)).get(PreferenceSearchModel::class.java)
         binding.searchText.addTextChangedListener(this)
-        viewmodel.filtered.observe(this, {
+        viewmodel.filtered.observe(this) {
             adapter.submitList(it)
-        })
-        viewmodel.showTranslations.observe(this, {
+        }
+        viewmodel.showTranslations.observe(this) {
             adapter.showTranslation = it
             binding.translateButton.isSelected = it
-        })
+        }
         adapter = PreferenceItemAdapter(this)
         binding.list.adapter = adapter
         binding.list.layoutManager = LinearLayoutManager(this)

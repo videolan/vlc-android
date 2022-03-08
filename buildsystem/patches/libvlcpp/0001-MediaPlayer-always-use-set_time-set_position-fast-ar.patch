@@ -1,0 +1,47 @@
+From 3e02d1956f4859ed915e6b25be70227bbd6f3492 Mon Sep 17 00:00:00 2001
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Mon, 9 Aug 2021 13:29:56 +0200
+Subject: [PATCH] MediaPlayer: always use set_time/set_position fast argument
+
+---
+ vlcpp/MediaPlayer.hpp | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/vlcpp/MediaPlayer.hpp b/vlcpp/MediaPlayer.hpp
+index 24aeb24..9d8eecd 100644
+--- a/vlcpp/MediaPlayer.hpp
++++ b/vlcpp/MediaPlayer.hpp
+@@ -31,6 +31,8 @@
+ 
+ #include "common.hpp"
+ 
++#define FORCE_FASTSEEK_API
++
+ namespace VLC
+ {
+ 
+@@ -339,8 +341,8 @@ public:
+      * \version{4.x}
+      * \param b_fast  prefer fast seeking or precise seeking
+      */
+-#if LIBVLC_VERSION_INT >= LIBVLC_VERSION(4, 0, 0, 0)
+-    void setTime(libvlc_time_t i_time, bool b_fast)
++#if LIBVLC_VERSION_INT >= LIBVLC_VERSION(4, 0, 0, 0) || defined(FORCE_FASTSEEK_API)
++    void setTime(libvlc_time_t i_time, bool b_fast = false)
+     {
+         libvlc_media_player_set_time(*this, i_time, b_fast);
+     }
+@@ -372,8 +374,8 @@ public:
+      * \version{4.x}
+      * \param b_fast prefer fast seeking or precise seeking
+      */
+-#if LIBVLC_VERSION_INT >= LIBVLC_VERSION(4, 0, 0, 0)
+-    void setPosition(float f_pos, bool b_fast)
++#if LIBVLC_VERSION_INT >= LIBVLC_VERSION(4, 0, 0, 0) || defined(FORCE_FASTSEEK_API)
++    void setPosition(float f_pos, bool b_fast = false)
+     {
+         libvlc_media_player_set_position(*this, f_pos, b_fast);
+     }
+-- 
+2.30.2
+

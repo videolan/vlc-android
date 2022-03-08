@@ -51,10 +51,10 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SendCrashActivityBinding
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.File
+import java.io.IOException
 import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
@@ -91,31 +91,44 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 client.stop()
                 if (!::logcatZipPath.isInitialized) {
                     val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
-                            ?: return@withContext null
-                    logcatZipPath =  "$path/logcat.zip"
+                        ?: return@withContext null
+                    logcatZipPath = "$path/logcat.zip"
                 }
-                FileUtils.zip(arrayOf(path), logcatZipPath)
+                val filesToAdd = mutableListOf(path)
+                //add previous crash logs
+                try {
+                    val folder = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                    File(folder).listFiles().forEach {
+                        if (it.isFile && (it.name.contains("crash") || it.name.contains("logcat"))) filesToAdd.add(it.path)
+                    }
+                } catch (exception: IOException) {
+
+                }
+
+                FileUtils.zip(filesToAdd.toTypedArray(), logcatZipPath)
+                try {
+                    filesToAdd.forEach { FileUtils.deleteFile(it) }
+                } catch (exception: IOException) {
+                }
 
                 val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
                 emailIntent.type = "message/rfc822"
                 //get medialib db if needed
                 val attachments = ArrayList<Uri>()
                 if (binding.includeMedialibSwitch.isChecked) {
-                    if (getStoragePermission(true)) {
-                        if (!::dbPath.isInitialized) {
-                            val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
-                                    ?: return@withContext null
-                            dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
-                            dbZipPath = "$path/db.zip"
-                        }
-                        val db = File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
-                        val dbFile = File(dbPath)
-                        FileUtils.copyFile(db, dbFile)
-                        FileUtils.zip(arrayOf(dbPath), dbZipPath)
-                        FileUtils.deleteFile(dbFile)
-
-                        attachments.add(FileProvider.getUriForFile(this@SendCrashActivity, applicationContext.packageName + ".provider", File(dbZipPath)))
+                    if (!::dbPath.isInitialized) {
+                        val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                            ?: return@withContext null
+                        dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
+                        dbZipPath = "$path/db.zip"
                     }
+                    val db = File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
+                    val dbFile = File(dbPath)
+                    FileUtils.copyFile(db, dbFile)
+                    FileUtils.zip(arrayOf(dbPath), dbZipPath)
+                    FileUtils.deleteFile(dbFile)
+
+                    attachments.add(FileProvider.getUriForFile(this@SendCrashActivity, applicationContext.packageName + ".provider", File(dbZipPath)))
                 }
                 val appData = StringBuilder()
                 try {

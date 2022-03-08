@@ -32,12 +32,14 @@ import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
+import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 2
+private const val CURRENT_VERSION = 4
 
 object VersionMigration {
 
@@ -49,6 +51,12 @@ object VersionMigration {
         }
         if (lastVersion < 2) {
             migrateToVersion2(context)
+        }
+        if (lastVersion < 3) {
+            migrateToVersion3(context)
+        }
+        if (lastVersion < 4) {
+            migrateToVersion4(settings)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
@@ -92,6 +100,38 @@ object VersionMigration {
                 Log.e(this::class.java.simpleName, e.message, e)
             }
         }
-        context.getFromMl { flushUserProvidedThumbnails() }
+        val settings = Settings.getInstance(context)
+        val onboarding = !settings.getBoolean(ONBOARDING_DONE_KEY, false)
+        val tv = AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp ||
+                settings.getBoolean("tv_ui", false)
+        if (!tv && !onboarding) context.getFromMl { flushUserProvidedThumbnails() }
+    }
+
+    /**
+     * Deletes all the programs from the WatchNext channel on the TV Home.
+     * After reindexing media ids can change, so programs now also have the uri of their media file.
+     */
+    private suspend fun migrateToVersion3(context: Context) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 3: remove all WatchNext programs")
+        withContext(Dispatchers.IO) {
+            deleteAllWatchNext(context)
+        }
+    }
+
+    /**
+     * Migrate the video hud timeout preference to a value in seconds
+     */
+    private fun migrateToVersion4(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 4: migrate from video_hud_timeout to video_hud_timeout_in_s")
+        val hudTimeOut = settings.getString("video_hud_timeout", "2")?.toInt() ?: 2
+        settings.edit {
+            when  {
+                hudTimeOut < 0 -> putInt(VIDEO_HUD_TIMEOUT, -1)
+                hudTimeOut == 2 -> putInt(VIDEO_HUD_TIMEOUT, 4)
+                hudTimeOut == 3 -> putInt(VIDEO_HUD_TIMEOUT, 8)
+                else -> putInt(VIDEO_HUD_TIMEOUT, 2)
+            }
+            remove("video_hud_timeout")
+        }
     }
 }

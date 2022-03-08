@@ -31,14 +31,16 @@
                 name="scaleType"
                 type="android.widget.ImageView.ScaleType" />
 
+        <variable
+                name="masked"
+                type="java.lang.Boolean"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_optimizationLevel="cache_measures">
-            android:layout_height="wrap_content"
-            android:background="@color/transparent">
+            android:id="@+id/item_container">
 
         <View
                 android:id="@+id/selector"
@@ -57,7 +59,7 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/item_more"
+                app:layout_constraintEnd_toStartOf="@+id/item_move_up"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,6 +150,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginRight="4dp"
+                android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{holder::onMoreClick}"
                 android:scaleType="center"
@@ -155,5 +158,74 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_more" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{holder::onDeleteClick}"
+                android:scaleType="center"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_more"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_playlist_delete" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_move_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{holder::onMoveDownClick}"
+                android:scaleType="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_delete"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_playlist_movedown" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_move_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{holder::onMoveUpClick}"
+                android:scaleType="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_move_down"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_playlist_moveup" />
+
+        <View
+                android:id="@+id/tips_overlay"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/background_audio_tips"
+                android:visibility="@{masked ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

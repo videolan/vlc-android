@@ -29,16 +29,16 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     kotlinOptions.jvmTarget = "1.8"
-
     packagingOptions {
-        pickFirst '**/*.so'
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
     }
+
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -59,16 +59,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "androidx.appcompat:appcompat:$rootProject.ext.appCompatVersion"
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
     //Room
     implementation "androidx.room:room-ktx:$rootProject.ext.roomVersion"
-    kapt ('org.xerial:sqlite-jdbc:3.34.0')
+    kapt ('org.xerial:sqlite-jdbc:3.36.0')
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     implementation project(':application:tools')
     implementation project(':application:resources')

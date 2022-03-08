@@ -31,15 +31,15 @@ public:
     ~AndroidMediaLibrary();
 
     medialibrary::InitializeResult initML();
-    void start();
     bool isDeviceKnown(const std::string& uuid, const std::string& path, bool removable);
     bool deleteRemovableDevices();
     void addDevice(const std::string& uuid, const std::string& path, bool removable);
-    void clearDatabase(bool restorePlaylists);
+    bool clearDatabase(bool restorePlaylists);
     std::vector<std::tuple<std::string, std::string, bool>> devices();
     bool removeDevice(const std::string& uuid, const std::string& path);
     void banFolder(const std::string& path);
     void unbanFolder(const std::string& path);
+    std::vector<medialibrary::FolderPtr> bannedEntryPoints();
     void discover(const std::string&);
     bool setDiscoverNetworkEnabled(bool enabled);
     void removeEntryPoint(const std::string& entryPoint);
@@ -52,8 +52,8 @@ public:
     void reload( const std::string& entryPoint );
     void forceParserRetry();
     void forceRescan();
-    bool setLastPosition(int64_t mediaId, float progress);
-    bool setLastTime(int64_t mediaId, int64_t progress);
+    jint setLastPosition(int64_t mediaId, float progress);
+    jint setLastTime(int64_t mediaId, int64_t progress);
     bool removeMediaFromHistory(int64_t mediaId);
     void setLibvlcInstance(libvlc_instance_t* inst);
     /* History */
@@ -107,9 +107,10 @@ public:
     medialibrary::Query<medialibrary::IArtist> artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId, const medialibrary::QueryParameters* params = nullptr );
     // Folders
-    medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IMedia> mediaFromFolder(const medialibrary::IFolder* folder, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr, medialibrary::IMedia::Type type = medialibrary::IMedia::Type::Unknown );
     medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::FolderPtr folder(int64_t folderId);
     // VideoGroups
     medialibrary::Query<medialibrary::IMedia> mediaFromMediaGroup(const int64_t groupId, const medialibrary::QueryParameters* params );
     medialibrary::Query<medialibrary::IMedia> searchFromMediaGroup(const int64_t groupId, const std::string& query, const medialibrary::QueryParameters* params );
@@ -162,6 +163,10 @@ public:
     void onGenresModified( std::set<int64_t> );
     void onGenresDeleted( std::set<int64_t> );
 
+    void onFoldersAdded( std::vector<medialibrary::FolderPtr> );
+    void onFoldersModified( std::set<int64_t> );
+    void onFoldersDeleted( std::set<int64_t> );
+
     void onDiscoveryStarted();
     void onDiscoveryProgress( const std::string& entryPoint );
     void onDiscoveryCompleted();
@@ -192,6 +197,6 @@ private:
     medialibrary::IMediaLibrary* p_ml;
     std::shared_ptr<AndroidDeviceLister> p_lister;
     bool m_paused = false;
-    uint32_t m_nbDiscovery = 0, m_progress = 0, m_mediaAddedType = 0, m_mediaUpdatedType = 0;
+    uint32_t m_mediaAddedType = 0, m_mediaUpdatedType = 0;
 };
 #endif // ANDROIDMEDIALIBRARY_H

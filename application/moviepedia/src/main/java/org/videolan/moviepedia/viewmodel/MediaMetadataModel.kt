@@ -58,7 +58,7 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
             val metadata = MediaMetadataRepository.getInstance(context).getMetadataLiveByML(medialibId)
             updateLiveData.addSource(metadata) { mediaMetadataWithImages ->
                 mediaMetadataFull.metadata = mediaMetadataWithImages
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
                 if (mediaMetadataFull.metadata?.metadata?.type == MediaMetadataType.TV_EPISODE) {
                     //look for a next episode
                     mediaMetadataFull.metadata?.show?.let {
@@ -82,23 +82,23 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
                         }
                         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.ACTOR)) { persons ->
                             mediaMetadataFull.actors = persons
-                            updateActor.offer(mediaMetadataFull)
+                            updateActor.trySend(mediaMetadataFull)
                         }
                         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.WRITER)) { persons ->
                             mediaMetadataFull.writers = persons
-                            updateActor.offer(mediaMetadataFull)
+                            updateActor.trySend(mediaMetadataFull)
                         }
                         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.PRODUCER)) { persons ->
                             mediaMetadataFull.producers = persons
-                            updateActor.offer(mediaMetadataFull)
+                            updateActor.trySend(mediaMetadataFull)
                         }
                         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.MUSICIAN)) { persons ->
                             mediaMetadataFull.musicians = persons
-                            updateActor.offer(mediaMetadataFull)
+                            updateActor.trySend(mediaMetadataFull)
                         }
                         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.DIRECTOR)) { persons ->
                             mediaMetadataFull.directors = persons
-                            updateActor.offer(mediaMetadataFull)
+                            updateActor.trySend(mediaMetadataFull)
                         }
                     }
                 }
@@ -112,7 +112,7 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
             val metadata = MediaMetadataRepository.getInstance(context).getMetadataLive(mId)
             updateLiveData.addSource(metadata) {
                 mediaMetadataFull.metadata = it
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
                 if (it?.metadata?.type == MediaMetadataType.TV_SHOW) {
                     val episodes = MediaMetadataRepository.getInstance(context).getEpisodesLive(mId)
                     updateLiveData.addSource(episodes) { episodes ->
@@ -120,7 +120,7 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
                         launch {
                             val seasons = withContext(Dispatchers.IO) { provider.getAllSeasons(mediaMetadataFull.metadata!!) }
                             mediaMetadataFull.seasons = seasons.sortedBy { it.seasonNumber }
-                            updateActor.offer(mediaMetadataFull)
+                            updateActor.trySend(mediaMetadataFull)
                         }
                     }
                 }
@@ -128,23 +128,23 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.ACTOR)) {
                 mediaMetadataFull.actors = it
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.WRITER)) {
                 mediaMetadataFull.writers = it
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.PRODUCER)) {
                 mediaMetadataFull.producers = it
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.MUSICIAN)) {
                 mediaMetadataFull.musicians = it
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.DIRECTOR)) {
                 mediaMetadataFull.directors = it
-                updateActor.offer(mediaMetadataFull)
+                updateActor.trySend(mediaMetadataFull)
             }
         }
     }

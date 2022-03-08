@@ -6,7 +6,7 @@
 use_adb_root(true)
 test_instrumentation_runner("org.videolan.vlc.MultidexTestRunner")
 #locales(['en-US', 'fr-FR', 'it-IT', 'ko-KR', 'ja-JP'])
-locales(['en-US', 'fr-FR', 'it-IT'])
+locales(['en-US', 'fr-FR', 'it-IT', 'ko-KR', 'ja-JP', 'es-ES', 'hi-IN', 'de-DE', 'ru-RU', 'pt-BR'])
 
 # clear all previously generated screenshots in your local output directory before creating new ones
 clear_previous_screenshots(true)

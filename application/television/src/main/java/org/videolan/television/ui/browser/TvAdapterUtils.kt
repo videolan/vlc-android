@@ -26,6 +26,7 @@ package org.videolan.television.ui.browser
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.graphics.drawable.TransitionDrawable
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -57,15 +58,8 @@ object TvAdapterUtils {
                 container.animate().scaleX(1f).scaleY(1f)
         }
 
-        if (isList) {
-            val colorFrom = ContextCompat.getColor(container.context, R.color.tv_card_content_dark)
-            val colorTo = ContextCompat.getColor(container.context, R.color.tv_card_content)
-
-            val colorAnimation = if (hasFocus) ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo) else ValueAnimator.ofObject(ArgbEvaluator(), colorTo, colorFrom)
-            colorAnimation.duration = 250 // milliseconds
-
-            colorAnimation.addUpdateListener { animator -> container.setBackgroundColor(animator.animatedValue as Int) }
-            colorAnimation.start()
+        (container.background as? TransitionDrawable)?.let {
+            if (hasFocus) it.startTransition(250) else it.reverseTransition(250)
         }
     }
 }

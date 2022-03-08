@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.audio
 
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -55,7 +54,9 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
@@ -65,7 +66,9 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
+import java.security.SecureRandom
 import java.util.*
+import kotlin.math.min
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -135,6 +138,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             RecyclerSectionItemGridDecoration(
                 resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
                 spacing,
+                16.dp,
                 true,
                 nbColumns,
                 provider
@@ -171,7 +175,9 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         }
         when (providerInCard) {
             true -> {
-                adapter.cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+                val screenWidth = (requireActivity() as? INavigator)?.getFragmentWidth(requireActivity()) ?: requireActivity().getScreenWidth()
+                val itemSize = RecyclerSectionItemGridDecoration.getItemSize(screenWidth, nbColumns, spacing, 16.dp)
+                adapter.cardSize = itemSize
                 displayListInGrid(list, adapter, provider, spacing)
             }
             else -> {
@@ -269,6 +275,9 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             stopActionMode()
             return false
         }
+        getCurrentAdapter()?.multiSelectHelper?.let {
+            lifecycleScope.launch { fillActionMode(requireActivity(), mode, it) }
+        }
         val isMedia = selection.first().itemType == MediaLibraryItem.TYPE_MEDIA
         val isSong = count == 1 && isMedia
         menu.findItem(R.id.action_mode_audio_set_song).isVisible = isSong && AndroidDevices.isPhone
@@ -341,7 +350,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position, true)
-        if (actionMode == null) startActionMode()
+        if (actionMode == null) startActionMode() else invalidateActionMode()
         return true
     }
 
@@ -356,7 +365,12 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         val flags: Long = when (item.itemType) {
             MediaLibraryItem.TYPE_MEDIA -> CTX_TRACK_FLAGS
-            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> CTX_PLAYLIST_ALBUM_FLAGS
+            MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> {
+                if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+            }
+            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> {
+                if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
+            }
             else -> CTX_AUDIO_FLAGS
         }
         if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
@@ -380,7 +394,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         val media = getCurrentAdapter()?.getItem(position) ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.playTracks(requireActivity(), media, 0)
-            CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(requireActivity(), media, 0, true)
+            CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(requireActivity(), media, SecureRandom().nextInt(min(media.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)

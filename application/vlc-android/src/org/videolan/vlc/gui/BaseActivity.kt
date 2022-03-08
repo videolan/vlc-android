@@ -28,7 +28,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
-    abstract fun getSnackAnchorView(): View?
+    abstract fun getSnackAnchorView(overAudioPlayer:Boolean = false): View?
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -85,8 +85,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
         if (payloads.isNullOrEmpty()) onBindViewHolder(holder, position)
         else for (payload in payloads) {
             when (holder.binding) {
-                is MediaBrowserTvItemBinding -> (holder.binding as MediaBrowserTvItemBinding).description = if (payload is String) payload else getItem(position).description
-                is MediaBrowserTvItemListBinding -> (holder.binding as MediaBrowserTvItemListBinding).description = if (payload is String) payload else getItem(position).description
+                is MediaBrowserTvItemBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemBinding).description =  payload else onBindViewHolder(holder, position)
+                is MediaBrowserTvItemListBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemListBinding).description = payload else onBindViewHolder(holder, position)
             }
 
         }
@@ -141,10 +141,12 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
                 }
             binding.container.layoutParams.width = itemSize
             binding.container.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                TvAdapterUtils.itemFocusChange(hasFocus, itemSize, binding.container, false) {
-                    if (layoutPosition in dataset.indices) {
-                        eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
-                        focusListener?.onFocusChanged(layoutPosition)
+                binding.container.post {
+                    TvAdapterUtils.itemFocusChange(hasFocus, itemSize, binding.container, false) {
+                        if (layoutPosition in dataset.indices) {
+                            eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
+                            focusListener?.onFocusChanged(layoutPosition)
+                        }
                     }
                 }
             }
@@ -196,12 +198,11 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             if (showProtocol && item is MediaWrapper) binding.protocol = getProtocol(item)
             val cover = if (item is MediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }
@@ -277,12 +278,11 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             if (showProtocol && item is MediaWrapper) binding.protocol = getProtocol(item)
             val cover = if (item is MediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }

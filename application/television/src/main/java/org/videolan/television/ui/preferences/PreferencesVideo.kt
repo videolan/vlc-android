@@ -51,11 +51,8 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference<Preference>("secondary_display_category_summary")?.isVisible = false
         findPreference<Preference>("enable_clone_mode")?.isVisible = false
         findPreference<Preference>(SAVE_BRIGHTNESS)?.isVisible = false
-        findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = false
-        findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
-        findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
-        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = false
         findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = false
+        findPreference<Preference>(LOCK_USE_SENSOR)?.isVisible = false
     }
 
     override fun onStart() {
@@ -71,9 +68,6 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            VIDEO_HUD_TIMEOUT -> {
-                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
-            }
             "preferred_resolution" -> {
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()

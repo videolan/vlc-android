@@ -1,11 +1,15 @@
 package org.videolan.tools
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Uri
@@ -13,6 +17,7 @@ import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -54,6 +59,9 @@ fun View?.setGone() = setVisibility(View.GONE)
 
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+fun Boolean.toInt() = if (this) 1 else 0
+fun Long.hasFlag(flag: Long) = (flag and this) != 0L
 
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
@@ -108,14 +116,8 @@ fun String?.isValidUrl(): Boolean {
 }
 
 fun View.clicks(): Flow<Unit> = callbackFlow {
-    setOnClickListener { safeOffer(Unit) }
+    setOnClickListener { trySend(Unit) }
     awaitClose { setOnClickListener(null) }
-}
-
-fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
-    offer(value)
-} catch (e: CancellationException) {
-    false
 }
 
 @SuppressLint("MissingPermission")
@@ -148,4 +150,22 @@ fun Uri?.removeQuery(): Uri? {
     } catch (e: Exception) {
     }
     return null
+}
+
+/**
+ * Checks if the intent is callable
+ *
+ * @param context: the context to use to test the intent
+ * @return true if the intent is callable
+ */
+fun Intent.isCallable(context: Context): Boolean {
+    val list: List<ResolveInfo> = context.packageManager.queryIntentActivities(this,
+            PackageManager.MATCH_DEFAULT_ONLY)
+    return list.isNotEmpty()
+}
+
+fun Resources.getDrawableOrDefault(name: String, defPackage: String, @DrawableRes defaultDrawable: Int): Int {
+    return getIdentifier(name, "drawable", defPackage).let {
+        if (it == 0) defaultDrawable else it
+    }
 }

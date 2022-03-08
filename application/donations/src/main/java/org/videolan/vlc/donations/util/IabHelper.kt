@@ -837,7 +837,7 @@ class IabHelper(ctx: Context, base64PublicKey: String?) {
     }
 
     fun logDebug(msg: String?) {
-        if (mDebugLog) Log.d(mDebugTag, msg)
+        msg?.let { if (mDebugLog) Log.d(mDebugTag, it) }
     }
 
     fun logError(msg: String) {

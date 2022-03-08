@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="scaleName"
+                type="String" />
+        <variable
+                name="selected"
+                type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:focusable="true"
+            android:id="@+id/track_container"
+            android:minHeight="50dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+
+        <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/track_title"
+                app:layout_constraintHorizontal_bias="0.5"
+                android:visibility="@{selected ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delay_done" />
+
+        <TextView
+                android:id="@+id/track_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{scaleName}"
+                android:textColor="@{selected ? @color/white : @color/white_transparent_50}"
+                android:maxLines="1"
+                android:singleLine="true"
+                app:ellipsizeMode="@{true}"
+                app:selected="@{selected}"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toTopOf="@+id/imageView11"
+                tools:text="Audio 1 {FR]" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

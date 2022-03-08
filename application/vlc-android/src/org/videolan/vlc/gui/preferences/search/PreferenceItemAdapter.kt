@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.databinding.PreferenceItemBinding
-import org.videolan.vlc.gui.preferences.PreferenceItem
 
 private val cb = object : DiffUtil.ItemCallback<PreferenceItem>() {
     override fun areItemsTheSame(oldItem: PreferenceItem, newItem: PreferenceItem) = oldItem == newItem

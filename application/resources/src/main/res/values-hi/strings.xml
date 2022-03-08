@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">ठीक है</string>
@@ -24,13 +25,13 @@
     </plurals>
 
     <string name="play">चलायें</string>
-    <string name="playback">प्रतिश्रवण</string>
-    <string name="playback_controls">प्रतिश्रवण नियंत्रण</string>
+    <string name="playback">प्लेबैक</string>
+    <string name="playback_controls">प्लेबैक नियंत्रण</string>
     <string name="medialibrary_scan">मीडिया लाइब्रेरी में खोजें</string>
     <string name="Medialibrary_progress">मीडिया लाइब्रेरी स्कैनिंग प्रगति अद्यतन</string>
-    <string name="play_from_start">खेल से शुरूआत</string>
-    <string name="play_as_audio">ऑडियो के रूप में चलाएँ</string>
-    <string name="play_as_video">वीडियो के रूप में चलाएँ</string>
+    <string name="play_from_start">शुरू से चलायें</string>
+    <string name="play_as_audio">ऑडियो के रूप में चलायें</string>
+    <string name="play_as_video">वीडियो के रूप में चलायें</string>
     <string name="video_app_switch_title">पृष्ठभूमि / चित्र के अंदर चित्र मोड</string>
     <string name="video_app_switch_summary">वीएलसी व्यवहार का चयन करें जब आप वीडियो प्लेबैक से अन्य एप्लिकेशन पर स्विच करते हैं</string>
     <string name="play_pip_title">वीडियो को चित्र के अंदर चित्र मोड में चलाये</string>
@@ -39,8 +40,9 @@
     <string name="insert_next">अगला जोड़ें</string>
     <string name="play_all">सभी को चलायें</string>
     <string name="append_all">सभी को संलग्न करें</string>
-    <string name="resume_playback_short_title">प्रतिश्रवण पुनः आरंभ करें</string>
-    <string name="resume_playback_long_title">इस गीतसूची का प्रतिश्रवण पुनः आरंभ करें</string>
+    <string name="resume_playback_short_title">प्लेबैक पुनः आरंभ करें</string>
+    <string name="resume_playback_long_title">आखिरी बार सुनी प्लेलिस्ट को पुनः चलायें</string>
+    <string name="resume_playback_error">प्रारम्भ करने के लिए कुछ भी नहीं है</string>
     <string name="delete">मिटायें</string>
     <string name="remove">हटाए</string>
     <string name="set_song">रिंगटोन बनाएँ</string>
@@ -49,12 +51,15 @@
     <string name="confirm_delete">फाइल \'%1$s\' को मिटायें</string>
     <string name="confirm_delete_album">\'%1$s\' एल्बम हटा दें?</string>
     <string name="confirm_delete_several_media">इन %1$d मीडिया को हटाएं?</string>
-    <string name="confirm_delete_folder">फ़ोल्डर \'1%1$s\' और उसकी सभी सामग्री हटाएं?</string>
-    <string name="confirm_delete_playlist">प्लेलिस्ट हटाएं \'1%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">प्लेलिस्ट से \'%1$s\' को निकाल दें?</string>
+    <string name="confirm_delete_folder">फ़ोल्डर \'%1$s\' और उसकी सभी सामग्री हटाएं?</string>
+    <string name="confirm_delete_folders">इन%1$sफ़ोल्डरों और उनकी सभी सामग्री हटाएं?</string>
+    <string name="confirm_delete_files">इन %1$s फ़ाइलों को हटाएं?</string>
+    <string name="confirm_delete_folders_and_files">इन %1$s फ़ोल्डरों और %2$sफ़ाइलों को हटाएं?</string>
+    <string name="confirm_delete_playlist">प्लेलिस्ट \'%1$s\' को मिटायें?</string>
+    <string name="confirm_remove_from_playlist">\'%1$s\' को प्लेलिस्ट से निकालें?</string>
     <string name="ringtone_set">फ़ाइल \'1%1$s\' को रिंगटोन के रूप में सेट किया गया था|</string>
     <string name="ringtone_error">रिंगटोन सेट करते समय कोई त्रुटि हुई.</string>
-    <string name="pause">विराम दें</string>
+    <string name="pause">ठहराए</string>
     <string name="unknown_artist">अज्ञात कलाकार</string>
     <string name="unknown_album">अज्ञात एल्बम</string>
     <string name="unknown_genre">अज्ञात शैली</string>
@@ -93,7 +98,6 @@
         <item quantity="one">1 टीवी शो</item>
         <item quantity="other">%d टीवी शो</item>
     </plurals>
-
     <string name="internal_memory">आन्तरिक याददाश्त</string>
     <string name="audio">ऑडियो</string>
     <string name="video">वीडियो</string>
@@ -101,16 +105,16 @@
     <string name="equalizer">इक्वेलाइज़र</string>
     <string name="all_albums">सभी एल्बम</string>
     <string name="genres">शैलियाँ</string>
-    <string name="playlists">गीतसूचियाँ</string>
+    <string name="playlists">प्लेलिस्टें</string>
     <string name="title">शीर्षक</string>
     <string name="directories">निर्देशिकाएँ</string>
     <string name="loading">लोड हो रहा है</string>
     <string name="please_wait">कृपया प्रतीक्षा करे…</string>
     <string name="nomedia">कोई मीडिया फाइल नहीं मिला, कृपया कोई फाइल अपने डिवाइस में ट्रांसफर करे या अपने सेटिंग्स को चेंज करे</string>
-    <string name="noplaylist">बजाने की सूची  नहीं मिली </string>
+    <string name="noplaylist">एक भी प्लेलिस्ट नहीं मिली।</string>
     <string name="nosubfolder">कोई सबफ़ोल्डर नहीं</string>
-    <string name="directorynotfound">डायरेक्टरी पथ %1$s नहीं मिला.</string>
-    <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है.</string>
+    <string name="directorynotfound">\'%1$s\' डायरेक्टरी पथ  नहीं मिला.</string>
+    <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है।</string>
     <string name="validation">क्या आपको यकीन है?</string>
 
     <string name="cover_art">आवरण कला</string>
@@ -118,14 +122,15 @@
     <string name="shuffle_title">फेंटना शैली </string>
     <string name="shuffle">फेंटना बंद </string>
     <string name="shuffle_on">फेंटना चालू </string>
+    <string name="shuffle_play">फेटें</string>
     <string name="repeat_title">आवृत्ति शैली </string>
     <string name="repeat">पुनरावृत्ति नहीं</string>
     <string name="repeat_single">एकल पुनरावृत्ति</string>
     <string name="repeat_all">समग्र पुनरावृत्ति</string>
     <string name="previous">पिछला</string>
-    <string name="stop">विराम</string>
-    <string name="firstsong">बजाने  की सूची का पहला गाना </string>
-    <string name="lastsong">बजाने की सूची का आख़िरी गाना </string>
+    <string name="stop">रोकें</string>
+    <string name="firstsong">प्लेलिस्ट का पहला गाना</string>
+    <string name="lastsong">प्लेलिस्ट का आखिरी गाना</string>
 
     <string name="surface_best_fit">बेहतरीन फिट</string>
     <string name="surface_fit_screen">पटल पर जमाओ </string>
@@ -156,10 +161,10 @@
     <string name="track_resolution_info">रिज़ोल्यूशन : %1$dx%2$d\n</string>
     <string name="track_framerate_info">फ्रेम दर : %1$.3f\n</string>
 
-    <string name="playback_speed">पार्श्व गति</string>
+    <string name="playback_speed">प्लेबैक गति</string>
     <string name="sleep_title">निद्रा घड़ी</string>
     <string name="sleep_in">निद्रा घड़ी</string>
-    <string name="jump_to_time">कूद का समय</string>
+    <string name="jump_to_time"> समय पर कूदें</string>
     <string name="subtitle_select">उपशीर्षक फ़ाइल का चयन करें</string>
 
     <string name="server_add_title">पसंदीदा में एक नया सर्वर जोड़ें</string>
@@ -181,39 +186,32 @@
 
     <string name="streams">धाराएं</string>
     <string name="open_mrl_dialog_msg">नेटवर्क पता बताएं : उदाहरण : http://, mms:// या rtsp://</string>
-    <string name="encountered_error_title">पार्शव त्रुटि</string>
+    <string name="encountered_error_title">प्लेबैक में त्रुटि</string>
     <string name="encountered_error_message">VLC को इस मीडिया के साथ एक त्रुटि का सामना करना पड़ा.\nकृपया मीडिया लाइब्रेरी को ताजा करें.</string>
-    <string name="invalid_location"> %1$s नामक स्थान को चलाया नहीं जा सकता</string>
+    <string name="invalid_location">फाइल \'%1$s\' को नहीं चलाया जा सकता।</string>
 
     <string name="search">ढूंढे</string>
 
 
-    <string name="playback_history_title">प्रतिश्रावणिक इतिहास</string>
+    <string name="playback_history_title">प्लेबैक इतिहास</string>
     <string name="playback_history_summary">Save all media played in History section</string>
-    <string name="playback_speed_title">प्रतिश्रावणिक गति का संचय करें</string>
-    <string name="playback_speed_summary">मीडिया के बीच प्लेबैक गति कायम रखें</string>
+    <string name="playback_speed_title">प्लेबैक गति को सहेजें</string>
+    <string name="playback_speed_summary">विभिन्न मिडिया को चलाते समय प्लेबैक गति को एक समान रखें</string>
 
-    <string name="play_button">प्ले बटन</string>
+    <string name="play_button">चलाने का बटन</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">वीडियो प्लेयर युक्तियाँ :</string>
     <string name="seek">ढूंढना</string>
     <string name="subtitles">उपशीर्षक</string>
-    <string name="audio_sub">ऑडियो ट्रैक तथा उपशीर्षक</string>
-    <string name="resize">आकार परिवर्तित करें</string>
-    <string name="options">विकल्प</string>
     <string name="lock">ताला</string>
-    <string name="ok_got_it">समझ गए, इसे बर्खास्त करें &#160; </string>
-
     <string name="playlist_tips">प्लेलिस्ट सुझाव</string>
     <string name="remove_song">गाना हटाएं</string>
     <string name="remove_playlist_item">प्लेलिस्ट से %1$s को हटा दिया गया है</string>
     <string name="rearrange_order">क्रम को व्यवस्थित करें</string>
     <string name="hold_to_seek">ढूँढ़ ने  के लिए थोड़ा रुकें</string>
 
-    <string name="audio_player_tips">ऑडियो प्लेयर युक्तियाँ</string>
+    <string name="audio_player_tips">ऑडियो प्लेयर सुझाव</string>
     <string name="previous_next_song">पिछला / अगला गीत</string>
-    <string name="show_playlist">गीतसूची दिखाएं</string>
+    <string name="show_playlist">प्लेलिस्ट दिखाएं</string>
     <string name="hold_to_stop">रोकने के लिए पकड़ कर रखें</string>
 
     <!-- About -->
@@ -243,10 +241,9 @@
     <string name="automatic">स्वचालित</string>
     <string name="screen_orientation">पर्दा अनुकूलन</string>
     <string name="screen_orientation_sensor">स्वचालित (संवेदक)</string>
-    <string name="screen_orientation_start_lock">शुरू में बंद कर दिया</string>
     <string name="screen_orientation_portrait">विस्तृत आलेख्य</string>
     <string name="screen_orientation_landscape">भूदृश्य</string>
-    <string name="enable_black_theme">ब्लैक थीम</string>
+    <string name="enable_black_theme">काली थीम</string>
     <string name="subtitle_text_encoding">उपशीर्षक टेक्सट एन्कोडिंग</string>
     <string name="daynight_title">दिन-रात मोड</string>
     <string name="daynight_follow_system_title">सिस्टम मोड का पालन करें</string>
@@ -260,36 +257,76 @@
     <string name="enable_clone_mode_summary">रिमोट कंट्रोल के बिना डिवाइस स्क्रीन को क्लोन करें</string>
 
     <string name="video_prefs_category">वीडियो</string>
-    <string name="video_min_group_length_title">ग्रुप वीडियो</string>
-    <string name="video_min_group_length_disable">वीडियो को ग्रुप न करें</string>
+    <string name="video_min_group_length_title">वीडियो का समूह बनायें</string>
+    <string name="video_min_group_length_disable">वीडियो का समूह न बनायें </string>
     <string name="video_min_group_length_folder">फ़ोल्डर द्वारा ग्रुप बनाएं</string>
     <string name="video_min_group_length_name">नाम से ग्रुप बनाएं</string>
-    <string name="media_fast_seek">तेज ढूँढ़ना</string>
-    <string name="media_fast_seek_summary">मीडिया में ढूँढ़ना तेज है लेकिन कम सटीक है</string>
-    <string name="enable_brightness_gesture_summary">वीडियो प्लेबैक के दौरान चमक इशारे से नियंत्रण करें</string>
+    <string name="media_seen">देखा हुआ वीडियो का चिन्ह दिखायें</string>
+    <string name="media_seen_summary">अन्त तक चलाने पर वीडियो को देखा हुआ चिन्हित करें</string>
+    <string name="force_play_all_summary">जिस विडिओ पर आपने क्लिक किया वहाँ से आगे तक के सभी वीडियो चलायें</string>
+    <string name="force_play_all_title">विडिओ प्लेलिस्ट मोड</string>
+    <string name="save_audiodelay_summary">प्रत्येक वीडियो के लिए उसका खुद का ऑडियो बिलम्ब सहेजें</string>
+    <string name="save_audiodelay_title">ऑडियो विलंब सहेजें</string>
+    <string name="enable_brightness_gesture_summary">वीडियो प्लेबैक के दौरान चमक इशारे से बदलें</string>
+    <string name="enable_volume_gesture_summary">वीडियो प्लेबैक के दौरान आवाज इशारे से बदलें</string>
+    <string name="browser_show_hidden_files_title">छुपी हुई फाइलें दिखायें</string>
+
     <string name="subtitles_prefs_category">उपशीर्षक</string>
+    <string name="subtitles_size_small">छोटा</string>
+    <string name="subtitles_size_normal">सामान्य</string>
+    <string name="subtitles_size_big">बड़ा</string>
+    <string name="subtitles_size_huge">बृहद</string>
     <string name="subtitles_color_white">सफेद</string>
     <string name="subtitles_color_pink">गुलाबी</string>
     <string name="subtitles_color_blue">नीला</string>
     <string name="subtitles_color_yellow">पीला</string>
     <string name="subtitles_color_green">हरा</string>
+    <string name="audio_prefs_category">ऑडियो</string>
     <string name="list_title_ellipsize_left">बाएँ</string>
     <string name="list_title_ellipsize_right">दाएँ</string>
     <string name="list_title_ellipsize_middle">मध्य</string>
+    <string name="list_title_ellipsize_marquee">चलता फिरता</string>
+    <string name="audio_boost_title">ध्वनि-वर्धन</string>
+    <string name="audio_boost_summary">ऑडियो को 200% तक बढ़ने दें</string>
+    <string name="headset_prefs_category">हेडसेट</string>
     <string name="enable_headset_detection">हेडसेट का पता लगायें</string>
+    <string name="enable_play_on_headset_insertion_summary">अन्यथा ठहरा दें</string>
     <string name="aout">ऑडियो आउटपुट</string>
+    <string name="casting_passthrough_title">ऑडियो पासथ्रू</string>
+    <string name="casting_quality_high">उच्च</string>
+    <string name="casting_quality_medium">मध्यम</string>
+    <string name="casting_quality_low">निम्न</string>
+    <string name="casting_quality_lowcpu">निम्नतम</string>
+    <string name="artists_show_all_title">सभी कलाकार दिखायें</string>
+    <string name="extension_permission_checkbox_title">%1$s में दिखायें</string>
+    <string name="extension_prefs_activation_title">सक्रिय करें</string>
+    <string name="controls_prefs_category">नियंत्रण</string>
+
     <string name="performance_prefs_category">निष्पादन</string>
-    <string name="chroma_format">बल वर्णकी</string>
+    <string name="chroma_format">वीडियो के रंगो को प्राथमिकता दें</string>
     <string name="deblocking">डेब्लोक्किंग फिल्टर सेटिंग</string>
     <string name="deblocking_always">पूर्ण डेब्लोक्किंग (धीरे)</string>
     <string name="deblocking_nonref">मध्यम डेब्लोक्किंग</string>
     <string name="deblocking_nonkey">कम डेब्लोक्किंग</string>
     <string name="deblocking_all">कोई डेब्लोक्किंग नही (सबसे तेज)</string>
+    <string name="enable_frame_skip">फ्रेम छोड़ना</string>
     <string name="enable_time_stretching_audio">समय-टूटती ऑडियो सक्षम करें</string>
     <string name="advanced_prefs_category">उन्नत</string>
+    <string name="auto_rescan">स्वतः पुनः स्कैन करें</string>
     <string name="clear_media_db">मीडिया डेटाबेस ख़ाली करें</string>
+    <string name="clear_app_data">एप डाटा मिटायें</string>
+    <string name="clear_history">इतिहास को मिटायें</string>
     <string name="set_locale">लोकले सेट करें</string>
     <string name="network_caching">नेटवर्क कैशिंग मूल्य</string>
+    <string name="resume_playback_title">कॉल के बाद प्लेबैक पुनः प्रारम्भ करें</string>
+    <string name="resume_playback_summary">अन्यथा रोके रहें</string>
+    <string name="network_caching_popup">ये संख्या 0 से 60000 ms के बीच ही होनी चाहिए</string>
+    <string name="quit">एप से बहार निकलें और पुनः शुरू करें</string>
+    <string name="restart_message_OK">ठीक है</string>
+    <string name="restart_message_Later">बाद में</string>
+    <string name="browser_show_all_title">सभी फाइलें दिखायें</string>
+
+    <string name="developer_prefs_category">डेवलपर</string>
     <string name="enable_verbose_mode">शब्दबहुल</string>
     <string name="enable_verbose_mode_summary">शब्दाडंबर (logcat) में वृद्धि करें</string>
     <string name="debug_logs">डिबग लॉग्स</string>
@@ -298,27 +335,53 @@
     <string name="clear_log">लॉग साफ़ करें</string>
     <string name="copy_to_clipboard">क्लिपबोर्ड में कॉपी करें</string>
     <string name="copied_to_clipboard">लॉग को क्लिपबोर्ड में कॉपी किया.</string>
+    <string name="network_browsing">स्थानीय नेटवर्क</string>
+    <string name="browsing">ब्राउज़िंग</string>
+
     <string name="file_size">फाइल का आकार</string>
 
+    <string name="audio_delay">ऑडियो विलंब</string>
+    <string name="playlist_save">प्लेलिस्ट सहेजें</string>
+    <string name="playlist_name_hint">प्लेलिस्ट का नाम</string>
+    <string name="go_to_chapter">इस अध्याय पर जायें…</string>
     <string name="chapter">अध्याय</string>
+    <string name="resume_from_position">पिछली स्थिति से पुनः चलायें</string>
     <string name="confirm_resume">पिछले पंक्ति से पुनः आरंभ करें?</string>
+    <string name="confirm_resume_title">चलाये हुए वीडियो को पुनः चलायें</string>
     <string name="medialibrary">मीडिया भंडार</string>
+    <string name="music_now_playing">अभी चल रहा है</string>
+
+    <string name="permission_ask_again">अनुमति प्रदान करें</string>
+    <string name="permission_not_granted">अनुमति नहीं मिली</string>
+    <string name="exit_app">VLC बन्द करें</string>
+
+    <!-- Plugins -->
+    <string name="plugins">प्लग-इन्स</string>
     <string name="download_on_device">डाउनलोड करें</string>
     <string name="opengl_on">बलपूर्वक चालू करें</string>
     <string name="opengl_off">बलपूर्वक बंद करें</string>
     <string name="store_password">गुप्तवचन प्रत्यास्मरण.</string>
+    <string name="add_to_playlist">प्लेलिस्ट में जोड़ें</string>
     <string name="listen">सुनें</string>
+    <string name="episodes">एपिसोड</string>
     <string name="movies">फिल्में</string>
     <string name="videos">वीडियो</string>
     <string name="videos_all">सभी वीडियो</string>
-    <string name="resume">पुनः आरंभ</string>
+    <string name="clear_playback_history">प्लेबैक इतिहास को मिटायें</string>
+    <string name="ml_discovering">खोज रहा है</string>
+    <string name="resume">पुनः आरंभ करें</string>
     <string name="length">अवधि</string>
     <string name="ml_external_storage_accept">हाँ</string>
     <string name="ml_external_storage_decline">नहीं</string>
+    <string name="auto_last_added_media">आखिर में जोड़ा गया</string>
+    <string name="auto_home">घर</string>
     <string name="no">नहीं</string>
     <string name="yes">हाँ</string>
 
+    <string name="custom_set_save_title">बिना सहेजे परिवर्तन</string>
+    <string name="custom_set_save_warning">ध्यान दें: बिना सहेजे परिवर्तन</string>
     <string name="save">सहेजें</string>
+    <string name="do_not_save">न सहेजें</string>
     <string name="custom_set_wrong_input">अमान्य नाम</string>
     <string name="equalizer_new_preset_name">नया</string>
     <string name="dialog_sd_wizard">मुझे दिखाओ</string>
@@ -326,40 +389,67 @@
     <string name="time_category_current_month">इस माह</string>
     <string name="time_category_current_year">इस वर्ष</string>
     <string name="time_category_last_year">पिछला वर्ष</string>
-    <string name="rename">पुनः नामकरण</string>
+    <string name="rename">नाम बदलें</string>
+    <string name="rename_media">%1$s का नाम बदलें</string>
     <string name="subtitle_search_name_hint">नाम</string>
     <string name="language_to_download">भाषा</string>
     <string name="delete_the_selected">चयनित मिटाएं</string>
     <string name="download_the_selected">चयनित डाउनलोड करें</string>
     <string name="next">अगला</string>
     <string name="download">डाउनलोड करें</string>
+    <string name="ctx_player_audio_track">ऑडियो ट्रैक</string>
     <string name="videos_groups_title">वीडियो समूह</string>
+    <string name="video_remote_enable">रिमोट कंट्रोल मोड में जायें</string>
+    <string name="removed_from_playlist_anonymous">प्लेलिस्ट से हटाए गए आइटम</string>
+    <string name="welcome_title">वीएलसी आपका स्वागत करता है!</string>
+    <string name="onboarding_all_set">वीएलसी अब तैयार है!</string>
+    <string name="light_theme">प्रकाशमय थीम</string>
     <string name="add">जोड़ें</string>
+    <string name="add_to_new_playlist">नयी प्लेलिस्ट में जोड़ें</string>
+    <string name="resume_card_message">क्या %1$s का प्लेबैक पुनः आरंभ करें?</string>
     <string name="misc">अन्य</string>
+    <string name="jump_to">पर जायें</string>
+    <string name="show_video_thumbnails">वीडियो थंबनेल दिखाएं</string>
     <string name="enable_equalizer">सक्षम</string>
+    <string name="reset">मूल स्थिति में लायें</string>
     <string name="send">भेजें</string>
     <string name="send_crash_action_title">आप क्या करना चाहते हैं?</string>
     <string name="always">हमेशा</string>
     <string name="never">कभी नहीं</string>
+    <string name="ask_confirmation">पुष्टि करवायें</string>
     <string name="add_to_scanned">इस फोल्डर को स्कैन करें</string>
     <string name="directory_not_scanned">ये फोल्डर स्कैन नहीं हुआ है</string>
     <string name="moviepedia_result">वीडियो के परिणाम</string>
     <string name="header_movies">फिल्में</string>
+    <string name="resume_episode">पुनः आरम्भ करें (%s)</string>
     <string name="start_over">शुरू से चलायें</string>
     <string name="next_episode">अगला एपिसोड</string>
+    <string name="open_network_settings">नेटवर्क सेटिंग खोलें?</string>
     <string name="recently_played">हाल ही में चलाये गए</string>
     <string name="recently_added">हाल ही में जोडें गए</string>
+    <string name="video_information">वीडियो जानकारी</string>
+
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
     <string name="language">भाषा</string>
+    <string name="text">वाक्य</string>
     <string name="unknown">अज्ञात</string>
     <string name="this_folder">इस फोल्डर को जोड़ें</string>
     <string name="all_subfolders">इस फोल्डर और उपफोल्डरों को जोड़ें</string>
     <string name="new_title">नया शीर्षक</string>
     <string name="more">अधिक</string>
     <string name="favorites">पसंदीदा</string>
+    <string name="add_to_group">वीडियो समूह में जोड़े</string>
     <string name="remove_from_group">वीडियो समूह से हटायें</string>
-    <string name="rename_group">वीडियो समूह का पुनः नामकरण करें</string>
+    <string name="rename_group">वीडियो समूह का नाम बदलें</string>
     <string name="ungroup">समूह तोड़ें</string>
     <string name="empty_directory">खाली</string>
+    <string name="sub_result_by_name_season">सीजन %s</string>
+    <string name="sub_result_by_name_episode">एपिसोड %s</string>
+
+    <string name="donate">वीएलसी की सहायता करें</string>
+    <string name="tip_jar">वीएलसी की सहायता करें</string>
     <string name="thank_you">धन्यवाद</string>
     <string name="mark_as_played">चला हुआ चिन्हित करें</string>
     <string name="mark_all_as_played">सभी को चला हुआ चिन्हित करें</string>
@@ -367,7 +457,7 @@
     <string name="new_group_desc">नया समूह बनायें</string>
 
     <string name="air_action_rewind">10 सेकेण्ड पीछे जायें</string>
-    <string name="air_action_play_pause">प्रतिश्रवण ठहराव/पुनः आरंभ</string>
+    <string name="air_action_play_pause">प्लेबैक को ठहराए/पुनः आरम्भ करें</string>
     <string name="air_action_volume_up">आवाज तेज करें</string>
     <string name="air_action_volume_down">आवाज हल्की करें</string>
     <string name="timeout_infinite">अनन्त</string>
@@ -375,4 +465,18 @@
     <string name="timeout_normal">साधारण</string>
     <string name="timeout_long">बड़े</string>
     <string name="apply_to_all">सभी वीडियो पर लागू करें</string>
+    <string name="audio_delay_global">सभी वीडियो के लिए \'%s\' ms का ऑडियो विलम्ब सेट किया</string>
+    <string name="audio_delay_bt">ब्लूटूथ डिवाइस के लिए \'%s\' ms का ऑडियो विलम्ब सेट किया</string>
+    <string name="start_vlc">वीएलसी चलायें</string>
+
+    <string name="add_button">जोड़ें</string>
+    <string name="add_all_button">सभी को जोड़ें</string>
+    <string name="add_new_only_button">केवल नए जोड़ें</string>
+    <string name="discovery_failed">%s: के लिए खोज असफल रही </string>
+    <string name="start">शुरू करें</string>
+    <string name="permission">अनुमति</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">ये आइटम पहले से ही प्लेलिस्ट में है।</item>
+        <item quantity="other">ये आइटम पहले से ही प्लेलिस्ट में हैं।</item>
+    </plurals>
 </resources>

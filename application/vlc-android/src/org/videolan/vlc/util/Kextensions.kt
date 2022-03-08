@@ -13,6 +13,7 @@ import android.text.SpannableString
 import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.WorkerThread
@@ -31,13 +32,16 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import org.videolan.BuildConfig
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
@@ -46,8 +50,10 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import java.io.File
+import java.lang.StringBuilder
 import java.net.URI
 import java.net.URISyntaxException
+import java.security.SecureRandom
 import java.util.*
 
 fun String.validateLocation(): Boolean {
@@ -117,7 +123,7 @@ fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == Media
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
-fun Long.random() = (Random().nextFloat() * this).toLong()
+fun Long.random() = (SecureRandom().nextFloat() * this).toLong()
 
 suspend fun Context.awaitMedialibraryStarted() = getFromMl { isStarted }
 
@@ -170,7 +176,10 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         view.visibility = View.GONE
         return
     }
-    val text = if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) view.context.getString(R.string.track_number, item.tracksCount) else item.description
+    val text = if (item is Playlist){
+        val duration = if (item.duration != 0L) Tools.millisToString(item.duration) else null
+        TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.nbDurationUnknown > 0) "$duration+" else duration)
+    } else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
         return
@@ -203,7 +212,7 @@ const val presentReplacementMarker = "§*§"
 const val missingReplacementMarker = "*§*"
 
 fun MediaLibraryItem.getPresenceDescription() = when (this) {
-    is VideoGroup -> "${this.presentCount} §*§ · ${this.mediaCount() - this.presentCount} *§*"
+    is VideoGroup -> TextUtils.separatedString("${this.presentCount} §*§", "${this.mediaCount() - this.presentCount} *§*")
     else -> ""
 }
 
@@ -238,6 +247,13 @@ fun Activity.getScreenHeight(): Int {
     val dm = DisplayMetrics().also { windowManager.defaultDisplay.getMetrics(it) }
     return dm.heightPixels
 }
+
+/**
+ * Detect if the device has a notch.
+ * @return true if the device has a notch
+ * @throws NullPointerException if the window is not attached yet
+ */
+fun Activity.hasNotch() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && window.decorView.rootWindowInsets.displayCutout != null
 
 @TargetApi(Build.VERSION_CODES.O)
 fun Context.getPendingIntent(iPlay: Intent): PendingIntent {

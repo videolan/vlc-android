@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -31,6 +32,7 @@
     <string name="play_from_start">Reproduzir do início</string>
     <string name="play_as_audio">Reproduzir como áudio</string>
     <string name="play_as_video">Reproduzir como vídeo</string>
+    <string name="return_to_video">Toque longo na tela para restaurar o vídeo</string>
     <string name="video_app_switch_title">Modo Segundo Plano/PiP</string>
     <string name="video_app_switch_summary">Selecionar o comportamento para quando alternar da reprodução de vídeos para outro aplicativo</string>
     <string name="play_pip_title">Reproduzir vídeos em modo de mini tela</string>
@@ -48,11 +50,14 @@
     <string name="set_song_question">Definir \'%1$s\' como toque?</string>
     <string name="info">Informações</string>
     <string name="confirm_delete">Excluir o arquivo \'%1$s\'?</string>
+    <string name="confirm_delete_message">Esta ação é permanente e não pode ser desfeita.</string>
     <string name="confirm_delete_album">Excluir o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Deseja excluir essas %1$d mídias?</string>
     <string name="confirm_delete_folder">Excluir a pasta \'%1$s\' e todo o seu conteúdo?</string>
+    <string name="confirm_delete_folders">Excluir essas %1$s pastas e todo o seu conteúdo?</string>
+    <string name="confirm_delete_files">Excluir esses %1$s arquivos?</string>
+    <string name="confirm_delete_folders_and_files">Excluir essas %1$s pastas e %2$s arquivos?</string>
     <string name="confirm_delete_playlist">Excluir a lista de reprodução \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Excluir \'%1$s\' da lista de reprodução?</string>
     <string name="ringtone_set">O arquivo \'%1$s\' foi definido como toque.</string>
     <string name="ringtone_error">Ocorreu um erro ao definir o toque.</string>
     <string name="pause">Pausar</string>
@@ -93,6 +98,10 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">1 Programa de TV</item>
         <item quantity="other">%d Programas de TV</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 trilha</item>
+        <item quantity="other">%d trilhas</item>
     </plurals>
 
     <string name="internal_memory">memória interna</string>
@@ -186,6 +195,7 @@
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um erro nesta mídia.\nPor favor, tente atualizar a biblioteca de mídias.</string>
     <string name="invalid_location">Não é possível reproduzir na área %1$s.</string>
+    <string name="missing_location">Essa mídia está em um armazenamento indisponível e não pode ser reproduzida.</string>
 
     <string name="search">Pesquisar</string>
 
@@ -198,14 +208,33 @@
     <string name="play_button">Botão de Reprodução</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
+    <string name="tips_title">Dicas do reprodutor de vídeos</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Legendas</string>
-    <string name="audio_sub">Trilhas de áudio\ne legendas</string>
-    <string name="resize">Redimensionar</string>
-    <string name="options">Opções</string>
+    <string name="tips_player_controls">Controles de reprodução</string>
+    <string name="tips_player_controls_description">Toque nos controles de reprodução abaixo para descobrir para que eles servem</string>
+    <string name="tips_audio_sub">Trilhas de áudio e legendas</string>
+    <string name="tips_play_description">Toque para reproduzir o vídeo</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">Entendi, pode fechar&#160;</string>
+    <string name="tap">Toque para exibir</string>
+    <string name="tap_to_remove">Toque para excluir</string>
+    <string name="tap_to_rearrange">Toque para reorganizar</string>
+    <string name="tap_to_previous_next">Toque para ir ao anterior/próximo</string>
+    <string name="lock_orientation">Orientação</string>
+    <string name="lock_orientation_description">Toque para bloquear/desbloquear a orientação</string>
+    <string name="aspect_ratio">Proporção</string>
+    <string name="aspect_ratio_description">Toque para modificar a proporção de vídeo</string>
+    <string name="advanced_options">Opções avançadas</string>
+    <string name="advanced_options_description">Tais como a velocidade de reprodução. modo de repetição, ...</string>
+    <string name="tips_swipe">Deslizar para cima ou para baixo</string>
+    <string name="tips_swipe_horizontal">Deslizar para a esquerda ou para a direita</string>
+    <string name="tips_playlist">Lista de reprodução</string>
+    <string name="tips_hold_seek">Segure para buscar</string>
+    <string name="tips_long_drop">Pressione e segure, depois solte</string>
+    <string name="pause_description">Duplo toque para pausar</string>
+    <string name="seek_tap">+/- 10 s</string>
+    <string name="seek_tap_description">Duplo toque para avançar ou retroagir 10 s</string>
+    <string name="close">Fechar</string>
 
     <string name="playlist_tips">Dicas da lista de reprodução</string>
     <string name="remove_song">Excluir música</string>
@@ -220,12 +249,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
-    <string name="licence">Licença</string>
     <string name="revision">Revisão</string>
     <string name="about">Sobre</string>
-    <string name="about_text">O VLC para Android™ é uma versão do Reprodutor de Mídias VLC, o popular reprodutor de mídias livre. A versão Android™ lê a maioria dos arquivos e transmissões de rede.</string>
+    <string name="about_vlc_text">O VLC para Android™ é uma versão do reprodutor de mídias VLC, o reprodutor de mídias livre popular. A versão para Android™ pode ler todos os tipos de arquivos e transmissões de rede.</string>
+    <string name="authors">Autores</string>
     <string name="vlc_authors">e autores do VLC.</string>
-    <string name="compiled_by">Esta versão do VLC foi compilada por:</string>
+    <string name="is_compiled_by">Compilado por</string>
+    <string name="sources">Código fonte</string>
+    <string name="libraries">Bibliotecas</string>
     <string name="feedback_forum">Fórum de avaliação</string>
 
     <!-- Preferences -->
@@ -251,8 +282,11 @@
     <string name="screen_orientation_last_locked">Última orientação travada</string>
     <string name="enable_black_theme">Tema escuro</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
+    <string name="subtitle_preferred_language">Idioma preferido para a legenda</string>
     <string name="daynight_title">Modo Dia e Noite</string>
     <string name="daynight_follow_system_title">Em modo de sistema</string>
+    <string name="no_track_preference">Sem preferência de idioma</string>
+    <string name="track_preference">Preferência de trilha: %s</string>
 
     <string name="extra_prefs_category">Configurações extras</string>
 
@@ -267,8 +301,6 @@
     <string name="video_min_group_length_disable">Não agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
     <string name="video_min_group_length_name">Agrupar por nome</string>
-    <string name="media_fast_seek">Busca rápida</string>
-    <string name="media_fast_seek_summary">Buscar em uma mídia é mais rápido, embora menos preciso</string>
     <string name="video_transition_title">Transição de vídeos</string>
     <string name="video_transition_summary">Exibir o título do novo vídeo na transição</string>
     <string name="media_seen">Exibir marcador em vídeo visto</string>
@@ -284,9 +316,17 @@
     <string name="enable_volume_gesture_title">Gesto de volume</string>
     <string name="enable_volume_gesture_summary">Controla o volume por gesto durante a reprodução</string>
     <string name="enable_seek_buttons">Botões de deslocamento</string>
-    <string name="enable_seek_buttons_summary">Exibir os botões de avançar e retroceder na interface de vídeo</string>
+    <string name="enable_seek_buttons_summary">Exibir os botões de avançar rápido e retroceder na interface de vídeo</string>
+    <string name="enable_android_auto_speed_buttons">Velocidade de reprodução do Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Exibir controle de velocidade no menu flutuante</string>
+    <string name="enable_android_auto_seek_buttons">Botões de busca do Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Exibir os botões de avançar rápido na interface do menu flutuante. Tente segurar os botões de avançar e retroceder no volante antes de habilitar.</string>
     <string name="enable_double_tap_seek_title">Toque duplo para pesquisar</string>
     <string name="enable_double_tap_seek_summary">Toque duplo nos cantos da tela para pesquisar por 10 segundos</string>
+    <string name="enable_double_tap_play_title">Duplo toque para reproduzir/pausar</string>
+    <string name="enable_double_tap_play_summary">Duplo toque no centro da tela para reproduzir ou pausar</string>
+    <string name="enable_swipe_seek_title">Deslizar para pesquisar</string>
+    <string name="enable_swipe_seek_summary">Deslize seu dedo pela tela para pesquisar</string>
     <string name="popup_keepscreen_title">Manter a tela ativa no modo Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manter a tela ativa enquanto um Pop-Up é exibido, mesmo se o vídeo estiver pausado</string>
     <string name="browser_show_hidden_files_title">Exibir arquivos ocultos</string>
@@ -311,6 +351,8 @@
     <string name="audio_prefs_category">Áudio</string>
     <string name="lockscreen_cover_title">Capa da mídia na Tela de Bloqueio</string>
     <string name="lockscreen_cover_summary">Quando disponível, define a capa da mídia atual como papel de parede</string>
+    <string name="show_seek_in_compact_notif_title">Botões de busca no painel de notificações</string>
+    <string name="show_seek_in_compact_notif_summary">Exibir os botões de avançar rápido e retroceder nos controles de mídia compactos</string>
     <string name="list_title_ellipsize">Título em linha única encurtado com reticências</string>
     <string name="list_title_ellipsize_default">Padrão</string>
     <string name="list_title_ellipsize_left">Esquerda</string>
@@ -373,6 +415,8 @@
     <string name="dump_media_db_summary">Copia o banco de dados para a raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar banco de mídias</string>
     <string name="clear_media_database_summary">Limpa o banco de dados para reiniciar</string>
+    <string name="clear_app_data">Limpar dados do aplicativo</string>
+    <string name="clear_app_data_summary">Limpa os dados do VLC para Android</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="set_locale">Definir local</string>
     <string name="network_caching">Valor de memória para rede</string>
@@ -399,6 +443,7 @@
     <string name="log_service_text">Abrir a console de registros</string>
     <string name="copy_to_clipboard">Copiar para a área de transferência</string>
     <string name="copied_to_clipboard">Registro copiado para a área de transferência</string>
+    <string name="copied_from_clipboard">Endereço colado da área de transferência</string>
     <string name="dump_logcat">Despejar os registros do logcat</string>
     <string name="dump_logcat_success">O logcat despejou os registros com sucesso em %1$s!</string>
     <string name="dump_logcat_failure">Falha ao despejar os registros do logcat.</string>
@@ -435,7 +480,7 @@
     <string name="playlist_save">Salvar Lista de Reprodução</string>
     <string name="playlist_name_hint">Nome da Lista de Reprodução</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
-    <string name="chapter">Capítulo</string>
+    <string name="current_chapter">Capítulo: %s</string>
     <string name="resume_from_position">Continuar a reprodução da última posição</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
     <string name="confirm_resume_title">Retomar vídeos já reproduzidos</string>
@@ -456,6 +501,12 @@
     <string name="widget_name_b">Dispositivo VLC Preto</string>
     <string name="allow_storage_access_title">Permitir que o VLC acesse arquivos de áudio e vídeo</string>
     <string name="allow_storage_access_description">O VLC precisa que você conceda esta permissão para acessar os arquivos de mídia deste dispositivo.</string>
+    <string name="allow_storage_manager_title">Permitir ao VLC acesso a todos os arquivos</string>
+    <string name="allow_storage_manager_description">%s\n\nConceder a permissão?</string>
+    <string name="allow_storage_manager_explanation">Para obter todas as funcionalidades do VLC e o suporte a todos os tipos de arquivos de mídia, recomendamos fortemente que a permissão seja concedida.</string>
+    <string name="partial_content">O VLC não consegue acessar todos os seus arquivos</string>
+    <string name="partial_content_description">A partir do Android 11, aplicativos precisam de permissão especial para acessar arquivos de um dispositivo.\n\n%s</string>
+    <string name="never_ask_again">Não me perguntar novamente</string>
     <string name="allow_settings_access_ringtone_title">Permitir que o VLC defina o toque</string>
     <string name="allow_settings_access_ringtone_description">O VLC precisa que você conceda esta permissão para definir esta música como toque.</string>
     <string name="allow_settings_access_brightness_title">Permitir que o VLC defina o brilho</string>
@@ -463,6 +514,11 @@
     <string name="allow_draw_overlays_title">Permitir que o VLC se sobreponha a outros aplicativos</string>
     <string name="allow_sdraw_overlays_description">O VLC precisa de sua permissão para exibir seu vídeo em uma janela sobre outros aplicativos.</string>
     <string name="permission_ask_again">Conceder permissão</string>
+    <string name="permission_not_granted">Permissão não concedida</string>
+    <string name="permission_expanation_no_allow">Não será possível descobrir automaticamente suas mídias nem usar legendas externas</string>
+    <string name="permission_expanation_allow">Será possível apenas reproduzir transmissões ou mídias de rede</string>
+    <string name="permission_expanation_subtitles">Usar legendas externas</string>
+    <string name="permission_expanation_allow_explanation">Reproduzir transmissões da Internet ou mídias de rede</string>
     <string name="exit_app">Fechar o VLC</string>
     <string name="exit_app_msg">Tem certeza de que deseja fechar o VLC?</string>
 
@@ -491,7 +547,7 @@
     <string name="download_subtitles">Baixar legenda</string>
     <string name="browse_folder">Procurar pasta</string>
     <string name="listen">Ouvir</string>
-    <string name="save_bluetooth_delay">salvar atraso para dispositivo bluetooth</string>
+    <string name="apply_to_bt">Aplicar ao dispositivo bluetooth</string>
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
@@ -519,6 +575,7 @@
     <string name="existing_custom_set_save_message">Salvar ajuste do equalizador como...</string>
     <string name="new_custom_set_save_message">Salvar novo ajuste do equalizador como...</string>
     <string name="save">Salvar</string>
+    <string name="saved">%s salvo</string>
     <string name="do_not_save">Não salvar</string>
     <string name="custom_set_deleted_message">Ajuste personalizado do equalizador \"%1$s\" excluído.</string>
     <string name="custom_set_wrong_input">Nome inválido.</string>
@@ -540,6 +597,7 @@
     <string name="audio_digital_failed">Falha ao mudar o estado da Saída de Áudio Digital</string>
     <string name="audio_digital_output_enabled">Saída de Áudio Digital habilitada</string>
     <string name="audio_digital_output_disabled">Saída de Áudio Digital desabilitada</string>
+    <string name="audio_preferred_language">Idioma de Áudio Preferido</string>
     <string name="audio_digital_title">Saída de áudio digital (passagem direta)</string>
     <string name="audio_task_cleared_title">Parar ao deslisar o aplicativo</string>
     <string name="audio_task_cleared_summary">Para a reprodução quando o aplicativo for dispensada</string>
@@ -554,6 +612,8 @@
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Navegador</string>
     <string name="ab_repeat">Repetir trecho A-B</string>
+    <string name="ab_repeat_reset">Restaurar repetição A-B</string>
+    <string name="ab_repeat_stop">Parar repetição A-B</string>
     <string name="stop_after_this">Para após esta trilha</string>
     <string name="time_category_new">Nova mídia</string>
     <string name="time_category_current_month">Este mês</string>
@@ -590,6 +650,8 @@
     <string name="onboarding_theme_title">Faça você mesmo em casa</string>
     <string name="done">Concluído</string>
     <string name="onboarding_scan_title">Descobrir automaticamente sua mídia</string>
+    <string name="onboarding_all_set">O VLC está todo configurado!</string>
+    <string name="onboarding_permission_given">É possível agora descobrir automaticamente a sua mídia, usar legendas externas, bem como reproduzir transmissões ou mídias de rede</string>
     <string name="daynight_system_explanation">O VLC alternará para o modo noturno de acordo com a configuração do sistema</string>
     <string name="daynight_legacy_explanation">O VLC alternará para o modo noturno no momento adequado</string>
     <string name="onboarding_scanning_enable">Deixar o VLC procurar mídias em meu dispositivo</string>
@@ -674,7 +736,9 @@
     <string name="recently_played">Reproduzido recentemente</string>
     <string name="recently_added">Adicionado recentemente</string>
     <string name="playback_multiple_errors">Não é possível reproduzir múltiplas mídias</string>
-    <string name="clear_media_db_warning">Você perderá seus progressos e as listas de reprodução que criou.\n%s</string>
+    <string name="clear_media_db_message">Você perderá seus progressos, favoritos e as listas de reprodução que criou, mas manterá suas configurações do VLC para Android</string>
+    <string name="clear_app_data_message">Você perderá seus progressos, favoritos, as listas de reprodução e todas as configurações do VLC</string>
+    <string name="clear">Limpar</string>
     <string name="abrepeat_add_first_marker">Definir ponto de início</string>
     <string name="abrepeat_add_second_marker">Definir ponto de finalização</string>
     <string name="demux_bitrate">Taxa de bits de descombinação</string>
@@ -700,6 +764,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Trilha: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
+    <string name="audio_queue_progress_remaining">Restante: %s</string>
     <string name="audio_queue_progress_finished">Termina em: %s</string>
     <string name="sortby_track">Trilha</string>
     <string name="this_folder">Adicionar esta pasta</string>
@@ -741,6 +806,7 @@
     <string name="donate_again">Patrocinar o aplicativo novamente</string>
 
     <string name="mark_as_played">Marcar como reproduzido</string>
+    <string name="mark_as_not_played">Marcar como não reproduzido</string>
     <string name="mark_all_as_played">Marcar todos como reproduzidos</string>
     <string name="new_group">Novo grupo</string>
     <string name="new_group_desc">Criar um novo grupo</string>
@@ -755,26 +821,78 @@
     <string name="allow_otg">Permitir acesso OTG</string>
     <string name="allow_otg_description">Por favor, selecione sua unidade OTG para permitir acesso ao VLC.</string>
     <string name="timeout_infinite">Infinito</string>
-    <string name="timeout_short">Curto</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Extenso</string>
     <string name="video_hud_timeout">Controles do reprodutor de vídeo ocultando o atraso</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Remover do histórico</string>
     <string name="prefersmbv1">Priorizar SMB 1</string>
     <string name="prefersmbv1_summary">Desmarque esta configuração se tiver alguma dificuldade em navegar em seu servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos os vídeos</string>
     <string name="audio_delay_global">Definir atraso em %s ms para todos os vídeos</string>
+    <string name="audio_delay_bt">Atraso de áudio definido para 1%s ms para o dispositivo bluetooth</string>
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
     <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
     <string name="enqueuing">Carregando suas mídias</string>
     <string name="soundfont">SoundFont MIDI</string>
     <string name="soundfont_summary">Escolha um arquivo SoundFont para reproduzir trilhas de áudio midi</string>
+    <string name="missing_media_snack">A mídia está ausente. Ocultar todas as mídias ausentes?</string>
+    <string name="browser_show_missing_media">Exibir mídias ausentes</string>
+    <string name="browser_show_missing_media_summary">Exibir mídias distantes mesmo se não estiverem presentes</string>
     <string name="search_prefs">Configurações de pesquisa</string>
     <string name="preferred_resolution">Resolução de vídeo preferida</string>
     <string name="preferred_resolution_summary">A qualidade máxima de vídeo para transmissões, quando aplicável, será: %s</string>
     <string name="pref_resolution_best_available">Melhor disponível</string>
     <string name="pref_resolution_very_low">Definição muito baixa (240p)</string>
     <string name="stop_unpaubale">Esta mídia não pode ser pausada. Deseja pará-la em vez disso?</string>
+    <string name="delete_forever">Excluir permanentemente</string>
+    <string name="add_to_existing_playlist">Adicionar a lista de reprodução existente</string>
+    <string name="bookmarks_title">Favoritos</string>
+    <string name="no_bookmark">Nenhum favorito ainda</string>
+    <string name="bookmark_default_name">Favorito %s</string>
+    <string name="bookmark_name">Favorito %s</string>
+    <string name="add_bookmark">Adicionar aos favoritos</string>
+    <string name="bookmark_added">Adicionado aos Favoritos</string>
+    <string name="show">Exibir</string>
+    <string name="optional_features">Funcionalidades opcionais</string>
+    <string name="optional_features_summary">Funcionalidades beta que estão sendo testadas atualmente e podem não estar estáveis</string>
+    <string name="optional_features_warning">Esta funcionalidade está beta e pode causar falhas e instabilidades</string>
+    <string name="network_indexing">Indexação na rede</string>
+    <string name="network_indexing_warning">A indexação na rede é atualmente beta.\nProblemas conhecidos:\n• Desempenho lento\n\nSe encontrar algum outro problema, por favor reporte-os no nosso fórum.</string>
+    <string name="start_vlc">Iniciar o VLC</string>
+    <string name="jump_delay">Atraso de Avanço/Retrocesso</string>
+    <string name="long_jump_delay">Atraso no toque longo do avanço/retrocesso</string>
+    <string name="jump_delay_summary">%s segundos</string>
+    <string name="move_up">Subir</string>
+    <string name="move_down">Descer</string>
+    <string name="remove_from_playlist">Excluir da lista de reprodução</string>
+    <string name="play_media">Reproduzir %s</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Adicionar item(ns) duplicado(s)?</string>
+    <string name="add_button">Adicionar</string>
+    <string name="add_all_button">Adicionar todos</string>
+    <string name="add_new_only_button">Adicionar somente os novos</string>
+    <string name="discovery_failed">Falha na descoberta de: %s</string>
+    <string name="lock_use_sensor_title">Travar com sensor</string>
+    <string name="lock_use_sensor_summary">Quando a orientação está travada, usa o sensor para permitir a orientação reversa</string>
+    <string name="start">Iniciar</string>
+    <string name="permission">Permissão</string>
+    <string name="customize">Personalizar</string>
+    <string name="selection_count">%d selecionado</string>
+    <string name="controls_setting">Configurações de controles</string>
+    <string name="gestures">Gestos</string>
+    <string name="player_controls">Controles de reprodução</string>
+    <string name="video_double_tap_jump_delay">Atraso do toque duplo</string>
+    <string name="video_key_jump_delay">Atraso das teclas de navegação</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Este item já está na lista de reprodução.</item>
+        <item quantity="other">Estes itens já estão na lista de reprodução.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 dos itens selecionados já está na lista de reprodução.</item>
+        <item quantity="other">%d dos itens selecionados já está na lista de reprodução.</item>
+    </plurals>
+    <string name="official_website">Site oficial</string>
+    <string name="view_online">Ver online</string>
 
 </resources>

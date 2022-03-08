@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Environment
+import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
@@ -16,6 +17,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.util.Extensions
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -67,8 +69,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         val request = DownloadManager.Request(subtitleItem.zipDownloadLink.toUri())
         request.setDescription(subtitleItem.movieReleaseName)
         request.setTitle(context.resources.getString(R.string.download_subtitle_title))
-        request.setVisibleInDownloadsUi(false)
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, getDownloadPath(subtitleItem))
+        request.setDestinationInExternalFilesDir(context, getDownloadPath(subtitleItem), "")
         val id = downloadManager.enqueue(request)
         val deferred = CompletableDeferred<SubDlResult>().also { dlDeferred = it }
         ExternalSubRepository.getInstance(context.applicationContext).addDownloadingItem(id, subtitleItem)
@@ -84,8 +85,17 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         subtitleItem.run {
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             downloadedPaths.forEach {
-                if (it.endsWith(".srt"))
-                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaUri.path!!, subLanguageID, movieReleaseName)
+                if (Extensions.SUBTITLES.contains(".${it.split('.').last()}")) {
+                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(
+                        idSubtitle,
+                        it,
+                        mediaUri.path!!,
+                        subLanguageID,
+                        movieReleaseName
+                    )
+                }
+                else
+                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
             }
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         }
@@ -101,6 +111,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
     }
 
     private fun downloadFailed(id: Long, context: Context) {
+        Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
         ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
     }
 

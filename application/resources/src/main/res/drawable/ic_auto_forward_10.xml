@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_forward_10.xml
+  ~ **************************************************************************
+  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="m25.1781,4.8204c-0.6541,0.012 -1.1782,0.5458 -1.1781,1.2v5.1594c-8.8366,0 -16,7.1634 -16,16 0,8.8366 7.1634,16 16,16 8.8366,0 16,-7.1634 16,-16h-3.2c0,7.0692 -5.7308,12.8 -12.8,12.8 -7.0692,0 -12.8,-5.7308 -12.8,-12.8 0,-7.0692 5.7308,-12.8 12.8,-12.8v5.1969c0.0004,1.0676 1.2903,1.6032 2.0469,0.85l6.8031,-6.7969c0.4695,-0.4698 0.4682,-1.232 -0.0032,-1.7l-6.8,-6.7625C25.8162,4.939 25.5027,4.8138 25.1781,4.8204ZM21.5969,23.1798 L21.5531,23.1986 17.6,24.7798v2.4l1.6,-0.6406v7.0406h2.4v-8,-2.4zM27.6,23.1798c-1.9944,0 -3.6,1.6056 -3.6,3.6v3.2c0,1.9944 1.6056,3.6 3.6,3.6 1.9944,0 3.6,-1.6056 3.6,-3.6v-3.2c0,-1.9944 -1.6056,-3.6 -3.6,-3.6zM27.6,25.5798c0.6648,0 1.2,0.5352 1.2,1.2v3.2c0,0.6648 -0.5352,1.2 -1.2,1.2 -0.6648,0 -1.2,-0.5352 -1.2,-1.2v-3.2c0,-0.6648 0.5352,-1.2 1.2,-1.2z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.2"
+      android:fillColor="#ffffff"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+</vector>

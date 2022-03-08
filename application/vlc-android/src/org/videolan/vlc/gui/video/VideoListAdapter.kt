@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.safeOffer
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
@@ -66,7 +66,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     var isListMode = false
     var dataType = VideoGroupingType.NONE
-    private var gridCardWidth = 0
     val showFilename = ObservableBoolean(false)
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
@@ -90,9 +89,13 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     val all: List<MediaLibraryItem>
         get() = currentList?.snapshot() ?: emptyList()
 
+    override fun getItemViewType(position: Int): Int {
+        return if (isListMode) 0 else 1
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (isListMode) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (viewType == 0) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Creating View Holder with list: $isListMode")
         return ViewHolder(binding)
     }
 
@@ -138,14 +141,15 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 val count = item.mediaCount(Folder.TYPE_FOLDER_VIDEO)
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.binding.setVariable(BR.isNetwork, false)
-                holder.binding.setVariable(BR.isPresent, false)
+                holder.binding.setVariable(BR.isPresent, true)
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
                 holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else item.getPresenceDescription())
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
-                holder.binding.setVariable(BR.seen, 0L)
+                val seen = if (item.presentSeen == item.presentCount) 1L else 0L
+                holder.binding.setVariable(BR.seen, seen)
                 holder.binding.setVariable(BR.max, 0)
                 holder.binding.setVariable(BR.isNetwork, item.isNetwork)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
@@ -183,12 +187,9 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 if (!isListMode) holder.binding.setVariable(BR.resolution, resolution)
             }
         }
+        holder.binding.setVariable(BR.inSelection, multiSelectHelper.inActionMode)
     }
 
-
-    fun setGridCardWidth(gridCardWidth: Int) {
-        this.gridCardWidth = gridCardWidth
-    }
 
     override fun getItemId(position: Int) = 0L
 
@@ -210,22 +211,22 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
         fun onImageClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoImageClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoImageClick(layoutPosition, it)) }
         }
 
         fun onClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoClick(layoutPosition, it)) }
         }
 
         fun onMoreClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoCtxClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoCtxClick(layoutPosition, it)) }
         }
 
         fun onLongClick(v: View): Boolean {
             val position = layoutPosition
-            return isPositionValid(position) && getItem(position)?.let { eventsChannel.safeOffer(VideoLongClick(layoutPosition, it)) } == true
+            return isPositionValid(position) && getItem(position)?.let { eventsChannel.trySend(VideoLongClick(layoutPosition, it)).isSuccess } == true
         }
 
         override fun selectView(selected: Boolean) {

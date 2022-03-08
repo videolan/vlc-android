@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -100,12 +101,8 @@
     <string name="search">Izlash</string>
 
 
-    <!-- Tips -->
-    <string name="video_player_tips">Video pleyerga oid maslahatlar:</string>
     <string name="seek">Qidirish</string>
     <string name="subtitles">Subtitrlar</string>
-    <string name="resize">O‘lchamini o‘zgartirish</string>
-    <string name="options">Tanlamalar</string>
     <string name="lock">Qulflash</string>
     <string name="playlist_tips">Ijro ro‘yxatiga oid maslahatlar</string>
     <string name="remove_song">Qo‘shiqni olib tashlash</string>
@@ -133,7 +130,6 @@
     <string name="automatic">Avtomatik</string>
     <string name="screen_orientation">Ekranning joylashuvi</string>
     <string name="screen_orientation_sensor">Avtomatik (sezgich)</string>
-    <string name="screen_orientation_start_lock">Ishga tushganda qulflansin</string>
     <string name="screen_orientation_portrait">Bo‘yiga</string>
     <string name="screen_orientation_landscape">Eniga</string>
     <string name="subtitle_text_encoding">Subtitr matnini kodlash</string>

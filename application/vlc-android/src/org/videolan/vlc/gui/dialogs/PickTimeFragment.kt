@@ -111,7 +111,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     }
 
     override fun initialFocusedView(): View {
-        return view!!.findViewById(R.id.tim_pic_1)
+        return requireView().findViewById(R.id.tim_pic_1)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

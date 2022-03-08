@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Mat eo</string>
@@ -44,15 +45,20 @@
     <string name="append_all">Ouzhpennañ an holl</string>
     <string name="resume_playback_short_title">Adkregiñ gant al lenn</string>
     <string name="resume_playback_long_title">Adkregiñ gant lenn ar roll-lenn diwezhañ</string>
+    <string name="resume_playback_error">Mann ebet da adkemer</string>
     <string name="delete">Lemel kuit</string>
     <string name="remove">Dilemel</string>
     <string name="set_song">Lakaat evel soniri</string>
     <string name="set_song_question">Lakaat \'%1$s\' evel soniri?</string>
     <string name="info">Titouroù</string>
     <string name="confirm_delete">Dilemel ar restr \'%1$s\'?</string>
+    <string name="confirm_delete_message">Padus eo an dra-mañ ha ne c\'hall ket bezañ nullet.</string>
     <string name="confirm_delete_album">Dilemel an albom \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Dilemel an/ar %1$d a vediaoù?</string>
     <string name="confirm_delete_folder">Dilemel an teuliad \'%1$s\'? ha pep tra e-barzh?</string>
+    <string name="confirm_delete_folders">Dilemel an/ar %1$s a deuliadoù-mañ hag an endalc\'hadoù-mañ?</string>
+    <string name="confirm_delete_files">Dilemel an/ar %1$s a restroù-mañ?</string>
+    <string name="confirm_delete_folders_and_files">Dilemel an/ar %1$s a restroù-mañ ha(g) %2$s restr?</string>
     <string name="confirm_delete_playlist">Dilemel ar roll-lenn \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Dilemel \'%1$s\' eus ar roll-lenn?</string>
     <string name="ringtone_set">Ar restr \'%1$s\' a zo bet lakaet evel soniri.</string>
@@ -117,6 +123,13 @@
         <item quantity="many">%d a abadennoù TV</item>
         <item quantity="other">%d a abadennoù TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 roud</item>
+        <item quantity="two">%d a roudoù</item>
+        <item quantity="few">%d a roudoù</item>
+        <item quantity="many">%d a roudoù</item>
+        <item quantity="other">%d a roudoù</item>
+    </plurals>
 
     <string name="internal_memory">Memor diabarzh</string>
     <string name="audio">Aodio</string>
@@ -142,6 +155,7 @@
     <string name="shuffle_title">Mod dre zegouezh</string>
     <string name="shuffle">Dre zegouezh lazhet</string>
     <string name="shuffle_on">Dre zegouezh enaouet</string>
+    <string name="shuffle_play">Dre zegouezh</string>
     <string name="repeat_title">Mod adlenn</string>
     <string name="repeat">Adlenn ebet</string>
     <string name="repeat_single">Adlenn unan</string>
@@ -223,14 +237,19 @@
     <string name="play_button">Bouton Lenn</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Alioù al lenner video:</string>
+    <string name="tips_title">Alioù al lenner video</string>
     <string name="seek">Klask</string>
     <string name="subtitles">Istitloù</string>
-    <string name="audio_sub">Roudoù aodio\nhag istitloù</string>
-    <string name="resize">Adventañ</string>
-    <string name="options">Dibarzhioù</string>
+    <string name="tips_player_controls">Kontrolloù al lenn</string>
     <string name="lock">Morailhañ</string>
-    <string name="ok_got_it">Deuet eo ganin, laoskel a-gostez</string>
+    <string name="lock_orientation">Tuañ</string>
+    <string name="aspect_ratio">Feur an neuz</string>
+    <string name="tips_playlist">Roll-lenn</string>
+    <string name="tips_hold_seek">Dalc\'hit evit klask</string>
+    <string name="tips_long_drop">Hirbouezañ ha leuskel</string>
+    <string name="pause_description">Stokañ div wech evit paouez</string>
+    <string name="seek_tap">+/- 10 eil.</string>
+    <string name="close">Serriñ</string>
 
     <string name="playlist_tips">Alioù ar roll-lenn</string>
     <string name="remove_song">Dilemel ar sonenn</string>
@@ -270,9 +289,10 @@
     <string name="automatic">Emgefre</string>
     <string name="screen_orientation">Tuañ ar skramm video</string>
     <string name="screen_orientation_sensor">Emgefre (kaptor)</string>
-    <string name="screen_orientation_start_lock">Morailhet er penn-kentañ</string>
     <string name="screen_orientation_portrait">Poltred</string>
     <string name="screen_orientation_landscape">Gweledva</string>
+    <string name="screen_orientation_landscape_reverse">Dremwel eilpennet</string>
+    <string name="screen_orientation_last_locked">Tuadur diwezhañ morailhet</string>
     <string name="enable_black_theme">Tem du</string>
     <string name="subtitle_text_encoding">Enkodañ testenn an istitloù</string>
     <string name="daynight_title">Mod DeizNoz</string>
@@ -291,8 +311,6 @@
     <string name="video_min_group_length_disable">Na strollañ ar videoioù</string>
     <string name="video_min_group_length_folder">Strollañ dre an teuliadoù</string>
     <string name="video_min_group_length_name">Strollañ dre anv</string>
-    <string name="media_fast_seek">Enklask herr</string>
-    <string name="media_fast_seek_summary">Klask e-barzh ur media a zo herrekoc\'h met n\'eo ket ken spis.</string>
     <string name="video_transition_title">Treuzkemm etre ar videoioù</string>
     <string name="video_transition_summary">Diskouez titl ar video nevez e-serr an treuzkemm</string>
     <string name="media_seen">Gwelet merker ar videoioù gwelet</string>
@@ -310,6 +328,9 @@
     <string name="enable_seek_buttons">Boutonoù fiñval</string>
     <string name="enable_seek_buttons_summary">Diskouiez ar boutonoù distreiñ ha mont war-raok e-barzh etrefas ar video</string>
     <string name="enable_double_tap_seek_title">Stokañ div wech evit dilec\'hiañ</string>
+    <string name="enable_double_tap_seek_summary">Pouezañ div wech war vord ar skramm evit mont war-raok pe mont war-gil eus 10 eilenn</string>
+    <string name="popup_keepscreen_title">Leuskel ar skramm war-enaou e mod Pop-Up</string>
+    <string name="popup_keepscreen_summary">Leuskel ar skramm war-enaou keit ha ma vo diskouezet e Pop-Up, ha pa vefe paouezet ar video.</string>
     <string name="browser_show_hidden_files_title">Diskouez ar restroù kuzhet</string>
 
     <string name="subtitles_prefs_category">Istitloù</string>
@@ -330,6 +351,7 @@
     <string name="subtitles_autoload_title">Kargañ istitloù ent emgefreek</string>
 
     <string name="audio_prefs_category">Aodio</string>
+    <string name="lockscreen_cover_title">Golo ar Media war ar skramm-morailhañ</string>
     <string name="list_title_ellipsize_default">Dre ziouer</string>
     <string name="list_title_ellipsize_left">Kleiz</string>
     <string name="list_title_ellipsize_right">Dehoù</string>
@@ -355,7 +377,7 @@
     <string name="casting_quality_lowcpu">Izelañ</string>
     <string name="casting_connected_renderer">Kevreet d\'ar renter \"%1$s\"</string>
     <string name="artists_show_all_title">Diskouez an holl arzourien</string>
-
+    <string name="show_headers">Diskouez an talbennoù</string>
     <string name="extensions_prefs_category">Astennoù</string>
     <string name="extensions_empty">Astenn ebet diguzhet</string>
     <string name="extension_permission_title">Enaouiñ an astenn nevez \"%1$s\"?</string>
@@ -378,6 +400,8 @@
     <string name="auto_rescan">Em-adskanañ</string>
     <string name="dump_media_db">Ezporzhiañ diaz-roadennoù ar mediaoù</string>
     <string name="clear_media_db">Sklaeraat diaz-roadennoù ar mediaoù</string>
+    <string name="clear_app_data">Dilemel roadennoù an arload</string>
+    <string name="clear_app_data_summary">Dilemel roadennoù VLC evit Android</string>
     <string name="clear_history">Sklaeraat ar roll-istor</string>
     <string name="set_locale">Termeniñ ar yezh</string>
     <string name="network_caching">Talvoudegezh krubuilh ar genrouedad</string>
@@ -454,10 +478,16 @@
     <!-- Widget -->
     <string name="widget_name_w">Widget VLC gwenn</string>
     <string name="widget_name_b">Widget VLC teñval</string>
+    <string name="allow_storage_access_title">Aotren VLC da dizhout ar restroù video hag aodio</string>
+    <string name="allow_settings_access_ringtone_title">Aotren VLC da dermeniñ ar soniri</string>
     <string name="allow_settings_access_ringtone_description">VLC en deus ezhomm ec\'h aotrefec\'h an arload-mañ evit lakaat ar sonenn-mañ evel soniri.</string>
     <string name="allow_settings_access_brightness_title">Aotren VLC da cheñch ar mod lintr</string>
     <string name="allow_settings_access_brightness_description">VLC en deus ezhomm ec\'h aotrefec\'h an arload-mañ da cheñch al lintr.</string>
+    <string name="allow_draw_overlays_title">Aotren pop-up al lenner VLC a-us an arloadoù all</string>
+    <string name="allow_sdraw_overlays_description">Ezhomm en deus VLC da gaout hoc\'h aotre da ziskouez ho video en ur pop-up a-us d\'an arloadoù all.</string>
     <string name="permission_ask_again">Aotren</string>
+    <string name="permission_not_granted">Aotre nac\'het</string>
+    <string name="permission_expanation_subtitles">Implijout an istitloù diavaez</string>
     <string name="exit_app">Serriñ VLC</string>
     <string name="exit_app_msg">Ha sur oc\'h da gaout c\'hoant da guitaat VLC?</string>
 
@@ -484,7 +514,7 @@
     <string name="download_subtitles">Pellgargañ istitloù</string>
     <string name="browse_folder">Merdeiñ e-barzh an teuliad</string>
     <string name="listen">Selaou</string>
-    <string name="save_bluetooth_delay">enrollañ dale an drobarzhell bluetooth</string>
+    <string name="apply_to_bt">Arloañ d\'an drobarzhell Bluetooth</string>
     <string name="episodes">rannoù</string>
     <string name="movies">filmoù</string>
     <string name="videos">videoioù</string>
@@ -529,11 +559,17 @@
     <string name="sdcard_permission_dialog_title">Rankout a rit reiñ da VLC an aotre da skrivañ en ho kartenn SD</string>
     <string name="dialog_sd_wizard">Diskouez din</string>
     <string name="renderers_disconnect">Digevreañ</string>
+    <string name="audio_digital_failed">C\'hwitet ez eus bet war gemmañ ar stad ezvont aodio niverel</string>
     <string name="audio_digital_output_enabled">Ezvont aodio niverel enaouet</string>
     <string name="audio_digital_output_disabled">Ezvont aodio niverel lazhet</string>
     <string name="audio_digital_title">Ezvont aodio niverel (passthrough)</string>
+    <string name="audio_task_cleared_title">Paouez da vare skubañ an arload</string>
+    <string name="audio_task_cleared_summary">Paouez gant al lenn pa vez serret an arload</string>
+    <string name="audio_resume_card_title">Diskouez lagadenn ar roll-lenn diwezhañ</string>
+    <string name="audio_resume_card_summary">Diskouez a ra deoc\'h ul lagadenn evit sikour ac\'hanoc\'h da adkregiñ gant al lenn pa loc\'h an arload</string>
     <string name="playback_rewind">Distreiñ</string>
     <string name="playback_forward">War-raok fonnus</string>
+    <string name="ml_wizard_scan_checkbox">Skanañ evit kavout endalc\'hadoù media an aparailh</string>
     <string name="tv_my_new_videos">Ma videoioù nevez</string>
     <string name="cast_option_title">Bannañ ar media war ur skramm all</string>
     <string name="otg_device_title">Trobarzhell OTG</string>
@@ -574,14 +610,21 @@
     <string name="onboarding_theme_title">Grit evel ma vefec\'h en ho ti</string>
     <string name="done">Graet</string>
     <string name="onboarding_scan_title">Em-zizoleiñ ho mediaoù</string>
+    <string name="onboarding_all_set">Prest eo VLC!</string>
+    <string name="onboarding_scanning_enable">Lezel VLC skanañ ma aparailh evit kavout endalc\'hadoù media</string>
+    <string name="onboarding_scan_customize">Lezel ac\'hanon dibab peseurt teuliadoù a c\'hall bezañ skanet gant VLC</string>
+    <string name="button_medialibrary_preferences">Mont da arventennoù ar Vediaoueg</string>
     <string name="light_theme">Tem sklaer</string>
     <string name="add">Ouzhpennañ</string>
     <string name="add_to_new_playlist">Ouzhpennañ ur roll-lenn nevez</string>
     <string name="resume_card_message">Adkregiñ da lenn %1$s?</string>
     <string name="misc">Liesseurt</string>
+    <string name="popup_force_legacy_title">Implijout ur popup Picture-in-Picture personelaet</string>
+    <string name="popup_force_legacy_summary">Implijout ur popup a c\'heller adventañ Picture-in-Picture personelaet</string>
     <string name="device_default">Trevnad dre ziouer</string>
     <string name="track_number">%d a roudoù</string>
     <string name="jump_to">Mont da</string>
+    <string name="show_video_thumbnails_summary">Diskouez miniadurennoù ar videoioù el listennoù</string>
     <string name="show_video_thumbnails">Miniadurennoù ar videoioù</string>
     <string name="eq_snap_bands">Bandennoù stirennek</string>
     <string name="enable_equalizer">Enaouiñ</string>
@@ -607,18 +650,22 @@
     <string name="validation_delete_playlist_text">N\'hall ket bezañ nullet.</string>
     <string name="display_in_list">Diskouez en ul listenn</string>
     <string name="display_in_grid">Diskouez e kael</string>
+    <string name="send_crash_title">Daneveller sac\'hadennoù VLC</string>
+    <string name="include_medialib">Enklozañ ho tiaz-roadennoù</string>
     <string name="vlc_reporter">Daneveller VLC</string>
     <string name="welcome_beta_title">VLC beta</string>
     <string name="send">Kas</string>
     <string name="send_crash_action_title">Petra ho peus c\'hoant d\'ober?</string>
     <string name="report_a_bug">Danevelliñ ur veugenn</string>
     <string name="report_a_crash">Danevelliñ ur sac\'hadenn</string>
+    <string name="describe_crash">Deskrivit penaos eo c\'hoarvezet ar sac\'hadenn-mañ</string>
     <string name="favorite">Sined</string>
     <string name="always">Dalc\'hmat</string>
     <string name="never">Morse</string>
     <string name="ask_confirmation">Goulenn kadarnaat</string>
     <string name="add_to_scanned">Skanañ an teuliad-mañ</string>
     <string name="directory_not_scanned">Neket skanet ar c\'havlec\'h-mañ</string>
+    <string name="scanned_directory_added">%s a zo bet ouzhpennet d\'ho kavlec\'hioù skanet</string>
     <string name="video_group_size_summary">Strollad gant an/ar %s lizheroù kentañ</string>
     <string name="url_copied_to_clipboard">Url eilet er golver</string>
     <string name="share">Rannañ</string>
@@ -645,8 +692,10 @@
     <string name="recently_played">Lennet nevez \'zo</string>
     <string name="recently_added">Ouzhpennet nevez \'zo</string>
     <string name="playback_multiple_errors">Kalz a vediaoù n\'hallont ket bezañ lennet</string>
+    <string name="clear">Skarzhañ</string>
     <string name="abrepeat_add_first_marker">Termeniñ ar poent deraouiñ</string>
     <string name="abrepeat_add_second_marker">Termeniñ ar poent fin</string>
+    <string name="demux_bitrate">Froud bitoù al liespleksañ</string>
     <string name="input_bitrate">Kas binarel an enmont</string>
     <string name="video_information">Titouroù ar video</string>
 
@@ -669,6 +718,7 @@
     <string name="subtitle_delay_end">Testenn gwelet</string>
     <string name="track_index">Roudenn: %s</string>
     <string name="audio_queue_progress">Araokaat: %s</string>
+    <string name="audio_queue_progress_remaining">Amzer a chom: %s</string>
     <string name="audio_queue_progress_finished">Echuiñ a ra da: %s</string>
     <string name="sortby_track">Roudenn</string>
     <string name="this_folder">Ouzhpennañ an teuliad-mañ</string>
@@ -699,12 +749,15 @@
     <string name="donate_desc">Skoazellit an dud a-youl vat a sav VLC</string>
     <string name="donate_subscribtion">Fellout a ra din e vefe graet ur roadenn-arc\'hant viziek</string>
     <string name="donate_send">Stagañ gant ho roadenn-arc\'hant</string>
+    <string name="subscription_purchased">Koumanantet oc\'h d\'ar roadenn-arc\'hant miziek</string>
+    <string name="subscription_cancel">Gellout a rit digoumanantiñ er Play Store</string>
     <string name="subscription_cancel_tv">Penaos digoumanantiñ</string>
     <string name="tip_jar">Sikour VLC</string>
     <string name="thank_you">Trugarez vras</string>
     <string name="donate_again">Reiñ arc\'hant a-nevez</string>
 
     <string name="mark_as_played">Merkañ evel bezañ lennet</string>
+    <string name="mark_as_not_played">Merkañ evel amsellet</string>
     <string name="mark_all_as_played">Merkañ pep-tra evel lennet</string>
     <string name="new_group">Strollad nevez</string>
     <string name="new_group_desc">Krouiñ ur strollad nevez</string>
@@ -726,4 +779,33 @@
     <string name="apply_to_all">Arloañ d\'an holl videoioù</string>
     <string name="go_to_folder">Merdeiñ er c\'har</string>
     <string name="enqueuing">O kargañ ho mediaoù</string>
+    <string name="browser_show_missing_media">Diskouez ar mediaoù a vank</string>
+    <string name="preferred_resolution">Spisder video karetañ</string>
+    <string name="pref_resolution_best_available">An hini gwellañ hegerz</string>
+    <string name="pref_resolution_very_low">Spisder izel-kenañ (240p)</string>
+    <string name="stop_unpaubale">N\'hall ket bezañ ehanet ar media-mañ. Paouez anezhañ e-plas?</string>
+    <string name="delete_forever">Dilemel da virviken</string>
+    <string name="bookmarks_title">Sinedoù</string>
+    <string name="no_bookmark">Sined ebet evit poent</string>
+    <string name="bookmark_name">Sined %s</string>
+    <string name="optional_features">Arc\'hweladurioù ouzhpenn</string>
+    <string name="start_vlc">Loc\'hañ VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Ouzhpennañ un elfenn(où) e doubl?</string>
+    <string name="add_button">Ouzhpennañ</string>
+    <string name="add_all_button">Ouzhpennañ pep-tra</string>
+    <string name="add_new_only_button">Ouzhpennañ ar re nevez hepken</string>
+    <string name="discovery_failed">An dizoloiñ a zo c\'hwitet evit: %s</string>
+    <string name="lock_use_sensor_title">Morailhañ gant ar c\'haptorioù</string>
+    <string name="start">Loc\'hañ</string>
+    <string name="permission">Aotre</string>
+    <string name="customize">Personelaat</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">Ar roudenn-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
+        <item quantity="two">Ar roudenn-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
+        <item quantity="few">Ar roudenn-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
+        <item quantity="many">Ar roudennoù-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
+        <item quantity="other">Ar roudennoù-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
+    </plurals>
 </resources>

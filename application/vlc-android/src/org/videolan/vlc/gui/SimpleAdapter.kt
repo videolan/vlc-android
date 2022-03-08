@@ -1,19 +1,14 @@
 package org.videolan.vlc.gui
 
-import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.ab_repeat_controls.view.*
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.dp
-import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SimpleItemBinding
-import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getDummyItemIcon
 
 private val cb = object : DiffUtil.ItemCallback<MediaLibraryItem>() {

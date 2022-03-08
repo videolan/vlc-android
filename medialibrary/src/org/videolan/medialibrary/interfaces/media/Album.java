@@ -48,6 +48,7 @@ public abstract class Album extends MediaLibraryItem {
         this.albumArtistId = in.readLong();
         this.mTracksCount = in.readInt();
         this.duration = in.readLong();
+        this.mPresentTracksCount = in.readInt();
     }
 
     abstract public int getRealTracksCount();
@@ -129,5 +130,6 @@ public abstract class Album extends MediaLibraryItem {
         parcel.writeInt(mTracksCount);
         parcel.writeInt(mPresentTracksCount);
         parcel.writeLong(duration);
+        parcel.writeInt(mTracksCount);
     }
 }

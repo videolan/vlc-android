@@ -26,12 +26,12 @@ interface IDialogManager {
 class DialogDelegate : IDialogDelegate {
 
     override fun observeDialogs(lco: LifecycleOwner, manager: IDialogManager) {
-        dialogEvt.observe(lco, {
-            when(it) {
+        dialogEvt.observe(lco) {
+            when (it) {
                 is Show -> manager.fireDialog(it.dialog)
                 is Cancel -> manager.dialogCanceled(it.dialog)
             }
-        })
+        }
     }
 
     companion object DialogsListener : Dialog.Callbacks {

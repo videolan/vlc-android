@@ -10,10 +10,12 @@ class ConfirmationTvActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            val title = intent.getStringExtra(CONFIRMATION_DIALOG_TITLE)
-            val text = intent.getStringExtra(CONFIRMATION_DIALOG_TEXT)
-            val fragment = ConfirmationTvDialog.newInstance(title, text)
-            GuidedStepSupportFragment.addAsRoot(this, fragment, android.R.id.content)
+            intent.getStringExtra(CONFIRMATION_DIALOG_TITLE)?.let { title ->
+                intent.getStringExtra(CONFIRMATION_DIALOG_TEXT)?.let { text ->
+                    val fragment = ConfirmationTvDialog.newInstance(title, text)
+                    GuidedStepSupportFragment.addAsRoot(this, fragment, android.R.id.content)
+                }
+            }
         }
     }
 

@@ -29,6 +29,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AppContextProvider
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.DeviceDialog
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
@@ -37,7 +38,7 @@ import org.videolan.vlc.util.showVlcDialog
 
 @ExperimentalCoroutinesApi
 class DialogActivity : BaseActivity() {
-    override fun getSnackAnchorView(): View? = findViewById<View>(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById<View>(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +72,11 @@ class DialogActivity : BaseActivity() {
 
 
     private fun setupServerDialog() {
-        NetworkServerDialog().show(supportFragmentManager, "fragment_mrl")
+        val networkServerDialog = NetworkServerDialog()
+        intent.getParcelableExtra<MediaWrapper>(EXTRA_MEDIA)?.let {
+            networkServerDialog.setServer(it)
+        }
+        networkServerDialog.show(supportFragmentManager, "fragment_edit_network")
     }
 
     @ObsoleteCoroutinesApi
@@ -91,7 +96,8 @@ class DialogActivity : BaseActivity() {
         const val KEY_DEVICE = "deviceDialog"
         const val KEY_DIALOG = "vlcDialog"
 
-        const val EXTRA_MEDIALIST = "extra_media"
+        const val EXTRA_MEDIALIST = "extra_media_list"
+        const val EXTRA_MEDIA = "extra_media"
         const val EXTRA_PATH = "extra_path"
         const val EXTRA_UUID = "extra_uuid"
         const val EXTRA_SCAN = "extra_scan"

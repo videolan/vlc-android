@@ -11,8 +11,8 @@ import java.util.List;
 @SuppressWarnings("JniMissingFunction")
 public class PlaylistImpl extends Playlist {
 
-    public PlaylistImpl(long id, String name, int trackCount) {
-        super(id, name, trackCount);
+    public PlaylistImpl(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
+        super(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
     }
 
     public PlaylistImpl(Parcel in) {

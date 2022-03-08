@@ -175,6 +175,26 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
                 mMediaPlayer.setAspectRatio("16:9");
                 mMediaPlayer.setScale(0);
                 break;
+            case SURFACE_16_10:
+                mMediaPlayer.setAspectRatio("16:10");
+                mMediaPlayer.setScale(0);
+                break;
+            case SURFACE_221_1:
+                mMediaPlayer.setAspectRatio("2.21:1");
+                mMediaPlayer.setScale(0);
+                break;
+            case SURFACE_235_1:
+                mMediaPlayer.setAspectRatio("2.35:1");
+                mMediaPlayer.setScale(0);
+                break;
+            case SURFACE_239_1:
+                mMediaPlayer.setAspectRatio("2.39:1");
+                mMediaPlayer.setScale(0);
+                break;
+            case SURFACE_5_4:
+                mMediaPlayer.setAspectRatio("5:4");
+                mMediaPlayer.setScale(0);
+                break;
             case SURFACE_4_3:
                 mMediaPlayer.setAspectRatio("4:3");
                 mMediaPlayer.setScale(0);
@@ -190,7 +210,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     void updateVideoSurfaces() {
         if (mMediaPlayer == null || mMediaPlayer.isReleased() || !mMediaPlayer.getVLCVout().areViewsAttached()) return;
         final boolean isPrimary = mDisplayManager == null || mDisplayManager.isPrimary();
-        final Activity activity = isPrimary && mVideoSurfaceFrame.getContext() instanceof Activity ? (Activity) mVideoSurfaceFrame.getContext() : null;
+        final Activity activity = !isPrimary ? null : AndroidUtil.resolveActivity(mVideoSurfaceFrame.getContext());
 
         int sw;
         int sh;
@@ -277,23 +297,16 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
                 break;
             case SURFACE_FILL:
                 break;
-            case SURFACE_16_9:
-                ar = 16.0 / 9.0;
-                if (dar < ar)
-                    dh = dw / ar;
-                else
-                    dw = dh * ar;
-                break;
-            case SURFACE_4_3:
-                ar = 4.0 / 3.0;
-                if (dar < ar)
-                    dh = dw / ar;
-                else
-                    dw = dh * ar;
-                break;
             case SURFACE_ORIGINAL:
                 dh = mVideoVisibleHeight;
                 dw = vw;
+                break;
+            default:
+                ar = mCurrentScaleType.getRatio();
+                if (dar < ar)
+                    dh = dw / ar;
+                else
+                    dw = dh * ar;
                 break;
         }
 

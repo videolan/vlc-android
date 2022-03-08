@@ -25,6 +25,9 @@
 #include <vlc/libvlc_media.h>
 #include <vlc/libvlc_media_list.h>
 
+#define LOG_TAG "VLC/JNI/VLCObject"
+#include "log.h"
+
 struct fields {
     jint SDK_INT;
     struct {
@@ -113,6 +116,36 @@ struct fields {
         jmethodID updateProgressFromNativeID;
     } Dialog;
 };
+
+static inline jstring vlcNewStringUTF(JNIEnv* env, const char* psz_string)
+{
+    if (psz_string == NULL)
+        return NULL;
+    for (int i = 0 ; psz_string[i] != '\0' ; ) {
+        uint8_t lead = psz_string[i++];
+        uint8_t nbBytes;
+        if ((lead & 0x80) == 0)
+            continue;
+        else if ((lead >> 5) == 0x06)
+            nbBytes = 1;
+        else if ((lead >> 4) == 0x0E)
+            nbBytes = 2;
+        else if ((lead >> 3) == 0x1E)
+            nbBytes = 3;
+        else {
+            LOGE("Invalid UTF lead character\n");
+            return NULL;
+        }
+        for (int j = 0 ; j < nbBytes && psz_string[i] != '\0' ; j++) {
+            uint8_t byte = psz_string[i++];
+            if ((byte & 0x80) == 0) {
+                LOGE("Invalid UTF byte\n");
+                return NULL;
+            }
+        }
+    }
+    return (*env)->NewStringUTF(env, psz_string);
+}
 
 extern struct fields fields;
 

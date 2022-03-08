@@ -48,12 +48,6 @@ class PreferencesVideoUITest: BasePreferenceUITest() {
     }
 
     @Test
-    fun checkFastSeekMediaSetting() {
-        val key = "media_fast_seek"
-        checkToggleWorks(key, settings)
-    }
-
-    @Test
     fun checkVideoTitleOnTransitionSetting() {
         val key = "video_transition_show"
         checkToggleWorks(key, settings)

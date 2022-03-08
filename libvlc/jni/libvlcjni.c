@@ -463,7 +463,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeRelease(JNIEnv *env, jobject thiz)
 
 jstring Java_org_videolan_libvlc_LibVLC_version(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, libvlc_get_version());
+    return vlcNewStringUTF(env, libvlc_get_version());
 }
 
 jint Java_org_videolan_libvlc_LibVLC_majorVersion(JNIEnv* env, jobject thiz)
@@ -473,12 +473,12 @@ jint Java_org_videolan_libvlc_LibVLC_majorVersion(JNIEnv* env, jobject thiz)
 
 jstring Java_org_videolan_libvlc_LibVLC_compiler(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, libvlc_get_compiler());
+    return vlcNewStringUTF(env, libvlc_get_compiler());
 }
 
 jstring Java_org_videolan_libvlc_LibVLC_changeset(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, libvlc_get_changeset());
+    return vlcNewStringUTF(env, libvlc_get_changeset());
 }
 
 void Java_org_videolan_libvlc_LibVLC_nativeSetUserAgent(JNIEnv* env,

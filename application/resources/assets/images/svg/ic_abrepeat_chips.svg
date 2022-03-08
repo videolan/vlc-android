@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="36"
+   height="36"
+   viewBox="0 0 36 36"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_abrepeat_chips.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
+  <defs
+     id="defs3523" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.2"
+     inkscape:cx="23.658524"
+     inkscape:cy="13.33902"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4093" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3526">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path6406"
+       style="fill:#000000;stroke-width:1.5"
+       d="M 26.167969 4.0644531 C 25.817139 4.1069336 25.5 4.3925781 25.5 4.8144531 L 25.5 7.5 L 9 7.5 C 8.1749999 7.5 7.5 8.1749999 7.5 9 L 7.5 15 C 7.5 15.825 8.1749999 16.5 9 16.5 C 9.8250001 16.5 10.5 15.825 10.5 15 L 10.5 10.5 L 25.5 10.5 L 25.5 13.185547 C 25.5 13.860547 26.310391 14.188984 26.775391 13.708984 L 30.960938 9.5253906 C 31.260938 9.2253906 31.260938 8.7589844 30.960938 8.4589844 L 26.775391 4.2753906 C 26.601016 4.1010156 26.378467 4.0389648 26.167969 4.0644531 z M 13.5 13.5 C 12.67155 13.5 12 14.17161 12 15 L 12 22.5 L 13.5 22.5 L 13.5 19.5 L 15.75 19.5 L 15.75 22.5 L 17.25 22.5 L 17.25 15 C 17.25 14.17161 16.57845 13.5 15.75 13.5 L 13.5 13.5 z M 18.75 13.5 L 18.75 22.5 L 22.5 22.5 C 23.32845 22.5 24 21.82845 24 21 L 24 19.5 C 24 18.671613 23.32845 18 22.5 18 C 23.32845 18 24 17.32845 24 16.5 L 24 15 C 24 14.17161 23.325525 13.430775 22.5 13.5 L 18.75 13.5 z M 13.5 15 L 15.75 15 L 15.75 18 L 13.5 18 L 13.5 15 z M 20.25 15 L 22.5 15 L 22.5 17.25 L 20.25 17.25 L 20.25 15 z M 20.25 18.75 L 22.5 18.75 L 22.5 21 L 20.25 21 L 20.25 18.75 z M 27 19.5 C 26.175 19.5 25.5 20.174999 25.5 21 L 25.5 25.5 L 10.5 25.5 L 10.5 22.814453 C 10.5 22.139453 9.6896094 21.809062 9.2246094 22.289062 L 5.0390625 26.474609 C 4.7390625 26.774609 4.7390625 27.239062 5.0390625 27.539062 L 9.2246094 31.724609 C 9.6896094 32.189609 10.5 31.860547 10.5 31.185547 L 10.5 28.5 L 27 28.5 C 27.825 28.5 28.5 27.825 28.5 27 L 28.5 21 C 28.5 20.174999 27.825 19.5 27 19.5 z " />
+  </g>
+</svg>

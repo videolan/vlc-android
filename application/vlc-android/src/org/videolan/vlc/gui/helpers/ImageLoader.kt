@@ -10,11 +10,14 @@ import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
@@ -28,6 +31,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
@@ -206,6 +210,11 @@ fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     }
 }
 
+@BindingAdapter("missingMedia")
+fun missingMedia(imageView: ImageView, media: MediaLibraryItem?) {
+    if (media is VideoGroup && !media.isNetwork()) imageView.setImageResource(R.drawable.ic_sd_media_off) else imageView.setImageResource(R.drawable.ic_network_media_off)
+}
+
 private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
     var bindChanged = false
     val rebindCallbacks = if (binding !== null) object : OnRebindCallback<ViewDataBinding>() {
@@ -320,9 +329,31 @@ private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean): Med
         val type = mw.type
         val isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO
         val uri = mw.uri
-        if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
-        if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
+        val scheme = try {
+            uri.scheme
+        } catch (e: NullPointerException) {
+            ""
+        }
+        if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == scheme)) return item
+        if (isMediaFile && "file" == scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
                 ?: item
     }
     return item
+}
+
+@MainThread
+@BindingAdapter(value = ["constraintRatio", "coverWidth"], requireAll = false)
+fun constraintRatio(v: View, isSquare: Boolean, imageWidth: Int = -2) {
+    if (imageWidth != -2) {
+        val layoutParams: ViewGroup.LayoutParams = v.layoutParams
+        layoutParams.width = imageWidth
+        v.layoutParams = layoutParams
+    }
+    val constraintLayout = v.parent as? ConstraintLayout
+    constraintLayout?.let {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+        constraintSet.setDimensionRatio(v.id, if (isSquare) "1" else "16:10")
+        constraintSet.applyTo(constraintLayout)
+    }
 }

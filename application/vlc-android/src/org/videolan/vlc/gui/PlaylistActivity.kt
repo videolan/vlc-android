@@ -43,12 +43,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.isExternalStorageManager
+import org.videolan.tools.copy
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -110,16 +113,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         isPlaylist = playlist.itemType == MediaLibraryItem.TYPE_PLAYLIST
         binding.playlist = playlist
         viewModel = getViewModel(playlist)
-        viewModel.tracksProvider.pagedList.observe(this, { tracks ->
+        viewModel.tracksProvider.pagedList.observe(this) { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
             if (::itemTouchHelperCallback.isInitialized) itemTouchHelperCallback.swipeEnabled = true
-        })
+        }
 
-        viewModel.tracksProvider.liveHeaders.observe(this, {
+        viewModel.tracksProvider.liveHeaders.observe(this) {
             binding.songs.invalidateItemDecorations()
-        })
+        }
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
@@ -252,7 +255,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         if (actionMode == null) {
             var flags = CTX_PLAYLIST_ITEM_FLAGS
             (item as? MediaWrapper)?.let { media ->
-                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME
+                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME or CTX_COPY
+                else  flags = flags or CTX_SHARE
             }
             showContext(this, this, position, item.title, flags)
         }
@@ -389,13 +393,17 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                     }
                 }
             }
+            CTX_COPY -> {
+                copy(media.title, media.location)
+                Snackbar.make(window.decorView.findViewById(android.R.id.content), R.string.url_copied_to_clipboard, Snackbar.LENGTH_LONG).show()
+            }
         }
 
     }
 
     private fun removeItem(position: Int, media: MediaWrapper) {
         if (isPlaylist) {
-            snackerConfirm(this, getString(R.string.confirm_remove_from_playlist, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+            removeFromPlaylist(listOf(media), listOf(position))
         } else {
             removeItems(listOf(media))
         }
@@ -407,10 +415,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         dialog.setListener {
             lifecycleScope.launch {
                 for (item in items) {
-                    if (!isStarted()) break
-                    if (getWritePermission(item.uri)) deleteMedia(item)
+                    val deleteAction = kotlinx.coroutines.Runnable {
+                        lifecycleScope.launch {
+                            MediaUtils.deleteItem(this@PlaylistActivity, item) {
+                                UiTools.snacker(this@PlaylistActivity, getString(R.string.msg_delete_failed, it.title))
+                            }
+                            if (isStarted()) viewModel.refresh()
+                        }
+                    }
+                    if (Permissions.checkWritePermission(this@PlaylistActivity, item, deleteAction)) deleteAction.run()
                 }
-                if (isStarted()) viewModel.refresh()
             }
         }
     }
@@ -446,11 +460,12 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                     playlist.remove(playlistIndex - index)
                 }
             }
-            UiTools.snackerWithCancel(this@PlaylistActivity, getString(R.string.removed_from_playlist_anonymous), null, {
+            var removedMessage = if (indexes.size>1) getString(R.string.removed_from_playlist_anonymous) else getString(R.string.remove_playlist_item,list.first().title)
+            UiTools.snackerWithCancel(this@PlaylistActivity, removedMessage, action = {}) {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
                 }
-            })
+            }
         }
     }
 

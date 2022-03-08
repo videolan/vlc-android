@@ -42,7 +42,6 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
         findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = AndroidUtil.isOOrLater
     }
 
@@ -59,9 +58,6 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            VIDEO_HUD_TIMEOUT -> {
-                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
-            }
             "preferred_resolution" -> {
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()

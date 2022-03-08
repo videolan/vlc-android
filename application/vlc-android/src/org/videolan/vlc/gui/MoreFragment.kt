@@ -26,12 +26,12 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.view.*
+import android.widget.Button
 import androidx.appcompat.view.ActionMode
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.more_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
@@ -42,9 +42,10 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.vlc.donations.BillingStatus
-import org.videolan.vlc.donations.VLCBilling
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.Click
+import org.videolan.vlc.gui.helpers.ImageClick
+import org.videolan.vlc.gui.helpers.LongClick
+import org.videolan.vlc.gui.helpers.SimpleClick
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
 import org.videolan.vlc.gui.network.KeyboardListener
@@ -74,6 +75,9 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     private lateinit var streamsAdapter: MRLAdapter
     private lateinit var historyEntry: TitleListView
     private lateinit var streamsEntry: TitleListView
+    private lateinit var settingsButton: Button
+    private lateinit var aboutButton: Button
+    private lateinit var donationsButton: CardView
     private lateinit var viewModel: HistoryModel
     private lateinit var streamsViewModel: StreamsModel
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
@@ -98,9 +102,12 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyEntry = view.findViewById(R.id.history_entry)
+        settingsButton = view.findViewById(R.id.settingsButton)
+        aboutButton = view.findViewById(R.id.aboutButton)
+        donationsButton = view.findViewById(R.id.donationsButton)
         if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, { list ->
+        viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 historyAdapter.update(it)
                 if (list.isEmpty()) historyEntry.setGone() else {
@@ -110,7 +117,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
                 if (list.isNotEmpty()) historyEntry.actionButton.setVisible() else historyEntry.actionButton.setGone()
             }
             restoreMultiSelectHelper()
-        })
+        }
         viewModel.loading.observe(viewLifecycleOwner) {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
@@ -132,18 +139,18 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             i.putExtra("fragment", SecondaryActivity.STREAMS)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        streamsViewModel.dataset.observe(requireActivity(), {
+        streamsViewModel.dataset.observe(requireActivity()) {
             streamsAdapter.update(it)
             streamsEntry.loading.state = EmptyLoadingState.NONE
 
-        })
-        streamsViewModel.loading.observe(requireActivity(), {
+        }
+        streamsViewModel.loading.observe(requireActivity()) {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
                 (activity as? MainActivity)?.refreshing = it
                 if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
             }
-        })
+        }
 
         settingsButton.setOnClickListener {
             requireActivity().startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
@@ -153,9 +160,9 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             i.putExtra("fragment", SecondaryActivity.ABOUT)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        VLCBilling.getInstance(requireActivity().application).addStatusListener {
-            manageDonationVisibility()
-        }
+//        VLCBilling.getInstance(requireActivity().application).addStatusListener {
+//            manageDonationVisibility()
+//        }
         manageDonationVisibility()
         donationsButton.setOnClickListener {
             requireActivity().showDonations()
@@ -164,7 +171,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
 
     private fun manageDonationVisibility() {
         if (activity == null) return
-         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
+//         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
     }
 
     override fun onStart() {
@@ -223,6 +230,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             stopActionMode()
             return false
         }
+        mode.title = requireActivity().getString(R.string.selection_count, selectionCount)
         menu.findItem(R.id.action_history_info).isVisible = selectionCount == 1
         menu.findItem(R.id.action_history_append).isVisible = PlaylistManager.hasMedia()
         return true
@@ -268,13 +276,15 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     }
 
     private fun Click.process() {
-        val item = viewModel.dataset.get(position)
-        when (this) {
-            is SimpleClick -> onClick(position, item)
-            is LongClick -> onLongClick(position, item)
-            is ImageClick -> {
-                if (actionMode != null) onClick(position, item)
-                else onLongClick(position, item)
+        if (position >= 0) {
+            val item = viewModel.dataset.get(position)
+            when (this) {
+                is SimpleClick -> onClick(position, item)
+                is LongClick -> onLongClick(position, item)
+                is ImageClick -> {
+                    if (actionMode != null) onClick(position, item)
+                    else onLongClick(position, item)
+                }
             }
         }
     }

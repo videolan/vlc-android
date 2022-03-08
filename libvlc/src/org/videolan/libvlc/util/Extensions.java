@@ -52,7 +52,7 @@ public class Extensions {
                 ".rt",   ".aqt", ".txt", ".usf", ".jss",  ".cdg", ".psb", ".mpsub",".mpl2",
                 ".pjs", ".dks", ".stl", ".vtt", ".ttml", ".mks" };
 
-        final String[] playlistExtensions = {".m3u", ".asx",  ".b4s",  ".pls", ".xspf"/*,  ".zip"*/};
+        final String[] playlistExtensions = {".m3u", ".asx",  ".b4s",  ".pls", ".xspf", ".wpl"/*,  ".zip"*/};
 
         VIDEO.addAll(Arrays.asList(videoExtensions));
         AUDIO.addAll(Arrays.asList(audioExtensions));

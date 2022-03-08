@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Environment
 import android.view.View
 import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
@@ -65,8 +67,13 @@ fun MediaLibraryItem.getTracksCount() = when (itemType) {
 
 fun canReadStorage(context: Context): Boolean {
     return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
 }
+
+/**
+ * Check if the app has the [Manifest.permission.MANAGE_EXTERNAL_STORAGE] granted
+ */
+fun isExternalStorageManager(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()
 
 @JvmOverloads
 fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {

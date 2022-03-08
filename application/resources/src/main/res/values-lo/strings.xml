@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">ຕົກລົງ</string>
@@ -143,16 +144,9 @@
     <string name="playback_history_title">ປະຫວັດການຫຼິ້ນ</string>
     <string name="playback_history_summary">ບັນທຶກສື່ທັງໝົດທີ່ຫຼິ້ນໃນສ່ວນປະຫວັດ</string>
     <string name="playback_speed_title">ບັນທຶກຄວາມໄວໃນການຫຼິ້ນ</string>
-
-    <!-- Tips -->
-    <string name="video_player_tips">ຄຳແນະນຳຕົວຫຼິ້ນວິດີໂອ:</string>
     <string name="seek">ຄົ້ນຫາ</string>
     <string name="subtitles">ຄຳບັນຍາຍ</string>
-    <string name="resize">ປັບຂະໜາດ</string>
-    <string name="options">ຕົວເລືອກ</string>
     <string name="lock">ລັອກ</string>
-    <string name="ok_got_it">ເຂົ້າໃຈແລ້ວ, ປິດຖິ້ມໄດ້ເລີຍ</string>
-
     <string name="remove_song">ເອົາເພງອອກ</string>
     <string name="rearrange_order">ຈັດລຽງລຳດັບໃໝ່</string>
     <string name="hold_to_seek">ກົດຄ້າງໄວ້ເພື່ອຄົ້ນຫາ</string>

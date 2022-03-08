@@ -33,28 +33,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Album
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
-import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.prepareOptionsMenu
 import org.videolan.vlc.viewmodels.sortMenuTitles
-import java.lang.Runnable
 
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
@@ -128,41 +124,17 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
-            lifecycleScope.launch {
-                for (item in items) {
-                    if (!isStarted()) break
-                    when(item) {
-                        is MediaWrapper -> if (getWritePermission(item.uri)) MediaUtils.deleteMedia(item)
-                        is Playlist -> withContext(Dispatchers.IO) { item.delete() }
-                    }
-                }
+            for (item in items) {
+                MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
             }
         }
     }
 
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
-        val deletionAction = when (item) {
-            is Playlist -> Runnable {
-                MediaUtils.deletePlaylist(item)
-                    }
-            is MediaWrapper-> Runnable {
-                    if (isStarted()) lifecycleScope.launch {
-                        if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
-                    }
-                }
-
-            is Album -> Runnable {
-                    if (isStarted()) lifecycleScope.launch {
-                        if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
-                    }
-                }
-            else -> return false
-        }
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(item))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
         dialog.setListener {
-            if (item is MediaWrapper) if (Permissions.checkWritePermission(requireActivity(), item, deletionAction)) deletionAction.run() else deletionAction.run()
-            else deletionAction.run()
+            MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
         }
         return true
     }
@@ -234,12 +206,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 var hasOneSelected = false
                 for (i in 0 until savedSelection.size) {
 
-                    it.selectionMap.addAll(savedSelection)
+                    it.selectionMap.add(savedSelection[i])
                     hasOneSelected = savedSelection.isNotEmpty()
                 }
                 if (hasOneSelected) startActionMode()
                 savedSelection.clear()
             }
+            if (actionMode != null)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    fillActionMode(requireActivity(), actionMode!!, it as MultiSelectHelper<MediaLibraryItem>)
+                }
         }
     }
 

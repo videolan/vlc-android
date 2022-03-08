@@ -15,7 +15,7 @@ import org.videolan.vlc.R
 private const val TAG = "RecyclerSectionItemDecoration"
 
 @SuppressLint("LongLogTag")
-class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sticky: Boolean, private val nbColumns: Int, private val provider: HeaderProvider) : RecyclerView.ItemDecoration() {
+class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sideSpace: Int, private val sticky: Boolean, private val nbColumns: Int, private val provider: HeaderProvider) : RecyclerView.ItemDecoration() {
 
     private lateinit var headerView: View
     private lateinit var header: TextView
@@ -42,8 +42,8 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         val isLastInLine = (pos - positionForSection) % nbColumns == nbColumns - 1
 
 
-        outRect.left = if (isFirstInLine && Settings.showHeaders) space else space / 2
-        outRect.right = if (isLastInLine && Settings.showHeaders) space else space / 2
+        outRect.left = if (isFirstInLine && Settings.showHeaders) sideSpace else space / 2
+        outRect.right = if (isLastInLine && Settings.showHeaders) sideSpace else space / 2
         outRect.top = space / 2
         outRect.bottom = space / 2
 
@@ -138,6 +138,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     companion object {
-        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = ((screenWidth - (spacing * (nbColumns + 1))).toFloat() / nbColumns).toInt()
+        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int, sideSpacing:Int) = ((screenWidth - (spacing * (nbColumns - 1)) - 2 * sideSpacing).toFloat() / nbColumns).toInt()
     }
 }

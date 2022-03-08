@@ -30,7 +30,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +37,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
+import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.gui.BetaWelcomeActivity
@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.checkWatchNextId
 import videolan.org.commontools.TV_CHANNEL_PATH_APP
 import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
 import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
@@ -113,7 +114,7 @@ class StartActivity : FragmentActivity() {
             val cd = intent.clipData
             val item = if (cd != null && cd.itemCount > 0) cd.getItemAt(0) else null
             if (item != null) {
-                var uri: Uri? = item.uri
+                var uri: Uri? = FileUtils.getUri(item.uri)
                 if (uri == null && item.text != null) uri = item.text.toString().toUri()
                 if (uri != null) {
                     MediaUtils.openMediaNoUi(uri)
@@ -150,15 +151,21 @@ class StartActivity : FragmentActivity() {
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH == action) {
             val serviceInent = Intent(ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService::class.java)
                     .putExtra(EXTRA_SEARCH_BUNDLE, intent.extras)
-            ContextCompat.startForegroundService(this, serviceInent)
+            launchForeground(serviceInent)
         } else if (Intent.ACTION_VIEW == action && intent.data != null) { //launch from TV Channel
             val data = intent.data
             val path = data!!.path
             if (path == "/$TV_CHANNEL_PATH_APP")
                 startApplication(tv, firstRun, upgrade, 0, removeOldDevices)
             else if (path == "/$TV_CHANNEL_PATH_VIDEO") {
-                val id = java.lang.Long.valueOf(data.getQueryParameter(TV_CHANNEL_QUERY_VIDEO_ID)!!)
-                MediaUtils.openMediaNoUi(this, id)
+                var id = java.lang.Long.valueOf(data.getQueryParameter(TV_CHANNEL_QUERY_VIDEO_ID)!!)
+                val ctx = this
+                lifecycleScope.launch(Dispatchers.IO) {
+                    id = checkWatchNextId(ctx, id)
+                    withContext(Dispatchers.Main) {
+                        MediaUtils.openMediaNoUi(ctx, id)
+                    }
+                }
             }
         } else {
             val target = idFromShortcut

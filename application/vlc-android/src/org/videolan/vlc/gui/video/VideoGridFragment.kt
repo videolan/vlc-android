@@ -31,6 +31,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.InitialPagedList
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -45,10 +46,10 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.FolderImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.waitForML
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
-import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -59,8 +60,8 @@ import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
@@ -73,7 +74,6 @@ import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
-import java.util.*
 
 private const val TAG = "VLC/VideoListFragment"
 
@@ -125,23 +125,25 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
-        viewModel.provider.pagedList.observe(requireActivity(), {
-            (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
-            updateEmptyView()
-            restoreMultiSelectHelper()
-            if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
-            setFabPlayVisibility(true)
-        })
-
-        viewModel.provider.loading.observe(this, { loading ->
+        viewModel.provider.loading.observe(this@VideoGridFragment) { loading ->
             setRefreshing(loading) { refresh ->
                 if (!refresh) {
                     menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
                     restoreMultiSelectHelper()
                 }
             }
-        })
+        }
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == Medialibrary.SORT_FILENAME)
+        lifecycleScope.launch {
+            waitForML()
+            viewModel.provider.pagedList.observe(requireActivity()) {
+                (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
+                updateEmptyView()
+                restoreMultiSelectHelper()
+                if (it !is InitialPagedList<*, *> && activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
+                setFabPlayVisibility(true)
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -163,7 +165,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
                 val displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true)
                 settings.putSingle(KEY_VIDEOS_CARDS, !displayInCards)
-                (activity as ContentActivity).forceLoadVideoFragment()
+                updateViewMode()
+                activity?.invalidateOptionsMenu()
             }
             R.id.video_min_group_length_disable -> {
                 settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NONE)
@@ -285,14 +288,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val margin = binding.videoGrid.paddingStart + binding.videoGrid.paddingEnd
             val columnWidth = binding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin) - res.getDimensionPixelSize(R.dimen.left_right_1610_margin) * 2
             binding.videoGrid.columnWidth = columnWidth
-            videoListAdapter.setGridCardWidth(binding.videoGrid.columnWidth)
             binding.videoGrid.addItemDecoration(gridItemDecoration!!)
             binding.videoGrid.setPadding(4.dp, 4.dp, 4.dp, 4.dp)
         } else {
             binding.videoGrid.setPadding(0, 0, 0, 0)
         }
         binding.videoGrid.setNumColumns(if (listMode) 1 else -1)
-        if (videoListAdapter.isListMode != listMode) videoListAdapter.isListMode = listMode
+        videoListAdapter.isListMode = listMode
     }
 
     override fun onFabPlayClick(view: View) {
@@ -304,7 +306,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val empty = viewModel.isEmpty() && videoListAdapter.currentList.isNullOrEmpty()
         val working = viewModel.provider.loading.value != false
         binding.emptyLoading.state = when {
-            !Permissions.canReadStorage(AppContextProvider.appContext) -> EmptyLoadingState.MISSING_PERMISSION
+            !Permissions.canReadStorage(AppContextProvider.appContext) && empty -> EmptyLoadingState.MISSING_PERMISSION
             empty && working -> EmptyLoadingState.LOADING
             empty && !working -> EmptyLoadingState.EMPTY
             else -> EmptyLoadingState.NONE
@@ -336,6 +338,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             stopActionMode()
             return false
         }
+        lifecycleScope.launch { fillActionMode(requireActivity(), mode, multiSelectHelper) }
         when (viewModel.groupingType) {
             VideoGroupingType.NONE -> {
                 menu.findItem(R.id.action_video_append).isVisible = PlaylistManager.hasMedia()
@@ -521,12 +524,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 onClick(position, item)
             }
             is VideoLongClick -> {
-                onLongClick(position)
+                if ((item is VideoGroup && item.presentCount == 0)) UiTools.snackerMissing(requireActivity()) else onLongClick(position)
             }
             is VideoCtxClick -> {
                 when (item) {
                     is Folder -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
-                    is VideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS or CTX_RENAME_GROUP or CTX_UNGROUP or CTX_PLAY_ALL and CTX_PLAY.inv() or CTX_ADD_GROUP)
+                    is VideoGroup -> if (item.presentCount == 0) UiTools.snackerMissing(requireActivity()) else showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS or CTX_RENAME_GROUP or CTX_UNGROUP or CTX_PLAY_ALL and CTX_PLAY.inv() or CTX_ADD_GROUP)
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
@@ -551,7 +554,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun onLongClick(position: Int) {
         multiSelectHelper.toggleSelection(position, true)
-        if (actionMode == null) startActionMode()
+        if (actionMode == null) startActionMode() else invalidateActionMode()
     }
 
     private fun onClick(position: Int, item: MediaLibraryItem) {
@@ -575,7 +578,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     multiSelectHelper.toggleSelection(position)
                     invalidateActionMode()
                 }
-                item.mediaCount() == 1 -> viewModel.play(position)
+                item.presentCount == 0 -> UiTools.snackerMissing(requireActivity())
+                item.presentCount == 1 -> viewModel.play(position)
                 else -> activity?.open(item)
             }
         }

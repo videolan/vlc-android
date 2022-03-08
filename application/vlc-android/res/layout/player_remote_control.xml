@@ -15,6 +15,12 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="false" />
 
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_overlay_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/player_tips" />
+
     <RelativeLayout
             android:id="@+id/player_overlay_background"
             android:layout_width="match_parent"
@@ -74,16 +80,6 @@
                 android:layout="@layout/player_overlay_seek" />
 
         <androidx.appcompat.widget.ViewStubCompat
-                android:id="@+id/player_hud_stub"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/overlay_margin"
-                android:layout_marginRight="@dimen/overlay_margin"
-                android:layout_marginBottom="@dimen/overlay_margin"
-                android:layout="@layout/player_hud" />
-
-        <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_hud_right_stub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,6 +91,15 @@
                 android:layout_marginBottom="@dimen/overlay_margin"
                 android:layout="@layout/player_hud_right" />
 
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_hud_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/overlay_margin"
+                android:layout_marginRight="@dimen/overlay_margin"
+                android:layout_marginBottom="@dimen/overlay_margin"
+                android:layout="@layout/player_hud" />
     </RelativeLayout>
 
 

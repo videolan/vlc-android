@@ -41,7 +41,7 @@ interface BrowserFavDao {
     fun getAll(): Flow<List<BrowserFav>>
 
     @Query("SELECT * from fav_table where type = 0")
-    fun getAllNetwrokFavs(): LiveData<List<BrowserFav>>
+    fun getAllNetworkFavs(): Flow<List<BrowserFav>>
 
     @Query("SELECT * from fav_table where type = 1")
     fun getAllLocalFavs(): LiveData<List<BrowserFav>>

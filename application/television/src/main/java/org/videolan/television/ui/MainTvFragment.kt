@@ -47,8 +47,8 @@ import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
-import org.videolan.vlc.donations.BillingStatus
-import org.videolan.vlc.donations.VLCBilling
+//import org.videolan.vlc.donations.BillingStatus
+//import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.reloadLibrary
@@ -163,11 +163,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
         if (Permissions.canReadStorage(requireActivity())) otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
-        otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content_dark))
         val donateCard = GenericCardItem(ID_SPONSOR, getString(R.string.tip_jar), "", R.drawable.ic_donate_big, R.color.tv_card_content_dark)
-        VLCBilling.getInstance(requireActivity().application).addStatusListener {
-            manageDonationVisibility(donateCard)
-        }
+//        VLCBilling.getInstance(requireActivity().application).addStatusListener {
+//            manageDonationVisibility(donateCard)
+//        }
         manageDonationVisibility(donateCard)
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
@@ -186,55 +185,55 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private fun manageDonationVisibility(donateCard: GenericCardItem) {
         if (activity == null) return
         otherAdapter.remove(donateCard)
-        if (VLCBilling.getInstance(requireActivity().application).status != BillingStatus.FAILURE && VLCBilling.getInstance(requireActivity().application).skuDetails.isNotEmpty()) otherAdapter.add(1, donateCard)
+//        if (VLCBilling.getInstance(requireActivity().application).status != BillingStatus.FAILURE && VLCBilling.getInstance(requireActivity().application).skuDetails.isNotEmpty()) otherAdapter.add(1, donateCard)
     }
 
     private fun registerDatasets() {
-        model.browsers.observe(requireActivity(), {
+        model.browsers.observe(requireActivity()) {
             browserAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NETWORK)
-        })
-        model.audioCategories.observe(requireActivity(), {
+        }
+        model.audioCategories.observe(requireActivity()) {
             categoriesAdapter.setItems(it.toList(), diffCallback)
             addAndCheckLoadedLines(HEADER_CATEGORIES)
-        })
-        model.videos.observe(requireActivity(), {
+        }
+        model.videos.observe(requireActivity()) {
             videoAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_VIDEO)
-        })
-        model.nowPlaying.observe(requireActivity(), {
+        }
+        model.nowPlaying.observe(requireActivity()) {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NOW_PLAYING)
-        })
-        model.recentlyPlayed.observe(requireActivity(), {
+        }
+        model.recentlyPlayed.observe(requireActivity()) {
             displayRecentlyPlayed = it.isNotEmpty()
             recentlyPlayedAdapter.setItems(it, metadataDiffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_RECENTLY_PLAYED)
-        })
-        model.recentlyAdded.observe(requireActivity(), {
+        }
+        model.recentlyAdded.observe(requireActivity()) {
             displayRecentlyAdded = it.isNotEmpty()
             recentlyAddedAdapter.setItems(it, metadataDiffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_RECENTLY_ADDED)
-        })
-        model.history.observe(requireActivity(), {
+        }
+        model.history.observe(requireActivity()) {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
                 historyAdapter.setItems(it, diffCallback)
             }
             resetLines()
             addAndCheckLoadedLines(HEADER_HISTORY)
-        })
+        }
 
-        model.playlist.observe(requireActivity(), {
+        model.playlist.observe(requireActivity()) {
             displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_PLAYLISTS)
 
-        })
+        }
     }
 
     /**
@@ -291,8 +290,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         if (media.type != MediaWrapper.TYPE_DIR) return false
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
-        intent.putExtra("media", media)
-        intent.putExtra("item", MediaItemDetails(media.title, media.artist, media.album, media.location, media.artworkURL))
+        intent.putExtra(EXTRA_MEDIA, media)
+        intent.putExtra(EXTRA_ITEM, MediaItemDetails(media.title, media.artist, media.album, media.location, media.artworkURL))
         startActivity(intent)
         return true
     }
@@ -315,7 +314,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                         }
                     }
                     ID_ABOUT_TV -> activity.startActivity(Intent(activity, AboutActivity::class.java))
-                    ID_LICENCE -> activity.startActivity(Intent(activity, LicenceActivity::class.java))
                     ID_SPONSOR -> activity.showDonations()
                 }
             }

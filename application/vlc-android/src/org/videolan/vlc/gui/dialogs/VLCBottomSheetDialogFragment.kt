@@ -11,8 +11,9 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import org.videolan.vlc.R
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
+import org.videolan.vlc.R
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -30,6 +31,14 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     }
 
+    /**
+     * Apply bottom margin for Android TV
+     */
+    private fun applyOverscanMargin(view: View) {
+        val vm = requireActivity().resources.getDimensionPixelSize(org.videolan.resources.R.dimen.tv_overscan_vertical)
+        view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom + vm)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenStarted {
@@ -40,6 +49,7 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
             dialog?.findViewById<View>(R.id.touch_outside)?.isFocusable = false
             dialog?.findViewById<View>(R.id.touch_outside)?.isFocusableInTouchMode = false
+            if (AndroidDevices.isTv) applyOverscanMargin(view)
         }
 
 
@@ -65,13 +75,12 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
             super.onConfigurationChanged(newConfig)
             return
         }
-        val fragmentManager = fragmentManager
-        if (fragmentManager != null) {
+        if (isAdded) {
             dismiss()
         }
         super.onConfigurationChanged(newConfig)
-        if (fragmentManager != null) {
-            show(fragmentManager, tag)
+        if (isAdded) {
+            show(parentFragmentManager.beginTransaction().setReorderingAllowed(false), tag)
         }
     }
 

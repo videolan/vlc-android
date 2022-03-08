@@ -86,6 +86,12 @@ abstract public class Medialibrary {
     public static final int ML_INIT_FAILED = 2;
     public static final int ML_INIT_DB_RESET = 3;
     public static final int ML_INIT_DB_CORRUPTED = 4;
+    public static final int ML_INIT_DB_UNRECOVERABLE = 5;
+
+    public static final int ML_SET_TIME_ERROR = 0;
+    public static final int ML_SET_TIME_BEGIN = 1;
+    public static final int ML_SET_TIME_AS_IS = 2;
+    public static final int ML_SET_TIME_END = 3;
 
     public static final MediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
@@ -160,7 +166,7 @@ abstract public class Medialibrary {
         return mIsInitiated;
     }
 
-    public static String[] getBlackList() {
+    public static String[] getBanList() {
         return new String[] {
                 "/Android/data/",
                 "/Android/media/",
@@ -691,10 +697,12 @@ abstract public class Medialibrary {
         }
     }
 
+    abstract public boolean construct(Context context);
     abstract public int init(Context context);
     abstract public void start();
     abstract public void banFolder(@NonNull String path);
     abstract public void unbanFolder(@NonNull String path);
+    abstract public String[] bannedFolders();
     abstract public String[] getDevices();
     abstract public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable);
     abstract public boolean isDeviceKnown(@NonNull String uuid, @NonNull String path, boolean removable);
@@ -771,7 +779,7 @@ abstract public class Medialibrary {
     abstract public MediaWrapper addStream(String mrl, String title);
     abstract public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
-    abstract public boolean setLastTime(long mediaId, long time);
+    abstract public int setLastTime(long mediaId, long time);
     abstract public boolean setLastPosition(long mediaId, float position);
     abstract public SearchAggregate search(String query, boolean includeMissing);
     abstract public MediaWrapper[] searchMedia(String query);

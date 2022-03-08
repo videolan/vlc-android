@@ -1,37 +1,11 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_playasaudio_on_normal.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="48dp"
-        android:height="48dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillType="nonZero"
-            android:pathData="m4,4 l-1.0606,1.0606 1.0606,1.0605 0,1.8789 0,8c0,1.108 0.8919,2 2,2l9.8789,0 3.0605,3.0606 1.0606,-1.0606 -2,-2 -2,-2 -8,-8 -2,-2 -2,-2zM8,6 L10,8 18,8 18,16 19.416,17.416 20,18 20,16 20,8c0,-1.108 -0.892,-2 -2,-2l-10,0zM6,8.1211 L13.8789,16 6,16 6,8.1211z"
-            android:strokeWidth="0.5"
-            android:strokeColor="#00000000" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M21.9395,6C19.754,6.0331 17.9998,7.8143 18,10L18,14L18,27.0723C16.7839,26.37 15.4043,26.0001 14,26C9.5817,26 6,29.5817 6,34C6,38.4183 9.5817,42 14,42C18.4183,42 22,38.4183 22,34L22,14L26.0605,14C28.246,13.9669 30.0002,12.1857 30,10L30,6L21.9395,6zM29,24C28.4477,24.0001 28.0001,24.4477 28,25L28,41C28,41.7985 28.8865,42.2713 29.5547,41.832L41.5547,33.832C42.1483,33.4361 42.1483,32.5639 41.5547,32.168L29.5547,24.168C29.3904,24.0585 29.1974,24 29,24zM13.9707,30C16.2101,30 18,31.7909 18,34C18,36.2091 16.2091,38 14,38C11.7909,38 10,36.2091 10,34C9.9998,31.8143 11.755,30.0331 13.9707,30z"
+      tools:fillColor="#ffffff"
+      android:fillColor="?attr/player_icon_color"/>
 </vector>

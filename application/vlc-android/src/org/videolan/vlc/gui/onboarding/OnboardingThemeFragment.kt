@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import kotlinx.android.synthetic.main.onboarding_theme.*
 import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.R
 
 class OnboardingThemeFragment : OnboardingFragment(), View.OnClickListener {
 
     private val viewModel: OnboardingViewModel by activityViewModels()
+    private lateinit var themeDescription: TextView
+    private lateinit var lightTheme: View
+    private lateinit var darkTheme: View
+    private lateinit var dayNightTheme: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_theme, container, false)
@@ -21,11 +25,15 @@ class OnboardingThemeFragment : OnboardingFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        themeDescription = view.findViewById(R.id.themeDescription)
+        lightTheme = view.findViewById<TextView>(R.id.lightTheme)
+        darkTheme = view.findViewById<TextView>(R.id.darkTheme)
+        dayNightTheme = view.findViewById<TextView>(R.id.dayNightTheme)
         themeDescription.setText(if (AndroidDevices.canUseSystemNightMode())R.string.daynight_system_explanation else R.string.daynight_legacy_explanation)
         lightTheme.setOnClickListener(this)
         darkTheme.setOnClickListener(this)
         dayNightTheme.setOnClickListener(this)
-        doneButton.setOnClickListener { onboardingFragmentListener.onDone() }
+        view.findViewById<View>(R.id.doneButton).setOnClickListener { onboardingFragmentListener.onDone() }
     }
 
     override fun onClick(view: View) {

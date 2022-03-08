@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:vlc="http://schemas.android.com/tools">
 
     <data>
@@ -15,56 +16,87 @@
                 type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <variable
+                name="description"
+                type="String" />
+
+        <variable
                 name="holder"
                 type="org.videolan.vlc.gui.SearchResultAdapter.ViewHolder" />
+
+        <variable
+                name="coverWidth"
+                type="int" />
+
+        <variable
+                name="isSquare"
+                type="Boolean" />
 
         <variable
                 name="handler"
                 type="org.videolan.vlc.gui.SearchActivity.ClickHandler" />
 
-        <variable
-                name="bgColor"
-                type="int" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:background="@{bgColor}"
             android:onClick="@{() -> handler.onItemClick(item)}">
 
         <ImageView
                 android:id="@+id/item_image"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_alignParentLeft="true"
+                android:scaleType="centerCrop"
+                android:src="@{cover}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                vlc:imageWidth="@{coverWidth}"
+                vlc:coverWidth="@{coverWidth}"
+                vlc:constraintRatio="@{isSquare}"
                 vlc:media="@{item}"
-                android:src="@{cover}" />
+                vlc:srcCompat="@tools:sample/avatars" />
 
-        <LinearLayout
-                android:layout_width="match_parent"
+        <TextView
+                android:id="@+id/item_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/item_image"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="2"
+                android:text="@{item.title}"
+                android:textColor="?attr/font_default"
+                app:layout_constraintBottom_toTopOf="@+id/item_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/item_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                vlc:text="5th Symphony" />
 
-            <TextView
-                    android:id="@+id/item_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{item.title}" />
+        <TextView
+                android:id="@+id/item_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="2"
+                android:text="@{description}"
+                android:textColor="?attr/font_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/item_image"
+                app:layout_constraintTop_toBottomOf="@+id/item_title"
+                vlc:text="Ludwig van Beethoven" />
 
-            <TextView
-                    android:id="@+id/item_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{item.description}" />
-        </LinearLayout>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

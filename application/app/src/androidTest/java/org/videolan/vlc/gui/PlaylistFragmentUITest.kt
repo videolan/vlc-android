@@ -52,9 +52,9 @@ class PlaylistFragmentUITest: BaseUITest() {
 
     private fun createDummyPlaylist() {
         val ml = Medialibrary.getInstance()
-        val pl = ml.createPlaylist(DUMMY_PLAYLIST)
-        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        val pl = ml.createPlaylist(DUMMY_PLAYLIST, true)
+        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
     }
 
     @Test

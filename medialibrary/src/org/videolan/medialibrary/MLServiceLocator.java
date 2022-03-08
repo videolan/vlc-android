@@ -220,11 +220,11 @@ public class MLServiceLocator {
     }
 
     //Playlist
-    public static Playlist getAbstractPlaylist(long id, String name, int trackCount) {
+    public static Playlist getAbstractPlaylist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new PlaylistImpl(id, name, trackCount);
+            return new PlaylistImpl(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
         } else {
-            return new StubPlaylist(id, name, trackCount);
+            return new StubPlaylist(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
         }
     }
 

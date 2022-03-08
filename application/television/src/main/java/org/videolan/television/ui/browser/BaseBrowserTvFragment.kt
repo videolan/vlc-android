@@ -158,14 +158,14 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         binding.imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
-        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
+        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, spacing, true, viewModel.nbColumns, viewModel.provider)
         inGrid = Settings.getInstance(requireActivity()).getBoolean(getDisplayPrefId(), true)
         setupDisplayIcon()
         setupLayoutManager()
 
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight, viewModel.nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight, viewModel.nbColumns, spacing, spacing)
 
         adapter = provideAdapter(this, itemSize)
         adapter.displaySwitch(inGrid)
@@ -453,24 +453,16 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             setFocus = false
             lifecycleScope.launchWhenStarted {
                 yield()
-                binding.list.requestFocus()
+                // If there is a previous selection, no need to request focus on the list here
+                // as it is requested for the specific item in the onLayoutChildren override above.
+                // This stops a flicker when coming back from playback.
+                if (previouslySelectedItem == -1) {
+                    binding.list.requestFocus()
+                }
             }
         }
         animationDelegate.setVisibility(binding.imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(binding.headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(binding.headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
-    }
-}
-
-@MainThread
-@BindingAdapter("constraintRatio")
-fun constraintRatio(v: View, isSquare: Boolean) {
-    val constraintLayout = v.parent as? ConstraintLayout
-    constraintLayout?.let {
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(constraintLayout)
-        constraintSet.setDimensionRatio(v.id, if (isSquare) "1" else "16:10")
-        constraintLayout.setConstraintSet(constraintSet)
-
     }
 }

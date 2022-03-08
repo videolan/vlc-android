@@ -1,6 +1,7 @@
 package org.videolan.vlc.media
 
 import android.content.Intent
+import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.widget.Toast
@@ -22,6 +23,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -29,6 +31,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import java.security.SecureRandom
 import java.util.*
 import kotlin.math.max
 
@@ -64,7 +67,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     var isHardware = false
     private var parsed = false
     var savedTime = 0L
-    private var random = Random(System.currentTimeMillis())
+    private var random = SecureRandom()
     private var newMedia = false
     @Volatile
     private var expanding = false
@@ -73,20 +76,32 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
+    val waitForConfirmation by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
     private var lastPrevious = -1L
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    lateinit var videoResumeStatus: VideoResumeStatus
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
+
+    fun canRepeat() = mediaList.size() > 0
 
     fun hasPlaylist() = mediaList.size() > 1
 
     fun canShuffle() = mediaList.size() > 2
 
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
+    private var shouldDisableCookieForwarding: Boolean = false
 
     init {
         repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+        resetResumeStatus()
+    }
+
+    fun resetResumeStatus() {
+        val string = settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0")
+        videoResumeStatus = if (string == "2") VideoResumeStatus.ASK else if (string == "0") VideoResumeStatus.ALWAYS else VideoResumeStatus.NEVER
+        waitForConfirmation.postValue(null)
     }
 
     /**
@@ -98,6 +113,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     fun loadLocations(mediaPathList: List<String>, position: Int) {
+        if (BuildConfig.BETA) {
+            Log.d(TAG, "loadLocations with values: ", Exception("Call stack"))
+            mediaPathList.forEach {
+                try {
+                    Log.d(TAG, "Media location: $it")
+                } catch (e: NullPointerException) {
+                    Log.d(TAG, "Media crash", e)
+                }
+            }
+        }
         launch {
             val mediaList = ArrayList<MediaWrapper>()
             withContext(Dispatchers.IO) {
@@ -106,13 +131,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (mediaWrapper === null) {
                         if (!location.validateLocation()) {
                             Log.w(TAG, "Invalid location $location")
-                            service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
+                            service.showToast(if (Uri.parse(location).scheme == "missing")service.resources.getString(R.string.missing_location) else service.resources.getString(R.string.invalid_location,  location), Toast.LENGTH_SHORT)
                             continue
                         }
                         Log.v(TAG, "Creating on-the-fly Media object for $location")
                         mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(location.toUri())
+                        if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
                         mediaList.add(mediaWrapper)
                     } else
+                        if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
                         mediaList.add(mediaWrapper)
                 }
             }
@@ -127,6 +154,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.removeEventListener(this@PlaylistManager)
         previous.clear()
         videoBackground = false
+        if (BuildConfig.BETA) {
+            Log.d(TAG, "load with values: ", Exception("Call stack"))
+            list.forEach {
+                try {
+                    Log.d(TAG, "Media location: ${it.uri}")
+                } catch (e: NullPointerException) {
+                    Log.d(TAG, "Media crash", e)
+                }
+            }
+        }
         mediaList.replaceWith(list)
         if (!hasMedia()) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -147,6 +184,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (mlUpdate) {
             service.awaitMedialibraryStarted()
             mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
+            if (BuildConfig.BETA) {
+                Log.d(TAG, "load after ml update with values: ")
+                mediaList.copy.forEach { Log.d(TAG, "Media location: ${it.uri}") }
+            }
             service.onMediaListChanged()
             service.showNotification()
         }
@@ -186,9 +227,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             // load playlist
-            shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
-            val position = max(0, settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0))
-            savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
+            shuffling = settings.getBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, false)
+            val position = max(0, settings.getInt(if (audio) POSITION_IN_AUDIO_LIST else POSITION_IN_MEDIA_LIST, 0))
+            savedTime = settings.getLong(if (audio) POSITION_IN_SONG else POSITION_IN_MEDIA, -1)
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
                 playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
             }
@@ -221,7 +262,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun next(force : Boolean = false) {
-        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) saveMediaMeta() }
         val size = mediaList.size()
         if (force || repeating != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
@@ -232,9 +273,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
-        }
-        if (repeating == PlaybackStateCompat.REPEAT_MODE_ONE) {
-            mediaList.getMedia(currentIndex)?.addFlags(MediaWrapper.MEDIA_FROM_START)
         }
         launch { playIndex(currentIndex) }
     }
@@ -255,9 +293,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val audio = isAudioList() // check before dispatching in saveMediaMeta()
             launch(start = CoroutineStart.UNDISPATCHED) {
                 saveMediaMeta().join()
-                if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !audio) setResumeProgram(service.applicationContext, it)
+                if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && video) {
+                    setResumeProgram(service.applicationContext, it)
+                    updateNextProgramAfterThumbnailGeneration(service, service.applicationContext, it)
+                }
             }
         }
+        service.setSleepTimer(null)
         mediaList.removeEventListener(this)
         previous.clear()
         currentIndex = -1
@@ -276,10 +318,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun previous(force : Boolean) {
-        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) it.time = player.getCurrentTime() }
-        if (hasPrevious() && currentIndex > 0 &&
-                ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious <  PREVIOUS_LIMIT_DELAY)))) {
+    fun previous(force: Boolean) {
+        mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) saveMediaMeta() }
+        if (hasPrevious() &&
+                ((force || !player.seekable || (player.getCurrentTime() < PREVIOUS_LIMIT_DELAY) || (lastPrevious != -1L && System.currentTimeMillis() - lastPrevious < PREVIOUS_LIMIT_DELAY)))) {
             val size = mediaList.size()
             currentIndex = prevIndex
             if (previous.size > 0) previous.pop()
@@ -317,7 +359,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         showAudioPlayer.value = PlayerController.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
-    suspend fun playIndex(index: Int, flags: Int = 0) {
+    suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -352,9 +394,20 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
-            val start = getStartTime(mw)
+            val start = if (forceRestart || videoResumeStatus == VideoResumeStatus.NEVER) 0L else getStartTime(mw)
+            if (isVideoPlaying) {
+                if (!forceResume && videoResumeStatus == VideoResumeStatus.ASK && start > 0) {
+                    waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
+                    return
+                }
+            }
             //todo restore position as well when we move to VLC 4.0
             val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
+            //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
+            if (shouldDisableCookieForwarding) {
+                shouldDisableCookieForwarding = false
+                media.addOption(":no-http-forward-cookies")
+            }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags, PlaybackService.hasRenderer())
@@ -423,7 +476,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     override fun onItemAdded(index: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        addUpdateActor.offer(Unit)
+        addUpdateActor.trySend(Unit)
     }
 
     private val addUpdateActor = actor<Unit>(capacity = Channel.CONFLATED) {
@@ -454,7 +507,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private fun executeUpdate() {
-        service.executeUpdate()
+        service.executeUpdate(true)
     }
 
     fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
@@ -462,7 +515,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val currentMedia = getCurrentMedia() ?: return@launch
         if (currentMedia.uri.scheme == "fd") return@launch
         //Save progress
-        val time = player.getCurrentTime()
+        val time = player.mediaplayer.time
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
         val rate = player.getRate()
@@ -476,11 +529,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     media.position = player.lastPosition
                     medialibrary.setLastPosition(media.id, media.position)
                 } else {
-                    media.time = time
                     //todo verify that this info is persisted in DB
                     if (media.length <= 0 && length > 0) media.length = length
-
-                    medialibrary.setLastTime(media.id, time)
+                    try {
+                        when (medialibrary.setLastTime(media.id, time)) {
+                            Medialibrary.ML_SET_TIME_ERROR -> {
+                            }
+                            Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
+                            Medialibrary.ML_SET_TIME_AS_IS -> media.time = time
+                        }
+                    } catch (e: NullPointerException) {
+                        VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
+                    }
                 }
             }
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
@@ -564,7 +624,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        addUpdateActor.safeOffer(Unit)
+        addUpdateActor.trySend(Unit)
     }
 
     private suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
@@ -603,10 +663,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         return
                     } else {
                         previous.clear()
-                        random = Random(System.currentTimeMillis())
                     }
                 }
-                random = Random(System.currentTimeMillis())
                 // Find a new index not in previous.
                 do {
                     nextIndex = random.nextInt(size)
@@ -623,16 +681,26 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    fun previousTotalTime() = if (shuffling) {
-        mediaList.copy.asSequence()
-                .filterIndexed { index, _ -> previous.contains(index) }
-                .map { it.length }
-                .sum()
-    } else {
-        mediaList.copy.asSequence()
-                .take(currentIndex)
-                .map { it.length }
-                .sum()
+    fun previousTotalTime(): Long {
+        val index = currentIndex
+        val copy = mediaList.copy
+        return when {
+            copy.size == 0 || index < 0 -> {
+                0
+            }
+            shuffling -> {
+                copy.asSequence()
+                        .filterIndexed { index, _ -> previous.contains(index) }
+                        .map { it.length }
+                        .sum()
+            }
+            else -> {
+                copy.asSequence()
+                        .take(index)
+                        .map { it.length }
+                        .sum()
+            }
+        }
     }
 
     /**
@@ -641,6 +709,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     private suspend fun expand(updateHistory: Boolean): Int {
+        if (BuildConfig.BETA) Log.d(TAG, "expand with values: ", Exception("Call stack"))
         val index = currentIndex
         val expandedMedia = getCurrentMedia()
         val stream = expandedMedia?.type == MediaWrapper.TYPE_STREAM
@@ -653,12 +722,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             mediaList.remove(index)
             for (i in 0 until ml.count) {
                 val child = ml.getMediaAt(i)
+                //fixme workaround to prevent the issue described in https://code.videolan.org/videolan/vlc-android/-/issues/2106
+                if (isSchemeHttpOrHttps(child.uri.scheme) && child.uri.authority?.endsWith(".youtube.com") == true) {
+                    shouldDisableCookieForwarding = true
+                }
                 withContext(Dispatchers.IO) { child.parse() }
-                mediaList.insert(index+i, MLServiceLocator.getAbstractMediaWrapper(child))
+                if (BuildConfig.BETA)  Log.d(TAG, "inserting: ${child.uri}")
+                mediaList.insert(index + i, MLServiceLocator.getAbstractMediaWrapper(child))
                 child.release()
             }
             mediaList.addEventListener(this)
-            addUpdateActor.offer(Unit)
+            addUpdateActor.trySend(Unit)
             service.onMediaListChanged()
             if (mrl !== null && ml.count == 1) {
                 getCurrentMedia()?.apply {
@@ -708,11 +782,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (!hasMedia()) return
         settings.edit {
             val audio = !video && isAudioList()
-            putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
-            putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
-            putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
+            putBoolean(if (audio) AUDIO_SHUFFLING else MEDIA_SHUFFLING, shuffling)
+            putInt(if (audio) POSITION_IN_AUDIO_LIST else POSITION_IN_MEDIA_LIST, if (reset) 0 else currentIndex)
+            putLong(if (audio) POSITION_IN_SONG else POSITION_IN_MEDIA, if (reset) 0L else player.getCurrentTime())
             if (!audio) {
                 putFloat(VIDEO_SPEED, player.getRate())
+            }
+            //we reached the end. The next proposed media should be the first of the list
+            if (reset) {
+                val media = getMediaList()[0]
+                putString(KEY_CURRENT_AUDIO, media.location)
             }
         }
     }
@@ -722,6 +801,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     suspend fun append(list: List<MediaWrapper>) {
+        if (BuildConfig.BETA) Log.d(TAG, "append with values: ", Exception("Call stack"))
         if (!hasCurrentMedia()) {
             launch { load(list, 0, mlUpdate = true) }
             return
@@ -729,8 +809,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
         mediaList.removeEventListener(this)
         for (media in list) mediaList.add(media)
+        if (BuildConfig.BETA) list.forEach {
+            try {
+                Log.d(TAG, "Media location: ${it.uri}")
+            } catch (e: NullPointerException) {
+                Log.d(TAG, "Media crash", e)
+            }
+        }
         mediaList.addEventListener(this)
-        addUpdateActor.offer(Unit)
+        addUpdateActor.trySend(Unit)
     }
 
     /**
@@ -739,6 +826,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun insertNext(list: List<MediaWrapper>) {
+        if (BuildConfig.BETA) Log.d(TAG, "insertNext with values: ", Exception("Call stack"))
+        if (BuildConfig.BETA) list.forEach { Log.d(TAG, "Media location: ${it.uri}") }
         if (!hasCurrentMedia()) {
             launch { load(list, 0) }
             return
@@ -754,7 +843,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun moveItem(positionStart: Int, positionEnd: Int) = mediaList.move(positionStart, positionEnd)
 
     @MainThread
-    fun insertItem(position: Int, mw: MediaWrapper) = mediaList.insert(position, mw)
+    fun insertItem(position: Int, mw: MediaWrapper) {
+        if (BuildConfig.BETA) Log.d(TAG, "insertItem with values: ", Exception("Call stack"))
+        if (BuildConfig.BETA) Log.d(TAG, "Media location: ${mw.uri}")
+        mediaList.insert(position, mw)
+    }
 
 
     @MainThread
@@ -857,10 +950,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         newMedia = false
                         if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
                         savePlaycount(mw)
+                        if (mw.type == MediaWrapper.TYPE_STREAM && (mw.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || mw.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
+                            // used for initial metadata update. We avoid the metadata load when the initial MediaPlayer.Event.ESSelected is sent to avoid race conditions
+                            refreshTrackMeta(mw)
+                        }
                     }
                 }
                 MediaPlayer.Event.EndReached -> {
                     clearABRepeat()
+                    getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_FROM_START)
                     if (currentIndex != nextIndex) {
                         saveMediaMeta()
                         if (isBenchmark) player.setPreviousStats()
@@ -873,29 +971,58 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         if (isBenchmark) player.setCurrentStats()
                         determinePrevAndNextIndices(true)
                         if (!hasNext()) getCurrentMedia()?.let {
-                            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
+                            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) {
+                                setResumeProgram(service.applicationContext, it)
+                                updateNextProgramAfterThumbnailGeneration(service, service.applicationContext, it)
+                            }
                         }
                         next()
                     }
                 }
                 MediaPlayer.Event.EncounteredError -> {
-                    service.showToast(service.getString(
-                            R.string.invalid_location,
-                            getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT, true)
+                    val location = try {
+                        getCurrentMedia()?.location
+                    } catch (e: NullPointerException) {
+                        null
+                    }
+                    Log.w(TAG, "Invalid location $location")
+
+                    service.showToast(if (location != null && Uri.parse(location).scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location
+                            ?: ""), Toast.LENGTH_SHORT, true)
                     if (currentIndex != nextIndex) next() else stop()
                 }
                 MediaPlayer.Event.TimeChanged -> {
                     abRepeat.value?.let {
-                        if (it.stop != -1L && player.getCurrentTime() > it.stop) player.seek(it.start)
+                        if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start)
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
                 }
                 MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(if(player.isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false)) {
                     player.setRate(settings.getFloat(if(player.isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else KEY_PLAYBACK_RATE, 1.0f), false)
                 }
+                MediaPlayer.Event.ESSelected -> {
+                    getCurrentMedia()?.let { media ->
+                        if (player.isPlaying()) {
+                            if (media.type == MediaWrapper.TYPE_STREAM && (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
+                                refreshTrackMeta(media)
+                            }
+                        }
+                    }
+                }
             }
             service.onMediaPlayerEvent(event)
         }
+    }
+
+    /**
+     * Refresh the track meta as the title and then updates the player
+     * Useful for web radios changing the metadata during playback
+     * @param mw: The [MediaWrapper] to be updated
+     */
+    private fun refreshTrackMeta(mw: MediaWrapper) {
+        mw.updateMeta(player.mediaplayer)
+        service.onMediaListChanged()
+        service.showNotification()
     }
 
     private suspend fun savePlaycount(mw: MediaWrapper) {
@@ -903,7 +1030,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)
-                if (internalMedia == null || internalMedia.id == 0L) {
+                if (internalMedia != null && internalMedia.id != 0L) {
+                    id = internalMedia.id
+                } else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
@@ -912,10 +1041,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         medialibrary.addMedia(mw.uri.toString(), mw.length)
                     }
                     if (internalMedia != null) {
+                        id = internalMedia.id
                         getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
                     }
                 }
             }
+            val length = player.getLength()
+            val canSwitchToVideo = player.canSwitchToVideo()
+            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (length == 0L) medialibrary.setLastPosition(id, 1.0f) else  medialibrary.setLastTime(id, length)
         }
     }
 
@@ -924,3 +1057,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
 class DelayValues(var start: Long = -1L, var stop: Long = -1L)
+class WaitConfirmation(val title: String, val index: Int, val flags: Int)
+enum class VideoResumeStatus {
+    ALWAYS, ASK, NEVER
+}

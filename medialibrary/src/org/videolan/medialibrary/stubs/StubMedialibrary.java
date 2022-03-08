@@ -28,9 +28,14 @@ public class StubMedialibrary extends Medialibrary {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public int init(Context context) {
-        if (context == null) return ML_INIT_FAILED;
+    public boolean construct(Context context) {
+        if (context == null) return false;
         sContext = context;
+        return true;
+    }
+
+    public int init(Context context) {
+        if (context == null || sContext == null) return ML_INIT_FAILED;
         return ML_INIT_SUCCESS;
     }
 
@@ -54,6 +59,10 @@ public class StubMedialibrary extends Medialibrary {
 
     public void unbanFolder(@NonNull String path) {
         dt.mBannedFolders.remove(path);
+    }
+
+    public String[] bannedFolders() {
+        return new String[0];
     }
 
     public String[] getDevices() {
@@ -341,7 +350,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public Playlist createPlaylist(String name, boolean includeMissing) {
-        Playlist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0);
+        Playlist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0, 0L, 0, 0, 0, 0);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
         return playlist;
@@ -496,7 +505,7 @@ public class StubMedialibrary extends Medialibrary {
 
     public void requestThumbnail(long id) {}
 
-    public boolean setLastTime(long mediaId, long time) {
+    public int setLastTime(long mediaId, long time) {
         for (int i = 0; i < dt.mVideoMediaWrappers.size(); i++) {
             MediaWrapper media = dt.mVideoMediaWrappers.get(i);
             if (media.getId() == mediaId) {
@@ -504,7 +513,7 @@ public class StubMedialibrary extends Medialibrary {
                 dt.mVideoMediaWrappers.set(i, media);
             }
         }
-        return true;
+        return ML_SET_TIME_BEGIN;
     }
 
     public boolean setLastPosition(long mediaId, float poistion) {

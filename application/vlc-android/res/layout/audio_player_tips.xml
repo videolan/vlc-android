@@ -1,76 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/audio_tips"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/audioPlayerTips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/background_audio_tips"
+        android:clickable="false"
+        android:elevation="@dimen/audio_player_elevation"
         android:gravity="center"
         android:orientation="vertical"
-        android:elevation="@dimen/audio_player_elevation"
         android:weightSum="8">
 
+    <View
+            android:id="@+id/audio_tips_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/background_audio_tips"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_marginBottom="62dp" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/actionBarItemBackground"
+            android:nextFocusRight="@+id/add_bookmark"
+            android:onClick="onClickDismissTips"
+            android:padding="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_small" />
+
     <TextView
-            style="@style/TipsFontStyle"
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/audio_player_tips"
-            android:textSize="18sp" />
+            android:textColor="?attr/font_default"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/close"
+            app:layout_constraintTop_toTopOf="@+id/close" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left|center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
-        <TextView
-                style="@style/TipsFontStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_gesture_finger_1"
-                android:gravity="center"
-                android:text="@string/previous_next_song" />
-
-        <TextView
-                style="@style/TipsFontStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_gesture_finger_2"
-                android:gravity="center"
-                android:text="@string/show_playlist" />
-
-        <TextView
-                style="@style/TipsFontStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_gesture_finger_3"
-                android:gravity="center"
-                android:text="@string/hold_to_stop" />
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+            android:id="@+id/helpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/font_default"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/helpDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/close"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Help title" />
 
-        <TextView
-                android:id="@+id/okgotit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_oval"
-                android:text="@string/ok_got_it"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-    </LinearLayout>
+    <TextView
+            android:id="@+id/helpDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:textAlignment="center"
+            android:textColor="?attr/font_light"
+            android:textSize="14sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/helpTitle"
+            tools:text="Help description" />
+
+    <Button
+            android:id="@+id/nextButton"
+            style="@style/VLC.Tips.Button.Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickNextTips"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="@+id/audio_tips_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/helpDescription" />
 
     <ImageView
+            android:id="@+id/tap_gesture_horizontal_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/img_tips_audioplayer" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="21dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audio_tips_background"
+            app:srcCompat="@drawable/tips_gesture_horizontal_small"
+            tools:visibility="visible" />
 
-</LinearLayout>
+    <View
+            android:id="@+id/tapGestureHorizontal"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/tips_tap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tap_gesture_horizontal_background"
+            app:layout_constraintEnd_toEndOf="@+id/tap_gesture_horizontal_background"
+            app:layout_constraintStart_toStartOf="@+id/tap_gesture_horizontal_background"
+            app:layout_constraintTop_toTopOf="@+id/tap_gesture_horizontal_background"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/tapIndicatorPlaylist"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/tips_tap"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audio_tips_background"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/tapIndicatorStop"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="11dp"
+            android:background="@drawable/tips_tap"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audio_tips_background"
+            tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

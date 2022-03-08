@@ -263,12 +263,11 @@ class MediaScrapingTvItemAdapter(
             binding.seen = seen
             binding.description = description
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }
@@ -338,12 +337,11 @@ class MediaScrapingTvItemAdapter(
             binding.seen = seen
             binding.description = description
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
-        @ObsoleteCoroutinesApi
         override fun setCoverlay(selected: Boolean) {
         }
     }

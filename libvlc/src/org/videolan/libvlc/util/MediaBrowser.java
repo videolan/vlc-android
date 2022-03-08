@@ -22,16 +22,17 @@ package org.videolan.libvlc.util;
 
 import android.net.Uri;
 import android.os.Handler;
-import androidx.annotation.MainThread;
 import android.util.Log;
 
+import androidx.annotation.MainThread;
+
 import org.videolan.libvlc.FactoryManager;
-import org.videolan.libvlc.interfaces.IMediaFactory;
+import org.videolan.libvlc.MediaDiscoverer;
+import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.interfaces.IMedia;
-import org.videolan.libvlc.MediaDiscoverer;
+import org.videolan.libvlc.interfaces.IMediaFactory;
 import org.videolan.libvlc.interfaces.IMediaList;
-import org.videolan.libvlc.MediaList;
 
 import java.util.ArrayList;
 
@@ -154,7 +155,7 @@ public class MediaBrowser {
         final MediaList ml = md.getMediaList();
         ml.setEventListener(mDiscovererMediaListEventListener, mHandler);
         ml.release();
-        md.start();
+        if (!md.isReleased()) md.start();
     }
 
     /**

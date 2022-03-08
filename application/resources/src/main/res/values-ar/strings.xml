@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">حسنًا</string>
@@ -45,15 +46,20 @@
     <string name="append_all">ألحِق الكل</string>
     <string name="resume_playback_short_title">استأنف التشغيل</string>
     <string name="resume_playback_long_title">استأنف التشغيل بعد انتهاء مكالمة</string>
+    <string name="resume_playback_error">لا شيء لاستئنافه</string>
     <string name="delete">احذف</string>
     <string name="remove">أزِل</string>
     <string name="set_song">اضبطها للرنين</string>
     <string name="set_song_question">أأضبط ”%1$s“ ليكون للرنين؟</string>
     <string name="info">معلومات</string>
     <string name="confirm_delete">أأحذف الملف ”%1$s“؟</string>
+    <string name="confirm_delete_message">هذا دائم ولا يمكن التراجع عنه.</string>
     <string name="confirm_delete_album">هل تريد حذف الألبوم \"%1$s\"؟</string>
     <string name="confirm_delete_several_media">حذف هذا %1$d من الوسائط؟</string>
     <string name="confirm_delete_folder">أأحذف المجلد ”%1$s وكل ما يحتوي؟</string>
+    <string name="confirm_delete_folders">هل تريد حذف هذه %1$s المجلدات وكل محتوياتها؟</string>
+    <string name="confirm_delete_files">هل تريد حذف هذه %1$s الملفات؟</string>
+    <string name="confirm_delete_folders_and_files">هل تريد حذف هذه %1$s المجلدات و%2$s الملفات؟</string>
     <string name="confirm_delete_playlist">أأحذف قائمة التشغيل ”%1$s‘؟</string>
     <string name="confirm_remove_from_playlist">أأُزيل ”%1$s“ من قائمة التشغيل؟</string>
     <string name="ringtone_set">ضُبط الملف ”%1$s“ ليكون للرنين.</string>
@@ -124,6 +130,14 @@
         <item quantity="few">%d برامج تلفاز</item>
         <item quantity="many">%d برامج تلفاز</item>
         <item quantity="other">%d برامج تلفاز</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="zero">%d مسارات</item>
+        <item quantity="one">1 مسار</item>
+        <item quantity="two">%d مساران</item>
+        <item quantity="few">%d مسارات</item>
+        <item quantity="many">%d مسارات</item>
+        <item quantity="other">%d مسار</item>
     </plurals>
 
     <string name="internal_memory">الذاكرة الداخلية</string>
@@ -232,16 +246,9 @@
 
     <string name="play_button">زر التشغيل</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
     <string name="seek">سعي</string>
     <string name="subtitles">التّرجمات</string>
-    <string name="audio_sub">المقاطع الصوتية \ ترجمات</string>
-    <string name="resize">غيّر الحجم</string>
-    <string name="options">خيارات</string>
     <string name="lock">اقفلْ</string>
-    <string name="ok_got_it">حسنًا، تجاهل&#160;هذا</string>
-
     <string name="playlist_tips">نصائح حول قائمة التشغيل</string>
     <string name="remove_song">أزِل الأغنية</string>
     <string name="remove_playlist_item">%1$s تم تجاهله من قائمة التشغيل</string>
@@ -283,6 +290,7 @@
     <string name="screen_orientation_portrait">طولي</string>
     <string name="screen_orientation_landscape">عرضي</string>
     <string name="screen_orientation_landscape_reverse">عرضي معكوس</string>
+    <string name="screen_orientation_last_locked">آخر اتجاه مغلق</string>
     <string name="enable_black_theme">الثيم الأسود</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="daynight_title">نمط ليلي نهاري</string>
@@ -301,8 +309,6 @@
     <string name="video_min_group_length_disable">لا تجمع الفيديو</string>
     <string name="video_min_group_length_folder">جمع بحسب المجلدات</string>
     <string name="video_min_group_length_name">جمع بحسب الاسم</string>
-    <string name="media_fast_seek">تقدم سريع</string>
-    <string name="media_fast_seek_summary">التقدم في الوسائط اسرع لكن ليس بدقيق</string>
     <string name="video_transition_title">تنقل الفيديوهات</string>
     <string name="video_transition_summary">اعرض عنوان الفيديو الجديد عند الانتقال </string>
     <string name="media_seen">عرض صانع الفيديو المشاهد</string>
@@ -374,6 +380,9 @@
     <string name="casting_quality_lowcpu">ضعيفة جدا</string>
     <string name="casting_connected_renderer">متصل بالعارض \"%1$s\"</string>
     <string name="artists_show_all_title">اظهر كافة الفنانين</string>
+    <string name="show_headers">إظهار الرؤوس</string>
+    <string name="show_headers_summary">قسّم القوائم حسب الرؤوس بناءً على نوع الفرز</string>
+
     <string name="extensions_prefs_category">الامتدادات</string>
     <string name="extensions_empty">لم نعثر على أي امتداد</string>
     <string name="extension_permission_title">هل تريد تنشيط امتداد جديد \"%1$s\"؟</string>
@@ -404,6 +413,8 @@
     <string name="dump_media_db_summary">نسخ قاعدة البيانات إلى جذر التخزين الداخلي</string>
     <string name="clear_media_db">امسح قاعدة بيانات الوسائط</string>
     <string name="clear_media_database_summary">مسح قاعدة البيانات للبدء من جديد</string>
+    <string name="clear_app_data">مسح بيانات التطبيق</string>
+    <string name="clear_app_data_summary">يمسح VLC لبيانات Android</string>
     <string name="clear_history">امسح التأريخ</string>
     <string name="set_locale">اضبط المحلّية</string>
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
@@ -494,6 +505,11 @@
     <string name="allow_draw_overlays_title">السماح بظهور مشغل VLC العائم على التطبيقات الأخرى</string>
     <string name="allow_sdraw_overlays_description">يحتاج VLC منك منح هذا الإذن لعرض الفيديو الخاص بك في نافذة منبثقة على التطبيقات الأخرى.</string>
     <string name="permission_ask_again">الحصول على تصريح</string>
+    <string name="permission_not_granted">لم يتم منح الإذن</string>
+    <string name="permission_expanation_no_allow">لن تتمكن من اكتشاف الوسائط تلقائيًا ولا استخدام ترجمات خارجية</string>
+    <string name="permission_expanation_allow">ستتمكن من تشغيل البث أو وسائط الشبكة فقط</string>
+    <string name="permission_expanation_subtitles">استخدم ترجمات خارجية</string>
+    <string name="permission_expanation_allow_explanation">قم بتشغيل تدفقات الإنترنت أو وسائط الشبكة</string>
     <string name="exit_app">أغلق VLC</string>
     <string name="exit_app_msg">هل أنت متأكد من مغادرة VLC؟</string>
 
@@ -522,7 +538,7 @@
     <string name="download_subtitles">تنزيل الترجمات</string>
     <string name="browse_folder">تصفح المجلد</string>
     <string name="listen">استمع</string>
-    <string name="save_bluetooth_delay">حفظ التأخير لجهاز بلوتوث</string>
+    <string name="apply_to_bt">تنطبق على جهاز بلوتوث</string>
     <string name="episodes">الحلقات</string>
     <string name="movies">أفلام</string>
     <string name="videos">الفيديوهات</string>
@@ -621,6 +637,8 @@
     <string name="onboarding_theme_title">اشعر وكأنك في بيتك</string>
     <string name="done">تمّ</string>
     <string name="onboarding_scan_title">استكشف تلقائيا وسائطك</string>
+    <string name="onboarding_all_set">تم إعداد VLC بالكامل!</string>
+    <string name="onboarding_permission_given">يمكنك الآن اكتشاف الوسائط الخاصة بك تلقائيًا واستخدام ترجمات خارجية بالإضافة إلى تشغيل التدفقات أو وسائط الشبكة</string>
     <string name="daynight_system_explanation">سيتحول VLC تلقائيًا إلى الوضع المظلم وفقًا لإعدادات النظام</string>
     <string name="daynight_legacy_explanation">سينتقل VLC تلقائيًا إلى الوضع الليلي في الوقت المحدّد</string>
     <string name="onboarding_scanning_enable">دع VLC يتفحّص الجهاز بحثًا عن محتوى للوسائط</string>
@@ -713,7 +731,9 @@
     <string name="recently_played">مشغل حديثا</string>
     <string name="recently_added">أُضيف حديثًا</string>
     <string name="playback_multiple_errors">لا يمكن تشغيل وسائط متعددة</string>
-    <string name="clear_media_db_warning">ستفقد تقدمك وقوائم التشغيل التي أنشأتها.\n%s</string>
+    <string name="clear_media_db_message">ستفقد تقدمك والإشارات المرجعية وقوائم التشغيل التي أنشأتها ولكنك ستحتفظ بإعدادات VLC لنظام Android</string>
+    <string name="clear_app_data_message">ستفقد تقدمك والإشارات المرجعية وقوائم التشغيل وجميع إعدادات VLC</string>
+    <string name="clear">مسح</string>
     <string name="abrepeat_add_first_marker">اختر نقطة البداية</string>
     <string name="abrepeat_add_second_marker">اختر نقطة النهاية</string>
     <string name="demux_bitrate">معدل البت demux</string>
@@ -739,6 +759,7 @@
     <string name="subtitle_delay_end">رؤية النص</string>
     <string name="track_index">مسار: %s</string>
     <string name="audio_queue_progress">التقدم: %s</string>
+    <string name="audio_queue_progress_remaining">متبقي: %s</string>
     <string name="audio_queue_progress_finished">ينتهي عند: %s</string>
     <string name="sortby_track">مسار</string>
     <string name="this_folder">أضف هذا المجلد</string>
@@ -780,6 +801,7 @@
     <string name="donate_again">رعاية التطبيق مرة أخرى</string>
 
     <string name="mark_as_played">سِمْ بأنه مُشغل</string>
+    <string name="mark_as_not_played">ضع علامة \"لم يتم تشغيلها\"</string>
     <string name="mark_all_as_played">سِمْ الكل بأنهم مُشغلين</string>
     <string name="new_group">مجموعة جديدة</string>
     <string name="new_group_desc">أنشئ مجموعة جديدة</string>
@@ -803,11 +825,57 @@
     <string name="prefersmbv1_summary">قم بإلغاء تحديد هذا الإعداد إذا واجهت بعض الصعوبات في تصفح خادم SMB الخاص بك</string>
     <string name="apply_to_all">طبق على كل الفيديوهات</string>
     <string name="audio_delay_global">تم ضبط تأخير الصوت على %s مللي ثانية لكل الفيديوهات</string>
+    <string name="audio_delay_bt">تم ضبط تأخير الصوت على %s مللي ثانية لجهاز البلوتوث</string>
     <string name="warning_stream_speed">قد تؤدي زيادة سرعة التشغيل إلى أكثر من 1 لعمليات البث إلى حدوث تقطع</string>
     <string name="go_to_folder">تصفح الوالدين</string>
     <string name="no_sub_renderer">لم يتم دعم الترجمات أثناء الإرسال</string>
     <string name="enqueuing">تحميل الوسائط الخاصة بك</string>
     <string name="soundfont">خط الصوت \"SoundFont\" لـ وصلة بينيه رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="soundfont_summary">اختر ملف خط الصوت \"SoundFont\" لتشغيل مسارات الصوت لـ وصلة بينية رقمية للآلات الموسيقية \"MIDI\"</string>
+    <string name="missing_media_snack">الوسائط مفقودة. إخفاء جميع الوسائط المفقودة؟</string>
+    <string name="browser_show_missing_media">إظهار الوسائط المفقودة</string>
     <string name="search_prefs">إعدادات البحث</string>
+    <string name="preferred_resolution">دقة الفيديو المفضلة</string>
+    <string name="preferred_resolution_summary">ستكون جودة الفيديو القصوى لعمليات البث ، عند الاقتضاء ، هي: %s</string>
+    <string name="pref_resolution_best_available">أفضل ما هو متاح</string>
+    <string name="pref_resolution_very_low">دقة منخفضة جدًا (240p)</string>
+    <string name="stop_unpaubale">لا يمكن إيقاف هذه الوسائط مؤقتًا. أوقفه بدلا من ذلك؟</string>
+    <string name="delete_forever">حذف للأبد</string>
+    <string name="add_to_existing_playlist">أضف إلى قائمة تشغيل موجودة</string>
+    <string name="bookmarks_title">العلامات</string>
+    <string name="no_bookmark">لا توجد علامات حتى الآن</string>
+    <string name="bookmark_name">علامة %s</string>
+    <string name="optional_features">ميزات اختيارية</string>
+    <string name="optional_features_summary">الميزات التجريبية التي يتم اختبارها حاليًا وقد لا تكون مستقرة</string>
+    <string name="optional_features_warning">هذه الميزة في مرحلة تجريبية وقد تتسبب في حدوث أعطال وعدم استقرار</string>
+    <string name="start_vlc">ابدأ تشغيل VLC</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">هل تريد إضافة عنصر (عناصر) مكررة؟</string>
+    <string name="add_button">أضِف</string>
+    <string name="add_all_button">أضِف الكل</string>
+    <string name="add_new_only_button">أضِف الجديد فقط</string>
+    <string name="discovery_failed">فشل الاكتشاف لـ: %s</string>
+    <string name="lock_use_sensor_title">قفل مع جهاز الاستشعار</string>
+    <string name="lock_use_sensor_summary">عندما يكون الاتجاه مغلقًا ، استخدم المستشعر للسماح بالاتجاه العكسي</string>
+    <string name="start">إبدأ</string>
+    <string name="permission">الإذن</string>
+    <string name="customize">خصّص</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="zero">هذه 0 العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="one">هذا العنصر موجود بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="two">هذان العنصران موجودان بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="few">هذه العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="many">هذه العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="other">هذه العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="zero">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="one">1 من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="two">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="few">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="many">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
+        <item quantity="other">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
+    </plurals>
+
 </resources>

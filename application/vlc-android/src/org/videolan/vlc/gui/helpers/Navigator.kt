@@ -23,11 +23,10 @@
 
 package org.videolan.vlc.gui.helpers
 
+import android.app.Activity
 import android.content.*
 import android.os.Bundle
-import android.os.IBinder
 import android.view.MenuItem
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -37,11 +36,11 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.*
-import org.videolan.tools.isStarted
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
@@ -52,9 +51,10 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.browser.MainBrowserFragment
-import org.videolan.vlc.gui.browser.NetworkBrowserFragment
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
+import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "Navigator"
 @ObsoleteCoroutinesApi
@@ -68,7 +68,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
     private lateinit var activity: MainActivity
     private lateinit var settings: SharedPreferences
     private var extensionsService: ExtensionManagerService? = null
-    override lateinit var navigationView: BottomNavigationView
+    override lateinit var navigationView: List<NavigationBarView>
     override lateinit var appbarLayout: AppBarLayout
 
     override lateinit var extensionsManager: ExtensionsManager
@@ -85,20 +85,19 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             currentFragment = supportFragmentManager.getFragment(state, "current_fragment")
         }
         lifecycle.addObserver(this@Navigator)
-        navigationView = findViewById(R.id.navigation)
+        navigationView = listOf(findViewById(R.id.navigation),findViewById(R.id.navigation_rail))
         appbarLayout = findViewById(R.id.appbar)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
         if (currentFragment === null && !currentIdIsExtension()) showFragment(if (currentFragmentId != 0) currentFragmentId else settings.getInt("fragment_id", defaultFragmentId))
-        navigationView.setOnNavigationItemSelectedListener(this)
-        if (BuildConfig.DEBUG) createExtensionServiceConnection()
+        navigationView.forEach { it.setOnItemSelectedListener(this) }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
-        navigationView.setOnNavigationItemSelectedListener(null)
+        navigationView.forEach { it.setOnItemSelectedListener(null) }
         if (isExtensionServiceBinded) {
             activity.unbindService(extensionServiceConnection!!)
             extensionServiceConnection = null
@@ -123,10 +122,6 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
         val tag = getTag(id)
         val fragment = getNewFragment(id)
         showFragment(fragment, id, tag)
-    }
-
-    override fun forceLoadVideoFragment() {
-        showFragment(R.id.nav_video)
     }
 
     private fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id)) {
@@ -161,6 +156,20 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
 
     override fun reloadPreferences() {
         currentFragmentId = settings.getInt("fragment_id", defaultFragmentId)
+    }
+
+    override fun configurationChanged(size: Int) {
+        navigationView.forEach {
+            when (it) {
+                is BottomNavigationView -> if (activity.isTablet()) it.setGone() else it.setVisible()
+                else -> if (!activity.isTablet()) it.setGone() else it.setVisible()
+            }
+        }
+    }
+
+    override fun getFragmentWidth(activity: Activity): Int {
+        val screenWidth = activity.getScreenWidth()
+       return screenWidth - activity.resources.getDimension(R.dimen.navigation_margin).toInt()
     }
 
     private fun getTag(id: Int) = when (id) {
@@ -230,7 +239,6 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
                 }
             }
         }
-        navigationView.menu.findItem(extensionId).isCheckable = true
         updateCheckedItem(extensionId)
     }
 
@@ -239,72 +247,24 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             R.id.nav_settings -> return
             else -> {
                 val currentId = currentFragmentId
-                val target = navigationView.menu.findItem(id)
-                if (id != navigationView.selectedItemId && target != null) {
-                    val current = navigationView.menu.findItem(currentId)
-                    if (current != null) current.isChecked = false
-                    target.isChecked = true
-                    /* Save the tab status in pref */
-                    settings.edit { putInt("fragment_id", id) }
+                navigationView.forEach {
+                    val target = it.menu.findItem(id)
+                    if (id != it.selectedItemId && target != null) {
+                        val current = it.menu.findItem(currentId)
+                        if (current != null) current.isChecked = false
+                        target.isChecked = true
+                        /* Save the tab status in pref */
+                        settings.edit { putInt("fragment_id", id) }
+                    }
                 }
             }
         }
     }
 
-    private fun loadPlugins() {
-        val plugins = extensionsManager.getExtensions(activity, true)
-        if (plugins.isEmpty()) {
-            extensionServiceConnection?.let { activity.unbindService(it) }
-            extensionServiceConnection = null
-            extensionManagerService?.stopSelf()
-            return
-        }
-       navigationView.menu.findItem(R.id.extensions_group)?.let { extensionGroup->
-           extensionGroup.subMenu.clear()
-           for (id in plugins.indices) {
-               val extension = plugins[id]
-               val key = "extension_" + extension.componentName().packageName
-               if (settings.contains(key)) {
-                   extensionsManager.displayPlugin(activity, id, extension, settings.getBoolean(key, false))
-               } else {
-                   extensionsManager.showExtensionPermissionDialog(activity, id, extension, key)
-               }
-           }
-           if (extensionGroup.subMenu.size() == 0) extensionGroup.isVisible = false
-           onPluginsLoaded()
-           navigationView.invalidate()
-       }
-
-    }
-
-    private fun onPluginsLoaded() {
-        if (currentFragment == null && currentIdIsExtension())
-            if (extensionsManager.previousExtensionIsEnabled(activity.application))
-                extensionManagerService?.openExtension(currentFragmentId)
-            else
-                showFragment(R.id.nav_video)
-    }
-
-    private fun createExtensionServiceConnection() {
-        extensionServiceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                extensionManagerService = (service as ExtensionManagerService.LocalBinder).service.apply {
-                    setExtensionManagerActivity(activity)
-                }
-                loadPlugins()
-            }
-
-            override fun onServiceDisconnected(name: ComponentName) {}
-        }
-        // Bind service which discoverves au connects toplugins
-        if (!activity.bindService(Intent(activity,
-                        ExtensionManagerService::class.java), extensionServiceConnection!!, Context.BIND_AUTO_CREATE))
-            extensionServiceConnection = null
-    }
 }
 
 interface INavigator {
-    var navigationView: BottomNavigationView
+    var navigationView: List<NavigationBarView>
     var appbarLayout: AppBarLayout
     var currentFragmentId : Int
 
@@ -317,5 +277,6 @@ interface INavigator {
     fun currentIdIsExtension() : Boolean
     fun displayExtensionItems(extensionId: Int, title: String, items: List<VLCExtensionItem>, showParams: Boolean, refresh: Boolean)
     fun reloadPreferences()
-    fun forceLoadVideoFragment()
+    fun configurationChanged(size:Int)
+    fun getFragmentWidth(activity: Activity): Int
 }

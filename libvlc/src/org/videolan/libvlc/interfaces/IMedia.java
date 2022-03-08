@@ -362,6 +362,8 @@ public interface IMedia extends IVLCObject<IMedia.Event> {
 
     String getMeta(int id);
 
+    String getMeta(int id, boolean force);
+
     void setHWDecoderEnabled(boolean enabled, boolean force);
 
     void setEventListener(EventListener listener);

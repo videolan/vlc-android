@@ -81,12 +81,12 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             bookmarkList.adapter = adapter
             bookmarkList.itemAnimator = null
 
-            bookmarkModel.dataset.observe(activity, { bookmarkList ->
+            bookmarkModel.dataset.observe(activity) { bookmarkList ->
                 adapter.update(bookmarkList)
                 markerContainer.removeAllViews()
 
                 //show bookmark markers
-                service.currentMediaWrapper?.length?.let {mediaLength ->
+                service.currentMediaWrapper?.length?.let { mediaLength ->
                     if (mediaLength < 1) return@let
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(markerContainer)
@@ -99,8 +99,8 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
                         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding guideline to: ${bookmark.time.toFloat() / mediaLength.toFloat()}")
                         constraintSet.create(guidelineId, ConstraintSet.VERTICAL_GUIDELINE)
                         constraintSet.setGuidelinePercent(guidelineId, bookmark.time.toFloat() / mediaLength.toFloat())
-                        constraintSet.connect(imageView.id, ConstraintSet.START, guidelineId, ConstraintSet.START,0)
-                        constraintSet.connect(imageView.id, ConstraintSet.END, guidelineId, ConstraintSet.END,0)
+                        constraintSet.connect(imageView.id, ConstraintSet.START, guidelineId, ConstraintSet.START, 0)
+                        constraintSet.connect(imageView.id, ConstraintSet.END, guidelineId, ConstraintSet.END, 0)
                         constraintSet.constrainWidth(imageView.id, ConstraintSet.WRAP_CONTENT)
                         constraintSet.constrainHeight(imageView.id, ConstraintSet.WRAP_CONTENT)
                         constraintSet.connect(imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
@@ -114,9 +114,10 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
 
 
                 if (bookmarkList.isNotEmpty()) emptyView.setGone() else emptyView.setVisible()
-            })
+            }
             bookmarkModel.refresh()
         }
+        bookmarkModel.refresh()
         rootView.setVisible()
         markerContainer.setVisible()
         visibilityListener.invoke()
@@ -139,7 +140,9 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
                     dialog.show(activity.supportFragmentManager, RenameDialog::class.simpleName)
                     dialog.setListener { media, name ->
                         activity.lifecycleScope.launch {
-                            bookmarkModel.rename(media as Bookmark, name)
+                            val bookmarks = bookmarkModel.rename(media as Bookmark, name)
+                            adapter.update(bookmarks)
+                            bookmarkModel.refresh()
                         }
                     }
                     true
@@ -155,7 +158,7 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
     }
 
     override fun onBookmarkClick(position: Int, item: Bookmark) {
-        service.time = item.time
+        service.setTime(item.time)
     }
 
     fun setProgressHeight(y: Float) {

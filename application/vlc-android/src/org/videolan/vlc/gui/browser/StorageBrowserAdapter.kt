@@ -35,8 +35,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.tools.containsPath
 import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.getDescriptionSpan
 import org.videolan.vlc.util.isSchemeFile
 
 @ObsoleteCoroutinesApi
@@ -45,6 +47,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
+    var bannedFolders: List<String> = listOf()
     private var updateJob : Job? = null
 
     init {
@@ -64,16 +67,31 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             vh.bindingContainer.setItem(storage)
             updateJob?.join()
             if (updateJob?.isCancelled == true) return@launch
-            val hasContextMenu = customDirsLocation.contains(storagePath)
+            val hasContextMenu = customDirsLocation.contains(storagePath) && !multiSelectHelper.inActionMode
             val checked = browserContainer.scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.bindingContainer.setHasContextMenu(hasContextMenu)
+            val banned = MedialibraryUtils.isBanned(uri, bannedFolders)
+            val bannedParent = banned && !MedialibraryUtils.isStrictlyBanned(uri, bannedFolders)
+
+            vh.bindingContainer.setIsBanned(banned)
+            vh.bindingContainer.setIsBannedByParent(bannedParent)
             when {
+                banned -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
                 checked -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
                 hasDiscoveredChildren(storagePath) -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
                 else -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
             vh.bindingContainer.setCheckEnabled(!browserContainer.scannedDirectory)
         }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNotEmpty() && payloads[0] is CharSequence) {
+            if (!MedialibraryUtils.isBanned((getItem(position) as Storage).uri, bannedFolders)) {
+                (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
+                holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
+            }
+        } else super.onBindViewHolder(holder, position, payloads)
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {

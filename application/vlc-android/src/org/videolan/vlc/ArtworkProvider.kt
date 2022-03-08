@@ -33,9 +33,14 @@ import android.util.Log
 import android.util.LruCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IMediaFactory
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
@@ -47,6 +52,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.nio.ByteBuffer
+import java.security.SecureRandom
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -114,8 +120,9 @@ class ArtworkProvider : ContentProvider() {
                 MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri))
                 ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri))
                 ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
-                PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri))
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
+                PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri),
+                        uri.getBooleanQueryParameter(SHUFFLE, false))
                 else -> throw FileNotFoundException("Uri is not supported: $uri")
             }
         } catch (e: Exception) {
@@ -208,6 +215,7 @@ class ArtworkProvider : ContentProvider() {
         val image = getOrPutImage(mw?.artworkMrl ?: "${mediaId}}") {
             runBlocking(Dispatchers.IO) {
                 var bitmap = if (mw != null) ThumbnailsProvider.obtainBitmap(mw, width) else null
+                if (bitmap == null) bitmap = readEmbeddedArtwork(mw, width)
                 if (bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
                 return@runBlocking encodeImage(bitmap)
@@ -216,7 +224,7 @@ class ArtworkProvider : ContentProvider() {
         return getPFDFromByteArray(image)
     }
 
-    private fun getPlayAllImage(ctx: Context, type: String, id: Long): ParcelFileDescriptor {
+    private fun getPlayAllImage(ctx: Context, type: String, id: Long, shuffle: Boolean): ParcelFileDescriptor {
         val bitmap = runBlocking(Dispatchers.IO) {
             val tracks = when (type) {
                 GENRE -> ctx.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
@@ -225,8 +233,13 @@ class ArtworkProvider : ContentProvider() {
                 else -> null
             }
             val cover = tracks?.let {
-                val iconAddition = if (type == PLAYLIST) null else ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
-                ThumbnailsProvider.getPlaylistOrGenreImage("$type:${id}_256", tracks, 256, iconAddition)
+                val iconAddition = when {
+                    type == PLAYLIST -> null
+                    shuffle -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_shuffle_circle)
+                    else -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playall_circle)
+                }
+                val key = if (shuffle) "${type}_shuffle" else type
+                ThumbnailsProvider.getPlaylistOrGenreImage("${key}:${id}_256", tracks, 256, iconAddition)
             }
             return@runBlocking when {
                 cover != null -> cover
@@ -253,7 +266,7 @@ class ArtworkProvider : ContentProvider() {
             /* Shuffle All */
             val audioCount = ctx.getFromMl { audioCount }
             /* Show cover art from the whole library */
-            val offset = Random().nextInt((audioCount - MediaSessionBrowser.MAX_COVER_ART_ITEMS).coerceAtLeast(1))
+            val offset = SecureRandom().nextInt((audioCount - MediaSessionBrowser.MAX_COVER_ART_ITEMS).coerceAtLeast(1))
             val list = ctx.getFromMl { getPagedAudio(Medialibrary.SORT_ALPHA, false, false, MediaSessionBrowser.MAX_COVER_ART_ITEMS, offset) }
             return@runBlocking getHomeImage(ctx, SHUFFLE_ALL, list)
         }
@@ -343,25 +356,43 @@ class ArtworkProvider : ContentProvider() {
     }
 
     /**
+     * Attempt to directly load embedded artwork.
+     */
+    private fun readEmbeddedArtwork(mw: MediaLibraryItem?, width: Int): Bitmap? {
+        if (mw is MediaWrapper && mw.artworkMrl == null && mw.uri != null) {
+            var media: IMedia? = null
+            return try {
+                val libVlc = VLCInstance.getInstance(ctx)
+                val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+                media = mediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
+                AudioUtil.readCoverBitmap(Uri.decode(MLServiceLocator.getAbstractMediaWrapper(media).artworkMrl), width)
+            } finally {
+                media?.release()
+            }
+        }
+        return null
+    }
+
+    /**
      * Return a ParcelFileDescriptor from a Bitmap encoded in WEBP format. This function writes the
      * compressed data stream directly to the file descriptor with no intermediate byte array.
      */
     private fun getPFDFromBitmap(bitmap: Bitmap?): ParcelFileDescriptor {
-        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap,
-                { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bitmap: Bitmap? ->
-                    /* Compression is performed on an AsyncTask thread within openPipeHelper() */
-                    bitmap?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
-                })
+        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bitmap: Bitmap? ->
+            /* Compression is performed on an AsyncTask thread within openPipeHelper() */
+            bitmap?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
+        }
     }
 
     /**
      * Return a ParcelFileDescriptor from an existing image in a byte array.
      */
     private fun getPFDFromByteArray(byteArray: ByteArray?): ParcelFileDescriptor {
-        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray,
-                { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, byteArray: ByteArray? ->
-                    if (byteArray != null) FileOutputStream(pfd.fileDescriptor).write(byteArray)
-                })
+        return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, byteArray: ByteArray? ->
+            if (byteArray != null) FileOutputStream(pfd.fileDescriptor).write(byteArray)
+        }
     }
 
     private val dateFormatter by lazy {
@@ -399,6 +430,7 @@ class ArtworkProvider : ContentProvider() {
         const val PLAYLIST = "playlist"
         const val PLAY_ALL = "play_all"
         const val LAST_ADDED = "last_added"
+        const val SHUFFLE = "shuffle"
         const val SHUFFLE_ALL = "shuffle_all"
 
         //Used to store a single webp encoded copy of the currently playing artwork

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">အိုကေ</string>
@@ -85,7 +86,6 @@
     <plurals name="tvshow_quantity">
         <item quantity="other">တီဗီဖျော်ဖြေပွဲ %d ပွဲ</item>
     </plurals>
-
     <string name="internal_memory">အတွင်း မှတ်ဉာဏ်</string>
     <string name="audio">အသံ</string>
     <string name="video">ဗီဒီယို</string>

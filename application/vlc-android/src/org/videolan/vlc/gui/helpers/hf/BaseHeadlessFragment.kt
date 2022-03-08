@@ -63,6 +63,10 @@ class PermissionViewmodel : ViewModel() {
     val isCompleted : Boolean
         get() = ::deferredGrant.isInitialized && deferredGrant.isCompleted
 
+    fun complete(value:Boolean) {
+        if (::deferredGrant.isInitialized) deferredGrant.complete(value)
+    }
+
     fun setupDeferred() {
         deferredGrant = CompletableDeferred<Boolean>().apply {
             invokeOnCompletion { permissionRationaleShown = false }

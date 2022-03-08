@@ -37,6 +37,10 @@
                 type="boolean" />
 
         <variable
+                name="inSelection"
+                type="boolean" />
+
+        <variable
                 name="selected"
                 type="boolean" />
     </data>
@@ -48,7 +52,6 @@
             android:focusable="true"
             android:background="?attr/video_list_background"
             selected="@{selected}"
-            vlc:layout_optimizationLevel="cache_measures"
             android:longClickable="true"
             android:foreground="?attr/selectableItemBackground"
             android:minHeight="@dimen/audio_browser_item_size"
@@ -197,7 +200,7 @@
                 android:onClick="@{holder::onMoreClick}"
                 android:scaleType="center"
                 vlc:srcCompat="@drawable/ic_more"
-                android:visibility="@{isPresent ? View.VISIBLE : View.GONE}"
+                android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
                 vlc:layout_constraintEnd_toEndOf="parent"

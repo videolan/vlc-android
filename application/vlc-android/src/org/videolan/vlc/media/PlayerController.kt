@@ -99,24 +99,22 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     @MainThread
     fun restart() {
         val mp = mediaplayer
-        val volume = mp.volume
+        val volume:Int? = if (!mp.isReleased) mp.volume else null
         mediaplayer = newMediaPlayer()
-        if (volume != 100) {
-            mediaplayer.volume = volume
+        volume?.let {
+            if (it > 100) {
+                mediaplayer.volume = it
+            }
         }
         release(mp)
-    }
-
-    fun seek(time: Long, length: Double = getLength().toDouble()) {
-        if (length > 0.0) setTime(time) else setPosition((time / NO_LENGTH_PROGRESS_MAX).toFloat())
     }
 
     fun setPosition(position: Float) {
         if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.position = position
     }
 
-    fun setTime(time: Long) {
-        if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.time = time
+    fun setTime(time: Long, fast:Boolean = false) {
+        if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.setTime(time, fast)
     }
 
     fun isPlaying() = playbackState == PlaybackStateCompat.STATE_PLAYING
@@ -337,7 +335,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     override fun onEvent(event: MediaPlayer.Event?) {
-        if (event != null) eventActor.offer(event)
+        if (event != null) eventActor.trySend(event)
     }
 
     private fun setPlaybackStopped() {

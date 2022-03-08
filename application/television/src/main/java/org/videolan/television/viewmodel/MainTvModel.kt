@@ -40,6 +40,7 @@ import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
+import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.NowPlayingDelegate
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
@@ -61,7 +62,6 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.convertFavorites
-import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.scanAllowed
 
 private const val NUM_ITEMS_PREVIEW = 5
@@ -105,7 +105,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoriteList = convertFavorites(list)
-        if (!updateActor.isClosedForSend) updateActor.offer(Unit)
+        if (!updateActor.isClosedForSend) updateActor.trySend(Unit)
     }
 
     private val playerObserver = Observer<Boolean> { updateAudioCategories() }
@@ -116,8 +116,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.addOnMedialibraryReadyListener(this)
         medialibrary.addOnDeviceChangeListener(this)
         favorites.observeForever(favObserver)
-        networkMonitor.connectionFlow.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
-        ExternalMonitor.storageEvents.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
+        networkMonitor.connectionFlow.onEach { updateActor.trySend(Unit) }.launchIn(viewModelScope)
+        ExternalMonitor.storageEvents.onEach { updateActor.trySend(Unit) }.launchIn(viewModelScope)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
         mediaMetadataRepository.getAllLive().observeForever(videoObserver)
     }
@@ -128,8 +128,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         updateRecentlyPlayed()
         updateRecentlyAdded()
         updateAudioCategories()
-        historyActor.offer(Unit)
-        updateActor.offer(Unit)
+        historyActor.trySend(Unit)
+        updateActor.trySend(Unit)
         updatePlaylists()
     }
 
@@ -229,6 +229,11 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private suspend fun updateBrowsers() {
         val list = mutableListOf<MediaLibraryItem>()
+        updatedFavoriteList.forEach {
+            it.description = it.uri.scheme
+            it.addFlags(FAVORITE_FLAG)
+            list.add(it)
+        }
         val directories = DirectoryRepository.getInstance(context).getMediaDirectoriesList(context).toMutableList()
         if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
         directories.forEach { if (it.location.scanAllowed()) list.add(it) }
@@ -237,15 +242,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
             list.add(DummyItem(HEADER_STREAM, context.getString(R.string.streams), null))
             list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
-            updatedFavoriteList.forEach {
-                it.description = it.uri.scheme
-                list.add(it)
-            }
-        } else {
-            updatedFavoriteList.filter { it.uri.scheme.isSchemeFile() }.forEach {
-                it.description = it.uri.scheme
-                list.add(it)
-            }
         }
         (browsers as MutableLiveData).value = list
         delay(500L)

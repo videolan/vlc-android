@@ -36,12 +36,13 @@ import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
-import org.videolan.tools.safeOffer
+import org.videolan.vlc.BR
 import org.videolan.vlc.databinding.HistoryItemBinding
 import org.videolan.vlc.databinding.HistoryItemCardBinding
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
+import org.videolan.vlc.util.isSchemeFile
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -71,16 +72,16 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
         }
 
         fun onClick(v: View) {
-            eventsChannel.safeOffer(SimpleClick(layoutPosition))
+            eventsChannel.trySend(SimpleClick(layoutPosition))
         }
 
-        fun onLongClick(v: View) = eventsChannel.safeOffer(LongClick(layoutPosition))
+        fun onLongClick(v: View) = eventsChannel.trySend(LongClick(layoutPosition)).isSuccess
 
         fun onImageClick(v: View) {
             if (inCards)
-                eventsChannel.safeOffer(SimpleClick(layoutPosition))
+                eventsChannel.trySend(SimpleClick(layoutPosition))
             else
-                eventsChannel.safeOffer(ImageClick(layoutPosition))
+                eventsChannel.trySend(ImageClick(layoutPosition))
         }
 
         override fun isSelected() = getItem(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
@@ -113,11 +114,13 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
         when (holder.binding) {
             is HistoryItemBinding -> {
                 (holder.binding as HistoryItemBinding).media = media
+                holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
                 (holder.binding as HistoryItemBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
                 ((holder.binding as HistoryItemBinding).icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
             }
             is HistoryItemCardBinding -> {
                 (holder.binding as HistoryItemCardBinding).media = media
+                holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
                 (holder.binding as HistoryItemCardBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
                 ((holder.binding as HistoryItemCardBinding).icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
             }

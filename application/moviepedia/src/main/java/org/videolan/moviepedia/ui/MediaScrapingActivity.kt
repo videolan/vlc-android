@@ -52,7 +52,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
     private lateinit var media: MediaWrapper
     private lateinit var binding: MoviepediaActivityBinding
     private val clickHandler = ClickHandler()
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,15 +66,21 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
         binding.nextResults.adapter = mediaScrapingResultAdapter
         binding.nextResults.layoutManager = GridLayoutManager(this, 2)
 
-        media = intent.getParcelableExtra(MOVIEPEDIA_MEDIA)
+        intent.getParcelableExtra<MediaWrapper>(MOVIEPEDIA_MEDIA)?.let {
+            media = it
+        }
+        if (!::media.isInitialized) {
+            finish()
+            return
+        }
 
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
         viewModel = ViewModelProvider(this).get(media.uri.path
                 ?: "", MediaScrapingModel::class.java)
-        viewModel.apiResult.observe(this, {
+        viewModel.apiResult.observe(this) {
             mediaScrapingResultAdapter.setItems(it.getAllResults())
-        })
+        }
         viewModel.search(media.uri)
         binding.searchEditText.setText(media.title)
     }

@@ -48,6 +48,7 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.util.getScreenWidth
 import kotlin.math.max
 import kotlin.math.min
@@ -72,6 +73,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     private val showPlaylistConstraint = ConstraintSet()
     private val hidePlaylistConstraint = ConstraintSet()
     private val hidePlaylistLandscapeConstraint = ConstraintSet()
+    private val headerShowPlaylistConstraint = ConstraintSet()
+    private val headerHidePlaylistConstraint = ConstraintSet()
+    private val headerHidePlaylistLandscapeConstraint = ConstraintSet()
     private var currentCoverArt: String? = null
     private lateinit var binding: AudioPlayerBinding
     private val transition = AutoTransition().apply {
@@ -90,8 +94,18 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> hidePlaylistLandscapeConstraint
                 else -> hidePlaylistConstraint
             }.applyTo(cl)
-            onSlide(1F)
+
+            when {
+                !value -> headerShowPlaylistConstraint
+                audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> headerHidePlaylistLandscapeConstraint
+                else -> headerHidePlaylistConstraint
+            }.applyTo(binding.header)
+            audioPlayer.showChips()
+            audioPlayer.retrieveAbRepeatAddMarker()?.let { audioPlayer.playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, it) }
+
             field = value
+            onSlide(1F)
+            binding.playlistSwitch.setImageResource(if (value) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
         }
 
     override fun switchShowCover() {
@@ -104,18 +118,55 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         showCover = value
     }
 
+    /**
+     * Init the [ConstraintSet]s for the audio player.
+     * It is used to switch between play queue and cover display modes.
+     */
     private fun initConstraintSets() {
         showPlaylistConstraint.clone(cl)
         hidePlaylistConstraint.clone(cl)
         hidePlaylistLandscapeConstraint.clone(cl)
+        headerShowPlaylistConstraint.clone(binding.header)
+        headerHidePlaylistConstraint.clone(binding.header)
+        headerHidePlaylistLandscapeConstraint.clone(binding.header)
+        arrayOf(headerShowPlaylistConstraint, headerHidePlaylistConstraint, headerHidePlaylistLandscapeConstraint).forEach {constraintSet ->
+            constraintSet.setVisibility(R.id.header_shuffle, if (audioPlayer.isTablet() && audioPlayer.playlistModel.canShuffle) View.VISIBLE else View.GONE)
+            arrayOf(R.id.header_previous, R.id.header_large_play_pause, R.id.header_next, R.id.header_repeat).forEach {
+                constraintSet.setVisibility(it, if (audioPlayer.isTablet()) View.VISIBLE else View.GONE)
+            }
+            constraintSet.setVisibility(R.id.header_play_pause, if (audioPlayer.isTablet()) View.GONE else View.VISIBLE)
+        }
+        headerShowPlaylistConstraint.applyTo(binding.header)
 
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_text, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_text, View.VISIBLE)
+        headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.BOTTOM)
+        headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.TOP)
+        headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.BOTTOM, R.id.guideline_header_bottom, ConstraintSet.BOTTOM)
 
         hidePlaylistLandscapeConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.track_info_container, View.VISIBLE)
+        if (audioPlayer.isTablet()) {
+            hidePlaylistLandscapeConstraint.constrainHeight(R.id.track_info_container, ConstraintSet.WRAP_CONTENT)
+            hidePlaylistLandscapeConstraint.setDimensionRatio(R.id.cover_media_switcher, null)
+            hidePlaylistLandscapeConstraint.setMargin(R.id.track_info_container, ConstraintSet.TOP, 0)
+            hidePlaylistLandscapeConstraint.connect(R.id.cover_media_switcher, ConstraintSet.TOP, R.id.header, ConstraintSet.BOTTOM)
+            hidePlaylistLandscapeConstraint.connect(R.id.cover_media_switcher, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+            hidePlaylistLandscapeConstraint.connect(R.id.track_info_container, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+            hidePlaylistLandscapeConstraint.connect(R.id.audio_play_progress, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+            hidePlaylistLandscapeConstraint.createVerticalChain(R.id.header, ConstraintSet.BOTTOM, R.id.time, ConstraintSet.TOP, arrayOf(R.id.cover_media_switcher, R.id.track_info_container, R.id.audio_play_progress).toIntArray(), null, ConstraintSet.CHAIN_PACKED)
+        }
     }
 
+    /**
+     * Updates the player background with or without a blurred cover depending on the user setting
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
@@ -133,6 +184,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                     binding.backgroundView.visibility = View.VISIBLE
                 } else setDefaultBackground()
             }
+        } else {
+            currentCoverArt = null
+            setDefaultBackground()
         }
     }
 
@@ -154,21 +208,37 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         binding.progressBar.layoutParams.height = ((1 - slideOffset) * 4.dp).toInt()
         binding.progressBar.requestLayout()
         // 0% to 40%
-        binding.headerBackground.alpha = 0.4F + ((1 - slideOffset) * 0.6F)
-        binding.headerDivider.alpha = slideOffset
+        binding.headerBackground.alpha = if (showCover) (1 - slideOffset) * 0.6F else 0.4F + ((1 - slideOffset) * 0.6F)
+        binding.headerDivider.alpha = if (showCover) 0F else slideOffset
         if (slideOffset != 1f) audioPlayer.clearSearch()
         binding.playlistSearch.alpha = slideOffset
         binding.playlistSwitch.alpha = slideOffset
         binding.advFunction.alpha = slideOffset
-        binding.headerPlayPause.alpha = 1 - slideOffset
-        binding.headerTime.alpha = 1 - slideOffset
+        //views disappearing in full player
+        val disappearingViews = arrayOf(binding.headerPlayPause, binding.headerTime, binding.headerShuffle, binding.headerPrevious, binding.headerLargePlayPause, binding.headerNext, binding.headerRepeat)
+        disappearingViews.forEach {
+            it.alpha = 1 - slideOffset
+        }
 
         val translationOffset = min(1f, max(0f, (slideOffset * 1.4f) - 0.2f))
         binding.playlistSearch.translationY = -(1 - translationOffset) * 48.dp
         binding.playlistSwitch.translationY = -(1 - translationOffset) * 48.dp
         binding.advFunction.translationY = -(1 - translationOffset) * 48.dp
-        binding.headerPlayPause.translationY = translationOffset * 48.dp
-        binding.headerTime.translationY = translationOffset * 48.dp
+        disappearingViews.forEach {
+            it.translationY = translationOffset * 48.dp
+        }
+        binding.abRepeatReset.translationY = -(1 - translationOffset) * 48.dp
+        binding.abRepeatStop.translationY = -(1 - translationOffset) * 48.dp
+
+        if (showCover) {
+            binding.audioMediaSwitcher.translationY = translationOffset * 48.dp
+            binding.audioMediaSwitcher.alpha = 1 - slideOffset
+            binding.playbackChips.translationY = -(1 - translationOffset) * 48.dp
+            binding.playbackChips.alpha = slideOffset
+        } else {
+            binding.audioMediaSwitcher.translationY = 0F
+            binding.audioMediaSwitcher.alpha = 1F
+        }
     }
 }
 

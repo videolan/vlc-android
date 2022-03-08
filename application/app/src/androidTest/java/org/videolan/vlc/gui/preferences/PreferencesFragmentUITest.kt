@@ -91,6 +91,6 @@ class PreferencesFragmentUITest: BasePreferenceUITest() {
     companion object {
         val MAP_PIP_MODE = mapOf("0" to R.string.stop, "1" to R.string.play_as_audio_background, "2" to R.string.play_pip_title)
         val MAP_HARDWARE_ACCEL = mapOf("-1" to R.string.automatic, "0" to R.string.hardware_acceleration_disabled, "1" to R.string.hardware_acceleration_decoding, "2" to R.string.hardware_acceleration_full)
-        val MAP_ORIENTATION = mapOf("99" to R.string.screen_orientation_sensor, "100" to R.string.screen_orientation_start_lock, "101" to R.string.screen_orientation_landscape, "102" to R.string.screen_orientation_portrait)
+        val MAP_ORIENTATION = mapOf("99" to R.string.screen_orientation_sensor, "101" to R.string.screen_orientation_landscape, "102" to R.string.screen_orientation_portrait)
     }
 }

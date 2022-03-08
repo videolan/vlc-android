@@ -173,7 +173,7 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
     if (!p_obj->p_owner->pf_event_cb(p_obj, ev, &jevent))
         return;
 
-    jstring string = jevent.argc1 ? (*env)->NewStringUTF(env, jevent.argc1) : NULL;
+    jstring string = jevent.argc1 ? vlcNewStringUTF(env, jevent.argc1) : NULL;
 
     if (p_obj->p_owner->weak)
         (*env)->CallVoidMethod(env, p_obj->p_owner->weak,

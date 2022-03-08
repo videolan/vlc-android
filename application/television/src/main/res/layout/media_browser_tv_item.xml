@@ -67,7 +67,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/tv_card_background"
+            android:background="@drawable/tv_card_background_transition"
             android:clickable="true"
             android:focusable="true"
             android:longClickable="true"
@@ -84,20 +84,20 @@
 
         <org.videolan.vlc.gui.view.FadableImageView
                 android:id="@+id/media_cover"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:background="@color/lb_details_overview_bg_color"
-                tools:srcCompat="@drawable/ic_album_big"
-                vlc:constraintRatio="@{isSquare}"
-                android:src="@{cover}"
                 android:scaleType="@{scaleType}"
+                android:src="@{cover}"
+                vlc:constraintRatio="@{isSquare}"
+                tools:srcCompat="@drawable/ic_album_big"
+                vlc:imageWidth="@{imageWidth}"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:imageWidth="@{imageWidth}"
                 vlc:media="@{item}"
-                vlc:tv="@{true}"/>
+                vlc:tv="@{true}" />
 
         <View
                 android:id="@+id/network_off_overlay"

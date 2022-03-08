@@ -1,8 +1,10 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.res.TypedArray
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -18,14 +20,18 @@ import kotlinx.coroutines.delay
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AndroidDevices
 import org.videolan.resources.TAG_ITEM
+import org.videolan.tools.dp
 import org.videolan.tools.retrieveParent
+import org.videolan.tools.setGone
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.KEY_IN_MEDIALIB
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
+import org.videolan.vlc.util.getScreenWidth
 
 abstract class BaseFragment : Fragment(), ActionMode.Callback {
     var actionMode: ActionMode? = null
@@ -50,7 +56,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(!AndroidDevices.isAndroidTv)
+        setHasOptionsMenu(true)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,7 +69,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         }
         val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
         ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
-        if (hasFAB()) fabPlay = fab
+        if (hasFAB()) updateFabPlayView()
     }
 
     override fun onStart() {
@@ -71,6 +77,16 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         updateActionBar()
         setFabPlayVisibility(hasFAB())
         fabPlay?.setOnClickListener { v -> onFabPlayClick(v) }
+    }
+
+    private fun updateFabPlayView() {
+        val visibility = fabPlay?.visibility
+        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
+        val fabLarge = requireActivity().findViewById<FloatingActionButton>(R.id.fab_large)
+        fab.setGone()
+        fabLarge.setGone()
+        fabPlay = if (requireActivity().isTablet()) fabLarge else fab
+        visibility?.let { fabPlay?.visibility = it }
     }
 
     override fun onStop() {

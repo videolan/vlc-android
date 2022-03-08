@@ -52,7 +52,6 @@ import org.videolan.vlc.R
 import org.videolan.resources.util.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.tools.WeakHandler
-import org.videolan.tools.safeOffer
 import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
@@ -367,10 +366,10 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
         setPosition(currentHeight * proportion)
         if (visibility == View.INVISIBLE) handler.sendEmptyMessage(SHOW_SCROLLER)
-        actor.safeOffer(Unit)
+        actor.trySend(Unit)
     }
 
     override fun onChanged(t: HeadersIndex?) {
-        actor.safeOffer(Unit)
+        actor.trySend(Unit)
     }
 }

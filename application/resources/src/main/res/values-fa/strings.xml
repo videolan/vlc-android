@@ -1,69 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
-    <string name="ok">بله</string>
-    <string name="cancel">لغو </string>
+    <string name="ok">تأ‌یید</string>
+    <string name="cancel">لغو</string>
     <string name="other">دیگر</string>
     <string name="sortby">مرتب سازی بر اساس…</string>
     <string name="sortby_name">نام</string>
-    <string name="sortby_filename">نام فایل</string>
+    <string name="sortby_filename">نام پرونده</string>
     <string name="sortby_artist_name">نام هنرمند</string>
     <string name="sortby_album_name">نام آلبوم</string>
-    <string name="sortby_length">مدت زمان</string>
+    <string name="sortby_length">مدت</string>
     <string name="sortby_date">تاریخ</string>
-    <string name="sortby_last_modified_date">به تازگی اضافه شده</string>
+    <string name="sortby_last_modified_date"> آخرین افزودن</string>
     <string name="sortby_media_number">شماره رسانه</string>
-    <string name="sortby_number">صدا های Nb</string>
-    <string name="searchable_hint">جستجو…</string>
+    <string name="sortby_number">قطعه‌های Nb</string>
+    <string name="searchable_hint">جست‌وجو…</string>
     <string name="history">تاریخچه</string>
 
     <plurals name="search_found_results_quantity">
-        <item quantity="one">%d نتیجه جستجو</item>
-        <item quantity="other">نتایج یافت شده %d</item>
+        <item quantity="one">%d نتیجه یافت شد</item>
+        <item quantity="other">%d نتیجه یافت شد</item>
     </plurals>
 
     <string name="play">پخش</string>
-    <string name="playback">پخش دوباره</string>
+    <string name="playback">بازپخش</string>
     <string name="playback_controls">کنترل های بازپخش</string>
-    <string name="medialibrary_scan">اسکن کتابخانه رسانه</string>
-    <string name="Medialibrary_progress">کتابخانه رسانه در حال اسکن به‌روزرسانی‌های پیشرفت است</string>
-    <string name="play_from_start">پخش از شروع</string>
+    <string name="medialibrary_scan">بررسی در کتابخانه رسانه</string>
+    <string name="Medialibrary_progress">کتابخانه رسانه در حال بررسی به‌روز رسانی‌های اخیر</string>
+    <string name="play_from_start">پخش از ابتدا</string>
     <string name="play_as_audio">پخش به عنوان صدا </string>
-    <string name="play_as_video">پخش به عنوان فیلم</string>
+    <string name="play_as_video">پخش به عنوان ویدیو</string>
     <string name="video_app_switch_title">حالت پس‌زمینه یا تصویر در تصویر</string>
-    <string name="video_app_switch_summary">عملکرد وی ال سی را انتخاب کنید برای وقتی که از بازپخش فیلم در وی ال سی به برنامه دیگری می روید</string>
-    <string name="play_pip_title">پخش فیلم ها در حالت تصویر در تصویر</string>
-    <string name="play_as_audio_background">پخش فیلم ها در پس زمینه</string>
-    <string name="append">اضافه کردن</string>
-    <string name="insert_next">به عنوان بعدی اضافه شود</string>
+    <string name="video_app_switch_summary">عملکرد وی‌ال‌سی را انتخاب کنید برای وقتی که از بازپخش فیلم در وی‌ال‌سی به برنامه دیگری می روید</string>
+    <string name="play_pip_title">پخش ویدیوها در حالت تصویر در تصویر</string>
+    <string name="play_as_audio_background">پخش ویدیوها در پس‌زمینه</string>
+    <string name="append">افزودن به انتها</string>
+    <string name="insert_next">افزودن به بعدی</string>
     <string name="play_all">پخش همه</string>
-    <string name="append_all">اضافه کردن همه</string>
-    <string name="resume_playback_short_title">ادامه بازپخش</string>
-    <string name="resume_playback_long_title">ادامه بازپخش از آخرین لیست پخش</string>
+    <string name="append_all">افزودن همه</string>
+    <string name="resume_playback_short_title">ادامه پخش</string>
+    <string name="resume_playback_long_title">ادامه پخش آخرین فهرست پخش</string>
+    <string name="resume_playback_error">چیزی برای ازسرگیری نیست</string>
     <string name="delete">حذف</string>
-    <string name="remove">حذف</string>
+    <string name="remove">برداشتن</string>
     <string name="set_song">تنظیم به عنوان صدای زنگ</string>
-    <string name="set_song_question">آیا می خواهید %1$s را به عنوان صدای زنگ تنظیم کنید؟</string>
+    <string name="set_song_question">%1$sبه عنوان آهنگ زنگ تنظیم شود؟</string>
     <string name="info">اطلاعات</string>
-    <string name="confirm_delete">آیا می خواهید فایل%1$s را حذف کنید؟</string>
-    <string name="confirm_delete_album">آیا می خواهید آلبوم %1$s را حذف کنید؟</string>
-    <string name="confirm_delete_several_media">آیا می خواهید فایل رسانه %1$d را حذف کنید؟</string>
-    <string name="confirm_delete_folder">آیا می خواهید پوشه %1$s و تمام محتویات آن را حذف کنید؟</string>
-    <string name="confirm_delete_playlist"> آیا می خواهید لیست پخش %1$s را حذف کنید؟</string>
-    <string name="confirm_remove_from_playlist">آیا می خواهید %1$s را از لیست پخش حذف کنید؟</string>
-    <string name="ringtone_set">فایل %1$s به عنوان صدای زنگ تنظیم شد</string>
-    <string name="ringtone_error">در هنگام تنظیم صدای زنگ یک خطا رخ داد</string>
-    <string name="pause">مکث </string>
+    <string name="confirm_delete">پرونده \'%1$s\' حذف شود؟</string>
+    <string name="confirm_delete_message">این کار دائمی است و قابل واگرد نیست.</string>
+    <string name="confirm_delete_album">آلبوم %1$s حذف شود؟</string>
+    <string name="confirm_delete_several_media">این %1$d رسانه حذف شود؟</string>
+    <string name="confirm_delete_folder">پوشه \'%1$s\' و تمام محتویاتش حذف شود؟</string>
+    <string name="confirm_delete_folders">پوشه‌های %1$s و تمام محتویاتشان حذف شوند؟</string>
+    <string name="confirm_delete_files">این %1$s پرونده حذف شوند؟</string>
+    <string name="confirm_delete_folders_and_files">این %1$s پوشه و %2$sپرونده حذف شوند؟</string>
+    <string name="confirm_delete_playlist">فهرست پخش \'%1$s\' حذف شود؟</string>
+    <string name="confirm_remove_from_playlist">\'%1$s\' از فهرست پخش برداشته شود؟</string>
+    <string name="ringtone_set">پرونده \'%1$s\' به عنوان آهنگ زنگ تنظیم شد.</string>
+    <string name="ringtone_error">خطایی هنگام تنظیم آهنگ‌ زنگ رخ داد.</string>
+    <string name="pause">مکث</string>
     <string name="unknown_artist">هنرمند ناشناس</string>
     <string name="unknown_album">آلبوم ناشناس</string>
     <string name="unknown_genre">سبک ناشناس</string>
-    <string name="songs">آهنگ ها</string>
-    <string name="track_info_copied_to_clipboard">اطلاعات صدا به کلیپ بورد کپی شد</string>
+    <string name="songs">آهنگ‌ها</string>
+    <string name="track_info_copied_to_clipboard">اطلاعات قطعه در کلیپ‌بورد رونوشت شد</string>
 
     <string name="artists">هنرمندان</string>
     <string name="albums">آلبوم‌ها</string>
-    <string name="tracks">صدا ها</string>
+    <string name="tracks">قطعه‌ها</string>
 
     <plurals name="albums_quantity">
         <item quantity="one">%d آلبوم</item>
@@ -74,70 +80,75 @@
         <item quantity="other">%d زیرپوشه</item>
     </plurals>
     <plurals name="media_quantity">
-        <item quantity="one">یک رسانه</item>
+        <item quantity="one">1 رسانه</item>
         <item quantity="other">%d رسانه</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">%d فایل رسانه‌ای</item>
-        <item quantity="other">%d فایل رسانه‌ای</item>
+        <item quantity="one">1 پرونده رسانه</item>
+        <item quantity="other">%d پرونده رسانه</item>
     </plurals>
     <plurals name="videos_quantity">
-        <item quantity="one">%d تصویری</item>
-        <item quantity="other">%d تصویری</item>
+        <item quantity="one">1 ویدیو</item>
+        <item quantity="other">%d ویدیو</item>
     </plurals>
     <plurals name="movies_quantity">
-        <item quantity="one">یک فیلم</item>
-        <item quantity="other">%d فیلم ها</item>
+        <item quantity="one">1 فیلم</item>
+        <item quantity="other">%d فیلم</item>
     </plurals>
     <plurals name="tvshow_quantity">
-        <item quantity="one">یک نمایش تلوزیونی</item>
-        <item quantity="other">%d نمایش های تلوزیونی</item>
+        <item quantity="one">1 نمایش تلویزیونی</item>
+        <item quantity="other">%d نمایش تلویزیونی</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 قطعه</item>
+        <item quantity="other">%d قطعه</item>
     </plurals>
 
     <string name="internal_memory">حافظه داخلی</string>
     <string name="audio">صدا</string>
-    <string name="video">فیلم</string>
-    <string name="bookmarks">نشانک ها</string>
+    <string name="video">ویدیو</string>
+    <string name="bookmarks">نشانک‌ها</string>
     <string name="equalizer">اکولایزر</string>
-    <string name="all_albums">همه‌ آلبوم‌ ها</string>
-    <string name="genres">سبک ها</string>
-    <string name="playlists">لیست ‌های پخش</string>
+    <string name="all_albums">همه آلبوم‌ها</string>
+    <string name="genres">سبک‌ها</string>
+    <string name="playlists">فهرست‌های پخش</string>
     <string name="title">عنوان</string>
-    <string name="directories">پوشه‌ ها</string>
-    <string name="loading">درحال بارگذاری</string>
+    <string name="directories">شاخه‌ها</string>
+    <string name="loading">در حال بارکردن</string>
     <string name="please_wait">لطفا صبر کنید…</string>
-    <string name="nomedia">هیچ فایل رسانه ای یافت نشد لطفا برخی از فایل ها را به دستگاه خود انتقال دهید یا تنظیمات خود را تنظیم کنید</string>
-    <string name="noplaylist">هیچ لیست پخشی یافت نشد</string>
-    <string name="nosubfolder">زیرپوشه ای موجود نیست</string>
-    <string name="directorynotfound">مسیر پوشه %1$s یافت نشد</string>
-    <string name="nohistory">شما هنور هیچ تاریخچه بازپخشی ندارید</string>
-    <string name="validation">آیا شما مطمئن هستید؟</string>
+    <string name="nomedia">هیچ پروندهٔ رسانه‌‌ای پیدا نشد، لطفا پرونده‌ای را به دستگاه انتقال داده یا ترجیحات خود را تغییر دهید.</string>
+    <string name="noplaylist">هیچ فهرست پخشی یافت نشد.</string>
+    <string name="nosubfolder">زیرپوشه‌ای موجود نیست</string>
+    <string name="directorynotfound">مسیر شاخه \'%1$s\' یافت نشد.</string>
+    <string name="nohistory">شما هنور هیچ تاریخچه پخشی ندارید.</string>
+    <string name="validation">آیا مطمئنید؟</string>
 
     <string name="cover_art">جلد هنری</string>
     <string name="shuffle_all_title">پخش تصادفی همه</string>
     <string name="shuffle_title">حالت تصادفی</string>
     <string name="shuffle">پخش تصادفی خاموش</string>
     <string name="shuffle_on">پخش تصادفی روشن</string>
+    <string name="shuffle_play">تصادفی</string>
     <string name="repeat_title">حالت تکرار</string>
     <string name="repeat">تکرار نشود</string>
     <string name="repeat_single">تکرار تکی</string>
     <string name="repeat_all">تکرار همه</string>
     <string name="previous">قبلی</string>
     <string name="stop">توقف</string>
-    <string name="firstsong">اولین آهنگ لیست پخش</string>
-    <string name="lastsong">آخرین آهنگ لیست پخش</string>
+    <string name="firstsong">اولین آهنگ فهرست پخش</string>
+    <string name="lastsong">آخرین آهنگ فهرست پخش</string>
 
-    <string name="surface_best_fit">بهترین روش</string>
-    <string name="surface_fit_screen">مناسب صفحه نمایش</string>
-    <string name="surface_fill">پر کردن</string>
+    <string name="surface_best_fit">بهترین تناسب</string>
+    <string name="surface_fit_screen">متناسب با صفحه</string>
+    <string name="surface_fill">پرکردن صفحه</string>
     <string name="surface_original">مرکز</string>
-    <string name="unseekable_stream">خودکار</string>
+    <string name="unseekable_stream">جریان غیر قابل جابجایی</string>
     <string name="refresh">تازه سازی</string>
     <string name="track_audio">قطعه صدا</string>
-    <string name="track_video">قطعه فیلم</string>
+    <string name="track_video">قطعه ویدیو</string>
     <string name="track_text">قطعه زیرنویس</string>
     <string name="track_unknown">قطعه ناشناخته</string>
-    <string name="track_bitrate_info">نرخ بیت: %1$s /s\n</string>
+    <string name="track_bitrate_info">نرخ بیت: %1$s/ثانیه\n</string>
     <string name="track_codec_info">کدک: %1$s\n</string>
     <string name="track_language_info">زبان: %1$s\n</string>
     <string name="volume">میزان صدا</string>
@@ -145,22 +156,22 @@
     <string name="sound_off">صدا خاموش</string>
     <string name="brightness">روشنایی</string>
     <string name="advanced">گزینه‌های پیشرفته</string>
-    <string name="audio_boost_warning">صفحه را به بالا بکشید تا از 100٪ فراتر بروید</string>
+    <string name="audio_boost_warning">صفحه را به بالا بکشید تا از ‎100% فراتر بروید</string>
 
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d مسیر\n</item>
-        <item quantity="other">%1$d مسیر\n</item>
+        <item quantity="one">۱ کانال\n</item>
+        <item quantity="other">%1$d کانال\n</item>
     </plurals>
 
     <string name="track_samplerate_info">نرخ نمونه : %1$d هرتز \n</string>
-    <string name="track_resolution_info">کیفیت : %1$d در %2$d \n</string>
+    <string name="track_resolution_info">وضوح : %1$dx‏%2$d \n</string>
     <string name="track_framerate_info">نرخ فریم : %1$.3f\n</string>
 
-    <string name="playback_speed">سرعت بازپخش</string>
-    <string name="sleep_title">زمان سنج خواب</string>
+    <string name="playback_speed">سرعت پخش</string>
+    <string name="sleep_title">زمان‌سنج خواب</string>
     <string name="sleep_in">خوابیدن در</string>
     <string name="jump_to_time">پرش به زمان</string>
-    <string name="subtitle_select">انتخاب فایل زیرنویس</string>
+    <string name="subtitle_select">انتخاب پرونده زیرنویس</string>
 
     <string name="server_add_title">یک سرور جدید به موارد دلخواه اضافه کنید</string>
     <string name="server_domain_hint">آدرس های سرور (نام دامنه یا آی پی)</string>
@@ -176,54 +187,47 @@
     <string name="favorites_add">افزودن به علاقه مندی‌ها</string>
     <string name="favorites_remove">حذف از علاقه مندی‌ها</string>
     <string name="favorites_edit">ویرایش</string>
-    <string name="favorite_added">در علاقه مندی‌ها ذخیره شد</string>
+    <string name="favorite_added">به علاقه مندی‌ها افزوده شد</string>
     <string name="favorite_removed">از علاقه مندی‌ها حذف شد</string>
 
     <string name="streams">پخش آنلاین</string>
     <string name="open_mrl_dialog_msg">آدرس شبکه را وارد کنید : مانند  http:// یا mms:// یا rtsp://</string>
     <string name="encountered_error_title">خطای بازپخش</string>
-    <string name="encountered_error_message">وی ال سی با یک خطا در این رسانه برخورد کرد لطفا کتابخانه رسانه را تازه سازی کنید</string>
+    <string name="encountered_error_message">وی‌ال‌سی با یک خطا در این رسانه برخورد کرد لطفا کتابخانه رسانه را تازه سازی کنید</string>
     <string name="invalid_location">محل %1$s قابل پخش نیست</string>
 
     <string name="search">جستجو</string>
 
 
     <string name="playback_history_title">تاریخچه بازپخش</string>
-    <string name="playback_history_summary">ذخیره تمام رسانه های پخش شده در بخش تاریخچه</string>
+    <string name="playback_history_summary">ذخیره تمام رسانه‌های پخش شده در بخش تاریخچه</string>
     <string name="playback_speed_title">ذخیره سرعت پخش</string>
-    <string name="playback_speed_summary">سرعت بازپخش را بین رسانه ها حفظ کنید</string>
+    <string name="playback_speed_summary">سرعت بازپخش را بین رسانه‌ها حفظ کنید</string>
 
     <string name="play_button">دکمه پخش</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">نکات مربوط به پخش کننده فیلم  :</string>
     <string name="seek">جابجایی</string>
     <string name="subtitles">زیرنویس‌ها</string>
-    <string name="audio_sub">قطعه های صدا و زیرنویس ها</string>
-    <string name="resize">تغییر اندازه</string>
-    <string name="options">تنظیمات</string>
     <string name="lock">قفل</string>
-    <string name="ok_got_it">متوجه شدم این را رد کنید #160</string>
-
-    <string name="playlist_tips">نکات مربوط به لیست پخش</string>
+    <string name="playlist_tips">نکات مربوط به فهرست پخش</string>
     <string name="remove_song">حذف آهنگ</string>
-    <string name="remove_playlist_item">%1$s از لیست پخش خارج شده</string>
+    <string name="remove_playlist_item">%1$s از فهرست پخش خارج شده</string>
     <string name="rearrange_order">تنظیم مجدد سفارش</string>
     <string name="hold_to_seek">برای جابجایی نگه دارید</string>
 
     <string name="audio_player_tips">نکات مربوط به پخش کننده صدا</string>
     <string name="previous_next_song">آهنگ قبلی/بعدی</string>
-    <string name="show_playlist">نمایش لیست پخش</string>
+    <string name="show_playlist">نمایش فهرست پخش</string>
     <string name="hold_to_stop">نگه دارید تا متوقف شود</string>
 
     <!-- About -->
-    <string name="app_name_full">وی ال سی پخش کننده فیلم و آهنگ</string>
+    <string name="app_name_full">وی‌ال‌سی پخش کننده فیلم و آهنگ</string>
     <string name="licence">مجوز</string>
     <string name="revision">تاریخ به روز رسانی</string>
-    <string name="about">درباره وی ال سی</string>
-    <string name="about_text">وی ال سی نسخه اندروید نسخه ای از برنامه منبع باز پخش کننده معروف وی ال سی است نسخه اندروید وی ال سی می تواند بیشتر فایل ها و شبکه های پخش اینترنتی را اجرا کند </string>
+    <string name="about">درباره وی‌ال‌سی</string>
+    <string name="about_text">وی‌ال‌سی نسخه اندروید نسخه ای از برنامه منبع باز پخش کننده معروف وی‌ال‌سی است نسخه اندروید وی‌ال‌سی می تواند بیشتر فایل‌ها و شبکه‌های پخش اینترنتی را اجرا کند </string>
     <string name="vlc_authors">با تشکر از مترجم زبان پارسی مدیر کانال تلگرامی @apphack2018</string>
-    <string name="compiled_by">سازنده این نسخه از وی ال سی :</string>
+    <string name="compiled_by">سازنده این نسخه از وی‌ال‌سی :</string>
     <string name="feedback_forum">انجمن بازخورد</string>
 
     <!-- Preferences -->
@@ -243,11 +247,12 @@
     <string name="automatic">خودکار</string>
     <string name="screen_orientation">جهت صفحه نمایش فیلم</string>
     <string name="screen_orientation_sensor">خودکار (سنسور)</string>
-    <string name="screen_orientation_start_lock">قفل در شروع</string>
-    <string name="screen_orientation_portrait">پرتره</string>
-    <string name="screen_orientation_landscape">منظره</string>
-    <string name="enable_black_theme">پس زمینه سیاه</string>
-    <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
+    <string name="screen_orientation_portrait">عمودی</string>
+    <string name="screen_orientation_landscape">افقی</string>
+    <string name="screen_orientation_landscape_reverse">افقی معکوس</string>
+    <string name="screen_orientation_last_locked">آخرین جهت قفل شده</string>
+    <string name="enable_black_theme">پوسته مشکی</string>
+    <string name="subtitle_text_encoding">کدگذاری متن زیرنویس</string>
     <string name="daynight_title">حالت روز و شب</string>
     <string name="daynight_follow_system_title">بر اساس تنظیمات سیستم</string>
 
@@ -259,71 +264,69 @@
     <string name="enable_clone_mode">ترجیحات شبیه‌سازی</string>
     <string name="enable_clone_mode_summary">صفحه دستگاه را بدون کنترل از راه دور شبیه‌سازی کنید</string>
 
-    <string name="video_prefs_category">فیلم</string>
-    <string name="video_min_group_length_title">گروه فیلم ها</string>
-    <string name="video_min_group_length_disable">فیلم ها دسته بندی نشوند</string>
-    <string name="video_min_group_length_folder">دسته بندی بر اساس پوشه</string>
-    <string name="video_min_group_length_name">دسته ‌بندی بر اساس نام</string>
-    <string name="media_fast_seek">جابه‌جایی سریع</string>
-    <string name="media_fast_seek_summary">جستجو در یک رسانه سریعتر است اما دقت کمی دارد</string>
-    <string name="video_transition_title">انتقال فیلم ها</string>
+    <string name="video_prefs_category">ویدیو</string>
+    <string name="video_min_group_length_title">گروه‌بندی ویدیوها</string>
+    <string name="video_min_group_length_disable">ویدیوها گروه‌بندی نشوند</string>
+    <string name="video_min_group_length_folder">گروه‌بندی بر اساس پوشه</string>
+    <string name="video_min_group_length_name">گروه‌بندی بر اساس نام</string>
+    <string name="video_transition_title">جلوه انتقال بین ویدیوها</string>
     <string name="video_transition_summary">نمایش عنوان فیلم جدید در حین انتقال</string>
     <string name="media_seen">نمایش علامت فیلم مشاهده شده است</string>
-    <string name="media_seen_summary">فیلم هایی که تا آخر دیده می شود را علامت گذاری کنید</string>
-    <string name="force_play_all_summary"> همه فیلم ها را پخش کنید برای شروع یکی از آن ها را انتخاب کنید</string>
-    <string name="force_play_all_title">حالت لیست پخش فیلم</string>
+    <string name="media_seen_summary">فیلم‌هایی که تا آخر دیده می شود را علامت گذاری کنید</string>
+    <string name="force_play_all_summary"> همه فیلم‌ها را پخش کنید برای شروع یکی از آنها را انتخاب کنید</string>
+    <string name="force_play_all_title">حالت فهرست پخش فیلم</string>
     <string name="save_brightness_summary">سطح روشنایی را برای رسانه حفظ کنید</string>
     <string name="save_brightness_title">ذخیره میزان روشنایی</string>
     <string name="save_audiodelay_summary">تاخیر صدا را برای هر فیلم به صورت جداگانه ذخیره کنید</string>
     <string name="save_audiodelay_title">ذخیره تاخیر صدا</string>
     <string name="enable_brightness_gesture_title">حرکت روشنایی</string>
     <string name="enable_brightness_gesture_summary">کنترل درخشانی توسط حرکت روی صفحه ویدیو در حال پخش</string>
-    <string name="enable_volume_gesture_title">حرکت حجم صدا</string>
+    <string name="enable_volume_gesture_title">حرکت میزان صدا</string>
     <string name="enable_volume_gesture_summary">در حین پخش ویدیو میزان صدا را با لمس صفحه کنترل کنید</string>
     <string name="enable_seek_buttons">دکمه‌های جابجایی</string>
-    <string name="enable_seek_buttons_summary">دکمه های عقب و جلو را در رابط فیلم نشان دهید</string>
+    <string name="enable_seek_buttons_summary">دکمه‌های عقب و جلو را در رابط فیلم نشان دهید</string>
     <string name="enable_double_tap_seek_title">برای جابجایی دوبار ضربه بزنید</string>
-    <string name="enable_double_tap_seek_summary">برای جابجایی 10 ثانیه روی گوشه‌های صفحه دوبار بزنید</string>
+    <string name="enable_double_tap_seek_summary">برای جابجایی ۱۰ ثانیه روی گوشه‌های صفحه دوبار بزنید</string>
     <string name="popup_keepscreen_title">صفحه نمایش در حین پخش تصویر در تصویر روشن نگه داشته شود</string>
-    <string name="popup_keepscreen_summary">در حالت تصویردرتصویر، صفحه همواره حتی زمانی که ویدئو متوقف است روشن نگه داشته شود</string>
-    <string name="browser_show_hidden_files_title">نمایش فایل های مخفی</string>
+    <string name="popup_keepscreen_summary">در حالت تصویردرتصویر، صفحه همواره حتی زمانی که ویدیو متوقف است روشن نگه داشته شود</string>
+    <string name="browser_show_hidden_files_title">نمایش پرونده‌های نهفته</string>
 
-    <string name="subtitles_prefs_category">زیرنویس ها</string>
-    <string name="subtitles_size_title">اندازه زیرنویس ها</string>
+    <string name="subtitles_prefs_category">زیرنویس‌ها</string>
+    <string name="subtitles_size_title">اندازه زیرنویس‌ها</string>
     <string name="subtitles_size_small">کوچک</string>
     <string name="subtitles_size_normal">معمولی</string>
     <string name="subtitles_size_big">بزرگ</string>
     <string name="subtitles_size_huge">خیلی بزرگ</string>
-    <string name="subtitles_color_title">رنگ زیرنویس ها</string>
+    <string name="subtitles_color_title">رنگ زیرنویس‌ها</string>
     <string name="subtitles_color_white">سفید</string>
     <string name="subtitles_color_gray">خاکستری</string>
     <string name="subtitles_color_pink">صورتی</string>
-    <string name="subtitles_color_blue">ابی</string>
+    <string name="subtitles_color_blue">آبی</string>
     <string name="subtitles_color_yellow">زرد</string>
     <string name="subtitles_color_green">سبز</string>
     <string name="subtitles_background_title">پس‌زمینه زیرنویس‌ها</string>
     <string name="subtitles_bold_title">زیرنویس ضخیم</string>
-    <string name="subtitles_autoload_title">نمایش خودکار زیرنویس</string>
+    <string name="subtitles_autoload_title">بارکردن خودکار زیرنویس‌ها</string>
 
     <string name="audio_prefs_category">صدا</string>
     <string name="lockscreen_cover_title">نمایش جلد رسانه در قفل صفحه</string>
     <string name="lockscreen_cover_summary">در صورت موجود بودن تصویر جلد رسانه فعلی را به عنوان تصویر زمینه صفحه قفل تنظیم کنید</string>
-    <string name="list_title_ellipsize">کوتاه سازی عنوان در لیست تک خطی</string>
-    <string name="list_title_ellipsize_default">پیش‌فرض</string>
+    <string name="list_title_ellipsize">کوتاه سازی عنوان در فهرست تک خطی</string>
+    <string name="list_title_ellipsize_default">پیش‌گزیده</string>
     <string name="list_title_ellipsize_left">چپ</string>
     <string name="list_title_ellipsize_right">راست</string>
     <string name="list_title_ellipsize_middle">وسط</string>
     <string name="list_title_ellipsize_marquee">سایبان</string>
     <string name="audio_boost_title">تقویت صدا</string>
-    <string name="audio_boost_summary">اجازه افزایش صدا تا 200٪</string>
+    <string name="audio_boost_summary">اجازه افزایش صدا تا ‎200%</string>
     <string name="headset_prefs_category">هدست</string>
     <string name="enable_headset_detection">شناسایی هدست</string>
     <string name="enable_headset_detection_summary">اتصال و قطع اتصال هدست تشخیص داده شود</string>
     <string name="enable_play_on_headset_insertion">با وصل شدن هدست پخش ادامه یابد</string>
     <string name="enable_play_on_headset_insertion_summary">در غیر این صورت، مکث شود</string>
     <string name="aout">خروجی صدا</string>
-    <string name="aout_summary">روشی را که وی ال سی برای خروجی صدا استفاده می کند را تغییر دهید</string>
-    <string name="audio_ducking_title">صدای وی ال سی در زمان دریافت اعلانات کاهش یابد</string>
+    <string name="aout_summary">روشی را که وی‌ال‌سی برای خروجی صدا استفاده می کند را تغییر دهید</string>
+    <string name="audio_ducking_title">صدای وی‌ال‌سی در زمان دریافت اعلانات کاهش یابد</string>
     <string name="audio_ducking_summary">به شنیدن آگاهی‌های صوتی، دستورالعمل‌های ناوبری یا دستیار سخنگو کمک می‌کند</string>
     <string name="casting_category">در حال نمایش دادن</string>
     <string name="casting_switch_title">نمایش بیسیم</string>
@@ -336,7 +339,7 @@
     <string name="casting_quality_low">پایین</string>
     <string name="casting_quality_lowcpu">بسیار پایین</string>
     <string name="artists_show_all_title">نمایش همه هنرمندان</string>
-
+    <string name="show_headers">نمایش سربرگ‌ها</string>
     <string name="extensions_prefs_category">افزونه‌ها</string>
     <string name="extensions_empty">هیچ افزونه‌ای شناسایی نشد</string>
     <string name="extension_permission_title">آیا می خواهید افزونه جدید %1$s را فعال کنید؟</string>
@@ -344,7 +347,7 @@
     <string name="extension_prefs_activation_title">فعال کردن</string>
     <string name="android_auto">اندروید خودرو</string>
 
-    <string name="controls_prefs_category">کنترل ها</string>
+    <string name="controls_prefs_category">کنترل‌ها</string>
 
     <string name="performance_prefs_category">کارایی</string>
     <string name="chroma_format">نیروی تصویر رنگی</string>
@@ -358,7 +361,7 @@
     <string name="enable_time_stretching_audio">زمان - کش دادن صوت</string>
     <string name="advanced_prefs_category">پیشرفته</string>
     <string name="auto_rescan">اسکن دوباره خودکار</string>
-    <string name="auto_rescan_summary">هنگام راه اندازی برنامه دستگاه را برای رسانه های جدید یا حذف شده به طور خودکار اسکن کنید</string>
+    <string name="auto_rescan_summary">هنگام راه اندازی برنامه دستگاه را برای رسانه‌های جدید یا حذف شده به طور خودکار اسکن کنید</string>
     <string name="dump_media_db">استخراج پایگاه داده رسانه</string>
     <string name="dump_media_db_summary">پایگاه داده را به حافظه داخلی روت کپی کنید</string>
     <string name="clear_media_db">پاک کردن بانک اطلاعاتی رسانه</string>
@@ -384,7 +387,7 @@
     <string name="start_logging">شروع گزارش گیری</string>
     <string name="stop_logging">توقف گزارش گیری</string>
     <string name="clear_log">پاک کرد گزارش</string>
-    <string name="log_service_title">ضبط گزارش‌های VLC</string>
+    <string name="log_service_title">ضبط گزارش‌های وی‌ال‌سی</string>
     <string name="log_service_text">بازکردن میزفرمان گزارش</string>
     <string name="copy_to_clipboard">کپی در حافظه موقت</string>
     <string name="copied_to_clipboard">گزارش در حافظه موقت کپی شد.</string>
@@ -395,8 +398,8 @@
     <string name="custom_libvlc_options_invalid">تنظیمات  libVLC اشتباه است!</string>
 
     <string name="serious_crash">متاسفانه، یک خطای جدی رخ داده و برنامه بسته میشود</string>
-    <string name="help_us_send_log">با ارسال گزارش خرابی میتوانید برای بهبودی VLC به ما کمک کنید:</string>
-    <string name="restart_vlc">راه اندازی مجدد VLC</string>
+    <string name="help_us_send_log">با ارسال گزارش خرابی میتوانید برای بهبودی وی‌ال‌سی به ما کمک کنید:</string>
+    <string name="restart_vlc">راه اندازی مجدد وی‌ال‌سی</string>
     <string name="send_log">ارسال گزارش</string>
     <string name="sending_log">در حال ارسال گزارش…</string>
 
@@ -441,19 +444,19 @@
     <string name="music_now_playing">در حال پخش</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">ابزارک سفید VLC</string>
-    <string name="widget_name_b">ابزارک تیره VLC</string>
-    <string name="allow_storage_access_title">اجازه دسترسی VLC به فایل‌های صوتی و تصویری را دهید.</string>
-    <string name="allow_storage_access_description">VLC نیاز دارد تا توسط شما مجاز شود به دسترسی به فایل‌های رسانه ای.</string>
-    <string name="allow_settings_access_ringtone_title">VLC را برای تغییر آهنگ زنگ مجاز کنید</string>
-    <string name="allow_settings_access_ringtone_description">VLC نیاز دارد تا توسط شما مجاز شود به تغییر آهنگ زنگ.</string>
-    <string name="allow_settings_access_brightness_title">VLC را مجاز کن تا حالت روشنایی را تغییر دهد.</string>
-    <string name="allow_settings_access_brightness_description">VLC نیاز دارد تا توسط شما مجاز شود تا حالت روشنایی را تغییر دهد.</string>
-    <string name="allow_draw_overlays_title">پخش کننده VLC را مجاز کن تا بر اپ‌های دیگر ظاهر شود.</string>
-    <string name="allow_sdraw_overlays_description">VLC نیاز دارد تا توسط شما مجاز شود تا بر اپلیکیشن‌های دیگر ظاهر شود.</string>
+    <string name="widget_name_w">ابزارک سفید وی‌ال‌سی</string>
+    <string name="widget_name_b">ابزارک تیره وی‌ال‌سی</string>
+    <string name="allow_storage_access_title">اجازه دسترسی وی‌ال‌سی به فایل‌های صوتی و تصویری را دهید.</string>
+    <string name="allow_storage_access_description">وی‌ال‌سی نیاز دارد تا توسط شما مجاز شود به دسترسی به فایل‌های رسانه ای.</string>
+    <string name="allow_settings_access_ringtone_title">وی‌ال‌سی را برای تغییر آهنگ زنگ مجاز کنید</string>
+    <string name="allow_settings_access_ringtone_description">وی‌ال‌سی نیاز دارد تا توسط شما مجاز شود به تغییر آهنگ زنگ.</string>
+    <string name="allow_settings_access_brightness_title">وی‌ال‌سی را مجاز کن تا حالت روشنایی را تغییر دهد.</string>
+    <string name="allow_settings_access_brightness_description">وی‌ال‌سی نیاز دارد تا توسط شما مجاز شود تا حالت روشنایی را تغییر دهد.</string>
+    <string name="allow_draw_overlays_title">پخش کننده وی‌ال‌سی را مجاز کن تا بر اپ‌های دیگر ظاهر شود.</string>
+    <string name="allow_sdraw_overlays_description">وی‌ال‌سی نیاز دارد تا توسط شما مجاز شود تا بر اپلیکیشن‌های دیگر ظاهر شود.</string>
     <string name="permission_ask_again">اجازه دسترسی</string>
-    <string name="exit_app">بستن VLC</string>
-    <string name="exit_app_msg">آیا برای بستن VLC اطمینان داری؟</string>
+    <string name="exit_app">بستن وی‌ال‌سی</string>
+    <string name="exit_app_msg">آیا برای بستن وی‌ال‌سی اطمینان داری؟</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">دنبال کننده پیمایش سریع</string>
@@ -467,7 +470,7 @@
     <string name="opengl_automatic">خودکار</string>
     <string name="opengl_on">روشن شدن سریع</string>
     <string name="opengl_off">خاموش شدن سریع</string>
-    <string name="network_favorites">علاقه مندی های شبکه</string>
+    <string name="network_favorites">علاقه مندی‌های شبکه</string>
     <string name="network_shared_folders">پوشه‌های هم‌رسانی شده</string>
     <string name="encryption_warning">اخطار، رمزنگاری برای این نسخه از Android موجود نمیباشد، گذرواژه بر روی یک محل امن ذخیره می شود ولی رمزگذاری نشده است.</string>
     <string name="store_password">به خاطر سپردن گذرواژه</string>
@@ -478,10 +481,9 @@
     <string name="download_subtitles">بارگیری زیرنویس‌ها</string>
     <string name="browse_folder">مرور پوشه</string>
     <string name="listen">گوش دادن</string>
-    <string name="save_bluetooth_delay">ذخیره وقفه برای دستگاه بلوتوث</string>
     <string name="episodes">فصل‌ها</string>
-    <string name="movies">فیلم ها</string>
-    <string name="videos">ویدئوها</string>
+    <string name="movies">فیلم‌ها</string>
+    <string name="videos">ویدیوها</string>
     <string name="videos_all">تمامی ویدیوها</string>
     <string name="clear_playback_history">پاک کردن سابقه پخش</string>
     <string name="ml_scanning">در حال جستوجوی محتوای رسانه‌ای</string>
@@ -515,10 +517,10 @@
     <string name="recommendations">پیشنهادها</string>
     <string name="recommendations_desc">کارت‌های پیشنهاد در راه انداز</string>
     <string name="browser_quick_access">دسترسی سریع</string>
-    <string name="browser_storages">محل های ذخیره</string>
+    <string name="browser_storages">محل‌های ذخیره</string>
     <string name="msg_delete_failed">حذف رسانه %1$s ناموفق بود</string>
     <string name="renderer_list_title">نمایش</string>
-    <string name="sdcard_permission_dialog_title">بایستی به VLC اجازه‌ی دسترسی به فایل‌های حافظه‌ی دستگاه‌تان را بدهید.</string>
+    <string name="sdcard_permission_dialog_title">بایستی به وی‌ال‌سی اجازه‌ی دسترسی به فایل‌های حافظه‌ی دستگاه‌تان را بدهید.</string>
     <string name="dialog_sd_wizard">نشانم بده</string>
     <string name="renderers_disconnect">قطع شدن</string>
     <string name="audio_digital_failed">وضعیت خروجی صوتی دیجیتال نتوانست تغییر کند</string>
@@ -530,7 +532,7 @@
     <string name="playback_rewind">باز پیچی</string>
     <string name="playback_forward">جلو روی سریع</string>
     <string name="ml_wizard_scan_checkbox">پویش دستگاه برای یافتن محتوای رسانه‌ای</string>
-    <string name="ml_wizard_description">انتخاب کنید که آیا مایلید VLC با جستوجوی حافظه‌ی دستگاه شما محتوای رسانه‌ای ‌تان را مرتب کند یا می‌خواهید صرفا به عنوان یک پلیر ساده با بروزر داخلی استفاده کنید.</string>
+    <string name="ml_wizard_description">انتخاب کنید که آیا مایلید وی‌ال‌سی با جستوجوی حافظه‌ی دستگاه شما محتوای رسانه‌ای ‌تان را مرتب کند یا می‌خواهید صرفا به عنوان یک پلیر ساده با بروزر داخلی استفاده کنید.</string>
     <string name="tv_my_new_videos">ویدیو‌های جدید من</string>
     <string name="otg_device_title">دستگاه OTG</string>
     <string name="browser">بروزر</string>
@@ -552,7 +554,7 @@
     <string name="download_the_selected">انتخاب بارگیری</string>
     <string name="next">بعدی</string>
     <string name="download">بارگیری</string>
-    <string name="ctx_player_video_track">انتخاب قطعه ویدئویی</string>
+    <string name="ctx_player_video_track">انتخاب قطعه ویدیویی</string>
     <string name="ctx_player_audio_track">قطعه صدا</string>
     <string name="ctx_player_subs_track">قطعه زیرنویس</string>
     <string name="ctx_pip_title">پخش کننده پاپ آپ</string>
@@ -561,43 +563,43 @@
     <string name="videos_groups_title">گروه‌های ویدیو</string>
     <string name="video_remote_enable">تغییر به حالت کنترل از راه دور</string>
     <string name="removed_from_playlist_anonymous">مورد(ها) از فهرست پخش حذف شدند</string>
-    <string name="welcome_title">به VLC خوش آمدید!</string>
+    <string name="welcome_title">به وی‌ال‌سی خوش آمدید!</string>
     <string name="welcome_subtitle">پخش کننده چند رسانه‌ای رایگان و منبع باز</string>
-    <string name="permission_media">VLC به اجازه شما برای دسترسی به رسانه بر روی دستگاه شما نیاز دارد</string>
-    <string name="medialibrary_scan_explanation">VLC می‌تواند برای سازماندهی مجموعه رسانه شما، دستگاهتان را خودکار پویش کند.</string>
+    <string name="permission_media">وی‌ال‌سی به اجازه شما برای دسترسی به رسانه بر روی دستگاه شما نیاز دارد</string>
+    <string name="medialibrary_scan_explanation">وی‌ال‌سی می‌تواند برای سازماندهی مجموعه رسانه شما، دستگاهتان را خودکار پویش کند.</string>
     <string name="onboarding_theme_title">راحت باش انگار که خانه خودته</string>
     <string name="done">انجام شد</string>
     <string name="onboarding_scan_title">یافتن خودکار رسانه شما</string>
-    <string name="daynight_system_explanation">VLC بر اساس تنظیمات سیستم به طور خودکار به حالت تاریک تغییر خواهد کرد</string>
-    <string name="daynight_legacy_explanation">VLC در زمان مناسب خودکار به حالت شب تغییر خواهد یافت</string>
-    <string name="onboarding_scanning_enable">بگذار VLC دستگاه من را برای محتوای رسانه پویش کند</string>
-    <string name="onboarding_scan_customize">بگذار من انتخاب کنم که VLC کدام پوشه را پویش خواهد کرد</string>
+    <string name="daynight_system_explanation">وی‌ال‌سی بر اساس تنظیمات سیستم به طور خودکار به حالت تاریک تغییر خواهد کرد</string>
+    <string name="daynight_legacy_explanation">وی‌ال‌سی در زمان مناسب خودکار به حالت شب تغییر خواهد یافت</string>
+    <string name="onboarding_scanning_enable">بگذار وی‌ال‌سی دستگاه من را برای محتوای رسانه پویش کند</string>
+    <string name="onboarding_scan_customize">بگذار من انتخاب کنم که وی‌ال‌سی کدام پوشه را پویش خواهد کرد</string>
     <string name="button_medialibrary_preferences">رفتن به تنظیمات کتابخانه رسانه‌ای</string>
     <string name="light_theme">پوسته روشن</string>
     <string name="add">افزودن</string>
     <string name="add_to_new_playlist">افزودن به فهرست پخش جدید</string>
     <string name="resume_card_message">بازپخش %1$s ادامه داده شود؟</string>
     <string name="misc">متفرقه</string>
-    <string name="device_default">پیش‌فرض دستگاه</string>
+    <string name="device_default">پیش‌گزیده دستگاه</string>
     <string name="track_number">%dقطعه</string>
     <string name="jump_to">پرش به زمان</string>
     <string name="show_video_thumbnails">بندانگشت‌های ویدیو</string>
     <string name="enable_equalizer">روشن</string>
     <string name="preamp">پیش درآمد</string>
-    <string name="presets">پیش تنظیم‌ها</string>
+    <string name="presets">پیش‌تنظیم‌ها</string>
     <string name="reset">بازنشانی</string>
     <string name="remove_current">حذف کنونی</string>
     <string name="validation_delete_playlist">مطمئنید که می‌خواهید این فهرست پخش را حذف کنید؟</string>
     <string name="display_in_list">نمایش در فهرست</string>
     <string name="display_in_grid">نمایش در شبکه</string>
     <string name="dump_db_failure">تخلیه پایگاه داده شکست خورد</string>
-    <string name="send_crash_title">گزارشگر خرابی VLC</string>
-    <string name="send_crash_description">با ارسال خرابی، به ما در بهبود ثبات VLC کمک خواهید کرد.</string>
+    <string name="send_crash_title">گزارشگر خرابی وی‌ال‌سی</string>
+    <string name="send_crash_description">با ارسال خرابی، به ما در بهبود ثبات وی‌ال‌سی کمک خواهید کرد.</string>
     <string name="include_medialib">شامل کردن پایگاه داده شما</string>
-    <string name="vlc_reporter">گزارشگر VLC</string>
-    <string name="welcome_beta_title">VLC بتا</string>
+    <string name="vlc_reporter">گزارشگر وی‌ال‌سی</string>
+    <string name="welcome_beta_title">وی‌ال‌سی بتا</string>
     <string name="welcome_beta_description_bugs">اگر باگی مشاهده کردید، لطفا آن را در انجمن یا ردیاب باگ ما گزارش دهید.</string>
-    <string name="welcome_beta_description_crashes">اگر با خرابی روبه‌رو شدید ، لطفا از نماد گزارشگر VLC در راه اندازتان استفاده کنید تا آن را برای ما ارسال کند.</string>
+    <string name="welcome_beta_description_crashes">اگر با خرابی روبه‌رو شدید ، لطفا از نماد گزارشگر وی‌ال‌سی در راه اندازتان استفاده کنید تا آن را برای ما ارسال کند.</string>
     <string name="send">فرستادن</string>
     <string name="send_crash_action_title">می‌خواهید چه کار کنید؟</string>
     <string name="report_a_bug">گزارش اشکال</string>
@@ -632,14 +634,12 @@
     <string name="open_network_settings">تنظیمات شبکه باز شود؟</string>
     <string name="recently_played">به تازگی پخش شده</string>
     <string name="recently_added">به تازگی افزوده شده</string>
-    <string name="clear_media_db_warning">شما پیشرفت‌هایتان و فهرست پخشی که ایجاد کردید را از دست خواهید داد.\n
-%s</string>
     <string name="abrepeat_add_first_marker">تنظیم نقطه آغاز</string>
     <string name="abrepeat_add_second_marker">تنظیم نقطه پایان</string>
     <string name="video_information">اطلاعات ویدیو</string>
 
     <string name="channels">کانال‌ها</string>
-    <string name="resolution">تفکیک‌پذیری</string>
+    <string name="resolution">وضوح</string>
     <string name="framerate">نرخ فریم</string>
     <string name="framerate_value">%1$.3f</string>
     <string name="bitrate_value">%1$s/s</string>
@@ -668,6 +668,7 @@
     <string name="add_to_group">افزودن به گروه ویدیو</string>
     <string name="remove_from_group">حذف از گروه ویدیو</string>
     <string name="rename_group">تغییرنام گروه ویدیو</string>
+    <string name="ungroup">بدونه گروه</string>
     <string name="no_favorite">بدون مورد علاقه</string>
     <string name="empty_directory">خالی</string>
     <string name="no_track">بدون قطعه</string>
@@ -679,16 +680,16 @@
     <string name="sub_result_by_name_episode">قسمت %s</string>
 
     <string name="sub_result_by_file">نتایج برای پرونده‌تان</string>
-    <string name="donate">کمک به VLC</string>
-    <string name="donate_desc">از داوطلبان ساخت VLC پشتیبانی کنید</string>
+    <string name="donate">کمک به وی‌ال‌سی</string>
+    <string name="donate_desc">از داوطلبان ساخت وی‌ال‌سی پشتیبانی کنید</string>
     <string name="donate_subscribtion">می‌خواهم حامی مالی ماهانه باشم</string>
     <string name="donate_send">حمایت مالی خود را آغاز کنید</string>
     <string name="subscription_purchased">شما مشترک حمایت مالی ماهانه هستید</string>
     <string name="subscription_cancel">می‌توانید اشتراک خود را در فروشگاه پلی لغو کنید</string>
     <string name="subscription_cancel_tv">چگونه اشتراک را لغو کنیم</string>
-    <string name="tip_jar">کمک به VLC</string>
+    <string name="tip_jar">کمک به وی‌ال‌سی</string>
     <string name="thank_you">ممنون</string>
-    <string name="thank_you_desc">برای حمایت مالیتان متشکریم!\n این در بهبود VLC به ما بسیار کمک خواهد کرد!</string>
+    <string name="thank_you_desc">برای حمایت مالیتان متشکریم!\n این در بهبود وی‌ال‌سی به ما بسیار کمک خواهد کرد!</string>
     <string name="donate_again">حمایت مالی دوباره از برنامه</string>
 
     <string name="mark_as_played">نشان‌گذاری به‌عنوان پخش شده</string>
@@ -702,11 +703,22 @@
     <string name="air_action_next">مورد بعدی در بازپخش</string>
     <string name="air_action_previous">مورد قبلی در بازپخش</string>
     <string name="allow_otg">مجوز دسترسی به OTG را فعال کنید</string>
-    <string name="allow_otg_description">لطفا درایو OTG خود را انتخاب کنید تا مجوز دسترسی به OTG برای وی ال سی فعال شود</string>
+    <string name="allow_otg_description">لطفا درایو OTG خود را انتخاب کنید تا مجوز دسترسی به OTG برای وی‌ال‌سی فعال شود</string>
     <string name="timeout_infinite">بی پایان </string>
     <string name="timeout_short">کوتاه </string>
     <string name="timeout_normal">معمولی </string>
     <string name="timeout_long">طولانی </string>
     <string name="remove_from_history">حذف از تاریخچه</string>
     <string name="go_to_folder">مرور بالایی</string>
+    <string name="delete_forever">حذف برای همیشه</string>
+    <string name="add_to_existing_playlist">افزودن به فهرست پخش موجود</string>
+    <string name="bookmarks_title">نشانک‌ها</string>
+    <string name="no_bookmark">هنوز نشانک‌ای نیست</string>
+    <string name="bookmark_name">%s نشانک</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">موارد تکراری اضافه شوند؟</string>
+    <string name="add_button">افزودن</string>
+    <string name="add_all_button">افزودن همه</string>
+    <string name="add_new_only_button">افزودن فقط موارد جدید</string>
 </resources>

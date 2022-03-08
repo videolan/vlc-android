@@ -78,12 +78,7 @@
         <activity
             android:name="org.videolan.television.ui.AboutActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name="org.videolan.television.ui.LicenceActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
+            android:theme="@style/Theme.VLC.Black"
             tools:ignore="LockedOrientationActivity" />
         <!-- Provides search suggestions for keywords against video meta data. -->
         <provider

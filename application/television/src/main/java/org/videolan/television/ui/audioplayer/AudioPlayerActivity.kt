@@ -45,6 +45,8 @@ import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.*
@@ -59,7 +61,7 @@ import kotlin.math.abs
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioPlayerActivity : BaseTvActivity() {
+class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
@@ -74,6 +76,7 @@ class AudioPlayerActivity : BaseTvActivity() {
     private lateinit var optionsDelegate: PlayerOptionsDelegate
     lateinit var bookmarkModel: BookmarkModel
     private lateinit var bookmarkListDelegate: BookmarkListDelegate
+    private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerActivity) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,22 +89,22 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
         binding.progress = model.progress
-        model.dataset.observe(this, { mediaWrappers ->
+        model.dataset.observe(this) { mediaWrappers ->
             if (mediaWrappers != null) {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
             updateRepeatMode()
-        })
-        model.speed.observe(this, { showChips() })
-        PlayerOptionsDelegate.playerSleepTime.observe(this, {
+        }
+        model.speed.observe(this) { showChips() }
+        PlaybackService.playerSleepTime.observe(this) {
             showChips()
-        })
+        }
         binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
-        model.playerState.observe(this, { playerState -> update(playerState) })
+        model.playerState.observe(this) { playerState -> update(playerState) }
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (intent.hasExtra(MEDIA_PLAYLIST))
-            intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it) }
+            intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it, position) }
         else
             intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
@@ -120,7 +123,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             newFragment.show(supportFragmentManager, "time")
         }
         binding.sleepQuickAction.setOnLongClickListener {
-            model.service?.setSleep(null)
+            model.service?.setSleepTimer(null)
             showChips()
             true
         }
@@ -135,7 +138,7 @@ class AudioPlayerActivity : BaseTvActivity() {
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
             if (fromUser) {
-                model.time = progress.toLong()
+                model.setTime(progress.toLong())
             }
         }
     }
@@ -147,7 +150,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
             binding.playbackSpeedQuickActionText.text = it.formatRateString()
         }
-        PlayerOptionsDelegate.playerSleepTime.value?.let {
+        PlaybackService.playerSleepTime.value?.let {
             binding.sleepQuickAction.setVisible()
             binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
         }
@@ -174,7 +177,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         val drawable = if (state.playing) playToPause else pauseToPlay
         binding.buttonPlay.setImageDrawable(drawable)
         if (state.playing != wasPlaying) {
-            drawable.start()
+            binding.buttonPlay.post { drawable.start() }
         }
 
         wasPlaying = state.playing
@@ -190,7 +193,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             binding.buttonShuffle.setImageResource(if (shuffling)
                 R.drawable.ic_shuffle_on
             else
-                R.drawable.ic_shuffle)
+                R.drawable.ic_shuffle_audio)
             if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
             currentCoverArt = mw.artworkMrl
             updateBackground()
@@ -213,36 +216,57 @@ class AudioPlayerActivity : BaseTvActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        when (keyCode) {
-            /*
-             * Playback control
-             */
-            KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_SPACE -> {
-                togglePlayPause()
-                return true
-            }
-            KeyEvent.KEYCODE_MEDIA_STOP -> {
-                model.stop()
-                finish()
-                return true
-            }
-            KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_BUTTON_R1 -> {
-                goNext()
-                return true
-            }
-            KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
-                seek(10000)
-                return true
-            }
-            KeyEvent.KEYCODE_MEDIA_REWIND -> {
-                seek(-10000)
-                return true
-            }
-            KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_BUTTON_L1 -> {
-                goPrevious()
-                return true
-            }
-            else -> return super.onKeyDown(keyCode, event)
+        if (playerKeyListenerDelegate.onKeyDown(keyCode, event)) return true
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun stop() {
+        model.stop()
+        finish()
+    }
+
+    override fun seek(delta: Int) {
+        val time = model.getTime().toInt() + delta
+        if (time < 0 || time > model.length) return
+        model.setTime(time.toLong())
+    }
+
+    override fun showAdvancedOptions() {
+        showAdvancedOptions(null)
+    }
+
+    override fun previous() {
+        model.previous(false)
+    }
+
+    override fun next() {
+        model.next()
+    }
+
+    override fun togglePlayPause() {
+        model.togglePlayPause()
+    }
+
+    override fun showEqualizer() {
+        EqualizerFragment().show(supportFragmentManager, "equalizer")
+    }
+
+    override fun increaseRate() {
+        model.service?.increaseRate()
+    }
+
+    override fun decreaseRate() {
+        model.service?.decreaseRate()
+    }
+
+    override fun resetRate() {
+        model.service?.resetRate()
+    }
+
+    override fun bookmark() {
+        bookmarkModel.addBookmark(this)
+        UiTools.snackerConfirm(this, getString(org.videolan.vlc.R.string.bookmark_added), confirmMessage = org.videolan.vlc.R.string.show) {
+            showBookmarks()
         }
     }
 
@@ -272,43 +296,46 @@ class AudioPlayerActivity : BaseTvActivity() {
         return true
     }
 
-    private fun seek(delta: Int) {
-        val time = model.time.toInt() + delta
-        if (time < 0 || time > model.length) return
-        model.time = time.toLong()
-    }
-
     fun onClick(v: View) {
         when (v.id) {
             R.id.button_play -> togglePlayPause()
-            R.id.button_next -> goNext()
-            R.id.button_previous -> goPrevious()
+            R.id.button_next -> next()
+            R.id.button_previous -> previous()
             R.id.button_repeat -> switchRepeatMode()
             R.id.button_shuffle -> setShuffleMode(!shuffling)
             R.id.button_more -> showAdvancedOptions(v)
         }
     }
 
-    private fun showAdvancedOptions(v: View) {
+    private fun showAdvancedOptions(v: View?) {
         if (!this::optionsDelegate.isInitialized) {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
             optionsDelegate.setBookmarkClickedListener {
-                if (!this::bookmarkListDelegate.isInitialized) {
-                    bookmarkListDelegate = BookmarkListDelegate(this, service, bookmarkModel)
-                    bookmarkListDelegate.visibilityListener = {
-                        if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
-                        binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
-                        binding.playlist.isFocusable = !bookmarkListDelegate.visible
-                        binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
-                        binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
-                    }
-                    bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
-                }
-                bookmarkListDelegate.show()
+                showBookmarks()
             }
         }
         optionsDelegate.show()
+    }
+
+    /**
+     * Show the bookmarks and initialize the delegate if needed
+     */
+    private fun showBookmarks() {
+        model.service?.let {
+            if (!this::bookmarkListDelegate.isInitialized) {
+                bookmarkListDelegate = BookmarkListDelegate(this, it, bookmarkModel)
+                bookmarkListDelegate.visibilityListener = {
+                    if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
+                    binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
+                    binding.playlist.isFocusable = !bookmarkListDelegate.visible
+                    binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
+                    binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
+                }
+                bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+            }
+            bookmarkListDelegate.show()
+        }
     }
 
     private fun setShuffleMode(shuffle: Boolean) {
@@ -324,14 +351,14 @@ class AudioPlayerActivity : BaseTvActivity() {
     private fun updateRepeatMode() {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
             }
         }
     }
@@ -340,29 +367,17 @@ class AudioPlayerActivity : BaseTvActivity() {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
             }
         }
-    }
-
-    private fun goPrevious() {
-        model.previous(false)
-    }
-
-    private fun goNext() {
-        model.next()
-    }
-
-    private fun togglePlayPause() {
-        model.togglePlayPause()
     }
 
     fun onUpdateFinished() {

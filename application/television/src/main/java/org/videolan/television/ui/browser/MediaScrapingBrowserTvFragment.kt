@@ -85,7 +85,7 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
         viewModel = getMoviepediaBrowserModel(arguments?.getLong(CATEGORY, HEADER_MOVIES)
                 ?: HEADER_MOVIES)
 
-        (viewModel.provider as MediaScrapingProvider).pagedList.observe(this, { items ->
+        (viewModel.provider as MediaScrapingProvider).pagedList.observe(this) { items ->
             binding.emptyLoading.post {
                 submitList(items)
 
@@ -97,16 +97,16 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
                 binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
                 headerAdapter.sortType = (viewModel as MediaScrapingBrowserViewModel).sort
             }
-        })
+        }
 
-        viewModel.provider.liveHeaders.observe(this, {
+        viewModel.provider.liveHeaders.observe(this) {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
-        })
+        }
 
-        (viewModel.provider as MediaScrapingProvider).loading.observe(this, {
+        (viewModel.provider as MediaScrapingProvider).loading.observe(this) {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
-        })
+        }
     }
 
     override fun onClick(v: View, position: Int, item: MediaMetadataWithImages) {

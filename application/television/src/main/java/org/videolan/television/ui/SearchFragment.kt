@@ -58,7 +58,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         setOnItemViewClickedListener(defaultItemClickedListener)
         val intent = requireActivity().intent
         if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action)
-            onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY))
+            intent.getStringExtra(SearchManager.QUERY)?.let { onQueryTextSubmit(it) }
     }
 
     override fun getResultsAdapter() = rowsAdapter

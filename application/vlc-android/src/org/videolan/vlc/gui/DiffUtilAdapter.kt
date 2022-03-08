@@ -22,7 +22,7 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
 
     @MainThread
     fun update (list: List<D>) {
-        updateActor.offer(list)
+        updateActor.trySend(list)
     }
 
     @MainThread

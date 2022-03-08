@@ -123,8 +123,8 @@ service_to_object(JNIEnv *env, libvlc_rd_description_t *p_service)
     jstring jname = NULL;
     jstring jlongName = NULL;
 
-    jname = (*env)->NewStringUTF(env, p_service->psz_name);
-    jlongName = (*env)->NewStringUTF(env, p_service->psz_longname);
+    jname = vlcNewStringUTF(env, p_service->psz_name);
+    jlongName = vlcNewStringUTF(env, p_service->psz_longname);
 
     jobject jobj = (*env)->CallStaticObjectMethod(env, fields.RendererDiscoverer.clazz,
                         fields.RendererDiscoverer.createDescriptionFromNativeID,
@@ -144,9 +144,9 @@ item_to_object(JNIEnv *env, libvlc_renderer_item_t *p_item)
     jstring jIconUri = NULL;
     jint jFlags = 0;
 
-    jname = (*env)->NewStringUTF(env, libvlc_renderer_item_name(p_item));
-    jType = (*env)->NewStringUTF(env, libvlc_renderer_item_type(p_item));
-    jIconUri = (*env)->NewStringUTF(env, libvlc_renderer_item_icon_uri(p_item));
+    jname = vlcNewStringUTF(env, libvlc_renderer_item_name(p_item));
+    jType = vlcNewStringUTF(env, libvlc_renderer_item_type(p_item));
+    jIconUri = vlcNewStringUTF(env, libvlc_renderer_item_icon_uri(p_item));
     jFlags = libvlc_renderer_item_flags(p_item);
 
     jobject jobj = (*env)->CallStaticObjectMethod(env, fields.RendererDiscoverer.clazz,

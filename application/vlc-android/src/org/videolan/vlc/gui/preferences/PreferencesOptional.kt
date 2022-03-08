@@ -25,11 +25,15 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import androidx.preference.CheckBoxPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.FeatureFlagWarningDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FeatureFlagManager
@@ -38,7 +42,7 @@ import org.videolan.vlc.util.FeatureFlagManager
 @ObsoleteCoroutinesApi
 class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun getXml() =  R.xml.preferences_optional
+    override fun getXml() = R.xml.preferences_optional
 
     override fun getTitleId(): Int {
         return R.string.optional_features
@@ -53,7 +57,7 @@ class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnShared
             pref.title = getString(featureFlags.title)
             pref.key = featureFlags.getKey()
             parent?.addPreference(pref)
-            featureFlags.dependsOn?.let { pref.dependency = it.getKey()}
+            featureFlags.dependsOn?.let { pref.dependency = it.getKey() }
         }
     }
 
@@ -71,7 +75,24 @@ class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         val enabled = findPreference<CheckBoxPreference>(key)!!.isChecked
-        FeatureFlagManager.getByKey(key)?.let { FeatureFlagManager.enable(requireActivity(),it, enabled) }
-        if (enabled) UiTools.snacker(requireActivity(), getString(R.string.optional_features_warning))
+        FeatureFlagManager.getByKey(key)?.let { FeatureFlagManager.enable(requireActivity(), it, enabled) }
+//        if (enabled) UiTools.snacker(requireActivity(), getString(R.string.optional_features_warning))
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == null) return super.onPreferenceTreeClick(preference)
+        FeatureFlagManager.getByKey(preference.key)?.let {
+            if (it.warning != null) {
+                val currentPreference = findPreference<CheckBoxPreference>(preference.key)!!
+                if (!currentPreference.isChecked) return true
+                currentPreference.isChecked = false
+                val dialog = FeatureFlagWarningDialog.newInstance(it) {
+                    currentPreference.isChecked = true
+                }
+                dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                return true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 }

@@ -49,7 +49,8 @@ val TV_PROGRAMS_MAP_PROJECTION = arrayOf(
 val WATCH_NEXT_MAP_PROJECTION = arrayOf(
         TvContractCompat.PreviewPrograms._ID,
         TvContractCompat.WatchNextPrograms.COLUMN_INTERNAL_PROVIDER_ID,
-        TvContractCompat.WatchNextPrograms.COLUMN_BROWSABLE)
+        TvContractCompat.WatchNextPrograms.COLUMN_BROWSABLE,
+        TvContractCompat.WatchNextPrograms.COLUMN_CONTENT_ID)
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: String, icon: Int, appId: String): Long {
@@ -130,6 +131,7 @@ fun buildProgram(cn: ComponentName, program: ProgramDesc) : PreviewProgram {
             .setPosterArtAspectRatio(TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9)
             .setIntentUri(createUri(program.appId, stringId))
             .setInternalProviderId(stringId)
+            .setContentId(program.contentId)
             .setPreviewVideoUri(previewProgramVideoUri)
             .build()
 }
@@ -154,14 +156,17 @@ fun buildWatchNextProgram(cn: ComponentName, program: ProgramDesc) : WatchNextPr
             .setPosterArtAspectRatio(TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9)
             .setIntentUri(createUri(program.appId, stringId))
             .setInternalProviderId(stringId)
+            .setContentId(program.contentId)
             .setPreviewVideoUri(previewProgramVideoUri)
             .build()
 }
 
-fun updateWatchNext(context: Context, program: WatchNextProgram, time: Long, watchNextProgramId: Long) {
+fun updateWatchNext(context: Context, program: WatchNextProgram, pDesc: ProgramDesc, watchNextProgramId: Long) {
     val values = WatchNextProgram.Builder(program)
             .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
-            .setLastPlaybackPositionMillis(time.toInt())
+            .setLastPlaybackPositionMillis(pDesc.time)
+            .setContentId(pDesc.contentId)
+            .setPosterArtUri(pDesc.artUri)
             .build().toContentValues()
     val watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(watchNextProgramId)
     val rowsUpdated = context.contentResolver.update(watchNextProgramUri,values, null, null)
@@ -193,4 +198,5 @@ data class ProgramDesc(
         val width: Int,
         val height: Int,
         val appId: String,
+        val contentId: String,
         val previewVideoUri: Uri? = null)

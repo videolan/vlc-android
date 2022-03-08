@@ -39,12 +39,13 @@ import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 
 interface IStorageFragmentDelegate {
     fun checkBoxAction(v: View, mrl: String)
-    fun addEntryPointsCallabck()
-    fun removeEntryPointsCallabck()
+    fun addEntryPointsCallback()
+    fun removeEntryPointsCallback()
     val processingFolders: SimpleArrayMap<String, CheckBox>
 
     fun withContext(context: Context)
     fun withAdapters(adapters: Array<StorageBrowserAdapter>)
+    fun addBannedFoldersCallback(callback: (folder:String, banned: Boolean)-> Unit)
 }
 
 class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
@@ -52,6 +53,7 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
     private lateinit var context:Context
     override val processingFolders = SimpleArrayMap<String, CheckBox>()
     private  val handler = Handler()
+    private var bannedFolderCallback: ((folder: String, banned: Boolean) -> Unit)? = null
 
     override fun withContext(context: Context) {
         this.context = context
@@ -61,11 +63,15 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         this.adapters = adapters
     }
 
-    override fun addEntryPointsCallabck() {
+    override fun addBannedFoldersCallback(callback: (folder: String, banned: Boolean) -> Unit) {
+        bannedFolderCallback = callback
+    }
+
+    override fun addEntryPointsCallback() {
         Medialibrary.getInstance().addEntryPointsEventsCb(this)
     }
 
-    override fun removeEntryPointsCallabck() {
+    override fun removeEntryPointsCallback() {
         Medialibrary.getInstance().removeEntryPointsEventsCb(this)
     }
 
@@ -96,9 +102,13 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         processingFolders.put(mrl, cbp)
     }
 
-    override fun onEntryPointBanned(entryPoint: String, success: Boolean) {}
+    override fun onEntryPointBanned(entryPoint: String, success: Boolean) {
+        handler.post { bannedFolderCallback?.invoke(entryPoint, true) }
+    }
 
-    override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {}
+    override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {
+        handler.post { bannedFolderCallback?.invoke(entryPoint, false) }
+    }
 
     override fun onEntryPointAdded(entryPoint: String, success: Boolean) {}
 

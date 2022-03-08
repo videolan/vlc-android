@@ -8,6 +8,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary.*
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.*
@@ -102,7 +103,7 @@ object ModelsHelper {
         return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
     }
 
-    private fun MediaLibraryItem.getDiscNumber(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
+    fun MediaLibraryItem.getDiscNumberString(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
 
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null && item != null) when (sort) {
         SORT_DEFAULT,
@@ -115,10 +116,10 @@ object ModelsHelper {
             }
         }
         TrackId -> {
-            val disc = item.getDiscNumber()
+            val disc = item.getDiscNumberString()
             if (aboveItem == null) disc
             else {
-                val previousDisc = aboveItem.getDiscNumber()
+                val previousDisc = aboveItem.getDiscNumberString()
                 disc.takeIf { it != previousDisc }
             }
         }
@@ -140,13 +141,15 @@ object ModelsHelper {
             }
         }
         SORT_LASTMODIFICATIONDATE -> {
-            val timestamp = (item as MediaWrapper).lastModified
-            val category = getTimeCategory(timestamp)
-            if (aboveItem == null) getTimeCategoryString(context, category)
-            else {
-                val prevCat = getTimeCategory((aboveItem as MediaWrapper).lastModified)
-                if (prevCat != category) getTimeCategoryString(context, category) else null
-            }
+            if (item is MediaWrapper) {
+                val timestamp = (item as? MediaWrapper)?.lastModified ?: 0
+                val category = getTimeCategory(timestamp)
+                if (aboveItem == null) getTimeCategoryString(context, category)
+                else {
+                    val prevCat = getTimeCategory((aboveItem as? MediaWrapper)?.lastModified ?: -1)
+                    if (prevCat != category) getTimeCategoryString(context, category) else null
+                }
+            } else null
         }
         SORT_ARTIST -> {
             val artist = (item as? MediaWrapper)?.artist ?: (item as? Album)?.albumArtist ?: ""

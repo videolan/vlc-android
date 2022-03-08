@@ -27,6 +27,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -50,6 +51,8 @@ import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
 
+
+public const val FAVORITE_FLAG = 1000
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -76,6 +79,8 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
         fun updateCardViewImage(item: MediaLibraryItem) {
             val noArt = item.artworkMrl.isNullOrEmpty()
             if (item is MediaWrapper) {
+                if (BuildConfig.DEBUG) Log.d("CardPresenter", "ITEM: ${item.title} // meta = ${item.hasFlag(FAVORITE_FLAG)}")
+                if (item.hasFlag(FAVORITE_FLAG)) cardView.badgeImage = ContextCompat.getDrawable(cardView.context, R.drawable.ic_favorite_tv_badge)
                 val group = item.type == MediaWrapper.TYPE_GROUP
                 val folder = item.type == MediaWrapper.TYPE_DIR
                 val video = item.type == MediaWrapper.TYPE_VIDEO
@@ -141,6 +146,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
         val holder = viewHolder as ViewHolder
         when (item) {
             is MediaWrapper -> {
+                Tools.setMediaDescription(item)
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.description
                 holder.updateCardViewImage(item)
@@ -175,7 +181,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             holder.cardView.badgeImage = badge
             badge.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
                 override fun onAnimationEnd(drawable: Drawable?) {
-                    badge.start()
+                    holder.cardView.post { badge.start() }
                     super.onAnimationEnd(drawable)
                 }
             })
@@ -191,7 +197,10 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             val media = item as MediaLibraryItem
             for (data in payloads) {
                 when (data as Int) {
-                    UPDATE_DESCRIPTION -> holder.cardView.contentText = media.description
+                    UPDATE_DESCRIPTION -> {
+                        Tools.setMediaDescription(item)
+                        holder.cardView.contentText = media.description
+                    }
                     UPDATE_THUMB -> loadImage(holder.cardView, media)
                     UPDATE_TIME -> {
                         val mediaWrapper = item as MediaWrapper

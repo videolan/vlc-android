@@ -100,6 +100,11 @@ public class StubMedia extends StubVLCObject<IMedia.Event> implements IMedia {
         return null;
     }
 
+    @Override
+    public String getMeta(int id, boolean force) {
+        return getMeta(id);
+    }
+
     private String getTitle() {
         if ("file".equals(mUri.getScheme())) {
             return mUri.getLastPathSegment();

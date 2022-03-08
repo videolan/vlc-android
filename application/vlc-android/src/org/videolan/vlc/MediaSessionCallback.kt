@@ -12,11 +12,12 @@ import android.view.KeyEvent
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
@@ -25,12 +26,14 @@ import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
+import java.security.SecureRandom
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.min
 
 @Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
-private const val TEN_SECONDS = 10000L
+private const val ONE_SECOND = 1000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -39,14 +42,14 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
-        else if (!AndroidDevices.isAndroidTv) PlaybackService.loadLastAudio(playbackService)
+        else if (!AndroidDevices.isAndroidTv && Settings.getInstance(playbackService).getBoolean(PLAYBACK_HISTORY, true)) PlaybackService.loadLastAudio(playbackService)
     }
 
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
         val keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent? ?: return false
         if (!playbackService.hasMedia()
                 && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)) {
-            return if (keyEvent.action == KeyEvent.ACTION_DOWN) {
+            return if (keyEvent.action == KeyEvent.ACTION_DOWN && Settings.getInstance(playbackService).getBoolean(PLAYBACK_HISTORY, true)) {
                 PlaybackService.loadLastAudio(playbackService)
                 true
             } else false
@@ -105,10 +108,28 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         return carMode && keyEvent.deviceId == 0 && (keyEvent.flags and KeyEvent.FLAG_KEEP_TOUCH_MODE != 0)
     }
 
-    override fun onCustomAction(action: String?, extras: Bundle?) {
-        when (action) {
-            "shuffle" -> playbackService.shuffle()
-            "repeat" -> playbackService.repeatType = when (playbackService.repeatType) {
+    override fun onCustomAction(actionId: String?, extras: Bundle?) {
+        when (actionId) {
+            CUSTOM_ACTION_SPEED -> {
+                val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
+                val index = 1 + steps.indexOf(steps.minByOrNull { abs(playbackService.rate - it) })
+                playbackService.setRate(steps[index % steps.size], false)
+            }
+            CUSTOM_ACTION_BOOKMARK -> {
+                playbackService.lifecycleScope.launch {
+                    val context = playbackService.applicationContext
+                    playbackService.currentMediaWrapper?.let {
+                        val bookmark = it.addBookmark(playbackService.getTime())
+                        val bookmarkName = context.getString(R.string.bookmark_default_name, Tools.millisToString(playbackService.getTime()))
+                        bookmark?.setName(bookmarkName)
+                        playbackService.displayPlaybackMessage(R.string.saved, bookmarkName)
+                    }
+                }
+            }
+            CUSTOM_ACTION_REWIND -> onRewind()
+            CUSTOM_ACTION_FAST_FORWARD -> onFastForward()
+            CUSTOM_ACTION_SHUFFLE -> if (playbackService.canShuffle()) playbackService.shuffle()
+            CUSTOM_ACTION_REPEAT -> playbackService.repeatType = when (playbackService.repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
                 PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
                 PlaybackStateCompat.REPEAT_MODE_ONE -> PlaybackStateCompat.REPEAT_MODE_NONE
@@ -136,7 +157,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                             val tracks = context.getFromMl { audio }
                             if (tracks.isNotEmpty() && isActive) {
                                 tracks.sortWith(MediaComparators.ANDROID_AUTO)
-                                loadMedia(tracks.toList(), Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
+                                loadMedia(tracks.toList(), SecureRandom().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
                                 if (!playbackService.isShuffling) playbackService.shuffle()
                             } else {
                                 playbackService.displayPlaybackError(R.string.search_no_result)
@@ -187,15 +208,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                                 }
                                 MediaSessionBrowser.ID_ARTIST -> {
                                     val tracks = context.getFromMl { getArtist(id)?.tracks }
-                                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                                    if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                                 }
                                 MediaSessionBrowser.ID_GENRE -> {
                                     val tracks = context.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
-                                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                                    if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                                 }
                                 MediaSessionBrowser.ID_PLAYLIST -> {
                                     val tracks = context.getFromMl { getPlaylist(id, Settings.includeMissing)?.tracks }
-                                    if (isActive) tracks?.let { loadMedia(it.toList()) }
+                                    if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                                 }
                                 MediaSessionBrowser.ID_MEDIA -> {
                                     val tracks = context.getFromMl { getMedia(id)?.tracks }
@@ -216,51 +237,79 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
-    private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0) {
+    private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0, allowRandom: Boolean = false) {
         mediaList?.let { mediaList ->
             if (AndroidDevices.isCarMode(playbackService.applicationContext))
                 mediaList.forEach { if (it.type == MediaWrapper.TYPE_VIDEO) it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
-            playbackService.load(mediaList, position)
+            // Pick a random first track if allowRandom is true and shuffle is enabled
+            playbackService.load(mediaList, if (allowRandom && playbackService.isShuffling) SecureRandom().nextInt(min(mediaList.size, MEDIALIBRARY_PAGE_SIZE)) else position)
         }
+    }
+
+    private fun checkForSeekFailure(forward: Boolean) {
+        if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0))
+            playbackService.displayPlaybackMessage(R.string.unseekable_stream)
     }
 
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
-        playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
+        val playbackState = PlaybackStateCompat.Builder()
+                .setActions(playbackService.enabledActions)
+                .setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.getTime(), playbackService.speed)
+                .build()
+        playbackService.mediaSession.setPlaybackState(playbackState)
         playbackService.lifecycleScope.launch(Dispatchers.IO) {
             if (!isActive) return@launch
             playbackService.awaitMedialibraryStarted()
             val vsp = VoiceSearchParams(query ?: "", extras)
-            var items: Array<out MediaLibraryItem>? = null
-            var tracks: Array<MediaWrapper>? = null
-            when {
-                vsp.isAny -> {
-                    items = playbackService.medialibrary.audio.also { if (!playbackService.isShuffling) playbackService.shuffle() }
-                }
-                vsp.isArtistFocus -> items = playbackService.medialibrary.searchArtist(vsp.artist)
-                vsp.isAlbumFocus -> items = playbackService.medialibrary.searchAlbum(vsp.album)
-                vsp.isGenreFocus -> items = playbackService.medialibrary.searchGenre(vsp.genre)
-                vsp.isPlaylistFocus -> items = playbackService.medialibrary.searchPlaylist(vsp.playlist, Settings.includeMissing)
-                vsp.isSongFocus -> tracks = playbackService.medialibrary.searchMedia(vsp.song)
+            var tracks = when {
+                vsp.isAny -> playbackService.medialibrary.audio
+                vsp.isSongFocus -> playbackService.medialibrary.searchMedia(vsp.song)
+                else -> null
+            }
+            tracks?.sortWith(MediaComparators.ANDROID_AUTO)
+            val items = when {
+                vsp.isAlbumFocus -> playbackService.medialibrary.searchAlbum(vsp.album)
+                vsp.isGenreFocus -> playbackService.medialibrary.searchGenre(vsp.genre)
+                vsp.isArtistFocus -> playbackService.medialibrary.searchArtist(vsp.artist)
+                vsp.isPlaylistFocus -> playbackService.medialibrary.searchPlaylist(vsp.playlist, Settings.includeMissing)
+                else -> null
             }
             if (!isActive) return@launch
-            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
+            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) {
+                playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
+                    tracks = when {
+                        !albums.isNullOrEmpty() -> albums!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        !artists.isNullOrEmpty() -> artists!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        !playlists.isNullOrEmpty() -> playlists!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        !genres.isNullOrEmpty() -> genres!!.flatMap { it.tracks.toList() }.toTypedArray()
+                        else -> null
+                    }
+                }
+            }
+            if (!isActive) return@launch
+            if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items.flatMap { it.tracks.toList() }.toTypedArray()
+            playbackService.lifecycleScope.launch(Dispatchers.Main) {
                 when {
-                    !albums.isNullOrEmpty() -> tracks = albums!![0].tracks
-                    !artists.isNullOrEmpty() -> tracks = artists!![0].tracks
-                    !playlists.isNullOrEmpty() -> tracks = playlists!![0].tracks
-                    !genres.isNullOrEmpty() -> tracks = genres!![0].tracks
+                    !tracks.isNullOrEmpty() -> {
+                        loadMedia(tracks?.toList(), if (vsp.isAny) SecureRandom().nextInt(min(tracks!!.size, MEDIALIBRARY_PAGE_SIZE)) else 0)
+                        // Enable shuffle when isAny is true and disable when false
+                        if (vsp.isAny == !playbackService.isShuffling) playbackService.shuffle()
+                    }
+                    playbackService.hasMedia() -> playbackService.play()
+                    else -> playbackService.displayPlaybackError(R.string.search_no_result)
                 }
-            }
-            if (!isActive) return@launch
-            if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
-            when {
-                !tracks.isNullOrEmpty() -> loadMedia(tracks?.toList())
-                playbackService.hasMedia() -> playbackService.play()
-                else -> playbackService.displayPlaybackError(R.string.search_no_result)
             }
         }
+    }
+
+    override fun onSetShuffleMode(shuffleMode: Int) {
+        playbackService.shuffleType = shuffleMode
+    }
+
+    override fun onSetRepeatMode(repeatMode: Int) {
+        playbackService.repeatType = repeatMode
     }
 
     override fun onPause() = playbackService.pause()
@@ -271,11 +320,17 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSkipToPrevious() = playbackService.previous(false)
 
-    override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.time + pos else pos, fromUser = true)
+    override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.getTime() + pos else pos, fromUser = true)
 
-    override fun onFastForward() = playbackService.seek((playbackService.time + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
+    override fun onFastForward() {
+        playbackService.seek((playbackService.getTime() + Settings.audioJumpDelay * ONE_SECOND).coerceAtMost(playbackService.length), fromUser = true)
+        checkForSeekFailure(forward = true)
+    }
 
-    override fun onRewind() = playbackService.seek((playbackService.time - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
+    override fun onRewind() {
+        playbackService.seek((playbackService.getTime() - Settings.audioJumpDelay * ONE_SECOND).coerceAtLeast(0), fromUser = true)
+        checkForSeekFailure(forward = false)
+    }
 
-    override fun onSkipToQueueItem(id: Long) = playbackService.playIndex(id.toInt())
+    override fun onSkipToQueueItem(id: Long) = playbackService.playIndexOrLoadLastPlaylist(id.toInt())
 }

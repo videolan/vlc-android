@@ -28,15 +28,21 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.appbar.AppBarLayout
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.RESULT_UPDATE_ARTISTS
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.gui.preferences.search.PreferenceSearchActivity
 
 const val EXTRA_PREF_END_POINT = "extra_pref_end_point"
@@ -47,7 +53,7 @@ class PreferencesActivity : BaseActivity() {
     private val searchRequestCode = 167
     private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
-    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +73,7 @@ class PreferencesActivity : BaseActivity() {
         mAppBarLayout!!.setExpanded(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_prefs, menu)
         return true
     }
@@ -126,5 +132,22 @@ class PreferencesActivity : BaseActivity() {
     fun detectHeadset(detect: Boolean) {
         val le = PlaybackService.headSetDetection
         if (le.hasObservers()) le.value = detect
+    }
+
+    companion object {
+        /**
+         * Launch the preferences and redirect to a given preference
+         * @param activity The calling activity
+         * @param prefKey The preference key to redirect to
+         * @throws NoSuchElementException if the key is not found
+         */
+        suspend fun launchWithPref(activity: FragmentActivity, prefKey:String) {
+            val pref = withContext(Dispatchers.IO) {
+                PreferenceParser.parsePreferences(activity)
+            }.first { it.key == prefKey }
+            val intent = Intent(activity, PreferencesActivity::class.java)
+            intent.putExtra(EXTRA_PREF_END_POINT, pref)
+            activity.startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
+        }
     }
 }

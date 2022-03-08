@@ -40,7 +40,8 @@
         <item name="background_default">@color/white</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background</item>
         <item name="audio_header_background">@color/white</item>
-        <item name="audio_header_divider">@color/mini_player_divider</item>
+        <item name="audio_header_divider">@color/grey400</item>
+        <item name="default_divider">@color/black_transparent_20</item>
         <item name="audio_menu_icon">@color/black_transparent_50</item>
         <item name="audio_list_background">@drawable/audio_list_background</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar</item>
@@ -52,8 +53,8 @@
         <item name="header_background">@color/whitetransparent_ea</item>
         <item name="background_default_darker">@color/grey200</item>
         <item name="background_actionbar">@color/white</item>
-        <item name="background_audio_tips">@color/grey50transparent</item>
-        <item name="audio_player_background_tint">@color/white_transparent_50</item>
+        <item name="audio_player_background_tint">@color/white_transparent_75</item>
+        <item name="background_audio_tips">@color/white_transparent_95</item>
         <item name="audio_browser_separator">@color/orange800</item>
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
         <item name="font_default">@color/grey900</item>
@@ -64,7 +65,6 @@
         <item name="donate_card">@color/orange500</item>
         <item name="donate_item_background">@drawable/donate_background_color</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="adv_options_item_background">@drawable/advanced_option_focusable_background</item>
         <item name="audio_chips_color">@color/black_transparent_75</item>
         <item name="audio_chips_text_color">@color/white_transparent_60</item>
         <item name="bottom_navigation_focus">@color/orange_800_transparent_10</item>
@@ -73,27 +73,13 @@
         <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
         <item name="primary_focus">@color/orange_800_transparent_20</item>
 
-        <item name="ic_playlist">@drawable/ic_playlist</item>
-        <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
-        <item name="ic_menu_search">@drawable/ic_menu_search</item>
-        <item name="ic_save">@drawable/ic_save</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_light</item>
-        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
-        <item name="ic_popup_dim">@drawable/ic_popup_dim</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
-        <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
-        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
+        <item name="ic_tips_double_tap">@drawable/tips_double_tap_500</item>
+        <item name="ic_tips_tap">@drawable/tips_tap_500</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
-        <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
-        <item name="ic_video_stats">@drawable/ic_video_stats</item>
-        <item name="ic_lock_player">@drawable/ic_lock_player</item>
         <item name="progress_background">@color/grey400</item>
         <item name="ariane_text_color">@color/grey700</item>
         <item name="ariane_text_size">14sp</item>
@@ -111,6 +97,10 @@
         <item name="audio_chip_background">@drawable/rounded_corners_audio</item>
         <item name="audio_chip_text_color">@color/white_transparent_60</item>
         <item name="empty_title">@color/grey850</item>
+        <item name="audio_player_gradient_bottom">@drawable/gradient_audio_player_bottom</item>
+        <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top</item>
+        <item name="tips_item_background">@color/grey300</item>
+        <item name="about_text_primary">@color/black</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
@@ -132,6 +122,7 @@
         <item name="ariane_text_size">14sp</item>
         <item name="android:windowBackground">@color/grey900</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
+        <item name="empty_title">@color/grey300</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog.Light.7" parent="Theme.MaterialComponents.Dialog">
@@ -150,6 +141,7 @@
         <item name="ariane_text_size">14sp</item>
         <item name="android:windowBackground">@color/grey200</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
+        <item name="empty_title">@color/grey850</item>
     </style>
 
     <style name="Theme.VLC.SendCrashDialog" parent="Theme.MaterialComponents.Dialog">
@@ -191,10 +183,11 @@
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/grey875</item>
-        <item name="background_default">@color/black</item>
+        <item name="background_default">@color/dark_background</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background_dark</item>
         <item name="audio_header_background">@color/mini_player_dark</item>
         <item name="audio_header_divider">@color/black</item>
+        <item name="default_divider">@color/white_transparent_20</item>
         <item name="audio_menu_icon">@color/white_transparent_50</item>
         <item name="audio_list_background">@drawable/audio_list_background_black</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
@@ -203,10 +196,10 @@
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="bottom_sheet_radius">16dp</item>
         <item name="bottom_navigation_color">@color/grey500</item>
-        <item name="header_background">@color/blacktransparent</item>
+        <item name="header_background">@color/dark_background</item>
         <item name="background_default_darker">@color/grey875</item>
-        <item name="background_actionbar">@color/black</item>
-        <item name="background_audio_tips">@color/grey900transparent</item>
+        <item name="background_actionbar">@color/dark_background</item>
+        <item name="background_audio_tips">@color/black_transparent_90</item>
         <item name="audio_player_background_tint">@color/black_transparent_50</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
@@ -217,8 +210,7 @@
         <item name="list_title">@color/list_title_dark</item>
         <item name="donate_card">@color/orange500transparent</item>
         <item name="donate_item_background">@drawable/donate_background_color_dark</item>
-        <item name="android:windowBackground">@color/black</item>
-        <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
+        <item name="android:windowBackground">@color/dark_background</item>
         <item name="audio_chips_color">@color/white_transparent_90</item>
         <item name="audio_chips_text_color">@color/black_transparent_60</item>
         <item name="bottom_navigation_focus">@color/white_transparent_10</item>
@@ -227,27 +219,13 @@
         <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
 
-        <item name="ic_playlist">@drawable/ic_playlist_w</item>
-        <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
-        <item name="ic_menu_search">@drawable/ic_menu_search_w</item>
-        <item name="ic_save">@drawable/ic_save_w</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
-        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
-        <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
-        <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
-        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
-        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
-        <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
-        <item name="ic_video_stats">@drawable/ic_video_stats</item>
-        <item name="ic_lock_player">@drawable/ic_lock_player</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
+        <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
+        <item name="ic_tips_tap">@drawable/tips_tap</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="progress_background">@color/grey700</item>
         <item name="ariane_text_color">@color/grey50</item>
         <item name="ariane_text_size">14sp</item>
@@ -266,6 +244,10 @@
         <item name="audio_chip_background">@drawable/rounded_corners_audio_dark</item>
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
         <item name="empty_title">@color/grey300</item>
+        <item name="audio_player_gradient_bottom">@drawable/gradient_audio_player_bottom_dark</item>
+        <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top_dark</item>
+        <item name="tips_item_background">@color/grey900</item>
+        <item name="about_text_primary">@color/orange500</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7"/>
@@ -295,24 +277,18 @@
         <item name="list_subtitle">@color/lb_basic_card_content_text_color</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Player</item>
         <item name="disabled_overlay_color">@color/black_transparent_50</item>
-        <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
-        <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
-        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
-        <item name="ic_save">@drawable/ic_save_w</item>
-        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
+        <item name="ic_tips_tap">@drawable/tips_tap</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="colorControlNormal">@color/grey700</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="background_default">@color/grey850</item>
         <item name="actionBarItemBackground">@drawable/ic_circle_audio_player</item>
-        <item name="selectableItemBackgroundBorderless">@drawable/ic_circle_audio_player</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
         <item name="empty_title">@color/grey300</item>
-
+        <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
     
     
@@ -439,40 +415,31 @@
         <item name="bottom_sheet_radius">4dp</item>
 
 
-        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
 
         <item name="background_default">@color/grey850</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
-        <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
-        <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
-        <item name="ic_bookmark_normal_style">@drawable/ic_bookmark_w</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
-        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
-        <item name="ic_save">@drawable/ic_save_w</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
+        <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
+        <item name="ic_tips_tap">@drawable/tips_tap</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="font_audio_light">@color/grey600</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
-        <item name="adv_options_item_background">@drawable/advanced_option_focusable_background_dark</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
+        <item name="mini_visualizer_color">@color/white_transparent_75</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
         <item name="progress_background">@color/grey200</item>
-        <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
-        <item name="ic_video_stats">@drawable/ic_video_stats</item>
-        <item name="ic_lock_player">@drawable/ic_lock_player</item>
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
         </item>
         <item name="colorControlHighlight">@color/orange500</item>
         <item name="player_icon_color">@color/grey50</item>
+        <item name="background_audio_tips">@color/white_transparent_95</item>
     </style>
 
     <style name="VLCTransparentTheme" parent="VLCTransparentThemeLight" />
@@ -571,9 +538,13 @@
     </style>
 
 
-        <style name="VLC.Onboarding.Button.Next" parent="Widget.MaterialComponents.Button.OutlinedButton">
-            <item name="android:textColor">@color/white</item>
-        </style>
+    <style name="VLC.Onboarding.Button.Next" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="VLC.Tips.Button.Next" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
@@ -612,14 +583,9 @@
     </style>
 
     <style name="Result.Title" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">?attr/font_light</item>
+        <item name="android:textSize">14sp</item>
         <item name="textAllCaps">true</item>
-        <item name="android:textColor">@color/orange500</item>
-    </style>
-
-    <style name="Result.List" parent="Base.Widget.AppCompat.ListView">
-        <item name="android:background">@color/white</item>
-        <item name="android:elevation" tools:targetApi="lollipop">2sp</item>
-        <item name="android:layout_margin">10dp</item>
     </style>
 
     <!--Preferences-->
@@ -706,8 +672,7 @@
 
     </style>
 
-    <!--    fixme : We'll have to revert to Widget.MaterialComponents.BottomSheet.Modal when this issue is fixed: https://github.com/material-components/material-components-android/issues/1086-->
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
     </style>
 
     <style name="Theme.VLC.BottomSheetTitle">
@@ -755,5 +720,13 @@
         <item name="android:foreground">@drawable/donate_button_ripple</item>
 
     </style>
+
+        <style name="About"/>
+        <style name="About.Title">
+            <item name="android:textSize">16sp</item>
+            <item name="android:textColor">?attr/font_default</item>
+            <item name="android:fontFamily">sans-serif-medium</item>
+
+        </style>
 
 </resources>

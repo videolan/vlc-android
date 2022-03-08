@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
@@ -41,15 +42,20 @@
     <string name="append_all">Añadir todo</string>
     <string name="resume_playback_short_title">Continuar reproducción</string>
     <string name="resume_playback_long_title">Continuar reproducción de la última lista de reproducción</string>
+    <string name="resume_playback_error">Nada a continuar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="set_song_question">¿Establecer «%1$s» como tono de llamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
+    <string name="confirm_delete_message">Esta acción es permanente y no se puede deshacer.</string>
     <string name="confirm_delete_album">¿Eliminar el álbum «%1$s»?</string>
     <string name="confirm_delete_several_media">¿Eliminar estos %1$d medios?</string>
     <string name="confirm_delete_folder">¿Eliminar la carpeta «%1$s» y todo su contenido?</string>
+    <string name="confirm_delete_folders">¿Seguro que quieres eliminar las %1$s carpetas y todo su contenido?</string>
+    <string name="confirm_delete_files">¿Seguro que quieres eliminar los %1$s archivos?</string>
+    <string name="confirm_delete_folders_and_files">¿Seguro que quieres eliminar las %1$s carpetas y %2$s archivos?</string>
     <string name="confirm_delete_playlist">¿Eliminar la lista de reproducción «%1$s»?</string>
     <string name="confirm_remove_from_playlist">¿Eliminar «%1$s» de la lista de reproducción?</string>
     <string name="ringtone_set">El archivo «%1$s» se ha establecido como tono de llamada.</string>
@@ -93,6 +99,10 @@
         <item quantity="one">1 programa de TV</item>
         <item quantity="other">%d programas de TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 pista</item>
+        <item quantity="other">%d pistas</item>
+    </plurals>
 
     <string name="internal_memory">Memoria interna</string>
     <string name="audio">Audio</string>
@@ -118,6 +128,7 @@
     <string name="shuffle_title">Modo aleatorio</string>
     <string name="shuffle">Modo aleatorio desactivado</string>
     <string name="shuffle_on">Modo aleatorio activado</string>
+    <string name="shuffle_play">Aleatorio</string>
     <string name="repeat_title">Modo repetición</string>
     <string name="repeat">No repetir</string>
     <string name="repeat_single">Repetir una</string>
@@ -195,16 +206,9 @@
 
     <string name="play_button">Botón reproducir</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Consejos del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtítulos</string>
-    <string name="audio_sub">Pistas de audio\ny subtítulos</string>
-    <string name="resize">Cambiar tamaño</string>
-    <string name="options">Opciones</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">Comprendido, descartar esto</string>
-
     <string name="playlist_tips">Consejos de lista de reproducción</string>
     <string name="remove_song">Eliminar canción</string>
     <string name="remove_playlist_item">%1$s ha sido descartado de la lista de reproducción</string>
@@ -243,9 +247,10 @@
     <string name="automatic">Automática</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
-    <string name="screen_orientation_start_lock">Bloqueado al inicio</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Apaisado</string>
+    <string name="screen_orientation_landscape_reverse">Apaisado invertido</string>
+    <string name="screen_orientation_last_locked">Última orientación bloqueda</string>
     <string name="enable_black_theme">Tema oscuro</string>
     <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="daynight_title">Modo DiaNoche</string>
@@ -264,8 +269,6 @@
     <string name="video_min_group_length_disable">No agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por carpeta</string>
     <string name="video_min_group_length_name">Agrupar por nombre</string>
-    <string name="media_fast_seek">Búsqueda rápida</string>
-    <string name="media_fast_seek_summary">La búsqueda en un medio es más rápido pero menos preciso</string>
     <string name="video_transition_title">Trasición de vídeos</string>
     <string name="video_transition_summary">Mostrar título de nuevo vídeo en la transición</string>
     <string name="media_seen">Mostrar en creador de vídeos</string>
@@ -337,6 +340,8 @@
     <string name="casting_quality_lowcpu">El más bajo</string>
     <string name="casting_connected_renderer">Conectado al visualizador «%1$s»</string>
     <string name="artists_show_all_title">Mostrar todos los artistas</string>
+    <string name="show_headers">Mostrar cabeceras</string>
+    <string name="show_headers_summary">Dividir listas por cabecerasdependiendo del tipo de orden</string>
 
     <string name="extensions_prefs_category">Extensiones</string>
     <string name="extensions_empty">No se han detectado extensiones</string>
@@ -368,6 +373,8 @@
     <string name="dump_media_db_summary">Copiar base de datos a almacenamiento interno root</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="clear_media_database_summary">Limpiar la base de datos para comenzar de nuevo</string>
+    <string name="clear_app_data">Borrar datos de la aplicación</string>
+    <string name="clear_app_data_summary">Borra los datos de VLC para Android</string>
     <string name="clear_history">Limpiar historial</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="network_caching">Valor de cache de red</string>
@@ -486,7 +493,7 @@
     <string name="download_subtitles">Descargar subtítulos</string>
     <string name="browse_folder">Explorar carpeta</string>
     <string name="listen">Escuchar</string>
-    <string name="save_bluetooth_delay">guardar retraso para dispositivo bluetooth</string>
+    <string name="apply_to_bt">Aplicar en dispositivo Bluetooth</string>
     <string name="episodes">episodios</string>
     <string name="movies">películas</string>
     <string name="videos">vídeos</string>
@@ -669,7 +676,9 @@
     <string name="recently_played">Reproducido recientemente</string>
     <string name="recently_added">Añadido recientemente</string>
     <string name="playback_multiple_errors">No se pueden reproducir múltiples medios</string>
-    <string name="clear_media_db_warning">Perderá su progreso y las listas de reproducción creadas.\n%s</string>
+    <string name="clear_media_db_message">Perderás los progresos, marcadores y listas de reproducción que hayas creado, pero se mantendrán los ajustes de VLC para Android</string>
+    <string name="clear_app_data_message">Perderás los progresos, marcadores y listas de reproducción que hayas creado, así como todos los ajustes de VLC</string>
+    <string name="clear">Borrar</string>
     <string name="abrepeat_add_first_marker">Establecer punto de inicio</string>
     <string name="abrepeat_add_second_marker">Establecer punto de fin</string>
     <string name="demux_bitrate">Tasa de bits de demux</string>
@@ -695,6 +704,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="audio_queue_progress_remaining">Restante: %s</string>
     <string name="audio_queue_progress_finished">Acaba en: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Añadir esta carpeta</string>
@@ -736,6 +746,7 @@
     <string name="donate_again">Patrocinar la app de nuevo</string>
 
     <string name="mark_as_played">Marcar como reproducido</string>
+    <string name="mark_as_not_played">Marcar como no reproducida</string>
     <string name="mark_all_as_played">Marcar todo como reproducido</string>
     <string name="new_group">Nuevo grupo</string>
     <string name="new_group_desc">Crear nuevo grupo</string>
@@ -759,16 +770,45 @@
     <string name="prefersmbv1_summary">Desmarque esta preferencia si tiene dificultades la explorar su servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio establecido a %s ms para todos los vídeos</string>
+    <string name="audio_delay_bt">Retraso de audio establecido en %s ms para el dispositivo Bluetooth</string>
     <string name="warning_stream_speed">Incrementar la velocidad de reproducción por encima de 1 para las emisiones puede causar intermitencias</string>
     <string name="go_to_folder">Explorar padre</string>
     <string name="no_sub_renderer">Los subtítulos no está soportados todavía al emitir</string>
     <string name="enqueuing">Cargando sus medios</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Seleccione un archivo SoundFont para reproducir pistas de audio MIDI</string>
+    <string name="missing_media_snack">Faltan medios. ¿Quieres ocultar todos los medios que falten?</string>
+    <string name="browser_show_missing_media">Mostrar medios que falten</string>
     <string name="search_prefs">Preferencias de búsqueda</string>
     <string name="preferred_resolution">Resolución de vídeo preferida</string>
     <string name="preferred_resolution_summary">La calidad máxima del vídeo para las emisiones (si corresponde) será de: %s</string>
     <string name="pref_resolution_best_available">Mejor disponible</string>
     <string name="pref_resolution_very_low">Definición muy baja (240p)</string>
+    <string name="stop_unpaubale">Este medio no puede ser pausado. ¿Desea pararlo?</string>
+    <string name="delete_forever">Eliminar de forma permanente</string>
+    <string name="add_to_existing_playlist">Añadir a lista de reproducción existente</string>
+    <string name="bookmarks_title">Marcadores</string>
+    <string name="no_bookmark">Aún no hay marcadores</string>
+    <string name="bookmark_name">Añadir %s a marcadores</string>
+    <string name="optional_features">Características opcionales</string>
+    <string name="optional_features_summary">Características beta que se están probando y puede que no sean estables</string>
+    <string name="optional_features_warning">Esta característica está en fase beta y puede causar bloqueos e inestabilidades</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">¿Añadir elementos duplicados?</string>
+    <string name="add_button">Añadir</string>
+    <string name="add_all_button">Añadir todo</string>
+    <string name="add_new_only_button">Añadir nuevos solo</string>
+    <string name="discovery_failed">Error al detectar: %s</string>
+    <string name="lock_use_sensor_title">Bloquear con sensor</string>
+    <string name="lock_use_sensor_summary">Cuando la orientación está bloqueada, usa el sensor para permitir la orientación inversa</string>
+    <plurals name="duplication_two_options_secondary">
+        <item quantity="one">El elemento ya está en la lista de reproducción.</item>
+        <item quantity="other">Los elementos ya están en la lista de reproducción.</item>
+    </plurals>
+    <plurals name="duplication_three_options_secondary">
+        <item quantity="one">1 de los elementos seleccionados ya está en la lista de reproducción.</item>
+        <item quantity="other">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
+    </plurals>
 
 </resources>

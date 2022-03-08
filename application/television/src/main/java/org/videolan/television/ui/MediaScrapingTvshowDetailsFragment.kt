@@ -109,10 +109,10 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
         viewModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), showId = showId)).get(showId, MediaMetadataModel::class.java)
 
 
-        viewModel.updateLiveData.observe(this, {
+        viewModel.updateLiveData.observe(this) {
             buildDetails(it)
             updateMetadata(it)
-        })
+        }
         onItemViewClickedListener = this
     }
 

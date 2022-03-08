@@ -29,6 +29,7 @@
     <attr name="bottom_navigation_background" format="reference|color" />
     <attr name="audio_header_background" format="reference|color" />
     <attr name="audio_header_divider" format="color" />
+    <attr name="default_divider" format="color" />
     <attr name="audio_menu_icon" format="color" />
     <attr name="audio_list_background" format="reference|color" />
     <attr name="bottom_sheet_background" format="reference|color" />
@@ -72,34 +73,23 @@
     <attr name="fast_scroller_bubble" format="reference" />
     <attr name="fast_scroller_handle" format="reference" />
     <attr name="empty_title" format="color" />
+    <attr name="audio_player_gradient_bottom" format="reference" />
+    <attr name="audio_player_gradient_top" format="reference" />
+    <attr name="tips_item_background" format="color" />
+    <attr name="about_text_primary" format="color" />
 
     <!--Main Icons-->
-    <attr name="ic_playlist" format="reference" />
-    <attr name="ic_playlist_on" format="reference" />
-    <attr name="ic_menu_search" format="reference" />
-    <attr name="ic_save" format="reference" />
     <attr name="gridview_progressbar" format="reference" />
     <attr name="toolbar_popup_style" format="reference" />
     <attr name="progress_mini_player" format="reference" />
 
     <!--Advance Options Icons-->
-    <attr name="adv_options_item_background" format="reference" />
-    <attr name="ic_speed_normal_style" format="reference" />
-    <attr name="ic_sleep_normal_style" format="reference" />
-    <attr name="ic_jumpto_normal_style" format="reference" />
-    <attr name="ic_chapter_normal_style" format="reference" />
-    <attr name="ic_bookmark_normal_style" format="reference" />
-    <attr name="ic_equalizer_normal_style" format="reference" />
-    <attr name="ic_playasaudio_off" format="reference" />
     <attr name="ic_playasaudio_on" format="reference" />
-    <attr name="ic_popup_dim" format="reference" />
     <attr name="ic_passthrough" format="reference" />
-    <attr name="ic_abrepeat" format="reference" />
-    <attr name="ic_abrepeat_reset" format="reference" />
-    <attr name="ic_video_stats" format="reference" />
-    <attr name="ic_lock_player" format="reference" />
     <attr name="player_icon_color" format="reference" />
     <attr name="dialog_circle_background" format="reference"/>
+    <attr name="ic_tips_double_tap" format="reference"/>
+    <attr name="ic_tips_tap" format="reference"/>
 
 
     <attr name="advanced_options_bg" format="reference"/>

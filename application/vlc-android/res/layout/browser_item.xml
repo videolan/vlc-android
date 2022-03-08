@@ -29,6 +29,14 @@
                 type="boolean" />
 
         <variable
+                name="isBanned"
+                type="boolean" />
+
+        <variable
+                name="isBannedParent"
+                type="boolean" />
+
+        <variable
                 name="checkEnabled"
                 type="boolean" />
 
@@ -61,7 +69,7 @@
                 android:id="@+id/browser_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="@{checkEnabled}"
+                android:enabled="@{checkEnabled &amp;&amp; !isBanned}"
                 android:focusable="false"
                 android:onClick="@{holder::onCheckBoxClick}"
                 android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE, default=gone}"
@@ -85,7 +93,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/browser_checkbox"
                 app:layout_constraintTop_toTopOf="parent"
-                app:media="@{item}" />
+                app:media="@{item}"
+                tools:srcCompat="@drawable/ic_am_folder" />
 
         <TextView
                 android:id="@+id/dvi_icon"
@@ -116,26 +125,32 @@
                 android:textColor="?attr/list_title"
                 android:textSize="16sp"
                 app:ellipsizeMode="@{true}"
+                android:enabled="@{!isBanned}"
                 app:layout_constraintBottom_toTopOf="@+id/text"
                 app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toEndOf="@+id/item_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:layout_goneMarginBottom="2dp" />
+                app:layout_goneMarginBottom="2dp"
+                tools:text="Folder" />
 
         <TextView
                 android:id="@+id/text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:maxLines="1"
                 android:textColor="?attr/list_subtitle"
                 android:textSize="12sp"
-                android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE, default=gone}"
-                app:browserDescription="@{item.description}"
+                android:enabled="@{!isBanned}"
+                android:visibility="@{TextUtils.isEmpty(item.description) &amp;&amp; !isBanned ? View.GONE : View.VISIBLE, default=gone}"
+                app:browserDescription="@{isBannedParent ? @string/banned_parent : isBanned ? @string/banned : item.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toStartOf="@+id/title"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                tools:text="Empty"
+                tools:visibility="visible" />
 
         <ImageView
                 android:id="@+id/item_more"
@@ -149,6 +164,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_more" />
+                app:srcCompat="@drawable/ic_more"
+                tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

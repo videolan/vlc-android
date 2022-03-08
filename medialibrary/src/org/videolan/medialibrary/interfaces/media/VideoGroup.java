@@ -14,12 +14,14 @@ public abstract class VideoGroup extends MediaLibraryItem {
 
     public int mCount;
     public int mPresentCount;
+    public int mPresentSeen;
     public boolean isNetwork = false;
 
-    public VideoGroup(long id, String name, int count, int presentCount) {
+    public VideoGroup(long id, String name, int count, int presentCount, int presentSeen) {
         super(id, name);
         mCount = count;
         mPresentCount = presentCount;
+        mPresentSeen = presentSeen;
     }
 
     abstract public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
@@ -43,6 +45,10 @@ public abstract class VideoGroup extends MediaLibraryItem {
 
     public int getPresentCount() {
         return mPresentCount;
+    }
+
+    public int getPresentSeen() {
+        return mPresentSeen;
     }
 
     @Override

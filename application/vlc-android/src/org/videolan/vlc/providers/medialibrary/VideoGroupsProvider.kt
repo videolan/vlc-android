@@ -24,7 +24,7 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
         val medias = if (model.filterQuery.isNullOrEmpty()) {
             medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, loadSize, startposition)
         } else {
-        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+            medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
         }.sanitizeGroups().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
         model.viewModelScope.launch { completeHeaders(medias, startposition) }
         return medias
@@ -57,8 +57,8 @@ private fun Array<VideoGroup>.sanitizeGroups() = map { videoGroup ->
  * Update the [VideoGroup.isNetwork] flag if needed (at least one media is a network one)
  */
 private fun checkIsNetwork(videoGroup: VideoGroup) {
-    videoGroup.media(Medialibrary.SORT_DEFAULT, false, true, videoGroup.mediaCount(), 0).forEach {
-        if (!it.uri.scheme.isSchemeFile()) {
+    videoGroup.media(Medialibrary.SORT_DEFAULT, false, true, videoGroup.mediaCount(), 0).filterNotNull().forEach {
+        if (it.uri?.scheme?.isSchemeFile() == false) {
             videoGroup.isNetwork = true
             return@forEach
         }

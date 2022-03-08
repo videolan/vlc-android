@@ -47,6 +47,8 @@ import org.videolan.tools.readableSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerHudBinding
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.getScreenWidth
 import java.lang.Double
 
@@ -119,7 +121,7 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
                 if (track.bitrate > 0) addStreamGridView(grid, player.getString(R.string.bitrate), player.getString(R.string.bitrate_value, track.bitrate.toLong().readableSize()))
                 addStreamGridView(grid, player.getString(R.string.codec), track.codec)
                 if (track.language != null && !track.language.equals("und", ignoreCase = true))
-                    addStreamGridView(grid, player.getString(R.string.language), track.language)
+                    addStreamGridView(grid, player.getString(R.string.language), LocaleUtil.getLocaleName(track.language))
 
                 when (track.type) {
                     IMedia.Track.Type.Audio -> {
@@ -182,7 +184,7 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
 
     private fun setupLayout() {
         if (!::constraintSetLarge.isInitialized) return
-        if (player.getScreenWidth() > 600.dp) {
+        if (player.isTablet()) {
             constraintSetLarge.applyTo(binding.statsScrollviewContent)
         } else {
             constraintSet.applyTo(binding.statsScrollviewContent)

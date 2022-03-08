@@ -95,7 +95,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
 
         if (supportFragmentManager.findFragmentById(R.id.fragment_placeholder) == null) {
             val fragmentId = intent.getStringExtra(KEY_FRAGMENT)
-            fetchSecondaryFragment(fragmentId)
+            fragmentId?.let { fetchSecondaryFragment(it) }
             if (fragment == null) {
                 finish()
                 return
@@ -114,18 +114,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
     }
 
     override fun dialogCanceled(dialog: Dialog?) {}
-
-    override fun forceLoadVideoFragment() {
-        val fragmentId = intent.getStringExtra(KEY_FRAGMENT)
-        fetchSecondaryFragment(fragmentId)
-        if (fragment == null) {
-            finish()
-            return
-        }
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_placeholder, fragment!!)
-            .commit()
-    }
 
     override fun onResume() {
         if (!intent.getBooleanExtra(KEY_ANIMATED, false)) overridePendingTransition(0, 0)
@@ -197,10 +185,11 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 setResult(RESULT_RESTART)
             }
             FILE_BROWSER -> {
-                val media = intent.getParcelableExtra(KEY_MEDIA) as MediaWrapper
-                fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
-                else FileBrowserFragment()
-                fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
+                (intent.getParcelableExtra(KEY_MEDIA) as? MediaWrapper)?.let { media ->
+                    fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+                    else FileBrowserFragment()
+                    fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
+                }
             }
             else -> throw IllegalArgumentException("Wrong fragment id.")
         }

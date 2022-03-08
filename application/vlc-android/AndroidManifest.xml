@@ -9,6 +9,7 @@
         android:name="android.permission.READ_LOGS"
         android:maxSdkVersion="18"/> <!-- android:maxSdkVersion="15" -->
     <!-- vibration on audioplayer buttons long press -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE"/> <!-- used for setting ringtone -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/> <!-- STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- Internet -->
@@ -420,6 +421,8 @@
                 <data android:pathPattern=".*.PLS" />
                 <data android:pathPattern=".*.ram" />
                 <data android:pathPattern=".*.RAM" />
+                <data android:pathPattern=".*.wpl" />
+                <data android:pathPattern=".*.WPL" />
                 <data android:pathPattern=".*.xspf" />
                 <data android:pathPattern=".*.XSPF" />
             </intent-filter>
@@ -470,10 +473,16 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".gui.PlaylistActivity"
-            android:theme="@style/Theme.VLC"/>
+            android:theme="@style/Theme.VLC.NoStatus"/>
         <activity
             android:name=".gui.InfoActivity"
             android:theme="@style/Theme.VLC.NoStatus"/>
+        <activity
+            android:name=".gui.LibrariesActivity"
+            android:theme="@style/Theme.VLC"/>
+        <activity
+            android:name=".gui.AuthorsActivity"
+            android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.SearchActivity"
             android:theme="@style/Theme.VLC"/>

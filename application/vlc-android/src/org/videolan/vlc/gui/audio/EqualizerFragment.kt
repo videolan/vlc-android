@@ -24,17 +24,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import com.google.android.material.slider.Slider
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
@@ -50,14 +52,15 @@ import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
-import java.lang.Runnable
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class EqualizerFragment : VLCBottomSheetDialogFragment() {
+class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListener {
     override fun getDefaultState() = STATE_EXPANDED
 
-    override fun needToManageOrientation() = false
+    override fun needToManageOrientation() = true
 
     override fun initialFocusedView(): View = binding.equalizerContainer
 
@@ -71,7 +74,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     private var updateAlreadyHandled = false
     private lateinit var binding: EqualizerBinding
     private val state = EqualizerState()
-    private val newPresetName = AppContextProvider.appResources.getString(org.videolan.vlc.R.string.equalizer_new_preset_name)
+    private val newPresetName = AppContextProvider.appResources.getString(R.string.equalizer_new_preset_name)
     private var bandCount = -1
 
     private val eqBandsViews = ArrayList<EqualizerBar>()
@@ -90,44 +93,18 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         override fun onNothingSelected(parent: AdapterView<*>) {}
     }
 
-    private val mPreampListener = object : OnSeekBarChangeListener {
-        override fun onStopTrackingTouch(seekBar: SeekBar) {}
-
-        override fun onStartTrackingTouch(seekBar: SeekBar) {}
-
-        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-            if (!fromUser) return
-            equalizer.preAmp = (progress - 20).toFloat()
-            if (!binding.equalizerButton.isChecked) binding.equalizerButton.isChecked = true
-
-            val pos = binding.equalizerPresets.selectedItemPosition
-            if (getEqualizerType(pos) == TYPE_PRESET) {
-                revertPos = pos
-                savePos = presetCount + customCount
-                state.update(presetCount + customCount, false)
-                updateAlreadyHandled = true
-                binding.equalizerPresets.setSelection(presetCount + customCount)
-            } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
-                revertPos = pos
-                savePos = pos
-                state.update(pos, false)
-            }
-            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
-        }
-    }
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = DataBindingUtil.inflate(inflater, org.videolan.vlc.R.layout.equalizer, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.equalizer, container, false)
         binding.state = state
+        customCount = 0
         return binding.root
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.equalizerBands.setOnTouchListener { v, event ->
+        binding.equalizerBands.setOnTouchListener { v, _ ->
             v.parent.requestDisallowInterceptTouchEvent(true)
             true
         }
@@ -150,11 +127,11 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         presetCount = allSets.size
         for ((key) in Settings.getInstance(requireActivity()).all) {
             if (key.startsWith("custom_equalizer_")) {
-                allSets.add(0, key.replace("custom_equalizer_", "").replace("_", " "))
+                allSets.add(key.replace("custom_equalizer_", "").replace("_", " "))
                 customCount++
             }
         }
-        allSets.add(customCount, newPresetName)
+        allSets.add(newPresetName)
 
         equalizer = VLCOptions.getEqualizerSetFromSettings(requireActivity(), true)!!
 
@@ -170,9 +147,8 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         binding.equalizerPresets.adapter = adapter
 
         // preamp
-        binding.equalizerPreamp.max = 40
-        binding.equalizerPreamp.progress = equalizer.preAmp.toInt() + 20
-        binding.equalizerPreamp.setOnSeekBarChangeListener(mPreampListener)
+        binding.equalizerPreamp.value = equalizer.preAmp.roundToInt().toFloat()
+        binding.equalizerPreamp.addOnChangeListener(this@EqualizerFragment)
 
         eqBandsViews.clear()
         binding.equalizerBands.removeAllViews()
@@ -191,8 +167,8 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             bar.setListener(BandListener(i))
         }
 
-        eqBandsViews[0].nextFocusLeftId = org.videolan.vlc.R.id.equalizer_preamp
-        eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = org.videolan.vlc.R.id.snapBands
+        eqBandsViews[0].nextFocusLeftId = R.id.equalizer_preamp
+        eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = R.id.snapBands
 
         // Set the default selection asynchronously to prevent a layout initialization bug.
         binding.equalizerPresets.post {
@@ -220,12 +196,12 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         super.onPause()
         binding.equalizerButton.setOnCheckedChangeListener(null)
         binding.equalizerPresets.onItemSelectedListener = null
-        binding.equalizerPreamp.setOnSeekBarChangeListener(null)
+        binding.equalizerPreamp.removeOnChangeListener(this)
         if (binding.equalizerButton.isChecked) {
             val pos = binding.equalizerPresets.selectedItemPosition
             if (::equalizer.isInitialized) VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[pos], true, state.saved)
         } else {
-            VLCOptions.saveEqualizerInSettings(requireActivity(), MediaPlayer.Equalizer.createFromPreset(0), allSets[0], false, true)
+            VLCOptions.saveEqualizerInSettings(requireActivity(), MediaPlayer.Equalizer.createFromPreset(0), allSets[0], enabled = false, saved = true)
         }
     }
 
@@ -241,7 +217,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         PlaybackService.equalizer.clear()
     }
 
-    private inner class BandListener internal constructor(private val index: Int) : OnEqualizerBarChangeListener {
+    private inner class BandListener(private val index: Int) : OnEqualizerBarChangeListener {
 
         private var oldBands: MutableList<Int> = ArrayList()
 
@@ -274,12 +250,11 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                         continue
                     }
 
-                    eqBandsViews[i].setProgress(oldBands[i] + delta / (Math.abs(i - index) * Math.abs(i - index) * Math.abs(i - index) + 1))
+                    eqBandsViews[i].setProgress(oldBands[i] + delta / (abs(i - index) * abs(i - index) * abs(i - index) + 1))
 
                     if (binding.equalizerButton.isChecked) {
 
-                        val newValue = (eqBandsViews[i].getProgress() - EqualizerBar.RANGE) / EqualizerBar.PRECISION.toFloat()
-                        equalizer.setAmp(i, newValue)
+                        equalizer.setAmp(i, eqBandsViews[i].getValue())
                     }
 
                 }
@@ -310,10 +285,26 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         input.setText(oldName)
         input.setSelectAllOnFocus(true)
         input.setSingleLine()
+        input.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (context == null) return
+                val newName = input.text.toString()
+                if (input.text.contains("_") || newName == newPresetName) {
+                    input.error = getString(R.string.custom_set_wrong_input)
+                    Toast.makeText(requireActivity(), AppContextProvider.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
+                } else if (allSets.contains(newName) && newName != oldName) {
+                    input.error = getString(R.string.custom_set_already_exist)
+                } else input.error = null
+            }
+
+            override fun afterTextChanged(s: Editable?) { }
+        })
 
 
         val container = FrameLayout(requireContext())
-        val klNormal = resources.getDimension(org.videolan.vlc.R.dimen.kl_normal).toInt()
+        val klNormal = resources.getDimension(R.dimen.kl_normal).toInt()
         container.setPadding(klNormal, 0, klNormal, 0)
 
         container.addView(input)
@@ -338,7 +329,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                         VLCOptions.saveEqualizerInSettings(AppContextProvider.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .create()
-        input.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        input.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Enter pressed")
@@ -361,16 +352,12 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     }
 
     private fun save(ctx: Context, input: EditText, oldName: String, temporarySet: MediaPlayer.Equalizer, onPause: Boolean, displayedByUser: Boolean, positionToSave: Int, saveEqualizer: AlertDialog) {
-        val newName = input.text.toString()
-        if (newName.contains("_") || newName == newPresetName) {
-            Toast.makeText(ctx, AppContextProvider.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
-        } else if (allSets.contains(newName) && newName != oldName) {
-            Toast.makeText(ctx, AppContextProvider.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
-        } else {
+        if (input.error == null) {
+            val newName = input.text.toString()
             VLCOptions.saveCustomSet(ctx, temporarySet, newName)
             if (onPause) {
                 if (binding.equalizerButton.isChecked)
-                    VLCOptions.saveEqualizerInSettings(ctx, temporarySet, newName, true, true)
+                    VLCOptions.saveEqualizerInSettings(ctx, temporarySet, newName, enabled = true, saved = true)
             } else {
                 if (newName == oldName) {
                     if (displayedByUser) {
@@ -397,21 +384,19 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         if (getEqualizerType(oldPos) == TYPE_CUSTOM) {
 
             val savedEqualizerSet = VLCOptions.getCustomSet(requireActivity(), oldName) ?: return
-            val cancelAction = Runnable {
+            VLCOptions.deleteCustomSet(requireActivity(), oldName)
+            allSets.remove(oldName)
+            customCount--
+            state.update(0, true)
+            binding.equalizerPresets.setSelection(0)
+            val message = getString(R.string.custom_set_deleted_message, oldName)
+            UiTools.snackerWithCancel(requireActivity(), message, action = {}) {
                 VLCOptions.saveCustomSet(requireActivity(), savedEqualizerSet, oldName)
                 equalizer = savedEqualizerSet
                 allSets.add(oldPos, oldName)
                 customCount++
                 binding.equalizerPresets.setSelection(oldPos)
             }
-
-            VLCOptions.deleteCustomSet(requireActivity(), oldName)
-            allSets.remove(oldName)
-            customCount--
-            state.update(0, true)
-            binding.equalizerPresets.setSelection(0)
-            val message = getString(org.videolan.vlc.R.string.custom_set_deleted_message, oldName)
-            UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
         }
     }
 
@@ -423,7 +408,17 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         for (i in 0 until MediaPlayer.Equalizer.getBandCount())
             temporarySet.setAmp(i, equalizer.getAmp(i))
 
-        val cancelAction = Runnable {
+        state.update(revertPos, true)
+        if (pos == revertPos)
+            updateEqualizer(revertPos)
+        else
+            binding.equalizerPresets.setSelection(revertPos)
+
+        val message = if (getEqualizerType(pos) == TYPE_CUSTOM)
+            getString(R.string.custom_set_restored)
+        else
+            getString(R.string.unsaved_set_deleted_message)
+        UiTools.snackerWithCancel(requireActivity(), message, action = {}) {
             state.update(pos, false)
             equalizer = temporarySet
             updateAlreadyHandled = true
@@ -432,17 +427,6 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             else
                 binding.equalizerPresets.setSelection(pos)
         }
-        state.update(revertPos, true)
-        if (pos == revertPos)
-            updateEqualizer(revertPos)
-        else
-            binding.equalizerPresets.setSelection(revertPos)
-
-        val message = if (getEqualizerType(pos) == TYPE_CUSTOM)
-            getString(org.videolan.vlc.R.string.custom_set_restored)
-        else
-            getString(org.videolan.vlc.R.string.unsaved_set_deleted_message)
-        UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
     }
 
     private fun updateEqualizer(pos: Int) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
@@ -470,7 +454,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         }
         if (!isStarted()) return@launch
 
-        binding.equalizerPreamp.progress = equalizer.preAmp.toInt() + 20
+        binding.equalizerPreamp.value = equalizer.preAmp.roundToInt().toFloat()
         for (i in 0 until bandCount) {
             val bar = binding.equalizerBands.getChildAt(i) as EqualizerBar
             bar.setValue(equalizer.getAmp(i))
@@ -517,5 +501,29 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                 }
                 return presets.toTypedArray()
             }
+
+        fun newInstance(): EqualizerFragment {
+            return EqualizerFragment()
+        }
+    }
+
+    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+        if (!fromUser) return
+        equalizer.preAmp = binding.equalizerPreamp.value
+        if (!binding.equalizerButton.isChecked) binding.equalizerButton.isChecked = true
+
+        val pos = binding.equalizerPresets.selectedItemPosition
+        if (getEqualizerType(pos) == TYPE_PRESET) {
+            revertPos = pos
+            savePos = presetCount + customCount
+            state.update(presetCount + customCount, false)
+            updateAlreadyHandled = true
+            binding.equalizerPresets.setSelection(presetCount + customCount)
+        } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
+            revertPos = pos
+            savePos = pos
+            state.update(pos, false)
+        }
+        if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
     }
 }

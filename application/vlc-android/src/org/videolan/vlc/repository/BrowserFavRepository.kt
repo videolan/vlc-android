@@ -36,6 +36,7 @@ import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.mediadb.models.BrowserFav
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
@@ -44,9 +45,14 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     private val networkMonitor = NetworkMonitor.getInstance(AppContextProvider.appContext)
 
-    private val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
+    val networkFavs by lazy { browserFavDao.getAllNetworkFavs() }
 
-    val browserFavorites by lazy { browserFavDao.getAll() }
+    val browserFavorites by lazy {
+        if (Permissions.canReadStorage(AppContextProvider.appContext))
+            browserFavDao.getAll()
+        else
+            browserFavDao.getAllNetworkFavs()
+    }
 
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 
@@ -60,9 +66,9 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     val networkFavorites by lazy {
         MediatorLiveData<List<MediaWrapper>>().apply {
-            addSource(networkFavs) { value = convertFavorites(it).filterNetworkFavs() }
+            addSource(networkFavs.asLiveData()) { value = convertFavorites(it).filterNetworkFavs() }
             addSource(networkMonitor.connectionFlow.asLiveData()) {
-                val favList = convertFavorites(networkFavs.value)
+                val favList = convertFavorites(networkFavs.asLiveData().value)
                 if (favList.isNotEmpty()) value = if (it.connected) favList.filterNetworkFavs() else emptyList()
             }
         }

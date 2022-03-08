@@ -33,21 +33,28 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.widget.*
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.transition.TransitionManager
-import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
 class EmptyLoadingStateView : FrameLayout {
 
+    private lateinit var emptyTextView: TextView
+    private lateinit var permissionTextView: TextView
+    private lateinit var loadingFlipper: ViewFlipper
+    private lateinit var grantPermissionButton: Button
+    private lateinit var loadingTitle: TextView
+    private lateinit var emptyImageView: ImageView
+    private lateinit var permissionTitle: TextView
+    private lateinit var noMediaButton: Button
     private val normalConstraintSet = ConstraintSet()
     private val compactConstraintSet = ConstraintSet()
 
@@ -64,7 +71,7 @@ class EmptyLoadingStateView : FrameLayout {
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
             emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY || value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            emptyImageView.setImageDrawable(ContextCompat.getDrawable(context, if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
+            emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
             permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
@@ -144,6 +151,14 @@ class EmptyLoadingStateView : FrameLayout {
 
     private fun initialize() {
         LayoutInflater.from(context).inflate(R.layout.view_empty_loading, this, true)
+        emptyTextView = findViewById(R.id.emptyTextView)
+        permissionTextView = findViewById(R.id.permissionTextView)
+        loadingFlipper = findViewById(R.id.loadingFlipper)
+        grantPermissionButton = findViewById(R.id.grantPermissionButton)
+        loadingTitle = findViewById(R.id.loadingTitle)
+        emptyImageView = findViewById(R.id.emptyImageView)
+        permissionTitle = findViewById(R.id.permissionTitle)
+        noMediaButton = findViewById(R.id.noMediaButton)
     }
 }
 

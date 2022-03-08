@@ -1,194 +1,448 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/overlay_tips_layout"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/overlayTipsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey900transparent"
-        android:clickable="true"
-        android:onClick="onClickOverlayTips">
+        android:background="@color/black_transparent_80"
+        android:clickable="true">
 
-    <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:weightSum="4">
-
-        <TextView
-                style="@style/TipsFontStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/video_player_tips"
-                android:textSize="18sp" />
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="top"
-                android:paddingTop="15dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-            <TextView
-                    style="@style/TipsFontStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableBottom="@drawable/ic_gesture_swipe_vertically"
-                    android:gravity="center"
-                    android:text="@string/brightness" />
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                <TextView
-                        style="@style/TipsFontStyle"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableBottom="@drawable/ic_gesture_swipe_horizontally"
-                        android:gravity="center"
-                        android:text="@string/seek" />
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="15dp"
-                        android:background="@drawable/button_oval"
-                        android:clickable="true"
-                        android:onClick="onClickDismissTips"
-                        android:text="@string/ok_got_it"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView
-                    style="@style/TipsFontStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableBottom="@drawable/ic_gesture_swipe_vertically"
-                    android:gravity="center"
-                    android:text="@string/volume" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-            android:layout_width="800dp"
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/overlay_margin"
-            android:layout_marginLeft="@dimen/overlay_margin"
-            android:layout_marginRight="@dimen/overlay_margin"
-            android:paddingBottom="@dimen/overlay_padding_bottom"
-            android:paddingTop="@dimen/overlay_padding_top">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/actionBarItemBackground"
 
-        <LinearLayout
-                android:id="@+id/media_buttons_tips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/images_margin_sides"
-                android:layout_marginRight="@dimen/images_margin_sides"
-                android:weightSum="5">
 
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_lock_player" />
+            android:nextFocusRight="@+id/add_bookmark"
+            android:onClick="onClickDismissTips"
+            android:padding="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_small" />
 
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_player_audiotrack" />
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/tips_title"
+            android:textColor="?attr/font_default"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/close"
+            app:layout_constraintTop_toTopOf="@+id/close" />
 
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_pause_player" />
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_player_rotate" />
+    <TextView
+            android:id="@+id/helpTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/font_default"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Help title" />
 
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_player_more" />
-        </LinearLayout>
+    <TextView
+            android:id="@+id/helpDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="center"
+            android:textColor="@color/white_transparent_50"
+            android:textSize="14sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8"
+            tools:text="Help description" />
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/media_buttons_tips"
-                android:layout_marginLeft="@dimen/images_margin_sides"
-                android:layout_marginRight="@dimen/images_margin_sides"
-                android:weightSum="5">
+    <Button
+            android:id="@+id/nextButton"
+            style="@style/VLC.Tips.Button.Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickNextTips"
+            android:text="@string/next"
+            app:layout_constraintBottom_toTopOf="@+id/tips_overlay_play"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/helpDescription" />
 
-            <TextView
-                    style="@style/TipsFontStyle.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
-                    android:text="@string/lock" />
+    <View
+            android:id="@+id/tapIndicatorTracks"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="?attr/ic_tips_tap"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_tracks"
+            app:layout_constraintEnd_toEndOf="@+id/tips_overlay_tracks"
+            app:layout_constraintStart_toStartOf="@+id/tips_overlay_tracks"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_tracks" />
 
-            <TextView
-                    style="@style/TipsFontStyle.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
-                    android:text="@string/audio_sub" />
+    <View
+            android:id="@+id/tapIndicatorOrientation"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="?attr/ic_tips_tap"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_orientation_toggle"
+            app:layout_constraintEnd_toEndOf="@+id/tips_orientation_toggle"
+            app:layout_constraintStart_toStartOf="@+id/tips_orientation_toggle"
+            app:layout_constraintTop_toTopOf="@+id/tips_orientation_toggle" />
 
-            <TextView
-                    style="@style/TipsFontStyle.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
-                    android:text="@string/play" />
+    <View
+            android:id="@+id/tapIndicatorPlay"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="?attr/ic_tips_tap"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_play"
+            app:layout_constraintEnd_toEndOf="@+id/tips_overlay_play"
+            app:layout_constraintStart_toStartOf="@+id/tips_overlay_play"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_play" />
 
-            <TextView
-                    style="@style/TipsFontStyle.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
-                    android:text="@string/screen_orientation" />
+    <View
+            android:id="@+id/tapIndicatorRatio"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="3dp"
+            android:background="?attr/ic_tips_tap"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_resize"
+            app:layout_constraintEnd_toEndOf="@+id/tips_resize"
+            app:layout_constraintStart_toStartOf="@+id/tips_resize"
+            app:layout_constraintTop_toTopOf="@+id/tips_resize" />
 
-            <TextView
-                    style="@style/TipsFontStyle.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
-                    android:text="@string/options" />
+    <View
+            android:id="@+id/tapIndicatorAdvanced"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="3dp"
+            android:background="?attr/ic_tips_tap"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_adv_function"
+            app:layout_constraintEnd_toEndOf="@+id/tips_overlay_adv_function"
+            app:layout_constraintStart_toStartOf="@+id/tips_overlay_adv_function"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_adv_function" />
 
-        </LinearLayout>
+    <ImageView
+            android:id="@+id/tips_overlay_tracks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/tracks"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_play"
+            app:layout_constraintEnd_toStartOf="@+id/tips_orientation_toggle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_play"
+            app:srcCompat="@drawable/ic_player_audiotrack"
+            tools:visibility="visible" />
 
-    </RelativeLayout>
+    <ImageView
+            android:id="@+id/tips_orientation_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_play"
+            app:layout_constraintEnd_toStartOf="@+id/tips_overlay_play"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tips_overlay_tracks"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_play"
+            app:srcCompat="@drawable/ic_player_rotate"
+            tools:visibility="visible" />
 
-</RelativeLayout>
+    <ImageView
+            android:id="@+id/tips_overlay_play"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/play"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tips_resize"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tips_orientation_toggle"
+            app:srcCompat="@drawable/ic_play_player"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/tips_resize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/advanced"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_play"
+            app:layout_constraintEnd_toStartOf="@+id/tips_overlay_adv_function"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tips_overlay_play"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_play"
+            app:srcCompat="@drawable/ic_player_ratio"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/tips_overlay_adv_function"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/advanced"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/tips_overlay_play"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tips_resize"
+            app:layout_constraintTop_toTopOf="@+id/tips_overlay_play"
+            app:srcCompat="@drawable/ic_player_more"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/tap_gesture_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8"
+            app:srcCompat="@drawable/tips_gesture"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/tapGesture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/ic_tips_tap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tap_gesture_background"
+            app:layout_constraintEnd_toEndOf="@+id/tap_gesture_background"
+            app:layout_constraintStart_toStartOf="@+id/tap_gesture_background"
+            app:layout_constraintTop_toTopOf="@+id/tap_gesture_background"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/tipsBrightnessText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            android:text="50%"
+            android:textAppearance="@style/VLC.Player.TimeText"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/tipsBrightnessProgress"
+            app:layout_constraintEnd_toEndOf="@+id/tipsBrightnessProgress"
+            app:layout_constraintStart_toStartOf="@+id/tipsBrightnessProgress"
+            tools:text="42%"
+            tools:visibility="visible" />
+
+    <org.videolan.vlc.gui.view.PlayerProgress
+            android:id="@+id/tipsBrightnessProgress"
+            android:layout_width="16dp"
+            android:layout_height="120dp"
+            android:layout_marginEnd="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/tips_brightness_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tipsBrightnessProgress"
+            app:layout_constraintStart_toStartOf="@+id/tipsBrightnessProgress"
+            app:layout_constraintTop_toBottomOf="@+id/tipsBrightnessProgress"
+            app:srcCompat="@drawable/ic_player_brightness"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/tipsVolumeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            android:text="50%"
+            android:textAppearance="@style/VLC.Player.TimeText"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/tipsVolumeProgress"
+            app:layout_constraintEnd_toEndOf="@+id/tipsVolumeProgress"
+            app:layout_constraintStart_toStartOf="@+id/tipsVolumeProgress"
+            tools:text="42%"
+            tools:visibility="visible" />
+
+    <org.videolan.vlc.gui.view.PlayerProgress
+            android:id="@+id/tipsVolumeProgress"
+            android:layout_width="16dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/tips_volume_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tipsVolumeProgress"
+            app:layout_constraintStart_toStartOf="@+id/tipsVolumeProgress"
+            app:layout_constraintTop_toBottomOf="@+id/tipsVolumeProgress"
+            app:srcCompat="@drawable/ic_player_volume"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/tap_gesture_horizontal_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/helpTitle"
+            app:layout_constraintEnd_toEndOf="@+id/helpTitle"
+            app:layout_constraintStart_toStartOf="@+id/helpTitle"
+            app:srcCompat="@drawable/tips_gesture_horizontal"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/tapGestureHorizontal"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/ic_tips_tap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tap_gesture_horizontal_background"
+            app:layout_constraintEnd_toEndOf="@+id/tap_gesture_horizontal_background"
+            app:layout_constraintStart_toStartOf="@+id/tap_gesture_horizontal_background"
+            app:layout_constraintTop_toTopOf="@+id/tap_gesture_horizontal_background"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/doubleTapLeft"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="36dp"
+            android:alpha="0"
+            android:background="?attr/ic_tips_double_tap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/helpTitle"
+            app:layout_constraintEnd_toEndOf="@+id/tips_overlay_tracks"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/doubleTapCenter"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginBottom="36dp"
+            android:alpha="0"
+            android:background="?attr/ic_tips_double_tap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/helpTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/doubleTapRight"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="36dp"
+            android:alpha="0"
+            android:background="?attr/ic_tips_double_tap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/helpTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/seekRewindFirst"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:alpha="0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/doubleTapLeft"
+            app:layout_constraintEnd_toStartOf="@+id/seekRewindSecond"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/doubleTapLeft"
+            app:layout_constraintTop_toTopOf="@+id/doubleTapLeft"
+            app:srcCompat="@drawable/ic_half_seek_rewind"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/seekRewindSecond"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:alpha="0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/doubleTapLeft"
+            app:layout_constraintEnd_toEndOf="@+id/doubleTapLeft"
+            app:layout_constraintStart_toEndOf="@+id/seekRewindFirst"
+            app:layout_constraintTop_toTopOf="@+id/doubleTapLeft"
+            app:srcCompat="@drawable/ic_half_seek_rewind"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/seekForwardFirst"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:alpha="0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/doubleTapRight"
+            app:layout_constraintEnd_toEndOf="@+id/doubleTapRight"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/seekForwardSecond"
+            app:layout_constraintTop_toTopOf="@+id/doubleTapRight"
+            app:srcCompat="@drawable/ic_half_seek_forward"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/seekForwardSecond"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:alpha="0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/doubleTapRight"
+            app:layout_constraintEnd_toStartOf="@+id/seekForwardFirst"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/doubleTapRight"
+            app:layout_constraintTop_toTopOf="@+id/doubleTapRight"
+            app:srcCompat="@drawable/ic_half_seek_forward"
+            tools:alpha="1"
+            tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

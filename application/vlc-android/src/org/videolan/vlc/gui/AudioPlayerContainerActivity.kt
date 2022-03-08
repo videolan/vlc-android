@@ -28,10 +28,7 @@ import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -45,6 +42,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,15 +50,17 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
-import org.videolan.vlc.gui.browser.StorageBrowserFragment
-import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
-import org.videolan.vlc.gui.helpers.PlayerBehavior
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.audio.AudioPlaylistTipsDelegate
+import org.videolan.vlc.gui.audio.AudioTipsDelegate
+import org.videolan.vlc.gui.audio.EqualizerFragment
+import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
 import kotlin.math.max
@@ -72,17 +72,20 @@ private const val ACTION_DISPLAY_PROGRESSBAR = 1339
 private const val ACTION_SHOW_PLAYER = 1340
 private const val ACTION_HIDE_PLAYER = 1341
 private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
+private const val PLAYER_OPENED = "player_opened"
+private const val SHOWN_TIPS = "shown_tips"
 
 @SuppressLint("Registered")
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class AudioPlayerContainerActivity : BaseActivity() {
+open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     private var bottomBar: BottomNavigationView? = null
     lateinit var appBarLayout: AppBarLayout
     protected lateinit var toolbar: Toolbar
     private var tabLayout: TabLayout? = null
-    protected lateinit var audioPlayer: AudioPlayer
+    private var navigationRail: NavigationRailView? = null
+    lateinit var audioPlayer: AudioPlayer
     private lateinit var audioPlayerContainer: FrameLayout
     lateinit var playerBehavior: PlayerBehavior<*>
     protected lateinit var fragmentContainer: View
@@ -94,6 +97,10 @@ open class AudioPlayerContainerActivity : BaseActivity() {
 
     private var preventRescan = false
     private var playerShown = false
+    val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
+    val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
+    private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerContainerActivity) }
+    val shownTips = ArrayList<Int>()
 
     protected val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_placeholder)
@@ -112,7 +119,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
 
     var bottomIsHiddden: Boolean = false
 
-    override fun getSnackAnchorView(): View? {
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
       return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
           audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else if (::playerBehavior.isInitialized) findViewById(R.id.coordinator) else findViewById(android.R.id.content)
     }
@@ -121,7 +128,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
-            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false)
+            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false) && !savedInstanceState.getBoolean(PLAYER_OPENED, false)
+            savedInstanceState.getIntegerArrayList(SHOWN_TIPS)?.let { shownTips.addAll(it) }
         }
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
@@ -137,13 +145,14 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         appBarLayout = findViewById(R.id.appbar)
         tabLayout = findViewById(R.id.sliding_tabs)
+        navigationRail = findViewById(R.id.navigation_rail)
         tabLayout?.visibility = View.VISIBLE
         appBarLayout.setExpanded(true)
         bottomBar = findViewById(R.id.navigation)
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
-            val isTabLayoutShown = (tabLayout?.layoutParams?.height != 0)
-            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (isTabLayoutShown) 4.dp.toFloat() else 0.dp.toFloat()
+            val needToElevate = (tabLayout?.layoutParams?.height != 0) || navigationRail?.visibility != View.GONE
+            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (needToElevate) 8.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
     }
@@ -158,10 +167,20 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
         val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
-                ?: null
+            ?: null
         if (bottomIsHiddden)  bottomBehavior?.setCollapsed()
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
+        playerBehavior.setPeekHeightListener {
+            applyMarginToProgressBar(playerBehavior.peekHeight)
+        }
+        playerBehavior.setLayoutListener {
+            // [AudioPlayer.showCover] applies a new [ConstraintSet]. It cannot be done in [AudioPlayer.onCreate] because it would compete with
+            // [BottomSheetBehavior.onLayoutChild] and prevent any scroll event to be forwarded by the ConstraintLayout views (the bookmark list for example)
+            // That why we wait that the layout has been done to perform this. See https://code.videolan.org/videolan/vlc-android/-/issues/2241#note_291050
+            audioPlayer.showCover(settings.getBoolean("audio_player_show_cover", false))
+            if (playerBehavior.state == STATE_COLLAPSED) audioPlayer.onSlide(0f)
+        }
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 audioPlayer.onSlide(slideOffset)
@@ -179,9 +198,65 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
                 updateFragmentMargins(newState)
+                applyMarginToProgressBar(playerBehavior.peekHeight)
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
+        if (playlistTipsDelegate.currentTip != null) lockPlayer(true)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (playerKeyListenerDelegate.onKeyDown(keyCode, event)) return true
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun showAdvancedOptions() {
+        audioPlayer.showAdvancedOptions(null)
+    }
+
+    override fun togglePlayPause() {
+        audioPlayer.onPlayPauseClick(null)
+    }
+
+    override fun next() {
+        audioPlayer.onNextClick(null)
+    }
+
+    override fun previous() {
+        audioPlayer.onPreviousClick(null)
+    }
+
+    override fun stop() {
+        audioPlayer.onStopClick(null)
+    }
+
+    override fun seek(delta: Int) {
+        val time = audioPlayer.playlistModel.getTime().toInt() + delta
+        if (time < 0 || time > audioPlayer.playlistModel.length) return
+        audioPlayer.playlistModel.setTime(time.toLong())
+    }
+
+    override fun showEqualizer() {
+        EqualizerFragment().show(supportFragmentManager, "equalizer")
+    }
+
+    override fun increaseRate() {
+        audioPlayer.playlistModel.service?.increaseRate()
+    }
+
+    override fun decreaseRate() {
+        audioPlayer.playlistModel.service?.decreaseRate()
+    }
+
+    override fun resetRate() {
+        audioPlayer.playlistModel.service?.resetRate()
+    }
+
+    override fun bookmark() {
+        audioPlayer.bookmarkModel.addBookmark(this)
+        UiTools.snackerConfirm(this, getString(R.string.bookmark_added), overAudioPlayer = true, confirmMessage = R.string.show) {
+            audioPlayer.showBookmarks()
+        }
     }
 
     fun updateFragmentMargins(state: Int = STATE_COLLAPSED) {
@@ -196,6 +271,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
                 ?: false)
+        outState.putBoolean(PLAYER_OPENED,  if (::playerBehavior.isInitialized) playerBehavior.state == STATE_EXPANDED else false)
+        outState.putIntegerArrayList(SHOWN_TIPS, shownTips)
         super.onSaveInstanceState(outState)
     }
 
@@ -223,6 +300,14 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         super.onDestroy()
     }
 
+    override fun onResume() {
+        if (playerShown)
+            applyMarginToProgressBar(playerBehavior.peekHeight)
+        else
+            applyMarginToProgressBar(0)
+        super.onResume()
+    }
+
     override fun onBackPressed() {
         if (slideDownAudioPlayer()) return
         super.onBackPressed()
@@ -233,10 +318,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         // Handle item selection
         when (item.itemId) {
             android.R.id.home -> {
-                // Current fragment loaded
-                val current = currentFragment
-                if (current is StorageBrowserFragment && current.goBack())
-                    return true
                 finish()
                 return true
             }
@@ -262,23 +343,36 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     fun showTipViewIfNeeded(stubId: Int, settingKey: String) {
         if (BuildConfig.DEBUG || PlaybackService.hasRenderer()) return
-        val vsc = findViewById<View>(stubId)
+        val vsc = findViewById<ViewStubCompat>(stubId)
         if (vsc != null && !settings.getBoolean(settingKey, false) && !Settings.showTvUi) {
-            val v = (vsc as ViewStubCompat).inflate()
-            v.setOnClickListener { removeTipViewIfDisplayed() }
-            val okGotIt = v.findViewById<TextView>(R.id.okgotit_button)
-            okGotIt.setOnClickListener {
-                removeTipViewIfDisplayed()
-                settings.putSingle(settingKey, true)
+            when (stubId) {
+                R.id.audio_player_tips -> if (tipsDelegate.currentTip == null && !shownTips.contains(stubId)) tipsDelegate.init(vsc)
+                R.id.audio_playlist_tips -> if (playlistTipsDelegate.currentTip == null && !shownTips.contains(stubId)) playlistTipsDelegate.init(vsc)
             }
+            if (::audioPlayer.isInitialized) audioPlayer.playlistModel.service?.pause()
         }
+    }
+
+    fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        tipsDelegate.close()
+    }
+    fun onClickNextTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        tipsDelegate.next()
+    }
+
+    fun onClickDismissPlaylistTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        playlistTipsDelegate.close()
+    }
+
+    fun onClickNextPlaylistTips(@Suppress("UNUSED_PARAMETER") v: View?) {
+        playlistTipsDelegate.next()
     }
 
     /**
      * Remove the current tip view if there is one displayed.
      */
     fun removeTipViewIfDisplayed() {
-        findViewById<View>(R.id.audio_tips)?.let { (it.parent as ViewGroup).removeView(it) }
+        findViewById<View>(R.id.audio_player_tips)?.let { (it.parent as ViewGroup).removeView(it) }
     }
 
     /**
@@ -298,7 +392,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         playerBehavior.run {
             if (state == STATE_HIDDEN) state = STATE_COLLAPSED
             isHideable = false
-            lock(false)
+            if (tipsDelegate.currentTip == null && playlistTipsDelegate.currentTip == null) lock(false)
         }
     }
 
@@ -361,13 +455,26 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             scanProgressText = findViewById(R.id.scan_progress_text)
             scanProgressBar = findViewById(R.id.scan_progress_bar)
         } else scanProgressLayout?.visibility = View.VISIBLE
+        vsc?.let {
+            val lp = it.layoutParams as CoordinatorLayout.LayoutParams
+            if (this is MainActivity) {
+                lp.anchorId =if (isTablet()) R.id.fragment_placeholder else  R.id.navigation
+                lp.anchorGravity = if (isTablet()) Gravity.BOTTOM else Gravity.TOP
+                lp.marginStart = if (isTablet()) 72.dp else 0.dp
+            }
+            it.layoutParams = lp
+        }
         scanProgressText?.text = discovery
+    }
+
+    fun closeMiniPlayer() {
+        hideAudioPlayerImpl()
     }
 
     private fun applyMarginToProgressBar(marginValue: Int) {
         if (scanProgressLayout != null && scanProgressLayout?.visibility == View.VISIBLE) {
             val lp = scanProgressLayout!!.layoutParams as CoordinatorLayout.LayoutParams
-            lp.bottomMargin = marginValue
+            lp.bottomMargin = if (playerShown) marginValue else 0
             scanProgressLayout?.layoutParams = lp
         }
     }
@@ -375,14 +482,14 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     protected open fun onPlayerStateChanged(bottomSheet: View, newState: Int) {}
 
     private fun registerLiveData() {
-        PlaylistManager.showAudioPlayer.observe(this, { showPlayer ->
+        PlaylistManager.showAudioPlayer.observe(this) { showPlayer ->
             if (showPlayer == true) showAudioPlayer()
             else {
                 hideAudioPlayer()
                 if (isAudioPlayerReady) playerBehavior.lock(true)
             }
-        })
-        MediaParsingService.progress.observe(this, { scanProgress ->
+        }
+        MediaParsingService.progress.observe(this) { scanProgress ->
             if (scanProgress == null || !Medialibrary.getInstance().isWorking) {
                 updateProgressVisibility(false)
                 return@observe
@@ -401,27 +508,31 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 scanProgressBar?.isIndeterminate = false
                 scanProgressBar?.isVisible = true
             }
-        })
+        }
         MediaParsingService.discoveryError.observe(this) {
             UiTools.snacker(this, getString(R.string.discovery_failed, it.entryPoint))
         }
-        MediaParsingService.newStorages.observe(this, { devices ->
+        MediaParsingService.newStorages.observe(this) { devices ->
             if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)
             MediaParsingService.newStorages.setValue(null)
-        })
+        }
     }
 
     @SuppressLint("RestrictedApi")
     fun proposeCard() = lifecycleScope.launchWhenStarted {
         delay(1000L)
         if (PlaylistManager.showAudioPlayer.value == true) return@launchWhenStarted
-        val song = settings.getString("current_song", null) ?: return@launchWhenStarted
+        val song = settings.getString(KEY_CURRENT_AUDIO, null) ?: return@launchWhenStarted
         val media = getFromMl { getMedia(song.toUri()) } ?: return@launchWhenStarted
         val title = media.title
-        resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
+        resumeCard = Snackbar.make(getSnackAnchorView() ?: appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }
         resumeCard.show()
+    }
+
+    fun lockPlayer(lock: Boolean) {
+        if (::playerBehavior.isInitialized) playerBehavior.lock(lock)
     }
 
     private class ProgressHandler(owner: AudioPlayerContainerActivity) : WeakHandler<AudioPlayerContainerActivity>(owner) {

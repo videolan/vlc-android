@@ -129,7 +129,7 @@
             <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_speed_white" />
+                    android:src="@drawable/ic_speed" />
 
             <TextView
                     android:id="@+id/playback_speed_quick_action_text"
@@ -163,7 +163,7 @@
             <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_sleep_white" />
+                    android:src="@drawable/ic_sleep" />
 
             <TextView
                     android:id="@+id/sleep_quick_action_text"
@@ -214,7 +214,7 @@
                 android:max="@{(int)progress.length}"
                 android:maxHeight="4dip"
                 android:minHeight="4dip"
-                android:nextFocusUp="@+id/sleep_quick_action"
+                android:nextFocusUp="@+id/playlist"
                 android:nextFocusDown="@+id/button_play"
                 android:padding="0dp"
                 android:paddingStart="16dp"
@@ -255,8 +255,8 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@+id/media_progress"
                 app:layout_constraintTop_toTopOf="@+id/button_previous"
-                app:srcCompat="@drawable/ic_shuffle"
-                tools:src="@drawable/ic_shuffle" />
+                app:srcCompat="@drawable/ic_shuffle_audio"
+                tools:src="@drawable/ic_shuffle_audio" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_previous"
@@ -334,8 +334,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/media_progress"
                 app:layout_constraintStart_toEndOf="@+id/button_next"
                 app:layout_constraintTop_toTopOf="@+id/button_next"
-                app:srcCompat="@drawable/ic_repeat"
-                tools:src="@drawable/ic_repeat" />
+                app:srcCompat="@drawable/ic_repeat_audio"
+                tools:src="@drawable/ic_repeat_audio" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_more"

@@ -12,12 +12,14 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.interfaces.FocusListener
+import org.videolan.television.R
 import org.videolan.television.databinding.ActivityMediaListTvItemBinding
 import org.videolan.television.ui.TvFocusableAdapter
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.interfaces.ITVEventsHandler
+import org.videolan.vlc.util.ModelsHelper.getDiscNumberString
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -44,11 +46,13 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
         val item = getItem(position)
         holder.binding.item = item
         holder.binding.holder = holder
+        holder.binding.subtitle = if (item.getDiscNumberString() != null) "${item.artist} · ${item.getDiscNumberString()}" else item.artist
 
         val moveVisibility = if (type == MediaLibraryItem.TYPE_ALBUM) View.GONE else View.VISIBLE
         holder.binding.itemMoveDown.visibility = if (moveVisibility == View.VISIBLE && position == itemCount - 1) View.INVISIBLE else moveVisibility
         holder.binding.itemMoveUp.visibility = if (moveVisibility == View.VISIBLE && position == 0) View.INVISIBLE else moveVisibility
         holder.binding.itemRemove.visibility = moveVisibility
+        holder.binding.itemSelector.contentDescription = holder.binding.itemSelector.context.getString(R.string.play_media, item.title)
         if (type == MediaLibraryItem.TYPE_ALBUM) (holder.binding.itemAddPlaylist.layoutParams as ConstraintLayout.LayoutParams).marginEnd = 0
 
     }

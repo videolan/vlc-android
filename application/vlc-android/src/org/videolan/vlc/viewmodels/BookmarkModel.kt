@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.BuildConfig
@@ -113,18 +114,26 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
         service?.currentMediaWrapper?.let {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    val bookmark = it.addBookmark(service!!.time)
-                    bookmark?.setName(context.getString(R.string.bookmark_name, it.bookmarks.size.toString()))
+                    val bookmark = it.addBookmark(service!!.getTime())
+                    bookmark?.setName(context.getString(R.string.bookmark_default_name, Tools.millisToString(service!!.getTime())))
                 }
                 refresh()
             }
         }
     }
 
-    suspend fun rename(bookmark: Bookmark, name: String) {
-        withContext(Dispatchers.IO) {
-            bookmark.setName(name)
+    suspend fun rename(bookmark: Bookmark, name: String) : List<Bookmark> {
+        var bookmarks: List<Bookmark> = listOf()
+        service?.currentMediaWrapper?.let {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    bookmark.setName(name)
+                    bookmarks = it.bookmarks.toList()
+                    bookmarks[bookmarks.indexOf(bookmark)].setName(name)
+                }
+            }
         }
-        refresh()
+        return bookmarks
     }
+
 }

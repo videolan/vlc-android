@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=e8c32e28cd74280a1d4b73188d0b28eecb31b7ce
+MEDIALIBRARY_HASH=725ff59a2ac3c8107f2cc2ae34bce627aa1202c5
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -42,7 +42,6 @@ fi
 
 MEDIALIBRARY_MODULE_DIR=${SRC_DIR}/medialibrary
 MEDIALIBRARY_BUILD_DIR=${MEDIALIBRARY_MODULE_DIR}/medialibrary
-OUT_LIB_DIR=$MEDIALIBRARY_MODULE_DIR/jni/libs/${ANDROID_ABI}
 SQLITE_RELEASE="sqlite-autoconf-3340100"
 SQLITE_SHA1="c20286e11fe5c2e3712ce74890e1692417de6890"
 
@@ -60,7 +59,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
   cd ${SQLITE_RELEASE}
-  patch -p1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
+  patch -p1 < ${SRC_DIR}/buildsystem/patches/sqlite/sqlite-no-shell.patch
+  autoreconf -vif
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
@@ -92,21 +92,28 @@ cd ${SRC_DIR}
 # FETCH MEDIALIBRARY SOURCES #
 ##############################
 
+# Source directory doesn't exist: checking out the TAG.
+# The CI will always use this block
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
-  git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
+  git clone http://code.videolan.org/videolan/medialibrary.git "${MEDIALIBRARY_MODULE_DIR}/medialibrary"
   avlc_checkfail "medialibrary source: git clone failed"
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
-  #    git checkout 0.5.x
   git reset --hard ${MEDIALIBRARY_HASH}
+  avlc_checkfail "medialibrary source: Failed to switch to expected commit hash"
   git submodule update --init libvlcpp
-else
-  cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
-  if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
-    git pull --rebase
-    rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
-    rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
-  fi
+  # TODO: remove when switching to VLC 4.0
+  cd libvlcpp
+  git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
+elif [ "$RESET" = "1" ]; then
+    cd ${SRC_DIR}/medialibrary/medialibrary
+    git fetch --all --tags
+    git reset --hard ${MEDIALIBRARY_HASH}
+    avlc_checkfail "medialibrary source: Failed to switch to expected commit hash"
+    git submodule update --init libvlcpp
+    # TODO: remove when switching to VLC 4.0
+    cd libvlcpp
+    git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
 fi
 cd ${SRC_DIR}
 
@@ -120,17 +127,27 @@ cd ${SRC_DIR}
 #############
 
 if [ "$RELEASE" = "1" ]; then
-  MEDIALIBRARY_MODE=release
+  MEDIALIBRARY_NDEBUG=true
+  MEDIALIBRARY_OPTIMIZATION=3
 else
-  MEDIALIBRARY_MODE=debug
+  MEDIALIBRARY_NDEBUG=false
+  MEDIALIBRARY_OPTIMIZATION=0
 fi
 
 cd ${MEDIALIBRARY_BUILD_DIR}
 
+if [ "$RELEASE" = "0" ]; then
+    git describe --exact-match --tags ${MEDIALIBRARY_HASH} > /dev/null || \
+        avlc_checkfail "Release builds must use tags"
+fi
+
 if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
-    meson --buildtype=${MEDIALIBRARY_MODE} \
+    meson \
+        -Ddebug=true \
+        -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
+        -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
         --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}.crossfile \
         -Dlibjpeg_prefix="$SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
@@ -153,11 +170,9 @@ avlc_checkfail "medialibrary: build failed"
 
 cd ${SRC_DIR}
 
-MEDIALIBRARY_LDLIBS="$VLC_OUT_LDLIBS \
--L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/src/ -lmedialibrary \
+MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
--L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
--L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
+-L${NDK_LIB_DIR} -lc++abi"
 
 $NDK_BUILD -C medialibrary \
   APP_STL="c++_shared" \
@@ -169,6 +184,7 @@ $NDK_BUILD -C medialibrary \
   NDK_TOOLCHAIN_VERSION=clang \
   MEDIALIBRARY_LDLIBS="${MEDIALIBRARY_LDLIBS}" \
   MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
-  NDK_DEBUG=${NDK_DEBUG}
+  NDK_DEBUG=${NDK_DEBUG} \
+  SQLITE_RELEASE=$SQLITE_RELEASE
 
 avlc_checkfail "nkd-build medialibrary failed"

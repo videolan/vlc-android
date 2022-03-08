@@ -49,8 +49,8 @@ display_error_cb(void *p_data, const char *psz_title, const char *psz_text)
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
-    jstring title = (*env)->NewStringUTF(env, psz_title);
-    jstring text = (*env)->NewStringUTF(env, psz_text);
+    jstring title = vlcNewStringUTF(env, psz_title);
+    jstring text = vlcNewStringUTF(env, psz_text);
 
     (*env)->CallStaticVoidMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayErrorFromNativeID, title, text);
@@ -69,9 +69,9 @@ display_login_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
-    jstring title = (*env)->NewStringUTF(env, psz_title);
-    jstring text = (*env)->NewStringUTF(env, psz_text);
-    jstring default_username = (*env)->NewStringUTF(env, psz_default_username);
+    jstring title = vlcNewStringUTF(env, psz_title);
+    jstring text = vlcNewStringUTF(env, psz_text);
+    jstring default_username = vlcNewStringUTF(env, psz_default_username);
 
     jdialog = (*env)->CallStaticObjectMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayLoginFromNativeID,
@@ -94,11 +94,11 @@ display_question_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
-    jstring title = (*env)->NewStringUTF(env, psz_title);
-    jstring text = (*env)->NewStringUTF(env, psz_text);
-    jstring cancel = (*env)->NewStringUTF(env, psz_cancel);
-    jstring action1 =  psz_action1 ? (*env)->NewStringUTF(env, psz_action1) : NULL;
-    jstring action2 =  psz_action2 ? (*env)->NewStringUTF(env, psz_action2) : NULL;
+    jstring title = vlcNewStringUTF(env, psz_title);
+    jstring text = vlcNewStringUTF(env, psz_text);
+    jstring cancel = vlcNewStringUTF(env, psz_cancel);
+    jstring action1 =  psz_action1 ? vlcNewStringUTF(env, psz_action1) : NULL;
+    jstring action2 =  psz_action2 ? vlcNewStringUTF(env, psz_action2) : NULL;
 
     jdialog = (*env)->CallStaticObjectMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayQuestionFromNativeID,
@@ -124,9 +124,9 @@ display_progress_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
-    jstring title = (*env)->NewStringUTF(env, psz_title);
-    jstring text = (*env)->NewStringUTF(env, psz_text);
-    jstring cancel = (*env)->NewStringUTF(env, psz_cancel);
+    jstring title = vlcNewStringUTF(env, psz_title);
+    jstring text = vlcNewStringUTF(env, psz_text);
+    jstring cancel = vlcNewStringUTF(env, psz_cancel);
 
     jdialog = (*env)->CallStaticObjectMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayProgressFromNativeID,
@@ -165,7 +165,7 @@ update_progress_cb(void *p_data, libvlc_dialog_id *p_id, float f_position,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
-    jstring text = (*env)->NewStringUTF(env, psz_text);
+    jstring text = vlcNewStringUTF(env, psz_text);
 
     (*env)->CallStaticVoidMethod(env, fields.Dialog.clazz,
         fields.Dialog.updateProgressFromNativeID, jdialog, f_position, text);

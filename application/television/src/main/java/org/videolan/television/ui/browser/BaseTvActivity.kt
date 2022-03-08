@@ -142,19 +142,19 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
     protected open fun onParsingServiceFinished() {}
 
     private fun registerLiveData() {
-        MediaParsingService.progress.observe(this, { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) })
-        Medialibrary.getState().observe(this,  { started ->
+        MediaParsingService.progress.observe(this) { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) }
+        Medialibrary.getState().observe(this) { started ->
             if (started == null) return@observe
             if (started)
                 onParsingServiceStarted()
             else
                 onParsingServiceFinished()
-        })
-        MediaParsingService.newStorages.observe(this, { devices ->
+        }
+        MediaParsingService.newStorages.observe(this) { devices ->
             if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@BaseTvActivity, device)
             MediaParsingService.newStorages.value = null
-        })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -6,15 +6,15 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     kotlinOptions.jvmTarget = "1.8"
-
     packagingOptions {
-        pickFirst '**/*.so'
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
     }
+
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
@@ -60,14 +60,20 @@ dependencies {
     releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
 
+    api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
+
+    api "androidx.preference:preference-ktx:$androidxPreferencesVersion"
+    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
+
     // Retrofit
     api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
 
     api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
-    testApi "androidx.test:core:$rootProject.ext.testCore"
-    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    testImplementation "androidx.test:core:$rootProject.ext.testCore"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
 }
 repositories {
     mavenCentral()

@@ -1,10 +1,13 @@
+<!--From Google Fonts shuffle_black_48dp.svg-->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="32dp"
-        android:height="32dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
     <path
-            android:fillColor="?attr/colorPrimary"
-            android:pathData="M10.9425,9.8775 L7.0575,6 6,7.0575 9.8775,10.935ZM13.875,6 L15.405,7.53 6,16.9425 7.0575,18 16.47,8.595 18,10.125L18,6ZM14.1225,13.0575 L13.065,14.115 15.4125,16.4625L13.875,18L18,18v-4.125l-1.53,1.53z"
-            android:strokeWidth="0.75" />
+        android:pathData="M10.59,9.17L6.12,4.7c-0.39,-0.39 -1.02,-0.39 -1.41,0 -0.39,0.39 -0.39,1.02 0,1.41l4.46,4.46 1.42,-1.4zM15.35,4.85l1.19,1.19L4.7,17.88c-0.39,0.39 -0.39,1.02 0,1.41 0.39,0.39 1.02,0.39 1.41,0L17.96,7.46l1.19,1.19c0.31,0.31 0.85,0.09 0.85,-0.36L20,4.5c0,-0.28 -0.22,-0.5 -0.5,-0.5h-3.79c-0.45,0 -0.67,0.54 -0.36,0.85zM14.83,13.41l-1.41,1.41 3.13,3.13 -1.2,1.2c-0.31,0.31 -0.09,0.85 0.36,0.85h3.79c0.28,0 0.5,-0.22 0.5,-0.5v-3.79c0,-0.45 -0.54,-0.67 -0.85,-0.35l-1.19,1.19 -3.13,-3.14z"
+        tools:fillColor="#ff8800"
+        android:fillColor="?attr/colorPrimary"/>
 </vector>

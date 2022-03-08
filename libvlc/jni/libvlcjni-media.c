@@ -23,6 +23,7 @@
 #include <unistd.h>
 
 #include "libvlcjni-vlcobject.h"
+#include "utils.h"
 
 #define META_MAX 25
 
@@ -363,7 +364,7 @@ Java_org_videolan_libvlc_Media_nativeGetMrl(JNIEnv *env, jobject thiz)
 
     char *psz_mrl = libvlc_media_get_mrl(p_obj->u.p_m);
     if (psz_mrl) {
-        jmrl = (*env)->NewStringUTF(env, psz_mrl);
+        jmrl = vlcNewStringUTF(env, psz_mrl);
         free(psz_mrl);
     }
 
@@ -393,7 +394,7 @@ Java_org_videolan_libvlc_Media_nativeGetMeta(JNIEnv *env, jobject thiz, jint id)
     if (id >= 0 && id < META_MAX) {
         char *psz_media = libvlc_media_get_meta(p_obj->u.p_m, id);
         if (psz_media) {
-            jmeta = (*env)->NewStringUTF(env, psz_media);
+            jmeta = vlcNewStringUTF(env,  psz_media);
             free(psz_media);
         }
     }
@@ -412,18 +413,18 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
     psz_desc = libvlc_media_get_codec_description(p_tracks->i_type,
                                                   p_tracks->i_codec);
     if (psz_desc)
-        jcodec = (*env)->NewStringUTF(env, psz_desc);
+        jcodec = vlcNewStringUTF(env, psz_desc);
 
     psz_desc = libvlc_media_get_codec_description(p_tracks->i_type,
                                                   p_tracks->i_original_fourcc);
     if (psz_desc)
-        joriginalCodec = (*env)->NewStringUTF(env, psz_desc);
+        joriginalCodec = vlcNewStringUTF(env, psz_desc);
 
     if (p_tracks->psz_language)
-        jlanguage = (*env)->NewStringUTF(env, p_tracks->psz_language);
+        jlanguage = vlcNewStringUTF(env, p_tracks->psz_language);
 
     if (p_tracks->psz_description)
-        jdescription = (*env)->NewStringUTF(env, p_tracks->psz_description);
+        jdescription = vlcNewStringUTF(env, p_tracks->psz_description);
 
     jobject jobj;
     switch (p_tracks->i_type)
@@ -468,7 +469,7 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
             jstring jencoding = NULL;
 
             if (p_tracks->subtitle->psz_encoding)
-                jencoding = (*env)->NewStringUTF(env, p_tracks->subtitle->psz_encoding);
+                jencoding = vlcNewStringUTF(env, p_tracks->subtitle->psz_encoding);
 
             jobj = (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
                                 fields.Media.createSubtitleTrackFromNativeID,
@@ -689,7 +690,7 @@ Java_org_videolan_libvlc_Media_nativeGetSlaves(JNIEnv *env, jobject thiz)
     for (unsigned int i = 0; i < i_slaves; ++i)
     {
         libvlc_media_slave_t *p_slave = pp_slaves[i];
-        jstring juri = (*env)->NewStringUTF(env, p_slave->psz_uri);
+        jstring juri = vlcNewStringUTF(env, p_slave->psz_uri);
 
         jobject jslave =
             (*env)->CallStaticObjectMethod(env, fields.Media.clazz,

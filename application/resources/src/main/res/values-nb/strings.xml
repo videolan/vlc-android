@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -93,7 +94,6 @@
         <item quantity="one">1 tv-serie</item>
         <item quantity="other">%d tv-serier</item>
     </plurals>
-
     <string name="internal_memory">Internt minne</string>
     <string name="audio">Lyd</string>
     <string name="video">Video</string>
@@ -193,16 +193,9 @@
     <string name="playback_speed_title">Lagre avspillingshastighet</string>
     <string name="play_button">Avspillingsknapp</string>
 
-    <!-- Tips -->
-    <string name="video_player_tips">Videospiller-tips:</string>
     <string name="seek">Søk</string>
     <string name="subtitles">Undertekst</string>
-    <string name="audio_sub">Lydspor\nog undertekster</string>
-    <string name="resize">Endre størrelse</string>
-    <string name="options">Valg</string>
     <string name="lock">Lås</string>
-    <string name="ok_got_it">Skjønner, avvis&#160;dette</string>
-
     <string name="playlist_tips">Spilleliste-tips</string>
     <string name="remove_song">Fjern sang</string>
     <string name="remove_playlist_item">%1$s har blitt fjernet fra spillelisten</string>
@@ -240,7 +233,6 @@
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skjermorientering</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
-    <string name="screen_orientation_start_lock">Lås ved start</string>
     <string name="screen_orientation_portrait">Portrett</string>
     <string name="screen_orientation_landscape">Landskap</string>
     <string name="enable_black_theme">Svart tema</string>
@@ -258,8 +250,6 @@
     <string name="video_min_group_length_disable">Ikke gruppér videoer</string>
     <string name="video_min_group_length_folder">Grupper etter mappe</string>
     <string name="video_min_group_length_name">Gruppér etter navn</string>
-    <string name="media_fast_seek">Rask spoling</string>
-    <string name="media_fast_seek_summary">Å spole i et medie er raskere, men mindre nøyaktig</string>
     <string name="video_transition_title">Overgang mellom videoer</string>
     <string name="video_transition_summary">Vis ny videotittel ved overgang</string>
     <string name="media_seen">Vis «Sett»-videomarkør</string>
@@ -329,7 +319,6 @@
     <string name="casting_quality_lowcpu">Lavest</string>
     <string name="casting_connected_renderer">Tilkoblet til opptegneren «%1$s»</string>
     <string name="artists_show_all_title">Vis alle artistene</string>
-
     <string name="extensions_prefs_category">Utvidelser</string>
     <string name="extensions_empty">Ingen utvidelser oppdaget</string>
     <string name="extension_permission_title">Aktiver nytt tillegg «%1$s»?</string>
@@ -471,7 +460,6 @@
     <string name="download_subtitles">Last ned undertekster</string>
     <string name="browse_folder">Utforsk mappe</string>
     <string name="listen">Lytt</string>
-    <string name="save_bluetooth_delay">lagre forsinkelsen for blåtannsenhet</string>
     <string name="episodes">episoder</string>
     <string name="movies">filmer</string>
     <string name="videos">videoer</string>
@@ -652,7 +640,6 @@
     <string name="recently_played">Nylig avspilt</string>
     <string name="recently_added">Nylig lagt ti</string>
     <string name="playback_multiple_errors">Flere medier kan ikke spilles</string>
-    <string name="clear_media_db_warning">Fremgang og spilleliste vil gå tapt.\n%s</string>
     <string name="abrepeat_add_first_marker">Velg startpunkt</string>
     <string name="abrepeat_add_second_marker">Velg sluttpunkt</string>
     <string name="demux_bitrate">Demultipleksers bitfrekvens</string>

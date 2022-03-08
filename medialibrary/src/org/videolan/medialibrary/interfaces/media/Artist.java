@@ -101,6 +101,8 @@ abstract public class Artist extends MediaLibraryItem {
         parcel.writeString(shortBio);
         parcel.writeString(artworkMrl);
         parcel.writeString(musicBrainzId);
+        parcel.writeInt(tracksCount);
+        parcel.writeInt(albumsCount);
     }
 
     public static Parcelable.Creator<Artist> CREATOR
@@ -121,5 +123,7 @@ abstract public class Artist extends MediaLibraryItem {
         this.shortBio = in.readString();
         this.artworkMrl = in.readString();
         this.musicBrainzId = in.readString();
+        this.tracksCount = in.readInt();
+        this.albumsCount = in.readInt();
     }
 }

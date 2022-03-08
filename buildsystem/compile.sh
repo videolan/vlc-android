@@ -47,6 +47,7 @@ check_patch_is_applied()
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
 
 RELEASE=0
+RESET=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
@@ -102,6 +103,9 @@ while [ $# -gt 0 ]; do
         stub)
             STUB=1
             ;;
+        --reset)
+            RESET=1
+            ;;
         --no-ml)
             NO_ML=1
             ;;
@@ -141,8 +145,6 @@ elif [ "$ANDROID_ABI" = "x86" ]; then
     GRADLE_ABI="x86"
 elif [ "$ANDROID_ABI" = "x86_64" ]; then
     GRADLE_ABI="x86_64"
-elif [ "$ANDROID_ABI" = "all" ]; then
-    GRADLE_ABI="all"
 else
     diagnostic "Invalid arch specified: '$ANDROID_ABI'."
     diagnostic "Try --help for more information"
@@ -260,7 +262,7 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
-    GRADLE_VERSION=6.7.1
+    GRADLE_VERSION=7.2
     GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
 
@@ -273,14 +275,11 @@ if [ ! -d "gradle/wrapper" ]; then
     rm -rf gradle-${GRADLE_VERSION}-bin.zip
 fi
 
-if [ "$GRADLE_SETUP" = 1 ]; then
-    exit 0
-fi
 ####################
 # Fetch VLC source #
 ####################
 
-TESTED_HASH=c0bad4c754ec2312ac14d5c96da7e3e4cb388360
+TESTED_HASH=758b718347094af7e7e35ec18359d32f8928766e
 VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
@@ -297,6 +296,14 @@ else
 fi
 if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
     diagnostic "VLC sources: Bypassing checks (required by option)"
+elif [ $RESET -eq 1 ]; then
+    cd vlc
+    git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
+    for patch_file in ../libvlc/patches/vlc3/*.patch; do
+        git am --message-id $patch_file
+        check_patch_is_applied "$patch_file"
+    done
+    cd ..
 else
     diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
     diagnostic "NOTE: checks can be bypass by adding '-b' option to this script."
@@ -309,77 +316,34 @@ else
     cd ..
 fi
 
+# Always clone VLC when using --init since we'll need to package some files
+# during the final assembly (lua/hrtfs/..)
+if [ "$GRADLE_SETUP" = 1 ]; then
+    exit 0
+fi
+
 ############
 # Make VLC #
 ############
 diagnostic "Configuring"
-compile() {
-    # Build LibVLC if asked for it, or needed by medialibrary
-    copy_tmp="$1"
 
-    OUT_DBG_DIR=.dbg/${ANDROID_ABI}
-    mkdir -p $OUT_DBG_DIR
+# Build LibVLC if asked for it, or needed by medialibrary
+OUT_DBG_DIR=.dbg/${ANDROID_ABI}
+mkdir -p $OUT_DBG_DIR
 
-    if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
-        AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
-        avlc_build
+if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/" ]; then
+    AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
+    avlc_build
 
-        $NDK_BUILD -C libvlc \
-            VLC_SRC_DIR="$VLC_SRC_DIR" \
-            VLC_BUILD_DIR="$VLC_BUILD_DIR" \
-            VLC_OUT_LDLIBS="$VLC_OUT_LDLIBS" \
-            APP_BUILD_SCRIPT=jni/Android.mk \
-            APP_PLATFORM=android-${ANDROID_API} \
-            APP_ABI=${ANDROID_ABI} \
-            NDK_PROJECT_PATH=jni \
-            NDK_TOOLCHAIN_VERSION=clang \
-            NDK_DEBUG=${NDK_DEBUG}
-
-        if [ "$copy_tmp" = "--copy-tmp=libvlc" ];then
-            cp -r $VLC_OUT_PATH/libs/${ANDROID_ABI} libvlc/jni/libs/${ANDROID_ABI} build/tmp
-        fi
-
-        cp -a $VLC_OUT_PATH/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-        cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-    fi
-
-    if [ "$NO_ML" != 1 ]; then
-        ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE buildsystem/compile-medialibrary.sh
-        if [ "$copy_tmp" = "--copy-tmp=medialibrary" ];then
-            cp -r medialibrary/jni/libs/${ANDROID_ABI} build/tmp
-        fi
-
-        cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-    fi
-}
-
-if [ "$ANDROID_ABI" = "all" ]; then
-    if [ -d build/tmp ]; then
-        rm -rf build/tmp
-    fi
-    mkdir -p build/tmp
-    LIB_DIR="libvlc"
-    if [ "$NO_ML" != 1 ]; then
-        LIB_DIR="medialibrary"
-    fi
-    copy_tmp="--copy-tmp=$LIB_DIR"
-
-    # The compile function is sourcing ./compile-libvlc.sh and is configured
-    # with env variables (ANDROID_ABI), therefore it need to be run from a new
-    # context for each ABI
-
-    (ANDROID_ABI=armeabi-v7a RELEASE=$RELEASE compile $copy_tmp)
-    (ANDROID_ABI=arm64-v8a RELEASE=$RELEASE compile $copy_tmp)
-    (ANDROID_ABI=x86 RELEASE=$RELEASE compile $copy_tmp)
-    (ANDROID_ABI=x86_64 RELEASE=$RELEASE compile $copy_tmp)
-    rm -rf $LIB_DIR/jni/libs/
-    mv build/tmp $LIB_DIR/jni/libs/
-
-    GRADLE_VLC_SRC_DIRS="''"
-else
-    compile
-    GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
+    cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
+
+if [ "$NO_ML" != 1 ]; then
+    ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE RESET=$RESET buildsystem/compile-medialibrary.sh
+    cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+fi
+
+GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
 
 ##################
 # Compile the UI #
@@ -413,7 +377,7 @@ else
         GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO $TARGET
 
         echo -e "\n===================================\nRun following for UI tests:"
-        echo "adb shell am instrument -w -e package org.videolan.vlc.gui org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
+        echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
     fi
 fi
 

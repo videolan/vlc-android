@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
@@ -29,11 +30,13 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.tools.safeOffer
+import org.videolan.tools.readableSize
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.PlaylistFilterDelegate
@@ -96,7 +99,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             this.filtering = filtering
             originalDataset = if (filtering) dataset.value.toMutableList() else null
         }
-        filterActor.safeOffer(query)
+        filterActor.trySend(query)
     }
 
     val title
@@ -104,6 +107,9 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     val artist
         get() = service?.artist
+
+    val album
+        get() = service?.album
 
     public override fun onCleared() {
         service?.apply {
@@ -150,12 +156,6 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         } else false
     } ?: false
 
-    var time
-        get() = service?.time ?: 0L
-        set(value) {
-            service?.time = value
-        }
-
     val length : Long
         get() = service?.length ?: 0L
 
@@ -187,6 +187,12 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         get() = service?.previousTotalTime
 
     fun shuffle() = service?.shuffle()
+
+    fun getTime() = service?.getTime() ?: 0L
+
+    fun setTime(time:Long, fast:Boolean = false) {
+        service?.setTime(time, fast)
+    }
 
     fun load(medialist: List<MediaWrapper>, position: Int) = service?.load(medialist, position)
 

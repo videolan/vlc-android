@@ -6,18 +6,19 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.dp
-import org.videolan.vlc.R
+import java.util.concurrent.atomic.AtomicBoolean
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
     private var lock = false
+    private var listener : ((top:Int) -> Unit)? = null
+    private var layoutListener : (() -> Unit)? = null
+    private var layoutDone = AtomicBoolean(false)
 
     constructor() {
         isHideable = true
@@ -28,6 +29,24 @@ class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomS
     init {
         state = STATE_HIDDEN
 
+    }
+
+    override fun setPeekHeight(peekHeight: Int) {
+        super.setPeekHeight(peekHeight)
+        listener?.invoke(peekHeight)
+
+    }
+
+    fun setPeekHeightListener(listener : (top:Int) -> Unit) {
+        this.listener = listener
+    }
+
+    fun removePeekHeightListener() {
+        this.listener = null
+    }
+
+    fun setLayoutListener(listener : () -> Unit) {
+        this.layoutListener = listener
     }
 
     fun lock(lock: Boolean) {
@@ -133,6 +152,8 @@ class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomS
         super.onLayoutChild(parent, child, layoutDirection)
     } catch (ignored: IndexOutOfBoundsException) {
         false
+    } finally {
+        if (!layoutDone.getAndSet(true)) layoutListener?.invoke()
     }
 
     override fun onTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {

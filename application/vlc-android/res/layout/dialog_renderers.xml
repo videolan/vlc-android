@@ -30,6 +30,7 @@
                 android:id="@+id/renderers_list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintHeight_default="wrap"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -39,16 +40,15 @@
 
         <Button
                 android:id="@+id/renderers_disconnect"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:onClick="@{() -> holder.connect((RendererItem)null)}"
                 android:text="@string/renderers_disconnect"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:onClick="@{() -> holder.connect((RendererItem)null)}" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

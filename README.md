@@ -1,4 +1,5 @@
 # VLC for Android
+
 This is the official **Android** port of [VLC](https://videolan.org/vlc/).
 
 VLC on Android plays all the same files as the classical version of VLC, and features a media database
@@ -19,6 +20,7 @@ for Audio and Video files and stream.
 ## Project Structure
 
 Here are the current folders of vlc-android project:
+
 - extension-api : Application extensions SDK (not released yet)
 - application : Android application source code, organized by modules.
 - buildsystem : Build scripts, CI and maven publication configuration
@@ -44,10 +46,12 @@ And more.
 ![LibVLC stack](https://images.videolan.org/images/libvlc_stack.png)
 
 You can use our LibVLC module to power your own Android media player.
-Have a look at our  [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
+Download the `.aar` directly from [Maven](https://search.maven.org/artifact/org.videolan.android/libvlc-all) or build from source.
 
+Have a look at our [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
 
 ## License
+
 VLC for Android is licensed under [GPLv2 (or later)](COPYING). Android libraries make this, de facto, a GPLv3 application.
 
 VLC engine *(LibVLC)* for Android is licensed under [LGPLv2](libvlc/COPYING.LIB).
@@ -55,6 +59,7 @@ VLC engine *(LibVLC)* for Android is licensed under [LGPLv2](libvlc/COPYING.LIB)
 ## Build
 
 Native libraries are published on bintray. So you can:
+
 - Build the application and get libraries via gradle dependencies (JVM build only)
 - Build the whole app (LibVLC + Medialibrary + Application)
 - Build LibVLC only, and get an .aar package
@@ -62,6 +67,7 @@ Native libraries are published on bintray. So you can:
 ### Build Application
 
 VLC-Android build relies on gradle build modes :
+
 - `Release` & `Debug` will get LibVLC and Medialibrary from Bintray, and build application source code only.
 - `SignedRelease` also, but it will allow you to sign application apk with a local keystore.
 - `Dev` will build build LibVLC, Medialibrary, and then build the application with these binaries. (via build scripts only)
@@ -78,7 +84,7 @@ Check our [AndroidCompile wiki page](https://wiki.videolan.org/AndroidCompile/),
 Here are the essential points:
 
 On Debian/Ubuntu, install the required dependencies:
-```
+```bash
 sudo apt install automake ant autopoint cmake build-essential libtool-bin \
     patch pkg-config protobuf-compiler ragel subversion unzip git \
     openjdk-8-jre openjdk-8-jdk flex python wget
@@ -96,7 +102,6 @@ Then, you are ready to build!
 #### Build
 
 `buildsystem/compile.sh -l -a <ABI>`
-
 
 ABI can be `arm`, `arm64`, `x86`, `x86_64` or `all` for a multi-abis build
 
@@ -118,7 +123,7 @@ Pull requests must be proposed on our [gitlab server](https://code.videolan.org/
 
 So you must create an account, fork vlc-android project, and propose your merge requests from it.
 
-**Exept for translations**, see the section below.
+**Except for translations**, see the section below.
 
 ### Translations
 
@@ -133,7 +138,7 @@ Please look for existing issues and provide as much useful details as you can (e
 
 A template is provided, please use it!
 
-Issues without relevant informations will be ignored, we cannot help in this case.
+Issues without relevant information will be ignored, we cannot help in this case.
 
 ## Support
 
@@ -141,4 +146,3 @@ Issues without relevant informations will be ignored, we cannot help in this cas
 - bugtracker: https://code.videolan.org/videolan/vlc-android/issues
 - IRC: *#videolan* channel on [freenode](http://freenode.net/)
 - VideoLAN forum: https://forum.videolan.org/
-

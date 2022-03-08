@@ -44,7 +44,7 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
             extensionKey = newBundle.getString("extension_key")
             extensionPackageName = extensionKey!!.replace(ExtensionsManager.EXTENSION_PREFIX + "_", "")
             extensionId = ExtensionsManager.getInstance().getExtensionId(extensionPackageName)
-            extension = ExtensionsManager.getInstance().getExtensions(activity!!.application, false)[extensionId]
+            extension = ExtensionsManager.getInstance().getExtensions(requireActivity().application, false)[extensionId]
             extensionTitle = extension!!.title()
             setTitle(extensionTitle)
             androidAutoAvailable = ExtensionsManager.androidAutoInstalled && extension!!.androidAutoEnabled()

@@ -127,7 +127,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         return false
     }
 
-    override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
         return false
     }
 
@@ -229,7 +229,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     }
 
     private fun stopPlayback() {
-        var time = service.time
+        var time = service.getTime()
         if (time != -1L) {
             // remove saved position if in the last 5 seconds
             // else, go back 2 seconds, to compensate loading time
@@ -265,7 +265,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
             builder.addAction(R.drawable.ic_popup_pause, service.getString(R.string.pause), piPlay)
         else
             builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
-        builder.addAction(R.drawable.ic_popup_expand_w, service.getString(R.string.popup_expand), piExpand)
+        builder.addAction(R.drawable.ic_popup_fullscreen, service.getString(R.string.popup_expand), piExpand)
         service.startForeground(42, builder.build())
     }
 

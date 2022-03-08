@@ -3,7 +3,6 @@
     <dimen name="info_appbar_height">300dp</dimen>
     <dimen name="audio_player_cover_margin">16dp</dimen>
     <dimen name="subs_dl_dialog_height">350dp</dimen>
-    <dimen name="toolbar_height">40dp</dimen>
     <dimen name="tab_layout_height">32dp</dimen>
     <dimen name="audio_item_header_padding">8dp</dimen>
     <dimen name="audio_item_padding_botom">8dp</dimen>

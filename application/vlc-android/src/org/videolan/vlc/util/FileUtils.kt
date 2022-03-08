@@ -38,14 +38,13 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
-import org.videolan.tools.AppScope
-import org.videolan.tools.CloseableUtils
-import org.videolan.tools.Settings
-import org.videolan.tools.runIO
+import org.videolan.resources.util.isExternalStorageManager
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
@@ -226,7 +225,7 @@ object FileUtils {
 
     @WorkerThread
     fun deleteFile(uri: Uri): Boolean {
-        if (!AndroidUtil.isLolliPopOrLater || uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.path)
+        if (isExternalStorageManager() || !AndroidUtil.isLolliPopOrLater || uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.path)
         val docFile = findFile(uri)
         if (docFile != null)
             try {
@@ -249,13 +248,13 @@ object FileUtils {
             if (deleted) deleted = deleted and file.delete()
         } else {
             val cr = AppContextProvider.appContext.contentResolver
-            try {
-                deleted = cr.delete(MediaStore.Files.getContentUri("external"),
+            deleted = try {
+                cr.delete(MediaStore.Files.getContentUri("external"),
                         MediaStore.Files.FileColumns.DATA + "=?", arrayOf(file.path)) > 0
             } catch (ignored: IllegalArgumentException) {
-                deleted = false
+                false
             } catch (ignored: SecurityException) {
-                deleted = false
+                false
             }
             // Can happen on some devices...
             if (file.exists()) deleted = deleted or file.delete()
@@ -551,6 +550,11 @@ fun String?.getParentFolder(): String? {
     } else if (index == 0)
         parentPath = "/"
     return parentPath
+}
+
+fun String.encodeMrlWithTrailingSlash():String {
+    val encoded = Tools.encodeVLCMrl(this)
+    return if (encoded.endsWith("/")) encoded else encoded.addTrailingSlashIfNeeded()
 }
 
 fun Uri?.isSoundFont():Boolean {

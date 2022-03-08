@@ -125,7 +125,6 @@ fi
 VLC_BUILD_DIR="$(cd $VLC_SRC_DIR/; pwd)/build-android-${TARGET_TUPLE}"
 VLC_OUT_PATH="$VLC_BUILD_DIR/ndk"
 mkdir -p $VLC_OUT_PATH
-VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"
 
 #################
 # NDK TOOLCHAIN #
@@ -659,29 +658,7 @@ echo -e "ndk-build vlc"
 
 touch $VLC_OUT_PATH/dummy.cpp
 
-# This is ugly but it's better to use the linker from ndk-build that will use
-# the proper linkflags depending on ABI/API
-rm -rf $VLC_OUT_PATH/Android.mk
-cat << 'EOF' > $VLC_OUT_PATH/Android.mk
-LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
-LOCAL_MODULE    := libvlc
-LOCAL_SRC_FILES := libvlcjni-modules.c libvlcjni-symbols.c dummy.cpp
-LOCAL_LDFLAGS := -L$(VLC_CONTRIB)/lib
-LOCAL_LDLIBS := \
-    $(VLC_MODULES) \
-    $(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
-    $(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
-    $(VLC_BUILD_DIR)/compat/.libs/libcompat.a \
-    $(VLC_CONTRIB_LDFLAGS) \
-    -ldl -lz -lm -llog \
-    -la52 -ljpeg \
-    $(VLC_LDFLAGS)
-LOCAL_CXXFLAGS := -std=c++11
-include $(BUILD_SHARED_LIBRARY)
-EOF
-
-$NDK_BUILD -C $VLC_OUT_PATH/.. \
+$NDK_BUILD -C libvlc \
     APP_STL="c++_shared" \
     APP_CPPFLAGS="-frtti -fexceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
@@ -690,10 +667,10 @@ $NDK_BUILD -C $VLC_OUT_PATH/.. \
     VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
     VLC_MODULES="$VLC_MODULES" \
     VLC_LDFLAGS="$VLC_LDFLAGS" \
-    APP_BUILD_SCRIPT=ndk/Android.mk \
+    APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=android-${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \
-    NDK_PROJECT_PATH=ndk \
+    NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=clang \
     NDK_DEBUG=${NDK_DEBUG}
 avlc_checkfail "ndk-build libvlc failed"

@@ -1,88 +1,11 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_jumpto_disable.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="48dp"
-        android:height="48dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
-    <path
-            android:pathData="m12,5.0001a8,8 0,0 0,-8 8l2,0a6,6 0,0 1,6 -6,6 6,0 0,1 6,6l2,0a8,8 0,0 0,-8 -8z"
-            android:strokeAlpha="1"
-            android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="nonZero" />
-    <path
-            android:pathData="m16,13.0009 l3,3 3,-3 -6,0z"
-            android:strokeAlpha="1"
-            android:strokeLineJoin="miter"
-            android:strokeWidth="1"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="evenOdd"
-            android:strokeLineCap="butt" />
-    <path
-            android:pathData="M21,17.0001l-4,0l-0,2l4,0z"
-            android:strokeAlpha="1"
-            android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="nonZero" />
-    <path
-            android:pathData="M14.6667,17.0001l-2,0l-0,2l2,0z"
-            android:strokeAlpha="1"
-            android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="nonZero" />
-    <path
-            android:pathData="M4,13.0001h2v2h-2z"
-            android:strokeAlpha="1"
-            android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="nonZero" />
-    <path
-            android:pathData="M10.3333,17.0001l-2,0l-0,2l2,0z"
-            android:strokeAlpha="1"
-            android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="nonZero" />
-    <path
-            android:pathData="M6,17.0001l-2,0l-0,2l2,0z"
-            android:strokeAlpha="1"
-            android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillAlpha="1"
-            android:strokeColor="#00000000"
-            android:fillType="nonZero" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M24,8C14.0826,8 6,16.0826 6,26L6,28A2,2 0,0 0,8 30A2,2 0,0 0,10 28A2,2 0,0 0,10 27.9512L10,26C10,18.2443 16.2444,12 24,12C31.7557,12 38,18.2443 38,26L36,26C35.1615,26.0014 34.6996,26.9943 35.2188,27.625L39.2188,32.625C39.6191,33.126 40.3809,33.126 40.7813,32.625L44.7813,27.625C45.3001,26.9594 44.8385,25.999 44,26L42,26C42,16.0826 33.9175,8 24,8zM8,36C6.892,36 6,36.892 6,38C6,39.108 6.892,40 8,40L9,40C10.108,40 11,39.108 11,38C11,36.892 10.108,36 9,36L8,36zM17,36C15.892,36 15,36.892 15,38C15,39.108 15.892,40 17,40L18,40C19.108,40 20,39.108 20,38C20,36.892 19.108,36 18,36L17,36zM26,36C24.892,36 24,36.892 24,38C24,39.108 24.892,40 26,40L27,40C28.108,40 29,39.108 29,38C29,36.892 28.108,36 27,36L26,36zM35,36C33.892,36 33,36.892 33,38C33,39.108 33.892,40 35,40L43,40C44.108,40 45,39.108 45,38C45,36.892 44.108,36 43,36L35,36z"
+      tools:fillColor="#ffffff"
+      android:fillColor="?attr/player_icon_color"/>
 </vector>

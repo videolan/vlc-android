@@ -46,45 +46,51 @@ import java.io.File;
 public class MedialibraryImpl extends Medialibrary {
     private static final String TAG = "VLC/JMedialibrary";
 
-    public int init(Context context) {
-        if (context == null) return ML_INIT_FAILED;
-        if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;
+    public boolean construct(Context context) {
+        if (context == null) throw new IllegalStateException("context cannot be null");
+        if (mIsInitiated) return false;
         sContext = context;
         final File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists()
                 || dbDirectory == null || !dbDirectory.canWrite())
-            return ML_INIT_FAILED;
+            return false;
         LibVLC.loadLibraries();
         try {
             System.loadLibrary("c++_shared");
             System.loadLibrary("mla");
         } catch (UnsatisfiedLinkError ule) {
             Log.e(TAG, "Can't load mla: " + ule);
-            return ML_INIT_FAILED;
+            return false;
         }
         final File oldDir = new File(extFilesDir + THUMBS_FOLDER_NAME);
         if (oldDir.isDirectory()) {
             //remove old thumbnails directory
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            new Thread(() -> {
 
-                    String[] children = oldDir.list();
-                    if (children != null) {
-                        for (String child : children) {
-                            new File(oldDir, child).delete();
-                        }
+                String[] children = oldDir.list();
+                if (children != null) {
+                    for (String child : children) {
+                        new File(oldDir, child).delete();
                     }
-                    oldDir.delete();
                 }
+                oldDir.delete();
             }).start();
         }
+        nativeConstruct(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
+        return true;
+    }
 
-        int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
+    public int init(Context context) {
+        if (context == null) return ML_INIT_FAILED;
+        if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;
+        if (sContext == null) throw new IllegalStateException("Medialibrary construct has to be called before init");
+        File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
+        int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME);
         if (initCode == ML_INIT_DB_CORRUPTED) {
             Log.e(TAG, "Medialib database is corrupted. Clearing it and try to restore playlists");
-            nativeClearDatabase(true);
+            if (!nativeClearDatabase(true)) return ML_INIT_DB_UNRECOVERABLE;
+
         }
 
         mIsInitiated = initCode != ML_INIT_FAILED;
@@ -94,7 +100,6 @@ public class MedialibraryImpl extends Medialibrary {
     @Override
     public void start() {
         if (isStarted()) return;
-        nativeStart();
         isMedialibraryStarted = true;
         synchronized (onMedialibraryReadyListeners) {
             for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryReady();
@@ -113,6 +118,10 @@ public class MedialibraryImpl extends Medialibrary {
             nativeUnbanFolder(Tools.encodeVLCMrl(path));
     }
 
+    public String[] bannedFolders() {
+        return mIsInitiated ? nativeBannedFolders() : new String[0];
+    }
+
     public String[] getDevices() {
         return mIsInitiated ? nativeDevices() : new String[0];
     }
@@ -126,7 +135,6 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
-        if (!mIsInitiated) return;
         nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
         synchronized (onDeviceChangeListeners) {
             for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
@@ -482,8 +490,11 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetFoldersCount(type) : 0;
     }
 
-    public boolean setLastTime(long mediaId, long lastTime) {
-        return mIsInitiated && mediaId > 0 && nativeSetLastTime(mediaId, lastTime);
+    public int setLastTime(long mediaId, long lastTime) {
+        if (!mIsInitiated || mediaId < 1) {
+            return ML_SET_TIME_ERROR;
+        }
+        return nativeSetLastTime(mediaId, lastTime);
     }
 
     public boolean setLastPosition(long mediaId, float position) {
@@ -591,13 +602,14 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     // Native methods
-    private native int nativeInit(String dbPath, String thumbsPath);
-    private native void nativeStart();
+    private native void nativeConstruct(String dbPath, String thumbsPath);
+    private native int nativeInit(String dbPath);
     private native void nativeRelease();
 
-    private native void nativeClearDatabase(boolean keepPlaylist);
+    private native boolean nativeClearDatabase(boolean keepPlaylist);
     private native void nativeBanFolder(String path);
     private native void nativeUnbanFolder(String path);
+    private native String[] nativeBannedFolders();
     private native void nativeAddDevice(String uuid, String path, boolean removable);
     private native boolean nativeIsDeviceKnown(String uuid, String path, boolean removable);
     private native boolean nativeDeleteRemovableDevices();
@@ -664,7 +676,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeReload(String entryPoint);
     private native void nativeForceParserRetry();
     private native void nativeForceRescan();
-    private native boolean nativeSetLastTime(long mediaId, long progress);
+    private native int nativeSetLastTime(long mediaId, long progress);
     private native boolean nativeSetLastPosition(long mediaId, float position);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);

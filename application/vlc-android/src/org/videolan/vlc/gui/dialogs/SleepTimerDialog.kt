@@ -28,14 +28,16 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
-import org.videolan.vlc.gui.helpers.setSleep
+import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class SleepTimerDialog : PickTimeFragment() {
+
+    private val playlistModel by lazy { PlaylistModel.get(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,19 +55,19 @@ class SleepTimerDialog : PickTimeFragment() {
             val sleepTime = Calendar.getInstance()
             sleepTime.timeInMillis = sleepTime.timeInMillis + interval
             sleepTime.set(Calendar.SECOND, 0)
-            requireContext().setSleep(sleepTime)
+            playlistModel.service?.setSleepTimer(sleepTime)
         }
 
         dismiss()
     }
 
     override fun showDeleteCurrent(): Boolean {
-        return PlayerOptionsDelegate.playerSleepTime != null
+        return PlaybackService.playerSleepTime != null
     }
 
     override fun onClick(v: View) {
         if (v.id == R.id.tim_pic_delete_current) {
-            requireActivity().setSleep(null)
+            playlistModel.service?.setSleepTimer(null)
             dismiss()
         } else super.onClick(v)
     }

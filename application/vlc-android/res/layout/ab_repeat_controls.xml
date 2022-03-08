@@ -41,7 +41,7 @@
             vlc:layout_constraintEnd_toStartOf="@+id/ab_repeat_add_marker"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:layout_constraintTop_toTopOf="parent"
-            vlc:srcCompat="@drawable/ic_abrepeat_w" />
+            vlc:srcCompat="@drawable/ic_abrepeat_chips" />
 
     <Button
             android:id="@+id/ab_repeat_add_marker"

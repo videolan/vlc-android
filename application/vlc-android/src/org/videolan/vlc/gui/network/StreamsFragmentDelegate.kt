@@ -73,10 +73,10 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
             CTX_DELETE -> {
                 val media = viewModel.dataset.get(position)
                 viewModel.deletingMedia = media
-                UiTools.snackerWithCancel(fragment.requireActivity(), fragment.requireActivity().getString(R.string.stream_deleted), { viewModel.delete() }, {
+                UiTools.snackerWithCancel(fragment.requireActivity(), fragment.requireActivity().getString(R.string.stream_deleted), action = { viewModel.delete() }) {
                     viewModel.deletingMedia = null
                     viewModel.refresh()
-                })
+                }
                 viewModel.refresh()
             }
         }

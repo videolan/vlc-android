@@ -34,6 +34,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.hack.MultiSelectListPreferenceDialogFragmentCompat
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
+import org.videolan.vlc.gui.view.NumberPickerPreference
+import org.videolan.vlc.gui.view.NumberPickerPreferenceDialog
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -48,16 +51,15 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onStart() {
         super.onStart()
-        val activity = activity as PreferencesActivity?
-        if (activity != null) {
-            activity.expandBar()
-            if (activity.supportActionBar != null && getTitleId() != 0)
-                activity.supportActionBar!!.title = getString(getTitleId())
+        (activity as? PreferencesActivity)?.let {
+            it.expandBar()
+            if (it.supportActionBar != null && getTitleId() != 0)
+                it.supportActionBar!!.title = getString(getTitleId())
         }
     }
 
     protected fun loadFragment(fragment: Fragment) {
-        activity!!.supportFragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
+        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
                 .addToBackStack("main")
                 .commit()
     }
@@ -66,7 +68,13 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         if (preference is MultiSelectListPreference) {
             val dialogFragment = MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
             dialogFragment.setTargetFragment(this, 0)
-            dialogFragment.show(fragmentManager!!, DIALOG_FRAGMENT_TAG)
+            dialogFragment.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
+            return
+        }
+        if (preference is NumberPickerPreference) {
+            val dialog = NumberPickerPreferenceDialog.newInstance(preference.key)
+            dialog.setTargetFragment(this, 0)
+            dialog.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
             return
         }
         super.onDisplayPreferenceDialog(preference)

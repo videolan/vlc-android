@@ -20,6 +20,9 @@
 
 package org.videolan.libvlc.util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
@@ -27,6 +30,7 @@ import java.io.File;
 
 public class AndroidUtil {
 
+    public static final boolean isROrLater = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R;
     public static final boolean isPOrLater = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
     public static final boolean isOOrLater = isPOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     public static final boolean isNougatMR1OrLater = isOOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1;
@@ -59,5 +63,12 @@ public class AndroidUtil {
 
     public static Uri FileToUri(File file) {
         return Uri.fromFile(file);
+    }
+
+    public static Activity resolveActivity(Context context) {
+        if (context instanceof Activity) return (Activity) context;
+        if (context instanceof ContextWrapper) return resolveActivity(((ContextWrapper)context).getBaseContext());
+        return null;
+
     }
 }

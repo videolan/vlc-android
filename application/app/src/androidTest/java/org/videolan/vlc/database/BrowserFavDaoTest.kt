@@ -58,7 +58,7 @@ class BrowserFavDaoTest: DbTest() {
 
         /*===========================================================*/
 
-        val networkFavs = getValue(db.browserFavDao().getAllNetwrokFavs())
+        val networkFavs = getValue(db.browserFavDao().getAllNetworkFavs())
 
         assertThat(networkFavs.size, equalTo(2))
         assertThat(networkFavs, hasItem(fakeNetworkFavs[0]))

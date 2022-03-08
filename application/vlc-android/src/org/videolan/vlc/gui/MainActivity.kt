@@ -26,15 +26,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -47,15 +44,16 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
+import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
@@ -63,6 +61,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "VLC/MainActivity"
 
@@ -78,6 +77,11 @@ class MainActivity : ContentActivity(),
         }
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
+
+    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
+        val view = super.getSnackAnchorView(overAudioPlayer)
+        return if (view?.id == android.R.id.content && !isTablet()) {if(overAudioPlayer) findViewById(android.R.id.content) else findViewById(R.id.appbar)} else view
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +99,18 @@ class MainActivity : ContentActivity(),
         if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = Medialibrary.getInstance()
 
-        VLCBilling.getInstance(application).retrieveSkus()
+//        VLCBilling.getInstance(application).retrieveSkus()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //Only the partial permission is granted for Android 11+
+        if (!settings.getBoolean(PERMISSION_NEVER_ASK, false) && Permissions.canReadStorage(this) && !Permissions.hasAllAccess(this)) {
+            UiTools.snackerMessageInfinite(this, getString(R.string.partial_content))?.setAction(R.string.more) {
+                AllAccessPermissionDialog.newInstance().show(supportFragmentManager, AllAccessPermissionDialog::class.simpleName)
+            }?.show()
+        }
+        configurationChanged(getScreenWidth())
     }
 
 
@@ -111,7 +126,7 @@ class MainActivity : ContentActivity(),
         super.onStart()
         if (mediaLibrary.isInitiated) {
             /* Load media items from database and storage */
-            if (scanNeeded && Permissions.canReadStorage(this)) this.reloadLibrary()
+            if (scanNeeded && Permissions.canReadStorage(this) && !mediaLibrary.isWorking) this.reloadLibrary()
         }
     }
 
@@ -210,7 +225,7 @@ class MainActivity : ContentActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (VLCBilling.getInstance(this.application).iabHelper.handleActivityResult(requestCode, resultCode, data)) return
+//        if (VLCBilling.getInstance(this.application).iabHelper.handleActivityResult(requestCode, resultCode, data)) return
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             when (resultCode) {
                 RESULT_RESCAN -> this.reloadLibrary()
@@ -232,6 +247,8 @@ class MainActivity : ContentActivity(),
         } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == RESULT_RESCAN) {
                 forceRefresh(currentFragment)
+            } else {
+                scanNeeded = false
             }
         }
     }

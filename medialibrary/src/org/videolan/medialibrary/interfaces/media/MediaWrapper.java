@@ -372,7 +372,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     private static String getMetaId(IMedia media, String defaultMeta, int id, boolean trim) {
-        String meta = media.getMeta(id);
+        String meta = media.getMeta(id, true);
         return meta != null ? trim ? meta.trim() : meta : defaultMeta;
     }
 
@@ -399,7 +399,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     public void updateMeta(MediaPlayer mediaPlayer) {
-        if (!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle))
+        if ((!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle)) || (mDisplayTitle != null && !mDisplayTitle.equals(mTitle)))
             mDisplayTitle = mTitle;
         final IMedia media = mediaPlayer.getMedia();
         if (media == null)
@@ -410,7 +410,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public String getFileName() {
         if (mFilename == null) {
-            mFilename = mUri.getLastPathSegment();
+            if (mUri == null)
+                mFilename = "";
+            else
+                mFilename = mUri.getLastPathSegment();
         }
         return mFilename;
     }
@@ -532,10 +535,12 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     @Override
     public String getTitle() {
-        if (!TextUtils.isEmpty(mDisplayTitle))
-            return mDisplayTitle;
-        if (!TextUtils.isEmpty(mTitle))
-            return mTitle;
+        String displayTitle = mDisplayTitle;
+        if (!TextUtils.isEmpty(displayTitle))
+            return displayTitle;
+        String title = mTitle;
+        if (!TextUtils.isEmpty(title))
+            return title;
         String fileName = getFileName();
         if (fileName == null)
             return "";

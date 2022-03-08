@@ -29,6 +29,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
@@ -39,6 +40,7 @@ import org.videolan.tools.Logcat
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import java.io.*
 import java.util.*
 
@@ -58,7 +60,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent?): IBinder {
         return binder
     }
 
@@ -143,7 +145,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         logcat = Logcat()
         logcat!!.start(this)
 
-        launchForeground(this, Intent(this, DebugLogService::class.java))
+        launchForeground(Intent(this, DebugLogService::class.java))
         sendMessage(MSG_STARTED, null)
     }
 
@@ -176,6 +178,20 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
             output = OutputStreamWriter(fos)
             bw = BufferedWriter(output)
             synchronized(this) {
+                bw.write("____________________________\r\n")
+                bw.write("Useful info\r\n")
+                bw.write("____________________________\r\n")
+                bw.write("App version: ${BuildConfig.VLC_VERSION_CODE} / ${BuildConfig.VLC_VERSION_NAME}\r\n")
+                bw.write("libvlc: ${BuildConfig.LIBVLC_VERSION}\r\n")
+                bw.write("medialibrary: ${BuildConfig.ML_VERSION}\r\n")
+                bw.write("____________________________\r\n")
+                try {
+                    bw.write("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(this)}\r\n")
+                } catch (e: Exception) {
+                    bw.write("Cannot retrieve changed settings\r\n")
+                    bw.write(Log.getStackTraceString(e))
+                }
+                bw.write("____________________________\r\n")
                 for (line in logList) {
                     bw.write(line)
                     bw.newLine()
@@ -211,7 +227,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         saveThread!!.start()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (AndroidUtil.isOOrLater) forceForeground()
         return START_STICKY
     }

@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.activity_onboarding.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.resources.*
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.EXTRA_FIRST_RUN
+import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.PREF_FIRST_RUN
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
@@ -56,11 +58,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             replace(R.id.fragment_onboarding_placeholder, fragment, fragmentName.name)
         }
         viewModel.currentFragment = fragmentName
-        close.setOnClickListener { onDone() }
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
+        findViewById<View>(R.id.close).setOnClickListener { onDone() }
     }
 
     override fun onDestroy() {
@@ -99,7 +97,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
 
     override fun onNext() {
         when(viewModel.currentFragment) {
-            FragmentName.WELCOME -> showFragment(FragmentName.ASK_PERMISSION)
+            FragmentName.WELCOME -> if (Permissions.canReadStorage(this)) showFragment(FragmentName.SCAN) else showFragment(FragmentName.ASK_PERMISSION)
             FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
             FragmentName.SCAN -> showFragment(FragmentName.THEME)

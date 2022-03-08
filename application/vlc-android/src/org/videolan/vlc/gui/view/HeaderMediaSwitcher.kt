@@ -35,7 +35,7 @@ import org.videolan.vlc.R
 @ObsoleteCoroutinesApi
 class HeaderMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
-    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?) {
+    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, album: String?, cover: Bitmap?, trackInfo: String?) {
         val v = inflater.inflate(R.layout.audio_media_switcher_item, this, false)
 
         val coverView = v.findViewById<View>(R.id.cover) as ImageView

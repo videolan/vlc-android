@@ -91,6 +91,8 @@ You should also skip the welcome screens and let the scanning occur.
 
 - `screenshots`, `screenshots_seven`, `screenshots_ten`, `screenshots_tv` lanes launch respectively the screenshot UI tests for mobile, 7" tablets, 10" tablets and TV  
 
+Options: `version` is the version string in the apk name.
+
 Before running, the app and the test apks will be generated automatically
 
 #### Upload the screenshots

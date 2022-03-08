@@ -1,3 +1,94 @@
+Changes between 3.4.3 and 3.4.4:
+------------------
+ * Fix a crash on null medias
+
+Changes between 3.4.3 Beta 6 and 3.4.3:
+------------------
+ * Fix some rare crashes on the Sony Bravia devices
+ * Other crash fixes
+
+Changes between 3.4.3 Beta 5 and 3.4.3 Beta 6:
+------------------
+ * Fix the grid/list button state
+ * Crash fixes
+
+Changes between 3.4.3 Beta 4 and 3.4.3 Beta 5:
+------------------
+ * Fix the subtitles not working on some Android 12 devices
+ * Fix some graphical issues
+ * Crash fixes
+
+Changes between 3.4.3 Beta 3 and 3.4.3 Beta 4:
+------------------
+ * Remove donations
+
+Changes between 3.4.3 Beta 2 and 3.4.3 Beta 3:
+------------------
+ * Use the new file permission
+ * Crash fixes
+
+Changes between 3.4.3 Beta 1 and 3.4.3 Beta 2:
+------------------
+ * Translation update
+ * Crash fixes
+
+Changes between 3.4.2 and 3.4.3 Beta 1:
+------------------
+ * Crash fixes
+
+Changes between 3.4.1 and 3.4.2:
+------------------
+ * Fix loading of media when opening the app
+ * Crash fixes
+
+Changes between 3.4.0 Beta 3 and 3.4.1:
+------------------
+ * Playback fix for TV
+
+Changes between 3.4.0 Beta 2 and 3.4.1 Beta 3:
+------------------
+ * Playback fixes
+ * Crash fixes
+
+Changes between 3.4.0 Beta 1 and 3.4.1 Beta 2:
+------------------
+ * Crash fixes
+
+Changes between 3.4.0 and 3.4.1 Beta 1:
+------------------
+ * Android auto: better covers
+ * Android auto: +/- 10 seconds quick seek
+ * Crash fixes
+
+ Changes between 3.4.0 RC 2 and 3.4.0:
+------------------
+ * UI fixes
+
+Changes between 3.4.0 Beta 6 and 3.4.0 RC 1:
+------------------
+ * Better media seeking
+ * Bug and crash fixes
+
+Changes between 3.4.0 Beta 5 and 3.4.0 Beta 6:
+------------------
+ * Allow seeing the tips again
+ * Bug and crash fixes
+
+Changes between 3.4.0 Beta 4 and 3.4.0 Beta 5:
+------------------
+ * Shuffle mode improved
+ * Bug and crash fixes
+
+Changes between 3.4.0 Beta 3 and 3.4.0 Beta 4:
+------------------
+ * Improve the audio player design
+ * Improve the player tips
+ * Bug and crash fixes
+
+Changes between 3.4.0 Beta 2 and 3.4.0 Beta 3:
+------------------
+ * Bug fixes
+
 Changes between 3.4.0 Beta 1 and 3.4.0 Beta 2:
 ------------------
  * New onboarding

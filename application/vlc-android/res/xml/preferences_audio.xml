@@ -31,6 +31,12 @@
             android:key="audio_digital_output"
             android:title="@string/audio_digital_title"/>
 
+    <ListPreference
+        android:defaultValue=""
+        android:key="audio_preferred_language"
+        android:persistent="true"
+        android:title="@string/audio_preferred_language"/>
+
     <PreferenceCategory
             android:title="@string/headset_prefs_category"
             android:key="headset_prefs_category">
@@ -47,6 +53,21 @@
                 android:dependency="enable_headset_detection"
                 android:summary="@string/enable_play_on_headset_insertion_summary"
                 android:title="@string/enable_play_on_headset_insertion"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/controls_prefs_category">
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="enable_android_auto_speed_buttons"
+            android:summary="@string/enable_android_auto_speed_buttons_summary"
+            android:title="@string/enable_android_auto_speed_buttons"/>
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="enable_android_auto_seek_buttons"
+            android:summary="@string/enable_android_auto_seek_buttons_summary"
+            android:title="@string/enable_android_auto_seek_buttons"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/advanced_prefs_category">

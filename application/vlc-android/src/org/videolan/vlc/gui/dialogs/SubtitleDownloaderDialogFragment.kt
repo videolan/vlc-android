@@ -38,7 +38,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation(): Boolean = true
 
-    override fun initialFocusedView(): View = binding.languageListSpinner
+    override fun initialFocusedView(): View = binding.movieName
 
     private lateinit var downloadAdapter: SubtitlesAdapter
     private lateinit var historyAdapter: SubtitlesAdapter
@@ -89,6 +89,11 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0], names[0])).get(uris[0].path!!, SubtitlesModel::class.java)
         if (uris.isEmpty()) dismiss()
+    }
+
+    override fun onResume() {
+        viewModel.onRefresh()
+        super.onResume()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -149,6 +154,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             }
         })
 
+        binding.retryButton.setOnClickListener {
+            viewModel.onRefresh()
+        }
+
         binding.languageListSpinner.setSelection(viewModel.getLastUsedLanguage().map { binding.languageListSpinner.allValuesOfLanguages.indexOf(it) })
 
         binding.episode.setOnEditorActionListener { v, actionId, event ->
@@ -164,17 +173,17 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.result.observe(viewLifecycleOwner, {
+        viewModel.result.observe(viewLifecycleOwner) {
             downloadAdapter.setList(it)
             if (it.isNotEmpty()) focusOnView(binding.scrollView)
-        })
-        viewModel.isApiLoading.observe(viewLifecycleOwner, {
+        }
+        viewModel.isApiLoading.observe(viewLifecycleOwner) {
             binding.subDownloadLoading.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        viewModel.history.observe(this, {
+        viewModel.history.observe(this) {
             historyAdapter.setList(it)
-        })
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

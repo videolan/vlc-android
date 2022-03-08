@@ -13,13 +13,15 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.view_mini_visualizer.view.*
 import org.videolan.vlc.R
 
 class MiniVisualizer : LinearLayout {
     private lateinit var stopSet: AnimatorSet
     private lateinit var animator: AnimatorSet
     private lateinit var visualizers: Array<View>
+    private lateinit var visualizer1: View
+    private lateinit var visualizer2: View
+    private lateinit var visualizer3: View
     private var mainColor: Int = Color.BLACK
 
     constructor(context: Context) : super(context) {
@@ -52,6 +54,9 @@ class MiniVisualizer : LinearLayout {
     private fun initViews() {
 
         LayoutInflater.from(context).inflate(R.layout.view_mini_visualizer, this, true)
+        visualizer1 = findViewById(R.id.visualizer1)
+        visualizer2 = findViewById(R.id.visualizer2)
+        visualizer3 = findViewById(R.id.visualizer3)
         visualizers = arrayOf(visualizer1, visualizer2, visualizer3)
         visualizers.forEach {
             it.setBackgroundColor(mainColor)
