@@ -726,6 +726,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      */
     fun hideOverlay(fromUser: Boolean) {
         if (player.isShowing) {
+            if (isBookmarkShown()) hideBookmarks()
             player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
             if (!player.displayManager.isPrimary) {
                 overlayBackground?.startAnimation(AnimationUtils.loadAnimation(player, android.R.anim.fade_out))
