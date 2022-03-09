@@ -83,6 +83,7 @@ const val EXTRA_MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED"
 const val TABS_OPT_IN_HINT = "android.media.browse.AUTO_TABS_OPT_IN_HINT"
 const val CONTENT_STYLE_LIST_ITEM_HINT_VALUE = 1
 const val CONTENT_STYLE_GRID_ITEM_HINT_VALUE = 2
+const val CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE = 3
 
 // MediaParsingService
 const val ACTION_INIT = "medialibrary_init"

@@ -1662,7 +1662,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     "com.google.android.googlequicksearchbox" -> MediaSessionBrowser.ID_ROOT_NO_TABS
                     else -> MediaSessionBrowser.ID_ROOT
                 }
-                val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE).apply {
+                val extras = MediaSessionBrowser.getContentStyle().apply {
                     putBoolean(TABS_OPT_IN_HINT, true)
                     putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
                 }

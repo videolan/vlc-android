@@ -62,7 +62,6 @@ import org.videolan.vlc.media.MediaUtils.getMediaDescription
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.isSchemeStreaming
-import java.util.*
 import java.util.concurrent.Semaphore
 
 /**
@@ -349,7 +348,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .setMediaId(ID_ALBUM)
                                 .setTitle(res.getString(R.string.albums))
                                 .setIconUri(MENU_ALBUM_ICON)
-                                .setExtras(if (ml.albumsCount <= MAX_RESULT_SIZE) getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE) else null)
+                                .setExtras(if (ml.albumsCount <= MAX_RESULT_SIZE) getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE) else null)
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(albumsMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Tracks
@@ -378,8 +377,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     ID_ALBUM -> {
                         val albums = ml.getAlbums(Medialibrary.SORT_ALPHA, false, false)
                         albums.sortWith(MediaComparators.ANDROID_AUTO)
-                        if (page == null && albums.size > MAX_RESULT_SIZE) return paginateLibrary(albums, parentIdUri, MENU_ALBUM_ICON,
-                                    getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE))
+                        if (page == null && albums.size > MAX_RESULT_SIZE) return paginateLibrary(albums, parentIdUri, MENU_ALBUM_ICON, getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
                         list = albums.copyOfRange(pageOffset.coerceAtMost(albums.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(albums.size))
                     }
                     ID_TRACK -> {
@@ -684,7 +682,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
             return results
         }
 
-        fun getContentStyle(browsableHint: Int, playableHint: Int): Bundle {
+        fun getContentStyle(browsableHint: Int = CONTENT_STYLE_LIST_ITEM_HINT_VALUE, playableHint: Int = CONTENT_STYLE_LIST_ITEM_HINT_VALUE): Bundle {
             return Bundle().apply {
                 putBoolean(CONTENT_STYLE_SUPPORTED, true)
                 putInt(CONTENT_STYLE_BROWSABLE_HINT, browsableHint)
