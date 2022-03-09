@@ -690,7 +690,6 @@ class MediaSessionBrowser : ExtensionManagerActivity {
 
         fun getContentStyle(browsableHint: Int = CONTENT_STYLE_LIST_ITEM_HINT_VALUE, playableHint: Int = CONTENT_STYLE_LIST_ITEM_HINT_VALUE): Bundle {
             return Bundle().apply {
-                putBoolean(CONTENT_STYLE_SUPPORTED, true)
                 putInt(CONTENT_STYLE_BROWSABLE_HINT, browsableHint)
                 putInt(CONTENT_STYLE_PLAYABLE_HINT, playableHint)
             }

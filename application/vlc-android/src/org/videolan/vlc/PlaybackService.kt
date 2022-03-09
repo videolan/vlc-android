@@ -1663,7 +1663,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     else -> MediaSessionBrowser.ID_ROOT
                 }
                 val extras = MediaSessionBrowser.getContentStyle().apply {
-                    putBoolean(TABS_OPT_IN_HINT, true)
                     putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
                 }
                 BrowserRoot(rootId, extras)
