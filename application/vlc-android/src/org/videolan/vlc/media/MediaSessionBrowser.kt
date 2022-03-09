@@ -283,6 +283,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                     .setMediaId(ID_LIBRARY)
                                     .setTitle(res.getString(R.string.auto_my_library))
                                     .setIconUri(MENU_AUDIO_ICON)
+                                    .setExtras(getContentStyle(CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE))
                                     .build()
                             results.add(MediaBrowserCompat.MediaItem(libraryMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         }
@@ -337,10 +338,13 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     }
                     ID_LIBRARY -> {
                         //Artists
+                        val artistsShowAll = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
+                        val artistsCount = ml.getArtistsCount(artistsShowAll)
                         val artistsMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_ARTIST)
                                 .setTitle(res.getString(R.string.artists))
                                 .setIconUri(MENU_ARTIST_ICON)
+                                .setExtras(if (artistsCount > MAX_RESULT_SIZE) getContentStyle(CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE) else null)
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(artistsMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Albums
@@ -348,7 +352,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .setMediaId(ID_ALBUM)
                                 .setTitle(res.getString(R.string.albums))
                                 .setIconUri(MENU_ALBUM_ICON)
-                                .setExtras(if (ml.albumsCount <= MAX_RESULT_SIZE) getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE) else null)
+                                .setExtras(getContentStyle(if(ml.albumsCount > MAX_RESULT_SIZE) CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE else CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(albumsMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Tracks
@@ -356,6 +360,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .setMediaId(ID_TRACK)
                                 .setTitle(res.getString(R.string.tracks))
                                 .setIconUri(MENU_AUDIO_ICON)
+                                .setExtras(getContentStyle(if (ml.audioCount > MAX_RESULT_SIZE) CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE else CONTENT_STYLE_LIST_ITEM_HINT_VALUE))
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(tracksMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Genres
@@ -363,6 +368,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                 .setMediaId(ID_GENRE)
                                 .setTitle(res.getString(R.string.genres))
                                 .setIconUri(MENU_GENRE_ICON)
+                                .setExtras(getContentStyle(if (ml.genresCount > MAX_RESULT_SIZE) CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE else CONTENT_STYLE_LIST_ITEM_HINT_VALUE))
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(genresMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results
