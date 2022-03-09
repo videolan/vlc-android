@@ -28,10 +28,10 @@ object MediaComparators {
 
     private val englishArticles by lazy { arrayOf("a ", "an ", "the ") }
     private val asciiAlphaNumeric by lazy {
-        BitSet().also { b -> "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray().forEach { c -> b.set(c.toInt(), true) } }
+        BitSet().also { b -> "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray().forEach { c -> b.set(c.code, true) } }
     }
     private val asciiPunctuation by lazy {
-        BitSet().also { b -> "\t !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".toCharArray().forEach { c -> b.set(c.toInt(), true) } }
+        BitSet().also { b -> "\t !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".toCharArray().forEach { c -> b.set(c.code, true) } }
     }
 
     val BY_TRACK_NUMBER: Comparator<MediaWrapper> = Comparator { m1, m2 ->
@@ -52,7 +52,7 @@ object MediaComparators {
         val tTitle = origTitle.trim()
         if (tTitle.isEmpty()) return tTitle
         /* Remove invalid leading characters and articles */
-        val invCharTitle = removeLeadingPunctuation(tTitle).toLowerCase(Locale.US)
+        val invCharTitle = removeLeadingPunctuation(tTitle).lowercase(Locale.US)
         val scrubbedTitle = formatArticles(invCharTitle, false).ifEmpty { invCharTitle }
         /* Decompose the first letter to handle ä, ç, é, ô, etc. This yields two chars: an a-z letter, and
          * a unicode combining character representing the diacritic mark. The combining character is dropped.
@@ -83,10 +83,10 @@ object MediaComparators {
      * Functionally identical to replaceAll("[^a-z0-9]+", "")
      */
     private fun removeNonAlphaNumeric(title: String): String {
-        return if (title.length == 1 && asciiAlphaNumeric.get(title[0].toInt())) title
+        return if (title.length == 1 && asciiAlphaNumeric.get(title[0].code)) title
         else buildString {
             for (c in title.toCharArray())
-                if (asciiAlphaNumeric.get(c.toInt()))
+                if (asciiAlphaNumeric.get(c.code))
                     append(c)
         }
     }
@@ -99,7 +99,7 @@ object MediaComparators {
      */
     private fun removeLeadingPunctuation(title: String): String {
         title.forEachIndexed { i, c ->
-            if (!asciiPunctuation.get(c.toInt()))
+            if (!asciiPunctuation.get(c.code))
                 return title.substring(i)
         }
         return title
