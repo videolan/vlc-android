@@ -249,6 +249,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
             menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
             menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
+            menu.findItem(R.id.ml_menu_sortby_insertion_date).isVisible = canSortByInsertionDate()
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
             menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]

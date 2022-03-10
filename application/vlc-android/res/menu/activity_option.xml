@@ -87,6 +87,12 @@
                     android:id="@+id/ml_menu_sortby_last_modified"
                     android:title="@string/sortby_last_modified_date"
                     android:visible="false"/>
+
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_insertion_date"
+                    android:title="@string/sortby_insertion"
+                    android:visible="false"/>
             <item
                     android:orderInCategory="2"
                     android:id="@+id/ml_menu_sortby_number"

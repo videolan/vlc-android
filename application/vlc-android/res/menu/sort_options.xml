@@ -16,6 +16,9 @@
         android:id="@+id/ml_menu_sortby_last_modified"
         android:title="@string/sortby_last_modified_date" />
     <item
+        android:id="@+id/ml_menu_sortby_insertion_date"
+        android:title="@string/sortby_insertion" />
+    <item
         android:id="@+id/ml_menu_sortby_number"
         android:title="@string/sortby_number" />
 </menu>

@@ -40,6 +40,7 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
     override fun canSortByArtist() = true
+    override fun canSortByInsertionDate()= true
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, if (parent is Artist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)

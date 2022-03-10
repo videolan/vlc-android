@@ -175,6 +175,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
+            R.id.ml_menu_sortby_insertion_date -> {
+                sortBy(Medialibrary.SORT_INSERTIONDATE)
+                return true
+            }
             R.id.ml_menu_sortby_artist_name -> {
                 sortBy(Medialibrary.SORT_ARTIST)
                 return true

@@ -15,6 +15,7 @@
     <string name="sortby_length">Length</string>
     <string name="sortby_date">Date</string>
     <string name="sortby_last_modified_date">Recently added</string>
+    <string name="sortby_insertion">Insertion date</string>
     <string name="sortby_media_number">Media number</string>
     <string name="sortby_number">Nb tracks</string>
     <string name="searchable_hint">Search…</string>
