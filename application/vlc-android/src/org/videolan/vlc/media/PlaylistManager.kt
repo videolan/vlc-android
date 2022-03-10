@@ -931,6 +931,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private val mediaplayerEventListener = object : MediaPlayerEventListener {
+        private var lastTimeMetaSaved = 0L
+
         override suspend fun onEvent(event: MediaPlayer.Event) {
             when (event.type) {
                 MediaPlayer.Event.Playing -> {
@@ -996,6 +998,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start)
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
+                    val now = System.currentTimeMillis()
+                    if (now - lastTimeMetaSaved > 20000){
+                        lastTimeMetaSaved = now
+                        saveMediaMeta()
+                    }
                 }
                 MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(if(player.isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false)) {
                     player.setRate(settings.getFloat(if(player.isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else KEY_PLAYBACK_RATE, 1.0f), false)
