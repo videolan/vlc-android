@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
     <org.videolan.vlc.gui.view.EmptyLoadingStateView
-            android:id="@+id/empty_loading"
+            android:id="@+id/audio_empty_loading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:empty_text="@string/nomedia"
