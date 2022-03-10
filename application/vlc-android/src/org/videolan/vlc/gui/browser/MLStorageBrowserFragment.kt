@@ -42,7 +42,8 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.tools.*
+import org.videolan.tools.NetworkMonitor
+import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.BaseFragment
@@ -51,9 +52,10 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.TitleListView
-import org.videolan.vlc.util.FeatureFlag
-import org.videolan.vlc.util.FeatureFlagManager
-import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.io.File
 
 private const val FROM_ONBOARDING = "from_onboarding"
@@ -128,7 +130,6 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         }
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
-        networkEntry.visibility = if (FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXING)) View.VISIBLE else View.GONE
         networkEntry.loading.showNoMedia = false
         networkEntry.loading.emptyText = R.string.nomedia
         val networkAdapter = StorageBrowserAdapter(getBrowserContainer(true))
