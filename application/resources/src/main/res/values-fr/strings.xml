@@ -14,6 +14,7 @@
     <string name="sortby_length">Durée</string>
     <string name="sortby_date">Date</string>
     <string name="sortby_last_modified_date">Ajouté récemment</string>
+    <string name="sortby_insertion">Date d’ajout</string>
     <string name="sortby_media_number">Numéro du média</string>
     <string name="sortby_number">Nb pistes</string>
     <string name="searchable_hint">Recherche…</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Ajuster à l\'écran</string>
     <string name="surface_fill">Étirer</string>
     <string name="surface_original">Centrer</string>
+    <string name="resize_tip">Appui long pour plus d\'options</string>
     <string name="unseekable_stream">Impossible de naviguer dans le flux</string>
     <string name="refresh">Actualiser</string>
     <string name="track_audio">Piste audio</string>
@@ -462,6 +464,7 @@
 
     <string name="no_result">Aucun résultat trouvé</string>
     <string name="no_internet_connection">Vérifiez votre connexion Internet</string>
+    <string name="retry">Réessayer</string>
     <string name="subs_download_error">Service indisponible. Veuillez réessayer plus tard</string>
 
     <string name="network_browsing">Réseau local</string>
@@ -481,7 +484,6 @@
     <string name="playlist_name_hint">Nom de liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre…</string>
     <string name="current_chapter">Chapitre : %s</string>
-    <string name="resume_from_position">Reprendre depuis la dernière position</string>
     <string name="confirm_resume">Reprendre depuis la dernière position ?</string>
     <string name="confirm_resume_title">Reprendre les vidéos lues</string>
     <string name="tv_ui_title">Interface Android TV</string>
@@ -626,6 +628,7 @@
     <string name="subtitle_search_name_hint">Nom</string>
     <string name="subtitle_search_episode_hint">Épisode</string>
     <string name="subtitle_search_season_hint">Saison</string>
+    <string name="subtitles_download_failed">Échec du téléchargement</string>
     <string name="language_to_download">Langue</string>
     <string name="delete_the_selected">Supprimer la sélection</string>
     <string name="download_the_selected">Télécharger la sélection</string>
@@ -884,6 +887,8 @@
     <string name="player_controls">Contrôles du lecteur</string>
     <string name="video_double_tap_jump_delay">Délai par double appui</string>
     <string name="video_key_jump_delay">Délai ou temporisation des touches de navigation</string>
+    <string name="banned">Dossier interdit (appui long pour changer)</string>
+    <string name="banned_parent">Interdit par le dossier parent</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Cet élément est déjà dans cette liste de lecture.</item>
         <item quantity="other">Ces éléments sont déjà dans cette liste de lecture.</item>
@@ -894,5 +899,9 @@
     </plurals>
     <string name="official_website">Site officiel</string>
     <string name="view_online">Voir en ligne</string>
+    <string name="player_under_notch">Afficher la vidéo sous l\'encoche</string>
+    <string name="notch">Encoche</string>
+    <string name="always_fast_seek">Toujours utiliser la recherche rapide</string>
+    <string name="always_fast_seek_summary">La recherche est plus rapide mais peut être moins précise</string>
 
 </resources>
