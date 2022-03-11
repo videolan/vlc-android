@@ -14,6 +14,7 @@
     <string name="sortby_length">Longària</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Annantu dae pagu</string>
+    <string name="sortby_insertion">Data de insertada</string>
     <string name="sortby_media_number">Nùmeru de mèdios</string>
     <string name="sortby_number">Nùm. rastas</string>
     <string name="searchable_hint">Chirca…</string>
@@ -32,6 +33,7 @@
     <string name="play_from_start">Riprodui a s\'allughìngiu</string>
     <string name="play_as_audio">Riprodui comente àudio</string>
     <string name="play_as_video">Riprodui comente vìdeu</string>
+    <string name="return_to_video">Incarca a longu in sa cobertedda pro ripristinare su vìdeu</string>
     <string name="video_app_switch_title">Modalidade in s\'isfundu/PiP</string>
     <string name="video_app_switch_summary">Seletziona su cumportamentu de VLC cando colas a un\'àtera aplicatzione dae sa riprodutzione de unu vìdeu</string>
     <string name="play_pip_title">Riprodui su vìdeu in modalidade Picture-in-Picture</string>
@@ -57,7 +59,6 @@
     <string name="confirm_delete_files">Iscantzellare custos %1$s documentos?</string>
     <string name="confirm_delete_folders_and_files">Iscantzellare custas %1$s cartellas e %2$s documentos?</string>
     <string name="confirm_delete_playlist">Cheres iscantzellare s\'iscalita \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Bogare \'%1$s\' dae s\'iscalita?</string>
     <string name="ringtone_set">Su documentu \'%1$s\' est istadu impostadu comente soneria.</string>
     <string name="ringtone_error">B\'est istadu un\'errore cun s\'impostatzione de sa soneria.</string>
     <string name="pause">Pàusa</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Adata a s\'ischermu</string>
     <string name="surface_fill">Prena</string>
     <string name="surface_original">Tzentra</string>
+    <string name="resize_tip">Incarca a longu pro àteras optziones</string>
     <string name="unseekable_stream">Flussu chene positzionamentu</string>
     <string name="refresh">Agiorna</string>
     <string name="track_audio">Rasta àudio</string>
@@ -178,7 +180,7 @@
     <string name="server_share_hint">Nùmene cumpartzidura de retza (o indiritzu IP)</string>
     <string name="server_folder_hint">Àndala cartella (optzionale)</string>
     <string name="server_username_hint">Nùmene impreadore</string>
-    <string name="server_servername_hint">Nùmene de su server, pro comodidade</string>
+    <string name="server_servername_hint">Nùmene de su serbidore, pro comodidade</string>
     <string name="server_port">Ghenna:</string>
     <string name="login">Nùmene impreadore</string>
     <string name="password">Crae de intrada</string>
@@ -195,6 +197,7 @@
     <string name="encountered_error_title">Errore de riprodutzione</string>
     <string name="encountered_error_message">VLC at tentu un\'errore cun custu documentu.\nProa a agiornare sa biblioteca multimediale.</string>
     <string name="invalid_location">Sa positzione %1$s non podet èssere riproduida.</string>
+    <string name="missing_location">Custu elementu multimediale benit dae una memòria chi no est a disponimentu e non si podet riproduire.</string>
 
     <string name="search">Chirca</string>
 
@@ -216,6 +219,9 @@
     <string name="tips_play_description">Toca pro riproduire su vìdeu</string>
     <string name="lock">Bloca</string>
     <string name="tap">Toca pro pompiare</string>
+    <string name="tap_to_remove">Toca pro bogare</string>
+    <string name="tap_to_rearrange">Toca pro torrare a ordinare</string>
+    <string name="tap_to_previous_next">Toca pro andare a s\'imbeniente/antepostu</string>
     <string name="lock_orientation">Orientamentu</string>
     <string name="lock_orientation_description">Toca pro blocare/isblocare s\'orientamentu</string>
     <string name="aspect_ratio">Proportziones</string>
@@ -245,12 +251,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC pro Android</string>
-    <string name="licence">Litzèntzia</string>
     <string name="revision">Revisione</string>
     <string name="about">Informatziones</string>
-    <string name="about_text">VLC pro Android™ est una versione mòbile de su leghidore multimediale VLC, su populare leghidore multimediale a mitza aberta. Sa versione pro Android™ podet lèghere sa majoria de sos documentos e de sos flussos de retza.</string>
+    <string name="about_vlc_text">VLC pro Android™ est una versione mòbile de su leghidore multimediale VLC, su populare leghidore multimediale a mitza aberta. Sa versione pro Android™ podet lèghere totu sos documentos e de sos flussos de retza.</string>
+    <string name="authors">Autores</string>
     <string name="vlc_authors">Autores de VLC.</string>
-    <string name="compiled_by">Custa versione de VLC est compilata dae:</string>
+    <string name="is_compiled_by">Compiladu dae:</string>
+    <string name="sources">Còdighe de orìgine</string>
+    <string name="libraries">Librerias</string>
     <string name="feedback_forum">Forum de sinnalatzione</string>
 
     <!-- Preferences -->
@@ -276,8 +284,11 @@
     <string name="screen_orientation_last_locked">Ùrtimu orientamentu blocadu</string>
     <string name="enable_black_theme">Abìlita su tema iscuru</string>
     <string name="subtitle_text_encoding">Codìfica de su testu de sos sutatìtulos</string>
+    <string name="subtitle_preferred_language">Limba preferida de sos sutatìtulos</string>
     <string name="daynight_title">Modalidade Die-Note</string>
     <string name="daynight_follow_system_title">Sighi sa modalidade de sistema</string>
+    <string name="no_track_preference">Peruna preferèntzia de limba</string>
+    <string name="track_preference">Preferèntzia de rasta: %s</string>
 
     <string name="extra_prefs_category">Impostatziones agiuntivas</string>
 
@@ -307,9 +318,17 @@
     <string name="enable_volume_gesture_title">Gestos pro su volume</string>
     <string name="enable_volume_gesture_summary">Controlla su volume pro mèdiu de gestos durante sa riprodutzione de vìdeos</string>
     <string name="enable_seek_buttons">Abìlita sos pulsantes de positzionamentu</string>
-    <string name="enable_seek_buttons_summary">Ammustra sos pulsantes de re-imboligadura e avantzamentu in s\'interfache vìdeo</string>
+    <string name="enable_seek_buttons_summary">Ammustra sos butones de re-imboligadura e avantzamentu lestru in s\'interfache vìdeo</string>
+    <string name="enable_android_auto_speed_buttons">Lestresa de riprodutzione de Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Ammustra su controllu de sa lestresa in su menù a cumparsa</string>
+    <string name="enable_android_auto_seek_buttons">Butones de positzionamentu de Android Auto</string>
+    <string name="enable_android_auto_seek_buttons_summary">Ammustra sos butones de re-imboligadura e avantzamentu lestru in s\'interfache de su menù a cumparsa. Proa a mantènnere incarcados sos butones \"antepostu\" e \"imbeniente\" in antis de l\'abilitare.</string>
     <string name="enable_double_tap_seek_title">Tocu dòpiu pro mòere sa positzione</string>
     <string name="enable_double_tap_seek_summary">Tocu dòpiu in sos oros de s\'ischermu pro mòere sa positzione de 10 segundos</string>
+    <string name="enable_double_tap_play_title">Tocu dòpiu pro riproduire/suspèndere</string>
+    <string name="enable_double_tap_play_summary">Tocu dòpiu in su tzentru de s\'ischermu pro riproduire o pònnere in pàusa</string>
+    <string name="enable_swipe_seek_title">Trìsina pro positzionare</string>
+    <string name="enable_swipe_seek_summary">Trìsina su pòddighe tuo in s\'ischermu pro positzionare</string>
     <string name="popup_keepscreen_title">Mantene s\'ischermu ativu in modalidade cun ventana a cumparsa</string>
     <string name="popup_keepscreen_summary">Mantene s\'ischermu semper ativu cando sa ventana a cumparsa est ammustrada, fintzas si su vìdeu est in pàusa.</string>
     <string name="browser_show_hidden_files_title">Ammustra sos documentos istichidos</string>
@@ -334,6 +353,8 @@
     <string name="audio_prefs_category">Àudio</string>
     <string name="lockscreen_cover_title">Cobertedda a su blocu de s\'ischermu</string>
     <string name="lockscreen_cover_summary">Si est disponìbile, imposta sa cobertedda de su documentu multimediale currente comente isfundu de su sarvaischermu</string>
+    <string name="show_seek_in_compact_notif_title">Butones de positzionamentu in su pannellu de sas notìficas</string>
+    <string name="show_seek_in_compact_notif_summary">Ammustra sos butones de re-imboligadura e avantzamentu lestru in sos controllos multimediales cumpatos</string>
     <string name="list_title_ellipsize">Tìtulu listas a riga sola cun puntos de suspensione</string>
     <string name="list_title_ellipsize_default">Predefinidu</string>
     <string name="list_title_ellipsize_left">A manca</string>
@@ -424,6 +445,7 @@
     <string name="log_service_text">Aberi sa console de sos logs</string>
     <string name="copy_to_clipboard">Còpia in punta de billete</string>
     <string name="copied_to_clipboard">Log copiadu in punta de billete</string>
+    <string name="copied_from_clipboard">Indiritzu copiadu dae sa punta de billete tua</string>
     <string name="dump_logcat">Sarva log logcat</string>
     <string name="dump_logcat_success">Logcat sarvadu currettamente in %1$s!</string>
     <string name="dump_logcat_failure">Sarvatàgiu logcat fallidu.</string>
@@ -442,6 +464,7 @@
 
     <string name="no_result">Perunu risultadu agatadu</string>
     <string name="no_internet_connection">Verìfica sa connessione a ìnternet tua</string>
+    <string name="retry">Torra a proare</string>
     <string name="subs_download_error">Servìtziu non disponìbile. Torra a proare prus a tardu</string>
 
     <string name="network_browsing">Retza locale</string>
@@ -460,8 +483,7 @@
     <string name="playlist_save">Sarva s\'iscalita</string>
     <string name="playlist_name_hint">Nùmene de s\'iscalita</string>
     <string name="go_to_chapter">Bae a su capìtulu…</string>
-    <string name="chapter">Capìtulu</string>
-    <string name="resume_from_position">Sighi dae s\'ùrtima positzione</string>
+    <string name="current_chapter">Capìtulu: %s</string>
     <string name="confirm_resume">Cheres sighire dae s\'ùrtima positzione?</string>
     <string name="confirm_resume_title">Sighi cun sos vìdeos riproduidos</string>
     <string name="tv_ui_title">Interfache Android TV</string>
@@ -481,6 +503,12 @@
     <string name="widget_name_b">Widget VLC nieddu</string>
     <string name="allow_storage_access_title">Permiti a VLC de atzèdere a documentos vìdeo e àudio</string>
     <string name="allow_storage_access_description">VLC tenet bisòngiu de custu permissu pro atzèdere a sos documentos multimediales in custu dispositivu.</string>
+    <string name="allow_storage_manager_title">Permite a VLC s\'atzessu a totu sos documentos</string>
+    <string name="allow_storage_manager_description">%s\n\nBoles frunire su permissu?</string>
+    <string name="allow_storage_manager_explanation">Pro otènnere totu sas funtzionalidades de VLC e su suportu pro totu sas castas de documentu multimediale ti cussigiamus de frunire custu permissu.</string>
+    <string name="partial_content">VLC non podet atzèdere a totu sos documentos tuos</string>
+    <string name="partial_content_description">A partire dae Android 11, sas aplicatziones tenent bisòngiu de unu permissu ispetziale pro atzèdere a totu sos documentos de su dispositivos.\n\n%s</string>
+    <string name="never_ask_again">Non torres a pedire prus</string>
     <string name="allow_settings_access_ringtone_title">Permiti a VLC de impostare sa soneria</string>
     <string name="allow_settings_access_ringtone_description">VLC tenet bisòngiu de custu permissu pro  impostare custu branu comente soneria.</string>
     <string name="allow_settings_access_brightness_title">Permiti a VLC de mudare sa luminosidade</string>
@@ -549,6 +577,7 @@
     <string name="existing_custom_set_save_message">Sarva s\'equalitzazione comente…</string>
     <string name="new_custom_set_save_message">Sarva s\'equalizatzione noa comente…</string>
     <string name="save">Sarva</string>
+    <string name="saved">Sarvadu %s</string>
     <string name="do_not_save">Non sarves</string>
     <string name="custom_set_deleted_message">Equalizatzione personalizata \"%1$s\" iscantzellada.</string>
     <string name="custom_set_wrong_input">Nùmene non vàlidu</string>
@@ -570,6 +599,7 @@
     <string name="audio_digital_failed">Modìfica de s\'istadu de s\'essida àudio digitale fallida</string>
     <string name="audio_digital_output_enabled">Essida àudio digitale abilitada</string>
     <string name="audio_digital_output_disabled">Essida àudio digitale disabilitada</string>
+    <string name="audio_preferred_language">Limba preferida de s\'àudio</string>
     <string name="audio_digital_title">Essida àudio digitale (coladòrgiu àudio)</string>
     <string name="audio_task_cleared_title">Firma in casu de trisinadura</string>
     <string name="audio_task_cleared_summary">Firma sa riprodutzione cando s\'aplicatzione benit serrada</string>
@@ -598,6 +628,7 @@
     <string name="subtitle_search_name_hint">Nùmene</string>
     <string name="subtitle_search_episode_hint">Episòdiu</string>
     <string name="subtitle_search_season_hint">Istajone</string>
+    <string name="subtitles_download_failed">Iscarrigamentu fallidu</string>
     <string name="language_to_download">Limba</string>
     <string name="delete_the_selected">Iscantzella sa seletzione</string>
     <string name="download_the_selected">Iscàrriga sa seletzione</string>
@@ -793,10 +824,8 @@
     <string name="allow_otg">Permite s\'atzessu OTG</string>
     <string name="allow_otg_description">Pro praghere ischerta su dispositivu OTG tuo pro permìtere s\'atzessu a VLC.</string>
     <string name="timeout_infinite">Infinidu</string>
-    <string name="timeout_short">Curtzu</string>
-    <string name="timeout_normal">Normale</string>
-    <string name="timeout_long">Longu</string>
     <string name="video_hud_timeout">Ritardu de cuadura de sos controllos de su riproduidore de vìdeos</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Boga dae sa cronologia</string>
     <string name="prefersmbv1">Preferi SMB 1</string>
     <string name="prefersmbv1_summary">Boga s\'ischerta a custa impostatzione si tenes dificultades cun sa navigatzione in su serbidore SMB tuo</string>
@@ -822,11 +851,24 @@
     <string name="add_to_existing_playlist">Annanghe a un\'iscalita chi esistit giai</string>
     <string name="bookmarks_title">Sinnalibros</string>
     <string name="no_bookmark">Galu perunu sinnalibru</string>
+    <string name="bookmark_default_name">Sinnalibru in %s</string>
     <string name="bookmark_name">Sinnalibru %s</string>
+    <string name="add_bookmark">Annanghe unu sinnalibru</string>
+    <string name="bookmark_added">Sinnalibru annantu</string>
+    <string name="show">Ammustra</string>
     <string name="optional_features">Funtzionalidades optzionales</string>
     <string name="optional_features_summary">Funtzionalidades in beta chi sunt in fase de proa e diant pòdere no èssere istàbiles</string>
     <string name="optional_features_warning">Custa funtzionalidade est in beta e diat pòdere causare interrutziones de s\'aplicatzione e instabilitades</string>
+    <string name="network_indexing">Inditzizatzione de retza</string>
+    <string name="network_indexing_warning">S\'inditzizatzione de retza pro como est in beta.\nProblemas connotos:\n• Funtzionamentu lentu\n\nSi agatas àteros problemas sinnala·los in su forum nostru.</string>
     <string name="start_vlc">Allughe VLC</string>
+    <string name="jump_delay">Tempus de ritardu andende cara in antis/a segus</string>
+    <string name="long_jump_delay">Tempus de ritardu andende cara in antis/a segus incarchende a longu</string>
+    <string name="jump_delay_summary">%s segundos</string>
+    <string name="move_up">Move cara a artu</string>
+    <string name="move_down">Move cara a giosso</string>
+    <string name="remove_from_playlist">Boga dae s\'iscalita</string>
+    <string name="play_media">Riprodui %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Annànghere sos elementos ischertados?</string>
@@ -839,6 +881,14 @@
     <string name="start">Allughe</string>
     <string name="permission">Permissu</string>
     <string name="customize">Personaliza</string>
+    <string name="selection_count">%d seletzionadu</string>
+    <string name="controls_setting">Impostatziones de sos controllos</string>
+    <string name="gestures">Gestos</string>
+    <string name="player_controls">Controllos de su leghidore</string>
+    <string name="video_double_tap_jump_delay">Tempus de ritardu de su tocu dòpiu</string>
+    <string name="video_key_jump_delay">Tempus de ritardu de sas teclas de navigatzione</string>
+    <string name="banned">Cartella esclusa (incarca a longu pro cambiare)</string>
+    <string name="banned_parent">Esclusa dae sa cartella superiore</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Custu elementu est giai in cust\'iscalita.</item>
         <item quantity="other">Custos elementos sunt giai in cust\'iscalita.</item>
@@ -847,5 +897,11 @@
         <item quantity="one">1 de sos elementos ischertados est giai in custa iscalita.</item>
         <item quantity="other">%d de sos elementos ischertados sunt giai in custa iscalita.</item>
     </plurals>
+    <string name="official_website">Situ web ufitziale</string>
+    <string name="view_online">Pòmpia in lìnia</string>
+    <string name="player_under_notch">Ammustra su vìdeu a suta de sa taca</string>
+    <string name="notch">Taca</string>
+    <string name="always_fast_seek">Imprea semper su positzionamentu lestru</string>
+    <string name="always_fast_seek_summary">Su positzionamentu est prus lestru ma diat pòdere èssere prus pagu pretzisu</string>
 
 </resources>
