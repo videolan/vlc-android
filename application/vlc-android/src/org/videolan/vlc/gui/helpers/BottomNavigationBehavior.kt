@@ -29,22 +29,16 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.animation.addListener
 import androidx.customview.view.AbsSavedState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
-private const val ENTER_ANIMATION_DURATION = 225L
-private const val EXIT_ANIMATION_DURATION = 175L
 private const val STATE_SCROLLED_DOWN = 1
 private const val STATE_SCROLLED_UP = 2
 
@@ -116,67 +110,7 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int, consumed: IntArray) {
         updatePlayer(child)
-        if (dyConsumed > 0) {
-            slideDown(child)
-        } else if (dyConsumed < 0) {
-            slideUp(child)
-        }
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type, consumed)
-    }
-
-    /**
-     * Perform an animation that will slide the child from it's current position to be totally on the
-     * screen.
-     */
-    fun slideUp(child: V) {
-        if (currentState == STATE_SCROLLED_UP) {
-            return
-        }
-        if (offsetAnimator != null) {
-            offsetAnimator!!.cancel()
-            child.clearAnimation()
-        }
-        currentState = STATE_SCROLLED_UP
-        animateBarVisibility(child, true)
-    }
-
-    /**
-     * Perform an animation that will slide the child from it's current position to be totally off the
-     * screen.
-     */
-    fun slideDown(child: V) {
-        if (currentState == STATE_SCROLLED_DOWN) {
-            return
-        }
-        if (offsetAnimator != null) {
-            offsetAnimator!!.cancel()
-            child.clearAnimation()
-        }
-        currentState = STATE_SCROLLED_DOWN
-        animateBarVisibility(child, false)
-    }
-
-    private fun animateBarVisibility(child: V, isVisible: Boolean) {
-        val targetTranslation = if (isVisible) 0f else child.height.toFloat()
-        if (child.translationY == targetTranslation) return
-        stateIsScrolling = true
-        if (offsetAnimator == null) {
-            offsetAnimator = ValueAnimator().apply {
-                interpolator = DecelerateInterpolator()
-                duration = if (isVisible) ENTER_ANIMATION_DURATION else EXIT_ANIMATION_DURATION
-            }
-
-            offsetAnimator?.addUpdateListener {
-                child.translationY = it.animatedValue as Float
-                updatePlayer(child)
-            }
-            offsetAnimator?.addListener(onEnd = { stateIsScrolling = false }, onCancel = { stateIsScrolling = false })
-        } else {
-            offsetAnimator?.cancel()
-        }
-
-        offsetAnimator?.setFloatValues(child.translationY, targetTranslation)
-        offsetAnimator?.start()
     }
 
     private fun updateSnackbar(child: View, snackbarLayout: Snackbar.SnackbarLayout) {

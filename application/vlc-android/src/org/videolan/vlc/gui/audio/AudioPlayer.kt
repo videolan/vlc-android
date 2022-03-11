@@ -40,6 +40,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asFlow
@@ -64,8 +65,11 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.showContext
-import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.BookmarkListDelegate
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
+import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -229,6 +233,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.songTitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
         binding.songSubtitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
+
+        setBottomMargin()
+    }
+
+    fun setBottomMargin() {
+        (binding.playPause.layoutParams as? ConstraintLayout.LayoutParams)?.let {
+            val audioPlayerContainerActivity = (requireActivity() as AudioPlayerContainerActivity)
+            if (audioPlayerContainerActivity.needsTopInset) it.bottomMargin = it.bottomMargin + audioPlayerContainerActivity.bottomInset
+        }
     }
 
     fun isTablet() = requireActivity().isTablet()
