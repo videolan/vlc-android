@@ -14,6 +14,7 @@
     <string name="sortby_length">Διάρκεια</string>
     <string name="sortby_date">Ημερομηνία</string>
     <string name="sortby_last_modified_date">Πρόσφατη προσθήκη</string>
+    <string name="sortby_insertion">Ημερομηνία εισαγωγής</string>
     <string name="sortby_media_number">Αριθμός πολυμέσων</string>
     <string name="sortby_number">Αρ. κομματιών</string>
     <string name="searchable_hint">Αναζήτηση…</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Προσαρμογή οθόνης</string>
     <string name="surface_fill">Γέμισμα</string>
     <string name="surface_original">Κέντρο</string>
+    <string name="resize_tip">Πατήστε παρατεταμένα για περισσότερες επιλογές</string>
     <string name="unseekable_stream">Αδυναμία ανίχνευσης στη μετάδοση</string>
     <string name="refresh">Ανανέωση</string>
     <string name="track_audio">Κομμάτι ήχου</string>
@@ -462,6 +464,7 @@
 
     <string name="no_result">Δεν βρέθηκαν αποτελέσματα</string>
     <string name="no_internet_connection">Ελέγξτε τη σύνδεση σας στο διαδίκτυο</string>
+    <string name="retry">Ξαναδοκιμάσετε</string>
     <string name="subs_download_error">Μη διαθέσιμη υπηρεσία. Παρακαλούμε ξαναπροσπαθήστε αργότερα</string>
 
     <string name="network_browsing">Τοπικό δίκτυο</string>
@@ -481,7 +484,6 @@
     <string name="playlist_name_hint">Όνομα λίστας αναπαραγωγής</string>
     <string name="go_to_chapter">Πήγαινε στο κεφάλαιο…</string>
     <string name="current_chapter">Κεφάλαιο: %s</string>
-    <string name="resume_from_position">Συνέχιση από την τελευταία θέση</string>
     <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
     <string name="confirm_resume_title">Συνέχιση αναπαραγωγής βίντεο</string>
     <string name="tv_ui_title">Διεπαφή Android TV</string>
@@ -626,6 +628,7 @@
     <string name="subtitle_search_name_hint">Όνομα</string>
     <string name="subtitle_search_episode_hint">Επεισόδιο</string>
     <string name="subtitle_search_season_hint">Περίοδος</string>
+    <string name="subtitles_download_failed">Αποτυχία λήψης</string>
     <string name="language_to_download">Γλώσσα</string>
     <string name="delete_the_selected">Διαγραφή επιλογής</string>
     <string name="download_the_selected">Λήψη επιλογής</string>
@@ -884,6 +887,8 @@
     <string name="player_controls">Έλεγχος αναπαραγωγής</string>
     <string name="video_double_tap_jump_delay">Χρονική καθυστέρηση με διπλό πάτημα</string>
     <string name="video_key_jump_delay">Χρονική καθυστέρηση πλήκτρων πλοήγησης</string>
+    <string name="banned">Απαγορευμένος φάκελος (πατήστε παρατεταμένα για αλλαγή)</string>
+    <string name="banned_parent">Αποκλείστηκε από τον γονικό φάκελο</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
         <item quantity="other">Αυτά τα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
@@ -894,5 +899,9 @@
     </plurals>
     <string name="official_website">Επίσημη ιστοσελίδα</string>
     <string name="view_online">Προβολή διαδικτυακά</string>
+    <string name="player_under_notch">Εμφάνιση βίντεο κάτω από την εγκοπή</string>
+    <string name="notch">Εγκοπή</string>
+    <string name="always_fast_seek">Χρησιμοποιείτε πάντα γρήγορη αναζήτηση</string>
+    <string name="always_fast_seek_summary">Η αναζήτηση είναι πιο γρήγορη αλλά μπορεί να είναι λιγότερο ακριβής</string>
 
 </resources>
