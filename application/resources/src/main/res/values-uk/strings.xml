@@ -14,6 +14,7 @@
     <string name="sortby_length">довжиною</string>
     <string name="sortby_date">Дата</string>
     <string name="sortby_last_modified_date">Недавно додано</string>
+    <string name="sortby_insertion">Дата вставляння</string>
     <string name="sortby_media_number">Кількість медіа</string>
     <string name="sortby_number">Доріжки Nb</string>
     <string name="searchable_hint">Триває пошук…</string>
@@ -160,6 +161,7 @@
     <string name="surface_fit_screen">Екранний розмір</string>
     <string name="surface_fill">Заповнити</string>
     <string name="surface_original">Центрувати</string>
+    <string name="resize_tip">Тривалий натиск для більших налаштувань</string>
     <string name="unseekable_stream">Недосяжний потік</string>
     <string name="refresh">Оновити</string>
     <string name="track_audio">Звукова доріжка</string>
@@ -482,6 +484,7 @@
 
     <string name="no_result">Результатів не знайдено</string>
     <string name="no_internet_connection">Перевірте ваше з\'єднання з інтернетом</string>
+    <string name="retry">Повторити</string>
     <string name="subs_download_error">Служба недоступна. Будь ласка, спробуйте знову пізніше </string>
 
     <string name="network_browsing">Локальна мережа</string>
@@ -501,7 +504,6 @@
     <string name="playlist_name_hint">Назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
     <string name="current_chapter">Розділ: %s</string>
-    <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Відновити відтворене відео</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
@@ -646,6 +648,7 @@
     <string name="subtitle_search_name_hint">Назва</string>
     <string name="subtitle_search_episode_hint">Епізод</string>
     <string name="subtitle_search_season_hint">Сезон</string>
+    <string name="subtitles_download_failed">Не вдалось завантажити</string>
     <string name="language_to_download">Мова</string>
     <string name="delete_the_selected">Вилучити обране</string>
     <string name="download_the_selected">Завантажити обране</string>
@@ -902,12 +905,14 @@
     <string name="start">Запустити</string>
     <string name="permission">Дозвіл</string>
     <string name="customize">Налаштувати</string>
-    <string name="selection_count">%d обрано</string>
+    <string name="selection_count">%dвибрано </string>
     <string name="controls_setting">Параметри управління</string>
     <string name="gestures">Жести</string>
     <string name="player_controls">Управління програвачем</string>
     <string name="video_double_tap_jump_delay">Затримка у часі для подвійного дотику</string>
     <string name="video_key_jump_delay">Затримка у часі для кнопок навігації</string>
+    <string name="banned">Заблокована тека (тривалий натиск, щоб змінити)</string>
+    <string name="banned_parent">Заблоковано через батьківську тека</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Цей елемент вже наявний у цьому списку.</item>
         <item quantity="few">Ці елементи вже наявні у цьому списку.</item>
@@ -922,5 +927,9 @@
     </plurals>
     <string name="official_website">Офіційна веб-сторінка</string>
     <string name="view_online">Переглянути онлайн</string>
+    <string name="player_under_notch">Показувати відео під вирізом</string>
+    <string name="notch">Виріз</string>
+    <string name="always_fast_seek">Завжди використовувати швидкий пошук</string>
+    <string name="always_fast_seek_summary">Пошук стає швидшим, але менш точнішим</string>
 
 </resources>
