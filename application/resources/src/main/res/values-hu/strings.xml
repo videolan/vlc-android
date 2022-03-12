@@ -14,6 +14,7 @@
     <string name="sortby_length">Hossz</string>
     <string name="sortby_date">Dátum</string>
     <string name="sortby_last_modified_date">Legutóbb hozzáadott</string>
+    <string name="sortby_insertion">Beszúrás dátuma</string>
     <string name="sortby_media_number">Média száma</string>
     <string name="sortby_number">Számok száma</string>
     <string name="searchable_hint">Keresés…</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Képernyőhöz igazítás</string>
     <string name="surface_fill">Kitöltés</string>
     <string name="surface_original">Középre</string>
+    <string name="resize_tip">Hosszú koppintás a további lehetőségekhez</string>
     <string name="unseekable_stream">Nem lehet tekerni ebben a közvetítésben</string>
     <string name="refresh">Frissítés</string>
     <string name="track_audio">Hangsáv</string>
@@ -462,6 +464,7 @@
 
     <string name="no_result">Nincs találat</string>
     <string name="no_internet_connection">Ellenőrizze az internetkapcsolatát</string>
+    <string name="retry">Újra</string>
     <string name="subs_download_error">A szolgáltatás nem érhető el, próbálja újra később</string>
 
     <string name="network_browsing">Helyi hálózat</string>
@@ -481,7 +484,6 @@
     <string name="playlist_name_hint">Lejátszólista neve</string>
     <string name="go_to_chapter">Fejezethez ugrás…</string>
     <string name="current_chapter">Fejezet: %s</string>
-    <string name="resume_from_position">Folytatás az utolsó pozícióról</string>
     <string name="confirm_resume">Folytatja az utolsó pozícióról?</string>
     <string name="confirm_resume_title">Lejátszott videók folytatása</string>
     <string name="tv_ui_title">Android TV felület</string>
@@ -626,6 +628,7 @@
     <string name="subtitle_search_name_hint">Név</string>
     <string name="subtitle_search_episode_hint">Epizód</string>
     <string name="subtitle_search_season_hint">Évad</string>
+    <string name="subtitles_download_failed">A letöltés sikertelen</string>
     <string name="language_to_download">Nyelv</string>
     <string name="delete_the_selected">Kiválasztás törlése</string>
     <string name="download_the_selected">Kiválasztás letöltése</string>
@@ -884,6 +887,8 @@
     <string name="player_controls">Lejátszásvezérlők</string>
     <string name="video_double_tap_jump_delay">Dupla koppintás késleltetése</string>
     <string name="video_key_jump_delay">Navigációs gombok késleltetése</string>
+    <string name="banned">Tiltott mappa (hosszú koppintás a módosításhoz)</string>
+    <string name="banned_parent">Szülőmappa miatt tiltott</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Ez az elem már rajta van a lejátszólistán.</item>
         <item quantity="other">Ezek az elemek már rajta vannak a lejátszólistán.</item>
@@ -894,5 +899,9 @@
     </plurals>
     <string name="official_website">Hivatalos honlap</string>
     <string name="view_online">Online megtekintés</string>
+    <string name="player_under_notch">Videó megjelenítése a bevágás alatt</string>
+    <string name="notch">Bevágás</string>
+    <string name="always_fast_seek">Mindig a gyors tekerés használata</string>
+    <string name="always_fast_seek_summary">A tekerés gyorsabb lesz, de lehet, hogy kevésbé pontos</string>
 
 </resources>
