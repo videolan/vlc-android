@@ -14,6 +14,7 @@
     <string name="sortby_length">Längd</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_last_modified_date">Lades nyligen till</string>
+    <string name="sortby_insertion">Datum tillagd</string>
     <string name="sortby_media_number">Medianummer</string>
     <string name="sortby_number">Antal spår</string>
     <string name="searchable_hint">Sök…</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Anpassa till skärm</string>
     <string name="surface_fill">Fyll</string>
     <string name="surface_original">Centrera</string>
+    <string name="resize_tip">Tryck länge för fler alternativ</string>
     <string name="unseekable_stream">Strömmen kan inte snabbspolas</string>
     <string name="refresh">Uppdatera</string>
     <string name="track_audio">Ljudspår</string>
@@ -462,6 +464,7 @@
 
     <string name="no_result">Inga resultat hittades</string>
     <string name="no_internet_connection">Kontrollera din Internetanslutning</string>
+    <string name="retry">Försök igen</string>
     <string name="subs_download_error">Tjänsten är inte tillgänglig. Försök igen senare</string>
 
     <string name="network_browsing">Lokalt nätverk</string>
@@ -481,7 +484,6 @@
     <string name="playlist_name_hint">Spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
-    <string name="resume_from_position">Återuppta från senaste position</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
     <string name="confirm_resume_title">Återuppta uppspelade videor</string>
     <string name="tv_ui_title">Android TV-gränssnitt</string>
@@ -626,6 +628,7 @@
     <string name="subtitle_search_name_hint">Namn</string>
     <string name="subtitle_search_episode_hint">Episod</string>
     <string name="subtitle_search_season_hint">Säsong</string>
+    <string name="subtitles_download_failed">Misslyckades att ladda ned</string>
     <string name="language_to_download">Språk</string>
     <string name="delete_the_selected">Radera markering</string>
     <string name="download_the_selected">Ladda ned markering</string>
@@ -812,7 +815,7 @@
     <string name="new_group_desc">Skapa en ny grupp</string>
 
     <string name="air_action_rewind">Spola tillbaka 10 s</string>
-    <string name="air_action_forward">Hoppa framåt 10 s</string>
+    <string name="air_action_forward">Snabbspola framåt 10 s</string>
     <string name="air_action_play_pause">Pausa/återuppta uppspelning</string>
     <string name="air_action_volume_up">Höj volymen</string>
     <string name="air_action_volume_down">Sänk volymen</string>
@@ -884,6 +887,8 @@
     <string name="player_controls">Spelarkontroller</string>
     <string name="video_double_tap_jump_delay">Tidsfördröjning av dubbeltryck</string>
     <string name="video_key_jump_delay">Tidsfördröjning av navigeringstangenter</string>
+    <string name="banned">Bannlyst mapp (tryck länge för att ändra)</string>
+    <string name="banned_parent">Bannlyst av överordnad mapp</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Detta objekt finns redan i denna spellista.</item>
         <item quantity="other">Dessa objekt finns redan i denna spellista.</item>
@@ -894,5 +899,9 @@
     </plurals>
     <string name="official_website">Officiell webbplats</string>
     <string name="view_online">Visa på internet</string>
+    <string name="player_under_notch">Visa video under skärmens sensorfält</string>
+    <string name="notch">Sensorfält</string>
+    <string name="always_fast_seek">Använd alltid kvick snabbspolning</string>
+    <string name="always_fast_seek_summary">Snabbspolar snabbare men kan vara mindre exakt</string>
 
 </resources>
