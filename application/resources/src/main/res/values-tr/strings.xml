@@ -14,6 +14,7 @@
     <string name="sortby_length">Uzunluk</string>
     <string name="sortby_date">Tarih</string>
     <string name="sortby_last_modified_date">Son eklenen</string>
+    <string name="sortby_insertion">Eklenme tarihi</string>
     <string name="sortby_media_number">Ortam numarası</string>
     <string name="sortby_number">Kayıt numarası</string>
     <string name="searchable_hint">Arama…</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Ekrana sığdır</string>
     <string name="surface_fill">Doldur</string>
     <string name="surface_original">Ortala</string>
+    <string name="resize_tip">Diğer seçenekler için uzun basın</string>
     <string name="unseekable_stream">Atlama yapılamayan akış</string>
     <string name="refresh">Yenile</string>
     <string name="track_audio">Ses kaydı</string>
@@ -462,6 +464,7 @@
 
     <string name="no_result">Herhangi bir sonuç bulunamadı</string>
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
+    <string name="retry">Yeniden dene</string>
     <string name="subs_download_error">Hizmet kullanılamıyor. Lütfen daha sonra yeniden deneyin</string>
 
     <string name="network_browsing">Yerel ağ</string>
@@ -481,7 +484,6 @@
     <string name="playlist_name_hint">Oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="current_chapter">Bölüm: %s</string>
-    <string name="resume_from_position">Oynatmayı kalınan konumdan sürdür</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Oynatılan görüntüleri sürdür</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
@@ -626,6 +628,7 @@
     <string name="subtitle_search_name_hint">Ad</string>
     <string name="subtitle_search_episode_hint">Bölüm</string>
     <string name="subtitle_search_season_hint">Sezon</string>
+    <string name="subtitles_download_failed">İndirilemedi</string>
     <string name="language_to_download">Dil</string>
     <string name="delete_the_selected">Seçimi sil</string>
     <string name="download_the_selected">Seçimi indir</string>
@@ -884,6 +887,8 @@
     <string name="player_controls">Oynatıcı denetimleri</string>
     <string name="video_double_tap_jump_delay">Çift dokunma zaman gecikmesi</string>
     <string name="video_key_jump_delay">Gezinme tuşları zaman gecikmesi</string>
+    <string name="banned">Yasaklanmış klasör (değiştirmek için uzun dokunun)</string>
+    <string name="banned_parent">Üst klasör tarafından yasaklanmış</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Bu öge zaten oynatma listesinde var.</item>
         <item quantity="other">Bu ögeler zaten oynatma listesinde var.</item>
@@ -894,5 +899,9 @@
     </plurals>
     <string name="official_website">Resmi web sitesi</string>
     <string name="view_online">Çevrimiçi görüntüle</string>
+    <string name="player_under_notch">Görüntü çentik altında görüntülensin</string>
+    <string name="notch">Çentik</string>
+    <string name="always_fast_seek">Her zaman hızlı atlama kullanılsın</string>
+    <string name="always_fast_seek_summary">Hızlı atlama daha hızlıdır ama hassasiyeti daha düşüktür</string>
 
 </resources>
