@@ -36,7 +36,11 @@ static const libvlc_event_type_t mp_events[] = {
     libvlc_MediaPlayerPlaying,
     libvlc_MediaPlayerPaused,
     libvlc_MediaPlayerStopped,
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+    libvlc_MediaPlayerStopping,
+#else
     libvlc_MediaPlayerEndReached,
+#endif
     libvlc_MediaPlayerEncounteredError,
     libvlc_MediaPlayerTimeChanged,
     libvlc_MediaPlayerPositionChanged,
