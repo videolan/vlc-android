@@ -14,6 +14,7 @@
     <string name="sortby_length">長さ</string>
     <string name="sortby_date">日付</string>
     <string name="sortby_last_modified_date">追加された順</string>
+    <string name="sortby_insertion">挿入日</string>
     <string name="sortby_media_number">メディア番号</string>
     <string name="sortby_number">トラック数</string>
     <string name="searchable_hint">検索…</string>
@@ -31,6 +32,7 @@
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
     <string name="play_as_video">ビデオとして再生</string>
+    <string name="return_to_video">カバーを長押しでビデオを戻す</string>
     <string name="video_app_switch_title">バックグラウンド/PiPモード</string>
     <string name="video_app_switch_summary">ビデオ再生中に他のアプリケーションへ切り替えた場合の動作を選択してください</string>
     <string name="play_pip_title">ピクチャーインピクチャーモードでビデオを再生</string>
@@ -132,6 +134,7 @@
     <string name="surface_fit_screen">画面に合わせる</string>
     <string name="surface_fill">画面一杯に合わせる</string>
     <string name="surface_original">センター表示</string>
+    <string name="resize_tip">長押しで他のオプション</string>
     <string name="unseekable_stream">シークできないストリーム</string>
     <string name="refresh">再表示</string>
     <string name="track_audio">オーディオトラック</string>
@@ -451,6 +454,7 @@
 
     <string name="no_result">結果がみつかりません</string>
     <string name="no_internet_connection">インターネット接続を確認してください</string>
+    <string name="retry">再試行</string>
     <string name="subs_download_error">サービスは利用できません。あとで再試行してください</string>
 
     <string name="network_browsing">ローカルネットワーク</string>
@@ -469,9 +473,7 @@
     <string name="playlist_save">プレイリストを保存</string>
     <string name="playlist_name_hint">プレイリスト名</string>
     <string name="go_to_chapter">チャプター指定…</string>
-    <string name="chapter">チャプター</string>
     <string name="current_chapter">チャプター: %s</string>
-    <string name="resume_from_position">前回の位置から再生</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
     <string name="confirm_resume_title">再生していたビデオを再開</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
@@ -616,6 +618,7 @@
     <string name="subtitle_search_name_hint">名前</string>
     <string name="subtitle_search_episode_hint">エピソード</string>
     <string name="subtitle_search_season_hint">シーズン</string>
+    <string name="subtitles_download_failed">ダウンロードに失敗</string>
     <string name="language_to_download">言語</string>
     <string name="delete_the_selected">削除するものを選択</string>
     <string name="download_the_selected">ダウンロードするものを選択</string>
@@ -839,6 +842,8 @@
     <string name="bookmark_default_name">ブックマーク %s</string>
     <string name="bookmark_name">ブックマーク %s</string>
     <string name="add_bookmark">ブックマークを追加</string>
+    <string name="bookmark_added">ブックマークが追加されました</string>
+    <string name="show">表示</string>
     <string name="optional_features">オプション機能</string>
     <string name="optional_features_summary">現在、テスト中で不安定なベータ機能</string>
     <string name="optional_features_warning">この機能はベータであり、クラッシュを起こしたり、機能が変わることがあります</string>
@@ -848,6 +853,10 @@
     <string name="jump_delay">進める/戻るの遅延時間</string>
     <string name="long_jump_delay">長押しによる進める/戻るの遅延時間</string>
     <string name="jump_delay_summary">%s 秒</string>
+    <string name="move_up">上に移動</string>
+    <string name="move_down">下に移動</string>
+    <string name="remove_from_playlist">プレイリストから削除</string>
+    <string name="play_media"> %sを再生</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">重複する項目を追加しますか?</string>
@@ -860,12 +869,14 @@
     <string name="start">開始</string>
     <string name="permission">権限</string>
     <string name="customize">カスタマイズ</string>
-    <string name="selection_count">%d 件選択されました</string>
+    <string name="selection_count">%d 選択されました</string>
     <string name="controls_setting">制御設定</string>
     <string name="gestures">ジェスチャー</string>
     <string name="player_controls">プレイヤー制御</string>
     <string name="video_double_tap_jump_delay">ダブルタップの遅延時間</string>
     <string name="video_key_jump_delay">ナビゲーションキーの遅延時間</string>
+    <string name="banned">禁止フォルダ (長押しで変更)</string>
+    <string name="banned_parent">親フォルダが禁止</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">これらの項目は既にこのプレイリストに存在します。</item>
     </plurals>
@@ -874,5 +885,9 @@
     </plurals>
     <string name="official_website">公式ウェブサイト</string>
     <string name="view_online">オンラインで表示</string>
+    <string name="player_under_notch">ノッチの下にビデオを表示</string>
+    <string name="notch">ノッチ</string>
+    <string name="always_fast_seek">高速シークを常に使用</string>
+    <string name="always_fast_seek_summary">シークは高速になりますが正確性が少し劣ります</string>
 
 </resources>
