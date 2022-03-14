@@ -190,7 +190,10 @@ object Permissions {
                 .setIcon(R.drawable.ic_warning)
                 .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
                     listener.invoke(true)
-                }.setNegativeButton(activity.getString(R.string.cancel)) { _, _ -> listener.invoke(false) }
+                }.setNegativeButton(activity.getString(R.string.cancel)) { _, _ ->
+                    activity.finish()
+                    listener.invoke(false)
+                }
                 .setCancelable(false)
         return dialogBuilder.show().apply {
             if (activity is AppCompatActivity) activity.lifecycle.addObserver(object : LifecycleObserver {
