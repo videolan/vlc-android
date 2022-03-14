@@ -30,7 +30,6 @@ import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.os.Environment
 import android.telephony.TelephonyManager
-import android.util.Log
 import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.core.content.getSystemService
@@ -131,7 +130,7 @@ object AndroidDevices {
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback")
         watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel")
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management")
-        isTv = isAndroidTv || !isChromeBook && !hasTsp
+        isTv = isAndroidTv || !isChromeBook
         hasPlayServices = pm == null || hasPlayServices(pm)
         hasPiP = AndroidUtil.isOOrLater && pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) || AndroidUtil.isNougatOrLater && isAndroidTv
         pipAllowed = hasPiP || hasTsp && !AndroidUtil.isOOrLater

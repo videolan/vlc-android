@@ -28,24 +28,27 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
+import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private lateinit var tvUiPref: CheckBoxPreference
     private var currentLocale: String? = null
 
     override fun getXml() = R.xml.preferences_ui
@@ -58,7 +61,8 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         }
         super.onCreate(savedInstanceState)
         findPreference<Preference>("ui_audio_category")?.isVisible = false
-        findPreference<Preference>(PREF_TV_UI)?.isVisible = AndroidDevices.hasTsp
+        tvUiPref = findPreference(PREF_TV_UI)!!
+        tvUiPref.setDefaultValue(true)
         findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
         findPreference<Preference>(LIST_TITLE_ELLIPSIZE)?.isVisible = false
         prepareLocaleList()
@@ -101,6 +105,16 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == null) return false
         when (preference.key) {
+            PREF_TV_UI -> {
+                if (!tvUiPref.isChecked) {
+                    tvUiPref.isChecked = true
+                    val dialog = FeatureTouchOnlyWarningDialog.newInstance {
+                        tvUiPref.isChecked = false
+                    }
+                    dialog.show((activity as FragmentActivity).supportFragmentManager, FeatureTouchOnlyWarningDialog::class.simpleName)
+                    return true
+                }
+            }
             SHOW_VIDEO_THUMBNAILS -> {
                 Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestart()

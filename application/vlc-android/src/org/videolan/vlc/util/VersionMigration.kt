@@ -39,7 +39,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 4
+private const val CURRENT_VERSION = 5
 
 object VersionMigration {
 
@@ -57,6 +57,9 @@ object VersionMigration {
         }
         if (lastVersion < 4) {
             migrateToVersion4(settings)
+        }
+        if (lastVersion < 5) {
+            migrateToVersion5(settings)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
@@ -133,5 +136,13 @@ object VersionMigration {
             }
             remove("video_hud_timeout")
         }
+    }
+
+    /**
+     * Migrate the video hud timeout preference to a value in seconds
+     */
+    private fun migrateToVersion5(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 5: force the TV ui setting if TVui is enforced")
+        if (Settings.showTvUi) settings.putSingle("tv_ui", true)
     }
 }

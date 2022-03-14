@@ -921,5 +921,7 @@
     <string name="notch">Notch</string>
     <string name="always_fast_seek">Always use fast seek</string>
     <string name="always_fast_seek_summary">Seek is faster but may be less precise</string>
+    <string name="touch_only">Touch only feature</string>
+    <string name="touch_only_description">Switching to the mobile interface can only be done with a tactile screen or a mouse.\nPlease slide below to verify that this feature is safe to change.</string>
 
 </resources>

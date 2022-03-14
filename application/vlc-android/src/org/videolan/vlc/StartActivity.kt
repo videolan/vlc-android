@@ -236,7 +236,7 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun showTvUi(): Boolean {
-        return AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp ||
+        return (AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) &&
                 Settings.getInstance(this).getBoolean("tv_ui", false)
     }
 }

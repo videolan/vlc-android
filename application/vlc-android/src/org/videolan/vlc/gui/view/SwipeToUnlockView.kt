@@ -32,7 +32,6 @@ import android.text.Spanned
 import android.text.style.MaskFilterSpan
 import android.util.AttributeSet
 import android.util.LayoutDirection
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -47,7 +46,6 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
 @ExperimentalCoroutinesApi
@@ -65,6 +63,11 @@ class SwipeToUnlockView : ConstraintLayout {
     private lateinit var onStopTouching: () -> Unit
     private lateinit var onUnlock: () -> Unit
     private lateinit var keyAnimation: ValueAnimator
+    var isDPADAllowed = true
+    set(value) {
+        field = value
+        updateText()
+    }
 
     private val tvAcceptedKeys = arrayOf(KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER)
 
@@ -155,7 +158,7 @@ class SwipeToUnlockView : ConstraintLayout {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event?.keyCode in tvAcceptedKeys && !unlocking) {
+        if (isDPADAllowed && event?.keyCode in tvAcceptedKeys && !unlocking) {
             onStartTouching.invoke()
             if (!::keyAnimation.isInitialized || !keyAnimation.isRunning) {
                 keyAnimation = ValueAnimator.ofInt(extremum, width - extremum)
@@ -204,7 +207,11 @@ class SwipeToUnlockView : ConstraintLayout {
         swipeIcon.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ -> extremum = (v.width / 2) + 4.dp }
         isFocusable = true
 
-        currentText = if (!AndroidDevices.isTv) context.getString(R.string.swipe_unlock) else context.getString(R.string.swipe_unlock_no_touch)
+        updateText()
+    }
+
+    private fun updateText() {
+        currentText = if (!isDPADAllowed || !AndroidDevices.isTv) context.getString(R.string.swipe_unlock) else context.getString(R.string.swipe_unlock_no_touch)
         swipeText.text = currentText
     }
 }
