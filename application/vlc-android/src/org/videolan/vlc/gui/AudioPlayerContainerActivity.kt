@@ -107,7 +107,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     val menu: Menu
         get() = toolbar.menu
-    open val needsTopInset: Boolean = true
+    open fun needsTopInset(): Boolean = true
 
     var bottomInset = 0
 
@@ -147,8 +147,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             view.updateLayoutParams<ViewGroup.MarginLayoutParams>{
                 leftMargin = insets.left
                 rightMargin = insets.right
-                if (!needsTopInset) bottomMargin = insets.bottom
-                if (needsTopInset) topMargin = insets.top else {
+                if (!needsTopInset()) bottomMargin = insets.bottom
+                if (needsTopInset()) topMargin = insets.top else {
                     val toolbarLayoutParams = findViewById<Toolbar>(R.id.main_toolbar).layoutParams as ViewGroup.MarginLayoutParams
                     toolbarLayoutParams.topMargin = insets.top
                 }
@@ -213,7 +213,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 val translationpercent = min(1f, max(0f, slideOffset))
                 bottomBehavior?.let { bottomBehavior ->
                     bottomBar?.let { bottomBar ->
-                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat()) - if (!needsTopInset) topInset else 0
+                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat()) - if (!needsTopInset()) topInset else 0
                         bottomBehavior.translate(bottomBar, translation)
                     }
                 }
@@ -221,7 +221,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 onPlayerStateChanged(bottomSheet, newState)
-                if (!needsTopInset) {
+                if (!needsTopInset()) {
                     WindowInsetsControllerCompat(window, window.decorView).apply {
                         systemBarsBehavior = if (newState == STATE_EXPANDED)  WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
                         if (newState == STATE_EXPANDED) hide( WindowInsetsCompat.Type.statusBars()) else show( WindowInsetsCompat.Type.statusBars())

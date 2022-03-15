@@ -86,7 +86,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     private var isPlaylist: Boolean = false
     private lateinit var viewModel: PlaylistViewModel
     private var itemTouchHelper: ItemTouchHelper? = null
-    override val needsTopInset: Boolean = false
+    override fun needsTopInset(): Boolean = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

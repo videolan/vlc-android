@@ -77,6 +77,7 @@ class MainActivity : ContentActivity(),
         }
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
+    override fun needsTopInset() = !isTablet()
 
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
         val view = super.getSnackAnchorView(overAudioPlayer)

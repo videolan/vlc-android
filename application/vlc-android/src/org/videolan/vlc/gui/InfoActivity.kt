@@ -63,7 +63,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     private lateinit var model: InfoModel
 
     internal lateinit var binding: InfoActivityBinding
-    override val needsTopInset = false
+    override fun needsTopInset() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

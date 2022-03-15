@@ -240,7 +240,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun setBottomMargin() {
         (binding.playPause.layoutParams as? ConstraintLayout.LayoutParams)?.let {
             val audioPlayerContainerActivity = (requireActivity() as AudioPlayerContainerActivity)
-            if (audioPlayerContainerActivity.needsTopInset) it.bottomMargin = it.bottomMargin + audioPlayerContainerActivity.bottomInset
+            if (audioPlayerContainerActivity.needsTopInset()) it.bottomMargin = it.bottomMargin + audioPlayerContainerActivity.bottomInset
         }
     }
 
