@@ -139,10 +139,10 @@ object VersionMigration {
     }
 
     /**
-     * Migrate the video hud timeout preference to a value in seconds
+     * Migrate the TV Ui to make sure the preference is setup
      */
     private fun migrateToVersion5(settings: SharedPreferences) {
-        Log.i(this::class.java.simpleName, "Migrating to Version 5: force the TV ui setting if TVui is enforced")
-        if (Settings.showTvUi) settings.putSingle("tv_ui", true)
+        Log.i(this::class.java.simpleName, "Migrating to Version 5: force the TV ui setting if device is TV")
+        if (Settings.device.isTv && settings.getBoolean("tv_ui", false) != settings.getBoolean("tv_ui", true)) settings.putSingle("tv_ui", true)
     }
 }

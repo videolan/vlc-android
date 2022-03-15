@@ -236,7 +236,10 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun showTvUi(): Boolean {
-        return (AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) &&
-                Settings.getInstance(this).getBoolean("tv_ui", false)
+        val settings = Settings.getInstance(this)
+        //because the [VersionMigration] is done after the first call to this method, we have to keep the old implementation for people coming from an older version of the app
+        if (settings.getInt(KEY_CURRENT_SETTINGS_VERSION, 0) < 5) return AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp ||
+                settings.getBoolean("tv_ui", false)
+        return  settings.getBoolean("tv_ui", false)
     }
 }

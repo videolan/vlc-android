@@ -130,7 +130,7 @@ object AndroidDevices {
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback")
         watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel")
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management")
-        isTv = isAndroidTv || !isChromeBook
+        isTv = isAndroidTv || !isChromeBook && !hasTsp
         hasPlayServices = pm == null || hasPlayServices(pm)
         hasPiP = AndroidUtil.isOOrLater && pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) || AndroidUtil.isNougatOrLater && isAndroidTv
         pipAllowed = hasPiP || hasTsp && !AndroidUtil.isOOrLater
