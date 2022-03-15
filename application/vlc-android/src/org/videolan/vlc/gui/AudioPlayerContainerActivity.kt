@@ -107,6 +107,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     val menu: Menu
         get() = toolbar.menu
+
     open fun needsTopInset(): Boolean = true
 
     var bottomInset = 0
@@ -124,9 +125,9 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     var bottomIsHiddden: Boolean = false
 
-    override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
-      return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
-          audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else if (::playerBehavior.isInitialized) findViewById(R.id.coordinator) else findViewById(android.R.id.content)
+    override fun getSnackAnchorView(overAudioPlayer: Boolean): View? {
+        return if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
+            audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else if (::playerBehavior.isInitialized) findViewById(R.id.coordinator) else findViewById(android.R.id.content)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,7 +145,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updateLayoutParams<ViewGroup.MarginLayoutParams>{
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = insets.left
                 rightMargin = insets.right
                 if (!needsTopInset()) bottomMargin = insets.bottom
@@ -155,10 +156,20 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 val bottomNavigationView = findViewById<BottomNavigationView?>(R.id.navigation)
                 bottomNavigationView?.setPadding(bottomNavigationView.paddingLeft, bottomNavigationView.paddingTop, bottomNavigationView.paddingRight, insets.bottom)
                 bottomInset = insets.bottom
+                setContentBottomPadding()
             }
 
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    /**
+     * Sets the content bottom padding depending on the bottom inset
+     * and the presence of the bottom navigation and mini player
+     */
+    private fun setContentBottomPadding() {
+        val bottomMargin = if (this is MainActivity && isTablet()) 0 else bottomInset + if (this is MainActivity && !isTablet()) 58.dp else 0 + if (::playerBehavior.isInitialized && playerBehavior.state != STATE_COLLAPSED) 72.dp else 0 + 4.dp
+        fragmentContainer.setPadding(fragmentContainer.paddingLeft, fragmentContainer.paddingTop, fragmentContainer.paddingRight, bottomMargin)
     }
 
     protected open fun initAudioPlayerContainerActivity() {
@@ -180,7 +191,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (needToElevate) 8.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
-        (audioPlayerContainer.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin  = bottomInset
+        (audioPlayerContainer.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomInset
     }
 
     fun setTabLayoutVisibility(show: Boolean) {
@@ -193,8 +204,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
         val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
-            ?: null
-        if (bottomIsHiddden)  bottomBehavior?.setCollapsed()
+                ?: null
+        if (bottomIsHiddden) bottomBehavior?.setCollapsed()
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
         playerBehavior.setPeekHeightListener {
@@ -223,14 +234,15 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 onPlayerStateChanged(bottomSheet, newState)
                 if (!needsTopInset()) {
                     WindowInsetsControllerCompat(window, window.decorView).apply {
-                        systemBarsBehavior = if (newState == STATE_EXPANDED)  WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
-                        if (newState == STATE_EXPANDED) hide( WindowInsetsCompat.Type.statusBars()) else show( WindowInsetsCompat.Type.statusBars())
+                        systemBarsBehavior = if (newState == STATE_EXPANDED) WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
+                        if (newState == STATE_EXPANDED) hide(WindowInsetsCompat.Type.statusBars()) else show(WindowInsetsCompat.Type.statusBars())
                     }
                 }
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
                 updateFragmentMargins(newState)
                 applyMarginToProgressBar(playerBehavior.peekHeight)
+                setContentBottomPadding()
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
@@ -303,7 +315,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
                 ?: false)
-        outState.putBoolean(PLAYER_OPENED,  if (::playerBehavior.isInitialized) playerBehavior.state == STATE_EXPANDED else false)
+        outState.putBoolean(PLAYER_OPENED, if (::playerBehavior.isInitialized) playerBehavior.state == STATE_EXPANDED else false)
         outState.putIntegerArrayList(SHOWN_TIPS, shownTips)
         super.onSaveInstanceState(outState)
     }
@@ -388,6 +400,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View?) {
         tipsDelegate.close()
     }
+
     fun onClickNextTips(@Suppress("UNUSED_PARAMETER") v: View?) {
         tipsDelegate.next()
     }
@@ -490,7 +503,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         vsc?.let {
             val lp = it.layoutParams as CoordinatorLayout.LayoutParams
             if (this is MainActivity) {
-                lp.anchorId =if (isTablet()) R.id.fragment_placeholder else  R.id.navigation
+                lp.anchorId = if (isTablet()) R.id.fragment_placeholder else R.id.navigation
                 lp.anchorGravity = if (isTablet()) Gravity.BOTTOM else Gravity.TOP
                 lp.marginStart = if (isTablet()) 72.dp else 0.dp
             }
@@ -558,7 +571,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         val song = settings.getString(KEY_CURRENT_AUDIO, null) ?: return@launchWhenStarted
         val media = getFromMl { getMedia(song.toUri()) } ?: return@launchWhenStarted
         val title = media.title
-        resumeCard = Snackbar.make(getSnackAnchorView() ?: appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
+        resumeCard = Snackbar.make(getSnackAnchorView()
+                ?: appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }
         resumeCard.show()
     }
