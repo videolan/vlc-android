@@ -82,7 +82,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             .putExtra(EXTRA_FIRST_RUN, firstRun)
             .putExtra(EXTRA_UPGRADE, upgrade)
             .putExtra(EXTRA_REMOVE_DEVICE, removeDevices)
-            .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
+            .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF && canReadStorage(this@startMedialibrary)))
 }
 
 suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = withContext(coroutineContextProvider.IO) {
