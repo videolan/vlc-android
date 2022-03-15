@@ -163,6 +163,7 @@ dependencies {
     api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
     api "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
     api "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
+    api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     api "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     api "androidx.viewpager2:viewpager2:$rootProject.ext.viewPager2Version"
@@ -182,6 +183,8 @@ dependencies {
 
 
     //TV
+    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
 
     // Kotlin
