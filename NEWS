@@ -1,3 +1,14 @@
+Changes between 3.4.4 and 3.5.0 Beta 1:
+------------------
+ * Network indexation is now stable
+ * New dedicated tablet UI
+ * New video controls settings screen allowing more customization
+ * Revamped about screen and audio list
+ * Small visual improvements in the audio player
+ * Improved video ratio and notch management
+ * Improved keyboard shortcuts support
+ * A lot of visual and behavior fixes
+
 Changes between 3.4.3 and 3.4.4:
 ------------------
  * Fix a crash on null medias
