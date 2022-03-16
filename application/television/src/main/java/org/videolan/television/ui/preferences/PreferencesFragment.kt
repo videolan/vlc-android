@@ -62,15 +62,17 @@ class PreferencesFragment : BasePreferenceFragment() {
         val context = activity ?: return false
         return when (preference.key) {
             "directories" -> {
-                when {
-                    Medialibrary.getInstance().isWorking -> Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show()
-                    Permissions.canReadStorage(context) -> {
-                        val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
-                        intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-                        startActivity(intent)
-                        activity.setResult(RESULT_RESTART)
-                    }
-                    else -> Permissions.showStoragePermissionDialog(context as FragmentActivity, false)
+                if (Medialibrary.getInstance().isWorking) {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.settings_ml_block_scan),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
+                    intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
+                    startActivity(intent)
+                    activity.setResult(RESULT_RESTART)
                 }
                 true
             }

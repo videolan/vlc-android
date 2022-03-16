@@ -29,13 +29,16 @@ import android.os.Handler
 import android.view.View
 import android.widget.CheckBox
 import androidx.collection.SimpleArrayMap
+import androidx.fragment.app.FragmentActivity
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.util.canReadStorage
 import org.videolan.tools.*
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
+import org.videolan.vlc.util.Permissions
 
 interface IStorageFragmentDelegate {
     fun checkBoxAction(v: View, mrl: String)
@@ -78,6 +81,11 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
     override fun checkBoxAction(v: View, mrl: String) {
         val tscb = v as ThreeStatesCheckbox
         val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED
+        if (checked && mrl.contains("file://") && !canReadStorage(context)) {
+            Permissions.showStoragePermissionDialog(context as FragmentActivity, false)
+            tscb.state = ThreeStatesCheckbox.STATE_UNCHECKED
+            return
+        }
         if ((context as? SecondaryActivity)?.isOnboarding == true) {
             val path = mrl.sanitizePath()
             if (checked) {

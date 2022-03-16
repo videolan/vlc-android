@@ -98,16 +98,14 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
             "directories" -> {
-                when {
-                    Medialibrary.getInstance().isWorking -> UiTools.snacker(requireActivity(), getString(R.string.settings_ml_block_scan))
-                    Permissions.canReadStorage(requireContext()) -> {
-                        val activity = requireActivity()
-                        val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
-                        intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-                        startActivity(intent)
-                        activity.setResult(RESULT_RESTART)
-                    }
-                    else -> Permissions.showStoragePermissionDialog(requireActivity(), false)
+                if (Medialibrary.getInstance().isWorking) {
+                    UiTools.snacker(requireActivity(), getString(R.string.settings_ml_block_scan))
+                } else {
+                    val activity = requireActivity()
+                    val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
+                    intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
+                    startActivity(intent)
+                    activity.setResult(RESULT_RESTART)
                 }
                 return true
             }
