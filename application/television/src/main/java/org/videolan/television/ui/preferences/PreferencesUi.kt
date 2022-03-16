@@ -106,7 +106,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         if (preference.key == null) return false
         when (preference.key) {
             PREF_TV_UI -> {
-                if (!tvUiPref.isChecked) {
+                if (!tvUiPref.isChecked && Settings.device.isTv) {
                     tvUiPref.isChecked = true
                     val dialog = FeatureTouchOnlyWarningDialog.newInstance {
                         tvUiPref.isChecked = false
