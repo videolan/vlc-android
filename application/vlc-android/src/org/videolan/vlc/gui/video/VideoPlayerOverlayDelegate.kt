@@ -109,8 +109,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     lateinit var playToPause: AnimatedVectorDrawableCompat
     lateinit var pauseToPlay: AnimatedVectorDrawableCompat
 
-    private val hudBackground: View by lazy { player.findViewById<View>(R.id.hud_background) }
-    private val hudRightBackground: View by lazy { player.findViewById<View>(R.id.hud_right_background) }
+    private val hudBackground: View? by lazy { player.findViewById(R.id.hud_background) }
+    private val hudRightBackground: View? by lazy { player.findViewById(R.id.hud_right_background) }
 
     private lateinit var abRepeatAddMarker: Button
 
