@@ -81,18 +81,18 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private var lastSeekWasForward = true
     private var seekAnimRunning = false
     private var animatorSet: AnimatorSet = AnimatorSet()
-    private lateinit var rightContainer: CircularRevealFrameLayout
-    private lateinit var leftContainer: CircularRevealFrameLayout
-    private lateinit var rightContainerBackground: HalfCircleView
-    private lateinit var leftContainerBackground: HalfCircleView
-    private lateinit var seekRightText: TextView
-    private lateinit var seekLeftText: TextView
-    private lateinit var seekRewindFirst: ImageView
-    private lateinit var seekForwardFirst: ImageView
-    private lateinit var seekForwardSecond: ImageView
-    private lateinit var seekRewindSecond: ImageView
-    private lateinit var seekContainer: ConstraintLayout
-    private lateinit var seekBackground: FrameLayout
+    private val rightContainer: CircularRevealFrameLayout by lazy { player.findViewById(R.id.rightContainer) }
+    private val leftContainer: CircularRevealFrameLayout by lazy { player.findViewById(R.id.leftContainer) }
+    private val rightContainerBackground: HalfCircleView by lazy { player.findViewById(R.id.rightContainerBackground) }
+    private val leftContainerBackground: HalfCircleView by lazy { player.findViewById(R.id.leftContainerBackground) }
+    private val seekRightText: TextView by lazy { player.findViewById(R.id.seekRightText) }
+    private val seekLeftText: TextView by lazy { player.findViewById(R.id.seekLeftText) }
+    private val seekRewindFirst: ImageView by lazy { player.findViewById(R.id.seekRewindFirst) }
+    private val seekForwardFirst: ImageView by lazy { player.findViewById(R.id.seekForwardFirst) }
+    private val seekForwardSecond: ImageView by lazy { player.findViewById(R.id.seekForwardSecond) }
+    private val seekRewindSecond: ImageView by lazy { player.findViewById(R.id.seekRewindSecond) }
+    private val seekContainer: ConstraintLayout by lazy { player.findViewById(R.id.seekContainer) }
+    private val seekBackground: FrameLayout by lazy { player.findViewById(R.id.seek_background) }
 
     companion object {
         private const val SEEK_TIMEOUT = 750L
@@ -488,19 +488,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 .append("s ")
             sb.append("(").append(Tools.millisToString(service.getTime()))
                 .append(')')
-
-            rightContainer = player.findViewById(R.id.rightContainer)
-            leftContainer = player.findViewById(R.id.leftContainer)
-            rightContainerBackground = player.findViewById(R.id.rightContainerBackground)
-            leftContainerBackground = player.findViewById(R.id.leftContainerBackground)
-            seekRightText = player.findViewById(R.id.seekRightText)
-            seekLeftText = player.findViewById(R.id.seekLeftText)
-            seekRewindFirst = player.findViewById(R.id.seekRewindFirst)
-            seekForwardFirst = player.findViewById(R.id.seekForwardFirst)
-            seekForwardSecond = player.findViewById(R.id.seekForwardSecond)
-            seekRewindSecond = player.findViewById(R.id.seekRewindSecond)
-            seekContainer = player.findViewById(R.id.seekContainer)
-            seekBackground = player.findViewById(R.id.seek_background)
 
             val container = if (seekForward) rightContainer else leftContainer
             val containerBackground = if (seekForward) rightContainerBackground else leftContainerBackground
