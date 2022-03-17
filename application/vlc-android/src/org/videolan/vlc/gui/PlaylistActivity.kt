@@ -35,6 +35,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -58,13 +59,11 @@ import org.videolan.vlc.databinding.PlaylistActivityBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
-import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
-import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
+import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
@@ -76,8 +75,9 @@ import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
+open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
+    private lateinit var searchView: SearchView
     private lateinit var itemTouchHelperCallback: SwipeDragItemTouchHelperCallback
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private val mediaLibrary = Medialibrary.getInstance()
@@ -187,6 +187,20 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
         menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
         menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
+        val searchItem = menu.findItem(R.id.ml_menu_filter)
+        searchView = searchItem.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_in_list_hint)
+        searchView.setOnQueryTextListener(this)
+        val query = getFilterQuery()
+        if (!query.isNullOrEmpty()) {
+            handler.post {
+                searchItem.expandActionView()
+                searchView.clearFocus()
+                UiTools.setKeyboardVisibility(searchView, false)
+                searchView.setQuery(query, false)
+            }
+        }
+        searchItem.setOnActionExpandListener(this)
         return true
     }
 
@@ -469,5 +483,42 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
         const val TAG = "VLC/PlaylistActivity"
         const val TAG_FAB_VISIBILITY = "FAB"
+    }
+
+    override fun getFilterQuery() = viewModel.filterQuery
+
+    override fun enableSearchOption() = true
+
+    override fun filter(query: String) = viewModel.filter(query)
+
+    override fun restoreList() = viewModel.restore()
+
+    override fun setSearchVisibility(visible: Boolean) {}
+
+    override fun allowedToExpand() = true
+
+    override fun onQueryTextSubmit(query: String?) = false
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText?.length ?: 0 < 3)
+            restoreList()
+        else
+            filter(newText ?: "")
+        return true
+    }
+
+    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        binding.appbar.setExpanded(false, true)
+        audioBrowserAdapter.stopReorder = true
+        audioBrowserAdapter.notifyItemRangeChanged(0, audioBrowserAdapter.itemCount, UPDATE_REORDER)
+        ((binding.appbar.layoutParams as CoordinatorLayout.LayoutParams).behavior as ExpandStateAppBarLayoutBehavior).scrollEnabled = false
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        audioBrowserAdapter.stopReorder = false
+        audioBrowserAdapter.notifyItemRangeChanged(0, audioBrowserAdapter.itemCount, UPDATE_REORDER)
+        ((binding.appbar.layoutParams as CoordinatorLayout.LayoutParams).behavior as ExpandStateAppBarLayoutBehavior).scrollEnabled = true
+        return true
     }
 }

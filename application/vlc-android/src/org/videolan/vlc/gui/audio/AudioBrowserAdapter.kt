@@ -45,11 +45,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.UPDATE_REORDER
 import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.resources.interfaces.FocusListener
 import org.videolan.tools.MultiSelectAdapter
@@ -77,7 +78,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         type: Int,
         private val eventsHandler: IEventsHandler<MediaLibraryItem>,
         private val listEventsHandler: IListEventsHandler? = null,
-        private val reorder: Boolean = false,
+        private val reorderable: Boolean = false,
         internal var cardSize: Int = SHOW_IN_LIST
 ) : PagedListAdapter<MediaLibraryItem,
         AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
@@ -91,6 +92,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     private var focusListener: FocusListener? = null
     private lateinit var inflater: LayoutInflater
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    var stopReorder = false
 
     val isEmpty: Boolean
         get() = currentList.isNullOrEmpty()
@@ -142,6 +144,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         holder.binding.setVariable(BR.isNetwork,(item as? MediaWrapper)?.uri?.scheme?.isSchemeDistant() ?: false)
         holder.binding.setVariable(BR.isPresent,(item as? MediaWrapper)?.isPresent ?: true)
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
+        holder.binding.invalidateAll()
         holder.binding.executePendingBindings()
         if (position == focusNext) {
             holder.binding.root.requestFocus()
@@ -158,9 +161,14 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                 val isSelected = payload.hasStateFlags(FLAG_SELECTED)
                 holder.selectView(isSelected)
             } else if (payload is Int) {
-                if (payload == UPDATE_SELECTION) {
-                    val isSelected = multiSelectHelper.isSelected(position)
-                    holder.selectView(isSelected)
+                when (payload) {
+                    UPDATE_SELECTION -> {
+                        val isSelected = multiSelectHelper.isSelected(position)
+                        holder.selectView(isSelected)
+                    }
+                    UPDATE_REORDER -> {
+                       holder.binding.invalidateAll()
+                    }
                 }
             }
         }
@@ -225,7 +233,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemViewHolder(binding: AudioBrowserItemBinding) : AbstractMediaItemViewHolder<AudioBrowserItemBinding>(binding) {
-        private var coverlayResource = 0
         var onTouchListener: View.OnTouchListener
 
         override val titleView: TextView? = binding.title
@@ -316,7 +323,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
 
         val canBeReordered: Boolean
-            get() = reorder
+            get() = reorderable && !stopReorder
 
         fun onClick(v: View) {
             getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
