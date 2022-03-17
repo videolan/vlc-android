@@ -101,6 +101,17 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         releaseBreadCrumb()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (viewModel as? MedialibraryViewModel)?.resume()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        (viewModel as? MedialibraryViewModel)?.pause()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         savedSelection.clear()
