@@ -60,4 +60,5 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
+    <style name="VLCDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog"/>
 </resources>

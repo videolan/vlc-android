@@ -99,7 +99,7 @@
                     android:text="@string/cancel"
                     android:textSize="14sp"
                     android:onClick="@{handler::onCancel}"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    style="@style/VLCDialogButton" />
 
             <Button
                     android:id="@+id/action"
@@ -113,7 +113,7 @@
                     android:text="@string/ok"
                     android:textSize="14sp"
                     android:onClick="@{handler::onLogin}"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    style="@style/VLCDialogButton" />
         </RelativeLayout>
     </ScrollView>
 </layout>
