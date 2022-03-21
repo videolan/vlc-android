@@ -269,6 +269,12 @@
                         vlc:layout_constraintStart_toStartOf="@+id/length_title"
                         vlc:layout_constraintTop_toBottomOf="@+id/length_title" />
 
+                <androidx.constraintlayout.widget.Group
+                        android:id="@+id/file_size_views"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        vlc:constraint_referenced_ids="size_title,size_value,size_icon" />
+
                 <ImageView
                         android:id="@+id/size_icon"
                         android:layout_width="wrap_content"

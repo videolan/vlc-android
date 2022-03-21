@@ -109,7 +109,10 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
         model.hasSubs.observe(this) { if (it) binding.infoSubtitles.visibility = View.VISIBLE }
         model.mediaTracks.observe(this) { adapter.setTracks(it) }
-        model.sizeText.observe(this) { binding.sizeValueText = it }
+        model.sizeText.observe(this) {
+            binding.fileSizeViews.visibility = if (it.isNotBlank()) View.VISIBLE else View.GONE
+            binding.sizeValueText = it
+        }
         model.cover.observe(this) {
             if (it != null) {
                 binding.cover = BitmapDrawable(this@InfoActivity.resources, it)
@@ -279,7 +282,10 @@ class InfoModel : ViewModel() {
     fun checkFile(mw: MediaWrapper) = viewModelScope.launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
-        if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
+        if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) {
+            sizeText.value = ""
+            return@launch
+        }
         if (mw.type == MediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
         sizeText.value = itemFile.length().readableFileSize()
     }
