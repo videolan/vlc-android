@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.Gravity
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
@@ -33,6 +35,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.dp
 import org.videolan.tools.readableFileSize
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
@@ -64,6 +67,9 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
 
     internal lateinit var binding: InfoActivityBinding
     override fun needsTopInset() = false
+    override val insetListener = {insets:Insets ->
+        (binding.mlItemResolution.layoutParams as ConstraintLayout.LayoutParams).topMargin = insets.top + 16.dp
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

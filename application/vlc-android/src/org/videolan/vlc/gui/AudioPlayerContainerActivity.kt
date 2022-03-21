@@ -35,6 +35,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
@@ -110,6 +111,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     open fun needsTopInset(): Boolean = true
 
+    open val insetListener: (Insets) -> Unit = {}
+
     var bottomInset = 0
 
     @Suppress("LeakingThis")
@@ -157,6 +160,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 bottomNavigationView?.setPadding(bottomNavigationView.paddingLeft, bottomNavigationView.paddingTop, bottomNavigationView.paddingRight, insets.bottom)
                 bottomInset = insets.bottom
                 setContentBottomPadding()
+                insetListener.invoke(insets)
             }
 
             WindowInsetsCompat.CONSUMED
