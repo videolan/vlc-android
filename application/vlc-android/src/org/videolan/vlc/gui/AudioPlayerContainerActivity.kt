@@ -141,7 +141,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             savedInstanceState.getIntegerArrayList(SHOWN_TIPS)?.let { shownTips.addAll(it) }
         }
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (AndroidUtil.isLolliPopOrLater) WindowCompat.setDecorFitsSystemWindows(window, false)
 
         volumeControlStream = AudioManager.STREAM_MUSIC
         registerLiveData()
