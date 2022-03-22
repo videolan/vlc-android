@@ -13,7 +13,7 @@
    version="1.1"
    id="svg7"
    sodipodi:docname="ic_emoji_network_media.svg"
-   inkscape:version="1.0.1 (0767f8302a, 2020-10-17)">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <metadata
      id="metadata13">
     <rdf:RDF>
@@ -37,35 +37,26 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
-     inkscape:window-height="1376"
+     inkscape:window-width="1600"
+     inkscape:window-height="829"
      id="namedview9"
-     showgrid="false"
-     inkscape:zoom="10.5"
-     inkscape:cx="31.653769"
-     inkscape:cy="24.122229"
+     showgrid="true"
+     inkscape:zoom="14.849242"
+     inkscape:cx="-3.6193564"
+     inkscape:cy="11.319993"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="1114"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg7" />
+     inkscape:current-layer="svg7"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid835" />
+  </sodipodi:namedview>
   <title
      id="title2">ic-server/On@1x</title>
-  <g
-     id="ic-server/On"
-     stroke="none"
-     stroke-width="1"
-     fill="none"
-     fill-rule="evenodd"
-     transform="scale(0.5)">
-    <rect
-       id="Rectangle"
-       x="0"
-       y="0"
-       width="24"
-       height="24" />
-    <path
-       d="M 20.001,23.0005 H 22 v -2 H 20.001 Z M 4.009,14.9995 h 15.992 v -10 h -9.002613 l -2.0231586,-2 H 4.001 l 0.008,2 z M 22,15.0005 c 0,1.099 -0.899,2 -1.999,2 h -6.996 v 4 h -1.999 v -4 H 4.001 C 2.9,17.0005 2,16.0995 2,14.9995 l 0.01,-12 c 0,-1.099 0.89,-2 1.99,-2 h 6 l 2,2 h 8.001 c 1.1,0 1.999,0.901 1.999,2 z m -15.992,8 h 11.994 v -2 H 6.008 Z m -3.998,0 h 1.999 v -2 H 2.01 Z"
-       id="Fill-1"
-       fill="#ffffff" />
-  </g>
+  <path
+     id="path3758"
+     style="color:#000000;overflow:visible;fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:1.5;stroke-dasharray:none;stop-color:#000000"
+     d="M 2,1 C 1.45465,1 1,1.4547 1,2 v 5.5 c 0,0.5454 0.45465,1 1,1 H 5.5 V 10 h -2 C 3.223,10 3,10.2156 3,10.4844 v 0.031 c 0,0.2688 0.223,0.4844 0.5,0.4844 h 5 c 0.277,0 0.5,-0.2156 0.5,-0.4844 v -0.031 C 9,10.2156 8.777,10 8.5,10 h -2 V 8.5 H 10 c 0.54535,0 1,-0.4546 1,-1 v -4 c 0,-0.5453 -0.45465,-1 -1,-1 H 6.20703 l -1.5,-1.5 z m 0,1 h 2.29297 l 1.5,1.5 H 10 v 4 H 2 Z M 1.48828,10 A 0.5,0.5 0 0 0 1,10.5 0.5,0.5 0 0 0 1.5,11 0.5,0.5 0 0 0 2,10.5 0.5,0.5 0 0 0 1.5,10 0.5,0.5 0 0 0 1.4883,10 Z m 9,0 A 0.5,0.5 0 0 0 10,10.5 0.5,0.5 0 0 0 10.5,11 0.5,0.5 0 0 0 11,10.5 0.5,0.5 0 0 0 10.5,10 0.5,0.5 0 0 0 10.4883,10 Z" />
 </svg>
