@@ -70,7 +70,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val binder = LocalBinder()
     private lateinit var medialibrary: Medialibrary
-    private var parsing = 0F
     private var reload = 0
     private var currentDiscovery: String? = null
     @Volatile private var lastNotificationTime = 0L
@@ -353,8 +352,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private suspend fun showNotification(done:Int, scheduled: Int) {
         val currentTime = System.currentTimeMillis()
-        if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
+        if ((lastNotificationTime == -1L  && done != 0) || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
         lastNotificationTime = currentTime
+        val parsing = (done.toFloat() / scheduled.toFloat() * 100F)
         val discovery = withContext(Dispatchers.Default) {
             val progressText = when {
                 inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
@@ -402,8 +402,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     override fun onParsingStatsUpdated(done: Int, scheduled:Int) {
         lastDone = done
         lastScheduled = scheduled
-        parsing = (done.toFloat() / scheduled.toFloat() * 100F)
-        if (parsing != 100F && ::notificationActor.isInitialized) notificationActor.trySend(Show(done, scheduled))
+        val doneParsing = (done == scheduled)
+        if (!doneParsing && ::notificationActor.isInitialized) notificationActor.trySend(Show(done, scheduled))
+        else if (doneParsing && ::notificationActor.isInitialized) notificationActor.trySend(Hide)
     }
 
     override fun onReloadStarted(entryPoint: String) {
