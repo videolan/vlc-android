@@ -1729,9 +1729,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      * @param time a [Calendar] object for the new sleep timer time. Set to null to cancel the sleep timer
      */
     fun setSleepTimer(time: Calendar?) {
-        if (time != null && time.timeInMillis < System.currentTimeMillis()) return
+        condition = (time==null)
+        if (!condition && time.timeInMillis < System.currentTimeMillis()) return
         playerSleepTime.value = time
-        if (time == null) stopSleepTimerJob() else startSleepTimerJob()
+        if (condition) stopSleepTimerJob() else startSleepTimerJob()
     }
 
     companion object {
