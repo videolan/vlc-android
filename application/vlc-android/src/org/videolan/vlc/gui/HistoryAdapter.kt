@@ -42,6 +42,8 @@ import org.videolan.vlc.databinding.HistoryItemCardBinding
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
+import org.videolan.vlc.util.isOTG
+import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeFile
 
 @ObsoleteCoroutinesApi
@@ -115,12 +117,16 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
             is HistoryItemBinding -> {
                 (holder.binding as HistoryItemBinding).media = media
                 holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isSD, media.uri.isSD())
+                holder.binding.setVariable(BR.isOTG, media.uri.isOTG())
                 (holder.binding as HistoryItemBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
                 ((holder.binding as HistoryItemBinding).icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
             }
             is HistoryItemCardBinding -> {
                 (holder.binding as HistoryItemCardBinding).media = media
                 holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isSD, media.uri.isSD())
+                holder.binding.setVariable(BR.isOTG, media.uri.isOTG())
                 (holder.binding as HistoryItemCardBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
                 ((holder.binding as HistoryItemCardBinding).icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
             }

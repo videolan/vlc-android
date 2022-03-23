@@ -132,6 +132,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
         init {
             binding.holder = this
+            binding.isPresent = true
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             defaultCover?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)
@@ -218,6 +219,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
         init {
             binding.holder = this
+            binding.isPresent = true
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             defaultCover?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)

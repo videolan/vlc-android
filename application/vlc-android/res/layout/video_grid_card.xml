@@ -18,6 +18,14 @@
                 type="boolean" />
 
         <variable
+                name="isOTG"
+                type="boolean" />
+
+        <variable
+                name="isSD"
+                type="boolean" />
+
+        <variable
                 name="isPresent"
                 type="boolean" />
 
@@ -132,10 +140,10 @@
                         android:src="@drawable/video_overlay_gradient"
                         vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
-                        vlc:layout_constraintHorizontal_bias="1.0"
+                        vlc:layout_constraintHorizontal_bias="0.0"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
-                        vlc:layout_constraintVertical_bias="1.0" />
+                        vlc:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                         android:id="@+id/ml_item_resolution"
@@ -170,13 +178,42 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
                         vlc:layout_goneMarginBottom="4dp"
-                        vlc:srcCompat="@drawable/ic_network_media" />
+                        vlc:srcCompat="@drawable/ic_emoji_network" />
+
 
                 <ImageView
-                        android:id="@+id/network_media_off"
+                        android:id="@+id/otg_media"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@drawable/rounded_corners_black_more_transparent"
+                        android:padding="3dp"
+                        android:visibility="@{isOTG &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
+                        vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+                        vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                        vlc:layout_goneMarginBottom="4dp"
+                        vlc:srcCompat="@drawable/ic_emoji_otg" />
+
+                <ImageView
+                        android:id="@+id/sd_media"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@drawable/rounded_corners_black_more_transparent"
+                        android:padding="3dp"
+                        android:visibility="@{isSD &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
+                        vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+                        vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                        vlc:layout_goneMarginBottom="4dp"
+                        vlc:srcCompat="@drawable/ic_emoji_sd" />
+
+                <ImageView
+                        android:id="@+id/absent_media"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginBottom="4dp"
                         android:background="@drawable/rounded_corners_black_more_transparent"
                         android:padding="3dp"
@@ -184,8 +221,7 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
                         vlc:layout_goneMarginBottom="4dp"
-                        vlc:missingMedia="@{media}"/>
-
+                        vlc:srcCompat="@drawable/ic_emoji_absent" />
 
                 <ImageView
                         android:id="@+id/ml_item_seen"

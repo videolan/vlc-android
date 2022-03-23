@@ -68,7 +68,9 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
-import org.videolan.vlc.util.isSchemeDistant
+import org.videolan.vlc.util.isOTG
+import org.videolan.vlc.util.isSD
+import org.videolan.vlc.util.isSchemeSMB
 
 private const val SHOW_IN_LIST = -1
 
@@ -141,8 +143,12 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         if (item is Genre) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
         val isSelected = multiSelectHelper.isSelected(position)
         holder.selectView(isSelected)
-        holder.binding.setVariable(BR.isNetwork,(item as? MediaWrapper)?.uri?.scheme?.isSchemeDistant() ?: false)
-        holder.binding.setVariable(BR.isPresent,(item as? MediaWrapper)?.isPresent ?: true)
+        if (item is MediaWrapper) {
+            holder.binding.setVariable(BR.isNetwork, item.uri.scheme.isSchemeSMB())
+            holder.binding.setVariable(BR.isOTG, item.uri.isOTG())
+            holder.binding.setVariable(BR.isSD, item.uri.isSD())
+            holder.binding.setVariable(BR.isPresent, item.isPresent)
+        } else holder.binding.setVariable(BR.isPresent, true)
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
         holder.binding.invalidateAll()
         holder.binding.executePendingBindings()

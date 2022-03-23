@@ -36,7 +36,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
@@ -52,10 +51,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
-import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.getPresenceDescription
-import org.videolan.vlc.util.isSchemeFile
-import org.videolan.vlc.util.scope
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "VLC/VideoListAdapter"
@@ -151,7 +147,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 val seen = if (item.presentSeen == item.presentCount) 1L else 0L
                 holder.binding.setVariable(BR.seen, seen)
                 holder.binding.setVariable(BR.max, 0)
-                holder.binding.setVariable(BR.isNetwork, item.isNetwork)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
             }
             is MediaWrapper -> {
@@ -161,7 +156,9 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 var max = 0
                 var progress = 0
                 var seen = 0L
-                holder.binding.setVariable(BR.isNetwork, !item.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isNetwork, item.uri.scheme.isSchemeSMB())
+                holder.binding.setVariable(BR.isOTG, item.uri.isOTG())
+                holder.binding.setVariable(BR.isSD, item.uri.isSD())
                 holder.binding.setVariable(BR.isPresent, item.isPresent)
 
                 text = if (item.type == MediaWrapper.TYPE_GROUP) {

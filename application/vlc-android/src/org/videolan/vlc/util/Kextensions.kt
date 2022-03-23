@@ -238,10 +238,10 @@ fun presenceDescription(view: TextView, description: String?) {
 fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
     val string = SpannableString(this)
     if (this.contains(presentReplacementMarker)) {
-        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_network_media, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(folderReplacementMarker), this.indexOf(folderReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_media_present, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(folderReplacementMarker), this.indexOf(folderReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
     if (this.contains(missingReplacementMarker)) {
-        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_network_media_off, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_media_absent, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
     return string
 }
