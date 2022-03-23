@@ -136,7 +136,7 @@ fi
 
 cd ${MEDIALIBRARY_BUILD_DIR}
 
-if [ "$RELEASE" = "0" ]; then
+if [ "$RELEASE" = "1" ]; then
     git describe --exact-match --tags ${MEDIALIBRARY_HASH} > /dev/null || \
         avlc_checkfail "Release builds must use tags"
 fi
