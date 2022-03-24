@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Διαγραφή επιλογής</string>
     <string name="download_the_selected">Λήψη επιλογής</string>
     <string name="next">Επόμενο</string>
+    <string name="next_step">Επόμενο</string>
     <string name="download">Λήψη</string>
     <string name="ctx_player_video_track">Επιλογή κομματιού βίντεο</string>
     <string name="ctx_player_audio_track"> Κομμάτι ήχου</string>
@@ -903,5 +904,7 @@
     <string name="notch">Εγκοπή</string>
     <string name="always_fast_seek">Χρησιμοποιείτε πάντα γρήγορη αναζήτηση</string>
     <string name="always_fast_seek_summary">Η αναζήτηση είναι πιο γρήγορη αλλά μπορεί να είναι λιγότερο ακριβής</string>
+    <string name="touch_only">Λειτουργία μόνο αφής</string>
+    <string name="touch_only_description">Η μετάβαση στη διεπαφή για κινητά μπορεί να γίνει μόνο με οθόνη αφής ή ποντίκι.\nΣύρετε παρακάτω για να επαληθεύσετε ότι αυτή η δυνατότητα είναι ασφαλής για αλλαγή.</string>
 
 </resources>
