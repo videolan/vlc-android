@@ -651,6 +651,7 @@
     <string name="delete_the_selected">Delete selection</string>
     <string name="download_the_selected">Download selection</string>
     <string name="next">Next</string>
+    <string name="next_step">Next</string>
     <string name="download">Download</string>
     <string name="ctx_player_video_track">Select video track</string>
     <string name="ctx_player_audio_track">Audio track</string>

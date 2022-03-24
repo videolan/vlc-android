@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:onClick="onClickNextPlaylistTips"
-            android:text="@string/next"
+            android:text="@string/next_step"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/helpDescription" />

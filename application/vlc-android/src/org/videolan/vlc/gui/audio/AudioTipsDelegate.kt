@@ -117,7 +117,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
 
 
         clearAllAnimations()
-        nextButton.setText(R.string.next)
+        nextButton.setText(R.string.next_step)
 
         when (currentTip) {
             AudioPlayerTipsStep.SWIPE_NEXT -> {

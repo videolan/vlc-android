@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickNextTips"
-            android:text="@string/next"
+            android:text="@string/next_step"
             app:layout_constraintBottom_toTopOf="@+id/tips_overlay_play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -273,7 +273,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
 
         clearAllAnimations()
-        nextButton.setText(R.string.next)
+        nextButton.setText(R.string.next_step)
 
         when (currentTip) {
             AudioPlaylistTipsStep.REMOVE -> {

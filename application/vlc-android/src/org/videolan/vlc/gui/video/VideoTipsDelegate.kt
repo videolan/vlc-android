@@ -235,7 +235,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         getTapIndicators().forEach { constraintSet.setVisibility(it.id, GONE) }
 
         clearAllAnimations()
-        nextButton.setText(R.string.next)
+        nextButton.setText(R.string.next_step)
 
         when (currentTip) {
             VideoPlayerTipsStep.CONTROLS -> {
