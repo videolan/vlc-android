@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Supprimer la sélection</string>
     <string name="download_the_selected">Télécharger la sélection</string>
     <string name="next">Suivant</string>
+    <string name="next_step">Suivant</string>
     <string name="download">Télécharger</string>
     <string name="ctx_player_video_track">Sélectionner une piste vidéo</string>
     <string name="ctx_player_audio_track">Sélectionner une piste audio</string>
@@ -903,5 +904,7 @@
     <string name="notch">Encoche</string>
     <string name="always_fast_seek">Toujours utiliser la recherche rapide</string>
     <string name="always_fast_seek_summary">La recherche est plus rapide mais peut être moins précise</string>
+    <string name="touch_only">Fonctionnalité tactile uniquement</string>
+    <string name="touch_only_description">Le passage à l\'interface mobile ne peut se faire qu\'à l\'aide d\'un écran tactile ou d\'une souris.\NVeuillez glisser ci-dessous pour vérifier que cette fonctionnalité peut être modifiée sans danger.</string>
 
 </resources>
