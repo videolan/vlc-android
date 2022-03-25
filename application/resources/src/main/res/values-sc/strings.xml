@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Iscantzella sa seletzione</string>
     <string name="download_the_selected">Iscàrriga sa seletzione</string>
     <string name="next">Imbeniente</string>
+    <string name="next_step">Imbeniente</string>
     <string name="download">Iscàrriga</string>
     <string name="ctx_player_video_track">Seletziona una rasta vìdeo</string>
     <string name="ctx_player_audio_track">Rasta àudio</string>
@@ -903,5 +904,7 @@
     <string name="notch">Taca</string>
     <string name="always_fast_seek">Imprea semper su positzionamentu lestru</string>
     <string name="always_fast_seek_summary">Su positzionamentu est prus lestru ma diat pòdere èssere prus pagu pretzisu</string>
+    <string name="touch_only">Funtzionalidade tocu ebbia</string>
+    <string name="touch_only_description">Su de colare a s\'interfache mòbile si podet fàghere petzi cun un\'ischermu tàtile o unu ratu.\nIscurre cara a suta pro verificare chi custa funtzionalidade siat segure de modificare.</string>
 
 </resources>
