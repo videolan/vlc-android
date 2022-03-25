@@ -623,6 +623,7 @@
     <string name="delete_the_selected">刪除選取</string>
     <string name="download_the_selected">下載選取</string>
     <string name="next">下一個</string>
+    <string name="next_step">下一個</string>
     <string name="download">下載</string>
     <string name="ctx_player_video_track">選取視訊軌</string>
     <string name="ctx_player_audio_track">音訊軌</string>
@@ -788,7 +789,7 @@
     <string name="donate_send">開始您的贊助</string>
     <string name="donation_description">您的贊助讓我們可以：\n改善 Android 上的 VLC 應用程式\n支援 VideoLAN 協會</string>
     <string name="subscription_purchased">您已訂閱每月贊助</string>
-    <string name="subscription_cancel">您已在 Play 商店中取消訂閱</string>
+    <string name="subscription_cancel">您可在 Play 商店中取消訂閱</string>
     <string name="subscription_cancel_tv">如何取消訂閱</string>
     <string name="donate_unsubscribe_tv">要取消訂閱，請在手機或電腦上開啟 %s，或是掃描此條碼：</string>
     <string name="tip_jar">協助 VLC</string>
@@ -889,5 +890,7 @@
     <string name="notch">缺口</string>
     <string name="always_fast_seek">一律使用快速搜尋</string>
     <string name="always_fast_seek_summary">搜尋速度更快，但可能不太精確</string>
+    <string name="touch_only">僅觸控環境才可使用的功能</string>
+    <string name="touch_only_description">僅能使用觸控螢幕或滑鼠切換到行動裝置介面。\n請向下滑動，確保您確實可以使用該功能。</string>
 
 </resources>
