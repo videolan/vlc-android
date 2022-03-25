@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Seçimi sil</string>
     <string name="download_the_selected">Seçimi indir</string>
     <string name="next">Sonraki</string>
+    <string name="next_step">Sonraki</string>
     <string name="download">İndir</string>
     <string name="ctx_player_video_track">Görüntü kaydını seçin</string>
     <string name="ctx_player_audio_track">Ses kaydı</string>
@@ -903,5 +904,7 @@
     <string name="notch">Çentik</string>
     <string name="always_fast_seek">Her zaman hızlı atlama kullanılsın</string>
     <string name="always_fast_seek_summary">Hızlı atlama daha hızlıdır ama hassasiyeti daha düşüktür</string>
+    <string name="touch_only">Yalnızca dokunma özelliği</string>
+    <string name="touch_only_description">Mobil arayüze geçiş yalnızca dokunmatik bir ekran veya fare ile yapılabilir.\nBu özelliğe geçmenin güvenli olduğunu doğrulamak için lütfen aşağıya kaydırın.</string>
 
 </resources>
