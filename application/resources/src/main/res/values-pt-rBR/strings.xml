@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Excluir seleção</string>
     <string name="download_the_selected">Baixar seleção</string>
     <string name="next">Próximo</string>
+    <string name="next_step">Próximo</string>
     <string name="download">Download</string>
     <string name="ctx_player_video_track">Selecionar trilha de vídeo</string>
     <string name="ctx_player_audio_track">Trilha de áudio</string>
@@ -903,5 +904,7 @@
     <string name="notch">Entalhe</string>
     <string name="always_fast_seek">Sempre usar localização rápida</string>
     <string name="always_fast_seek_summary">A busca é mais rápida mas pode ser menos precisa</string>
+    <string name="touch_only">Funcionalidade apenas por toque</string>
+    <string name="touch_only_description">Alternar para a interface móvel só é possível com uma tela tátil ou um mouse.\nPor favor, deslize para baixo para verificar se essa funcionalidade pode ser modificada com segurança.</string>
 
 </resources>
