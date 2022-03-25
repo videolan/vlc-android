@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Kiválasztás törlése</string>
     <string name="download_the_selected">Kiválasztás letöltése</string>
     <string name="next">Következő</string>
+    <string name="next_step">Következő</string>
     <string name="download">Letöltés</string>
     <string name="ctx_player_video_track">Videosáv kiválasztása</string>
     <string name="ctx_player_audio_track">Hangsáv</string>
@@ -903,5 +904,7 @@
     <string name="notch">Bevágás</string>
     <string name="always_fast_seek">Mindig a gyors tekerés használata</string>
     <string name="always_fast_seek_summary">A tekerés gyorsabb lesz, de lehet, hogy kevésbé pontos</string>
+    <string name="touch_only">Csak érintős funkció</string>
+    <string name="touch_only_description">A mobilos felületre csak érintőképernyővel vagy egérrel lehet átváltani.\nCsúsztassa le, hogy ellenőrizze, biztonságos-e a funkció megváltoztatása.</string>
 
 </resources>
