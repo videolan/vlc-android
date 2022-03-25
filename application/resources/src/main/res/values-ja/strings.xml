@@ -623,6 +623,7 @@
     <string name="delete_the_selected">削除するものを選択</string>
     <string name="download_the_selected">ダウンロードするものを選択</string>
     <string name="next">次へ</string>
+    <string name="next_step">次へ</string>
     <string name="download">ダウンロード</string>
     <string name="ctx_player_video_track">ビデオトラックを選択</string>
     <string name="ctx_player_audio_track">オーディオトラック</string>
@@ -889,5 +890,7 @@
     <string name="notch">ノッチ</string>
     <string name="always_fast_seek">高速シークを常に使用</string>
     <string name="always_fast_seek_summary">シークは高速になりますが正確性が少し劣ります</string>
+    <string name="touch_only">タッチのみの機能</string>
+    <string name="touch_only_description">スクリーンに触れるかマウスを動かすことでモバイルインターフェースに切り替えることができます。\n下にスライドしてこの機能が安全に使用できることを確認してください。</string>
 
 </resources>
