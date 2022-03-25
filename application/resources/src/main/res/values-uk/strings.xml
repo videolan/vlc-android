@@ -653,6 +653,7 @@
     <string name="delete_the_selected">Вилучити обране</string>
     <string name="download_the_selected">Завантажити обране</string>
     <string name="next">Наступний</string>
+    <string name="next_step">Далі</string>
     <string name="download">Завантажити</string>
     <string name="ctx_player_video_track">Вибрати відеодоріжку</string>
     <string name="ctx_player_audio_track">Звукова доріжка</string>
@@ -931,5 +932,7 @@
     <string name="notch">Виріз</string>
     <string name="always_fast_seek">Завжди використовувати швидкий пошук</string>
     <string name="always_fast_seek_summary">Пошук стає швидшим, але менш точнішим</string>
+    <string name="touch_only">Функція “лише дотик“</string>
+    <string name="touch_only_description">Перемикатися на мобільний інтерфейс можна лише за допомогою сенсорного екрана або мишки.\nПрокрутіть нижче, щоб переконатися, що цю функцію можна безпечно змінити.</string>
 
 </resources>
