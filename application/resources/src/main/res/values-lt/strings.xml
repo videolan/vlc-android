@@ -14,6 +14,7 @@
     <string name="sortby_length">trukmę</string>
     <string name="sortby_date">datą</string>
     <string name="sortby_last_modified_date">pridėjimo laiką</string>
+    <string name="sortby_insertion">pridėjimo laiką</string>
     <string name="sortby_media_number">kūrinio numerį</string>
     <string name="sortby_number">takelių skaičių</string>
     <string name="searchable_hint">Ieškoti…</string>
@@ -34,6 +35,7 @@
     <string name="play_from_start">Groti nuo pradžių</string>
     <string name="play_as_audio">Groti kaip garso kūrinį</string>
     <string name="play_as_video">Groti kaip vaizdo įr.</string>
+    <string name="return_to_video">Norėdami atstatyti vaizdo įrašą, palaikykite nuspaudę viršelį</string>
     <string name="video_app_switch_title">Foninė / „vaizdo vaizde“ veiksena</string>
     <string name="video_app_switch_summary">Pasirinkite VLC elgseną, kai grojant vaizdo įrašą persijungiate į kitą programą</string>
     <string name="play_pip_title">Vaizdo įr. rodyti mažame iškylančiame langelyje virš kitos programos – „vaizdo vaizde“ veiksenoje</string>
@@ -59,7 +61,6 @@
     <string name="confirm_delete_files">Pašalinti šias %1$s rinkmenas?</string>
     <string name="confirm_delete_folders_and_files">Pašalinti šiuos %1$s aplankus ir %2$s rinkmenas?</string>
     <string name="confirm_delete_playlist">Pašalinti grojaraštį „%1$s“?</string>
-    <string name="confirm_remove_from_playlist">Pašalinti „%1$s“ iš grojaraščio?</string>
     <string name="ringtone_set">„%1$s“ nustatytas kaip skambučio tonas.</string>
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
@@ -160,6 +161,7 @@
     <string name="surface_fit_screen">Pritaikyti prie ekrano</string>
     <string name="surface_fill">Užpildyti</string>
     <string name="surface_original">Centruoti</string>
+    <string name="resize_tip">Norėdami pamatyti daugiau nuostatų, palaikykite nuspaudę</string>
     <string name="unseekable_stream">Srauto persukimas neįmanomas</string>
     <string name="refresh">Atnaujinti</string>
     <string name="track_audio">Garso takelis</string>
@@ -215,6 +217,7 @@
     <string name="encountered_error_title">Grojimo klaida</string>
     <string name="encountered_error_message">Grodama šį kūrinį VLC programa sutriko.\nPabandykite atnaujinti savo fonoteką.</string>
     <string name="invalid_location">Nepavyko atkurti %1$s</string>
+    <string name="missing_location">Ši medijos rinkmena yra nepasiekiamoje saugykloje ir jos negalima atkurti.</string>
 
     <string name="search">Ieškoti</string>
 
@@ -236,8 +239,11 @@
     <string name="tips_play_description">Bakstelėkite, kad paleistumėte vaizdo įrašą</string>
     <string name="lock">Užrakinimas</string>
     <string name="tap">Bakstelėkite, kad peržiūrėtumėte</string>
+    <string name="tap_to_remove">Bakstelėkite, kad pašalintumėte</string>
+    <string name="tap_to_rearrange">Bakstelėkite, kad pertvarkytumėte</string>
+    <string name="tap_to_previous_next">Bakstelėkite, norėdami pereiti prie ankstesnio / kito</string>
     <string name="lock_orientation">Padėties užrakinimas</string>
-    <string name="lock_orientation_description">Bakstelėkite norėdami užrakinti / atrakinti ekrano pasukimą</string>
+    <string name="lock_orientation_description">Bakstelėkite, norėdami užrakinti / atrakinti vaizdo padėtį</string>
     <string name="aspect_ratio">Vaizdo santykis</string>
     <string name="aspect_ratio_description">Bakstelėkite, kad pakeistumėte kraštinių santykį</string>
     <string name="advanced_options">Sudėtingesnės parinktys</string>
@@ -265,12 +271,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC, skirta Android sistemai</string>
-    <string name="licence">Licencija</string>
     <string name="revision">Revizija</string>
     <string name="about">Apie</string>
-    <string name="about_text">Ši VLC versija skirta Android™ Linux operacinei sistemai. VLC – tai populiari laisva (atvirojo kodo) vaizdo ir garso kūrinių leistuvė. VLC Android™ versija gali rodyti ir groti daugumą vaizdo / garso rinkmenų ir tinklo srautų.</string>
+    <string name="about_vlc_text">VLC for Android™ yra VLC medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. Android™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>
+    <string name="authors">Kūrėjai</string>
     <string name="vlc_authors">ir VLC autoriai.</string>
-    <string name="compiled_by">Šią VLC versiją kompiliavo:</string>
+    <string name="is_compiled_by">Parengė</string>
+    <string name="sources">Pirminis kodas</string>
+    <string name="libraries">Bibliotekos</string>
     <string name="feedback_forum">Grįžtamojo ryšio forumas</string>
 
     <!-- Preferences -->
@@ -334,11 +342,13 @@
     <string name="enable_android_auto_speed_buttons">Android Auto grojimo greitis</string>
     <string name="enable_android_auto_speed_buttons_summary">Greičio valdiklį rodyti iškylančiame meniu</string>
     <string name="enable_android_auto_seek_buttons">Android Auto prasukimo mygtukai</string>
-    <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo atgal ir priekin mygtukus iškylančiame meniu. Prieš įjungdami, pabandykite palaikyti ilgėliau nuspaudę vairo mygtukus perėjimui į ankstesnį ir tolesnį kūrinį.</string>
+    <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus iškylančiame meniu. Prieš įjungdami, pabandykite palaikyti ilgiau nuspaudę vairo mygtukus perėjimui į ankstesnį ir tolesnį kūrinį.</string>
     <string name="enable_double_tap_seek_title">Vaizdo įrašo prasukimas bakstelėjus du kartus</string>
     <string name="enable_double_tap_seek_summary">Leidžia prasukti vaizdo įrašą 10 sekundžių, du kartus bakstelėjus ekrano kraštą</string>
-    <string name="enable_double_tap_play_title">Grojimui/pristabdymui – dukart bakstelėkite</string>
-    <string name="enable_double_tap_play_summary">Norėdami groti/pristabdyti – dukart bakstelėkite ekrano viduryje</string>
+    <string name="enable_double_tap_play_title">Grojimo paleidimas / pristabdymas du kartus bakstelėjus</string>
+    <string name="enable_double_tap_play_summary">Norėdami paleisti arba pristabdyti, dukart bakstelėkite ekrano centrą</string>
+    <string name="enable_swipe_seek_title">Prasukimas braukiant</string>
+    <string name="enable_swipe_seek_summary">Norėdami prasukti, braukite pirštu per ekraną </string>
     <string name="popup_keepscreen_title">Laikyti ekraną įjungtą, kai rodomas iškylantis langas</string>
     <string name="popup_keepscreen_summary">Visada laikyti ekraną įjungtą tol, kol rodomas iškylantis langas, net jei vaizdo įrašas pristabdytas</string>
     <string name="browser_show_hidden_files_title">Rodyti slepiamąsias rinkmenas</string>
@@ -363,6 +373,8 @@
     <string name="audio_prefs_category">Garsas</string>
     <string name="lockscreen_cover_title">Kūrinio viršelis užrakinimo ekrane</string>
     <string name="lockscreen_cover_summary">Jei įmanoma, rodyti grojamo kūrinio viršelį užrakinimo ekrane</string>
+    <string name="show_seek_in_compact_notif_title">Rodyti peršokimo mygtukus pranešimų skydelyje</string>
+    <string name="show_seek_in_compact_notif_summary">Rodyti peršokimo „atgal“ ir „pirmyn“ mygtukus kompaktiškuose medijos valdikliuose</string>
     <string name="list_title_ellipsize">Sąrašo pavadinimas vienos eilutės elipsėje</string>
     <string name="list_title_ellipsize_default">Numatytasis</string>
     <string name="list_title_ellipsize_left">Kairėje</string>
@@ -472,6 +484,7 @@
 
     <string name="no_result">Nerasta</string>
     <string name="no_internet_connection">Patikrinkite interneto ryšį</string>
+    <string name="retry">Pakartoti</string>
     <string name="subs_download_error">Paslauga nepasiekiama. Pabandykite dar kartą vėliau</string>
 
     <string name="network_browsing">Vietinis tinklas</string>
@@ -490,8 +503,7 @@
     <string name="playlist_save">Įrašyti grojaraštį</string>
     <string name="playlist_name_hint">Grojaraščio pavadinimas</string>
     <string name="go_to_chapter">Eiti į skyrių...</string>
-    <string name="chapter">Skyrius</string>
-    <string name="resume_from_position">Tęsti nuo paskutinės padėties</string>
+    <string name="current_chapter">Skyrius: %s</string>
     <string name="confirm_resume">Tęsti nuo paskutinės padėties?</string>
     <string name="confirm_resume_title">Tęsti vaizdo įrašų peržiūrą</string>
     <string name="tv_ui_title">Android TV sąsaja</string>
@@ -511,6 +523,12 @@
     <string name="widget_name_b">Tamsus VLC valdiklis</string>
     <string name="allow_storage_access_title">Leisti VLC programai pasiekti vaizdo ir garso kūrinius</string>
     <string name="allow_storage_access_description">VLC reikia Jūsų leidimo pasiekti įrenginyje esančius kūrinius.</string>
+    <string name="allow_storage_manager_title">Leisti VLC pasiekti visas rinkmenas</string>
+    <string name="allow_storage_manager_description">%s\n\nSuteikti leidimą?</string>
+    <string name="allow_storage_manager_explanation">Norėdami pasinaudoti visomis VLC galimybėmis ir visų tipų medijos rinkmenų palaikymu, primygtinai rekomenduojame suteikti šį leidimą.</string>
+    <string name="partial_content">VLC negali pasiekti visų jūsų rinkmenų</string>
+    <string name="partial_content_description">Pradedant nuo 11 „Android“ versijos, programoms reikia specialaus leidimo pasiekti visas įrenginio rinkmenas.\n\n%s</string>
+    <string name="never_ask_again">Niekada daugiau neklausti</string>
     <string name="allow_settings_access_ringtone_title">Leisti nustatyti skambėjimo toną</string>
     <string name="allow_settings_access_ringtone_description">VLC reikia Jūsų leidimo nustatyti dainą kaip skambėjimo toną.</string>
     <string name="allow_settings_access_brightness_title">Leisti keisti ryškumą</string>
@@ -630,10 +648,12 @@
     <string name="subtitle_search_name_hint">Pavadinimas</string>
     <string name="subtitle_search_episode_hint">Epizodas</string>
     <string name="subtitle_search_season_hint">Sezonas</string>
+    <string name="subtitles_download_failed">Nepavyko atsisiųsti</string>
     <string name="language_to_download">Kalba</string>
     <string name="delete_the_selected">Pašalinti pasirinktus</string>
     <string name="download_the_selected">Atsisiųsti pasirinktus</string>
     <string name="next">Toliau</string>
+    <string name="next_step">Toliau</string>
     <string name="download">Parsisiunčiama</string>
     <string name="ctx_player_video_track">Vaizdo įr. takelis</string>
     <string name="ctx_player_audio_track">Garso takelis</string>
@@ -859,12 +879,21 @@
     <string name="bookmark_default_name">Žymelė ties %s</string>
     <string name="bookmark_name">Žymelė „%s“</string>
     <string name="add_bookmark">Pridėti žymelę</string>
+    <string name="bookmark_added">Žymelė pridėta</string>
+    <string name="show">Parodyti</string>
     <string name="optional_features">Papildomos funkcijos</string>
     <string name="optional_features_summary">Šios funkcijos dar tik testuojamos ir gali veikti nestabiliai</string>
     <string name="optional_features_warning">Ši funkcija yra dar tik testuojama ir gali veikti nestabiliai ar sukelti gedimų</string>
     <string name="network_indexing">Tinklo indeksavimas</string>
+    <string name="network_indexing_warning">Tinklo indeksavimas šiuo metu yra beta versijos.\nŽinomos problemos:\n• Lėtas veikimas.\n\nJei susiduriate su kitomis problemomis, praneškite apie jas mūsų forume. </string>
     <string name="start_vlc">Paleisti VLC</string>
+    <string name="jump_delay">Mygtukų „pirmyn / atgal“ peršokimo intervalas</string>
+    <string name="long_jump_delay">Ilgo paspaudimo mygtukų „pirmyn / atgal“ peršokimo intervalas</string>
     <string name="jump_delay_summary">%s sek.</string>
+    <string name="move_up">Pakelti aukštyn</string>
+    <string name="move_down">Nuleisti žemyn</string>
+    <string name="remove_from_playlist">Pašalinti iš grojaraščio</string>
+    <string name="play_media">Groti: %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Pridėti pasikartojančius?</string>
@@ -877,12 +906,14 @@
     <string name="start">Pradėti!</string>
     <string name="permission">Leidimas</string>
     <string name="customize">Derinti</string>
-    <string name="selection_count">pasirinkote %d </string>
+    <string name="selection_count">Pasirinkote: %d </string>
     <string name="controls_setting">Valdiklių nuostatos</string>
     <string name="gestures">Gestai</string>
     <string name="player_controls">Leistuvės valdikliai</string>
     <string name="video_double_tap_jump_delay">Dvigubo bakstelėjimo delsa</string>
     <string name="video_key_jump_delay">Navigacijos mygtukų delsa</string>
+    <string name="banned">Uždraustas aplankas (laikykite nuspaudę, kad tai pakeistumėte) </string>
+    <string name="banned_parent">Uždraustas pirminio aplanko</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Jis jau yra grojaraštyje.</item>
         <item quantity="few">Jie jau yra grojaraštyje.</item>
@@ -895,5 +926,13 @@
         <item quantity="many">%d iš pasirinktųjų jau yra grojaraštyje.</item>
         <item quantity="other">%d iš pasirinktųjų jau yra grojaraštyje.</item>
     </plurals>
+    <string name="official_website">Oficiali svetainė</string>
+    <string name="view_online">Žiūrėti internete</string>
+    <string name="player_under_notch">Rodyti vaizdo įrašą po įpjova</string>
+    <string name="notch">Įpjova</string>
+    <string name="always_fast_seek">Visada naudoti greitąjį prasukimą</string>
+    <string name="always_fast_seek_summary">Prasukimas yra greitesnis, bet ne toks tikslus</string>
+    <string name="touch_only">Tik lytėjimo ekraną turintiems įrenginiams</string>
+    <string name="touch_only_description">Perjungti į mobiliąją sąsają galima tik naudojant lytėjimo ekraną arba pelytę.\nSlinkite toliau, kad patikrintumėte, ar šią funkciją saugu keisti. </string>
 
 </resources>
