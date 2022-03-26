@@ -117,7 +117,7 @@
     <string name="directories">Kataloger</string>
     <string name="loading">Läser in</string>
     <string name="please_wait">Var god vänta…</string>
-    <string name="nomedia">Inga mediafiler hittades, var god överför några filer till din enhet eller justera dina inställningar.</string>
+    <string name="nomedia">Inga mediafiler hittades, överför några filer till din enhet eller justera dina inställningar.</string>
     <string name="noplaylist">Ingen spellista hittades.</string>
     <string name="nosubfolder">Ingen undermapp</string>
     <string name="directorynotfound">Sökvägen \"%1$s\" hittades inte.</string>
@@ -195,7 +195,7 @@
     <string name="streams">Strömmar</string>
     <string name="open_mrl_dialog_msg">Ange nätverksadress: d.v.s. http://, mms:// eller rtsp://</string>
     <string name="encountered_error_title">Uppspelningsfel</string>
-    <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nVar god försök att uppdatera mediebiblioteket.</string>
+    <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nFörsök att uppdatera mediebiblioteket.</string>
     <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
     <string name="missing_location">Denna mediafil kommer från ett otillgängligt lagringsutrymme och kan inte spelas upp.</string>
 
@@ -633,6 +633,7 @@
     <string name="delete_the_selected">Radera markering</string>
     <string name="download_the_selected">Ladda ned markering</string>
     <string name="next">Nästa</string>
+    <string name="next_step">Nästa</string>
     <string name="download">Ladda ned</string>
     <string name="ctx_player_video_track">Välj videospår</string>
     <string name="ctx_player_audio_track">Ljudspår</string>
@@ -903,5 +904,7 @@
     <string name="notch">Sensorfält</string>
     <string name="always_fast_seek">Använd alltid kvick snabbspolning</string>
     <string name="always_fast_seek_summary">Snabbspolar snabbare men kan vara mindre exakt</string>
+    <string name="touch_only">Pekskärmsfunktion</string>
+    <string name="touch_only_description">Det går bara att byta till mobilgränssnittet med en pekskärm eller mus.\nSvep nedan för att bekräfta att det är säkert att byta till denna funktionalitet.</string>
 
 </resources>
