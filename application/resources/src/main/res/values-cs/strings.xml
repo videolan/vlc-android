@@ -653,6 +653,7 @@
     <string name="delete_the_selected">Smazat výběr</string>
     <string name="download_the_selected">Stáhnout výběr</string>
     <string name="next">Následující</string>
+    <string name="next_step">Následující</string>
     <string name="download">Stáhnout</string>
     <string name="ctx_player_video_track">Video</string>
     <string name="ctx_player_audio_track">Audio</string>
@@ -932,5 +933,7 @@
     <string name="notch">Výřez na obrazovce</string>
     <string name="always_fast_seek">Vždy použít rychlé posunutí</string>
     <string name="always_fast_seek_summary">Posunutí je rychlejší, ale může být méně přesné.</string>
+    <string name="touch_only">Funkce pouze dotykem</string>
+    <string name="touch_only_description">Přepnutí na mobilní rozhraní lze pouze dotykovou obrazovkou nebo myší.\nPosunutím si prosím ověřte, že je změna této funkce bezpečná.</string>
 
 </resources>
