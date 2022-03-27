@@ -14,6 +14,7 @@
     <string name="sortby_length">Durată</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Recent adăugate</string>
+    <string name="sortby_insertion">Data introducerii</string>
     <string name="sortby_media_number">Numărul media</string>
     <string name="sortby_number">Piste Nb</string>
     <string name="searchable_hint">Căutare…</string>
@@ -151,6 +152,7 @@
     <string name="surface_fit_screen">Potrivire ecran</string>
     <string name="surface_fill">Umplere</string>
     <string name="surface_original">Centru</string>
+    <string name="resize_tip">Atinge lung pentru mai multe opțiuni</string>
     <string name="unseekable_stream">Flux nederulabil</string>
     <string name="refresh">Reîmprospătare</string>
     <string name="track_audio">Pistă audio</string>
@@ -472,6 +474,7 @@
 
     <string name="no_result">Nici un rezultat găsit</string>
     <string name="no_internet_connection">Verificați conexiunea la internet</string>
+    <string name="retry">Reîncercare</string>
     <string name="subs_download_error">Serviciul este indisponibil. Te rog încearcă mai târziu.</string>
 
     <string name="network_browsing">Rețea locală</string>
@@ -491,7 +494,6 @@
     <string name="playlist_name_hint">Numele listei de redare</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="current_chapter">Chapter: %s</string>
-    <string name="resume_from_position">Reia de la ultima poziție</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
     <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
     <string name="tv_ui_title">Interfata Android TV</string>
@@ -636,10 +638,12 @@
     <string name="subtitle_search_name_hint">Nume</string>
     <string name="subtitle_search_episode_hint">Episod</string>
     <string name="subtitle_search_season_hint">Sezon</string>
+    <string name="subtitles_download_failed">Descărcare eșuată</string>
     <string name="language_to_download">Limbă</string>
     <string name="delete_the_selected">Ștergeți selecția</string>
     <string name="download_the_selected">Descărcați selecția</string>
     <string name="next">Următoarea</string>
+    <string name="next_step">Următorul</string>
     <string name="download">Descărcați</string>
     <string name="ctx_player_video_track">Selectați pista video</string>
     <string name="ctx_player_audio_track">Pistă audio</string>
@@ -890,12 +894,14 @@
     <string name="start">Start</string>
     <string name="permission">Permisiune</string>
     <string name="customize">Personalizați</string>
-    <string name="selection_count">%d selectat</string>
+    <string name="selection_count"> %d selectat</string>
     <string name="controls_setting">Setările de control</string>
     <string name="gestures">Gesturi</string>
     <string name="player_controls">Controlul player-ului</string>
     <string name="video_double_tap_jump_delay">Întarzierea pentru funcţia de dublu apăsare</string>
     <string name="video_key_jump_delay">Întârzierea pentru butoanele de navigare</string>
+    <string name="banned">Dosar interzis (atinge lung pentru a schimba)</string>
+    <string name="banned_parent">Interzis de dosarul părinte</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Acest element este deja în lista de redare.</item>
         <item quantity="few">Aceste elemente sunt deja în lista de redare.</item>
@@ -908,5 +914,11 @@
     </plurals>
     <string name="official_website">Site-ul oficial</string>
     <string name="view_online">Vizualizare online</string>
+    <string name="player_under_notch">Afișează videoclipul sub crestătură</string>
+    <string name="notch">Crestătură</string>
+    <string name="always_fast_seek">Folosește întotdeauna căutarea rapidă</string>
+    <string name="always_fast_seek_summary">Căutarea este mai rapidă, dar poate fi mai puțin precisă</string>
+    <string name="touch_only">Funcția doar atingere</string>
+    <string name="touch_only_description">Trecerea la interfața mobilă se poate face numai cu un ecran tactil sau cu un mouse.\nTe rugăm să glisezi mai jos pentru a verifica dacă această funcție poate fi schimbată în siguranță.</string>
 
 </resources>
