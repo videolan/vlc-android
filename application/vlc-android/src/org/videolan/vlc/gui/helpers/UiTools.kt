@@ -83,6 +83,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.openLinkIfPossible
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -379,13 +380,13 @@ object UiTools {
             AboutVersionDialog.newInstance().show(activity.supportFragmentManager, "AboutVersionDialog")
         }
         v.findViewById<View>(R.id.about_website_container).setOnClickListener {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://www.videolan.org/vlc/".toUri()))
+            activity.openLinkIfPossible("https://www.videolan.org/vlc/")
         }
         v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://forum.videolan.org/viewforum.php?f=35".toUri()))
+            activity.openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
         }
         v.findViewById<View>(R.id.about_sources_container).setOnClickListener {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://code.videolan.org/videolan/vlc-android".toUri()))
+            activity.openLinkIfPossible("https://code.videolan.org/videolan/vlc-android")
         }
 
         v.findViewById<View>(R.id.about_authors_container).setOnClickListener {

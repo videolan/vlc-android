@@ -193,6 +193,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
     implementation 'nl.dionsegijn:konfetti:1.2.2'
+    implementation 'com.google.zxing:core:3.4.0'
 
     // Tests
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
