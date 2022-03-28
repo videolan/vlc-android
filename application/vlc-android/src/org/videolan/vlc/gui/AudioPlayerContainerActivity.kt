@@ -209,7 +209,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
         val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
                 ?: null
-        if (bottomIsHiddden) bottomBehavior?.setCollapsed()
+        if (bottomIsHiddden) bottomBehavior?.setCollapsed() else hideStatusIfNeeded(playerBehavior.state)
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
         playerBehavior.setPeekHeightListener {
@@ -236,12 +236,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 onPlayerStateChanged(bottomSheet, newState)
-                if (!needsTopInset()) {
-                    WindowInsetsControllerCompat(window, window.decorView).apply {
-                        systemBarsBehavior = if (newState == STATE_EXPANDED) WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
-                        if (newState == STATE_EXPANDED) hide(WindowInsetsCompat.Type.statusBars()) else show(WindowInsetsCompat.Type.statusBars())
-                    }
-                }
+                hideStatusIfNeeded(newState)
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
                 updateFragmentMargins(newState)
@@ -251,6 +246,15 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
         if (playlistTipsDelegate.currentTip != null) lockPlayer(true)
+    }
+
+    private fun hideStatusIfNeeded(newState: Int) {
+        if (!needsTopInset()) {
+            WindowInsetsControllerCompat(window, window.decorView).apply {
+                systemBarsBehavior = if (newState == STATE_EXPANDED) WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
+                if (newState == STATE_EXPANDED) hide(WindowInsetsCompat.Type.statusBars()) else show(WindowInsetsCompat.Type.statusBars())
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
