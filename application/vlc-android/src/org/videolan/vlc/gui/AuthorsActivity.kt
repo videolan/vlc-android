@@ -5,15 +5,19 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.*
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
-import com.squareup.moshi.*
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AboutAuthorsActivityBinding
 import org.videolan.vlc.databinding.AboutAuthorsItemBinding
@@ -42,6 +46,9 @@ class AuthorsActivity : BaseActivity() {
 
         binding.authorsList.layoutManager = LinearLayoutManager(this)
         loadAuthors()
+        if (AndroidDevices.isTv) {
+            applyOverscanMargin(this)
+        }
 
     }
 
