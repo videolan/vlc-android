@@ -386,6 +386,7 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
+        <item name="colorAccent">@color/orange500</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
@@ -562,6 +563,10 @@
     <style name="Toolbar.VLC" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface">
         <item name="android:textCursorDrawable">@drawable/cursor_w</item>
         <item name="colorControlNormal">@color/grey700</item>
+    </style>
+
+    <style name="ExpandableToolbar.VLC" parent="Toolbar.VLC">
+        <item name="background">@color/white</item>
     </style>
 
     <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.MaterialComponents.Headline5">

@@ -44,20 +44,25 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.media.AlbumImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.PlaylistImpl
 import org.videolan.resources.*
+import org.videolan.resources.util.getLength
 import org.videolan.tools.copy
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistActivityBinding
+import org.videolan.vlc.gui.audio.AudioAlbumTracksAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
@@ -73,7 +78,9 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
+import java.security.SecureRandom
 import java.util.*
+import kotlin.math.min
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -99,6 +106,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         fragmentContainer = binding.songs
         originalBottomPadding = fragmentContainer.paddingBottom
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         val playlist = if (savedInstanceState != null)
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem?
@@ -122,17 +130,32 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             binding.songs.invalidateItemDecorations()
         }
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
+        var totalDuration = 0L
+        for (item in viewModel.playlist.tracks)
+            totalDuration += item.length
+        binding.duration.text = Tools.millisToTextLarge(totalDuration)
         if (isPlaylist) {
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
             itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
             itemTouchHelper!!.attachToRecyclerView(binding.songs)
         } else {
+            audioBrowserAdapter = AudioAlbumTracksAdapter(MediaLibraryItem.TYPE_MEDIA, this, this)
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
+            if (viewModel.playlist is Album) {
+                val releaseYear = (viewModel.playlist as Album).releaseYear
+                binding.releaseDate.text =  if (releaseYear > 0) releaseYear.toString() else ""
+                if (releaseYear <= 0) binding.releaseDate.visibility = View.GONE
+            }
+            binding.btnShuffle.setOnClickListener {
+                MediaUtils.playTracks(this, viewModel.playlist, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
+            }
+            binding.btnAddPlaylist.setOnClickListener {
+                addToPlaylist(viewModel.playlist.tracks.toList())
+            }
         }
 
         binding.songs.layoutManager = LinearLayoutManager(this)
         binding.songs.adapter = audioBrowserAdapter
-        val fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY)
 
         lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
@@ -146,26 +169,20 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             if (cover != null) {
                 binding.cover = BitmapDrawable(this@HeaderMediaListActivity.resources, cover)
                 binding.appbar.setExpanded(true, true)
-                if (savedInstanceState != null) {
-                    if (fabVisibility)
-                        binding.fab.show()
-                    else
-                        binding.fab.hide()
-                }
-            } else fabFallback()
+            }
         }
 
-        binding.fab.setOnClickListener(this)
-    }
+        val context = this
+        lifecycleScope.launch(Dispatchers.IO) {
+            val width = if (binding.backgroundView.width > 0) binding.backgroundView.width else context.getScreenWidth()
+            val blurredCover = UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(viewModel.playlist.artworkMrl), width))
+            withContext(Dispatchers.Main) {
+                binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
+                binding.backgroundView.setImageBitmap(blurredCover)
+            }
+        }
 
-    private fun fabFallback() {
-        binding.appbar.setExpanded(false)
-        val lp = binding.fab.layoutParams as CoordinatorLayout.LayoutParams
-        lp.anchorId = R.id.songs
-        lp.anchorGravity = Gravity.BOTTOM or Gravity.END
-        lp.behavior = FloatingActionButtonBehavior(this@HeaderMediaListActivity, null)
-        binding.fab.layoutParams = lp
-        binding.fab.show()
+        binding.playBtn.setOnClickListener(this)
     }
 
     override fun onStop() {
@@ -175,7 +192,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     public override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(AudioBrowserFragment.TAG_ITEM, viewModel.playlist)
-        outState.putBoolean(TAG_FAB_VISIBILITY, binding.fab.visibility == View.VISIBLE)
         super.onSaveInstanceState(outState)
     }
 
@@ -271,8 +287,8 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             (item as? MediaWrapper)?.let { media ->
                 if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME or CTX_COPY
                 else  flags = flags or CTX_SHARE
+                showContext(this, this, position, media, flags)
             }
-            showContext(this, this, position, item.title, flags)
         }
     }
 
@@ -297,14 +313,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper!!.startDrag(viewHolder)
-    }
-
-    override fun onPlayerStateChanged(bottomSheet: View, newState: Int) {
-        val visibility = binding.fab.visibility
-        if (visibility == View.VISIBLE && newState != BottomSheetBehavior.STATE_COLLAPSED && newState != BottomSheetBehavior.STATE_HIDDEN)
-            binding.fab.hide()
-        else if (visibility == View.INVISIBLE && (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN))
-            binding.fab.show()
     }
 
     private fun startActionMode() {
@@ -486,7 +494,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     companion object {
 
         const val TAG = "VLC/PlaylistActivity"
-        const val TAG_FAB_VISIBILITY = "FAB"
     }
 
     override fun getFilterQuery() = viewModel.filterQuery
