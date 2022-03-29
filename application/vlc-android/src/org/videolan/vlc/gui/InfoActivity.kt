@@ -66,7 +66,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     private lateinit var model: InfoModel
 
     internal lateinit var binding: InfoActivityBinding
-    override fun needsTopInset() = false
+    override fun isTransparent() = true
     override val insetListener = {insets:Insets ->
         (binding.mlItemResolution.layoutParams as ConstraintLayout.LayoutParams).topMargin = insets.top + 16.dp
     }

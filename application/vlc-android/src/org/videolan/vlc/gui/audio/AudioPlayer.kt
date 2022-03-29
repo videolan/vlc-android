@@ -61,6 +61,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
@@ -240,7 +241,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun setBottomMargin() {
         (binding.playPause.layoutParams as? ConstraintLayout.LayoutParams)?.let {
             val audioPlayerContainerActivity = (requireActivity() as AudioPlayerContainerActivity)
-            if (audioPlayerContainerActivity.needsTopInset()) it.bottomMargin = it.bottomMargin + audioPlayerContainerActivity.bottomInset
+            if (audioPlayerContainerActivity is MainActivity && !audioPlayerContainerActivity.isTablet()) it.bottomMargin = it.bottomMargin + audioPlayerContainerActivity.bottomInset
         }
     }
 

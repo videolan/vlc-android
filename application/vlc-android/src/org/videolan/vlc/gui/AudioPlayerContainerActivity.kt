@@ -109,7 +109,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     val menu: Menu
         get() = toolbar.menu
 
-    open fun needsTopInset(): Boolean = true
+    open fun isTransparent(): Boolean = false
 
     open val insetListener: (Insets) -> Unit = {}
 
@@ -141,7 +141,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             savedInstanceState.getIntegerArrayList(SHOWN_TIPS)?.let { shownTips.addAll(it) }
         }
         super.onCreate(savedInstanceState)
-        if (AndroidUtil.isLolliPopOrLater) WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (AndroidUtil.isLolliPopOrLater && this is MainActivity) WindowCompat.setDecorFitsSystemWindows(window, false)
 
         volumeControlStream = AudioManager.STREAM_MUSIC
         registerLiveData()
@@ -149,18 +149,22 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = insets.left
-                rightMargin = insets.right
-                if (!needsTopInset()) bottomMargin = insets.bottom
-                if (needsTopInset()) topMargin = insets.top else {
+                if (isTransparent()) {
                     val toolbarLayoutParams = findViewById<Toolbar>(R.id.main_toolbar).layoutParams as ViewGroup.MarginLayoutParams
                     toolbarLayoutParams.topMargin = insets.top
                 }
-                val bottomNavigationView = findViewById<BottomNavigationView?>(R.id.navigation)
-                bottomNavigationView?.setPadding(bottomNavigationView.paddingLeft, bottomNavigationView.paddingTop, bottomNavigationView.paddingRight, insets.bottom)
-                bottomInset = insets.bottom
-                setContentBottomPadding()
-                insetListener.invoke(insets)
+                if (this@AudioPlayerContainerActivity is MainActivity) {
+                    leftMargin = insets.left
+                    rightMargin = insets.right
+                    if (isTablet()) bottomMargin = insets.bottom
+                    topMargin = insets.top
+                    topInset = insets.top
+                    val bottomNavigationView = findViewById<BottomNavigationView?>(R.id.navigation)
+                    bottomNavigationView?.setPadding(bottomNavigationView.paddingLeft, bottomNavigationView.paddingTop, bottomNavigationView.paddingRight, insets.bottom)
+                    bottomInset = insets.bottom
+                    setContentBottomPadding()
+                    insetListener.invoke(insets)
+                }
             }
 
             WindowInsetsCompat.CONSUMED
@@ -228,7 +232,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 val translationpercent = min(1f, max(0f, slideOffset))
                 bottomBehavior?.let { bottomBehavior ->
                     bottomBar?.let { bottomBar ->
-                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat()) - if (!needsTopInset()) topInset else 0
+                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat()) - if (isTablet()) topInset else 0
                         bottomBehavior.translate(bottomBar, translation)
                     }
                 }
@@ -249,7 +253,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     }
 
     private fun hideStatusIfNeeded(newState: Int) {
-        if (!needsTopInset()) {
+        if (isTransparent()) {
             WindowInsetsControllerCompat(window, window.decorView).apply {
                 systemBarsBehavior = if (newState == STATE_EXPANDED) WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE else WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_TOUCH
                 if (newState == STATE_EXPANDED) hide(WindowInsetsCompat.Type.statusBars()) else show(WindowInsetsCompat.Type.statusBars())

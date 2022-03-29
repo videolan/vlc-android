@@ -72,7 +72,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         return intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING
     }
 
-    override fun needsTopInset() = true
 
     override fun forcedTheme() =
         if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Black
