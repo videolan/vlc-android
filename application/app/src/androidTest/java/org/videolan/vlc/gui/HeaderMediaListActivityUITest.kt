@@ -9,6 +9,8 @@ import androidx.test.espresso.contrib.DrawerActions.*
 import androidx.test.espresso.matcher.RootMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
@@ -20,12 +22,14 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 
-class PlaylistActivityUITest: BaseUITest() {
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+class HeaderMediaListActivityUITest: BaseUITest() {
     @Rule
     @JvmField
-    val activityTestRule = ActivityTestRule(PlaylistActivity::class.java, true, false)
+    val activityTestRule = ActivityTestRule(HeaderMediaListActivity::class.java, true, false)
 
-    lateinit var activity: PlaylistActivity
+    lateinit var activity: HeaderMediaListActivity
 
     override fun beforeTest() {
         // TODO: Hack because of IO Dispatcher used in MediaParsingService channel

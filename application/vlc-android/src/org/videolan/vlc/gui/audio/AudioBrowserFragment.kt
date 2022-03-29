@@ -50,7 +50,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -362,7 +362,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 i.putExtra(TAG_ITEM, item)
             }
             MediaLibraryItem.TYPE_ALBUM -> {
-                i = Intent(activity, PlaylistActivity::class.java)
+                i = Intent(activity, HeaderMediaListActivity::class.java)
                 i.putExtra(TAG_ITEM, item)
             }
             else -> return

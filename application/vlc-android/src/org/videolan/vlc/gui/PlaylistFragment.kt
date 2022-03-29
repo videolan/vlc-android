@@ -194,7 +194,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null) {
-            val i = Intent(activity, PlaylistActivity::class.java)
+            val i = Intent(activity, HeaderMediaListActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
         } else super.onClick(v, position, item)

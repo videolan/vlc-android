@@ -75,7 +75,9 @@ import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.util.*
 
-open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView
     private lateinit var itemTouchHelperCallback: SwipeDragItemTouchHelperCallback
@@ -142,7 +144,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 }
             }
             if (cover != null) {
-                binding.cover = BitmapDrawable(this@PlaylistActivity.resources, cover)
+                binding.cover = BitmapDrawable(this@HeaderMediaListActivity.resources, cover)
                 binding.appbar.setExpanded(true, true)
                 if (savedInstanceState != null) {
                     if (fabVisibility)
@@ -161,7 +163,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         val lp = binding.fab.layoutParams as CoordinatorLayout.LayoutParams
         lp.anchorId = R.id.songs
         lp.anchorGravity = Gravity.BOTTOM or Gravity.END
-        lp.behavior = FloatingActionButtonBehavior(this@PlaylistActivity, null)
+        lp.behavior = FloatingActionButtonBehavior(this@HeaderMediaListActivity, null)
         binding.fab.layoutParams = lp
         binding.fab.show()
     }
@@ -429,13 +431,13 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 for (item in items) {
                     val deleteAction = kotlinx.coroutines.Runnable {
                         lifecycleScope.launch {
-                            MediaUtils.deleteItem(this@PlaylistActivity, item) {
-                                UiTools.snacker(this@PlaylistActivity, getString(R.string.msg_delete_failed, it.title))
+                            MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
+                                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
                             }
                             if (isStarted()) viewModel.refresh()
                         }
                     }
-                    if (Permissions.checkWritePermission(this@PlaylistActivity, item, deleteAction)) deleteAction.run()
+                    if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
                 }
             }
         }
@@ -449,7 +451,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             if (parentPath != null && FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
                 foldersToReload.add(parentPath)
             } else
-                UiTools.snacker(this@PlaylistActivity, getString(R.string.msg_delete_failed, media.title))
+                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, media.title))
         }
         for (folder in foldersToReload) mediaLibrary.reload(folder)
     }
@@ -473,7 +475,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 }
             }
             var removedMessage = if (indexes.size>1) getString(R.string.removed_from_playlist_anonymous) else getString(R.string.remove_playlist_item,list.first().title)
-            UiTools.snackerWithCancel(this@PlaylistActivity, removedMessage, action = {}) {
+            UiTools.snackerWithCancel(this@HeaderMediaListActivity, removedMessage, action = {}) {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
                 }

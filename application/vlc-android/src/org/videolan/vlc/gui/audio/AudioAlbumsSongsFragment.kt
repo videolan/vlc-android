@@ -42,6 +42,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
@@ -210,7 +211,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             return
         }
         if (item is Album) {
-            val i = Intent(activity, PlaylistActivity::class.java)
+            val i = Intent(activity, HeaderMediaListActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
         } else {

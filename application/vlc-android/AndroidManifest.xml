@@ -472,7 +472,7 @@
             android:theme="@style/Theme.VLC"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".gui.PlaylistActivity"
+            android:name=".gui.HeaderMediaListActivity"
             android:theme="@style/Theme.VLC.NoStatus"/>
         <activity
             android:name=".gui.InfoActivity"
