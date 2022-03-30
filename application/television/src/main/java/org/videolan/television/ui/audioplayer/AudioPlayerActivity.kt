@@ -231,6 +231,8 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         model.setTime(time.toLong())
     }
 
+    override fun isReady() = true
+
     override fun showAdvancedOptions() {
         showAdvancedOptions(null)
     }

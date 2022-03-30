@@ -266,6 +266,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         return super.onKeyDown(keyCode, event)
     }
 
+    override fun isReady() = ::audioPlayer.isInitialized
+
     override fun showAdvancedOptions() {
         audioPlayer.showAdvancedOptions(null)
     }

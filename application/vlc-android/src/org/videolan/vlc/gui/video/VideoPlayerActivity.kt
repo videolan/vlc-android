@@ -1190,6 +1190,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
+    override fun isReady() = true
+
     override fun showAdvancedOptions() {
         if (optionsDelegate == null) service?.let {
             optionsDelegate = PlayerOptionsDelegate(this, it)
