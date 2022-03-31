@@ -26,7 +26,7 @@ class VLCAppWidgetProviderWhite : VLCAppWidgetProvider() {
 
 
     override fun getlayout(): Int {
-        return R.layout.widget_w
+        return R.layout.widget_old
     }
 
 

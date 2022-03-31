@@ -59,6 +59,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.WidgetMigration
 import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "VLC/MainActivity"
@@ -96,6 +97,7 @@ class MainActivity : ContentActivity(),
         mediaLibrary = Medialibrary.getInstance()
 
 //        VLCBilling.getInstance(application).retrieveSkus()
+        WidgetMigration.launchIfNeeded(this)
     }
 
     override fun onResume() {

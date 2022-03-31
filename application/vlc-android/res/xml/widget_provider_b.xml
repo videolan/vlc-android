@@ -4,6 +4,6 @@
     android:resizeMode="horizontal|vertical"
     android:minResizeWidth="180dp"
     android:updatePeriodMillis="86400000"
-    android:initialLayout="@layout/widget_b"
+    android:initialLayout="@layout/widget_old"
     android:previewImage="@drawable/widget_preview_b">
 </appwidget-provider>

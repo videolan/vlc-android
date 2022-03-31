@@ -531,6 +531,11 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="widget_old_text">We updated our widgets!</string>
+    <string name="widget_old_description_start">Good news! We released improved widgets.\nThey offer more responsiveness and customization</string>
+    <string name="whats_next">What\'s next?</string>
+    <string name="widget_old_description_end">We detected that you already have widgets on your launcher. Unfortunately, they are not compatible with our new improved ones.\nDepending on your launcher, you may have to remove the old ones to replace them.</string>
+    <string name="click_here">Click here to learn more.</string>
     <string name="widget_default_text" translatable="false">VLC mini player</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
