@@ -853,6 +853,7 @@
     <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
+    <string name="create_shortcut">Create a launcher shortcut</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
     <string name="enqueuing">Loading your medias</string>
     <string name="soundfont">MIDI SoundFont</string>

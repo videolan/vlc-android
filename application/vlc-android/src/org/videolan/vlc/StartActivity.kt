@@ -37,6 +37,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
+import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
@@ -168,11 +169,29 @@ class StartActivity : FragmentActivity() {
                 }
             }
         } else {
-            val target = idFromShortcut
-            if (target == R.id.ml_menu_last_playlist)
-                PlaybackService.loadLastAudio(this)
-            else
-                startApplication(tv, firstRun, upgrade, target, removeOldDevices)
+            if (action != null && action.startsWith("vlc.mediashortcut:")) {
+                val split = action.split(":")
+                val type = split[split.count() - 2]
+                val id = split.last()
+                lifecycleScope.launch {
+                    getFromMl {
+                        val album = when(type) {
+                         "album" ->   getAlbum(id.toLong())
+                         "artist" ->   getArtist(id.toLong())
+                         "genre" ->   getGenre(id.toLong())
+                         "playlist" ->   getPlaylist(id.toLong(), false)
+                         else ->   getMedia(id.toLong())
+                        }
+                        MediaUtils.playTracks(this@StartActivity, album, 0)
+                    }
+                }
+            } else {
+                val target = idFromShortcut
+                if (target == R.id.ml_menu_last_playlist)
+                    PlaybackService.loadLastAudio(this)
+                else
+                    startApplication(tv, firstRun, upgrade, target, removeOldDevices)
+            }
         }
         FileUtils.copyLua(applicationContext, upgrade)
         FileUtils.copyHrtfs(applicationContext, upgrade)

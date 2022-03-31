@@ -31,6 +31,7 @@ import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
@@ -136,7 +137,23 @@ object BitmapUtil {
             else -> BitmapFactory.decodeResource(context.resources, drawableId)
         }
     }
+
+    fun vectorToBitmap(context: Context, @DrawableRes resVector: Int, width:Int? = null, height:Int? = null): Bitmap? {
+        val drawable = AppCompatResources.getDrawable(context, resVector)
+        val b = Bitmap.createBitmap(width ?: drawable!!.intrinsicWidth, height ?: drawable!!.intrinsicHeight,
+                Bitmap.Config.ARGB_8888)
+        val c = Canvas(b)
+        drawable!!.setBounds(0, 0, c.width, c.height)
+        drawable!!.draw(c)
+        return b
+    }
 }
+
+fun Bitmap?.centerCrop(dstWidth: Int, dstHeight: Int):Bitmap? {
+    if (this == null) return null
+    return BitmapUtil.centerCrop(this, dstWidth, dstHeight)
+}
+
 
 fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int, width: Int = -1, height: Int = -1): Bitmap? {
     var drawable: Drawable = try {

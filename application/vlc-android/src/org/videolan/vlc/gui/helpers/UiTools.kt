@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -51,6 +52,9 @@ import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.databinding.BindingAdapter
@@ -75,15 +79,19 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.helpers.BitmapUtil.vectorToBitmap
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
+import kotlin.math.min
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -457,6 +465,44 @@ object UiTools {
         addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray(), AddToGroupDialog.FORBID_NEW_GROUP to forbidNewGroup)
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
         addToGroupDialog.newGroupListener = newGroupListener
+    }
+
+    /**
+     * Creates a shortcut to the media on the launcher
+     * @param mediaLibraryItem: the [MediaLibraryItem] to create a shortcut to
+     */
+    suspend fun FragmentActivity.createShortcut(mediaLibraryItem: MediaLibraryItem) {
+        if (!isStarted()) return
+
+        val context = this
+        withContext(Dispatchers.IO) {
+            val iconBitmap = if (mediaLibraryItem is Genre || mediaLibraryItem is Playlist)
+                ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${mediaLibraryItem.id}_${48.dp}", mediaLibraryItem.tracks.toList(), 48.dp)
+            else
+                BitmapCache.getBitmapFromMemCache(ThumbnailsProvider.getMediaCacheKey(mediaLibraryItem is MediaWrapper, mediaLibraryItem, 48.dp.toString()))
+                        ?: ThumbnailsProvider.obtainBitmap(mediaLibraryItem, 48.dp)
+
+
+            val size = min(48.dp, iconBitmap?.height ?: 0)
+            val iconCompat = IconCompat.createWithAdaptiveBitmap(iconBitmap.centerCrop(size, size)
+                    ?: vectorToBitmap(context, R.drawable.ic_icon, 48.dp, 48.dp))
+            val actionType = when (mediaLibraryItem) {
+                is Album -> "album"
+                is Artist -> "artist"
+                is Genre -> "genre"
+                is Playlist -> "playlist"
+                else -> "media"
+            }
+            val pinShortcutInfo = ShortcutInfoCompat.Builder(context, mediaLibraryItem.id.toString())
+                    .setShortLabel(mediaLibraryItem.title)
+                    .setIntent(Intent(context, StartActivity::class.java).apply { action = "vlc.mediashortcut:$actionType:${mediaLibraryItem.id}" })
+                    .setIcon(iconCompat)
+                    .build()
+
+            val pinnedShortcutCallbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, pinShortcutInfo)
+            val successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0)
+            ShortcutManagerCompat.requestPinShortcut(context, pinShortcutInfo, successCallback.intentSender)
+        }
     }
 
     fun FragmentActivity.showVideoTrack(menuListener:(VideoTracksDialog.VideoTrackOption) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {

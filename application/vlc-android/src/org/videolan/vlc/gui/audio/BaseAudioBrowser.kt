@@ -56,6 +56,7 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
@@ -403,6 +404,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_SET_RINGTONE -> activity?.setRingtone(media as MediaWrapper)
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
             CTX_GO_TO_FOLDER -> showParentFolder(media as MediaWrapper)
+            CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
         }
     }
 

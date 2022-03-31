@@ -30,6 +30,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.copy
@@ -39,6 +40,7 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.StreamsModel
@@ -79,11 +81,12 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
                 }
                 viewModel.refresh()
             }
+            CTX_ADD_SHORTCUT -> fragment.requireActivity().lifecycleScope.launch { fragment.requireActivity().createShortcut(viewModel.dataset.get(position))}
         }
     }
 
     override fun showContext(position: Int) {
-        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY or CTX_DELETE
+        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY or CTX_DELETE or CTX_ADD_SHORTCUT
         val media = viewModel.dataset.get(position)
         org.videolan.vlc.gui.dialogs.showContext(fragment.requireActivity(), this, position, media.title, flags)
     }
