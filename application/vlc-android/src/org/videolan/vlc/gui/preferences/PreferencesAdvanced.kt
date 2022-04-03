@@ -31,6 +31,8 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -75,6 +77,11 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         if (BuildConfig.DEBUG) findPreference<Preference>("debug_logs")?.isVisible = false
         if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
 
+        findPreference<EditTextPreference>("network_caching")?.setOnBindEditTextListener {
+            it.inputType = InputType.TYPE_CLASS_NUMBER
+            it.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
+            it.setSelection(it.editableText.length)
+        }
     }
 
     override fun onStart() {
@@ -187,11 +194,14 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "network_caching" -> {
                 sharedPreferences.edit {
                     try {
-                        putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
+                        val origValue = Integer.parseInt(sharedPreferences.getString(key, "0"))
+                        val newValue = origValue.coerceIn(0, 60000)
+                        putInt("network_caching_value", newValue)
+                        findPreference<EditTextPreference>(key)?.let { it.text = newValue.toString() }
+                        if (origValue != newValue) UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     } catch (e: NumberFormatException) {
                         putInt("network_caching_value", 0)
-                        val networkCachingPref = findPreference<EditTextPreference>(key)
-                        networkCachingPref?.text = ""
+                        findPreference<EditTextPreference>(key)?.let { it.text = "0" }
                         UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     }
                 }
@@ -210,8 +220,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 restartLibVLC()
             }
             "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+                restartLibVLC()
             }
             "prefer_smbv1" -> {
                 VLCInstance.restart()
@@ -219,7 +228,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
         }
     }
-    fun restartLibVLC() {
+
+    private fun restartLibVLC() {
         VLCInstance.restart()
         (activity as? PreferencesActivity)?.restartMediaPlayer()
     }

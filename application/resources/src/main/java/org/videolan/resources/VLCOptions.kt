@@ -80,11 +80,7 @@ object VLCOptions {
             } catch (ignored: NumberFormatException) {
             }
 
-            var networkCaching = pref.getInt("network_caching_value", 0)
-            if (networkCaching > 60000)
-                networkCaching = 60000
-            else if (networkCaching < 0) networkCaching = 0
-
+            var networkCaching = pref.getInt("network_caching_value", 0).coerceIn(0, 60000)
             val freetypeRelFontsize = pref.getString("subtitles_size", "16")
             val freetypeBold = pref.getBoolean("subtitles_bold", false)
             val freetypeColor = pref.getString("subtitles_color", "16777215")

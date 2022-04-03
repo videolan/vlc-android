@@ -12,7 +12,7 @@
             android:fragment="org.videolan.television.ui.preferences.PreferencesOptional"/>
 
     <EditTextPreference
-            android:defaultValue=""
+            android:defaultValue="0"
             android:key="network_caching"
             android:maxLength="5"
             android:summary="@string/network_caching_summary"

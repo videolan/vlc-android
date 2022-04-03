@@ -450,12 +450,12 @@
     <string name="clear_history">Clear history</string>
     <string name="set_locale">Set locale</string>
     <string name="network_caching">Network caching value</string>
-    <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nLeave blank to reset</string>
+    <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nSet to 0 to disable</string>
     <string name="resume_playback_title">Resume playback after a call</string>
     <string name="resume_playback_summary">Stay in pause otherwise</string>
     <string name="blurred_cover_background_title">Blurred cover background</string>
     <string name="blurred_cover_background_summary">Blurred cover in audio player background</string>
-    <string name="network_caching_popup">This value must be between 0 and 6000 ms</string>
+    <string name="network_caching_popup">This value must be between 0 and 60000 ms</string>
     <string name="quit">Quit and restart application</string>
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
     <string name="restart_message_OK">OK</string>

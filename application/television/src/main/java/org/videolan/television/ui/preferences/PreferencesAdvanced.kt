@@ -32,6 +32,8 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
@@ -74,6 +76,20 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         super.onCreate(savedInstanceState)
         if (BuildConfig.DEBUG) findPreference<Preference>("debug_logs")?.isVisible = false
         if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
+    }
+
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        val f = super.buildPreferenceDialogFragment(preference)
+        if (f is CustomEditTextPreferenceDialogFragment) {
+            when (preference.key) {
+                "network_caching" -> {
+                    f.setInputType(InputType.TYPE_CLASS_NUMBER)
+                    f.setFilters(arrayOf(InputFilter.LengthFilter(5)))
+                }
+            }
+            return
+        }
+        super.onDisplayPreferenceDialog(preference)
     }
 
     override fun onStart() {
@@ -180,11 +196,14 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "network_caching" -> {
                 sharedPreferences.edit {
                     try {
-                        putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
+                        val origValue = Integer.parseInt(sharedPreferences.getString(key, "0"))
+                        val newValue = origValue.coerceIn(0, 60000)
+                        putInt("network_caching_value", newValue)
+                        findPreference<EditTextPreference>(key)?.let { it.text = newValue.toString() }
+                        if (origValue != newValue) activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
                     } catch (e: NumberFormatException) {
                         putInt("network_caching_value", 0)
-                        val networkCachingPref = findPreference<EditTextPreference>(key)
-                        networkCachingPref?.text = ""
+                        findPreference<EditTextPreference>(key)?.let { it.text = "0" }
                         activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
                     }
                 }
@@ -207,7 +226,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         }
     }
 
-    fun restartLibVLC() {
+    private fun restartLibVLC() {
         VLCInstance.restart()
         (activity as? PreferencesActivity)?.restartMediaPlayer()
     }
