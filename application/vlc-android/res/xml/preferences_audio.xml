@@ -70,6 +70,31 @@
             android:title="@string/enable_android_auto_seek_buttons"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/replaygain_prefs_category">
+        <ListPreference
+            android:defaultValue="none"
+            android:entries="@array/replaygain"
+            android:entryValues="@array/replaygain_values"
+            android:key="audio-replay-gain-mode"
+            android:summary="@string/replaygain_mode_summary"
+            android:title="@string/replaygain_mode"/>
+        <EditTextPreference
+            android:defaultValue="0.0"
+            android:key="audio-replay-gain-preamp"
+            android:summary="@string/replaygain_preamp_summary"
+            android:title="@string/replaygain_preamp"/>
+        <EditTextPreference
+            android:defaultValue="-7.0"
+            android:key="audio-replay-gain-default"
+            android:summary="@string/replaygain_default_summary"
+            android:title="@string/replaygain_default"/>
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="audio-replay-gain-peak-protection"
+            android:summary="@string/replaygain_peak_protection_summary"
+            android:title="@string/replaygain_peak_protection"/>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
         <CheckBoxPreference
                 app:singleLineTitle="false"

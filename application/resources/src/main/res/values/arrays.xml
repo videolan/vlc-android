@@ -352,6 +352,17 @@
         <item>Windows-1258</item>
     </string-array>
 
+    <string-array name="replaygain">
+        <item>@string/replaygain_none</item>
+        <item>@string/replaygain_track</item>
+        <item>@string/replaygain_album</item>
+    </string-array>
+    <string-array name="replaygain_values" translatable="false">
+        <item>none</item>
+        <item>track</item>
+        <item>album</item>
+    </string-array>
+
     <string-array name="aouts">
         <item>@string/aout_audiotrack</item>
         <item>@string/aout_opensles</item>

@@ -26,7 +26,12 @@ import android.annotation.TargetApi
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
+import android.util.Log
+import androidx.core.content.edit
 import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,6 +46,9 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.LocaleUtil
+import java.text.DecimalFormat
+
+private const val TAG = "VLC/PreferencesAudio"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -79,6 +87,20 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         prepareLocaleList()
     }
 
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        val f = super.buildPreferenceDialogFragment(preference)
+        if (f is CustomEditTextPreferenceDialogFragment) {
+            when (preference.key) {
+                "audio-replay-gain-preamp", "audio-replay-gain-default" -> {
+                    f.setFilters(arrayOf(InputFilter.LengthFilter(6)))
+                    f.setInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED)
+                }
+            }
+            return
+        }
+        super.onDisplayPreferenceDialog(preference)
+    }
+
     private fun updatePreferredAudioTrack() {
         val value = Settings.getInstance(activity).getString("audio_preferred_language", null)
         if (value.isNullOrEmpty())
@@ -101,15 +123,38 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "aout" -> {
-                VLCInstance.restart()
-                if (activity != null) (activity as PreferencesActivity).restartMediaPlayer()
+                restartLibVLC()
                 val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
             "audio_digital_output" -> updatePassThroughSummary()
             "audio_preferred_language" -> updatePreferredAudioTrack()
+            "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> restartLibVLC()
+            "audio-replay-gain-default", "audio-replay-gain-preamp" -> {
+                val defValue = if (key == "audio-replay-gain-default") "-7.0" else "0.0"
+                val newValue = sharedPreferences.getString(key, defValue)
+                var fmtValue = defValue
+                try {
+                    fmtValue = DecimalFormat("###0.0###").format(newValue?.toDouble())
+                } catch (e: IllegalArgumentException) {
+                    Log.w(TAG, "Could not parse value: $newValue. Setting $key to $fmtValue", e)
+                } finally {
+                    if (fmtValue != newValue) {
+                        sharedPreferences.edit {
+                            // putString will trigger another preference change event. Restart libVLC when it settles.
+                            putString(key, fmtValue)
+                            findPreference<EditTextPreference>(key)?.let { it.text = fmtValue }
+                        }
+                    } else restartLibVLC()
+                }
+            }
         }
+    }
+
+    private fun restartLibVLC() {
+        VLCInstance.restart()
+        if (activity != null) (activity as PreferencesActivity).restartMediaPlayer()
     }
 
     private fun prepareLocaleList() {

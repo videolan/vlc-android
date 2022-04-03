@@ -141,6 +141,16 @@ object VLCOptions {
                 options.add("--hrtf-file")
                 options.add(hstfPath)
             }
+            val replayGainMode = pref.getString("audio-replay-gain-mode", "none")
+            if (replayGainMode != "none") {
+                options.add("--audio-replay-gain-mode=$replayGainMode")
+                options.add("--audio-replay-gain-preamp=${pref.getString("audio-replay-gain-preamp", "0.0")}")
+                options.add("--audio-replay-gain-default=${pref.getString("audio-replay-gain-default", "-7.0")}")
+                if (pref.getBoolean("audio-replay-gain-peak-protection", true))
+                    options.add("--audio-replay-gain-peak-protection")
+                else
+                    options.add("--no-audio-replay-gain-peak-protection")
+            }
             val soundFontFile = getSoundFontFile(context)
             if (soundFontFile.exists()) {
                 options.add("--soundfont=${soundFontFile.path}")
