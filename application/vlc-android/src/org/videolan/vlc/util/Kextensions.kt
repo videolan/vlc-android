@@ -21,6 +21,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.text.PrecomputedTextCompat
+import androidx.core.text.toSpannable
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
@@ -48,6 +49,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import java.io.File
+import java.lang.ref.WeakReference
 import java.net.URI
 import java.net.URISyntaxException
 import java.security.SecureRandom
@@ -164,7 +166,7 @@ fun asyncText(view: TextView, text: CharSequence?) {
     }
     view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
-    (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
+    setTextAsync(view, text, params)
 }
 
 @BindingAdapter("app:asyncText", requireAll = false)
@@ -185,7 +187,20 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     }
     view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
-    (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
+    setTextAsync(view, text, params)
+}
+
+private fun setTextAsync(view: TextView, text: CharSequence, params: PrecomputedTextCompat.Params) {
+    val ref = WeakReference(view)
+    AppScope.launch(Dispatchers.Default) {
+        val pText = PrecomputedTextCompat.create(text, params)
+        val result = pText.toSpannable()
+        withContext(Dispatchers.Main) {
+            ref.get()?.let { textView ->
+                textView.text = result
+            }
+        }
+    }
 }
 
 const val folderReplacementMarker = "§*§"
