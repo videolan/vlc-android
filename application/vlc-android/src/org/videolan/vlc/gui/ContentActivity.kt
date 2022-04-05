@@ -50,6 +50,7 @@ import org.videolan.vlc.interfaces.Filterable
 open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView
+    private lateinit var searchItem: MenuItem
     private var showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.renderers.value.isNullOrEmpty()
     private val searchHiddenMenuItem = ArrayList<MenuItem>()
     open fun hideRenderers() = false
@@ -77,6 +78,11 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         UiTools.setOnDragListener(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        searchItem.collapseActionView()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val current = currentFragment
         super.onCreateOptionsMenu(menu)
@@ -88,7 +94,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         }
         if (current is Filterable) {
             val filterable = current as Filterable?
-            val searchItem = menu.findItem(R.id.ml_menu_filter)
+            searchItem = menu.findItem(R.id.ml_menu_filter)
             searchView = searchItem.actionView as SearchView
             searchView.queryHint = getString(R.string.search_in_list_hint)
             searchView.setOnQueryTextListener(this)
