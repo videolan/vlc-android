@@ -1053,9 +1053,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
             }
-            val length = player.getLength()
+            val time = player.getCurrentTime()
             val canSwitchToVideo = player.canSwitchToVideo()
-            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (length == 0L) medialibrary.setLastPosition(id, 1.0f) else  medialibrary.setLastTime(id, length)
+            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (mw.length == 0L) medialibrary.setLastPosition(id, player.lastPosition) else  medialibrary.setLastTime(id, time)
         }
     }
 
