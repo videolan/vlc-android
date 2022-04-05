@@ -595,6 +595,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             lastTime = -1
             forcedTime = lastTime
             enableSubs()
+            if (this.isPlaying) loadMedia(forceUsingNew = true)
         }
     }
 
@@ -1779,14 +1780,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         rootView?.run { keepScreenOn = false }
     }
 
-    /*
-     * Additionnal method to prevent alert dialog to pop up
-     */
-    private fun loadMedia(fromStart: Boolean) {
-        askResume = false
-        intent.putExtra(PLAY_EXTRA_FROM_START, fromStart)
-        loadMedia()
-    }
 
     /**
      * External extras:
@@ -1797,7 +1790,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     @SuppressLint("SdCardPath")
     @TargetApi(12)
-    protected open fun loadMedia() {
+    protected open fun loadMedia(fromStart: Boolean = false, forceUsingNew:Boolean = false) {
+        if (fromStart) {
+            askResume = false
+            intent.putExtra(PLAY_EXTRA_FROM_START, fromStart)
+        }
         service?.let { service ->
             isPlaying = false
             var title: String? = null
@@ -1898,7 +1895,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 // Start playback & seek
                 /* prepare playback */
                 val medialoaded = media != null
-                if (!medialoaded) media = if (hasMedia) currentMedia else MLServiceLocator.getAbstractMediaWrapper(uri)
+                if (!medialoaded) media = if (hasMedia && !forceUsingNew) currentMedia else MLServiceLocator.getAbstractMediaWrapper(uri)
                 itemTitle?.let { media?.title = Uri.decode(it) }
                 if (wasPaused) media?.addFlags(MediaWrapper.MEDIA_PAUSED)
                 if (intent.hasExtra(PLAY_DISABLE_HARDWARE)) media?.addFlags(MediaWrapper.MEDIA_NO_HWACCEL)

@@ -147,10 +147,10 @@ class BenchActivity : ShallowVideoPlayer() {
         }
     }
 
-    override fun loadMedia() {
+    override fun loadMedia(fromStart: Boolean, forceUsingNew: Boolean) {
         service?.setBenchmark()
         if (isHardware) service?.setHardware()
-        super.loadMedia()
+        super.loadMedia(fromStart, true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
