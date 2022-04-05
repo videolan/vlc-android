@@ -141,10 +141,10 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
-                holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else item.getPresenceDescription())
+                holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else if(item.presentCount == 0) holder.itemView.context.resources.getString(R.string.no_video) else item.getPresenceDescription())
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
-                val seen = if (item.presentSeen == item.presentCount) 1L else 0L
+                val seen = if (item.presentSeen == item.presentCount && item.presentCount != 0) 1L else 0L
                 holder.binding.setVariable(BR.seen, seen)
                 holder.binding.setVariable(BR.max, 0)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
