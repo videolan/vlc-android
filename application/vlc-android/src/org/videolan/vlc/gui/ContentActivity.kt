@@ -80,7 +80,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
 
     override fun onPause() {
         super.onPause()
-        searchItem.collapseActionView()
+        if (::searchItem.isInitialized) searchItem.collapseActionView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
