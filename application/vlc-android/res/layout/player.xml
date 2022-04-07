@@ -114,6 +114,30 @@
                 android:layout="@layout/player_hud"
                 android:layout_alignParentBottom="true" />
 
+        <ImageView
+                android:id="@+id/hinge_go_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_arrow_left" />
+
+        <ImageView
+                android:id="@+id/hinge_go_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_arrow_right" />
+
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

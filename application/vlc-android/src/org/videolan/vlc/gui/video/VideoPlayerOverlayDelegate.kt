@@ -34,9 +34,7 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.ViewStubCompat
@@ -44,12 +42,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.window.layout.FoldingFeature
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -75,10 +75,8 @@ import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.getScreenHeight
-import org.videolan.vlc.util.isSchemeFile
-import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.text.DateFormat
 import java.util.*
@@ -116,6 +114,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     var seekButtons: Boolean = false
     var hasPlaylist: Boolean = false
+    private var hingeSnackShown: Boolean = false
 
     var enableSubs = true
     private lateinit var bookmarkListDelegate: BookmarkListDelegate
@@ -127,9 +126,103 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private var orientationLockedBeforeLock: Boolean = false
     lateinit var closeButton: View
     lateinit var playlistContainer: View
+    lateinit var hingeArrowRight: ImageView
+    lateinit var hingeArrowLeft: ImageView
     lateinit var playlist: RecyclerView
     lateinit var playlistSearchText: TextInputLayout
     lateinit var playlistAdapter: PlaylistAdapter
+    var foldingFeature: FoldingFeature? = null
+        set(value) {
+            field = value
+            manageHinge()
+        }
+
+    /**
+     * Changes the device layout depending on the scree foldable status and features
+     */
+     fun manageHinge() {
+         resetHingeLayout()
+         if (foldingFeature == null || !Settings.getInstance(player).getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true))  return
+        val foldingFeature = foldingFeature!!
+
+         //device is fully occluded and split vertically. We display the controls on the half left or right side
+         if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+             val onRight = Settings.getInstance(player).getBoolean(HINGE_ON_RIGHT, true)
+             hingeArrowLeft.visibility = if (onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
+             hingeArrowRight.visibility = if (!onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
+             val halfScreenSize = player.getScreenWidth() - foldingFeature.bounds.right
+             arrayOf(playerUiContainer, hudBackground, hudRightBackground, playlistContainer).forEach {
+                 it?.let { view ->
+                     val lp = (view.layoutParams as RelativeLayout.LayoutParams)
+                     lp.width = halfScreenSize
+                     lp.addRule(if (onRight) RelativeLayout.ALIGN_PARENT_RIGHT else RelativeLayout.ALIGN_PARENT_LEFT)
+                     lp.removeRule(if (onRight) RelativeLayout.ALIGN_PARENT_LEFT else RelativeLayout.ALIGN_PARENT_RIGHT)
+                     view.layoutParams = lp
+                 }
+             }
+             showHingeSnackIfNeeded()
+         } else {
+             //device is separated and half opened. We display the controls on the bottom half and the video on the top half
+             if (foldingFeature.state == FoldingFeature.State.HALF_OPENED) {
+                 val videoLayoutLP = (player.videoLayout!!.layoutParams as RelativeLayout.LayoutParams)
+                 val halfScreenSize = foldingFeature.bounds.top
+                 videoLayoutLP.height = halfScreenSize
+                 player.videoLayout!!.layoutParams = videoLayoutLP
+                 player.findViewById<FrameLayout>(R.id.player_surface_frame).children.forEach { it.requestLayout() }
+
+                 arrayOf(playerUiContainer, playlistContainer).forEach {
+                     val lp = (it.layoutParams as RelativeLayout.LayoutParams)
+                     lp.height = halfScreenSize
+                     lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+                     it.layoutParams = lp
+                 }
+                 arrayOf(hudBackground, hudRightBackground).forEach {
+                     it?.setGone()
+                 }
+                 showHingeSnackIfNeeded()
+             }
+         }
+     }
+
+    /**
+     * Shows the fold layout snackbar if needed
+     */
+    private fun showHingeSnackIfNeeded() {
+        if (!hingeSnackShown) {
+            UiTools.snackerConfirm(player, player.getString(R.string.fold_optimized), confirmMessage = R.string.undo) {
+                player.resizeDelegate.showResizeOverlay()
+            }
+            hingeSnackShown = true
+        }
+    }
+
+    /**
+     * Resets the layout to normal after a fold/hinge status change
+     */
+    private fun resetHingeLayout() {
+        arrayOf(playerUiContainer, hudBackground, hudRightBackground, playlistContainer).forEach {
+            it?.let { view ->
+                val lp = (view.layoutParams as RelativeLayout.LayoutParams)
+                lp.width = RelativeLayout.LayoutParams.MATCH_PARENT
+                view.layoutParams = lp
+            }
+        }
+        arrayOf(playerUiContainer, playlistContainer).forEach {
+            val lp = (it.layoutParams as RelativeLayout.LayoutParams)
+            lp.height = RelativeLayout.LayoutParams.MATCH_PARENT
+            lp.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+            it.layoutParams = lp
+        }
+        if (::hudBinding.isInitialized) arrayOf(hudBackground, hudRightBackground).forEach {
+            it?.setVisible()
+        }
+        hingeArrowLeft.visibility = View.GONE
+        hingeArrowRight.visibility = View.GONE
+        val lp = (player.videoLayout!!.layoutParams as RelativeLayout.LayoutParams)
+        lp.height = RelativeLayout.LayoutParams.MATCH_PARENT
+        player.videoLayout!!.layoutParams = lp
+        player.findViewById<FrameLayout>(R.id.player_surface_frame).children.forEach { it.requestLayout() }
+    }
 
     fun showTracks() {
         player.showVideoTrack(
@@ -324,6 +417,9 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
+                hingeArrowLeft.animate().alpha(1F)
+                hingeArrowRight.animate().alpha(1F)
+
                 if (!player.displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
@@ -452,6 +548,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 player.updateNavStatus()
                 setListeners(true)
                 initPlaylistUi()
+                if (foldingFeature != null) manageHinge()
             } else if (::hudBinding.isInitialized) {
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = player
@@ -658,6 +755,16 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         }
         hudRightBinding.playlistToggle.setOnClickListener(player)
         closeButton.setOnClickListener { togglePlaylist() }
+        hingeArrowLeft.setOnClickListener {
+            Settings.getInstance(player).putSingle(HINGE_ON_RIGHT, false)
+            manageHinge()
+            showOverlay()
+        }
+        hingeArrowRight.setOnClickListener {
+            Settings.getInstance(player).putSingle(HINGE_ON_RIGHT, true)
+            manageHinge()
+            showOverlay()
+        }
 
         val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
         val touchHelper = ItemTouchHelper(callback)
@@ -735,6 +842,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
             exitAnimate(arrayOf(hudBinding.progressOverlay, hudBackground),100.dp.toFloat())
             exitAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground),-100.dp.toFloat())
+            hingeArrowLeft.animate().alpha(0F)
+            hingeArrowRight.animate().alpha(0F)
 
             showControls(false)
             player.isShowing = false

@@ -54,6 +54,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
         get() = player.overlayDelegate
     lateinit var resizeMainView: View
     lateinit var notchCheckbox: CheckBox
+    private lateinit var foldCheckbox: CheckBox
     private lateinit var scrollView: NestedScrollView
     private lateinit var sizeList: RecyclerView
     private lateinit var sizeAdapter: SizeAdapter
@@ -67,7 +68,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
     /**
      * Show the resize overlay. Inflate it if it's not yet
      */
-    private fun showResizeOverlay() {
+    fun showResizeOverlay() {
         player.findViewById<ViewStubCompat>(R.id.player_resize_stub)?.let {
             resizeMainView = it.inflate() as FrameLayout
             val browseFrameLayout = resizeMainView.findViewById<BrowseFrameLayout>(R.id.resize_background)
@@ -80,6 +81,9 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             sizeList = resizeMainView.findViewById(R.id.size_list)
             scrollView = resizeMainView.findViewById(R.id.resize_scrollview)
 
+            foldCheckbox = resizeMainView.findViewById(R.id.foldable)
+            val foldTitle = resizeMainView.findViewById<View>(R.id.foldable_title)
+
             sizeList.layoutManager = LinearLayoutManager(player)
             sizeAdapter = SizeAdapter()
             sizeAdapter.setOnSizeSelectedListener { scale ->
@@ -87,8 +91,21 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             }
             sizeList.adapter = sizeAdapter
 
+            val settings = Settings.getInstance(player)
+            if (player.overlayDelegate.foldingFeature != null) {
+                foldCheckbox.setVisible()
+                foldTitle.setVisible()
+                foldCheckbox.isChecked = settings.getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true)
+                foldCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                    settings.edit { putBoolean(ALLOW_FOLD_AUTO_LAYOUT, isChecked) }
+                    player.overlayDelegate.manageHinge()
+                }
+            } else {
+                foldCheckbox.setGone()
+                foldTitle.setGone()
+            }
+
             if (player.hasPhysicalNotch) {
-                val settings = Settings.getInstance(player)
                 notchCheckbox.setVisible()
                 notchTitle.setVisible()
                 notchCheckbox.isChecked = settings.getInt(DISPLAY_UNDER_NOTCH, WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES) == WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES

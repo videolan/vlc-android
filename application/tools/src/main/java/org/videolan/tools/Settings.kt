@@ -130,6 +130,8 @@ const val POPUP_KEEPSCREEN = "popup_keepscreen"
 const val POPUP_FORCE_LEGACY = "popup_force_legacy"
 const val LOCK_USE_SENSOR = "lock_use_sensor"
 const val DISPLAY_UNDER_NOTCH = "display_under_notch"
+const val ALLOW_FOLD_AUTO_LAYOUT = "allow_fold_auto_layout"
+const val HINGE_ON_RIGHT = "hinge_on_right"
 
 const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"

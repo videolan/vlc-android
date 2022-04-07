@@ -939,5 +939,9 @@
     <string name="touch_only_description">Switching to the mobile interface can only be done with a tactile screen or a mouse.\nPlease slide below to verify that this feature is safe to change.</string>
     <string name="no_web_browser">No web browser installed</string>
     <string name="no_web_browser_message">You can scan this on your smartphone.\nThe URL is %s</string>
+    <string name="fold_optimized">Optimized for your folding screen</string>
+    <string name="fold_optimize">Optimize for folding screens</string>
+    <string name="foldable">Foldable screen</string>
+    <string name="undo">Undo</string>
 
 </resources>

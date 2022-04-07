@@ -62,11 +62,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -121,7 +125,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private lateinit var startedScope: CoroutineScope
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
-    private var videoLayout: VLCVideoLayout? = null
+    var videoLayout: VLCVideoLayout? = null
     lateinit var displayManager: DisplayManager
     var rootView: View? = null
     var videoUri: Uri? = null
@@ -404,6 +408,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.playlistSearchText = findViewById(R.id.playlist_search_text)
         overlayDelegate.playlistContainer = findViewById(R.id.video_playlist_container)
         overlayDelegate.closeButton = findViewById(R.id.close_button)
+        overlayDelegate.hingeArrowRight = findViewById(R.id.hinge_go_right)
+        overlayDelegate.hingeArrowLeft = findViewById(R.id.hinge_go_left)
         overlayDelegate.playlistSearchText.editText?.addTextChangedListener(this)
 
         overlayDelegate.playerUiContainer = findViewById(R.id.player_ui_container)
@@ -489,6 +495,17 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         ViewCompat.getWindowInsetsController(window.decorView)?.let { windowInsetsController ->
             windowInsetsController.systemBarsBehavior =
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+        }
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                WindowInfoTracker.getOrCreate(this@VideoPlayerActivity)
+                        .windowLayoutInfo(this@VideoPlayerActivity)
+                        .collect { layoutInfo ->
+                            overlayDelegate.foldingFeature = layoutInfo.displayFeatures
+                                    .firstOrNull() as? FoldingFeature
+                        }
+            }
         }
     }
 
