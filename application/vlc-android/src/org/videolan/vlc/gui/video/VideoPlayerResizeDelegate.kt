@@ -46,7 +46,6 @@ import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
-import org.videolan.vlc.util.hasNotch
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -88,7 +87,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             }
             sizeList.adapter = sizeAdapter
 
-            if (player.hasNotch()) {
+            if (player.hasPhysicalNotch) {
                 val settings = Settings.getInstance(player)
                 notchCheckbox.setVisible()
                 notchTitle.setVisible()

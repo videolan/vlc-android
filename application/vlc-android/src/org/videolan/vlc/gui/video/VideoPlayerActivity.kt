@@ -116,6 +116,7 @@ import kotlin.math.roundToInt
 @ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
+    var hasPhysicalNotch: Boolean = false
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
     var service: PlaybackService? = null
@@ -493,7 +494,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (hasNotch()) {
+        hasPhysicalNotch = hasNotch()
+        if (hasPhysicalNotch) {
             window.attributes.layoutInDisplayCutoutMode = settings.getInt(DISPLAY_UNDER_NOTCH, WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES)
         }
     }
