@@ -1,26 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="16dp">
+            app:layout_goneMarginStart="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctx_cover_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ctx_cover_card"
+                android:layout_width="@dimen/audio_cover"
+                android:layout_height="@dimen/audio_cover"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:cardCornerRadius="4dp"
+                android:layout_margin="@dimen/default_margin"
+                >
+
+                <ImageView
+                    android:id="@+id/ctx_cover"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="@dimen/audio_cover"
+                    android:layout_height="@dimen/audio_cover"
+                    android:scaleType="centerCrop"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/ctx_cover_title"
+                style="@style/Theme.VLC.BottomSheetTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/ctx_cover_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ctx_cover_card"
+                app:layout_constraintBottom_toBottomOf="@id/ctx_cover_card"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-                android:id="@+id/ctx_title"
-                style="@style/Theme.VLC.BottomSheetTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
+            android:id="@+id/ctx_title"
+            style="@style/Theme.VLC.BottomSheetTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ctx_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -24,14 +24,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -40,6 +44,7 @@ import org.videolan.vlc.databinding.ContextItemBinding
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
 const val CTX_FLAGS_KEY = "CTX_FLAGS_KEY"
+const val CTX_MEDIA_KEY = "CTX_MEDIA_KEY"
 
 class ContextSheet : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
@@ -78,7 +83,16 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
+        if (arguments?.containsKey(CTX_TITLE_KEY) == true) {
+            view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
+        } else if (arguments?.containsKey(CTX_MEDIA_KEY) == true) {
+            val media: MediaWrapper = arguments?.get(CTX_MEDIA_KEY) as MediaWrapper
+            view.findViewById<TextView>(R.id.ctx_title).visibility = View.GONE
+            view.findViewById<ConstraintLayout>(R.id.ctx_cover_layout).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.ctx_cover_title).text = media.title
+            val cover = view.findViewById<ImageView>(R.id.ctx_cover)
+            cover.setImageURI(media.artworkURL.toUri())
+        }
         list = view.findViewById<RecyclerView>(R.id.ctx_list)
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = ContextAdapter()
@@ -161,6 +175,15 @@ fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, positio
     if (!activity.isStarted()) return
     val ctxDialog = ContextSheet()
     ctxDialog.arguments = bundleOf(CTX_TITLE_KEY to title, CTX_POSITION_KEY to position,
+        CTX_FLAGS_KEY to flags)
+    ctxDialog.receiver = receiver
+    ctxDialog.show(activity.supportFragmentManager, "context")
+}
+
+fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, media: MediaWrapper, flags: Long) {
+    if (!activity.isStarted()) return
+    val ctxDialog = ContextSheet()
+    ctxDialog.arguments = bundleOf(CTX_MEDIA_KEY to media, CTX_POSITION_KEY to position,
         CTX_FLAGS_KEY to flags)
     ctxDialog.receiver = receiver
     ctxDialog.show(activity.supportFragmentManager, "context")
