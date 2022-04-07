@@ -551,7 +551,6 @@ object UiTools {
             //Create an Intrinsic Blur Script using the Renderscript
             val blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
 
-
             //Create the Allocations (in/out) with the Renderscript and the in/out bitmaps
             val allIn = Allocation.createFromBitmap(rs, if (bitmap.config == Bitmap.Config.ARGB_8888) bitmap else bitmap.copy(Bitmap.Config.ARGB_8888, true))
             val allOut = Allocation.createFromBitmap(rs, outBitmap)

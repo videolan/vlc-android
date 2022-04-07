@@ -41,6 +41,8 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
@@ -72,25 +74,29 @@ import org.videolan.vlc.util.isSchemeSMB
 
 private const val SHOW_IN_LIST = -1
 
-class AudioBrowserAdapter @JvmOverloads constructor(
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+open class AudioBrowserAdapter @JvmOverloads constructor(
         type: Int,
-        private val eventsHandler: IEventsHandler<MediaLibraryItem>,
-        private val listEventsHandler: IListEventsHandler? = null,
-        private val reorderable: Boolean = false,
+        protected val eventsHandler: IEventsHandler<MediaLibraryItem>,
+        protected val listEventsHandler: IListEventsHandler? = null,
+        protected val reorderable: Boolean = false,
         internal var cardSize: Int = SHOW_IN_LIST
 ) : PagedListAdapter<MediaLibraryItem,
         AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter
 {
-    private var listImageWidth: Int
+    protected var listImageWidth: Int
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
-    private val defaultCover: BitmapDrawable?
+    protected val defaultCover: BitmapDrawable?
     private val defaultCoverCard: BitmapDrawable?
     private var focusNext = -1
     private var focusListener: FocusListener? = null
-    private lateinit var inflater: LayoutInflater
+    lateinit var inflater: LayoutInflater
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     var stopReorder = false
+
+    protected fun inflaterInitialized() = ::inflater.isInitialized
 
     val isEmpty: Boolean
         get() = currentList.isNullOrEmpty()

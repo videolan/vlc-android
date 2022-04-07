@@ -40,7 +40,6 @@ import org.videolan.tools.dp
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.view.FastScroller

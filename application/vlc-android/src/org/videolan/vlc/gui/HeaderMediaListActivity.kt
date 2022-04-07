@@ -29,7 +29,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -135,6 +134,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             totalDuration += item.length
         binding.duration.text = Tools.millisToTextLarge(totalDuration)
         if (isPlaylist) {
+            audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
             itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
             itemTouchHelper!!.attachToRecyclerView(binding.songs)
