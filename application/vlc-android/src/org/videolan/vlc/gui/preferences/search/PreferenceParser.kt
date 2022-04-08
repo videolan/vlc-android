@@ -30,7 +30,7 @@ import android.content.SharedPreferences
 import android.content.res.XmlResourceParser
 import android.os.Parcelable
 import androidx.annotation.XmlRes
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.videolan.tools.Settings
 import org.videolan.tools.wrap
 import org.videolan.vlc.R

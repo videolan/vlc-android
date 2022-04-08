@@ -20,9 +20,8 @@
  */
 package org.videolan.television.ui
 
-import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MediaItemDetails(var title: String? = null, var subTitle: String? = null,

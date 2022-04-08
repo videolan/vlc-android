@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -17,13 +16,6 @@ android {
         resources {
             excludes += ['META-INF/main.kotlin_module', 'META-INF/donations_debug.kotlin_module', 'META-INF/mediadb_debug.kotlin_module', 'META-INF/resources_debug.kotlin_module', 'META-INF/television_debug.kotlin_module']
         }
-    }
-
-
-    dexOptions {
-        maxProcessCount 8
-        javaMaxHeapSize "4g"
-        preDexLibraries true
     }
 
     dataBinding {
@@ -156,7 +148,7 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.orchestrator"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -73,7 +72,7 @@ dependencies {
 
     api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
 }
 repositories {
     mavenCentral()
