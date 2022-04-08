@@ -48,7 +48,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 
-@UseExperimental(ObsoleteCoroutinesApi::class)
+@OptIn(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
 class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImages>() {
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaMetadataWithImages>, itemSize: Int): TvItemAdapter {
