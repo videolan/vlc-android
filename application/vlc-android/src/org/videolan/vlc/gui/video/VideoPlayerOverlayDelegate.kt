@@ -414,7 +414,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
                 if (!isBookmarkShown()) dimStatusBar(false)
 
-                enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat())
+                enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat()) {
+                    if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
+                        player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
+                }
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
                 hingeArrowLeft.animate().alpha(1F)
@@ -423,10 +426,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (!player.displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
+            } else {
+                if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
+                    player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
             }
             player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
-            if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
-                player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
+
         }
     }
 
@@ -455,11 +460,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         }
     }
 
-    private fun enterAnimate(views: Array<View?>, translationStart: Float) = views.forEach { view ->
+    private fun enterAnimate(views: Array<View?>, translationStart: Float, endListener:(()->Unit)? = null) = views.forEach { view ->
         view.setVisible()
         view?.alpha = 0f
         view?.translationY = translationStart
-        view?.animate()?.alpha(1F)?.translationY(0F)?.setDuration(150L)?.setListener(null)
+        view?.animate()?.alpha(1F)?.translationY(0F)?.setDuration(150L)?.setListener(null)?.withEndAction {
+            endListener?.invoke()
+        }
     }
 
     private fun exitAnimate(views: Array<View?>, translationEnd: Float) = views.forEach { view ->
