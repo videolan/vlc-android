@@ -128,7 +128,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
         playlistModel.service?.let {
-            if (it.videoTracksCount > 0)
+            if (!it.isVideoPlaying && it.videoTracksCount > 0)
                 UiTools.snacker(requireActivity(), R.string.return_to_video)
         }
         playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }

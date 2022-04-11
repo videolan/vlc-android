@@ -28,6 +28,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
@@ -41,6 +43,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.transition.TransitionManager
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
@@ -51,6 +54,7 @@ class EmptyLoadingStateView : FrameLayout {
     private lateinit var permissionTextView: TextView
     private lateinit var loadingFlipper: ViewFlipper
     private lateinit var grantPermissionButton: Button
+    private lateinit var pickFileButton: Button
     private lateinit var loadingTitle: TextView
     private lateinit var emptyImageView: ImageView
     private lateinit var permissionTitle: TextView
@@ -75,6 +79,7 @@ class EmptyLoadingStateView : FrameLayout {
             permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
+            pickFileButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) View.VISIBLE else View.GONE
             noMediaButton.visibility = if (showNoMedia && value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
             field = value
         }
@@ -138,6 +143,11 @@ class EmptyLoadingStateView : FrameLayout {
         grantPermissionButton.setOnClickListener {
              (context as? FragmentActivity)?.askStoragePermission(false, null)
         }
+        pickFileButton.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                (context as BaseActivity).openFile(Uri.parse(""))
+            }
+        }
 
         permissionTextView.text = "${context.getString(R.string.permission_expanation_no_allow)}\n\n${context.getString(R.string.permission_expanation_allow)}"
     }
@@ -155,6 +165,7 @@ class EmptyLoadingStateView : FrameLayout {
         permissionTextView = findViewById(R.id.permissionTextView)
         loadingFlipper = findViewById(R.id.loadingFlipper)
         grantPermissionButton = findViewById(R.id.grantPermissionButton)
+        pickFileButton = findViewById(R.id.pickFile)
         loadingTitle = findViewById(R.id.loadingTitle)
         emptyImageView = findViewById(R.id.emptyImageView)
         permissionTitle = findViewById(R.id.permissionTitle)
