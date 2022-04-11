@@ -204,7 +204,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
-                //                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))
+                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))
                 addAll(it)
             }
         }

@@ -33,6 +33,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
             CATEGORY_ALBUMS -> MediaWrapper.TYPE_ALBUM
             CATEGORY_ARTISTS -> MediaWrapper.TYPE_ARTIST
             CATEGORY_GENRES -> MediaWrapper.TYPE_GENRE
+            CATEGORY_PLAYLISTS -> MediaWrapper.TYPE_PLAYLIST
             else -> MediaWrapper.TYPE_VIDEO
         }, this, itemSize)
     }
@@ -46,6 +47,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
         CATEGORY_ALBUMS -> getString(R.string.albums)
         CATEGORY_ARTISTS -> getString(R.string.artists)
         CATEGORY_GENRES -> getString(R.string.genres)
+        CATEGORY_PLAYLISTS -> getString(R.string.playlists)
         else -> getString(R.string.video)
     }
 

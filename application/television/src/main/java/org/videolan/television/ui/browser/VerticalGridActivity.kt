@@ -81,6 +81,8 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 fragment = MediaScrapingBrowserTvFragment.newInstance(type)
             } else if (type == HEADER_DIRECTORIES) {
                 fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) }, true)
+            } else if (type == HEADER_PLAYLISTS) {
+                fragment = MediaBrowserTvFragment.newInstance(CATEGORY_PLAYLISTS, null)
             } else {
                 finish()
                 return
