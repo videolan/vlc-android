@@ -1040,7 +1040,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 if (internalMedia != null && internalMedia.id != 0L) {
                     id = internalMedia.id
                 } else {
-                    internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
+                    internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM || isSchemeStreaming(mw.uri.scheme)) {
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
                         }
