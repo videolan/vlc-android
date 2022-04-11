@@ -258,7 +258,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-gettext \
     --disable-mpcdec \
     --enable-upnp \
-    --disable-gme \
+    --enable-gme \
     --disable-tremor \
     --enable-vorbis \
     --disable-sidplay2 \
@@ -321,7 +321,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-dv1394 \
     --enable-mod \
     --disable-sid \
-    --disable-gme \
+    --enable-gme \
     --disable-tremor \
     --disable-mad \
     --enable-mpg123 \
