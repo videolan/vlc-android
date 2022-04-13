@@ -67,8 +67,6 @@ import org.videolan.vlc.util.getScreenWidth
 private const val ID_RESUME = 1
 private const val ID_START_OVER = 2
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope by MainScope(), OnItemViewClickedListener {
 

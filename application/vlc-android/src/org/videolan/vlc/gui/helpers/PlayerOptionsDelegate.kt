@@ -56,8 +56,6 @@ private const val ID_SHOW_AUDIO_TIPS = 17L
 private const val ID_SHOW_PLAYLIST_TIPS = 18L
 private const val ID_VIDEO_CONTROLS_SETTING = 19L
 private const val ID_AUDIO_CONTROLS_SETTING = 20L
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 

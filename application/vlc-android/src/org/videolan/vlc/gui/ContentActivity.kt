@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui
 
-import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
@@ -31,8 +30,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
@@ -44,9 +41,6 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.Filterable
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-@SuppressLint("Registered")
 open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView

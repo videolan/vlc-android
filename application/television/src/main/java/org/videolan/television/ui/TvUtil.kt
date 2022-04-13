@@ -61,8 +61,6 @@ import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object TvUtil {
 
     private const val TAG = "VLC/TvUtil"
@@ -314,8 +312,6 @@ object TvUtil {
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @Suppress("UNNECESSARY_SAFE_CALL")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, item: Any?) {

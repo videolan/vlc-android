@@ -93,8 +93,6 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
 import kotlin.math.min
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object UiTools {
     var currentNightMode: Int = 0
     private val TAG = "VLC/UiTools"

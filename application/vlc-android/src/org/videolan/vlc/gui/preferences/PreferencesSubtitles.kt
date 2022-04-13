@@ -25,16 +25,12 @@ package org.videolan.vlc.gui.preferences
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.ListPreference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var preferredSubtitleTrack: ListPreference

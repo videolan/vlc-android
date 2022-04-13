@@ -32,8 +32,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTIVITY_RESULT_OPEN
@@ -65,8 +63,6 @@ import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "VLC/MainActivity"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MainActivity : ContentActivity(),
         ExtensionManagerService.ExtensionManagerActivity,
         INavigator by Navigator()

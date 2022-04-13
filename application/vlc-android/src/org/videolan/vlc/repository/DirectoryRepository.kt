@@ -15,8 +15,6 @@ import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) : IOScopedObject() {
 
     fun addCustomDirectory(path: String): Job = launch {

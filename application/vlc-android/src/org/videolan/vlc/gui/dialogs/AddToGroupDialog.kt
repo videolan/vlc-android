@@ -30,8 +30,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -49,8 +47,6 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
 

@@ -26,14 +26,10 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : FlingViewGroup(context, attrs) {
 
     private lateinit var audioMediaSwitcherListener: AudioMediaSwitcherListener

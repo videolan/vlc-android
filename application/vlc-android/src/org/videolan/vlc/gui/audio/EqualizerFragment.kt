@@ -55,8 +55,6 @@ import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListener {
     override fun getDefaultState() = STATE_EXPANDED
 

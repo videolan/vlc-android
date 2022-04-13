@@ -35,7 +35,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
@@ -64,7 +63,6 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
     lateinit var activity: MainActivity
 
-    @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshot() {
         onView(isRoot()).perform(waitId(R.id.audio_list, 5000))
@@ -91,7 +89,6 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         pressStop()
     }
 
-    @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshotVideo() {
         onView(withId(R.id.nav_video))
@@ -129,7 +126,6 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         ScreenshotUtil.takeScreenshot(8,"pip")
     }
 
-     @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshotBrowser() {
          onView(withId(R.id.nav_directories))

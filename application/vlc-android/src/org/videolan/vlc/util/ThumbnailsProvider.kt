@@ -8,8 +8,6 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.Medialibrary.MEDIALIB_FOLDER_NAME
@@ -30,8 +28,6 @@ import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.min
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object ThumbnailsProvider {
 
     @Suppress("unused")

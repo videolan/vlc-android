@@ -30,8 +30,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
@@ -48,8 +46,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 
-@OptIn(ObsoleteCoroutinesApi::class)
-@ExperimentalCoroutinesApi
 class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImages>() {
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaMetadataWithImages>, itemSize: Int): TvItemAdapter {
         return MediaScrapingTvItemAdapter((viewModel as MediaScrapingBrowserViewModel).category, this, itemSize)

@@ -30,8 +30,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -43,8 +41,6 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.util.Permissions
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() = R.xml.preferences

@@ -35,8 +35,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -59,8 +57,7 @@ import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.io.File
 
 private const val FROM_ONBOARDING = "from_onboarding"
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
+
 class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by StorageFragmentDelegate() {
 
     private lateinit var localEntry: TitleListView

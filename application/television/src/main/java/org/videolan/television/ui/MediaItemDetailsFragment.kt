@@ -86,8 +86,6 @@ const val EXTRA_FROM_HISTORY = "from_history"
 const val EXTRA_ITEM = "item"
 const val EXTRA_MEDIA = "media"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by MainScope(), OnItemViewClickedListener {
 

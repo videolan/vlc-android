@@ -5,8 +5,6 @@ import com.jraska.livedata.test
 import io.mockk.mockk
 import io.mockk.spyk
 import junit.framework.Assert.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -21,8 +19,6 @@ import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import java.io.File
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FilePickerModelTest : BaseTest() {
     @get:Rule
     val temporaryFolder = TemporaryFolder()

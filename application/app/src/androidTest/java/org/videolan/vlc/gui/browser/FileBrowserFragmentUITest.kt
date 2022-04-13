@@ -13,8 +13,6 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
@@ -27,8 +25,6 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FileBrowserFragmentUITest : BaseUITest() {
     @Rule
     @JvmField

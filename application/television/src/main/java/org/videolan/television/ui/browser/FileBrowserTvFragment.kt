@@ -45,8 +45,6 @@ import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
 
-@OptIn(ObsoleteCoroutinesApi::class)
-@ExperimentalCoroutinesApi
 class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener, IDialogManager {
 
     private var favExists: Boolean = false

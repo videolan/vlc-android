@@ -7,8 +7,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>(), CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 

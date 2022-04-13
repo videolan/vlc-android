@@ -25,11 +25,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
 
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class SearchActivity : BaseTvActivity() {
 

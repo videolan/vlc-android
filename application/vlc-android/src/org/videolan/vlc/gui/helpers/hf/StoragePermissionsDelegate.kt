@@ -21,8 +21,6 @@
  *  ***************************************************************************
  */
 
-@file:Suppress("EXPERIMENTAL_API_USAGE")
-
 package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest

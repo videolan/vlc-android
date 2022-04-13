@@ -37,8 +37,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.tools.setGone
@@ -49,8 +47,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.viewmodels.BookmarkModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel) :
     LifecycleObserver, BookmarkAdapter.IBookmarkManager {
 

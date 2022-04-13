@@ -9,8 +9,6 @@ import androidx.test.espresso.contrib.DrawerActions.*
 import androidx.test.espresso.matcher.RootMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
@@ -22,8 +20,6 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistActivityUITest: BaseUITest() {
     @Rule
     @JvmField

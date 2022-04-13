@@ -50,8 +50,6 @@ import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()

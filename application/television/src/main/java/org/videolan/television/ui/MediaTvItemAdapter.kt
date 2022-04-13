@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Genre
@@ -38,8 +36,6 @@ import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeFile
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private var inGrid: Boolean = true) : PagedListAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
     override var focusNext = -1
     override fun displaySwitch(inGrid: Boolean) {

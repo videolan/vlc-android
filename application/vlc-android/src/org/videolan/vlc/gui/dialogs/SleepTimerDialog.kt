@@ -26,15 +26,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class SleepTimerDialog : PickTimeFragment() {
 
     private val playlistModel by lazy { PlaylistModel.get(this) }

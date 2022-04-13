@@ -23,8 +23,6 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -35,8 +33,6 @@ import org.videolan.vlc.repository.DirectoryRepository
 import java.io.File
 import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean): FileBrowserProvider(context, dataset, url, false, showHiddenFiles) {
 
     override suspend fun browseRootImpl() {

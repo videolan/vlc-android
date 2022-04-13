@@ -36,8 +36,6 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -62,8 +60,6 @@ private const val TAG = "VLC/BaseTvActivity"
 const val REQUEST_CODE_NO_CONNECTION = 100
 const val REQUEST_CODE_RESTART_APP = 101
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
 

@@ -37,8 +37,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.liveplotgraph.LineGraph
@@ -52,8 +50,6 @@ import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.getScreenWidth
 import java.lang.Double
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling: () -> Unit, val idle: () -> Unit) {
     lateinit var container: ConstraintLayout
     private var started = false

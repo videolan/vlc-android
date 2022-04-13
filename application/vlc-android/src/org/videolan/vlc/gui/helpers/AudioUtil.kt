@@ -34,8 +34,6 @@ import androidx.core.content.contentValuesOf
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
@@ -50,8 +48,6 @@ import org.videolan.vlc.util.isSchemeHttpOrHttps
 import java.io.*
 import java.lang.Runnable
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object AudioUtil {
     const val TAG = "VLC/AudioUtil"
 

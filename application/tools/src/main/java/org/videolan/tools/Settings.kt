@@ -9,12 +9,8 @@ import android.telephony.TelephonyManager
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.preference.PreferenceManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings.init
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
 
     var showVideoThumbs = true

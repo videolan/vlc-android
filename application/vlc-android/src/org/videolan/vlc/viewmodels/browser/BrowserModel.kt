@@ -44,8 +44,6 @@ const val TYPE_NETWORK = 1L
 const val TYPE_PICKER = 2L
 const val TYPE_STORAGE = 3L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class BrowserModel(
         context: Context,
         val url: String?,
@@ -133,7 +131,6 @@ open class BrowserModel(
     }
 }
 
-@ExperimentalCoroutinesApi
 fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
     ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, showHiddenFiles)).get(NetworkModel::class.java)
 else

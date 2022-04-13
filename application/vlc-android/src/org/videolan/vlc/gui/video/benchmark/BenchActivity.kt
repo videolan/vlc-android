@@ -34,8 +34,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.VLCInstance
@@ -63,8 +61,6 @@ import java.io.*
  * screenshot timestamp or stop if there aren't any left.
  */
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(21)
 class BenchActivity : ShallowVideoPlayer() {
 

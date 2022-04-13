@@ -138,8 +138,6 @@ fun List<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
     return list
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 suspend fun String.scanAllowed() = withContext(Dispatchers.IO) {
     val file = File(toUri().path ?: return@withContext false)
     if (!file.exists() || !file.canRead()) return@withContext false

@@ -6,8 +6,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -24,8 +22,6 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
-@OptIn(ObsoleteCoroutinesApi::class)
-@ExperimentalCoroutinesApi
 class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return MediaTvItemAdapter(when ((viewModel as MediaBrowserViewModel).category) {

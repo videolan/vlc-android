@@ -46,8 +46,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.yield
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -73,8 +71,6 @@ import java.util.*
 
 private const val TAG = "MediaBrowserTvFragment"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, IEventsHandler<T>,
         PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,

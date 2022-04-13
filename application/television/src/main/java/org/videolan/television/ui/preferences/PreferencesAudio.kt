@@ -34,8 +34,6 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.resources.VLCInstance
@@ -50,8 +48,6 @@ import java.text.DecimalFormat
 
 private const val TAG = "VLC/PreferencesAudio"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 

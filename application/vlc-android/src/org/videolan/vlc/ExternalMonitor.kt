@@ -58,8 +58,6 @@ import java.lang.ref.WeakReference
 
 private const val TAG = "VLC/ExternalMonitor"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @SuppressLint("StaticFieldLeak")
 object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope by MainScope() {
 
@@ -138,8 +136,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         checkNewStorages(ctx)
     }
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
     private fun checkNewStorages(ctx: Context) {
         if (Medialibrary.getInstance().isStarted) {
             val scanOpt = if (Settings.showTvUi) ML_SCAN_ON

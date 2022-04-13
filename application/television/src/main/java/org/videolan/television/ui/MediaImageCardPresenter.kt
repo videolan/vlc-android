@@ -57,8 +57,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.moviepedia.database.models.MediaImage
 import org.videolan.moviepedia.database.models.MediaImageType
 import org.videolan.moviepedia.database.models.Person
@@ -66,8 +64,6 @@ import org.videolan.television.R
 import org.videolan.tools.dp
 import org.videolan.vlc.gui.helpers.downloadIcon
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MediaImageCardPresenter(private val context: Activity, private val imageType: MediaImageType) : Presenter() {
 

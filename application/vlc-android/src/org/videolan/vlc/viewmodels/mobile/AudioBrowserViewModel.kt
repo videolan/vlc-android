@@ -24,8 +24,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
@@ -37,7 +35,6 @@ import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
-@ExperimentalCoroutinesApi
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
 
     var currentTab = Settings.getInstance(context).getInt(KEY_AUDIO_CURRENT_TAB, 0)
@@ -84,6 +81,4 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     }
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 internal fun AudioBrowserFragment.getViewModel() = ViewModelProvider(requireActivity(), AudioBrowserViewModel.Factory(requireContext())).get(AudioBrowserViewModel::class.java)

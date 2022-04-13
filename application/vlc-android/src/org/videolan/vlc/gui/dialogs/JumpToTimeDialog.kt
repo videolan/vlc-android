@@ -23,12 +23,8 @@
 
 package org.videolan.vlc.gui.dialogs
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class JumpToTimeDialog : PickTimeFragment() {
 
     override fun executeAction() {

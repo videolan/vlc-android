@@ -34,8 +34,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -55,8 +53,6 @@ import org.videolan.vlc.viewmodels.sortMenuTitles
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filterable {
 
     private lateinit var searchButtonView: View

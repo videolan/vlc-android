@@ -58,8 +58,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 import kotlin.math.abs
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 

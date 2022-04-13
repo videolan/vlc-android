@@ -32,8 +32,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -50,8 +48,6 @@ import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
 const val EXTRA_MRL = "sub_mrl"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem> {
 
     override fun createFragment(): Fragment {

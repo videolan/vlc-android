@@ -35,8 +35,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -65,8 +63,6 @@ import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import kotlin.math.min
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: PlaylistsFragmentBinding

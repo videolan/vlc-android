@@ -58,8 +58,6 @@ import java.io.File
 
 const val KEY_IN_MEDIALIB = "key_in_medialib"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem>, IStorageFragmentDelegate by StorageFragmentDelegate() {
 
     override var scannedDirectory = false

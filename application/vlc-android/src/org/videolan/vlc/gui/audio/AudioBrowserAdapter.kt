@@ -41,8 +41,6 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
@@ -74,8 +72,6 @@ import org.videolan.vlc.util.isSchemeSMB
 
 private const val SHOW_IN_LIST = -1
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioBrowserAdapter @JvmOverloads constructor(
         type: Int,
         private val eventsHandler: IEventsHandler<MediaLibraryItem>,

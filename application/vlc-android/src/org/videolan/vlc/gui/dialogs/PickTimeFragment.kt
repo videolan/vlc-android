@@ -30,16 +30,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.util.launchWhenStarted
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
 
     private var mTextColor: Int = 0

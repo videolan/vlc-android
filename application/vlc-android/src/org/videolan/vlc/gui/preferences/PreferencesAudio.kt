@@ -32,8 +32,6 @@ import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
@@ -57,8 +55,6 @@ import java.text.DecimalFormat
 private const val TAG = "VLC/PreferencesAudio"
 private const val FILE_PICKER_RESULT_CODE = 10000
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var preferredAudioTrack: ListPreference

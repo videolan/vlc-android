@@ -57,8 +57,6 @@ import videolan.org.commontools.TV_CHANNEL_SCHEME
 
 private const val SEND_CRASH_RESULT = 0
 private const val TAG = "VLC/StartActivity"
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class StartActivity : FragmentActivity() {
 
     private val idFromShortcut: Int

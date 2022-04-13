@@ -55,8 +55,6 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object FileUtils {
 
     val TAG = "VLC/FileUtils"

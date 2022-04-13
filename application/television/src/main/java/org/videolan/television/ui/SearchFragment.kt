@@ -29,7 +29,6 @@ import android.os.Bundle
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -40,7 +39,6 @@ import org.videolan.vlc.R
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1
 
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
 

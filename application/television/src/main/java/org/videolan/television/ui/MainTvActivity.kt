@@ -28,8 +28,6 @@ import android.os.Message
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ProgressBar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
@@ -40,8 +38,6 @@ import org.videolan.vlc.StartActivity
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Util
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MainTvActivity : BaseTvActivity() {
 

@@ -30,8 +30,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -50,8 +48,6 @@ import org.videolan.vlc.viewmodels.HistoryModel
 
 private const val TAG = "VLC/HistoryFragment"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IListEventsHandler {
 
     private lateinit var cleanMenuItem: MenuItem

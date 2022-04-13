@@ -9,8 +9,6 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.TwoStatePreference
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionListing
 import org.videolan.vlc.extensions.ExtensionsManager
@@ -18,8 +16,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesExtensionFragment : BasePreferenceFragment() {
 
     private var extension: ExtensionListing? = null

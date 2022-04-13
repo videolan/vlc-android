@@ -54,8 +54,6 @@ private var defaultImageWidth = 0
 private var defaultImageWidthTV = 0
 private const val TAG = "ImageLoader"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @MainThread
 @BindingAdapter(value = ["media", "imageWidth", "tv", "card"], requireAll = false)
 fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {

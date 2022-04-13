@@ -22,14 +22,11 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
-
-@ExperimentalCoroutinesApi
 class PlaylistsProvider(context: Context, model: SortableModel) : MedialibraryProvider<Playlist>(context, model) {
 
     override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(sort, desc, Settings.includeMissing)

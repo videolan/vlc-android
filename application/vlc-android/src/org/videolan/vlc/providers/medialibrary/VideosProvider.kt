@@ -22,7 +22,6 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -31,8 +30,6 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.viewmodels.SortableModel
 
-
-@ExperimentalCoroutinesApi
 class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model){
 
     override fun canSortByFileNameName() = true

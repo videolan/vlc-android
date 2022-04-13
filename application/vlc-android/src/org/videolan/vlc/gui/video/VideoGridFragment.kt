@@ -78,8 +78,6 @@ import org.videolan.vlc.viewmodels.mobile.getViewModel
 
 private const val TAG = "VLC/VideoListFragment"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
     private lateinit var dataObserver: RecyclerView.AdapterDataObserver

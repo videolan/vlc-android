@@ -25,7 +25,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.interfaces.ILibVLC
@@ -36,7 +35,6 @@ import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.tools.SingletonHolder
 import org.videolan.medialibrary.interfaces.Medialibrary
 
-@ObsoleteCoroutinesApi
 object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationContext) }) {
     const val TAG = "VLC/UiTools/VLCInstance"
 

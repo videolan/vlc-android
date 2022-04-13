@@ -57,8 +57,6 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionReceiver {
 
     private lateinit var networkMonitor: NetworkMonitor

@@ -28,8 +28,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.SwipeToUnlockView
 import org.videolan.vlc.util.FeatureFlag
@@ -37,8 +35,6 @@ import org.videolan.vlc.util.FeatureFlag
 const val FEATURE_FLAG_WARNING_TITLE = "FEATURE_FLAG_WARNING_TITLE"
 const val FEATURE_FLAG_WARNING_TEXT = "FEATURE_FLAG_WARNING_TEXT"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class FeatureFlagWarningDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var title: TextView

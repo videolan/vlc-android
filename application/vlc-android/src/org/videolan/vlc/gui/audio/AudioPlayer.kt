@@ -90,9 +90,6 @@ import kotlin.math.absoluteValue
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-@Suppress("UNUSED_PARAMETER")
 class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlayerAnimator by AudioPlayerAnimator() {
 
     private lateinit var binding: AudioPlayerBinding

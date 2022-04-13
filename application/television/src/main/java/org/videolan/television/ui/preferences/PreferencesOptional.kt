@@ -38,8 +38,6 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FeatureFlagManager
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
     override fun getXml(): Int {

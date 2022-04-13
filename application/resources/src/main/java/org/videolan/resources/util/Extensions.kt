@@ -17,8 +17,6 @@ import kotlin.coroutines.resume
  * Allows getting a ready medialibrary to query it.
  * @param block: the unit to invoke when the medialibrary is ready
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
     val ml = Medialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
@@ -48,7 +46,6 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
  * Useful when we know the medialibrary init has been launched,
  * we already have an instance of it and we want to wait that it's ready to query it
  */
-@ExperimentalCoroutinesApi
 suspend inline fun waitForML() = withContext(Dispatchers.IO) {
     val ml = Medialibrary.getInstance()
     if (!ml.isStarted){

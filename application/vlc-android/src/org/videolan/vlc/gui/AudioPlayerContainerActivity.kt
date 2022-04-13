@@ -46,8 +46,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -77,9 +75,6 @@ private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
 private const val PLAYER_OPENED = "player_opened"
 private const val SHOWN_TIPS = "shown_tips"
 
-@SuppressLint("Registered")
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     private var bottomBar: BottomNavigationView? = null

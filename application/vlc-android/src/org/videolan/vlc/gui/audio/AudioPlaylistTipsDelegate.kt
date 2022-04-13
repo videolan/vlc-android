@@ -44,8 +44,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.tools.*
 import org.videolan.vlc.R
@@ -56,8 +54,6 @@ import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     private lateinit var thirdItemBinding: PlaylistItemBinding
     private lateinit var secondItemBinding: PlaylistItemBinding

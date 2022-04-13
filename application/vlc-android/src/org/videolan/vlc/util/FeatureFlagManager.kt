@@ -27,16 +27,12 @@ package org.videolan.vlc.util
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.annotation.StringRes
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 
 /**
  * This manager allows the user to enable / disable experimental features
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object FeatureFlagManager {
 
     fun isEnabled(context: Context, feature:FeatureFlag) = Settings.getInstance(context).getBoolean(feature.getKey(), false)

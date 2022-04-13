@@ -51,14 +51,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.SwipeToUnlockView
 
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FeatureTouchOnlyWarningDialog : FeatureFlagWarningDialog() {
 
     private lateinit var title: TextView

@@ -27,16 +27,12 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.ListPreference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 

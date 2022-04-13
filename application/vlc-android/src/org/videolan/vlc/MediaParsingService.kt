@@ -61,8 +61,6 @@ import org.videolan.vlc.util.FileUtils
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val dispatcher = ServiceLifecycleDispatcher(this)

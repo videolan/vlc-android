@@ -58,8 +58,6 @@ import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED

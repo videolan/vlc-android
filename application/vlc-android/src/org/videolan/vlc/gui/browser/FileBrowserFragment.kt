@@ -51,8 +51,6 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class FileBrowserFragment : BaseBrowserFragment() {
 
     private var needsRefresh: Boolean = false

@@ -45,8 +45,6 @@ import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Folder?, val group: VideoGroup?) : MedialibraryViewModel(context) {
 
     var groupingType = type
@@ -241,7 +239,5 @@ enum class VideoGroupingType {
     NONE, FOLDER, NAME
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group)).get(VideosViewModel::class.java)
 

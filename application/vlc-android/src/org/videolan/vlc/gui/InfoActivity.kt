@@ -56,8 +56,6 @@ import java.util.*
 private const val TAG = "VLC/InfoActivity"
 private const val TAG_FAB_VISIBILITY = "FAB"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener,
         IPathOperationDelegate by PathOperationDelegate() {
 
@@ -239,8 +237,6 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class InfoModel : ViewModel() {
 
     val hasSubs = MutableLiveData<Boolean>()

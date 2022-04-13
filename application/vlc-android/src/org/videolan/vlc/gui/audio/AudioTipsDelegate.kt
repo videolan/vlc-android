@@ -39,8 +39,6 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.tools.*
 import org.videolan.vlc.R
@@ -48,8 +46,6 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     var currentTip: AudioPlayerTipsStep? = null
     private lateinit var initialConstraintSet: ConstraintSet

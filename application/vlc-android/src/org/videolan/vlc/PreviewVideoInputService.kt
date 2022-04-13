@@ -25,8 +25,6 @@ import java.io.IOException
 
 private const val TAG = "PreviewInputService"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope() {
 

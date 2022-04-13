@@ -39,8 +39,6 @@ private const val TAG = "VLC/PlaylistManager"
 private const val PREVIOUS_LIMIT_DELAY = 5000L
 private const val PLAYLIST_REPEAT_MODE_KEY = "audio_repeat_mode" //we keep the old string for migration reasons
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, IMedia.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 

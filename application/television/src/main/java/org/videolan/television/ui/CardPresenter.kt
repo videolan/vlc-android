@@ -37,8 +37,6 @@ import androidx.leanback.widget.Presenter
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -53,8 +51,6 @@ import org.videolan.vlc.gui.helpers.*
 
 
 public const val FAVORITE_FLAG = 1000
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class CardPresenter(private val context: Activity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
 

@@ -24,8 +24,6 @@ import android.content.Context
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -35,8 +33,6 @@ import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
 

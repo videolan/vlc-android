@@ -45,8 +45,6 @@ import org.videolan.vlc.util.showVlcDialog
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
 
     private val dialogsDelegate = DialogDelegate()

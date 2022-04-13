@@ -33,8 +33,6 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.OnboardingSupportFragment
 import androidx.leanback.widget.GuidedAction
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.util.canReadStorage
 import org.videolan.television.R
 import org.videolan.tools.KEY_TV_ONBOARDING_DONE
@@ -42,8 +40,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.util.Permissions
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class OnboardingFragment : OnboardingSupportFragment() {
     override fun getPageCount() = 3
 

@@ -30,8 +30,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.tools.PERMISSION_NEVER_ASK
 import org.videolan.tools.Settings
@@ -40,8 +38,6 @@ import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AllAccessPermissionDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var titleView:TextView

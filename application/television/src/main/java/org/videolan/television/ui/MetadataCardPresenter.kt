@@ -58,8 +58,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.leanback.widget.Presenter
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.database.models.Person
 import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
@@ -68,8 +66,6 @@ import org.videolan.tools.dp
 import org.videolan.vlc.gui.helpers.downloadIcon
 import org.videolan.vlc.util.generateResolutionClass
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MetadataCardPresenter(private val context: Activity) : Presenter() {
 

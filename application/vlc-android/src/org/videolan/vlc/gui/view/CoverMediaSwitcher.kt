@@ -28,15 +28,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.setEllipsizeModeByPref
 import org.videolan.vlc.util.TextUtils
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
     override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, album: String?, cover: Bitmap?, trackInfo: String?) {

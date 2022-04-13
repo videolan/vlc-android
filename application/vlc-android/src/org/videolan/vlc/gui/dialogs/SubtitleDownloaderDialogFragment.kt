@@ -14,8 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import org.videolan.vlc.R
@@ -30,8 +28,6 @@ import org.videolan.vlc.viewmodels.SubtitlesModel
 private const val MEDIA_PATHS = "MEDIA_PATHS"
 private const val MEDIA_NAMES = "MEDIA_NAMES"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun getDefaultState(): Int = BottomSheetBehavior.STATE_EXPANDED

@@ -36,8 +36,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RemoteViews
 import androidx.core.content.getSystemService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.*
 import org.videolan.tools.runIO
 import org.videolan.tools.runOnMainThread
@@ -49,8 +47,6 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.util.getPendingIntent
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class VLCAppWidgetProvider : AppWidgetProvider() {
 
     protected abstract fun getlayout(): Int

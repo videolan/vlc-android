@@ -57,8 +57,6 @@ import java.io.File
 import java.io.IOException
 import java.lang.Runnable
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private var logMessage = ""
     override fun onStarted(lostList: List<String>) {

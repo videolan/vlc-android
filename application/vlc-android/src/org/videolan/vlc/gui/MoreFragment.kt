@@ -32,8 +32,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.Dialog
@@ -67,8 +65,6 @@ import org.videolan.vlc.viewmodels.StreamsModel
 private const val TAG = "VLC/HistoryFragment"
 private const val KEY_SELECTION = "key_selection"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         IStreamsFragmentDelegate by StreamsFragmentDelegate() {
 

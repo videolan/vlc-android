@@ -52,8 +52,6 @@ private const val TAG = "VLC/MediaUtils"
 
 private typealias MediaContentResolver = SimpleArrayMap<String, IMediaContentResolver>
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object MediaUtils {
     fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
         if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri }, mediaList.map { it.title })
@@ -454,7 +452,6 @@ object MediaUtils {
         abstract fun onServiceReady(service: PlaybackService)
     }
 
-    @ObsoleteCoroutinesApi
     private class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) {
         private lateinit var dialog: ProgressDialog
         var job: Job = Job()
@@ -656,6 +653,4 @@ private val Context.scope: CoroutineScope
 private sealed class Action
 private object Connect : Action()
 private object Disconnect : Action()
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 private class Task(val service: PlaybackService, val task: suspend (service: PlaybackService) -> Unit) : Action()

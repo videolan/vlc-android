@@ -36,8 +36,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.MediaPlayer
@@ -51,8 +49,6 @@ import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
 

@@ -67,8 +67,6 @@ import org.videolan.vlc.util.scanAllowed
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "MainTvModel"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedialibraryReadyListener,
         Medialibrary.OnDeviceChangeListener {
 

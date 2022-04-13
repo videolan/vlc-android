@@ -32,8 +32,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -44,9 +42,6 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
-
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class RenderersDialog : DialogFragment() {
     private var renderers = RendererDelegate.renderers.value
     private lateinit var dialogRenderersBinding: DialogRenderersBinding

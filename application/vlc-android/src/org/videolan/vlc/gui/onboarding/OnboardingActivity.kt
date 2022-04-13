@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.EXTRA_FIRST_RUN
@@ -27,8 +25,6 @@ import org.videolan.vlc.util.Permissions
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     private val viewModel: OnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,6 +110,4 @@ enum class FragmentName {
     THEME
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 fun Activity.startOnboarding() = startActivityForResult(Intent(this, OnboardingActivity::class.java), ACTIVITY_RESULT_PREFERENCES)

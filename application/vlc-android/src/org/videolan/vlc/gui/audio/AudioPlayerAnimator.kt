@@ -38,8 +38,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -53,8 +51,6 @@ import org.videolan.vlc.util.getScreenWidth
 import kotlin.math.max
 import kotlin.math.min
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
     override fun AudioPlayer.setupAnimator(binding: AudioPlayerBinding) {

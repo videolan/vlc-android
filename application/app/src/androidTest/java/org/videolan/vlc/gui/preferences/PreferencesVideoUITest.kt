@@ -4,8 +4,6 @@ import android.os.Build
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.filters.SdkSuppress
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.tools.*
@@ -14,8 +12,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
 import org.videolan.vlc.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesVideoUITest: BasePreferenceUITest() {
     @get:Rule
     val intentsTestRule = IntentsTestRule(PreferencesActivity::class.java)

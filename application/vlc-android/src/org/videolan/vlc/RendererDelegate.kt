@@ -33,8 +33,6 @@ import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.retry
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object RendererDelegate : RendererDiscoverer.EventListener {
 
     private val TAG = "VLC/RendererDelegate"

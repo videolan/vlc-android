@@ -37,8 +37,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
@@ -47,8 +45,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
     private val overlayDelegate: VideoPlayerOverlayDelegate
         get() = player.overlayDelegate

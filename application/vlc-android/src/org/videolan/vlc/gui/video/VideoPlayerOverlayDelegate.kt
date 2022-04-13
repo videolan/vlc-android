@@ -51,8 +51,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.window.layout.FoldingFeature
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
@@ -81,8 +79,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 import java.text.DateFormat
 import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     private lateinit var playerOverlayBrightness: ConstraintLayout

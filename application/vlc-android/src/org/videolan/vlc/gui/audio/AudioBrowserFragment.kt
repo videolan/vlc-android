@@ -36,8 +36,6 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -64,8 +62,6 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private lateinit var songsAdapter: AudioBrowserAdapter

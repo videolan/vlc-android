@@ -31,8 +31,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -58,8 +56,6 @@ private const val MODE_SONG = 1
 private const val MODE_TOTAL = 2 // Number of audio mProvider modes
 
 /* All subclasses of Fragment must include a public empty constructor. */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private var spacing: Int = 0

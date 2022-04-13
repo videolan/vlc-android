@@ -30,8 +30,6 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -56,8 +54,6 @@ import org.videolan.vlc.util.Permissions
 
 private const val TAG = "VLC/MainTvFragment"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener,
         View.OnClickListener {
 

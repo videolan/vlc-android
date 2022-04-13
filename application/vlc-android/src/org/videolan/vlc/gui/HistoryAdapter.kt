@@ -28,8 +28,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.UPDATE_SELECTION
@@ -46,8 +44,6 @@ import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeFile
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class HistoryAdapter(private val inCards: Boolean = false, private val listEventsHandler: IListEventsHandler? = null) : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(),
         MultiSelectAdapter<MediaWrapper>, IEventsSource<Click> by EventsSource(), SwipeDragHelperAdapter {
 

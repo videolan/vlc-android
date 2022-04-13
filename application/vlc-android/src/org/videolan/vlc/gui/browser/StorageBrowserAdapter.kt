@@ -41,8 +41,6 @@ import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.getDescriptionSpan
 import org.videolan.vlc.util.isSchemeFile
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>) : BaseBrowserAdapter(browserContainer) {
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()

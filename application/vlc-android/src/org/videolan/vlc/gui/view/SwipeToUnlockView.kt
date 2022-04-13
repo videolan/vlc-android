@@ -41,15 +41,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class SwipeToUnlockView : ConstraintLayout {
 
     private lateinit var currentText: String

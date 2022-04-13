@@ -42,8 +42,6 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.TipsUtils
@@ -52,8 +50,6 @@ import org.videolan.vlc.gui.view.PlayerProgress
 /**
  * Delegate to manage the video tips workflow.
  */
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListener {
 
     var currentTip: VideoPlayerTipsStep? = null

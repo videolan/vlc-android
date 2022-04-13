@@ -35,8 +35,6 @@ import kotlin.math.min
 private const val TAG = "VLC/MediaSessionCallback"
 private const val ONE_SECOND = 1000L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
     private var prevActionSeek = false
 

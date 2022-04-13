@@ -29,8 +29,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceScreen
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureFlagWarningDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
@@ -38,8 +36,6 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FeatureFlagManager
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() = R.xml.preferences_optional

@@ -68,8 +68,6 @@ private const val SHOW_SCROLLER = 2
 
 private const val ITEM_THRESHOLD = 25
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FastScroller : LinearLayout, Observer<HeadersIndex> {
 
     private var currentHeight: Int = 0

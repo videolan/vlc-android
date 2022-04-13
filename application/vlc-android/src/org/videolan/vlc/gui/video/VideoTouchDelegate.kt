@@ -20,8 +20,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ScaleGestureDetectorCompat
 import com.google.android.material.circularreveal.CircularRevealCompat
 import com.google.android.material.circularreveal.CircularRevealFrameLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.resources.AndroidDevices
@@ -53,8 +51,6 @@ private const val MAX_FOV = 150f
 //stick event
 private const val JOYSTICK_INPUT_DELAY = 300
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
                          var touchControls: Int,
                          var screenConfig: ScreenConfig,

@@ -23,8 +23,6 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
@@ -37,8 +35,7 @@ import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.map
 
 private const val TAG = "VLC/BaseModel"
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
+
 abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineContextProvider: CoroutineContextProvider) : SortableModel(context) {
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }

@@ -73,8 +73,6 @@ import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView

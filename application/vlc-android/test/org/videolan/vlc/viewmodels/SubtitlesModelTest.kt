@@ -7,8 +7,6 @@ import com.jraska.livedata.test
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -26,8 +24,6 @@ import org.videolan.vlc.util.applyMock
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class SubtitlesModelTest : BaseTest() {
     @get:Rule
     val temporaryFolder = TemporaryFolder()

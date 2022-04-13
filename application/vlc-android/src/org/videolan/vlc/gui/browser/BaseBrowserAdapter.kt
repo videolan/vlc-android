@@ -32,9 +32,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -58,9 +56,6 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.util.getDescriptionSpan
 import java.util.*
 
-
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"

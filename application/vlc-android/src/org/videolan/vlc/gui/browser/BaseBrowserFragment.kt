@@ -80,8 +80,6 @@ private const val MSG_REFRESH = 3
 private const val MSG_SHOW_ENQUEUING = 4
 private const val MSG_HIDE_ENQUEUING = 5
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem> {
 
     private lateinit var addPlaylistFolderOnly: MenuItem

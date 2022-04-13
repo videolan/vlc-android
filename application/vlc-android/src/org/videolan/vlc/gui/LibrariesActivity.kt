@@ -12,8 +12,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.moshi.*
 import kotlinx.parcelize.Parcelize
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
@@ -27,8 +25,6 @@ import org.videolan.resources.util.applyOverscanMargin
 /**
  * Activity showing the different libraries used by VLC for Android and their licenses
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LibrariesActivity : BaseActivity() {
 
     private lateinit var adapter: LibrariesAdapter
@@ -90,8 +86,6 @@ class LibrariesAdapter(private val itemClickHandler: (license: LibraryWithLicens
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LicenseModel : ViewModel() {
 
     /**

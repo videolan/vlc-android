@@ -25,15 +25,11 @@ package org.videolan.vlc.gui.preferences
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.*
 import org.videolan.vlc.R
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
     override fun getXml() = R.xml.preferences_video

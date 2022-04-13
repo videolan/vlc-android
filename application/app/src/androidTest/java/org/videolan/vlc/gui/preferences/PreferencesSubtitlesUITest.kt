@@ -2,16 +2,12 @@ package org.videolan.vlc.gui.preferences
 
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.rule.IntentsTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesSubtitlesUITest: BasePreferenceUITest() {
     @get:Rule
     val intentsTestRule = IntentsTestRule(PreferencesActivity::class.java)

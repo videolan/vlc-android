@@ -37,8 +37,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
@@ -54,8 +52,6 @@ import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorActionListener,
         View.OnClickListener, BrowserFragmentInterface,
         IStreamsFragmentDelegate by StreamsFragmentDelegate(), KeyboardListener {

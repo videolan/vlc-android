@@ -84,8 +84,6 @@ import kotlin.math.abs
 
 private const val TAG = "VLC/PlaybackService"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope {
     override val coroutineContext = Dispatchers.IO + SupervisorJob()
 

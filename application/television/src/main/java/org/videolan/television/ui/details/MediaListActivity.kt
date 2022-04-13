@@ -11,8 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -31,8 +29,6 @@ import org.videolan.vlc.interfaces.ITVEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
     override fun refresh() {}
@@ -162,6 +158,4 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)

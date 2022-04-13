@@ -30,8 +30,6 @@ import android.media.AudioManager
 import android.os.Build
 import android.util.Log
 import androidx.core.content.getSystemService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.AUDIO_DUCKING
@@ -41,8 +39,6 @@ import org.videolan.vlc.PlaybackService
 
 private const val TAG = "VLCAudioFocusHelper"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @Suppress("DEPRECATION")
 class VLCAudioFocusHelper(private val service: PlaybackService) {
 

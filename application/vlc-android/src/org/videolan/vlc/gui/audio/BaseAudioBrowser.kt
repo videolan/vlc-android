@@ -71,8 +71,6 @@ import java.security.SecureRandom
 import java.util.*
 import kotlin.math.min
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragment<T>(), IEventsHandler<MediaLibraryItem>, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     var backgroundColor: Int = -1

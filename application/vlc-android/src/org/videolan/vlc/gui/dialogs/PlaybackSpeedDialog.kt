@@ -31,8 +31,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
@@ -42,8 +40,6 @@ import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.util.launchWhenStarted
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var speedValue: TextView

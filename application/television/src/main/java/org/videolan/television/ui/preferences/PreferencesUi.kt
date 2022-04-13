@@ -33,8 +33,6 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
@@ -43,8 +41,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 

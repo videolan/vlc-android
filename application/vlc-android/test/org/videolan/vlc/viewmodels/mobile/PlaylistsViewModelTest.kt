@@ -1,8 +1,6 @@
 package org.videolan.vlc.viewmodels.mobile
 
 import com.jraska.livedata.test
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import org.videolan.medialibrary.MLServiceLocator
@@ -10,8 +8,6 @@ import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistsViewModelTest : BaseTest() {
     private lateinit var playlistsViewModel: PlaylistsViewModel
     private val mediaLibrary = MLServiceLocator.getAbstractMedialibrary()

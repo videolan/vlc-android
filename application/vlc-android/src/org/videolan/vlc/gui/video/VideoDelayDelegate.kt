@@ -40,8 +40,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -60,8 +58,6 @@ private const val DELAY_DEFAULT_VALUE = 50000L
  *
  * @property player the player activity instance the delegate is attached to
  */
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClickListener, IPlaybackSettingsController {
     var playbackSetting: IPlaybackSettingsController.DelayState = IPlaybackSettingsController.DelayState.OFF
 

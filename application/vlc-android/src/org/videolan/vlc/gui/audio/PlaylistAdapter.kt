@@ -40,8 +40,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
@@ -67,8 +65,6 @@ import java.util.*
 private const val ACTION_MOVE = 0
 private const val ACTION_MOVED = 1
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
 
     private var defaultCoverVideo: BitmapDrawable

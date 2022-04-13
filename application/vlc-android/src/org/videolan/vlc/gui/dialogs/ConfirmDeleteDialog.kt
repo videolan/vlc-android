@@ -33,8 +33,6 @@ import androidx.core.os.bundleOf
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
@@ -47,8 +45,6 @@ const val CONFIRM_DELETE_DIALOG_TITLE = "CONFIRM_DELETE_DIALOG_TITLE"
 const val CONFIRM_DELETE_DIALOG_DESCRIPTION = "CONFIRM_DELETE_DIALOG_DESCRIPTION"
 const val CONFIRM_DELETE_DIALOG_BUTTON_TEXT = "CONFIRM_DELETE_DIALOG_BUTTON_TEXT"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var listener: () -> Unit

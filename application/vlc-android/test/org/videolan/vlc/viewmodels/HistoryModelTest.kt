@@ -3,8 +3,6 @@ package org.videolan.vlc.viewmodels
 import androidx.core.net.toUri
 import com.jraska.livedata.test
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Test
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -13,8 +11,6 @@ import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.TestUtil
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class HistoryModelTest : BaseTest() {
     private val mediaLibrary: Medialibrary = Medialibrary.getInstance()
     private lateinit var historyModel: HistoryModel

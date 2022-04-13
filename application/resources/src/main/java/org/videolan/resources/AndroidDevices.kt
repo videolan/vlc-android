@@ -34,8 +34,6 @@ import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.containsName
 import org.videolan.tools.getFileNameFromPath
@@ -43,8 +41,6 @@ import org.videolan.tools.startsWith
 import java.io.*
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(VERSION_CODES.N)
 object AndroidDevices {
     const val TAG = "VLC/UiTools/AndroidDevices"

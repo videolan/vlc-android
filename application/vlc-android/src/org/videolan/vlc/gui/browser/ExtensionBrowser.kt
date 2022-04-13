@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_APPEND
 import org.videolan.resources.CTX_ITEM_DL
@@ -30,8 +28,6 @@ import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.media.MediaUtils
 import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
     private var mTitle: String? = null

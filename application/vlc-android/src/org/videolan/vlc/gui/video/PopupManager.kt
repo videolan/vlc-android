@@ -33,8 +33,6 @@ import android.view.*
 import android.widget.ImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GestureDetectorCompat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IVLCVout
@@ -49,8 +47,6 @@ import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
 import org.videolan.vlc.gui.view.PopupLayout
 import org.videolan.vlc.util.getPendingIntent
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PopupManager constructor(private val service: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
 
     private var rootView: PopupLayout? = null

@@ -24,8 +24,6 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
@@ -44,8 +42,6 @@ import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class FileBrowserProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,

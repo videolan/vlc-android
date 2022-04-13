@@ -32,8 +32,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -60,8 +58,6 @@ import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeNetwork
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class SecondaryActivity : ContentActivity(), IDialogManager {
 
     private var fragment: Fragment? = null

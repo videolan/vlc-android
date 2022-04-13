@@ -41,8 +41,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class BookmarkModel : ViewModel(), PlaybackService.Callback {
 
     val dataset = LiveDataset<Bookmark>()

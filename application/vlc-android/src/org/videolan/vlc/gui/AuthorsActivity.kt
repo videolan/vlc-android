@@ -12,8 +12,6 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
@@ -26,8 +24,6 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 /**
  * Activity showing the different libraries used by VLC for Android and their licenses
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AuthorsActivity : BaseActivity() {
 
     internal lateinit var binding: AboutAuthorsActivityBinding
@@ -82,8 +78,6 @@ class AuthorsActivity : BaseActivity() {
     }
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class AuthorsAdapter(val authors: List<String>) : DiffUtilAdapter<String, AuthorsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(AboutAuthorsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))

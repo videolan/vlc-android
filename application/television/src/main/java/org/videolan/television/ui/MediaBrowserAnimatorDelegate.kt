@@ -33,15 +33,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.browser.BaseBrowserTvFragment
 import org.videolan.vlc.BuildConfig
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
 
     private val scrolledUpConstraintSet = ConstraintSet()
@@ -299,8 +295,6 @@ internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, pri
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 fun BaseBrowserTvFragment<*>.setAnimator(cl: ConstraintLayout) {
     animationDelegate = MediaBrowserAnimatorDelegate(binding, cl)
     binding.headerButton.onFocusChangeListener = animationDelegate

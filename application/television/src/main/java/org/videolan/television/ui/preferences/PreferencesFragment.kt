@@ -30,8 +30,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
@@ -41,8 +39,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesFragment : BasePreferenceFragment() {
 

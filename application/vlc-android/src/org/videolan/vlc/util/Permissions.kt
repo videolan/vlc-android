@@ -42,8 +42,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
@@ -57,8 +55,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object Permissions {
 
     const val PERMISSION_STORAGE_TAG = 255

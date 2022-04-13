@@ -12,8 +12,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -49,8 +47,6 @@ fun withMediaItem(mediaItem: MediaLibraryItem?): DiffAdapterMatcher<MediaLibrary
     }
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: DiffUtilAdapter<D, VH>, vararg matchers: DiffAdapterMatcher<D>): Int {
     val iter = adapter.dataset.iterator().withIndex()
     while (iter.hasNext()) {
@@ -61,8 +57,6 @@ fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: DiffUtilAdapter
     return -1
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: PagedListAdapter<D, VH>, vararg matchers: DiffAdapterMatcher<D>): Int  {
     val iter = adapter.currentList!!.iterator().withIndex()
     while (iter.hasNext()) {

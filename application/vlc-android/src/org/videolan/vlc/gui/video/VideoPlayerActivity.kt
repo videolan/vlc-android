@@ -115,9 +115,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 import kotlin.math.roundToInt
 
-@Suppress("DEPRECATION")
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
     var hasPhysicalNotch: Boolean = false
@@ -2277,8 +2274,6 @@ data class PlayerOrientationMode(
         var orientation: Int = 0
 )
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @BindingAdapter("length", "time")
 fun setPlaybackTime(view: TextView, length: Long, time: Long) {
     view.text = if (VideoPlayerActivity.sDisplayRemainingTime && length > 0)

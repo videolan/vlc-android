@@ -37,8 +37,6 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.*
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
@@ -57,8 +55,6 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "Navigator"
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, LifecycleObserver, INavigator {
 
     private val defaultFragmentId= R.id.nav_video

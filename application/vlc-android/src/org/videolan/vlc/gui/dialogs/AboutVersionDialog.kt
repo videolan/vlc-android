@@ -26,8 +26,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogAboutVersionBinding
@@ -35,8 +33,6 @@ import org.videolan.vlc.databinding.DialogAboutVersionBinding
 /**
  * Dialog showing the info of the current version
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AboutVersionDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var binding: DialogAboutVersionBinding

@@ -62,8 +62,6 @@ import org.videolan.vlc.util.FileUtils
 import java.io.File
 import java.io.IOException
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() =  R.xml.preferences_adv

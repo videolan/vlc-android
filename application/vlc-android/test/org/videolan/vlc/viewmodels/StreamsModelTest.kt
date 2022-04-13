@@ -6,8 +6,6 @@ import io.mockk.every
 import io.mockk.slot
 import io.mockk.spyk
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapperImpl
@@ -16,8 +14,6 @@ import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.TestUtil
 
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class StreamsModelTest : BaseTest() {
     private val mediaLibrary: Medialibrary = Medialibrary.getInstance()
     private lateinit var streamsModel: StreamsModel

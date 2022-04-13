@@ -59,8 +59,6 @@ import org.videolan.vlc.util.deleteAllWatchNext
 import java.io.File
 import java.io.IOException
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
     override fun getXml(): Int {
