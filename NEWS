@@ -1,3 +1,15 @@
+Changes between 3.5.0 Beta 3 and 3.5.0 Beta 4:
+------------------
+ * Foldable devices support for the video player
+ * New option to add a media shortcut to the launcher
+ * Browse playlists on Android TV
+ * Allow picking files from SAF when no permission is granted
+ * New setting for replay gain
+ * Support for vgm files added
+ * History fixes for streams
+ * UI improvements
+ * Crash fixes
+
 Changes between 3.5.0 Beta 2 and 3.5.0 Beta 3:
 ------------------
  * Ui and media library fixes
