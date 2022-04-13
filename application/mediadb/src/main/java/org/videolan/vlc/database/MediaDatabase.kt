@@ -29,19 +29,17 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.mediadb.Converters
-import org.videolan.vlc.mediadb.models.BrowserFav
-import org.videolan.vlc.mediadb.models.CustomDirectory
-import org.videolan.vlc.mediadb.models.ExternalSub
-import org.videolan.vlc.mediadb.models.Slave
+import org.videolan.vlc.mediadb.models.*
 
 private const val DB_NAME = "vlc_database"
 
-@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 30, exportSchema = false)
+@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class, Widget::class], version = 31, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MediaDatabase: RoomDatabase() {
     abstract fun externalSubDao(): ExternalSubDao
     abstract fun slaveDao(): SlaveDao
     abstract fun browserFavDao(): BrowserFavDao
+    abstract fun widgetDao(): WidgetDao
     abstract fun customDirectoryDao(): CustomDirectoryDao
 
     companion object : SingletonHolder<MediaDatabase, Context>({ buildDatabase(it.applicationContext) })
@@ -56,7 +54,7 @@ private fun buildDatabase(context: Context) = Room.databaseBuilder(context.appli
                 migration_17_18, migration_18_19, migration_19_20, migration_20_21,
                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
                 migration_25_26, migration_26_27, migration_27_28, migration_28_29,
-                migration_29_30)
+                migration_29_30, migration_30_31)
         .addCallback(object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) { if (!AndroidDevices.isTv) populateDB(context) }
         })

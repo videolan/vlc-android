@@ -43,6 +43,7 @@ private const val HISTORY_TABLE_NAME = "history_table"
 private const val EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table"
 private const val SLAVES_TABLE_NAME = "SLAVES_table"
 private const val FAV_TABLE_NAME = "fav_table"
+private const val WIDGET_TABLE_NAME = "widget_table"
 private const val CUSTOM_DIRECTORY_TABLE_NAME = "CustomDirectory"
 
 fun dropUnnecessaryTables(database: SupportSQLiteDatabase) {
@@ -208,6 +209,12 @@ val migration_29_30 = object:Migration(29, 30) {
         // Insert the new whatsapp path
         val uri = AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI_A11
         database.execSQL("INSERT INTO  $FAV_TABLE_NAME(uri, type, title, icon_url) VALUES (\"$uri\", 1, \"${uri.lastPathSegment}\", null)")
+    }
+}
+
+val migration_30_31 = object:Migration(30, 31) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("CREATE TABLE IF NOT EXISTS `${WIDGET_TABLE_NAME}` ( `id` INTEGER PRIMARY KEY NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `theme` INTEGER NOT NULL, `light_theme` INTEGER NOT NULL, `background_color` INTEGER NOT NULL, `foreground_color` INTEGER NOT NULL, `forward_delay` INTEGER NOT NULL, `rewind_delay` INTEGER NOT NULL, `opacity` INTEGER NOT NULL, `show_configure` INTEGER NOT NULL);")
     }
 }
 
