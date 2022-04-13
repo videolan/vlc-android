@@ -142,6 +142,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         setupScope()
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private fun setupScope() {
         actions = lifecycleScope.actor(context = Dispatchers.IO, capacity = Channel.UNLIMITED) { processAction() }
         notificationActor = lifecycleScope.actor(capacity = Channel.UNLIMITED) {
@@ -455,6 +456,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         progress.value = if (status === null) ScanProgress(parsing, progressText, inDiscovery) else status.copy(parsing = parsing, progressText = progressText, inDiscovery)
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private suspend fun ActorScope<MLAction>.processAction() {
         for (action in channel) when (action) {
             is DiscoverStorage -> {

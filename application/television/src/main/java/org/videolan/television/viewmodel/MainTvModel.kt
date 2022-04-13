@@ -93,14 +93,17 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val updateActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) updateBrowsers()
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val historyActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) setHistory()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoriteList = convertFavorites(list)
         if (!updateActor.isClosedForSend) updateActor.trySend(Unit)

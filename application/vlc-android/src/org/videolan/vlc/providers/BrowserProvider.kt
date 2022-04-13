@@ -91,6 +91,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED, onCompletion = completionHandler) {
         for (action in channel) if (isActive) {
             when (action) {
@@ -188,6 +189,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         loading.postValue(false)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<IMedia> {
         val listener = object : EventListener {
             override fun onMediaAdded(index: Int, media: IMedia) {
@@ -387,6 +389,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         private val prefetchLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun <E> SendChannel<E>.post(element: E) = isActive && !isClosedForSend && trySend(element).isSuccess
 }
 

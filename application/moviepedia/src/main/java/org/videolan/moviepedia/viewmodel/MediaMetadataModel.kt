@@ -44,6 +44,8 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
     val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
     val nextEpisode: MutableLiveData<MediaMetadataWithImages> = MutableLiveData()
     val provider = MediaScrapingTvshowProvider(context)
+
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
         for (entry in channel) {
             updateLiveData.value = entry

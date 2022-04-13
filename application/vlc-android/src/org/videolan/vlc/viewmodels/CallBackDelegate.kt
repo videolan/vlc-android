@@ -23,6 +23,7 @@ package org.videolan.vlc.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
@@ -97,6 +98,7 @@ class CallBackDelegate : ICallBackHandler,
         paused = false
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     override fun CoroutineScope.registerCallBacks(refresh: () -> Unit) {
         refreshActor = conflatedActor {
            if (paused) isInvalid = true else refresh()

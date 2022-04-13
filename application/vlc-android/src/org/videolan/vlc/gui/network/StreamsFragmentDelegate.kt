@@ -28,6 +28,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.launch
@@ -91,6 +92,7 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
         org.videolan.vlc.gui.dialogs.showContext(fragment.requireActivity(), this, position, media.title, flags)
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     override fun getlistEventActor(): SendChannel<MrlAction> = fragment.lifecycleScope.actor {
         for (event in channel) when (event) {
             is Playmedia -> playMedia(event.media)

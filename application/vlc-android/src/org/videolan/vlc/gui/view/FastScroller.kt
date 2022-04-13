@@ -343,6 +343,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         }
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val actor = scope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (evt in channel) if (fastScrolling) {
             //ItemDecoration has to be taken into account so we add 1 for the sticky header

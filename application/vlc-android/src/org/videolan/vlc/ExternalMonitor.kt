@@ -64,6 +64,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     private lateinit var ctx: Context
     private var registered = false
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val actor = actor<DeviceAction>(capacity = Channel.CONFLATED) {
         for (action in channel) when (action){
             is MediaMounted -> {
@@ -113,7 +114,9 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         }
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val storageChannel = BroadcastChannel<DeviceAction>(BUFFERED)
+    @OptIn(ObsoleteCoroutinesApi::class)
     val storageEvents : Flow<DeviceAction>
         get() = storageChannel.asFlow()
     private var storageObserver: WeakReference<Activity>? = null
@@ -158,6 +161,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     }
 
     @Synchronized
+    @OptIn(ObsoleteCoroutinesApi::class)
     private fun notifyNewStorage(mediaMounted: MediaMounted) {
         val activity = storageObserver?.get() ?: return
         UiTools.newStorageDetected(activity, mediaMounted.path)

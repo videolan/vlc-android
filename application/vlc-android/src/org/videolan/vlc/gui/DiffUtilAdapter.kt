@@ -13,6 +13,8 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     var dataset: List<D> = listOf()
     private set
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
+
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val updateActor = actor<List<D>>(capacity = Channel.CONFLATED) {
         for (list in channel) internalUpdate(list)
     }

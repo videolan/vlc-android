@@ -452,6 +452,8 @@ class MediaItemDetailsModel(context: Application) : AndroidViewModel(context), C
     val browserFavUpdated: MediatorLiveData<MediaWrapper> = MediatorLiveData()
     private val oldList = ArrayList<MediaWrapper>()
     var listenForNetworkFav = false
+
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val updateActor = actor<MediaWrapper>(capacity = Channel.CONFLATED) {
         for (entry in channel) {
             browserFavUpdated.value = entry

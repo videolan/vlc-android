@@ -23,6 +23,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
@@ -60,6 +61,7 @@ val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).to
 fun Boolean.toInt() = if (this) 1 else 0
 fun Long.hasFlag(flag: Long) = (flag and this) != 0L
 
+@OptIn(ObsoleteCoroutinesApi::class)
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
         action()

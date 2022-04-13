@@ -26,6 +26,7 @@ import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
@@ -57,6 +58,8 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         get() = service !== null
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
+
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val filterActor by lazy(mode = LazyThreadSafetyMode.NONE) {
         viewModelScope.actor<CharSequence?> {
             for (query in channel) filter.filter(query)

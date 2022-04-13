@@ -23,6 +23,8 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
@@ -52,6 +54,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineCo
     }
 
     @Suppress("UNCHECKED_CAST")
+    @OptIn(ObsoleteCoroutinesApi::class)
     protected val updateActor by lazy {
         viewModelScope.actor<Update>(capacity = Channel.UNLIMITED) {
             for (update in channel) if (isActive) when (update) {
@@ -75,6 +78,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineCo
         updateActor.trySend(Remove(mw))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun filter(query: String?) {
         if (!updateActor.isClosedForSend) {
             filterQuery = query

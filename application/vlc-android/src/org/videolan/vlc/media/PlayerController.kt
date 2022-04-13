@@ -301,6 +301,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     private var lastTime = 0L
     var lastPosition = 0F
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val eventActor = actor<MediaPlayer.Event>(capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
         for (event in channel) {
             when (event.type) {

@@ -477,6 +477,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         addUpdateActor.trySend(Unit)
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val addUpdateActor = actor<Unit>(capacity = Channel.CONFLATED) {
         for (update in channel) {
             determinePrevAndNextIndices()

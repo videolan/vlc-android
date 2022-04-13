@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import org.videolan.vlc.R
@@ -50,6 +51,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             binding.state = value
         }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val listEventActor = lifecycleScope.actor<SubtitleEvent> {
         for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
             is SubtitleClick -> when (subtitleEvent.item.state) {

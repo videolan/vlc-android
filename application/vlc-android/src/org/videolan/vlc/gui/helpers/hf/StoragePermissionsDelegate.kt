@@ -36,6 +36,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
@@ -174,6 +175,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             }
         }
 
+        @OptIn(ExperimentalCoroutinesApi::class)
         suspend fun FragmentActivity.getStoragePermission(write: Boolean = false, withDialog:Boolean = true) : Boolean {
             if (isFinishing) return false
             Settings.getInstance(this).putSingle(INITIAL_PERMISSION_ASKED, true)

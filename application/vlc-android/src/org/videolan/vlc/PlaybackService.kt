@@ -629,6 +629,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         serviceFlow.value = this
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private fun setupScope() {
         cbActor = lifecycleScope.actor(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {

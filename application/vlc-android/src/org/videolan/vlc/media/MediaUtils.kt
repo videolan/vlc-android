@@ -456,6 +456,7 @@ object MediaUtils {
         private lateinit var dialog: ProgressDialog
         var job: Job = Job()
         val scope = context.scope
+        @OptIn(ObsoleteCoroutinesApi::class)
         val actor = scope.actor<Action>(capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
                 Connect -> {
