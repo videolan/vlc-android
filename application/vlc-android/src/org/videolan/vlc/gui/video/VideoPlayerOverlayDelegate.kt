@@ -122,8 +122,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private var orientationLockedBeforeLock: Boolean = false
     lateinit var closeButton: View
     lateinit var playlistContainer: View
-    lateinit var hingeArrowRight: ImageView
-    lateinit var hingeArrowLeft: ImageView
+    var hingeArrowRight: ImageView? = null
+    var hingeArrowLeft: ImageView? = null
     lateinit var playlist: RecyclerView
     lateinit var playlistSearchText: TextInputLayout
     lateinit var playlistAdapter: PlaylistAdapter
@@ -144,8 +144,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
          //device is fully occluded and split vertically. We display the controls on the half left or right side
          if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
              val onRight = Settings.getInstance(player).getBoolean(HINGE_ON_RIGHT, true)
-             hingeArrowLeft.visibility = if (onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
-             hingeArrowRight.visibility = if (!onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
+             hingeArrowLeft?.visibility = if (onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
+             hingeArrowRight?.visibility = if (!onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
              val halfScreenSize = player.getScreenWidth() - foldingFeature.bounds.right
              arrayOf(playerUiContainer, hudBackground, hudRightBackground, playlistContainer).forEach {
                  it?.let { view ->
@@ -212,8 +212,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (::hudBinding.isInitialized) arrayOf(hudBackground, hudRightBackground).forEach {
             it?.setVisible()
         }
-        hingeArrowLeft.visibility = View.GONE
-        hingeArrowRight.visibility = View.GONE
+        hingeArrowLeft?.visibility = View.GONE
+        hingeArrowRight?.visibility = View.GONE
         val lp = (player.videoLayout!!.layoutParams as RelativeLayout.LayoutParams)
         lp.height = RelativeLayout.LayoutParams.MATCH_PARENT
         player.videoLayout!!.layoutParams = lp
@@ -416,8 +416,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
-                hingeArrowLeft.animate().alpha(1F)
-                hingeArrowRight.animate().alpha(1F)
+                hingeArrowLeft?.animate()?.alpha(1F)
+                hingeArrowRight?.animate()?.alpha(1F)
 
                 if (!player.displayManager.isPrimary)
                     overlayBackground.setVisible()
@@ -758,12 +758,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         }
         hudRightBinding.playlistToggle.setOnClickListener(player)
         closeButton.setOnClickListener { togglePlaylist() }
-        hingeArrowLeft.setOnClickListener {
+        hingeArrowLeft?.setOnClickListener {
             Settings.getInstance(player).putSingle(HINGE_ON_RIGHT, false)
             manageHinge()
             showOverlay()
         }
-        hingeArrowRight.setOnClickListener {
+        hingeArrowRight?.setOnClickListener {
             Settings.getInstance(player).putSingle(HINGE_ON_RIGHT, true)
             manageHinge()
             showOverlay()
@@ -845,8 +845,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
             exitAnimate(arrayOf(hudBinding.progressOverlay, hudBackground),100.dp.toFloat())
             exitAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground),-100.dp.toFloat())
-            hingeArrowLeft.animate().alpha(0F)
-            hingeArrowRight.animate().alpha(0F)
+            hingeArrowLeft?.animate()?.alpha(0F)
+            hingeArrowRight?.animate()?.alpha(0F)
 
             showControls(false)
             player.isShowing = false
