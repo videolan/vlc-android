@@ -119,14 +119,14 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             }
 
             resizeMainView.setOnClickListener { hideResizeOverlay() }
-        }
-        sizeAdapter.selectedSize = MediaPlayer.ScaleType.values().indexOf(player.service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT)
-        scrollView.scrollTo(0, 0)
-        resizeMainView.visibility = View.VISIBLE
-        if (Settings.showTvUi) AppScope.launch {
-            delay(100L)
-            val position = (sizeList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-            (sizeList.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+            sizeAdapter.selectedSize = MediaPlayer.ScaleType.values().indexOf(player.service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT)
+            scrollView.scrollTo(0, 0)
+            resizeMainView.visibility = View.VISIBLE
+            if (Settings.showTvUi) AppScope.launch {
+                delay(100L)
+                val position = (sizeList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                (sizeList.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+            }
         }
     }
 
@@ -173,6 +173,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
      * display the resize overlay and hide everything else
      */
     fun displayResize(): Boolean {
+        if (player.service?.hasRenderer() == true) return false
         showResizeOverlay()
         overlayDelegate.hideOverlay(true)
         return true
