@@ -134,8 +134,12 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
         Medialibrary.getState().observe(this) { running ->
-            if (!running) {
-                exitCommand()
+            lifecycleScope.launch {
+                if (!running) {
+                    delay(1000L)
+                    if (!medialibrary.isWorking)
+                        exitCommand()
+                }
             }
         }
         medialibrary.exceptionHandler = exceptionHandler
