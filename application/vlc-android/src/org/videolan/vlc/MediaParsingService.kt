@@ -222,7 +222,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun addDeviceIfNeeded(path: String) {
         for (devicePath in medialibrary.devices) {
             if (path.startsWith(devicePath.removeFileProtocole())) {
-                exitCommand()
                 return
             }
         }
