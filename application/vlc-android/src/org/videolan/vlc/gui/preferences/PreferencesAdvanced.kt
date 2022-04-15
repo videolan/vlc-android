@@ -51,6 +51,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FeatureFlag
@@ -151,7 +152,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                                     Log.e(this::class.java.simpleName, e.message, e)
                                 }
                             }
-                            medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                            MedialibraryUtils.addDir(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, requireContext())
                         }
                     }
                     return true
