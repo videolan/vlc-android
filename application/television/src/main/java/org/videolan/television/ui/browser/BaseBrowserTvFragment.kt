@@ -36,10 +36,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.lifecycleScope
@@ -67,7 +64,6 @@ import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
-import java.util.*
 
 private const val TAG = "MediaBrowserTvFragment"
 
@@ -193,13 +189,11 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
                 override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
                     super.onLayoutChildren(recycler, state)
-                    if (previouslySelectedItem != -1) {
-                        for (i in 0 until childCount) {
-                            if (i == previouslySelectedItem) {
-                                getChildAt(i)?.requestFocus()
-                                scrollToPosition(getPosition(getChildAt(i)!!))
-                                previouslySelectedItem = -1
-                            }
+                    if (previouslySelectedItem != -1 && binding.list.adapter?.itemCount ?: 0 > previouslySelectedItem) {
+                        scrollToPosition(previouslySelectedItem)
+                        binding.list.findViewHolderForLayoutPosition(previouslySelectedItem)?.let { holder ->
+                            (holder as MediaTvItemAdapter.AbstractMediaItemViewHolder<*>).getView().requestFocus()
+                            previouslySelectedItem = -1
                         }
                     }
                 }
@@ -227,13 +221,11 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             gridLayoutManager = object : LinearLayoutManager(requireActivity()) {
                 override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
                     super.onLayoutChildren(recycler, state)
-                    if (previouslySelectedItem != -1) {
-                        for (i in 0 until childCount) {
-                            if (i == previouslySelectedItem) {
-                                getChildAt(i)?.requestFocus()
-                                scrollToPosition(getPosition(getChildAt(i)!!))
-                                previouslySelectedItem = -1
-                            }
+                    if (previouslySelectedItem != -1 && binding.list.adapter?.itemCount ?: 0 > previouslySelectedItem) {
+                        scrollToPosition(previouslySelectedItem)
+                        binding.list.findViewHolderForLayoutPosition(previouslySelectedItem)?.let { holder ->
+                            (holder as MediaTvItemAdapter.AbstractMediaItemViewHolder<*>).getView().requestFocus()
+                            previouslySelectedItem = -1
                         }
                     }
                 }

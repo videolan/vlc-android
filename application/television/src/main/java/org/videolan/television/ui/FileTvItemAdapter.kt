@@ -126,6 +126,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 
+        override fun getView() = binding.container
+
         init {
             binding.holder = this
             binding.isPresent = true
@@ -212,6 +214,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
     ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemListBinding>(binding) {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
+
+        override fun getView() = binding.container
 
         init {
             binding.holder = this

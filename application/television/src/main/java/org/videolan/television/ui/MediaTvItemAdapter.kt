@@ -164,6 +164,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
         abstract fun setCoverlay(selected: Boolean)
 
+        abstract fun getView(): View
+
         fun isPresent() = (getItem(layoutPosition) as? MediaWrapper)?.isPresent ?: true
         fun isNetwork() = !(getItem(layoutPosition) as? MediaWrapper)?.uri?.scheme.isSchemeFile()
         fun isSD() = (getItem(layoutPosition) as? MediaWrapper)?.uri?.isSD() == true
@@ -177,6 +179,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
     ) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding)
     {
         override fun getItem(layoutPosition: Int) =  this@MediaTvItemAdapter.getItem(layoutPosition)
+        override fun getView() = binding.container
 
         init {
             binding.holder = this
@@ -259,6 +262,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             override val eventsHandler: IEventsHandler<MediaLibraryItem>
     ) : AbstractMediaItemViewHolder<MediaBrowserTvItemListBinding>(binding) {
         override fun getItem(layoutPosition: Int) = this@MediaTvItemAdapter.getItem(layoutPosition)
+
+        override fun getView() = binding.container
 
         init {
             binding.holder = this
