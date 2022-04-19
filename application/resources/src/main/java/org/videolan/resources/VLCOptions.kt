@@ -137,9 +137,8 @@ object VLCOptions {
                 options.add("--hrtf-file")
                 options.add(hstfPath)
             }
-            val replayGainMode = pref.getString("audio-replay-gain-mode", "none")
-            if (replayGainMode != "none") {
-                options.add("--audio-replay-gain-mode=$replayGainMode")
+            if (pref.getBoolean("audio-replay-gain-enable", false)) {
+                options.add("--audio-replay-gain-mode=${pref.getString("audio-replay-gain-mode", "track")}")
                 options.add("--audio-replay-gain-preamp=${pref.getString("audio-replay-gain-preamp", "0.0")}")
                 options.add("--audio-replay-gain-default=${pref.getString("audio-replay-gain-default", "-7.0")}")
                 if (pref.getBoolean("audio-replay-gain-peak-protection", true))

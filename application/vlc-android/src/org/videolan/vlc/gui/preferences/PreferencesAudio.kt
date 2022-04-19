@@ -151,7 +151,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             }
             "audio_digital_output" -> updatePassThroughSummary()
             "audio_preferred_language" -> updatePreferredAudioTrack()
-            "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> restartLibVLC()
+            "audio-replay-gain-enable", "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> restartLibVLC()
             "audio-replay-gain-default", "audio-replay-gain-preamp" -> {
                 val defValue = if (key == "audio-replay-gain-default") "-7.0" else "0.0"
                 val newValue = sharedPreferences.getString(key, defValue)
