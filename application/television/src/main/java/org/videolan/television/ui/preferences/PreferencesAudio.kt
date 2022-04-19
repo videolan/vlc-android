@@ -87,7 +87,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         val f = super.buildPreferenceDialogFragment(preference)
         if (f is CustomEditTextPreferenceDialogFragment) {
             when (preference.key) {
-                "audio-replay-gain-preamp", "audio-replay-gain-default" -> {
+                "audio-replay-gain-default", "audio-replay-gain-preamp" -> {
                     f.setFilters(arrayOf(InputFilter.LengthFilter(6)))
                     f.setInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED)
                 }
