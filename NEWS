@@ -1,3 +1,9 @@
+Changes between 3.5.0 Beta 4 and 3.5.0 Beta 5:
+------------------
+ * UI improvements
+ * Crash fixes
+ * Codebase cleanups
+
 Changes between 3.5.0 Beta 3 and 3.5.0 Beta 4:
 ------------------
  * Foldable devices support for the video player
