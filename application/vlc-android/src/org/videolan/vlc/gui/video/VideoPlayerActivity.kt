@@ -700,6 +700,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     newConfig.orientation)
             touchDelegate.screenConfig = sc
         }
+        this.resources.configuration.orientation = newConfig.orientation
         overlayDelegate.resetHudLayout()
         overlayDelegate.showControls(isShowing)
         statsDelegate.onConfigurationChanged()
