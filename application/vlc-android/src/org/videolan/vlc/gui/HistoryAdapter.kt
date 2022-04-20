@@ -42,7 +42,8 @@ import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
-import org.videolan.vlc.util.isSchemeFile
+import org.videolan.vlc.util.isSchemeNetwork
+
 
 class HistoryAdapter(private val inCards: Boolean = false, private val listEventsHandler: IListEventsHandler? = null) : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(),
         MultiSelectAdapter<MediaWrapper>, IEventsSource<Click> by EventsSource(), SwipeDragHelperAdapter {
@@ -112,7 +113,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
         when (holder.binding) {
             is HistoryItemBinding -> {
                 (holder.binding as HistoryItemBinding).media = media
-                holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isNetwork, media.uri.scheme.isSchemeNetwork())
                 holder.binding.setVariable(BR.isSD, media.uri.isSD())
                 holder.binding.setVariable(BR.isOTG, media.uri.isOTG())
                 (holder.binding as HistoryItemBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
@@ -120,7 +121,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
             }
             is HistoryItemCardBinding -> {
                 (holder.binding as HistoryItemCardBinding).media = media
-                holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isNetwork, media.uri.scheme.isSchemeNetwork())
                 holder.binding.setVariable(BR.isSD, media.uri.isSD())
                 holder.binding.setVariable(BR.isOTG, media.uri.isOTG())
                 (holder.binding as HistoryItemCardBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
