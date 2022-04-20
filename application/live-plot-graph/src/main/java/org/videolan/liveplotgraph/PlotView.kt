@@ -121,7 +121,7 @@ class PlotView : FrameLayout {
         data.forEach {
             minsX.add(it.data.minByOrNull { it.key }?.key ?: 0L)
         }
-        val minX = minsX.maxOrNull() ?: 0L
+        val minX = minsX.minOrNull() ?: 0L
 
         drawLines(maxY, minX, maxX, canvas)
         drawGrid(canvas, maxY, minX, maxX)
