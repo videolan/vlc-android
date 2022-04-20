@@ -96,13 +96,8 @@ fun ContextWrapper.wrap(language: String): ContextWrapper {
         }
     }
 
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        val context = baseContext.createConfigurationContext(config)
-        ContextWrapper(context)
-    } else {
-        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
-        ContextWrapper(baseContext)
-    }
+    val context = baseContext.createConfigurationContext(config)
+    return ContextWrapper(context)
 }
 
 @Suppress("DEPRECATION")
