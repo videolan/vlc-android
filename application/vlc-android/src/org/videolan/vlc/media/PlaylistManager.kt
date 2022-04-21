@@ -512,7 +512,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
         val titleIdx = player.getTitleIdx()
         val currentMedia = getCurrentMedia() ?: return@launch
-        if (currentMedia.uri.scheme == "fd") return@launch
+        if (currentMedia.uri.scheme.isSchemeFD()) return@launch
         //Save progress
         val time = player.mediaplayer.time
         val length = player.getLength()
@@ -590,13 +590,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @Synchronized
     fun saveCurrentMedia(forceVideo:Boolean = false) {
         val media = getCurrentMedia() ?: return
+        if (media.uri.scheme.isSchemeFD()) return
         val isAudio = isAudioList() || forceVideo
         settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
         settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
     }
 
     suspend fun saveMediaList(forceVideo:Boolean = false) {
-        if (getCurrentMedia() === null) return
+        val currentMedia = getCurrentMedia() ?: return
+        if (currentMedia.uri.scheme.isSchemeFD()) return
         val locations = StringBuilder()
         val isAudio = isAudioList() || forceVideo
         withContext(Dispatchers.Default) {
@@ -740,7 +742,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                             type = MediaWrapper.TYPE_STREAM
                             entryUrl = mrl
                             medialibrary.getMedia(mrl)?.run { if (id > 0) medialibrary.removeExternalMedia(id) }
-                        } else if (uri.scheme != "fd") {
+                        } else if (!uri.scheme.isSchemeFD()) {
                             medialibrary.addToHistory(mrl, title)
                         }
                     }
@@ -1032,7 +1034,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private suspend fun savePlaycount(mw: MediaWrapper) {
-        if (settings.getBoolean(PLAYBACK_HISTORY, true)) withContext(Dispatchers.IO) {
+        if (settings.getBoolean(PLAYBACK_HISTORY, true) && !mw.uri.scheme.isSchemeFD()) withContext(Dispatchers.IO) {
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)

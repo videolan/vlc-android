@@ -55,6 +55,7 @@ fun String?.isSchemeFile() = when(this) {
 fun Uri.isOTG() = this.path?.startsWith("/mnt") == true
 fun Uri.isSD() = this.path != null && this.path?.startsWith("/storage") == true && this.path?.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) == false
 fun String?.isSchemeSMB() = this == "smb"
+fun String?.isSchemeFD() = this == "fd"
 
 fun String?.isSchemeDistant() = !this.isSchemeFile()
 
