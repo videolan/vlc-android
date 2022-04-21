@@ -188,6 +188,7 @@ dependencies {
 
     implementation 'nl.dionsegijn:konfetti:1.2.2'
     implementation 'com.google.zxing:core:3.4.0'
+    implementation "androidx.palette:palette-ktx:1.0.0"
 
     // Tests
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
