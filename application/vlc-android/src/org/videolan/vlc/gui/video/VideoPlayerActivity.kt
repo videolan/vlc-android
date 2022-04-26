@@ -705,6 +705,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         statsDelegate.onConfigurationChanged()
         overlayDelegate.updateHudMargins()
         overlayDelegate.updateTitleConstraints()
+        overlayDelegate.rotateBookmarks()
     }
 
     override fun onStart() {

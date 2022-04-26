@@ -939,6 +939,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         }
     }
 
+    fun rotateBookmarks() {
+        if (::bookmarkListDelegate.isInitialized && isBookmarkShown()) {
+            bookmarkListDelegate.hide()
+            showBookmarks()
+        }
+    }
+
     fun isBookmarkShown() = ::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible
     fun hideBookmarks() {
         bookmarkListDelegate.hide()
