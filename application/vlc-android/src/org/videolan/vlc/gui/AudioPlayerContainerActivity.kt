@@ -159,6 +159,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                     bottomInset = insets.bottom
                     setContentBottomPadding()
                     insetListener.invoke(insets)
+                    if (::audioPlayer.isInitialized) audioPlayer.setBottomMargin()
                 }
             }
 
