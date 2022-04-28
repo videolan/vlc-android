@@ -1,10 +1,10 @@
-From 7225ed05b67e68f41f9637ec8efda397f5aaca72 Mon Sep 17 00:00:00 2001
-Message-Id: <7225ed05b67e68f41f9637ec8efda397f5aaca72.1646986976.git.thomas@gllm.fr>
-In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
-References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From 8f70bf48097bc80d60e30636f4fe720377e6fdc4 Mon Sep 17 00:00:00 2001
+Message-Id: <8f70bf48097bc80d60e30636f4fe720377e6fdc4.1651138725.git.thomas@gllm.fr>
+In-Reply-To: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
+References: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 12 Mar 2021 11:34:02 +0100
-Subject: [PATCH 10/23] taglib: Backport 4.0 patches to allow preparsing of
+Subject: [PATCH 10/18] taglib: Backport 4.0 patches to allow preparsing of
  network files
 
 Cherry-picked from:
@@ -33,7 +33,7 @@ Message-Id: <143e87709c8889f7e8e40e9a0123e48f06114017.1628587500.git.thomas@gllm
  create mode 100644 contrib/src/taglib/0001-Implement-ID3v2-readStyle-avoid-worst-case.patch
 
 diff --git a/configure.ac b/configure.ac
-index f72e580d43..59cf7d0187 100644
+index 738453a060..68dcc05029 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -4158,7 +4158,7 @@ AC_ARG_ENABLE(taglib,

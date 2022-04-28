@@ -1,10 +1,10 @@
-From 24e74a770cfeea911ec115f99b2b84d3b98a4469 Mon Sep 17 00:00:00 2001
-Message-Id: <24e74a770cfeea911ec115f99b2b84d3b98a4469.1646986976.git.thomas@gllm.fr>
-In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
-References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From 0273e55ff1fc4c6cafacc97a97457bc68a6ac9ba Mon Sep 17 00:00:00 2001
+Message-Id: <0273e55ff1fc4c6cafacc97a97457bc68a6ac9ba.1651138725.git.thomas@gllm.fr>
+In-Reply-To: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
+References: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Fri, 21 Jan 2022 17:28:13 +0100
-Subject: [PATCH 21/23] smb2: use the cache helper
+Subject: [PATCH 18/18] smb2: use the cache helper
 
 Cache the smb2 session when closing. It will be re-used if an other
 access is opened on the same server/share/username within 5 seconds.
@@ -17,11 +17,11 @@ Small benchmark, time to open the smb2 access:
 Signed-off-by: Thomas Guillem <thomas@gllm.fr>
 ---
  modules/access/Makefile.am |  2 +-
- modules/access/smb2.c      | 42 ++++++++++++++++++++++++++++++++++++--
- 2 files changed, 41 insertions(+), 3 deletions(-)
+ modules/access/smb2.c      | 56 ++++++++++++++++++++++++++++++++++----
+ 2 files changed, 52 insertions(+), 6 deletions(-)
 
 diff --git a/modules/access/Makefile.am b/modules/access/Makefile.am
-index 8be84055fa..2e75013bad 100644
+index 05ac57d247..eb6ba6f3ff 100644
 --- a/modules/access/Makefile.am
 +++ b/modules/access/Makefile.am
 @@ -354,7 +354,7 @@ EXTRA_LTLIBRARIES += libdsm_plugin.la
@@ -34,10 +34,10 @@ index 8be84055fa..2e75013bad 100644
  if HAVE_DSM
  libsmb2_plugin_la_CFLAGS += $(DSM_CFLAGS) -DHAVE_DSM
 diff --git a/modules/access/smb2.c b/modules/access/smb2.c
-index 790fca7217..cce4ad056b 100644
+index 7373e5904a..3306f0cee2 100644
 --- a/modules/access/smb2.c
 +++ b/modules/access/smb2.c
-@@ -57,6 +57,7 @@
+@@ -83,6 +83,7 @@ netbios_ns_interrupt_unregister(void)
  #endif
  
  #include "smb_common.h"
@@ -45,7 +45,7 @@ index 790fca7217..cce4ad056b 100644
  
  static int Open(vlc_object_t *);
  static void Close(vlc_object_t *);
-@@ -75,6 +76,8 @@ vlc_module_begin()
+@@ -101,6 +102,8 @@ vlc_module_begin()
      set_callbacks(Open, Close)
  vlc_module_end()
  
@@ -54,17 +54,17 @@ index 790fca7217..cce4ad056b 100644
  struct access_sys
  {
      struct smb2_context *   smb2;
-@@ -87,6 +90,8 @@ struct access_sys
+@@ -111,6 +114,8 @@ struct access_sys
+     vlc_url_t               encoded_url;
+     bool                    eof;
      bool                    smb2_connected;
- 
-     int                     error_status;
 +
 +    struct vlc_access_cache_entry *cache_entry;
  };
  
  struct vlc_smb2_op
-@@ -630,6 +635,15 @@ error:
-     return -1;
+@@ -637,6 +642,16 @@ error:
+     return op.error_status;
  }
  
 +static void
@@ -72,15 +72,16 @@ index 790fca7217..cce4ad056b 100644
 +{
 +    struct smb2_context *smb2 = context;
 +
-+    vlc_smb2_disconnect_share(NULL, smb2);
-+    smb2_destroy_context(smb2);
++    vlc_smb2_disconnect_share(NULL, &smb2);
++    if (smb2 != NULL)
++        smb2_destroy_context(smb2);
 +}
 +
  static int
  vlc_smb2_connect_open_share(stream_t *access, const char *url,
                              const vlc_credential *credential)
-@@ -664,6 +678,25 @@ vlc_smb2_connect_open_share(stream_t *access, const char *url,
-         password = NULL;
+@@ -671,6 +686,30 @@ vlc_smb2_connect_open_share(stream_t *access, const char *url,
+         password = "";
      }
  
 +    struct vlc_access_cache_entry *cache_entry =
@@ -88,9 +89,12 @@ index 790fca7217..cce4ad056b 100644
 +                                     credential->psz_username);
 +    if (cache_entry != NULL)
 +    {
-+        int err = vlc_smb2_open_share(access, cache_entry->context, smb2_url, do_enum);
++        struct smb2_context *smb2 = cache_entry->context;
++        int err = vlc_smb2_open_share(access, &smb2, smb2_url, do_enum);
 +        if (err == 0)
 +        {
++            assert(smb2 != NULL);
++
 +            smb2_destroy_context(sys->smb2);
 +            sys->smb2 = cache_entry->context;
 +            sys->smb2_connected = true;
@@ -100,31 +104,41 @@ index 790fca7217..cce4ad056b 100644
 +            msg_Dbg(access, "re-using old smb2 session");
 +            return 0;
 +        }
++        else
++            vlc_access_cache_entry_Delete(cache_entry);
 +    }
 +
      smb2_set_security_mode(sys->smb2, SMB2_NEGOTIATE_SIGNING_ENABLED);
      smb2_set_password(sys->smb2, password);
      smb2_set_domain(sys->smb2, domain ? domain : "");
-@@ -691,6 +724,12 @@ vlc_smb2_connect_open_share(stream_t *access, const char *url,
-     if (err < 0)
+@@ -697,6 +736,15 @@ vlc_smb2_connect_open_share(stream_t *access, const char *url,
          goto error;
+     }
  
 +    sys->cache_entry = vlc_access_cache_entry_NewSmb(sys->smb2, smb2_url->server, share,
 +                                                     credential->psz_username,
 +                                                     vlc_smb2_FreeContext);
 +    if (sys->cache_entry == NULL)
++    {
++        op.error_status = -ENOMEM;
 +        goto error;
++    }
 +
      smb2_destroy_url(smb2_url);
      return 0;
  
-@@ -889,8 +928,7 @@ Close(vlc_object_t *p_obj)
- 
+@@ -902,11 +950,9 @@ Close(vlc_object_t *p_obj)
      assert(sys->smb2_connected);
  
--    vlc_smb2_disconnect_share(access, sys->smb2);
--    smb2_destroy_context(sys->smb2);
-+    vlc_access_cache_AddEntry(&smb2_cache, sys->cache_entry);
+     if (sys->smb2 != NULL)
+-    {
+-        vlc_smb2_disconnect_share(access, &sys->smb2);
+-        if (sys->smb2 != NULL)
+-            smb2_destroy_context(sys->smb2);
+-    }
++        vlc_access_cache_AddEntry(&smb2_cache, sys->cache_entry);
++    else
++        vlc_access_cache_entry_Delete(sys->cache_entry);
  
      vlc_UrlClean(&sys->encoded_url);
  }

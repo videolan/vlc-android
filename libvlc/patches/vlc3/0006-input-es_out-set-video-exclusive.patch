@@ -1,10 +1,10 @@
-From 191493707db486aa1e0d113e41ac0de4e23a0e67 Mon Sep 17 00:00:00 2001
-Message-Id: <191493707db486aa1e0d113e41ac0de4e23a0e67.1646986976.git.thomas@gllm.fr>
-In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
-References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From 9e2ef94f0e33b54f12cf3726e7dc37b55cc3d489 Mon Sep 17 00:00:00 2001
+Message-Id: <9e2ef94f0e33b54f12cf3726e7dc37b55cc3d489.1651138725.git.thomas@gllm.fr>
+In-Reply-To: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
+References: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 2 Jul 2020 15:05:01 +0200
-Subject: [PATCH 06/23] input: es_out: set video exclusive
+Subject: [PATCH 06/18] input: es_out: set video exclusive
 
 Since there can be only one video at a time for now (only one Surface is
 supported).

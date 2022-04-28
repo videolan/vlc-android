@@ -1,10 +1,10 @@
-From f08f3e04bb363fef190cfaec8efd361a48437ab8 Mon Sep 17 00:00:00 2001
-Message-Id: <f08f3e04bb363fef190cfaec8efd361a48437ab8.1646986976.git.thomas@gllm.fr>
-In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
-References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From 58f03024eb2a73e7bb94a46faaa67912edde8f4d Mon Sep 17 00:00:00 2001
+Message-Id: <58f03024eb2a73e7bb94a46faaa67912edde8f4d.1651138725.git.thomas@gllm.fr>
+In-Reply-To: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
+References: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Nov 2019 15:41:08 +0100
-Subject: [PATCH 08/23] input: Extract attachment also when preparsing
+Subject: [PATCH 08/18] input: Extract attachment also when preparsing
 
 Message-Id: <90f80f4face6fe96f631651d8c212541a6539a34.1606132271.git.hugo@beauzee.fr>
 Message-Id: <4e829aba815aa6faf4a8d4ee8076abb8e20c7059.1607001652.git.nicolas@videolabs.io>
@@ -893,7 +893,7 @@ index 1e47057532..d85fe5dcb6 100644
          return VLC_SUCCESS;
      }
 diff --git a/modules/codec/libass.c b/modules/codec/libass.c
-index 0ed3d7ac55..b60f6946e4 100644
+index 03005b4340..241791c085 100644
 --- a/modules/codec/libass.c
 +++ b/modules/codec/libass.c
 @@ -196,7 +196,7 @@ static int Create( vlc_object_t *p_this )
@@ -1023,7 +1023,7 @@ index 314e1066a8..487a7dbc79 100644
      std::vector<virtual_segment_c*>  used_vsegments;
      virtual_segment_c                *p_current_vsegment;
 diff --git a/modules/demux/mkv/matroska_segment_parse.cpp b/modules/demux/mkv/matroska_segment_parse.cpp
-index 13421339d8..40ec3b5303 100644
+index 5c6d8f5f2c..8e182524f8 100644
 --- a/modules/demux/mkv/matroska_segment_parse.cpp
 +++ b/modules/demux/mkv/matroska_segment_parse.cpp
 @@ -1333,33 +1333,31 @@ void matroska_segment_c::ParseAttachments( KaxAttachments *attachments )
@@ -1079,7 +1079,7 @@ index 13421339d8..40ec3b5303 100644
      }
  }
 diff --git a/modules/demux/mkv/mkv.cpp b/modules/demux/mkv/mkv.cpp
-index 91ec8742a1..0039f6b862 100644
+index bd15e7ade1..414aee30a8 100644
 --- a/modules/demux/mkv/mkv.cpp
 +++ b/modules/demux/mkv/mkv.cpp
 @@ -313,14 +313,7 @@ static int Control( demux_t *p_demux, int i_query, va_list args )
@@ -1140,7 +1140,7 @@ index fa9a1e81a5..1270f6a9b5 100644
  struct matroska_stream_c
  {
 diff --git a/modules/demux/mp4/mp4.c b/modules/demux/mp4/mp4.c
-index 4d8bcd316e..3db5a3cc58 100644
+index 5b2d0fce6b..670a29a767 100644
 --- a/modules/demux/mp4/mp4.c
 +++ b/modules/demux/mp4/mp4.c
 @@ -121,6 +121,8 @@ struct demux_sys_t
@@ -1160,7 +1160,7 @@ index 4d8bcd316e..3db5a3cc58 100644
  
      p_demux->p_sys = p_sys;
  
-@@ -1930,112 +1933,123 @@ static int Control( demux_t *p_demux, int i_query, va_list args )
+@@ -1931,112 +1934,123 @@ static int Control( demux_t *p_demux, int i_query, va_list args )
              input_attachment_t ***ppp_attach = va_arg( args, input_attachment_t*** );
              int *pi_int = va_arg( args, int * );
  
@@ -1371,7 +1371,7 @@ index 4d8bcd316e..3db5a3cc58 100644
              return VLC_SUCCESS;
          }
  
-@@ -2134,6 +2148,10 @@ static void Close ( vlc_object_t * p_this )
+@@ -2135,6 +2149,10 @@ static void Close ( vlc_object_t * p_this )
          MP4_TrackClean( p_demux->out, &p_sys->track[i_track] );
      free( p_sys->track );
  
@@ -1427,10 +1427,10 @@ index d0d8d14c1b..4cec93dc9d 100644
  
      for ( int i=0; i < p_ogg->i_seekpoints; i++ )
 diff --git a/modules/text_renderer/freetype/freetype.c b/modules/text_renderer/freetype/freetype.c
-index 80c5e4eacb..8715dd8b53 100644
+index 074c4f2ee5..52786edb35 100644
 --- a/modules/text_renderer/freetype/freetype.c
 +++ b/modules/text_renderer/freetype/freetype.c
-@@ -331,7 +331,7 @@ static int LoadFontsFromAttachments( filter_t *p_filter )
+@@ -333,7 +333,7 @@ static int LoadFontsFromAttachments( filter_t *p_filter )
      if( !p_sys->pp_font_attachments )
      {
          for( int i = 0; i < i_attachments_cnt; ++i )
@@ -1439,7 +1439,7 @@ index 80c5e4eacb..8715dd8b53 100644
          free( pp_attachments );
          return VLC_ENOMEM;
      }
-@@ -397,7 +397,7 @@ static int LoadFontsFromAttachments( filter_t *p_filter )
+@@ -399,7 +399,7 @@ static int LoadFontsFromAttachments( filter_t *p_filter )
          }
          else
          {
@@ -1448,7 +1448,7 @@ index 80c5e4eacb..8715dd8b53 100644
          }
      }
  
-@@ -434,7 +434,7 @@ error:
+@@ -436,7 +436,7 @@ error:
          free( psz_lc );
  
      for( int i = k + 1; i < i_attachments_cnt; ++i )
@@ -1457,7 +1457,7 @@ index 80c5e4eacb..8715dd8b53 100644
  
      free( pp_attachments );
      return VLC_ENOMEM;
-@@ -1534,7 +1534,7 @@ static void Destroy( vlc_object_t *p_this )
+@@ -1536,7 +1536,7 @@ static void Destroy( vlc_object_t *p_this )
      if( p_sys->pp_font_attachments )
      {
          for( int k = 0; k < p_sys->i_font_attachments; k++ )

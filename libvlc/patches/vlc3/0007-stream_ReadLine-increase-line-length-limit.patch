@@ -1,10 +1,10 @@
-From b80938a2a1399a2742e9ad5d1c80ef62b084bfd5 Mon Sep 17 00:00:00 2001
-Message-Id: <b80938a2a1399a2742e9ad5d1c80ef62b084bfd5.1646986976.git.thomas@gllm.fr>
-In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
-References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From 454a26821a50ad07850bd1361ca173a1ceec88b1 Mon Sep 17 00:00:00 2001
+Message-Id: <454a26821a50ad07850bd1361ca173a1ceec88b1.1651138725.git.thomas@gllm.fr>
+In-Reply-To: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
+References: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
 From: Pierre Ynard <linkfanel@yahoo.fr>
 Date: Mon, 20 Jul 2020 13:11:34 +0200
-Subject: [PATCH 07/23] stream_ReadLine: increase line length limit
+Subject: [PATCH 07/18] stream_ReadLine: increase line length limit
 
 Very long lines are occasionally encountered in text web resources such
 as HTML, JSON or other API data. This bumps the hardcoded limit from

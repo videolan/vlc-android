@@ -1,10 +1,10 @@
-From 27ac569c1ab2f8ea5effe8f3a39a29f97d367ee3 Mon Sep 17 00:00:00 2001
-Message-Id: <27ac569c1ab2f8ea5effe8f3a39a29f97d367ee3.1646986976.git.thomas@gllm.fr>
-In-Reply-To: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
-References: <2f52ccaa636f6e528fc9962b071236ca3c0753ca.1646986976.git.thomas@gllm.fr>
+From 82f78115e071811ba1a1537a73510949126b1932 Mon Sep 17 00:00:00 2001
+Message-Id: <82f78115e071811ba1a1537a73510949126b1932.1651138725.git.thomas@gllm.fr>
+In-Reply-To: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
+References: <dfbbc0d05a7d14b403668da8ce51c95172258a46.1651138725.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 3 Dec 2020 09:56:05 +0100
-Subject: [PATCH 09/23] input: display discoverer/preparsers logs
+Subject: [PATCH 09/18] input: display discoverer/preparsers logs
 
 Message-Id: <6b6571e1c1999271bf484459195446ec756f1028.1607001652.git.nicolas@videolabs.io>
 Message-Id: <81f873502fa31e9e5517496425a23a0697a0e1c6.1628587500.git.thomas@gllm.fr>
