@@ -30,6 +30,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import org.videolan.libvlc.Dialog
@@ -77,6 +78,8 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.secondary)
         initAudioPlayerContainerActivity()
+
+        if (isOnboarding) WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         val fph = findViewById<View>(R.id.fragment_placeholder)
         val params = fph.layoutParams as CoordinatorLayout.LayoutParams
