@@ -31,7 +31,9 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
@@ -80,7 +82,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     private var displayInList = false
     private val displayInListKey = "main_browser_fragment_display_mode"
 
-    override fun hasFAB() = true
+    override fun hasFAB() = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_browser_fragment, container, false)
@@ -111,6 +113,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
         menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInList
         menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInList
+        menu.findItem(R.id.add_server_favorite).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -125,6 +128,10 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 networkEntry.displayInCards = !displayInList
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(displayInListKey, displayInList)
+                true
+            }
+            R.id.add_server_favorite -> {
+                showAddServerDialog(null)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -275,15 +282,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        fabPlay?.setImageResource(R.drawable.ic_fab_add)
-        fabPlay?.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        if (v.id == R.id.fab || v.id == R.id.fab_large) showAddServerDialog(null)
-    }
+    override fun onClick(v: View) { }
 
     private fun showAddServerDialog(mw: MediaWrapper?) {
         val fm = try {

@@ -946,5 +946,6 @@
     <string name="fold_optimize">Optimize for folding screens</string>
     <string name="foldable">Foldable screen</string>
     <string name="undo">Undo</string>
+    <string name="add_server_favorite">Add a server favorite</string>
 
 </resources>

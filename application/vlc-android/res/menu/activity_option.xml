@@ -146,6 +146,12 @@
         </menu>
     </item>
     <item
+            android:orderInCategory="3"
+            android:id="@+id/add_server_favorite"
+            android:title="@string/add_server_favorite"
+            vlc:showAsAction="never"
+            android:visible="false"/>
+    <item
             android:orderInCategory="4"
             android:id="@+id/ml_menu_refresh"
             android:icon="@drawable/ic_menu_refresh"
