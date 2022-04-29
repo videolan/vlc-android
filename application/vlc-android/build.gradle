@@ -42,13 +42,6 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/assets/schemas".toString(),
-                             "room.incremental":"true"]
-            }
-        }
     }
 
     testOptions {
