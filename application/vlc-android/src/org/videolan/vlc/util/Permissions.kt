@@ -39,9 +39,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
@@ -192,10 +191,8 @@ object Permissions {
                 }
                 .setCancelable(false)
         return dialogBuilder.show().apply {
-            if (activity is AppCompatActivity) activity.lifecycle.addObserver(object : LifecycleObserver {
-                @Suppress("unused")
-                @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                fun clear() {
+            if (activity is AppCompatActivity) activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onDestroy(owner: LifecycleOwner) {
                     dismiss()
                 }
             })
@@ -217,10 +214,8 @@ object Permissions {
                     .setCancelable(false)
         }
         return dialogBuilder.show().apply {
-            activity.lifecycle.addObserver(object : LifecycleObserver {
-                @Suppress("unused")
-                @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                fun clear() {
+            activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onDestroy(owner: LifecycleOwner) {
                     dismiss()
                 }
             })

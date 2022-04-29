@@ -31,9 +31,8 @@ import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -55,7 +54,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "Navigator"
-class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, LifecycleObserver, INavigator {
+class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, DefaultLifecycleObserver, INavigator {
 
     private val defaultFragmentId= R.id.nav_video
     override var currentFragmentId : Int = 0
@@ -85,14 +84,12 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
         appbarLayout = findViewById(R.id.appbar)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
         if (currentFragment === null && !currentIdIsExtension()) showFragment(if (currentFragmentId != 0) currentFragmentId else settings.getInt("fragment_id", defaultFragmentId))
         navigationView.forEach { it.setOnItemSelectedListener(this) }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
         navigationView.forEach { it.setOnItemSelectedListener(null) }
         if (isExtensionServiceBinded) {
             activity.unbindService(extensionServiceConnection!!)

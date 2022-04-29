@@ -10,15 +10,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.core.content.getSystemService
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.net.NetworkInterface
 import java.net.SocketException
 
-class NetworkMonitor(private val context: Context) : LifecycleObserver {
+class NetworkMonitor(private val context: Context) : DefaultLifecycleObserver {
     private var registered = false
     private val cm = context.getSystemService<ConnectivityManager>()!!
     val connectionFlow = MutableStateFlow(Connection(connected = false, mobile = true, vpn = false))
@@ -48,15 +45,15 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this@NetworkMonitor)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun start() {
+    override fun onStart(owner: LifecycleOwner) {
         if (registered) return
         registered = true
         val networkFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         context.registerReceiver(receiver, networkFilter)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    override fun onStop(owner: LifecycleOwner) = stop()
+
     fun stop() {
         if (!registered) return
         registered = false

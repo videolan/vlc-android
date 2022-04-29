@@ -27,15 +27,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import java.text.DateFormat
 import java.util.*
 
 private const val TAG = "VLC/TimeUpdater"
 
-class TimeUpdater(private val activity: Activity, private val tv: TextView) : LifecycleObserver {
+class TimeUpdater(private val activity: Activity, private val tv: TextView) : DefaultLifecycleObserver {
 
     private fun updateTime() {
 
@@ -43,14 +42,12 @@ class TimeUpdater(private val activity: Activity, private val tv: TextView) : Li
         tv.text = format.format(Date())
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun register() {
+    override fun onStart(owner: LifecycleOwner) {
         activity.registerReceiver(clockReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
         updateTime()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun unregister() = activity.unregisterReceiver(clockReceiver)
+    override fun onStop(owner: LifecycleOwner) = activity.unregisterReceiver(clockReceiver)
 
     private val clockReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
