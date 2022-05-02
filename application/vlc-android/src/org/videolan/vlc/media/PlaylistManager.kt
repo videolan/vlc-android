@@ -1054,9 +1054,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
             }
-            val time = player.getCurrentTime()
             val canSwitchToVideo = player.canSwitchToVideo()
-            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) if (mw.length == 0L) medialibrary.setLastPosition(id, player.lastPosition) else  medialibrary.setLastTime(id, time)
+            /*
+             * Because progress isn't saved for non podcast audio (ie. saveMediaMeta), it is
+             * necessary to mark the media as played to add them to history and increment their
+             * playcount.
+             */
+            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) {
+                mw.markAsPlayed()
+            }
         }
     }
 
