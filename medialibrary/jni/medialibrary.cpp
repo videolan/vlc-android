@@ -1531,6 +1531,15 @@ setMediaPlayCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlo
     return media->setPlayCount(playCount);
 }
 
+jlong
+getMediaPlayCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return -1;
+    return media->playCount();
+}
+
 jboolean
 removeMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
@@ -2124,6 +2133,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
     {"nativeSetMediaPlayCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)setMediaPlayCount },
+    {"nativeGetMediaPlayCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)getMediaPlayCount },
     {"nativeRemoveMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
     {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
