@@ -22,6 +22,7 @@ package org.videolan.mobile.app
 import android.annotation.TargetApi
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
@@ -47,6 +48,7 @@ import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.VersionMigration
+import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider
@@ -95,6 +97,9 @@ class AppSetupDelegate : AppDelegate,
         packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
                 if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         VersionMigration.migrateVersion(this@backgroundInit)
+        sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
+            component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
+        })
 
     }
 }

@@ -25,10 +25,8 @@
 package org.videolan.vlc.widget.utils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
+import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.HSLToColor
@@ -37,6 +35,7 @@ import androidx.palette.graphics.Palette
 import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.mediadb.models.Widget
+import kotlin.random.Random
 
 /**
  *
@@ -48,28 +47,37 @@ import org.videolan.vlc.mediadb.models.Widget
  */
 fun Widget.getForegroundColor(context: Context, secondary: Boolean = false, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (secondary) android.R.color.system_accent1_200 else android.R.color.system_accent1_400)
-        theme == 1 && palette != null -> if (secondary) ColorUtils.setAlphaComponent(palette.getLightVibrantColor(ContextCompat.getColor(context, R.color.white)), 150) else palette!!.getLightVibrantColor(ContextCompat.getColor(context, R.color.white))
-        else -> if (secondary) foregroundColor.lightenOrDarkenColor(0.1F) else foregroundColor
+        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) if (secondary) android.R.color.system_accent2_600 else android.R.color.system_accent2_500 else if (secondary) android.R.color.system_accent1_200 else android.R.color.system_accent1_400)
+        theme == 1 -> getPaletteColor(context, palette, true, secondary, lightTheme)
+        else -> if (secondary) foregroundColor.lightenOrDarkenColor(0.3F) else foregroundColor
     }
     return untreatedColor
 }
 
-fun getPaletteColor(context: Context, palette: Palette?, foreground: Boolean, secondary: Boolean, lightTheme: Boolean): Int {
+fun Widget.getPaletteColor(context: Context, palette: Palette?, foreground: Boolean, secondary: Boolean, lightTheme: Boolean): Int {
+    //todo revert
+//    return  getRandomColor()
+
     val swatch =
-//            if (foreground)
-//        if (lightTheme) palette.lightMutedSwatch else palette.darkMutedSwatch
-//    else
-        if (lightTheme) palette?.lightVibrantSwatch else palette?.darkVibrantSwatch
+            if (foreground)
+                if (lightTheme) palette?.lightVibrantSwatch else palette?.darkVibrantSwatch
+            else
+                if (lightTheme) palette?.darkMutedSwatch else palette?.lightMutedSwatch
+    val fallback = if (foreground)
+        if (lightTheme) R.color.white_transparent_50 else R.color.black_transparent_50
+    else
+        if (lightTheme) R.color.black_transparent_50 else R.color.white_transparent_50
     return when {
-        foreground -> if (secondary) swatch?.bodyTextColor
-                ?: ContextCompat.getColor(context, R.color.white) else swatch?.titleTextColor
-                ?: ContextCompat.getColor(context, R.color.grey200)
+        foreground -> if (secondary) swatch?.rgb
+                ?: ContextCompat.getColor(context, fallback) else swatch?.rgb?.lightenOrDarkenColor(0.3F)
+                ?: ContextCompat.getColor(context, fallback)
         else -> if (secondary) swatch?.rgb
-                ?: ContextCompat.getColor(context, R.color.black) else swatch?.rgb
-                ?: ContextCompat.getColor(context, R.color.grey800)
+                ?: ContextCompat.getColor(context, fallback) else swatch?.rgb
+                ?: ContextCompat.getColor(context, fallback)
     }
 }
+
+fun getRandomColor() = Color.rgb(Random.nextInt(255), Random.nextInt(255), Random.nextInt(255))
 
 /**
  * Get the background color of the widget depending on its theme
@@ -80,9 +88,9 @@ fun getPaletteColor(context: Context, palette: Palette?, foreground: Boolean, se
  */
 fun Widget.getBackgroundColor(context: Context, secondary: Boolean = false, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (secondary) android.R.color.system_neutral2_600 else android.R.color.system_neutral2_800)
-        theme == 1 && palette != null -> palette.getDarkMutedColor(ContextCompat.getColor(context, R.color.black))
-        else -> if (secondary) backgroundColor.lightenOrDarkenColor(0.1F) else backgroundColor
+        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) if (secondary) android.R.color.system_neutral1_200 else android.R.color.system_neutral2_10 else if (secondary) android.R.color.system_neutral1_900 else android.R.color.system_neutral1_800)
+        theme == 1 -> getPaletteColor(context, palette, false, secondary, lightTheme)
+        else -> if (secondary) backgroundColor.lightenOrDarkenColor(0.3F) else backgroundColor
     }
 
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
@@ -110,19 +118,44 @@ fun Int.lightenOrDarkenColor(value: Float): Int {
  * @param progress the progress to show in the progress bar
  * @return a progress bar [Bitmap]
  */
-fun Widget.generateProgressbar(context: Context, size: Float, progress: Float): Bitmap {
+fun WidgetCacheEntry.generateCircularProgressbar(context: Context, size: Float, progress: Float, stroke: Float = 6.dp.toFloat()): Bitmap {
+    val paint = Paint()
+    val strokeHalfWidth = stroke / 2
+    paint.isAntiAlias = true
+    paint.strokeWidth = strokeHalfWidth * 2
+    paint.style = Paint.Style.STROKE
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.color = widget.getForegroundColor(context, true, palette)
+    val bitmapResult = Bitmap.createBitmap(size.toInt(), size.toInt(), Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmapResult)
+    canvas.drawCircle(size / 2, size / 2, (size / 2) - strokeHalfWidth, paint)
+    paint.color = widget.getForegroundColor(context, false, palette)
+    canvas.drawArc(RectF(strokeHalfWidth, strokeHalfWidth, size - strokeHalfWidth, size - strokeHalfWidth), -90F, 360F * progress, false, paint)
+    return bitmapResult
+
+}
+
+/**
+ * Generates a progress bar [Bitmap]
+ *
+ * @param context the context to use
+ * @param size the size of the generated [Bitmap]
+ * @param progress the progress to show in the progress bar
+ * @return a progress bar [Bitmap]
+ */
+fun WidgetCacheEntry.generateProgressbar(context: Context, size: Float, progress: Float): Bitmap {
     val paint = Paint()
     val strokeHalfWidth = 3.dp.toFloat()
     paint.isAntiAlias = true
     paint.strokeWidth = strokeHalfWidth * 2
     paint.style = Paint.Style.STROKE
     paint.strokeCap = Paint.Cap.ROUND
-    paint.color = getForegroundColor(context, true, null)
-    val bitmapResult = Bitmap.createBitmap(size.toInt(), size.toInt(), Bitmap.Config.ARGB_8888)
+    paint.color = widget.getForegroundColor(context, true, palette)
+    val bitmapResult = Bitmap.createBitmap(size.toInt(), 3.dp, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmapResult)
-    canvas.drawCircle(size / 2, size / 2, (size / 2) - strokeHalfWidth, paint)
-    paint.color = getForegroundColor(context, false, null)
-    canvas.drawArc(RectF(strokeHalfWidth, strokeHalfWidth, size - strokeHalfWidth, size - strokeHalfWidth), -90F, 360F * progress, false, paint)
+    canvas.drawLine(0F, 0F, size, 0F, paint)
+    paint.color = widget.getForegroundColor(context, false, palette)
+    canvas.drawLine(0F, 0F, size * progress, 0F, paint)
     return bitmapResult
 
 }
@@ -134,16 +167,16 @@ fun Widget.generateProgressbar(context: Context, size: Float, progress: Float): 
  * @param progress the progress to show in the progress bar
  * @return a progress bar [Bitmap]
  */
-fun Widget.generatePillProgressbar(context: Context, progress: Float): Bitmap? {
-    if (width == 0) return null
+fun WidgetCacheEntry.generatePillProgressbar(context: Context, progress: Float): Bitmap? {
+    if (widget.width == 0) return null
     val paint = Paint()
-    val strokeHalfWidth = 3.dp.toFloat()
+    val strokeHalfWidth = 2.dp.toFloat()
     paint.isAntiAlias = true
     paint.strokeWidth = strokeHalfWidth * 2
     paint.style = Paint.Style.STROKE
     paint.strokeCap = Paint.Cap.ROUND
-    paint.color = getForegroundColor(context, true, null)
-    val realWidth = width.dp.toFloat()
+    paint.color = widget.getForegroundColor(context, true, palette)
+    val realWidth = widget.width.dp.toFloat()
 
     val progressHeight = 72.dp.toFloat()
     val halfHeight = progressHeight / 2
@@ -170,7 +203,7 @@ fun Widget.generatePillProgressbar(context: Context, progress: Float): Bitmap? {
     canvas.drawArc(RectF(strokeHalfWidth, strokeHalfWidth, progressHeight - strokeHalfWidth, progressHeight - strokeHalfWidth), -90F, -180F, false, paint)
     canvas.drawArc(RectF(realWidth - progressHeight, strokeHalfWidth, realWidth - strokeHalfWidth, progressHeight - strokeHalfWidth), -90F, 180F, false, paint)
 
-    paint.color = getForegroundColor(context, false, null)
+    paint.color = widget.getForegroundColor(context, false, palette)
 
     //draw progress
     val circleLength = progressHeight * Math.PI
@@ -227,4 +260,8 @@ fun Widget.generatePillProgressbar(context: Context, progress: Float): Bitmap? {
     }
 
     return bitmapResult
+}
+
+enum class WidgetType(id: Int, @LayoutRes val layout: Int) {
+    PILL(0, R.layout.widget_pill), MINI(1, R.layout.widget_mini), MICRO(2, R.layout.widget_micro), MACRO(3, R.layout.widget_macro)
 }

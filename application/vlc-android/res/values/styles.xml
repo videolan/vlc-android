@@ -101,6 +101,7 @@
         <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top</item>
         <item name="tips_item_background">@color/grey300</item>
         <item name="about_text_primary">@color/black</item>
+        <item name="widget_preview_rounded_bg">@drawable/rounded_top_corners_left_background</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
@@ -248,6 +249,7 @@
         <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top_dark</item>
         <item name="tips_item_background">@color/grey900</item>
         <item name="about_text_primary">@color/orange500</item>
+        <item name="widget_preview_rounded_bg">@drawable/rounded_top_corners_left_background_dark</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7"/>
@@ -737,6 +739,13 @@
 
     <style name="VLCDialogButton" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <style name="WidgetConfiguration" parent="WidgetConfiguration.19"/>
+    <style name="WidgetConfiguration.19" parent="Theme.VLC">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">#1000</item>
     </style>
 
 </resources>

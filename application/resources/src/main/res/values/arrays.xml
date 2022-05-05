@@ -451,4 +451,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="widget_themes_entries" translatable="false">
+        <item>@string/material_you</item>
+        <item>@string/palette</item>
+        <item>@string/custom</item>
+    </string-array>
+
+    <string-array name="widget_themes_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

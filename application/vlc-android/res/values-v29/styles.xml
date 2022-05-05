@@ -30,6 +30,7 @@
         <!-- Optional, if your app is drawing behind the status bar also. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.19">
@@ -37,6 +38,14 @@
 
         <!-- Optional, if your app is drawing behind the status bar also. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+    <style name="WidgetConfiguration" parent="WidgetConfiguration.19">
+        <item name="android:navigationBarColor">?attr/background_default</item>
+
+        <!-- Optional, if your app is drawing behind the status bar also. -->
+        <item name="android:statusBarColor">?attr/background_default</item>
     </style>
 
 

@@ -535,6 +535,16 @@
             android:theme="@style/VLCTransparentTheme"
             android:label="" />
 
+        <activity
+                android:name=".widget.MiniPlayerConfigureActivity"
+                android:exported="true"
+                android:theme="@style/WidgetConfiguration">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <service android:name=".extensions.ExtensionManagerService"/>
         <service android:name=".PlaybackService">
             <intent-filter>
@@ -575,6 +585,24 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_b"/>
         </receiver>
+
+        <receiver
+                android:name=".widget.MiniPlayerAppWidgetProvider"
+                android:exported="true"
+                android:label="@string/widget_name_mini_player">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="${applicationId}.widget.mini.INIT"/>
+                <action android:name="${applicationId}.widget.mini.UPDATE"/>
+                <action android:name="${applicationId}.widget.mini.UPDATE_COVER"/>
+                <action android:name="${applicationId}.widget.mini.UPDATE_POSITION"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/widget_provider_mini"/>
+        </receiver>
+
         <receiver android:name="androidx.media.session.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON"/>

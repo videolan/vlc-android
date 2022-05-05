@@ -76,6 +76,7 @@ import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.*
 import org.videolan.vlc.util.*
+import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
@@ -104,7 +105,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     private val callbacks = mutableListOf<Callback>()
     private val subtitleMessage = ArrayDeque<String>(1)
-    private lateinit var cbActor : SendChannel<CbAction>
+    private lateinit var cbActor: SendChannel<CbAction>
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
@@ -113,6 +114,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
+
     @Volatile
     private var notificationShowing = false
     private var prevUpdateInCarMode = true
@@ -122,6 +124,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var lastChaptersCount = 0
     private var lastParentId = ""
     private var widget = 0
+
     /**
      * Last widget position update timestamp
      */
@@ -159,6 +162,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
+                MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
+                MiniPlayerAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
+                MiniPlayerAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 ACTION_CAR_MODE_EXIT -> MediaSessionBrowser.unbindExtensionConnection()
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> if (detectHeadset) {
                     if (BuildConfig.DEBUG) Log.i(TAG, "Becoming noisy")
@@ -382,7 +388,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             return next?.artworkMrl
         }
 
-    suspend fun getCurrentChapter(formatted:Boolean = false):String? {
+    suspend fun getCurrentChapter(formatted: Boolean = false): String? {
         val currentChapter = withContext(Dispatchers.IO) {
             val chapters = getChapters(-1)
             if (chapters?.size ?: 0 > 0 && chapterIdx >= 0) chapters?.get(chapterIdx)?.name else null
@@ -590,7 +596,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         Util.checkCpuCompatibility(this)
 
         medialibrary = Medialibrary.getInstance()
-        artworkMap = HashMap<String,Uri>()
+        artworkMap = HashMap<String, Uri>()
 
         browserCallback = MediaBrowserCallback(this)
         browserCallback.registerMediaCallback { if (lastParentId.isNotEmpty()) notifyChildrenChanged(lastParentId) }
@@ -615,6 +621,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED)
+            addAction(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT)
+            addAction(MiniPlayerAppWidgetProvider.ACTION_WIDGET_ENABLED)
+            addAction(MiniPlayerAppWidgetProvider.ACTION_WIDGET_DISABLED)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
             addAction(ACTION_CAR_MODE_EXIT)
@@ -651,6 +660,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         widget = when {
             manager.getAppWidgetIds(ComponentName(this, VLCAppWidgetProviderWhite::class.java)).isNotEmpty() -> 1
             manager.getAppWidgetIds(ComponentName(this, VLCAppWidgetProviderBlack::class.java)).isNotEmpty() -> 2
+            manager.getAppWidgetIds(ComponentName(this, MiniPlayerAppWidgetProvider::class.java)).isNotEmpty() -> 3
             else -> 0
         }
     }
@@ -674,6 +684,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             ACTION_REMOTE_BACKWARD -> previous(false)
             ACTION_REMOTE_FORWARD -> next()
             ACTION_REMOTE_STOP -> stop()
+            ACTION_REMOTE_SEEK_FORWARD -> seek(getTime() + intent.getLongExtra(EXTRA_SEEK_DELAY, 0L) * 1000L)
+            ACTION_REMOTE_SEEK_BACKWARD -> seek(getTime() - intent.getLongExtra(EXTRA_SEEK_DELAY, 0L) * 1000L)
             ACTION_PLAY_FROM_SEARCH -> {
                 if (!this::mediaSession.isInitialized) initMediaSession()
                 intent.getBundleExtra(EXTRA_SEARCH_BUNDLE)?.let {
@@ -721,7 +733,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
 
     @TargetApi(Build.VERSION_CODES.O)
-    private fun forceForeground(launchedInForeground:Boolean = false) {
+    private fun forceForeground(launchedInForeground: Boolean = false) {
         if (!AndroidUtil.isOOrLater || isForeground) return
         val ctx = applicationContext
         val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED || PlayerController.playbackState == PlaybackStateCompat.STATE_NONE
@@ -771,7 +783,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         playlistManager.isHardware = true
     }
 
-    fun setTime(time:Long, fast:Boolean = false) {
+    fun setTime(time: Long, fast: Boolean = false) {
         val shouldFast = fast || (!playlistManager.isBenchmark && settings.getBoolean("always_fast_seek", false))
         playlistManager.player.setTime(time, shouldFast)
         publishState(time)
@@ -1000,7 +1012,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             }
             if (carMode) {
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, chapterTitle ?: title)
-                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, displayMsg ?: MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
+                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, displayMsg
+                        ?: MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
             if (Permissions.canReadStorage(this@PlaybackService) && coverOnLockscreen) {
@@ -1134,15 +1147,16 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private fun addCustomSpeedActions(pscb: PlaybackStateCompat.Builder, showSpeedActions: Boolean = true) {
         if (speed != 1.0F || showSpeedActions) {
             val speedIcons = hashMapOf(
-                0.50f to R.drawable.ic_auto_speed_0_50,
-                0.80f to R.drawable.ic_auto_speed_0_80,
-                1.00f to R.drawable.ic_auto_speed_1_00,
-                1.10f to R.drawable.ic_auto_speed_1_10,
-                1.20f to R.drawable.ic_auto_speed_1_20,
-                1.50f to R.drawable.ic_auto_speed_1_50,
-                2.00f to R.drawable.ic_auto_speed_2_00
+                    0.50f to R.drawable.ic_auto_speed_0_50,
+                    0.80f to R.drawable.ic_auto_speed_0_80,
+                    1.00f to R.drawable.ic_auto_speed_1_00,
+                    1.10f to R.drawable.ic_auto_speed_1_10,
+                    1.20f to R.drawable.ic_auto_speed_1_20,
+                    1.50f to R.drawable.ic_auto_speed_1_50,
+                    2.00f to R.drawable.ic_auto_speed_2_00
             )
-            val speedResId = speedIcons[speedIcons.keys.minByOrNull { abs(speed - it) }] ?: R.drawable.ic_auto_speed
+            val speedResId = speedIcons[speedIcons.keys.minByOrNull { abs(speed - it) }]
+                    ?: R.drawable.ic_auto_speed
             pscb.addCustomAction(CUSTOM_ACTION_SPEED, getString(R.string.playback_speed), speedResId)
         }
     }
@@ -1173,42 +1187,18 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private fun updateWidget() {
         if (widget != 0 && !isVideoPlaying) {
             updateWidgetState()
-            updateWidgetCover()
         }
     }
 
     private fun sendWidgetBroadcast(intent: Intent) {
-        intent.component = ComponentName(this@PlaybackService, if (widget == 1) VLCAppWidgetProviderWhite::class.java else VLCAppWidgetProviderBlack::class.java)
+        intent.component = ComponentName(this@PlaybackService, if (widget == 1) VLCAppWidgetProviderWhite::class.java else if (widget == 3) MiniPlayerAppWidgetProvider::class.java else VLCAppWidgetProviderBlack::class.java)
         sendBroadcast(intent)
     }
 
     private fun updateWidgetState() {
         val media = playlistManager.getCurrentMedia()
-        val widgetIntent = Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE)
-        if (playlistManager.hasCurrentMedia()) {
-            widgetIntent.putExtra("title", media!!.title)
-            widgetIntent.putExtra("artist", if (media.isArtistUnknown!! && media.nowPlaying != null)
-                media.nowPlaying
-            else
-                MediaUtils.getMediaArtist(this@PlaybackService, media))
-        } else {
-            widgetIntent.putExtra("title", getString(R.string.widget_default_text))
-            widgetIntent.putExtra("artist", "")
-        }
-        widgetIntent.putExtra("isplaying", isPlaying)
-        lifecycleScope.launch(Dispatchers.Default) { sendWidgetBroadcast(widgetIntent) }
-    }
-
-    private fun updateWidgetCover() {
-        val mw = playlistManager.getCurrentMedia()
-        val newWidgetCover = mw?.artworkMrl
-        if (currentWidgetCover != newWidgetCover) {
-            currentWidgetCover = newWidgetCover
-            lifecycleScope.launch(Dispatchers.Default) {
-                sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
-                        .putExtra("artworkMrl", newWidgetCover))
-            }
-        }
+        val widgetIntents = arrayOf(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE), Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_UPDATE))
+        lifecycleScope.launch(Dispatchers.Default) { widgetIntents.forEach { sendWidgetBroadcast(it) } }
     }
 
     private fun updateWidgetPosition(pos: Float) {
@@ -1216,10 +1206,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (mw == null || widget == 0 || isVideoPlaying) return
         // no more than one widget mUpdateMeta for each 1/50 of the song
         val timestamp = System.currentTimeMillis()
-        if (!playlistManager.hasCurrentMedia() || timestamp - widgetPositionTimestamp < mw.length / 50)
+        if (BuildConfig.DEBUG) Log.d("AppWidget", "PositionChanged // $widgetPositionTimestamp")
+        if (!playlistManager.hasCurrentMedia() || timestamp - widgetPositionTimestamp < 500)
             return
         widgetPositionTimestamp = timestamp
-        sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
+        sendWidgetBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
                 .putExtra("position", pos))
     }
 
@@ -1451,7 +1442,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      */
 
     @MainThread
-    fun showWithoutParse(index: Int, forPopup:Boolean = false) {
+    fun showWithoutParse(index: Int, forPopup: Boolean = false) {
         playlistManager.setVideoTrackEnabled(false)
         val media = playlistManager.getMedia(index) ?: return
         // Show an URI without interrupting/losing the current stream
@@ -1552,7 +1543,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     @MainThread
     fun increaseRate() {
-       if (rate < 4) setRate(rate + 0.2F, true)
+        if (rate < 4) setRate(rate + 0.2F, true)
     }
 
     @MainThread
@@ -1576,7 +1567,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     @MainThread
     @JvmOverloads
-    fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false, fast:Boolean = false) {
+    fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false, fast: Boolean = false) {
         if (length > 0.0) this.setTime(time, fast) else setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
         if (fromUser) {
             publishState(time)
@@ -1658,7 +1649,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         return when {
             rootHints?.containsKey(BrowserRoot.EXTRA_SUGGESTED) == true -> BrowserRoot(MediaSessionBrowser.ID_SUGGESTED, null)
             else -> {
-                val rootId = when(clientPackageName) {
+                val rootId = when (clientPackageName) {
                     "com.google.android.googlequicksearchbox" -> MediaSessionBrowser.ID_ROOT_NO_TABS
                     else -> MediaSessionBrowser.ID_ROOT
                 }
@@ -1736,7 +1727,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     companion object {
         val serviceFlow = MutableStateFlow<PlaybackService?>(null)
-        val instance : PlaybackService?
+        val instance: PlaybackService?
             get() = serviceFlow.value
 
         val renderer = RendererLiveData()

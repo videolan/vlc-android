@@ -531,12 +531,13 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="widget_name_mini_player">VLC mini player</string>
     <string name="widget_old_text">We updated our widgets!</string>
     <string name="widget_old_description_start">Good news! We released improved widgets.\nThey offer more responsiveness and customization</string>
     <string name="whats_next">What\'s next?</string>
     <string name="widget_old_description_end">We detected that you already have widgets on your launcher. Unfortunately, they are not compatible with our new improved ones.\nDepending on your launcher, you may have to remove the old ones to replace them.</string>
     <string name="click_here">Click here to learn more.</string>
-    <string name="widget_default_text" translatable="false">VLC mini player</string>
+    <string name="widget_default_text" translatable="false">VLC media player</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="allow_storage_manager_title">Allow VLC all file access</string>
@@ -954,5 +955,20 @@
     <string name="foldable">Foldable screen</string>
     <string name="undo">Undo</string>
     <string name="add_server_favorite">Add a server favorite</string>
+    <string name="widget_theme">Widget theme</string>
+    <string name="widget_preferences">Configure widget</string>
+    <string name="material_you">Material You (accorded to your wallpaper)</string>
+    <string name="palette">Palette (accorded to the media cover)</string>
+    <string name="custom">Custom</string>
+    <string name="opacity">Opacity</string>
+    <string name="widget_background">Background</string>
+    <string name="widget_foreground">Foreground</string>
+    <string name="configure_widget">Widget configuration</string>
+    <string name="widget_preview">Widget preview</string>
+    <string name="widget_forward_delay">Forward time delay</string>
+    <string name="widget_rewind_delay">Backward time delay</string>
+    <string name="widget_show_configure">Show configuration icon</string>
+    <string name="widget_show_configure_summary">Even if it\'s not shown, you can tap the upper right corner to open the configuration</string>
+
 
 </resources>

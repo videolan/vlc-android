@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ *************************************************************************
+  ~  preferences_widgets.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:title="@string/preferences">
+
+
+    <PreferenceCategory android:title="@string/widget_theme">
+        <ListPreference
+                android:key="widget_theme"
+                android:defaultValue="0"
+                android:entries="@array/widget_themes_entries"
+                android:entryValues="@array/widget_themes_values"
+                android:summary="%s"
+                android:title="@string/widget_theme"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:key="widget_light_theme"
+                android:defaultValue="true"
+                android:title="@string/light_theme"/>
+        <SeekBarPreference
+                android:defaultValue="100"
+                android:iconSpaceReserved="false"
+                app:iconSpaceReserved="false"
+                android:max="100"
+                app:min="0"
+                android:key="opacity"
+                android:title="@string/opacity"/>
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+                android:defaultValue="@color/black"
+                android:key="background_color"
+                android:title="@string/widget_background"/>
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+                android:defaultValue="@color/black"
+                android:key="foreground_color"
+                android:title="@string/widget_foreground"/>
+
+        <org.videolan.vlc.gui.view.NumberPickerPreference
+                android:defaultValue="10"
+                app:key="widget_forward_delay"
+                app:title="@string/widget_forward_delay" />
+
+        <org.videolan.vlc.gui.view.NumberPickerPreference
+                android:defaultValue="10"
+                app:key="widget_rewind_delay"
+                app:title="@string/widget_rewind_delay" />
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:key="widget_show_configure"
+                android:defaultValue="false"
+                app:summary="@string/widget_show_configure_summary"
+                android:title="@string/widget_show_configure"/>
+    </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>

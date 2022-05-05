@@ -54,6 +54,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.WidgetDao
 import org.videolan.vlc.mediadb.models.Widget
+import org.videolan.vlc.widget.utils.WidgetCache
 
 
 class WidgetRepository(private val widgetDao: WidgetDao) {
@@ -74,8 +75,11 @@ class WidgetRepository(private val widgetDao: WidgetDao) {
         widgetDao.insert(widget)
     }
 
-    suspend fun updateWidget(widget:Widget) = withContext(Dispatchers.IO) {
-        widgetDao.update(widget)
+    suspend fun updateWidget(widget:Widget) {
+        WidgetCache.clear(widget)
+        withContext(Dispatchers.IO) {
+            widgetDao.update(widget)
+        }
     }
 
     suspend fun deleteWidget(id: Int) = withContext(Dispatchers.IO) {
@@ -83,7 +87,7 @@ class WidgetRepository(private val widgetDao: WidgetDao) {
     }
 
     suspend fun createNew(context: Context, appWidgetId: Int): Widget {
-        val widget = Widget(appWidgetId, 0, 0, 0, true, ContextCompat.getColor(context, R.color.black), ContextCompat.getColor(context, R.color.white), 255, 10, 10, false)
+        val widget = Widget(appWidgetId, 0, 0, 0, true, ContextCompat.getColor(context, R.color.black), ContextCompat.getColor(context, R.color.white), 10, 10, 100, false)
         addWidget(widget)
         return widget
     }
