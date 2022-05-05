@@ -185,6 +185,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             val iConfigure = Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE).apply {
                 component = ComponentName(context, MiniPlayerConfigureActivity::class.java)
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                //we have to add a data to this intent to differentiate intents from different widget instances
+                data = Uri.parse("vlc://mini_widget/$appWidgetId")
             }
 
             val piBackward = context.getPendingIntent(iBackward)
