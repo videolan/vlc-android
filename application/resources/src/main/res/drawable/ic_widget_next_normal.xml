@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_widget_play2.xml
+  ~  ic_widget_next_normal.xml
   ~ **************************************************************************
   ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,14 +23,16 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
   <path
-      android:pathData="M20,33L32,24L20,15L20,33ZM24,4C12.96,4 4,12.96 4,24C4,35.04 12.96,44 24,44C35.04,44 44,35.04 44,24C44,12.96 35.04,4 24,4ZM24,41.5C14.3531,41.5 6.5,33.6469 6.5,24C6.5,14.3531 14.3531,6.5 24,6.5C33.6469,6.5 41.5,14.3531 41.5,24C41.5,33.6469 33.6469,41.5 24,41.5Z"
-      android:strokeWidth="1"
-      android:fillColor="#FFFFFF"
-      android:fillType="nonZero"
-      android:strokeColor="#00000000"/>
+      android:pathData="m28.4615,10.7695c-0.8523,0 -1.5385,0.686 -1.5385,1.5383l0,15.3831c0,0.8522 0.6862,1.5383 1.5385,1.5383 0.8523,0 1.5385,-0.6862 1.5385,-1.5383l0,-15.3831c0,-0.8523 -0.6862,-1.5383 -1.5385,-1.5383zM11.5685,10.7695c-0.8602,-0.0169 -1.5668,0.6749 -1.5685,1.5352l0,15.3831c-0.0014,1.2526 1.4151,1.9818 2.4338,1.2529l10.7692,-7.6915c0.8583,-0.6135 0.8583,-1.8892 0,-2.5028l-10.7692,-7.6915c-0.2529,-0.1803 -0.5546,-0.2798 -0.8654,-0.2854z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.0767708"
+      android:fillColor="#212121"
+      android:strokeColor="#00000000"
+      android:fillType="evenOdd"
+      android:strokeLineCap="butt"/>
 </vector>

@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_widget_play2.xml
+  ~  ic_widget_rewind_10.xml
   ~ **************************************************************************
   ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,14 +23,15 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="36"
+    android:viewportHeight="36">
   <path
-      android:pathData="M20,33L32,24L20,15L20,33ZM24,4C12.96,4 4,12.96 4,24C4,35.04 12.96,44 24,44C35.04,44 44,35.04 44,24C44,12.96 35.04,4 24,4ZM24,41.5C14.3531,41.5 6.5,33.6469 6.5,24C6.5,14.3531 14.3531,6.5 24,6.5C33.6469,6.5 41.5,14.3531 41.5,24C41.5,33.6469 33.6469,41.5 24,41.5Z"
-      android:strokeWidth="1"
-      android:fillColor="#FFFFFF"
-      android:fillType="nonZero"
-      android:strokeColor="#00000000"/>
+      android:pathData="m17.2637,4.0254c-0.2028,-0.0041 -0.3988,0.0741 -0.543,0.2168l-4.25,4.2266c-0.2946,0.2925 -0.2954,0.7689 -0.002,1.0625l4.252,4.248C17.1935,14.2501 17.9997,13.9153 18,13.248V10c4.4183,0 8,3.5817 8,8 0,4.4183 -3.5817,8 -8,8 -4.4183,0 -8,-3.5817 -8,-8H8c0,5.5228 4.4772,10 10,10 5.5228,0 10,-4.4772 10,-10C28,12.4772 23.5228,8 18,8V4.7754c0,-0.4089 -0.3275,-0.7425 -0.7363,-0.75z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2"
+      android:fillColor="#ffffff"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
 </vector>
