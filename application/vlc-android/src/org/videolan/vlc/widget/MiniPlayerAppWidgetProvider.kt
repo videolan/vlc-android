@@ -242,6 +242,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             setupTexts(views, widgetCacheEntry.currentMedia?.title, widgetCacheEntry.currentMedia?.artist, context)
 
         if (widgetCacheEntry.playing != playing || colorChanged) views.setImageViewBitmap(R.id.play_pause, context.getColoredBitmapFromColor(getPlayPauseImage(playing, widgetType), foregroundColor))
+        views.setContentDescription(R.id.play_pause, context.getString(if (!playing) R.string.resume_playback_short_title else R.string.pause))
+
         views.setInt(R.id.player_container_background, "setColorFilter", backgroundColor)
         views.setInt(R.id.player_container_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
         if (!playing) displayCover(playing, widgetType, views, context, foregroundColor, widgetCacheEntry)
@@ -326,6 +328,9 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setViewVisibility(R.id.seek_forward_text, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
         views.setViewVisibility(R.id.seek_rewind, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
         views.setViewVisibility(R.id.seek_rewind_text, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
+
+        views.setContentDescription(R.id.seek_rewind, context.getString(R.string.seek_backward_content_description, widgetCacheEntry.widget.rewindDelay.toString()))
+        views.setContentDescription(R.id.seek_forward, context.getString(R.string.seek_forward_content_description, widgetCacheEntry.widget.forwardDelay.toString()))
 
 
         views.setTextColor(R.id.songName, foregroundColor)

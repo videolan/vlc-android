@@ -82,6 +82,7 @@
             android:background="@drawable/widget_touch_background"
             android:layout_height="48dp"
             android:scaleType="center"
+                android:contentDescription="@string/configure_widget"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true" />
 

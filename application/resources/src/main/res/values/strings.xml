@@ -969,6 +969,9 @@
     <string name="widget_rewind_delay">Backward time delay</string>
     <string name="widget_show_configure">Show configuration icon</string>
     <string name="widget_show_configure_summary">Even if it\'s not shown, you can tap the upper right corner to open the configuration</string>
+    <string name="seek_backward_content_description">Seek %s seconds backwards</string>
+    <string name="seek_forward_content_description">Seek %s seconds forwards</string>
+    <string name="open_vlc">Open VLC</string>
 
 
 </resources>

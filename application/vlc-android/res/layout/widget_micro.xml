@@ -32,6 +32,7 @@
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_centerInParent="true"
+            android:contentDescription="@null"
             android:src="@drawable/widget_round_white"
             tools:tint="@color/orange200" />
 
@@ -45,6 +46,7 @@
             android:id="@+id/app_icon"
             android:layout_width="72dp"
             android:layout_height="72dp"
+                android:contentDescription="@string/open_vlc"
             android:layout_centerInParent="true"
             android:src="@drawable/ic_widget_icon" />
 
@@ -80,6 +82,7 @@
             android:layout_width="48dp"
             android:background="@drawable/widget_touch_background"
             android:layout_height="48dp"
+                android:contentDescription="@string/configure_widget"
             android:scaleType="center"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true" />
