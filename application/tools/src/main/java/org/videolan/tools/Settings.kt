@@ -23,7 +23,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showAudioTrackInfo = false
     var videoJumpDelay = 10
     var videoLongJumpDelay = 20
-    var videoDoubleTapJumpDelay = 20
+    var videoDoubleTapJumpDelay = 10
     var audioJumpDelay = 10
     var audioLongJumpDelay = 20
     private var audioControlsChangeListener: (() -> Unit)? = null
@@ -42,7 +42,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showAudioTrackInfo = prefs.getBoolean(KEY_SHOW_TRACK_INFO, false)
         videoJumpDelay = prefs.getInt(KEY_VIDEO_JUMP_DELAY, 10)
         videoLongJumpDelay = prefs.getInt(KEY_VIDEO_LONG_JUMP_DELAY, 20)
-        videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
+        videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 10)
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
         return prefs
