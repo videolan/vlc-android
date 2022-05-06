@@ -580,7 +580,7 @@ object UiTools {
         val sort = provider.sort
         val desc = provider.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${provider.context.getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT && !desc) "▼" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_filename)
         item?.title = "${provider.context.getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME && !desc) "▼" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
@@ -604,7 +604,7 @@ object UiTools {
         val sort = model.sort
         val desc = model.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT && !desc) "▼" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_filename)
         item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME && !desc) "▼" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
