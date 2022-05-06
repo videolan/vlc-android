@@ -84,7 +84,7 @@
             android:layout_height="48dp"
                 android:contentDescription="@string/configure_widget"
             android:scaleType="center"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignTop="@id/player_container_background"
+            android:layout_alignRight="@id/player_container_background" />
 
 </RelativeLayout>

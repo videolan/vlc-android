@@ -227,7 +227,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 views.setImageViewBitmap(R.id.seek_rewind, context.getColoredBitmapFromColor(R.drawable.ic_widget_rewind_10, foregroundColor))
                 views.setImageViewBitmap(R.id.seek_forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_forward_10, foregroundColor))
             }
-            views.setImageViewBitmap(R.id.play_pause_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, backgroundColor, 52.dp, 52.dp))
+            views.setImageViewBitmap(R.id.play_pause_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, foregroundColorSecondary, 52.dp, 52.dp))
             views.setImageViewBitmap(R.id.widget_configure, if (widgetCacheEntry.widget.showConfigure) context.getColoredBitmapFromColor(R.drawable.ic_widget_configure, foregroundColor, 24.dp, 24.dp) else null)
             if (widgetType == WidgetType.PILL) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_circle, secondaryBackgroundColor, 48.dp, 48.dp))
         }

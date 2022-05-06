@@ -47,7 +47,7 @@ import kotlin.random.Random
  */
 fun Widget.getForegroundColor(context: Context, secondary: Boolean = false, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) if (secondary) android.R.color.system_accent2_600 else android.R.color.system_accent2_500 else if (secondary) android.R.color.system_accent1_200 else android.R.color.system_accent1_400)
+        theme == 0 -> ContextCompat.getColor(context, if (!lightTheme) if (secondary) android.R.color.system_accent2_700 else android.R.color.system_accent2_400 else if (secondary) android.R.color.system_accent1_200 else android.R.color.system_accent1_500)
         theme == 1 -> getPaletteColor(context, palette, true, secondary, lightTheme)
         else -> if (secondary) foregroundColor.lightenOrDarkenColor(0.3F) else foregroundColor
     }
