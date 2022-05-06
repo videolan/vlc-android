@@ -203,8 +203,6 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.play_pause, piPlay)
             views.setOnClickPendingIntent(R.id.stop, piStop)
             views.setOnClickPendingIntent(R.id.forward, piForward)
-//            views.setOnClickPendingIntent(R.id.seek_forward, piSeekForward)
-//            views.setOnClickPendingIntent(R.id.seek_rewind, piSeekRewind)
             views.setOnClickPendingIntent(R.id.cover, piVlc)
             views.setOnClickPendingIntent(R.id.app_icon, piVlc)
             views.setOnClickPendingIntent(R.id.widget_container, piVlc)
@@ -216,7 +214,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         val service = PlaybackService.serviceFlow.value
         val playing = service?.isPlaying == true || forPreview
         if (colorChanged) {
-            if (BuildConfig.DEBUG) Log.d("AppWidget", "Color changed!!!")
+            if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview")
             if (android.text.TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 views.setImageViewBitmap(R.id.forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_previous_normal, foregroundColor))
                 views.setImageViewBitmap(R.id.backward, context.getColoredBitmapFromColor(R.drawable.ic_widget_next_normal, foregroundColor))
@@ -248,7 +246,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         views.setInt(R.id.player_container_background, "setColorFilter", backgroundColor)
         views.setInt(R.id.player_container_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
-        if (!playing) displayCover(playing, widgetType, views, context, foregroundColor, widgetCacheEntry)
+        views.setInt(R.id.play_pause_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
+        if (!playing) displayCover(playing, widgetType, views, context, widgetCacheEntry)
 
 
         //cover
@@ -260,10 +259,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         views.setInt(R.id.separator, "setColorFilter", secondaryBackgroundColor)
 
-        if (playing && widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover) {
+        if (forPreview) widgetCacheEntry.currentCover = "fake"
+        if (forPreview) {
+            displayCover(true, widgetType, views, context, widgetCacheEntry)
+            views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!))
+        } else if (playing && widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover) {
+            widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
             if (!widgetCacheEntry.currentMedia?.artworkMrl.isNullOrEmpty()) {
-                if (BuildConfig.DEBUG) Log.d("AppWidget", "Refresh - Update cover: $widgetCacheEntry.currentMedia?.artworkMrl for ${widgetCacheEntry.widget.widgetId}")
-                widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
+                if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix Refresh - Update cover: $widgetCacheEntry.currentMedia?.artworkMrl for ${widgetCacheEntry.widget.widgetId}")
                 runIO {
                     val cover = AudioUtil.readCoverBitmap(Uri.decode(widgetCacheEntry.currentMedia?.artworkMrl), 320)
                     val wm = context.getSystemService<WindowManager>()!!
@@ -274,27 +277,23 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                                 val finalBitmap = cutBitmapCover(widgetType, cover)
                                 views.setImageViewBitmap(R.id.cover, finalBitmap)
                                 if (widgetCacheEntry.widget.theme == 1) widgetCacheEntry.palette = Palette.from(cover).generate()
-                                displayCover(true, widgetType, views, context, foregroundColor, widgetCacheEntry)
+                                displayCover(true, widgetType, views, context, widgetCacheEntry)
                             }
                         } else {
                             widgetCacheEntry.palette = null
-                            displayCover(false, widgetType, views, context, foregroundColor, widgetCacheEntry)
+                            widgetCacheEntry.foregroundColor = null
+                            displayCover(false, widgetType, views, context, widgetCacheEntry)
                         }
-                        views.setProgressBar(R.id.timeline, 100, 0, false)
                         applyUpdate(context, views, partial, appWidgetId)
                     }
                 }
             } else {
                 widgetCacheEntry.palette = null
-                displayCover(false, widgetType, views, context, foregroundColor, widgetCacheEntry)
-                views.setProgressBar(R.id.timeline, 100, 0, false)
+                widgetCacheEntry.foregroundColor = null
+                displayCover(false, widgetType, views, context, widgetCacheEntry)
             }
         }
 
-        if (forPreview) {
-            displayCover(true, widgetType, views, context, foregroundColor, widgetCacheEntry)
-            views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!))
-        }
 
         //position
         service?.playlistManager?.player?.progress?.value?.let { progress ->
@@ -306,18 +305,18 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                     WidgetType.MICRO -> {
                         val bitmap = widgetCacheEntry.generateCircularProgressbar(context, 128.dp.toFloat(), pos)
                         views.setImageViewBitmap(R.id.progress_round, bitmap)
-                        applyUpdate(context, views, partial, appWidgetId)
+                        if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
                     }
                     WidgetType.PILL -> {
                         widgetCacheEntry.generatePillProgressbar(context, pos)?.let { bitmap ->
                             views.setImageViewBitmap(R.id.progress_round, bitmap)
                         }
-                        applyUpdate(context, views, partial, appWidgetId)
+                        if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
                     }
                     WidgetType.MINI, WidgetType.MACRO -> {
                         val bitmap = widgetCacheEntry.generateCircularProgressbar(context, 42.dp.toFloat(), pos, 3.dp.toFloat())
                         views.setImageViewBitmap(R.id.progress_round, bitmap)
-                        applyUpdate(context, views, partial, appWidgetId)
+                        if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
                     }
                 }
             }
@@ -427,8 +426,9 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    private fun displayCover(playing: Boolean, widgetType: WidgetType, views: RemoteViews, context: Context, foregroundColor: Int, widgetCacheEntry: WidgetCacheEntry) {
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "displayCover: $playing")
+    private fun displayCover(playing: Boolean, widgetType: WidgetType, views: RemoteViews, context: Context, widgetCacheEntry: WidgetCacheEntry) {
+        val foregroundColor = widgetCacheEntry.widget.getForegroundColor(context, palette = widgetCacheEntry.palette)
+        if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix displayCover: widgetType $widgetType /// playing $playing /// foregroundColor $foregroundColor -> ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)}")
         if (!playing) {
             val iconSize = if (widgetType == WidgetType.PILL) 24.dp else 48.dp
             views.setImageViewBitmap(R.id.app_icon, context.getColoredBitmapFromColor(R.drawable.ic_widget_icon, foregroundColor, iconSize, iconSize))
@@ -473,6 +473,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
     private fun applyUpdate(context: Context, views: RemoteViews, partial: Boolean, appWidgetId: Int) {
+        if (BuildConfig.DEBUG) Log.d("AppWidget", "Apply update")
         val manager = AppWidgetManager.getInstance(context)
         try {
             if (partial)

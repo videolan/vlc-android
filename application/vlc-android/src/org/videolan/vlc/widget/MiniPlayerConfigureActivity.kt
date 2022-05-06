@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.helpers.bitmapFromView
 import org.videolan.vlc.gui.preferences.widgets.PreferencesWidgets
 import org.videolan.vlc.gui.preferences.widgets.WIDGET_ID
+import org.videolan.vlc.widget.utils.WidgetCache
 
 class MiniPlayerConfigureActivity : BaseActivity() {
 
@@ -142,6 +143,7 @@ class MiniPlayerConfigureActivity : BaseActivity() {
     }
 
     private fun onWidgetContainerClicked() {
+        model.widget.value?.let { WidgetCache.clear(it) }
 
         //refresh widget
         intent.action = MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT
