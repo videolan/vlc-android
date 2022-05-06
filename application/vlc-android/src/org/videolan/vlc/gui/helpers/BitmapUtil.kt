@@ -227,6 +227,7 @@ object BitmapUtil {
      * Cut a [Bitmap] into a rounded rectangle
      *
      * @param bm the [Bitmap] to cut
+     * @param size the size of the returned bitmap
      * @param radius the corner radius to use
      * @param topLeft cut the top left corner?
      * @param topRight cut the top right corner?
@@ -234,10 +235,10 @@ object BitmapUtil {
      * @param bottomRight cut the bottom right corner?
      * @return a rounded rectangle bitmap
      */
-    fun roundedRectangleBitmap(bm: Bitmap, radius: Float = 12.dp.toFloat(), topLeft: Boolean = true, topRight: Boolean = true, bottomLeft: Boolean = true, bottomRight: Boolean = true): Bitmap {
+    fun roundedRectangleBitmap(bm: Bitmap, size:Int, radius: Float = 12.dp.toFloat(), topLeft: Boolean = true, topRight: Boolean = true, bottomLeft: Boolean = true, bottomRight: Boolean = true): Bitmap {
 
-        val w: Int = bm.width
-        val h: Int = bm.height
+        val w: Int = size
+        val h: Int = size
 
 
         val bmOut = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -259,7 +260,7 @@ object BitmapUtil {
         if (!bottomRight) canvas.drawRect(RectF(w.toFloat() - radius, h.toFloat() - radius, w.toFloat(),h.toFloat()), paint)
 
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bm, rect, rect, paint)
+        canvas.drawBitmap(bm, Rect(0, 0, bm.width, bm.height), rect, paint)
 
         return bmOut
     }

@@ -262,7 +262,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         if (forPreview) widgetCacheEntry.currentCover = "fake"
         if (forPreview) {
             displayCover(true, widgetType, views, context, widgetCacheEntry)
-            views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!))
+            views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
         } else if (playing && widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover) {
             widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
             if (!widgetCacheEntry.currentMedia?.artworkMrl.isNullOrEmpty()) {
@@ -274,7 +274,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                     runOnMainThread {
                         if (cover != null) {
                             if (cover.byteSize() < dm.widthPixels * dm.heightPixels * 6) {
-                                val finalBitmap = cutBitmapCover(widgetType, cover)
+                                val finalBitmap = cutBitmapCover(widgetType, cover, widgetCacheEntry)
                                 views.setImageViewBitmap(R.id.cover, finalBitmap)
                                 if (widgetCacheEntry.widget.theme == 1) widgetCacheEntry.palette = Palette.from(cover).generate()
                                 displayCover(true, widgetType, views, context, widgetCacheEntry)
@@ -370,12 +370,12 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         else -> false
     }
 
-    private fun cutBitmapCover(widgetType: WidgetType, cover: Bitmap): Bitmap =
+    private fun cutBitmapCover(widgetType: WidgetType, cover: Bitmap, widgetCacheEntry: WidgetCacheEntry): Bitmap =
             when (widgetType) {
                 WidgetType.MICRO -> BitmapUtil.roundBitmap(cover)
                 WidgetType.PILL -> BitmapUtil.roundBitmap(cover)
-                WidgetType.MINI -> BitmapUtil.roundedRectangleBitmap(cover, bottomRight = false, topRight = false)
-                else -> cover
+                WidgetType.MINI -> BitmapUtil.roundedRectangleBitmap(cover, widgetCacheEntry.widget.height.dp, bottomRight = false, topRight = false)
+                WidgetType.MACRO -> BitmapUtil.roundedRectangleBitmap(cover, widgetCacheEntry.widget.width.dp)
             }
 
     private fun getFakeMedia(): MediaWrapper? {
