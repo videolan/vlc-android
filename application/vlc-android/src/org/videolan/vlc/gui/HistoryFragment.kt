@@ -52,7 +52,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
-    private val historyAdapter: HistoryAdapter = HistoryAdapter(listEventsHandler = this)
+    private val historyAdapter: HistoryAdapter = HistoryAdapter(listEventsHandler = this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var list: RecyclerView
     private lateinit var empty: TextView

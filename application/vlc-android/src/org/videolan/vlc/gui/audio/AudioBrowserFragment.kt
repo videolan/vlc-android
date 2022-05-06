@@ -180,10 +180,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel = getViewModel()
         currentTab = viewModel.currentTab
 
-        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this)
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
-        genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
+        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
         setupProvider()
     }

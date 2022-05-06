@@ -50,7 +50,10 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -72,7 +75,6 @@ import java.util.*
 private const val TAG = "VLC/BaseBrowserFragment"
 
 internal const val KEY_MEDIA = "key_media"
-private const val KEY_POSITION = "key_list"
 const val KEY_PICKER_TYPE = "key_picker_type"
 private const val MSG_SHOW_LOADING = 0
 internal const val MSG_HIDE_LOADING = 1
@@ -87,7 +89,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private lateinit var layoutManager: LinearLayoutManager
     override var mrl: String? = null
     protected var currentMedia: MediaWrapper? = null
-    private var savedPosition = -1
     override var isRootDirectory: Boolean = false
     override val scannedDirectory = false
     override val inCards = false
@@ -109,7 +110,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (bundle != null) {
             currentMedia = bundle.getParcelable(KEY_MEDIA)
             mrl = currentMedia?.location ?: bundle.getString(KEY_MRL)
-            savedPosition = bundle.getInt(KEY_POSITION)
         } else if (requireActivity().intent != null) {
             mrl = requireActivity().intent.dataString
             requireActivity().intent = null
@@ -145,7 +145,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this)
+        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
@@ -225,7 +225,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(KEY_MRL, mrl)
         outState.putParcelable(KEY_MEDIA, currentMedia)
-        outState.putInt(KEY_POSITION, if (::layoutManager.isInitialized) layoutManager.findFirstCompletelyVisibleItemPosition() else 0)
         super.onSaveInstanceState(outState)
     }
 
@@ -271,7 +270,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onRefresh() {
-        savedPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
         viewModel.refresh()
     }
 
@@ -599,12 +597,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         swipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)
         updateEmptyView()
-        if (!viewModel.isEmpty()) {
-            if (savedPosition > 0) {
-                layoutManager.scrollToPositionWithOffset(savedPosition, 0)
-                savedPosition = 0
-            }
-        }
         if (!isRootDirectory) {
             updateFab()
             UiTools.updateSortTitles(this)

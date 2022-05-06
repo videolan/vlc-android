@@ -37,8 +37,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -100,7 +102,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::settings.isInitialized) settings = Settings.getInstance(requireContext())
         if (!::videoListAdapter.isInitialized) {
             val seenMarkVisible = settings.getBoolean("media_seen", true)
-            videoListAdapter = VideoListAdapter(seenMarkVisible)
+            videoListAdapter = VideoListAdapter(seenMarkVisible).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
             dataObserver = videoListAdapter.onAnyChange {
                 updateEmptyView()
                 if (::binding.isInitialized) binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
