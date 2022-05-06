@@ -368,6 +368,19 @@
     <string name="enable_headset_detection_summary">Détecter l\'insertion et le retrait d\'un micro-casque</string>
     <string name="enable_play_on_headset_insertion">Reprendre à l\'insertion d\'un micro-casque</string>
     <string name="enable_play_on_headset_insertion_summary">Mettre en pause dans le cas contraire</string>
+    <string name="replaygain_prefs_category">ReplayGain</string>
+    <string name="replaygain_enable">Activer le gain de relecture</string>
+    <string name="replaygain_enable_summary">Les flux sans information sur le gain de relecture peuvent être plus silencieux en raison du gain par défaut</string>
+    <string name="replaygain_mode">Mode ReplayGain</string>
+    <string name="replaygain_mode_summary">Le mode Track lit les flux avec les informations ReplayGain à la même intensité sonore. Le mode Album préserve l\'intensité sonore relative des flux sur un même album.</string>
+    <string name="replaygain_preamp">Replay preamp</string>
+    <string name="replaygain_preamp_summary">Modifie le niveau cible par défaut (89 dB) pour les flux avec des informations sur le gain de relecture</string>
+    <string name="replaygain_default">ReplayGain par défaut</string>
+    <string name="replaygain_default_summary">S\'applique aux flux sans information sur le gain de relecture\NSet à 0 pour désactiver</string>
+    <string name="replaygain_peak_protection">Protection contre les pics</string>
+    <string name="replaygain_peak_protection_summary">Protection contre l\'écrêtage du son</string>
+    <string name="replaygain_track">Piste</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement audio</string>
     <string name="audio_ducking_title">Réduire le volume de VLC lors des notifications</string>
@@ -422,12 +435,12 @@
     <string name="clear_history">Vider l\'historique de lecture</string>
     <string name="set_locale">Définir la langue</string>
     <string name="network_caching">Taille du cache réseau</string>
-    <string name="network_caching_summary">Durée du tampon réseau (en ms) pour le décodage software. Laissez vide pour réinitialiser</string>
+    <string name="network_caching_summary">Durée du tampon réseau (en ms) pour le décodage logiciel.\nMettre à 0 pour désactiver</string>
     <string name="resume_playback_title">Reprendre la lecture après un appel</string>
     <string name="resume_playback_summary">Rester en pause dans le cas contraire</string>
     <string name="blurred_cover_background_title">Couverture floutée en arrière-plan</string>
     <string name="blurred_cover_background_summary">Couverture floutée en arrière-plan du lecteur musical</string>
-    <string name="network_caching_popup">Cette valeur doit être comprise entre 0 et 6000 ms</string>
+    <string name="network_caching_popup">Cette valeur doit être comprise entre 0 et 60000 ms</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
     <string name="restart_message">Les changements ne seront pris en compte qu’après le redémarrage de l’application.\n\nRedémarrer maintenant ?</string>
     <string name="restart_message_OK">OK</string>
@@ -516,6 +529,7 @@
     <string name="allow_draw_overlays_title">Autoriser la popup VLC à s\'afficher par dessus les autres applications</string>
     <string name="allow_sdraw_overlays_description">VLC a besoin de votre autorisation pour afficher les vidéos dans une popup par dessus les autres applications</string>
     <string name="permission_ask_again">Donner l\'autorisation</string>
+    <string name="pick_file">Choisir un fichier</string>
     <string name="permission_not_granted">Permission non accordée</string>
     <string name="permission_expanation_no_allow">Vous ne serez pas en mesure d\'auto-découvrir vos médias ni d\'utiliser des sous-titres externes</string>
     <string name="permission_expanation_allow">Vous ne pourrez lire que les flux ou les médias réseau</string>
@@ -835,6 +849,7 @@
     <string name="audio_delay_bt">Le retard audio est réglé sur %s ms pour le périphérique Bluetooth.</string>
     <string name="warning_stream_speed">L\'augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="go_to_folder">Parcourir le parent</string>
+    <string name="create_shortcut">Créer un raccourci pour le lanceur</string>
     <string name="no_sub_renderer">Les sous-titres ne sont pas encore pris en charge lors du casting</string>
     <string name="enqueuing">Chargement de vos médias</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -906,5 +921,13 @@
     <string name="always_fast_seek_summary">La recherche est plus rapide mais peut être moins précise</string>
     <string name="touch_only">Fonctionnalité tactile uniquement</string>
     <string name="touch_only_description">Le passage à l\'interface mobile ne peut se faire qu\'à l\'aide d\'un écran tactile ou d\'une souris.\NVeuillez glisser ci-dessous pour vérifier que cette fonctionnalité peut être modifiée sans danger.</string>
+    <string name="no_web_browser">Aucun navigateur web n\'est installé</string>
+    <string name="no_web_browser_message">Vous pouvez le scanner sur votre smartphone.\nL\'URL est la suivante %s</string>
+    <string name="no_video">Aucune vidéo disponible</string>
+    <string name="fold_optimized">Optimisé pour votre écran pliable</string>
+    <string name="fold_optimize">Optimiser pour les écrans pliants</string>
+    <string name="foldable">Écran pliable</string>
+    <string name="undo">Annuler</string>
+    <string name="add_server_favorite">Ajouter un serveur aux favoris</string>
 
 </resources>
