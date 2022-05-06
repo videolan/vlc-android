@@ -22,9 +22,7 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -38,7 +36,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -56,7 +53,6 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel

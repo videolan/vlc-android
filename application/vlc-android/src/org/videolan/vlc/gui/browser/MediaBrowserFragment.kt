@@ -252,5 +252,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             searchButtonView.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
+    fun inSearchMode() = searchButtonView.visibility == View.VISIBLE
+
     override fun allowedToExpand() = true
 }

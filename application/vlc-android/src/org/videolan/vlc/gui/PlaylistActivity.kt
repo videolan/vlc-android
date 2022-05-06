@@ -45,7 +45,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
@@ -240,8 +242,10 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         if (actionMode != null) {
             audioBrowserAdapter.multiSelectHelper.toggleSelection(position)
             invalidateActionMode()
-        } else
+        } else {
+            if (searchView.visibility == View.VISIBLE) UiTools.setKeyboardVisibility(v, false)
             MediaUtils.playTracks(this, viewModel.playlist, position)
+        }
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {

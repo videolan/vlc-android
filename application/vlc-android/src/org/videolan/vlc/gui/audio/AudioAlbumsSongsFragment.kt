@@ -41,6 +41,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
@@ -212,8 +213,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             val i = Intent(activity, PlaylistActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
-        } else
+        } else {
+            if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
             MediaUtils.openMedia(v.context, item as MediaWrapper)
+        }
     }
 
     override fun onCtxAction(position: Int, option: Long) {

@@ -338,6 +338,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             super.onClick(v, position, item)
             return
         }
+        if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
         if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
             if (item is MediaWrapper && !item.isPresent) {
                 UiTools.snackerMissing(requireActivity())
