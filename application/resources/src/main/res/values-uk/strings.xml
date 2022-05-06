@@ -388,6 +388,19 @@
     <string name="enable_headset_detection_summary">Виявляти під\'єднання і вилучення навушників</string>
     <string name="enable_play_on_headset_insertion">Відновлювати при під\'єднанні навушників</string>
     <string name="enable_play_on_headset_insertion_summary">Інакше - призупиняти</string>
+    <string name="replaygain_prefs_category">Автонормалізація гучності звуку</string>
+    <string name="replaygain_enable">Увімкнути автонормалізацію гучності звуку</string>
+    <string name="replaygain_enable_summary">Потоки без інформації про автонормалізацію гучності звуку можуть бути тихішими через типову гучність</string>
+    <string name="replaygain_mode">Режим автонормалізації гучності звуку</string>
+    <string name="replaygain_mode_summary">Режим Track відтворює потоки з інформацією про автонормалізацію гучності звуку на однаковій гучності. Режим альбому зберігає відносну гучність потоку в одному альбомі.</string>
+    <string name="replaygain_preamp">Попереднє підсилення автонормалізації гучності звуку</string>
+    <string name="replaygain_preamp_summary">Змінює типовий цільовий рівень (89 дб) для потоків з інформацією про автонормалізацію гучності звуку</string>
+    <string name="replaygain_default">Стандартна автонормалізація гучності звуку</string>
+    <string name="replaygain_default_summary">Застосовується до потоків без автонормалізації гучності звуку\nЗадайте 0 для вимкнення</string>
+    <string name="replaygain_peak_protection">Захист від сплесків</string>
+    <string name="replaygain_peak_protection_summary">Захист від клацання звуку</string>
+    <string name="replaygain_track">Доріжка</string>
+    <string name="replaygain_album">Альбом</string>
     <string name="aout">Вивід звуку</string>
     <string name="aout_summary">Змінити метод, який VLC використовує для виведення звуку.</string>
     <string name="audio_ducking_title">Нижча гучність VLC під час сповіщень</string>
@@ -442,12 +455,12 @@
     <string name="clear_history">Очистити історію</string>
     <string name="set_locale">Установка локалі</string>
     <string name="network_caching">Розмір мережевого кешування</string>
-    <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс) з програмним декодуванням. Залиште порожнім, аби відновити</string>
+    <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс) з програмним декодуванням\nЗадайте 0 для вимкнення</string>
     <string name="resume_playback_title">Відновити відтворення після дзвінка</string>
     <string name="resume_playback_summary">Інакше поставити на паузу</string>
     <string name="blurred_cover_background_title">Тло з розмитою обкладинкою</string>
     <string name="blurred_cover_background_summary">Розмита обкладинка на тлі аудіопрогравача</string>
-    <string name="network_caching_popup">Це значення повинно бути між 0 та 6000 мс</string>
+    <string name="network_caching_popup">Це значення повинно бути між 0 та 60000 мс</string>
     <string name="quit">Вийти і перезапустити програму</string>
     <string name="restart_message">Зміни набудуть сили після перезапуску програми.\n\nПерезапустити зараз?</string>
     <string name="restart_message_OK">Гаразд</string>
@@ -536,6 +549,7 @@
     <string name="allow_draw_overlays_title">Дозволити VLC спливати над іншими програмами</string>
     <string name="allow_sdraw_overlays_description">VLC потрібно, щоби ви надали цей дозвіл для відображення вашого відео у спливному вікні над іншими програмами.</string>
     <string name="permission_ask_again">Надати дозвіл</string>
+    <string name="pick_file">Підібрати файл</string>
     <string name="permission_not_granted">Дозвіл не наданий</string>
     <string name="permission_expanation_no_allow">Ви не будете здатні виявляти ваші медіафайли або використовувати зовнішні субтитри</string>
     <string name="permission_expanation_allow">Ви будете здатні тільки відтворювати потоки або мережеве медіа</string>
@@ -859,6 +873,7 @@
     <string name="audio_delay_bt">Затримка аудіо задана на %s мс для пристрою bluetooth</string>
     <string name="warning_stream_speed">Збільшення швидкості відтворення понад 1 для потоків може спричинити пригальмовування</string>
     <string name="go_to_folder">Огляд батьківської теки</string>
+    <string name="create_shortcut">Створити ярлик на запуск</string>
     <string name="no_sub_renderer">Субтитри досі не підтримуються під час трансляції</string>
     <string name="enqueuing">Завантаження ваших медіафайлів</string>
     <string name="soundfont">Звуковий шрифт MIDI</string>
@@ -934,5 +949,13 @@
     <string name="always_fast_seek_summary">Пошук стає швидшим, але менш точнішим</string>
     <string name="touch_only">Функція “лише дотик“</string>
     <string name="touch_only_description">Перемикатися на мобільний інтерфейс можна лише за допомогою сенсорного екрана або мишки.\nПрокрутіть нижче, щоб переконатися, що цю функцію можна безпечно змінити.</string>
+    <string name="no_web_browser">Нема встановленого вебоглядача</string>
+    <string name="no_web_browser_message">Ви можете просканувати це на своєму смартфоні.\n URL%s</string>
+    <string name="no_video">Нема доступного відео</string>
+    <string name="fold_optimized">Оптимізовано для розкладних екранів</string>
+    <string name="fold_optimize">Оптимізувати для розкладних екранів</string>
+    <string name="foldable">Розкладний екран</string>
+    <string name="undo">Повернути</string>
+    <string name="add_server_favorite">Додати улюблений сервер</string>
 
 </resources>
