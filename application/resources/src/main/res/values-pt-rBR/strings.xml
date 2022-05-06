@@ -368,6 +368,19 @@
     <string name="enable_headset_detection_summary">Detectar inserção e remoção de fone de ouvido</string>
     <string name="enable_play_on_headset_insertion">Retomar quando o fone for inserido</string>
     <string name="enable_play_on_headset_insertion_summary">Caso contrário pausar</string>
+    <string name="replaygain_prefs_category">Ganho de Repetição</string>
+    <string name="replaygain_enable">Habilitar ganho de repetição</string>
+    <string name="replaygain_enable_summary">Transmissões sem informação de ganho de repetição podem ser mais silenciosas devido ao ganho padrão</string>
+    <string name="replaygain_mode">Modo de ganho de repetição</string>
+    <string name="replaygain_mode_summary">O modo de trilha reproduz transmissões com informação de ganho de repetição com o mesmo volume. O modo de álbum preserva o volume relativo da transmissão em um mesmo álbum.</string>
+    <string name="replaygain_preamp">Pré amplificação de repetição</string>
+    <string name="replaygain_preamp_summary">Modifica o nível alvo padrão (89 dB) para transmissões com informação de ganho de repetição</string>
+    <string name="replaygain_default">Ganho de repetição padrão</string>
+    <string name="replaygain_default_summary">Aplica a transmissões sem repetir informação de ganho\nDefina como 0 para desabilitar</string>
+    <string name="replaygain_peak_protection">Proteção contra pico</string>
+    <string name="replaygain_peak_protection_summary">Protege contra som picotado</string>
+    <string name="replaygain_track">Trilha</string>
+    <string name="replaygain_album">Álbum</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC usa para reproduzir áudio</string>
     <string name="audio_ducking_title">Reduzir o volume do VLC em notificações</string>
@@ -422,12 +435,12 @@
     <string name="clear_history">Limpar histórico</string>
     <string name="set_locale">Definir local</string>
     <string name="network_caching">Valor de memória para rede</string>
-    <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms) por decodificação por software\nDeixe vazio para restaurar a configuração</string>
+    <string name="network_caching_summary">A quantidade de tempo para guardar em memória uma mídia de rede (em ms) para decodificação por software\nDefina como 0 para desativar</string>
     <string name="resume_playback_title">Retomar a reprodução após uma chamada</string>
     <string name="resume_playback_summary">Caso contrário permanecer em pausa</string>
     <string name="blurred_cover_background_title">Capa borrada no segundo plano</string>
     <string name="blurred_cover_background_summary">Capa borrada no segundo plano do reprodutor de áudio</string>
-    <string name="network_caching_popup">Este valor deve estar entr 0 e 6000 ms</string>
+    <string name="network_caching_popup">Este valor deve estar entre 0 e 60000 ms</string>
     <string name="quit">Fechar e reiniciar o programa</string>
     <string name="restart_message">As modificações terão efeito quando o aplicativo for reiniciado.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
@@ -516,6 +529,7 @@
     <string name="allow_draw_overlays_title">Permitir que o VLC se sobreponha a outros aplicativos</string>
     <string name="allow_sdraw_overlays_description">O VLC precisa de sua permissão para exibir seu vídeo em uma janela sobre outros aplicativos.</string>
     <string name="permission_ask_again">Conceder permissão</string>
+    <string name="pick_file">Escolha um arquivo</string>
     <string name="permission_not_granted">Permissão não concedida</string>
     <string name="permission_expanation_no_allow">Não será possível descobrir automaticamente suas mídias nem usar legendas externas</string>
     <string name="permission_expanation_allow">Será possível apenas reproduzir transmissões ou mídias de rede</string>
@@ -835,6 +849,7 @@
     <string name="audio_delay_bt">Atraso de áudio definido para 1%s ms para o dispositivo bluetooth</string>
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
+    <string name="create_shortcut">Criar um atalho</string>
     <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
     <string name="enqueuing">Carregando suas mídias</string>
     <string name="soundfont">SoundFont MIDI</string>
@@ -906,5 +921,13 @@
     <string name="always_fast_seek_summary">A busca é mais rápida mas pode ser menos precisa</string>
     <string name="touch_only">Funcionalidade apenas por toque</string>
     <string name="touch_only_description">Alternar para a interface móvel só é possível com uma tela tátil ou um mouse.\nPor favor, deslize para baixo para verificar se essa funcionalidade pode ser modificada com segurança.</string>
+    <string name="no_web_browser">Nenhum navegador instalado</string>
+    <string name="no_web_browser_message">É possível escanear isso no seu smartphone.\nA URL é %s</string>
+    <string name="no_video">Nenhum vídeo disponível</string>
+    <string name="fold_optimized">Otimkzado para a sua tela dobrável</string>
+    <string name="fold_optimize">Otimizar para telas dobráveis</string>
+    <string name="foldable">Tela dobrável</string>
+    <string name="undo">Desfazer</string>
+    <string name="add_server_favorite">Adicionar um servidor favorito</string>
 
 </resources>
