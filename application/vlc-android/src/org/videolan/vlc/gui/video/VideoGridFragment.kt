@@ -555,6 +555,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun onLongClick(position: Int) {
+        if (actionMode == null && inSearchMode()) UiTools.setKeyboardVisibility(binding.root, false)
         multiSelectHelper.toggleSelection(position, true)
         if (actionMode == null) startActionMode() else invalidateActionMode()
     }

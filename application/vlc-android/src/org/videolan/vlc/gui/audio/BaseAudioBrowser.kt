@@ -41,7 +41,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
@@ -55,6 +57,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.INavigator
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.fillActionMode
@@ -349,6 +352,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position, true)
+        if (actionMode == null && inSearchMode()) UiTools.setKeyboardVisibility(v, false)
         if (actionMode == null) startActionMode() else invalidateActionMode()
         return true
     }
