@@ -124,14 +124,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
     }
 
-    suspend fun layoutWidget(context: Context, appWidgetId: Int, intent: Intent, forPreview: Boolean = false, previewBitmap: Bitmap? = null, previewPalette: Palette? = null): RemoteViews {
+    suspend fun layoutWidget(context: Context, appWidgetId: Int, intent: Intent, forPreview: Boolean = false, previewBitmap: Bitmap? = null, previewPalette: Palette? = null): RemoteViews? {
 
         val partial = ACTION_WIDGET_INIT != intent.action
         if (BuildConfig.DEBUG) Log.d("AppWidget", "layoutWidget widget id $appWidgetId / partial: $partial / action = ${intent.action}")
 
         val widgetRepository = getWidgetRepository(context)
         val persitedWidget = widgetRepository.getWidget(appWidgetId)
-                ?: widgetRepository.createNew(context, appWidgetId)
+                ?: return null
 
         val widgetCacheEntry = if (forPreview) WidgetCacheEntry(persitedWidget, getFakeMedia()) else WidgetCache.getEntry(persitedWidget)
                 ?: WidgetCache.addEntry(persitedWidget)
@@ -472,7 +472,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     }
 
 
-    private fun applyUpdate(context: Context, views: RemoteViews, partial: Boolean, appWidgetId: Int) {
+    private fun applyUpdate(context: Context, views: RemoteViews?, partial: Boolean, appWidgetId: Int) {
         if (BuildConfig.DEBUG) Log.d("AppWidget", "Apply update")
         val manager = AppWidgetManager.getInstance(context)
         try {

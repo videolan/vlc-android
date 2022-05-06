@@ -31,7 +31,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -127,9 +126,11 @@ class MiniPlayerConfigureActivity : BaseActivity() {
                         val width = if (widget.width <= 0 || widget.height <= 0) 276 else widget.width
                         val height = if (widget.width <= 0 || widget.height <= 0) 94 else widget.height
                         val views = provider.layoutWidget(this@MiniPlayerConfigureActivity, id, Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT), true, coverBitmap, palette)
-                        val preview: View = views.apply(applicationContext, null)
-                        val bm: Bitmap = bitmapFromView(preview, width.dp, height.dp)
-                        withContext(Dispatchers.Main) { binding.widgetPreview.setImageBitmap(bm) }
+                        val preview = views?.apply(applicationContext, null)
+                        preview?.let {
+                            val bm: Bitmap = bitmapFromView(it, width.dp, height.dp)
+                            withContext(Dispatchers.Main) { binding.widgetPreview.setImageBitmap(bm) }
+                        }
                     }
                 }
             }
