@@ -36,9 +36,9 @@
     <string name="play_as_audio">Groti kaip garso kūrinį</string>
     <string name="play_as_video">Groti kaip vaizdo įr.</string>
     <string name="return_to_video">Norėdami atstatyti vaizdo įrašą, palaikykite nuspaudę viršelį</string>
-    <string name="video_app_switch_title">Foninė / „vaizdo vaizde“ veiksena</string>
+    <string name="video_app_switch_title">Foninė / „vaizdo-vaizde“ veiksena</string>
     <string name="video_app_switch_summary">Pasirinkite VLC elgseną, kai grojant vaizdo įrašą persijungiate į kitą programą</string>
-    <string name="play_pip_title">Vaizdo įr. rodyti mažame iškylančiame langelyje virš kitos programos – „vaizdo vaizde“ veiksenoje</string>
+    <string name="play_pip_title">Vaizdo įr. rodyti mažame iškylančiame langelyje virš kitos programos – „vaizdo-vaizde“ veiksenoje</string>
     <string name="play_as_audio_background">Vaizdo įr. groti fone</string>
     <string name="append">Pridėti</string>
     <string name="insert_next">Įterpti kitą</string>
@@ -124,7 +124,7 @@
     </plurals>
 
     <string name="internal_memory">Vidinė atmintis</string>
-    <string name="audio">Muzika</string>
+    <string name="audio">Garso įr.</string>
     <string name="video">Vaizdo įr.</string>
     <string name="bookmarks">Žymelės</string>
     <string name="equalizer">Glodintuvas</string>
@@ -253,9 +253,9 @@
     <string name="tips_playlist">Grojaraštis</string>
     <string name="tips_hold_seek">Laikykite nuspaudę, kad prasuktumėte</string>
     <string name="tips_long_drop">Laikykite nuspaudę ir vilkite</string>
-    <string name="pause_description">Dukart bakstelėkite, kad pristabdytumėte</string>
+    <string name="pause_description">Du kartus bakstelėkite, kad pristabdytumėte</string>
     <string name="seek_tap">+/- 10 s</string>
-    <string name="seek_tap_description">Dukart bakstelėkite, kad peršoktumėte per 10 sekundžių pirmyn arba atgal</string>
+    <string name="seek_tap_description">Du kartus bakstelėkite, kad peršoktumėte per 10 sekundžių pirmyn arba atgal</string>
     <string name="close">Užverti</string>
 
     <string name="playlist_tips">Grojaraščio paaiškinimai</string>
@@ -344,11 +344,11 @@
     <string name="enable_android_auto_seek_buttons">Android Auto prasukimo mygtukai</string>
     <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus iškylančiame meniu. Prieš įjungdami, pabandykite palaikyti ilgiau nuspaudę vairo mygtukus perėjimui į ankstesnį ir tolesnį kūrinį.</string>
     <string name="enable_double_tap_seek_title">Vaizdo įrašo prasukimas bakstelėjus du kartus</string>
-    <string name="enable_double_tap_seek_summary">Leidžia prasukti vaizdo įrašą 10 sekundžių, du kartus bakstelėjus ekrano kraštą</string>
+    <string name="enable_double_tap_seek_summary">Prasukti vaizdo įrašą 10 sekundžių, du kartus bakstelėjus ekrano kraštą</string>
     <string name="enable_double_tap_play_title">Grojimo paleidimas / pristabdymas du kartus bakstelėjus</string>
-    <string name="enable_double_tap_play_summary">Norėdami paleisti arba pristabdyti, dukart bakstelėkite ekrano centrą</string>
+    <string name="enable_double_tap_play_summary">Paleisti arba pristabdyti vaizdo įrašą, du kartus bakstelėjus ekrano centrą</string>
     <string name="enable_swipe_seek_title">Prasukimas braukiant</string>
-    <string name="enable_swipe_seek_summary">Norėdami prasukti, braukite pirštu per ekraną </string>
+    <string name="enable_swipe_seek_summary">Prasukti vaizdo įrašą, braukiant pirštu per ekraną </string>
     <string name="popup_keepscreen_title">Laikyti ekraną įjungtą, kai rodomas iškylantis langas</string>
     <string name="popup_keepscreen_summary">Visada laikyti ekraną įjungtą tol, kol rodomas iškylantis langas, net jei vaizdo įrašas pristabdytas</string>
     <string name="browser_show_hidden_files_title">Rodyti slepiamąsias rinkmenas</string>
@@ -388,6 +388,19 @@
     <string name="enable_headset_detection_summary">Aptikti, kai įkišamos ir ištraukiamos ausinės</string>
     <string name="enable_play_on_headset_insertion">Tęsti įkišus ausines</string>
     <string name="enable_play_on_headset_insertion_summary">Kitu atveju – pristabdyti</string>
+    <string name="replaygain_prefs_category">Garsumo normalizavimas</string>
+    <string name="replaygain_enable">Įjungti garsumo normalizavimą</string>
+    <string name="replaygain_enable_summary">Srautai be garsumo valdymo informacijos gali būti tylesni dėl numatytosios garsumo normalizavimo nuostatos</string>
+    <string name="replaygain_mode">Garsumo normalizavimo veiksena</string>
+    <string name="replaygain_mode_summary">Takelio veiksenoje srautai su garsumo valdymo informacija grojami tuo pačiu garsumu. Albumo veiksena išsaugo santykinį srauto garsumą tame pačiame albume.</string>
+    <string name="replaygain_preamp">Sustiprinti garsumo normalizavimui</string>
+    <string name="replaygain_preamp_summary">Leidžia pakeisti numatytąjį tikslinį lygį (89 dB), srautams su garsumo valdymo informacija</string>
+    <string name="replaygain_default">Numatytoji garsumo normalizavimo nuostata</string>
+    <string name="replaygain_default_summary">Taikoma srautams be garsumo valdymo informacijos\nNorėdami išjungti, nustatykite 0</string>
+    <string name="replaygain_peak_protection">Piko vengimas</string>
+    <string name="replaygain_peak_protection_summary">Apsaugoti nuo garso trūkinėjimo</string>
+    <string name="replaygain_track">Takelio</string>
+    <string name="replaygain_album">Albumo</string>
     <string name="aout">Garso išvedimas</string>
     <string name="aout_summary">Nustatykite VLC naudojamą garso išvedimo metodą</string>
     <string name="audio_ducking_title">Pritildyti VLC gaunant pranešimus</string>
@@ -442,12 +455,12 @@
     <string name="clear_history">Išvalyti žurnalą</string>
     <string name="set_locale">Nustatyti kalbą</string>
     <string name="network_caching">Tinklo podėlio reikšmė</string>
-    <string name="network_caching_summary">Tinklo srauto buferio laikas (ms), naudojant programinės įrangos dekodavimą\nPalikite tuščią, kad nustatytumėte iš naujo</string>
+    <string name="network_caching_summary">Tinklo srauto buferio laikas (ms), naudojant programinės įrangos dekodavimą\nNorėdami išjungti, nustatykite 0</string>
     <string name="resume_playback_title">Baigus pokalbį – groti toliau</string>
     <string name="resume_playback_summary">Kitu atveju – pristabdyti</string>
     <string name="blurred_cover_background_title">Neryškus viršelio fonas</string>
     <string name="blurred_cover_background_summary">Neryškus viršelis garso grotuvo fone</string>
-    <string name="network_caching_popup">Reikšmė turi būti tarp 0 ir 6000 ms</string>
+    <string name="network_caching_popup">Ši reikšmė turi būti nuo 0 iki 60000 ms</string>
     <string name="quit">Baigti ir paleisti iš naujo</string>
     <string name="restart_message">Pasikeitimai įsigalios iš naujo paleidus programą.\n\nPaleisti programą iš naujo?</string>
     <string name="restart_message_OK">OK</string>
@@ -536,6 +549,7 @@
     <string name="allow_draw_overlays_title">Leisti VLC programai iškilti virš kitų programų</string>
     <string name="allow_sdraw_overlays_description">VLC reikia Jūsų leidimo rodyti vaizdo įrašą iškylančiame lange virš kitų programų.</string>
     <string name="permission_ask_again">Leisti</string>
+    <string name="pick_file">Pasirinkti rinkmeną</string>
     <string name="permission_not_granted">Leidimas nesuteiktas</string>
     <string name="permission_expanation_no_allow">Negalėsite automatiškai žvalgyti įrenginyje esančius įvairialypės terpės kūrinius ar naudotis išoriniais subtitrais</string>
     <string name="permission_expanation_allow">Galėsite leisti tik srautus ir kūrinius per tinklą</string>
@@ -712,7 +726,7 @@
     </plurals>
     <string name="remove_current">Pašalinti dabartinį</string>
     <string name="validation_delete_playlist">Ar tikrai norite pašalinti šį grojaraštį?</string>
-    <string name="validation_delete_playlist_text">Šio veiksmo nebus galima atšaukti.</string>
+    <string name="validation_delete_playlist_text">Šio veiksmo nebus galima anuliuoti.</string>
     <string name="display_in_list">Rodyti sąraše</string>
     <string name="display_in_grid">Rodyti tinklelyje</string>
     <string name="dump_db_succes">Duomenų bazė iškelta į vidinę atmintį</string>
@@ -859,6 +873,7 @@
     <string name="audio_delay_bt">Pritaikyti %s ms garso vėlinimą „Bluetooth“ įrenginiui</string>
     <string name="warning_stream_speed">Padidinus srauto atkūrimo greitį virš 1, gali sukelti mikčiojimą</string>
     <string name="go_to_folder">Naršyti katalogą</string>
+    <string name="create_shortcut">Pridėti prie pagrind. ekrano</string>
     <string name="no_sub_renderer">Transliacijos metu subtitrai nepalaikomi</string>
     <string name="enqueuing">Įkeliami jūsų kūriniai</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -933,6 +948,14 @@
     <string name="always_fast_seek">Visada naudoti greitąjį prasukimą</string>
     <string name="always_fast_seek_summary">Prasukimas yra greitesnis, bet ne toks tikslus</string>
     <string name="touch_only">Tik lytėjimo ekraną turintiems įrenginiams</string>
-    <string name="touch_only_description">Perjungti į mobiliąją sąsają galima tik naudojant lytėjimo ekraną arba pelytę.\nSlinkite toliau, kad patikrintumėte, ar šią funkciją saugu keisti. </string>
+    <string name="touch_only_description">Perjungti į mobiliąją sąsają galima tik naudojant lytėjimo ekraną arba pelytę.\nPerbraukite žemiau, kad patikrintumėte, ar šią funkciją saugu keisti. </string>
+    <string name="no_web_browser">Neįdiegta žiniatinklio naršyklė</string>
+    <string name="no_web_browser_message">Galite tai nuskaityti išmaniajame telefone.\nNuoroda yra: %s</string>
+    <string name="no_video">Nėra vaizdo įrašų</string>
+    <string name="fold_optimized">Pritaikyta jūsų sulankstomam ekranui</string>
+    <string name="fold_optimize">Pritaikyti sulankstomiems ekranams</string>
+    <string name="foldable">Sulankstomas ekranas</string>
+    <string name="undo">Anuliuoti</string>
+    <string name="add_server_favorite">Pridėti mėgst. serverį</string>
 
 </resources>
