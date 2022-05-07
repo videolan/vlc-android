@@ -378,6 +378,19 @@
     <string name="enable_headset_detection_summary">Detectează inserarea și scoaterea căștilor</string>
     <string name="enable_play_on_headset_insertion">Revine la introducerea căștilor</string>
     <string name="enable_play_on_headset_insertion_summary">Pauză</string>
+    <string name="replaygain_prefs_category">Câștig de reluare</string>
+    <string name="replaygain_enable">Activează câștigul reluării</string>
+    <string name="replaygain_enable_summary">Fluxurile fără informații despre câștigul de reluare pot fi mai silențioase din cauza câștigului implicit</string>
+    <string name="replaygain_mode">Modul câștig de reluare</string>
+    <string name="replaygain_mode_summary">Modul Pistă redă fluxuri cu informații despre câștigul de reluare la aceeași intensitate. Modul Album păstrează volumul relativ al fluxului pe același album.</string>
+    <string name="replaygain_preamp">Preamplificarea reluării</string>
+    <string name="replaygain_preamp_summary">Schimbă nivelul țintă implicit (89 dB) pentru fluxurile cu informații despre câștigul de redare</string>
+    <string name="replaygain_default">Câștigul de reluare implicit</string>
+    <string name="replaygain_default_summary">Se aplică fluxurilor fără informații despre câștigul de redare\nSetează la 0 pentru dezactivare</string>
+    <string name="replaygain_peak_protection">Protecție maximă</string>
+    <string name="replaygain_peak_protection_summary">Protecție împotriva întreruperii sunetului</string>
+    <string name="replaygain_track">Pistă</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Ieșire audio</string>
     <string name="aout_summary">Schimbă metoda folosită de VLC pentru a reda audio</string>
     <string name="audio_ducking_title">Redu volumul VLC la notificări</string>
@@ -432,12 +445,12 @@
     <string name="clear_history">Ștergere istoric</string>
     <string name="set_locale">Stabiliţi localizarea</string>
     <string name="network_caching">Valoarea cache-ului rețelei</string>
-    <string name="network_caching_summary">Timpul de stocare a mediilor de rețea în memoria tampon (în ms) pentru decodarea software\nLasă în alb pentru resetare</string>
+    <string name="network_caching_summary">Perioada de timp pentru salvarea media de rețea (în ms) pentru decodarea software\nSetează la 0 pentru a o dezactiva</string>
     <string name="resume_playback_title">Reluați redarea după un apel telefonic</string>
     <string name="resume_playback_summary">Rămâi pe pauză în caz contrar</string>
     <string name="blurred_cover_background_title">Copertă neclară în fundal</string>
     <string name="blurred_cover_background_summary">Coperta neclară în fundalul playerului audio</string>
-    <string name="network_caching_popup">Valoarea trebuie să fie cuprinsă între 0 și 6000 ms</string>
+    <string name="network_caching_popup">Această valoare trebuie să fie între 0 și 60000 ms</string>
     <string name="quit">Închide și repornește aplicația</string>
     <string name="restart_message">Modificările vor intra în vigoare după repornirea aplicației. \n \nReporniți acum?</string>
     <string name="restart_message_OK">OK</string>
@@ -526,6 +539,7 @@
     <string name="allow_draw_overlays_title">Permite ferestrei de redare a programului VLC să apară peste alte aplicații</string>
     <string name="allow_sdraw_overlays_description">VLC cere permisiunea să afișeze videoclipul într-o fereastră peste alte aplicații.</string>
     <string name="permission_ask_again">Permisiune garantata</string>
+    <string name="pick_file">Alege un fișier</string>
     <string name="permission_not_granted">Permisiune neacordată</string>
     <string name="permission_expanation_no_allow">Nu veți putea să vă descoperiți automat mediile și nici să folosiți subtitrări externe.</string>
     <string name="permission_expanation_allow">Veți putea să redați doar fluxuri sau medii de rețea</string>
@@ -847,6 +861,7 @@
     <string name="audio_delay_bt">întârzierea audio stabilită la %s ms pentru dispozitivul bluetooth</string>
     <string name="warning_stream_speed">Creșterea vitezei de redare peste 1 pentru fluxuri poate provoca bâlbâieli</string>
     <string name="go_to_folder">Răsfoiți părintele</string>
+    <string name="create_shortcut">Crează o comandă rapidă pentru lansare</string>
     <string name="no_sub_renderer">Subtitrările nu sunt încă acceptate în timpul turnării</string>
     <string name="enqueuing">Încărcarea mediilor dvs.</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -920,5 +935,13 @@
     <string name="always_fast_seek_summary">Căutarea este mai rapidă, dar poate fi mai puțin precisă</string>
     <string name="touch_only">Funcția doar atingere</string>
     <string name="touch_only_description">Trecerea la interfața mobilă se poate face numai cu un ecran tactil sau cu un mouse.\nTe rugăm să glisezi mai jos pentru a verifica dacă această funcție poate fi schimbată în siguranță.</string>
+    <string name="no_web_browser">Niciun browser web nu e instalat</string>
+    <string name="no_web_browser_message">Poți scana asta de pe smartphone-ul tău.\nURL-ul este %s</string>
+    <string name="no_video">Niciun videoclip disponibil</string>
+    <string name="fold_optimized">Optimizat pentru ecranul tău pliabil</string>
+    <string name="fold_optimize">Optimizează pentru ecrane pliabile</string>
+    <string name="foldable">Ecran pliabil</string>
+    <string name="undo">Anulează</string>
+    <string name="add_server_favorite">Adaugă un server la favorite</string>
 
 </resources>
