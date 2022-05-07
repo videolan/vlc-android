@@ -388,6 +388,19 @@
     <string name="enable_headset_detection_summary">Detegovať pripojenie a odpojenie slúchadiel</string>
     <string name="enable_play_on_headset_insertion">Pokračovať pri pripojení slúchadiel</string>
     <string name="enable_play_on_headset_insertion_summary">V iných prípadoch pozastaviť</string>
+    <string name="replaygain_prefs_category">Zosilnenie pri opätovnom prehrávaní</string>
+    <string name="replaygain_enable">Zapnúť zosilnenie pri opätovnom prehrávaní</string>
+    <string name="replaygain_enable_summary">Streamy bez informácie o zosilnení pri opätovnom prehrávaní môžu byť tichšie, kvôli použitiu predvoleného zosilnenia</string>
+    <string name="replaygain_mode">Režim zosilnenia pri opät. prehrávaní</string>
+    <string name="replaygain_mode_summary">Režim pre stopu prehrá streamy s informáciou o zosilnení počas opätovného prehrávania s rovnakou hlasitosťou. Režim pre album udržiava relatívnu hlasitosť streamu pri celom albume.</string>
+    <string name="replaygain_preamp">Predb. zosilnenie pri opätovnom prehrávaní</string>
+    <string name="replaygain_preamp_summary">Zmení predvolenú cieľovú úroveň (89 dB) pre streamy s informáciou o zosilnení pri opätovnom prehrávaní</string>
+    <string name="replaygain_default">Predvolené zosilnenie pri opätovnom prehrávaní</string>
+    <string name="replaygain_default_summary">Použije sa na streamy bez informácie o zosilnení pri opätovnom prehrávaní\nVypnete zadaním hodnoty 0</string>
+    <string name="replaygain_peak_protection">Ochrana špičiek</string>
+    <string name="replaygain_peak_protection_summary">Ochrana pred orezávaním zvuku</string>
+    <string name="replaygain_track">Stopa</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_summary">Zmeniť metódu, ktorú používa VLC pre výstup zvuku</string>
     <string name="audio_ducking_title">Stíšiť VLC pri notifikáciách</string>
@@ -442,12 +455,12 @@
     <string name="clear_history">Vyčistiť históriu</string>
     <string name="set_locale">Nastaviť jazyk krajiny</string>
     <string name="network_caching">Hodnota ukladania do vyrovnávacej pamäte zo siete</string>
-    <string name="network_caching_summary">Čas ukladania sieťového média do vyrovnávacej pamäte (v ms) pre SW dekódovanie\nPre reset ponechajte políčko prázdne</string>
+    <string name="network_caching_summary">Čas sieťového média ukladaný do vyrovnávacej pamäte (v ms) pre SW dekódovanie\nPre vypnutie zadajte hodnotu 0</string>
     <string name="resume_playback_title">Pokračovať v prehrávaní po hovore</string>
     <string name="resume_playback_summary">Inak nechať pozastavené</string>
     <string name="blurred_cover_background_title">Pozadie s rozmazaným obalom</string>
     <string name="blurred_cover_background_summary">Pozadie hudobného prehrávača s rozmazaným obalom</string>
-    <string name="network_caching_popup">Táto hodnota musí byť v rozmedzí 0 a 6000 ms</string>
+    <string name="network_caching_popup">Táto hodnota musí byť v rozmedzí 0 a 60000 ms</string>
     <string name="quit">Ukončiť a reštartovať aplikáciu</string>
     <string name="restart_message">Zmeny sa prejavia po reštartovaní aplikácie.\n\nReštartovať teraz?</string>
     <string name="restart_message_OK">OK</string>
@@ -536,6 +549,7 @@
     <string name="allow_draw_overlays_title">Povoliť vyskakovacie okno VLC nad ostatnými aplikáciami</string>
     <string name="allow_sdraw_overlays_description">Na zobrazovanie videa vo vyskakovacom okne nad ostatnými aplikáciami musí mať VLC udelené oprávnenie.</string>
     <string name="permission_ask_again">Udeliť oprávnenie</string>
+    <string name="pick_file">Vyberte súbor</string>
     <string name="permission_not_granted">Povolenie neudelené</string>
     <string name="permission_expanation_no_allow">Nebude možné automatické objavovanie médií ani použitie externých titulkov</string>
     <string name="permission_expanation_allow">Budete môcť len prehrávať streamy alebo sieťové médium</string>
@@ -859,6 +873,7 @@
     <string name="audio_delay_bt">Pre zariadenie bluetooth nastavte oneskorenie zvuku na %s ms</string>
     <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
+    <string name="create_shortcut">Vytvoriť odkaz v spúšťači</string>
     <string name="no_sub_renderer">Počas streamovania (castingu) ešte nie sú podporované titulky</string>
     <string name="enqueuing">Načítavanie médií</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -934,5 +949,13 @@
     <string name="always_fast_seek_summary">Vyhľadávanie je rýchlejšie ale môže byť menej presné</string>
     <string name="touch_only">Funkcia ovládaná iba dotykom</string>
     <string name="touch_only_description">Prepnutie na mobilné rozhranie je možné vykonať len pomocou dotykovej obrazovky alebo myši.\nProsím prejdite dole a overte, či je bezpečné zmeniť túto voľbu.</string>
+    <string name="no_web_browser">Nie je nainštalovaný žiadny webový prehliadač</string>
+    <string name="no_web_browser_message">Môžete vykonať skenovanie na svojom smartfóne.\nURL je %s</string>
+    <string name="no_video">Nie je dostupné žiadne video</string>
+    <string name="fold_optimized">Optimalizované pre vašu skladaciu obrazovku</string>
+    <string name="fold_optimize">Optimalizovať pre skladacie obrazovky</string>
+    <string name="foldable">Skladacia obrazovka</string>
+    <string name="undo">Späť</string>
+    <string name="add_server_favorite">Pridať server ako obľúbený</string>
 
 </resources>
