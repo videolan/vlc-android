@@ -368,6 +368,19 @@
     <string name="enable_headset_detection_summary">Das Einsetzen und Entfernen des Kopfhörers erkennen</string>
     <string name="enable_play_on_headset_insertion">Fortsetzen wenn Kopfhörer eingesetzt</string>
     <string name="enable_play_on_headset_insertion_summary">Andernfalls Wiedergabe pausieren</string>
+    <string name="replaygain_prefs_category">Verstärkung (Replay Gain)</string>
+    <string name="replaygain_enable">Wiedergabeverstärkung aktivieren</string>
+    <string name="replaygain_enable_summary">Streams ohne Wiedergabeverstärkungsinformationen können aufgrund der Standardverstärkung leiser sein</string>
+    <string name="replaygain_mode">Verstärkungsmodus</string>
+    <string name="replaygain_mode_summary">Der Track-Modus spielt Streams mit Verstärkungsinformationen (Replay-Gain) bei gleicher Lautstärke ab. Der Albummodus behält die relative Stream-Lautstärke auf demselben Album bei.</string>
+    <string name="replaygain_preamp">Vorverstärker</string>
+    <string name="replaygain_preamp_summary">Ändert den standardmäßigen Zielpegel (89 dB) für Streams mit der Wiedergabeverstärkungsinformation</string>
+    <string name="replaygain_default">Standard-Wiedergabeverstärkung</string>
+    <string name="replaygain_default_summary">Gilt für Streams ohne Wiedergabeverstärkungsinformation\nZum Deaktivieren auf 0 setzen</string>
+    <string name="replaygain_peak_protection">Ausschlag-Schutz (Übersteuerungsschutz)</string>
+    <string name="replaygain_peak_protection_summary">Gegen Klangausschläge schützen.</string>
+    <string name="replaygain_track">Titel</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Audioausgabe</string>
     <string name="aout_summary">Methode ändern, die VLC zur Tonausgabe verwendet</string>
     <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen</string>
@@ -422,12 +435,12 @@
     <string name="clear_history">Verlauf löschen</string>
     <string name="set_locale">Sprache ändern</string>
     <string name="network_caching">Zwischenspeicher-Wert im Netzwerk</string>
-    <string name="network_caching_summary">Der Zeitwert (in ms), um das Netzwerkmedium zur Software-Dekodierung zu puffern\nZum Zurückzusetzen leer lassen</string>
+    <string name="network_caching_summary">Der Zeitwert (in ms), um das Netzwerkmedium zur Software-Dekodierung zu puffern\nZum Deaktivieren auf 0 setzen</string>
     <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
     <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
     <string name="blurred_cover_background_title">Unscharfes Hintergrundbild</string>
     <string name="blurred_cover_background_summary">Unscharfes Hintergrundbild für den Audio-Player</string>
-    <string name="network_caching_popup">Der Wert muss zwischen 0 und 6000 ms liegen</string>
+    <string name="network_caching_popup">Der Wert muss zwischen 0 und 60000 ms liegen</string>
     <string name="quit">Anwendung beenden und neu starten</string>
     <string name="restart_message">Änderungen werden nach einem Neustart übernommen.\n\nJetzt neu starten?</string>
     <string name="restart_message_OK">OK</string>
@@ -516,6 +529,7 @@
     <string name="allow_draw_overlays_title">Popup-Fenster über anderen Anwendungen zulassen</string>
     <string name="allow_sdraw_overlays_description">VLC benötigt diese Berechtigung, um Ihr Video in einem Popup-Fenster über anderen Anwendungen anzuzeigen.</string>
     <string name="permission_ask_again">Genehmigung erteilen</string>
+    <string name="pick_file">Eine Datei auswählen</string>
     <string name="permission_not_granted">Berechtigung nicht erteilt</string>
     <string name="permission_expanation_no_allow">Sie können Ihre Medien nicht automatisch durchsuchen oder externe Untertitel verwenden</string>
     <string name="permission_expanation_allow">Sie können nur Streams oder Netzwerkmedien abspielen </string>
@@ -835,6 +849,7 @@
     <string name="audio_delay_bt">Tonverzögerung für Bluetooth-Geräte auf %s ms gesetzt</string>
     <string name="warning_stream_speed">Die Erhöhung der Wiedergabegeschwindigkeit für Streams auf über 1 kann zum Stottern führen</string>
     <string name="go_to_folder">Übergeordnetes Verzeichnis durchsuchen</string>
+    <string name="create_shortcut">Eine Launcher-Verknüpfung erstellen</string>
     <string name="no_sub_renderer">Untertitel werden beim Casting noch nicht unterstützt</string>
     <string name="enqueuing">Ihre Medien werden geladen</string>
     <string name="soundfont">MIDI-SoundFont</string>
@@ -906,5 +921,13 @@
     <string name="always_fast_seek_summary">Die Suche ist schneller, aber möglicherweise ungenauer</string>
     <string name="touch_only">Nur-Touch-Funktion</string>
     <string name="touch_only_description">Der Wechsel zur mobilen Benutzeroberfläche kann nur mit einem taktilen Bildschirm oder einer Maus erfolgen.\nBitte nach unten schieben, um zu überprüfen, ob diese Funktion sicher geändert werden kann.</string>
+    <string name="no_web_browser">Kein Web-Browser installiert</string>
+    <string name="no_web_browser_message">Sie können dies auf Ihrem Smartphone scannen.\nDie URL lautet %s</string>
+    <string name="no_video">Kein Video verfügbar</string>
+    <string name="fold_optimized">Optimiert für Ihren Faltbildschirm</string>
+    <string name="fold_optimize">Für Faltbildschirme optimieren</string>
+    <string name="foldable">Faltbare Bildschirme</string>
+    <string name="undo">Rückgängig</string>
+    <string name="add_server_favorite">Einen Server als Favorit hinzufügen</string>
 
 </resources>
