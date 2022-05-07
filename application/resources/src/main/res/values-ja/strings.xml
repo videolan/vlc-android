@@ -358,6 +358,19 @@
     <string name="enable_headset_detection_summary">ヘッドセットの着脱を検出</string>
     <string name="enable_play_on_headset_insertion">ヘッドセットの装着で再開</string>
     <string name="enable_play_on_headset_insertion_summary">それ以外では一時停止</string>
+    <string name="replaygain_prefs_category">再生ゲイン</string>
+    <string name="replaygain_enable">再生ゲインを有効化</string>
+    <string name="replaygain_enable_summary">再生ゲイン情報のないストリームはデフォルトのゲインによってより静かになるかも知れません</string>
+    <string name="replaygain_mode">再生ゲインモード</string>
+    <string name="replaygain_mode_summary">再生ゲイン情報のあるストリームの再生を同じラウドネスで行うトラックモード。同じアルバムで相対的なストリームのラウドネスを保存するアルバムモード。</string>
+    <string name="replaygain_preamp">再生プリアンプ</string>
+    <string name="replaygain_preamp_summary">再生ゲイン情報のあるデフォルトのターゲットレベル(89 dB)を変更します。</string>
+    <string name="replaygain_default">デフォルト再生ゲイン</string>
+    <string name="replaygain_default_summary">再生ゲイン情報のないストリームに適用します。\n0を設定することで無効化します。</string>
+    <string name="replaygain_peak_protection">ピークプロテクション</string>
+    <string name="replaygain_peak_protection_summary">音飛びに対して保護します</string>
+    <string name="replaygain_track">トラック</string>
+    <string name="replaygain_album">アルバム</string>
     <string name="aout">オーディオ出力</string>
     <string name="aout_summary">オーディオ出力に使用するメソッドを変更します。</string>
     <string name="audio_ducking_title">通知時にVLCの音量を下げる</string>
@@ -412,12 +425,12 @@
     <string name="clear_history">履歴をクリア</string>
     <string name="set_locale">ロケールの設定</string>
     <string name="network_caching">ネットワークキャッシュ値</string>
-    <string name="network_caching_summary">ソフトウェアデコーディングのためのネットワークメディアのバッファーサイズをミリ秒単位で指定します。\n空白入力でリセットします。</string>
+    <string name="network_caching_summary">ソフトウェアデコーディングのためのネットワークメディアのバッファーサイズをミリ秒単位で指定します。\n0を入力すると無効化します。</string>
     <string name="resume_playback_title">通話終了後に再生を再開</string>
     <string name="resume_playback_summary">それ以外は一時停止</string>
     <string name="blurred_cover_background_title">カバーの背景をぼやけさせる</string>
     <string name="blurred_cover_background_summary">オーディオプレイヤーのカバーの背景をぼやけさせる</string>
-    <string name="network_caching_popup">値は0〜6000msの間で指定してください</string>
+    <string name="network_caching_popup">値は0〜60000msの間で指定してください</string>
     <string name="quit">アプリケーションを再起動</string>
     <string name="restart_message">変更はアプリケーションの再起動後に有効になります。\n\n今すぐ再起動しますか?</string>
     <string name="restart_message_OK">OK</string>
@@ -506,6 +519,7 @@
     <string name="allow_draw_overlays_title">他のアプリケーション上へポップアップ表示を許可</string>
     <string name="allow_sdraw_overlays_description">他のアプリケーションの上にビデオをポップアップ表示するためにVLCに許可を与える必要があります。</string>
     <string name="permission_ask_again">許可する</string>
+    <string name="pick_file">ファイルの取り出し</string>
     <string name="permission_not_granted">権限が付与されていません</string>
     <string name="permission_expanation_no_allow">自動検索と外部の字幕の使用ができません</string>
     <string name="permission_expanation_allow">ストリームの再生または、ネットワークメディアの再生のみ利用可能です</string>
@@ -823,6 +837,7 @@
     <string name="audio_delay_bt">bluetoothデバイスのオーディオに %s ミリ秒の遅延を適用</string>
     <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
     <string name="go_to_folder">親をブラウズ</string>
+    <string name="create_shortcut">ランチャーのショートカットを作成</string>
     <string name="no_sub_renderer">キャスト中の字幕はまだサポートされていません</string>
     <string name="enqueuing">メディアを読み込み中</string>
     <string name="soundfont">MIDIサウンドフォント</string>
@@ -892,5 +907,13 @@
     <string name="always_fast_seek_summary">シークは高速になりますが正確性が少し劣ります</string>
     <string name="touch_only">タッチのみの機能</string>
     <string name="touch_only_description">スクリーンに触れるかマウスを動かすことでモバイルインターフェースに切り替えることができます。\n下にスライドしてこの機能が安全に使用できることを確認してください。</string>
+    <string name="no_web_browser">ウェブブラウザがインストールされていません</string>
+    <string name="no_web_browser_message">あなたのスマートフォン上でスキャン可能です。\nURLは %s です。</string>
+    <string name="no_video">ビデオがありません</string>
+    <string name="fold_optimized">あなたの折り畳み可能な画面に最適化</string>
+    <string name="fold_optimize">折り畳み可能な画面に最適化</string>
+    <string name="foldable">折り畳み可能な画面</string>
+    <string name="undo">元に戻す</string>
+    <string name="add_server_favorite">お気に入りにサーバーを追加</string>
 
 </resources>
