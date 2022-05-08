@@ -368,6 +368,19 @@
     <string name="enable_headset_detection_summary">Rileva s\'insertadura e sa rimotzione de sas cùfias</string>
     <string name="enable_play_on_headset_insertion">Sighi a s\'insertadura de sas cùfias</string>
     <string name="enable_play_on_headset_insertion_summary">Asinuncas pone in pàusa</string>
+    <string name="replaygain_prefs_category">Balàngiu de riprodutzione</string>
+    <string name="replaygain_enable">Abìlita su balàngiu de riprodutzione</string>
+    <string name="replaygain_enable_summary">Sos flussos chene balàngiu de riprodutzione diant pòdere èssere prus silentziosos pro more de su balàngiu predefinidu</string>
+    <string name="replaygain_mode">Modalidade de su balàngiu de riprodutzione</string>
+    <string name="replaygain_mode_summary">Sa modalidade rasta riproduit flussos cun informatziones subra de su balàngiu de riprodutzione a su matessi volume. Sa modalidade album cunservat su volume relativu de su flussu in su matessi album.</string>
+    <string name="replaygain_preamp">Pre-amplificatzione de riprodutzione</string>
+    <string name="replaygain_preamp_summary">Mudat su livellu de obietivu predefinidu (89 dB) pro sos flussos cun informatziones a pitzu de su balàngiu de riprodutzione</string>
+    <string name="replaygain_default">Balàngiu de riprodutzione predefinidu</string>
+    <string name="replaygain_default_summary">S\'àplicat a sos flussos chene informatziones de balàngiu de riprodutzione\nImposta a 0 pro disabilitare</string>
+    <string name="replaygain_peak_protection">Amparu de cùcuru</string>
+    <string name="replaygain_peak_protection_summary">Amparat contra a su segamentu (clipping) de s\'àudio</string>
+    <string name="replaygain_track">Rasta</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Essida àudio</string>
     <string name="aout_summary">Muda su mètodu impreadu dae VLC pro s\'essida àudio</string>
     <string name="audio_ducking_title">Volume de VLC prus bassu in casu de notìficas</string>
@@ -422,12 +435,12 @@
     <string name="clear_history">Isbòida sa cronologia</string>
     <string name="set_locale">Imposta sa limba</string>
     <string name="network_caching">Valore de sa cache de retza</string>
-    <string name="network_caching_summary">Sa cantidade de tempus dedicada a su carrigamentu de sos documentos multimediales de retza (in ms).\nLassala bòida pro ripristinare</string>
+    <string name="network_caching_summary">Sa cantidade de tempus dedicada a su carrigamentu de sos documentos multimediales de retza (in ms)\nImposta·la a 0 pro disabilitare</string>
     <string name="resume_playback_title">Sighi cun sa riprodutzione a pustis de una mutida</string>
     <string name="resume_playback_summary">Asinuncas abarra in pàusa</string>
     <string name="blurred_cover_background_title">Isfundu cun sa cobertedda isfocada</string>
     <string name="blurred_cover_background_summary">Sa cobertedda isfocada in s\'isfundu de su riproduidore àudio</string>
-    <string name="network_caching_popup">Custu valore depet èssere incluidu intre 0 e 6000 ms</string>
+    <string name="network_caching_popup">Custu valore depet èssere incluidu intre 0 e 60000 ms</string>
     <string name="quit">Essi e torra a allùghere s\'aplicatzione</string>
     <string name="restart_message">Sas modìficas ant a tènnere efetu cando s\'aplicatzione at a èssere torrada a allùghere\n\n\Torrare a l\'allùghere como?</string>
     <string name="restart_message_OK">AB</string>
@@ -516,6 +529,7 @@
     <string name="allow_draw_overlays_title">Permiti a su leghidore VLC de aparire in subra de sas àteras aplicatziones</string>
     <string name="allow_sdraw_overlays_description">VLC tenet bisòngiu de custu permissu pro ammustrare su vìdeu in una ventana chi at a aparire in subra de sas àteras aplicatziones.</string>
     <string name="permission_ask_again">Dae su permissu</string>
+    <string name="pick_file">Issèbera unu documentu</string>
     <string name="permission_not_granted">Permissu non frunidu</string>
     <string name="permission_expanation_no_allow">No as a pòdere rilevare sos documentos multimediales tuos in manera automàtica e nemmancu impreare sos sutatìtulos esternos</string>
     <string name="permission_expanation_allow">As a pòdere petzi riproduire flussos o mèdios de retza</string>
@@ -587,7 +601,7 @@
     <string name="equalizer_new_preset_name">Noa</string>
     <string name="settings_ml_block_scan">Sa biblioteca multimediale est analizende su dispositivu tuo</string>
     <string name="recommendations">Cunsìgios</string>
-    <string name="recommendations_desc">Ischedas de cunsìgiu in s\'aviadore</string>
+    <string name="recommendations_desc">Ischedas de cussìgiu in s\'allughidore</string>
     <string name="browser_quick_access">Atzessu lestru</string>
     <string name="browser_storages">Memòrias</string>
     <string name="msg_delete_failed">Eliminatzione documentu multimediale %1$s fallida</string>
@@ -835,6 +849,7 @@
     <string name="audio_delay_bt">Ritardu àudio impostadu a %s ms pro su dispositivu bluetooth</string>
     <string name="warning_stream_speed">Artziare sa lestresa de riprodutzione de sos flussos a prus de 1 diat pòdere causare una riprodutzione a iscatos</string>
     <string name="go_to_folder">Esplora sa cartella superiore</string>
+    <string name="create_shortcut">Crea un\'incurtzada in s\'allughidore</string>
     <string name="no_sub_renderer">Sos sutatìtulos non sunt galu a disponimentu durante sa trasmissione</string>
     <string name="enqueuing">Carrighende sos mèdios tuos</string>
     <string name="soundfont"> SoundFont MIDI</string>
@@ -906,5 +921,13 @@
     <string name="always_fast_seek_summary">Su positzionamentu est prus lestru ma diat pòdere èssere prus pagu pretzisu</string>
     <string name="touch_only">Funtzionalidade tocu ebbia</string>
     <string name="touch_only_description">Su de colare a s\'interfache mòbile si podet fàghere petzi cun un\'ischermu tàtile o unu ratu.\nIscurre cara a suta pro verificare chi custa funtzionalidade siat segure de modificare.</string>
+    <string name="no_web_browser">Perunu navigadore web installadu</string>
+    <string name="no_web_browser_message">Podes iscansire custu in su telefoneddu tuo.\nS\'URL est %s</string>
+    <string name="no_video">Perunu vìdeu a disponimentu</string>
+    <string name="fold_optimized">Otimizadu pro s\'ischermu chi si pìnnigat tuo</string>
+    <string name="fold_optimize">Otimiza pro sos ischermos chi si pìnnigant</string>
+    <string name="foldable">Ischermu chi si pìnnigat</string>
+    <string name="undo">Annulla</string>
+    <string name="add_server_favorite">Annanghe unu serbidore preferidu</string>
 
 </resources>
