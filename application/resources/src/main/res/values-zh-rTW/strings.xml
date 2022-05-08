@@ -358,6 +358,19 @@
     <string name="enable_headset_detection_summary">偵測耳機插入與移除</string>
     <string name="enable_play_on_headset_insertion">耳機插入時繼續播放</string>
     <string name="enable_play_on_headset_insertion_summary">否則暫停</string>
+    <string name="replaygain_prefs_category">播放增益</string>
+    <string name="replaygain_enable">啟用播放增益</string>
+    <string name="replaygain_enable_summary">因為預設增益，沒有播放增益資訊的串流可能會較安靜</string>
+    <string name="replaygain_mode">播放增益模式</string>
+    <string name="replaygain_mode_summary">「軌道模式」會以相同的音量播放所有帶有播放增益資訊的串流。「專輯模式」則會保留同一張專輯內各個串流的相對音量。</string>
+    <string name="replaygain_preamp">播放的前置放大</string>
+    <string name="replaygain_preamp_summary">變更具有播放增益資訊的資料流的預設目標等級 (89 dB)</string>
+    <string name="replaygain_default">預設的播放增益</string>
+    <string name="replaygain_default_summary">套用於沒有播放增益資訊的串流\n設定為 0 以停用</string>
+    <string name="replaygain_peak_protection">峰值保護</string>
+    <string name="replaygain_peak_protection_summary">防止音訊裁剪</string>
+    <string name="replaygain_track">軌道</string>
+    <string name="replaygain_album">專輯</string>
     <string name="aout">音訊輸出</string>
     <string name="aout_summary">變更 VLC 音訊輸出方式</string>
     <string name="audio_ducking_title">有通知時降低 VLC 音量</string>
@@ -412,12 +425,12 @@
     <string name="clear_history">清除記錄</string>
     <string name="set_locale">設定地區</string>
     <string name="network_caching">網路快取值</string>
-    <string name="network_caching_summary">軟體解碼緩衝網路媒體的時間（以毫秒為單位）\n留空以重置</string>
+    <string name="network_caching_summary">軟體解碼緩衝網路媒體的時間（以毫秒為單位）\n設定為 0 以停用</string>
     <string name="resume_playback_title">在通話結束後繼續播放</string>
     <string name="resume_playback_summary">否則保持暫停</string>
     <string name="blurred_cover_background_title">模糊的封面背景</string>
     <string name="blurred_cover_background_summary">在音訊播放器背景模糊封面</string>
-    <string name="network_caching_popup">這個值必須介於 0 到 6000 毫秒間</string>
+    <string name="network_caching_popup">此值必須介於 0 至 60000 毫秒間</string>
     <string name="quit">離開並重新啟動應用程式</string>
     <string name="restart_message">應用程式重新啟動後，變更才會生效。\n\n現在要重新啟動嗎？</string>
     <string name="restart_message_OK">確定</string>
@@ -506,6 +519,7 @@
     <string name="allow_draw_overlays_title">允許 VLC 播放器彈出並蓋過其他應用程式</string>
     <string name="allow_sdraw_overlays_description">VLC 需要您的授權才能將您的影片顯示到彈出式視窗中並蓋過其他應用程式。</string>
     <string name="permission_ask_again">授予權限</string>
+    <string name="pick_file">選擇檔案</string>
     <string name="permission_not_granted">權限不足</string>
     <string name="permission_expanation_no_allow">您無法自動探索您的媒體或使用外部字幕</string>
     <string name="permission_expanation_allow">您只能播放串流或網路媒體</string>
@@ -823,6 +837,7 @@
     <string name="audio_delay_bt">藍牙裝置的音訊延遲設定為%s毫秒</string>
     <string name="warning_stream_speed">增加串流的播放速度超過 1 可能造成間斷</string>
     <string name="go_to_folder">瀏覽上一層</string>
+    <string name="create_shortcut">建立啟動器捷徑</string>
     <string name="no_sub_renderer">投放時尚不支援字幕</string>
     <string name="enqueuing">正在載入您的媒體</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -892,5 +907,13 @@
     <string name="always_fast_seek_summary">搜尋速度更快，但可能不太精確</string>
     <string name="touch_only">僅觸控環境才可使用的功能</string>
     <string name="touch_only_description">僅能使用觸控螢幕或滑鼠切換到行動裝置介面。\n請向下滑動，確保您確實可以使用該功能。</string>
+    <string name="no_web_browser">未安裝網路瀏覽器</string>
+    <string name="no_web_browser_message">您可以在您的智慧型手機上掃描這個。\nURL 為 %s</string>
+    <string name="no_video">無可用的影片</string>
+    <string name="fold_optimized">為您的折疊螢幕最佳化</string>
+    <string name="fold_optimize">為折疊螢幕最佳化</string>
+    <string name="foldable">可折疊螢幕</string>
+    <string name="undo">復原</string>
+    <string name="add_server_favorite">新增伺服器收藏</string>
 
 </resources>
