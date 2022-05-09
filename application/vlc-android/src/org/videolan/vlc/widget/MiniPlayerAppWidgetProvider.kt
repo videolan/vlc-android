@@ -149,6 +149,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
         //determine layout
+        val oldType = getWidgetTypeFromSize(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
 
         val size = WidgetSizeUtil.getWidgetsSize(context, appWidgetId)
         if (size.first != 0 && size.second != 0 && (widgetCacheEntry.widget.width != size.first || widgetCacheEntry.widget.height != size.second)) {
@@ -163,14 +164,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             Pair(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
         } else size
         if (BuildConfig.DEBUG) Log.d("AppWidget", "New widget size by provider: ${correctedSize.first} / ${correctedSize.second}")
-        val widgetType = when {
-            correctedSize.first > 220 && correctedSize.second > 220 -> WidgetType.MACRO
-            correctedSize.first > 128 && correctedSize.second > 128 -> WidgetType.MICRO
-            correctedSize.first > 220 && correctedSize.second > 0 -> WidgetType.MINI
-            else -> WidgetType.PILL
-        }
+        val widgetType = getWidgetTypeFromSize(correctedSize.first, correctedSize.second)
+
 
         val views = RemoteViews(context.packageName, widgetType.layout)
+        if (oldType != widgetType) {
+            WidgetCache.clear(widgetCacheEntry.widget)
+            applyUpdate(context, views, false, appWidgetId)
+        }
 
         if (!partial) {
             /* commands */
@@ -355,6 +356,20 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             }
         }")
         return views
+    }
+
+    /**
+     * Calculate the [WidgetType] depending on the size
+     *
+     * @param width the widget width
+     * @param height the widget height
+     * @return the [WidgetType] for this size
+     */
+    private fun getWidgetTypeFromSize(width:Int, height:Int) = when {
+        width > 220 && height > 220 -> WidgetType.MACRO
+        width > 128 && height > 128 -> WidgetType.MICRO
+        width > 220 && height > 72 -> WidgetType.MINI
+        else -> WidgetType.PILL
     }
 
     /**
