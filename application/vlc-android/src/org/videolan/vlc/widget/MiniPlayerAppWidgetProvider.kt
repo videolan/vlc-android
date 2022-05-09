@@ -39,6 +39,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.RemoteViews
+import androidx.annotation.DrawableRes
 import androidx.core.content.getSystemService
 import androidx.palette.graphics.Palette
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -70,7 +71,12 @@ import java.util.*
 class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     private lateinit var _widgetRepository: WidgetRepository
 
-
+    /**
+     * Retrieve the [WidgetRepository]
+     *
+     * @param context the context to use
+     * @return the [WidgetRepository]
+     */
     private fun getWidgetRepository(context: Context) = if (::_widgetRepository.isInitialized) _widgetRepository else {
         _widgetRepository = WidgetRepository.getInstance(context)
         _widgetRepository
@@ -124,6 +130,17 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
     }
 
+    /**
+     * Generated the [RemoteViews] depending on the widget configuration and sizing
+     *
+     * @param context the context to use
+     * @param appWidgetId the widget id
+     * @param intent the intent triggering this layout pass
+     * @param forPreview is this layout pass for a preview (in the configuration activity)
+     * @param previewBitmap if this is for a preview, the [Bitmap] to use as a cover
+     * @param previewPalette if this is for a preview, the [Palette] to use
+     * @return the [RemoteViews] to send to the app widget host
+     */
     suspend fun layoutWidget(context: Context, appWidgetId: Int, intent: Intent, forPreview: Boolean = false, previewBitmap: Bitmap? = null, previewPalette: Palette? = null): RemoteViews? {
 
         val partial = ACTION_WIDGET_INIT != intent.action
@@ -173,7 +190,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             applyUpdate(context, views, false, appWidgetId)
         }
 
-            /* commands */
+        /* commands */
         val appCtx = context.applicationContext
         val iBackward = Intent(ACTION_REMOTE_BACKWARD, null, appCtx, PlaybackService::class.java)
         val iPlay = Intent(ACTION_REMOTE_PLAYPAUSE, null, appCtx, PlaybackService::class.java)
@@ -236,9 +253,9 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         if (!forPreview) widgetCacheEntry.currentMedia = service?.currentMediaWrapper
         if (!playing)
-            setupTexts(views, context.getString(R.string.widget_default_text), "", context)
+            setupTexts(context, views, context.getString(R.string.widget_default_text), "")
         else
-            setupTexts(views, widgetCacheEntry.currentMedia?.title, widgetCacheEntry.currentMedia?.artist, context)
+            setupTexts(context, views, widgetCacheEntry.currentMedia?.title, widgetCacheEntry.currentMedia?.artist)
 
         if (widgetCacheEntry.playing != playing || colorChanged) views.setImageViewBitmap(R.id.play_pause, context.getColoredBitmapFromColor(getPlayPauseImage(playing, widgetType), foregroundColor))
         views.setContentDescription(R.id.play_pause, context.getString(if (!playing) R.string.resume_playback_short_title else R.string.pause))
@@ -246,7 +263,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setInt(R.id.player_container_background, "setColorFilter", backgroundColor)
         views.setInt(R.id.player_container_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
         views.setInt(R.id.play_pause_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
-        if (!playing) displayCover(playing, widgetType, views, context, widgetCacheEntry)
+        if (!playing) displayCover(context, views, playing, widgetType, widgetCacheEntry)
 
 
         //cover
@@ -260,7 +277,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         if (forPreview) widgetCacheEntry.currentCover = "fake"
         if (forPreview) {
-            displayCover(true, widgetType, views, context, widgetCacheEntry)
+            displayCover(context, views, true, widgetType, widgetCacheEntry)
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
         } else if (playing && widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover) {
             widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
@@ -276,12 +293,12 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                                 val finalBitmap = cutBitmapCover(widgetType, cover, widgetCacheEntry)
                                 views.setImageViewBitmap(R.id.cover, finalBitmap)
                                 if (widgetCacheEntry.widget.theme == 1) widgetCacheEntry.palette = Palette.from(cover).generate()
-                                displayCover(true, widgetType, views, context, widgetCacheEntry)
+                                displayCover(context, views, true, widgetType, widgetCacheEntry)
                             }
                         } else {
                             widgetCacheEntry.palette = null
                             widgetCacheEntry.foregroundColor = null
-                            displayCover(false, widgetType, views, context, widgetCacheEntry)
+                            displayCover(context, views, false, widgetType, widgetCacheEntry)
                         }
                         applyUpdate(context, views, partial, appWidgetId)
                     }
@@ -289,7 +306,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             } else {
                 widgetCacheEntry.palette = null
                 widgetCacheEntry.foregroundColor = null
-                displayCover(false, widgetType, views, context, widgetCacheEntry)
+                displayCover(context, views, false, widgetType, widgetCacheEntry)
             }
         }
 
@@ -363,7 +380,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      * @param height the widget height
      * @return the [WidgetType] for this size
      */
-    private fun getWidgetTypeFromSize(width:Int, height:Int) = when {
+    private fun getWidgetTypeFromSize(width: Int, height: Int) = when {
         width > 220 && height > 220 -> WidgetType.MACRO
         width > 128 && height > 128 -> WidgetType.MICRO
         width > 220 && height > 72 -> WidgetType.MINI
@@ -383,6 +400,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         else -> false
     }
 
+    /**
+     * Cuts the cover bitmap depending on the [WidgetType]
+     *
+     * @param widgetType the widget's [WidgetType]
+     * @param cover the cover [Bitmap]
+     * @param widgetCacheEntry the [WidgetCacheEntry] used for the [Bitmap] sizing
+     * @return a cut [Bitmap]
+     */
     private fun cutBitmapCover(widgetType: WidgetType, cover: Bitmap, widgetCacheEntry: WidgetCacheEntry): Bitmap =
             when (widgetType) {
                 WidgetType.MICRO -> BitmapUtil.roundBitmap(cover)
@@ -391,7 +416,12 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 WidgetType.MACRO -> BitmapUtil.roundedRectangleBitmap(cover, widgetCacheEntry.widget.width.dp)
             }
 
-    private fun getFakeMedia(): MediaWrapper? {
+    /**
+     * Retrieve a fake media to be displayed in the widget's preview
+     *
+     * @return a fake [MediaWrapper]
+     */
+    private fun getFakeMedia(): MediaWrapper {
         return MLServiceLocator.getAbstractMediaWrapper(
                 -1,
                 "fakemedia://",
@@ -420,7 +450,15 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         )
     }
 
-    private fun setupTexts(views: RemoteViews, title: String?, artist: String?, context: Context) {
+    /**
+     * Setup the title and artist texts and their views visibility
+     *
+     * @param context the context to use
+     * @param views the [RemoteViews] to set the texts into
+     * @param title the track name
+     * @param artist the artist name
+     */
+    private fun setupTexts(context: Context, views: RemoteViews, title: String?, artist: String?) {
         if (BuildConfig.DEBUG) Log.d("AppWidget", "setupTexts: $title /// $artist")
         views.setTextViewText(R.id.songName, title)
         views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) " ${TextUtils.separator} $artist" else artist)
@@ -439,7 +477,16 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    private fun displayCover(playing: Boolean, widgetType: WidgetType, views: RemoteViews, context: Context, widgetCacheEntry: WidgetCacheEntry) {
+    /**
+     * Setup the cover for the [RemoteViews] and the visibility
+     *
+     * @param context the context to use
+     * @param views the [RemoteViews] in which to display the cover
+     * @param playing is the playback currently active
+     * @param widgetType the [WidgetType] the widget uses
+     * @param widgetCacheEntry the [WidgetCacheEntry] used for the colors
+     */
+    private fun displayCover(context: Context, views: RemoteViews, playing: Boolean, widgetType: WidgetType, widgetCacheEntry: WidgetCacheEntry) {
         val foregroundColor = widgetCacheEntry.widget.getForegroundColor(context, palette = widgetCacheEntry.palette)
         if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix displayCover: widgetType $widgetType /// playing $playing /// foregroundColor $foregroundColor -> ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)}")
         if (!playing) {
@@ -480,11 +527,23 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         val ACTION_WIDGET_DISABLED = ACTION_WIDGET_PREFIX + "DISABLED"
     }
 
-    private fun getPlayPauseImage(isPlaying: Boolean, widgetType: WidgetType): Int {
-        return if (isPlaying) if (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) R.drawable.ic_widget_pause_inner else R.drawable.ic_widget_pause else R.drawable.ic_widget_play
-    }
+    /**
+     * Get the play/pause drawable depending on the playing state and the [WidgetType]
+     *
+     * @param isPlaying is the playback currently active
+     * @param widgetType the [WidgetType] to use
+     * @return the drawable to use for the play/pause icon
+     */
+    @DrawableRes private fun getPlayPauseImage(isPlaying: Boolean, widgetType: WidgetType) = if (isPlaying) if (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) R.drawable.ic_widget_pause_inner else R.drawable.ic_widget_pause else R.drawable.ic_widget_play
 
-
+    /**
+     * Applies the update to the widget
+     *
+     * @param context the [Context] to use
+     * @param views the [RemoteViews] to display
+     * @param partial is this a partial update?
+     * @param appWidgetId the widget's id to update
+     */
     private fun applyUpdate(context: Context, views: RemoteViews?, partial: Boolean, appWidgetId: Int) {
         if (BuildConfig.DEBUG) Log.d("AppWidget", "Apply update")
         val manager = AppWidgetManager.getInstance(context)
@@ -500,6 +559,11 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 }
 
+/**
+ * Get a [Bitmap] size in bytes
+ *
+ * @return the [Bitmap] size in bytes
+ */
 fun Bitmap.byteSize(): Int {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
         return allocationByteCount
