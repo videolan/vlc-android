@@ -176,9 +176,9 @@ fun WidgetCacheEntry.generatePillProgressbar(context: Context, progress: Float):
     paint.style = Paint.Style.STROKE
     paint.strokeCap = Paint.Cap.ROUND
     paint.color = widget.getForegroundColor(context, true, palette)
-    val realWidth = widget.width.dp.toFloat()
+    val realWidth = 120.dp.toFloat()
 
-    val progressHeight = 72.dp.toFloat()
+    val progressHeight = 62.dp.toFloat()
     val halfHeight = progressHeight / 2
     val bitmapResult = Bitmap.createBitmap(realWidth.toInt(), progressHeight.toInt(), Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmapResult)

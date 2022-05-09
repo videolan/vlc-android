@@ -21,70 +21,75 @@
   ~
   ~
   -->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_height="match_parent"
-        tools:layout_width="match_parent">
+        android:layout_width="match_parent">
 
-    <ImageView
-            android:id="@+id/player_container_background"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_centerInParent="true"
-            android:contentDescription="@null"
-            android:src="@drawable/widget_pill_neutral"
-            tools:src="@drawable/widget_pill_neutral"
-            tools:tint="@color/black" />
+    <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            tools:layout_height="match_parent"
+            tools:layout_width="match_parent">
 
-    <ImageView
-            android:id="@+id/progress_round"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_centerInParent="true" />
+        <ImageView
+                android:id="@+id/player_container_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:src="@drawable/widget_pill_neutral"
+                tools:src="@drawable/widget_pill_neutral"
+                tools:tint="@color/black" />
+
+        <ImageView
+                android:id="@+id/progress_round"
+                android:layout_width="120dp"
+                android:layout_height="62dp"
+                android:layout_centerInParent="true" />
 
 
-    <ImageView
-            android:id="@+id/cover"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="11dp" />
+        <ImageView
+                android:id="@+id/cover"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="11dp" />
 
-    <ImageView
-            android:id="@+id/app_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="19dp"
-            android:contentDescription="@string/open_vlc"
-            android:src="@drawable/ic_widget_icon" />
+        <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="19dp"
+                android:contentDescription="@string/open_vlc"
+                android:src="@drawable/ic_widget_icon" />
 
-    <ImageView
-            android:id="@+id/cover_background"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignLeft="@+id/cover"
-            android:layout_alignTop="@+id/cover"
-            android:layout_alignRight="@+id/cover"
-            android:layout_alignBottom="@+id/cover"
-            android:contentDescription="@null"
-            android:src="@drawable/widget_circle" />
+        <ImageView
+                android:id="@+id/cover_background"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignLeft="@+id/cover"
+                android:layout_alignTop="@+id/cover"
+                android:layout_alignRight="@+id/cover"
+                android:layout_alignBottom="@+id/cover"
+                android:contentDescription="@null"
+                android:src="@drawable/widget_circle" />
 
-    <ImageView
-            android:id="@+id/play_pause"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/widget_touch_background"
-            android:contentDescription="@string/resume_playback_short_title"
-            android:padding="8dp"
-            android:src="@drawable/ic_widget_play" />
+        <ImageView
+                android:id="@+id/play_pause"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/widget_touch_background"
+                android:contentDescription="@string/resume_playback_short_title"
+                android:padding="8dp"
+                android:src="@drawable/ic_widget_play" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>
