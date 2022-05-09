@@ -14,6 +14,7 @@
     <string name="sortby_length">Panjang</string>
     <string name="sortby_date">Tanggal</string>
     <string name="sortby_last_modified_date">Baru ditambahkan</string>
+    <string name="sortby_insertion">Tanggal penyisipan</string>
     <string name="sortby_media_number">Nomor media</string>
     <string name="sortby_number">Nb trek</string>
     <string name="searchable_hint">Mencari…</string>
@@ -31,6 +32,7 @@
     <string name="play_from_start">Putar dari awal</string>
     <string name="play_as_audio">Mainkan sebagai audio</string>
     <string name="play_as_video">Mainkan sebagai video</string>
+    <string name="return_to_video">Ketuk dengan lama untuk memulihkan video</string>
     <string name="video_app_switch_title">Mode Latar Belakang/PiP</string>
     <string name="video_app_switch_summary">Pilih perilaku VLC ketika anda pindah ke aplikasi lain disaat sedang memutar ulang video</string>
     <string name="play_pip_title">Putar video di mode Picture-in-picture</string>
@@ -56,7 +58,6 @@
     <string name="confirm_delete_files">Hapus file %1$s berikut?</string>
     <string name="confirm_delete_folders_and_files">Hapus folder %1$s dan %2$s file ini?</string>
     <string name="confirm_delete_playlist">Hapus playlist \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Hapus \'%1$s\' dari playlist?</string>
     <string name="ringtone_set">Berkas \'%1$s\' dijadikan ringtone.</string>
     <string name="ringtone_error">Terjadi kesalahan ketika mengatur ringtone.</string>
     <string name="pause">Jeda</string>
@@ -133,6 +134,7 @@
     <string name="surface_fit_screen">Paskan layar</string>
     <string name="surface_fill">Isi</string>
     <string name="surface_original">Tengah</string>
+    <string name="resize_tip">Ketuk lama untuk opsi lanjutan</string>
     <string name="unseekable_stream">Streaming tidak bisa dipercepat</string>
     <string name="refresh">Muat ulang</string>
     <string name="track_audio">Trek audio</string>
@@ -168,7 +170,7 @@
     <string name="server_share_hint">Pembagian jaringan (atau alamat IP)</string>
     <string name="server_folder_hint">Letak direktori (opsional)</string>
     <string name="server_username_hint">Username</string>
-    <string name="server_servername_hint">Nama server, untuk kemudahan</string>
+    <string name="server_servername_hint">Nama server, untuk kenyamanan</string>
     <string name="server_port">Port: </string>
     <string name="login">Masuk</string>
     <string name="password">Password</string>
@@ -185,6 +187,7 @@
     <string name="encountered_error_title">Pemutar eror</string>
     <string name="encountered_error_message">VLC mengalami kesalahan/error dengan media ini.\nSilakan segarkan kembali pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
+    <string name="missing_location">Media ini dari penyimpanan yang tidak tersedia dan tidak bisa dimainkan.</string>
 
     <string name="search">Cari</string>
 
@@ -206,6 +209,9 @@
     <string name="tips_play_description">Ketuk untuk memutar video</string>
     <string name="lock">Kunci</string>
     <string name="tap">Ketuk untuk melihat</string>
+    <string name="tap_to_remove">Ketuk untuk menghapus</string>
+    <string name="tap_to_rearrange">Ketuk untuk mengatur ulang</string>
+    <string name="tap_to_previous_next">Ketuk untuk pindah ke sebelumnya/selanjutnya</string>
     <string name="lock_orientation">Orientasi</string>
     <string name="lock_orientation_description">Ketuk untuk mengunci/membuka orientasi</string>
     <string name="aspect_ratio">Rasio aspek</string>
@@ -235,12 +241,14 @@
 
     <!-- About -->
     <string name="app_name_full">VLC untuk Android</string>
-    <string name="licence">Lisensi</string>
     <string name="revision">Revisi</string>
     <string name="about">Tentang</string>
-    <string name="about_text">VLC untuk Android ™ adalah sebuah bagian dari pemutar media VLC, pemutar media sumber terbuka yang populer. Versi Android ™ dapat membaca sebagian besar file dan stream jaringan</string>
+    <string name="about_vlc_text">VLC untuk Android™ merupakan bagian dari VLC media player, pemutar media terbuka yang populer. Versi Android™ dapat membuka semua jenis file dan salurang media langsung.</string>
+    <string name="authors">Pencipta</string>
     <string name="vlc_authors">dan Para Pengembang VLC</string>
-    <string name="compiled_by">Versi VLC ini dikompilasi oleh:</string>
+    <string name="is_compiled_by">Disusun oleh</string>
+    <string name="sources">Source code</string>
+    <string name="libraries">Pustaka</string>
     <string name="feedback_forum">Forum diskusi</string>
 
     <!-- Preferences -->
@@ -266,8 +274,11 @@
     <string name="screen_orientation_last_locked">Orientasi terkunci terakhir</string>
     <string name="enable_black_theme">Tema gelap</string>
     <string name="subtitle_text_encoding">Pengkodean teks terjemahan</string>
+    <string name="subtitle_preferred_language">Preferensi bahasa takarir</string>
     <string name="daynight_title">Mode Siang Hari</string>
     <string name="daynight_follow_system_title">Ikuti mode sistem</string>
+    <string name="no_track_preference">Tidak ada preferensi bahasa</string>
+    <string name="track_preference">Preferensi trek: %s</string>
 
     <string name="extra_prefs_category">Pengaturan tambahan</string>
 
@@ -297,9 +308,17 @@
     <string name="enable_volume_gesture_title">Gestur volume</string>
     <string name="enable_volume_gesture_summary">Kendalikan volume dengan gestur saat memutar video</string>
     <string name="enable_seek_buttons">Tombol cari</string>
-    <string name="enable_seek_buttons_summary">Tampilkan tombol maju dan mundur pada antarmuka video</string>
+    <string name="enable_seek_buttons_summary">Perlihatkan tombol putar ulang dan percepat pada antarmuka video</string>
+    <string name="enable_android_auto_speed_buttons">Android kecepatan putar ulang otomatis</string>
+    <string name="enable_android_auto_speed_buttons_summary">Perlihatkan kontrol kecepatan di dalam menu overflow</string>
+    <string name="enable_android_auto_seek_buttons">Android tombol cari otomatis</string>
+    <string name="enable_android_auto_seek_buttons_summary">Perlihatkan putar ulang dan percepat pemutaran pada menu overflow. Coba tahan tombol roda kemudi sebelumnya dan selanjutnya sebelum mengaktifkan. </string>
     <string name="enable_double_tap_seek_title">Ketuk dua kali untuk mencari</string>
     <string name="enable_double_tap_seek_summary">Ketuk dua kali pada tepi layar untuk mencari 10 detik</string>
+    <string name="enable_double_tap_play_title">Ketuk dua kali untuk memutar/menghentikan</string>
+    <string name="enable_double_tap_play_summary">Ketuk dua kali pada tengah layar untuk memainkan atau menghentikan </string>
+    <string name="enable_swipe_seek_title">Geser untuk mempercepat</string>
+    <string name="enable_swipe_seek_summary">Geser jari Anda sepanjang layar untuk mempercepat</string>
     <string name="popup_keepscreen_title">Jaga layar menyala di mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Selalu pertahankan layar aktif ketika Pop-Up ditampilkan, meskipun video dijeda.</string>
     <string name="browser_show_hidden_files_title">Tampilkan file tersembunyi</string>
@@ -324,6 +343,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Tampilkan cover media di layar kunci</string>
     <string name="lockscreen_cover_summary">Jika tersedia, atur seni sampul media saat ini sebagai wallpaper layar terkunci.</string>
+    <string name="show_seek_in_compact_notif_title">Tombol cari di panel notofikasi</string>
+    <string name="show_seek_in_compact_notif_summary">Perlihatkan tombol putar ulang dan percepat dalam kontrol media kompak</string>
     <string name="list_title_ellipsize">Menyederhanakan judul daftar dalam satu baris tunggal</string>
     <string name="list_title_ellipsize_default">Bawaan</string>
     <string name="list_title_ellipsize_left">Kiri</string>
@@ -337,6 +358,19 @@
     <string name="enable_headset_detection_summary">Deteksi bila headset ditancapkan dan di cabut</string>
     <string name="enable_play_on_headset_insertion">Lanjutkan pemutaran saat headset di tancapkan</string>
     <string name="enable_play_on_headset_insertion_summary">jika tidak lakukan jeda</string>
+    <string name="replaygain_prefs_category">Replay Gain</string>
+    <string name="replaygain_enable">Aktifkan replay gain</string>
+    <string name="replaygain_enable_summary">Stream tanpa informasi replay gain mungkin akan lebih senyap karena default gain</string>
+    <string name="replaygain_mode">Mode replay gain</string>
+    <string name="replaygain_mode_summary">Mode track memutar stream dengan informasi replay gain pada kebisingan yang sama. Mode album mempertahankan kebisingan stream relatif pada album yang sama.</string>
+    <string name="replaygain_preamp">Replay preamp</string>
+    <string name="replaygain_preamp_summary">Ubah target level default (89 dB) untuk stream dengan informasi replay gain</string>
+    <string name="replaygain_default">Replay gain default</string>
+    <string name="replaygain_default_summary">Terapkan ke stream tanpa informasi replay gain\nUbah ke 0 untuk mematikan</string>
+    <string name="replaygain_peak_protection">Perlindungan peak</string>
+    <string name="replaygain_peak_protection_summary">Melindungi terhadap kliping suara</string>
+    <string name="replaygain_track">Trek</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Output audio</string>
     <string name="aout_summary">Ubah metode yang digunakan VLC untuk mengeluarkan suara</string>
     <string name="audio_ducking_title">Rendahkan volume VLC bila ada notifikasi</string>
@@ -391,12 +425,12 @@
     <string name="clear_history">Kosongkan riwayat</string>
     <string name="set_locale">Pilih bahasa</string>
     <string name="network_caching">Nilai cache jaringan</string>
-    <string name="network_caching_summary">Lama durasi untuk menyangga media jaringan (dalam mili detik) untuk dekode perangkat lunak\ nKosongkan untuk menyetel ulang</string>
+    <string name="network_caching_summary">Jumlah waktu yang dibutuhkan untuk buffer media jaringan (dalam ms) untuk decoding perangkat lunak\nPasang ke 0 untuk menonaktifkan</string>
     <string name="resume_playback_title">Lanjutkan pemutaran setelah telepon</string>
     <string name="resume_playback_summary">Jika tidak, tetaplah jeda</string>
     <string name="blurred_cover_background_title">Latar belakang sampul buram</string>
     <string name="blurred_cover_background_summary">Sampul buram di latar pemutar audio</string>
-    <string name="network_caching_popup">Nilai ini harus dianatara 0 dan 6000 ms</string>
+    <string name="network_caching_popup">Waktu ini harus berada di antara 0 dan 60000 ms</string>
     <string name="quit">Keluar dan restart aplikasi</string>
     <string name="restart_message">Perubahan akan berlaku setelah aplikasi dimulai ulang.\nMulai ulang sekarang?</string>
     <string name="restart_message_OK">OK</string>
@@ -414,6 +448,7 @@
     <string name="log_service_text">Buka konsol log</string>
     <string name="copy_to_clipboard">Salin ke clipboard</string>
     <string name="copied_to_clipboard">Salin catatan ke papan klip.</string>
+    <string name="copied_from_clipboard">Tempel alamat dari clipboard Anda</string>
     <string name="dump_logcat">Buang catatan logcat</string>
     <string name="dump_logcat_success">Logcat berhasi di buang ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal membuang logcat.</string>
@@ -432,6 +467,7 @@
 
     <string name="no_result">Hasil tidak ditemukan</string>
     <string name="no_internet_connection">Cek koneksi internet Anda</string>
+    <string name="retry">Coba lagi</string>
     <string name="subs_download_error">Layanan tidak tersedia. Silakan ulangi kembali</string>
 
     <string name="network_browsing">Jaringan Lokal</string>
@@ -450,8 +486,7 @@
     <string name="playlist_save">Simpan Playlist</string>
     <string name="playlist_name_hint">Nama playlist</string>
     <string name="go_to_chapter">Pergi ke babak berikutnya...</string>
-    <string name="chapter">Bab</string>
-    <string name="resume_from_position">Lanjutkan dari posisi terakhir</string>
+    <string name="current_chapter">Episode: %s</string>
     <string name="confirm_resume">Lanjutkan dari posisi terakhir?</string>
     <string name="confirm_resume_title">Lanjut mainkan video</string>
     <string name="tv_ui_title">Antarmuka Android TV</string>
@@ -471,6 +506,12 @@
     <string name="widget_name_b">VLC Widget Gelap</string>
     <string name="allow_storage_access_title">Izinkan VLC untuk mengakses file video dan audio</string>
     <string name="allow_storage_access_description">VLC membutuhkan anda untuk memberi akses ke file media dalam perangkat ini.</string>
+    <string name="allow_storage_manager_title">Izinkan VLC akses ke semua file</string>
+    <string name="allow_storage_manager_description">%s\n\nBerikan Izin?</string>
+    <string name="allow_storage_manager_explanation">Untuk mendapatkan semua kemampuan dari VLC dan dukungan untuk seluruh tipe file media, kami sangat menyarankan Anda untuk memberikan izin ini.</string>
+    <string name="partial_content">VLC tidak dapat mengakses semua file Anda</string>
+    <string name="partial_content_description">Dimulai dengan Android 11, aplikasi membutuhkan izin khusus untuk mengakses semua file milik perangkat.\n\n%s</string>
+    <string name="never_ask_again">Tidak perlu ditanyakan kembali</string>
     <string name="allow_settings_access_ringtone_title">Izinkan VLC untuk mengatur nada dering</string>
     <string name="allow_settings_access_ringtone_description">VLC membutuhkan anda untuk memberikan akses untuk mengatur lagu ini sebagai nada dering anda.</string>
     <string name="allow_settings_access_brightness_title">Izinkan VLC untuk mengubah mode kecerahan</string>
@@ -478,6 +519,7 @@
     <string name="allow_draw_overlays_title">Izinkan pemutar VLC tampil di aplikasi lain</string>
     <string name="allow_sdraw_overlays_description">VLC membutuhkan anda untuk memberikan tampilan video anda di aplikasi lain.</string>
     <string name="permission_ask_again">Memberikan izin</string>
+    <string name="pick_file">Pilih sebuah file</string>
     <string name="permission_not_granted">Izin tidak diberikan</string>
     <string name="permission_expanation_no_allow">Anda tidak akan bisa menggunakan auto-discovery media Anda atau menggunakan subtitle eksternal</string>
     <string name="permission_expanation_allow">Anda hanya akan dapat memutar stream atau media network</string>
@@ -539,6 +581,7 @@
     <string name="existing_custom_set_save_message">Simpan equalizer-set sebagai...</string>
     <string name="new_custom_set_save_message">Simpan baru equalizer-set sebagai...</string>
     <string name="save">Simpan</string>
+    <string name="saved">Disimpan %s</string>
     <string name="do_not_save">Jangan simpan</string>
     <string name="custom_set_deleted_message">Kustom equalizer-set \"%1$s\" dihapus.</string>
     <string name="custom_set_wrong_input">Nama tidak valid.</string>
@@ -560,6 +603,7 @@
     <string name="audio_digital_failed">Gagal mengubah status Audio Digital Output</string>
     <string name="audio_digital_output_enabled">Audio Digital Output diaktifkan</string>
     <string name="audio_digital_output_disabled">Audio Digital Output dinonaktifkan</string>
+    <string name="audio_preferred_language">Bahasa audio yang diprefrensikan</string>
     <string name="audio_digital_title">Digital audio output (melewati)</string>
     <string name="audio_task_cleared_title">Berhenti di geser aplikasi</string>
     <string name="audio_task_cleared_summary">Berhenti putar kembali ketika aplikasi diabaikan</string>
@@ -588,10 +632,12 @@
     <string name="subtitle_search_name_hint">Nama</string>
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Musim</string>
+    <string name="subtitles_download_failed">Gagal mengunduh</string>
     <string name="language_to_download">Bahasa</string>
     <string name="delete_the_selected">Hapus Pilihan</string>
     <string name="download_the_selected">Unduh  pilihan</string>
     <string name="next">Selanjutya</string>
+    <string name="next_step">Selanjutnya</string>
     <string name="download">Unduh</string>
     <string name="ctx_player_video_track">Pilih trek video</string>
     <string name="ctx_player_audio_track">Trek audio</string>
@@ -781,10 +827,8 @@
     <string name="allow_otg">Izinkan akses OTG</string>
     <string name="allow_otg_description">Silahkan pilih OTG drive anda untuk mengizinkan akses ke VLC.</string>
     <string name="timeout_infinite">Tak Terbatas</string>
-    <string name="timeout_short">Pendek</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Panjang</string>
     <string name="video_hud_timeout">Kontrol pemutar video menyembunyikan penundaan</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Hapus dari riwayat</string>
     <string name="prefersmbv1">Pilih SMB 1</string>
     <string name="prefersmbv1_summary">Hapus cek pengaturan ini jika anda telah memiliki kesulitan telusuri server SMB anda</string>
@@ -793,6 +837,7 @@
     <string name="audio_delay_bt">Penundaan audio dipasang ke %s ms untuk perangkat bluetooth</string>
     <string name="warning_stream_speed">Meningkatkan kecepatan playback lebih dari 1 mungkin akan menyebabkan stuttering</string>
     <string name="go_to_folder">Telusuri induk</string>
+    <string name="create_shortcut">Buat pintasan launcher</string>
     <string name="no_sub_renderer">Terjemahan tidak dapat mendukung ketika panggilan peran</string>
     <string name="enqueuing">Memuat media anda</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -810,11 +855,24 @@
     <string name="add_to_existing_playlist">Tambahkan ke daftar putar yang telah ada</string>
     <string name="bookmarks_title">Bookmark</string>
     <string name="no_bookmark">Belum ada bookmark</string>
+    <string name="bookmark_default_name">Bookmark di %s</string>
     <string name="bookmark_name">Bookmark %s</string>
+    <string name="add_bookmark">Tambah bookmark</string>
+    <string name="bookmark_added">Bookmark ditambahkan</string>
+    <string name="show">Tampilkan</string>
     <string name="optional_features">Fitur opsional</string>
     <string name="optional_features_summary">Fitur beta yang sedang diuji dan mungkin tidak stabil</string>
     <string name="optional_features_warning">Fitur ini masih dalam beta dan mungkin akan menyebabkan crash dan ketidakstabilan</string>
+    <string name="network_indexing">Pengindeksan jaringan</string>
+    <string name="network_indexing_warning">Pengindeksan jaringan saat ini sedang berada dalam beta.\nMasalah yang diketahui:\n• Performa yang lambat\n\nJika anda menemukan masalah lain, tolong laporkan masalah tersebut pada forum kami.</string>
     <string name="start_vlc">Mulai VLC</string>
+    <string name="jump_delay">Maju/mundur delay waktu</string>
+    <string name="long_jump_delay">Ketuk lama maju/mundur delay waktu</string>
+    <string name="jump_delay_summary">%s detik</string>
+    <string name="move_up">Ke atas</string>
+    <string name="move_down">Ke bawah</string>
+    <string name="remove_from_playlist">Hapus dari playlist</string>
+    <string name="play_media">Mulai %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Tambahkan item duplikat?</string>
@@ -827,11 +885,35 @@
     <string name="start">Mulai</string>
     <string name="permission">Izin</string>
     <string name="customize">Kustomisasi</string>
+    <string name="selection_count">%d terpilih </string>
+    <string name="controls_setting">Pengaturan kontrol</string>
+    <string name="gestures">Gesture</string>
+    <string name="player_controls">Kontrol pemutar</string>
+    <string name="video_double_tap_jump_delay">Ketuk dua kali delay waktu</string>
+    <string name="video_key_jump_delay">Kunci navigasi delay waktu</string>
+    <string name="banned">Folder dilarang (ketuk lama untuk mengubah)</string>
+    <string name="banned_parent">Dilarang oleh folder induk</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">Item berikut telah ada di daftar putar.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
         <item quantity="other">%d dari item yang dipilih telah ada di dalam daftar putar ini.</item>
     </plurals>
+    <string name="official_website">Situs resmi</string>
+    <string name="view_online">Lihat online</string>
+    <string name="player_under_notch">Tampilkan video di bawah notch</string>
+    <string name="notch">Notch</string>
+    <string name="always_fast_seek">Selalu gunakan cari cepat</string>
+    <string name="always_fast_seek_summary">Cari lebih cepat tapi mungkin kurang tepat</string>
+    <string name="touch_only">Fitur sentuh saja</string>
+    <string name="touch_only_description">Mengganti ke antar muka seluler hanya bisa dilakukan dengan layar taktil atau sebuah tetikus.\nMohon geser di bawah untuk memverifikasi bahwa fitur ini aman untuk diubah.</string>
+    <string name="no_web_browser">Tidak ada peramban web terpasang</string>
+    <string name="no_web_browser_message">Anda bisa pindai ini pada ponsel pintar Anda.\n URL-nya adalah %s</string>
+    <string name="no_video">Tidak ada video tersedia</string>
+    <string name="fold_optimized">Dioptimalkan untuk layar lipat Anda</string>
+    <string name="fold_optimize">Dioptimalkan untuk layar lipat</string>
+    <string name="foldable">Layar lipat</string>
+    <string name="undo">Ulang</string>
+    <string name="add_server_favorite">Tambahkan server favorit</string>
 
 </resources>
