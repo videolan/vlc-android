@@ -70,6 +70,9 @@ import java.util.*
 @ExperimentalCoroutinesApi
 class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     private lateinit var _widgetRepository: WidgetRepository
+    private val enableLogs = true
+    private val logTypeFilter = arrayListOf(WidgetLogType.BITMAP_GENERATION, WidgetLogType.INFO)
+    private val logWidgetIdFilter = arrayListOf<Int>()
 
     /**
      * Retrieve the [WidgetRepository]
@@ -104,7 +107,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "onReceive: ${intent.action}")
+        log(-1, WidgetLogType.INFO, "onReceive: ${intent.action}")
         val action = intent.action
         val partial = ACTION_WIDGET_INIT != action
 
@@ -144,7 +147,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     suspend fun layoutWidget(context: Context, appWidgetId: Int, intent: Intent, forPreview: Boolean = false, previewBitmap: Bitmap? = null, previewPalette: Palette? = null): RemoteViews? {
 
         val partial = ACTION_WIDGET_INIT != intent.action
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "layoutWidget widget id $appWidgetId / partial: $partial / action = ${intent.action}")
+        log(appWidgetId, WidgetLogType.INFO, "layoutWidget widget id $appWidgetId / partial: $partial / action = ${intent.action}")
 
         val widgetRepository = getWidgetRepository(context)
         val persitedWidget = widgetRepository.getWidget(appWidgetId)
@@ -172,15 +175,15 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         if (size.first != 0 && size.second != 0 && (widgetCacheEntry.widget.width != size.first || widgetCacheEntry.widget.height != size.second)) {
             widgetCacheEntry.widget.width = size.first
             widgetCacheEntry.widget.height = size.second
-            if (BuildConfig.DEBUG) Log.d("AppWidget", "Updating widget entry to: $widgetCacheEntry.widget")
+            log(appWidgetId, WidgetLogType.INFO, "Updating widget entry to: $widgetCacheEntry.widget")
 
             widgetRepository.updateWidget(widgetCacheEntry.widget)
         }
         val correctedSize = if (size.first == 0 && size.second == 0) {
-            if (BuildConfig.DEBUG) Log.d("AppWidget", "Size is 0. Getting size from db: $widgetCacheEntry.widget")
+            log(appWidgetId, WidgetLogType.INFO, "Size is 0. Getting size from db: $widgetCacheEntry.widget")
             Pair(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
         } else size
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "New widget size by provider: ${correctedSize.first} / ${correctedSize.second}")
+        log(appWidgetId, WidgetLogType.INFO, "New widget size by provider: ${correctedSize.first} / ${correctedSize.second}")
         val widgetType = getWidgetTypeFromSize(correctedSize.first, correctedSize.second)
 
 
@@ -230,7 +233,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         val service = PlaybackService.serviceFlow.value
         val playing = service?.isPlaying == true || forPreview
         if (colorChanged) {
-            if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview")
+            log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview")
             if (android.text.TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 views.setImageViewBitmap(R.id.forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_previous_normal, foregroundColor))
                 views.setImageViewBitmap(R.id.backward, context.getColoredBitmapFromColor(R.drawable.ic_widget_next_normal, foregroundColor))
@@ -270,7 +273,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         //set it square on layouts needing it
         val coverPadding = (widgetCacheEntry.widget.height.dp - 48.dp) / 2
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "coverPadding: $coverPadding: ${widgetCacheEntry.widget.height} /// ${48.dp}")
+        log(appWidgetId, WidgetLogType.INFO, "coverPadding: $coverPadding: ${widgetCacheEntry.widget.height} /// ${48.dp}")
         views.setViewPadding(R.id.cover_parent, coverPadding, 0, coverPadding, 0)
 
         views.setInt(R.id.separator, "setColorFilter", secondaryBackgroundColor)
@@ -282,8 +285,9 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         } else if (playing && widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover) {
             widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
             if (!widgetCacheEntry.currentMedia?.artworkMrl.isNullOrEmpty()) {
-                if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix Refresh - Update cover: $widgetCacheEntry.currentMedia?.artworkMrl for ${widgetCacheEntry.widget.widgetId}")
+                log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId}")
                 runIO {
+                    log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Generating cover")
                     val cover = AudioUtil.readCoverBitmap(Uri.decode(widgetCacheEntry.currentMedia?.artworkMrl), 320)
                     val wm = context.getSystemService<WindowManager>()!!
                     val dm = DisplayMetrics().also { wm.defaultDisplay.getMetrics(it) }
@@ -314,7 +318,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         //position
         service?.playlistManager?.player?.progress?.value?.let { progress ->
             val pos = (progress.time.toFloat() / progress.length)
-            if (BuildConfig.DEBUG) Log.d("AppWidget", "Refresh - progress updated to $pos // ${progress.length} / ${progress.time} ")
+            log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Refresh - progress updated to $pos // ${progress.length} / ${progress.time} ")
             runIO {
                 //generate round progress bar
                 when (widgetType) {
@@ -361,7 +365,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         widgetCacheEntry.playing = playing
 
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "Layout is ${
+        log(appWidgetId, WidgetLogType.INFO, "Layout is ${
             when (views.layoutId) {
 
                 R.layout.widget_pill -> "pill"
@@ -459,7 +463,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      * @param artist the artist name
      */
     private fun setupTexts(context: Context, views: RemoteViews, title: String?, artist: String?) {
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "setupTexts: $title /// $artist")
+        log(-1, WidgetLogType.INFO, "setupTexts: $title /// $artist")
         views.setTextViewText(R.id.songName, title)
         views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) " ${TextUtils.separator} $artist" else artist)
         if (title == context.getString(R.string.widget_default_text)) {
@@ -488,7 +492,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      */
     private fun displayCover(context: Context, views: RemoteViews, playing: Boolean, widgetType: WidgetType, widgetCacheEntry: WidgetCacheEntry) {
         val foregroundColor = widgetCacheEntry.widget.getForegroundColor(context, palette = widgetCacheEntry.palette)
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "Bugfix displayCover: widgetType $widgetType /// playing $playing /// foregroundColor $foregroundColor -> ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)}")
+        log(widgetCacheEntry.widget.widgetId, WidgetLogType.INFO, "Bugfix displayCover: widgetType $widgetType /// playing $playing /// foregroundColor $foregroundColor -> ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)}")
         if (!playing) {
             val iconSize = if (widgetType == WidgetType.PILL) 24.dp else 48.dp
             views.setImageViewBitmap(R.id.app_icon, context.getColoredBitmapFromColor(R.drawable.ic_widget_icon, foregroundColor, iconSize, iconSize))
@@ -508,7 +512,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
         val minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "New widget size: $minWidth / $minHeight")
+        log(appWidgetId, WidgetLogType.INFO, "New widget size: $minWidth / $minHeight")
 
 
         if (appWidgetId != 0) onReceive(context, Intent(ACTION_WIDGET_INIT).apply { putExtra("ID", appWidgetId) })
@@ -534,7 +538,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      * @param widgetType the [WidgetType] to use
      * @return the drawable to use for the play/pause icon
      */
-    @DrawableRes private fun getPlayPauseImage(isPlaying: Boolean, widgetType: WidgetType) = if (isPlaying) if (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) R.drawable.ic_widget_pause_inner else R.drawable.ic_widget_pause else R.drawable.ic_widget_play
+    @DrawableRes
+    private fun getPlayPauseImage(isPlaying: Boolean, widgetType: WidgetType) = if (isPlaying) if (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) R.drawable.ic_widget_pause_inner else R.drawable.ic_widget_pause else R.drawable.ic_widget_play
 
     /**
      * Applies the update to the widget
@@ -545,7 +550,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      * @param appWidgetId the widget's id to update
      */
     private fun applyUpdate(context: Context, views: RemoteViews?, partial: Boolean, appWidgetId: Int) {
-        if (BuildConfig.DEBUG) Log.d("AppWidget", "Apply update")
+        log(appWidgetId, WidgetLogType.INFO, "Apply update. Widget id: $appWidgetId Partial: $partial")
         val manager = AppWidgetManager.getInstance(context)
         try {
             if (partial)
@@ -556,6 +561,23 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             Log.e(TAG, "Unable to update widget $appWidgetId", e)
         }
     }
+
+    /**
+     * Widget logger
+     *
+     * @param widgetId the widget id to filter / display
+     * @param logType the logType to filter / display
+     * @param text the log text
+     */
+    private fun log(widgetId:Int, logType:WidgetLogType, text:String) {
+        if (!enableLogs || !BuildConfig.DEBUG) return
+        if (logTypeFilter.contains(logType) && (logWidgetIdFilter.isEmpty() || logWidgetIdFilter.contains(widgetId) || widgetId == -1)) Log.i("VLCAppWidget", "$logType - $widgetId - $text")
+    }
+
+    enum class WidgetLogType {
+        INFO, BITMAP_GENERATION
+    }
+
 
 }
 
