@@ -173,44 +173,42 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             applyUpdate(context, views, false, appWidgetId)
         }
 
-        if (!partial) {
             /* commands */
-            val appCtx = context.applicationContext
-            val iBackward = Intent(ACTION_REMOTE_BACKWARD, null, appCtx, PlaybackService::class.java)
-            val iPlay = Intent(ACTION_REMOTE_PLAYPAUSE, null, appCtx, PlaybackService::class.java)
-            val iStop = Intent(ACTION_REMOTE_STOP, null, appCtx, PlaybackService::class.java)
-            val iForward = Intent(ACTION_REMOTE_FORWARD, null, appCtx, PlaybackService::class.java)
-            val iSeekForward = Intent(ACTION_REMOTE_SEEK_FORWARD, null, appCtx, PlaybackService::class.java).apply { putExtra(EXTRA_SEEK_DELAY, widgetCacheEntry.widget.forwardDelay.toLong()) }
-            val iSeekBackward = Intent(ACTION_REMOTE_SEEK_BACKWARD, null, appCtx, PlaybackService::class.java).apply { putExtra(EXTRA_SEEK_DELAY, widgetCacheEntry.widget.rewindDelay.toLong()) }
-            val iVlc = Intent(appCtx, StartActivity::class.java)
-            val iConfigure = Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE).apply {
-                component = ComponentName(context, MiniPlayerConfigureActivity::class.java)
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                //we have to add a data to this intent to differentiate intents from different widget instances
-                data = Uri.parse("vlc://mini_widget/$appWidgetId")
-            }
-
-            val piBackward = context.getPendingIntent(iBackward)
-            val piPlay = context.getPendingIntent(iPlay)
-            val piStop = context.getPendingIntent(iStop)
-            val piForward = context.getPendingIntent(iForward)
-            val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT)
-            val piConfigure = PendingIntent.getActivity(context, 0, iConfigure, PendingIntent.FLAG_UPDATE_CURRENT)
-            val piSeekForward = context.getPendingIntent(iSeekForward)
-            val piSeekBackward = context.getPendingIntent(iSeekBackward)
-
-
-            views.setOnClickPendingIntent(R.id.backward, piBackward)
-            views.setOnClickPendingIntent(R.id.play_pause, piPlay)
-            views.setOnClickPendingIntent(R.id.stop, piStop)
-            views.setOnClickPendingIntent(R.id.forward, piForward)
-            views.setOnClickPendingIntent(R.id.cover, piVlc)
-            views.setOnClickPendingIntent(R.id.app_icon, piVlc)
-            views.setOnClickPendingIntent(R.id.widget_container, piVlc)
-            views.setOnClickPendingIntent(R.id.widget_configure, piConfigure)
-            views.setOnClickPendingIntent(R.id.seek_rewind, piSeekBackward)
-            views.setOnClickPendingIntent(R.id.seek_forward, piSeekForward)
+        val appCtx = context.applicationContext
+        val iBackward = Intent(ACTION_REMOTE_BACKWARD, null, appCtx, PlaybackService::class.java)
+        val iPlay = Intent(ACTION_REMOTE_PLAYPAUSE, null, appCtx, PlaybackService::class.java)
+        val iStop = Intent(ACTION_REMOTE_STOP, null, appCtx, PlaybackService::class.java)
+        val iForward = Intent(ACTION_REMOTE_FORWARD, null, appCtx, PlaybackService::class.java)
+        val iSeekForward = Intent(ACTION_REMOTE_SEEK_FORWARD, null, appCtx, PlaybackService::class.java).apply { putExtra(EXTRA_SEEK_DELAY, widgetCacheEntry.widget.forwardDelay.toLong()) }
+        val iSeekBackward = Intent(ACTION_REMOTE_SEEK_BACKWARD, null, appCtx, PlaybackService::class.java).apply { putExtra(EXTRA_SEEK_DELAY, widgetCacheEntry.widget.rewindDelay.toLong()) }
+        val iVlc = Intent(appCtx, StartActivity::class.java)
+        val iConfigure = Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE).apply {
+            component = ComponentName(context, MiniPlayerConfigureActivity::class.java)
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            //we have to add a data to this intent to differentiate intents from different widget instances
+            data = Uri.parse("vlc://mini_widget/$appWidgetId")
         }
+
+        val piBackward = context.getPendingIntent(iBackward)
+        val piPlay = context.getPendingIntent(iPlay)
+        val piStop = context.getPendingIntent(iStop)
+        val piForward = context.getPendingIntent(iForward)
+        val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT)
+        val piConfigure = PendingIntent.getActivity(context, 0, iConfigure, PendingIntent.FLAG_UPDATE_CURRENT)
+        val piSeekForward = context.getPendingIntent(iSeekForward)
+        val piSeekBackward = context.getPendingIntent(iSeekBackward)
+
+
+        views.setOnClickPendingIntent(R.id.backward, piBackward)
+        views.setOnClickPendingIntent(R.id.play_pause, piPlay)
+        views.setOnClickPendingIntent(R.id.stop, piStop)
+        views.setOnClickPendingIntent(R.id.forward, piForward)
+        views.setOnClickPendingIntent(R.id.cover, piVlc)
+        views.setOnClickPendingIntent(R.id.app_icon, piVlc)
+        views.setOnClickPendingIntent(R.id.widget_container, piVlc)
+        views.setOnClickPendingIntent(R.id.widget_configure, piConfigure)
+        views.setOnClickPendingIntent(R.id.seek_rewind, piSeekBackward)
+        views.setOnClickPendingIntent(R.id.seek_forward, piSeekForward)
 
         val service = PlaybackService.serviceFlow.value
         val playing = service?.isPlaying == true || forPreview
