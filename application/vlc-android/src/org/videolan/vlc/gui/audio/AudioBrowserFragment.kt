@@ -254,7 +254,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             showAllArtistsItem.isVisible = currentTab == 0
             showAllArtistsItem.isChecked = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         }
-        sortMenuTitles()
+        sortMenuTitles(currentTab)
         reopenSearchIfNeeded()
     }
 

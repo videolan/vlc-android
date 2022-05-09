@@ -580,19 +580,19 @@ object UiTools {
         val sort = provider.sort
         val desc = provider.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${provider.context.getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${provider.context.getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.title = "${provider.context.getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.title = "${provider.context.getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.title = "${provider.context.getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.title = "${provider.context.getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.title = "${provider.context.getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE && !desc) "▼" else ""}"
+        item?.title = "${provider.context.getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE) if (!desc) "▼" else "▲" else ""}"
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
@@ -604,19 +604,19 @@ object UiTools {
         val sort = model.sort
         val desc = model.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE && !desc) "▼" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE) if (!desc) "▼" else "▲" else ""}"
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
