@@ -70,8 +70,7 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
-                android:layout_toEndOf="@+id/cover_parent"
-                android:src="@drawable/widget_plain_background" />
+                android:layout_toEndOf="@+id/cover_parent"/>
 
         <LinearLayout
                 android:id="@+id/text_container"

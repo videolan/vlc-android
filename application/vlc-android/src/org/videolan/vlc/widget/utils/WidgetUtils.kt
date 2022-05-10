@@ -26,7 +26,9 @@ package org.videolan.vlc.widget.utils
 
 import android.content.Context
 import android.graphics.*
+import android.os.Build
 import androidx.annotation.LayoutRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.HSLToColor
@@ -41,17 +43,65 @@ import kotlin.random.Random
  *
  * Get the foreground color of the widget depending on its theme
  * @param context the context to use
- * @param secondary generate a secondary color
  * @param palette the palette to be used if needed
  * @return a color
  */
-fun Widget.getForegroundColor(context: Context, secondary: Boolean = false, palette: Palette?): Int {
+fun Widget.getForegroundColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (!lightTheme) if (secondary) android.R.color.system_accent2_700 else android.R.color.system_accent2_400 else if (secondary) android.R.color.system_accent1_200 else android.R.color.system_accent1_500)
-        theme == 1 -> getPaletteColor(context, palette, true, secondary, lightTheme)
-        else -> if (secondary) foregroundColor.lightenOrDarkenColor(0.3F) else foregroundColor
+        theme == 0 -> ContextCompat.getColor(context, if (!lightTheme) android.R.color.system_accent1_200 else android.R.color.system_accent1_400)
+        theme == 1 -> (if (lightTheme) palette?.darkVibrantSwatch?.rgb ?: Color.BLACK else palette?.lightVibrantSwatch?.rgb ?: Color.WHITE)
+        else -> foregroundColor
     }
     return untreatedColor
+}
+
+/**
+ * Get the background color of the widget depending on its theme
+ * @param context the context to use
+ * @param palette the palette to be used if needed
+ * @return a color
+ */
+@RequiresApi(Build.VERSION_CODES.S)
+fun Widget.getBackgroundColor(context: Context, palette: Palette?): Int {
+    val untreatedColor = when {
+        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_50 else android.R.color.system_neutral2_800)
+        theme == 1 -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: Color.WHITE else palette?.darkMutedSwatch?.rgb ?: Color.BLACK)
+        else -> backgroundColor
+    }
+    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
+}
+
+/**
+ * Get the Artist text color of the widget depending on its theme
+ * @param context the context to use
+ * @param palette the palette to be used if needed
+ * @return a color
+ */
+@RequiresApi(Build.VERSION_CODES.S)
+fun Widget.getArtistColor(context: Context, palette: Palette?): Int {
+    val untreatedColor = when {
+        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_400 else android.R.color.system_neutral2_500)
+        theme == 1 -> getForegroundColor(context, palette).lightenOrDarkenColor(0.1F)
+        else -> foregroundColor.lightenOrDarkenColor(0.1F)
+    }
+    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
+}
+
+@RequiresApi(Build.VERSION_CODES.S)
+fun Widget.getProgressBackgroundColor(context: Context, palette: Palette?): Int {
+    val untreatedColor = when {
+        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_10 else android.R.color.system_neutral2_700)
+        theme == 1 -> getBackgroundColor(context, palette).lightenOrDarkenColor(0.15F)
+        else -> backgroundColor.lightenOrDarkenColor(0.15F)
+    }
+
+    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
+}
+
+fun Widget.getSeparatorColor(context: Context, palette: Palette?): Int {
+    val untreatedColor = ContextCompat.getColor(context, if (lightTheme) R.color.black_transparent_10 else R.color.white_transparent_10)
+
+    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
 }
 
 fun Widget.getPaletteColor(context: Context, palette: Palette?, foreground: Boolean, secondary: Boolean, lightTheme: Boolean): Int {
@@ -78,23 +128,6 @@ fun Widget.getPaletteColor(context: Context, palette: Palette?, foreground: Bool
 }
 
 fun getRandomColor() = Color.rgb(Random.nextInt(255), Random.nextInt(255), Random.nextInt(255))
-
-/**
- * Get the background color of the widget depending on its theme
- * @param context the context to use
- * @param secondary generate a secondary color
- * @param palette the palette to be used if needed
- * @return a color
- */
-fun Widget.getBackgroundColor(context: Context, secondary: Boolean = false, palette: Palette?): Int {
-    val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) if (secondary) android.R.color.system_neutral1_200 else android.R.color.system_neutral2_10 else if (secondary) android.R.color.system_neutral1_900 else android.R.color.system_neutral1_800)
-        theme == 1 -> getPaletteColor(context, palette, false, secondary, lightTheme)
-        else -> if (secondary) backgroundColor.lightenOrDarkenColor(0.3F) else backgroundColor
-    }
-
-    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
-}
 
 /**
  * Get a color variant from a given color. It lightens or darkens it depending on its shade
@@ -125,11 +158,11 @@ fun WidgetCacheEntry.generateCircularProgressbar(context: Context, size: Float, 
     paint.strokeWidth = strokeHalfWidth * 2
     paint.style = Paint.Style.STROKE
     paint.strokeCap = Paint.Cap.ROUND
-    paint.color = widget.getForegroundColor(context, true, palette)
+    paint.color = widget.getProgressBackgroundColor(context,  palette)
     val bitmapResult = Bitmap.createBitmap(size.toInt(), size.toInt(), Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmapResult)
     canvas.drawCircle(size / 2, size / 2, (size / 2) - strokeHalfWidth, paint)
-    paint.color = widget.getForegroundColor(context, false, palette)
+    paint.color = widget.getForegroundColor(context,  palette)
     canvas.drawArc(RectF(strokeHalfWidth, strokeHalfWidth, size - strokeHalfWidth, size - strokeHalfWidth), -90F, 360F * progress, false, paint)
     return bitmapResult
 
@@ -150,11 +183,11 @@ fun WidgetCacheEntry.generateProgressbar(context: Context, size: Float, progress
     paint.strokeWidth = strokeHalfWidth * 2
     paint.style = Paint.Style.STROKE
     paint.strokeCap = Paint.Cap.ROUND
-    paint.color = widget.getForegroundColor(context, true, palette)
+    paint.color = widget.getProgressBackgroundColor(context,  palette)
     val bitmapResult = Bitmap.createBitmap(size.toInt(), 3.dp, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmapResult)
     canvas.drawLine(0F, 0F, size, 0F, paint)
-    paint.color = widget.getForegroundColor(context, false, palette)
+    paint.color = widget.getForegroundColor(context,  palette)
     canvas.drawLine(0F, 0F, size * progress, 0F, paint)
     return bitmapResult
 
@@ -175,7 +208,7 @@ fun WidgetCacheEntry.generatePillProgressbar(context: Context, progress: Float):
     paint.strokeWidth = strokeHalfWidth * 2
     paint.style = Paint.Style.STROKE
     paint.strokeCap = Paint.Cap.ROUND
-    paint.color = widget.getForegroundColor(context, true, palette)
+    paint.color = widget.getProgressBackgroundColor(context,  palette)
     val realWidth = 120.dp.toFloat()
 
     val progressHeight = 62.dp.toFloat()
@@ -203,7 +236,7 @@ fun WidgetCacheEntry.generatePillProgressbar(context: Context, progress: Float):
     canvas.drawArc(RectF(strokeHalfWidth, strokeHalfWidth, progressHeight - strokeHalfWidth, progressHeight - strokeHalfWidth), -90F, -180F, false, paint)
     canvas.drawArc(RectF(realWidth - progressHeight, strokeHalfWidth, realWidth - strokeHalfWidth, progressHeight - strokeHalfWidth), -90F, 180F, false, paint)
 
-    paint.color = widget.getForegroundColor(context, false, palette)
+    paint.color = widget.getForegroundColor(context,  palette)
 
     //draw progress
     val circleLength = progressHeight * Math.PI

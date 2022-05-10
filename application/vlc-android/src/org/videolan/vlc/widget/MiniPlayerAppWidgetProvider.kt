@@ -159,12 +159,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
         val palette: Palette? = if (forPreview) previewPalette else widgetCacheEntry.palette
-        val foregroundColorSecondary = widgetCacheEntry.widget.getForegroundColor(context, true, palette = palette)
+        //val foregroundColorSecondary = widgetCacheEntry.widget.getForegroundColor(context, true, palette = palette)
         val foregroundColor = widgetCacheEntry.widget.getForegroundColor(context, palette = palette)
         val backgroundColor = widgetCacheEntry.widget.getBackgroundColor(context, palette = palette)
-        val secondaryBackgroundColor = widgetCacheEntry.widget.getBackgroundColor(context, palette = palette, secondary = true)
+//        val secondaryBackgroundColor = widgetCacheEntry.widget.getBackgroundColor(context, palette = palette, secondary = true)
 
-        val colorChanged = widgetCacheEntry.foregroundColor != foregroundColor
+        val service = PlaybackService.serviceFlow.value
+        val playing = service?.isPlaying == true || forPreview
+        val colorChanged = !partial || widgetCacheEntry.foregroundColor != foregroundColor || (widgetCacheEntry.widget.theme == 1 && widgetCacheEntry.playing != playing)
         widgetCacheEntry.foregroundColor = foregroundColor
 
 
@@ -230,8 +232,6 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setOnClickPendingIntent(R.id.seek_rewind, piSeekBackward)
         views.setOnClickPendingIntent(R.id.seek_forward, piSeekForward)
 
-        val service = PlaybackService.serviceFlow.value
-        val playing = service?.isPlaying == true || forPreview
         if (colorChanged) {
             log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview")
             if (android.text.TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
@@ -246,9 +246,9 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 views.setImageViewBitmap(R.id.seek_rewind, context.getColoredBitmapFromColor(R.drawable.ic_widget_rewind_10, foregroundColor))
                 views.setImageViewBitmap(R.id.seek_forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_forward_10, foregroundColor))
             }
-            views.setImageViewBitmap(R.id.play_pause_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, foregroundColorSecondary, 52.dp, 52.dp))
+            views.setImageViewBitmap(R.id.play_pause_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, backgroundColor, 52.dp, 52.dp))
             views.setImageViewBitmap(R.id.widget_configure, if (widgetCacheEntry.widget.showConfigure) context.getColoredBitmapFromColor(R.drawable.ic_widget_configure, foregroundColor, 24.dp, 24.dp) else null)
-            if (widgetType == WidgetType.PILL) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_circle, secondaryBackgroundColor, 48.dp, 48.dp))
+            if (widgetType == WidgetType.PILL) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_circle, widgetCacheEntry.widget.getSeparatorColor(context, palette), 48.dp, 48.dp))
         }
 
 
@@ -265,6 +265,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         views.setInt(R.id.player_container_background, "setColorFilter", backgroundColor)
         views.setInt(R.id.player_container_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
+        views.setViewPadding(R.id.player_container_background, 1.dp, 1.dp, 1.dp, 1.dp)
         views.setInt(R.id.play_pause_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
         if (!playing) displayCover(context, views, playing, widgetType, widgetCacheEntry)
 
@@ -276,7 +277,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         log(appWidgetId, WidgetLogType.INFO, "coverPadding: $coverPadding: ${widgetCacheEntry.widget.height} /// ${48.dp}")
         views.setViewPadding(R.id.cover_parent, coverPadding, 0, coverPadding, 0)
 
-        views.setInt(R.id.separator, "setColorFilter", secondaryBackgroundColor)
+        views.setInt(R.id.separator, "setBackgroundColor", widgetCacheEntry.widget.getSeparatorColor(context, palette))
 
         if (forPreview) widgetCacheEntry.currentCover = "fake"
         if (forPreview) {
@@ -355,7 +356,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
         views.setTextColor(R.id.songName, foregroundColor)
-        views.setTextColor(R.id.artist, foregroundColorSecondary)
+        views.setTextColor(R.id.artist, widgetCacheEntry.widget.getArtistColor(context, palette))
         views.setTextColor(R.id.seek_forward_text, foregroundColor)
         views.setTextColor(R.id.seek_rewind_text, foregroundColor)
         views.setTextColor(R.id.app_name, foregroundColor)
