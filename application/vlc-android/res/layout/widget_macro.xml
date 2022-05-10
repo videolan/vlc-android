@@ -28,9 +28,35 @@
         android:layout_height="wrap_content">
 
     <ImageView
+            android:id="@+id/cover_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_above="@+id/player_container"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/widget_rectangle_background" />
+
+    <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="center"
+            android:contentDescription="@string/open_vlc"
+            android:layout_alignBottom="@id/cover_background"
+            android:layout_alignTop="@id/cover_background"
+            android:layout_alignLeft="@id/cover_background"
+            android:layout_alignRight="@id/cover_background"
+            android:src="@drawable/ic_widget_icon" />
+
+    <ImageView
             android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/cover_background"
+            android:layout_alignTop="@id/cover_background"
+            android:layout_alignLeft="@id/cover_background"
+            android:layout_alignRight="@id/cover_background"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_widget_icon" />
 
@@ -49,7 +75,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:padding="8dp"
             android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/widget_default_text"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
         <TextView
                 android:id="@+id/songName"
@@ -66,8 +104,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
-                android:paddingTop="4dp"
                 android:paddingEnd="8dp"
+                android:layout_marginBottom="4dp"
                 android:text="Author"
                 android:textColor="@color/white" />
 
@@ -83,7 +121,7 @@
             android:layout_height="48dp"
             android:scaleType="center"
                 android:contentDescription="@string/configure_widget"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignTop="@+id/cover_background"
+            android:layout_alignRight="@+id/cover_background" />
 
 </RelativeLayout>

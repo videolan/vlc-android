@@ -233,6 +233,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setOnClickPendingIntent(R.id.seek_forward, piSeekForward)
 
         if (colorChanged) {
+            if (widgetType == WidgetType.MACRO) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, widgetCacheEntry.widget.getBackgroundColor(context, palette), widgetCacheEntry.widget.width.dp,  widgetCacheEntry.widget.width.dp))
             log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview")
             if (android.text.TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 views.setImageViewBitmap(R.id.forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_previous_normal, foregroundColor))
@@ -256,9 +257,9 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         if (!forPreview) widgetCacheEntry.currentMedia = service?.currentMediaWrapper
         if (!playing)
-            setupTexts(context, views, context.getString(R.string.widget_default_text), "")
+            setupTexts(context, views, widgetType, context.getString(R.string.widget_default_text), "")
         else
-            setupTexts(context, views, widgetCacheEntry.currentMedia?.title, widgetCacheEntry.currentMedia?.artist)
+            setupTexts(context, views, widgetType, widgetCacheEntry.currentMedia?.title, widgetCacheEntry.currentMedia?.artist)
 
         if (widgetCacheEntry.playing != playing || colorChanged) views.setImageViewBitmap(R.id.play_pause, context.getColoredBitmapFromColor(getPlayPauseImage(playing, widgetType), foregroundColor))
         views.setContentDescription(R.id.play_pause, context.getString(if (!playing) R.string.resume_playback_short_title else R.string.pause))
@@ -460,13 +461,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      *
      * @param context the context to use
      * @param views the [RemoteViews] to set the texts into
+     * @param widgetType the widget type
      * @param title the track name
      * @param artist the artist name
      */
-    private fun setupTexts(context: Context, views: RemoteViews, title: String?, artist: String?) {
+    private fun setupTexts(context: Context, views: RemoteViews, widgetType: WidgetType, title: String?, artist: String?) {
         log(-1, WidgetLogType.INFO, "setupTexts: $title /// $artist")
         views.setTextViewText(R.id.songName, title)
-        views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) " ${TextUtils.separator} $artist" else artist)
+        views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) "${if (widgetType == WidgetType.MACRO) "" else " ${TextUtils.separator} "}$artist" else artist)
         if (title == context.getString(R.string.widget_default_text)) {
             views.setViewVisibility(R.id.app_name, View.VISIBLE)
             views.setViewVisibility(R.id.songName, View.GONE)
@@ -495,7 +497,11 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         val foregroundColor = widgetCacheEntry.widget.getForegroundColor(context, palette = widgetCacheEntry.palette)
         log(widgetCacheEntry.widget.widgetId, WidgetLogType.INFO, "Bugfix displayCover: widgetType $widgetType /// playing $playing /// foregroundColor $foregroundColor -> ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)}")
         if (!playing) {
-            val iconSize = if (widgetType == WidgetType.PILL) 24.dp else 48.dp
+            val iconSize = when (widgetType) {
+                WidgetType.PILL -> 24.dp
+                WidgetType.MACRO -> 128.dp
+                else -> 48.dp
+            }
             views.setImageViewBitmap(R.id.app_icon, context.getColoredBitmapFromColor(R.drawable.ic_widget_icon, foregroundColor, iconSize, iconSize))
             views.setViewVisibility(R.id.cover, View.INVISIBLE)
             views.setViewVisibility(R.id.app_icon, View.VISIBLE)
