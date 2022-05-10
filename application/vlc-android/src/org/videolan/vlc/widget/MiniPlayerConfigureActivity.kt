@@ -147,9 +147,9 @@ class MiniPlayerConfigureActivity : BaseActivity() {
         model.widget.value?.let { WidgetCache.clear(it) }
 
         //refresh widget
-        intent.action = MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT
-        intent.component = ComponentName(this, MiniPlayerAppWidgetProvider::class.java)
-        sendBroadcast(intent)
+        sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
+            component = ComponentName(applicationContext, MiniPlayerAppWidgetProvider::class.java)
+        })
 
         // Make sure we pass back the original appWidgetId
         val resultValue = Intent()
