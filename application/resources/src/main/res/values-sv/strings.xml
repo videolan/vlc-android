@@ -368,6 +368,19 @@
     <string name="enable_headset_detection_summary">Identifiera anslutning och borttagning av hörlurar</string>
     <string name="enable_play_on_headset_insertion">Återuppta när hörlurar ansluts</string>
     <string name="enable_play_on_headset_insertion_summary">Pausa annars</string>
+    <string name="replaygain_prefs_category">Uppspelningsförstärkning</string>
+    <string name="replaygain_enable">Aktivera uppspelningsförstärkning</string>
+    <string name="replaygain_enable_summary">Strömmar utan information för uppspelningsförstärkning kan vara tystare p.g.a. standardförstärkningen</string>
+    <string name="replaygain_mode">Uppspelningsförstärkningsläge</string>
+    <string name="replaygain_mode_summary">Spårläget spelar upp strömmar med information för uppspelningsförstärkning vid samma ljudstyrka. Albumläget behåller relativ ljudstyrka för strömmar på samma album.</string>
+    <string name="replaygain_preamp">Uppspelningsförsteg</string>
+    <string name="replaygain_preamp_summary">Ändrar standardmålnivån (89 dB) för strömmar med information för uppspelningsförstärkning</string>
+    <string name="replaygain_default">Standarduppspelningsförstärkning</string>
+    <string name="replaygain_default_summary">Tillämpas på strömmar utan information för uppspelningsförstärkning\nÄndra till 0 för att inaktivera</string>
+    <string name="replaygain_peak_protection">Peakskydd</string>
+    <string name="replaygain_peak_protection_summary">Skyddar mot ljudklippning</string>
+    <string name="replaygain_track">Spår</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Ljudutmatning</string>
     <string name="aout_summary">Ändra metoden som VLC använder för att mata ut ljud</string>
     <string name="audio_ducking_title">Sänk VLC:s volym vid meddelande</string>
@@ -422,12 +435,12 @@
     <string name="clear_history">Rensa historik</string>
     <string name="set_locale">Ändra språk</string>
     <string name="network_caching">Cachevärde för nätverk</string>
-    <string name="network_caching_summary">Tid att buffra nätverksmedia (i ms) för mjukvaruavkodning.\nLämna tomt för att nollställa.</string>
+    <string name="network_caching_summary">Tid att buffra nätverksmedia (i ms) för mjukvaruavkodning.\nÄndra till 0 för att inaktivera.</string>
     <string name="resume_playback_title">Återuppta uppspelning efter ett samtal</string>
     <string name="resume_playback_summary">Förbli pausad annars</string>
     <string name="blurred_cover_background_title">Suddigt omslag som bakgrund</string>
     <string name="blurred_cover_background_summary">Suddigt omslag i ljudspelarens bakgrund</string>
-    <string name="network_caching_popup">Detta värde måste vara mellan 0 och 6000 ms</string>
+    <string name="network_caching_popup">Detta värde måste vara mellan 0 och 60000 ms</string>
     <string name="quit">Avsluta och starta om applikationen</string>
     <string name="restart_message">Ändringarna kommer att träda i kraft när applikationen har startats om.\n\nStarta om nu?</string>
     <string name="restart_message_OK">OK</string>
@@ -516,6 +529,7 @@
     <string name="allow_draw_overlays_title">Tillåt VLC att visa spelaren ovanpå andra appar</string>
     <string name="allow_sdraw_overlays_description">Du måste bevilja detta tillstånd för att VLC ska kunna visa din video i ett popupp över andra applikationer.</string>
     <string name="permission_ask_again">Bevilja tillstånd</string>
+    <string name="pick_file">Välj en fil</string>
     <string name="permission_not_granted">Behörighet beviljades inte</string>
     <string name="permission_expanation_no_allow">Du kommer varken kunna upptäcka din media automatiskt eller använda externa undertexter</string>
     <string name="permission_expanation_allow">Du kommer endast kunna spela upp strömmar eller nätverksmedia</string>
@@ -835,6 +849,7 @@
     <string name="audio_delay_bt">Ljudfördröjningen ändrades till %s ms för Bluetooth-enheten</string>
     <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
     <string name="go_to_folder">Bläddra i överordnad</string>
+    <string name="create_shortcut">Skapa en programstartargenväg</string>
     <string name="no_sub_renderer">Det finns ännu inget stöd för att casta med undertexter</string>
     <string name="enqueuing">Läser in dina mediafiler</string>
     <string name="soundfont">MIDI-soundfont</string>
@@ -906,5 +921,13 @@
     <string name="always_fast_seek_summary">Snabbspolar snabbare men kan vara mindre exakt</string>
     <string name="touch_only">Pekskärmsfunktion</string>
     <string name="touch_only_description">Det går bara att byta till mobilgränssnittet med en pekskärm eller mus.\nSvep nedan för att bekräfta att det är säkert att byta till denna funktionalitet.</string>
+    <string name="no_web_browser">Ingen webbläsare är installerad</string>
+    <string name="no_web_browser_message">Du kan skanna detta med din smartphone.\nWebbaddressen är %s</string>
+    <string name="no_video">Ingen video tillgänglig</string>
+    <string name="fold_optimized">Optimerad för din vikbara skärm</string>
+    <string name="fold_optimize">Optimera för vikbara skärmar</string>
+    <string name="foldable">Vikbar skärm</string>
+    <string name="undo">Ångra</string>
+    <string name="add_server_favorite">Lägg till en favoritserver</string>
 
 </resources>
