@@ -1441,6 +1441,14 @@ removeAllBookmarks(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 }
 
 jboolean
+markAsPlayed(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    return media->markAsPlayed();
+}
+
+jboolean
 setBookmarkName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
@@ -2142,6 +2150,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeAddBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Lorg/videolan/medialibrary/interfaces/media/Bookmark;", (void*)addBookmark },
     {"nativeRemoveBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)removeBookmark },
     {"nativeRemoveAllBookmarks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeAllBookmarks },
+    {"nativeMarkAsPlayed", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)markAsPlayed },
 };
 
 static JNINativeMethod bookmark_methods[] = {

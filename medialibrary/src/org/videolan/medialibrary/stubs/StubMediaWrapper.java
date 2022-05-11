@@ -128,4 +128,7 @@ public class StubMediaWrapper extends MediaWrapper {
         return true;
     }
 
+    @Override
+    public boolean markAsPlayed() { return true; }
+
 }

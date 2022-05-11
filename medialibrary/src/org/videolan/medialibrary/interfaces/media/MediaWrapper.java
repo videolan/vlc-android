@@ -142,6 +142,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract Bookmark addBookmark(long time);
     public abstract boolean removeBookmark(long time);
     public abstract boolean removeAllBookmarks();
+    public abstract boolean markAsPlayed();
 
     /**
      * Create a new MediaWrapper
