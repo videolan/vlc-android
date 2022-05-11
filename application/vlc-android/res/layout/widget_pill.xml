@@ -56,14 +56,14 @@
                 android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="11dp" />
+                android:layout_marginStart="8dp" />
 
         <ImageView
                 android:id="@+id/app_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="19dp"
+                android:layout_marginStart="16dp"
                 android:contentDescription="@string/open_vlc"
                 android:src="@drawable/ic_widget_icon" />
 
