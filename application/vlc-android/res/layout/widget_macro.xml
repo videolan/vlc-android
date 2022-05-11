@@ -39,8 +39,8 @@
 
     <ImageView
             android:id="@+id/app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="center"
             android:contentDescription="@string/open_vlc"
             android:layout_alignBottom="@id/cover_background"

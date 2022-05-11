@@ -26,7 +26,7 @@
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
         xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48px" height="48px"
-        viewBox="0 0 48 48" version="1.1" id="svg9" sodipodi:docname="ic_widget_pause_inner.svg"
+        viewBox="0 0 48 48" version="1.1" id="svg9" sodipodi:docname="ic_widget_pause.svg"
         inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
   <metadata
      id="metadata15">
@@ -61,7 +61,7 @@
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="ic_pause_player" />
+     inkscape:current-layer="svg9" />
   <title
      id="title2">ic_pause_player@1x</title>
   <g
@@ -71,13 +71,11 @@
     <g
        transform="translate(4,4)"
        id="g6"
-       style="fill:#ff00ff;fill-rule:nonzero;fill-opacity:1">
+       style="fill:#ffffff;fill-rule:nonzero">
       <path
-         d="M 18.333333,13.333333 V 26.666667 H 15 V 13.333333 Z m 6.666667,0 V 26.666667 H 21.666667 V 13.333333 Z"
+         d="M 18.333333,13.333333 V 26.666667 H 15 V 13.333333 Z m 6.666667,0 V 26.666667 H 21.666667 V 13.333333 Z M 20,0 C 8.96,0 0,8.96 0,20 0,31.04 8.96,40 20,40 31.04,40 40,31.04 40,20 40,8.96 31.04,0 20,0 Z m 0,37.5 C 10.353125,37.5 2.5,29.646875 2.5,20 2.5,10.353125 10.353125,2.5 20,2.5 c 9.646875,0 17.5,7.853125 17.5,17.5 0,9.646875 -7.853125,17.5 -17.5,17.5 z"
          id="path4"
-         inkscape:connector-curvature="0"
-         style="fill:#ffffff;fill-opacity:1"
-         sodipodi:nodetypes="cccccccccc" />
+         inkscape:connector-curvature="0" />
     </g>
   </g>
 </svg>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - *************************************************************************
+  -  ic_pause_player.svg
+  - **************************************************************************
+  - Copyright © 2022 VLC authors and VideoLAN
+  - Author: Nicolas POMEPUY
+  - This program is free software; you can redistribute it and/or modify
+  - it under the terms of the GNU General Public License as published by
+  - the Free Software Foundation; either version 2 of the License, or
+  - (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU General Public License for more details.
+  -
+  - You should have received a copy of the GNU General Public License
+  - along with this program; if not, write to the Free Software
+  - Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  - ***************************************************************************
+  -
+  -
+  -->
+
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>ic_pause_player@1x</title>
+    <g id="ic_pause_player" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(4.000000, 4.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M18.3333333,13.3333333 L18.3333333,26.6666667 L15,26.6666667 L15,13.3333333 L18.3333333,13.3333333 Z M25,13.3333333 L25,26.6666667 L21.6666667,26.6666667 L21.6666667,13.3333333 L25,13.3333333 Z M20,0 C8.96,0 0,8.96 0,20 C0,31.04 8.96,40 20,40 C31.04,40 40,31.04 40,20 C40,8.96 31.04,0 20,0 Z M20,37.5 C10.353125,37.5 2.5,29.646875 2.5,20 C2.5,10.353125 10.353125,2.5 20,2.5 C29.646875,2.5 37.5,10.353125 37.5,20 C37.5,29.646875 29.646875,37.5 20,37.5 Z"></path>
+        </g>
+    </g>
+</svg>

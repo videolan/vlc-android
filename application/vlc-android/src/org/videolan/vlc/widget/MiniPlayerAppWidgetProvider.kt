@@ -339,7 +339,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                         if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
                     }
                     WidgetType.MINI, WidgetType.MACRO -> {
-                        val bitmap = widgetCacheEntry.generateCircularProgressbar(context, 42.dp.toFloat(), pos, 3.dp.toFloat())
+                        val bitmap = widgetCacheEntry.generateCircularProgressbar(context, 32.dp.toFloat(), pos, 3.dp.toFloat())
                         views.setImageViewBitmap(R.id.progress_round, bitmap)
                         if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
                     }

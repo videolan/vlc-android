@@ -1,36 +1,12 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_widget_pause_inner.xml
-  ~ **************************************************************************
-  ~ Copyright © 2022 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
-  <path
-      android:pathData="M22.3333,17.3333L22.3333,30.6667L19,30.6667L19,17.3333ZM29,17.3333L29,30.6667L25.6667,30.6667L25.6667,17.3333Z"
-      android:strokeWidth="1"
-      android:fillColor="#FFFFFF"
-      android:fillType="nonZero"
-      android:strokeColor="#00000000"/>
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="#ffffff"
+            android:fillType="nonZero"
+            android:pathData="M22.667,18.667L22.667,29.333L20,29.333L20,18.667ZM28,18.667L28,29.333L25.333,29.333L25.333,18.667Z"
+            android:strokeWidth="0.8"
+            android:strokeColor="#00000000" />
 </vector>

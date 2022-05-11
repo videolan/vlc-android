@@ -1,38 +1,9 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_widget_previous_normal.xml
-  ~ **************************************************************************
-  ~ Copyright © 2022 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="40dp"
-    android:height="40dp"
-    android:viewportWidth="40"
-    android:viewportHeight="40">
-  <path
-      android:pathData="m11.5385,29.2305c0.8523,0 1.5385,-0.6862 1.5385,-1.5383v-15.3831c0,-0.8523 -0.6862,-1.5383 -1.5385,-1.5383 -0.8523,0 -1.5385,0.686 -1.5385,1.5383v15.3831c0,0.8521 0.6862,1.5383 1.5385,1.5383zM28.4315,29.2305c0.8602,0.017 1.5668,-0.6751 1.5685,-1.5352v-15.3831c0.0014,-1.2526 -1.4151,-1.9819 -2.4338,-1.2529l-10.7692,7.6915c-0.8583,0.6135 -0.8583,1.8892 0,2.5028l10.7692,7.6915c0.2529,0.1803 0.5546,0.2799 0.8654,0.2854z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="3.07677102"
-      android:fillColor="#212121"
-      android:strokeColor="#00000000"
-      android:fillType="evenOdd"
-      android:strokeLineCap="butt"/>
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="#FF000000"
+            android:pathData="m18,18h2v12h-2zM21.5,24 L30,30L30,18Z" />
 </vector>
