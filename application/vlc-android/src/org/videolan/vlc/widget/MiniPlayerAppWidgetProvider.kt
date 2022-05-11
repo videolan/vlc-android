@@ -250,7 +250,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             }
             views.setImageViewBitmap(R.id.play_pause_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, widgetCacheEntry.widget.getBackgroundSecondaryColor(context, palette = palette), 52.dp, 52.dp))
             views.setImageViewBitmap(R.id.widget_configure, if (widgetCacheEntry.widget.showConfigure) context.getColoredBitmapFromColor(R.drawable.ic_widget_configure, foregroundColor, 24.dp, 24.dp) else null)
-            if (widgetType == WidgetType.PILL) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_circle, widgetCacheEntry.widget.getSeparatorColor(context, palette), 48.dp, 48.dp))
+            if (widgetType == WidgetType.PILL) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_circle, widgetCacheEntry.widget.getSeparatorColor(context), 48.dp, 48.dp))
         }
 
 
@@ -279,7 +279,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         log(appWidgetId, WidgetLogType.INFO, "coverPadding: $coverPadding: ${widgetCacheEntry.widget.height} /// ${48.dp}")
         views.setViewPadding(R.id.cover_parent, coverPadding, 0, coverPadding, 0)
 
-        views.setInt(R.id.separator, "setBackgroundColor", widgetCacheEntry.widget.getSeparatorColor(context, palette))
+        views.setInt(R.id.separator, "setBackgroundColor", widgetCacheEntry.widget.getSeparatorColor(context))
+        views.setInt(R.id.separator, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
 
         if (forPreview) widgetCacheEntry.currentCover = "fake"
         if (forPreview) {
