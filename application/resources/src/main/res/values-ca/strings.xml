@@ -14,6 +14,7 @@
     <string name="sortby_length">Durada</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Acabat d\'afegir</string>
+    <string name="sortby_insertion">Data d\'inserció</string>
     <string name="sortby_media_number">Número de fitxer</string>
     <string name="sortby_number">N. de pistes</string>
     <string name="searchable_hint">Cerca…</string>
@@ -32,6 +33,7 @@
     <string name="play_from_start">Reprodueix des de l\'inici</string>
     <string name="play_as_audio">Reprodueix com a àudio</string>
     <string name="play_as_video">Reprodueix com a vídeo</string>
+    <string name="return_to_video">Feu un toc llarg a la portada per recuperar el vídeo</string>
     <string name="video_app_switch_title">Mode en segon pla/pantalla sobreposada</string>
     <string name="video_app_switch_summary">Seleccioneu el comportament del VLC en canviar a una altra aplicació, quan s\'està reproduint un vídeo.</string>
     <string name="play_pip_title">Reprodueix vídeos en mode fotograma a fotograma</string>
@@ -141,6 +143,7 @@
     <string name="surface_fit_screen">Ajusta a la pantalla</string>
     <string name="surface_fill">Emplena</string>
     <string name="surface_original">Centre</string>
+    <string name="resize_tip">Feu un toc llarg per més opcions</string>
     <string name="unseekable_stream">Flux no trobat</string>
     <string name="refresh">Actualitza</string>
     <string name="track_audio">Pista d\'àudio</string>
@@ -365,6 +368,19 @@
     <string name="enable_headset_detection_summary">Detecta la inserció i retirada d\'auriculars</string>
     <string name="enable_play_on_headset_insertion">Reprèn quan s\'insereixin els auriculars</string>
     <string name="enable_play_on_headset_insertion_summary">Pausa sinó</string>
+    <string name="replaygain_prefs_category">Guany de reproducció</string>
+    <string name="replaygain_enable">Habilita el guany de reproducció</string>
+    <string name="replaygain_enable_summary">Els fluxos sense informació del guany de reproducció poden ser més silenciosos degut al guany per defecte</string>
+    <string name="replaygain_mode">Mode de guany en la reproducció</string>
+    <string name="replaygain_mode_summary">El mode pista reprodueix fluxos amb informació de guany de reproducció amb la mateixa sonoritat. El mode àlbum garanteix la sonoritat relativa dins del mateix àlbum.</string>
+    <string name="replaygain_preamp">Preamplifica la reproducció</string>
+    <string name="replaygain_preamp_summary">Canvia el nivell objectiu predeterminat (89 dB) per als fluxos amb informació del guany de reproducció</string>
+    <string name="replaygain_default">Guany de reproducció predeterminat</string>
+    <string name="replaygain_default_summary">Aplica als fluxos sense informació del guany de reproducció\nDefinir a 0 per desactivar</string>
+    <string name="replaygain_peak_protection">Protecció als pics</string>
+    <string name="replaygain_peak_protection_summary">Protegeix contra la distorsió del so</string>
+    <string name="replaygain_track">Pista</string>
+    <string name="replaygain_album">Àlbum</string>
     <string name="aout">Sortida d\'àudio</string>
     <string name="aout_summary">Canvia el mètode que VLC sol àudio de sortida</string>
     <string name="audio_ducking_title">Baixa el volum del VLC a les notificacions</string>
@@ -419,12 +435,12 @@
     <string name="clear_history">Esborra l\'historial</string>
     <string name="set_locale">Estableix la configuració local</string>
     <string name="network_caching">Valor de memòria cau de la xarxa</string>
-    <string name="network_caching_summary">El temps per a emmagatzemar en memòria intermèdia els mitjans de xarxa (en ms) per a la descodificació del programari\nDeixi en blanc per a reiniciar.</string>
+    <string name="network_caching_summary">El temps per a emmagatzemar en memòria intermèdia els mitjans de xarxa (en ms) per a la descodificació del programari\nInformar el valor 0 per desactivar</string>
     <string name="resume_playback_title">Reprèn la reproducció després d\'una trucada</string>
     <string name="resume_playback_summary">Que es quedi en pausa sinó</string>
     <string name="blurred_cover_background_title">Fons amb la portada desenfocada</string>
     <string name="blurred_cover_background_summary">Fons del reproductor d\'àudio amb la portada desenfocada</string>
-    <string name="network_caching_popup">Aquest valor ha de ser entre 0 i 6000 ms</string>
+    <string name="network_caching_popup">Aquest valor ha de ser entre 0 i 60000 ms</string>
     <string name="quit">Tanca i reinicia l\'aplicació</string>
     <string name="restart_message">Els canvis s\'aplicaran quan es reiniciï l\'aplicació.\n\nReinici ara mateix?</string>
     <string name="restart_message_OK">D\'acord</string>
@@ -461,6 +477,7 @@
 
     <string name="no_result">No s\'ha trobat cap resultat</string>
     <string name="no_internet_connection">Comproveu la connexió a internet</string>
+    <string name="retry">Tornar a provar</string>
     <string name="subs_download_error">Servei no disponible. Si us plau proveu després</string>
 
     <string name="network_browsing">Xarxa local</string>
@@ -479,9 +496,7 @@
     <string name="playlist_save">Desa la llista de reproducció</string>
     <string name="playlist_name_hint">Nom de la llista de reproducció</string>
     <string name="go_to_chapter">Vés al capítol…</string>
-    <string name="chapter">Capítol</string>
     <string name="current_chapter">Capítol: %s</string>
-    <string name="resume_from_position">Reprèn des de l\'última posició</string>
     <string name="confirm_resume">Reprèn des de l\'última posició?</string>
     <string name="confirm_resume_title">Reprèn els vídeos reproduits</string>
     <string name="tv_ui_title">Interfície Android TV</string>
@@ -514,6 +529,7 @@
     <string name="allow_draw_overlays_title">Deixa que el VLC tregui pop-ups per sobre de les altres apps</string>
     <string name="allow_sdraw_overlays_description">VLC necessita permís per treure pop-ups amb els teus vídeos per sobre de les altres aplicacions.</string>
     <string name="permission_ask_again">Dóna permís</string>
+    <string name="pick_file">Escolliu un fitxer</string>
     <string name="permission_not_granted">El permís no s\'ha concedit</string>
     <string name="permission_expanation_no_allow">No podreu auto-descobrir els vostres multimèdia ni utilitzar subtítols externs</string>
     <string name="permission_expanation_allow">Només podreu reproduir fluxos d\'Internet o multimèdia de la xarxa</string>
@@ -626,10 +642,12 @@
     <string name="subtitle_search_name_hint">Nom</string>
     <string name="subtitle_search_episode_hint">Episodi</string>
     <string name="subtitle_search_season_hint">Temporada</string>
+    <string name="subtitles_download_failed">No s\'ha pogut baixar</string>
     <string name="language_to_download">Llengua</string>
     <string name="delete_the_selected">Elimina la selecció</string>
     <string name="download_the_selected">Baixa la selecció</string>
     <string name="next">Endavant</string>
+    <string name="next_step">Següent</string>
     <string name="download">Baixa</string>
     <string name="ctx_player_video_track">Tria la pista de vídeo</string>
     <string name="ctx_player_audio_track">Pista d\'àudio</string>
@@ -831,6 +849,7 @@
     <string name="audio_delay_bt">El retard d\'àudio s\'ha definit a %s ms per al dispositiu bluetooth</string>
     <string name="warning_stream_speed">Incrementar la velocitat de reproducció a les retransmissions per sobre d\'1, pot generar talls intermitents</string>
     <string name="go_to_folder">Carpeta pare</string>
+    <string name="create_shortcut">Crear una drecera pel llançador</string>
     <string name="no_sub_renderer">Els subtítols no estan disponibles en directe. </string>
     <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
     <string name="soundfont">SoundFont MIDI</string>
@@ -851,6 +870,8 @@
     <string name="bookmark_default_name">Preferit a %s</string>
     <string name="bookmark_name">Preferit %s</string>
     <string name="add_bookmark">Afegir preferit</string>
+    <string name="bookmark_added">Preferit afegit</string>
+    <string name="show">Mostra</string>
     <string name="optional_features">Característiques opcionals</string>
     <string name="optional_features_summary">Característiques beta que estan actualment en fase de proves i poden ser inestables</string>
     <string name="optional_features_warning">Aquesta característica està en fase de proves beta i pot provocar penjades i inestabilitats</string>
@@ -860,6 +881,10 @@
     <string name="jump_delay">Retard d\'endavant/enrere</string>
     <string name="long_jump_delay">Retard del toc llarg endavant/enrere</string>
     <string name="jump_delay_summary">%s segons</string>
+    <string name="move_up">Moure amunt</string>
+    <string name="move_down">Moure avall</string>
+    <string name="remove_from_playlist">Treure de la llista de reproducció</string>
+    <string name="play_media">Reprodueix %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Afegir element(s) duplicat(s)?</string>
@@ -872,12 +897,14 @@
     <string name="start">Inicia</string>
     <string name="permission">Permís</string>
     <string name="customize">Personalitza</string>
-    <string name="selection_count">%d seleccionat</string>
+    <string name="selection_count">%d seleccionat </string>
     <string name="controls_setting">Configuració dels controls</string>
     <string name="gestures">Gestos</string>
     <string name="player_controls">Controls del reproductor</string>
     <string name="video_double_tap_jump_delay">Retard del doble toc</string>
     <string name="video_key_jump_delay">Retard de les tecles de navegació</string>
+    <string name="banned">Carpeta prohibida (feu un toc llarg per canviar)</string>
+    <string name="banned_parent">Prohibit per la carpeta pare</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Aquest element ja està a la llista de reproducció.</item>
         <item quantity="other">Aquests elements ja estan a la llista de reproducció.</item>
@@ -888,5 +915,19 @@
     </plurals>
     <string name="official_website">Lloc web oficial</string>
     <string name="view_online">Veure en línia</string>
+    <string name="player_under_notch">Mostrar el vídeo sota l\'osca</string>
+    <string name="notch">Osca</string>
+    <string name="always_fast_seek">Utilitza sempre la cerca ràpida</string>
+    <string name="always_fast_seek_summary">La cerca és més ràpida però pot ser menys precisa</string>
+    <string name="touch_only">Característica de només tocar</string>
+    <string name="touch_only_description">El canvi a la interfície mòbil només pot fer-se amb una pantalla tàctil o amb un ratolí.\nLlisqueu avall per verificar que aquesta característica pot canviar-se de forma segura. </string>
+    <string name="no_web_browser">No hi ha cap navegador instal·lat</string>
+    <string name="no_web_browser_message">Podeu escanejar-ho amb el mòbil.\nL\'URL és %s</string>
+    <string name="no_video">No hi ha vídeo disponible</string>
+    <string name="fold_optimized">Optimitzat per a la vostra pantalla plegable</string>
+    <string name="fold_optimize">Optimitza per a pantalles plegables</string>
+    <string name="foldable">Pantalla plegable</string>
+    <string name="undo">Desfés</string>
+    <string name="add_server_favorite">Afegeix un servidor preferit</string>
 
 </resources>
