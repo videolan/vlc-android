@@ -72,6 +72,22 @@ fun Widget.getBackgroundColor(context: Context, palette: Palette?): Int {
 }
 
 /**
+ * Get the background secondary color of the widget depending on its theme. Mostly used for the micro widget 'FAB' color
+ * @param context the context to use
+ * @param palette the palette to be used if needed
+ * @return a color
+ */
+@RequiresApi(Build.VERSION_CODES.S)
+fun Widget.getBackgroundSecondaryColor(context: Context, palette: Palette?): Int {
+    val untreatedColor = when {
+        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_accent1_100 else android.R.color.system_accent1_700)
+        theme == 1 -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey300) else palette?.darkMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey800))
+        else -> backgroundColor.lightenOrDarkenColor(0.1F)
+    }
+    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
+}
+
+/**
  * Get the Artist text color of the widget depending on its theme
  * @param context the context to use
  * @param palette the palette to be used if needed
