@@ -972,6 +972,7 @@
     <string name="seek_backward_content_description">Seek %s seconds backwards</string>
     <string name="seek_forward_content_description">Seek %s seconds forwards</string>
     <string name="open_vlc">Open VLC</string>
+    <string name="playing">Playing</string>
 
 
 </resources>

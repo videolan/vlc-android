@@ -86,6 +86,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         backgroundPreference = findPreference("background_color")!!
         foregroundPreference = findPreference("foreground_color")!!
         lightThemePreference = findPreference("widget_light_theme")!!
+        val configurationIcon = findPreference<CheckBoxPreference>("widget_show_configure")!!
         val themePreference = findPreference<ListPreference>("widget_theme")!!
 
         val id = (arguments?.getInt(WIDGET_ID) ?: -2)
@@ -107,6 +108,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             findPreference<SeekBarPreference>("opacity")?.value = widget.opacity
             lightThemePreference.isChecked = widget.lightTheme
             lightThemePreference.isVisible = widget.theme != 2
+            configurationIcon.isChecked = widget.showConfigure
         }
 
         if (!DynamicColors.isDynamicColorAvailable()) {

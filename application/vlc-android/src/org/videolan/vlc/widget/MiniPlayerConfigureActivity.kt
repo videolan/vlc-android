@@ -31,6 +31,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -71,8 +73,7 @@ class MiniPlayerConfigureActivity : BaseActivity() {
         setResult(RESULT_CANCELED)
         val toolbar = findViewById<MaterialToolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         title = getString(R.string.configure_widget)
 
 
@@ -112,6 +113,8 @@ class MiniPlayerConfigureActivity : BaseActivity() {
                     .commit()
         }
 
+        binding.previewPlaying.setOnCheckedChangeListener { _, _ -> updatePreview() }
+
     }
 
     private fun updatePreview() {
@@ -125,7 +128,7 @@ class MiniPlayerConfigureActivity : BaseActivity() {
 
                         val width = if (widget.width <= 0 || widget.height <= 0) 276 else widget.width
                         val height = if (widget.width <= 0 || widget.height <= 0) 94 else widget.height
-                        val views = provider.layoutWidget(this@MiniPlayerConfigureActivity, id, Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT), true, coverBitmap, palette)
+                        val views = provider.layoutWidget(this@MiniPlayerConfigureActivity, id, Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT), binding.previewPlaying.isChecked, coverBitmap, palette)
                         val preview = views?.apply(applicationContext, null)
                         preview?.let {
                             val bm: Bitmap = bitmapFromView(it, width.dp, height.dp)
@@ -136,6 +139,21 @@ class MiniPlayerConfigureActivity : BaseActivity() {
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.widget_configure_option, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.widget_configure_done) {
+            onWidgetContainerClicked()
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun finish() {

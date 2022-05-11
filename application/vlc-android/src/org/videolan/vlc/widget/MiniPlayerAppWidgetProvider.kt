@@ -59,6 +59,7 @@ import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
+import org.videolan.vlc.media.Progress
 import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getPendingIntent
@@ -318,7 +319,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
         //position
-        service?.playlistManager?.player?.progress?.value?.let { progress ->
+        val progress = service?.playlistManager?.player?.progress?.value ?: if (forPreview) Progress(3333L, 10000L) else null
+        progress?.let { progress ->
             val pos = (progress.time.toFloat() / progress.length)
             log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Refresh - progress updated to $pos // ${progress.length} / ${progress.time} ")
             runIO {

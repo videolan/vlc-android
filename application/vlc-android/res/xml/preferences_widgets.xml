@@ -52,10 +52,12 @@
         <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
                 android:defaultValue="@color/black"
                 android:key="background_color"
+                app:cpv_showAlphaSlider="false"
                 android:title="@string/widget_background"/>
         <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
                 android:defaultValue="@color/black"
                 android:key="foreground_color"
+                app:cpv_showAlphaSlider="false"
                 android:title="@string/widget_foreground"/>
 
         <org.videolan.vlc.gui.view.NumberPickerPreference
