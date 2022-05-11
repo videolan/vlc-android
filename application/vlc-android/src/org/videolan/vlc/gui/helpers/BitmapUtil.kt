@@ -209,7 +209,7 @@ object BitmapUtil {
 
         val paint = Paint()
         paint.isAntiAlias = true
-        paint.color = -0xbdbdbe
+        paint.color = -0xFFFFFF
 
         val rect = Rect(0, 0, w, h)
         val rectF = RectF(rect)
@@ -218,7 +218,9 @@ object BitmapUtil {
         canvas.drawCircle(rectF.left + rectF.width() / 2, rectF.top + rectF.height() / 2, (radius / 2).toFloat(), paint)
 
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bm, rect, rect, paint)
+        //depending on the bm ratio, modify the bounds to keep a square bitmap
+        val bounds = bm.getMaximalSquareBounds()
+        canvas.drawBitmap(bm, bounds, rect, paint)
 
         return bmOut
     }
@@ -246,7 +248,7 @@ object BitmapUtil {
 
         val paint = Paint()
         paint.isAntiAlias = true
-        paint.color = -0xbdbdbe
+        paint.color = -0xFFFFFF
 
         val rect = Rect(0, 0, w, h)
         val rectF = RectF(rect)
@@ -260,9 +262,24 @@ object BitmapUtil {
         if (!bottomRight) canvas.drawRect(RectF(w.toFloat() - radius, h.toFloat() - radius, w.toFloat(),h.toFloat()), paint)
 
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bm, Rect(0, 0, bm.width, bm.height), rect, paint)
+
+        //depending on the bm ratio, modify the bounds to keep a square bitmap
+        val bounds = bm.getMaximalSquareBounds()
+
+        canvas.drawBitmap(bm, bounds, rect, paint)
 
         return bmOut
+    }
+
+    /**
+     * Get the bound of the maximal size to cut a bitmap into a square
+     *
+     * @return the bounds
+     */
+    private fun Bitmap.getMaximalSquareBounds() = when {
+        width > height -> Rect((width - height) / 2, 0, height + ((width - height) / 2), height)
+        width < height -> Rect(0, (height - width) / 2, width, width + ((height - width) / 2))
+        else -> Rect(0, 0, width, height)
     }
 
 }
