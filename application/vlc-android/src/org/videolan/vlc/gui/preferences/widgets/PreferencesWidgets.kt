@@ -35,9 +35,15 @@ import androidx.preference.ListPreference
 import androidx.preference.SeekBarPreference
 import com.google.android.material.color.DynamicColors
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.tools.Settings
+import org.videolan.tools.WIDGETS_BACKGROUND_LAST_COLORS
+import org.videolan.tools.WIDGETS_FOREGROUND_LAST_COLORS
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.BasePreferenceFragment
 import org.videolan.vlc.repository.WidgetRepository
@@ -47,6 +53,8 @@ const val WIDGET_ID = "WIDGET_ID"
 
 class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private lateinit var settings: SharedPreferences
+    private lateinit var jsonAdapter: JsonAdapter<SavedColors>
     internal lateinit var model: WidgetViewModel
     private lateinit var backgroundPreference: ColorPreferenceCompat
     private lateinit var foregroundPreference: ColorPreferenceCompat
@@ -68,6 +76,9 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val moshi: Moshi = Moshi.Builder().build()
+        jsonAdapter = moshi.adapter(SavedColors::class.java)
+        settings = Settings.getInstance(requireActivity())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,6 +91,8 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         val id = (arguments?.getInt(WIDGET_ID) ?: -2)
         if (id == -2) throw IllegalStateException("Invalid widget id")
         model = ViewModelProvider(this, WidgetViewModel.Factory(requireActivity(), id))[WidgetViewModel::class.java]
+        updateSavedColors(true)
+        updateSavedColors(false)
         model.widget.observe(requireActivity()) { widget ->
             if (widget == null) return@observe
             if (!DynamicColors.isDynamicColorAvailable() && widget.theme == 0) {
@@ -110,10 +123,14 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 model.widget.value?.opacity = sharedPreferences.getInt(key, 100)
             }
             "background_color" -> {
-                model.widget.value?.backgroundColor = sharedPreferences.getInt(key, ContextCompat.getColor(requireActivity(), R.color.black))
+                val newColor = sharedPreferences.getInt(key, ContextCompat.getColor(requireActivity(), R.color.black))
+                saveNewColor(false, newColor)
+                model.widget.value?.backgroundColor = newColor
             }
             "foreground_color" -> {
-                model.widget.value?.foregroundColor = sharedPreferences.getInt(key, ContextCompat.getColor(requireActivity(), R.color.white))
+                val newColor = sharedPreferences.getInt(key, ContextCompat.getColor(requireActivity(), R.color.white))
+                saveNewColor(true, newColor)
+                model.widget.value?.foregroundColor = newColor
             }
             "widget_theme" -> {
                 val newValue = sharedPreferences.getString(key, "0")?.toInt() ?: 0
@@ -147,6 +164,38 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         updateWidgetEntity()
     }
 
+    /**
+     * Saves a new color to the shared pref to show it again in the color picker next time
+     *
+     * @param foreground is this for the foreground color?
+     * @param newColor the color to save
+     */
+    private fun saveNewColor(foreground:Boolean, newColor: Int) {
+        val pref = if (foreground)foregroundPreference else backgroundPreference
+        val key = if (foreground)WIDGETS_FOREGROUND_LAST_COLORS else WIDGETS_BACKGROUND_LAST_COLORS
+        if (!pref.presets.contains(newColor)) {
+            val colorListString = settings.getString(key, "")
+            val oldColors = if (!colorListString.isNullOrBlank()) ArrayList(jsonAdapter.fromJson(colorListString)!!.colors) else ArrayList()
+            oldColors.add(0, newColor)
+            val newColors = SavedColors((if (oldColors.size > 5) oldColors.slice(0..5) else oldColors).distinct())
+            settings.putSingle(key, jsonAdapter.toJson(newColors))
+        }
+        updateSavedColors(foreground)
+    }
+
+    /**
+     * Update a color picker colors with saved ones
+     *
+     * @param foreground is this for the foreground color?
+     */
+    private fun updateSavedColors(foreground:Boolean) {
+        val colorListString = settings.getString(if (foreground) WIDGETS_FOREGROUND_LAST_COLORS else WIDGETS_BACKGROUND_LAST_COLORS, "")
+        val oldColors = if (!colorListString.isNullOrBlank()) ArrayList(jsonAdapter.fromJson(colorListString)!!.colors) else ArrayList()
+        val pref = if (foreground)foregroundPreference else backgroundPreference
+        pref.presets = pref.presets.toMutableList().apply { addAll(oldColors) }.distinct().toIntArray()
+
+    }
+
     private fun updateWidgetEntity() {
         model.widget.value?.let { widget ->
             lifecycleScope.launch {
@@ -156,3 +205,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
     }
 
 }
+
+class SavedColors(
+        val colors: List<Int>,
+)
