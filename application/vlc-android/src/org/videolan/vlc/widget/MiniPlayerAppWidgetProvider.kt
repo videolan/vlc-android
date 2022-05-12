@@ -349,6 +349,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             }
         }
 
+        log(appWidgetId, WidgetLogType.INFO, "hasEnoughSpaceForSeek: ${hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)}")
         views.setViewVisibility(R.id.progress_round, if (playing) View.VISIBLE else View.GONE)
         views.setViewVisibility(R.id.forward, if (playing) View.VISIBLE else View.INVISIBLE)
         views.setViewVisibility(R.id.backward, if (playing) View.VISIBLE else View.INVISIBLE)
@@ -478,14 +479,10 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setViewVisibility(R.id.app_name, View.VISIBLE)
             views.setViewVisibility(R.id.songName, View.GONE)
             views.setViewVisibility(R.id.artist, View.GONE)
-            views.setViewVisibility(R.id.seek_rewind_text, View.GONE)
-            views.setViewVisibility(R.id.seek_forward_text, View.GONE)
         } else {
             views.setViewVisibility(R.id.app_name, View.GONE)
             views.setViewVisibility(R.id.songName, View.VISIBLE)
             views.setViewVisibility(R.id.artist, View.VISIBLE)
-            views.setViewVisibility(R.id.seek_rewind_text, View.VISIBLE)
-            views.setViewVisibility(R.id.seek_forward_text, View.VISIBLE)
         }
     }
 
