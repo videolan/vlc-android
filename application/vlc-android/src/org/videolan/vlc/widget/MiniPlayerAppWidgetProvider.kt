@@ -177,7 +177,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             widgetCacheEntry.currentCoverInvalidated = true
             log(appWidgetId, WidgetLogType.INFO, "Updating widget entry to: $widgetCacheEntry.widget")
 
-            widgetRepository.updateWidget(widgetCacheEntry.widget)
+            widgetRepository.updateWidget(widgetCacheEntry.widget, true)
         }
         val correctedSize = if (size.first == 0 && size.second == 0) {
             log(appWidgetId, WidgetLogType.INFO, "Size is 0. Getting size from db: $widgetCacheEntry.widget")
@@ -232,7 +232,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
         if (colorChanged) {
             if (widgetType == WidgetType.MACRO) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, widgetCacheEntry.widget.getBackgroundColor(context, palette), widgetCacheEntry.widget.width.dp,  widgetCacheEntry.widget.width.dp))
-            log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview")
+            log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Bugfix Color changed!!! for widget $appWidgetId // forPreview $forPreview // foreground color: ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)} /// palette ${widgetCacheEntry.palette}")
             if (android.text.TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 views.setImageViewBitmap(R.id.forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_previous_normal, foregroundColor))
                 views.setImageViewBitmap(R.id.backward, context.getColoredBitmapFromColor(R.drawable.ic_widget_next_normal, foregroundColor))

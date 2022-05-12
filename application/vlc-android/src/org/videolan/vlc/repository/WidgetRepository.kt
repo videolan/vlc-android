@@ -55,8 +55,8 @@ class WidgetRepository(private val widgetDao: WidgetDao) {
         widgetDao.insert(widget)
     }
 
-    suspend fun updateWidget(widget:Widget) {
-        WidgetCache.clear(widget)
+    suspend fun updateWidget(widget:Widget, preventCacheClear:Boolean = false) {
+        if (!preventCacheClear) WidgetCache.clear(widget)
         withContext(Dispatchers.IO) {
             widgetDao.update(widget)
         }
