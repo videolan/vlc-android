@@ -30,7 +30,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.mediadb.models.Widget
 
 object WidgetCache {
-    private val entries = ArrayList<WidgetCacheEntry>()
+    private val entries = mutableListOf<WidgetCacheEntry>()
 
     fun getEntry(widget: Widget): WidgetCacheEntry? {
         entries.forEach { if (it.widget.widgetId == widget.widgetId) return it }
