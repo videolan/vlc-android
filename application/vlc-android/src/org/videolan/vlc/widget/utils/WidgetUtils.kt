@@ -34,6 +34,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.HSLToColor
 import androidx.core.graphics.ColorUtils.colorToHSL
 import androidx.palette.graphics.Palette
+import com.google.android.material.color.DynamicColors
 import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.mediadb.models.Widget
@@ -48,9 +49,9 @@ import kotlin.random.Random
  */
 fun Widget.getForegroundColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (!lightTheme) android.R.color.system_accent1_200 else android.R.color.system_accent1_400)
-        theme == 1 -> (if (lightTheme) palette?.darkVibrantSwatch?.rgb ?: Color.BLACK else palette?.lightVibrantSwatch?.rgb ?: Color.WHITE)
-        else -> foregroundColor
+        theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_accent1_400 else android.R.color.system_accent1_200)
+        theme == 2 -> foregroundColor
+        else -> (if (lightTheme) palette?.darkVibrantSwatch?.rgb ?: Color.BLACK else palette?.lightVibrantSwatch?.rgb ?: Color.WHITE)
     }
     return untreatedColor
 }
@@ -64,9 +65,9 @@ fun Widget.getForegroundColor(context: Context, palette: Palette?): Int {
 @RequiresApi(Build.VERSION_CODES.S)
 fun Widget.getBackgroundColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_50 else android.R.color.system_neutral2_800)
-        theme == 1 -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: Color.WHITE else palette?.darkMutedSwatch?.rgb ?: Color.BLACK)
-        else -> backgroundColor
+        theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_50 else android.R.color.system_neutral2_800)
+        theme == 2 -> backgroundColor
+        else -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: Color.WHITE else palette?.darkMutedSwatch?.rgb ?: Color.BLACK)
     }
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
 }
@@ -80,9 +81,9 @@ fun Widget.getBackgroundColor(context: Context, palette: Palette?): Int {
 @RequiresApi(Build.VERSION_CODES.S)
 fun Widget.getBackgroundSecondaryColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_accent1_100 else android.R.color.system_accent1_700)
-        theme == 1 -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey300) else palette?.darkMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey800))
-        else -> backgroundColor.lightenOrDarkenColor(0.1F)
+        theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_accent1_100 else android.R.color.system_accent1_700)
+        theme == 2 -> backgroundColor.lightenOrDarkenColor(0.1F)
+        else -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey300) else palette?.darkMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey800))
     }
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
 }
@@ -96,9 +97,9 @@ fun Widget.getBackgroundSecondaryColor(context: Context, palette: Palette?): Int
 @RequiresApi(Build.VERSION_CODES.S)
 fun Widget.getArtistColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_400 else android.R.color.system_neutral2_500)
-        theme == 1 -> getForegroundColor(context, palette).lightenOrDarkenColor(0.1F)
-        else -> foregroundColor.lightenOrDarkenColor(0.1F)
+        theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_400 else android.R.color.system_neutral2_500)
+        theme == 2 -> foregroundColor.lightenOrDarkenColor(0.1F)
+        else -> getForegroundColor(context, palette).lightenOrDarkenColor(0.1F)
     }
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
 }
@@ -106,9 +107,9 @@ fun Widget.getArtistColor(context: Context, palette: Palette?): Int {
 @RequiresApi(Build.VERSION_CODES.S)
 fun Widget.getProgressBackgroundColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
-        theme == 0 -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_10 else android.R.color.system_neutral2_700)
-        theme == 1 -> getBackgroundColor(context, palette).lightenOrDarkenColor(0.15F)
-        else -> backgroundColor.lightenOrDarkenColor(0.15F)
+        theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_10 else android.R.color.system_neutral2_700)
+        theme == 2 -> backgroundColor.lightenOrDarkenColor(0.15F)
+        else -> getBackgroundColor(context, palette).lightenOrDarkenColor(0.15F)
     }
 
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
