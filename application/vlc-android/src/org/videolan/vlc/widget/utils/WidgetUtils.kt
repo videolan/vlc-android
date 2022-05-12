@@ -51,7 +51,8 @@ fun Widget.getForegroundColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
         theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_accent1_400 else android.R.color.system_accent1_200)
         theme == 2 -> foregroundColor
-        else -> (if (lightTheme) palette?.darkVibrantSwatch?.rgb ?: Color.BLACK else palette?.lightVibrantSwatch?.rgb ?: Color.WHITE)
+        else -> if (palette == null) foregroundColor else if (lightTheme) palette?.darkVibrantSwatch?.rgb
+                ?: Color.BLACK else palette?.lightVibrantSwatch?.rgb ?: Color.WHITE
     }
     return untreatedColor
 }
@@ -67,7 +68,8 @@ fun Widget.getBackgroundColor(context: Context, palette: Palette?): Int {
     val untreatedColor = when {
         theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_neutral2_50 else android.R.color.system_neutral2_800)
         theme == 2 -> backgroundColor
-        else -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: Color.WHITE else palette?.darkMutedSwatch?.rgb ?: Color.BLACK)
+        else -> if (palette == null) backgroundColor else if (lightTheme) palette?.lightMutedSwatch?.rgb
+                ?: backgroundColor else palette?.darkMutedSwatch?.rgb ?: backgroundColor
     }
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
 }
@@ -83,7 +85,7 @@ fun Widget.getBackgroundSecondaryColor(context: Context, palette: Palette?): Int
     val untreatedColor = when {
         theme == 0 && DynamicColors.isDynamicColorAvailable() -> ContextCompat.getColor(context, if (lightTheme) android.R.color.system_accent1_100 else android.R.color.system_accent1_700)
         theme == 2 -> backgroundColor.lightenOrDarkenColor(0.1F)
-        else -> (if (lightTheme) palette?.lightMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey300) else palette?.darkMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey800))
+        else -> if (lightTheme) palette?.lightMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey300) else palette?.darkMutedSwatch?.rgb ?: ContextCompat.getColor(context, R.color.grey800)
     }
     return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
 }

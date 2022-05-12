@@ -101,8 +101,8 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 updateWidgetEntity()
             }
             themePreference.value = widget.theme.toString()
-            backgroundPreference.isVisible = widget.theme == 2
-            foregroundPreference.isVisible = widget.theme == 2
+            backgroundPreference.isVisible = widget.theme != 0
+            foregroundPreference.isVisible = widget.theme != 0
             backgroundPreference.saveValue(widget.backgroundColor)
             foregroundPreference.saveValue(widget.foregroundColor)
             findPreference<SeekBarPreference>("opacity")?.value = widget.opacity
