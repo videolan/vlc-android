@@ -67,7 +67,7 @@ class WidgetRepository(private val widgetDao: WidgetDao) {
     }
 
     suspend fun createNew(context: Context, appWidgetId: Int): Widget {
-        val widget = Widget(appWidgetId, 0, 0, 0, true, ContextCompat.getColor(context, R.color.black), ContextCompat.getColor(context, R.color.white), 10, 10, 100, false)
+        val widget = Widget(appWidgetId, 0, 0, 0, true, ContextCompat.getColor(context, R.color.black), ContextCompat.getColor(context, R.color.white), 10, 10, 100, true)
         addWidget(widget)
         return widget
     }

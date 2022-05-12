@@ -158,7 +158,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
 
             }
             "widget_show_configure" -> {
-                val newValue = sharedPreferences.getBoolean(key, false)
+                val newValue = sharedPreferences.getBoolean(key, true)
                 model.widget.value?.showConfigure = newValue
 
             }
