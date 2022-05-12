@@ -29,12 +29,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.databinding.DialogWidgetMigrationBinding
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class WidgetMigrationDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
@@ -47,7 +43,7 @@ class WidgetMigrationDialog : VLCBottomSheetDialogFragment() {
 
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogWidgetMigrationBinding.inflate(layoutInflater, container, false)
         return binding.root
     }

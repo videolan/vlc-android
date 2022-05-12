@@ -28,8 +28,6 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.dialogs.WidgetMigrationDialog
@@ -38,8 +36,6 @@ import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 
 
 private const val WIDGET_MIGRATION_KEY = "widget_migration_key"
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object WidgetMigration {
     fun launchIfNeeded(context: AppCompatActivity) {
         val settings = Settings.getInstance(context)

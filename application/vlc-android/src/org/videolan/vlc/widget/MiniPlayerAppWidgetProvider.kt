@@ -42,8 +42,6 @@ import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
 import androidx.core.content.getSystemService
 import androidx.palette.graphics.Palette
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -67,8 +65,6 @@ import org.videolan.vlc.widget.utils.*
 import java.util.*
 
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     private lateinit var _widgetRepository: WidgetRepository
     private val enableLogs = true
