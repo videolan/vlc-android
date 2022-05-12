@@ -957,8 +957,8 @@
     <string name="add_server_favorite">Add a server favorite</string>
     <string name="widget_theme">Widget theme</string>
     <string name="widget_preferences">Configure widget</string>
-    <string name="material_you">Material You (accorded to your wallpaper)</string>
-    <string name="palette">Palette (accorded to the media cover)</string>
+    <string name="material_you">Material You (pulls colors from wallpaper)</string>
+    <string name="palette">Palette (pulls colors from the media cover)</string>
     <string name="custom">Custom</string>
     <string name="opacity">Opacity</string>
     <string name="widget_background">Background</string>
