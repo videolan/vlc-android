@@ -174,6 +174,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         if (size.first != 0 && size.second != 0 && (widgetCacheEntry.widget.width != size.first || widgetCacheEntry.widget.height != size.second)) {
             widgetCacheEntry.widget.width = size.first
             widgetCacheEntry.widget.height = size.second
+            widgetCacheEntry.currentCoverInvalidated = true
             log(appWidgetId, WidgetLogType.INFO, "Updating widget entry to: $widgetCacheEntry.widget")
 
             widgetRepository.updateWidget(widgetCacheEntry.widget)
@@ -286,7 +287,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         if (forPreview) {
             displayCover(context, views, true, widgetType, widgetCacheEntry)
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
-        } else if (playing && widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover) {
+        } else if (playing && (widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover || widgetCacheEntry.currentCoverInvalidated)) {
+            widgetCacheEntry.currentCoverInvalidated = false
             widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
             if (!widgetCacheEntry.currentMedia?.artworkMrl.isNullOrEmpty()) {
                 log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId}")

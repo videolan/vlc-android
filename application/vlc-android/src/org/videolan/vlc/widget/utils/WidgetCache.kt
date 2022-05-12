@@ -38,7 +38,7 @@ object WidgetCache {
     }
 
     fun addEntry(widget: Widget): WidgetCacheEntry {
-        val widgetCacheEntry = WidgetCacheEntry(widget, )
+        val widgetCacheEntry = WidgetCacheEntry(widget, currentCoverInvalidated = true)
         entries.add(widgetCacheEntry)
         return widgetCacheEntry
     }
@@ -53,7 +53,7 @@ object WidgetCache {
 
 }
 
-data class WidgetCacheEntry(val widget: Widget, var currentMedia: MediaWrapper? = null, var currentCover: String? = null, var palette: Palette? = null, @ColorInt var foregroundColor: Int? = null, var playing: Boolean? = null) {
+data class WidgetCacheEntry(val widget: Widget, var currentMedia: MediaWrapper? = null, var currentCover: String? = null, var palette: Palette? = null, @ColorInt var foregroundColor: Int? = null, var playing: Boolean? = null, var currentCoverInvalidated:Boolean = false) {
     fun reset() {
         currentCover = null
         currentMedia = null
