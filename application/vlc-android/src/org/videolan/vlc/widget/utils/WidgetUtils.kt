@@ -162,6 +162,17 @@ fun Int.lightenOrDarkenColor(value: Float): Int {
 }
 
 /**
+ * Detects if the color represented by this Int is light
+ *
+ * @return true if the color is light, false if it's dark
+ */
+fun Int.isLight():Boolean {
+    val hsl = FloatArray(3)
+    colorToHSL(this, hsl)
+    return hsl[2] > 0.5F
+}
+
+/**
  * Generates a circular progress bar [Bitmap]
  *
  * @param context the context to use

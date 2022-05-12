@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
-  ~  round_white_transparent.xml
+  ~  widget_touch_background.xml
   ~ **************************************************************************
   ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,8 +22,10 @@
   ~
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval">
-    <solid android:color="@color/white_transparent_20" />
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/round_black_transparent" android:state_focused="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/round_black_transparent" android:state_focused="true"/>
+    <item android:drawable="@drawable/round_black_transparent" android:state_pressed="true"/>
 
-</shape>
+
+</selector>

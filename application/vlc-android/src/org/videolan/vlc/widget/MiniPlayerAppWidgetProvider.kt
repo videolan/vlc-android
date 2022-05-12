@@ -237,7 +237,6 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 views.setImageViewBitmap(R.id.backward, context.getColoredBitmapFromColor(R.drawable.ic_widget_next_normal, foregroundColor))
                 views.setImageViewBitmap(R.id.seek_rewind, context.getColoredBitmapFromColor(R.drawable.ic_widget_forward_10, foregroundColor))
                 views.setImageViewBitmap(R.id.seek_forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_rewind_10, foregroundColor))
-                views.setImageViewBitmap(R.id.backward, context.getColoredBitmapFromColor(R.drawable.ic_widget_next_normal, foregroundColor))
             } else {
                 views.setImageViewBitmap(R.id.forward, context.getColoredBitmapFromColor(R.drawable.ic_widget_next_normal, foregroundColor))
                 views.setImageViewBitmap(R.id.backward, context.getColoredBitmapFromColor(R.drawable.ic_widget_previous_normal, foregroundColor))
@@ -247,6 +246,11 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.play_pause_background, context.getColoredBitmapFromColor(R.drawable.widget_rectangle_background, widgetCacheEntry.widget.getBackgroundSecondaryColor(context, palette = palette), 52.dp, 52.dp))
             views.setImageViewBitmap(R.id.widget_configure, if (widgetCacheEntry.widget.showConfigure) context.getColoredBitmapFromColor(R.drawable.ic_widget_configure, foregroundColor, 24.dp, 24.dp) else null)
             if (widgetType == WidgetType.PILL) views.setImageViewBitmap(R.id.cover_background, context.getColoredBitmapFromColor(R.drawable.widget_circle, widgetCacheEntry.widget.getSeparatorColor(context), 48.dp, 48.dp))
+
+            val rippleDrawable = if (backgroundColor.isLight()) R.drawable.widget_touch_background else R.drawable.widget_touch_background_dark
+            arrayOf(R.id.play_pause, R.id.forward, R.id.backward, R.id.seek_rewind, R.id.seek_forward, R.id.widget_configure).forEach {
+                views.setInt(it, "setBackgroundResource", rippleDrawable)
+            }
         }
 
 
