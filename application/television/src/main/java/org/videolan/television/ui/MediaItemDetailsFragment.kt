@@ -65,7 +65,10 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.convertFavorites
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeNetwork
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
@@ -139,27 +142,26 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         mediaStarted = false
         buildDetails()
 
-        mediaMetadataModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), mlId = media.id)).get(media.uri.path
-                ?: "", MediaMetadataModel::class.java)
+        mediaMetadataModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), mlId = media.id))[media.uri.path ?: "", MediaMetadataModel::class.java]
 
-        mediaMetadataModel.updateLiveData.observe(this) {
+        mediaMetadataModel.updateLiveData.observe(this, Observer {
             updateMetadata(it)
-        }
+        })
 
-        viewModel.browserFavUpdated.observe(this) { newMedia ->
+        viewModel.browserFavUpdated.observe(this, Observer { newMedia ->
             val intent = Intent(requireActivity(), DetailsActivity::class.java)
             intent.putExtra(org.videolan.television.ui.EXTRA_MEDIA, newMedia)
             intent.putExtra(EXTRA_ITEM, MediaItemDetails(newMedia.title, newMedia.artist, newMedia.album, newMedia.location, newMedia.artworkURL))
             startActivity(intent)
             requireActivity().finish()
-        }
+        })
 
-        mediaMetadataModel.nextEpisode.observe(this) {
+        mediaMetadataModel.nextEpisode.observe(this, Observer {
             if (it != null) {
                 actionsAdapter.set(ID_NEXT_EPISODE, Action(ID_NEXT_EPISODE.toLong(), getString(R.string.next_episode)))
                 actionsAdapter.notifyArrayItemRangeChanged(0, actionsAdapter.size())
             }
-        }
+        })
         onItemViewClickedListener = this
     }
 

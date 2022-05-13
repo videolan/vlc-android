@@ -50,10 +50,10 @@ class LibrariesActivity : BaseActivity() {
         }
         binding.licenses.adapter = adapter
 
-        model = ViewModelProvider(this).get(LicenseModel::class.java)
-        model.licenses.observe(this) {
+        model = ViewModelProvider(this)[LicenseModel::class.java]
+        model.licenses.observe(this, Observer {
             adapter.update(it)
-        }
+        })
         lifecycleScope.launchWhenStarted { model.refresh() }
         if (AndroidDevices.isTv) applyOverscanMargin(this)
 

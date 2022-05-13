@@ -47,6 +47,7 @@ import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
@@ -622,10 +623,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         registerReceiver(receiver, filter)
 
         keyguardManager = getSystemService()!!
-        renderer.observe(this) { setRenderer(it) }
-        restartPlayer.observe(this) { restartPlaylistManager() }
-        headSetDetection.observe(this) { detectHeadset(it) }
-        equalizer.observe(this) { setEqualizer(it) }
+        renderer.observe(this, Observer { setRenderer(it) })
+        restartPlayer.observe(this, Observer { restartPlaylistManager() })
+        headSetDetection.observe(this, Observer { detectHeadset(it) })
+        equalizer.observe(this, Observer { setEqualizer(it) })
         serviceFlow.value = this
     }
 
