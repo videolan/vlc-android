@@ -31,10 +31,10 @@ AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject
     myVm = vm;
     p_lister = std::make_shared<AndroidDeviceLister>();
     medialibrary::SetupConfig config;
+    config.logger = std::make_shared<AndroidMediaLibraryLogger>();
+    config.logLevel = medialibrary::LogLevel::Debug;
     config.deviceListers["file://"] = p_lister;
     p_ml = NewMediaLibrary( dbPath, mlFolder, false, &config);
-    p_ml->setLogger( new AndroidMediaLibraryLogger );
-    p_ml->setVerbosity(medialibrary::LogLevel::Debug);
     pthread_once(&key_once, key_init);
     JNIEnv *env = getEnv();
     if (env == NULL) return;
