@@ -123,7 +123,6 @@
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
-    <string name="validation">Are you sure?</string>
 
     <string name="cover_art">Cover art</string>
     <string name="shuffle_all_title">Shuffle all</string>
@@ -449,6 +448,7 @@
     <string name="clear_app_data">Clear app data</string>
     <string name="clear_app_data_summary">Clears VLC for Android data</string>
     <string name="clear_history">Clear history</string>
+    <string name="clear_history_message">You will lose your history, your current playlists and your progresses</string>
     <string name="set_locale">Set locale</string>
     <string name="network_caching">Network caching value</string>
     <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nSet to 0 to disable</string>

@@ -25,7 +25,6 @@ package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
 import android.app.ActivityManager
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -43,8 +42,11 @@ import androidx.preference.Preference
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
+import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
@@ -111,15 +113,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_history" -> {
-                AlertDialog.Builder(ctx)
-                        .setTitle(R.string.clear_playback_history)
-                        .setMessage(R.string.validation)
-                        .setIcon(R.drawable.ic_warning)
-                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
-                            Medialibrary.getInstance().clearHistory()
-                        }}
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
+                dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                dialog.setListener {
+                    Medialibrary.getInstance().clearHistory()
+                    Settings.getInstance(activity).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
+                }
                 return true
             }
             "clear_app_data" -> {
