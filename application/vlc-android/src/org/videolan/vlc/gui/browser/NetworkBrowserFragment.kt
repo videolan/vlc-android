@@ -30,7 +30,9 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_FAV_ADD
@@ -144,17 +146,22 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
                 } else {
+                    binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
+                    if (viewModel.filterQuery != null) {
+                        binding.emptyLoading.state = EmptyLoadingState.EMPTY_SEARCH
+                        return
+                    }
                     if (isRootDirectory) {
                         if (networkMonitor.lanAllowed) {
                             binding.emptyLoading.state = EmptyLoadingState.LOADING
-                            binding.emptyLoading.loadingText = R.string.network_shares_discovery
+                            binding.emptyLoading.loadingText = getString(R.string.network_shares_discovery)
                         } else {
                             binding.emptyLoading.state = EmptyLoadingState.EMPTY
-                            binding.emptyLoading.emptyText = R.string.network_connection_needed
+                            binding.emptyLoading.emptyText = getString(R.string.network_connection_needed)
                         }
                     } else {
                         binding.emptyLoading.state = EmptyLoadingState.EMPTY
-                        binding.emptyLoading.emptyText = R.string.network_empty
+                        binding.emptyLoading.emptyText = getString(R.string.network_empty)
                     }
                     binding.networkList.visibility = View.GONE
                     handler.sendEmptyMessage(MSG_HIDE_LOADING)
@@ -165,7 +172,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
             }
         } else {
             binding.emptyLoading.state = EmptyLoadingState.EMPTY
-            binding.emptyLoading.emptyText = R.string.network_connection_needed
+            binding.emptyLoading.emptyText = getString(R.string.network_connection_needed)
             binding.networkList.visibility = View.GONE
             binding.showFavorites = false
         }

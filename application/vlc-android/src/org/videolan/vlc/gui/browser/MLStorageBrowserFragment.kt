@@ -128,7 +128,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
         networkEntry.loading.showNoMedia = false
-        networkEntry.loading.emptyText = R.string.nomedia
+        networkEntry.loading.emptyText = getString(R.string.nomedia)
         val networkAdapter = StorageBrowserAdapter(getBrowserContainer(true))
         networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
@@ -159,10 +159,10 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
                 } else {
                     if (networkMonitor.lanAllowed) {
                         emptyLoading.state = EmptyLoadingState.LOADING
-                        emptyLoading.loadingText = R.string.network_shares_discovery
+                        emptyLoading.loadingText = getString(R.string.network_shares_discovery)
                     } else {
                         emptyLoading.state = EmptyLoadingState.EMPTY
-                        emptyLoading.emptyText = R.string.network_connection_needed
+                        emptyLoading.emptyText = getString(R.string.network_connection_needed)
                     }
                     networkEntry.list.visibility = View.GONE
                 }
@@ -172,7 +172,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
             }
         } else {
             emptyLoading.state = EmptyLoadingState.EMPTY
-            emptyLoading.emptyText = R.string.network_connection_needed
+            emptyLoading.emptyText = getString(R.string.network_connection_needed)
             networkEntry.list.visibility = View.GONE
         }
     }

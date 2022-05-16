@@ -277,11 +277,16 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      * Update views visibility and emptiness info
      */
     protected open fun updateEmptyView() {
+        binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
         swipeRefreshLayout.let {
             when {
                !Permissions.canReadStorage(requireActivity()) -> binding.emptyLoading.state = EmptyLoadingState.MISSING_PERMISSION
                 it.isRefreshing -> {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
+                    binding.networkList.visibility = View.GONE
+                }
+                viewModel.isEmpty() && viewModel.filterQuery != null -> {
+                    binding.emptyLoading.state = EmptyLoadingState.EMPTY_SEARCH
                     binding.networkList.visibility = View.GONE
                 }
                 viewModel.isEmpty() -> {

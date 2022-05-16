@@ -192,7 +192,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
         favoritesEntry.loading.showNoMedia = false
-        favoritesEntry.loading.emptyText = R.string.no_favorite
+        favoritesEntry.loading.emptyText = getString(R.string.no_favorite)
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
         val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
         favoritesEntry.list.adapter = favoritesAdapter
@@ -218,7 +218,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
         networkEntry.loading.showNoMedia = false
-        networkEntry.loading.emptyText = R.string.nomedia
+        networkEntry.loading.emptyText = getString(R.string.nomedia)
         val networkBrowserContainer = MainBrowserContainer(isNetwork = true, isFile = false, inCards = !displayInList)
         val networkAdapter = BaseBrowserAdapter(networkBrowserContainer)
         networkEntry.list.adapter = networkAdapter
@@ -263,10 +263,10 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 } else {
                     if (networkMonitor.lanAllowed) {
                         emptyLoading.state = EmptyLoadingState.LOADING
-                        emptyLoading.loadingText = R.string.network_shares_discovery
+                        emptyLoading.loadingText = getString(R.string.network_shares_discovery)
                     } else {
                         emptyLoading.state = EmptyLoadingState.EMPTY
-                        emptyLoading.emptyText = R.string.network_connection_needed
+                        emptyLoading.emptyText = getString(R.string.network_connection_needed)
                     }
                     networkEntry.list.visibility = View.GONE
 //                    handler.sendEmptyMessage(MSG_HIDE_LOADING)
@@ -277,7 +277,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             }
         } else {
             emptyLoading.state = EmptyLoadingState.EMPTY
-            emptyLoading.emptyText = R.string.network_connection_needed
+            emptyLoading.emptyText = getString(R.string.network_connection_needed)
             networkEntry.list.visibility = View.GONE
         }
     }

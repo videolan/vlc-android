@@ -297,8 +297,15 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        emptyView.state =
-                if (!Permissions.canReadStorage(requireActivity()) && empty) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        emptyView.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
+        emptyView.state = when {
+            !Permissions.canReadStorage(requireActivity()) && empty -> EmptyLoadingState.MISSING_PERMISSION
+            viewModel.providers[currentTab].loading.value == true && empty -> EmptyLoadingState.LOADING
+            empty && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
+            empty -> EmptyLoadingState.EMPTY
+            else -> EmptyLoadingState.NONE
+
+        }
     }
 
     override fun onPageSelected(position: Int) {

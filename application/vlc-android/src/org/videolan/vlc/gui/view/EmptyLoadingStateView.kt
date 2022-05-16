@@ -36,7 +36,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.FragmentActivity
@@ -61,6 +60,7 @@ class EmptyLoadingStateView : FrameLayout {
     private lateinit var noMediaButton: Button
     private val normalConstraintSet = ConstraintSet()
     private val compactConstraintSet = ConstraintSet()
+    var filterQuery: String? = null
 
     lateinit var container: ConstraintLayout
     var showNoMedia: Boolean = true
@@ -73,9 +73,9 @@ class EmptyLoadingStateView : FrameLayout {
         set(value) {
             loadingFlipper.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
-            emptyTextView.visibility = if (value == EmptyLoadingState.EMPTY) View.VISIBLE else View.GONE
-            emptyImageView.visibility = if (value == EmptyLoadingState.EMPTY || value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value == EmptyLoadingState.EMPTY) R.drawable.ic_empty else R.drawable.ic_empty_warning))
+            emptyTextView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH)) View.VISIBLE else View.GONE
+            emptyImageView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY,EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.EMPTY_SEARCH)) View.VISIBLE else View.GONE
+            emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH)) R.drawable.ic_empty else R.drawable.ic_empty_warning))
             permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
@@ -84,17 +84,15 @@ class EmptyLoadingStateView : FrameLayout {
             field = value
         }
 
-    @StringRes
-    var emptyText: Int = R.string.nomedia
+    var emptyText: String = context.getString(R.string.nomedia)
         set(value) {
-            emptyTextView.text = context.getString(value)
+            emptyTextView.text = value
             field = emptyText
         }
 
-    @StringRes
-    var loadingText: Int = R.string.loading
+    var loadingText: String = context.getString(R.string.loading)
         set(value) {
-            loadingTitle.text = context.getString(value)
+            loadingTitle.text = value
             field = emptyText
         }
 
@@ -174,5 +172,5 @@ class EmptyLoadingStateView : FrameLayout {
 }
 
 enum class EmptyLoadingState {
-    LOADING, EMPTY, NONE, MISSING_PERMISSION
+    LOADING, EMPTY, EMPTY_SEARCH, NONE, MISSING_PERMISSION
 }

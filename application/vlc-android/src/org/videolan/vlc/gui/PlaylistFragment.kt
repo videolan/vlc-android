@@ -121,8 +121,14 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
+        binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
         binding.emptyLoading.state =
-            if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                when {
+                    viewModel.provider.loading.value == true && empty -> EmptyLoadingState.LOADING
+                    empty && viewModel.filterQuery != null -> EmptyLoadingState.EMPTY_SEARCH
+                    empty -> EmptyLoadingState.EMPTY
+                    else -> EmptyLoadingState.NONE
+                }
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {

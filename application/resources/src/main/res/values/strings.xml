@@ -119,6 +119,7 @@
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait…</string>
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
+    <string name="empty_search">No item found for search %s</string>
     <string name="noplaylist">No playlist found.</string>
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
