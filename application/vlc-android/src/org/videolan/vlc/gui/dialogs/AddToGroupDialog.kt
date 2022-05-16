@@ -52,6 +52,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
     override fun needToManageOrientation(): Boolean = false
 
+    private lateinit var viewModel: VideosViewModel
     private var forbidNewGroup: Boolean = true
     lateinit var newGroupListener: () -> Unit
     private var isLoading: Boolean = false
@@ -105,23 +106,24 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
         //we have to create the viewmodel that way to avoid the cache from ViewModelProvider which will send the model from the calling activity that may have a different groupingType
-        val viewModel = VideosViewModel.Factory(requireContext(), VideoGroupingType.NAME, null, null).create(VideosViewModel::class.java)
+        viewModel = VideosViewModel.Factory(requireContext(), VideoGroupingType.NAME, null, null).create(VideosViewModel::class.java)
+        updateEmptyView()
         viewModel.provider.pagedList.observe(viewLifecycleOwner) {
 
-            adapter.submitList(it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply {
+            val groupList = it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply {
                 forEach { mediaLibraryItem -> mediaLibraryItem.description = resources.getQuantityString(R.plurals.media_quantity, mediaLibraryItem.tracksCount, mediaLibraryItem.tracksCount) }
             }.toMutableList().apply {
                 if (newTrack.size > 1 && !forbidNewGroup) {
                     this.add(0, DummyItem(DUMMY_NEW_GROUP, getString(R.string.new_group), getString(R.string.new_group_desc)))
                 }
-            })
-            updateEmptyView()
+            }
+            adapter.submitList(groupList)
+            updateEmptyView(groupList.isEmpty())
         }
-        updateEmptyView()
     }
 
-    private fun updateEmptyView() {
-        binding.empty.visibility = if (adapter.isEmpty()) View.VISIBLE else View.GONE
+    private fun updateEmptyView(empty:Boolean = true) {
+        binding.empty.visibility = if (empty) View.VISIBLE else View.GONE
     }
 
     private fun addToGroup(videoGroup: VideoGroup) {
