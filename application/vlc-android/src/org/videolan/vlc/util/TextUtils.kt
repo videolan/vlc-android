@@ -32,7 +32,7 @@ object TextUtils {
     /**
      * Common string separator used in the whole app
      */
-    private const val separator = '·'
+    const val separator = '·'
 
     /**
      * Create a string separated by the common [separator]

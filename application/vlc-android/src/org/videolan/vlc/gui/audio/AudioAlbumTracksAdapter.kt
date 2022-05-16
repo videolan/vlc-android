@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -43,6 +42,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.databinding.AudioAlbumTrackItemBinding
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
+import org.videolan.vlc.util.TextUtils
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -106,7 +106,7 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
                 binding.trackNumber.visibility = View.GONE
             var subtitle = Tools.millisToString(item.length)
             if (item.artist.isNotEmpty())
-                subtitle += " . ${item.artist}"
+                subtitle += " ${TextUtils.separator} ${item.artist}"
             binding.subtitle.text = subtitle
         }
 
