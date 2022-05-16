@@ -195,7 +195,7 @@
     <string name="jump_to_time">Přejít na pozici</string>
     <string name="subtitle_select">Vybrat soubor s titulky</string>
 
-    <string name="server_add_title">Přidat nový server</string>
+    <string name="server_add_title">Přidat nový server do Oblíbené</string>
     <string name="server_domain_hint">Adresa serveru (název domény nebo IP adresa)</string>
     <string name="server_share_hint">Sdílené síťové umístění (název sítě nebo IP adresa)</string>
     <string name="server_folder_hint">Umístění adresáře (volitelné)</string>
@@ -388,6 +388,19 @@
     <string name="enable_headset_detection_summary">Detekovat připojení a odpojení sluchátek.</string>
     <string name="enable_play_on_headset_insertion">Pokračovat v přehrávání</string>
     <string name="enable_play_on_headset_insertion_summary">Pokračovat v přehrávání při připojení sluchátek (jinak bude přehrávání pozastaveno).</string>
+    <string name="replaygain_prefs_category">Zesílení přehrávání</string>
+    <string name="replaygain_enable">Povolit zesílení přehrávání</string>
+    <string name="replaygain_enable_summary">Streamy bez informací o zesílení přehrávání mohou být tišší z důvodu výchozího zesílení.</string>
+    <string name="replaygain_mode">Režim zesílení signálu</string>
+    <string name="replaygain_mode_summary">Režim Skladba přehrává streamy s informací o zesílení opakovaného přehrávání se stejnou hlasitostí. Režim Album zachovává relativní hlasitost streamu u stejného alba.</string>
+    <string name="replaygain_preamp">Předzesilovač pro zesílení signálu</string>
+    <string name="replaygain_preamp_summary">Změní výchozí cílovou úroveň signálu (89 dB) pro streamy s informací o zesílení.</string>
+    <string name="replaygain_default">Výchozí zesílení přehrávání</string>
+    <string name="replaygain_default_summary">Platí pro streamy bez informací o zisku opakovaného přehrávání\nZadejte hodnotu 0 pro deaktivaci.</string>
+    <string name="replaygain_peak_protection">Ochrana špiček</string>
+    <string name="replaygain_peak_protection_summary">Zabránit oříznutí zvuku</string>
+    <string name="replaygain_track">Skladba</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_summary">Změnit režim zvukového výstupu pro VLC přehrávač.</string>
     <string name="audio_ducking_title">Snížit hlasitost při oznámení</string>
@@ -442,12 +455,12 @@
     <string name="clear_history">Smazat historii</string>
     <string name="set_locale">Nastavit jazyk</string>
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
-    <string name="network_caching_summary">Velikost vyrovnávací paměti přehrávaného média po síti (v ms) pro dekódování. Ponechte prázdné pro výchozí hodnotu.</string>
+    <string name="network_caching_summary">Velikost vyrovnávací paměti přehrávaného média po síti (v ms) pro dekódování.\nZadejte hodnotu 0 pro deaktivaci.</string>
     <string name="resume_playback_title">Pokračovat v přehrávání po hovoru</string>
     <string name="resume_playback_summary">Pokračovat v přehrávání (po ukončení hovoru), které bylo pozastaveno.</string>
     <string name="blurred_cover_background_title">Rozmazat obal na pozadí</string>
     <string name="blurred_cover_background_summary">Rozmazat obal alba na pozadí při přehrávaní hudby.</string>
-    <string name="network_caching_popup">Hodnota musí být v rozsahu od 0 ms do 6000 ms.</string>
+    <string name="network_caching_popup">Hodnota musí být v rozsahu od 0 ms do 60000 ms.</string>
     <string name="quit">Ukončit a restartovat aplikaci</string>
     <string name="restart_message">Změny se projeví po restartu aplikace.\n\nChcete restartovat nyní?</string>
     <string name="restart_message_OK">OK</string>
@@ -536,6 +549,7 @@
     <string name="allow_draw_overlays_title">Povolit aplikaci VLC zobrazení v popředí</string>
     <string name="allow_sdraw_overlays_description">Aplikace VLC vyžaduje oprávnění pro zobrazení v popředí.</string>
     <string name="permission_ask_again">Povolit oprávnění</string>
+    <string name="pick_file">Vyberte soubor</string>
     <string name="permission_not_granted">Oprávnění nebylo povoleno</string>
     <string name="permission_expanation_no_allow">Nelze automaticky nalézt média ani používat externí titulky </string>
     <string name="permission_expanation_allow">Lze přehrávat pouze streamy nebo síťová média </string>
@@ -860,6 +874,7 @@
     <string name="audio_delay_bt">Zpoždění zvuku pro zařízení Bluetooth nastaveno na %s ms</string>
     <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
     <string name="go_to_folder">Procházet zdrojové složky</string>
+    <string name="create_shortcut">Vytvořit odkaz na domovské obrazovce</string>
     <string name="no_sub_renderer">Titulky nejsou podporovány během odesílání.</string>
     <string name="enqueuing">Načítání médií...</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -934,6 +949,14 @@
     <string name="always_fast_seek">Vždy použít rychlé posunutí</string>
     <string name="always_fast_seek_summary">Posunutí je rychlejší, ale může být méně přesné.</string>
     <string name="touch_only">Funkce pouze dotykem</string>
-    <string name="touch_only_description">Přepnutí na mobilní rozhraní lze pouze dotykovou obrazovkou nebo myší.\nPosunutím si prosím ověřte, že je změna této funkce bezpečná.</string>
+    <string name="touch_only_description">Přepnutí na mobilní rozhraní lze provést pouze pomocí dotykové obrazovky nebo myši.\nPosunutím níže ověřte, zda je změna této funkce bezpečná.</string>
+    <string name="no_web_browser">Není nainstalován žádný prohlížeč</string>
+    <string name="no_web_browser_message">Toto můžete naskenovat ze svého mobilního telefonu.\nURL adresa je %s</string>
+    <string name="no_video">Není dostupné žádné video</string>
+    <string name="fold_optimized">Optimalizováno pro Vaši skládací obrazovku</string>
+    <string name="fold_optimize">Optimalizovat pro skládací obrazovky</string>
+    <string name="foldable">Skládací obrazovka</string>
+    <string name="undo">Zpět</string>
+    <string name="add_server_favorite">Přidat server do Oblíbené</string>
 
 </resources>
