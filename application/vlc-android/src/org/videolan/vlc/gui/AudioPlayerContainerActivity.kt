@@ -157,10 +157,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                     val bottomNavigationView = findViewById<BottomNavigationView?>(R.id.navigation)
                     bottomNavigationView?.setPadding(bottomNavigationView.paddingLeft, bottomNavigationView.paddingTop, bottomNavigationView.paddingRight, insets.bottom)
                     bottomInset = insets.bottom
-                    setContentBottomPadding()
                     insetListener.invoke(insets)
                     if (::audioPlayer.isInitialized) audioPlayer.setBottomMargin()
                 }
+                setContentBottomPadding()
             }
 
             WindowInsetsCompat.CONSUMED
@@ -172,7 +172,12 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
      * and the presence of the bottom navigation and mini player
      */
     private fun setContentBottomPadding() {
-        val bottomMargin = if (this is MainActivity && isTablet()) 0 else bottomInset + if (this is MainActivity && !isTablet()) 58.dp else 0 + if (::playerBehavior.isInitialized && playerBehavior.state != STATE_COLLAPSED) 72.dp else 0 + 4.dp
+        // insets from soft nav buttons
+        var bottomMargin = if (this is MainActivity && isTablet()) 0 else bottomInset
+        // Bottom bar navigation
+        bottomMargin += if (this is MainActivity && !isTablet()) 58.dp else 0
+        //mini player
+        bottomMargin += if (::playerBehavior.isInitialized && playerBehavior.state != STATE_HIDDEN) 72.dp else 0 + 4.dp
         fragmentContainer.setPadding(fragmentContainer.paddingLeft, fragmentContainer.paddingTop, fragmentContainer.paddingRight, bottomMargin)
     }
 
@@ -315,12 +320,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     fun updateFragmentMargins(state: Int = STATE_COLLAPSED) {
         playerShown = state != STATE_HIDDEN
-        supportFragmentManager.fragments.forEach { fragment ->
-            if (fragment is BaseFragment) fragment.updateAudioPlayerMargin()
-        }
+        setContentBottomPadding()
     }
 
-    fun getAudioMargin() = if (playerShown) resources.getDimensionPixelSize(R.dimen.player_peek_height) else 0
+//    fun getAudioMargin() = if (playerShown) resources.getDimensionPixelSize(R.dimen.player_peek_height) else 0
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
@@ -359,6 +362,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             applyMarginToProgressBar(playerBehavior.peekHeight)
         else
             applyMarginToProgressBar(0)
+        setContentBottomPadding()
         super.onResume()
     }
 

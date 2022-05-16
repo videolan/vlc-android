@@ -1,10 +1,8 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.res.TypedArray
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -21,17 +19,14 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.TAG_ITEM
-import org.videolan.tools.dp
 import org.videolan.tools.retrieveParent
 import org.videolan.tools.setGone
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.KEY_IN_MEDIALIB
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
-import org.videolan.vlc.util.getScreenWidth
 
 abstract class BaseFragment : Fragment(), ActionMode.Callback {
     var actionMode: ActionMode? = null
@@ -92,18 +87,6 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     override fun onStop() {
         super.onStop()
         setFabPlayVisibility(false)
-    }
-
-    override fun onResume() {
-        updateAudioPlayerMargin()
-        super.onResume()
-    }
-
-    fun updateAudioPlayerMargin() {
-        val activity = activity as? AudioPlayerContainerActivity? ?: return
-        view?.let {
-            it.setPadding(0,0,0,activity.getAudioMargin())
-        }
     }
 
     fun startActionMode() {
