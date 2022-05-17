@@ -388,7 +388,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                     if (localViewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
                 }
                 if (flags != 0L) {
-                    showContext(requireActivity(), this@MainBrowserFragment, position, item.getTitle(), flags)
+                    showContext(requireActivity(), this@MainBrowserFragment, position, item, flags)
                     currentCtx = this@MainBrowserContainer
                 }
             }

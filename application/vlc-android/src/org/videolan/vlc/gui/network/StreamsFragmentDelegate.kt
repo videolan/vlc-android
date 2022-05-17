@@ -89,7 +89,7 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
     override fun showContext(position: Int) {
         val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY or CTX_DELETE or CTX_ADD_SHORTCUT
         val media = viewModel.dataset.get(position)
-        org.videolan.vlc.gui.dialogs.showContext(fragment.requireActivity(), this, position, media.title, flags)
+        org.videolan.vlc.gui.dialogs.showContext(fragment.requireActivity(), this, position, media, flags)
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)

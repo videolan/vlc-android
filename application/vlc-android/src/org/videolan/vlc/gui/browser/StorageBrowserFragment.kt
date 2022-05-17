@@ -36,7 +36,9 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -44,7 +46,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.CTX_CUSTOM_REMOVE
-import org.videolan.tools.*
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -150,7 +152,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
             val path = storage.uri.path ?: return
             lifecycleScope.launchWhenStarted {
                 val isCustom = viewModel.customDirectoryExists(path)
-                if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
+                if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item, CTX_CUSTOM_REMOVE)
             }
         }
     }

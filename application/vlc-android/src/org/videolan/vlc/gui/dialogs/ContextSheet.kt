@@ -24,22 +24,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
+import org.videolan.vlc.databinding.ContextualSheetBinding
 
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
@@ -51,12 +52,12 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation(): Boolean = false
 
-    private lateinit var options : List<CtxOption>
-    lateinit var receiver : CtxActionReceiver
+    private lateinit var binding: ContextualSheetBinding
+    private lateinit var options: List<CtxOption>
+    lateinit var receiver: CtxActionReceiver
     private var itemPosition = -1
-    private lateinit var list: RecyclerView
 
-    override fun initialFocusedView(): View = list
+    override fun initialFocusedView(): View = binding.ctxList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,25 +78,34 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         dismiss()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.contextual_sheet, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.contextual_sheet, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments?.containsKey(CTX_TITLE_KEY) == true) {
-            view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
-        } else if (arguments?.containsKey(CTX_MEDIA_KEY) == true) {
-            val media: MediaWrapper = arguments?.get(CTX_MEDIA_KEY) as MediaWrapper
-            view.findViewById<TextView>(R.id.ctx_title).visibility = View.GONE
-            view.findViewById<ConstraintLayout>(R.id.ctx_cover_layout).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.ctx_cover_title).text = media.title
-            val cover = view.findViewById<ImageView>(R.id.ctx_cover)
-            cover.setImageURI(media.artworkURL.toUri())
+        if (arguments?.containsKey(CTX_MEDIA_KEY) == true) {
+            val media: MediaLibraryItem = arguments?.get(CTX_MEDIA_KEY) as MediaLibraryItem
+
+            val artwork = when (media) {
+                is MediaWrapper -> media.artworkURL
+                else -> media.artworkMrl
+            }
+            if (!artwork.isNullOrBlank()) {
+                binding.ctxTitle.visibility = View.GONE
+                binding.ctxCoverLayout.visibility = View.VISIBLE
+                binding.ctxCoverTitle.text = media.title
+                binding.ctxCover.setImageURI(artwork.toUri())
+            } else {
+                view.findViewById<TextView>(R.id.ctx_title).text = media.title
+            }
+        } else if (arguments?.containsKey(CTX_TITLE_KEY) == true) {
+            binding.ctxCoverTitle.text = arguments?.getString(CTX_TITLE_KEY)
+                    ?: ""
         }
-        list = view.findViewById<RecyclerView>(R.id.ctx_list)
-        list.layoutManager = LinearLayoutManager(requireContext())
-        list.adapter = ContextAdapter()
+        binding.ctxList.layoutManager = LinearLayoutManager(requireContext())
+        binding.ctxList.adapter = ContextAdapter()
         val flags = arguments?.getLong(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
     }
@@ -141,15 +151,16 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
 
         private val inflater: LayoutInflater by lazy(LazyThreadSafetyMode.NONE) { LayoutInflater.from(requireContext()) }
 
-        inner class ViewHolder(val binding : ContextItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        inner class ViewHolder(val binding: ContextItemBinding) : RecyclerView.ViewHolder(binding.root) {
             private val textColor = binding.contextOptionTitle.currentTextColor
             private val focusedColor by lazy(LazyThreadSafetyMode.NONE) { ContextCompat.getColor(itemView.context, R.color.orange500transparent) }
+
             init {
                 itemView.setOnClickListener {
                     receiver.onCtxAction(itemPosition, options[layoutPosition].id)
                     dismiss()
                 }
-                itemView.setOnFocusChangeListener { v, hasFocus -> binding.contextOptionTitle.setTextColor( if (hasFocus) focusedColor else textColor) }
+                itemView.setOnFocusChangeListener { v, hasFocus -> binding.contextOptionTitle.setTextColor(if (hasFocus) focusedColor else textColor) }
             }
         }
 
@@ -171,20 +182,39 @@ interface CtxActionReceiver {
     fun onCtxAction(position: Int, option: Long)
 }
 
-fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Long) {
+/**
+ * Show the bottom sheet containing the context actions
+ *
+ * @param activity the activity to use to launch the BottomSheet
+ * @param receiver the `CtxActionReceiver` managing the result
+ * @param arguments the arguments to send to the [VLCBottomSheetDialogFragment]
+ */
+private fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, arguments:Bundle) {
     if (!activity.isStarted()) return
     val ctxDialog = ContextSheet()
-    ctxDialog.arguments = bundleOf(CTX_TITLE_KEY to title, CTX_POSITION_KEY to position,
-        CTX_FLAGS_KEY to flags)
+    ctxDialog.arguments = arguments
     ctxDialog.receiver = receiver
     ctxDialog.show(activity.supportFragmentManager, "context")
 }
 
-fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, media: MediaWrapper, flags: Long) {
+/**
+ * Show the bottom sheet containing the context actions. Depending on [media] type, it generate the right arguments
+ *
+ * @param activity the activity to use to launch the BottomSheet
+ * @param receiver the `CtxActionReceiver` managing the result
+ * @param position the position that the caller may need to manage the result
+ * @param media the media used to display the title
+ * @param flags the flags describing the actions to be displayed
+ */
+fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, media: MediaLibraryItem?, flags: Long) {
     if (!activity.isStarted()) return
-    val ctxDialog = ContextSheet()
-    ctxDialog.arguments = bundleOf(CTX_MEDIA_KEY to media, CTX_POSITION_KEY to position,
-        CTX_FLAGS_KEY to flags)
-    ctxDialog.receiver = receiver
-    ctxDialog.show(activity.supportFragmentManager, "context")
+    val arguments = when (media) {
+        is MediaLibraryItem -> {
+            bundleOf(CTX_MEDIA_KEY to media, CTX_POSITION_KEY to position,
+                    CTX_FLAGS_KEY to flags)
+        }
+        else -> bundleOf(CTX_TITLE_KEY to (media?.title ?: ""), CTX_POSITION_KEY to position,
+                CTX_FLAGS_KEY to flags)
+    }
+    showContext(activity, receiver, arguments)
 }

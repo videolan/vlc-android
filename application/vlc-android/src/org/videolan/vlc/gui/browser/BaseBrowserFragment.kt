@@ -546,7 +546,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 if (!isMedia) flags = flags or CTX_PLAY
                 if (isVideo) flags = flags or CTX_DOWNLOAD_SUBTITLES
             }
-            if (flags != 0L) showContext(requireActivity(), this@BaseBrowserFragment, position, item.getTitle(), flags)
+            if (flags != 0L) showContext(requireActivity(), this@BaseBrowserFragment, position, item, flags)
         }
     }
 

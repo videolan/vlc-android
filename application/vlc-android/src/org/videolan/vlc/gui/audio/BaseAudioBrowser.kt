@@ -376,7 +376,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
             else -> CTX_AUDIO_FLAGS
         }
-        if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
+        if (actionMode == null) showContext(requireActivity(), this, position, item, flags)
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {

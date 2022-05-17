@@ -309,7 +309,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         if (activity === null || position >= playlistAdapter.itemCount) return
         var flags = CTX_REMOVE_FROM_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION
         if (item?.uri?.scheme != "content") flags = flags or CTX_ADD_TO_PLAYLIST or CTX_SHARE or CTX_SET_RINGTONE
-        showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
+        showContext(activity, ctxReceiver, position, item, flags)
     }
 
     private suspend fun doUpdate() {

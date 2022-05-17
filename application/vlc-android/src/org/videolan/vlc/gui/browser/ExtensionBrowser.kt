@@ -23,10 +23,8 @@ import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.Utils
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
-import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.media.MediaUtils
-import java.util.*
 
 class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
@@ -147,7 +145,7 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
     }
 
     fun openContextMenu(position: Int) {
-        showContext(requireActivity(), this, position, mAdapter.getItem(position).title, CTX_PLAY_ALL or CTX_APPEND or CTX_PLAY_AS_AUDIO or CTX_ITEM_DL)
+        //showContext(requireActivity(), this, position, mAdapter.getItem(position), CTX_PLAY_ALL or CTX_APPEND or CTX_PLAY_AS_AUDIO or CTX_ITEM_DL)
     }
 
     override fun onCtxAction(position: Int, option: Long) {
