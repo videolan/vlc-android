@@ -975,4 +975,23 @@
     <string name="playing">Playing</string>
 
 
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
+    <string name="talkback_genre">Genre</string>
+    <string name="talkback_history_item">History item</string>
+    <string name="talkback_playlist">Playlist</string>
+    <string name="talkback_folder">Folder: %s</string>
+    <string name="talkback_track_number">Track number %s</string>
+    <string name="talkback_duration">Duration: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Artist: %s</string>
+    <string name="talkback_release_date">Released in %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_video_group">Video group: %s</string>
+    <string name="talkback_hours">hours</string>
+    <string name="talkback_minutes">minutes</string>
+    <string name="talkback_seconds">seconds</string>
+
+
 </resources>

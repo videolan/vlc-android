@@ -70,10 +70,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.launchWhenStarted
-import org.videolan.vlc.util.onAnyChange
-import org.videolan.vlc.util.share
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -156,6 +153,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         menu.findItem(R.id.ml_menu_display_list).isVisible = displayInCards
         menu.findItem(R.id.rename_group).isVisible = viewModel.group != null
         menu.findItem(R.id.ungroup).isVisible = viewModel.group != null
+        if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -186,6 +184,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             R.id.ungroup -> {
                 viewModel.group?.let { viewModel.ungroup(it) }
+            }
+            R.id.play_all -> {
+                onFabPlayClick(binding.root)
             }
             else -> return super.onOptionsItemSelected(item)
         }

@@ -87,6 +87,7 @@
             android:paddingEnd="8dp"
             android:paddingTop="8dp"
             android:clipToPadding="false"
+            vlc:mediaContentDescription="@{media}"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">
 
@@ -97,6 +98,7 @@
                 android:layout_height="0dp"
                 android:clickable="true"
                 android:focusable="true"
+                        android:importantForAccessibility="no"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:longClickable="true"
                 android:onClick="@{holder::onClick}"
@@ -247,6 +249,7 @@
                         android:contentDescription="@string/more_actions"
                         android:onClick="@{holder::onMoreClick}"
                         android:scaleType="fitEnd"
+                        android:importantForAccessibility="yes"
                         android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:layout_constraintTop_toTopOf="parent"
