@@ -52,7 +52,6 @@
     <string name="confirm_delete_several_media">Medyaya %1$d\'ê jê bibe?</string>
     <string name="confirm_delete_folder">Peldanka \'%1$s\'ê û hemû naverokên wê jê bibe?</string>
     <string name="confirm_delete_playlist">Lîsteya lêdanê ya \'%1$s\'ê jê bibe?</string>
-    <string name="confirm_remove_from_playlist">Bila \'%1$s\' ji lîsteya lêdanê bê rakirin?</string>
     <string name="ringtone_set">Dosyeya \'%1$s\'ê wekî dengê telefonê hat sazkirin.</string>
     <string name="ringtone_error">Di sazkirina dengê telefonê de çewtî derket.</string>
     <string name="pause">Bisekinîne</string>
@@ -111,7 +110,6 @@
     <string name="nosubfolder">Bin-peldank tune</string>
     <string name="directorynotfound">Rêya peldanka \'%1$s\'ê nehat dîtin.</string>
     <string name="nohistory">Heta niha te li ti muzîkê guhdarî nekiriyê.</string>
-    <string name="validation">Bi rastî jî?</string>
 
     <string name="cover_art">Wêneyê bergê</string>
     <string name="shuffle_all_title">Gişî tevlihev bike</string>
@@ -167,7 +165,6 @@
     <string name="server_share_hint">Navê parvekirina torê (an jî navnîşana IP\'ê)</string>
     <string name="server_folder_hint">Rêya peldankê (li gorî daxwazê)</string>
     <string name="server_username_hint">Navê bikarhêner</string>
-    <string name="server_servername_hint">Navê serverê, ji bo hêsaniyê</string>
     <string name="server_port">Port: </string>
     <string name="login">Têkeve</string>
     <string name="password">Pêborîn</string>
@@ -184,7 +181,6 @@
     <string name="encountered_error_title">Çewtiya lêdanê</string>
     <string name="encountered_error_message">Dema ku ev medya dihat bikaranîn çewtiyek derket.\nJi kerama xwe, medyageha xwe nû bike.</string>
     <string name="invalid_location">Cîgeha %1$s\'ê nehat lêdan.</string>
-
     <string name="search">Lêgerîn</string>
 
 
@@ -208,12 +204,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC ji bo Androidê</string>
-    <string name="licence">Lîsans</string>
     <string name="revision">Revizyon</string>
     <string name="about">Derbar</string>
-    <string name="about_text">VLC ji bo Android™ parçeyeke ji medyalêdara VLC\'ê ye, ew çavkanî vekirî û pir populer e. Guhertoya Android™ dikare pirî dosyeyan û herikên torê bixwîne.</string>
     <string name="vlc_authors">û Pêşvebirên VLC\'ê.</string>
-    <string name="compiled_by">Vê guhertoya VLC\'ê ji aliyê van kesan ve hatiye çêkirin:</string>
     <string name="feedback_forum">Forûma paşragihandinê</string>
 
     <!-- Preferences -->
@@ -324,8 +317,6 @@
     <string name="playlist_save">Lîsteya lêdanê tomar bike</string>
     <string name="playlist_name_hint">Navê lîsteya lêdanê</string>
     <string name="go_to_chapter">Here beşê...</string>
-    <string name="chapter">Beş</string>
-    <string name="resume_from_position">Ji ciyê berê ve bidomîne</string>
     <string name="confirm_resume">Bila ji ciyê berê ve were doamandin?</string>
     <string name="confirm_resume_title">Vîdyoyên di lêdanê de bidomîne</string>
     <string name="tv_ui_title">Navrûya Android TV\'yê</string>
@@ -474,9 +465,6 @@
     <string name="air_action_next">Di lîsteya lêdanê de hêmana din</string>
     <string name="air_action_previous">Di lîsteya lêdanê de hêmana berî vê</string>
     <string name="timeout_infinite">Bêdawî</string>
-    <string name="timeout_short">Kurt</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Dirêj</string>
     <string name="video_hud_timeout">Lêdera vîdyo derengmayîna maskekirin kontrol dike</string>
     <string name="remove_from_history">Ji raboriyê rake</string>
     <string name="prefersmbv1_summary">Heke hûn di lêgerîna pêşkêşkera SMB-ya xwe de zehmetiyê dikişînin vê mîhengê vebijêre</string>
