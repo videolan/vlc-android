@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/player_root"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:keepScreenOn="true">
 
     <!--
@@ -30,8 +30,7 @@
             android:id="@+id/player_brightness_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|end"
             android:layout_marginBottom="@dimen/default_margin"
             android:layout_marginRight="@dimen/tv_overscan_horizontal"
             android:layout="@layout/player_overlay_brightness" />
@@ -40,16 +39,15 @@
             android:id="@+id/player_volume_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/tv_overscan_horizontal"
-            android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/default_margin"
             android:layout="@layout/player_overlay_volume" />
 
     <View
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:id="@+id/hud_background"
             android:background="@drawable/gradient_hud_player"
             android:visibility="gone"/>
@@ -57,7 +55,6 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_alignParentTop="true"
             android:id="@+id/hud_right_background"
             android:background="@drawable/gradient_title_player"
             android:visibility="gone"/>
@@ -136,9 +133,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-
             android:maxWidth="480dp"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:background="@color/playerbackground"
             android:id="@+id/video_playlist_container"
             android:visibility="gone"
@@ -224,4 +220,4 @@
             android:layout_height="match_parent"
             android:layout="@layout/player_resize" />
 
-</RelativeLayout>
+</FrameLayout>
