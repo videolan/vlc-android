@@ -198,40 +198,43 @@
 
             <FrameLayout
                     android:id="@+id/player_overlay_time_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_length_container"
+                    vlc:layout_constraintHorizontal_bias="0.5"
                     vlc:layout_constraintHorizontal_chainStyle="spread_inside"
-                    vlc:layout_constraintLeft_toLeftOf="parent"
+                    vlc:layout_constraintStart_toStartOf="parent"
                     vlc:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                         android:id="@+id/player_overlay_time"
                         style="@style/VLC.Player.TimeText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:nextFocusUp="@+id/ab_repeat_add_marker"
                         android:onClick="@{(v) -> player.toggleTimeDisplay()}"
                         android:text="@{Tools.millisToString(progress.time)}"
-                        android:textAlignment="center"
                         tools:text="0:32" />
             </FrameLayout>
 
             <FrameLayout
                     android:id="@+id/player_overlay_length_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    vlc:layout_constraintRight_toRightOf="parent"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/player_overlay_time_container"
                     vlc:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                         android:id="@+id/player_overlay_length"
                         style="@style/VLC.Player.TimeText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:gravity="right"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:nextFocusUp="@+id/ab_repeat_add_marker"
                         android:onClick="@{(v) -> player.toggleTimeDisplay()}"
