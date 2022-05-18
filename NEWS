@@ -1,3 +1,12 @@
+Changes between 3.5.0 Beta 5 and 3.5.0 Beta 6:
+------------------
+ * New widgets. Now fully customizable!
+ * New album details screen
+ * Video player performance improvements
+ * Improve and fix media progress saving
+ * Minor UI fixes and improvements
+ * Crash fixes
+
 Changes between 3.5.0 Beta 4 and 3.5.0 Beta 5:
 ------------------
  * UI improvements
