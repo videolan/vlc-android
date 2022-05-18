@@ -48,7 +48,6 @@
     <string name="confirm_delete_album">Fshi albumin \'%1$s\'?</string>
     <string name="confirm_delete_folder">Fshij dosjen \'%1$s\' dhe gjithë përmbajtjen?</string>
     <string name="confirm_delete_playlist">Fshij listën \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Hiq \'%1$s\' nga lista?</string>
     <string name="ringtone_set">Skedari \'%1$s\' është vendosur si zile.</string>
     <string name="ringtone_error">Ndodhi një gabim gjatë vendosjes së ziles.</string>
     <string name="pause">Pushim</string>
@@ -92,7 +91,6 @@
     <string name="noplaylist">Asnjë listë e gjetur</string>
     <string name="directorynotfound">Rruga e dosjes \'%1$s\' nuk u gjet.</string>
     <string name="nohistory">Ju nuk keni një histori ridëgjimi akoma.</string>
-    <string name="validation">Jeni të sigurtë ?</string>
 
     <string name="cover_art">Figurë mbështjellëse</string>
     <string name="shuffle_all_title">Përziej t\'gjitha</string>
@@ -148,7 +146,6 @@
     <string name="server_share_hint">Emri shpërndarjes të rrjetit (ose IP address)</string>
     <string name="server_folder_hint">Rruga dosjes (fakultativ)</string>
     <string name="server_username_hint">Përdorues</string>
-    <string name="server_servername_hint">Emri Server, për lehtësi</string>
     <string name="server_port">Port: </string>
     <string name="login">Kyçu</string>
     <string name="password">Fjalëkalimi</string>
@@ -164,7 +161,6 @@
     <string name="encountered_error_title">Gabim ridëgjim</string>
     <string name="encountered_error_message">VLC hasi një gabim me këtë media.\nJu lutem provoni të rifreskoni bibliotekën media.</string>
     <string name="invalid_location">Vendndodhja %1$s nuk mund të luhet.</string>
-
     <string name="search">Kërko</string>
 
 
@@ -189,12 +185,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC për Android</string>
-    <string name="licence">Liçensë</string>
     <string name="revision">Rishikim</string>
     <string name="about">Rreth</string>
-    <string name="about_text">VLC për Android™ është një port i VLC media player, media player me popullsi të hapur. Versioni Android™ mund të lexojnë shumicën e dosjeve dhe transmetimeve të rrjetit.</string>
     <string name="vlc_authors">dhe Autoret e VLC.</string>
-    <string name="compiled_by">Ky version i VLC është kompiluar nga:</string>
 
     <!-- Preferences -->
     <string name="preferences">Cilësimet</string>
@@ -217,7 +210,6 @@
     <string name="subtitle_text_encoding">Deshifrim teksti titra</string>
     <string name="daynight_title">Mënyrë DitëNatë</string>
     <string name="daynight_follow_system_title">Ndiqni mënyrën e sistemit</string>
-
     <string name="extra_prefs_category">Cilësime shtresë</string>
 
     <string name="interface_prefs_screen">Ndërfaqja</string>
