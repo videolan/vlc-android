@@ -28,6 +28,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.core.content.contentValuesOf
@@ -68,9 +69,12 @@ object AudioUtil {
                 return@snackerConfirm
             }
 
+            val type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                MimeTypeMap.getFileExtensionFromUrl(song.uri.path))
+
             val values = contentValuesOf(
                     MediaStore.MediaColumns.TITLE to song.title,
-                    MediaStore.MediaColumns.MIME_TYPE to "audio/*",
+                    MediaStore.MediaColumns.MIME_TYPE to type,
                     MediaStore.Audio.Media.ARTIST to song.artist,
                     MediaStore.Audio.Media.IS_RINGTONE to true,
                     MediaStore.Audio.Media.IS_NOTIFICATION to false,
