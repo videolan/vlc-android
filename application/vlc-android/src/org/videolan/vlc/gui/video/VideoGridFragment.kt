@@ -304,6 +304,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun updateEmptyView() {
         if (!::binding.isInitialized) return
+        if (!isAdded) return
         val empty = viewModel.isEmpty() && videoListAdapter.currentList.isNullOrEmpty()
         val working = viewModel.provider.loading.value != false
         binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
