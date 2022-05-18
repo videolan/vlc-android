@@ -51,7 +51,6 @@
     <string name="confirm_delete_several_media">ဤ %1$d မီဒီယာ ကို ဖျက်လိုပါသလား?</string>
     <string name="confirm_delete_folder">\'%1$s\' ဖိုဒါ နှင့် ၎င်းရှိ အချက်အလက် အားလုံး ကို ဖျက်လိုပါသလား?</string>
     <string name="confirm_delete_playlist"> \'%1$s\' ဖွင့်လှစ်စာရင်း ကို ဖျက်လိုပါသလား?</string>
-    <string name="confirm_remove_from_playlist">ဖွင့်လှစ်စာရင်း မှ  \'%1$s\' ကိုဖယ်ရှားမှာလား?</string>
     <string name="ringtone_set">\'%1$s\' ဖိုင် ကို ဖုန်းမြည်သံ အဖြစ် ထားမည်။</string>
     <string name="ringtone_error">ဖုန်းမြည်သံ ကို ပြင်ဆင် နေစဉ် အမှားပေါ်ပေါက်ခဲ့သည်။</string>
     <string name="pause">ဆိုင်းငံ့</string>
@@ -100,8 +99,6 @@
     <string name="please_wait">ကျေးဇူးပြုပြီး ခဏစောင့်ပါ...</string>
     <string name="nomedia">မည်သည် မီဒီယာ မျှ မတွေ့ပါ၊ ကျေးဇူးပြု၍ သင်၏ ကိရိယာသို့ ဖိုင် အချို့ ကို ​ြေပာင်းရွှေ့ပါ သို့မဟုတ် သင်၏ စိတ်ကြိုက်အပြင်အဆင်များ ကို ချိန်ညှိပါ။</string>
     <string name="noplaylist">မည်သည့် ဖွင့်လှစ်စာရင်း မျှမတွေ့။</string>
-    <string name="validation">သင် သေခြာ ပါသလား?</string>
-
     <string name="cover_art">အဖုံး သရုပ်ဖော်ပုံ</string>
     <string name="shuffle_all_title">အားလုံး ရောနှောဖွင့်ပါ</string>
     <string name="shuffle_title">ရောနှော စနစ်</string>
