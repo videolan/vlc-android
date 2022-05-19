@@ -539,7 +539,7 @@
                 android:name=".widget.MiniPlayerConfigureActivity"
                 android:exported="true"
                 android:theme="@style/WidgetConfiguration"
-                android:launchMode="singleInstance"
+                android:launchMode="singleTop"
                 android:noHistory="true"
                 android:excludeFromRecents="true">
             <intent-filter>
