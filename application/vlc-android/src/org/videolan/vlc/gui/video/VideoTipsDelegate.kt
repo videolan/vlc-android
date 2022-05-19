@@ -309,6 +309,7 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 currentAnimations.add(TipsUtils.horizontalSwipe(tapGestureHorizontal))
                 nextButton.setText(R.string.close)
             }
+            else -> {}
         }
 
         constraintSet.applyTo(overlayTipsLayout)

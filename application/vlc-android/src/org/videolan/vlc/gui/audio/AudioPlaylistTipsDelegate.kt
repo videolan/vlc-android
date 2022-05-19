@@ -324,6 +324,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
                 currentAnimations.add(longTapSeek(tapIndicatorRewind, tapIndicatorForward, plTipsTimeline))
                 nextButton.setText(R.string.close)
             }
+            else -> {}
         }
 
         constraintSet.applyTo(audioPlaylistTips)

@@ -232,6 +232,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                 if (actionMode != null) onClick(position, item)
                 else onLongClick(position, item)
             }
+            else -> {}
         }
     }
 

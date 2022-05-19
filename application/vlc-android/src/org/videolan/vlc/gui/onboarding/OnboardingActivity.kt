@@ -97,6 +97,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
             FragmentName.SCAN -> showFragment(FragmentName.THEME)
+            else -> {}
         }
     }
 

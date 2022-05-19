@@ -147,6 +147,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
                 TipsUtils.startTapAnimation(listOf(tapIndicatorStop), true)
                 nextButton.setText(R.string.close)
             }
+            else -> {}
         }
 
         constraintSet.applyTo(audioPlayerTips)

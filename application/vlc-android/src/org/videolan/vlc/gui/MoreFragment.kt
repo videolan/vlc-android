@@ -79,7 +79,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(true)
     override fun hasFAB() = false
-    fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
+    private fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
     private var savedSelection = ArrayList<Int>()
     private val dialogsDelegate = DialogDelegate()
 
@@ -281,6 +281,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
                     if (actionMode != null) onClick(position, item)
                     else onLongClick(position, item)
                 }
+                else -> {}
             }
         }
     }
