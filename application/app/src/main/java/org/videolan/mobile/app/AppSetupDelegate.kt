@@ -39,6 +39,7 @@ import org.videolan.mobile.app.delegates.IIndexersDelegate
 import org.videolan.mobile.app.delegates.IMediaContentDelegate
 import org.videolan.mobile.app.delegates.IndexersDelegate
 import org.videolan.mobile.app.delegates.MediaContentDelegate
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
@@ -97,7 +98,7 @@ class AppSetupDelegate : AppDelegate,
         packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
                 if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         VersionMigration.migrateVersion(this@backgroundInit)
-        sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
+        if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
             component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
         })
 
