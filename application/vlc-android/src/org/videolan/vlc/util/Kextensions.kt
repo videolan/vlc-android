@@ -54,6 +54,7 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.security.SecureRandom
 import java.util.*
+import kotlin.math.roundToInt
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -247,7 +248,7 @@ fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
 fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = toFloat() * (metrics.densityDpi / 160f)
-    return Math.round(px)
+    return px.roundToInt()
 }
 
 fun Activity.getScreenWidth() : Int {

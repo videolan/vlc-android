@@ -70,7 +70,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
             binding.albumSubtitle.visibility = View.GONE
         }
 
-        binding.totalTime = Tools.millisToString(item.tracks.sumByDouble { it.length.toDouble() }.toLong())
+        binding.totalTime = Tools.millisToString(item.tracks.sumOf { it.length })
 
 
         binding.play.requestFocus()

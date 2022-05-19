@@ -150,12 +150,12 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
                 val scrollX = scrollX
                 if (delta < 0) {
                     if (scrollX > 0) {
-                        scrollBy(Math.max(-scrollX, delta), 0)
+                        scrollBy(delta.coerceAtLeast(-scrollX), 0)
                     }
                 } else if (delta > 0) {
                     val availableToScroll = getChildAt(childCount - 1).right - scrollX - width
                     if (availableToScroll > 0) {
-                        scrollBy(Math.min(availableToScroll, delta), 0)
+                        scrollBy(delta.coerceAtMost(availableToScroll), 0)
                     }
                 }
             }
@@ -210,7 +210,7 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
     private fun snapToScreen(position: Int) {
         this.position = position
         val delta = position * width - scrollX
-        scroller.startScroll(scrollX, 0, delta, 0, Math.abs(delta))
+        scroller.startScroll(scrollX, 0, delta, 0, abs(delta))
         invalidate()
     }
 

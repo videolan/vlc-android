@@ -48,6 +48,8 @@ package org.videolan.tools
 
 import java.text.DecimalFormat
 import java.util.*
+import kotlin.math.log10
+import kotlin.math.pow
 
 private const val TAG = "VLC/UiTools/Strings"
 
@@ -69,16 +71,16 @@ fun Long.readableFileSize(): String {
     val size: Long = this
     if (size <= 0) return "0"
     val units = arrayOf("B", "KiB", "MiB", "GiB", "TiB")
-    val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1024.0)).toInt()
-    return DecimalFormat("#,##0.#").format(size / Math.pow(1024.0, digitGroups.toDouble())) + " " + units[digitGroups]
+    val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
+    return DecimalFormat("#,##0.#").format(size / (1024.0).pow(digitGroups.toDouble())) + " " + units[digitGroups]
 }
 
 fun Long.readableSize(): String {
     val size: Long = this
     if (size <= 0) return "0"
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1000.0)).toInt()
-    return DecimalFormat("#,##0.#").format(size / Math.pow(1000.0, digitGroups.toDouble())) + " " + units[digitGroups]
+    val digitGroups = (log10(size.toDouble()) / log10(1000.0)).toInt()
+    return DecimalFormat("#,##0.#").format(size / (1000.0).pow(digitGroups.toDouble())) + " " + units[digitGroups]
 }
 
 fun String.removeFileScheme() = if (this.startsWith("file://")) this.drop(7) else this

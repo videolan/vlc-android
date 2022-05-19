@@ -46,6 +46,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
 import org.videolan.vlc.gui.view.PopupLayout
 import org.videolan.vlc.util.getPendingIntent
+import kotlin.math.abs
+import kotlin.math.floor
 
 class PopupManager constructor(private val service: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
 
@@ -66,11 +68,11 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
 
     fun removePopup() {
         hideNotification()
-        if (rootView == null) return
+        val view = rootView ?: return
         service.removeCallback(this)
         val vlcVout = service.vout
         vlcVout?.detachViews()
-        rootView!!.close()
+        view.close()
         rootView = null
     }
 
@@ -78,29 +80,30 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         service.addCallback(this)
         val li = LayoutInflater.from(service.applicationContext)
         rootView = li.inflate(R.layout.video_popup, null) as PopupLayout
-        if (alwaysOn) rootView!!.keepScreenOn = true
-        playPauseButton = rootView!!.findViewById(R.id.video_play_pause)
-        closeButton = rootView!!.findViewById(R.id.popup_close)
-        expandButton = rootView!!.findViewById(R.id.popup_expand)
+        val view = rootView ?: return
+        if (alwaysOn) view.keepScreenOn = true
+        playPauseButton = view.findViewById(R.id.video_play_pause)
+        closeButton = view.findViewById(R.id.popup_close)
+        expandButton = view.findViewById(R.id.popup_expand)
         playPauseButton.setOnClickListener(this)
         closeButton.setOnClickListener(this)
         expandButton.setOnClickListener(this)
 
         val gestureDetector = GestureDetectorCompat(service, this)
         gestureDetector.setOnDoubleTapListener(this)
-        rootView!!.setGestureDetector(gestureDetector)
+        view.setGestureDetector(gestureDetector)
 
         val vlcVout = service.vout ?: return
-        vlcVout.setVideoView(rootView!!.findViewById<View>(R.id.player_surface) as SurfaceView)
+        vlcVout.setVideoView(view.findViewById<View>(R.id.player_surface) as SurfaceView)
         vlcVout.addCallback(this)
         vlcVout.attachViews(this)
-        rootView!!.setVLCVOut(vlcVout)
+        view.setVLCVOut(vlcVout)
     }
 
     override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
         if (playPauseButton.visibility == View.VISIBLE) return false
         handler.sendEmptyMessage(SHOW_BUTTONS)
-        handler.sendEmptyMessageDelayed(HIDE_BUTTONS, MSG_DELAY.toLong())
+        handler.sendEmptyMessageDelayed(HIDE_BUTTONS, MSG_DELAY)
         return true
     }
 
@@ -130,7 +133,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     override fun onLongPress(e: MotionEvent) {}
 
     override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-        if (Math.abs(velocityX) > FLING_STOP_VELOCITY || velocityY > FLING_STOP_VELOCITY) {
+        if (abs(velocityX) > FLING_STOP_VELOCITY || velocityY > FLING_STOP_VELOCITY) {
             stopPlayback()
             return true
         }
@@ -139,11 +142,9 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
 
     override fun onNewVideoLayout(vlcVout: IVLCVout, width: Int, height: Int,
                                   visibleWidth: Int, visibleHeight: Int, sarNum: Int, sarDen: Int) {
-        var width = width
-        var height = height
-        if (rootView == null) return
-        val displayW = rootView!!.width
-        val displayH = rootView!!.height
+        val view = rootView ?: return
+        val displayW = view.width
+        val displayH = view.height
 
         // sanity check
         if (displayW * displayH == 0) {
@@ -152,15 +153,14 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         }
 
         if (width == 0 || height == 0) {
-            rootView!!.setViewSize(displayW, displayH)
+            view.setViewSize(displayW, displayH)
             return
         }
 
         // compute the aspect ratio
         var dw = displayW.toDouble()
         var dh = displayH.toDouble()
-        val ar: Double
-        ar = if (sarDen == sarNum) {
+        val ar = if (sarDen == sarNum) {
             /* No indication about the density, assuming 1:1 */
             visibleWidth.toDouble() / visibleHeight.toDouble()
         } else {
@@ -176,9 +176,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         else
             dw = dh * ar
 
-        width = Math.floor(dw).toInt()
-        height = Math.floor(dh).toInt()
-        rootView!!.setViewSize(width, height)
+        view.setViewSize(floor(dw).toInt(), floor(dh).toInt())
     }
 
     override fun update() {}
@@ -188,15 +186,15 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         when (event.type) {
             MediaPlayer.Event.Playing -> {
-                if (rootView != null) {
-                    if (!alwaysOn) rootView!!.keepScreenOn = true
+                rootView?.let { view ->
+                    if (!alwaysOn) view.keepScreenOn = true
                     playPauseButton.setImageResource(R.drawable.ic_popup_pause)
                 }
                 showNotification()
             }
             MediaPlayer.Event.Paused -> {
-                if (rootView != null) {
-                    if (!alwaysOn) rootView!!.keepScreenOn = false
+                rootView?.let { view ->
+                    if (!alwaysOn) view.keepScreenOn = false
                     playPauseButton.setImageResource(R.drawable.ic_popup_play)
                 }
                 showNotification()
@@ -220,19 +218,19 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     private fun expandToVideoPlayer() {
         removePopup()
         if (service.hasMedia() && !service.isPlaying)
-            service.currentMediaWrapper!!.flags = MediaWrapper.MEDIA_PAUSED
+            service.currentMediaWrapper?.let { mw -> mw.flags = MediaWrapper.MEDIA_PAUSED }
         service.switchToVideo()
     }
 
     private fun stopPlayback() {
-        var time = service.getTime()
+        val time = service.getTime()
         if (time != -1L) {
             // remove saved position if in the last 5 seconds
             // else, go back 2 seconds, to compensate loading time
-            time = (if (service.length - time < 5000) 0 else 2000).toLong()
+            val resumeTime = if (service.length - time < 5000L) 0L else 2000L
             // Save position
             if (service.isSeekable) {
-                Settings.getInstance(service).putSingle(VIDEO_RESUME_TIME, time)
+                Settings.getInstance(service).putSingle(VIDEO_RESUME_TIME, resumeTime)
                 service.currentMediaLocation?.let { Settings.getInstance(service).putSingle(VIDEO_RESUME_URI, it) }
             }
         }
@@ -275,7 +273,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         service.setVideoTrackEnabled(true)
         if (service.hasMedia()) {
             service.flush()
-            playPauseButton!!.setImageResource(if (service.isPlaying) R.drawable.ic_popup_pause else R.drawable.ic_popup_play)
+            playPauseButton.setImageResource(if (service.isPlaying) R.drawable.ic_popup_pause else R.drawable.ic_popup_play)
         } else
             service.playIndex(service.currentMediaPosition)
         showNotification()
@@ -289,8 +287,8 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
 
         private const val TAG = "VLC/PopupManager"
 
-        private const val FLING_STOP_VELOCITY = 3000
-        private const val MSG_DELAY = 3000
+        private const val FLING_STOP_VELOCITY = 3000f
+        private const val MSG_DELAY = 3000L
 
         private const val SHOW_BUTTONS = 0
         private const val HIDE_BUTTONS = 1

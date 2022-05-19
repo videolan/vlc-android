@@ -47,11 +47,10 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.util.LocaleUtil
-import org.videolan.vlc.util.getScreenWidth
-import java.lang.Double
 
 class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling: () -> Unit, val idle: () -> Unit) {
     lateinit var container: ConstraintLayout
+    private var lastMediaUri: Uri? = null
     private var started = false
     private val plotHandler: Handler = Handler()
     private val firstTimecode = System.currentTimeMillis()
@@ -91,8 +90,6 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
         setupLayout()
     }
 
-    var lastMediaUri:Uri?= null
-
     @SuppressLint("SetTextI18n")
     private val runnable = Runnable {
         val media = player.service?.mediaplayer?.media as? Media ?: return@Runnable
@@ -128,11 +125,11 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
                     }
                     IMedia.Track.Type.Video -> {
                         (track as? IMedia.VideoTrack)?.let { track ->
-                            val framerate = track.frameRateNum / track.frameRateDen.toDouble()
+                            val frameRate = track.frameRateNum / track.frameRateDen.toDouble()
                             if (track.width != 0 && track.height != 0)
                                 addStreamGridView(grid, player.getString(R.string.resolution), player.getString(R.string.resolution_value, track.width, track.height))
-                            if (!Double.isNaN(framerate))
-                                addStreamGridView(grid, player.getString(R.string.framerate), player.getString(R.string.framerate_value, framerate))
+                            if (!frameRate.isNaN())
+                                addStreamGridView(grid, player.getString(R.string.framerate), player.getString(R.string.framerate_value, frameRate))
                         }
                     }
                 }

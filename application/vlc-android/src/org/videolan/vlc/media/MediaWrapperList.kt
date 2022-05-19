@@ -92,7 +92,7 @@ class MediaWrapperList {
     @Synchronized
     fun insert(position: Int, media: MediaWrapper) {
         if (position < 0) return
-        internalList.add(Math.min(position, internalList.size), media)
+        internalList.add(position.coerceAtMost(internalList.size), media)
         signalEventListeners(EVENT_ADDED, position, -1, media.location)
         if (media.type == MediaWrapper.TYPE_VIDEO)
             ++videoCount

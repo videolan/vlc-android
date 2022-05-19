@@ -170,7 +170,7 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
     override fun onScale(detector: ScaleGestureDetector): Boolean {
         scaleFactor *= detector.scaleFactor.toDouble()
 
-        scaleFactor = Math.max(0.1, Math.min(scaleFactor, 5.0))
+        scaleFactor = scaleFactor.coerceIn(0.1, 5.0)
         popupWidth = (width * scaleFactor).toInt()
         popupHeight = (height * scaleFactor).toInt()
         return true
@@ -186,8 +186,8 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
     }
 
     private fun containInScreen(width: Int, height: Int) {
-        mLayoutParams.x = Math.max(mLayoutParams.x, 0)
-        mLayoutParams.y = Math.max(mLayoutParams.y, 0)
+        mLayoutParams.x = mLayoutParams.x.coerceAtLeast(0)
+        mLayoutParams.y = mLayoutParams.y.coerceAtLeast(0)
         if (mLayoutParams.x + width > screenWidth)
             mLayoutParams.x = screenWidth - width
         if (mLayoutParams.y + height > screenHeight)

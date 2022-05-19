@@ -56,6 +56,7 @@ import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 private const val TAG = "FastScroller"
 private const val HANDLE_ANIMATION_DURATION = 100
@@ -269,7 +270,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         if (this::recyclerView.isInitialized) {
             val proportion: Float = y / currentHeight.toFloat()
 
-            val targetPos = getValueInRange(0, itemCount, Math.round(proportion * itemCount.toFloat()))
+            val targetPos = getValueInRange(0, itemCount, (proportion * itemCount.toFloat()).roundToInt())
             if (targetPos == currentPosition) {
                 return
             }

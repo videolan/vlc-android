@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.roundToInt
 
 open class VLCDividerItemDecoration(private val context: Context, private val orientation: Int, private val dividerDrawable: Drawable) : DividerItemDecoration(context, orientation) {
 
@@ -45,7 +46,7 @@ open class VLCDividerItemDecoration(private val context: Context, private val or
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, bounds)
-            val bottom = bounds.bottom + Math.round(child.translationY)
+            val bottom = bounds.bottom + child.translationY.roundToInt()
             val top = bottom - dividerDrawable.intrinsicHeight
             dividerDrawable.setBounds(left, top, right, bottom)
             dividerDrawable.draw(canvas)
@@ -72,7 +73,7 @@ open class VLCDividerItemDecoration(private val context: Context, private val or
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.layoutManager!!.getDecoratedBoundsWithMargins(child, bounds)
-            val right = bounds.right + Math.round(child.translationX)
+            val right = bounds.right + child.translationX.roundToInt()
             val left = right - dividerDrawable.intrinsicWidth
             dividerDrawable.setBounds(left, top, right, bottom)
             dividerDrawable.draw(canvas)
