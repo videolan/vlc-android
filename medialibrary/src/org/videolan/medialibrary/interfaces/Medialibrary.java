@@ -100,7 +100,7 @@ abstract public class Medialibrary {
 
     protected volatile boolean mIsInitiated = false;
     protected volatile boolean mIsWorking = false;
-    protected static MutableLiveData<Boolean> sRunning = new MutableLiveData<>();
+    protected static final MutableLiveData<Boolean> sRunning = new MutableLiveData<>();
 
     protected final List<ArtistsCb> mArtistsCbs = new ArrayList<>();
     protected final List<AlbumsCb> mAlbumsCbs = new ArrayList<>();
@@ -116,7 +116,7 @@ abstract public class Medialibrary {
     protected final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
     private MedialibraryExceptionHandler mExceptionHandler;
     protected static Context sContext;
-    public static LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
+    public static final LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
 
     protected static final Medialibrary instance = MLServiceLocator.getAbstractMedialibrary();
 
@@ -558,7 +558,7 @@ abstract public class Medialibrary {
     //    public static LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
     @SuppressWarnings({"unused", "unchecked"})
     public void onMediaThumbnailReady(MediaWrapper media, boolean success) {
-        if (success) ((MutableLiveData)lastThumb).postValue(media);
+        if (success) ((MutableLiveData<MediaWrapper>)lastThumb).postValue(media);
     }
 
     public void addMediaCb(MediaCb mediaUpdatedCb) {

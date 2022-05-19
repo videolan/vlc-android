@@ -287,7 +287,7 @@ class ArtworkProvider : ContentProvider() {
     private suspend fun getHomeImage(context: Context, key: String, list: Array<MediaWrapper>?): ByteArray? {
         var cover: Bitmap? = null
         val tracks: ArrayList<MediaWrapper> = ArrayList()
-        list?.let { list ->
+        list?.let {
             tracks.ensureCapacity(list.size.coerceAtMost(MediaSessionBrowser.MAX_COVER_ART_ITEMS))
             for (libraryItem in list) {
                 if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && libraryItem.type != MediaWrapper.TYPE_AUDIO)
@@ -295,7 +295,7 @@ class ArtworkProvider : ContentProvider() {
                 tracks.add(libraryItem)
                 if (tracks.size == MediaSessionBrowser.MAX_COVER_ART_ITEMS) break
             }
-            if (tracks.any { it.artworkMrl != null && it.artworkMrl.isNotEmpty() }) {
+            if (tracks.any { mw -> mw.artworkMrl != null && mw.artworkMrl.isNotEmpty() }) {
                 val iconAddition = when (key) {
                     SHUFFLE_ALL -> getBitmapFromDrawable(context, R.drawable.ic_auto_shuffle_circle)
                     LAST_ADDED -> getBitmapFromDrawable(context, R.drawable.ic_auto_new_circle)
@@ -343,6 +343,7 @@ class ArtworkProvider : ContentProvider() {
     /**
      * Encode bitmap in WEBP format.
      */
+    @Suppress("DEPRECATION")
     private fun encodeImage(bmp: Bitmap?): ByteArray? {
         if (bmp == null) return null
         val bos = ByteArrayOutputStream()
@@ -378,11 +379,12 @@ class ArtworkProvider : ContentProvider() {
      * Return a ParcelFileDescriptor from a Bitmap encoded in WEBP format. This function writes the
      * compressed data stream directly to the file descriptor with no intermediate byte array.
      */
+    @Suppress("DEPRECATION")
     private fun getPFDFromBitmap(bitmap: Bitmap?): ParcelFileDescriptor {
         return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap
-        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bitmap: Bitmap? ->
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bmp: Bitmap? ->
             /* Compression is performed on an AsyncTask thread within openPipeHelper() */
-            bitmap?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
+            bmp?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
         }
     }
 
@@ -391,8 +393,8 @@ class ArtworkProvider : ContentProvider() {
      */
     private fun getPFDFromByteArray(byteArray: ByteArray?): ParcelFileDescriptor {
         return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray
-        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, byteArray: ByteArray? ->
-            if (byteArray != null) FileOutputStream(pfd.fileDescriptor).write(byteArray)
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bArray: ByteArray? ->
+            if (bArray != null) FileOutputStream(pfd.fileDescriptor).write(bArray)
         }
     }
 

@@ -90,9 +90,9 @@ class AppSetupDelegate : AppDelegate,
     }
 
     // init operations executed in background threads
-    private fun Context.backgroundInit() = AppScope.launch {
-        launch(Dispatchers.IO) {
-            if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@launch
+    private fun Context.backgroundInit() = AppScope.launch outerLaunch@ {
+        launch(Dispatchers.IO) innerLaunch@ {
+            if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@innerLaunch
             Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
         }
         packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),

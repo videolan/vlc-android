@@ -35,10 +35,10 @@ private const val TAG = "VLC/VlcCrashHandler"
 
 class VLCCrashHandler : UncaughtExceptionHandler {
 
-    private val defaultUEH: UncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+    private val defaultUEH: UncaughtExceptionHandler? = Thread.getDefaultUncaughtExceptionHandler()
 
     override fun uncaughtException(thread: Thread, ex: Throwable) {
-        defaultUEH.uncaughtException(thread, saveLog(ex))
+        defaultUEH?.uncaughtException(thread, saveLog(ex))
     }
 
     companion object {
@@ -101,7 +101,7 @@ class VLCCrashHandler : UncaughtExceptionHandler {
             val bw = BufferedWriter(output)
 
             val version = try {
-                val pInfo: PackageInfo = AppContextProvider.appContext.packageManager.getPackageInfo(AppContextProvider.appContext.getPackageName(), 0)
+                val pInfo: PackageInfo = AppContextProvider.appContext.packageManager.getPackageInfo(AppContextProvider.appContext.packageName, 0)
                 pInfo.versionName
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()

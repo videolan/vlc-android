@@ -48,8 +48,8 @@ import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
     private val overlayDelegate: VideoPlayerOverlayDelegate
         get() = player.overlayDelegate
-    lateinit var resizeMainView: View
-    lateinit var notchCheckbox: CheckBox
+    private lateinit var resizeMainView: View
+    private lateinit var notchCheckbox: CheckBox
     private lateinit var foldCheckbox: CheckBox
     private lateinit var scrollView: NestedScrollView
     private lateinit var sizeList: RecyclerView
@@ -240,7 +240,6 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
                 MediaPlayer.ScaleType.SURFACE_235_1 -> "2.35:1"
                 MediaPlayer.ScaleType.SURFACE_239_1 -> "2.39:1"
                 MediaPlayer.ScaleType.SURFACE_5_4 -> "5:4"
-                MediaPlayer.ScaleType.SURFACE_BEST_FIT -> binding.trackTitle.context.getString(R.string.surface_best_fit)
             }
             binding.selected = selected
             binding.executePendingBindings()

@@ -1,3 +1,25 @@
+/**
+ * **************************************************************************
+ * MediaSessionCallback.kt
+ * ****************************************************************************
+ * Copyright © 2018 VLC authors and VideoLAN
+ * Author: Geoffrey Métais
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * ***************************************************************************
+ */
 package org.videolan.vlc
 
 import android.annotation.SuppressLint
@@ -27,11 +49,9 @@ import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import java.security.SecureRandom
-import java.util.*
 import kotlin.math.abs
 import kotlin.math.min
 
-@Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
 private const val ONE_SECOND = 1000L
 
@@ -236,9 +256,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0, allowRandom: Boolean = false) {
-        mediaList?.let { mediaList ->
+        mediaList?.let {
             if (AndroidDevices.isCarMode(playbackService.applicationContext))
-                mediaList.forEach { if (it.type == MediaWrapper.TYPE_VIDEO) it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
+                mediaList.forEach { mw -> if (mw.type == MediaWrapper.TYPE_VIDEO) mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
             // Pick a random first track if allowRandom is true and shuffle is enabled
             playbackService.load(mediaList, if (allowRandom && playbackService.isShuffling) SecureRandom().nextInt(min(mediaList.size, MEDIALIBRARY_PAGE_SIZE)) else position)
         }

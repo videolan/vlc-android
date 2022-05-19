@@ -22,8 +22,6 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class HeaderMediaListActivityUITest: BaseUITest() {
     @Rule
     @JvmField

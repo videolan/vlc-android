@@ -3,18 +3,14 @@ package org.videolan.tools
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 
-
-@Suppress("UNCHECKED_CAST")
 open class DependencyProvider<A> {
     val objectMap: ConcurrentMap<String, Any> = ConcurrentHashMap()
     val creatorMap: ConcurrentMap<String, (A) -> Any> = ConcurrentHashMap()
 
     var overrideCreator = true
 
-    inline fun <T> getKey(clazz: Class<T>): String = clazz.name
-
     inline fun <X : Any, reified T : X> registerCreator(clazz: Class<X>? = null, noinline creator: (A) -> T) {
-        val key = getKey(clazz ?: T::class.java)
+        val key = (clazz ?: T::class.java).name
         if (overrideCreator || !creatorMap.containsKey(key))
             creatorMap[key] = creator
         if (objectMap.containsKey(key) && overrideCreator) {
@@ -23,7 +19,7 @@ open class DependencyProvider<A> {
     }
 
     inline fun <X : Any, reified T : X> get(arg: A, clazz: Class<X>? = null): T {
-        val key = getKey(clazz ?: T::class.java)
+        val key = (clazz ?: T::class.java).name
         if (!objectMap.containsKey(key))
             objectMap[key] = creatorMap[key]?.invoke(arg)
         return objectMap[key] as T

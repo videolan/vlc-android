@@ -32,8 +32,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.MotionEventCompat
 import androidx.databinding.ViewDataBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -44,8 +42,6 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.util.TextUtils
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioAlbumTracksAdapter @JvmOverloads constructor(
     type: Int, eventsHandler: IEventsHandler<MediaLibraryItem>,
     listEventsHandler: IListEventsHandler? = null,

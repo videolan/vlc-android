@@ -79,8 +79,6 @@ import java.security.SecureRandom
 import java.util.*
 import kotlin.math.min
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView
