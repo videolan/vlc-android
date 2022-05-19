@@ -745,7 +745,7 @@
     <style name="WidgetConfiguration.19" parent="Theme.VLC">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowShowWallpaper">true</item>
-        <item name="android:windowBackground">#1000</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
 </resources>
