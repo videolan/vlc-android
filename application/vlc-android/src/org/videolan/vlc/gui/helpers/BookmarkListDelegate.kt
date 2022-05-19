@@ -65,7 +65,7 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             bookmarkList = rootView.findViewById(R.id.bookmark_list)
             rootView.findViewById<ImageView>(R.id.close).setOnClickListener { hide() }
             rootView.findViewById<ImageView>(R.id.add_bookmark).setOnClickListener { bookmarkModel.addBookmark(activity) }
-            rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, event ->
+            rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, _ ->
                 v.parent.requestDisallowInterceptTouchEvent(true)
                 true
             }

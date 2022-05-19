@@ -156,7 +156,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         updateEmptyView()
         parentFragmentManager.setFragmentResultListener(
                 REQUEST_KEY,
-                viewLifecycleOwner) { s: String, bundle: Bundle ->
+                viewLifecycleOwner) { _: String, bundle: Bundle ->
             when (bundle.getInt(OPTION_KEY)) {
                 ADD_ALL -> {
                     savePlaylist(selectedPlaylist!!, newTracks)

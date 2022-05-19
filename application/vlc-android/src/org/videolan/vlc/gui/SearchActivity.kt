@@ -102,7 +102,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     inner class ClickHandler {
 
-        fun onBack(v: View) {
+        fun onBack(@Suppress("UNUSED_PARAMETER") v: View) {
             finish()
         }
 

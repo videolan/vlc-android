@@ -72,7 +72,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
+    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, @Suppress("UNUSED_PARAMETER") type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
 
         init {
             val fadableViews = arrayOf(binding.itemMoveDown, binding.itemMoveUp, binding.itemAddPlaylist, binding.itemInsertNext, binding.itemAppend, binding.itemSelector, binding.itemRemove)

@@ -141,7 +141,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        val activity = activity ?: return
+        if (activity == null) return
         when (key) {
             "aout" -> {
                 restartLibVLC()

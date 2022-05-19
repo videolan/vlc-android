@@ -33,12 +33,12 @@ class VlcQuestionDialog : VlcDialog<Dialog.QuestionDialog, VlcQuestionDialogBind
     override val layout: Int
         get() = R.layout.vlc_question_dialog
 
-    fun onAction1(v: View) {
+    fun onAction1(@Suppress("UNUSED_PARAMETER") v: View) {
         vlcDialog.postAction(1)
         dismiss()
     }
 
-    fun onAction2(v: View) {
+    fun onAction2(@Suppress("UNUSED_PARAMETER") v: View) {
         vlcDialog.postAction(2)
         dismiss()
     }

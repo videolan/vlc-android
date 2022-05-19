@@ -205,7 +205,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "network_caching" -> {
                 sharedPreferences.edit {
                     try {
-                        val origValue = Integer.parseInt(sharedPreferences.getString(key, "0"))
+                        val origValue = Integer.parseInt(sharedPreferences.getString(key, "0") ?: "0")
                         val newValue = origValue.coerceIn(0, 60000)
                         putInt("network_caching_value", newValue)
                         findPreference<EditTextPreference>(key)?.let { it.text = newValue.toString() }

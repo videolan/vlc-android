@@ -138,7 +138,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
             binding.holder = this
         }
 
-        fun onClick(v: View) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             listener.onChapterSelected(layoutPosition)
 
         }

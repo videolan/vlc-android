@@ -239,7 +239,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()
         needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() ?: false
-        lastQuery = (activity as? ContentActivity)?.getCurrentQuery() as? String ?: ""
+        lastQuery = (activity as? ContentActivity)?.getCurrentQuery() ?: ""
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {}

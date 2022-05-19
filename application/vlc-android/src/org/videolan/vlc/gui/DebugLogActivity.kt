@@ -73,7 +73,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
             client.save()
     }
 
-    private val copyClickListener = View.OnClickListener { v ->
+    private val copyClickListener = View.OnClickListener {
         val buffer = StringBuffer()
         for (line in logList)
             buffer.append(line).append("\n")

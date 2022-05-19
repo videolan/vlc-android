@@ -138,10 +138,10 @@ suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleO
     }
 }
 
-suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
+suspend fun setResumeProgram(context: Context, media: MediaWrapper) {
     var cursor: Cursor? = null
     var isProgramPresent =  false
-    val mw = context.getFromMl { findMedia(mw) }
+    val mw = context.getFromMl { findMedia(media) }
     try {
         cursor = context.contentResolver.query(
                 TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
@@ -180,7 +180,7 @@ suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
 }
 
 suspend fun cleanupWatchNextList(context: Context) {
-    var cursor: Cursor? = null
+    var cursor: Cursor?
     try {
         cursor = context.contentResolver.query(
             TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,

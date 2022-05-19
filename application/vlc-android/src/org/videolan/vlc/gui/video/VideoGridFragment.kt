@@ -505,8 +505,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun renameGroup(media: VideoGroup) {
         val dialog = RenameDialog.newInstance(media)
-        dialog.setListener { media, name ->
-            viewModel.renameGroup(media as VideoGroup, name)
+        dialog.setListener { item, name ->
+            viewModel.renameGroup(item as VideoGroup, name)
                 (activity as? AppCompatActivity)?.run {
                     supportActionBar?.title = name
                 }

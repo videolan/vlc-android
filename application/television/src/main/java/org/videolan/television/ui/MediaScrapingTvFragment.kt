@@ -77,7 +77,7 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
 
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
-        get() = OnItemViewClickedListener { _, item, _, row ->
+        get() = OnItemViewClickedListener { _, item, _, _ ->
             if (item is MoviepediaMedia) {
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {

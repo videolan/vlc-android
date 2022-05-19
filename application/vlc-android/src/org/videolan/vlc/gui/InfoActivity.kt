@@ -293,7 +293,7 @@ class InfoModel : ViewModel() {
         val parentPath = Uri.decode(itemFile.parent)
         videoName = videoName.substring(0, videoName.lastIndexOf('.'))
         val subFolders = arrayOf("/Subtitles", "/subtitles", "/Subs", "/subs")
-        var files: Array<String>? = itemFile.parentFile.list()
+        var files: Array<String>? = itemFile.parentFile?.list()
         var filesLength = files?.size ?: 0
         for (subFolderName in subFolders) {
             val subFolder = File(parentPath + subFolderName)

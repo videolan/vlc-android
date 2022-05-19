@@ -307,7 +307,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         }
     }
 
-    private fun showAdvancedOptions(v: View?) {
+    private fun showAdvancedOptions(@Suppress("UNUSED_PARAMETER") v: View?) {
         if (!this::optionsDelegate.isInitialized) {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)

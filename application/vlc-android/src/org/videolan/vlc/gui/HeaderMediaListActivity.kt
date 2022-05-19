@@ -406,9 +406,9 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_RENAME -> {
                 val dialog = RenameDialog.newInstance(media)
                 dialog.show(this.supportFragmentManager, RenameDialog::class.simpleName)
-                dialog.setListener { media, name ->
+                dialog.setListener { item, name ->
                     lifecycleScope.launch {
-                       viewModel.rename(media as MediaWrapper, name)
+                       viewModel.rename(item as MediaWrapper, name)
                     }
                 }
             }

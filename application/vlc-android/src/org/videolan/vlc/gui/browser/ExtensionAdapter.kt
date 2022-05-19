@@ -40,7 +40,7 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
             }
         }
 
-        fun onMoreClick(v: View) {
+        fun onMoreClick(@Suppress("UNUSED_PARAMETER") v: View) {
             openContextMenu()
         }
 

@@ -70,13 +70,13 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
 
         }
 
-        fun onClick(v: View) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             eventsChannel.trySend(SimpleClick(layoutPosition))
         }
 
-        fun onLongClick(v: View) = eventsChannel.trySend(LongClick(layoutPosition)).isSuccess
+        fun onLongClick(@Suppress("UNUSED_PARAMETER") v: View) = eventsChannel.trySend(LongClick(layoutPosition)).isSuccess
 
-        fun onImageClick(v: View) {
+        fun onImageClick(@Suppress("UNUSED_PARAMETER") v: View) {
             if (inCards)
                 eventsChannel.trySend(SimpleClick(layoutPosition))
             else

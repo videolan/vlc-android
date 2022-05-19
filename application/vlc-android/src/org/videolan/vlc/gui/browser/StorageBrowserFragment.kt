@@ -107,7 +107,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         addEntryPointsCallback()
         snack?.show()
         lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
-        addBannedFoldersCallback { folder, banned ->
+        addBannedFoldersCallback { folder, _ ->
             (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
             adapter.dataset.forEachIndexed{ index, mediaLibraryItem ->
                 if ("${(mediaLibraryItem as Storage).uri}/" == folder) adapter.notifyItemChanged(index)
@@ -190,7 +190,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         builder.setMessage(R.string.add_custom_path_description)
         builder.setView(input)
         builder.setNegativeButton(R.string.cancel) { _, _ -> }
-        builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+        builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { _, _ ->
             val path = input.text.toString().trim { it <= ' ' }
             val f = File(path)
             if (!f.exists() || !f.isDirectory) {

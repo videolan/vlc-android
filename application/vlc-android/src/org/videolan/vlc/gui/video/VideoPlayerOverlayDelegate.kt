@@ -533,7 +533,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (!AndroidDevices.isChromeBook && !player.isTv
                         && player.settings.getBoolean("enable_casting", true)) {
                     PlaybackService.renderer.observe(player) { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(player, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) }
-                    RendererDelegate.renderers.observe(player) { rendererItems -> updateRendererVisibility() }
+                    RendererDelegate.renderers.observe(player) { updateRendererVisibility() }
                 }
 
                 hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
@@ -610,7 +610,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 showControls(true)
                 true
             }
-            hudRightBinding.quickActionsContainer.setOnTouchListener { v, event ->
+            hudRightBinding.quickActionsContainer.setOnTouchListener { _, _ ->
                 showOverlay()
                 false
             }

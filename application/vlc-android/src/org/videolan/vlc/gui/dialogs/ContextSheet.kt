@@ -160,7 +160,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
                     receiver.onCtxAction(itemPosition, options[layoutPosition].id)
                     dismiss()
                 }
-                itemView.setOnFocusChangeListener { v, hasFocus -> binding.contextOptionTitle.setTextColor(if (hasFocus) focusedColor else textColor) }
+                itemView.setOnFocusChangeListener { _, hasFocus -> binding.contextOptionTitle.setTextColor(if (hasFocus) focusedColor else textColor) }
             }
         }
 

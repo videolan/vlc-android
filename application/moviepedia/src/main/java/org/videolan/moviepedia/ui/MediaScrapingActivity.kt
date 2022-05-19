@@ -76,8 +76,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
 
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
-        viewModel = ViewModelProvider(this).get(media.uri.path
-                ?: "", MediaScrapingModel::class.java)
+        viewModel = ViewModelProvider(this)[media.uri.path ?: "", MediaScrapingModel::class.java]
         viewModel.apiResult.observe(this) {
             mediaScrapingResultAdapter.setItems(it.getAllResults())
         }
@@ -106,11 +105,11 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
 
     inner class ClickHandler {
 
-        fun onBack(v: View) {
+        fun onBack(@Suppress("UNUSED_PARAMETER") v: View) {
             finish()
         }
 
-        fun onItemClick(item: ResolverMedia) {
+        fun onItemClick(@Suppress("UNUSED_PARAMETER") item: ResolverMedia) {
             //todo
             finish()
         }

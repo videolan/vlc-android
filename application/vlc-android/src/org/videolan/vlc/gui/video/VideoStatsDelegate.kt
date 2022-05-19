@@ -118,13 +118,13 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
 
                 when (track.type) {
                     IMedia.Track.Type.Audio -> {
-                        (track as? IMedia.AudioTrack)?.let { track ->
+                        (track as? IMedia.AudioTrack)?.let {
                             addStreamGridView(grid, player.getString(R.string.channels), track.channels.toString())
                             addStreamGridView(grid, player.getString(R.string.track_samplerate), player.getString(R.string.track_samplerate_value, track.rate))
                         }
                     }
                     IMedia.Track.Type.Video -> {
-                        (track as? IMedia.VideoTrack)?.let { track ->
+                        (track as? IMedia.VideoTrack)?.let {
                             val frameRate = track.frameRateNum / track.frameRateDen.toDouble()
                             if (track.width != 0 && track.height != 0)
                                 addStreamGridView(grid, player.getString(R.string.resolution), player.getString(R.string.resolution_value, track.width, track.height))

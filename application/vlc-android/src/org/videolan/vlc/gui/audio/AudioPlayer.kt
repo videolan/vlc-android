@@ -463,26 +463,26 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.play(playlistModel.getPlaylistPosition(position, item))
     }
 
-    fun onTimeLabelClick(view: View) {
+    fun onTimeLabelClick(@Suppress("UNUSED_PARAMETER") view: View) {
         showRemainingTime = !showRemainingTime
         Settings.getInstance(requireContext()).edit().putBoolean(SHOW_REMAINING_TIME, showRemainingTime).apply()
         playlistModel.progress.value?.let { updateProgress(it) }
     }
 
-    fun onJumpBack(view: View) {
+    fun onJumpBack(@Suppress("UNUSED_PARAMETER") view: View) {
         jump(forward = false, long = false)
     }
 
-    fun onJumpBackLong(view: View):Boolean {
+    fun onJumpBackLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
         jump(forward = false, long = true)
         return true
     }
 
-    fun onJumpForward(view: View) {
+    fun onJumpForward(@Suppress("UNUSED_PARAMETER") view: View) {
         jump(forward = true, long = false)
     }
 
-    fun onJumpForwardLong(view: View):Boolean {
+    fun onJumpForwardLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
         jump(forward = true, long = true)
         return true
     }
@@ -507,7 +507,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun onPlayPauseClick(view: View?) {
+    fun onPlayPauseClick(@Suppress("UNUSED_PARAMETER") view: View?) {
         if (playlistModel.service?.isPausable == false) {
             UiTools.snackerConfirm(requireActivity(), getString(R.string.stop_unpaubale), true) {
                 playlistModel.stop()
@@ -517,22 +517,22 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.togglePlayPause()
     }
 
-    fun onStopClick(view: View?): Boolean {
+    fun onStopClick(@Suppress("UNUSED_PARAMETER") view: View?): Boolean {
         playlistModel.stop()
         if (activity is AudioPlayerContainerActivity)
             (activity as AudioPlayerContainerActivity).closeMiniPlayer()
         return true
     }
 
-    fun onNextClick(view: View?) {
+    fun onNextClick(@Suppress("UNUSED_PARAMETER") view: View?) {
         if (!playlistModel.next()) UiTools.snacker(requireActivity(), R.string.lastsong, true)
     }
 
-    fun onPreviousClick(view: View?) {
+    fun onPreviousClick(@Suppress("UNUSED_PARAMETER") view: View?) {
         if (!playlistModel.previous()) UiTools.snacker(requireActivity(),  R.string.firstsong)
     }
 
-    fun onRepeatClick(view: View) {
+    fun onRepeatClick(@Suppress("UNUSED_PARAMETER") view: View) {
         playlistModel.repeatType = when (playlistModel.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
             PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
@@ -541,13 +541,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         updateRepeatMode()
     }
 
-    fun onPlaylistSwitchClick(view: View) {
+    fun onPlaylistSwitchClick(@Suppress("UNUSED_PARAMETER") view: View) {
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
         lifecycleScope.launch { doUpdate() }
     }
 
-    fun onShuffleClick(view: View) {
+    fun onShuffleClick(@Suppress("UNUSED_PARAMETER") view: View) {
         playlistModel.shuffle()
         updateShuffleMode()
     }
@@ -563,7 +563,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun showAdvancedOptions(v: View?) {
+    fun showAdvancedOptions(@Suppress("UNUSED_PARAMETER") v: View?) {
         if (!isVisible) return
         if (!this::optionsDelegate.isInitialized) {
             val service = playlistModel.service ?: return
@@ -601,11 +601,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
     }
 
-    fun onABRepeatStopClick(v: View) {
+    fun onABRepeatStopClick(@Suppress("UNUSED_PARAMETER") v: View) {
         playlistModel.service?.playlistManager?.clearABRepeat()
     }
 
-    fun onABRepeatResetClick(v: View) {
+    fun onABRepeatResetClick(@Suppress("UNUSED_PARAMETER") v: View) {
         playlistModel.service?.playlistManager?.resetABRepeatValues()
     }
 

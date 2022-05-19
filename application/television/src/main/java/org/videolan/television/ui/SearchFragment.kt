@@ -44,7 +44,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
 
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
-        get() = OnItemViewClickedListener { _, item, _, row ->
+        get() = OnItemViewClickedListener { _, item, _, _ ->
             if (item is MediaWrapper) TvUtil.openMedia(requireActivity(), item, null)
             else TvUtil.openAudioCategory(requireActivity(), item as MediaLibraryItem)
             requireActivity().finish()

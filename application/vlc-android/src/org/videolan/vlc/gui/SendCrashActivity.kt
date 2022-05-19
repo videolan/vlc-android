@@ -55,7 +55,6 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.File
 import java.io.IOException
-import java.lang.Runnable
 
 class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private var logMessage = ""
@@ -72,7 +71,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
         //Wait for the log to initiate a save to avoid ANR
         if (msg.contains(logMessage)) {
             if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage())
-                Permissions.askWriteStoragePermission(this, false, Runnable { client.save() })
+                Permissions.askWriteStoragePermission(this, false) { client.save() }
             else
                 client.save()
         }
@@ -88,16 +87,17 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             val emailIntent = withContext(Dispatchers.IO) {
                 client.stop()
                 if (!::logcatZipPath.isInitialized) {
-                    val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                    val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
                         ?: return@withContext null
-                    logcatZipPath = "$path/logcat.zip"
+                    logcatZipPath = "$externalPath/logcat.zip"
                 }
                 val filesToAdd = mutableListOf(path)
                 //add previous crash logs
                 try {
-                    val folder = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
-                    File(folder).listFiles().forEach {
-                        if (it.isFile && (it.name.contains("crash") || it.name.contains("logcat"))) filesToAdd.add(it.path)
+                    AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath?.let { folder ->
+                        File(folder).listFiles()?.forEach {
+                            if (it.isFile && (it.name.contains("crash") || it.name.contains("logcat"))) filesToAdd.add(it.path)
+                        }
                     }
                 } catch (exception: IOException) {
 
@@ -115,10 +115,10 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 val attachments = ArrayList<Uri>()
                 if (binding.includeMedialibSwitch.isChecked) {
                     if (!::dbPath.isInitialized) {
-                        val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                        val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
                             ?: return@withContext null
-                        dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
-                        dbZipPath = "$path/db.zip"
+                        dbPath = "$externalPath/${Medialibrary.VLC_MEDIA_DB_NAME}"
+                        dbZipPath = "$externalPath/db.zip"
                     }
                     val db = File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
                     val dbFile = File(dbPath)

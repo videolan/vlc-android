@@ -63,7 +63,7 @@ class FilePickerActivity : BaseActivity() {
         }
     }
 
-    fun onCloseClick(v:View) {
+    fun onCloseClick(@Suppress("UNUSED_PARAMETER") v:View) {
         finish()
     }
 }

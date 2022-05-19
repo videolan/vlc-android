@@ -54,7 +54,7 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
             binding.holder = this
         }
 
-        fun onClick(v: View) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val item = getItem(layoutPosition)
             onHeaderSelected.onHeaderSelected(item)
         }

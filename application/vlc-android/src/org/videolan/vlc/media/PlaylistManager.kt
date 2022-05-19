@@ -232,7 +232,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
             }
             if (audio && position < playList.size) playList[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-            load(playList, position, true, true)
+            load(playList, position, mlUpdate = true, avoidErasingStop = true)
             loadingLastPlaylist = false
             if (!audio) {
                 val rate = settings.getFloat(VIDEO_SPEED, player.getRate())
@@ -288,7 +288,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         videoBackground = false
         val job = getCurrentMedia()?.let {
             savePosition(video = video)
-            val audio = isAudioList() // check before dispatching in saveMediaMeta()
             launch(start = CoroutineStart.UNDISPATCHED) {
                 saveMediaMeta().join()
                 if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && video) {
@@ -509,18 +508,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.executeUpdate(true)
     }
 
-    fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
+    fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
         val titleIdx = player.getTitleIdx()
-        val currentMedia = getCurrentMedia() ?: return@launch
-        if (currentMedia.uri.scheme.isSchemeFD()) return@launch
+        val currentMedia = getCurrentMedia() ?: return@outerLaunch
+        if (currentMedia.uri.scheme.isSchemeFD()) return@outerLaunch
         //Save progress
         val time = player.mediaplayer.time
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
         val rate = player.getRate()
-        launch(Dispatchers.IO) {
-            val media = medialibrary.findMedia(currentMedia) ?: return@launch
-            if (media.id == 0L) return@launch
+        launch(Dispatchers.IO) innerLaunch@ {
+            val media = medialibrary.findMedia(currentMedia) ?: return@innerLaunch
+            if (media.id == 0L) return@innerLaunch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
             if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
                 if (length == 0L) {

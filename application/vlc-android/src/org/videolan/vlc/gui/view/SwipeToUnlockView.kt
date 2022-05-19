@@ -100,7 +100,7 @@ class SwipeToUnlockView : ConstraintLayout {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (unlocking) return super.onTouchEvent(event)
-        event?.let { event ->
+        event?.let {
             val currentX = event.x.toInt().coerceAtLeast(extremum).coerceAtMost(width - extremum).run {
                 if (layoutDirection == LayoutDirection.RTL) width - this
                 else this

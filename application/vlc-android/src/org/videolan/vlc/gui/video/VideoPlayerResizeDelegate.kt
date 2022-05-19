@@ -68,7 +68,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
         player.findViewById<ViewStubCompat>(R.id.player_resize_stub)?.let {
             resizeMainView = it.inflate() as FrameLayout
             val browseFrameLayout = resizeMainView.findViewById<BrowseFrameLayout>(R.id.resize_background)
-            browseFrameLayout.onFocusSearchListener = BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
+            browseFrameLayout.onFocusSearchListener = BrowseFrameLayout.OnFocusSearchListener { focused, _ ->
                 if (sizeList.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
                 else null // someone else will find the next focus
             }

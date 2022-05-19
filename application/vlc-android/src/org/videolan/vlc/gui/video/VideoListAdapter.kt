@@ -206,22 +206,22 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 }
         }
 
-        fun onImageClick(v: View) {
+        fun onImageClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoImageClick(layoutPosition, it)) }
         }
 
-        fun onClick(v: View) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoClick(layoutPosition, it)) }
         }
 
-        fun onMoreClick(v: View) {
+        fun onMoreClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoCtxClick(layoutPosition, it)) }
         }
 
-        fun onLongClick(v: View): Boolean {
+        fun onLongClick(@Suppress("UNUSED_PARAMETER") v: View): Boolean {
             val position = layoutPosition
             return isPositionValid(position) && getItem(position)?.let { eventsChannel.trySend(VideoLongClick(layoutPosition, it)).isSuccess } == true
         }

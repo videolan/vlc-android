@@ -121,7 +121,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             rootView = it.inflate() as FrameLayout
             recyclerview = rootView.findViewById(R.id.options_list)
             val browseFrameLayout =  rootView.findViewById<BrowseFrameLayout>(R.id.options_background)
-            browseFrameLayout.onFocusSearchListener = OnFocusSearchListener { focused, direction ->
+            browseFrameLayout.onFocusSearchListener = OnFocusSearchListener { focused, _ ->
                 if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
                 else null // someone else will find the next focus
             }

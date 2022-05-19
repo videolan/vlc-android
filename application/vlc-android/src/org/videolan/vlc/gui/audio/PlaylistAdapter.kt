@@ -219,14 +219,14 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             player.onPopupMenu(v, position, getItem(position))
         }
 
-        fun onDeleteClick(v: View) {
+        fun onDeleteClick(@Suppress("UNUSED_PARAMETER") v: View) {
             onItemDismiss(layoutPosition)
         }
-        fun onMoveUpClick(v: View) {
+        fun onMoveUpClick(@Suppress("UNUSED_PARAMETER") v: View) {
             if (layoutPosition != 0) onItemMove(layoutPosition, layoutPosition - 1)
         }
 
-        fun onMoveDownClick(v: View) {
+        fun onMoveDownClick(@Suppress("UNUSED_PARAMETER") v: View) {
             if (layoutPosition != itemCount - 1) onItemMove(layoutPosition, layoutPosition + 1)
         }
     }
