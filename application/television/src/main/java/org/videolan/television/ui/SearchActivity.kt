@@ -53,6 +53,6 @@ class SearchActivity : BaseTvActivity() {
     }
 
     companion object {
-        private val TAG = "VLC/SearchActivity"
+        private const val TAG = "VLC/SearchActivity"
     }
 }

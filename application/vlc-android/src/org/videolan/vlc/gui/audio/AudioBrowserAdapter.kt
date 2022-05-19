@@ -364,7 +364,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
     companion object {
 
-        private val TAG = "VLC/AudioBrowserAdapter"
+        private const val TAG = "VLC/AudioBrowserAdapter"
         private const val UPDATE_PAYLOAD = 1
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations

@@ -250,7 +250,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     companion object : DependencyProvider<Any>() {
 
-        val TAG = "VLC/SavePlaylistDialog"
+        const val TAG = "VLC/SavePlaylistDialog"
 
         const val KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS"
         const val KEY_FOLDER = "PLAYLIST_FROM_FOLDER"

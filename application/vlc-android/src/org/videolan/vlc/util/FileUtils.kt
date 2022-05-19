@@ -57,7 +57,7 @@ import java.util.zip.ZipOutputStream
 
 object FileUtils {
 
-    val TAG = "VLC/FileUtils"
+    const val TAG = "VLC/FileUtils"
 
     interface Callback {
         fun onResult(success: Boolean)

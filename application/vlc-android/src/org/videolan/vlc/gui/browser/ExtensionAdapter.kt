@@ -106,6 +106,6 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
     }
 
     companion object {
-        private val TAG = "VLC/ExtensionAdapter"
+        private const val TAG = "VLC/ExtensionAdapter"
     }
 }

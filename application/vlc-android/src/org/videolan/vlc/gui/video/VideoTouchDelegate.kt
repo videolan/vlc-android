@@ -91,6 +91,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private val seekBackground: FrameLayout by lazy { player.findViewById(R.id.seek_background) }
 
     companion object {
+        private const val TAG = "VLC/VideoTouchDelegate"
         private const val SEEK_TIMEOUT = 750L
     }
 
@@ -326,9 +327,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
         player.overlayDelegate.hideOverlay(true)
     }
-
-
-    private val TAG = this::class.java.name
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
         if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {

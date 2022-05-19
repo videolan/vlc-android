@@ -287,7 +287,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
 
     companion object {
 
-        private val TAG = "VLC/PopupManager"
+        private const val TAG = "VLC/PopupManager"
 
         private const val FLING_STOP_VELOCITY = 3000
         private const val MSG_DELAY = 3000

@@ -41,7 +41,7 @@ import java.io.File
 import java.util.*
 
 object VLCOptions {
-    private val TAG = "VLCConfig"
+    private const val TAG = "VLC/VLCConfig"
 
     private const val AOUT_AUDIOTRACK = 0
     private const val AOUT_OPENSLES = 1
@@ -80,7 +80,7 @@ object VLCOptions {
             } catch (ignored: NumberFormatException) {
             }
 
-            var networkCaching = pref.getInt("network_caching_value", 0).coerceIn(0, 60000)
+            val networkCaching = pref.getInt("network_caching_value", 0).coerceIn(0, 60000)
             val freetypeRelFontsize = pref.getString("subtitles_size", "16")
             val freetypeBold = pref.getBoolean("subtitles_bold", false)
             val freetypeColor = pref.getString("subtitles_color", "16777215")

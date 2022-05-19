@@ -95,7 +95,7 @@ import kotlin.math.min
 
 object UiTools {
     var currentNightMode: Int = 0
-    private val TAG = "VLC/UiTools"
+    private const val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_AUTO_DRAWABLE: BitmapDrawable? = null

@@ -163,7 +163,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
     companion object : DependencyProvider<Any>() {
 
-        val TAG = "VLC/SavePlaylistDialog"
+        const val TAG = "VLC/SavePlaylistDialog"
 
         const val KEY_TRACKS = "ADD_TO_GROUP_TRACKS"
         const val FORBID_NEW_GROUP = "FORBID_NEW_GROUP"

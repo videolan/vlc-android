@@ -27,7 +27,7 @@ import org.json.JSONArray
 import org.json.JSONException
 
 object Preferences {
-    val TAG = "VLC/UiTools/Preferences"
+    const val TAG = "VLC/UiTools/Preferences"
 
     fun getFloatArray(pref: SharedPreferences, key: String): FloatArray? {
         var array: FloatArray? = null

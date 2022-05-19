@@ -191,7 +191,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
 
     companion object {
 
-        val TAG = "VLC/PickTimeFragment"
+        const val TAG = "VLC/PickTimeFragment"
 
         const val MILLIS_IN_MICROS: Long = 1000
         const val SECONDS_IN_MICROS = 1000 * MILLIS_IN_MICROS
