@@ -103,7 +103,7 @@ fun Widget.getArtistColor(context: Context, palette: Palette?): Int {
         theme == 2 -> foregroundColor.lightenOrDarkenColor(0.1F)
         else -> getForegroundColor(context, palette).lightenOrDarkenColor(0.1F)
     }
-    return if (opacity.coerceAtLeast(0).coerceAtMost(100) != 100) ColorUtils.setAlphaComponent(untreatedColor, (opacity * 2.55F).toInt()) else untreatedColor
+    return untreatedColor
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
