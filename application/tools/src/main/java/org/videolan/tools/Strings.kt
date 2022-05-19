@@ -92,8 +92,8 @@ fun String.firstLetterUppercase(): String {
         return ""
     }
     return if (length == 1) {
-        toUpperCase(Locale.getDefault())
-    } else Character.toUpperCase(this[0]) + substring(1).toLowerCase(Locale.getDefault())
+        lowercase(Locale.getDefault())
+    } else Character.toUpperCase(this[0]) + substring(1).lowercase(Locale.getDefault())
 }
 
 fun String.abbreviate(maxLen: Int): String {

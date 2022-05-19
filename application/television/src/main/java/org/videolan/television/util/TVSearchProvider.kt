@@ -47,6 +47,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.getFileUri
 import org.videolan.vlc.util.ThumbnailsProvider
+import java.util.*
 
 class TVSearchProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? =
@@ -61,7 +62,7 @@ class TVSearchProvider : ContentProvider() {
 
                 val matrixCursor = MatrixCursor(columns)
 
-                val sanitizedQuery = query.replace(Regex("[^A-Za-z0-9 ]"), "").toLowerCase()
+                val sanitizedQuery = query.replace(Regex("[^A-Za-z0-9 ]"), "").lowercase(Locale.getDefault())
 
                 val mlIds = ArrayList<Long>()
                 //Moviepedia

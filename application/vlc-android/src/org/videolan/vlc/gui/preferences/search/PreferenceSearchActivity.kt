@@ -87,7 +87,7 @@ class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdap
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        s?.toString()?.toLowerCase()?.let {
+        s?.toString()?.lowercase(Locale.getDefault())?.let {
             viewmodel.filter(it)
             adapter.query = it
         }

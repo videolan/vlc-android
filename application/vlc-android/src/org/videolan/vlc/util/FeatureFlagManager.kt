@@ -29,6 +29,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import java.util.*
 
 /**
  * This manager allows the user to enable / disable experimental features
@@ -52,5 +53,5 @@ enum class FeatureFlag(var dependsOn:FeatureFlag?, @StringRes var title:Int, @St
     ;
 
     @SuppressLint("DefaultLocale")
-    fun getKey() = "ff_${name.toLowerCase()}"
+    fun getKey() = "ff_${name.lowercase(Locale.getDefault())}"
 }

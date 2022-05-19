@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.databinding.PreferenceItemBinding
+import java.util.*
 
 private val cb = object : DiffUtil.ItemCallback<PreferenceItem>() {
     override fun areItemsTheSame(oldItem: PreferenceItem, newItem: PreferenceItem) = oldItem == newItem
@@ -97,7 +98,7 @@ class PreferenceItemAdapter(val handler: ClickHandler) : ListAdapter<PreferenceI
 @BindingAdapter("searchText", "searchQueryString")
 fun searchText(view: TextView, text: String, query: String) {
     val spannableStringBuilder = SpannableStringBuilder(text)
-    val indexOf = text.toLowerCase().indexOf(query.toLowerCase())
+    val indexOf = text.lowercase(Locale.getDefault()).indexOf(query.lowercase(Locale.getDefault()))
     if (indexOf != -1) spannableStringBuilder.setSpan(StyleSpan(Typeface.BOLD), indexOf, indexOf + query.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     if (indexOf != -1) spannableStringBuilder.setSpan(UnderlineSpan(), indexOf, indexOf + query.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     view.text = spannableStringBuilder

@@ -67,8 +67,8 @@ class PreferenceSearchModel(context: Context) : ViewModel() {
             filtered.value = arrayListOf()
         else
             filtered.value = dataset.getList().filter {
-                        getTitle(it).toLowerCase(Locale.getDefault()).contains(query)
-                        || getSummary(it).toLowerCase(Locale.getDefault()).contains(query)
+                        getTitle(it).lowercase(Locale.getDefault()).contains(query)
+                        || getSummary(it).lowercase(Locale.getDefault()).contains(query)
             }.sortedWith { i0, i1 ->
                 score(i1, query) - score(i0, query)
             }.toMutableList()
@@ -90,10 +90,10 @@ class PreferenceSearchModel(context: Context) : ViewModel() {
      */
     private fun score(item: PreferenceItem, query: String): Int {
         var score = 0
-        if (getSummary(item).toLowerCase(Locale.getDefault()).contains(query)) score += 1
-        if (getTitle(item).toLowerCase(Locale.getDefault()).contains(query)) score += 10
-        if (getSummary(item).toLowerCase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 100
-        if (getTitle(item).toLowerCase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 1000
+        if (getSummary(item).lowercase(Locale.getDefault()).contains(query)) score += 1
+        if (getTitle(item).lowercase(Locale.getDefault()).contains(query)) score += 10
+        if (getSummary(item).lowercase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 100
+        if (getTitle(item).lowercase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 1000
         return score
     }
 

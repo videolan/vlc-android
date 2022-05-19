@@ -8,11 +8,11 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary.*
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.*
 import org.videolan.vlc.PlaybackService
+import java.util.*
 import kotlin.math.floor
 
 object ModelsHelper {
@@ -37,7 +37,7 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val title = item.title
-                    val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
+                    val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).uppercase(Locale.getDefault())
                     if (currentLetter === null || currentLetter != letter) {
                         currentLetter = letter
                         if (array[letter].isNullOrEmpty()) array[letter] = mutableListOf()
@@ -100,7 +100,7 @@ object ModelsHelper {
     }
 
     fun MediaLibraryItem.getFirstLetter(): String {
-        return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
+        return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).uppercase(Locale.getDefault())
     }
 
     fun MediaLibraryItem.getDiscNumberString(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
@@ -108,10 +108,10 @@ object ModelsHelper {
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null && item != null) when (sort) {
         SORT_DEFAULT,
         SORT_ALPHA -> {
-            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || item.isSpecialItem()) "#" else item.title.substring(0, 1).toUpperCase()
+            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || item.isSpecialItem()) "#" else item.title.substring(0, 1).uppercase(Locale.getDefault())
             if (aboveItem == null) letter
             else {
-                val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || aboveItem.isSpecialItem()) "#" else aboveItem.title.substring(0, 1).toUpperCase()
+                val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || aboveItem.isSpecialItem()) "#" else aboveItem.title.substring(0, 1).uppercase(Locale.getDefault())
                 letter.takeIf { it != previous }
             }
         }
@@ -170,10 +170,10 @@ object ModelsHelper {
         SORT_FILENAME -> {
             val title = FileUtils.getFileNameFromPath((item as? MediaWrapper)?.uri.toString())
             val aboveTitle = FileUtils.getFileNameFromPath((aboveItem as? MediaWrapper)?.uri.toString())
-            val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
+            val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).uppercase(Locale.getDefault())
             if (aboveItem == null) letter
             else {
-                val previous = if (aboveTitle.isEmpty() || !Character.isLetter(aboveTitle[0]) || aboveItem.isSpecialItem()) "#" else aboveTitle.substring(0, 1).toUpperCase()
+                val previous = if (aboveTitle.isEmpty() || !Character.isLetter(aboveTitle[0]) || aboveItem.isSpecialItem()) "#" else aboveTitle.substring(0, 1).uppercase(Locale.getDefault())
                 letter.takeIf { it != previous }
             }
         }
@@ -248,7 +248,7 @@ val ascComp by lazy {
             if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
             else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
-        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
+        item1?.title?.lowercase(Locale.getDefault())?.compareTo(item2?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }
 val descComp by lazy {
@@ -259,7 +259,7 @@ val descComp by lazy {
             if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
             else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
-        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+        item2?.title?.lowercase(Locale.getDefault())?.compareTo(item1?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }
 
@@ -269,7 +269,7 @@ val tvAscComp by lazy {
         val type2 = (item2 as? MediaWrapper)?.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
+        item1?.title?.lowercase(Locale.getDefault())?.compareTo(item2?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }
 val tvDescComp by lazy {
@@ -278,6 +278,6 @@ val tvDescComp by lazy {
         val type2 = (item2 as? MediaWrapper)?.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+        item2?.title?.lowercase(Locale.getDefault())?.compareTo(item1?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }

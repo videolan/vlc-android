@@ -60,7 +60,7 @@ fun String.validateLocation(): Boolean {
     var location = this
     /* Check if the MRL contains a scheme */
     if (!location.matches("\\w+://.+".toRegex())) location = "file://$location"
-    if (location.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
+    if (location.lowercase(Locale.ENGLISH).startsWith("file://")) {
         /* Ensure the file exists */
         val f: File
         try {
