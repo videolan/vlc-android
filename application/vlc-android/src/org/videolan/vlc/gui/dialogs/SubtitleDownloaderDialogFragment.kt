@@ -85,7 +85,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         names = savedInstanceState?.getStringArrayList(MEDIA_NAMES)?.toList()
                 ?: arguments?.getStringArrayList(MEDIA_NAMES)?.toList() ?: listOf()
 
-        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0], names[0])).get(uris[0].path!!, SubtitlesModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0], names[0]))[uris[0].path!!, SubtitlesModel::class.java]
         if (uris.isEmpty()) dismiss()
     }
 
@@ -94,7 +94,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         super.onResume()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = SubtitleDownloaderDialogBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
@@ -146,7 +146,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         binding.languageListSpinner.setOnItemsSelectListener(object : OnItemSelectListener {
             override fun onItemSelect(selectedItems: List<Int>) {
-                val selectedLanguages = if (selectedItems.size == binding.languageListSpinner.allValuesOfLanguages.size) listOf<String>()
+                val selectedLanguages = if (selectedItems.size == binding.languageListSpinner.allValuesOfLanguages.size) listOf()
                 else selectedItems.filter { it in binding.languageListSpinner.allValuesOfLanguages.indices }.map { binding.languageListSpinner.allValuesOfLanguages[it] }
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
@@ -158,12 +158,11 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         binding.languageListSpinner.setSelection(viewModel.getLastUsedLanguage().map { binding.languageListSpinner.allValuesOfLanguages.indexOf(it) })
 
-        binding.episode.setOnEditorActionListener { v, actionId, event ->
+        binding.episode.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 binding.searchButton.callOnClick()
                  true
-            }
-             false
+            } else false
         }
 
         return binding.root

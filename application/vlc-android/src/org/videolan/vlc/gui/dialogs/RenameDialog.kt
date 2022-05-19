@@ -96,21 +96,19 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
         renameButton.setOnClickListener {
             performRename()
         }
-        newNameInputtext.setOnEditorActionListener { v, actionId, event ->
+        newNameInputtext.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 performRename()
                 true
-            }
-            false
+            } else false
         }
-        newNameInputtext.setOnKeyListener { view: View, keyCode: Int, keyEvent: KeyEvent ->
+        newNameInputtext.setOnKeyListener { _: View, keyCode: Int, keyEvent: KeyEvent ->
             if (keyCode == EditorInfo.IME_ACTION_DONE ||
                     keyCode == EditorInfo.IME_ACTION_GO ||
                     keyEvent.action == KeyEvent.ACTION_DOWN && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
                 performRename()
                 true
-            }
-            false
+            } else false
         }
         view.findViewById<TextView>(R.id.media_title).text = media.title
         return view

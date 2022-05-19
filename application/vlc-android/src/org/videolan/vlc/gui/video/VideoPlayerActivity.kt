@@ -2051,14 +2051,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 .create().apply {
                     setCancelable(false)
-                    setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
+                    setOnKeyListener { dialog, keyCode, _ ->
                         if (keyCode == KeyEvent.KEYCODE_BACK) {
                             dialog.dismiss()
                             finish()
-                            return@OnKeyListener true
-                        }
-                        false
-                    })
+                            true
+                        } else false
+                    }
                     show()
                 }
     }

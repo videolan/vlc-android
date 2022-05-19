@@ -324,7 +324,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
     override fun onMainActionClick(v: View, position: Int, item: T) {}
 
-    fun sort(v: View) {
+    private fun sort(v: View) {
         val menu = PopupMenu(v.context, v)
         menu.inflate(R.menu.sort_options)
         val canSortByFileNameName = (viewModel as SortableModel).canSortByFileNameName()
@@ -429,8 +429,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             if (!inGrid && binding.list.hasFocus() && animationDelegate.isScrolled()) {
                 binding.imageButtonSettings.requestFocusFromTouch()
                 true
-            }
-            false
+            } else false
         }
         else -> false
     }

@@ -138,7 +138,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         lifecycleScope.launch {
             waitForML()
             viewModel.provider.pagedList.observe(requireActivity()) {
-                (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
+                (it as? PagedList<MediaLibraryItem>)?.let { pagedList -> videoListAdapter.submitList(pagedList) }
                 updateEmptyView()
                 restoreMultiSelectHelper()
                 if (it !is InitialPagedList<*, *> && activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
@@ -208,7 +208,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = VideoGridBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -362,11 +362,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         return true
     }
 
-    private fun checkFolderToParent(count: Int) = if (count == 1)
+    private fun checkFolderToParent(count: Int) = if (count == 1) {
         (multiSelectHelper.getSelection().firstOrNull() as? MediaWrapper)?.let {
-            if (it.type != MediaWrapper.TYPE_VIDEO) false
-            it.uri.retrieveParent() != null
-        } ?: false else false
+            if (it.type != MediaWrapper.TYPE_VIDEO) return@let false
+            return@let it.uri.retrieveParent() != null
+        } ?: false
+    } else false
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         if (!isStarted()) return false

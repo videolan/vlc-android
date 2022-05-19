@@ -143,12 +143,11 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         binding.dialogPlaylistSave.setOnClickListener(this)
 
         binding.dialogPlaylistName.editText!!.setOnEditorActionListener(this)
-        binding.dialogPlaylistName.editText!!.setOnKeyListener { v, keyCode, event ->
+        binding.dialogPlaylistName.editText!!.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 addToNewPlaylist()
                 true
-            }
-            false
+            } else false
         }
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter

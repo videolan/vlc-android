@@ -37,7 +37,10 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.slider.Slider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
@@ -327,15 +330,14 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                         VLCOptions.saveEqualizerInSettings(AppContextProvider.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .create()
-        input.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+        input.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Enter pressed")
                 save(saveEqualizer.context, input, oldName, temporarySet, onPause, displayedByUser, positionToSave, saveEqualizer)
-                return@OnKeyListener true
-            }
-            false
-        })
+                true
+            } else false
+        }
         val window = saveEqualizer.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
