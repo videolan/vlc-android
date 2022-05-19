@@ -79,12 +79,11 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         return super.hasFAB()
     }
 
-    override fun onCreate(bundle: Bundle?) {
-        var bundle = bundle
-        super.onCreate(bundle)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         adapter = StorageBrowserAdapter(this)
         (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
-        if (bundle == null) bundle = arguments
+        val bundle = savedInstanceState ?: arguments
         if (bundle != null) scannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB)
         withContext(requireActivity())
         withAdapters(arrayOf(adapter as StorageBrowserAdapter))

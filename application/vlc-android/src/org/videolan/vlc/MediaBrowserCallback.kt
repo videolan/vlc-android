@@ -30,8 +30,8 @@ import org.videolan.tools.conflatedActor
  * @see org.videolan.vlc.viewmodels.ICallBackHandler
  */
 interface IMediaBrowserCallback {
-    fun registerHistoryCallback(function: () -> Unit)
-    fun registerMediaCallback(function: () -> Unit)
+    fun registerHistoryCallback(callback: () -> Unit)
+    fun registerMediaCallback(callback: () -> Unit)
     fun removeCallbacks()
 }
 
@@ -50,8 +50,8 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
     private lateinit var historyActor: SendChannel<Unit>
     private lateinit var refreshActor: SendChannel<Unit>
 
-    override fun registerHistoryCallback(refresh: () -> Unit) {
-        historyActor = playbackService.lifecycleScope.conflatedActor { refresh() }
+    override fun registerHistoryCallback(callback: () -> Unit) {
+        historyActor = playbackService.lifecycleScope.conflatedActor { callback() }
         medialibrary.addHistoryCb(this)
     }
 
@@ -59,8 +59,8 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
         historyActor.trySend(Unit)
     }
 
-    override fun registerMediaCallback(refresh: () -> Unit) {
-        refreshActor = playbackService.lifecycleScope.conflatedActor { refresh() }
+    override fun registerMediaCallback(callback: () -> Unit) {
+        refreshActor = playbackService.lifecycleScope.conflatedActor { callback() }
         medialibrary.addMediaCb(this)
         medialibrary.addArtistsCb(this)
         medialibrary.addAlbumsCb(this)

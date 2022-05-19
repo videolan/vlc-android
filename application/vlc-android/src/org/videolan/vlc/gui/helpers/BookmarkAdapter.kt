@@ -94,8 +94,8 @@ class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     }
 
     interface IBookmarkManager {
-        fun onPopupMenu(view: View, position: Int, item: Bookmark?)
-        fun onBookmarkClick(position: Int, item: Bookmark)
+        fun onPopupMenu(view: View, position: Int, bookmark: Bookmark?)
+        fun onBookmarkClick(position: Int, bookmark: Bookmark)
     }
 
     override fun createCB(): DiffCallback<Bookmark> = object : DiffCallback<Bookmark>() {

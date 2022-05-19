@@ -57,8 +57,8 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     override val categoryTitle: String
         get() = getString(R.string.network_browsing)
 
-    override fun onCreate(bundle: Bundle?) {
-        super.onCreate(bundle)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         dialogsDelegate.observeDialogs(this, this)
         networkMonitor = NetworkMonitor.getInstance(requireContext())
         (requireActivity() as? SecondaryActivity)?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)

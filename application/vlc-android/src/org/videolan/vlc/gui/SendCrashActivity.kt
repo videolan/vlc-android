@@ -59,7 +59,7 @@ import java.lang.Runnable
 
 class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private var logMessage = ""
-    override fun onStarted(lostList: List<String>) {
+    override fun onStarted(logList: List<String>) {
         logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
         //initiate a log to wait for
         Log.d("SendCrashActivity", logMessage)

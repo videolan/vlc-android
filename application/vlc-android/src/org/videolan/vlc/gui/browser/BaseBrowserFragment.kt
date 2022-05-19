@@ -102,11 +102,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected abstract fun createFragment(): Fragment
     protected abstract fun browseRoot()
 
-    override fun onCreate(bundle: Bundle?) {
-        @Suppress("NAME_SHADOWING")
-        var bundle = bundle
-        super.onCreate(bundle)
-        if (bundle == null) bundle = arguments
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
             currentMedia = bundle.getParcelable(KEY_MEDIA)
             mrl = currentMedia?.location ?: bundle.getString(KEY_MRL)

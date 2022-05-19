@@ -54,7 +54,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
         return FilePickerFragment()
     }
 
-    override fun onCreate(bundle: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         requireActivity().intent?.getParcelableExtra<MediaWrapper>(KEY_MEDIA)?.let { media ->
             if (media.uri == null || media.uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
                 activity?.intent = null
@@ -63,7 +63,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
         requireActivity().intent?.getIntExtra(KEY_PICKER_TYPE, 0)?.let { pickerIndex ->
             pickerType = PickerType.values()[pickerIndex]
         } ?: PickerType.SUBTITLE
-        super.onCreate(bundle)
+        super.onCreate(savedInstanceState)
         adapter = FilePickerAdapter(this)
     }
 

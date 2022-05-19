@@ -45,10 +45,9 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         mExtensionManagerService = service
     }
 
-    override fun onCreate(bundle: Bundle?) {
-        var bundle = bundle
-        super.onCreate(bundle)
-        if (bundle == null) bundle = arguments
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
             mTitle = bundle.getString(KEY_TITLE)
             showSettings = bundle.getBoolean(KEY_SHOW_FAB)

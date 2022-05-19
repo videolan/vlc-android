@@ -296,7 +296,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         }
 
         interface Callback {
-            fun onStarted(lostList: List<String>)
+            fun onStarted(logList: List<String>)
             fun onStopped()
             fun onLog(msg: String)
             fun onSaved(success: Boolean, path: String)
