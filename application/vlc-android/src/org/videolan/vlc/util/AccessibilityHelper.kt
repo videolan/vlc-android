@@ -47,7 +47,7 @@ fun mediaDescription(v: View, media: MediaLibraryItem) {
         is Folder -> TalkbackUtil.getFolder(v.context, media)
         is Genre -> TalkbackUtil.getGenre(v.context, media)
         is HistoryItem -> v.context.getString(R.string.talkback_history_item)
-        is Playlist -> v.context.getString(R.string.talkback_playlist)
+        is Playlist -> TalkbackUtil.getPlaylist(v.context, media)
         is MediaWrapper -> when (media.type) {
             MediaWrapper.TYPE_VIDEO -> TalkbackUtil.getVideo(v.context, media)
             MediaWrapper.TYPE_AUDIO -> TalkbackUtil.getAudioTrack(v.context, media)

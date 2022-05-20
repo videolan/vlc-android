@@ -980,7 +980,7 @@
     <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">History item</string>
-    <string name="talkback_playlist">Playlist</string>
+    <string name="talkback_playlist">Playlist: %s</string>
     <string name="talkback_folder">Folder: %s</string>
     <string name="talkback_file">File: %s</string>
     <string name="talkback_favorite">Favorite: %s</string>
