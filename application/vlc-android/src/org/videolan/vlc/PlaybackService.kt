@@ -1182,6 +1182,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     fun shuffle() {
         playlistManager.shuffle()
         publishState()
+        browserCallback.onShuffleChanged()
     }
 
     private fun updateWidget() {

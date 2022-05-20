@@ -132,6 +132,10 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
         refreshActor.trySend(Unit)
     }
 
+    fun onShuffleChanged() {
+        refreshActor.trySend(Unit)
+    }
+
     override fun removeCallbacks() {
         if (::refreshActor.isInitialized) {
             medialibrary.removeMediaCb(this)
