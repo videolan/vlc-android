@@ -44,7 +44,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -128,7 +127,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         var totalDuration = 0L
         for (item in viewModel.playlist.tracks)
             totalDuration += item.length
-        binding.duration.text = Tools.millisToTextLarge(totalDuration)
+        binding.totalDuration = totalDuration
         if (isPlaylist) {
             audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
@@ -140,7 +139,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
             if (viewModel.playlist is Album) {
                 val releaseYear = (viewModel.playlist as Album).releaseYear
-                binding.releaseDate.text =  if (releaseYear > 0) releaseYear.toString() else ""
+                binding.releaseYear =  if (releaseYear > 0) releaseYear.toString() else ""
                 if (releaseYear <= 0) binding.releaseDate.visibility = View.GONE
             }
             binding.btnShuffle.setOnClickListener {

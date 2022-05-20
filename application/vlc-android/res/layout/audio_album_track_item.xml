@@ -6,12 +6,10 @@
     <data>
 
         <import type="android.view.View" />
-
         <import type="android.text.TextUtils" />
-
         <import type="org.videolan.medialibrary.Tools" />
-
         <import type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
+        <import type="org.videolan.vlc.gui.helpers.TalkbackUtil" />
 
 
         <variable
@@ -76,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
                 android:minWidth="20dp"
+                android:contentDescription="@{TalkbackUtil.INSTANCE.getTrackNumber(context, item)}"
                 tools:text="1."
                 vlc:layout_constraintBottom_toBottomOf="@id/title"
                 vlc:layout_constraintStart_toStartOf="parent"
@@ -107,6 +106,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textSize="@dimen/grid_card_title_text_size"
+                android:contentDescription="@{TalkbackUtil.INSTANCE.getTimeAndArtist(context, item)}"
                 tools:text="6:13 - Bob Dylan"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"

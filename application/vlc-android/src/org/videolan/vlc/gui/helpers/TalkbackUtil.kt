@@ -30,6 +30,7 @@ import org.videolan.vlc.R
 
 object TalkbackUtil {
 
+    fun getDuration(context: Context, duration: Long) = context.getString(R.string.talkback_duration, millisToString(context, duration))
     fun getDuration(context: Context, duration: String) = context.getString(R.string.talkback_duration, duration)
     fun getAlbumTitle(context: Context, album: String) = context.getString(R.string.talkback_album, album)
     fun getReleaseDate(context: Context, date: String) = context.getString(R.string.talkback_release_date, date)
@@ -48,6 +49,11 @@ object TalkbackUtil {
     fun getAlbum(context: Context, album: Album) = context.getString(R.string.talkback_album, album.title)
             .talkbackAppend(context.getString(R.string.talkback_artist, album.albumArtist))
             .talkbackAppend(context.resources.getQuantityString(R.plurals.track_quantity, album.tracksCount, album.tracksCount))
+    fun getArtist(context: Context, artist: String) = context.getString(R.string.talkback_artist, artist)
+    fun getTrackNumber(context: Context, item: MediaWrapper) = context.getString(R.string.talkback_track_number, item.trackNumber.toString())
+    fun getTimeAndArtist(context: Context, item: MediaWrapper) = millisToString(context, item.length)
+            .talkbackAppend(getArtist(context, item.artist))
+
 
 
     fun getFolder(context: Context, folder: Folder): String {

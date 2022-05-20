@@ -6,6 +6,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.ViewStubCompat
@@ -16,7 +17,10 @@ import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.AppScope
@@ -31,6 +35,7 @@ import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.util.isTalkbackIsEnabled
 
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
@@ -136,9 +141,15 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         setup()
         rootView.visibility = View.VISIBLE
         if (Settings.showTvUi) AppScope.launch {
-            delay(100L)
+            withContext(Dispatchers.IO){ delay(100L) }
             val position = (recyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
             (recyclerview.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+        } else if (activity.isTalkbackIsEnabled()) {
+            AppScope.launch {
+                withContext(Dispatchers.IO){ delay(100L) }
+                val linearLayoutManager = recyclerview.layoutManager as LinearLayoutManager
+                linearLayoutManager.findViewByPosition(linearLayoutManager.findFirstVisibleItemPosition())?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            }
         }
     }
 
