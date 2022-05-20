@@ -30,10 +30,9 @@
     <data>
 
         <import type="android.view.View" />
-
         <import type="android.text.TextUtils" />
-
         <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+        <import type="org.videolan.vlc.gui.helpers.TalkbackUtil" />
 
         <variable
                 name="holder"
@@ -56,6 +55,10 @@
                 type="boolean" />
 
         <variable
+                name="favorite"
+                type="boolean" />
+
+        <variable
                 name="protocol"
                 type="String" />
 
@@ -71,7 +74,10 @@
     <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/browser_container"
             style="@style/VLCCardView.NoShadow"
+            android:contentDescription="@{TalkbackUtil.INSTANCE.getDir(context, item, favorite)}"
+            app:mediaContentDescription="@{item}"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}">
@@ -102,7 +108,6 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="8dp"
-                    android:contentDescription="@string/cover_art"
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
                     android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
@@ -184,6 +189,7 @@
                     android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/more_actions"
                     app:srcCompat="@drawable/ic_more"
                     tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>

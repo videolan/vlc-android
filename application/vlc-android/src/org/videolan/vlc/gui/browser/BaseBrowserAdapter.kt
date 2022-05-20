@@ -49,12 +49,8 @@ import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
 import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.helpers.MarqueeViewHolder
-import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.gui.helpers.enableMarqueeEffect
-import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.util.getDescriptionSpan
-import java.util.*
 
 open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
@@ -131,6 +127,8 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         else if (payloads[0] is CharSequence) {
             (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
             holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
+            val item = getItem(position) as MediaWrapper
+            holder.bindingContainer.container.contentDescription = TalkbackUtil.getDir(holder.binding.root.context, item, item.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE))
         } else if (payloads[0] is Int) {
             val value = payloads[0] as Int
             if (value == UPDATE_SELECTION) holder.selectView(multiSelectHelper.isSelected(position))
@@ -141,6 +139,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         val media = getItem(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         vh.bindingContainer.setItem(media)
+        vh.bindingContainer.setIsFavorite(isFavorite)
         val scheme = media.uri?.scheme ?: ""
         vh.bindingContainer.setHasContextMenu(((!networkRoot || isFavorite)
                 && "content" != scheme

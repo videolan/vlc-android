@@ -7,10 +7,9 @@
     <data>
 
         <import type="android.view.View" />
-
         <import type="android.text.TextUtils" />
-
         <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+        <import type="org.videolan.vlc.gui.helpers.TalkbackUtil" />
 
         <variable
                 name="holder"
@@ -41,6 +40,10 @@
                 type="boolean" />
 
         <variable
+                name="favorite"
+                type="boolean" />
+
+        <variable
                 name="protocol"
                 type="String" />
 
@@ -58,6 +61,8 @@
             android:layout_height="wrap_content"
             android:background="@{bgColor}"
             android:clickable="@{holder != null}"
+            android:id="@+id/browser_container"
+            android:contentDescription="@{TalkbackUtil.INSTANCE.getDir(context, item, favorite)}"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
@@ -85,7 +90,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:contentDescription="@string/cover_art"
+                android:importantForAccessibility="no"
                 android:onClick="@{holder::onImageClick}"
                 android:scaleType="centerCrop"
                 android:src="@{cover}"
@@ -163,6 +168,7 @@
                 android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/more_actions"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_more"
                 tools:visibility="visible" />

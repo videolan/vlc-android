@@ -26,7 +26,10 @@ package org.videolan.vlc.gui.helpers
 
 import android.content.Context
 import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
+import org.videolan.vlc.util.getFilesNumber
+import org.videolan.vlc.util.getFolderNumber
 
 object TalkbackUtil {
 
@@ -44,7 +47,7 @@ object TalkbackUtil {
             .talkbackAppend(context.resources.getQuantityString(R.plurals.videos_quantity, video.mediaCount(), video.mediaCount()))
     fun getGenre(context: Context, genre: Genre) = context.getString(R.string.talkback_genre, genre.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount))
-    fun getArtist(context: Context, artist: Artist) = context.getString(R.string.talkback_artist, artist.title)
+    fun getArtist(context: Context, artist: Artist?) = if (artist == null) null else context.getString(R.string.talkback_artist, artist.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount))
     fun getAlbum(context: Context, album: Album) = context.getString(R.string.talkback_album, album.title)
             .talkbackAppend(context.getString(R.string.talkback_artist, album.albumArtist))
@@ -60,6 +63,23 @@ object TalkbackUtil {
         val mediaCount = folder.mediaCount(Folder.TYPE_FOLDER_VIDEO)
         return context.getString(R.string.talkback_folder, folder.title)
                 .talkbackAppend(context.resources.getQuantityString(R.plurals.videos_quantity, mediaCount, mediaCount))
+    }
+
+    fun getDir(context: Context, folder: MediaLibraryItem, favorite: Boolean): String {
+        if (folder !is MediaWrapper) throw IllegalStateException("Folder should be an instance of MediaWrapper")
+        var text = ""
+        if (folder.type == MediaWrapper.TYPE_DIR) {
+            val folders = folder.description?.getFolderNumber() ?: 0
+            val files = folder.description?.getFilesNumber() ?: 0
+            text = context.getString(if (favorite) R.string.talkback_favorite else R.string.talkback_folder, folder.title)
+            if (folders > 0) text = text.talkbackAppend(context.resources.getQuantityString(R.plurals.subfolders_quantity, folders, folders))
+            if (files > 0) text = text.talkbackAppend(context.resources.getQuantityString(R.plurals.mediafiles_quantity, files, files))
+            if (files < 1 && folders < 1) text = text.talkbackAppend(context.getString(R.string.empty_directory))
+        } else {
+            text = context.getString(R.string.talkback_file, folder.title)
+            if (!folder.description.isNullOrEmpty()) text = text.talkbackAppend(context.getString(R.string.talkback_file_size, folder.description))
+        }
+        return text
     }
 
     fun millisToString(context: Context, duration: Long): String {

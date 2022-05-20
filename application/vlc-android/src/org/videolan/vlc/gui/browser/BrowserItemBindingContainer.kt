@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.browser
 
 import android.graphics.drawable.BitmapDrawable
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
@@ -97,6 +98,14 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         }
     }
 
+    fun setIsFavorite(favorite:Boolean) {
+        when (binding) {
+            is CardBrowserItemBinding -> binding.favorite = favorite
+            is BrowserItemBinding -> binding.favorite = favorite
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
     fun setHolder(holder: BaseBrowserAdapter.ViewHolder<ViewDataBinding>) {
         when (binding) {
             is CardBrowserItemBinding -> binding.holder = holder
@@ -109,6 +118,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     var itemIcon: ImageView
     var browserCheckbox: ThreeStatesCheckbox
     var text: TextView
+    var container: View
     var moreIcon: ImageView
 
     init {
@@ -120,6 +130,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
                 itemIcon = binding.itemIcon
                 browserCheckbox = binding.browserCheckbox
                 moreIcon = binding.itemMore
+                container = binding.browserContainer
             }
             is BrowserItemBinding -> {
                 text = binding.text
@@ -127,6 +138,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
                 itemIcon = binding.itemIcon
                 browserCheckbox = binding.browserCheckbox
                 moreIcon = binding.itemMore
+                container = binding.browserContainer
             }
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }

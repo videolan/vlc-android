@@ -32,6 +32,7 @@
             android:id="@+id/title_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:importantForAccessibility="no"
             android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="@+id/list"
             app:layout_constraintEnd_toEndOf="parent"

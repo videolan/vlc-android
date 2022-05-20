@@ -221,6 +221,30 @@ fun CharSequence.getDescriptionSpan(context: Context):SpannableString {
     return string
 }
 
+/**
+ * Get the folder number from the formatted string
+ *
+ * @return the folder number
+ */
+fun CharSequence?.getFolderNumber():Int {
+    if (isNullOrBlank()) return 0
+    if (!contains(folderReplacementMarker)) return 0
+    val cutString = replace(Regex("[^0-9 ]"), "")
+    return cutString.trim().split(" ")[0].toInt()
+}
+
+/**
+ * Get the file number from the formatted string
+ *
+ * @return the file number
+ */
+fun CharSequence?.getFilesNumber():Int {
+    if (isNullOrBlank()) return 0
+    if (!contains(fileReplacementMarker)) return 0
+    val cutString = replace(Regex("[^0-9 ]"), "").trim().split(" ")
+    return cutString[cutString.size -1].toInt()
+}
+
 const val presentReplacementMarker = "§*§"
 const val missingReplacementMarker = "*§*"
 

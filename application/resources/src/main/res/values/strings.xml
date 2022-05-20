@@ -982,6 +982,8 @@
     <string name="talkback_history_item">History item</string>
     <string name="talkback_playlist">Playlist</string>
     <string name="talkback_folder">Folder: %s</string>
+    <string name="talkback_file">File: %s</string>
+    <string name="talkback_favorite">Favorite: %s</string>
     <string name="talkback_track_number">Track number %s</string>
     <string name="talkback_duration">Duration: %s</string>
     <string name="talkback_album">Album: %s</string>
@@ -993,6 +995,8 @@
     <string name="talkback_hours">hours</string>
     <string name="talkback_minutes">minutes</string>
     <string name="talkback_seconds">seconds</string>
+    <string name="talkback_list_section">Header: %s</string>
+    <string name="talkback_file_size">File size: %s</string>
 
 
 </resources>
