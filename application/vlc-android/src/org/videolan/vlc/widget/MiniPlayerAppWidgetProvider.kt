@@ -331,19 +331,25 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 when (widgetType) {
                     WidgetType.MICRO -> {
                         val bitmap = widgetCacheEntry.generateCircularProgressbar(context, 128.dp.toFloat(), pos)
-                        views.setImageViewBitmap(R.id.progress_round, bitmap)
-                        if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
+                        runOnMainThread {
+                            views.setImageViewBitmap(R.id.progress_round, bitmap)
+                            if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
+                        }
                     }
                     WidgetType.PILL -> {
                         widgetCacheEntry.generatePillProgressbar(context, pos)?.let { bitmap ->
-                            views.setImageViewBitmap(R.id.progress_round, bitmap)
+                            runOnMainThread {
+                                views.setImageViewBitmap(R.id.progress_round, bitmap)
+                                if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
+                            }
                         }
-                        if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
                     }
                     WidgetType.MINI, WidgetType.MACRO -> {
                         val bitmap = widgetCacheEntry.generateCircularProgressbar(context, 32.dp.toFloat(), pos, 3.dp.toFloat())
-                        views.setImageViewBitmap(R.id.progress_round, bitmap)
-                        if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
+                        runOnMainThread {
+                            views.setImageViewBitmap(R.id.progress_round, bitmap)
+                            if (!forPreview) applyUpdate(context, views, partial, appWidgetId)
+                        }
                     }
                 }
             }
