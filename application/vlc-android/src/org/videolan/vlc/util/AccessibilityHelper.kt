@@ -42,16 +42,17 @@ fun Activity.isTalkbackIsEnabled() = (getSystemService(ACCESSIBILITY_SERVICE) as
 fun mediaDescription(v: View, media: MediaLibraryItem) {
     v.contentDescription = when (media) {
         is VideoGroup -> TalkbackUtil.getVideoGroup(v.context, media)
-        is Album -> v.context.getString(R.string.talkback_album)
-        is Artist -> v.context.getString(R.string.talkback_artist)
+        is Album -> TalkbackUtil.getAlbum(v.context, media)
+        is Artist -> TalkbackUtil.getArtist(v.context, media)
         is Folder -> TalkbackUtil.getFolder(v.context, media)
-        is Genre -> v.context.getString(R.string.talkback_genre)
+        is Genre -> TalkbackUtil.getGenre(v.context, media)
         is HistoryItem -> v.context.getString(R.string.talkback_history_item)
         is Playlist -> v.context.getString(R.string.talkback_playlist)
         is MediaWrapper -> when (media.type) {
             MediaWrapper.TYPE_VIDEO -> TalkbackUtil.getVideo(v.context, media)
-            else -> v.context.getString(R.string.audio)
+            MediaWrapper.TYPE_AUDIO -> TalkbackUtil.getAudioTrack(v.context, media)
+            else -> throw NotImplementedError("")
         }
-        else -> throw IllegalStateException("Unknown item type")
+        else -> throw NotImplementedError("Unknown item type")
     }
 }

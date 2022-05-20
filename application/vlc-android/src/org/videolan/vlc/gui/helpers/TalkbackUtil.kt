@@ -25,23 +25,30 @@
 package org.videolan.vlc.gui.helpers
 
 import android.content.Context
-import org.videolan.medialibrary.interfaces.media.Folder
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.VideoGroup
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.vlc.R
 
 object TalkbackUtil {
 
-    fun getArtist(context: Context, artist: String) = context.getString(R.string.talkback_artist, artist)
     fun getDuration(context: Context, duration: String) = context.getString(R.string.talkback_duration, duration)
     fun getAlbumTitle(context: Context, album: String) = context.getString(R.string.talkback_album, album)
     fun getReleaseDate(context: Context, date: String) = context.getString(R.string.talkback_release_date, date)
-    fun getVideo(context: Context, video: MediaWrapper) =
-            context.getString(R.string.talkback_video).talkbackAppend(getDuration(context, millisToString(context, video.length)))
+    fun getVideo(context: Context, video: MediaWrapper) = context.getString(R.string.talkback_video)
+            .talkbackAppend(getDuration(context, millisToString(context, video.length)))
+    fun getAudioTrack(context: Context, audio: MediaWrapper) = context.getString(R.string.talkback_audio_track, audio.title)
+            .talkbackAppend(getDuration(context, millisToString(context, audio.length)))
+            .talkbackAppend(context.getString(R.string.talkback_album, audio.album))
+            .talkbackAppend(context.getString(R.string.talkback_artist, audio.artist))
+    fun getVideoGroup(context: Context, video: VideoGroup) = context.getString(R.string.talkback_video_group, video.title)
+            .talkbackAppend(context.resources.getQuantityString(R.plurals.videos_quantity, video.mediaCount(), video.mediaCount()))
+    fun getGenre(context: Context, genre: Genre) = context.getString(R.string.talkback_genre, genre.title)
+            .talkbackAppend(context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount))
+    fun getArtist(context: Context, artist: Artist) = context.getString(R.string.talkback_artist, artist.title)
+            .talkbackAppend(context.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount))
+    fun getAlbum(context: Context, album: Album) = context.getString(R.string.talkback_album, album.title)
+            .talkbackAppend(context.getString(R.string.talkback_artist, album.albumArtist))
+            .talkbackAppend(context.resources.getQuantityString(R.plurals.track_quantity, album.tracksCount, album.tracksCount))
 
-    fun getVideoGroup(context: Context, video: VideoGroup) =
-            context.getString(R.string.talkback_video_group, video.title)
-                    .talkbackAppend(context.resources.getQuantityString(R.plurals.videos_quantity, video.mediaCount(), video.mediaCount()))
 
     fun getFolder(context: Context, folder: Folder): String {
         val mediaCount = folder.mediaCount(Folder.TYPE_FOLDER_VIDEO)
