@@ -92,6 +92,7 @@ class TitleListView : ConstraintLayout {
                 val titleString = a.getString(R.styleable.TitleListView_title)
                 titleView.text = titleString
                 titleView.contentDescription = context.getString(R.string.talkback_list_section, titleString)
+                actionButton.contentDescription = context.getString(R.string.talkback_enter_screen, titleString)
                 if (!a.getBoolean(R.styleable.TitleListView_show_button, false)) actionButton.setGone()
                 actionButton.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }

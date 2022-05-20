@@ -51,6 +51,7 @@ fun mediaDescription(v: View, media: MediaLibraryItem) {
         is MediaWrapper -> when (media.type) {
             MediaWrapper.TYPE_VIDEO -> TalkbackUtil.getVideo(v.context, media)
             MediaWrapper.TYPE_AUDIO -> TalkbackUtil.getAudioTrack(v.context, media)
+            MediaWrapper.TYPE_STREAM -> TalkbackUtil.getStream(v.context, media)
             else -> throw NotImplementedError("")
         }
         else -> throw NotImplementedError("Unknown item type")

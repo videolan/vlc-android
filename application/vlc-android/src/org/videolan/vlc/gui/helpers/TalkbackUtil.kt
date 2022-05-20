@@ -37,8 +37,10 @@ object TalkbackUtil {
     fun getDuration(context: Context, duration: String) = context.getString(R.string.talkback_duration, duration)
     fun getAlbumTitle(context: Context, album: String) = context.getString(R.string.talkback_album, album)
     fun getReleaseDate(context: Context, date: String?) = if (date == null) "" else context.getString(R.string.talkback_release_date, date)
-    fun getVideo(context: Context, video: MediaWrapper) = context.getString(R.string.talkback_video)
+    fun getVideo(context: Context, video: MediaWrapper) = context.getString(R.string.talkback_video, video.title)
             .talkbackAppend(getDuration(context, millisToString(context, video.length)))
+
+    fun getStream(context: Context, stream: MediaWrapper) = context.getString(R.string.talkback_stream, stream.title)
 
     fun getAudioTrack(context: Context, audio: MediaWrapper) = context.getString(R.string.talkback_audio_track, audio.title)
             .talkbackAppend(getDuration(context, millisToString(context, audio.length)))
@@ -74,7 +76,7 @@ object TalkbackUtil {
     }
 
     fun getDir(context: Context, folder: MediaLibraryItem, favorite: Boolean): String {
-        if (folder !is MediaWrapper) throw IllegalStateException("Folder should be an instance of MediaWrapper")
+        if (folder !is MediaWrapper) return context.getString(R.string.talkback_folder, folder.title)
         var text = ""
         if (folder.type == MediaWrapper.TYPE_DIR) {
             val folders = folder.description?.getFolderNumber() ?: 0

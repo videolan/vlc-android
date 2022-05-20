@@ -990,13 +990,16 @@
     <string name="talkback_artist">Artist: %s</string>
     <string name="talkback_release_date">Released in %s</string>
     <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Stream: %s</string>
     <string name="talkback_audio_track">Audio track: %s</string>
     <string name="talkback_video_group">Video group: %s</string>
     <string name="talkback_hours">hours</string>
     <string name="talkback_minutes">minutes</string>
     <string name="talkback_seconds">seconds</string>
     <string name="talkback_list_section">Header: %s</string>
+    <string name="talkback_enter_screen">Navigate to %s</string>
     <string name="talkback_file_size">File size: %s</string>
+    <string name="talkback_open_in_browser">Open in web browser</string>
 
 
 </resources>

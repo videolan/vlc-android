@@ -52,6 +52,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="8dp"
+                    android:contentDescription="@string/talkback_open_in_browser"
                     android:visibility="@{ TextUtils.isEmpty(library.licenseLink) ? View.GONE : View.VISIBLE, default=gone}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

@@ -67,10 +67,12 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
             is ListViewHolder -> {
                 holder.binding.mrlItemUri.text = Uri.decode(item.location)
                 holder.binding.mrlItemTitle.text = Uri.decode(item.title)
+                holder.binding.item = item
             }
             is CardViewHolder -> {
                 holder.binding.mrlItemUri.text = Uri.decode(item.location)
                 holder.binding.mrlItemTitle.text = Uri.decode(item.title)
+                holder.binding.item = item
             }
         }
     }
