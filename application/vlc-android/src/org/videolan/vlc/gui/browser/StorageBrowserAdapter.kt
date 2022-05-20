@@ -27,13 +27,16 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.tools.containsPath
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
@@ -122,7 +125,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             }
 
             folders.forEach {
-                mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))
+                mediaDirsLocation.add(Uri.decode(it.removeFileScheme()))
             }
             customDirsLocation = DirectoryRepository.getInstance(context).getCustomDirectories().map { it.path }
         }

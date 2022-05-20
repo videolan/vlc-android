@@ -40,7 +40,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.CTX_FAV_ADD
-import org.videolan.tools.removeFileProtocole
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
@@ -98,7 +98,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     else {
         when {
             currentMedia != null -> when {
-                AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mrl?.removeFileProtocole() -> getString(R.string.internal_memory)
+                AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mrl?.removeFileScheme() -> getString(R.string.internal_memory)
                 this is FilePickerFragment -> currentMedia!!.uri.toString()
                 else -> currentMedia!!.title
             }

@@ -37,7 +37,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.removeFileProtocole
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.providers.PickerType
@@ -115,7 +115,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     fun browseUp() {
         when {
             isRootDirectory -> requireActivity().finish()
-            mrl?.removeFileProtocole() == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY -> {
+            mrl?.removeFileScheme() == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY -> {
                 mrl = null
                 isRootDirectory = true
                 viewModel.refresh()
@@ -129,7 +129,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
 
     override fun defineIsRoot() = mrl?.run {
         if (startsWith("file")) {
-            val path = removeFileProtocole()
+            val path = removeFileScheme()
             val rootDirectories = runBlocking(Dispatchers.IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true

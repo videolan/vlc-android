@@ -223,7 +223,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private fun addDeviceIfNeeded(path: String) {
         for (devicePath in medialibrary.devices) {
-            if (path.startsWith(devicePath.removeFileProtocole())) {
+            if (path.startsWith(devicePath.removeFileScheme())) {
                 return
             }
         }
@@ -361,7 +361,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         val parsing = (done.toFloat() / scheduled.toFloat() * 100F)
         val discovery = withContext(Dispatchers.Default) {
             val progressText = when {
-                inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
+                inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileScheme())
                 parsing > 0 -> TextUtils.separatedString(getString(R.string.ml_parse_media) + " " + String.format("%.02f",parsing) + "%", "$done/$scheduled")
                 else -> getString(R.string.ml_parse_media)
             }

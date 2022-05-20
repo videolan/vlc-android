@@ -43,6 +43,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.dp
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
@@ -74,8 +75,7 @@ object BitmapUtil {
         if (path == null) return null
         val ctx = AppContextProvider.appContext
         val res = ctx.resources
-        var uri = Uri.decode(path)
-        if (uri.startsWith("file://")) uri = uri.substring(7)
+        val uri = Uri.decode(path).removeFileScheme()
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()
         val height = res.getDimensionPixelSize(R.dimen.grid_card_thumb_height)

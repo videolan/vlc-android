@@ -42,6 +42,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.HttpImageLoader
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.util.Permissions
@@ -187,12 +188,12 @@ object AudioUtil {
         if (isSchemeHttpOrHttps(path)) return runBlocking(Dispatchers.Main) {
             HttpImageLoader.downloadBitmap(path)
         }
-        return BitmapCache.getBitmapFromMemCache(path.substringAfter("file://")+"_$width") ?: fetchCoverBitmap(path, width)
+        return BitmapCache.getBitmapFromMemCache(path.removeFileScheme() + "_$width") ?: fetchCoverBitmap(path, width)
     }
 
     @WorkerThread
     fun fetchCoverBitmap(path: String, width: Int): Bitmap? {
-        val path = path.substringAfter("file://")
+        val path = path.removeFileScheme()
         if (path.isNullOrEmpty() || !File(path).exists()) return null
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()

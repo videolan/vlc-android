@@ -238,7 +238,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override val subTitle: String? =
             if (isRootDirectory) null else {
-                var mrl = mrl?.removeFileProtocole() ?: ""
+                var mrl = mrl?.removeFileScheme() ?: ""
                 if (mrl.isNotEmpty()) {
                     if (this is FileBrowserFragment && mrl.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
                         mrl = getString(R.string.internal_memory) + mrl.substring(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY.length)

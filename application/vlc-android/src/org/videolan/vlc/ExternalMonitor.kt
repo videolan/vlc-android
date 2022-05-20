@@ -179,7 +179,7 @@ object ExternalMonitor : BroadcastReceiver(), DefaultLifecycleObserver, Coroutin
 
 fun containsDevice(devices: Array<String>, device: String): Boolean {
     if (devices.isNullOrEmpty()) return false
-    for (dev in devices) if (device.startsWith(dev.removeFileProtocole())) return true
+    for (dev in devices) if (device.startsWith(dev.removeFileScheme())) return true
     return false
 }
 

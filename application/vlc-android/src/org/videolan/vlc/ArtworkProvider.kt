@@ -42,6 +42,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaSessionBrowser
@@ -167,7 +168,7 @@ class ArtworkProvider : ContentProvider() {
         }
         mw?.let {
             if (!mw.artworkMrl.isNullOrEmpty()) {
-                val filePath = Uri.decode(mw.artworkMrl).substringAfter("file://")
+                val filePath = Uri.decode(mw.artworkMrl).removeFileScheme()
                 val file = File(filePath)
                 if (file.exists()) return@getCategoryImage ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             }
@@ -205,7 +206,7 @@ class ArtworkProvider : ContentProvider() {
         val mw: MediaLibraryItem? = runBlocking(Dispatchers.IO) { ctx.getFromMl { getMedia(mediaId) } }
         mw?.let {
             if (!mw.artworkMrl.isNullOrEmpty()) {
-                val filePath = Uri.decode(mw.artworkMrl).substringAfter("file://")
+                val filePath = Uri.decode(mw.artworkMrl).removeFileScheme()
                 val file = File(filePath)
                 if (file.canRead() && isImageSquare(filePath)) return@getMediaImage ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             }

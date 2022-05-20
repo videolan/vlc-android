@@ -299,11 +299,10 @@ object FileUtils {
     }
 
     @WorkerThread
-    fun canWrite(path: String?): Boolean {
-        var path = path
-        if (path.isNullOrEmpty()) return false
-        if (path.startsWith("file://")) path = path.substring(7)
-        return path.startsWith("/")
+    fun canWrite(writePath: String?): Boolean {
+        val path = writePath ?: return false
+        if (path.isEmpty()) return false
+        return path.removeFileScheme().startsWith("/")
     }
 
     @WorkerThread
