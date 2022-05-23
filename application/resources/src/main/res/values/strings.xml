@@ -973,6 +973,7 @@
     <string name="seek_forward_content_description">Seek %s seconds forwards</string>
     <string name="open_vlc">Open VLC</string>
     <string name="playing">Playing</string>
+    <string name="disable_track">Disable track</string>
 
 
 
