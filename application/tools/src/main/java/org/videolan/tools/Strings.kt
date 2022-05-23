@@ -92,7 +92,7 @@ fun String.firstLetterUppercase(): String {
         return ""
     }
     return if (length == 1) {
-        lowercase(Locale.getDefault())
+        uppercase(Locale.getDefault())
     } else Character.toUpperCase(this[0]) + substring(1).lowercase(Locale.getDefault())
 }
 
