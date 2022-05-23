@@ -187,6 +187,10 @@ object MediaUtils {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position, shuffle)
     }
 
+    fun playTracks(context: Context, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean = false) = context.scope.launch {
+        withContext(Dispatchers.IO) { provider.pagedList }.value?.let { openList(context, it.toList(), position, shuffle) }
+    }
+
     fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->

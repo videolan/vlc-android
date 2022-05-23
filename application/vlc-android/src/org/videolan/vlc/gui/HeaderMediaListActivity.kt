@@ -258,7 +258,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             invalidateActionMode()
         } else {
             if (searchView.visibility == View.VISIBLE) UiTools.setKeyboardVisibility(v, false)
-            MediaUtils.playTracks(this, viewModel.playlist, position)
+            MediaUtils.playTracks(this, viewModel.tracksProvider, position)
         }
     }
 
@@ -461,7 +461,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     }
 
     override fun onClick(v: View) {
-        MediaUtils.playTracks(this, viewModel.playlist, 0)
+        MediaUtils.playTracks(this, viewModel.tracksProvider, 0)
     }
 
     private fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
