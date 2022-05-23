@@ -73,8 +73,10 @@ import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeFile
+import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.text.DateFormat
 import java.util.*
@@ -694,8 +696,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.bookmarkMarkerContainer.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
 
             if (player.isTv) {
-                applyMargin(hudBinding.playerOverlayTimeContainer, overscanHorizontal, false)
-                applyMargin(hudBinding.playerOverlayLengthContainer, overscanHorizontal, true)
+                applyMargin(hudBinding.playerOverlayTime, overscanHorizontal, false)
+                applyMargin(hudBinding.playerOverlayLength, overscanHorizontal, true)
             }
 
             if (player.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -935,7 +937,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
             }
             bookmarkListDelegate.show()
-            bookmarkListDelegate.setProgressHeight((player.getScreenHeight() - hudBinding.constraintLayout2.height + 12.dp).toFloat())
+            val top = hudBinding.playerOverlaySeekbar.top
+            bookmarkListDelegate.setProgressHeight((top + 12.dp).toFloat())
         }
     }
 
