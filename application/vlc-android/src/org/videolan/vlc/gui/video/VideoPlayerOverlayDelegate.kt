@@ -289,6 +289,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         } else subinfo.setGone()
         player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_INFO)
         player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_INFO, duration.toLong())
+        player.rootView?.announceForAccessibility("$text.$subText")
     }
 
      fun fadeOutInfo(view:View?) {

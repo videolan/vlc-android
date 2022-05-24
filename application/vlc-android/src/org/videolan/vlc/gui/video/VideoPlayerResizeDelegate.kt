@@ -80,6 +80,10 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             foldCheckbox = resizeMainView.findViewById(R.id.foldable)
             val foldTitle = resizeMainView.findViewById<View>(R.id.foldable_title)
 
+            resizeMainView.findViewById<View>(R.id.close).setOnClickListener {
+                hideResizeOverlay()
+            }
+
             sizeList.layoutManager = LinearLayoutManager(player)
             sizeAdapter = SizeAdapter()
             sizeAdapter.setOnSizeSelectedListener { scale ->

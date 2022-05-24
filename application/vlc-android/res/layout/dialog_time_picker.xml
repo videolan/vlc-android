@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/clear"
                 app:layout_constraintBottom_toBottomOf="@+id/tim_pic_timetojump"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tim_pic_timetojump"
