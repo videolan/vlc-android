@@ -1002,7 +1002,11 @@
     <string name="talkback_file_size">File size: %s</string>
     <string name="talkback_open_in_browser">Open in web browser</string>
     <string name="talkback_video_player">Video player. Tap to show controls. Tap the back button to hide them</string>
-
+    <string name="talkback_video_tracks">Video tracks</string>
+    <string name="talkback_audio_tracks">Audio tracks</string>
+    <string name="talkback_subtitle_tracks">Subtitle tracks</string>
+    <string name="talkback_track" translatable="false">%s: %s. %s</string>
+    <string name="selected">Selected</string>
 
 
 </resources>

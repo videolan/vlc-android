@@ -15,6 +15,9 @@
         <variable
                 name="selected"
                 type="Boolean" />
+        <variable
+                name="contentDescription"
+                type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:contentDescription="@{contentDescription}"
                 android:text="@{track.id == -1 ? @string/disable_track : track.name}"
                 android:textColor="@{selected ? @color/white : @color/white_transparent_50}"
                 android:maxLines="1"

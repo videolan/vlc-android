@@ -30,10 +30,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.Settings
+import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoTrackItemBinding
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 
-class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var selectedTrack: MediaPlayer.TrackDescription?) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
+class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var selectedTrack: MediaPlayer.TrackDescription?, val trackTypePrefix:String) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
 
     lateinit var trackSelectedListener: (MediaPlayer.TrackDescription) -> Unit
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
@@ -73,6 +74,8 @@ class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var 
 
         fun bind(trackDescription: MediaPlayer.TrackDescription, selected: Boolean) {
             binding.track = trackDescription
+            val context = binding.root.context
+            binding.contentDescription = context.getString(R.string.talkback_track, trackTypePrefix, if (trackDescription.id == -1) context.getString(R.string.disable_track) else trackDescription.name, if (selected) context.getString(R.string.selected) else "")
             binding.selected = selected
             binding.executePendingBindings()
         }

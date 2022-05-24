@@ -34,6 +34,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 
 class CollapsibleLinearLayout : LinearLayout {
 
+    private var locked: Boolean = false
+    private var onReadyListener: (() -> Unit)? = null
     var isCollapsed = true
     private var animationUpdateListener: ((Float) -> Unit)? = null
     private var maxHeight: Int = -1
@@ -47,6 +49,10 @@ class CollapsibleLinearLayout : LinearLayout {
                 animationUpdateListener?.invoke(animator.animatedFraction)
             }
         }
+    }
+
+    fun onReady(listener:() -> Unit) {
+        this.onReadyListener = listener
     }
 
     fun setAnimationUpdateListener(listener: (Float) -> Unit) {
@@ -78,11 +84,13 @@ class CollapsibleLinearLayout : LinearLayout {
                         viewTreeObserver.removeOnGlobalLayoutListener(this)
                         layoutParams.height = 0
                         requestLayout()
+                        onReadyListener?.invoke()
                     }
                 })
     }
 
     fun toggle() {
+        if (locked) return
         val fromHeight = if (!isCollapsed) maxHeight else 0
         val toHeight = if (!isCollapsed) 0 else maxHeight
         isCollapsed = !isCollapsed
@@ -91,7 +99,13 @@ class CollapsibleLinearLayout : LinearLayout {
     }
 
     fun collapse() {
+        if (locked) return
         if (!isCollapsed) toggle()
+    }
+
+    fun lock() {
+        if (isCollapsed) toggle()
+        locked = true
     }
 
 

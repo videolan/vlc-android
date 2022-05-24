@@ -48,6 +48,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.util.isTalkbackIsEnabled
 
 class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
@@ -73,22 +74,24 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             }
 
             playbackService.videoTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.videoTrack })
+                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.videoTrack }, getString(R.string.track_video))
                 trackAdapter.setOnTrackSelectedListener { track ->
                     trackSelectionListener.invoke(track.id, TrackType.VIDEO)
                 }
                 binding.videoTracks.trackList.adapter = trackAdapter
+                binding.videoTracks.trackTitle.contentDescription = getString(R.string.talkback_video_tracks)
             }
             playbackService.audioTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.audioTrack })
+                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.audioTrack }, getString(R.string.track_audio))
                 trackAdapter.setOnTrackSelectedListener { track ->
                     trackSelectionListener.invoke(track.id, TrackType.AUDIO)
                 }
                 binding.audioTracks.trackList.adapter = trackAdapter
+                binding.audioTracks.trackTitle.contentDescription = getString(R.string.talkback_audio_tracks)
             }
             playbackService.spuTracks?.let { trackList ->
                 if (!playbackService.hasRenderer()) {
-                    val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack })
+                    val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack }, getString(R.string.track_text))
                     trackAdapter.setOnTrackSelectedListener { track ->
                         trackSelectionListener.invoke(track.id, TrackType.SPU)
                     }
@@ -99,6 +102,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
                     binding.subtitleTracks.trackMore.setGone()
                 }
                 if (trackList.isEmpty()) binding.subtitleTracks.emptyView.setVisible()
+                binding.subtitleTracks.trackTitle.contentDescription = getString(R.string.talkback_subtitle_tracks)
             }
             if (playbackService.spuTracks == null) binding.subtitleTracks.emptyView.setVisible()
         }
@@ -146,6 +150,17 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
         binding.audioTracks.trackMore.setOnClickListener {
             binding.audioTracks.options.toggle()
             binding.subtitleTracks.options.collapse()
+        }
+
+        if (requireActivity().isTalkbackIsEnabled()) {
+            binding.subtitleTracks.options.onReady {
+                binding.subtitleTracks.trackMore.setGone()
+                binding.subtitleTracks.options.lock()
+            }
+            binding.audioTracks.options.onReady {
+                binding.audioTracks.trackMore.setGone()
+                binding.audioTracks.options.lock()
+            }
         }
 
         binding.subtitleTracks.trackMore.setOnClickListener {
