@@ -35,8 +35,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.ViewStubCompat
@@ -75,10 +79,8 @@ import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.util.isSchemeFile
-import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.text.DateFormat
 import java.util.*
@@ -393,6 +395,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             initOverlay()
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
+                player.isTalkbackIsEnabled() -> VideoPlayerActivity.OVERLAY_INFINITE
                 Settings.videoHudDelay == 0 -> VideoPlayerActivity.OVERLAY_INFINITE
                 isBookmarkShown() -> VideoPlayerActivity.OVERLAY_INFINITE
                 timeout != 0 -> timeout
@@ -416,6 +419,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 enterAnimate(arrayOf(hudBinding.progressOverlay, hudBackground), 100.dp.toFloat()) {
                     if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
                         player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
+                    hudBinding.playerOverlayPlay.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                 }
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
@@ -838,6 +842,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * hider overlay
      */
     fun hideOverlay(fromUser: Boolean) {
+        if (!fromUser && player.isTalkbackIsEnabled()) return
         if (player.isShowing) {
             if (isBookmarkShown()) hideBookmarks()
             player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)

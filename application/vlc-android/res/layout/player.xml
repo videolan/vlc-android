@@ -5,6 +5,8 @@
         android:id="@+id/player_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="yes"
+        android:contentDescription="@string/talkback_video_player"
         android:keepScreenOn="true">
 
     <!--

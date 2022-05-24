@@ -2165,6 +2165,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             service.playlistManager.waitForConfirmation.observe(this) {
                 if (it != null) showConfirmResumeDialog(it)
             }
+            //if (isTalkbackIsEnabled()) overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
         } else if (this.service != null) {
             this.service?.removeCallback(this)
             this.service = null

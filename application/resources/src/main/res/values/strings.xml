@@ -1001,6 +1001,8 @@
     <string name="talkback_enter_screen">Navigate to %s</string>
     <string name="talkback_file_size">File size: %s</string>
     <string name="talkback_open_in_browser">Open in web browser</string>
+    <string name="talkback_video_player">Video player. Tap to show controls. Tap the back button to hide them</string>
+
 
 
 </resources>
