@@ -34,6 +34,7 @@ android {
             matchingFallbacks = ['debug']
         }
     }
+    namespace 'org.videolan.television'
 
 }
 

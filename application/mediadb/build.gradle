@@ -54,6 +54,7 @@ android {
             matchingFallbacks = ['debug']
         }
     }
+    namespace 'org.videolan.vlc.mediadb'
 
 }
 

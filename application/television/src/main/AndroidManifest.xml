@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.videolan.television">
+    xmlns:tools="http://schemas.android.com/tools">
     <application>
         <activity
             android:name="org.videolan.television.ui.MainTvActivity"

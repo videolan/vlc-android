@@ -61,6 +61,7 @@ android {
             matchingFallbacks = ['debug']
         }
     }
+    namespace 'org.videolan.vlc.donations'
 }
 
 static def getPublicApiKey(project) {
