@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.TalkbackUtil
 import org.videolan.vlc.util.launchWhenStarted
 
 abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
@@ -185,6 +186,14 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
             formatTime = hours + "h " + formatTime
 
         tvTimeToJump.text = formatTime
+        tvTimeToJump.announceForAccessibility(TalkbackUtil.millisToString(requireActivity(), getTimeInMillis() ))
+    }
+
+    fun getTimeInMillis(): Long {
+        val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
+        val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
+        val seconds = if (seconds != "") java.lang.Long.parseLong(seconds) * SECONDS_IN_MICROS else 0L
+        return (hours + minutes + seconds) / 1000L
     }
 
     protected abstract fun executeAction()

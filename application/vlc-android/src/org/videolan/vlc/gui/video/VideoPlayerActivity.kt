@@ -1219,7 +1219,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
         }
         optionsDelegate?.show()
-        overlayDelegate.hideOverlay(false)
+        overlayDelegate.hideOverlay(fromUser = false, forceTalkback = true)
     }
 
     private fun volumeUp() {

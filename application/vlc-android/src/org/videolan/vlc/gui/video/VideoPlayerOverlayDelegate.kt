@@ -71,10 +71,7 @@ import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
-import org.videolan.vlc.gui.helpers.BookmarkListDelegate
-import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.manageAbRepeatStep
@@ -832,6 +829,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             val format =  DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
             PlaybackService.playerSleepTime.value?.let {
                 hudRightBinding.sleepQuickAction.text = format.format(it.time)
+                hudRightBinding.sleepQuickAction.contentDescription = player.getString(R.string.sleep_in) + TalkbackUtil.millisToString(player, System.currentTimeMillis() - it.time.time)
             }
             hudRightBinding.spuDelayQuickAction.text = "${(player.service?.spuDelay ?: 0L) / 1000L} ms"
             hudRightBinding.audioDelayQuickAction.text = "${(player.service?.audioDelay ?: 0L) / 1000L} ms"

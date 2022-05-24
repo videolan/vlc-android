@@ -30,10 +30,7 @@ class JumpToTimeDialog : PickTimeFragment() {
     override fun executeAction() {
         if (playbackService == null)
             return
-        val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
-        val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
-        val seconds = if (seconds != "") java.lang.Long.parseLong(seconds) * SECONDS_IN_MICROS else 0L
-        val newTime = (hours + minutes + seconds) / 1000L //Time in ms
+        val newTime = getTimeInMillis() //Time in ms
         playbackService.setTime(newTime)
         playbackService.playlistManager.player.updateProgress(newTime)
         dismiss()

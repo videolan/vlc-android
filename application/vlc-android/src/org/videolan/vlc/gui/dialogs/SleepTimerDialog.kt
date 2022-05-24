@@ -47,12 +47,10 @@ class SleepTimerDialog : PickTimeFragment() {
         val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
         val interval = (hours + minutes) / MILLIS_IN_MICROS //Interval in ms
 
-        if (interval < ONE_DAY_IN_MILLIS) {
-            val sleepTime = Calendar.getInstance()
-            sleepTime.timeInMillis = sleepTime.timeInMillis + interval
-            sleepTime.set(Calendar.SECOND, 0)
-            playlistModel.service?.setSleepTimer(sleepTime)
-        }
+        val sleepTime = Calendar.getInstance()
+        sleepTime.timeInMillis = sleepTime.timeInMillis + interval
+        sleepTime.set(Calendar.SECOND, 0)
+        playlistModel.service?.setSleepTimer(sleepTime)
 
         dismiss()
     }
