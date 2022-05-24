@@ -140,6 +140,8 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         val rate = ((initialRate + delta) * 100f).roundToInt() / 100f
         if (rate < 0.25f || rate > 4f || playbackService!!.currentMediaWrapper == null)
             return
+        seekSpeed.announceForAccessibility(rate.toString())
+        seekSpeed.contentDescription = rate.toString()
         playbackService!!.setRate(rate, true)
     }
 
