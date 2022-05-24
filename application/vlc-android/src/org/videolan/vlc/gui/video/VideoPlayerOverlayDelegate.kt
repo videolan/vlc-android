@@ -32,6 +32,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.*
@@ -92,7 +93,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     var info: TextView? = null
     var subinfo: TextView? = null
     var overlayInfo: View? = null
-    lateinit var playerUiContainer:RelativeLayout
+    lateinit var playerUiContainer: ViewGroup
 
     lateinit var hudBinding: PlayerHudBinding
     lateinit var hudRightBinding: PlayerHudRightBinding

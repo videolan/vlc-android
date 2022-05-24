@@ -62,7 +62,7 @@
             android:background="@drawable/gradient_title_player"
             android:visibility="gone"/>
 
-    <RelativeLayout
+    <FrameLayout
             android:id="@+id/player_ui_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,8 +78,7 @@
                 android:id="@+id/player_overlay_loading"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:visibility="invisible"
                 app:srcCompat="@drawable/ic_cone_o" />
 
@@ -87,7 +86,7 @@
                 android:id="@+id/player_info_stub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/default_margin"
                 android:layout="@layout/player_overlay_info" />
 
@@ -96,15 +95,13 @@
                 android:layout="@layout/player_overlay_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_gravity="center_vertical|end"/>
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_hud_right_stub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
                 android:layout="@layout/player_hud_right" />
 
         <androidx.appcompat.widget.ViewStubCompat
@@ -112,14 +109,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout="@layout/player_hud"
-                android:layout_alignParentBottom="true" />
+                android:layout_gravity="bottom" />
 
         <ImageView
                 android:id="@+id/hinge_go_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:clickable="true"
                 android:focusable="true"
                 android:visibility="gone"
@@ -130,15 +126,13 @@
                 android:id="@+id/hinge_go_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|right"
                 android:clickable="true"
                 android:focusable="true"
                 android:visibility="gone"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_arrow_right" />
-
-    </RelativeLayout>
+    </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
