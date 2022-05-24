@@ -29,7 +29,6 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.res.ColorStateList
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
@@ -39,17 +38,16 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import org.videolan.tools.*
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
+import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity.Companion.KEY_BLUETOOTH_DELAY
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.DelayValues
+import org.videolan.vlc.util.isTalkbackIsEnabled
 
 private const val DELAY_DEFAULT_VALUE = 50000L
 
@@ -124,6 +122,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         playbackSettingPlus.requestFocus()
         initPlaybackSettingInfo()
         if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) delayApplyAll.setVisible() else delayApplyAll.setGone()
+        player.overlayDelegate.hideOverlay(fromUser = true, forceTalkback = true)
     }
 
     /**
@@ -261,6 +260,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
             service.playlistManager.delayValue.value = DelayValues()
             player.overlayDelegate.focusPlayPause()
         }
+        if (player.isTalkbackIsEnabled()) player.overlayDelegate.showOverlay()
     }
 
     /**

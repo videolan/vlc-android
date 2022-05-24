@@ -1007,6 +1007,8 @@
     <string name="talkback_subtitle_tracks">Subtitle tracks</string>
     <string name="talkback_track" translatable="false">%s: %s. %s</string>
     <string name="selected">Selected</string>
+    <string name="talkback_increase_delay">Increase delay</string>
+    <string name="talkback_decrease_delay">Decrease delay</string>
 
 
 </resources>

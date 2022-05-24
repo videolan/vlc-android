@@ -841,8 +841,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     /**
      * hider overlay
      */
-    fun hideOverlay(fromUser: Boolean) {
-        if (!fromUser && player.isTalkbackIsEnabled()) return
+    fun hideOverlay(fromUser: Boolean, forceTalkback: Boolean = false) {
+        if (!fromUser && (player.isTalkbackIsEnabled() && !forceTalkback)) return
         if (player.isShowing) {
             if (isBookmarkShown()) hideBookmarks()
             player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
