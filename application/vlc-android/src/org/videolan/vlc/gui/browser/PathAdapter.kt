@@ -2,7 +2,6 @@ package org.videolan.vlc.gui.browser
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
@@ -38,10 +36,14 @@ class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : Recyc
     override fun getItemCount() = segments.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.root.text = when {
+        val text: String? = when {
             //substitute a storage path to its name. See [replaceStoragePath]
             PathOperationDelegate.storages.containsKey(segments[position].toUri().path) -> pathOperationDelegate.retrieveSafePath(PathOperationDelegate.storages.valueAt(PathOperationDelegate.storages.indexOfKey(segments[position].toUri().path)))
             else -> segments[position].toUri().lastPathSegment
+        }
+        holder.root.text = text
+        text?.let {
+            holder.root.contentDescription = holder.root.context.getString(R.string.talkback_folder, holder.root.text)
         }
     }
 
