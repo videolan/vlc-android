@@ -279,14 +279,14 @@ fi
 # Fetch VLC source #
 ####################
 
-TESTED_HASH=902842750b287847ba7b675d10176dd48de2bf35
+VLC_TESTED_HASH=902842750b287847ba7b675d10176dd48de2bf35
 VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
     git clone "${VLC_REPOSITORY}" vlc -b 3.0.x --single-branch || fail "VLC sources: git clone failed"
     cd vlc
-    diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
-    git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
+    diagnostic "VLC sources: resetting to the VLC_TESTED_HASH commit (${VLC_TESTED_HASH})"
+    git reset --hard ${VLC_TESTED_HASH} || fail "VLC sources: VLC_TESTED_HASH ${VLC_TESTED_HASH} not found"
     diagnostic "VLC sources: applying custom patches"
     # Keep Message-Id inside commits description to track them afterwards
     git am --message-id ../libvlc/patches/vlc3/*.patch || fail "VLC sources: cannot apply custom patches"
@@ -298,18 +298,18 @@ if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
     diagnostic "VLC sources: Bypassing checks (required by option)"
 elif [ $RESET -eq 1 ]; then
     cd vlc
-    git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
+    git reset --hard ${VLC_TESTED_HASH} || fail "VLC sources: VLC_TESTED_HASH ${VLC_TESTED_HASH} not found"
     for patch_file in ../libvlc/patches/vlc3/*.patch; do
         git am --message-id $patch_file
         check_patch_is_applied "$patch_file"
     done
     cd ..
 else
-    diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
+    diagnostic "VLC sources: Checking VLC_TESTED_HASH and patches presence"
     diagnostic "NOTE: checks can be bypass by adding '-b' option to this script."
     cd vlc
-    git cat-file -e ${TESTED_HASH} 2> /dev/null || \
-        fail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
+    git cat-file -e ${VLC_TESTED_HASH} 2> /dev/null || \
+        fail "Error: Your vlc checkout does not contain the latest tested commit: ${VLC_TESTED_HASH}"
     for patch_file in ../libvlc/patches/vlc3/*.patch; do
         check_patch_is_applied "$patch_file"
     done
