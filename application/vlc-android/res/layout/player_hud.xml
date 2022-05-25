@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
-                vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_time_container"
+                vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_time"
                 vlc:layout_constraintStart_toStartOf="parent" />
 
 
@@ -150,7 +150,7 @@
                 android:focusable="true"
                 android:visibility="gone"
                 tools:visibility="visible"
-                vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_time_container"
+                vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_time"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintVertical_chainStyle="packed"
                 vlc:srcCompat="@drawable/ic_abrepeat_reset_marker_circle" />
@@ -167,7 +167,7 @@
                 android:focusable="true"
                 android:visibility="gone"
                 tools:visibility="visible"
-                vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_time_container"
+                vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_time"
                 vlc:layout_constraintStart_toEndOf="@+id/ab_repeat_reset"
                 vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_title"
                 vlc:srcCompat="@drawable/ic_abrepeat_reset_circle" />
