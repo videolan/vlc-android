@@ -418,6 +418,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
                         player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
                     hudBinding.playerOverlayPlay.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                    if (isBookmarkShown())try {
+                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate.addBookmarButton.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                    } catch (e: Exception) {
+                    }
                 }
                 enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hudRightBackground), -100.dp.toFloat())
 
@@ -432,7 +436,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
             }
             player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
-
         }
     }
 

@@ -48,8 +48,9 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.viewmodels.BookmarkModel
 
 class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel) :
-    LifecycleObserver, BookmarkAdapter.IBookmarkManager {
+        LifecycleObserver, BookmarkAdapter.IBookmarkManager {
 
+    lateinit var addBookmarButton: ImageView
     lateinit var markerContainer: ConstraintLayout
     private lateinit var adapter: BookmarkAdapter
     lateinit var bookmarkList: RecyclerView
@@ -64,7 +65,11 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             rootView = it.inflate() as ConstraintLayout
             bookmarkList = rootView.findViewById(R.id.bookmark_list)
             rootView.findViewById<ImageView>(R.id.close).setOnClickListener { hide() }
-            rootView.findViewById<ImageView>(R.id.add_bookmark).setOnClickListener { bookmarkModel.addBookmark(activity) }
+            addBookmarButton = rootView.findViewById<ImageView>(R.id.add_bookmark)
+            addBookmarButton.setOnClickListener {
+                bookmarkModel.addBookmark(activity)
+                addBookmarButton.announceForAccessibility(activity.getString(R.string.bookmark_added))
+            }
             rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, _ ->
                 v.parent.requestDisallowInterceptTouchEvent(true)
                 true

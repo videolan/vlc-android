@@ -9,6 +9,7 @@
         <import type="android.text.TextUtils" />
 
         <import type="org.videolan.medialibrary.Tools" />
+        <import type="org.videolan.vlc.gui.helpers.TalkbackUtil" />
 
         <variable
                 name="holder"
@@ -41,6 +42,7 @@
                 android:orientation="vertical"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +81,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:singleLine="true"
                 android:text="@{Tools.millisToString(bookmark.time)}"
+                android:contentDescription="@{TalkbackUtil.INSTANCE.millisToString(context, bookmark.time)}"
                 android:textColor="?attr/font_audio_light"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -95,6 +98,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginRight="4dp"
+                android:contentDescription="@string/more_actions"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{(view) -> holder.onMoreClick(view, bookmark)}"
                 android:scaleType="center"
