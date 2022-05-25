@@ -281,6 +281,23 @@ fi
 
 VLC_TESTED_HASH=902842750b287847ba7b675d10176dd48de2bf35
 VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
+LIBVLCJNI_TESTED_HASH=bdfc5a903ac769a16dffe787598d9a529172ab2e
+LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
+if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
+    diagnostic "libvlcjni sources: not found, cloning"
+    if [ ! -d "libvlcjni" ]; then
+        git clone --single-branch --branch libvlcjni-3.x "${LIBVLCJNI_REPOSITORY}"
+        cd libvlcjni
+    else # folder exist with only the artifacts
+        cd libvlcjni
+        git init
+        git remote add origin "${LIBVLCJNI_REPOSITORY}"
+        git pull origin libvlcjni-3.x
+    fi
+    git reset --hard ${LIBVLCJNI_TESTED_HASH} || fail "libvlcjni sources: LIBVLCJNI_TESTED_HASH ${LIBVLCJNI_TESTED_HASH} not found"
+    init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
+    cd ..
+fi
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
     git clone "${VLC_REPOSITORY}" vlc -b 3.0.x --single-branch || fail "VLC sources: git clone failed"
@@ -289,7 +306,7 @@ if [ ! -d "vlc" ]; then
     git reset --hard ${VLC_TESTED_HASH} || fail "VLC sources: VLC_TESTED_HASH ${VLC_TESTED_HASH} not found"
     diagnostic "VLC sources: applying custom patches"
     # Keep Message-Id inside commits description to track them afterwards
-    git am --message-id ../libvlc/patches/vlc3/*.patch || fail "VLC sources: cannot apply custom patches"
+    git am --message-id ../libvlcjni/libvlc/patches/vlc3/*.patch || fail "VLC sources: cannot apply custom patches"
     cd ..
 else
     diagnostic "VLC source: found sources, leaving untouched"
@@ -299,7 +316,7 @@ if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
 elif [ $RESET -eq 1 ]; then
     cd vlc
     git reset --hard ${VLC_TESTED_HASH} || fail "VLC sources: VLC_TESTED_HASH ${VLC_TESTED_HASH} not found"
-    for patch_file in ../libvlc/patches/vlc3/*.patch; do
+    for patch_file in ../libvlcjni/libvlc/patches/vlc3/*.patch; do
         git am --message-id $patch_file
         check_patch_is_applied "$patch_file"
     done
@@ -310,7 +327,7 @@ else
     cd vlc
     git cat-file -e ${VLC_TESTED_HASH} 2> /dev/null || \
         fail "Error: Your vlc checkout does not contain the latest tested commit: ${VLC_TESTED_HASH}"
-    for patch_file in ../libvlc/patches/vlc3/*.patch; do
+    for patch_file in ../libvlcjni/libvlc/patches/vlc3/*.patch; do
         check_patch_is_applied "$patch_file"
     done
     cd ..
@@ -331,11 +348,11 @@ diagnostic "Configuring"
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 mkdir -p $OUT_DBG_DIR
 
-if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/" ]; then
-    AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
+if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlcjni/libvlc/jni/libs/" ]; then
+    AVLC_SOURCED=1 . libvlcjni/buildsystem/compile-libvlc.sh
     avlc_build
 
-    cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+    cp -a ./libvlcjni/libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
 
 if [ "$NO_ML" != 1 ]; then
@@ -358,7 +375,7 @@ elif [ "$RELEASE" = 1 ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlc assemble${BUILDTYPE}
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni/libvlc assemble${BUILDTYPE}
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary assemble${BUILDTYPE}
