@@ -281,3 +281,27 @@ val tvDescComp by lazy {
         item2?.title?.lowercase(Locale.getDefault())?.compareTo(item1?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }
+
+val filenameAscComp by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        val filename1 = (item1 as? MediaWrapper)?.fileName
+        val filename2 = (item2 as? MediaWrapper)?.fileName
+        filename1?.lowercase(Locale.getDefault())?.compareTo(filename2?.lowercase(Locale.getDefault()) ?: "") ?: -1
+    }
+}
+
+val filenameDescComp by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        val filename1 = (item1 as? MediaWrapper)?.fileName
+        val filename2 = (item2 as? MediaWrapper)?.fileName
+        filename2?.lowercase(Locale.getDefault())?.compareTo(filename1?.lowercase(Locale.getDefault()) ?: "") ?: -1
+    }
+}

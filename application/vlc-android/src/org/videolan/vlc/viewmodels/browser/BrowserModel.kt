@@ -83,7 +83,11 @@ open class BrowserModel(
             val comp = if (tv) {
                 if (desc) tvDescComp else tvAscComp
             } else {
-                if (desc) descComp else ascComp
+                when (sort) {
+                    Medialibrary.SORT_FILENAME -> if (desc) filenameDescComp else filenameAscComp
+                    else -> if (desc) descComp else ascComp
+                }
+
             }
             dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
         }
