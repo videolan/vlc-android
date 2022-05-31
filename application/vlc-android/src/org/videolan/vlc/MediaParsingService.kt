@@ -227,17 +227,23 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 return
             }
         }
-        for (storagePath in AndroidDevices.externalStorageDirectories) {
-            if (path.startsWith(storagePath)) {
-                val uuid = FileUtils.getFileNameFromPath(path)
-                if (uuid.isEmpty()) {
-                    exitCommand()
-                    return
+        if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
+            for (storagePath in AndroidDevices.externalStorageDirectories) {
+                if (path.startsWith(storagePath)) {
+                    val uuid = FileUtils.getFileNameFromPath(path)
+                    if (uuid.isEmpty()) {
+                        exitCommand()
+                        return
+                    }
+                    medialibrary.addDevice(uuid, path, true)
+                    for (folder in Medialibrary.getBanList()) {
+                        medialibrary.banFolder(path + folder)
+                    }
                 }
-                medialibrary.addDevice(uuid, path, true)
-                for (folder in Medialibrary.getBanList())
-                    medialibrary.banFolder(path + folder)
             }
+        } else {
+            val uuid = FileUtils.getFileNameFromPath(path)
+            medialibrary.addDevice(uuid, path, false)
         }
     }
 
