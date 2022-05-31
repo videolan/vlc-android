@@ -603,9 +603,9 @@ object UiTools {
         val sort = model.sort
         val desc = model.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT) if (!desc) "▼" else "▲" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME) if (!desc) "▼" else "▲" else ""}"
+        item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
         item?.title = "${sortable.requireContext().getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST) if (!desc) "▼" else "▲" else ""}"
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
