@@ -515,7 +515,7 @@
             <org.videolan.vlc.gui.view.SwipeToUnlockView
                     android:id="@+id/swipe_to_unlock"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:visibility="gone"
                     vlc:layout_constraintBottom_toBottomOf="parent"
                     vlc:layout_constraintEnd_toEndOf="parent"
