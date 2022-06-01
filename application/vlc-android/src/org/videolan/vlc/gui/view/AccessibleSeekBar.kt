@@ -31,7 +31,7 @@ class AccessibleSeekBar : AppCompatSeekBar {
          */
         override fun sendAccessibilityEventUnchecked(host: View?, event: AccessibilityEvent) {
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "sendAccessibilityEventUnchecked: ${event.eventType}")
-            this@AccessibleSeekBar.contentDescription = context.getString(R.string.talkback_out_of, TalkbackUtil.millisToString(context, progress.toLong()), TalkbackUtil.millisToString(context, max.toLong()) )
+            contentDescription = context.getString(R.string.talkback_out_of, TalkbackUtil.millisToString(context, progress.toLong()), TalkbackUtil.millisToString(context, max.toLong()) )
             if (event.eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
                     && event.eventType != AccessibilityEvent.TYPE_VIEW_SELECTED) {
                 super.sendAccessibilityEventUnchecked(host, event)

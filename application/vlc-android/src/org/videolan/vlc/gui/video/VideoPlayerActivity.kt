@@ -283,6 +283,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             if (fromUser) {
                 overlayDelegate.showOverlay(true)
+                overlayDelegate.hudBinding.playerOverlaySeekbar.forceAccessibilityUpdate()
             }
         }
     }

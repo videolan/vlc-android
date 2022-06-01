@@ -221,7 +221,7 @@
                 vlc:time="@{progress.time}" />
 
 <!--           ⚠️ margin are set in code!!!-->
-        <SeekBar
+        <org.videolan.vlc.gui.view.AccessibleSeekBar
                 android:id="@+id/player_overlay_seekbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -231,7 +231,6 @@
                 android:minHeight="@dimen/seekbar_height"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp"
-                    android:importantForAccessibility="no"
                 android:progress="@{player.service.getTime(progress.time)}"
                 android:progressDrawable="@drawable/po_seekbar_video"
                 android:splitTrack="false"
