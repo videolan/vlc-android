@@ -1017,6 +1017,7 @@
     <string name="downloaded">Downloaded</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="downloading">Downloading</string>
+    <string name="talkback_out_of">%s out of %s</string>
 
 
 </resources>
