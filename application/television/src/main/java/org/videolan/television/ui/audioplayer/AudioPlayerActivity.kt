@@ -35,7 +35,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.television.R
@@ -55,7 +57,6 @@ import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.lang.Runnable
 import kotlin.math.abs
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -179,6 +180,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         }
 
         wasPlaying = state.playing
+        binding.buttonPlay.contentDescription = getString(if (state.playing) org.videolan.vlc.R.string.pause else org.videolan.vlc.R.string.play)
 
         val mw = model.currentMediaWrapper
         lifecycleScope.launch {
@@ -192,6 +194,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                 R.drawable.ic_shuffle_on
             else
                 R.drawable.ic_shuffle_audio)
+            binding.buttonShuffle.contentDescription = getString(if (shuffling) org.videolan.vlc.R.string.shuffle_on else org.videolan.vlc.R.string.shuffle)
             if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
             currentCoverArt = mw.artworkMrl
             updateBackground()
@@ -352,13 +355,16 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         when (model.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
             }
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat)
             }
         }
     }
@@ -368,14 +374,17 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat)
             }
         }
     }
