@@ -1025,6 +1025,7 @@
     <string name="downloading">Downloading</string>
     <string name="talkback_action_rewind">Rewind %s seconds</string>
     <string name="talkback_action_forward">Seek forward %s seconds</string>
+    <string name="talkback_display_settings">Display settings</string>
 
 
 </resources>

@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -196,7 +198,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_favorite else R.drawable.ic_favorite_outline)
+            binding.favoriteButton.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
+            binding.imageButtonFavorite.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
         }
         binding.favoriteButton.setOnClickListener(favoriteClickListener)
         binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
@@ -270,7 +274,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                 }
                 favExists = browserFavRepository.browserFavExists(mw.uri)
                 binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_favorite else R.drawable.ic_favorite_outline)
+                binding.favoriteButton.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
                 binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
+                binding.imageButtonFavorite.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
             }
         }
     }

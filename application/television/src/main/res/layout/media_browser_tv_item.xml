@@ -88,6 +88,7 @@
             android:focusable="true"
             android:longClickable="true"
             android:minHeight="@dimen/audio_browser_item_size"
+            vlc:mediaContentDescription="@{item}"
             android:onClick="@{holder::onClick}"
             android:onLongClick="@{holder::onLongClick}"
             android:paddingBottom="@dimen/kl_small"
