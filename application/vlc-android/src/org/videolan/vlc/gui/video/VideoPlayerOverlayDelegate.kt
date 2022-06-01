@@ -802,9 +802,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (seekButtons) {
                 hudBinding.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayRewindText.text = "${Settings.videoJumpDelay}"
+                hudBinding.playerOverlayRewind.contentDescription = player.getString(R.string.talkback_action_rewind, Settings.videoJumpDelay.toString())
                 hudBinding.playerOverlayRewindText.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayForwardText.text = "${Settings.videoJumpDelay}"
+                hudBinding.playerOverlayForward.contentDescription = player.getString(R.string.talkback_action_forward, Settings.videoJumpDelay.toString())
                 hudBinding.playerOverlayForwardText.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
             hudBinding.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
