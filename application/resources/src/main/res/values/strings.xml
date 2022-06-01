@@ -297,6 +297,7 @@
     <string name="screen_orientation_landscape_reverse">Landscape reverse</string>
     <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
+    <string name="theme_auto">Auto theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="subtitle_preferred_language">Preferred subtitle language</string>
     <string name="daynight_title">DayNight mode</string>
