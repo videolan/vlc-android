@@ -31,6 +31,7 @@
             android:background="?attr/bottom_navigation_background"
             android:clickable="true"
             android:focusable="true"
+            android:importantForAccessibility="no"
             android:keyboardNavigationCluster="true"
             tools:targetApi="o">
 
@@ -80,6 +81,7 @@
                 android:maxHeight="4dp"
                 android:minHeight="4dp"
                 android:paddingLeft="0px"
+                android:importantForAccessibility="no"
                 android:paddingRight="0px"
                 android:progressDrawable="?attr/progress_mini_player"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -421,6 +423,7 @@
                 android:clipToPadding="false"
                 android:maxWidth="800dp"
                 android:paddingBottom="68dp"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toTopOf="@+id/songs_list_guide"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -443,6 +446,7 @@
                 android:background="?attr/audio_chip_background"
                 android:elevation="4dp"
                 android:paddingStart="16dp"
+                android:accessibilityLiveRegion="none"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
@@ -476,7 +480,6 @@
                 android:layout_marginBottom="24dp"
                 android:background="?attr/actionBarItemBackground"
                 android:clickable="true"
-                android:contentDescription="@string/air_action_rewind"
                 android:focusable="true"
                 android:padding="8dp"
                 android:visibility="gone"
@@ -511,7 +514,6 @@
                 android:layout_marginStart="8dp"
                 android:background="?attr/actionBarItemBackground"
                 android:clickable="true"
-                android:contentDescription="@string/air_action_forward"
                 android:focusable="true"
                 android:padding="8dp"
                 android:visibility="gone"
@@ -550,6 +552,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:focusable="true"
+                android:importantForAccessibility="no"
                 android:onClick="@{fragment::onTimeLabelClick}"
                 android:text="@string/time_0"
                 android:textColor="?attr/font_default"
@@ -567,7 +570,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/timeline" />
 
-        <SeekBar
+        <org.videolan.vlc.gui.view.AccessibleSeekBar
                 android:id="@+id/timeline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -591,6 +594,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
+                android:importantForAccessibility="no"
                 android:layout_marginEnd="@dimen/default_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/length"

@@ -66,11 +66,8 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
-import org.videolan.vlc.gui.helpers.BookmarkListDelegate
-import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -319,6 +316,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         updateRepeatMode()
         binding.audioMediaSwitcher.updateMedia(playlistModel.service)
         binding.coverMediaSwitcher.updateMedia(playlistModel.service)
+        playlistModel.service?.currentMediaWrapper?.let {
+            binding.audioMediaSwitcher.contentDescription = getString(R.string.talkback_audio_player,TalkbackUtil.getAudioTrack(requireActivity(), it))
+            binding.trackInfoContainer?.contentDescription = getString(R.string.talkback_audio_player,TalkbackUtil.getAudioTrack(requireActivity(), it))
+        }
 
         val chapter = playlistModel.service?.getCurrentChapter(true)
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
@@ -331,6 +332,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.audioRewindText.text = "${Settings.audioJumpDelay}"
         binding.audioForwardText.text = "${Settings.audioJumpDelay}"
+        binding.audioForward10.contentDescription = getString(R.string.talkback_action_forward, Settings.audioJumpDelay.toString())
+        binding.audioRewind10.contentDescription = getString(R.string.talkback_action_rewind, Settings.audioJumpDelay.toString())
         updateBackground()
     }
 
@@ -398,6 +401,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         previousRepeatType = repeatType
     }
 
+    /**
+     * Updates the text views in the player with the current progress
+     * It includes the time, the length and the progress pill text and content description
+     *
+     * @param progress the progress to be displayed
+     */
     private fun updateProgress(progress: PlaybackProgress) {
         if (playlistModel.currentMediaPosition == -1) return
         binding.length.text = progress.lengthText
@@ -413,42 +422,63 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         lifecycleScope.launchWhenStarted {
-            val text = withContext(Dispatchers.Default) {
-                val medias = playlistModel.medias ?: return@withContext ""
+            val text:Pair<String, String> = withContext(Dispatchers.Default) {
+                val medias = playlistModel.medias ?: return@withContext Pair("", "")
                 withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() else binding.audioPlayProgress.setGone() }
-                if (playlistModel.currentMediaPosition == -1) return@withContext ""
-                val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
+                if (playlistModel.currentMediaPosition == -1) return@withContext Pair("", "")
+                val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext Pair("", "")
                 val progressTime = elapsedTracksTime + progress.time
                 val totalTime = playlistModel.getTotalTime()
                 val progressTimeText = Tools.millisToString(
-                    if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime,
-                    false,
-                    true,
-                    false
+                        if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime,
+                        false,
+                        true,
+                        false
                 )
                 val totalTimeText = Tools.millisToString(totalTime, false, false, false)
+                val totalTimeDescription = TalkbackUtil.millisToString(requireActivity(), totalTime)
+                val progressTimeDescription =  TalkbackUtil.millisToString(requireActivity(), if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime)
                 val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
+                val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "${medias.size}")
 
                 val textProgress = if (audioPlayProgressMode) {
                     val endsAt = System.currentTimeMillis() + totalTime - progressTime
                     if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
                     getString(
-                        R.string.audio_queue_progress_finished,
-                        getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
+                            R.string.audio_queue_progress_finished,
+                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
                     )
-                } else if (showRemainingTime && totalTime > 0) getString(
-                    R.string.audio_queue_progress_remaining,
-                        currentProgressText
-                )
-                else getString(
-                        R.string.audio_queue_progress,
-                        if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText"
+                } else
+                    if (showRemainingTime && totalTime > 0) getString(
+                            R.string.audio_queue_progress_remaining,
+                            currentProgressText
                     )
-                "$textTrack  •  $textProgress"
+                    else getString(
+                            R.string.audio_queue_progress,
+                            if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText"
+                    )
+                val textDescription = if (audioPlayProgressMode) {
+                    val endsAt = System.currentTimeMillis() + totalTime - progressTime
+                    if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
+                    getString(
+                            R.string.audio_queue_progress_finished,
+                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
+                    )
+                } else
+                    if (showRemainingTime && totalTime > 0) getString(
+                            R.string.audio_queue_progress_remaining,
+                            progressTimeDescription
+                    )
+                    else getString(
+                            R.string.audio_queue_progress,
+                            if (totalTimeText.isNullOrEmpty()) progressTimeDescription else getString(R.string.talkback_out_of, progressTimeDescription, totalTimeDescription)
+                    )
+                Pair("$textTrack  ${TextUtils.separator}  $textProgress", "$textTrackDescription. $textDescription")
             }
-            binding.audioPlayProgress.text = text
+            binding.audioPlayProgress.text = text.first
+            binding.audioPlayProgress.contentDescription = text.second
         }
     }
 
@@ -743,6 +773,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 playlistModel.setTime(progress.toLong(), true)
                 binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
+                binding.timeline.forceAccessibilityUpdate()
             }
         }
     }

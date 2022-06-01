@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import kotlin.math.max
 import kotlin.math.min
 
@@ -246,6 +247,13 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 updateFragmentMargins(newState)
                 applyMarginToProgressBar(playerBehavior.peekHeight)
                 setContentBottomPadding()
+                if (isTalkbackIsEnabled()) {
+                    when (playerBehavior.state) {
+                        STATE_EXPANDED -> audioPlayerContainer.announceForAccessibility(getString(R.string.talkback_audio_player_opened))
+                        STATE_COLLAPSED -> audioPlayerContainer.announceForAccessibility(getString(R.string.talkback_audio_player_collapsed))
+                        STATE_HIDDEN -> audioPlayerContainer.announceForAccessibility(getString(R.string.talkback_audio_player_closed))
+                    }
+                }
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)

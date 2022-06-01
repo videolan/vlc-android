@@ -1014,10 +1014,17 @@
     <string name="talkback_decrease_speed">Decrease speed</string>
     <string name="talkback_subtitle_history">Subtitle history</string>
     <string name="talkback_language_selection">%s selected languages</string>
+    <string name="talkback_audio_player_opened">Audio player opened</string>
+    <string name="talkback_audio_player_collapsed">Audio player collapsed</string>
+    <string name="talkback_audio_player_closed">Audio player closed</string>
+    <string name="talkback_audio_player">Audio player. Currently playing: %s</string>
+    <string name="talkback_out_of">%s out of %s</string>
+    <string name="talkback_track_index">Track %s out of %s</string>
     <string name="downloaded">Downloaded</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="downloading">Downloading</string>
-    <string name="talkback_out_of">%s out of %s</string>
+    <string name="talkback_action_rewind">Rewind %s seconds</string>
+    <string name="talkback_action_forward">Seek forward %s seconds</string>
 
 
 </resources>
