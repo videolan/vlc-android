@@ -47,6 +47,7 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -182,6 +183,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
+            if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
         }
         sortMenuTitles()
         reopenSearchIfNeeded()
@@ -195,6 +197,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 lists[currentTab].adapter = adapters[currentTab]
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid)
+                true
+            }
+            R.id.play_all -> {
+                onFabPlayClick(fastScroller)
                 true
             }
             else -> super.onOptionsItemSelected(item)

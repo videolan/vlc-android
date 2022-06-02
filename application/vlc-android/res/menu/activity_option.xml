@@ -9,6 +9,14 @@
             android:title="@string/play_all"
             vlc:showAsAction="always"
             android:visible="false"/>
+
+    <item
+            android:orderInCategory="0"
+            android:id="@+id/shuffle_all"
+            android:icon="@drawable/ic_am_shuffle"
+            android:title="@string/shuffle_all_title"
+            vlc:showAsAction="always"
+            android:visible="false"/>
     <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_renderers"

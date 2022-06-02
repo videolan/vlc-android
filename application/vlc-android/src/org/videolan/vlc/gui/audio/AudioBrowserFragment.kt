@@ -59,6 +59,7 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -257,7 +258,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         }
         sortMenuTitles(currentTab)
         reopenSearchIfNeeded()
-    }
+         if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.shuffle_all).isVisible = true
+   }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -274,6 +276,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, item.isChecked)
                 viewModel.artistsProvider.showAll = item.isChecked
                 viewModel.refresh()
+                true
+            }
+            R.id.shuffle_all -> {
+                onFabPlayClick(emptyView)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -69,6 +69,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 
@@ -82,7 +83,7 @@ private const val MSG_REFRESH = 3
 private const val MSG_SHOW_ENQUEUING = 4
 private const val MSG_HIDE_ENQUEUING = 5
 
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem> {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem> {
 
     private lateinit var addPlaylistFolderOnly: MenuItem
     protected val handler = BrowserFragmentHandler(this)
@@ -132,6 +133,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val browserShowHiddenFiles = menu.findItem(R.id.browser_show_hidden_files)
         browserShowHiddenFiles.isVisible = true
         browserShowHiddenFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
+        if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
     }
 
     protected open fun defineIsRoot() = mrl == null
@@ -302,10 +304,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun refresh() = viewModel.refresh()
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.fab, R.id.fab_large -> playAll(null)
-        }
+    override fun onFabPlayClick(view: View) {
+        playAll(null)
     }
 
     class BrowserFragmentHandler(owner: BaseBrowserFragment) : WeakHandler<BaseBrowserFragment>(owner) {
@@ -463,6 +463,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString(), true) }
                 true
             }
+            R.id.play_all -> {
+                onFabPlayClick(binding.root)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -614,7 +618,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         fabPlay?.let {
             if (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true) {
                 setFabPlayVisibility(true)
-                it.setOnClickListener(this)
+                it.setOnClickListener{onFabPlayClick(it)}
             } else {
                 setFabPlayVisibility(false)
                 it.setOnClickListener(null)
