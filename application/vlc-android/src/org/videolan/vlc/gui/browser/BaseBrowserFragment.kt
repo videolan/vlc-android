@@ -205,6 +205,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         fabPlay?.run {
             setImageResource(R.drawable.ic_fab_play)
             updateFab()
+            fabPlay?.contentDescription = getString(R.string.play)
         }
         (activity as? AudioPlayerContainerActivity)?.expandAppBar()
     }

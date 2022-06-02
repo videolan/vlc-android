@@ -40,8 +40,8 @@ import org.videolan.tools.dp
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
@@ -127,6 +127,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
+        fabPlay?.contentDescription = getString(R.string.play)
         viewModel.albumsProvider.pagedList.observe(requireActivity()) { albums ->
             @Suppress("UNCHECKED_CAST")
             (albums as? PagedList<MediaLibraryItem>)?.let { albumsAdapter.submitList(it) }

@@ -100,6 +100,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     override fun onStart() {
         super.onStart()
         fabPlay?.setImageResource(if (isRootDirectory) R.drawable.ic_fab_add else R.drawable.ic_fab_play)
+        fabPlay?.contentDescription = getString(if (isRootDirectory) R.string.add else R.string.play)
         fabPlay?.setOnClickListener(this)
     }
 

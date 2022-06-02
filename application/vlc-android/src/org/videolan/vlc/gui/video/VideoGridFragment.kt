@@ -243,6 +243,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         updateViewMode()
         setFabPlayVisibility(true)
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
+        fabPlay?.contentDescription = getString(R.string.play)
         if (!viewModel.isEmpty() && getFilterQuery() == null) viewModel.refresh()
     }
 

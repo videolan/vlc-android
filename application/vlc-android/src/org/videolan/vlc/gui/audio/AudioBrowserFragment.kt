@@ -233,6 +233,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         super.onStart()
         setFabPlayShuffleAllVisibility()
         fabPlay?.setImageResource(R.drawable.ic_fab_shuffle)
+        fabPlay?.contentDescription = getString(R.string.shuffle_play)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
