@@ -46,6 +46,7 @@
             android:background="?attr/actionBarItemBackground"
             android:nextFocusRight="@+id/add_bookmark"
             android:onClick="onClickDismissPlaylistTips"
+            android:contentDescription="@string/close"
             android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_bias="0.5"
