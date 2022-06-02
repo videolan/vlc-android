@@ -53,6 +53,7 @@ fun mediaDescription(v: View, media: MediaLibraryItem) {
             MediaWrapper.TYPE_AUDIO -> TalkbackUtil.getAudioTrack(v.context, media)
             MediaWrapper.TYPE_STREAM -> TalkbackUtil.getStream(v.context, media)
             MediaWrapper.TYPE_DIR, MediaWrapper.TYPE_SUBTITLE, MediaWrapper.TYPE_PLAYLIST-> TalkbackUtil.getDir(v.context, media, false)
+                MediaWrapper.TYPE_ALL -> TalkbackUtil.getAll(media)
             else -> throw NotImplementedError("Media type not found: ${media.type}")
         }
         else -> throw NotImplementedError("Unknown item type")

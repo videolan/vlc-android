@@ -92,6 +92,8 @@ object TalkbackUtil {
         return text
     }
 
+    fun getAll(media: MediaLibraryItem): String  = media.title
+
     fun millisToString(context: Context, duration: Long): String {
         var millis = duration
         val sb = StringBuilder()
