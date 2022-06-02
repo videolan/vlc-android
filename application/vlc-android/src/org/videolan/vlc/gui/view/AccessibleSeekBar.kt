@@ -6,13 +6,15 @@ import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
 import org.videolan.resources.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.TalkbackUtil
 
 class AccessibleSeekBar : AppCompatSeekBar {
 
-    private val customAccessibilityDelegate = object : View.AccessibilityDelegate() {
+    private val customAccessibilityDelegate = object : AccessibilityDelegateCompat() {
         var force = false
             set(value) {
                 field = value
@@ -56,7 +58,7 @@ class AccessibleSeekBar : AppCompatSeekBar {
     }
 
     private fun initialize() {
-        accessibilityDelegate = customAccessibilityDelegate
+        ViewCompat.setAccessibilityDelegate(this, customAccessibilityDelegate)
     }
 
     fun forceAccessibilityUpdate() {
