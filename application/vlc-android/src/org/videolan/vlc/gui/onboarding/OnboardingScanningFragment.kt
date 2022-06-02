@@ -29,9 +29,6 @@ class OnboardingScanningFragment : OnboardingFragment() {
             viewModel.scanStorages = isChecked
             customizeButton.isEnabled = isChecked
         }
-        view.findViewById<Button>(R.id.nextButton).setOnClickListener {
-            onboardingFragmentListener.onNext()
-        }
         customizeButton.setOnClickListener {
             val activity = requireActivity()
 

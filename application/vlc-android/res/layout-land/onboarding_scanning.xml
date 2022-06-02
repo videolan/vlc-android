@@ -115,24 +115,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/customize"
-            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
-
-    <Button
-            android:id="@+id/nextButton"
-            style="@style/VLC.Onboarding.Button.Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/next_step"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/customizeButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,9 +22,6 @@ class OnboardingNoPermissionFragment : OnboardingFragment() {
         view.findViewById<Button>(R.id.grant_permission_button).setOnClickListener {
             requireActivity().askStoragePermission(false, null)
         }
-        view.findViewById<Button>(R.id.next_button).setOnClickListener {
-            onboardingFragmentListener.onNext()
-        }
     }
 
     companion object {

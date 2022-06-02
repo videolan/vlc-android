@@ -33,7 +33,6 @@ class OnboardingThemeFragment : OnboardingFragment(), View.OnClickListener {
         lightTheme.setOnClickListener(this)
         darkTheme.setOnClickListener(this)
         dayNightTheme.setOnClickListener(this)
-        view.findViewById<View>(R.id.doneButton).setOnClickListener { onboardingFragmentListener.onDone() }
     }
 
     override fun onClick(view: View) {

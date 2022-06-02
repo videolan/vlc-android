@@ -44,9 +44,8 @@ class OnboardingPermissionFragment : OnboardingFragment() {
         view.findViewById<Button>(R.id.grantPermissionButton).setOnClickListener {
             onboardingFragmentListener.askPermission()
         }
-        val nextButton = view.findViewById<Button>(R.id.nextButton)
-        nextButton.visibility = if (Settings.getInstance(requireActivity()).getBoolean(INITIAL_PERMISSION_ASKED, false)) View.VISIBLE else View.GONE
-        nextButton.setOnClickListener { onboardingFragmentListener.onNext() }
+
+        (requireActivity() as OnboardingActivity).manageNextVisibility(Settings.getInstance(requireActivity()).getBoolean(INITIAL_PERMISSION_ASKED, false))
     }
 
     companion object {

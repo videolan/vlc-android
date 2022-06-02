@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -26,6 +27,7 @@ import org.videolan.vlc.util.Permissions
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
 class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
+    private lateinit var nextButton: Button
     private val viewModel: OnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,9 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             replace(R.id.fragment_onboarding_placeholder, fragment, fragmentName.name)
         }
         viewModel.currentFragment = fragmentName
-        findViewById<View>(R.id.close).setOnClickListener { onDone() }
+        findViewById<View>(R.id.skip_button).setOnClickListener { onDone() }
+        nextButton = findViewById(R.id.next_button)
+        nextButton.setOnClickListener { onNext() }
     }
 
     override fun onDestroy() {
@@ -80,10 +84,6 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         finish()
     }
 
-    override fun onBackPressed() {
-//        if (viewPager.currentItem != 0) super.onBackPressed()
-    }
-
     override fun askPermission() {
         lifecycleScope.launch {
             getStoragePermission()
@@ -97,8 +97,13 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
             FragmentName.SCAN -> showFragment(FragmentName.THEME)
-            else -> {}
+            else ->  onDone()
         }
+        if (viewModel.currentFragment == FragmentName.THEME) nextButton.text = getString(R.string.done)
+    }
+
+    fun manageNextVisibility(visible: Boolean) {
+        nextButton.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
 }
