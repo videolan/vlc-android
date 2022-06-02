@@ -281,29 +281,35 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat_single)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> if (service.hasPlaylist()) {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat_all)
             } else {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat)
             }
         }
     }
 
     private fun setShuffle() {
         shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
+        shuffleBinding.root.contentDescription = shuffleBinding.root.context.getString(if (service.isShuffling) R.string.shuffle_on else R.string.shuffle)
     }
 
     private fun initShuffle(binding: PlayerOptionItemBinding) {
         shuffleBinding = binding
         AppScope.launch(Dispatchers.Main) {
             shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
+            shuffleBinding.root.contentDescription = shuffleBinding.root.context.getString(if (service.isShuffling) R.string.shuffle_on else R.string.shuffle)
         }
     }
 
@@ -314,6 +320,11 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_repeat_one
                 PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_repeat_all
                 else -> R.drawable.ic_repeat
+            })
+            repeatBinding.root.contentDescription = repeatBinding.root.context.getString(when (service.repeatType) {
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.string.repeat_single
+                PlaybackStateCompat.REPEAT_MODE_ALL -> R.string.repeat_all
+                else -> R.string.repeat
             })
         }
     }
