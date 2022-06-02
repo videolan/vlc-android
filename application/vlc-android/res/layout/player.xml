@@ -158,6 +158,7 @@
                 app:srcCompat="@drawable/ic_close_small"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:id="@+id/close_button"
+                android:contentDescription="@string/close"
                 android:padding="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

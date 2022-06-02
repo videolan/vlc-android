@@ -793,6 +793,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         playlistContainer.setVisible()
         playlist.adapter = playlistAdapter
         player.update()
+        if (player.isTalkbackIsEnabled()) playlistSearchText.editText?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     fun showControls(show: Boolean) {
