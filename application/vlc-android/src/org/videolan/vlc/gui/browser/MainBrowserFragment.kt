@@ -166,11 +166,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
         //local
         localEntry = view.findViewById(R.id.local_browser_entry)
-        val storageBbrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
-        val storageBrowserAdapter = BaseBrowserAdapter(storageBbrowserContainer)
+        val storageBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
+        val storageBrowserAdapter = BaseBrowserAdapter(storageBrowserContainer)
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null, showHiddenFiles = false)
-        containerAdapterAssociation[storageBbrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
+        containerAdapterAssociation[storageBrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 if (Permissions.canReadStorage(requireActivity())) storageBrowserAdapter.update(it)
