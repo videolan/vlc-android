@@ -20,6 +20,7 @@ class AccessibleSeekBar : AppCompatSeekBar {
                 field = value
                 if( value) sendAccessibilityEventUnchecked(this@AccessibleSeekBar, AccessibilityEvent.obtain().apply { eventType = AccessibilityEvent.TYPE_VIEW_SELECTED })
             }
+        var disabled = true
 
 
         /**
@@ -32,6 +33,10 @@ class AccessibleSeekBar : AppCompatSeekBar {
          * @param event the accessibility event to send
          */
         override fun sendAccessibilityEventUnchecked(host: View?, event: AccessibilityEvent) {
+            if (disabled) {
+                super.sendAccessibilityEventUnchecked(host, event)
+                return
+            }
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "sendAccessibilityEventUnchecked: ${event.eventType}")
             contentDescription = context.getString(R.string.talkback_out_of, TalkbackUtil.millisToString(context, progress.toLong()), TalkbackUtil.millisToString(context, max.toLong()) )
             if (event.eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
@@ -62,7 +67,16 @@ class AccessibleSeekBar : AppCompatSeekBar {
     }
 
     fun forceAccessibilityUpdate() {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "forceAccessibilityUpdate", Exception("Give me a stack"))
         customAccessibilityDelegate.force = true
+    }
+
+    fun disableAccessibilityEvents() {
+        customAccessibilityDelegate.disabled = true
+    }
+
+    fun enableAccessibilityEvents() {
+        customAccessibilityDelegate.disabled = false
     }
 
 
