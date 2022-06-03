@@ -498,7 +498,17 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         } else {
             mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
-            else MediaUtils.openList(v.context, viewModel.dataset.getList().filter { it.itemType !=  MediaWrapper.TYPE_DIR}.map { it as MediaWrapper }, position)
+            else {
+                if (!Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, false)) {
+                    MediaUtils.openMedia(requireContext(), item)
+                } else {
+                    MediaUtils.openList(v.context,
+                        viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
+                            .map { it as MediaWrapper },
+                        position
+                    )
+                }
+            }
         }
     }
 
