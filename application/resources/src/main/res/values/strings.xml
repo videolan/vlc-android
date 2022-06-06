@@ -893,6 +893,8 @@
     <string name="browser_show_missing_media">Show missing medias</string>
     <string name="browser_show_missing_media_summary">Show distant medias even if they are not present</string>
     <string name="search_prefs">Search settings</string>
+    <string name="video_match_frame_rate_title">Match Display Frame Rate</string>
+    <string name="video_match_frame_rate_summary">Match display refresh rate to media frame rate. For example, a 24p film should play at 24p</string>
     <string name="preferred_resolution">Preferred video resolution</string>
     <string name="preferred_resolution_summary">Maximum video quality for streams, when applicable, will be: %s</string>
     <string name="pref_resolution_best_available">Best available</string>

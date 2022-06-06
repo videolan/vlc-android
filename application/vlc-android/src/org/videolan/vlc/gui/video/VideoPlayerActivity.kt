@@ -1524,23 +1524,34 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         settings.edit { remove(VIDEO_PAUSED) }
         if (isInPictureInPictureMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack ?: return
-            val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+            val ar =
+                Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
             if (ar.isFinite && !ar.isZero) {
-                setPictureInPictureParams(PictureInPictureParams.Builder().setAspectRatio(ar).build())
+                setPictureInPictureParams(
+                    PictureInPictureParams.Builder().setAspectRatio(ar).build()
+                )
             }
         }
         if (tipsDelegate.currentTip != null) pause()
+
+        //if possible, match display with content frame rate
+        val preferMatchFrameRate =
+            settings.getBoolean("video_match_frame_rate", false)
+        if (preferMatchFrameRate) {
+            val surfaceView = rootView?.findViewById<View>(R.id.surface_video) as SurfaceView
+            FrameRateManager(this, service!!).matchFrameRate(surfaceView, window)
+        }
     }
 
     private fun encounteredError() {
         if (isFinishing || service?.hasNext() == true) return
         /* Encountered Error, exit player with a message */
         alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-                .setOnCancelListener { exit(RESULT_PLAYBACK_ERROR) }
-                .setPositiveButton(R.string.ok) { _, _ -> exit(RESULT_PLAYBACK_ERROR) }
-                .setTitle(R.string.encountered_error_title)
-                .setMessage(R.string.encountered_error_message)
-                .create().apply { show() }
+            .setOnCancelListener { exit(RESULT_PLAYBACK_ERROR) }
+            .setPositiveButton(R.string.ok) { _, _ -> exit(RESULT_PLAYBACK_ERROR) }
+            .setTitle(R.string.encountered_error_title)
+            .setMessage(R.string.encountered_error_message)
+            .create().apply { show() }
     }
 
     private fun handleVout(voutCount: Int) {
