@@ -454,6 +454,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     hudBinding.playerOverlayPlay.setImageDrawable(drawable)
                     if (service.isPlaying != wasPlaying) drawable.start()
                 }
+                hudBinding.playerOverlayPlay.contentDescription = player.getString(if (service.isPlaying) R.string.pause else R.string.play)
 
                 wasPlaying = service.isPlaying
             }
