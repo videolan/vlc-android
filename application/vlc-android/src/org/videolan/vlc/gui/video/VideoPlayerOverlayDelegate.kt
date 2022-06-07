@@ -819,6 +819,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
             hudBinding.orientationToggle.visibility = if (player.isTv || AndroidDevices.isChromeBook) View.INVISIBLE else if (show) View.VISIBLE else View.INVISIBLE
+            if (!show) hudBinding.playerOverlaySeekbar.disableAccessibilityEvents() else hudBinding.playerOverlaySeekbar.enableAccessibilityEvents()
         }
         if (::hudRightBinding.isInitialized) {
             val secondary = player.displayManager.isSecondary
@@ -843,7 +844,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.audioDelayQuickAction.text = "${(player.service?.audioDelay ?: 0L) / 1000L} ms"
 
         }
-        if (!show) hudBinding.playerOverlaySeekbar.disableAccessibilityEvents() else hudBinding.playerOverlaySeekbar.enableAccessibilityEvents()
+
     }
 
     /**
