@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.activityViewModels
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
 class OnboardingNoPermissionFragment : OnboardingFragment() {
+    private val viewModel: OnboardingViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_no_permission, container, false)
@@ -20,7 +21,8 @@ class OnboardingNoPermissionFragment : OnboardingFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.grant_permission_button).setOnClickListener {
-            requireActivity().askStoragePermission(false, null)
+            viewModel.permissionAlreadyAsked = false
+            (requireActivity() as OnboardingActivity).showFragment(FragmentName.ASK_PERMISSION, true)
         }
     }
 

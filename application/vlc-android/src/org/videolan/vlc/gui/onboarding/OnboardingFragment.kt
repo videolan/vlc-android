@@ -33,5 +33,4 @@ open class OnboardingFragment: Fragment() {
 interface OnboardingFragmentListener {
     fun onNext()
     fun onDone()
-    fun askPermission()
 }

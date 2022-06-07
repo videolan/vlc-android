@@ -58,6 +58,7 @@ import videolan.org.commontools.LiveEvent
 
 private const val WRITE_ACCESS = "write"
 private const val WITH_DIALOG = "with_dialog"
+private const val ONLY_MEDIA = "only_media"
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
@@ -67,6 +68,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
     private var upgrade: Boolean = false
     private var write: Boolean = false
     private var withDialog: Boolean = true
+    private var askOnlyRead: Boolean = true
 
     interface CustomActionController {
         fun onStorageAccessGranted()
@@ -81,6 +83,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
         write = arguments?.getBoolean(WRITE_ACCESS) ?: false
         withDialog = arguments?.getBoolean(WITH_DIALOG) ?: true
+        askOnlyRead = arguments?.getBoolean(ONLY_MEDIA) ?: false
         if (AndroidUtil.isMarshMallowOrLater && (!canReadStorage(requireContext()) ||  !Permissions.hasAllAccess(requireContext()))) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) && !model.permissionRationaleShown) {
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
@@ -130,7 +133,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
 
     private fun requestStorageAccess(write: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !askOnlyRead) {
             val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
             val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
             if (intent.isCallable(requireActivity())) {
@@ -176,7 +179,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
 
         @OptIn(ExperimentalCoroutinesApi::class)
-        suspend fun FragmentActivity.getStoragePermission(write: Boolean = false, withDialog:Boolean = true) : Boolean {
+        suspend fun FragmentActivity.getStoragePermission(write: Boolean = false, withDialog:Boolean = true, onlyMedia:Boolean = false) : Boolean {
             if (isFinishing) return false
             Settings.getInstance(this).putSingle(INITIAL_PERMISSION_ASKED, true)
             val model : PermissionViewmodel by viewModels()
@@ -187,7 +190,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             } else {
                 model.setupDeferred()
                 val fragment = StoragePermissionsDelegate().apply {
-                    arguments = bundleOf(WRITE_ACCESS to write, WITH_DIALOG to withDialog)
+                    arguments = bundleOf(WRITE_ACCESS to write, WITH_DIALOG to withDialog, ONLY_MEDIA to onlyMedia)
                 }
                 supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
             }

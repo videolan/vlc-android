@@ -36,7 +36,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         showFragment(viewModel.currentFragment)
     }
 
-    fun showFragment(fragmentName:FragmentName) {
+    fun showFragment(fragmentName:FragmentName, backward:Boolean = false) {
         val fragment = supportFragmentManager.getFragment(Bundle(), fragmentName.name) ?:
         when (fragmentName) {
             FragmentName.WELCOME -> OnboardingWelcomeFragment.newInstance()
@@ -47,11 +47,16 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         }
         (fragment as OnboardingFragment).onboardingFragmentListener = this
         supportFragmentManager.commit {
-            setCustomAnimations(
+            if (!backward) setCustomAnimations(
                  R.anim.anim_enter_right,
                  R.anim.anim_leave_left,
                  android.R.anim.fade_in,
                  android.R.anim.fade_out
+            ) else setCustomAnimations(
+                    R.anim.anim_enter_left,
+                    R.anim.anim_leave_right,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
             )
             replace(R.id.fragment_onboarding_placeholder, fragment, fragmentName.name)
         }
@@ -84,9 +89,11 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         finish()
     }
 
-    override fun askPermission() {
+    private fun askPermission() {
         lifecycleScope.launch {
-            getStoragePermission()
+            val onlyMedia = viewModel.permissionType == PermissionType.MEDIA
+            viewModel.permissionAlreadyAsked = true
+            getStoragePermission(withDialog = false, onlyMedia = onlyMedia)
             onNext()
         }
     }
@@ -94,7 +101,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     override fun onNext() {
         when(viewModel.currentFragment) {
             FragmentName.WELCOME -> if (Permissions.canReadStorage(this)) showFragment(FragmentName.SCAN) else showFragment(FragmentName.ASK_PERMISSION)
-            FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
+            FragmentName.ASK_PERMISSION -> if(viewModel.permissionType != PermissionType.NONE && !viewModel.permissionAlreadyAsked) askPermission() else showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
             FragmentName.SCAN -> showFragment(FragmentName.THEME)
             else ->  onDone()

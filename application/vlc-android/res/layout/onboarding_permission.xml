@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
   ~  onboarding_permission.xml
   ~ **************************************************************************
@@ -38,20 +37,70 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.25" />
 
-    <ImageView
-            android:id="@+id/imageView"
+    <FrameLayout
+            android:id="@+id/permNone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:padding="16dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintBottom_toBottomOf="@+id/permMedia"
+            app:layout_constraintEnd_toStartOf="@+id/permMedia"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/permMedia">
+
+        <ImageView
+                android:id="@+id/permNoneImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_perm_none" />
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/permMedia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView7"
+            android:padding="16dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintEnd_toStartOf="@+id/permAll"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/permNone"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+                android:id="@+id/permMediaImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_perm_media" />
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/permAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/theme_selection_rounded"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/permMedia"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_icon" />
+            app:layout_constraintStart_toEndOf="@+id/permMedia"
+            app:layout_constraintTop_toTopOf="@+id/permMedia">
+
+        <ImageView
+                android:id="@+id/permAllImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_perm_all" />
+    </FrameLayout>
+
 
     <TextView
             android:id="@+id/textView7"
@@ -66,8 +115,7 @@
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
             android:id="@+id/textView"
@@ -75,25 +123,29 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="32dp"
             android:text="@string/permission_media"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
-            app:layout_constraintBottom_toTopOf="@+id/grantPermissionButton"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-    <Button
-            android:id="@+id/grantPermissionButton"
+    <TextView
+            android:id="@+id/permDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:text="@string/permission_ask_again"
+            android:layout_marginEnd="24dp"
+            android:padding="8dp"
+            android:text="@string/permission_onboarding_perm_all"
+            android:textAlignment="center"
+            android:textAppearance="@style/VLC.Onboarding.Text"
+            android:textColor="@color/orange500"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/permMedia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
