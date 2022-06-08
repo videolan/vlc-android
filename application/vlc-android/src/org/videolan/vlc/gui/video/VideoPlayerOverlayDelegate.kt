@@ -154,8 +154,9 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                  it?.let { view ->
                      val lp = (view.layoutParams as FrameLayout.LayoutParams)
                      lp.width = halfScreenSize
-                     lp.gravity = lp.gravity or (if (onRight) Gravity.END else Gravity.START)
-                     lp.gravity = lp.gravity and (if (onRight) Gravity.END else Gravity.START).inv()
+                     //get vertical flags to keep them
+                     val newGravity = lp.gravity and Gravity.VERTICAL_GRAVITY_MASK
+                     lp.gravity = newGravity or (if (onRight) Gravity.END else Gravity.START)
                      view.layoutParams = lp
                  }
              }
@@ -172,7 +173,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                  arrayOf(playerUiContainer, playlistContainer).forEach {
                      val lp = (it.layoutParams as FrameLayout.LayoutParams)
                      lp.height = halfScreenSize
-                     lp.gravity = lp.gravity or Gravity.BOTTOM
+                     lp.gravity = Gravity.BOTTOM
                      it.layoutParams = lp
                  }
                  arrayOf(hudBackground, hudRightBackground).forEach {
