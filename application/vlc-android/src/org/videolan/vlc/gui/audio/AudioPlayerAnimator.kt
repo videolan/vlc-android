@@ -61,6 +61,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     override var foldingFeature: FoldingFeature? = null
         set(value) {
             field = value
+            initConstraintSets()
             manageHinge()
         }
 
@@ -151,11 +152,11 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         headerHidePlaylistConstraint.clone(binding.header)
         headerHidePlaylistLandscapeConstraint.clone(binding.header)
         arrayOf(headerShowPlaylistConstraint, headerHidePlaylistConstraint, headerHidePlaylistLandscapeConstraint).forEach {constraintSet ->
-            constraintSet.setVisibility(R.id.header_shuffle, if (audioPlayer.isTablet() && audioPlayer.playlistModel.canShuffle) View.VISIBLE else View.GONE)
+            constraintSet.setVisibility(R.id.header_shuffle, if (showTabletControls() && audioPlayer.playlistModel.canShuffle) View.VISIBLE else View.GONE)
             arrayOf(R.id.header_previous, R.id.header_large_play_pause, R.id.header_next, R.id.header_repeat).forEach {
-                constraintSet.setVisibility(it, if (audioPlayer.isTablet()) View.VISIBLE else View.GONE)
+                constraintSet.setVisibility(it, if (showTabletControls()) View.VISIBLE else View.GONE)
             }
-            constraintSet.setVisibility(R.id.header_play_pause, if (audioPlayer.isTablet()) View.GONE else View.VISIBLE)
+            constraintSet.setVisibility(R.id.header_play_pause, if (showTabletControls()) View.GONE else View.VISIBLE)
         }
         headerShowPlaylistConstraint.applyTo(binding.header)
 
@@ -173,7 +174,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         hidePlaylistLandscapeConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
         hidePlaylistLandscapeConstraint.setVisibility(R.id.track_info_container, View.VISIBLE)
-        if (audioPlayer.isTablet()) {
+        if (showTabletControls()) {
             hidePlaylistLandscapeConstraint.constrainHeight(R.id.track_info_container, ConstraintSet.WRAP_CONTENT)
             hidePlaylistLandscapeConstraint.setDimensionRatio(R.id.cover_media_switcher, null)
             hidePlaylistLandscapeConstraint.setMargin(R.id.track_info_container, ConstraintSet.TOP, 0)
@@ -184,6 +185,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             hidePlaylistLandscapeConstraint.createVerticalChain(R.id.header, ConstraintSet.BOTTOM, R.id.time, ConstraintSet.TOP, arrayOf(R.id.cover_media_switcher, R.id.track_info_container, R.id.audio_play_progress).toIntArray(), null, ConstraintSet.CHAIN_PACKED)
         }
     }
+
+    private fun showTabletControls() = audioPlayer.isTablet() && (foldingFeature?.occlusionType != FoldingFeature.OcclusionType.FULL || foldingFeature?.orientation != FoldingFeature.Orientation.VERTICAL)
 
     /**
      * Changes the device layout depending on the screen foldable status and features
