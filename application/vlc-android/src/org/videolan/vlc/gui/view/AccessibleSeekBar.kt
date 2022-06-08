@@ -1,16 +1,16 @@
 package org.videolan.vlc.gui.view
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
-import org.videolan.resources.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.TalkbackUtil
+import org.videolan.vlc.util.isTalkbackIsEnabled
 
 class AccessibleSeekBar : AppCompatSeekBar {
 
@@ -18,7 +18,7 @@ class AccessibleSeekBar : AppCompatSeekBar {
         var force = false
             set(value) {
                 field = value
-                if( value) sendAccessibilityEventUnchecked(this@AccessibleSeekBar, AccessibilityEvent.obtain().apply { eventType = AccessibilityEvent.TYPE_VIEW_SELECTED })
+                if ((context as Activity).isTalkbackIsEnabled() && value) sendAccessibilityEventUnchecked(this@AccessibleSeekBar, AccessibilityEvent.obtain().apply { eventType = AccessibilityEvent.TYPE_VIEW_SELECTED })
             }
         var disabled = true
 
@@ -37,7 +37,6 @@ class AccessibleSeekBar : AppCompatSeekBar {
                 super.sendAccessibilityEventUnchecked(host, event)
                 return
             }
-            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "sendAccessibilityEventUnchecked: ${event.eventType}")
             contentDescription = context.getString(R.string.talkback_out_of, TalkbackUtil.millisToString(context, progress.toLong()), TalkbackUtil.millisToString(context, max.toLong()) )
             if (event.eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
                     && event.eventType != AccessibilityEvent.TYPE_VIEW_SELECTED) {
@@ -67,7 +66,6 @@ class AccessibleSeekBar : AppCompatSeekBar {
     }
 
     fun forceAccessibilityUpdate() {
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "forceAccessibilityUpdate", Exception("Give me a stack"))
         customAccessibilityDelegate.force = true
     }
 
@@ -78,10 +76,4 @@ class AccessibleSeekBar : AppCompatSeekBar {
     fun enableAccessibilityEvents() {
         customAccessibilityDelegate.disabled = false
     }
-
-
-
-
-
-
 }
