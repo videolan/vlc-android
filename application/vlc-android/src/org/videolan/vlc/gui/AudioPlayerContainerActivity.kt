@@ -182,6 +182,16 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         fragmentContainer.setPadding(fragmentContainer.paddingLeft, fragmentContainer.paddingTop, fragmentContainer.paddingRight, bottomMargin)
     }
 
+    /**
+     * Get the player behavior or null if it's not initialized
+     *
+     * @return the player behavior if it's initialized
+     */
+    fun getBehavior(): PlayerBehavior<*>? {
+        if (::playerBehavior.isInitialized) return playerBehavior
+        return null
+    }
+
     protected open fun initAudioPlayerContainerActivity() {
         findViewById<View>(R.id.fragment_placeholder)?.let {
             fragmentContainer = it

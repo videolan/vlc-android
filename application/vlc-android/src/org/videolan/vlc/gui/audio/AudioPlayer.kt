@@ -43,11 +43,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
@@ -147,6 +151,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = AudioPlayerBinding.inflate(inflater)
         setupAnimator(binding)
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                WindowInfoTracker.getOrCreate(requireActivity())
+                        .windowLayoutInfo(requireActivity())
+                        .collect { layoutInfo ->
+                            foldingFeature = layoutInfo.displayFeatures.firstOrNull() as? FoldingFeature
+                        }
+            }
+        }
         return binding.root
     }
 
@@ -228,6 +241,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.songTitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
         binding.songSubtitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
+
+        binding.hingeGoLeft.setOnClickListener {
+            Settings.getInstance(requireActivity()).putSingle(AUDIO_HINGE_ON_RIGHT, false)
+            manageHinge()
+        }
+        binding.hingeGoRight.setOnClickListener {
+            Settings.getInstance(requireActivity()).putSingle(AUDIO_HINGE_ON_RIGHT, true)
+            manageHinge()
+        }
 
         setBottomMargin()
     }

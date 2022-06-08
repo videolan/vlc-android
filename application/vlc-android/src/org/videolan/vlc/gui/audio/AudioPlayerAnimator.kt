@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -37,8 +38,12 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.LifecycleObserver
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import androidx.window.layout.FoldingFeature
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.videolan.tools.ALLOW_FOLD_AUTO_LAYOUT
+import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.vlc.R
@@ -52,6 +57,12 @@ import kotlin.math.max
 import kotlin.math.min
 
 internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
+
+    override var foldingFeature: FoldingFeature? = null
+        set(value) {
+            field = value
+            manageHinge()
+        }
 
     override fun AudioPlayer.setupAnimator(binding: AudioPlayerBinding) {
         audioPlayer = this
@@ -84,28 +95,39 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             if (value == field) {
                 return
             }
-            TransitionManager.beginDelayedTransition(cl, transition)
-            when {
-                !value -> showPlaylistConstraint
-                audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> hidePlaylistLandscapeConstraint
-                else -> hidePlaylistConstraint
-            }.applyTo(cl)
+            startConstraintAnimation(value)
 
-            when {
-                !value -> headerShowPlaylistConstraint
-                audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> headerHidePlaylistLandscapeConstraint
-                else -> headerHidePlaylistConstraint
-            }.applyTo(binding.header)
-            audioPlayer.showChips()
             audioPlayer.retrieveAbRepeatAddMarker()?.let { audioPlayer.playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, it) }
 
             field = value
+
             onSlide(1F)
-            binding.playlistSwitch.setImageResource(if (value) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
-            binding.playlistSwitch.contentDescription = audioPlayer.getString(if (value) R.string.hide_playlist else R.string.show_playlist)
-            binding.playlistSwitch.announceForAccessibility(audioPlayer.getString(if (value) R.string.hide_playlist else R.string.show_playlist))
+            binding.playlistSwitch.setImageResource(if (showCover) R.drawable.ic_playlist_audio else R.drawable.ic_playlist_audio_on)
+            binding.playlistSwitch.contentDescription = audioPlayer.getString(if (showCover) R.string.hide_playlist else R.string.show_playlist)
+            binding.playlistSwitch.announceForAccessibility(audioPlayer.getString(if (showCover) R.string.hide_playlist else R.string.show_playlist))
             audioPlayer.setBottomMargin()
         }
+
+    /**
+     * Animate the player UI to go to a new state
+     *
+     * @param showCover true if the cover should be shown
+     */
+    private fun startConstraintAnimation(showCover: Boolean) {
+        TransitionManager.beginDelayedTransition(cl, transition)
+        when {
+            !showCover -> showPlaylistConstraint
+            audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> hidePlaylistLandscapeConstraint
+            else -> hidePlaylistConstraint
+        }.applyTo(cl)
+
+        when {
+            !showCover -> headerShowPlaylistConstraint
+            audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> headerHidePlaylistLandscapeConstraint
+            else -> headerHidePlaylistConstraint
+        }.applyTo(binding.header)
+        audioPlayer.showChips()
+    }
 
     override fun switchShowCover() {
         showCover = !showCover
@@ -160,6 +182,32 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             hidePlaylistLandscapeConstraint.connect(R.id.track_info_container, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
             hidePlaylistLandscapeConstraint.connect(R.id.audio_play_progress, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
             hidePlaylistLandscapeConstraint.createVerticalChain(R.id.header, ConstraintSet.BOTTOM, R.id.time, ConstraintSet.TOP, arrayOf(R.id.cover_media_switcher, R.id.track_info_container, R.id.audio_play_progress).toIntArray(), null, ConstraintSet.CHAIN_PACKED)
+        }
+    }
+
+    /**
+     * Changes the device layout depending on the screen foldable status and features
+     */
+    override fun manageHinge() {
+        if (foldingFeature == null || !Settings.getInstance(audioPlayer.requireActivity()).getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true))  return
+        val foldingFeature = foldingFeature!!
+
+        //device is fully occluded and split vertically. We display the controls on the half left or right side
+        if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+            val onRight = Settings.getInstance(audioPlayer.requireActivity()).getBoolean(AUDIO_HINGE_ON_RIGHT, true)
+
+        binding.centerGuideline.let { guideline ->
+                arrayOf(showPlaylistConstraint, hidePlaylistConstraint).forEach {
+                    it.connect(binding.shuffle.id, ConstraintSet.START, if (!onRight) ConstraintSet.PARENT_ID else guideline.id, ConstraintSet.START)
+                    it.connect(binding.repeat.id, ConstraintSet.END, if (onRight) ConstraintSet.PARENT_ID else guideline.id, ConstraintSet.END)
+                binding.hingeGoLeft.let { button: ImageView -> it.setVisibility(button.id, if (onRight) View.VISIBLE else View.GONE) }
+                binding.hingeGoRight.let { button: ImageView -> it.setVisibility(button.id, if (!onRight) View.VISIBLE else View.GONE) }
+                }
+            }
+            startConstraintAnimation(showCover)
+            (audioPlayer.activity as? AudioPlayerContainerActivity)?.getBehavior()?.let {
+                onSlide(if (it.state == BottomSheetBehavior.STATE_COLLAPSED) 0F else 1F)
+            }
         }
     }
 
@@ -242,7 +290,10 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 }
 
 interface IAudioPlayerAnimator {
+    var foldingFeature: FoldingFeature?
+
     fun switchShowCover()
+    fun manageHinge()
     fun isShowingCover(): Boolean
     fun showCover(value: Boolean)
     fun AudioPlayer.setupAnimator(binding: AudioPlayerBinding)
