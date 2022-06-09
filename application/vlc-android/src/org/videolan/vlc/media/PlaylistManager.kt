@@ -521,26 +521,28 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val media = medialibrary.findMedia(currentMedia) ?: return@innerLaunch
             if (media.id == 0L) return@innerLaunch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
-            if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
-                if (length == 0L) {
-                    media.time = -1L
-                    media.position = player.lastPosition
-                    medialibrary.setLastPosition(media.id, media.position)
-                } else {
-                    //todo verify that this info is persisted in DB
-                    if (media.length <= 0 && length > 0) media.length = length
-                    try {
-                        when (medialibrary.setLastTime(media.id, time)) {
-                            Medialibrary.ML_SET_TIME_ERROR -> {
+            //checks if the [MediaPlayer] has not been reset in the meantime to prevent saving 0
+            if (time != 0L || player.isPlaying())
+                if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
+                    if (length == 0L) {
+                        media.time = -1L
+                        media.position = player.lastPosition
+                        medialibrary.setLastPosition(media.id, media.position)
+                    } else {
+                        //todo verify that this info is persisted in DB
+                        if (media.length <= 0 && length > 0) media.length = length
+                        try {
+                            when (medialibrary.setLastTime(media.id, time)) {
+                                Medialibrary.ML_SET_TIME_ERROR -> {
+                                }
+                                Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
+                                Medialibrary.ML_SET_TIME_AS_IS -> media.time = time
                             }
-                            Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
-                            Medialibrary.ML_SET_TIME_AS_IS -> media.time = time
+                        } catch (e: NullPointerException) {
+                            VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
                         }
-                    } catch (e: NullPointerException) {
-                        VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
                     }
                 }
-            }
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
 
         }
