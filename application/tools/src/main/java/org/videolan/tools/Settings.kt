@@ -165,6 +165,7 @@ const val PERMISSION_NEVER_ASK = "permission_never_ask"
 
 const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
 const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
+const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
