@@ -122,7 +122,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         playbackSettingPlus.requestFocus()
         initPlaybackSettingInfo()
         if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) delayApplyAll.setVisible() else delayApplyAll.setGone()
-        player.overlayDelegate.hideOverlay(fromUser = true, forceTalkback = true)
+        if (player.displayManager.isPrimary) player.overlayDelegate.hideOverlay(fromUser = true, forceTalkback = true)
     }
 
     /**

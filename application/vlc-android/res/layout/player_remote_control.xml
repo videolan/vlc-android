@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout="@layout/player_tips" />
 
-    <RelativeLayout
+    <FrameLayout
             android:id="@+id/player_overlay_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,15 +31,14 @@
                 android:id="@+id/renderer_background_cone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_renderer_background_cone" />
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_info_stub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/progress_overlay"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/default_margin"
                 android:layout="@layout/player_overlay_info" />
 
@@ -64,9 +63,7 @@
                 android:id="@+id/player_overlay_settings_stub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/progress_overlay"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/default_margin"
                 android:layout_marginRight="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
@@ -76,6 +73,7 @@
                 android:id="@+id/player_seek_stub"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:fitsSystemWindows="false"
                 android:layout="@layout/player_overlay_seek" />
 
@@ -83,8 +81,7 @@
                 android:id="@+id/player_hud_right_stub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
+                android:layout_gravity="top|end"
                 android:layout_marginLeft="@dimen/overlay_margin"
                 android:layout_marginTop="@dimen/overlay_margin"
                 android:layout_marginRight="@dimen/overlay_margin"
@@ -95,12 +92,18 @@
                 android:id="@+id/player_hud_stub"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="@dimen/overlay_margin"
                 android:layout_marginRight="@dimen/overlay_margin"
                 android:layout_marginBottom="@dimen/overlay_margin"
                 android:layout="@layout/player_hud" />
-    </RelativeLayout>
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_resize_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/player_resize" />
+    </FrameLayout>
 
 
     <androidx.appcompat.widget.ViewStubCompat
