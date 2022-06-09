@@ -1442,7 +1442,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         stopLoading()
         overlayDelegate.updateOverlayPausePlay()
         updateNavStatus()
-        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED) && Settings.videoHudDelay != 0)
+        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED) && Settings.videoHudDelay != -1)
             handler.sendEmptyMessageDelayed(FADE_OUT, Settings.videoHudDelay.toLong() * 1000)
         else {
             mw.removeFlags(MediaWrapper.MEDIA_PAUSED)
@@ -1736,7 +1736,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
             pause()
         } else {
-            if (Settings.videoHudDelay != 0) handler.sendEmptyMessageDelayed(FADE_OUT, 300L)
+            if (Settings.videoHudDelay != -1) handler.sendEmptyMessageDelayed(FADE_OUT, 300L)
             play()
         }
     }

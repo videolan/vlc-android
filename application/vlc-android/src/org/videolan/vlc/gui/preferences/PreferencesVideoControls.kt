@@ -53,7 +53,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
 
     private fun updateHudTimeoutSummary() {
         when (Settings.videoHudDelay) {
-            0 -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary = getString(R.string.timeout_infinite)
+            -1 -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary = getString(R.string.timeout_infinite)
             else -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary =  getString(R.string.video_hud_timeout_summary, Settings.videoHudDelay.toString())
         }
     }
@@ -73,7 +73,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
         when (key) {
             VIDEO_HUD_TIMEOUT -> {
-                Settings.videoHudDelay = sharedPreferences.getInt(VIDEO_HUD_TIMEOUT, 4)
+                Settings.videoHudDelay = sharedPreferences.getInt(VIDEO_HUD_TIMEOUT, 4).coerceInOrDefault(1, 15, -1)
                 updateHudTimeoutSummary()
             }
             KEY_VIDEO_JUMP_DELAY -> {

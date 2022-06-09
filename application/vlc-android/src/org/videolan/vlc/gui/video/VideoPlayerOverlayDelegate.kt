@@ -394,11 +394,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
                 player.isTalkbackIsEnabled() -> VideoPlayerActivity.OVERLAY_INFINITE
-                Settings.videoHudDelay == 0 -> VideoPlayerActivity.OVERLAY_INFINITE
+                Settings.videoHudDelay == -1 -> VideoPlayerActivity.OVERLAY_INFINITE
                 isBookmarkShown() -> VideoPlayerActivity.OVERLAY_INFINITE
                 timeout != 0 -> timeout
                 service.isPlaying -> when (Settings.videoHudDelay) {
-                    0 -> VideoPlayerActivity.OVERLAY_INFINITE
+                    -1 -> VideoPlayerActivity.OVERLAY_INFINITE
                     else -> Settings.videoHudDelay * 1000
                 }
                 else -> VideoPlayerActivity.OVERLAY_INFINITE

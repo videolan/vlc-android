@@ -39,7 +39,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 5
+private const val CURRENT_VERSION = 6
 
 object VersionMigration {
 
@@ -60,6 +60,9 @@ object VersionMigration {
         }
         if (lastVersion < 5) {
             migrateToVersion5(settings)
+        }
+        if (lastVersion < 6) {
+            migrateToVersion6(settings)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
@@ -144,5 +147,15 @@ object VersionMigration {
     private fun migrateToVersion5(settings: SharedPreferences) {
         Log.i(this::class.java.simpleName, "Migrating to Version 5: force the TV ui setting if device is TV")
         if (Settings.device.isTv && settings.getBoolean("tv_ui", false) != settings.getBoolean("tv_ui", true)) settings.putSingle("tv_ui", true)
+    }
+
+    /**
+     * Migrate the Video hud timeout to the new range
+     */
+    private fun migrateToVersion6(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 6: Migrate the Video hud timeout to the new range")
+        val hudTimeOut = settings.getInt(VIDEO_HUD_TIMEOUT, 4)
+        if (hudTimeOut == 0) settings.edit { putInt(VIDEO_HUD_TIMEOUT, 16) }
+        Settings.videoHudDelay = settings.getInt(VIDEO_HUD_TIMEOUT, 4).coerceInOrDefault(1,15,-1)
     }
 }

@@ -85,8 +85,8 @@
                 android:key="video_hud_timeout_in_s"
                 app:updatesContinuously="true"
                 android:summary="%s"
-                android:max="15"
-                app:min="0"
+                android:max="16"
+                app:min="1"
                 app:seekBarIncrement="1"
                 android:title="@string/video_hud_timeout"
                 app:singleLineTitle="false" />

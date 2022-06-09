@@ -35,7 +35,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
-        videoHudDelay = prefs.getInt(VIDEO_HUD_TIMEOUT, 4)
+        videoHudDelay = prefs.getInt(VIDEO_HUD_TIMEOUT, 4).coerceInOrDefault(1, 15, -1)
         device = DeviceInfo(context)
         includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         showHeaders = prefs.getBoolean(KEY_SHOW_HEADERS, true)
@@ -192,3 +192,13 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
         else -> throw IllegalArgumentException("value class is invalid!")
     }
 }
+
+/**
+ * Force an [Int] to be in a reange else set it to a default value
+ *
+ * @param min the minimum value to accept
+ * @param max the maximum value to accept
+ * @param defautValue the default value to return if it's not in the range
+ * @return an [Int] in the range
+ */
+fun Int.coerceInOrDefault(min: Int, max: Int, defautValue: Int) = if (this < min || this > max) defautValue else this
