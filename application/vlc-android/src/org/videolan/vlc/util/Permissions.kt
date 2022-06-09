@@ -45,11 +45,11 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.Settings
 import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
@@ -93,7 +93,7 @@ object Permissions {
      * @param context: the context to check with
      * @return true if the app has been granted the whole permissions including [Manifest.permission.MANAGE_EXTERNAL_STORAGE]
      */
-    fun hasAllAccess(context: Context) = !Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,  Uri.parse("package:${BuildConfig.APP_ID}")).isCallable(context) || isExternalStorageManager()
+    fun hasAllAccess(context: Context) = !Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.fromParts(SCHEME_PACKAGE, context.packageName, null)).isCallable(context) || isExternalStorageManager()
 
     @JvmOverloads
     fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {
@@ -226,7 +226,7 @@ object Permissions {
         val i = Intent()
         i.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
         i.addCategory(Intent.CATEGORY_DEFAULT)
-        i.data = "package:${AppContextProvider.appContext.packageName}".toUri()
+        i.data = Uri.fromParts(SCHEME_PACKAGE, AppContextProvider.appContext.packageName, null)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             activity.startActivity(i)
@@ -262,7 +262,7 @@ object Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
                     val i = Intent(finalAction)
-                    i.data = "package:${activity.packageName}".toUri()
+                    i.data = Uri.fromParts(SCHEME_PACKAGE, activity.packageName, null)
                     try {
                         activity.startActivity(i)
                     } catch (ignored: Exception) {

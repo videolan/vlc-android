@@ -30,8 +30,8 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import androidx.core.net.toUri
 import androidx.tvprovider.media.tv.*
+import org.videolan.tools.getResourceUri
 import org.videolan.tools.putSingle
 
 typealias ProgramsList = MutableList<TvPreviewProgram>
@@ -53,18 +53,18 @@ val WATCH_NEXT_MAP_PROJECTION = arrayOf(
         TvContractCompat.WatchNextPrograms.COLUMN_CONTENT_ID)
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: String, icon: Int, appId: String): Long {
+fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: String, icon: Int): Long {
     var channelId = prefs.getLong(KEY_TV_CHANNEL_ID, -1L)
     val builder = Channel.Builder()
             .setType(TvContractCompat.Channels.TYPE_PREVIEW)
             .setDisplayName(name)
-            .setAppLinkIntentUri(createUri(appId))
+            .setAppLinkIntentUri(createUri(context.packageName))
     if (channelId == -1L) {
         val channelUri = context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, builder.build().toContentValues()) ?: return -1L
         channelId = ContentUris.parseId(channelUri)
         prefs.putSingle(KEY_TV_CHANNEL_ID, channelId)
         TvContractCompat.requestChannelBrowsable(context, channelId)
-        val uri = "android.resource://$appId/$icon".toUri()
+        val uri = context.resources.getResourceUri(icon)
         ChannelLogoUtils.storeChannelLogo(context, channelId, uri)
     } else {
         context.contentResolver.update(TvContractCompat.buildChannelUri(channelId),

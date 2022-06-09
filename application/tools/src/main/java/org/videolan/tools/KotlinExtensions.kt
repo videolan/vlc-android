@@ -3,10 +3,7 @@ package org.videolan.tools
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.content.res.Resources
@@ -126,6 +123,13 @@ fun Context.isConnected(): Boolean {
 
 val Context.localBroadcastManager: LocalBroadcastManager
     get() = LocalBroadcastManager.getInstance(this)
+
+fun Resources.getResourceUri(@DrawableRes id: Int): Uri = Uri.Builder()
+    .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+    .authority(getResourcePackageName(id))
+    .appendPath(getResourceTypeName(id))
+    .appendPath(getResourceEntryName(id))
+    .build()
 
 fun Uri?.retrieveParent(): Uri? {
     try {

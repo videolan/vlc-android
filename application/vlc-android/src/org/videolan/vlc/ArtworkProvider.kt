@@ -63,7 +63,6 @@ import kotlin.math.max
 
 private const val TAG = "VLC/ArtworkProvider"
 private const val MIME_TYPE_IMAGE_WEBP = "image/webp"
-private const val ARTWORK_PROVIDER_AUTHORITY = "${BuildConfig.APP_ID}.artwork"
 private const val ENABLE_TRACING = false
 
 /**
@@ -478,8 +477,8 @@ class ArtworkProvider : ContentProvider() {
         /**
          * Construct the URI used to access this content provider
          */
-        fun buildUri(path: Uri?): Uri {
-            val uriBuilder = Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority(ARTWORK_PROVIDER_AUTHORITY)
+        fun buildUri(ctx: Context, path: Uri?): Uri {
+            val uriBuilder = Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority("${ctx.packageName}.artwork")
             path?.pathSegments?.forEach { it?.let { uriBuilder.appendPath(it) } }
             path?.queryParameterNames?.forEach { key -> key?.let { uriBuilder.appendQueryParameter(key, path.getQueryParameter(key)) } }
             val uri = uriBuilder.build()
@@ -490,9 +489,9 @@ class ArtworkProvider : ContentProvider() {
         /**
          * Construct the URI for MediaWrappers
          */
-        fun buildMediaUri(media: MediaWrapper): Uri {
+        fun buildMediaUri(ctx: Context, media: MediaWrapper): Uri {
             val audioNoArtwork = media.type == MediaWrapper.TYPE_AUDIO && media.artworkMrl.isNullOrEmpty()
-            return buildUri(Uri.Builder()
+            return buildUri(ctx, Uri.Builder()
                     .appendPath(MEDIA)
                     .appendPath("${if (audioNoArtwork) 0L else media.lastModified}")
                     .appendPath("${if (audioNoArtwork) 0L else media.id}")

@@ -41,10 +41,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
-import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
-import org.videolan.resources.VLCInstance
+import org.videolan.resources.*
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -129,7 +126,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 } else {
                     val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     i.addCategory(Intent.CATEGORY_DEFAULT)
-                    i.data = Uri.parse("package:" + activity.applicationContext.packageName)
+                    i.data = Uri.fromParts(SCHEME_PACKAGE, activity.applicationContext.packageName, null)
                     startActivity(i)
                 }
                 return true

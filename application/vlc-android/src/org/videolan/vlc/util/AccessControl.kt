@@ -30,7 +30,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.resources.AppContextProvider
-import org.videolan.resources.BuildConfig
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -62,8 +61,8 @@ object AccessControl {
         val callingPackage = getCallingPackage(ctx, callingUid, clientPackageName)
         when {
             callingUid == Process.myUid() -> {
-                Log.i(TAG, "Known access from self (${BuildConfig.APP_ID}) to VLC")
-                callingUidChecked[callingUid] = AuthEntry(true, BuildConfig.APP_ID, "VLC UID")
+                Log.i(TAG, "Known access from self (${ctx.packageName}) to VLC")
+                callingUidChecked[callingUid] = AuthEntry(true, ctx.packageName, "VLC UID")
                 return
             }
             callingUid == Process.SYSTEM_UID -> {

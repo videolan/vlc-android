@@ -1020,7 +1020,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 val albumArtUri = when {
                     isSchemeHttpOrHttps(media.artworkMrl) -> {
                         //ArtworkProvider will cache remote images
-                        ArtworkProvider.buildUri(Uri.Builder()
+                        ArtworkProvider.buildUri(ctx, Uri.Builder()
                                 .appendPath(ArtworkProvider.REMOTE)
                                 .appendQueryParameter(ArtworkProvider.PATH, media.artworkMrl)
                                 .build())
@@ -1029,7 +1029,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                         //The media id may be 0 on resume
                         val mw = getFromMl { findMedia(media) }
                         val mediaId = MediaSessionBrowser.generateMediaId(mw)
-                        artworkMap[mediaId] ?: ArtworkProvider.buildMediaUri(mw)
+                        artworkMap[mediaId] ?: ArtworkProvider.buildMediaUri(ctx, mw)
                     }
                 }
                 bob.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, albumArtUri.toString())
@@ -1299,12 +1299,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private fun updateMediaQueue() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         artworkMap = HashMap<String, Uri>().also {
+            val ctx = this@PlaybackService
             val artworkToUriCache = HashMap<String, Uri>()
             for (media in playlistManager.getMediaList()) {
                 try {
                     val artworkMrl = media.artworkMrl
                     if (!artworkMrl.isNullOrEmpty() && isPathValid(artworkMrl)) {
-                        val artworkUri = artworkToUriCache.getOrPut(artworkMrl) { ArtworkProvider.buildMediaUri(media) }
+                        val artworkUri = artworkToUriCache.getOrPut(artworkMrl) { ArtworkProvider.buildMediaUri(ctx, media) }
                         val key = MediaSessionBrowser.generateMediaId(media)
                         it[key] = artworkUri
                     }
@@ -1357,13 +1358,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     val iconUri = when {
                         isSchemeHttpOrHttps(media.artworkMrl) -> {
                             //ArtworkProvider will cache remote images
-                            ArtworkProvider.buildUri(Uri.Builder()
+                            ArtworkProvider.buildUri(ctx, Uri.Builder()
                                     .appendPath(ArtworkProvider.REMOTE)
                                     .appendQueryParameter(ArtworkProvider.PATH, media.artworkMrl)
                                     .build())
                         }
-                        ThumbnailsProvider.isMediaVideo(media) -> ArtworkProvider.buildMediaUri(media)
-                        else -> artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON
+                        ThumbnailsProvider.isMediaVideo(media) -> ArtworkProvider.buildMediaUri(ctx, media)
+                        else -> artworkMap[mediaId] ?: ctx.resources.getResourceUri(R.drawable.ic_auto_nothumb)
                     }
                     val mediaDesc = MediaDescriptionCompat.Builder()
                             .setTitle(title)

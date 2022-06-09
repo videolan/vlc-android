@@ -259,6 +259,7 @@ const val CONTENT_RESUME = "${CONTENT_PREFIX}resume_"
 const val CONTENT_EPISODE = "${CONTENT_PREFIX}episode_"
 const val ACTION_OPEN_CONTENT = "action_open_content"
 const val EXTRA_CONTENT_ID = "extra_content_id"
+const val SCHEME_PACKAGE = "package"
 
 // Class names
 const val START_ACTIVITY = "org.videolan.vlc.StartActivity"
