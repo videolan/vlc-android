@@ -42,7 +42,6 @@ import androidx.window.layout.FoldingFeature
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.videolan.tools.ALLOW_FOLD_AUTO_LAYOUT
 import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -192,25 +191,22 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
      * Changes the device layout depending on the screen foldable status and features
      */
     override fun manageHinge() {
-        if (foldingFeature == null || !Settings.getInstance(audioPlayer.requireActivity()).getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true))  return
-        val foldingFeature = foldingFeature!!
-
+        if (foldingFeature?.occlusionType != FoldingFeature.OcclusionType.FULL || foldingFeature?.orientation != FoldingFeature.Orientation.VERTICAL) return
         //device is fully occluded and split vertically. We display the controls on the half left or right side
-        if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
-            val onRight = Settings.getInstance(audioPlayer.requireActivity()).getBoolean(AUDIO_HINGE_ON_RIGHT, true)
+
+        val onRight = Settings.getInstance(audioPlayer.requireActivity()).getBoolean(AUDIO_HINGE_ON_RIGHT, true)
 
         binding.centerGuideline.let { guideline ->
-                arrayOf(showPlaylistConstraint, hidePlaylistConstraint).forEach {
-                    it.connect(binding.shuffle.id, ConstraintSet.START, if (!onRight) ConstraintSet.PARENT_ID else guideline.id, ConstraintSet.START)
-                    it.connect(binding.repeat.id, ConstraintSet.END, if (onRight) ConstraintSet.PARENT_ID else guideline.id, ConstraintSet.END)
+            arrayOf(showPlaylistConstraint, hidePlaylistConstraint).forEach {
+                it.connect(binding.shuffle.id, ConstraintSet.START, if (!onRight) ConstraintSet.PARENT_ID else guideline.id, ConstraintSet.START)
+                it.connect(binding.repeat.id, ConstraintSet.END, if (onRight) ConstraintSet.PARENT_ID else guideline.id, ConstraintSet.END)
                 binding.hingeGoLeft.let { button: ImageView -> it.setVisibility(button.id, if (onRight) View.VISIBLE else View.GONE) }
                 binding.hingeGoRight.let { button: ImageView -> it.setVisibility(button.id, if (!onRight) View.VISIBLE else View.GONE) }
-                }
             }
-            startConstraintAnimation(showCover)
-            (audioPlayer.activity as? AudioPlayerContainerActivity)?.getBehavior()?.let {
-                onSlide(if (it.state == BottomSheetBehavior.STATE_COLLAPSED) 0F else 1F)
-            }
+        }
+        startConstraintAnimation(showCover)
+        (audioPlayer.activity as? AudioPlayerContainerActivity)?.getBehavior()?.let {
+            onSlide(if (it.state == BottomSheetBehavior.STATE_COLLAPSED) 0F else 1F)
         }
     }
 
