@@ -25,14 +25,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.Settings
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.GenresProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
-import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
-import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
-import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
@@ -44,7 +44,6 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     val tracksProvider = TracksProvider(null, context, this)
     val genresProvider = GenresProvider(context, this)
     override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider)
-    private val settings = Settings.getInstance(context)
     val providersInCard = arrayOf(true, true, false, false)
 
     var showResumeCard = settings.getBoolean("audio_resume_card", true)

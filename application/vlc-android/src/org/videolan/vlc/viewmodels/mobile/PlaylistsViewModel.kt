@@ -24,7 +24,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.Settings
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
@@ -35,7 +34,6 @@ class PlaylistsViewModel(context: Context) : MedialibraryViewModel(context) {
     val provider = PlaylistsProvider(context, this)
     var providerInCard = true
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
-    private val settings = Settings.getInstance(context)
 
     init {
         watchPlaylists()

@@ -26,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.Settings
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
@@ -39,7 +38,6 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     override val providers = arrayOf(albumsProvider, tracksProvider)
     val providersInCard = arrayOf(true, false)
     val displayModeKeys = arrayOf("display_mode_albums_song_albums", "display_mode_albums_song_tracks")
-    private val settings = Settings.getInstance(context)
 
     init {
         when (parent) {
