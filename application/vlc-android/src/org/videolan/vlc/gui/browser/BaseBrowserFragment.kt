@@ -134,6 +134,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         browserShowHiddenFiles.isVisible = true
         browserShowHiddenFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
         if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
+        UiTools.updateSortTitles(this)
     }
 
     protected open fun defineIsRoot() = mrl == null
@@ -617,7 +618,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         updateEmptyView()
         if (!isRootDirectory) {
             updateFab()
-            UiTools.updateSortTitles(this)
         }
     }
 
