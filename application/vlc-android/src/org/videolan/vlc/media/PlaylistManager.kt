@@ -1035,6 +1035,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private suspend fun savePlaycount(mw: MediaWrapper) {
+        var currentMedia = mw
         if (settings.getBoolean(PLAYBACK_HISTORY, true) && !mw.uri.scheme.isSchemeFD()) withContext(Dispatchers.IO) {
             var id = mw.id
             if (id == 0L) {
@@ -1050,6 +1051,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         medialibrary.addMedia(mw.uri.toString(), mw.length)
                     }
                     if (internalMedia != null) {
+                        currentMedia = internalMedia
                         id = internalMedia.id
                         getCurrentMedia()?.let { currentMedia -> if (internalMedia.title != currentMedia.title) internalMedia.rename(currentMedia.title) }
                     }
@@ -1061,8 +1063,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
              * necessary to mark the media as played to add them to history and increment their
              * playcount.
              */
-            if (id != 0L && mw.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !mw.isPodcast) {
-                mw.markAsPlayed()
+            if (id != 0L && currentMedia.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !currentMedia.isPodcast) {
+                currentMedia.markAsPlayed()
             }
         }
     }
