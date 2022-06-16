@@ -180,15 +180,15 @@
                         android:id="@+id/ml_item_seen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
                         vlc:layout_goneMarginStart="4dp"
                         android:background="@drawable/rounded_corners_black_more_transparent"
                         android:padding="3dp"
                         android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
                         tools:visibility="visible"
-                        vlc:layout_constraintStart_toEndOf="@+id/network_media"
                         vlc:layout_constraintTop_toTopOf="parent"
+                        vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:srcCompat="@drawable/ic_check" />
 
                 <ImageView
