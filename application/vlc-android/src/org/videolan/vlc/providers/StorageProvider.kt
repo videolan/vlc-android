@@ -24,6 +24,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
@@ -31,9 +32,8 @@ import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
 import java.io.File
-import java.util.*
 
-class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean): FileBrowserProvider(context, dataset, url, false, showHiddenFiles) {
+class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean) : FileBrowserProvider(context, dataset, url, false, showHiddenFiles, sort = Medialibrary.SORT_FILENAME, desc = false) {
 
     override suspend fun browseRootImpl() {
         val storages = DirectoryRepository.getInstance(context).getMediaDirectories()

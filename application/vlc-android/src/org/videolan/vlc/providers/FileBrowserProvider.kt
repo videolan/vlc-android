@@ -46,9 +46,8 @@ open class FileBrowserProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
         url: String?, private val filePicker: Boolean = false,
-        showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true) : BrowserProvider(context, dataset,
-        url, showHiddenFiles
-), Observer<MutableList<UsbDevice>> {
+        showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true, sort:Int, desc:Boolean) : BrowserProvider(context, dataset,
+        url, showHiddenFiles, sort, desc), Observer<MutableList<UsbDevice>> {
 
     private var storagePosition = -1
     private var otgPosition = -1

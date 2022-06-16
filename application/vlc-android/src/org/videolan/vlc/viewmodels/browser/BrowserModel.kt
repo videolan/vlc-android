@@ -26,16 +26,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
@@ -59,13 +60,11 @@ open class BrowserModel(
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 
-    private val tv = Settings.showTvUi
-
     override val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType)
         TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles)
         TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory)
+        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory, sort = sort, desc = desc)
     }
 
     override val loading = provider.loading
@@ -78,18 +77,13 @@ open class BrowserModel(
     override fun sort(sort: Int) {
         viewModelScope.launch {
             this@BrowserModel.sort = sort
-            desc = !desc
-            if (tv) provider.desc = desc
-            val comp = if (tv) {
-                if (desc) tvDescComp else tvAscComp
-            } else {
-                when (sort) {
-                    Medialibrary.SORT_FILENAME -> if (desc) filenameDescComp else filenameAscComp
-                    else -> if (desc) descComp else ascComp
-                }
-
-            }
+            provider.sort = sort
+            val desc = !desc
+            provider.desc = desc
+            val comp = provider.comparator
             dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
+            settings.putSingle(sortKey, sort)
+            settings.putSingle("${sortKey}_desc", desc)
         }
     }
 

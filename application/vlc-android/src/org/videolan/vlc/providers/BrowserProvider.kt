@@ -31,7 +31,10 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.toList
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -50,7 +53,7 @@ import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
 
-abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean, var sort:Int, var desc:Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -66,12 +69,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
-    var desc : Boolean? = null
-    private val comparator : Comparator<MediaLibraryItem>?
-        get() = when(desc) {
-            true -> tvDescComp
-            false -> tvAscComp
-            else -> null
+    val comparator : Comparator<MediaLibraryItem>
+        get() = when {
+            Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> tvDescComp
+            Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> tvAscComp
+            sort == Medialibrary.SORT_FILENAME && desc -> filenameDescComp
+            sort == Medialibrary.SORT_FILENAME && !desc -> filenameAscComp
+            sort == Medialibrary.SORT_ALPHA && desc -> descComp
+            else -> ascComp
         }
 
     init {
@@ -151,8 +156,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (url == null) coroutineScope {
             discoveryJob = launch(coroutineContextProvider.Main) { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
-            val files = filesFlow(url).mapNotNull { findMedia(it) }.onEach { addMedia(it) }.toList()
-            comparator?.let { files.apply {  (this as MutableList).sortWith(it) } }
+            val files = filesFlow(url).mapNotNull { findMedia(it) }.toList().toMutableList()
+            files.apply { this.sortWith(comparator) }
+            dataset.value = files
             computeHeaders(files)
             parseSubDirectories(files)
         }
@@ -183,6 +189,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open suspend fun refreshImpl() {
         val files = filesFlow().mapNotNull { findMedia(it) }.toList()
+        files.apply { (this as MutableList).sortWith(comparator) }
         dataset.value = files as MutableList<MediaLibraryItem>
         computeHeaders(files)
         parseSubDirectories(files)

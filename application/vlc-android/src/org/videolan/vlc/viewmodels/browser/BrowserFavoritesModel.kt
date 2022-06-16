@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.MediaBrowser
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.mediadb.models.BrowserFav
@@ -51,7 +52,7 @@ class FavoritesProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
         scope: CoroutineScope
-) : BrowserProvider(context, dataset, null, false) {
+) : BrowserProvider(context, dataset, null, false, Medialibrary.SORT_FILENAME, false) {
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
 
     init {
