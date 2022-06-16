@@ -56,13 +56,6 @@
                     vlc:title="@{playlist.title}"
                     vlc:titleEnabled="false">
 
-                <ImageView
-                        android:id="@+id/backgroundView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="?attr/background_default_darker" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/header_layout"
                         android:layout_width="@dimen/default_content_width"
@@ -72,6 +65,16 @@
                         android:fitsSystemWindows="true"
                         vlc:layout_collapseMode="parallax">
 
+                    <ImageView
+                            android:id="@+id/backgroundView"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:scaleType="centerCrop"
+                            vlc:layout_constraintTop_toTopOf="parent"
+                            vlc:layout_constraintBottom_toBottomOf="parent"
+                            vlc:layout_constraintStart_toStartOf="parent"
+                            vlc:layout_constraintEnd_toEndOf="parent"
+                            android:src="?attr/background_default_darker" />
 
                     <ImageView
                             android:id="@+id/playlist_cover"
