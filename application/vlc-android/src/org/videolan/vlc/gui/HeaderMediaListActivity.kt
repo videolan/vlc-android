@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  PlaylistActivity.java
+ *  HeaderMediaListActivity.kt
  * **************************************************************************
  *  Copyright © 2017 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
@@ -54,7 +54,7 @@ import org.videolan.tools.copy
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.databinding.PlaylistActivityBinding
+import org.videolan.vlc.databinding.HeaderMediaListActivityBinding
 import org.videolan.vlc.gui.audio.AudioAlbumTracksAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
@@ -84,7 +84,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     private lateinit var itemTouchHelperCallback: SwipeDragItemTouchHelperCallback
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private val mediaLibrary = Medialibrary.getInstance()
-    private lateinit var binding: PlaylistActivityBinding
+    private lateinit var binding: HeaderMediaListActivityBinding
     private var actionMode: ActionMode? = null
     private var isPlaylist: Boolean = false
     private lateinit var viewModel: PlaylistViewModel
@@ -94,7 +94,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.playlist_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.header_media_list_activity)
 
         initAudioPlayerContainerActivity()
         fragmentContainer = binding.songs
