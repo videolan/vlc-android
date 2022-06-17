@@ -261,7 +261,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         if (!playing)
             setupTexts(context, views, widgetType, context.getString(R.string.widget_default_text), "")
         else
-            setupTexts(context, views, widgetType, widgetCacheEntry.currentMedia?.title, widgetCacheEntry.currentMedia?.artist)
+            setupTexts(context, views, widgetType, service?.title ?: widgetCacheEntry.currentMedia?.title, service?.artist ?: widgetCacheEntry.currentMedia?.artist)
 
         if (widgetCacheEntry.playing != playing || colorChanged) views.setImageViewBitmap(R.id.play_pause, context.getColoredBitmapFromColor(getPlayPauseImage(playing, widgetType), foregroundColor))
         views.setContentDescription(R.id.play_pause, context.getString(if (!playing) R.string.resume_playback_short_title else R.string.pause))
