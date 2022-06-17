@@ -118,11 +118,11 @@
     <string name="loading">Yükleniyor</string>
     <string name="please_wait">Lütfen bekleyin…</string>
     <string name="nomedia">Herhangi bir ortam dosyası bulunamadı, aygıtınıza bazı ortam dosyaları aktarın ya da ayarlarınızı denetleyin.</string>
+    <string name="empty_search">%s aramasıyla eşleşen bir öge bulunamadı</string>
     <string name="noplaylist">Herhangi bir oynatma listesi bulunamadı.</string>
     <string name="nosubfolder">Alt klasör yok</string>
     <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz bir oynatma geçmişiniz yok.</string>
-    <string name="validation">Emin misiniz?</string>
 
     <string name="cover_art">Kapak görseli</string>
     <string name="shuffle_all_title">Tümünü karıştır</string>
@@ -247,6 +247,7 @@
     <string name="audio_player_tips">Ses oynatıcı ipuçları</string>
     <string name="previous_next_song">Önceki/sonraki parça</string>
     <string name="show_playlist">Oynatma listesi görüntülensin</string>
+    <string name="hide_playlist">Oynatma listesini gizle</string>
     <string name="hold_to_stop">Basılı tutarak durdurun</string>
 
     <!-- About -->
@@ -283,6 +284,7 @@
     <string name="screen_orientation_landscape_reverse">Yatay ters çevrilmiş</string>
     <string name="screen_orientation_last_locked">Son kilitlenmiş doğrultu</string>
     <string name="enable_black_theme">Siyah tema</string>
+    <string name="theme_auto">Otomatik tema</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="subtitle_preferred_language">Yeğlenen alt yazı dili</string>
     <string name="daynight_title">Gündüz/gece kipi</string>
@@ -433,6 +435,7 @@
     <string name="clear_app_data">Uygulama verilerini temizle</string>
     <string name="clear_app_data_summary">Android için VLC verilerini temizle</string>
     <string name="clear_history">Geçmişi temizle</string>
+    <string name="clear_history_message">Tüm geçmiş bilgileriniz, geçerli oynatma listeniz ve ilerlemeniz kaybolacak. </string>
     <string name="set_locale">Yerelleştirme ayarı</string>
     <string name="network_caching">Ağ ön bellekleme değeri</string>
     <string name="network_caching_summary">Yazılımsal kod çözme içini milisaniye cinsinden ağ ortamının ara belleğe alınacağı süre.\nDevre dışı bırakmak için o olarak ayarlayın</string>
@@ -512,8 +515,14 @@
     <string name="music_now_playing">Şimdi oynatılan</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Açık VLC gereci</string>
-    <string name="widget_name_b">Koyu VLC gereci</string>
+    <string name="widget_name_w">Açık VLC ekran bileşeni</string>
+    <string name="widget_name_b">Koyu VLC ekran bileşeni</string>
+    <string name="widget_name_mini_player">VLC mini oynatıcı</string>
+    <string name="widget_old_text">Ekran bileşenlerimizi güncelledik!</string>
+    <string name="widget_old_description_start">İyi haberlerimiz var! Geliştirilmiş ekran bileşenlerini yayınladık.\nArtık daha uyumlu ve özelleştirilebilir</string>
+    <string name="whats_next">Sırada ne var?</string>
+    <string name="widget_old_description_end">Başlatıcınızda ekran bileşenlerinin zaten olduğunu algıladık. Ne yazık ki, bunlar yeni geliştirilmiş ekran bileşenlerimiz uyumlu değil.\nBaşlatıcınıza bağlı olarak, değiştirilmesi için eski ekran bileşenlerini kaldırmanız gerekebilir.</string>
+    <string name="click_here">Ayrıntılı bilgi almak için buraya tıklayın.</string>
     <string name="allow_storage_access_title">VLC görüntü ve ses dosyalarına erişebilsin</string>
     <string name="allow_storage_access_description">VLC bu aygıttaki ortam dosyalarına erişmek için bu izne gereksinim duyar.</string>
     <string name="allow_storage_manager_title">VLC tüm dosyalara erişebilsin</string>
@@ -533,8 +542,9 @@
     <string name="permission_not_granted">İzin verilmedi</string>
     <string name="permission_expanation_no_allow">Ortamlar otomatik olarak algılanmayacak ve dış alt yazılar kullanılmayacak</string>
     <string name="permission_expanation_allow">Yalnız akışları ya da ağ ortamları kullanılabilecek</string>
-    <string name="permission_expanation_subtitles">Dış alt yazılar kullanılsın</string>
-    <string name="permission_expanation_allow_explanation">İnternet akışları ya da ağ ortamları oynatılsın</string>
+    <string name="permission_onboarding_no_perm">Ortamlarınızı otomatik olarak keşfedemeyeceksiniz\nYalnızca yayın akışlarını ya da ağ ortamlarını oynatabilirsiniz</string>
+    <string name="permission_onboarding_perm_media">Yalnızca standart ortam dosyalarını otomatik keşfedebileceksiniz</string>
+    <string name="permission_onboarding_perm_all">Garip olanlar veya sıkıştırılmış dosyalar ile birlikte her tür ortamı oynatmak için tüm dosyalarınızı otomatik olarak keşfedebileceksiniz.</string>
     <string name="exit_app">Kapat</string>
     <string name="exit_app_msg">VLC uygulamasından çıkmak istediğinize emin misiniz?</string>
 
@@ -647,6 +657,7 @@
     <string name="delete_the_selected">Seçimi sil</string>
     <string name="download_the_selected">Seçimi indir</string>
     <string name="next">Sonraki</string>
+    <string name="skip">Atla</string>
     <string name="next_step">Sonraki</string>
     <string name="download">İndir</string>
     <string name="ctx_player_video_track">Görüntü kaydını seçin</string>
@@ -798,6 +809,7 @@
     <string name="rename_group">Görüntü grubunu yeniden adlandır</string>
     <string name="ungroup">Grubu çöz</string>
     <string name="group_similar">Otomatik olarak yeniden grupla</string>
+    <string name="no_group_found">Herhangi bir görüntü grubu bulunamadı</string>
     <string name="no_favorite">Sık kullanılan yok</string>
     <string name="empty_directory">Boş</string>
     <string name="no_track">Herhangi bir kayıt yok</string>
@@ -929,5 +941,78 @@
     <string name="foldable">Katlanan ekran</string>
     <string name="undo">Geri al</string>
     <string name="add_server_favorite">Sık kullanılanlara sunucu ekle</string>
+    <string name="widget_theme">Ekran bileşeni teması</string>
+    <string name="widget_preferences">Ekran bileşenini yapılandır</string>
+    <string name="material_you">Sizin malzemeniz (renkler duvar kağıdından alınır)</string>
+    <string name="palette">Palet (renkler ortamın kapak görselinden alınır)</string>
+    <string name="custom">Özel</string>
+    <string name="opacity">Saydamlık</string>
+    <string name="widget_background">Arka plan</string>
+    <string name="widget_foreground">Ön plan</string>
+    <string name="configure_widget">Ekran bileşeni yapılandırması</string>
+    <string name="widget_preview">Ekran bileşeni ön izlemesi</string>
+    <string name="widget_forward_delay">İleri zaman gecikmesi</string>
+    <string name="widget_rewind_delay">Geri zaman gecikmesi</string>
+    <string name="widget_show_configure">Yapılandırma simgesi görüntülensin</string>
+    <string name="widget_show_configure_summary">Görüntülenmese de, sağ üst köşeye dokunarak yapılandırmayı açabilirsiniz</string>
+    <string name="seek_backward_content_description">Geriye %s saniye atla</string>
+    <string name="seek_forward_content_description">İleriye %s saniye atla</string>
+    <string name="open_vlc">VLC uygulamasını aç</string>
+    <string name="playing">Oynatılıyor</string>
+    <string name="disable_track">Kaydı devre dışı bırak</string>
+    <string name="ascending">Artan</string>
+    <string name="descending">Azalan</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - başlık: %s - süre: %s</string>
+    <string name="talkback_genre">Tür: %s</string>
+    <string name="talkback_history_item">Geçmiş ögesi</string>
+    <string name="talkback_playlist">Oynatma listesi: %s</string>
+    <string name="talkback_folder">Klasör: %s</string>
+    <string name="talkback_file">Dosya: %s</string>
+    <string name="talkback_favorite">Sık kullanılan: %s</string>
+    <string name="talkback_track_number">Kayıt numarası %s</string>
+    <string name="talkback_duration">Süre: %s</string>
+    <string name="talkback_album">Albüm: %s</string>
+    <string name="talkback_artist">Artist: %s</string>
+    <string name="talkback_release_date">Yayınlanma: %s</string>
+    <string name="talkback_video">Görüntü: %s</string>
+    <string name="talkback_stream">Akış: %s</string>
+    <string name="talkback_audio_track">Ses kaydı: %s</string>
+    <string name="talkback_video_group">Görüntü grubu: %s</string>
+    <string name="talkback_hours">saat</string>
+    <string name="talkback_minutes">dakika</string>
+    <string name="talkback_seconds">saniye</string>
+    <string name="talkback_list_section">Üst bilgi: %s</string>
+    <string name="talkback_enter_screen">%s git</string>
+    <string name="talkback_file_size">Dosya boyutu: %s</string>
+    <string name="talkback_open_in_browser">Web tarayıcı ile aç</string>
+    <string name="talkback_video_player">Görüntü oynatıcı. Denetimleri görüntülemek için dokunun. Gizlemek için geri düğmesine dokunun</string>
+    <string name="talkback_video_tracks">Görüntü kayıtları</string>
+    <string name="talkback_audio_tracks">Ses kayıtları</string>
+    <string name="talkback_subtitle_tracks">Alt yazı kayıtları</string>
+    <string name="talkback_subtitle_dowload_item">Dil: %s. %s. Ad: %s</string>
+    <string name="selected">Seçilmiş</string>
+    <string name="talkback_increase_delay">Gecikmeyi artır</string>
+    <string name="talkback_decrease_delay">Gecikmeyi azalt</string>
+    <string name="talkback_increase_speed">Hızlandır</string>
+    <string name="talkback_decrease_speed">Yavaşlat</string>
+    <string name="talkback_subtitle_history">Alt yazı geçmişi</string>
+    <string name="talkback_language_selection">%s dil seçilmiş</string>
+    <string name="talkback_audio_player_opened">Ses oynatıcı açıldı</string>
+    <string name="talkback_audio_player_collapsed">Ses oynatıcı daraltıldı</string>
+    <string name="talkback_audio_player_closed">Ses oynatıcı kapatıldı</string>
+    <string name="talkback_audio_player">Ses oynatıcı. Şu anda oynatılan: %s</string>
+    <string name="talkback_out_of">%s / %s</string>
+    <string name="talkback_track_index">%s / %s. kayıt</string>
+    <string name="downloaded">İndirildi</string>
+    <string name="not_downloaded">İndirilmedi</string>
+    <string name="downloading">İndiriliyor</string>
+    <string name="talkback_action_rewind">%s saniye geri atla</string>
+    <string name="talkback_action_forward">%s saniye ileri atla</string>
+    <string name="talkback_display_settings">Görüntü ayarları</string>
+
 
 </resources>
