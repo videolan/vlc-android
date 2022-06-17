@@ -73,10 +73,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         get() = when {
             Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> tvDescComp
             Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> tvAscComp
-            sort == Medialibrary.SORT_FILENAME && desc -> filenameDescComp
-            sort == Medialibrary.SORT_FILENAME && !desc -> filenameAscComp
             sort == Medialibrary.SORT_ALPHA && desc -> descComp
-            else -> ascComp
+            sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
+            (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> filenameDescComp
+            else -> filenameAscComp
         }
 
     init {

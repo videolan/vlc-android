@@ -160,7 +160,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
                 && "content" != scheme
                 && "otg" != scheme)
                 && !multiSelectHelper.inActionMode)
-        vh.bindingContainer.setFileName(if (sort == Medialibrary.SORT_FILENAME && media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
+        vh.bindingContainer.setFileName(if ((sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
