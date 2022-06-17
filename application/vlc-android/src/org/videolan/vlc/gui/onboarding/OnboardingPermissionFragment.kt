@@ -74,6 +74,16 @@ class OnboardingPermissionFragment : OnboardingFragment(), View.OnClickListener 
         currentlySelected.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.orange500))
     }
 
+    override fun onResume() {
+        super.onResume()
+        when(viewModel.permissionType) {
+            PermissionType.NONE -> permNone
+            PermissionType.ALL -> permAll
+            PermissionType.MEDIA -> permMedia
+        }.performClick()
+
+    }
+
     override fun onClick(view: View) {
         view.background = ContextCompat.getDrawable(requireActivity(), R.drawable.theme_selection_rounded)
         view.animate().scaleX(1F).scaleY(1F)
