@@ -118,11 +118,11 @@
     <string name="loading">Ladevorgang</string>
     <string name="please_wait">Bitte warten…</string>
     <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
+    <string name="empty_search">Kein Element für die Suche nach %s gefunden</string>
     <string name="noplaylist">Keine Wiedergabeliste gefunden</string>
     <string name="nosubfolder">Keine Unterordner</string>
     <string name="directorynotfound">Der Verzeichnispfad \'%1$s\' wurde nicht gefunden.</string>
     <string name="nohistory">Sie haben noch keinen Wiedergabeverlauf.</string>
-    <string name="validation">Sind Sie sicher?</string>
 
     <string name="cover_art">Titelbild</string>
     <string name="shuffle_all_title">Alle mischen</string>
@@ -247,6 +247,7 @@
     <string name="audio_player_tips">Audiowiedergabetipps</string>
     <string name="previous_next_song">Vorheriges/Nächstes Lied</string>
     <string name="show_playlist">Wiedergabeliste anzeigen</string>
+    <string name="hide_playlist">Wiedergabeliste ausblenden</string>
     <string name="hold_to_stop">Zum Anhalten gedrückt halten</string>
 
     <!-- About -->
@@ -283,6 +284,7 @@
     <string name="screen_orientation_landscape_reverse">Querformat umgekehrt</string>
     <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
+    <string name="theme_auto">Automatisches Design</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="subtitle_preferred_language">Bevorzugte Untertitelsprache</string>
     <string name="daynight_title">Tag-/Nachtmodus</string>
@@ -433,6 +435,7 @@
     <string name="clear_app_data">App-Daten löschen</string>
     <string name="clear_app_data_summary">Löscht die VLC für Android Daten</string>
     <string name="clear_history">Verlauf löschen</string>
+    <string name="clear_history_message">Sie verlieren Ihren Verlauf, Ihre aktuellen Wiedergabelisten und Ihre Fortschritte</string>
     <string name="set_locale">Sprache ändern</string>
     <string name="network_caching">Zwischenspeicher-Wert im Netzwerk</string>
     <string name="network_caching_summary">Der Zeitwert (in ms), um das Netzwerkmedium zur Software-Dekodierung zu puffern\nZum Deaktivieren auf 0 setzen</string>
@@ -514,6 +517,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC weißes Widget</string>
     <string name="widget_name_b">VLC dunkles Widget</string>
+    <string name="widget_name_mini_player">VLC Mini-Player</string>
+    <string name="widget_old_text">Wir haben unsere Widgets aktualisiert!</string>
+    <string name="widget_old_description_start">Gute Nachrichten! Wir haben verbesserte Widgets veröffentlicht.\nSie bieten mehr Reaktionsfähigkeit und Anpassungsmöglichkeiten</string>
+    <string name="whats_next">Was kommt als nächstes?</string>
+    <string name="widget_old_description_end">Wir haben festgestellt, dass Sie bereits Widgets auf Ihrem Launcher haben. Leider sind sie nicht mit unseren neuen, verbesserten kompatibel.\nAbhängig von Ihrem Launcher müssen Sie möglicherweise die alten entfernen, um sie zu ersetzen.</string>
+    <string name="click_here">Klick hier um mehr zu erfahren.</string>
     <string name="allow_storage_access_title">VLC Zugriff auf Video- und Audio-Dateien erlauben</string>
     <string name="allow_storage_access_description">VLC benötigt diese Berechtigung, um auf die Mediendateien auf diesem Gerät zugreifen zu können.</string>
     <string name="allow_storage_manager_title">VLC Zugriff auf alle Dateien erlauben</string>
@@ -533,8 +542,9 @@
     <string name="permission_not_granted">Berechtigung nicht erteilt</string>
     <string name="permission_expanation_no_allow">Sie können Ihre Medien nicht automatisch durchsuchen oder externe Untertitel verwenden</string>
     <string name="permission_expanation_allow">Sie können nur Streams oder Netzwerkmedien abspielen </string>
-    <string name="permission_expanation_subtitles">Externe Untertitel verwenden</string>
-    <string name="permission_expanation_allow_explanation">Internet-Streams oder Netzwerkmedien wiedergeben</string>
+    <string name="permission_onboarding_no_perm">Sie können Ihre Medien nicht automatisch erkennen.\nSie können nur Streams oder Netzwerkmedien wiedergeben</string>
+    <string name="permission_onboarding_perm_media">Sie können nur standardmäßige Mediendateien automatisch erkennen</string>
+    <string name="permission_onboarding_perm_all">Sie können alle Ihre Dateien automatisch erkennen, um alle Arten von Medien abzuspielen, sogar seltsame oder komprimierte Dateien</string>
     <string name="exit_app">VLC schließen</string>
     <string name="exit_app_msg">Möchten Sie VLC wirklich verlassen?</string>
 
@@ -647,6 +657,7 @@
     <string name="delete_the_selected">Auswahl löschen</string>
     <string name="download_the_selected">Auswahl herunterladen</string>
     <string name="next">Nächstes</string>
+    <string name="skip">Überspringen</string>
     <string name="next_step">Fortfahren</string>
     <string name="download">Herunterladen</string>
     <string name="ctx_player_video_track">Videospur auswählen</string>
@@ -798,6 +809,7 @@
     <string name="rename_group">Videogruppe umbenennen</string>
     <string name="ungroup">Gruppierung aufheben</string>
     <string name="group_similar">Automatisch neu gruppieren</string>
+    <string name="no_group_found">Keine Videogruppe gefunden</string>
     <string name="no_favorite">Keine Favoriten</string>
     <string name="empty_directory">Leer</string>
     <string name="no_track">Kein Titel</string>
@@ -929,5 +941,78 @@
     <string name="foldable">Faltbare Bildschirme</string>
     <string name="undo">Rückgängig</string>
     <string name="add_server_favorite">Einen Server als Favorit hinzufügen</string>
+    <string name="widget_theme">Widget Design</string>
+    <string name="widget_preferences">Widget konfigurieren</string>
+    <string name="material_you">Material You (nimmt Farben vom Hintergrund)</string>
+    <string name="palette">Palette (nimmt Farben aus dem Medien-Cover)</string>
+    <string name="custom">Eigenes</string>
+    <string name="opacity">Deckkraft</string>
+    <string name="widget_background">Hintergrund</string>
+    <string name="widget_foreground">Vordergrund</string>
+    <string name="configure_widget">Widget-Konfiguration</string>
+    <string name="widget_preview">Widget-Vorschau</string>
+    <string name="widget_forward_delay">Zeitverzögerung vorwärts</string>
+    <string name="widget_rewind_delay">Zeitverzögerung rückwärts</string>
+    <string name="widget_show_configure">Konfigurationssymbol anzeigen</string>
+    <string name="widget_show_configure_summary">Auch wenn es nicht angezeigt wird, können Sie auf die obere rechte Ecke tippen, um die Konfiguration zu öffnen</string>
+    <string name="seek_backward_content_description">%s Sekunden zurück springen</string>
+    <string name="seek_forward_content_description">%s Sekunden vorwärts springen</string>
+    <string name="open_vlc">VLC öffnen</string>
+    <string name="playing">Es läuft</string>
+    <string name="disable_track">Titel deaktivieren</string>
+    <string name="ascending">Aufsteigend</string>
+    <string name="descending">Absteigend</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - Titel: %s - Dauer: %s</string>
+    <string name="talkback_genre">Genre: %s</string>
+    <string name="talkback_history_item">Element-Verlauf</string>
+    <string name="talkback_playlist">Wiedergabeliste: %s</string>
+    <string name="talkback_folder">Ordner: %s</string>
+    <string name="talkback_file">Datei: %s</string>
+    <string name="talkback_favorite">Favorit: %s</string>
+    <string name="talkback_track_number">Titelnummer %s</string>
+    <string name="talkback_duration">Laufzeit: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Künstler: %s</string>
+    <string name="talkback_release_date">Veröffentlicht in %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Stream: %s</string>
+    <string name="talkback_audio_track">Audiospur: %s</string>
+    <string name="talkback_video_group">Videogruppe: %s</string>
+    <string name="talkback_hours">Stunden</string>
+    <string name="talkback_minutes">Minuten</string>
+    <string name="talkback_seconds">Sekunden</string>
+    <string name="talkback_list_section"> Kopfzeile: %s</string>
+    <string name="talkback_enter_screen">Zu %s navigieren</string>
+    <string name="talkback_file_size">Dateigröße: %s</string>
+    <string name="talkback_open_in_browser">Im Webbrowser öffnen</string>
+    <string name="talkback_video_player">Videoplayer. Tippen, um Steuerelemente anzuzeigen. Zum Ausblenden auf die Zurück-Schaltfläche tippen</string>
+    <string name="talkback_video_tracks">Videospuren</string>
+    <string name="talkback_audio_tracks">Audiospuren</string>
+    <string name="talkback_subtitle_tracks">Untertitelspuren</string>
+    <string name="talkback_subtitle_dowload_item">Sprache: %s. %s. Name: %s</string>
+    <string name="selected">Ausgewählt</string>
+    <string name="talkback_increase_delay">Verzögerung erhöhen</string>
+    <string name="talkback_decrease_delay">Verzögerung reduzieren</string>
+    <string name="talkback_increase_speed">Geschwindigkeit erhöhen</string>
+    <string name="talkback_decrease_speed">Geschwindigkeit reduzieren</string>
+    <string name="talkback_subtitle_history">Untertitelhistorie</string>
+    <string name="talkback_language_selection">%s ausgewählte Sprachen</string>
+    <string name="talkback_audio_player_opened">Audiowiedergabe geöffnet</string>
+    <string name="talkback_audio_player_collapsed">Audiowiedergabe minimiert</string>
+    <string name="talkback_audio_player_closed">Audiowiedergabe geschlossen</string>
+    <string name="talkback_audio_player">Audiowiedergabe. Aktuell läuft: %s</string>
+    <string name="talkback_out_of">%s von %s</string>
+    <string name="talkback_track_index">Titel %s von %s</string>
+    <string name="downloaded">Heruntergeladen</string>
+    <string name="not_downloaded">Nicht heruntergeladen</string>
+    <string name="downloading">Wird heruntergeladen</string>
+    <string name="talkback_action_rewind">%s Sek. zurückspulen</string>
+    <string name="talkback_action_forward">%s Sek. vorspulen</string>
+    <string name="talkback_display_settings">Anzeigeeinstellungen</string>
+
 
 </resources>
