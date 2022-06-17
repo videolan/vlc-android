@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView7"
+            app:layout_constraintBottom_toTopOf="@+id/welcome_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
             app:srcCompat="@drawable/ic_icon" />
 
     <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/welcome_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -66,6 +66,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/welcome_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@
             android:scaleX="0.8"
             android:scaleY="0.8"
             android:contentDescription="@string/light_theme"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintBottom_toTopOf="@+id/theme_title"
             app:layout_constraintEnd_toStartOf="@+id/darkTheme"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/dayNightTheme"
@@ -72,7 +72,7 @@
     </FrameLayout>
 
     <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/theme_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -96,7 +96,7 @@
             android:textAppearance="@style/VLC.Onboarding.Text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/theme_title" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"

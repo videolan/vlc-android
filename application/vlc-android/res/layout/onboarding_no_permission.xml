@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView7"
+            app:layout_constraintBottom_toTopOf="@+id/no_permission_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/ic_onboarding_no_permission" />
 
     <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/no_permission_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -57,7 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/no_permission_title" />
 
     <TextView
             android:id="@+id/permission_explanation_allow"

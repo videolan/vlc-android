@@ -41,6 +41,7 @@ import org.videolan.vlc.R
 class OnboardingPermissionFragment : OnboardingFragment(), View.OnClickListener {
 
     private val viewModel: OnboardingViewModel by activityViewModels()
+    private lateinit var permissionTitle: TextView
     private lateinit var permDescription: TextView
     private lateinit var permNone: FrameLayout
     private lateinit var permMedia: FrameLayout
@@ -51,6 +52,7 @@ class OnboardingPermissionFragment : OnboardingFragment(), View.OnClickListener 
 
     private lateinit var oldSelected: ImageView
     private lateinit var currentlySelected: ImageView
+    override fun getDefaultViewForTalkback() = permissionTitle
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_permission, container, false)
@@ -59,6 +61,7 @@ class OnboardingPermissionFragment : OnboardingFragment(), View.OnClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        permissionTitle = view.findViewById(R.id.permission_title)
         permNone = view.findViewById(R.id.permNone)
         permMedia = view.findViewById(R.id.permMedia)
         permAll = view.findViewById(R.id.permAll)
