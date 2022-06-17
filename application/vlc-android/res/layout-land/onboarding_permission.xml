@@ -31,78 +31,112 @@
         android:orientation="vertical"
         tools:background="@color/onboarding_grey">
 
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView7"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_icon" />
-
     <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/permission_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
             android:text="@string/permission"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Title"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
             android:text="@string/permission_media"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/permission_title" />
 
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+    <FrameLayout
+            android:id="@+id/permNone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.66" />
+            android:layout_marginStart="16dp"
+            android:padding="16dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintBottom_toBottomOf="@+id/permMedia"
+            app:layout_constraintEnd_toStartOf="@+id/permMedia"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/permMedia">
 
-    <View
-            android:id="@+id/view4"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/white_transparent_10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/guideline"
-            app:layout_constraintStart_toEndOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+                android:id="@+id/permNoneImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/permission_onboarding_no_perm"
+                app:srcCompat="@drawable/ic_perm_none" />
+    </FrameLayout>
 
-    <Button
-            android:id="@+id/grantPermissionButton"
+    <FrameLayout
+            android:id="@+id/permMedia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/permission_ask_again"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:padding="16dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintEnd_toStartOf="@+id/permAll"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/permNone"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+                android:id="@+id/permMediaImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/permission_onboarding_perm_media"
+                app:srcCompat="@drawable/ic_perm_media" />
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/permAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/theme_selection_rounded"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/permMedia"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/permMedia"
+            app:layout_constraintTop_toTopOf="@+id/permMedia">
+
+        <ImageView
+                android:id="@+id/permAllImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/permission_onboarding_perm_all"
+                app:srcCompat="@drawable/ic_perm_all" />
+    </FrameLayout>
+
+    <TextView
+            android:id="@+id/permDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:importantForAccessibility="no"
+            android:background="@drawable/permission_selection_rounded"
+            android:padding="8dp"
+            android:text="@string/permission_onboarding_perm_all"
+            android:textAlignment="center"
+            android:textAppearance="@style/VLC.Onboarding.Text"
+            android:textColor="@color/orange500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

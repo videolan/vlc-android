@@ -116,6 +116,8 @@
     <!--<color name="tv_bg">#1c313a</color>-->
     <!--<color name="tv_card_content">#396375</color>-->
     <color name="onboarding_grey">#011422</color>
+    <color name="onboarding_grey_transparent_20">#33011422</color>
+    <color name="onboarding_grey_transparent_75">#BF011422</color>
     <color name="material_blue">#2196f3</color>
     <color name="material_pink">#e91e63</color>
 </resources>
