@@ -136,11 +136,11 @@
     <string name="loading">Načítání…</string>
     <string name="please_wait">Čekejte…</string>
     <string name="nomedia">Žádné mediální soubory. Nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
+    <string name="empty_search">Nebyla nalezena žádná položka pro vyhledávání %s</string>
     <string name="noplaylist">Žádný seznam skladeb</string>
     <string name="nosubfolder">Žádná podsložka</string>
     <string name="directorynotfound">Nelze nalézt umístění adresáře \'%1$s\'</string>
     <string name="nohistory">Žádná historie přehraných položek</string>
-    <string name="validation">Opravdu chcete…?</string>
 
     <string name="cover_art">Obal alba</string>
     <string name="shuffle_all_title">Přehrát náhodně vše</string>
@@ -267,6 +267,7 @@
     <string name="audio_player_tips">Tipy přehrávače hudby</string>
     <string name="previous_next_song">Předchozí/Následující skladba</string>
     <string name="show_playlist">Zobrazit seznam skladeb</string>
+    <string name="hide_playlist">Skrýt seznam skladeb</string>
     <string name="hold_to_stop">Dlouze stiskněte pro zastavení přehrávání</string>
 
     <!-- About -->
@@ -303,6 +304,7 @@
     <string name="screen_orientation_landscape_reverse">Přetočit na šířku</string>
     <string name="screen_orientation_last_locked">Poslední uzamknutá orientace </string>
     <string name="enable_black_theme">Tmavé téma</string>
+    <string name="theme_auto">Automatické téma</string>
     <string name="subtitle_text_encoding">Znaková sada titulků</string>
     <string name="subtitle_preferred_language">Preferovaný jazyk titulků</string>
     <string name="daynight_title">Režim Den/Noc</string>
@@ -453,6 +455,7 @@
     <string name="clear_app_data">Smazat data aplikace</string>
     <string name="clear_app_data_summary">Smazat data VLC pro Android.</string>
     <string name="clear_history">Smazat historii</string>
+    <string name="clear_history_message">Ztratíte Vaše údaje o historii, aktuální seznamy skladeb a přehrávání</string>
     <string name="set_locale">Nastavit jazyk</string>
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
     <string name="network_caching_summary">Velikost vyrovnávací paměti přehrávaného média po síti (v ms) pro dekódování.\nZadejte hodnotu 0 pro deaktivaci.</string>
@@ -534,6 +537,12 @@
     <!-- Widget -->
     <string name="widget_name_w">Světlý widget VLC</string>
     <string name="widget_name_b">Tmavý widget VLC</string>
+    <string name="widget_name_mini_player">Mini přehrávač VLC</string>
+    <string name="widget_old_text">Aktualizovali jsme naše widgety!</string>
+    <string name="widget_old_description_start">Dobré zprávy! Vydali jsme vylepšené widgety.\nNabízejí lepší odezvu a přizpůsobení</string>
+    <string name="whats_next">Co dál?</string>
+    <string name="widget_old_description_end">Zjistili jsme, že ve vašem spouštěči se používají widgety. Bohužel nejsou kompatibilní s našimi vylepšenými widgety.\nV závislosti konkrétního spouštěče můžete staré widgety odstranit a nahradit je novými.</string>
+    <string name="click_here">Pro více informací klikněte zde.</string>
     <string name="allow_storage_access_title">Povolit aplikaci VLC přístup k video a zvukovým souborům</string>
     <string name="allow_storage_access_description">Aplikace VLC vyžaduje oprávnění přistupovat k multimediálním souborům na tomto zařízení.</string>
     <string name="allow_storage_manager_title">Povolit VLC přístup k souborům</string>
@@ -553,8 +562,9 @@
     <string name="permission_not_granted">Oprávnění nebylo povoleno</string>
     <string name="permission_expanation_no_allow">Nelze automaticky nalézt média ani používat externí titulky </string>
     <string name="permission_expanation_allow">Lze přehrávat pouze streamy nebo síťová média </string>
-    <string name="permission_expanation_subtitles">Použít externí titulky</string>
-    <string name="permission_expanation_allow_explanation">Přehrávat internetové streamy nebo síťová média</string>
+    <string name="permission_onboarding_no_perm">Nebudete moci automaticky objevovat svá média.\nBudete moci přehrávat pouze proudy nebo síťová média</string>
+    <string name="permission_onboarding_perm_media">Budete moci pouze automaticky objevovat standartní mediální soubory</string>
+    <string name="permission_onboarding_perm_all">Budete moci automaticky objevovat všechny svoje soubory všech typů k přehrávání včetně divných nebo komprimovaných souborů</string>
     <string name="exit_app">Ukončit VLC přehrávač</string>
     <string name="exit_app_msg">Chcete ukončit VLC přehrávač?</string>
 
@@ -667,6 +677,7 @@
     <string name="delete_the_selected">Smazat výběr</string>
     <string name="download_the_selected">Stáhnout výběr</string>
     <string name="next">Následující</string>
+    <string name="skip">Přeskočit</string>
     <string name="next_step">Následující</string>
     <string name="download">Stáhnout</string>
     <string name="ctx_player_video_track">Video</string>
@@ -823,6 +834,7 @@
     <string name="rename_group">Přejmenovat název skupiny videí</string>
     <string name="ungroup">Žádné seskupení</string>
     <string name="group_similar">Automaticky seskupit</string>
+    <string name="no_group_found">Nebyla nalezena žádná skupina videí</string>
     <string name="no_favorite">Žádné oblíbené položky</string>
     <string name="empty_directory">Prázdný adresář</string>
     <string name="no_track">Žádné stopy</string>
@@ -958,5 +970,78 @@
     <string name="foldable">Skládací obrazovka</string>
     <string name="undo">Zpět</string>
     <string name="add_server_favorite">Přidat server do Oblíbené</string>
+    <string name="widget_theme">Téma widgetu</string>
+    <string name="widget_preferences">Konfigurovat widget</string>
+    <string name="material_you">Materiál You (přebírá barvy z tapety)</string>
+    <string name="palette">Paleta (přebírá barvy z obalu média)</string>
+    <string name="custom">Vlastní</string>
+    <string name="opacity">Neprůhlednost</string>
+    <string name="widget_background">Pozadí</string>
+    <string name="widget_foreground">Popředí</string>
+    <string name="configure_widget">Nastavení widgetů</string>
+    <string name="widget_preview">Náhled widgetu</string>
+    <string name="widget_forward_delay">Časový posun dopředu</string>
+    <string name="widget_rewind_delay">Časový posun dozadu</string>
+    <string name="widget_show_configure">Zobrazit ikonu nastavení</string>
+    <string name="widget_show_configure_summary">Pokud se daná volba nezobrazuje, můžete klepnutím horního pravého rohu otevřít nastavení</string>
+    <string name="seek_backward_content_description">Vyhledat %s sekund dozadu</string>
+    <string name="seek_forward_content_description">Vyhledat %s dopředu</string>
+    <string name="open_vlc">Otevřít VLC</string>
+    <string name="playing">Přehrávání</string>
+    <string name="disable_track">Zakázat stopu</string>
+    <string name="ascending">Vzestupně</string>
+    <string name="descending">Sestupně</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - název: %s - délka: %s</string>
+    <string name="talkback_genre">Žánr: %s</string>
+    <string name="talkback_history_item">Položka historie</string>
+    <string name="talkback_playlist">Seznam skladeb: %s</string>
+    <string name="talkback_folder">Složka: %s</string>
+    <string name="talkback_file">Soubor: %s</string>
+    <string name="talkback_favorite">Oblíbené: %s</string>
+    <string name="talkback_track_number">Číslo stopy %s</string>
+    <string name="talkback_duration">Délka: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Umělec: %s</string>
+    <string name="talkback_release_date">Vydáno v %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Proud: %s</string>
+    <string name="talkback_audio_track">Zvuková stopa: %s</string>
+    <string name="talkback_video_group">Skupina videí: %s</string>
+    <string name="talkback_hours">hodiny</string>
+    <string name="talkback_minutes">minuty</string>
+    <string name="talkback_seconds">vteřiny</string>
+    <string name="talkback_list_section">Hlavička: %s</string>
+    <string name="talkback_enter_screen">Přejít %s</string>
+    <string name="talkback_file_size">Velikost souboru: %s</string>
+    <string name="talkback_open_in_browser">Otevřít ve webovém prohlížeči</string>
+    <string name="talkback_video_player">Přehrávač videa. Klepněte pro zobrazení ovládání. Klepnutím na tlačítko zpět je skryjete</string>
+    <string name="talkback_video_tracks">Stopy videa</string>
+    <string name="talkback_audio_tracks">Zvukové stopy</string>
+    <string name="talkback_subtitle_tracks">Stopy titulků</string>
+    <string name="talkback_subtitle_dowload_item">Jazyk: %s. %s. Název: %s</string>
+    <string name="selected">Vybráno</string>
+    <string name="talkback_increase_delay">Zvýšit zpoždění</string>
+    <string name="talkback_decrease_delay">Snížit zpoždění</string>
+    <string name="talkback_increase_speed">Zrychlit</string>
+    <string name="talkback_decrease_speed">Zpomalit</string>
+    <string name="talkback_subtitle_history">Historie titulků</string>
+    <string name="talkback_language_selection">%s zvolených jazyků</string>
+    <string name="talkback_audio_player_opened">Přehrávač zvuku otevřen</string>
+    <string name="talkback_audio_player_collapsed">Přehrávač zvuku sbalen</string>
+    <string name="talkback_audio_player_closed">Přehrávač zvuku zavřen</string>
+    <string name="talkback_audio_player">Přehrávač zvuku. Právě se přehrává: %s</string>
+    <string name="talkback_out_of">%s z %s</string>
+    <string name="talkback_track_index">Stopa %s z %s</string>
+    <string name="downloaded">Stažené</string>
+    <string name="not_downloaded">Nestažené</string>
+    <string name="downloading">Stahování</string>
+    <string name="talkback_action_rewind">Přetočit o %s sekund zpět</string>
+    <string name="talkback_action_forward">Hledat %s sekund vpřed</string>
+    <string name="talkback_display_settings">Nastavení zobrazení</string>
+
 
 </resources>
