@@ -43,6 +43,7 @@ import android.view.animation.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -578,20 +579,13 @@ object UiTools {
     fun updateSortTitles(menu: Menu, provider: MedialibraryProvider<*>) {
         val sort = provider.sort
         val desc = provider.desc
-        var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${provider.context.getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${provider.context.getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.title = "${provider.context.getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.title = "${provider.context.getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.title = "${provider.context.getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.title = "${provider.context.getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.title = "${provider.context.getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE) if (!desc) "▼" else "▲" else ""}"
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_name, R.string.sortby_name, (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT), desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_filename, R.string.sortby_filename, sort == Medialibrary.SORT_FILENAME, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_artist_name, R.string.sortby_artist_name, sort == Medialibrary.SORT_ARTIST, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_album_name, R.string.sortby_album_name, sort == Medialibrary.SORT_ALBUM, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_length, R.string.sortby_length, sort == Medialibrary.SORT_DURATION, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_date, R.string.sortby_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
+        menu.appendSortOrder(provider.context,R.id.ml_menu_sortby_last_modified, R.string.sortby_last_modified_date, sort == Medialibrary.SORT_LASTMODIFICATIONDATE, desc)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
@@ -602,23 +596,31 @@ object UiTools {
         val model = sortable.viewModel
         val sort = model.sort
         val desc = model.desc
-        var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE) if (!desc) "▼" else "▲" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE) if (!desc) "▼" else "▲" else ""}"
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_name, R.string.sortby_name, sort == Medialibrary.SORT_ALPHA, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_filename, R.string.sortby_filename, (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT), desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_artist_name, R.string.sortby_artist_name, sort == Medialibrary.SORT_ARTIST, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_album_name, R.string.sortby_album_name, sort == Medialibrary.SORT_ALBUM, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_length, R.string.sortby_length, sort == Medialibrary.SORT_DURATION, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_date, R.string.sortby_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
+        menu.appendSortOrder(sortable.requireActivity(),R.id.ml_menu_sortby_last_modified, R.string.sortby_last_modified_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
+    }
+
+    /**
+     * Sets a [MenuItem] title and contentDescription depending on the sort it shows
+     *
+     * @param context the context to be used for strings
+     * @param id the [MenuItem] id
+     * @param titleRes the string resource to use as a title
+     * @param isCurrent is this the current sort
+     * @param desc is the sort descending
+     */
+    private fun Menu.appendSortOrder(context: Context, @IdRes id:Int, @StringRes titleRes:Int, isCurrent:Boolean, desc:Boolean) = findItem(id)?.let { menuItem ->
+        val title = context.getString(titleRes)
+        menuItem.title = if (!isCurrent) title else "$title ${if (desc) "▼" else "▲"}"
+        menuItem.contentDescription = if (!isCurrent) title else "$title. ${context.getString(if (desc) R.string.descending else R.string.ascending)}"
     }
 
     fun confirmExit(activity: Activity) {

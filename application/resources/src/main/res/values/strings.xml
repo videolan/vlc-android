@@ -978,6 +978,8 @@
     <string name="open_vlc">Open VLC</string>
     <string name="playing">Playing</string>
     <string name="disable_track">Disable track</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
 
 
 
