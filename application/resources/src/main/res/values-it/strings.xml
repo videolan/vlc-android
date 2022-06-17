@@ -22,6 +22,7 @@
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultato trovato</item>
+        <item quantity="many">%d risultati trovati</item>
         <item quantity="other">%d risultati trovati</item>
     </plurals>
 
@@ -74,34 +75,42 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
+        <item quantity="many">%d album</item>
         <item quantity="other">%d album</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">Una sottocartella</item>
+        <item quantity="many">%d sottocartelle</item>
         <item quantity="other">%d sottocartelle</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">1 media</item>
+        <item quantity="many">%d media</item>
         <item quantity="other">%d media</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 file multimediale</item>
+        <item quantity="many">%d file multimediali</item>
         <item quantity="other">%d file multimediali</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
+        <item quantity="many">%d video</item>
         <item quantity="other">%d video</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 film</item>
+        <item quantity="many">%d film</item>
         <item quantity="other">%d film</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">1 programma televisivo</item>
+        <item quantity="many">%d programmi televisivi</item>
         <item quantity="other">%d programmi televisivi</item>
     </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 traccia</item>
+        <item quantity="many">%d tracce</item>
         <item quantity="other">%d tracce</item>
     </plurals>
 
@@ -118,11 +127,11 @@
     <string name="loading">Caricamento</string>
     <string name="please_wait">Attendi…</string>
     <string name="nomedia">Nessun file multimediale trovato, trasferisci dei file sul tuo dispositivo o modifica le preferenze.</string>
+    <string name="empty_search">Nessun elemento trovato per la ricerca %s</string>
     <string name="noplaylist">Nessuna scaletta trovata.</string>
     <string name="nosubfolder">Nessuna sottocartella</string>
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
-    <string name="validation">Sei sicuro?</string>
 
     <string name="cover_art">Copertina</string>
     <string name="shuffle_all_title">Mescola tutti</string>
@@ -162,6 +171,7 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
+        <item quantity="many">%1$d canali\n</item>
         <item quantity="other">%1$d canali\n</item>
     </plurals>
 
@@ -247,6 +257,7 @@
     <string name="audio_player_tips">Suggerimenti del lettore audio</string>
     <string name="previous_next_song">Brano precedente/successivo</string>
     <string name="show_playlist">Mostra scaletta</string>
+    <string name="hide_playlist">Nascondi scaletta</string>
     <string name="hold_to_stop">Trattieni per fermare</string>
 
     <!-- About -->
@@ -283,6 +294,7 @@
     <string name="screen_orientation_landscape_reverse">Orizzontale inverso</string>
     <string name="screen_orientation_last_locked">Ultimo orientamento bloccato</string>
     <string name="enable_black_theme">Tema nero</string>
+    <string name="theme_auto">Tema automatico</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="subtitle_preferred_language">Lingua preferita dei sottotitoli</string>
     <string name="daynight_title">Modalità GiornoNotte</string>
@@ -433,6 +445,7 @@
     <string name="clear_app_data">Cancella dati dell\'applicazione</string>
     <string name="clear_app_data_summary">Cancella i dati di VLC per Android</string>
     <string name="clear_history">Cancella cronologia</string>
+    <string name="clear_history_message">Perderai la tua cronologia, le tue scalette attuali e i tuoi progressi</string>
     <string name="set_locale">Imposta locale</string>
     <string name="network_caching">Valore della cache di rete</string>
     <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms) per la decodifica software\nImpostala a 0 per disabilitare</string>
@@ -514,6 +527,12 @@
     <!-- Widget -->
     <string name="widget_name_w">Widget VLC bianco</string>
     <string name="widget_name_b">Widget VLC scuro</string>
+    <string name="widget_name_mini_player">Lettore minimale VLC</string>
+    <string name="widget_old_text">Abbiamo aggiornato i nostri widget!</string>
+    <string name="widget_old_description_start">Buone notizie! Abbiamo rilasciato widget migliorati.\nOffrono maggiore reattività e personalizzazione</string>
+    <string name="whats_next">Cosa ci riserva il futuro?</string>
+    <string name="widget_old_description_end">Abbiamo rilevato che hai già dei widget sul tuo esecutore. Sfortunatamente, non sono compatibili con i nuovi miglioramenti.\nA seconda del tuo esecutore, potresti dover rimuovere quelli vecchi per sostituirli.</string>
+    <string name="click_here">Fai clic qui per saperne di più.</string>
     <string name="allow_storage_access_title">Consenti a VLC di accedere ai file video e audio</string>
     <string name="allow_storage_access_description">VLC ha bisogno di questo permesso per accedere ai file multimediali su questo dispositivo.</string>
     <string name="allow_storage_manager_title">Consenti a VLC l\'accesso a tutti i file</string>
@@ -533,8 +552,9 @@
     <string name="permission_not_granted">Permesso non accordato</string>
     <string name="permission_expanation_no_allow">Non sarai in grado di rilevare automaticamente i tuoi file multimediali né utilizzare i sottotitoli esterni</string>
     <string name="permission_expanation_allow">Sarai in grado di riprodurre solo flussi o media di rete</string>
-    <string name="permission_expanation_subtitles">Usa sottotitoli esterni</string>
-    <string name="permission_expanation_allow_explanation">Riproduci flussi Internet o media di rete</string>
+    <string name="permission_onboarding_no_perm">Non sarai in grado di rilevare automaticamente i tuoi file multimediali.\nPotrai solo riprodurre flussi o supporti di rete</string>
+    <string name="permission_onboarding_perm_media">Potrai solo rilevare automaticamente i file multimediali standard</string>
+    <string name="permission_onboarding_perm_all">Sarai in grado di rilevare automaticamente tutti i tuoi file per riprodurre tutti i tipi di media anche quelli strani, o file compressi</string>
     <string name="exit_app">Chiudi VLC</string>
     <string name="exit_app_msg">Sei sicuro di voler chiudere VLC?</string>
 
@@ -647,6 +667,7 @@
     <string name="delete_the_selected">Elimina selezione</string>
     <string name="download_the_selected">Scarica selezione</string>
     <string name="next">Successiva</string>
+    <string name="skip">Salta</string>
     <string name="next_step">Successivo</string>
     <string name="download">Scarica</string>
     <string name="ctx_player_video_track">Seleziona traccia video</string>
@@ -694,10 +715,12 @@
     <string name="reset">Ripristina</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d traccia inserita</item>
+        <item quantity="many">%d tracce inserite</item>
         <item quantity="other">%d tracce inserite</item>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">%d traccia accodata</item>
+        <item quantity="many">%d tracce accodate</item>
         <item quantity="other">%d tracce accodate</item>
     </plurals>
     <string name="remove_current">Rimuovi attuale</string>
@@ -798,6 +821,7 @@
     <string name="rename_group">Rinomina il gruppo di video</string>
     <string name="ungroup">Separa</string>
     <string name="group_similar">Raggruppa automaticamente</string>
+    <string name="no_group_found">Nessun gruppo video trovato</string>
     <string name="no_favorite">Nessun preferito</string>
     <string name="empty_directory">Vuota</string>
     <string name="no_track">Nessuna traccia</string>
@@ -907,10 +931,12 @@
     <string name="banned_parent">Esclusa dalla cartella superiore</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Questo elemento è già in questa scaletta.</item>
+        <item quantity="many">Questi elementi sono già in questa scaletta.</item>
         <item quantity="other">Questi elementi sono già in questa scaletta.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
         <item quantity="one">1 degli elementi selezionati è già in questa scaletta.</item>
+        <item quantity="many">%d degli elementi selezionati sono già in questa scaletta.</item>
         <item quantity="other">%d degli elementi selezionati sono già in questa scaletta.</item>
     </plurals>
     <string name="official_website">Sito web ufficiale</string>
@@ -929,5 +955,78 @@
     <string name="foldable">Schermo pieghevole</string>
     <string name="undo">Annulla</string>
     <string name="add_server_favorite">Aggiungi un server preferito</string>
+    <string name="widget_theme">Tema dei widget</string>
+    <string name="widget_preferences">Configura widget</string>
+    <string name="material_you">Material You (estrae i colori dallo sfondo)</string>
+    <string name="palette">Tavolozza (estrae i colori dalla copertina del supporto)</string>
+    <string name="custom">Personalizzato</string>
+    <string name="opacity">Opacità</string>
+    <string name="widget_background">Sfondo</string>
+    <string name="widget_foreground">Primo piano</string>
+    <string name="configure_widget">Configurazione widget</string>
+    <string name="widget_preview">Anteprima widget</string>
+    <string name="widget_forward_delay">Ritardo in avanti</string>
+    <string name="widget_rewind_delay">Ritardo indietro</string>
+    <string name="widget_show_configure">Mostra l\'icona di configurazione</string>
+    <string name="widget_show_configure_summary">Anche se non è mostrato, puoi toccare l\'angolo in alto a destra per aprire la configurazione</string>
+    <string name="seek_backward_content_description">Spostati di %s secondi indietro</string>
+    <string name="seek_forward_content_description">Spostati di %s secondi in avanti</string>
+    <string name="open_vlc">Apri VLC</string>
+    <string name="playing">Riproduzione</string>
+    <string name="disable_track">Disabilita traccia</string>
+    <string name="ascending">Crescente</string>
+    <string name="descending">Decrescente</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - titolo: %s - durata: %s</string>
+    <string name="talkback_genre">Genere: %s</string>
+    <string name="talkback_history_item">Elemento di cronologia</string>
+    <string name="talkback_playlist">Scaletta: %s</string>
+    <string name="talkback_folder">Cartella: %s</string>
+    <string name="talkback_file">File: %s</string>
+    <string name="talkback_favorite">Preferito: %s</string>
+    <string name="talkback_track_number">Numero traccia %s</string>
+    <string name="talkback_duration">Durata: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Artista: %s</string>
+    <string name="talkback_release_date">Pubblicato il %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Flusso: %s</string>
+    <string name="talkback_audio_track">Traccia audio: %s</string>
+    <string name="talkback_video_group">Gruppo video: %s</string>
+    <string name="talkback_hours">ore</string>
+    <string name="talkback_minutes">minuti</string>
+    <string name="talkback_seconds">secondi</string>
+    <string name="talkback_list_section">Intestazione: %s</string>
+    <string name="talkback_enter_screen">Naviga a %s</string>
+    <string name="talkback_file_size">Dimensione file: %s</string>
+    <string name="talkback_open_in_browser">Apri nel browser web</string>
+    <string name="talkback_video_player">Lettore video. Tocca per mostrare i controlli. Tocca il pulsante Indietro per nasconderli</string>
+    <string name="talkback_video_tracks">Tracce video</string>
+    <string name="talkback_audio_tracks">Tracce audio</string>
+    <string name="talkback_subtitle_tracks">Traccia dei sottotitoli</string>
+    <string name="talkback_subtitle_dowload_item">Lingua: %s. %s. Nome: %s</string>
+    <string name="selected">Selezionato</string>
+    <string name="talkback_increase_delay">Aumenta ritardo</string>
+    <string name="talkback_decrease_delay">Riduci ritardo</string>
+    <string name="talkback_increase_speed">Aumenta velocità</string>
+    <string name="talkback_decrease_speed">Riduci velocità</string>
+    <string name="talkback_subtitle_history">Cronologia sottotitoli</string>
+    <string name="talkback_language_selection">%s lingue selezionate</string>
+    <string name="talkback_audio_player_opened">Lettore audio aperto</string>
+    <string name="talkback_audio_player_collapsed">Lettore audio minimizzato</string>
+    <string name="talkback_audio_player_closed">Lettore audio chiuso</string>
+    <string name="talkback_audio_player">Lettore audio. In riproduzione: %s</string>
+    <string name="talkback_out_of">%s di %s</string>
+    <string name="talkback_track_index">Traccia %s di %s</string>
+    <string name="downloaded">Scaricato</string>
+    <string name="not_downloaded">Non scaricato</string>
+    <string name="downloading">Scaricamento</string>
+    <string name="talkback_action_rewind">Riavvolgi di %s secondi</string>
+    <string name="talkback_action_forward">Posiziona in avanti di %s secondi</string>
+    <string name="talkback_display_settings">Impostazioni schermo</string>
+
 
 </resources>
