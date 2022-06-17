@@ -118,11 +118,11 @@
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Περιμένετε…</string>
     <string name="nomedia">Δε βρέθηκε κανένα αρχείο πολυμέσων, μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις.</string>
+    <string name="empty_search">Δεν βρέθηκε αντικείμενο για αναζήτηση %s</string>
     <string name="noplaylist">Δε βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="nosubfolder">Δε βρέθηκε υποφάκελος</string>
     <string name="directorynotfound">Η διαδρομή του φακέλου \'%1$s\' δε βρέθηκε.</string>
     <string name="nohistory">Δεν έχετε ιστορικό αναπαραγωγής ακόμα.</string>
-    <string name="validation">Είστε σίγουροι;</string>
 
     <string name="cover_art">Εξώφυλλο</string>
     <string name="shuffle_all_title">Ανακάτεμα όλων</string>
@@ -247,6 +247,7 @@
     <string name="audio_player_tips">Συμβουλές αναπαραγωγής ήχου</string>
     <string name="previous_next_song">Προηγούμενο/επόμενο τραγούδι</string>
     <string name="show_playlist">Προβολή λίστας αναπαραγωγής</string>
+    <string name="hide_playlist">Απόκρυψη λίστας αναπαραγωγής</string>
     <string name="hold_to_stop">Παρατεταμένο πάτημα για σταμάτημα</string>
 
     <!-- About -->
@@ -283,6 +284,7 @@
     <string name="screen_orientation_landscape_reverse">Ανάστροφα οριζόντια</string>
     <string name="screen_orientation_last_locked">Τελευταίος κλειδωμένος προσανατολισμός</string>
     <string name="enable_black_theme">Μαύρο θέμα</string>
+    <string name="theme_auto">Αυτόματο θέμα</string>
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
     <string name="subtitle_preferred_language">Προτιμώμενη γλώσσα υποτίτλων</string>
     <string name="daynight_title">Λειτουργία DayNight</string>
@@ -433,6 +435,7 @@
     <string name="clear_app_data">Εκκαθάριση δεδομένων εφαρμογής</string>
     <string name="clear_app_data_summary">Διαγράφει τα δεδομένα του VLC για Android</string>
     <string name="clear_history">Καθαρισμός ιστορικού</string>
+    <string name="clear_history_message">Θα χάσετε το ιστορικό σας, τις τρέχουσες λίστες αναπαραγωγής και τις προόδους σας</string>
     <string name="set_locale">Ορισμός εντοπιότητας</string>
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
     <string name="network_caching_summary">Το χρονικό διάστημα για την προσωρινή αποθήκευση των μέσων δικτύου (σε ms) για αποκωδικοποίηση λογισμικού\nΟρίστε στο 0 για απενεργοποίηση</string>
@@ -514,6 +517,12 @@
     <!-- Widget -->
     <string name="widget_name_w">Λευκό γραφικό στοιχείο VLC</string>
     <string name="widget_name_b">Σκούρο γραφικό στοιχείο VLC</string>
+    <string name="widget_name_mini_player">Μίνι αναπαραγωγός πολυμέσων VLC</string>
+    <string name="widget_old_text">Ενημερώσαμε τα widgets μας!</string>
+    <string name="widget_old_description_start">Ευχάριστα νέα! Κυκλοφόρησαν βελτιωμένα widgets.\nΠροσφέρουν μεγαλύτερη ανταπόκριση και προσαρμογή</string>
+    <string name="whats_next">Τι έπεται?</string>
+    <string name="widget_old_description_end">Διαπιστώσαμε ότι έχετε ήδη widgets στον εκκινητή σας. Δυστυχώς, δεν είναι συμβατά με τα νέα βελτιωμένα μας.\nΑνάλογα με τον εκκινητή σας, ίσως χρειαστεί να αφαιρέσετε τα παλιά για να τα αντικαταστήσετε.</string>
+    <string name="click_here">Κάντε κλικ εδώ για να μάθετε περισσότερα.</string>
     <string name="allow_storage_access_title">Παραχώρηση πρόσβασης στα αρχεία βίντεο και ήχου από τον VLC</string>
     <string name="allow_storage_access_description">Το VLC χρειάζεται παραχώρηση πρόσβασης στα αρχεία πολυμέσων αυτής της συσκευής.</string>
     <string name="allow_storage_manager_title">Επιτρέψτε στο VLC την πρόσβαση σε όλα τα αρχεία</string>
@@ -533,8 +542,9 @@
     <string name="permission_not_granted">Δεν παραχωρήθηκε άδεια</string>
     <string name="permission_expanation_no_allow">Δε θα μπορείτε να ανακαλύψετε αυτόματα τα αρχεία πολυμέσων σας ούτε να χρησιμοποιήσετε εξωτερικούς υπότιτλους</string>
     <string name="permission_expanation_allow">Θα έχετε τη δυνατότητα αναπαραγωγής μόνο μεταδόσεων ή αρχείων πολυμέσων μέσω δικτύου </string>
-    <string name="permission_expanation_subtitles">Χρήση εξωτερικών υποτίτλων</string>
-    <string name="permission_expanation_allow_explanation">Αναπαραγωγή διαδικτυακών μεταδόσεων ή αρχείων πολυμέσων μέσω δικτύου</string>
+    <string name="permission_onboarding_no_perm">Δεν θα μπορείτε να ανακαλύψετε αυτόματα τα πολυμέσα σας.\nΘα μπορείτε να αναπαράγετε μόνο ροές ή πολυμέσα δικτύου</string>
+    <string name="permission_onboarding_perm_media">Θα μπορείτε μόνο να ανακαλύπτετε αυτόματα τυπικά αρχεία πολυμέσων</string>
+    <string name="permission_onboarding_perm_all">Θα μπορείτε να ανακαλύπτετε αυτόματα όλα τα αρχεία σας για αναπαραγωγή όλων των τύπων πολυμέσων, ακόμα και περίεργα ή συμπιεσμένα αρχεία</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
     <string name="exit_app_msg">Είστε βέβαιοι ότι θέλετε να κλείσετε το VLC;</string>
 
@@ -647,6 +657,7 @@
     <string name="delete_the_selected">Διαγραφή επιλογής</string>
     <string name="download_the_selected">Λήψη επιλογής</string>
     <string name="next">Επόμενο</string>
+    <string name="skip">Παράλειψη</string>
     <string name="next_step">Επόμενο</string>
     <string name="download">Λήψη</string>
     <string name="ctx_player_video_track">Επιλογή κομματιού βίντεο</string>
@@ -798,6 +809,7 @@
     <string name="rename_group">Μετονομασία ομάδας βίντεο</string>
     <string name="ungroup">Απο-ομαδοποίηση</string>
     <string name="group_similar">Αυτόματη επαναομαδοποίηση</string>
+    <string name="no_group_found">Δεν βρέθηκε ομάδα βίντεο</string>
     <string name="no_favorite">Κανένα αγαπημένο</string>
     <string name="empty_directory">Κενό</string>
     <string name="no_track">Κανένα κομμάτι</string>
@@ -929,5 +941,78 @@
     <string name="foldable">Αναδιπλούμενη οθόνη</string>
     <string name="undo">Αναίρεση</string>
     <string name="add_server_favorite">Προσθέστε ένα αγαπημένο διακομιστή</string>
+    <string name="widget_theme">Θέμα widget</string>
+    <string name="widget_preferences">Διαμόρφωση widget</string>
+    <string name="material_you">Material You (τραβάει χρώματα από την ταπετσαρία)</string>
+    <string name="palette">Παλέτα (τραβάει χρώματα από το εξώφυλλο πολυμέσων)</string>
+    <string name="custom">Εξατομικευμένο</string>
+    <string name="opacity">Αδιαφάνεια</string>
+    <string name="widget_background">Παρασκήνιο</string>
+    <string name="widget_foreground">Προσκήνιο</string>
+    <string name="configure_widget">Διαμόρφωση widget</string>
+    <string name="widget_preview">Προεπισκόπηση widget</string>
+    <string name="widget_forward_delay">Προώθηση χρονικής καθυστέρησης</string>
+    <string name="widget_rewind_delay">Χρονική καθυστέρηση προς τα πίσω</string>
+    <string name="widget_show_configure">Εμφάνιση εικονιδίου διαμόρφωσης</string>
+    <string name="widget_show_configure_summary">Ακόμα κι αν δεν εμφανίζεται, μπορείτε να πατήσετε την επάνω δεξιά γωνία για να ανοίξετε τη διαμόρφωση</string>
+    <string name="seek_backward_content_description">Αναζητήστε %s δευτερόλεπτα προς τα πίσω</string>
+    <string name="seek_forward_content_description">Αναζητήστε %s δευτερόλεπτα προς τα εμπρός</string>
+    <string name="open_vlc">Ανοίξτε το VLC</string>
+    <string name="playing">Αναπαράγεται</string>
+    <string name="disable_track">Απενεργοποίηση κομματιού</string>
+    <string name="ascending">Αύξουσα</string>
+    <string name="descending">Φθίνουσα</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - τίτλος: %s - διάρκεια: %s</string>
+    <string name="talkback_genre">Είδος: %s</string>
+    <string name="talkback_history_item">Ιστορικό στοιχείου</string>
+    <string name="talkback_playlist">Λίστα αναπαραγωγής: %s</string>
+    <string name="talkback_folder">Φάκελος: %s</string>
+    <string name="talkback_file">Αρχείο: %s</string>
+    <string name="talkback_favorite">Αγαπημένο: %s</string>
+    <string name="talkback_track_number">Αριθμός κομματιού %s</string>
+    <string name="talkback_duration">Διάρκεια: %s</string>
+    <string name="talkback_album">Άλμπουμ: %s</string>
+    <string name="talkback_artist">Καλλιτέχνης: %s</string>
+    <string name="talkback_release_date">Κυκλοφόρησε %s</string>
+    <string name="talkback_video">Βίντεο: %s</string>
+    <string name="talkback_stream">Μετάδοση: %s</string>
+    <string name="talkback_audio_track">Κομμάτι ήχου: %s</string>
+    <string name="talkback_video_group">Ομάδα βίντεο: %s</string>
+    <string name="talkback_hours">ώρες</string>
+    <string name="talkback_minutes">λεπτά</string>
+    <string name="talkback_seconds">δευτερόλεπτα</string>
+    <string name="talkback_list_section">Επικεφαλίδα: %s</string>
+    <string name="talkback_enter_screen">Πλοηγηθείτε στο %s</string>
+    <string name="talkback_file_size">Μέγεθος αρχείου: %s</string>
+    <string name="talkback_open_in_browser">Άνοιγμα στο πρόγραμμα περιήγησης ιστού</string>
+    <string name="talkback_video_player">Πρόγραμμα αναπαραγωγής Βίντεο. Πατήστε για να εμφανιστούν τα στοιχεία ελέγχου. Πατήστε το κουμπί πίσω για να τα αποκρύψετε</string>
+    <string name="talkback_video_tracks">Κομμάτια βίντεο</string>
+    <string name="talkback_audio_tracks">Κομμάτια ήχου</string>
+    <string name="talkback_subtitle_tracks">Κομμάτια υπότιτλων</string>
+    <string name="talkback_subtitle_dowload_item">Γλώσσα: %s. %s. Όνομα: %s</string>
+    <string name="selected">Επιλεγμένο</string>
+    <string name="talkback_increase_delay">Αύξηση καθυστέρησης</string>
+    <string name="talkback_decrease_delay">Μείωση καθυστέρησης</string>
+    <string name="talkback_increase_speed">Αύξηση ταχύτητας</string>
+    <string name="talkback_decrease_speed">Μείωση ταχύτητας</string>
+    <string name="talkback_subtitle_history">Ιστορικό υποτίτλων</string>
+    <string name="talkback_language_selection">%s επιλεγμένες γλώσσες</string>
+    <string name="talkback_audio_player_opened">Το πρόγραμμα αναπαραγωγής ήχου άνοιξε</string>
+    <string name="talkback_audio_player_collapsed">Το πρόγραμμα αναπαραγωγής ήχου κατέρρευσε</string>
+    <string name="talkback_audio_player_closed">Το πρόγραμμα αναπαραγωγής ήχου έκλεισε</string>
+    <string name="talkback_audio_player">Πρόγραμμα αναπαραγωγής ήχου. Παίζει αυτήν τη στιγμή: %s</string>
+    <string name="talkback_out_of">%s από %s</string>
+    <string name="talkback_track_index">Κομμάτι %s από %s</string>
+    <string name="downloaded">Κατέβηκε</string>
+    <string name="not_downloaded">Δεν κατέβηκε</string>
+    <string name="downloading">Γίνεται λήψη...</string>
+    <string name="talkback_action_rewind">Πίσω %s δευτερόλεπτα</string>
+    <string name="talkback_action_forward">Αναζητήστε μπροστά %s  δευτερόλεπτα</string>
+    <string name="talkback_display_settings">Ρυθμίσεις οθόνης</string>
+
 
 </resources>
