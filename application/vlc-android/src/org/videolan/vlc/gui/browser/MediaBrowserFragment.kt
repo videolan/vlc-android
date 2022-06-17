@@ -206,7 +206,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         }
     }
 
-    protected open fun sortBy(sort: Int) {
+    open fun sortBy(sort: Int) {
         viewModel.sort(sort)
     }
 

@@ -34,6 +34,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Job
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA
@@ -52,7 +53,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.util.getDescriptionSpan
 
-open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -73,6 +74,16 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     private var specialIcons = false
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
+    val diffCallback = BrowserDiffCallback()
+
+    fun changeSort(sort:Int, asc:Boolean) {
+        diffCallback.oldSort = diffCallback.newSort
+        diffCallback.oldAsc = diffCallback.newAsc
+        this.sort = sort
+        this.asc = asc
+        diffCallback.newAsc = asc
+    }
+
     init {
         val root = browserContainer.isRootDirectory
         val fileBrowser = browserContainer.isFile
@@ -91,6 +102,10 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         qaMusicDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_music_normal))
         qaPodcastsDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_podcasts_normal))
         qaDownloadDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_download_normal))
+        diffCallback.oldSort = sort
+        diffCallback.newSort = sort
+        diffCallback.oldAsc = asc
+        diffCallback.newAsc = asc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ViewDataBinding> {
@@ -145,7 +160,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
                 && "content" != scheme
                 && "otg" != scheme)
                 && !multiSelectHelper.inActionMode)
-        vh.bindingContainer.setFileName(if (media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
+        vh.bindingContainer.setFileName(if (sort == Medialibrary.SORT_FILENAME && media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
@@ -309,5 +324,29 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun onUpdateFinished() {
         browserContainer.onUpdateFinished(this)
+        diffCallback.oldSort = diffCallback.newSort
+        diffCallback.oldAsc = diffCallback.newAsc
+    }
+
+    override fun createCB() = diffCallback
+
+    class BrowserDiffCallback : DiffUtilAdapter.DiffCallback<MediaLibraryItem>() {
+        var oldSort = -1
+        var newSort = -1
+        var oldAsc = true
+        var newAsc = true
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int):Boolean {
+            val result =  if (newSort == oldSort && newAsc == oldAsc) true else try {
+                val oldItem = oldList[oldItemPosition] as MediaWrapper
+                val newItem = newList[newItemPosition] as MediaWrapper
+                (oldItem.fileName == newItem.title && newItem.fileName == oldItem.title)
+            } catch (ignored: Exception) {
+                true
+            }
+            return result
+        }
+
+        override fun areItemsTheSame(oldItemPosition : Int, newItemPosition : Int) = oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

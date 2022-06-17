@@ -146,7 +146,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this, viewModel.sort, !viewModel.desc).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
@@ -160,6 +160,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             swipeRefreshLayout.isRefreshing = loading
             updateEmptyView()
         }
+    }
+
+    override fun sortBy(sort: Int) {
+        super.sortBy(sort)
+        adapter.sort = sort
+        adapter.changeSort(sort, !viewModel.desc)
+        UiTools.updateSortTitles(this)
     }
 
     open fun registerSwiperRefreshlayout() = swipeRefreshLayout.setOnRefreshListener(this)

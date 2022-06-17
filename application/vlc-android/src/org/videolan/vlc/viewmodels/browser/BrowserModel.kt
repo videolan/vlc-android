@@ -77,8 +77,8 @@ open class BrowserModel(
     override fun sort(sort: Int) {
         viewModelScope.launch {
             this@BrowserModel.sort = sort
+            desc = !desc
             provider.sort = sort
-            val desc = !desc
             provider.desc = desc
             val comp = provider.comparator
             dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
