@@ -118,11 +118,11 @@
     <string name="loading">Betöltés</string>
     <string name="please_wait">Kérem várjon…</string>
     <string name="nomedia">Nem található médiafájl, hozzon át néhány fájlt az eszközére vagy módosítsa a beállításokat.</string>
+    <string name="empty_search">Nincs találat az „%s” keresésre</string>
     <string name="noplaylist">Nem található lejátszólista.</string>
     <string name="nosubfolder">Nincs almappa</string>
     <string name="directorynotfound">A(z) „%1$s” könyvtárútvonal nem található.</string>
     <string name="nohistory">Még nincsenek lejátszási előzmények.</string>
-    <string name="validation">Biztos benne?</string>
 
     <string name="cover_art">Borító</string>
     <string name="shuffle_all_title">Az összes véletlen sorrendben</string>
@@ -247,6 +247,7 @@
     <string name="audio_player_tips">Zenelejátszó tippek</string>
     <string name="previous_next_song">Előző/következő szám</string>
     <string name="show_playlist">Lejátszólista megjelenítése</string>
+    <string name="hide_playlist">Lejátszási lista rejtése</string>
     <string name="hold_to_stop">Tartsa a leállításhoz</string>
 
     <!-- About -->
@@ -283,6 +284,7 @@
     <string name="screen_orientation_landscape_reverse">Fordított fekvő</string>
     <string name="screen_orientation_last_locked">Utolsó zárolt tájolás</string>
     <string name="enable_black_theme">Fekete téma</string>
+    <string name="theme_auto">Automatikus téma</string>
     <string name="subtitle_text_encoding">Feliratszöveg kódolása</string>
     <string name="subtitle_preferred_language">Felirat előnyben részesített nyelve</string>
     <string name="daynight_title">Éjjel-nappali mód</string>
@@ -433,6 +435,7 @@
     <string name="clear_app_data">Alkalmazásadatok törlése</string>
     <string name="clear_app_data_summary">Törli a VLC for Android adatait</string>
     <string name="clear_history">Előzmények törlése</string>
+    <string name="clear_history_message">Elveszti az előzményeket, a jelenlegi lejátszólistákat és az előrehaladásokat</string>
     <string name="set_locale">Területi beállítás megadása</string>
     <string name="network_caching">Hálózati gyorsítótárazás időtartama</string>
     <string name="network_caching_summary">Hálózati média pufferelési ideje (ms) szoftveres dekódolásnál\nÁllítsa 0-ra a letiltásához</string>
@@ -514,6 +517,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC fehér ablakelem</string>
     <string name="widget_name_b">VLC sötét ablakelem</string>
+    <string name="widget_name_mini_player">VLC minilejátszó</string>
+    <string name="widget_old_text">Frissítettük a moduljainkat!</string>
+    <string name="widget_old_description_start">Jó hírek! Kiadtuk a továbbfejlesztett moduljainkat.\nNagyobb alkalmazkodóképességet és tesztreszabhatóságot kínálnak.</string>
+    <string name="whats_next">Mik az újdonságok?</string>
+    <string name="widget_old_description_end">Észleltük, hogy már használ modulokat az indítóképernyőjén. Sajnos ezek nem kompatibilisek az új, fejlesztett társaikkal.\nAz indítójától függően lehet, hogy el kell távolítania a régieket, és le kell cserélni azokat.</string>
+    <string name="click_here">Kattintson ide, hogy többet tudjon meg.</string>
     <string name="allow_storage_access_title">A VLC hozzáférhet a videó- és hangfájlokhoz</string>
     <string name="allow_storage_access_description">A VLC-nek szüksége van erre az engedélyre a médiafájlok eléréséhez az eszközén.</string>
     <string name="allow_storage_manager_title">Engedélyezés, hogy a VLC elérje az összes fájlt</string>
@@ -533,8 +542,9 @@
     <string name="permission_not_granted">Az engedély nincs megadva</string>
     <string name="permission_expanation_no_allow">Nem tudja automatikusan beolvasni a médiafájljait, és nem használhat külső feliratokat</string>
     <string name="permission_expanation_allow">Csak közvetítéseket vagy hálózati médiát tud majd lejátszani</string>
-    <string name="permission_expanation_subtitles">Külső feliratok használata</string>
-    <string name="permission_expanation_allow_explanation">Internetes közvetítések vagy hálózati média lejátszása</string>
+    <string name="permission_onboarding_no_perm">Nem fogja tudni automatikusan beolvasni a saját médiát.\nCsak közvetítéseket vagy hálózati médiát tud majd lejátszani</string>
+    <string name="permission_onboarding_perm_media">Csak szabványos médiafájlokat tud majd automatikusan felkutatni</string>
+    <string name="permission_onboarding_perm_all">Mindenféle fájlt fel tud kutatni, hogy lejátszhassa az összes típusú médiát, beleértve a furcsa vagy a tömörített fájlokat is</string>
     <string name="exit_app">VLC bezárása</string>
     <string name="exit_app_msg">Biztosan kilép a VLC-ből?</string>
 
@@ -647,6 +657,7 @@
     <string name="delete_the_selected">Kiválasztás törlése</string>
     <string name="download_the_selected">Kiválasztás letöltése</string>
     <string name="next">Következő</string>
+    <string name="skip">Kihagyás</string>
     <string name="next_step">Következő</string>
     <string name="download">Letöltés</string>
     <string name="ctx_player_video_track">Videosáv kiválasztása</string>
@@ -798,6 +809,7 @@
     <string name="rename_group">Videócsoport átnevezése</string>
     <string name="ungroup">Csoport felbontása</string>
     <string name="group_similar">Újracsoportosítás automatikusan</string>
+    <string name="no_group_found">Nem található videócsoport</string>
     <string name="no_favorite">Nincs kedvenc</string>
     <string name="empty_directory">Üres</string>
     <string name="no_track">Nincs szám</string>
@@ -929,5 +941,78 @@
     <string name="foldable">Összehajtható képernyő</string>
     <string name="undo">Visszavonás</string>
     <string name="add_server_favorite">Kiszolgáló hozzáadása a kedvencekhez</string>
+    <string name="widget_theme">Modultéma</string>
+    <string name="widget_preferences">Modul beállítása</string>
+    <string name="material_you">Material You (a színeket a háttérképből veszi)</string>
+    <string name="palette">Paletta (a színeket a médiaborítóból veszi)</string>
+    <string name="custom">Egyéni</string>
+    <string name="opacity">Átlátszatlanság</string>
+    <string name="widget_background">Háttér</string>
+    <string name="widget_foreground">Előtér</string>
+    <string name="configure_widget">Modulbeállítások</string>
+    <string name="widget_preview">Modul előnézete</string>
+    <string name="widget_forward_delay">Előretekerés késleltetése</string>
+    <string name="widget_rewind_delay">Hátratekerés késleltetése</string>
+    <string name="widget_show_configure">Beállítások ikon megjelenítése</string>
+    <string name="widget_show_configure_summary">Ha nem jelenik meg, akkor is a jobb felső sarokba koppinthat, hogy megnyissa a beállításokat.</string>
+    <string name="seek_backward_content_description">Hátratekerés %s másodperccel</string>
+    <string name="seek_forward_content_description">Előretekerés %s másodperccel</string>
+    <string name="open_vlc">VLC megnyitása</string>
+    <string name="playing">Lejátszás</string>
+    <string name="disable_track">Szám letiltása</string>
+    <string name="ascending">Emelkedő</string>
+    <string name="descending">Csökkenő</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - cím: %s - időtartam: %s</string>
+    <string name="talkback_genre">Műfaj: %s</string>
+    <string name="talkback_history_item">Előzményelem</string>
+    <string name="talkback_playlist">Lejátszási lista: %s</string>
+    <string name="talkback_folder">Mappa: %s</string>
+    <string name="talkback_file">Fájl: %s</string>
+    <string name="talkback_favorite">Kedvenc: %s</string>
+    <string name="talkback_track_number">Szám sorszáma: %s</string>
+    <string name="talkback_duration">Időtartam: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Előadó: %s</string>
+    <string name="talkback_release_date">Megjelenés: %s</string>
+    <string name="talkback_video">Videó: %s</string>
+    <string name="talkback_stream">Közvetítés: %s</string>
+    <string name="talkback_audio_track">Zeneszám: %s</string>
+    <string name="talkback_video_group">Videócsoport: %s</string>
+    <string name="talkback_hours">óra</string>
+    <string name="talkback_minutes">perc</string>
+    <string name="talkback_seconds">mp</string>
+    <string name="talkback_list_section">Fejléc: %s</string>
+    <string name="talkback_enter_screen">Ugrás ehhez: %s</string>
+    <string name="talkback_file_size">Fájlméret: %s</string>
+    <string name="talkback_open_in_browser">Megnyitás böngészőben</string>
+    <string name="talkback_video_player">Videólejátszó. Koppintson a vezérlők megjelenítéséhez. Koppintson a vissza gombra az elrejtésükhöz</string>
+    <string name="talkback_video_tracks">Videósávok</string>
+    <string name="talkback_audio_tracks">Zeneszámok</string>
+    <string name="talkback_subtitle_tracks">Feliratsávok</string>
+    <string name="talkback_subtitle_dowload_item">Nyelv: %s. %s. Név: %s</string>
+    <string name="selected">Kiválasztva</string>
+    <string name="talkback_increase_delay">Késleltetés növelése</string>
+    <string name="talkback_decrease_delay">Késleltetés csökkentése</string>
+    <string name="talkback_increase_speed">Sebesség növelése</string>
+    <string name="talkback_decrease_speed">Sebesség csökkentése</string>
+    <string name="talkback_subtitle_history">Feliratelőzmények</string>
+    <string name="talkback_language_selection">%s kiválasztott nyelv</string>
+    <string name="talkback_audio_player_opened">Zenelejátszó megnyitva</string>
+    <string name="talkback_audio_player_collapsed">Zenelejátszó összecsukva</string>
+    <string name="talkback_audio_player_closed">Zenelejátszó bezárva</string>
+    <string name="talkback_audio_player">Zenelejátszó. Most játszott: %s</string>
+    <string name="talkback_out_of">%s / %s</string>
+    <string name="talkback_track_index">Szám: %s / %s</string>
+    <string name="downloaded">Letöltve</string>
+    <string name="not_downloaded">Nincs letöltve</string>
+    <string name="downloading">Letöltés</string>
+    <string name="talkback_action_rewind">Visszatekerés %s másodperccel</string>
+    <string name="talkback_action_forward">Előretekerés %s másodperccel</string>
+    <string name="talkback_display_settings">Kijelzőbeállítások</string>
+
 
 </resources>
