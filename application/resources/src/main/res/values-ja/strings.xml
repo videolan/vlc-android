@@ -109,11 +109,11 @@
     <string name="loading">ロード中…</string>
     <string name="please_wait">しばらくおまちください…</string>
     <string name="nomedia">メディアファイルが見つかりません、ファイルをデバイスに転送するか設定を調整してください。</string>
+    <string name="empty_search">見つかりませんでした %s</string>
     <string name="noplaylist">プレイリストが見つかりません。</string>
     <string name="nosubfolder">サブフォルダがありません</string>
     <string name="directorynotfound">ディレクトリのパス \'%1$s\' がみつかりません。</string>
     <string name="nohistory">再生履歴がありません。</string>
-    <string name="validation">本当に実行しますか?</string>
 
     <string name="cover_art">アートワーク</string>
     <string name="shuffle_all_title">すべてをシャッフル</string>
@@ -237,6 +237,7 @@
     <string name="audio_player_tips">オーディオプレイヤーのTips</string>
     <string name="previous_next_song">前/次の曲</string>
     <string name="show_playlist">プレイリストの表示</string>
+    <string name="hide_playlist">プレイリストを隠す</string>
     <string name="hold_to_stop">停止を保持</string>
 
     <!-- About -->
@@ -273,6 +274,7 @@
     <string name="screen_orientation_landscape_reverse">ランドスケープ反転</string>
     <string name="screen_orientation_last_locked">最後にロックされた方向</string>
     <string name="enable_black_theme">ブラックテーマ</string>
+    <string name="theme_auto">自動テーマ</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="subtitle_preferred_language">優先する字幕の言語</string>
     <string name="daynight_title">昼夜モード</string>
@@ -423,6 +425,7 @@
     <string name="clear_app_data">アプリケーションデータをクリア</string>
     <string name="clear_app_data_summary">VLC for Androidのデータをクリア</string>
     <string name="clear_history">履歴をクリア</string>
+    <string name="clear_history_message">履歴、現在のプレイリストと進行状況を失います。</string>
     <string name="set_locale">ロケールの設定</string>
     <string name="network_caching">ネットワークキャッシュ値</string>
     <string name="network_caching_summary">ソフトウェアデコーディングのためのネットワークメディアのバッファーサイズをミリ秒単位で指定します。\n0を入力すると無効化します。</string>
@@ -504,6 +507,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC白色ウィジェット</string>
     <string name="widget_name_b">VLCダークウィジェット</string>
+    <string name="widget_name_mini_player">VLCミニプレイヤー</string>
+    <string name="widget_old_text">私たちのWebサイトが更新されました!</string>
+    <string name="widget_old_description_start">お知らせです!改善されたウィジェットをリリースしました。\n応答性が良く、カスタマイズも可能です。</string>
+    <string name="whats_next">さて、次は?</string>
+    <string name="widget_old_description_end">あなたのラウンチャーにウィジェットが使われていることを検出しましたが、残念ながら新しいものと互換性がありません。\nご使用中のラウンチャーに依存しますが、古いウィジェットを削除して新しいものと入れ替える必要があるかも知れません。</string>
+    <string name="click_here">ここをクリックすると詳細を表示します。</string>
     <string name="allow_storage_access_title">VLCがビデオとオーディオファイルにアクセスすることを許可</string>
     <string name="allow_storage_access_description">このデバイスのメディアファイルにアクセスするためにVLCに許可を与える必要があります。</string>
     <string name="allow_storage_manager_title">VLCにすべてのファイルへのアクセスを許可</string>
@@ -523,8 +532,9 @@
     <string name="permission_not_granted">権限が付与されていません</string>
     <string name="permission_expanation_no_allow">自動検索と外部の字幕の使用ができません</string>
     <string name="permission_expanation_allow">ストリームの再生または、ネットワークメディアの再生のみ利用可能です</string>
-    <string name="permission_expanation_subtitles">外部の字幕の使用</string>
-    <string name="permission_expanation_allow_explanation">インターネット上のストリームまたは、ネットワークメディアの再生</string>
+    <string name="permission_onboarding_no_perm">メディアを自動検出することはできません。\n再生できるのはストリームまたはネットワークメディアのみです。</string>
+    <string name="permission_onboarding_perm_media">自動検出できるのは、標準のメディアファイルのみです。</string>
+    <string name="permission_onboarding_perm_all">すべてのファイルを自動検出して、変なメディアや圧縮ファイルを含むすべてのタイプのメディアを再生できるようになります</string>
     <string name="exit_app">VLCを閉じる</string>
     <string name="exit_app_msg">本当にVLCを終了してもいいですか?</string>
 
@@ -637,6 +647,7 @@
     <string name="delete_the_selected">削除するものを選択</string>
     <string name="download_the_selected">ダウンロードするものを選択</string>
     <string name="next">次へ</string>
+    <string name="skip">スキップ</string>
     <string name="next_step">次へ</string>
     <string name="download">ダウンロード</string>
     <string name="ctx_player_video_track">ビデオトラックを選択</string>
@@ -786,6 +797,7 @@
     <string name="rename_group">ビデオグループ名の変更</string>
     <string name="ungroup">グループ解除</string>
     <string name="group_similar">自動再グループ化</string>
+    <string name="no_group_found">ビデオグループが見つかりませんでした</string>
     <string name="no_favorite">お気に入りがありません</string>
     <string name="empty_directory">空</string>
     <string name="no_track">トラックがありません</string>
@@ -915,5 +927,78 @@
     <string name="foldable">折り畳み可能な画面</string>
     <string name="undo">元に戻す</string>
     <string name="add_server_favorite">お気に入りにサーバーを追加</string>
+    <string name="widget_theme">ウィジェットテーマ</string>
+    <string name="widget_preferences">ウィジェットの設定</string>
+    <string name="material_you">マテリアル（壁紙から色を抽出）</string>
+    <string name="palette">パレット（メディアのカバーから色を抽出）</string>
+    <string name="custom">カスタム</string>
+    <string name="opacity">不透明度</string>
+    <string name="widget_background">背景</string>
+    <string name="widget_foreground">前面</string>
+    <string name="configure_widget">ウィジェットの設定</string>
+    <string name="widget_preview">ウィジェットのプレビュー</string>
+    <string name="widget_forward_delay">進める遅延時間</string>
+    <string name="widget_rewind_delay">戻る遅延時間</string>
+    <string name="widget_show_configure">設定アイコンを表示</string>
+    <string name="widget_show_configure_summary">もし表示されなかったとしても右上の部分をタップすることで設定を開くことができます。</string>
+    <string name="seek_backward_content_description"> %s 秒前へシーク</string>
+    <string name="seek_forward_content_description"> %s 秒先へシーク</string>
+    <string name="open_vlc">VLCを開く</string>
+    <string name="playing">再生中</string>
+    <string name="disable_track">トラックを無効化</string>
+    <string name="ascending">昇順</string>
+    <string name="descending">降順</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - タイトル: %s - 長さ: %s</string>
+    <string name="talkback_genre">ジャンル: %s</string>
+    <string name="talkback_history_item">履歴の項目</string>
+    <string name="talkback_playlist">プレイリスト: %s</string>
+    <string name="talkback_folder">フォルダー: %s</string>
+    <string name="talkback_file">ファイル: %s</string>
+    <string name="talkback_favorite">お気に入り: %s</string>
+    <string name="talkback_track_number">トラック番号 %s</string>
+    <string name="talkback_duration">D長さ: %s</string>
+    <string name="talkback_album">アルバム: %s</string>
+    <string name="talkback_artist">アーティスト: %s</string>
+    <string name="talkback_release_date">リリース年 %s</string>
+    <string name="talkback_video">ビデオ: %s</string>
+    <string name="talkback_stream">ストリーム: %s</string>
+    <string name="talkback_audio_track">オーディオトラック: %s</string>
+    <string name="talkback_video_group">ビデオグループ: %s</string>
+    <string name="talkback_hours">時間</string>
+    <string name="talkback_minutes">分</string>
+    <string name="talkback_seconds">秒</string>
+    <string name="talkback_list_section">ヘッダー: %s</string>
+    <string name="talkback_enter_screen">%s に移動</string>
+    <string name="talkback_file_size">ファイルサイズ: %s</string>
+    <string name="talkback_open_in_browser">ブラウザーで開く</string>
+    <string name="talkback_video_player">ビデオプレイヤー。タップするとコントロールを表示します。戻るボタンをタップすると隠します。</string>
+    <string name="talkback_video_tracks">ビデオトラック</string>
+    <string name="talkback_audio_tracks">オーディオトラック</string>
+    <string name="talkback_subtitle_tracks">字幕トラック</string>
+    <string name="talkback_subtitle_dowload_item">言語: %s. %s. 名前: %s</string>
+    <string name="selected">選択されました</string>
+    <string name="talkback_increase_delay">遅延を増加させる</string>
+    <string name="talkback_decrease_delay">遅延を減少させる</string>
+    <string name="talkback_increase_speed">速度を上げる</string>
+    <string name="talkback_decrease_speed">速度を下げる</string>
+    <string name="talkback_subtitle_history">字幕の履歴</string>
+    <string name="talkback_language_selection">選択された言語 %s</string>
+    <string name="talkback_audio_player_opened">オーディオプレイヤーが開きました</string>
+    <string name="talkback_audio_player_collapsed">オーディオプレイヤーが畳まれました</string>
+    <string name="talkback_audio_player_closed">オーディオプレイヤーが閉じました</string>
+    <string name="talkback_audio_player">オーディオプレイヤーで再生中: %s</string>
+    <string name="talkback_out_of">残り %s 全体 %s</string>
+    <string name="talkback_track_index">残りトラック %s 全体 %s</string>
+    <string name="downloaded">ダウンロードされました</string>
+    <string name="not_downloaded">ダウンロードされていません</string>
+    <string name="downloading">ダウンロードしています</string>
+    <string name="talkback_action_rewind">%s 秒戻す</string>
+    <string name="talkback_action_forward"> %s 秒進める</string>
+    <string name="talkback_display_settings">表示設定</string>
+
 
 </resources>
