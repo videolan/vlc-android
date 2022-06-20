@@ -518,7 +518,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val canSwitchToVideo = player.canSwitchToVideo()
         val rate = player.getRate()
         launch(Dispatchers.IO) innerLaunch@ {
-            val media = medialibrary.findMedia(currentMedia) ?: return@innerLaunch
+            val media = if (entryUrl != null) medialibrary.getMedia(entryUrl) else medialibrary.findMedia(currentMedia) ?: return@innerLaunch
             if (media.id == 0L) return@innerLaunch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
             //checks if the [MediaPlayer] has not been reset in the meantime to prevent saving 0
@@ -711,6 +711,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     private suspend fun expand(updateHistory: Boolean): Int {
+        entryUrl = null
         if (BuildConfig.BETA) Log.d(TAG, "expand with values: ", Exception("Call stack"))
         val index = currentIndex
         val expandedMedia = getCurrentMedia()
@@ -1044,9 +1045,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     id = internalMedia.id
                 } else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM || isSchemeStreaming(mw.uri.scheme)) {
-                        medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
-                            entryUrl = null
-                        }
+                        medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title)
                     } else {
                         medialibrary.addMedia(mw.uri.toString(), mw.length)
                     }
