@@ -61,6 +61,7 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.WidgetMigration
 import org.videolan.vlc.util.getScreenWidth
+import java.util.concurrent.TimeUnit
 
 private const val TAG = "VLC/MainActivity"
 
@@ -103,10 +104,11 @@ class MainActivity : ContentActivity(),
     override fun onResume() {
         super.onResume()
         //Only the partial permission is granted for Android 11+
-        if (!settings.getBoolean(PERMISSION_NEVER_ASK, false) && Permissions.canReadStorage(this) && !Permissions.hasAllAccess(this)) {
+        if (!settings.getBoolean(PERMISSION_NEVER_ASK, false) && settings.getLong(PERMISSION_NEXT_ASK, 0L) < System.currentTimeMillis() && Permissions.canReadStorage(this) && !Permissions.hasAllAccess(this)) {
             UiTools.snackerMessageInfinite(this, getString(R.string.partial_content))?.setAction(R.string.more) {
                 AllAccessPermissionDialog.newInstance().show(supportFragmentManager, AllAccessPermissionDialog::class.simpleName)
             }?.show()
+            settings.putSingle(PERMISSION_NEXT_ASK, System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2))
         }
         configurationChanged(getScreenWidth())
     }

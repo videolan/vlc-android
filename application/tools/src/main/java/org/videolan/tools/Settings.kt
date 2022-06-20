@@ -163,6 +163,7 @@ const val SUBTITLE_PREFERRED_LANGUAGE = "subtitle_preferred_language"
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
 const val PERMISSION_NEVER_ASK = "permission_never_ask"
+const val PERMISSION_NEXT_ASK = "permission_next_ask"
 
 const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
 const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
