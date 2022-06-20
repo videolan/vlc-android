@@ -58,6 +58,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuItemCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -620,7 +621,7 @@ object UiTools {
     private fun Menu.appendSortOrder(context: Context, @IdRes id:Int, @StringRes titleRes:Int, isCurrent:Boolean, desc:Boolean) = findItem(id)?.let { menuItem ->
         val title = context.getString(titleRes)
         menuItem.title = if (!isCurrent) title else "$title ${if (desc) "▼" else "▲"}"
-        menuItem.contentDescription = if (!isCurrent) title else "$title. ${context.getString(if (desc) R.string.descending else R.string.ascending)}"
+        MenuItemCompat.setContentDescription(menuItem, if (!isCurrent) title else "$title. ${context.getString(if (desc) R.string.descending else R.string.ascending)}")
     }
 
     fun confirmExit(activity: Activity) {
