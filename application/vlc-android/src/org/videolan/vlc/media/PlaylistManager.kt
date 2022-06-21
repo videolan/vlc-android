@@ -182,6 +182,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (mlUpdate) {
             service.awaitMedialibraryStarted()
             mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
+            getCurrentMedia()?.let { refreshTrackMeta(it) }
             if (BuildConfig.BETA) {
                 Log.d(TAG, "load after ml update with values: ")
                 mediaList.copy.forEach { Log.d(TAG, "Media location: ${it.uri}") }
