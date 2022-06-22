@@ -73,11 +73,34 @@ open class BrowserModel(
 
     fun browseRoot() = provider.browseRoot()
 
+    /**
+     * Sorts again. Useful on resume
+     *
+     */
+    fun reSort() {
+        resetSort()
+        viewModelScope.launch {
+            val comp = provider.comparator
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
+        }
+    }
+
+    /**
+     * Resets the sorts info from the shared preferences for the model and provider
+     *
+     */
+    private fun resetSort() {
+        sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
+        desc = settings.getBoolean("${sortKey}_desc", false)
+        provider.desc = desc
+        provider.sort = sort
+    }
+
     @MainThread
     override fun sort(sort: Int) {
         viewModelScope.launch {
             this@BrowserModel.sort = sort
-            desc = !desc
+            desc = if (sort == Medialibrary.SORT_DEFAULT) false else !desc
             provider.sort = sort
             provider.desc = desc
             val comp = provider.comparator

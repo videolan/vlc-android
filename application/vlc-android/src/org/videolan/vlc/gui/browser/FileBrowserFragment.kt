@@ -130,7 +130,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.sort(viewModel.sort)
+        viewModel.reSort()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
