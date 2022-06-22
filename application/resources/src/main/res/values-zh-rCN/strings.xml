@@ -38,7 +38,7 @@
     <string name="play_pip_title">以画中画模式播放视频</string>
     <string name="play_as_audio_background">在后台播放视频</string>
     <string name="append">追加</string>
-    <string name="insert_next">作为下一个</string>
+    <string name="insert_next">插入为下一项</string>
     <string name="play_all">播放全部</string>
     <string name="append_all">追加全部</string>
     <string name="resume_playback_short_title">继续播放</string>
@@ -125,7 +125,7 @@
     <string name="repeat">重复关闭</string>
     <string name="repeat_single">单曲重复</string>
     <string name="repeat_all">全部重复</string>
-    <string name="previous">上一个</string>
+    <string name="previous">上一项</string>
     <string name="stop">停止</string>
     <string name="firstsong">播放列表第一首</string>
     <string name="lastsong">播放列表最后一首</string>
@@ -200,7 +200,7 @@
     <string name="play_button">播放按钮</string>
 
     <!-- Tips -->
-    <string name="tips_title">视频播放器功能说明</string>
+    <string name="tips_title">视频播放器入门</string>
     <string name="seek">定位</string>
     <string name="subtitles">字幕</string>
     <string name="tips_player_controls">播放器控制按钮</string>
@@ -221,18 +221,18 @@
     <string name="tips_swipe">上滑或下滑</string>
     <string name="tips_swipe_horizontal">左滑或右滑</string>
     <string name="tips_playlist">播放列表</string>
-    <string name="tips_hold_seek">按住可快进/快退</string>
+    <string name="tips_hold_seek">按住可快进 / 快退</string>
     <string name="tips_long_drop">长按并拖动</string>
     <string name="pause_description">轻按两下可暂停</string>
     <string name="seek_tap">± 10 秒</string>
     <string name="seek_tap_description">轻按两下可快进 / 快退 10 秒</string>
     <string name="close">关闭</string>
 
-    <string name="playlist_tips">播放列表功能说明</string>
+    <string name="playlist_tips">播放列表入门</string>
     <string name="remove_song">移除曲目</string>
     <string name="remove_playlist_item">%1$s 已从播放列表移除</string>
     <string name="rearrange_order">重排顺序</string>
-    <string name="hold_to_seek">按住可快进/快退</string>
+    <string name="hold_to_seek">按住可快进 / 快退</string>
 
     <string name="audio_player_tips">音频播放器提示</string>
     <string name="previous_next_song">上/下一曲</string>
@@ -310,13 +310,13 @@
     <string name="enable_volume_gesture_title">音量手势</string>
     <string name="enable_volume_gesture_summary">在视频回放过程中，通过手势控制音量</string>
     <string name="enable_seek_buttons">定位按钮</string>
-    <string name="enable_seek_buttons_summary">在视频界面显示倒退与快进按钮</string>
+    <string name="enable_seek_buttons_summary">在视频界面显示 ｢快退｣ 与 ｢快进｣ 按钮</string>
     <string name="enable_android_auto_speed_buttons">Android Auto 播放速度</string>
     <string name="enable_android_auto_speed_buttons_summary">在弹出菜单中显示速度控制按钮</string>
     <string name="enable_android_auto_seek_buttons">Android Auto 定位按钮</string>
-    <string name="enable_android_auto_seek_buttons_summary">在溢出菜单中显示后退和快进。启用前，试着按住方向盘上的前一个和下一个按钮。</string>
+    <string name="enable_android_auto_seek_buttons_summary">在溢出菜单中显示 ｢快退｣ 与 ｢快进｣。启用前，试着按住方向盘上的 ｢前一项｣ 和 ｢后一项｣ 按钮。</string>
     <string name="enable_double_tap_seek_title">轻按两下可进退</string>
-    <string name="enable_double_tap_seek_summary">在屏幕边缘轻按两下，可快进／快退 10 秒</string>
+    <string name="enable_double_tap_seek_summary">在屏幕边缘轻按两下，可快进 / 快退 10 秒</string>
     <string name="enable_double_tap_play_title">轻按两下可播放／暂停</string>
     <string name="enable_double_tap_play_summary">在屏幕中央轻按两下可播放／暂停</string>
     <string name="enable_swipe_seek_title">滑动可进退</string>
@@ -619,7 +619,7 @@
     <string name="audio_task_cleared_summary">应用程序被滑开时停止播放</string>
     <string name="audio_resume_card_title">提示可使用上次的播放列表</string>
     <string name="audio_resume_card_summary">应用启动时，显示可继续播放上次内容的提示</string>
-    <string name="playback_rewind">倒退</string>
+    <string name="playback_rewind">快退</string>
     <string name="playback_forward">快进</string>
     <string name="ml_wizard_scan_checkbox">扫描设备中的媒体内容</string>
     <string name="ml_wizard_description">选择 VLC 是扫描设备存储来汇总您的媒体库，还是只作为简易的播放器（内置有文件浏览器）使用。</string>
@@ -646,7 +646,7 @@
     <string name="language_to_download">语言</string>
     <string name="delete_the_selected">删除选中项</string>
     <string name="download_the_selected">下载选中项</string>
-    <string name="next">下一个</string>
+    <string name="next">下一项</string>
     <string name="skip">跳过</string>
     <string name="next_step">继续</string>
     <string name="download">下载</string>
@@ -853,7 +853,7 @@
     <string name="no_sub_renderer">暂未支持在投屏的同时投放字幕</string>
     <string name="enqueuing">正在加载你的媒体文件</string>
     <string name="soundfont">MIDI 音色库</string>
-    <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
+    <string name="soundfont_summary">选择用于播放 MIDI 音轨的 SoundFont 文件</string>
     <string name="missing_media_snack">媒体文件缺失。隐藏所有的媒体文件？</string>
     <string name="browser_show_missing_media">显示缺失的媒体文件</string>
     <string name="browser_show_missing_media_summary">显示远程媒体，即使它们不存在</string>
@@ -879,8 +879,8 @@
     <string name="network_indexing">网络索引</string>
     <string name="network_indexing_warning">网络索引目前处于测试阶段。\n 已知问题：\n・性能较差 \n\n 如果您遇到其他问题，请在我们的论坛上报告。</string>
     <string name="start_vlc">启动 VLC</string>
-    <string name="jump_delay">快进/快退的时间延迟</string>
-    <string name="long_jump_delay">长按快进/快退的时间延迟</string>
+    <string name="jump_delay">快进 / 快退的时间延迟</string>
+    <string name="long_jump_delay">长按快进 / 快退的时间延迟</string>
     <string name="jump_delay_summary">%s 秒</string>
     <string name="move_up">上移</string>
     <string name="move_down">下移</string>
@@ -899,7 +899,7 @@
     <string name="permission">权限</string>
     <string name="customize">自定义</string>
     <string name="selection_count">选中了 %d 个</string>
-    <string name="controls_setting">控件设置</string>
+    <string name="controls_setting">控制及按钮设置</string>
     <string name="gestures">手势</string>
     <string name="player_controls">播放器控制按钮</string>
     <string name="video_double_tap_jump_delay">轻按两下的时间延迟</string>
@@ -997,7 +997,7 @@
     <string name="downloaded">已下载</string>
     <string name="not_downloaded">未下载</string>
     <string name="downloading">正在下载</string>
-    <string name="talkback_action_rewind">后退 %s 秒</string>
+    <string name="talkback_action_rewind">快退 %s 秒</string>
     <string name="talkback_action_forward">前进 %s 秒</string>
     <string name="talkback_display_settings">显示设置</string>
 
