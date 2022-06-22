@@ -58,6 +58,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.share
 import java.io.File
 import java.io.IOException
 
@@ -183,7 +184,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
                                 FileUtils.copyFile(db, dst)
                             }
-                            Toast.makeText(context, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            if (copied)
+                                UiTools.snackerConfirm(requireActivity(), getString(R.string.dump_db_succes), confirmMessage = R.string.share, overAudioPlayer = false) {
+                                    requireActivity().share(dst)
+                                } else {
+                                Toast.makeText(context, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
                 }

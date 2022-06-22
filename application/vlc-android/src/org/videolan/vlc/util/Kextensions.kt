@@ -80,6 +80,19 @@ inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProvider(this)
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProvider(this).get(T::class.java)
 
 fun Media?.canExpand() = this != null && (type == IMedia.Type.Directory || type == IMedia.Type.Playlist)
+
+fun FragmentActivity.share(file: File) {
+    val intentShareFile = Intent(Intent.ACTION_SEND)
+    val fileWithinMyDir = File(file.path)
+    if (isStarted()) {
+        intentShareFile.type = "*/*"
+        intentShareFile.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, "$packageName.provider", fileWithinMyDir))
+        intentShareFile.putExtra(Intent.EXTRA_SUBJECT, file.name)
+        intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, file.name))
+        startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file,file.name)))
+    }
+}
+
 suspend fun AppCompatActivity.share(media: MediaWrapper) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
     val fileWithinMyDir = File(media.uri.path)
