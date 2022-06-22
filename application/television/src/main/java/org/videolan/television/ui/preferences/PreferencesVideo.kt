@@ -27,9 +27,10 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
-import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.*
+import org.videolan.tools.LOCK_USE_SENSOR
+import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.SAVE_BRIGHTNESS
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 

@@ -27,8 +27,9 @@ import android.os.Bundle
 import androidx.preference.Preference
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.*
+import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.vlc.R
+import org.videolan.vlc.util.Permissions
 
 class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
@@ -57,6 +58,9 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             "preferred_resolution" -> {
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
+            }
+            POPUP_FORCE_LEGACY -> {
+                if (sharedPreferences.getBoolean(key, false) && !Permissions.canDrawOverlays(requireActivity())) Permissions.checkDrawOverlaysPermission(requireActivity())
             }
         }
     }
