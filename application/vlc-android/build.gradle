@@ -25,7 +25,7 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
-        resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".tv"
+        resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
@@ -71,7 +71,7 @@ android {
             buildConfigField "boolean", "BETA", "false"
             resValue 'string', 'benchmark_package_name', 'org.videolan.vlcbenchmark.debug'
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
-            resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".debug.tv"
+            resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.debug.tv"
             multiDexEnabled true
         }
         signedRelease {
