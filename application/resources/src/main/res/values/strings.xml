@@ -554,6 +554,8 @@
     <string name="allow_settings_access_brightness_description">VLC needs you to grant this permission to change your brightness mode.</string>
     <string name="allow_draw_overlays_title">Allow VLC player popup over other apps</string>
     <string name="allow_sdraw_overlays_description">VLC needs you to grant this permission display your video in a popup over other applications.</string>
+    <string name="allow_pip">Allow VLC player to launch the Picture in Picture</string>
+    <string name="allow_pip_description">VLC needs you to grant this permission to display your video in Picture in Picture mode.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="pick_file">Pick a file</string>
     <string name="permission_not_granted">Permission not granted</string>

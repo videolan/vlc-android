@@ -26,6 +26,7 @@ package org.videolan.vlc.util
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.AppOpsManager
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -37,7 +38,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -50,6 +50,7 @@ import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.Settings
 import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
@@ -65,6 +66,7 @@ object Permissions {
     const val PERMISSION_SYSTEM_RINGTONE = 42
     private const val PERMISSION_SYSTEM_BRIGHTNESS = 43
     private const val PERMISSION_SYSTEM_DRAW_OVRLAYS = 44
+    private const val PERMISSION_PIP = 45
 
     var sAlertDialog: Dialog? = null
 
@@ -75,6 +77,19 @@ object Permissions {
     @TargetApi(Build.VERSION_CODES.M)
     fun canDrawOverlays(context: Context): Boolean {
         return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.canDrawOverlays(context)
+    }
+
+    fun isPiPAllowed(context: Context):Boolean {
+            val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager?
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    appOps?.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), BuildConfig.APP_ID) == AppOpsManager.MODE_ALLOWED
+                } else {
+                    appOps?.checkOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), BuildConfig.APP_ID) == AppOpsManager.MODE_ALLOWED
+                }
+            } else {
+                false
+            }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -126,6 +141,12 @@ object Permissions {
     fun checkDrawOverlaysPermission(activity: FragmentActivity) {
         if (AndroidUtil.isMarshMallowOrLater && !canDrawOverlays(activity)) {
             showSettingsPermissionDialog(activity, PERMISSION_SYSTEM_DRAW_OVRLAYS)
+        }
+    }
+
+    fun checkPiPPermission(activity: FragmentActivity) {
+        if (!isPiPAllowed(activity)) {
+            showSettingsPermissionDialog(activity, PERMISSION_PIP)
         }
     }
 
@@ -254,6 +275,11 @@ object Permissions {
                 titleId = R.string.allow_draw_overlays_title
                 textId = R.string.allow_sdraw_overlays_description
                 action = android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+            }
+            PERMISSION_PIP -> {
+                titleId = R.string.allow_pip
+                textId = R.string.allow_pip_description
+                action = "android.settings.PICTURE_IN_PICTURE_SETTINGS"
             }
         }
         val finalAction = action

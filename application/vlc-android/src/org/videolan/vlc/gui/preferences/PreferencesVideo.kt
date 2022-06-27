@@ -61,6 +61,7 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             }
             POPUP_FORCE_LEGACY -> {
                 if (sharedPreferences.getBoolean(key, false) && !Permissions.canDrawOverlays(requireActivity())) Permissions.checkDrawOverlaysPermission(requireActivity())
+                if (!sharedPreferences.getBoolean(key, false) && !Permissions.isPiPAllowed(requireActivity())) Permissions.checkPiPPermission(requireActivity())
             }
         }
     }

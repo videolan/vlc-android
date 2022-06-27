@@ -669,6 +669,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
         if (AndroidDevices.hasPiP && !forceLegacy) {
+            Permissions.checkPiPPermission(this)
             if (AndroidUtil.isOOrLater)
                 try {
                     val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack
