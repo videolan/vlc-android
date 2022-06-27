@@ -1032,6 +1032,7 @@
     <string name="talkback_action_rewind">Rewind %s seconds</string>
     <string name="talkback_action_forward">Seek forward %s seconds</string>
     <string name="talkback_display_settings">Display settings</string>
+    <string name="talkback_already_played">Already played</string>
 
 
 </resources>

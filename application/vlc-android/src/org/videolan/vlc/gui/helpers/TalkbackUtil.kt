@@ -35,9 +35,11 @@ object TalkbackUtil {
 
     fun getDuration(context: Context, duration: Long) = context.getString(R.string.talkback_duration, millisToString(context, duration))
     fun getDuration(context: Context, duration: String) = context.getString(R.string.talkback_duration, duration)
+    fun getPlayed(context: Context, video: MediaWrapper) = if (video.playCount > 0) context.getString(R.string.talkback_already_played) else null
     fun getAlbumTitle(context: Context, album: String) = context.getString(R.string.talkback_album, album)
     fun getReleaseDate(context: Context, date: String?) = if (date == null) "" else context.getString(R.string.talkback_release_date, date)
     fun getVideo(context: Context, video: MediaWrapper) = context.getString(R.string.talkback_video, video.title)
+            .talkbackAppend(getPlayed(context, video))
             .talkbackAppend(getDuration(context, millisToString(context, video.length)))
 
     fun getStream(context: Context, stream: MediaWrapper) = context.getString(R.string.talkback_stream, stream.title)
