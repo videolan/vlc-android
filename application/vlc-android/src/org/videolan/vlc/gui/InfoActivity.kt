@@ -23,12 +23,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.Extensions
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -138,7 +140,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         val nbTracks = tracks?.size ?: 0
         if (nbTracks > 0) for (media in tracks!!) length += media.length
         if (length > 0)
-            binding.length = Tools.millisToTextLarge(length)
+            binding.length = length
 
         if (item is MediaWrapper) {
             val media = item as MediaWrapper

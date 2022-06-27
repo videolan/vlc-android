@@ -9,6 +9,8 @@
 
         <import type="org.videolan.medialibrary.Tools" />
 
+        <import type="org.videolan.vlc.gui.helpers.TalkbackUtil" />
+
         <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <import type="android.text.TextUtils" />
@@ -24,7 +26,7 @@
 
         <variable
                 name="length"
-                type="String" />
+                type="Long" />
 
         <variable
                 name="path"
@@ -40,6 +42,10 @@
 
         <variable
                 name="sizeValueText"
+                type="String" />
+
+        <variable
+                name="sizeValueContentDescription"
                 type="String" />
 
         <variable
@@ -239,7 +245,7 @@
                         android:layout_marginStart="6dp"
                         android:layout_marginTop="8dp"
                         android:padding="8dp"
-                        android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
+                        android:visibility="@{length == null ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintStart_toStartOf="parent"
                         vlc:layout_constraintTop_toBottomOf="@+id/directory_not_scanned_button"
                         vlc:srcCompat="@drawable/ic_duration" />
@@ -252,7 +258,7 @@
                         android:text="@string/length"
                         android:textColor="?attr/font_audio_light"
                         android:textStyle="bold"
-                        android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
+                        android:visibility="@{length == null ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintBottom_toTopOf="@+id/length_value"
                         vlc:layout_constraintStart_toEndOf="@+id/length_icon"
                         vlc:layout_constraintTop_toTopOf="@+id/length_icon"
@@ -262,7 +268,8 @@
                         android:id="@+id/length_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{length}"
+                        android:text="@{Tools.millisToTextLarge(length)}"
+                        android:contentDescription="@{TalkbackUtil.INSTANCE.millisToString(context,length)}"
                         android:textColor="?attr/font_audio_light"
                         tools:text="10:30"
                         vlc:layout_constraintBottom_toBottomOf="@+id/length_icon"
@@ -306,6 +313,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{sizeValueText}"
+                        android:contentDescription="@{sizeValueContentDescription}"
                         android:textColor="?attr/font_audio_light"
                         tools:text="3MB"
                         vlc:layout_constraintBottom_toBottomOf="@+id/size_icon"
