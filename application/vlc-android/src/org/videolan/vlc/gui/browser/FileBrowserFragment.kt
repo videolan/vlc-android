@@ -130,7 +130,9 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.reSort()
+        viewModel.resetSort()
+        if (viewModel.dataset.value.isNotEmpty())
+            viewModel.reSort()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

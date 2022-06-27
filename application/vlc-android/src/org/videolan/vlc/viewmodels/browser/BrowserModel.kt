@@ -78,7 +78,6 @@ open class BrowserModel(
      *
      */
     fun reSort() {
-        resetSort()
         viewModelScope.launch {
             val comp = provider.comparator
             dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
@@ -89,7 +88,7 @@ open class BrowserModel(
      * Resets the sorts info from the shared preferences for the model and provider
      *
      */
-    private fun resetSort() {
+    fun resetSort() {
         sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
         desc = settings.getBoolean("${sortKey}_desc", false)
         provider.desc = desc
