@@ -24,6 +24,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
+import android.text.format.Formatter
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
@@ -45,7 +46,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.HeaderProvider
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.DependencyProvider
+import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.util.*
@@ -266,7 +270,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                                 if (mw.length == 0L) {
                                     parseMediaSize(mw)?.let {
                                         withContext(coroutineContextProvider.Main) {
-                                            item.description = if (it == 0L) "" else it.readableFileSize()
+                                            item.description = if (it == 0L) "" else Formatter.formatFileSize(context, it)
                                             descriptionUpdate.value = Pair(currentParsedPosition, item.description)
                                         }
                                     }

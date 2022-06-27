@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.format.Formatter
 import android.view.Gravity
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +39,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.dp
-import org.videolan.tools.readableFileSize
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
 import org.videolan.vlc.gui.browser.PathAdapter
@@ -110,8 +110,8 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         model.hasSubs.observe(this) { if (it) binding.infoSubtitles.visibility = View.VISIBLE }
         model.mediaTracks.observe(this) { adapter.setTracks(it) }
         model.sizeText.observe(this) {
-            binding.fileSizeViews.visibility = if (it.isNotBlank()) View.VISIBLE else View.GONE
-            binding.sizeValueText = it
+            binding.fileSizeViews.visibility = if (it != -1L) View.VISIBLE else View.GONE
+            binding.sizeValueText = Formatter.formatFileSize(this, it)
         }
         model.cover.observe(this) {
             if (it != null) {
@@ -243,7 +243,7 @@ class InfoModel : ViewModel() {
 
     val hasSubs = MutableLiveData<Boolean>()
     val mediaTracks = MutableLiveData<List<IMedia.Track>>()
-    val sizeText = MutableLiveData<String>()
+    val sizeText = MutableLiveData<Long>()
     val cover = MutableLiveData<Bitmap>()
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
@@ -281,11 +281,11 @@ class InfoModel : ViewModel() {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
         if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) {
-            sizeText.value = ""
+            sizeText.value = -1L
             return@launch
         }
         if (mw.type == MediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
-        sizeText.value = itemFile.length().readableFileSize()
+        sizeText.value = itemFile.length()
     }
 
     private suspend fun checkSubtitles(itemFile: File) = withContext(Dispatchers.IO) {

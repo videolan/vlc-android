@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.text.format.Formatter
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +47,6 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CRASH_ML_CTX
 import org.videolan.resources.CRASH_ML_MSG
 import org.videolan.tools.AppUtils
-import org.videolan.tools.readableFileSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
@@ -138,7 +138,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 appData.append("Device model: ${Build.MANUFACTURER} ${Build.MODEL}<br/>")
                 appData.append("Android version: ${Build.VERSION.SDK_INT}<br/>")
                 appData.append("System name: ${Build.DISPLAY}<br/>")
-                appData.append("Memory free: ${AppUtils.freeMemory().readableFileSize()} on ${AppUtils.totalMemory().readableFileSize()}")
+                appData.append("Memory free: ${Formatter.formatFileSize(this@SendCrashActivity, AppUtils.freeMemory())} on ${Formatter.formatFileSize(this@SendCrashActivity, AppUtils.totalMemory())}")
 
                 attachments.add(FileProvider.getUriForFile(this@SendCrashActivity, applicationContext.packageName + ".provider", File(logcatZipPath)))
                 emailIntent.putExtra(Intent.EXTRA_STREAM, attachments)
