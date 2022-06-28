@@ -587,6 +587,7 @@ object UiTools {
         menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_length, R.string.sortby_length, sort == Medialibrary.SORT_DURATION, desc)
         menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_date, R.string.sortby_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
         menu.appendSortOrder(provider.context,R.id.ml_menu_sortby_last_modified, R.string.sortby_last_modified_date, sort == Medialibrary.SORT_LASTMODIFICATIONDATE, desc)
+        menu.appendSortOrder(provider.context,R.id.ml_menu_sortby_insertion_date, R.string.sortby_insertion, sort == Medialibrary.SORT_INSERTIONDATE, desc)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
