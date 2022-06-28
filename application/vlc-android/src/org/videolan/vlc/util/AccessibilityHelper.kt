@@ -39,7 +39,8 @@ fun Activity.isTalkbackIsEnabled() = (getSystemService(ACCESSIBILITY_SERVICE) as
         ?: false
 
 @BindingAdapter("mediaContentDescription")
-fun mediaDescription(v: View, media: MediaLibraryItem) {
+fun mediaDescription(v: View, media: MediaLibraryItem?) {
+    if (media == null) return
     v.contentDescription = when (media) {
         is VideoGroup -> TalkbackUtil.getVideoGroup(v.context, media)
         is Album -> TalkbackUtil.getAlbum(v.context, media)
