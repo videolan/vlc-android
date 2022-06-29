@@ -328,8 +328,6 @@
     <string name="controls_prefs_category">การควบคุม</string>
 
     <string name="performance_prefs_category">ประสิทธิภาพการทำงาน</string>
-    <string name="chroma_format">บังคับค่าความสดสีวิดีโอ</string>
-    <string name="chroma_format_summary">RGB แบบ 32 บิต: ความสดสีเริ่มต้น\nRGB แบบ 16 บิต: เพื่อประสิทธิภาพที่ดีกว่า แต่อาจลดคุณภาพได้\nYUV: เพื่อประสิทธิภาพที่ดีที่สุด แต่ใช้ไม่ได้กับทุกอุปกรณ์ (จำเป็นต้องใช้ Android 2.3 หรือเวอร์ชั่นใหม่กว่าเท่านั้น)</string>
     <string name="deblocking">การตั้งค่าตัวกรองการดีบล็อก</string>
     <string name="deblocking_summary">เปลี่ยนการตั้งค่าตัวกรองการดีบล็อก สามารถช่วยเพิ่มคุณภาพวิดีโอ (เฉพาะผู้ใช้ขั้นสูงเท่านั้น)</string>
     <string name="deblocking_always">การดีบล็อกเต็มที่ (ช้าที่สุด)</string>

@@ -415,8 +415,6 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="controls_prefs_category">Säätimet</string>
 
     <string name="performance_prefs_category">Suorituskyky</string>
-    <string name="chroma_format">Pakota videon chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: oletus chroma\nRGB 16-bit: parempi suorituskyky mutta heikompi laatu\nYUV: paras suorituskyky mutta ei toimi kaikilla laitteilla (vain Android 2.3 ja myöhemmät)</string>
     <string name="deblocking">Purkusuodattimen asetukset</string>
     <string name="deblocking_summary">Vaihda purkusuodattimen asetuksia. Tämä voi parantaa kuvanlaatua (vain kokeneet käyttäjät)</string>
     <string name="deblocking_always">Täysi purku (hitain)</string>

@@ -376,8 +376,6 @@
     <string name="controls_prefs_category">നിയന്ത്രണ ഉപാധികൾ </string>
 
     <string name="performance_prefs_category">പ്രകടനം</string>
-    <string name="chroma_format">വീഡിയോ ക്രോമ നിർബന്ധിക്കുക </string>
-    <string name="chroma_format_summary">RGB 32-ബിറ്റ്: സ്ഥിരസ്ഥിതി ക്രോമ\nRGB 16-ബിറ്റ്: മികച്ച പ്രകടനവും കുറഞ്ഞ നിലവാരവും\nYUV: മികച്ച പ്രകടനം എന്നാൽ എല്ലാ ഉപകരണങ്ങളിലും പ്രവർത്തിക്കുന്നില്ല (ആൻഡ്രോയിഡ് 2.3 ഉം അതിനുശേഷവും മാത്രം)</string>
     <string name="deblocking">ഫിൽറ്റർ സെറ്റിങ്ങുകളുടെ ഡിബ്ലോക്കിങ് </string>
     <string name="deblocking_summary">ഡീബ്ലോക്കിംഗ് അരിപ്പ ക്രമീകരണങ്ങൾ മാറ്റുന്നത് ദൃശ്യ നിലവാരം മെച്ചപ്പെടുത്തും (മികവുള്ള ഉപയോക്താക്കൾക്ക് മാത്രം)</string>
     <string name="deblocking_always">ഫുൾ ഡിബ്ലോക്കിങ് (ഏറ്റവും കുറഞ്ഞ വേഗം)</string>

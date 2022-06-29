@@ -182,7 +182,6 @@
     <string name="controls_prefs_category">បញ្ជារ</string>
 
     <string name="performance_prefs_category">ការ​អនុវត្ត</string>
-    <string name="chroma_format">បង្ខុំ​​ក្រូមវីដេអូ</string>
     <string name="deblocking">ការ​កំណត់​តម្រង​វីដេអូ</string>
     <string name="deblocking_always">តម្រង​វីដេអូ​ទាំងស្រុង (យឺត​បំផុត)</string>
     <string name="deblocking_nonref">តម្រង​វីដេអូ​ពាក់កណ្ដាល</string>

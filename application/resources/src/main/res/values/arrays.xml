@@ -411,18 +411,6 @@
         <item>0</item>
     </string-array>
 
-    <string-array name="chroma_formats_values" translatable="false">
-        <item>RV32</item>
-        <item>RV16</item>
-        <item>YV12</item>
-    </string-array>
-
-    <string-array name="chroma_formats" translatable="false">
-        <item>RGB 32-bit</item>
-        <item>RGB 16-bit</item>
-        <item>YUV</item>
-    </string-array>
-
     <string-array name="daynight_mode_entries">
         <item>@string/daynight_follow_system_title</item>
         <!--item>@string/daynight_battery_title</item-->

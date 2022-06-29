@@ -432,8 +432,6 @@
     <string name="controls_prefs_category">Засоби управління</string>
 
     <string name="performance_prefs_category">Швидкодія</string>
-    <string name="chroma_format">ПРИМУСОВА насиченість кольору</string>
-    <string name="chroma_format_summary">RGB 32-бітна: типова насиченість кольору\nRGB 16-бітна: краща швидкодія, але гірша якість\nYUV: найкраща швидкодія, але не працює на всіх пристроях. Лише Android 2.3 та новіші.</string>
     <string name="deblocking">Налаштування фільтру деблокування</string>
     <string name="deblocking_summary">Змінює налаштування фільтру деблокування. Може покращити якість відео (лише для досвідчених користувачів).</string>
     <string name="deblocking_always">Повне деблокування (найповільніше)</string>

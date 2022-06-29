@@ -432,8 +432,6 @@
     <string name="controls_prefs_category">Ovládání</string>
 
     <string name="performance_prefs_category">Výkon</string>
-    <string name="chroma_format">Vynutit sytost barev videa</string>
-    <string name="chroma_format_summary">RGB 32-bit: výchozí sytost barev\nRGB 16-bit: lepší výkon, ale nižší kvalita\nYUV: nejlepší výkon, ale nefunguje na všech zařízeních (vyžaduje Android 2.3 a novější)</string>
     <string name="deblocking">Nastavit filtr vyhlazení videa</string>
     <string name="deblocking_summary">Nastavit filtr vyhlazení ostrých hran videa. Zvýší se kvalita obrazu (pouze pro pokročilé uživatele).</string>
     <string name="deblocking_always">Úplné (nejpomalejší)</string>

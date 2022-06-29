@@ -432,8 +432,6 @@
     <string name="controls_prefs_category">Ovládacie prvky</string>
 
     <string name="performance_prefs_category">Výkon</string>
-    <string name="chroma_format">Vynútiť farebnú sýtosť</string>
-    <string name="chroma_format_summary">RGB 32-bit: predvolená sýtosť\nRGB 16-bit: lepší výkon ale nižšia kvalita\nYUV: najlepší výkon, ale nefunguje na všetkých zariadeniach (len pre systém Android 2.3 a novší)</string>
     <string name="deblocking">Nastavenia deblokovacieho filtra</string>
     <string name="deblocking_summary">Zmenou nastavenia deblokovacieho filtra sa môže zlepšiť kvalita videa (len pre pokročilých používateľov)</string>
     <string name="deblocking_always">Úplné deblokovanie (najpomalšie)</string>

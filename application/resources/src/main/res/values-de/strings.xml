@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Steuerungen</string>
 
     <string name="performance_prefs_category">Leistung</string>
-    <string name="chroma_format">Farbsättigung erzwingen</string>
-    <string name="chroma_format_summary">RGB 32-Bit: Standardfarbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten (nur Android 2.3 und höher)</string>
     <string name="deblocking">Anti-Klötzchen-Filtereinstellungen</string>
     <string name="deblocking_summary">Das Ändern der Einstellungen des Anti-Klötzchenfilters kann die Videoqualität verbessern\n(nur für fortgeschrittene Anwender)</string>
     <string name="deblocking_always">Vollständiges Klötzchen entfernen (am langsamsten)</string>

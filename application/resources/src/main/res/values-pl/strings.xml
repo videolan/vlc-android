@@ -373,8 +373,6 @@
     <string name="controls_prefs_category">Kontrole</string>
 
     <string name="performance_prefs_category">Wydajność</string>
-    <string name="chroma_format">Wymuś chromę</string>
-    <string name="chroma_format_summary">RGB 32-bit: domyślna chroma\nRGB 16-bit: lepsza wydajność, ale niższa jakość\nYUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach (tylko Android 2.3 i nowsze)</string>
     <string name="deblocking">Ustawienia filtra usuwania bloków</string>
     <string name="deblocking_summary">Zmiana ustawienia filtra usuwania bloków może poprawić jakość obrazu\n(tylko dla zaawansowanych użytkowników)</string>
     <string name="deblocking_always">Pełne usuwanie bloków (najwolniej)</string>

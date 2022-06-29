@@ -353,8 +353,6 @@
     <string name="controls_prefs_category">სამართავები</string>
 
     <string name="performance_prefs_category">წარმადობა</string>
-    <string name="chroma_format">იძულებითი ფერთა გამა</string>
-    <string name="chroma_format_summary">RGB 32-ბიტიანი: ნაგულისხმევი ფერები\nRGB 16-ბიტიანი: უკეთესი წარმადობა, უარესი ხარისხის ხარჯზე\nYUV: საუკეთესო წარმადობა, თუმცა არ იმუშავებს ყველა მოწყობილობაზე (მხოლოდ Android 2.3 და ზემოთ)</string>
     <string name="deblocking">დაპიქსელების არიდების პარამეტრები</string>
     <string name="deblocking_summary">დაპიქსელების არიდების ფილტრის პარამეტრების შეცვლამ, შეიძლება გააუმჯობესოს ვიდეოს ხარისხი (გამოცდილი მომხმარებელთათვის, მხოლოდ)</string>
     <string name="deblocking_always">სრული არიდება (ნელი)</string>

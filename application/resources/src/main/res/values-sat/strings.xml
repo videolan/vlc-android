@@ -353,8 +353,6 @@
     <string name="controls_prefs_category">ᱠᱚᱵᱡᱟᱠᱚ</string>
 
     <string name="performance_prefs_category">ᱠᱟᱹᱢᱤᱦᱚᱨᱟ</string>
-    <string name="chroma_format">ᱣᱤᱰᱤᱭᱚ ᱠᱨᱚᱢᱟ ᱡᱩᱨ ᱛᱮ ᱮᱢ</string>
-    <string name="chroma_format_summary">RGB 32-bit: ᱢᱩᱞ ᱠᱨᱚᱢᱟ\nRGB 16-bit: ᱵᱮᱥ ᱠᱟᱫᱢᱤ ᱦᱮᱞᱮ ᱠᱚᱢ ᱠᱣᱟᱞᱤᱴᱭ\nYUV: ᱟᱹᱰᱤ ᱵᱮᱥ ᱠᱟᱹᱢᱤ ᱦᱮᱞᱮ ᱡᱷᱚᱜᱚ ᱥᱟᱫᱷᱚᱱ ᱫᱚ ᱵᱟᱭ ᱠᱟᱹᱢᱤᱟᱭ (Android 2.3 ᱟᱨ ᱯᱚᱨᱮ ᱜᱮ)</string>
     <string name="deblocking">ᱰᱤᱵᱞᱚᱠᱤᱝ ᱯᱷᱤᱞᱴᱚᱨ ᱥᱟᱡᱟᱣᱠᱚ</string>
     <string name="deblocking_summary">ᱰᱤᱵᱞᱚᱠᱤᱝ ᱯᱷᱤᱞᱴᱚᱨ ᱥᱟᱡᱟᱣ ᱵᱚᱫᱚᱞ ᱞᱮᱠᱷᱟᱱ ᱣᱤᱰᱤᱭᱚ ᱠᱣᱟᱞᱤᱴᱭ ᱴᱷᱤᱞ ᱫᱟᱲᱮᱭᱟᱜᱼᱟᱭ (ᱠᱷᱟᱹᱞᱤ ᱮᱰᱵᱷᱟᱱᱥ ᱵᱮᱵᱷᱟᱨᱤᱭᱟᱹ ᱜᱮ)</string>
     <string name="deblocking_always">ᱯᱩᱨᱟᱹ ᱰᱤᱵᱞᱚᱠᱤᱝ (ᱵᱟᱹᱭ ᱵᱟᱹᱭ)</string>

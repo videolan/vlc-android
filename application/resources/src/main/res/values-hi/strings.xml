@@ -303,7 +303,6 @@
     <string name="controls_prefs_category">नियंत्रण</string>
 
     <string name="performance_prefs_category">निष्पादन</string>
-    <string name="chroma_format">वीडियो के रंगो को प्राथमिकता दें</string>
     <string name="deblocking">डेब्लोक्किंग फिल्टर सेटिंग</string>
     <string name="deblocking_always">पूर्ण डेब्लोक्किंग (धीरे)</string>
     <string name="deblocking_nonref">मध्यम डेब्लोक्किंग</string>

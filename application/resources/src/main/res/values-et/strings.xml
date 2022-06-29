@@ -350,8 +350,6 @@
     <string name="controls_prefs_category">Juhtnupud</string>
 
     <string name="performance_prefs_category">Jõudlus</string>
-    <string name="chroma_format">Sunnitud video värviformaat</string>
-    <string name="chroma_format_summary">RGB 32-bit: vaikimisi chroma\nRGB 16-ibt: parem sooritus kuid madalam kvaliteet\nYUV: parim jõudlus, aga ei tööta kõikidel seadetel. (Android 2.3 ning hilisemad)</string>
     <string name="deblocking">Lukustab lahti filtri seadistused</string>
     <string name="deblocking_summary">Muutes lahtiblokkimise filtri seadistusi võib paraneda video kvaliteet (vaid edasijõudnutele)</string>
     <string name="deblocking_always">Lukust täiesti lahti (aeglaseim)</string>

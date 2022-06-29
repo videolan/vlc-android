@@ -402,8 +402,6 @@
     <string name="controls_prefs_category">コントロール</string>
 
     <string name="performance_prefs_category">パフォーマンス</string>
-    <string name="chroma_format">強制クロマ</string>
-    <string name="chroma_format_summary">RGB 32ビット: デフォルトのクロマ\nRGB 16ビット: より良いパフォーマンス、低品質\nYUV: 最高のパフォーマンス、すべてのデバイスでは動作しません。(Android 2.3以降のみ動作)</string>
     <string name="deblocking">ブロック化抑止フィルター設定</string>
     <string name="deblocking_summary">ブロック化抑止フィルターの設定を変更します。ビデオ品質の向上が可能です。(アドバンスドユーザー向け設定)</string>
     <string name="deblocking_always">ブロック化抑止最大 (低速)</string>

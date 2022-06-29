@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Kontroller</string>
 
     <string name="performance_prefs_category">Prestanda</string>
-    <string name="chroma_format">Tvinga videofärgstyrka</string>
-    <string name="chroma_format_summary">RGB 32-bitar: Standardfärgstyrka\nRGB 16-bitar: Bättre prestanda, men lägre kvalitet\nYUV: Bästa prestandan, men fungerar inte på alla enheter (endast på Android 2.3 och senare)</string>
     <string name="deblocking">Inställningar för avblockeringsfiltret</string>
     <string name="deblocking_summary">Ändrar inställningarna för avblockeringsfiltret som kan förbättra videokvaliteten (endast avancerade användare)</string>
     <string name="deblocking_always">Full avblockering (långsammast)</string>

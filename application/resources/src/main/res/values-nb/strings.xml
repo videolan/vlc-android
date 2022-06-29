@@ -329,7 +329,6 @@
     <string name="controls_prefs_category">Kontroller</string>
 
     <string name="performance_prefs_category">Ytelse</string>
-    <string name="chroma_format">Tving fargetone</string>
     <string name="deblocking">Deblocking filterinnstillinger</string>
     <string name="deblocking_always">Full deblocking (tregest)</string>
     <string name="deblocking_nonref">Middels deblocking</string>

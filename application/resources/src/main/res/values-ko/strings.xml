@@ -401,8 +401,6 @@
     <string name="controls_prefs_category">컨트롤</string>
 
     <string name="performance_prefs_category">성능</string>
-    <string name="chroma_format">동영상 크로마 강제 지정</string>
-    <string name="chroma_format_summary">RGB 32비트: 기본 크로마 설정입니다\nRGB 16비트: 더 나은 성능이나 저품질입니다\nYUV: 최고 성능이나 안드로이드 2.3 이상에서만 동작합니다</string>
     <string name="deblocking">깍두기 제거 필터 설정</string>
     <string name="deblocking_summary">Deblocking 필터 설정을 변경해서 동영상 품질을 향상시킬 수 있지만 주의해서 사용하세요</string>
     <string name="deblocking_always">전체 깍두기 제거 (가장 느림)</string>

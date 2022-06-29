@@ -4,13 +4,6 @@
                                       xmlns:app="http://schemas.android.com/apk/res-auto"
                                       android:title="@string/performance_prefs_category">
     <ListPreference
-            android:defaultValue="@string/chroma_format_default"
-            android:entries="@array/chroma_formats"
-            android:entryValues="@array/chroma_formats_values"
-            android:key="chroma_format"
-            android:summary="@string/chroma_format_summary"
-            android:title="@string/chroma_format"/>
-    <ListPreference
             android:defaultValue="-1"
             android:entries="@array/deblocking_list"
             android:entryValues="@array/deblocking_values"

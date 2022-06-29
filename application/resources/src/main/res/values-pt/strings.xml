@@ -332,7 +332,6 @@
     <string name="controls_prefs_category">Controlos</string>
 
     <string name="performance_prefs_category">Desempenho</string>
-    <string name="chroma_format">Forçar chroma do vídeo</string>
     <string name="deblocking">Definições do filtro \"deblocking\"</string>
     <string name="deblocking_always">\"Deblocking\" completo (mais lento)</string>
     <string name="deblocking_nonref">\"Deblocking\" médio</string>

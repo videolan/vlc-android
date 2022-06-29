@@ -365,10 +365,6 @@
     <string name="controls_prefs_category">Điều khiển</string>
 
     <string name="performance_prefs_category">Thể hiện</string>
-    <string name="chroma_format">Bắt buộc video hiển thị đơn sắc</string>
-    <string name="chroma_format_summary">RGB 32-bit: màu sắc mặc định
-RGB 16-bit: hiệu suất cao hơn nhưng chất lượng thấp hơn
-YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết bị (Android 2.3 hoặc cao hơn)</string>
     <string name="deblocking">Mở khóa với thiết lập liên quan đến bộ lọc</string>
     <string name="deblocking_summary">Thay đổi thiết lập bộ lọc mở khóa. Có thể cải thiện chất lượng video (chỉ dành cho người dùng nâng cao)</string>
     <string name="deblocking_always">Mở khóa đầy đủ (chậm nhất)</string>

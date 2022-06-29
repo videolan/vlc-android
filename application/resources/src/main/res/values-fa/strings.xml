@@ -350,7 +350,6 @@
     <string name="controls_prefs_category">کنترل‌ها</string>
 
     <string name="performance_prefs_category">کارایی</string>
-    <string name="chroma_format">نیروی تصویر رنگی</string>
     <string name="deblocking">تنظیمات فیلتر بلاک شکن</string>
     <string name="deblocking_always">بلاک شکنی کامل (آهسته‌ترین)</string>
     <string name="deblocking_nonref">بلاک شکنی متوسط</string>

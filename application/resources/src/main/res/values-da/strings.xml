@@ -376,8 +376,6 @@
     <string name="controls_prefs_category">Kontroller</string>
 
     <string name="performance_prefs_category">Ydelse</string>
-    <string name="chroma_format">Gennemtving kroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: standard chroma\nRGB 16-bit: bedre ydeevne men lavere kvalitet\nYUV: bedste ydeevne, men fungerer ikke på alle enheder (Android 2.3 og nyere)</string>
     <string name="deblocking">Indstillinger for filter til blokdeling</string>
     <string name="deblocking_summary">Ændring af af-blokerings-filterindstillinger kan forbedre video kvalitet (avancerede brugere)</string>
     <string name="deblocking_always">Fuld blokdeling (langsomst)</string>

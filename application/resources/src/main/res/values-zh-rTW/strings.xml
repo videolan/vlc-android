@@ -402,8 +402,6 @@
     <string name="controls_prefs_category">控制</string>
 
     <string name="performance_prefs_category">效能</string>
-    <string name="chroma_format">強制套用視訊色彩格式</string>
-    <string name="chroma_format_summary">RGB 32 位元：預設彩度\nRGB 16 位元​​：性能更佳，但畫質下降\nYUV: 性能最佳，但並非所有裝置可用。（僅限 Android 2.3 及更高版本）</string>
     <string name="deblocking">去區塊濾波器設定</string>
     <string name="deblocking_summary">變更去區塊濾波器設定可以改善視訊品質（僅適用於進階使用者）</string>
     <string name="deblocking_always">完整去區塊 (最慢)</string>

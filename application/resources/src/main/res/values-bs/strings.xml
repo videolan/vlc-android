@@ -153,7 +153,6 @@
     <string name="enable_headset_detection">Pronađi slušalice</string>
     <string name="aout">Izlaz zvuka</string>
     <string name="performance_prefs_category">Performansa</string>
-    <string name="chroma_format">Forsiraj video krom</string>
     <string name="deblocking">Postavke filtera za deblokiranje</string>
     <string name="deblocking_always">Puno deblokiranje (najsporije)</string>
     <string name="deblocking_nonref">Umjereno deblokiranje</string>

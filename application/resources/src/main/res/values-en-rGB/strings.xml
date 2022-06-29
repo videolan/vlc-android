@@ -147,7 +147,6 @@
     <string name="enable_headset_detection">Detect headset</string>
     <string name="aout">Audio output</string>
     <string name="performance_prefs_category">Performance</string>
-    <string name="chroma_format">Force video chroma</string>
     <string name="deblocking">Deblocking filter settings</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>
     <string name="deblocking_nonref">Medium deblocking</string>

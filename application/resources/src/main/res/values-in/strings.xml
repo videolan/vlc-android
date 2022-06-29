@@ -402,8 +402,6 @@
     <string name="controls_prefs_category">Kontrol</string>
 
     <string name="performance_prefs_category">Performa</string>
-    <string name="chroma_format">Paksa kroma video</string>
-    <string name="chroma_format_summary">RGB 32-bit: bawaan chroma\nRGB 16-bit: kinerja lebih baik tapi kualitas rendah\nYUV: kinerja terbaik tapi tidak dapat berjalan di semua perangkat (Android 2.3 dan lebih baru)</string>
     <string name="deblocking">Deblocking pengaturan penyaringan</string>
     <string name="deblocking_summary">Mengubah setelan filter deblocking dapat meningkatkan kualitas video (khusus pengguna lanjut)</string>
     <string name="deblocking_always">Deblocking penuh (paling lambat)</string>

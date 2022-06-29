@@ -253,7 +253,6 @@
     <string name="enable_headset_detection">Откриј слушалице</string>
     <string name="aout">Звучни излаз</string>
     <string name="performance_prefs_category">Перформансе</string>
-    <string name="chroma_format">Наметни формат обојености</string>
     <string name="deblocking">Поставке филтера за деблокирање</string>
     <string name="deblocking_always">Пуно деблокирање (најспорије)</string>
     <string name="deblocking_nonref">Средње деблокирање</string>

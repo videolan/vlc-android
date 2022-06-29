@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Vezérlők</string>
 
     <string name="performance_prefs_category">Teljesítmény</string>
-    <string name="chroma_format">Videó színesség kényszerítése</string>
-    <string name="chroma_format_summary">32 bites RGB: alapértelmezett színtartomány\n16 bites RGB: jobb teljesítmény, de rosszabb minőség\nYUV: legjobb teljesítmény, de nem minden eszköz támogatja (Android 2.3 vagy újabb szükséges)</string>
     <string name="deblocking">Blokkszűrő beállítások</string>
     <string name="deblocking_summary">A blokkszűrő beállításainak módosítása javíthatja a videólejátszás minőségét (csak haladó felhasználóknak).</string>
     <string name="deblocking_always">Teljes (leglassabb)</string>

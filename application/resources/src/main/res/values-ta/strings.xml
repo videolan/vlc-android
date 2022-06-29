@@ -262,7 +262,6 @@
     <string name="controls_prefs_category">அமைப்புகள்</string>
 
     <string name="performance_prefs_category">செயல்திறன்</string>
-    <string name="chroma_format">காணொளி கிரோமாவிற்கு கட்டாயப்படுத்து</string>
     <string name="deblocking">பிரித்தெடுத்தல் வடிப்பி அமைவுகள்</string>
     <string name="deblocking_always">முழு பிரித்தெடுத்தல் (மெதுவான)</string>
     <string name="deblocking_nonref">பாதி பிரித்தெடுத்தல்</string>

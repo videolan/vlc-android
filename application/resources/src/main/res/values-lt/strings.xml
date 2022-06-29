@@ -432,8 +432,6 @@
     <string name="controls_prefs_category">Valdikliai</string>
 
     <string name="performance_prefs_category">Našumas</string>
-    <string name="chroma_format">Priverstinai naudoti konkretų spalvingumą</string>
-    <string name="chroma_format_summary">RGB 32 bitų: numatytoji chroma\nRGB 16 bitų: geresnis našumas, bet prastesnė kokybė\nYUV: geriausias našumas, bet veikia ne visuose įrenginiuose (tik „Android 2.3“ ir naujesnėse versijose)</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
     <string name="deblocking_summary">Pakeitus blokavimo filtro nuostatas, vaizdo įrašų kokybė gali pagerėti (tik pažengusiems vartotojams)</string>
     <string name="deblocking_always">Visiškas išblokavimas (lėčiausias)</string>

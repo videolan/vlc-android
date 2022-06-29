@@ -393,8 +393,6 @@
     <string name="controls_prefs_category">التحكمات</string>
 
     <string name="performance_prefs_category">الأداء</string>
-    <string name="chroma_format">قوّ الصّفاء المرئي</string>
-    <string name="chroma_format_summary">RGB بـ 32 بِتْ : صفاء افتراضي\nRGB بـ 16 بِتْ : أداء أفضل لكن بجودة أقل\nYUV : أداء جيد لكن لا يعمل في كل الأجهزة (أندرويد 2.3 وما يليه فقط)</string>
     <string name="deblocking">إعدادات مُرشّح فك ضغط المرئيات</string>
     <string name="deblocking_summary">يمكن أن يؤدي تغيير إعدادات مرشح إلغاء القفل إلى تحسين جودة الفيديو (المستخدمون المتقدمون فقط)</string>
     <string name="deblocking_always">فك ضغط مرئي كامل (الأبطأ)</string>

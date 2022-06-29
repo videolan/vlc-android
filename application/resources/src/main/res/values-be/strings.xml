@@ -262,7 +262,6 @@
     <string name="controls_prefs_category">Параметры</string>
 
     <string name="performance_prefs_category">Прадукцыйнасць</string>
-    <string name="chroma_format">Прымусовы фармат колернасці</string>
     <string name="deblocking">Узровень распакоўкі блокаў</string>
     <string name="deblocking_always">Поўная распакоўка (марудна)</string>
     <string name="deblocking_nonref">Сярэдні ўзровень</string>

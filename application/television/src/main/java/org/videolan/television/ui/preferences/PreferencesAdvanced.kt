@@ -232,7 +232,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 restartLibVLC()
             }
-            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode", "prefer_smbv1" -> {
+            "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode", "prefer_smbv1" -> {
                 restartLibVLC()
             }
         }

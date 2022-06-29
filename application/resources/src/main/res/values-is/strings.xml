@@ -337,8 +337,6 @@
     <string name="controls_prefs_category">Stýringar</string>
 
     <string name="performance_prefs_category">Afköst</string>
-    <string name="chroma_format">Þvinga litgildi (chroma) myndmerkis</string>
-    <string name="chroma_format_summary">RGB 32-bita: sjálfgefin litgildi (chroma)\n RGB 16-bita: betri afköst en lélegri gæði\n YUV: bestu afköst en virkar ekki á öllum tækjum (einungis Android 2.3 og síðar).</string>
     <string name="deblocking">Stillingar afblokkunarsíu</string>
     <string name="deblocking_summary">Breyta stillingum afblokkunarsíu. Gæti bætt myndgæði (einungis fyrir vana notendur).</string>
     <string name="deblocking_always">Full afblokkun (hraðast)</string>

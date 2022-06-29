@@ -422,8 +422,6 @@
     <string name="controls_prefs_category">Controale</string>
 
     <string name="performance_prefs_category">Performanță</string>
-    <string name="chroma_format">Forțează cromatica video</string>
-    <string name="chroma_format_summary">RGB pe 32 de biți: cromatică implicită\nRGB pe 16 biți: performanță mai bună, dar calitate mai slabă\nYUV: cea mai bună performanță, dar nu funcționează pe toate dispozitivele (numai pe Android 2.3 și ulterior)</string>
     <string name="deblocking">Setările filtrului de deblocare.</string>
     <string name="deblocking_summary">Modificarea setărilor filtrului de deblocare poate îmbunătății calitatea video (numai utilizatori avansați)</string>
     <string name="deblocking_always">Deblocare completă (cel mai lent)</string>

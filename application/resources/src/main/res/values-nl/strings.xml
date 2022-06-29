@@ -410,8 +410,6 @@
     <string name="controls_prefs_category">Besturing</string>
 
     <string name="performance_prefs_category">Prestaties</string>
-    <string name="chroma_format">Chroma forceren</string>
-    <string name="chroma_format_summary">RGB 32-bit: standaard chroma\nRGB 16-bit: betere prestaties maar lagere kwaliteit\nYUV: beste prestaties maar werkt niet op alle apparaten (alleen Android 2.3 en later)</string>
     <string name="deblocking">Deblocking-filter instellingen</string>
     <string name="deblocking_summary">Instellingen van deblocking-filter aanpassen kan de videokwaliteit verbeteren (alleen geavanceerde gebruikers)</string>
     <string name="deblocking_always">Volledige deblocking (traagste)</string>

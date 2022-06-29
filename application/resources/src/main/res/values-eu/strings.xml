@@ -376,8 +376,6 @@
     <string name="controls_prefs_category">Kontrolak</string>
 
     <string name="performance_prefs_category">Errendimendua</string>
-    <string name="chroma_format">Behartu bideo-kroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: krominantzia lehenetsia\nRGB 16-bit: errendimendu hobea baina kalitate baxuagoa\nYUV: errendimendu onena baina ez dabil gailu guztietan. (Android 2.3 eta berriagoak soilik).</string>
     <string name="deblocking">Desblokeatze iragazkiaren ezarpenak</string>
     <string name="deblocking_summary">Desblokeatze iragazkiaren ezarpenak aldatzeak bideoaren kalitatea hobe lezake (erabiltzaile aurreratuentzat bakarrik).</string>
     <string name="deblocking_always">Desblokeatze osoa (astiroago)</string>

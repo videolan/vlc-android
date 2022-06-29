@@ -400,8 +400,6 @@
     <string name="controls_prefs_category">Kawalan</string>
 
     <string name="performance_prefs_category">Prestasi</string>
-    <string name="chroma_format">Paksa kroma video</string>
-    <string name="chroma_format_summary">RGB 32-bit: kroma lalai\nRGB 16-bit: prestasi lebih baik tetapi kualiti lebih rendah\nYUV: prestasi terbaik tetapi tidak berfungsi pada semua peranti. (Android 2.3 dan terkini sahaja)</string>
     <string name="deblocking">Tetapan penapis menyahsekat</string>
     <string name="deblocking_summary">Tukar tetapan penapis menyahsekat. Boleh meningkatkan kualiti video. (Pengguna mahir sahaja)</string>
     <string name="deblocking_always">Menyahsekat penuh (paling perlahan)</string>

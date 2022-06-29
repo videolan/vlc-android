@@ -396,8 +396,6 @@
     <string name="controls_prefs_category">Параметры</string>
 
     <string name="performance_prefs_category">Производительность</string>
-    <string name="chroma_format">Принудительный формат цветности</string>
-    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию\nRGB 16 бит: выше скорость, но ниже качество\nYUV: максимальная скорость, но работает не на всех устройствах (поддерживается только Android 2.3 и новее)</string>
     <string name="deblocking">Параметры устранения блочности</string>
     <string name="deblocking_summary">Устранение блочности может улучшить качество видео (предназначено только для опытных пользователей)</string>
     <string name="deblocking_always">Полное устранение (самое медленное)</string>

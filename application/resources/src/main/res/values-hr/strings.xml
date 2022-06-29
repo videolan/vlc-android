@@ -341,8 +341,6 @@
     <string name="controls_prefs_category">Upravljanje</string>
 
     <string name="performance_prefs_category">Pefomanse</string>
-    <string name="chroma_format">Nametni boju</string>
-    <string name="chroma_format_summary">RGB 32-bit: zadana boja\nRGB 16-bit: bolje performanse ali lošija kvaliteta\nYUV: najbolje performanse ali ne radi na svim uređajima. (Android 2.3 i novija izdanja)</string>
     <string name="deblocking">Postavke filtra deblokiranja</string>
     <string name="deblocking_summary">Promijenite postavke filtra deblokiranja. Može poboljšati video kvalitetu. (Samo za napredne korisnike)</string>
     <string name="deblocking_always">Potpuno deblokiranje (najsporije)</string>

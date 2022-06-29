@@ -152,7 +152,6 @@
     <string name="enable_headset_detection">हेडसेट शोधा</string>
     <string name="aout">ध्वनी आउटपुट</string>
     <string name="performance_prefs_category">कार्यप्रदर्शन</string>
-    <string name="chroma_format">चित्रफीत क्रोमा सक्त करा</string>
     <string name="deblocking">डीब्लॉकिंग फिल्टर सेटींग्स</string>
     <string name="deblocking_always">पूर्ण डीब्लॉकिंग (सर्वात मंद)</string>
     <string name="deblocking_nonref">मध्यम डीब्लॉकिंग</string>

@@ -71,7 +71,6 @@ object VLCOptions {
             val timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault)
             val subtitlesEncoding = pref.getString("subtitle_text_encoding", "") ?: ""
             val frameSkip = pref.getBoolean("enable_frame_skip", false)
-            val chroma = pref.getString("chroma_format", "RV16") ?: "RV16"
             val verboseMode = pref.getBoolean("enable_verbose_mode", true)
 
             var deblocking = -1
@@ -98,7 +97,6 @@ object VLCOptions {
             options.add("--stats")
             if (networkCaching > 0) options.add("--network-caching=$networkCaching")
             options.add("--android-display-chroma")
-            options.add(chroma)
             options.add("--audio-resampler")
             options.add("soxr")
             options.add("--audiotrack-session-id=$audiotrackSessionId")

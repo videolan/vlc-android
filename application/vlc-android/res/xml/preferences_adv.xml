@@ -67,13 +67,6 @@
                 android:summary="@string/opengl_summary"
                 android:title="@string/opengl_title"/>
         <ListPreference
-                android:defaultValue="@string/chroma_format_default"
-                android:entries="@array/chroma_formats"
-                android:entryValues="@array/chroma_formats_values"
-                android:key="chroma_format"
-                android:summary="@string/chroma_format_summary"
-                android:title="@string/chroma_format"/>
-        <ListPreference
                 android:defaultValue="-1"
                 android:entries="@array/deblocking_list"
                 android:entryValues="@array/deblocking_values"

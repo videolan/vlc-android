@@ -410,8 +410,6 @@
     <string name="controls_prefs_category">Controles</string>
 
     <string name="performance_prefs_category">Desempenho</string>
-    <string name="chroma_format">Impor um formato cromático</string>
-    <string name="chroma_format_summary">RGB 32-bit: Formato cromático padrão\nRGB 16-bit: maior desempenho, mas, mas qualidade inferior\nYUV: melhor desempenho, mas não funciona em todos os dispositivos (somente para Android 2.3 ou mais recente)</string>
     <string name="deblocking">Configurações do filtro de amenização de blocos</string>
     <string name="deblocking_summary">Alterar as configurações do filtro de amenização de blocos pode melhorar a qualidade de vídeo (somente para usuários avançados)</string>
     <string name="deblocking_always">Amenzação máxima (mais lento)</string>

@@ -353,8 +353,6 @@
     <string name="controls_prefs_category">Controles</string>
 
     <string name="performance_prefs_category">Rendimiento</string>
-    <string name="chroma_format">Forzar croma</string>
-    <string name="chroma_format_summary">RGB 32-bit: chroma por defecto\nRGB 16-bit: mejor rendimiento pero menor calidad\nYUV: el mejor rendimiento pero no funciona en todos los dispositivos (sólo Android 2.3 y posteriores)</string>
     <string name="deblocking">Preferencias del filtro de desbloqueo</string>
     <string name="deblocking_summary">Cambiar las preferencias del filtro «deblocking» puede mejorar la calidad del vídeo (sólo usuarios avanzados)</string>
     <string name="deblocking_always">Desbloqueo completo (el más lento)</string>

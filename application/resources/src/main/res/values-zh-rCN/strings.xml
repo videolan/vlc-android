@@ -402,8 +402,6 @@
     <string name="controls_prefs_category">控制按钮</string>
 
     <string name="performance_prefs_category">性能</string>
-    <string name="chroma_format">强制画面色度</string>
-    <string name="chroma_format_summary">RGB 32 位: 默认色度\nRGB 16 位: 性能更佳但画质较差\nYUV: 性能最佳，但并非所有设备都支持 (只支持 Android 2.3 或更高版本)</string>
     <string name="deblocking">去块滤镜设置</string>
     <string name="deblocking_summary">更改去块滤镜设置，可能提升画质 (仅供高级用户使用)</string>
     <string name="deblocking_always">完全去块 (最慢)</string>

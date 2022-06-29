@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Στοιχεία ελέγχου</string>
 
     <string name="performance_prefs_category">Επίδοση</string>
-    <string name="chroma_format">Επιβολή chroma βίντεο</string>
-    <string name="chroma_format_summary">RGB 32-bit: προεπιλεγμένο chroma\nRGB 16-bit: καλύτερη απόδοση αλλά χαμηλότερη ποιότητα\nYUV: βέλτιστη απόδοση αλλά δε λειτουργεί σε όλες τις συσκευές (Android 2.3 και νεότερες μόνο)</string>
     <string name="deblocking">Επιλογές φίλτρου απεμπλοκής</string>
     <string name="deblocking_summary">Η αλλαγή των ρυθμίσεων του φίλτρου απεμπλοκής ενδέχεται να βελτιώσει την ποιότητα του βίντεο (μόνο για προχωρημένους)</string>
     <string name="deblocking_always">Πλήρης απεμπλοκή (αργότερο)</string>

@@ -388,7 +388,6 @@
     <string name="controls_prefs_category">Kontrolloù</string>
 
     <string name="performance_prefs_category">Askorad</string>
-    <string name="chroma_format">Rediañ video chroma</string>
     <string name="deblocking">Arventennoù silañ enepbloc\'hadoù</string>
     <string name="deblocking_always">Enepbloc\'hadoù klok (gorrekoc\'h)</string>
     <string name="deblocking_nonref">Enep-bloc\'hadoù etre</string>

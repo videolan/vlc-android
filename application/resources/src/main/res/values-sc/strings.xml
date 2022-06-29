@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Controllos</string>
 
     <string name="performance_prefs_category">Prestatziones</string>
-    <string name="chroma_format">Fortza croma vìdeo</string>
-    <string name="chroma_format_summary">RGB 32-bit: croma predefinida\nRGB 16-bit: prestatziones megioradas, ma calidade inferiore\nYUV: prestatziones megioradas, ma non funtzionat in totu sos dispositivos (Android 2.3 e prus noos ebbia)</string>
     <string name="deblocking">Impostatziones filtru de deblocu</string>
     <string name="deblocking_summary">Mudare sas impostatziones de su filtru de deblocu diat pòdere megiorare sa calidade de su vìdeu (pro impreadores avantzados ebbia)</string>
     <string name="deblocking_always">Deblocu intreu (prus lentu)</string>

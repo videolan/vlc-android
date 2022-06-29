@@ -396,8 +396,6 @@
     <string name="controls_prefs_category">Nadzorne tipke</string>
 
     <string name="performance_prefs_category">Možnosti delovanja</string>
-    <string name="chroma_format">Vsili barve videa</string>
-    <string name="chroma_format_summary">RGB 32-bitno: privzete barve\nRGB 16 bitno: boljša zmogljivost, slabša kakovost\nYUV: najboljša zmogljivost, a ne deluje na vseh napravah (Android 2.3 ali novejši)</string>
     <string name="deblocking">Nastavitve filtra za odstranjevanje kock</string>
     <string name="deblocking_summary">Zamenjava filtra za odpravljanje blokov lahko izboljša kakovost videa (zgolj za napredne uporabnike)</string>
     <string name="deblocking_always">Polno odstranjevanje kock (najpočasnejše)</string>

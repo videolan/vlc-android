@@ -147,7 +147,6 @@
     <string name="enable_headset_detection">Finn høvuðsett</string>
     <string name="aout">Ljóðúttak</string>
     <string name="performance_prefs_category">Avrik</string>
-    <string name="chroma_format">Troðka video-chroma</string>
     <string name="deblocking">Stillingar til loysingarfiltur</string>
     <string name="deblocking_always">Full loysing (seinast)</string>
     <string name="deblocking_nonref">Miðal loysing</string>

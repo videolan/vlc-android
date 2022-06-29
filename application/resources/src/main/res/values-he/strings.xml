@@ -432,8 +432,6 @@
     <string name="controls_prefs_category">פקדים</string>
 
     <string name="performance_prefs_category">ביצועים</string>
-    <string name="chroma_format">אילוץ כרומה בווידאו</string>
-    <string name="chroma_format_summary">RGB‏ 32-סיביות: כרומה כבררת מחדל\nRGB ‏16-סיביות: ביצועים טובים יותר עם איכות נמוכה יותר\nYUV: הביצועים הטובים ביותר אך לא פועל על כל ההתקנים (Android 2.3 ומעלה בלבד)</string>
     <string name="deblocking">הגדרות מסנן טשטוש גבולות הריבועים</string>
     <string name="deblocking_summary">שינוי הגדרות מסנן טשטוש גבולות הריבועים עשוי לשפר את איכות הווידאו (למשתמשים מתקדמים בלבד)</string>
     <string name="deblocking_always">טשטוש ריבועים מלא (הכי אטי)</string>

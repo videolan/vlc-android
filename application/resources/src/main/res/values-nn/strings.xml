@@ -235,7 +235,6 @@
     <string name="controls_prefs_category">Kontrollar</string>
 
     <string name="performance_prefs_category">Yting</string>
-    <string name="chroma_format">Tving fargetone</string>
     <string name="set_locale">Endre språk</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Seinare</string>

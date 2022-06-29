@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Denetimler</string>
 
     <string name="performance_prefs_category">Başarım</string>
-    <string name="chroma_format">Dayatılacak renk doygunluğu</string>
-    <string name="chroma_format_summary">RGB 32 bit: Varsayılan renk doygunluğu\nRGB 16 bit: Daha iyi başarım, daha düşük kalite\nYUV: En iyi başarım, ancak tüm aygıtlarda çalışmaz (yalnız Android 2.3 ve üzeri)</string>
     <string name="deblocking">Engel kaldırma süzgeci ayarları</string>
     <string name="deblocking_summary">Engel kaldırma süzgecini değiştirmek görüntü kalitesini iyileştirebilir (yalnız deneyimli kullanıcılar)</string>
     <string name="deblocking_always">Tam engel kaldırma (en yavaş)</string>

@@ -355,8 +355,6 @@
     <string name="controls_prefs_category">Rheolaeth</string>
 
     <string name="performance_prefs_category">Perfformiad</string>
-    <string name="chroma_format">Gorfodi lliw fideo</string>
-    <string name="chroma_format_summary">RGB 32-did: lliw rhagosodedig\nRGB 16-did: gwell perfformiad ond ansawdd is\nYUV: perfformiad gorau ond ddim yn gweithio ar bob dyfais (Android 2.3 a diweddarach yn unig)</string>
     <string name="deblocking">Gosodiadau\'r hidlydd dadflocio</string>
     <string name="deblocking_summary">Gall newid gosodiadau\'r hidlydd dadflocio wella ansawdd fideo (defnyddwyr uwch yn unig)</string>
     <string name="deblocking_always">Dadflocio llawn (arafaf)</string>

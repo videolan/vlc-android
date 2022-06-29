@@ -397,8 +397,6 @@
     <string name="controls_prefs_category">Cuntrolli</string>
 
     <string name="performance_prefs_category">Perfurmenze</string>
-    <string name="chroma_format">Sfurzà crominanza video</string>
-    <string name="chroma_format_summary">RGB 32-bit : crominanza predefinita\nRGB 16-bit : perfurmenze più bone ma qualità più bassa\nYUV : perfurmenze ancu più bone ma ùn funzioneghja micca cù tutti l’apparechji (solu Android 2.3 è dopu)</string>
     <string name="deblocking">Preferenze di filtru di sblucchime</string>
     <string name="deblocking_summary">U cambiamentu di e preferenze di u filtru di sblucchime puderia megliurà a qualità video (solu per l’utilizatori esperti)</string>
     <string name="deblocking_always">Sblucchime cumpletu (u più pianu)</string>

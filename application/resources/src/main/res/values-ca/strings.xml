@@ -412,8 +412,6 @@
     <string name="controls_prefs_category">Controls</string>
 
     <string name="performance_prefs_category">Rendiment</string>
-    <string name="chroma_format">Força el croma del vídeo</string>
-    <string name="chroma_format_summary">RGB 32 bits: croma per defecte\nRGB 16 bits: millor rendiment però pitjor qualitat\nYUV: el millor rendiment però no funciona en tots els dispositius. Només Android 2.3 o posterior</string>
     <string name="deblocking">Configuració del filtre de desbloqueig</string>
     <string name="deblocking_summary">Canvia la configuració del filtre de desbloqueig. Podria millorar la qualitat del vídeo. Únicament per a usuaris avançats</string>
     <string name="deblocking_always">Desbloqueig complet (el més lent)</string>

@@ -428,8 +428,6 @@
     <string name="controls_prefs_category">Controls</string>
 
     <string name="performance_prefs_category">Performance</string>
-    <string name="chroma_format">Force video chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices (Android 2.3 and later only)</string>
     <string name="deblocking">Deblocking filter settings</string>
     <string name="deblocking_summary">Changing the deblocking filter settings could improve video quality (advanced users only)</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>
@@ -581,7 +579,6 @@
     <string name="opengl_automatic">Automatic</string>
     <string name="opengl_on">Force On</string>
     <string name="opengl_off">Force Off</string>
-    <string name="chroma_format_default" translatable="false">RV16</string>
     <string name="network_favorites">Network favorites</string>
     <string name="network_shared_folders">Shared folders</string>
     <string name="encryption_warning">Warning, encryption is not available for this Android version, password will be stored in a private space but not encrypted</string>

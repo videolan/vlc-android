@@ -376,8 +376,6 @@
     <string name="controls_prefs_category">Controis</string>
 
     <string name="performance_prefs_category">Rendemento</string>
-    <string name="chroma_format">Forzar a crominancia</string>
-    <string name="chroma_format_summary">RGB 32-bit: croma predeterminada\nRGB 16-bit: mellor rendemento, mais menos calidade\nYUV: o mellor rendemento, mais non funciona en todos os dispositivos (só en Android 2.3 e superior).</string>
     <string name="deblocking">Preferencias do filtro antibloques</string>
     <string name="deblocking_summary">Modificar a configuración do filtro antibloques pode mellorar a calidade do vídeo (só para usuarios avanzados).</string>
     <string name="deblocking_always">Filtro antibloques completo (o máis lento)</string>

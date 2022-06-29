@@ -422,8 +422,6 @@
     <string name="controls_prefs_category">Contrôles</string>
 
     <string name="performance_prefs_category">Performance</string>
-    <string name="chroma_format">Chroma vidéo</string>
-    <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils (Android 2.3 et supérieur uniquement)</string>
     <string name="deblocking">Filtre anti-blocs</string>
     <string name="deblocking_summary">La modification des paramètres du filtre de déblocage pourrait améliorer la qualité vidéo (utilisateurs avancés uniquement)</string>
     <string name="deblocking_always">Anti-blocs max (plus lent)</string>

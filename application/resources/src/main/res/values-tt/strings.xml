@@ -263,7 +263,6 @@
     <string name="controls_prefs_category">Идарә итү</string>
 
     <string name="performance_prefs_category">Җитештерүчәнлек</string>
-    <string name="chroma_format">Мәҗбүри төслек форматы</string>
     <string name="deblocking">Чыгырлык бетерү шартлары</string>
     <string name="deblocking_always">Тулы бушату (иң әкрен)</string>
     <string name="deblocking_nonref">Уртача арындыру</string>

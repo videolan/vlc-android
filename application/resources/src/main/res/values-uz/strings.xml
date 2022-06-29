@@ -141,7 +141,6 @@
     <string name="enable_headset_detection">Quloqlikni aniqlash</string>
     <string name="aout">Audio chiqarish</string>
     <string name="performance_prefs_category">Bajarish</string>
-    <string name="chroma_format">Majburiy rangdorlik formati</string>
     <string name="deblocking">Filter sozlamalarini ochish</string>
     <string name="deblocking_always">Toʻliq koddan chiqarish (sekin)</string>
     <string name="deblocking_nonref">Oʻrtacha blokdan chiqarish</string>
