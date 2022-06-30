@@ -535,6 +535,8 @@
     <string name="allow_settings_access_brightness_description">Du måste bevilja detta tillstånd för att VLC ska kunna ändra ditt ljusstyrkeläge.</string>
     <string name="allow_draw_overlays_title">Tillåt VLC att visa spelaren ovanpå andra appar</string>
     <string name="allow_sdraw_overlays_description">Du måste bevilja detta tillstånd för att VLC ska kunna visa din video i ett popupp över andra applikationer.</string>
+    <string name="allow_pip">Tillåt VLC player att starta bild-i-bild</string>
+    <string name="allow_pip_description">Du måste bevilja detta tillstånd för att VLC ska kunna visa din video i bild-i-bild-läget.</string>
     <string name="permission_ask_again">Bevilja tillstånd</string>
     <string name="pick_file">Välj en fil</string>
     <string name="permission_not_granted">Behörighet beviljades inte</string>
@@ -1011,6 +1013,7 @@
     <string name="talkback_action_rewind">Spola tillbaka %s sekunder</string>
     <string name="talkback_action_forward">Spola framåt %s sekunder</string>
     <string name="talkback_display_settings">Visningsinställningar</string>
+    <string name="talkback_already_played">Redan uppspelad</string>
 
 
 </resources>
