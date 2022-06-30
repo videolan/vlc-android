@@ -535,6 +535,8 @@
     <string name="allow_settings_access_brightness_description">Το VLC  σας ζητάει να του επιτρέψετε να μεταβάλλει το επίπεδο φωτεινότητας.</string>
     <string name="allow_draw_overlays_title">Επιτρέψτε το VLC να εμφανίζεται πάνω από άλλες εφαρμογές</string>
     <string name="allow_sdraw_overlays_description">Το VLC σας ζητάει να του επιτρέψετε να παίζει το βίντεο αναδυόμενο πάνω από άλλες εφαρμογές.</string>
+    <string name="allow_pip">Επιτρέψτε στο πρόγραμμα αναπαραγωγής VLC να εκκινήσει το Picture in Picture</string>
+    <string name="allow_pip_description">Το VLC χρειάζεται να εκχωρήσετε αυτήν την άδεια για την εμφάνιση του βίντεό σας σε λειτουργία Picture in Picture.</string>
     <string name="permission_ask_again">Παραχώρηση άδειας</string>
     <string name="pick_file">Επιλέξτε ένα αρχείο</string>
     <string name="permission_not_granted">Δεν παραχωρήθηκε άδεια</string>
@@ -1011,6 +1013,7 @@
     <string name="talkback_action_rewind">Πίσω %s δευτερόλεπτα</string>
     <string name="talkback_action_forward">Αναζητήστε μπροστά %s  δευτερόλεπτα</string>
     <string name="talkback_display_settings">Ρυθμίσεις οθόνης</string>
+    <string name="talkback_already_played">Παίζεται ήδη</string>
 
 
 </resources>
