@@ -1011,6 +1011,7 @@
     <string name="talkback_action_rewind">Torra in segus de %s segundos</string>
     <string name="talkback_action_forward">Bae a in antis de %s segundos</string>
     <string name="talkback_display_settings">Impostatziones ischermu</string>
+    <string name="talkback_already_played">Giai riproduidu</string>
 
 
 </resources>
