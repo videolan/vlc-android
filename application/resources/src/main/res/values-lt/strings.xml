@@ -546,7 +546,7 @@
     <string name="allow_storage_manager_title">Leisti VLC pasiekti visas rinkmenas</string>
     <string name="allow_storage_manager_description">%s\n\nSuteikti leidimą?</string>
     <string name="allow_storage_manager_explanation">Norėdami pasinaudoti visomis VLC galimybėmis ir visų tipų medijos rinkmenų palaikymu, primygtinai rekomenduojame suteikti šį leidimą.</string>
-    <string name="partial_content">VLC negali pasiekti visų jūsų rinkmenų</string>
+    <string name="partial_content">VLC negali pasiekti visų Jūsų rinkmenų</string>
     <string name="partial_content_description">Pradedant nuo 11 „Android“ versijos, programoms reikia specialaus leidimo pasiekti visas įrenginio rinkmenas.\n\n%s</string>
     <string name="never_ask_again">Niekada daugiau neklausti</string>
     <string name="allow_settings_access_ringtone_title">Leisti nustatyti skambėjimo toną</string>
@@ -555,6 +555,8 @@
     <string name="allow_settings_access_brightness_description">VLC reikia Jūsų leidimo keisti ryškumą.</string>
     <string name="allow_draw_overlays_title">Leisti VLC programai iškilti virš kitų programų</string>
     <string name="allow_sdraw_overlays_description">VLC reikia Jūsų leidimo rodyti vaizdo įrašą iškylančiame lange virš kitų programų.</string>
+    <string name="allow_pip">Leisti VLC leistuvei groti vaizdo įr. „vaizdo-vaizde“ veiksenoje</string>
+    <string name="allow_pip_description">VLC reikia Jūsų leidimo rodyti vaizdo įrašą „vaizdo-vaizde“ veiksenoje</string>
     <string name="permission_ask_again">Leisti</string>
     <string name="pick_file">Pasirinkti rinkmeną</string>
     <string name="permission_not_granted">Leidimas nesuteiktas</string>
@@ -885,7 +887,7 @@
     <string name="go_to_folder">Naršyti katalogą</string>
     <string name="create_shortcut">Pridėti prie pagrind. ekrano</string>
     <string name="no_sub_renderer">Transliacijos metu subtitrai nepalaikomi</string>
-    <string name="enqueuing">Įkeliami jūsų kūriniai</string>
+    <string name="enqueuing">Įkeliami Jūsų kūriniai</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Pasirinkite „SoundFont“ rinkmeną MIDI garso takelių grojimui</string>
     <string name="missing_media_snack">Trūksta kai kurių kūrinių. Paslėpti visus trūkstamus kūrinius?</string>
@@ -962,7 +964,7 @@
     <string name="no_web_browser">Neįdiegta žiniatinklio naršyklė</string>
     <string name="no_web_browser_message">Galite tai nuskaityti išmaniajame telefone.\nNuoroda yra: %s</string>
     <string name="no_video">Nėra vaizdo įrašų</string>
-    <string name="fold_optimized">Pritaikyta jūsų sulankstomam ekranui</string>
+    <string name="fold_optimized">Pritaikyta Jūsų sulankstomam ekranui</string>
     <string name="fold_optimize">Pritaikyti sulankstomiems ekranams</string>
     <string name="foldable">Sulankstomas ekranas</string>
     <string name="undo">Anuliuoti</string>
@@ -984,7 +986,7 @@
     <string name="seek_backward_content_description">Grįžti %s sek. atgal</string>
     <string name="seek_forward_content_description">Peršokti %s sek. pirmyn</string>
     <string name="open_vlc">Atidaryti VLC</string>
-    <string name="playing">Atkuriamas:</string>
+    <string name="playing">Grojant</string>
     <string name="disable_track">Išjungti takelį</string>
     <string name="ascending">Didėjančiai</string>
     <string name="descending">Mažėjančiai</string>
@@ -1030,7 +1032,7 @@
     <string name="talkback_audio_player_opened">Garso leistuvė atidaryta</string>
     <string name="talkback_audio_player_collapsed">Garso leistuvė sutraukta</string>
     <string name="talkback_audio_player_closed">Garso leistuvė uždaryta</string>
-    <string name="talkback_audio_player">Garso leistuvė. Šiuo metu leidžiama: %s</string>
+    <string name="talkback_audio_player">Garso leistuvė. Šiuo metu grojama: %s</string>
     <string name="talkback_out_of">%s iš %s</string>
     <string name="talkback_track_index">Takelis %s iš %s</string>
     <string name="downloaded">Atsisiųsta</string>
@@ -1039,6 +1041,7 @@
     <string name="talkback_action_rewind">Atsukti %s sek.</string>
     <string name="talkback_action_forward">Peršokti į priekį %s sek.</string>
     <string name="talkback_display_settings">Ekrano nuostatos</string>
+    <string name="talkback_already_played">Jau peržiūrėtas</string>
 
 
 </resources>
