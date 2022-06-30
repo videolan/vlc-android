@@ -50,7 +50,6 @@
     <string name="confirm_delete_several_media">Выдаліць файлы «%1$d»?</string>
     <string name="confirm_delete_folder">Выдаліць папку «%1$s» і яе змесціва?</string>
     <string name="confirm_delete_playlist">Выдаліць плэйліст «%1$s»?</string>
-    <string name="confirm_remove_from_playlist">Прыбраць «%1$s» з плэйліста?</string>
     <string name="ringtone_set">Файл «%1$s» пастаўлены мелодыяй выкліку.</string>
     <string name="ringtone_error">Не ўдалося змяніць мелодыю выкліку.</string>
     <string name="pause">Паўза</string>
@@ -122,7 +121,6 @@
     <string name="noplaylist">Плэйлісты не знойдзены</string>
     <string name="directorynotfound">Каталог «%1$s» не знойдзены.</string>
     <string name="nohistory">Няма гісторыі прайгравання.</string>
-    <string name="validation">Упэўнены?</string>
 
     <string name="cover_art">Вокладка</string>
     <string name="repeat_title">Рэжым паўтору</string>
@@ -172,7 +170,6 @@
     <string name="encountered_error_title">Памылка прайгравання</string>
     <string name="encountered_error_message">У VLC узніклі цяжкасці з гэтым медыя-аб’ектам.\nПаспрабуйце абнавіць медыятэку.</string>
     <string name="invalid_location">Немагчыма прайграць месца %1$s</string>
-
     <string name="search">Шукаць</string>
 
 
@@ -192,11 +189,8 @@
 
     <!-- About -->
     <string name="app_name_full">VLC для Android</string>
-    <string name="licence">Ліцэнзія</string>
     <string name="revision">Рэвізія</string>
     <string name="about">Аб праграме</string>
-    <string name="about_text">VLC для Android™ — гэта порт VLC, папулярнага адкрытага медыяплэера. Версія для Android™ можа чытаць бальшыню файлаў і сеткавых патокаў.</string>
-    <string name="compiled_by">Гэта версія VLC скампілявана:</string>
     <string name="feedback_forum">Форум</string>
 
     <!-- Preferences -->
@@ -219,7 +213,6 @@
     <string name="subtitle_text_encoding">Кадзіроўка субтытраў</string>
     <string name="daynight_title">Начны і дзённы рэжым</string>
     <string name="daynight_follow_system_title">Згодна з сістэмнай тэмай</string>
-
     <string name="extra_prefs_category">Пашыраныя налады</string>
 
     <string name="interface_prefs_screen">Інтэрфейс</string>
@@ -307,7 +300,6 @@
     <string name="spu_delay">Затрымка субтытраў</string>
     <string name="network_empty">Каталог пусты.</string>
     <string name="playlist_save">Захаваць плэйліст</string>
-    <string name="chapter">Раздзел</string>
     <string name="medialibrary">Медыятэка</string>
     <string name="medialibrary_directories">Папкі медыятэкі</string>
 
