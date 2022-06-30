@@ -535,6 +535,8 @@
     <string name="allow_settings_access_brightness_description">VLC necessita permís per canviar el mode de brillantor</string>
     <string name="allow_draw_overlays_title">Deixa que el VLC tregui pop-ups per sobre de les altres apps</string>
     <string name="allow_sdraw_overlays_description">VLC necessita permís per treure pop-ups amb els teus vídeos per sobre de les altres aplicacions.</string>
+    <string name="allow_pip">Permet al reproductor VLC arrencar Imatge-dins-imatge</string>
+    <string name="allow_pip_description">VLC necessita permís per mostrar el vostre vídeo en mode Imatge-dins-imatge.</string>
     <string name="permission_ask_again">Dóna permís</string>
     <string name="pick_file">Escolliu un fitxer</string>
     <string name="permission_not_granted">El permís no s\'ha concedit</string>
@@ -1011,6 +1013,7 @@
     <string name="talkback_action_rewind">Enrere %s segons</string>
     <string name="talkback_action_forward">Endavant %s segons</string>
     <string name="talkback_display_settings">Ajustaments de la visualització</string>
+    <string name="talkback_already_played">Ja s\'ha reproduït</string>
 
 
 </resources>
