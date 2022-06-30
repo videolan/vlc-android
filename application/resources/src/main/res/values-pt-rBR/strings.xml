@@ -22,6 +22,7 @@
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
+        <item quantity="many">%d resultados encontrados</item>
         <item quantity="other">%d resultados encontrados</item>
     </plurals>
 
@@ -74,34 +75,42 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
+        <item quantity="many">%d álbuns</item>
         <item quantity="other">%d álbuns</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">1 sub pasta</item>
+        <item quantity="many">%d sub pastas</item>
         <item quantity="other">%d sub pastas</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">1 mídia</item>
+        <item quantity="many">%d mídias</item>
         <item quantity="other">%d mídias</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">$d arquivo de mídia</item>
+        <item quantity="many">%d arquivos de mídia</item>
         <item quantity="other">%d arquivos de mídia</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 vídeo</item>
+        <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 filme</item>
+        <item quantity="many">%d filmes</item>
         <item quantity="other">%d filmes</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">1 Programa de TV</item>
+        <item quantity="many">%d Programas de TV</item>
         <item quantity="other">%d Programas de TV</item>
     </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 trilha</item>
+        <item quantity="many">%d trilhas</item>
         <item quantity="other">%d trilhas</item>
     </plurals>
 
@@ -118,11 +127,11 @@
     <string name="loading">Carregando</string>
     <string name="please_wait">Por favor, aguarde…</string>
     <string name="nomedia">Arquivos de mídia não encontrados. Por favor, transfira alguns arquivos para o seu dispositivo ou ajuste suas preferências.</string>
+    <string name="empty_search">Nenhum item encontrado ao pesquisar %s</string>
     <string name="noplaylist">Não foi possível encontrar uma lista de reprodução.</string>
     <string name="nosubfolder">Nenhuma sub pasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Você não possui histórico de reprodução.</string>
-    <string name="validation">Tem certeza?</string>
 
     <string name="cover_art">Capa</string>
     <string name="shuffle_all_title">Todos em aleatório</string>
@@ -162,6 +171,7 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
+        <item quantity="many">%1$d canais\n</item>
         <item quantity="other">%1$d canais\n</item>
     </plurals>
 
@@ -247,6 +257,7 @@
     <string name="audio_player_tips">Dicas do reprodutor de áudio</string>
     <string name="previous_next_song">Música anterior/posterior</string>
     <string name="show_playlist">Exibir a lista de reprodução</string>
+    <string name="hide_playlist">Ocultar lista de reprodução</string>
     <string name="hold_to_stop">Segure para parar</string>
 
     <!-- About -->
@@ -283,6 +294,7 @@
     <string name="screen_orientation_landscape_reverse">Paisagem invertida</string>
     <string name="screen_orientation_last_locked">Última orientação travada</string>
     <string name="enable_black_theme">Tema escuro</string>
+    <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="subtitle_preferred_language">Idioma preferido para a legenda</string>
     <string name="daynight_title">Modo Dia e Noite</string>
@@ -431,6 +443,7 @@
     <string name="clear_app_data">Limpar dados do aplicativo</string>
     <string name="clear_app_data_summary">Limpa os dados do VLC para Android</string>
     <string name="clear_history">Limpar histórico</string>
+    <string name="clear_history_message">Seu histórico, sua lista de reprodução atual e seus progressos serão perdidos</string>
     <string name="set_locale">Definir local</string>
     <string name="network_caching">Valor de memória para rede</string>
     <string name="network_caching_summary">A quantidade de tempo para guardar em memória uma mídia de rede (em ms) para decodificação por software\nDefina como 0 para desativar</string>
@@ -512,6 +525,8 @@
     <!-- Widget -->
     <string name="widget_name_w">Dispositivo VLC Branco</string>
     <string name="widget_name_b">Dispositivo VLC Preto</string>
+    <string name="widget_name_mini_player">Mini reprodutor VLC</string>
+    <string name="widget_old_text">Atualizamos nossas ferramentas!</string>
     <string name="allow_storage_access_title">Permitir que o VLC acesse arquivos de áudio e vídeo</string>
     <string name="allow_storage_access_description">O VLC precisa que você conceda esta permissão para acessar os arquivos de mídia deste dispositivo.</string>
     <string name="allow_storage_manager_title">Permitir ao VLC acesso a todos os arquivos</string>
@@ -531,8 +546,6 @@
     <string name="permission_not_granted">Permissão não concedida</string>
     <string name="permission_expanation_no_allow">Não será possível descobrir automaticamente suas mídias nem usar legendas externas</string>
     <string name="permission_expanation_allow">Será possível apenas reproduzir transmissões ou mídias de rede</string>
-    <string name="permission_expanation_subtitles">Usar legendas externas</string>
-    <string name="permission_expanation_allow_explanation">Reproduzir transmissões da Internet ou mídias de rede</string>
     <string name="exit_app">Fechar o VLC</string>
     <string name="exit_app_msg">Tem certeza de que deseja fechar o VLC?</string>
 
@@ -692,10 +705,12 @@
     <string name="reset">Restaurar</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Trilha incluída</item>
+        <item quantity="many">%d Trilhas incluídas</item>
         <item quantity="other">%d Trilhas incluídas</item>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">%d Trilhas adicionadas</item>
+        <item quantity="many">%d Tracks adicionadas</item>
         <item quantity="other">%d Tracks adicionadas</item>
     </plurals>
     <string name="remove_current">Excluir atual</string>
@@ -905,10 +920,12 @@
     <string name="banned_parent">Banido a partir da pasta pai</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Este item já está na lista de reprodução.</item>
+        <item quantity="many">Estes itens já estão na lista de reprodução.</item>
         <item quantity="other">Estes itens já estão na lista de reprodução.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
         <item quantity="one">1 dos itens selecionados já está na lista de reprodução.</item>
+        <item quantity="many">%d dos itens selecionados já está na lista de reprodução.</item>
         <item quantity="other">%d dos itens selecionados já está na lista de reprodução.</item>
     </plurals>
     <string name="official_website">Site oficial</string>
@@ -927,5 +944,4 @@
     <string name="foldable">Tela dobrável</string>
     <string name="undo">Desfazer</string>
     <string name="add_server_favorite">Adicionar um servidor favorito</string>
-
 </resources>
