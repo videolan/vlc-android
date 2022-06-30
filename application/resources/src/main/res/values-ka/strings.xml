@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">წაიშალოს %1$s ფაილი?</string>
     <string name="confirm_delete_folders_and_files">წაიშალოს %1$s საქაღალდე და %2$s ფაილი?</string>
     <string name="confirm_delete_playlist">წაიშალოს სია „%1$s“?</string>
-    <string name="confirm_remove_from_playlist">მოცილდეს „%1$s“ სიიდან?</string>
     <string name="ringtone_set">ფაილი „%1$s“ მიეთითა ზარის ხმად.</string>
     <string name="ringtone_error">შეცდომა ზარის ხმის მითითებისას.</string>
     <string name="pause">შეჩერება</string>
@@ -121,7 +120,6 @@
     <string name="nosubfolder">ქვესაქაღალდე არაა</string>
     <string name="directorynotfound">საქაღალდე „%1$s“ მისამართით, არაა.</string>
     <string name="nohistory">დაკვრის ისტორია ჯერ არ გაქვთ.</string>
-    <string name="validation">დარწმუნებული ხართ?</string>
 
     <string name="cover_art">გარეკანის სურათი</string>
     <string name="shuffle_all_title">ყველას არევა</string>
@@ -178,7 +176,6 @@
     <string name="server_share_hint">ქსელის გაზიარების სახელი (ან IP მისამართი)</string>
     <string name="server_folder_hint">საქაღალდის მდებარეობა (არასავალდებულო)</string>
     <string name="server_username_hint">მომხმარებლის სახელი</string>
-    <string name="server_servername_hint">სერვერის სახელი, სიმარტივისთვის</string>
     <string name="server_port">პორტი:</string>
     <string name="login">ანგარიში</string>
     <string name="password">პაროლი</string>
@@ -195,7 +192,6 @@
     <string name="encountered_error_title">დაკვრის შეცდომა</string>
     <string name="encountered_error_message">VLC წააწყდა ხარვეზს ამ ფაილზე.\nგთხოვთ, ცადოთ მედიათეკის განახლება.</string>
     <string name="invalid_location">%1$s მისამართიდან ვერ ეშვება.</string>
-
     <string name="search">ძიება</string>
 
 
@@ -222,12 +218,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC Android-ზე</string>
-    <string name="licence">ლიცენზია</string>
     <string name="revision">გამოცემა</string>
     <string name="about">შესახებ</string>
-    <string name="about_text">VLC Android™ არის ამ სისტემისთვის მორგებული ცნობილი და ღია წყაროს მქონე, მედიაფაილების დამკვრელი VLC media player. Android™ ვერსიას შეუძლია მრავალი სახის ფაილისა და ქსელური ნაკადის გაშვება.</string>
     <string name="vlc_authors">და VLC-ს ავტორები.</string>
-    <string name="compiled_by">VLC-ს ამ ვერსიის შემმუშავებელია:</string>
     <string name="feedback_forum">უკუკავშირის ფორუმი</string>
 
     <!-- Preferences -->
@@ -255,7 +248,6 @@
     <string name="subtitle_text_encoding">სუბტიტრების ტექსტის კოდირება</string>
     <string name="daynight_title">დღეღამე რეჟიმი</string>
     <string name="daynight_follow_system_title">სისტემის მიხედვით</string>
-
     <string name="extra_prefs_category">გაფართოებული პარამეტრები</string>
 
     <string name="interface_prefs_screen">გარსი</string>
@@ -284,7 +276,6 @@
     <string name="enable_volume_gesture_title">ხმის დონის ჟესტი</string>
     <string name="enable_volume_gesture_summary">ხმის დონის ჟესტით მართვა, გაშვებულ ვიდეოზე</string>
     <string name="enable_seek_buttons">გადახვევის ღილაკები</string>
-    <string name="enable_seek_buttons_summary">წინ და უკან გადახვევის ღილაკების გამოჩენა ვიდეოს გარსზე</string>
     <string name="enable_double_tap_seek_title">ორჯერ შეხებით გადახვევა</string>
     <string name="enable_double_tap_seek_summary">ორჯერ შეხება ეკრანის კიდეებზე, 10 წამით გადახვევისთვის</string>
     <string name="popup_keepscreen_title">დარჩეს ეკრანი ჩართული, ამომხტარი რეჟიმისას</string>
@@ -376,12 +367,10 @@
     <string name="clear_history">ისტორიის გასუფთავება</string>
     <string name="set_locale">ენის მითითება</string>
     <string name="network_caching">ქსელური მომარაგების მნიშვნელობა</string>
-    <string name="network_caching_summary">დრო (მწმ), რომელიც საჭიროა ქსელიდან მიღებული ფაილის გასამზადებლად, პროგრამული გაშიფვრისთვის\nდატოვეთ ცარიელი გასანულებლად</string>
     <string name="resume_playback_title">განაგრძოს დაკვრა ზარის შემდგომ</string>
     <string name="resume_playback_summary">თუ არადა დარჩეს შეჩერებული</string>
     <string name="blurred_cover_background_title">დაბურული გარეკანი ფონად</string>
     <string name="blurred_cover_background_summary">დაბურული გარეკანი, ხმოვანი დამკვრელის ფონად</string>
-    <string name="network_caching_popup">მნიშვნელობის ზღვრებია 0 და 6000 მწმ</string>
     <string name="quit">გამოსვლა და კვლავ გაშვება</string>
     <string name="restart_message">ცვლილებები აისახება ხელახლა გაშვების შემდგომ.\n\nახლავე გაეშვას?</string>
     <string name="restart_message_OK">კარგი</string>
@@ -435,8 +424,6 @@
     <string name="playlist_save">დასაკრავი სიის შენახვა</string>
     <string name="playlist_name_hint">დასაკრავი სიის სახელი</string>
     <string name="go_to_chapter">თავზე გადასვლა...</string>
-    <string name="chapter">თავი</string>
-    <string name="resume_from_position">განაგრძოს ბოლო მდებარეობიდან</string>
     <string name="confirm_resume">განაგრძოს ბოლო მდებარეობიდან?</string>
     <string name="confirm_resume_title">დაკრული ვიდეოების გაგრძელება</string>
     <string name="tv_ui_title">Android TV-ის გარსი</string>
@@ -759,9 +746,6 @@
     <string name="allow_otg">ნებართვა OTG-წვდომის</string>
     <string name="allow_otg_description">გთხოვთ, აირჩიოთ თქვენი OTG-მეხსიერება, მასზე წვდომის ნების მისაცემად, VLC-სთვის.</string>
     <string name="timeout_infinite">განუსაზღვრელი</string>
-    <string name="timeout_short">მოკლე</string>
-    <string name="timeout_normal">საშუალო</string>
-    <string name="timeout_long">გრძელი</string>
     <string name="video_hud_timeout">ვიდეოდამკვრელის სამართავის დამალვის დაყოვნება</string>
     <string name="remove_from_history">ისტორიიდან მოცილება</string>
     <string name="prefersmbv1">ამჯობინოს SMB 1</string>
@@ -808,5 +792,4 @@
         <item quantity="one">1 შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
         <item quantity="other">%d შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
     </plurals>
-
 </resources>
