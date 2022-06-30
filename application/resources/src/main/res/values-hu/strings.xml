@@ -535,12 +535,14 @@
     <string name="allow_settings_access_brightness_description">A VLC-nek szüksége van erre az engedélyre a fényerősség beállításához.</string>
     <string name="allow_draw_overlays_title">A VLC felugró engedélyezése más appok felett</string>
     <string name="allow_sdraw_overlays_description">A VLC-nek szüksége van erre az engedélyre a videók más appok feletti felugró ablakban megjelenítéshez.</string>
+    <string name="allow_pip">A Kép a képben mód indításának engedélyezése a VLC lejátszó számára</string>
+    <string name="allow_pip_description">A VLC-nek engedélyre van szüksége a videó Kép a képben módban való lejátszásához.</string>
     <string name="permission_ask_again">Engedély megadása</string>
     <string name="pick_file">Válasszon egy fájlt</string>
     <string name="permission_not_granted">Az engedély nincs megadva</string>
     <string name="permission_expanation_no_allow">Nem tudja automatikusan beolvasni a médiafájljait, és nem használhat külső feliratokat</string>
     <string name="permission_expanation_allow">Csak közvetítéseket vagy hálózati médiát tud majd lejátszani</string>
-    <string name="permission_onboarding_no_perm">Nem fogja tudni automatikusan beolvasni a saját médiát.\nCsak közvetítéseket vagy hálózati médiát tud majd lejátszani</string>
+    <string name="permission_onboarding_no_perm">Nem fogja tudni automatikusan felkutatni a saját médiát.\nCsak közvetítéseket vagy hálózati médiát tud majd lejátszani.</string>
     <string name="permission_onboarding_perm_media">Csak szabványos médiafájlokat tud majd automatikusan felkutatni</string>
     <string name="permission_onboarding_perm_all">Mindenféle fájlt fel tud kutatni, hogy lejátszhassa az összes típusú médiát, beleértve a furcsa vagy a tömörített fájlokat is</string>
     <string name="exit_app">VLC bezárása</string>
@@ -1011,6 +1013,7 @@
     <string name="talkback_action_rewind">Visszatekerés %s másodperccel</string>
     <string name="talkback_action_forward">Előretekerés %s másodperccel</string>
     <string name="talkback_display_settings">Kijelzőbeállítások</string>
+    <string name="talkback_already_played">Már lejátszva</string>
 
 
 </resources>
