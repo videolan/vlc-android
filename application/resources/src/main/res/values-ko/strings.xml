@@ -18,7 +18,7 @@
     <string name="sortby_media_number">미디어 번호</string>
     <string name="sortby_number">Nb 트랙</string>
     <string name="searchable_hint">검색…</string>
-    <string name="history">기록내역</string>
+    <string name="history">내역</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d 결과를 찾았습니다</item>
@@ -110,11 +110,11 @@
     <string name="please_wait">기다려 주세요…</string>
     <string name="nomedia">미디어 파일을 찾을 수 없습니다.
 일부 파일을 장치로 전송하거나 기본설정을 조정하십시오.</string>
+    <string name="empty_search">검색어 %s의 검색 결과가 없습니다</string>
     <string name="noplaylist">재생목록이 없습니다.</string>
     <string name="nosubfolder">하위폴더 없음</string>
     <string name="directorynotfound">\'%1$s\' 디렉터리 경로를 찾을 수 없습니다.</string>
     <string name="nohistory">아직 재생 내역이 없습니다.</string>
-    <string name="validation">확실한가요?</string>
 
     <string name="cover_art">커버 아트</string>
     <string name="shuffle_all_title">모두 순서섞기</string>
@@ -136,7 +136,7 @@
     <string name="surface_fill">채움</string>
     <string name="surface_original">중앙</string>
     <string name="resize_tip">더 많은 옵션을 보려면 길게 누르기</string>
-    <string name="unseekable_stream">탐색이 불가능한 스트림</string>
+    <string name="unseekable_stream">찾을 수 없는 스트림</string>
     <string name="refresh">새로 고침</string>
     <string name="track_audio">오디오 트랙</string>
     <string name="track_video">동영상 트랙</string>
@@ -193,8 +193,8 @@
     <string name="search">검색</string>
 
 
-    <string name="playback_history_title">재생 기록내역</string>
-    <string name="playback_history_summary">기록내역 섹션에서 재생된 모든 미디어 저장</string>
+    <string name="playback_history_title">재생 내역</string>
+    <string name="playback_history_summary">내역 섹션에서 재생된 모든 미디어 저장</string>
     <string name="playback_speed_title">재생 속도 저장하기</string>
     <string name="playback_speed_summary">미디어간 재생속도 유지하기</string>
 
@@ -202,7 +202,7 @@
 
     <!-- Tips -->
     <string name="tips_title">동영상 재생기 팁</string>
-    <string name="seek">탐색</string>
+    <string name="seek">찾기</string>
     <string name="subtitles">자막</string>
     <string name="tips_player_controls">플레이어 컨트롤</string>
     <string name="tips_player_controls_description">아래 플레이어 컨트롤을 눌러 어디에 사용되는지 알아보기</string>
@@ -222,7 +222,7 @@
     <string name="tips_swipe">위아래로 스와이프</string>
     <string name="tips_swipe_horizontal">좌우로 스와이프</string>
     <string name="tips_playlist">재생목록</string>
-    <string name="tips_hold_seek">길게 눌러 탐색</string>
+    <string name="tips_hold_seek">찾으려면 길게 누르기</string>
     <string name="tips_long_drop">길게 눌렀다 떼기</string>
     <string name="pause_description">일시정지하려면 가볍게 두 번 누르기</string>
     <string name="seek_tap">+/- 10초.</string>
@@ -233,11 +233,12 @@
     <string name="remove_song">곡 제거하기</string>
     <string name="remove_playlist_item">재생목록에서 %1$s를 제거했습니다</string>
     <string name="rearrange_order">곡 순서를 바꾸기</string>
-    <string name="hold_to_seek">탐색하려면 길게 누르기</string>
+    <string name="hold_to_seek">찾으려면 길게 누르기</string>
 
     <string name="audio_player_tips">음악 재생기 팁</string>
     <string name="previous_next_song">이전/다음 곡</string>
     <string name="show_playlist">재생목록 표시</string>
+    <string name="hide_playlist">재생목록 숨김</string>
     <string name="hold_to_stop">멈추려면 길게 누르기</string>
 
     <!-- About -->
@@ -274,6 +275,7 @@
     <string name="screen_orientation_landscape_reverse">가로 반전</string>
     <string name="screen_orientation_last_locked">마지막으로 잠긴 방향</string>
     <string name="enable_black_theme">검정 테마</string>
+    <string name="theme_auto">자동 테마</string>
     <string name="subtitle_text_encoding">자막 텍스트 인코딩</string>
     <string name="subtitle_preferred_language">선호하는 자막 언어</string>
     <string name="daynight_title">낮밤 모드</string>
@@ -308,18 +310,18 @@
     <string name="enable_brightness_gesture_summary">동영상 재생 중에 제스처로 밝기를 조절합니다</string>
     <string name="enable_volume_gesture_title">음량 제스처</string>
     <string name="enable_volume_gesture_summary">동영상 재생 중에 제스처로 음량을 조절합니다</string>
-    <string name="enable_seek_buttons">탐색 버튼</string>
+    <string name="enable_seek_buttons">찾기 버튼</string>
     <string name="enable_seek_buttons_summary">동영상 인터페이스에 되감기 및 빨리감기 버튼 표시</string>
     <string name="enable_android_auto_speed_buttons">안드로이드 자동 재생 속도</string>
     <string name="enable_android_auto_speed_buttons_summary">오버플로 메뉴에 속도 제어 표시</string>
-    <string name="enable_android_auto_seek_buttons">Android Auto 탐색 버튼</string>
+    <string name="enable_android_auto_seek_buttons">Android 자동 찾기 버튼</string>
     <string name="enable_android_auto_seek_buttons_summary">오버플로 메뉴에 되감기 및 빨리감기를 표시합니다. 활성화하기 전에 스티어링 휠을 이전 및 다음 버튼으로 유지하십시오.</string>
-    <string name="enable_double_tap_seek_title">탐색하려면 가볍게 두 번 누르기</string>
+    <string name="enable_double_tap_seek_title">찾으려면 가볍게 두 번 누르기</string>
     <string name="enable_double_tap_seek_summary">10초 단위로 탐색하려면 화면 가장자리를 가볍게 두 번 누르기</string>
     <string name="enable_double_tap_play_title">재생/일시정지 하려면 가볍게 두 번 누르기</string>
     <string name="enable_double_tap_play_summary">재생 또는 일시정지 하려면 화면 중앙을  가볍게 두 번 누르기</string>
-    <string name="enable_swipe_seek_title">스와이프하여 검색</string>
-    <string name="enable_swipe_seek_summary">화면을 가로질러 손가락을 스와이프하여 검색</string>
+    <string name="enable_swipe_seek_title">찾으려면 살짝 밀기</string>
+    <string name="enable_swipe_seek_summary">손가락으로 화면을 밀어서 찾습니다</string>
     <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
     <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 동영상이 일시중지여도 화면 켜짐을 유지합니다</string>
     <string name="browser_show_hidden_files_title">숨김 파일 표시</string>
@@ -344,7 +346,7 @@
     <string name="audio_prefs_category">오디오</string>
     <string name="lockscreen_cover_title">잠금 화면에 미디어 커버 보기</string>
     <string name="lockscreen_cover_summary">이용 가능할 때 현재 미디어의 커버 아트를 잠금 화면의 배경으로 설정합니다</string>
-    <string name="show_seek_in_compact_notif_title">알림 패널의 탐색 버튼</string>
+    <string name="show_seek_in_compact_notif_title">알림 패널의 찾기 버튼</string>
     <string name="show_seek_in_compact_notif_summary">컴팩트 미디어 컨트롤에 되감기 및 빨리감기 버튼 표시</string>
     <string name="list_title_ellipsize">한줄 리스트로 제목 줄임</string>
     <string name="list_title_ellipsize_default">기본값</string>
@@ -417,11 +419,12 @@
     <string name="auto_rescan_summary">응용프로그램 시작 시 자동으로 장치에서 새 미디어 또는 삭제된 미디어 검색</string>
     <string name="dump_media_db">미디어 데이터베이스 덤프</string>
     <string name="dump_media_db_summary">내부 저장소 루트에 데이터베이스 복사하기</string>
-    <string name="clear_media_db">미디어 데이터베이스 지우기</string>
-    <string name="clear_media_database_summary">다시 시작할 데이터베이스 지우기</string>
-    <string name="clear_app_data">앱 데이터 지우기</string>
-    <string name="clear_app_data_summary">Android 데이터용 VLC 지우기</string>
-    <string name="clear_history">기록내역 지우기</string>
+    <string name="clear_media_db">미디어 데이터베이스 비우기</string>
+    <string name="clear_media_database_summary">다시 시작할 데이터베이스 비우기</string>
+    <string name="clear_app_data">앱 데이터 비우기</string>
+    <string name="clear_app_data_summary">Android 데이터용 VLC 비우기</string>
+    <string name="clear_history">내역 비우기</string>
+    <string name="clear_history_message">사용자의 시청 내역, 현재 재생목록 및 진행 내역이 손실됩니다</string>
     <string name="set_locale">언어 설정</string>
     <string name="network_caching">네트워크 캐쉬 값</string>
     <string name="network_caching_summary">소프트웨어 디코딩을 위해 네트워크 미디어를 버퍼링하는 시간(ms)입니다\n사용하지 않으려면 0으로 지정합니다</string>
@@ -442,7 +445,7 @@
     <string name="debug_logs">디버그 로그</string>
     <string name="start_logging">로깅 시작하기</string>
     <string name="stop_logging">로깅 중지하기</string>
-    <string name="clear_log">로그 지우기</string>
+    <string name="clear_log">로그 비우기</string>
     <string name="log_service_title">VLC 로그 기록</string>
     <string name="log_service_text">로그 콘솔 열기</string>
     <string name="copy_to_clipboard">클립보드에 복사하기</string>
@@ -503,6 +506,11 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC 흰색 위젯</string>
     <string name="widget_name_b">VLC 검은색 위젯</string>
+    <string name="widget_name_mini_player">VLC 미니 플레이어</string>
+    <string name="widget_old_text">위젯을 업데이트 했습니다!</string>
+    <string name="widget_old_description_start">좋은 소식입니다! 우리는 개선된 위젯을 릴리즈했습니다.\n더 나은 응답성과 커스터마이징 기능을 제공합니다.</string>
+    <string name="widget_old_description_end">사용자의 런처에 위젯들이 이미 위젯이 있습니다. 유감스럽게도, 그 위젯들은 새로 개선된 위젯들과 호환되지 않습니다.n사용자의 런처에 따라, 당신은 이전 버전을 제거해야 할 수도 있습니다.</string>
+    <string name="click_here">여기를 눌러 더 알아보세요.</string>
     <string name="allow_storage_access_title">VLC에서 동영상과 오디오 파일에 접근합니다</string>
     <string name="allow_storage_access_description">이 장치에서 VLC가 미디어 파일에 접근하려면 사용자의 승인이 필요합니다.</string>
     <string name="allow_storage_manager_title">VLC 모든 파일 액세스 허용</string>
@@ -522,8 +530,9 @@
     <string name="permission_not_granted">사용 권한이 부여되지 않음</string>
     <string name="permission_expanation_no_allow">미디어를 자동 검색하거나 외부 자막을 사용할 수 없습니다</string>
     <string name="permission_expanation_allow">스트림 또는 네트워크 미디어만 재생할 수 있습니다</string>
-    <string name="permission_expanation_subtitles">외부 자막 사용</string>
-    <string name="permission_expanation_allow_explanation">인터넷 스트림 또는 네트워크 미디어 재생</string>
+    <string name="permission_onboarding_no_perm">미디어를 자동으로 검색할 수 없습니다.\n스트림 또는 네트워크 미디어만 재생할 수 있습니다</string>
+    <string name="permission_onboarding_perm_media">표준 미디어 파일만 자동 검색할 수 있습니다</string>
+    <string name="permission_onboarding_perm_all">모든 파일을 자동으로 검색하여 모든 유형의 미디어 또는 압축 파일을 재생할 수 있습니다</string>
     <string name="exit_app">VLC 닫기</string>
     <string name="exit_app_msg">VLC를 정말 종료할까요?</string>
 
@@ -557,7 +566,7 @@
     <string name="movies">영상</string>
     <string name="videos">동영상</string>
     <string name="videos_all">모든 동영상</string>
-    <string name="clear_playback_history">재생 기록내역 지우기</string>
+    <string name="clear_playback_history">재생 내역 비우기</string>
     <string name="ml_scanning">미디어 파일 스캔 중</string>
     <string name="ml_parse_media">미디어 분석 중</string>
     <string name="ml_discovering">검색 중</string>
@@ -636,6 +645,7 @@
     <string name="delete_the_selected">선택 항목 삭제하기</string>
     <string name="download_the_selected">다운로드 선택</string>
     <string name="next">다음</string>
+    <string name="skip">건너뛰기</string>
     <string name="next_step">다음</string>
     <string name="download">다운로드</string>
     <string name="ctx_player_video_track">동영상 트랙을 선택하기</string>
@@ -662,7 +672,7 @@
     <string name="daynight_system_explanation">시스템 설정에 따라 VLC는 자동으로 야간 모드로 전환됩니다</string>
     <string name="daynight_legacy_explanation">시간에 맞춰 VLC는 자동으로 야간 모드로 전환됩니다</string>
     <string name="onboarding_scanning_enable">VLC가 내 장치에서 미디어 콘텐츠를 검색하도록 합니다</string>
-    <string name="onboarding_scan_customize">VLC가 스캔할 폴더를 선택합니다</string>
+    <string name="onboarding_scan_customize">VLC에서 검색할 폴더를 정합니다</string>
     <string name="button_medialibrary_preferences">미디어라이브러리 기본설정으로 가기</string>
     <string name="light_theme">밝은 테마</string>
     <string name="add">추가하기</string>
@@ -743,7 +753,7 @@
     <string name="playback_multiple_errors">다수의 미디어는 재생할 수 없습니다</string>
     <string name="clear_media_db_message">진행상황, 바로찾기 및 생성 한 재생목록을 잃게되지만 VLC는 Android 설정을 유지합니다.</string>
     <string name="clear_app_data_message">진행률, 바로찾기, 재생 목록 및 모든 VLC 설정을 잃게됩니다</string>
-    <string name="clear">지우기</string>
+    <string name="clear">비우기</string>
     <string name="abrepeat_add_first_marker">시작 지점 설정</string>
     <string name="abrepeat_add_second_marker">종료 지점 설정</string>
     <string name="demux_bitrate">Demux 비트 전송속도</string>
@@ -785,6 +795,7 @@
     <string name="rename_group">동영상 그룹 이름 바꾸기</string>
     <string name="ungroup">그룹에서 제외하기</string>
     <string name="group_similar">자동으로 재그룹</string>
+    <string name="no_group_found">비디오 모음집 찾지 못함</string>
     <string name="no_favorite">즐겨찾기 없음</string>
     <string name="empty_directory">비었음</string>
     <string name="no_track">트랙 없음</string>
@@ -817,7 +828,7 @@
     <string name="new_group_desc">새 그룹 만들기</string>
 
     <string name="air_action_rewind">10초 되감기</string>
-    <string name="air_action_forward">10초 앞으로 탐색</string>
+    <string name="air_action_forward">10초 앞에서 찾기</string>
     <string name="air_action_play_pause">재생 일시정지/재개</string>
     <string name="air_action_volume_up">음량 높임</string>
     <string name="air_action_volume_down">음량 낮춤</string>
@@ -828,7 +839,7 @@
     <string name="timeout_infinite">무한</string>
     <string name="video_hud_timeout">동영상 재생기 제어 숨기기 지연 시간</string>
     <string name="video_hud_timeout_summary">%s초</string>
-    <string name="remove_from_history">기록내역에서 제거하기</string>
+    <string name="remove_from_history">내역에서 제거하기</string>
     <string name="prefersmbv1">SMB 1 선호</string>
     <string name="prefersmbv1_summary">SMB 서버를 탐색하는 데에 문제가 있다면 이 설정을 해제하세요</string>
     <string name="apply_to_all">모든 동영상에 적용</string>
@@ -902,8 +913,8 @@
     <string name="view_online">온라인 보기</string>
     <string name="player_under_notch">노치 아래에 동영상 화면표시</string>
     <string name="notch">노치</string>
-    <string name="always_fast_seek">항상 빠른 탐색 사용</string>
-    <string name="always_fast_seek_summary">탐색은 더 빠르지만 정확도가 낮을 수 있습니다</string>
+    <string name="always_fast_seek">항상 빠른 찾기 사용하기</string>
+    <string name="always_fast_seek_summary">찾기는 더 빠르지만 정확도는 떨어질 수 있습니다</string>
     <string name="touch_only">터치 전용 기능</string>
     <string name="touch_only_description">모바일 인터페이스로의 전환은 터치 화면이나 마우스로만 수행할 수 있습니다.\n이 기능을 변경하는 것이 안전한지 확인하려면 아래를 슬라이드하십시오.</string>
     <string name="no_web_browser">웹 브라우저가 설치되지 않았습니다</string>
@@ -914,5 +925,74 @@
     <string name="foldable">접혀지는 화면</string>
     <string name="undo">실행 취소</string>
     <string name="add_server_favorite">서버 즐겨찾기 추가하기</string>
+    <string name="widget_theme">위젯 테마</string>
+    <string name="widget_preferences">위젯 구성</string>
+    <string name="material_you">Material You (배경화면에서 색상 뽑기)</string>
+    <string name="palette">팔레트 (미디어 커버에서 색상 뽑기)</string>
+    <string name="custom">사용자 지정</string>
+    <string name="opacity">불투명도</string>
+    <string name="widget_background">배경</string>
+    <string name="widget_foreground">전경</string>
+    <string name="configure_widget">위젯 구성</string>
+    <string name="widget_preview">위젯 미리보기</string>
+    <string name="widget_forward_delay">앞으로 이동 시간 지연</string>
+    <string name="widget_rewind_delay">뒤로 이동 시간 지연</string>
+    <string name="widget_show_configure">구성 아이콘 표시하기</string>
+    <string name="widget_show_configure_summary">위젯이 보이지 않을 때에도 우측 상단을 탭하여 설정을 열 수 있습니다</string>
+    <string name="seek_backward_content_description">%s초 뒤에서 찾기</string>
+    <string name="seek_forward_content_description">%s초 앞에서 찾기</string>
+    <string name="open_vlc">VLC 열기</string>
+    <string name="playing">재생 중</string>
+    <string name="disable_track">트랙 비활성화</string>
+    <string name="ascending">오름차순</string>
+    <string name="descending">내림차순</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - 제목: %s - 재생시간: %s</string>
+    <string name="talkback_genre">장르: %s</string>
+    <string name="talkback_history_item">내역 항목</string>
+    <string name="talkback_playlist">재생목록: %s</string>
+    <string name="talkback_folder">폴더: %s</string>
+    <string name="talkback_file">파일: %s</string>
+    <string name="talkback_favorite">즐겨찾기: %s</string>
+    <string name="talkback_track_number">트랙 번호 %s</string>
+    <string name="talkback_duration">재생시간: %s</string>
+    <string name="talkback_album">앨범: %s</string>
+    <string name="talkback_artist">아티스트: %s</string>
+    <string name="talkback_release_date">%s에서 발매됨</string>
+    <string name="talkback_video">동영상: %s</string>
+    <string name="talkback_stream">스트림: %s</string>
+    <string name="talkback_audio_track">오디오 트랙: %s</string>
+    <string name="talkback_video_group">동영상 그룹: %s</string>
+    <string name="talkback_hours">시간</string>
+    <string name="talkback_minutes">분</string>
+    <string name="talkback_seconds">초</string>
+    <string name="talkback_list_section">헤더: %s</string>
+    <string name="talkback_file_size">파일 크기: %s</string>
+    <string name="talkback_open_in_browser">웹 브라우저에서 열기</string>
+    <string name="talkback_video_player">동영상 재생기. 컨트롤을 표시하려면 누릅니다. 숨기려면 뒤로 버튼을 누릅니다.</string>
+    <string name="talkback_video_tracks">동영상 트랙</string>
+    <string name="talkback_audio_tracks">오디오 트랙</string>
+    <string name="talkback_subtitle_tracks">자막 트랙</string>
+    <string name="talkback_subtitle_dowload_item">언어: %s. %s. 이름: %s</string>
+    <string name="selected">선택됨</string>
+    <string name="talkback_increase_speed">속도 향상</string>
+    <string name="talkback_decrease_speed">속도 감소</string>
+    <string name="talkback_subtitle_history">자막 내역</string>
+    <string name="talkback_language_selection">%s이(가) 선택한 언어</string>
+    <string name="talkback_audio_player_opened">오디오 재생기 열림</string>
+    <string name="talkback_audio_player_collapsed">오디오 재생기 접힘</string>
+    <string name="talkback_audio_player_closed">오디오 재생기 닫힘</string>
+    <string name="talkback_audio_player">오디오 재생기. 현재 재생 중: %s</string>
+    <string name="downloaded">다운로드됨</string>
+    <string name="not_downloaded">다운로드되지 않음</string>
+    <string name="downloading">다운로드하는 중</string>
+    <string name="talkback_action_rewind">%s초 되감기</string>
+    <string name="talkback_action_forward">%s초 앞에서 찾기</string>
+    <string name="talkback_display_settings">디스플레이 설정</string>
+    <string name="talkback_already_played">이미 재생됨</string>
+
 
 </resources>
