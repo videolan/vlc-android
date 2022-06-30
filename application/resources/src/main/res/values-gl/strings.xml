@@ -57,7 +57,6 @@
     <string name="confirm_delete_files">Desexa eliminar  estes %1$s ficheiros?</string>
     <string name="confirm_delete_folders_and_files">Desexa eliminar estes %1$s cartafoles e %2$s ficheiros?</string>
     <string name="confirm_delete_playlist">Quere eliminar a lista de reprodución «%1$s»?</string>
-    <string name="confirm_remove_from_playlist">Desexa retirar «%1$s» da lista de reprodución?</string>
     <string name="ringtone_set">O ficheiro \'%1$s\' foi definido como ton de chamada.</string>
     <string name="ringtone_error">Produciuse un erro ao definir o ton de chamada.</string>
     <string name="pause">Pausa</string>
@@ -121,7 +120,6 @@
     <string name="nosubfolder">Non ha subcartafoles</string>
     <string name="directorynotfound">Non foi posíbel localizar o camiño \'%1$s\'.</string>
     <string name="nohistory">Aínda non existe un historial de reprodución.</string>
-    <string name="validation">Está seguro?</string>
 
     <string name="cover_art">Portada</string>
     <string name="shuffle_all_title">Barallar todo</string>
@@ -178,7 +176,6 @@
     <string name="server_share_hint">Nome de compartición de rede (ou enderezo IP)</string>
     <string name="server_folder_hint">Ruta do cartafol (opcional)</string>
     <string name="server_username_hint">Nome dd usuario</string>
-    <string name="server_servername_hint">Nome do servidor, por conveniencia</string>
     <string name="server_port">Porto: </string>
     <string name="login">Inicio de sesión</string>
     <string name="password">Contrasinal</string>
@@ -195,7 +192,6 @@
     <string name="encountered_error_title">Erro de reprodución</string>
     <string name="encountered_error_message">O VLC encontrou un erro con este multimedia.\nProbe a actualizar a biblioteca multimedia.</string>
     <string name="invalid_location">Non é posíbel reproducir a localización %1$s.</string>
-
     <string name="search">Buscar</string>
 
 
@@ -245,12 +241,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
-    <string name="licence">Licenza</string>
     <string name="revision">Revisión</string>
     <string name="about">Sobre</string>
-    <string name="about_text">VLC for Android™ é unha aplicación derivada do VLC media player, o popular reprodutor multimedia de código aberto. A versión para Android™ pode ler a maioría dos ficheiros e fluxos de rede.</string>
     <string name="vlc_authors">e os autores do VLC.</string>
-    <string name="compiled_by">Esta versión do VLC foi compilada por:</string>
     <string name="feedback_forum">Foro de comentarios</string>
 
     <!-- Preferences -->
@@ -278,7 +271,6 @@
     <string name="subtitle_text_encoding">Codificación do texto dos subtítulos</string>
     <string name="daynight_title">Modo Día/Noite</string>
     <string name="daynight_follow_system_title">Seguir o modo do sistema</string>
-
     <string name="extra_prefs_category">Preferencias adicionais</string>
 
     <string name="interface_prefs_screen">Interface</string>
@@ -307,7 +299,6 @@
     <string name="enable_volume_gesture_title">Xestos para o volume</string>
     <string name="enable_volume_gesture_summary">Controlar o volume mediante xestos durante a reprodución de vídeo</string>
     <string name="enable_seek_buttons">Botóns de desprazamento</string>
-    <string name="enable_seek_buttons_summary">Mostrar os botóns de avanzar e retroceder na interface de vídeo</string>
     <string name="enable_double_tap_seek_title">Dobre toque para desprazarse</string>
     <string name="enable_double_tap_seek_summary">Dobre toque nos bordos da pantalla para avanzar 10 segundos</string>
     <string name="popup_keepscreen_title">Manter a pantalla activa no modo de xanela emerxente</string>
@@ -399,12 +390,10 @@
     <string name="clear_history">Limpar o historial</string>
     <string name="set_locale">Definir a configuración rexional</string>
     <string name="network_caching">Valor da caché de rede</string>
-    <string name="network_caching_summary">Cantidade de tempo (en ms.) a almacenar na memoria intermedia os multimedia de rede para a descodificación por software.\nDéixeo en branco para reiniciar.</string>
     <string name="resume_playback_title">Continuar despois dunha chamada</string>
     <string name="resume_playback_summary">Do contrario permanecer en pausa</string>
     <string name="blurred_cover_background_title">Fondo coa portada borrosa</string>
     <string name="blurred_cover_background_summary">Fondo do reprodutor de son coa portada borrosa</string>
-    <string name="network_caching_popup">Este valor debe estar entre 0 e 6000 ms.</string>
     <string name="quit">Saír e reiniciar a aplicación</string>
     <string name="restart_message">Os cambios terán efecto cando se reinicie a aplicación.\nReiniciar a aplicación?</string>
     <string name="restart_message_OK">Aceptar</string>
@@ -458,8 +447,6 @@
     <string name="playlist_save">Gardar lista de reprodución</string>
     <string name="playlist_name_hint">Nome da lista de reprodución</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
-    <string name="chapter">Capítulo</string>
-    <string name="resume_from_position">Continuar desde a última posición</string>
     <string name="confirm_resume">Quere continuar desde a última posición?</string>
     <string name="confirm_resume_title">Continuar vídeos reproducidos</string>
     <string name="tv_ui_title">Interface de Android TV</string>
@@ -489,8 +476,6 @@
     <string name="permission_not_granted">Permiso non concedido</string>
     <string name="permission_expanation_no_allow">Non poderá detectar automaticamente os multimedia nin usar subtítulos externos</string>
     <string name="permission_expanation_allow">Só poderá reproducir fluxos ou multimedia da rede</string>
-    <string name="permission_expanation_subtitles">Usar subtítulos externos</string>
-    <string name="permission_expanation_allow_explanation">Reproducir fluxos de internet ou multimedia da rede</string>
     <string name="exit_app">Pechar o VLC</string>
     <string name="exit_app_msg">Confirma que quere pechar o VLC?</string>
 
@@ -791,9 +776,6 @@
     <string name="allow_otg">Permitir acceso OTG</string>
     <string name="allow_otg_description">Seleccione o dispositivo OTG que acceda ao VLC.</string>
     <string name="timeout_infinite">Infinito</string>
-    <string name="timeout_short">Curto</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Longo</string>
     <string name="video_hud_timeout">Atraso no ocultamento dos controis do reprodutor</string>
     <string name="remove_from_history">Retirar do historial</string>
     <string name="prefersmbv1">Preferir SMB 1</string>
@@ -845,5 +827,4 @@
         <item quantity="one">1 dos elementos seleccionados xa está na lista de reprodución.</item>
         <item quantity="other">%d dos elementos seleccionados xa están na lista de reprodución.</item>
     </plurals>
-
 </resources>
