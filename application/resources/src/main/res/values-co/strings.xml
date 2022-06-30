@@ -118,11 +118,11 @@
     <string name="loading">Caricamentu</string>
     <string name="please_wait">Aspittate per piacè…</string>
     <string name="nomedia">Alcunu medià trouvu, ci vole à trasferà qualchì schedariu ver di u vostru apparechju o cambià e vostre preferenze.</string>
+    <string name="empty_search">Nisunu elementu trovu per a ricerca %s</string>
     <string name="noplaylist">Alcuna lista di lettura trova.</string>
     <string name="nosubfolder">Alcunu sottucartularu</string>
     <string name="directorynotfound">U chjassu di u cartulare « %1$s » ùn si trova micca.</string>
     <string name="nohistory">Ùn ci hè manc’una cronolugia di ripruduzzione.</string>
-    <string name="validation">Site sicuru ?</string>
 
     <string name="cover_art">Cuprendula</string>
     <string name="shuffle_all_title">Lettura aleatoria di tuttu</string>
@@ -368,6 +368,19 @@
     <string name="enable_headset_detection_summary">Abbentà l’inserzione è a cacciatura di u cascu</string>
     <string name="enable_play_on_headset_insertion">Cuntinuà à l’inserzione di u cascu</string>
     <string name="enable_play_on_headset_insertion_summary">Mette in pausa altrimentu</string>
+    <string name="replaygain_prefs_category">Guadagnu di ripruduzzione</string>
+    <string name="replaygain_enable">Attivà u guadagnu di ripruduzzione</string>
+    <string name="replaygain_enable_summary">I flussi senza infurmazione di guadagnu di ripruduzzione ponu esse più silenziosi per via di u guadagnu predefinitu</string>
+    <string name="replaygain_mode">Modu di guadagnu di ripruduzzione</string>
+    <string name="replaygain_mode_summary">U modu Traccia leghje i flussi cù l’infurmazione nant’à u guadagnu di ripruduzzione à a listessa intensità sonora. U modu Albumu cunserva l’intensità sonora relativa di i flussi nant’à un stessu albumu.</string>
+    <string name="replaygain_preamp">Preamplificazione di ripruduzzione</string>
+    <string name="replaygain_preamp_summary">Cambia u livellu predefinitu di destinazione (89 dB) per i flussi cù l’infurmazione nant’à u guadagnu di ripruduzzione</string>
+    <string name="replaygain_default">Guadagnu di ripruduzzione predefinitu</string>
+    <string name="replaygain_default_summary">S’appieca à i flussi senza infurmazione nant’à u guadagnu di ripruduzzione\nDefinisce à 0 per disattivà</string>
+    <string name="replaygain_peak_protection">Prutezzione contr’à i picchi</string>
+    <string name="replaygain_peak_protection_summary">Prutezzione contr’à a saturazione di u sonu</string>
+    <string name="replaygain_track">Traccia</string>
+    <string name="replaygain_album">Albumu</string>
     <string name="aout">Esciuta audio</string>
     <string name="aout_summary">Cambià u metoda chì VLC impiega per l’esciuta audio s’ellu ùn funzioneghja micca</string>
     <string name="audio_ducking_title">Diminuisce u vulume di VLC in casu di nutificazione</string>
@@ -418,14 +431,15 @@
     <string name="clear_app_data">Squassà i dati di l’appiecazione</string>
     <string name="clear_app_data_summary">Squassà i dati di VLC per Android</string>
     <string name="clear_history">Viutà a cronolugia di lettura</string>
+    <string name="clear_history_message">Pirderete a vostra cronolugia, e vostre liste di lettura attuale è e vostre prugressioni</string>
     <string name="set_locale">Definisce a lingua</string>
     <string name="network_caching">Valore di l’impiatta di reta</string>
-    <string name="network_caching_summary">A quantità di tempu dedicata à u stampone di medià di reta (in ms) per a discudificazione logica\nLascià viotu per rimette à zeru</string>
+    <string name="network_caching_summary">A durata dedicata à u stampone di i medià di a reta (in ms) per a discudificazione di prugramma\nDefinisce à 0 per disattivà</string>
     <string name="resume_playback_title">Cuntinuà a ripruduzzione dopu a chjama</string>
     <string name="resume_playback_summary">Stà in pausa altrimentu</string>
     <string name="blurred_cover_background_title">Cuprendula frolla in fondu</string>
     <string name="blurred_cover_background_summary">Cuprendula frolla in fondu di u lettore audio</string>
-    <string name="network_caching_popup">Stu valore deve esse trà 0 è 6000 ms</string>
+    <string name="network_caching_popup">Stu valore deve esse scelta trà 0 è 60000 ms</string>
     <string name="quit">Ci vole à chità è rilancià l’appiecazione</string>
     <string name="restart_message">I cambiamenti seranu pigliati in contu quandu l’appiecazione serà rilanciata.\n\nRilancialla avà ?</string>
     <string name="restart_message_OK">Vai</string>
@@ -499,6 +513,12 @@
     <!-- Widget -->
     <string name="widget_name_w">Widget VLC Biancu</string>
     <string name="widget_name_b">Widget VLC Scuru</string>
+    <string name="widget_name_mini_player">Mini lettore VLC</string>
+    <string name="widget_old_text">Avemu messu à livellu i nostri widgets !</string>
+    <string name="widget_old_description_start">Bella nutizia ! Avemu publicatu widgets amendati.\nPermettenu più di riattività è di persunalizazione</string>
+    <string name="whats_next">Cosa hà da accade dopu ?</string>
+    <string name="widget_old_description_end">Avemu vistu chì vo avete dighjà widgets in u vostru lanciadore. Per disgrazia, ùn sò micca cumpatibile cù i nostri widgets amendati.\nSecondu à u vostru lanciadore, ci vulerà forse à caccià i vechji per rimpiazzalli.</string>
+    <string name="click_here">Fate un cliccu quì per sapene di più.</string>
     <string name="allow_storage_access_title">Permette à VLC d’accede à i schedarii video è audio</string>
     <string name="allow_storage_access_description">VLC hà bisognu di stu permessu per accede à i schedarii medià nant’à st’apparechju.</string>
     <string name="allow_storage_manager_title">Permette à VLC d’accede à tutti i schedarii</string>
@@ -514,11 +534,10 @@
     <string name="allow_draw_overlays_title">Permette à u lettore VLC d’affissassi sopra à l’altre appiecazioni</string>
     <string name="allow_sdraw_overlays_description">VLC hà bisognu di stu permessu per affissà a vistra video in una finestra chì s’apre sopra à l’altre appiecazioni.</string>
     <string name="permission_ask_again">Cunsente u permessu</string>
+    <string name="pick_file">Sceglie un schedariu</string>
     <string name="permission_not_granted">Permessu micca cunsintitu</string>
     <string name="permission_expanation_no_allow">Ùn serà micca pussibule di scopre autumaticamente i vostri medià nè d’impiegà sottutituli esterni</string>
     <string name="permission_expanation_allow">Serà solu pussibule di leghje i flussi o i medià di a reta</string>
-    <string name="permission_expanation_subtitles">Impiegà sottutituli esterni</string>
-    <string name="permission_expanation_allow_explanation">Leghje i flussi nant’ Internet o i medià di a reta</string>
     <string name="exit_app">Chjode VLC</string>
     <string name="exit_app_msg">Site sicuru di vulè chità VLC ?</string>
 
@@ -631,6 +650,7 @@
     <string name="delete_the_selected">Squassà a selezzione</string>
     <string name="download_the_selected">Scaricà a selezzione</string>
     <string name="next">Seguente</string>
+    <string name="next_step">Seguente</string>
     <string name="download">Scaricà</string>
     <string name="ctx_player_video_track">Selezziunà a traccia video</string>
     <string name="ctx_player_audio_track">Traccia audio</string>
@@ -781,6 +801,7 @@
     <string name="rename_group">Rinuminà u gruppu video</string>
     <string name="ungroup">Disunisce</string>
     <string name="group_similar">Raggruppà autumaticamente</string>
+    <string name="no_group_found">Alcunu gruppu video trovu</string>
     <string name="no_favorite">Alcunu favuritu</string>
     <string name="empty_directory">Viotu</string>
     <string name="no_track">Alcuna traccia</string>
@@ -832,6 +853,7 @@
     <string name="audio_delay_bt">Cumportu audio definitu à %s ms per l’apparechju bluetooth</string>
     <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
     <string name="go_to_folder">Navigà à u livellu superiore</string>
+    <string name="create_shortcut">Creà un accurtatoghju per u lanciadore</string>
     <string name="no_sub_renderer">I sottutituli ùn sò ancu accettati durante a diffusione</string>
     <string name="enqueuing">Caricamentu di i vostri medià</string>
     <string name="soundfont">Banca di soni SoundFont MIDI</string>
@@ -901,5 +923,32 @@
     <string name="notch">Intacca</string>
     <string name="always_fast_seek">Sempre impiegà u pusiziunà rapidu</string>
     <string name="always_fast_seek_summary">U pusiziunà hè più rapidu ma forse menu precisu</string>
-
+    <string name="touch_only">Funzione tattile solu</string>
+    <string name="touch_only_description">U passagiu à l’interfaccia mobile pò fassi solu grazia à un screnu tattile o un topu.\nFate sguillà quì sottu per verificà ch’ella si pò cambià sta funzione senza risicu.</string>
+    <string name="no_web_browser">Nisunu navigatore web ùn hè installatu</string>
+    <string name="no_web_browser_message">Pudete numerizà què nant’à u vostru telefonu.\nL’indirizzu web hè %s</string>
+    <string name="no_video">Nisuna video dispunibule</string>
+    <string name="fold_optimized">Amendatu per u vostru screnu pieghevule</string>
+    <string name="fold_optimize">Amendà per i screni pieghevule</string>
+    <string name="foldable">Screnu pieghevule</string>
+    <string name="undo">Abbandunà</string>
+    <string name="add_server_favorite">Aghjunghje un servitore à i favuriti</string>
+    <string name="widget_theme">Tema di u widget</string>
+    <string name="widget_preferences">Cunfigurà u widget</string>
+    <string name="material_you">Material You (piglia i culori da u sfondulu di screnu)</string>
+    <string name="palette">Tavuletta (piglia i culori da a cuprendula di u medià)</string>
+    <string name="custom">Persunalizatu</string>
+    <string name="opacity">Opacità</string>
+    <string name="widget_background">Sfondulu</string>
+    <string name="widget_foreground">Primu pianu</string>
+    <string name="configure_widget">Cunfigurazione di u widget</string>
+    <string name="widget_preview">Fighjulata di u widget</string>
+    <string name="widget_forward_delay">Tempurizazione d’avanza</string>
+    <string name="widget_rewind_delay">Tempurizazione di ritornu</string>
+    <string name="widget_show_configure">Affissà l’icona di cunfigurazione</string>
+    <string name="widget_show_configure_summary">Ancu s’ellu ùn hè micca affissatu, pudete picchichjà u scornu superiore à diritta per apre a cunfigurazione</string>
+    <string name="seek_backward_content_description">Pusiziunà %s seconde in daretu</string>
+    <string name="seek_forward_content_description">Pusiziunà %s seconde in avanti</string>
+    <string name="open_vlc">Apre VLC</string>
+    <string name="playing">Lettura</string>
 </resources>
