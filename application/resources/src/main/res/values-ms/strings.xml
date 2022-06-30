@@ -109,11 +109,11 @@
     <string name="loading">Memuatkan</string>
     <string name="please_wait">Tunggu sebentar…</string>
     <string name="nomedia">Tiada fail media ditemui, sila pindah beberapa fail ke dalam peranti anda atau laraskan keutamaan anda.</string>
+    <string name="empty_search">Tiada item ditemui ketika menggelintar %s</string>
     <string name="noplaylist">Tiada senarai main ditemui.</string>
     <string name="nosubfolder">Tiada subfolder</string>
     <string name="directorynotfound">Laluan direktori \'%1$s\' tidak ditemui.</string>
     <string name="nohistory">Anda belum memiliki sejarah main balik.</string>
-    <string name="validation">Anda pasti?</string>
 
     <string name="cover_art">Seni kulit hadapan</string>
     <string name="shuffle_all_title">Kocok semua</string>
@@ -237,6 +237,7 @@
     <string name="audio_player_tips">Petua pemain audio</string>
     <string name="previous_next_song">Lagu Terdahulu/Berikutnya</string>
     <string name="show_playlist">Tunjuk senarai main</string>
+    <string name="hide_playlist">Sembunyi senarai main</string>
     <string name="hold_to_stop">Tahan untuk henti</string>
 
     <!-- About -->
@@ -273,6 +274,7 @@
     <string name="screen_orientation_landscape_reverse">Songsang lanskap</string>
     <string name="screen_orientation_last_locked">Orientasi kunci terakhir</string>
     <string name="enable_black_theme">Tema gelap</string>
+    <string name="theme_auto">Auto tema</string>
     <string name="subtitle_text_encoding">Pengekodan teks sari kata</string>
     <string name="subtitle_preferred_language">Bahasa sari kata dikehendaki</string>
     <string name="daynight_title">Mod SiangMalam</string>
@@ -421,6 +423,7 @@
     <string name="clear_app_data">Kosongkan data apl</string>
     <string name="clear_app_data_summary">Kosongkan data VLC untuk Android</string>
     <string name="clear_history">Kosongkan sejarah</string>
+    <string name="clear_history_message">Anda akan kehilangan sejarah, senarai main semasa dan kemajuan anda.</string>
     <string name="set_locale">Tetapkan penempatan</string>
     <string name="network_caching">Nilai pengagregatan rangkaian</string>
     <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms) ketika penyahkod perisian\nTetapkan pada 0 untuk dilumpuhkan</string>
@@ -502,6 +505,11 @@
     <!-- Widget -->
     <string name="widget_name_w">Widget Putih VLC</string>
     <string name="widget_name_b">Widget Gelap VLC</string>
+    <string name="widget_name_mini_player">Pemain mini VLC</string>
+    <string name="widget_old_text">Kami telah mengemas kini widget anda!</string>
+    <string name="widget_old_description_start">Berita baik! Kami telah menambah baik widget.\nIa lebih respons dan boleh disuaikan</string>
+    <string name="whats_next">Yang berikutnya?</string>
+    <string name="click_here">Klik di sini untuk ketahui lebih lanjut.</string>
     <string name="allow_storage_access_title">Benarkan VLC mencapai fail video dan audio</string>
     <string name="allow_storage_access_description">VLC memerlukan keizinan anda untuk mencapai fail media dalam peranti ini.</string>
     <string name="allow_storage_manager_title">Benarkan VLC mencapai semua fail</string>
@@ -516,13 +524,16 @@
     <string name="allow_settings_access_brightness_description">VLC memerlukan keizinan anda untuk mengubah mod kecerahan anda.</string>
     <string name="allow_draw_overlays_title">Benarkan pemain VLC timbul berbanding apl lain</string>
     <string name="allow_sdraw_overlays_description">VLC memerlukan keizinan anda untuk memaparkan video anda secara timbul berbanding aplikasi lain.</string>
+    <string name="allow_pip">Benarkan pemain VLC melancarkan Gambar dalam Gambar</string>
+    <string name="allow_pip_description">VLC memerlukan keizinan untuk memaparkan video anda dalam mod Gambar dalam Gambar.</string>
     <string name="permission_ask_again">Beri keizinan</string>
     <string name="pick_file">Ambil satu fail</string>
     <string name="permission_not_granted">Keizinan dinafikan</string>
     <string name="permission_expanation_no_allow">Anda tidak berupaya untuk auto-temui media anda atau guna sari kata luar</string>
     <string name="permission_expanation_allow">Anda hanya boleh memainkan media strim atau rangkaian</string>
-    <string name="permission_expanation_subtitles">Guna sari kata luar</string>
-    <string name="permission_expanation_allow_explanation">Main strim Internet atau media rangkaian</string>
+    <string name="permission_onboarding_no_perm">Anda tidak dapat auto-temui media anda.\nAnda hanya boleh memainkan media strim atau rangkaian.</string>
+    <string name="permission_onboarding_perm_media">Anda hanya boleh auto-temui fail media piawai</string>
+    <string name="permission_onboarding_perm_all">Anda akan dapat auto-temui semua fail anda untuk memainkan semua jenis media walaupun formatnya pelik, atau fail termampat</string>
     <string name="exit_app">Tutup VLC</string>
     <string name="exit_app_msg">Anda pasti mahu menutup VLC?</string>
 
@@ -635,6 +646,7 @@
     <string name="delete_the_selected">Padam pemilihan</string>
     <string name="download_the_selected">Muat turun pemilihan</string>
     <string name="next">Berikut</string>
+    <string name="skip">Langkau</string>
     <string name="next_step">Berikutnya</string>
     <string name="download">Muat Turun</string>
     <string name="ctx_player_video_track">Pilih trek video</string>
@@ -784,6 +796,7 @@
     <string name="rename_group">Nama semula kumpulan video</string>
     <string name="ungroup">Nyahkumpul</string>
     <string name="group_similar">Kumpul semula secara automatik</string>
+    <string name="no_group_found">Tiada kumpulan video ditemui</string>
     <string name="no_favorite">Tiada kegemaran</string>
     <string name="empty_directory">Kosong</string>
     <string name="no_track">Tiada trek</string>
@@ -913,5 +926,77 @@
     <string name="foldable">Skrin boleh lipat</string>
     <string name="undo">Buat asal</string>
     <string name="add_server_favorite">Tambah satu pelayan kegemaran</string>
+    <string name="widget_theme">Tema widget</string>
+    <string name="widget_preferences">Konfigur widget</string>
+    <string name="custom">Suai</string>
+    <string name="opacity">Kelegapan</string>
+    <string name="widget_background">Latar Belakang</string>
+    <string name="widget_foreground">Latar Hadapan</string>
+    <string name="configure_widget">Konfigurasi widget</string>
+    <string name="widget_preview">Pratonton widget</string>
+    <string name="widget_forward_delay">Maju lengah masa</string>
+    <string name="widget_rewind_delay">Undur lengah masa</string>
+    <string name="widget_show_configure">Tunjuk ikon konfigurasi</string>
+    <string name="widget_show_configure_summary">Walaupun ia tersembunyi, anda masih boleh mengetik bucu kanan atas untuk membuka konfigurasi</string>
+    <string name="seek_backward_content_description">Jangkau undur %s saat</string>
+    <string name="seek_forward_content_description">Jangkau maju %s saat</string>
+    <string name="open_vlc">Buka VLC</string>
+    <string name="playing">Dimainkan</string>
+    <string name="disable_track">Lumpuhkan trek</string>
+    <string name="ascending">Menaik</string>
+    <string name="descending">Menurun</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - tajuk: %s - tempoh: %s</string>
+    <string name="talkback_genre">Genre: %s</string>
+    <string name="talkback_history_item">Item sejarah</string>
+    <string name="talkback_playlist">Senarai Main: %s</string>
+    <string name="talkback_folder">Folder: %s</string>
+    <string name="talkback_file">Fail: %s</string>
+    <string name="talkback_favorite">Kegemaran: %s</string>
+    <string name="talkback_track_number">Bilangan trek %s</string>
+    <string name="talkback_duration">Tempoh: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Artis: %s</string>
+    <string name="talkback_release_date">Dikeluarkan pada %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Strim: %s</string>
+    <string name="talkback_audio_track">Trek audio: %s</string>
+    <string name="talkback_video_group">Kumpulan video: %s</string>
+    <string name="talkback_hours">jam</string>
+    <string name="talkback_minutes">minit</string>
+    <string name="talkback_seconds">saat</string>
+    <string name="talkback_list_section">Tajuk: %s</string>
+    <string name="talkback_enter_screen">Navigasi ke %s</string>
+    <string name="talkback_file_size">Saiz fail: %s</string>
+    <string name="talkback_open_in_browser">Buka dalam pelayar sesawang</string>
+    <string name="talkback_video_player">Pemain video. Ketik untuk tunjuk kawalan. Ketik butang undur untuk menyembunyikannya</string>
+    <string name="talkback_video_tracks">Trek video</string>
+    <string name="talkback_audio_tracks">Trek audio</string>
+    <string name="talkback_subtitle_tracks">Trek sari kata</string>
+    <string name="talkback_subtitle_dowload_item">Bahasa: %s. %s. Nama: %s</string>
+    <string name="selected">Dipilih</string>
+    <string name="talkback_increase_delay">Tambah lengah</string>
+    <string name="talkback_decrease_delay">Kurang lengah</string>
+    <string name="talkback_increase_speed">Tambah kelajuan</string>
+    <string name="talkback_decrease_speed">Kurang kelajuan</string>
+    <string name="talkback_subtitle_history">Sejarah sarik kata</string>
+    <string name="talkback_language_selection">%s bahasa terpilih</string>
+    <string name="talkback_audio_player_opened">Pemain audio dibuka</string>
+    <string name="talkback_audio_player_collapsed">Pemain audio dikuncup</string>
+    <string name="talkback_audio_player_closed">Pemain audio ditutup</string>
+    <string name="talkback_audio_player">Pemain audio. Sedang memainkan: %s</string>
+    <string name="talkback_out_of">%s daripada %s</string>
+    <string name="talkback_track_index">Trek %s daripada %s</string>
+    <string name="downloaded">Dimuat turun</string>
+    <string name="not_downloaded">Tidak dimuat turun</string>
+    <string name="downloading">Memuat turun</string>
+    <string name="talkback_action_rewind">Mandir %s saat</string>
+    <string name="talkback_action_forward">Jangkau maju %s saat</string>
+    <string name="talkback_display_settings">Tetapan paparan</string>
+    <string name="talkback_already_played">Telah dimainkan</string>
+
 
 </resources>
