@@ -49,7 +49,6 @@
     <string name="confirm_delete_album">Обрисати албум „%1$s“?</string>
     <string name="confirm_delete_folder">Обрисати фасциклу „%1$s“ и сав њен садржај?</string>
     <string name="confirm_delete_playlist">Обрисати листу „%1$s“?</string>
-    <string name="confirm_remove_from_playlist">Уклонити „%1$s“ са листе?</string>
     <string name="ringtone_set">Фајл „%1$s“ је постављен као звоно.</string>
     <string name="ringtone_error">Дошло је до грешке при постављању мелодије звона.</string>
     <string name="pause">Паузирај</string>
@@ -115,7 +114,6 @@
     <string name="nosubfolder">Нема потфасцикли</string>
     <string name="directorynotfound">Путања „%1$s“ није пронађена.</string>
     <string name="nohistory">Још нисте репродуковали ниједну датотеку.</string>
-    <string name="validation">Јесте ли сигурни?</string>
 
     <string name="cover_art">Омот</string>
     <string name="shuffle_all_title">Измешај све</string>
@@ -168,7 +166,6 @@
     <string name="server_domain_hint">Адреса сервера (домен или ИП)</string>
     <string name="server_folder_hint">Путања фасцикле (опционо)</string>
     <string name="server_username_hint">Корисничко име</string>
-    <string name="server_servername_hint">Назив сервера</string>
     <string name="server_port">Порт:</string>
     <string name="login">Пријава</string>
     <string name="password">Лозинка</string>
@@ -185,7 +182,6 @@
     <string name="encountered_error_title">Грешка при репродукцији</string>
     <string name="encountered_error_message">VLC је наишао на грешку у овом медију.\nПробајте да освежите медијску библиотеку.</string>
     <string name="invalid_location">Локацију %1$s није могуће пустити.</string>
-
     <string name="search">Претражи</string>
 
 
@@ -209,12 +205,9 @@
 
     <!-- About -->
     <string name="app_name_full">ВЛЦ за Андроид</string>
-    <string name="licence">Лиценца</string>
     <string name="revision">Ревизија</string>
     <string name="about">О апликацији</string>
-    <string name="about_text">VLC за Android је порт VLC Media Player-а, популарног медијског плејера отвореног кода. Верзија за Android може да репродукује многе датотеке и мрежне токове.</string>
     <string name="vlc_authors">и аутори VLC-а.</string>
-    <string name="compiled_by">Ову верзију VLC-а је компилирао:</string>
     <string name="feedback_forum">Форум</string>
 
     <!-- Preferences -->
@@ -238,7 +231,6 @@
     <string name="subtitle_text_encoding">Енкодирање текстуалних титлова</string>
     <string name="daynight_title">Режим дан/ноћ</string>
     <string name="daynight_follow_system_title">Прати систем</string>
-
     <string name="extra_prefs_category">Додатне поставке</string>
 
     <string name="interface_prefs_screen">Сучеље</string>
