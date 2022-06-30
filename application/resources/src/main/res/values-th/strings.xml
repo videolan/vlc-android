@@ -51,7 +51,6 @@
     <string name="confirm_delete_several_media">ลบสื่อ %1$d รายการเหล่านี้หรือไม่</string>
     <string name="confirm_delete_folder">ลบโฟลเดอร์ \'%1$s\' รวมถึงเนื้อหาทั้งหมดภายในโฟลเดอร์หรือไม่</string>
     <string name="confirm_delete_playlist">ลบเพลย์ลิสต์ \'%1$s\' หรือไม่</string>
-    <string name="confirm_remove_from_playlist">เอา \'%1$s\' ออกจากเพลย์ลิสต์หรือไม่</string>
     <string name="ringtone_set">ไฟล์ \'%1$s\' ได้ถูกใช้เป็นเสียงเรียกเข้า</string>
     <string name="ringtone_error">เกิดข้อผิดพลาดขณะตั้งค่าเสียงเรียกเข้า</string>
     <string name="pause">พัก</string>
@@ -103,7 +102,6 @@
     <string name="nosubfolder">ไม่มีโฟลเดอร์ย่อย</string>
     <string name="directorynotfound">ไม่พบเส้นทางไดเรกทอรี \'%1$s\'</string>
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
-    <string name="validation">คุณแน่ใจหรือไม่</string>
 
     <string name="cover_art">ภาพหน้าปก</string>
     <string name="shuffle_all_title">เล่นทั้งหมดแบบสลับ</string>
@@ -158,7 +156,6 @@
     <string name="server_share_hint">ชื่อเครือข่ายแชร์ (หรือที่อยู่ IP)</string>
     <string name="server_folder_hint">เส้นทางโฟลเดอร์ (ทางเลือก)</string>
     <string name="server_username_hint">ชื่อผู้ใช้</string>
-    <string name="server_servername_hint">ชื่อเซิร์ฟเวอร์ สำหรับความสะดวก</string>
     <string name="server_port">พอร์ต: </string>
     <string name="login">เข้าสู่ระบบ</string>
     <string name="password">รหัสผ่าน</string>
@@ -175,7 +172,6 @@
     <string name="encountered_error_title">ข้อผิดพลาดการเล่น</string>
     <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อผิดพลาด\nกรุณาลองรีเฟรชคลังสื่ออีกครั้ง</string>
     <string name="invalid_location">ไม่สามารถเล่นตำแหน่ง %1$s ได้</string>
-
     <string name="search">ค้นหา</string>
 
 
@@ -202,12 +198,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android</string>
-    <string name="licence">สัญญาอนุญาต</string>
     <string name="revision">การปรับปรุง</string>
     <string name="about">เกี่ยวกับ</string>
-    <string name="about_text">VLC สำหรับ Android™ เป็นแขนงหนึ่งของโปรแกรมเล่นสื่อ VLC ซึ่งเป็นโปรแกรมเล่นสื่อยอดนิยมแบบโอเพนซอร์ส โดยในเวอร์ชัน Android™ สามารถอ่านไฟล์และสตรีมเครือข่ายได้แทบทุกรูปแบบ</string>
     <string name="vlc_authors">และผู้จัดทำ VLC</string>
-    <string name="compiled_by">VLC เวอร์ชันนี้คอมไพล์โดย:</string>
     <string name="feedback_forum">ฟอรัมคำติชม</string>
 
     <!-- Preferences -->
@@ -233,7 +226,6 @@
     <string name="subtitle_text_encoding">การเข้ารหัสข้อความคำบรรยาย</string>
     <string name="daynight_title">โหมดกลางวัน/กลางคืน</string>
     <string name="daynight_follow_system_title">ใช้ตามโหมดของระบบ</string>
-
     <string name="extra_prefs_category">การตั้งค่าพิเศษ</string>
 
     <string name="interface_prefs_screen">อินเทอร์เฟซ</string>
@@ -262,7 +254,6 @@
     <string name="enable_volume_gesture_title">ปรับระดับเสียงด้วยท่าทาง</string>
     <string name="enable_volume_gesture_summary">ควบคุมระดับเสียงด้วยท่าทางในขณะที่กำลังเล่นวิดีโออยู่</string>
     <string name="enable_seek_buttons">ปุ่มกรอ</string>
-    <string name="enable_seek_buttons_summary">แสดงปุ่มย้อนกลับและไปข้างหน้าบนอินเทอร์เฟซวิดีโอ</string>
     <string name="enable_double_tap_seek_title">แตะสองครั้งเพื่อค้นหา</string>
     <string name="enable_double_tap_seek_summary">แตะสองครั้งบริเวณขอบหน้าจอเพื่อกรอ 10 วินาที</string>
     <string name="popup_keepscreen_title">คงหน้าจอให้เปิดไว้ในโหมดป๊อปอัพ</string>
@@ -349,12 +340,10 @@
     <string name="clear_history">ล้างประวัติ</string>
     <string name="set_locale">ตั้งภาษา</string>
     <string name="network_caching">ค่าการทำแคชเครือข่าย</string>
-    <string name="network_caching_summary">ระยะเวลาที่ใช้ทำบัฟเฟอร์สื่อทางเครือข่าย (เป็นมิลลิวินาที) สำหรับการถอดรหัสด้วยซอฟต์แวร์\nปล่อยว่างไว้เพื่อรีเซ็ต</string>
     <string name="resume_playback_title">เล่นต่อหลังจากวางสาย</string>
     <string name="resume_playback_summary">พักต่อไป</string>
     <string name="blurred_cover_background_title">พื้นหลังปกแบบเบลอ</string>
     <string name="blurred_cover_background_summary">ปกแบบเบลอในพื้นหลังของโปรแกรมเล่นเสียง</string>
-    <string name="network_caching_popup">ค่านี้ต้องอยู่ระหว่าง 0 ถึง 6000 มิลลิวินาที</string>
     <string name="quit">ออกและเริ่มแอปพลิเคชันใหม่</string>
     <string name="restart_message">การเปลี่ยนแปลงจะมีผลเมื่อเริ่มการทำงานแอปพลิเคชันใหม่\n\nเริ่มการทำงานใหม่ตอนนี้หรือไม่</string>
     <string name="restart_message_OK">ตกลง</string>
@@ -408,8 +397,6 @@
     <string name="playlist_save">บันทึกเพลย์ลิสต์</string>
     <string name="playlist_name_hint">ชื่อเพลย์ลิสต์</string>
     <string name="go_to_chapter">ไปที่ตอน…</string>
-    <string name="chapter">ตอน</string>
-    <string name="resume_from_position">เล่นต่อจากตำแหน่งที่เล่นล่าสุด</string>
     <string name="confirm_resume">เล่นต่อจากตำแหน่งล่าสุดหรือไม่</string>
     <string name="confirm_resume_title">เล่นวิดีโอที่ค้างไว้ต่อ</string>
     <string name="tv_ui_title">อินเทอร์เฟซสำหรับ Android TV</string>
@@ -723,9 +710,6 @@
     <string name="allow_otg">อนุญาตการเข้าถึง OTG</string>
     <string name="allow_otg_description">โปรดเลือกไดรฟ์ OTG ของคุณเพื่ออนุญาตการเข้าถึง VLC</string>
     <string name="timeout_infinite">ไม่จำกัด</string>
-    <string name="timeout_short">สั้น</string>
-    <string name="timeout_normal">ปกติ</string>
-    <string name="timeout_long">นาน</string>
     <string name="video_hud_timeout">การหน่วงเวลาการซ่อนส่วนควบคุมตัวเล่นวิดีโอ</string>
     <string name="remove_from_history">เอาออกจากประวัติ</string>
     <string name="prefersmbv1">ต้องการ SMB 1</string>
@@ -735,4 +719,6 @@
     <string name="warning_stream_speed">การเพิ่มความเร็วในการเล่นให้มากกว่า 1 สำหรับสตรีมอาจทำให้ติดขัดได้</string>
     <string name="go_to_folder">เรียกดูตำแหน่งหลัก</string>
     <string name="enqueuing">กำลังโหลดสื่อของคุณ</string>
+    <string name="add_button">เพิ่ม</string>
+    <string name="add_all_button">เพิ่มทั้งหมด</string>
 </resources>
