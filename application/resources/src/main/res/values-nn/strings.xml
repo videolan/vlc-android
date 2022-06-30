@@ -42,6 +42,7 @@
     <string name="append_all">Legg til alle</string>
     <string name="resume_playback_short_title">Fortset avspelinga</string>
     <string name="resume_playback_long_title">Fortset avspeling av siste speleliste</string>
+    <string name="resume_playback_error">Ingenting å fortsetje</string>
     <string name="delete">Slett</string>
     <string name="remove">Fjern</string>
     <string name="set_song">Bruk som ringjetone</string>
@@ -52,7 +53,6 @@
     <string name="confirm_delete_several_media">Slette desse %1$d media?</string>
     <string name="confirm_delete_folder">Slette mappa \'%1$s\' og alt innhald?</string>
     <string name="confirm_delete_playlist">Slette dpelelista \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Fjerne \'%1$s\' frå spelelista?</string>
     <string name="ringtone_set">Fila \'%1$s\' er vald som ringjetone</string>
     <string name="ringtone_error">Ein feil oppstod då ny ringjetone vart vald.</string>
     <string name="pause">Pause</string>
@@ -108,8 +108,6 @@
     <string name="please_wait">Vent litt…</string>
     <string name="noplaylist">Fann inga speleliste</string>
     <string name="nosubfolder">Inga undermappe</string>
-    <string name="validation">Er du sikker?</string>
-
     <string name="cover_art">Plateomslag</string>
     <string name="shuffle_all_title">Bland alle</string>
     <string name="shuffle_title">Blandemodus</string>
@@ -179,7 +177,6 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android</string>
-    <string name="licence">Lisens</string>
     <string name="revision">Revisjon</string>
     <string name="about">Om</string>
 
@@ -218,6 +215,7 @@
     <string name="list_title_ellipsize_middle">Midten</string>
     <string name="list_title_ellipsize_marquee">Rulletekst</string>
     <string name="audio_boost_summary">Tillat lydstyrke opptil 200%</string>
+    <string name="enable_play_on_headset_insertion">Fortset når hovudsett vert kopla til</string>
     <string name="casting_conversion_quality_summary">Vel konverteringskvalitet for kringkasting til ein ekstern skjerm </string>
     <string name="casting_quality_high">Høg</string>
     <string name="casting_quality_medium">Middels</string>
@@ -236,6 +234,7 @@
 
     <string name="performance_prefs_category">Yting</string>
     <string name="set_locale">Endre språk</string>
+    <string name="resume_playback_title">Fortset avspeling etter ein samtale</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Seinare</string>
     <string name="developer_prefs_category">Utviklar</string>
@@ -251,9 +250,8 @@
     <string name="playlist_save">Lagre speleliste</string>
     <string name="playlist_name_hint">Spelelistenamn</string>
     <string name="go_to_chapter">Gå til kapittel…</string>
-    <string name="chapter">Kapittel</string>
-    <string name="resume_from_position">Fortset der du slapp</string>
     <string name="confirm_resume">Fortsetje der du slapp?</string>
+    <string name="confirm_resume_title">Fortset avspelte videoar</string>
     <string name="tv_ui_title">Grensesnitt for Android TV</string>
     <string name="medialibrary">Mediabibliotek</string>
 
@@ -274,6 +272,11 @@
     <string name="network_favorites">Nettverksfavorittar</string>
     <string name="network_shared_folders">Delte mapper</string>
     <string name="add_to_playlist">Legg til i speleliste</string>
+    <string name="resume">Fortset</string>
+    <string name="audio_resume_card_summary">Viser eit tips som hjelper deg med å fortsetje lydavspeling når appen startar</string>
     <string name="removed_from_playlist_anonymous">Objekt fjerna frå speleliste</string>
     <string name="add_to_new_playlist">Legg til i ny speleliste</string>
+    <string name="resume_card_message">Fortsetje avspeling av %1$s?</string>
+    <string name="resume_episode">Fortset (%s)</string>
+    <string name="air_action_play_pause">Pause/Fortset playback</string>
 </resources>
