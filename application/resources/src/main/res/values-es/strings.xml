@@ -21,6 +21,7 @@
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
+        <item quantity="many">%d resultados encontrados</item>
         <item quantity="other">%d resultados encontrados</item>
     </plurals>
 
@@ -57,7 +58,6 @@
     <string name="confirm_delete_files">¿Seguro que quieres eliminar los %1$s archivos?</string>
     <string name="confirm_delete_folders_and_files">¿Seguro que quieres eliminar las %1$s carpetas y %2$s archivos?</string>
     <string name="confirm_delete_playlist">¿Eliminar la lista de reproducción «%1$s»?</string>
-    <string name="confirm_remove_from_playlist">¿Eliminar «%1$s» de la lista de reproducción?</string>
     <string name="ringtone_set">El archivo «%1$s» se ha establecido como tono de llamada.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
@@ -73,34 +73,42 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
+        <item quantity="many">%d álbumes</item>
         <item quantity="other">%d álbumes</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">1 subcarpeta</item>
+        <item quantity="many">%d subcarpetas</item>
         <item quantity="other">%d subcarpetas</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">1 medio</item>
+        <item quantity="many">%d medios</item>
         <item quantity="other">%d medios</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 archivo de medio</item>
+        <item quantity="many">%d archivos de medio</item>
         <item quantity="other">%d archivos de medio</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 vídeo</item>
+        <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 película</item>
+        <item quantity="many">%d películas</item>
         <item quantity="other">%d películas</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">1 programa de TV</item>
+        <item quantity="many">%d programas de TV</item>
         <item quantity="other">%d programas de TV</item>
     </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 pista</item>
+        <item quantity="many">%d pistas</item>
         <item quantity="other">%d pistas</item>
     </plurals>
 
@@ -121,7 +129,6 @@
     <string name="nosubfolder">No hay subcarpeta</string>
     <string name="directorynotfound">La ruta de la carpeta «%1$s» no ha sido encontrada.</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
-    <string name="validation">¿Está seguro?</string>
 
     <string name="cover_art">Portada</string>
     <string name="shuffle_all_title">Barajar todo</string>
@@ -160,6 +167,7 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
+        <item quantity="many">%1$d canales\n</item>
         <item quantity="other">%1$d canales\n</item>
     </plurals>
 
@@ -178,7 +186,6 @@
     <string name="server_share_hint">Nombre de compartición de red (o dirección IP)</string>
     <string name="server_folder_hint">Ruta de carpeta (opcional)</string>
     <string name="server_username_hint">Nombre de usuario</string>
-    <string name="server_servername_hint">Nombre de servidor, por conveniencia</string>
     <string name="server_port">Puerto:</string>
     <string name="login">Iniciar sesión</string>
     <string name="password">Contraseña</string>
@@ -195,7 +202,6 @@
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
     <string name="invalid_location">La localización %1$s no puede reproducirse.</string>
-
     <string name="search">Buscar</string>
 
 
@@ -222,12 +228,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
-    <string name="licence">Licencia</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
-    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y emisiones de red.</string>
     <string name="vlc_authors">y autores VLC.</string>
-    <string name="compiled_by">Esta versión de VLC está compilada por:</string>
     <string name="feedback_forum">Foro de comentarios</string>
 
     <!-- Preferences -->
@@ -255,7 +258,6 @@
     <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="daynight_title">Modo DiaNoche</string>
     <string name="daynight_follow_system_title">Seguir modo sistema</string>
-
     <string name="extra_prefs_category">Preferencias extra</string>
 
     <string name="interface_prefs_screen">Interfaz</string>
@@ -284,7 +286,6 @@
     <string name="enable_volume_gesture_title">Gesto de volumen</string>
     <string name="enable_volume_gesture_summary">Controlar el volumen mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_seek_buttons">Botones de búsqueda</string>
-    <string name="enable_seek_buttons_summary">Mostrar los botones rebobinar y avanzar en la interfaz de vídeo</string>
     <string name="enable_double_tap_seek_title">Doble toque para buscar</string>
     <string name="enable_double_tap_seek_summary">Doble toque en los bordes de la pantalla para buscar 10 segundos</string>
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo emergente</string>
@@ -376,12 +377,10 @@
     <string name="clear_history">Limpiar historial</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="network_caching">Valor de cache de red</string>
-    <string name="network_caching_summary">La cantidad de tiempo a almacenar en la caché de red (en ms) para la decodificación por software\nDejar en blanco para restablecer</string>
     <string name="resume_playback_title">Continuar reproducción después de una llamada</string>
     <string name="resume_playback_summary">Mantener en pausa de otra manera</string>
     <string name="blurred_cover_background_title">Portada borrosa de fondo</string>
     <string name="blurred_cover_background_summary">Portada borrosa de fondo en el reproductor de audio</string>
-    <string name="network_caching_popup">Este valor debe estar entre 0 y 6000 ms</string>
     <string name="quit">Cerrar y reiniciar aplicación</string>
     <string name="restart_message">Los cambios tomarán efecto una vez se reinicie la aplicación.\n\n¿Reiniciar ahora?</string>
     <string name="restart_message_OK">Aceptar</string>
@@ -435,8 +434,6 @@
     <string name="playlist_save">Guardar lista de reproducción</string>
     <string name="playlist_name_hint">Nombre de lista de reproducción</string>
     <string name="go_to_chapter">Ir a capítulo…</string>
-    <string name="chapter">Capítulo</string>
-    <string name="resume_from_position">Continuar desde la última posición</string>
     <string name="confirm_resume">¿Continuar desde la última posición?</string>
     <string name="confirm_resume_title">Continuar vídeos reproducidos</string>
     <string name="tv_ui_title">Interfaz Android TV</string>
@@ -614,10 +611,12 @@
     <string name="reset">Restaurar</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d pista insertada</item>
+        <item quantity="many">%d pistas  insertadas</item>
         <item quantity="other">%d pistas  insertadas</item>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">%d pista añadida</item>
+        <item quantity="many">%d pistas añadidas</item>
         <item quantity="other">%d pistas añadidas</item>
     </plurals>
     <string name="remove_current">Eliminar actual</string>
@@ -759,9 +758,6 @@
     <string name="allow_otg">Permitir acceso OTG</string>
     <string name="allow_otg_description">Seleccione su unidad OTG para permitir acceso a VLC.</string>
     <string name="timeout_infinite">Infinito</string>
-    <string name="timeout_short">Corto</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Largo</string>
     <string name="video_hud_timeout">Retraso de ocultación de los controles del reproductor de vídeo</string>
     <string name="remove_from_history">Eliminar del historial</string>
     <string name="prefersmbv1">Preferir SMB 1</string>
@@ -802,11 +798,12 @@
     <string name="lock_use_sensor_summary">Cuando la orientación está bloqueada, usa el sensor para permitir la orientación inversa</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">El elemento ya está en la lista de reproducción.</item>
+        <item quantity="many">Los elementos ya están en la lista de reproducción.</item>
         <item quantity="other">Los elementos ya están en la lista de reproducción.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
         <item quantity="one">1 de los elementos seleccionados ya está en la lista de reproducción.</item>
+        <item quantity="many">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
         <item quantity="other">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
     </plurals>
-
 </resources>
