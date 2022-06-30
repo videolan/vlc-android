@@ -13,7 +13,7 @@
     <string name="sortby_album_name">தொகுப்பின் பெயர்</string>
     <string name="sortby_length">நீளம்</string>
     <string name="sortby_date">தேதி</string>
-    <string name="sortby_last_modified_date">சமீபத்தில் சேர்க்கப்பட்டவை</string>
+    <string name="sortby_last_modified_date">அண்மையில் சேர்ந்தவை</string>
     <string name="sortby_media_number">ஊடக எண்</string>
     <string name="sortby_number">தடங்களின் எண்ணிக்கை</string>
     <string name="searchable_hint">தேடு…</string>
@@ -79,7 +79,7 @@
     <string name="internal_memory">உள்ளாரந்த சேமிப்பகம்</string>
     <string name="audio">ஒலி</string>
     <string name="video">காணொளி</string>
-    <string name="bookmarks">புத்தகக்குறிகள்</string>
+    <string name="bookmarks">நூற்குறிகள்</string>
     <string name="equalizer">சமனாக்கி</string>
     <string name="all_albums">தொகுப்புகள் அனைத்தும்</string>
     <string name="genres">வகைகள்</string>
@@ -92,7 +92,6 @@
     <string name="noplaylist">இயக்கபட்டியல் ஏதுமில்லை.</string>
     <string name="directorynotfound">\'%1$s\' அடைவுப் பாதைக் காணப்படவில்லை.</string>
     <string name="nohistory">வரலாறு ஏதுமில்லை.</string>
-    <string name="validation">கண்டிப்பாக?</string>
 
     <string name="cover_art">அட்டைப் படம்</string>
     <string name="shuffle_title">கலக்கு இயக்க முறை</string>
@@ -111,7 +110,7 @@
     <string name="surface_fit_screen">திரைக்குப் பொருந்து</string>
     <string name="surface_fill">நிரப்பு</string>
     <string name="surface_original">நடுவில்</string>
-    <string name="unseekable_stream">படிக்கயிலாத ஓடம்</string>
+    <string name="unseekable_stream">நாடவியலா ஓடம்</string>
     <string name="refresh">புதுப்பி</string>
     <string name="track_audio">ஒலி தடம்</string>
     <string name="track_video">காணொளி தடம்</string>
@@ -146,7 +145,6 @@
     <string name="server_domain_hint">தேக்க முகவரி (Domain பெயர் அ IP)</string>
     <string name="server_folder_hint">கோப்புறை பாதை (விரும்பினால்)</string>
     <string name="server_username_hint">பயனர்பெயர்</string>
-    <string name="server_servername_hint">தேக்கத்தின் பெயர், சௌகரியத்திற்காக</string>
     <string name="server_port">முனையம்:</string>
     <string name="login">உள் நுழை</string>
     <string name="password">கடவுச்சொல்</string>
@@ -163,19 +161,30 @@
     <string name="encountered_error_title">இயக்க பிழை</string>
     <string name="encountered_error_message">இவ்வூடகத்தில் விஎல்சி பிழைக் கண்டுள்ளது.\nஊடகத் தொகுப்பைப் புதுப்பித்து முயற்சிக்கவும்.</string>
     <string name="invalid_location">%1$s இவ்விடத்தை இயக்க முடியாது.</string>
-
     <string name="search">தேடு</string>
 
 
     <string name="playback_history_title">இயக்க வரலாறு</string>
     <string name="playback_speed_title">இயக்க வேகத்தை சேமிக்க</string>
-    <string name="seek">நாடுங்கள்</string>
+
+    <!-- Tips -->
+    <string name="tips_title">காணொளியியக்கி துணுக்குதவிகள்</string>
+    <string name="seek">நாடுதல்</string>
     <string name="subtitles">துணைத்தலைப்புகள்</string>
+    <string name="tips_player_controls">இயக்கி கட்டுப்பாடுகள்</string>
+    <string name="tips_player_controls_description">கீழுள்ள இயக்கி கட்டுப்பாடுகளைத் தட்டி அவற்றின் பயன்பாட்டைக் கண்டறியவும்</string>
     <string name="lock">பூட்டு</string>
+    <string name="tips_swipe">மேலே அ கீழே தேய்</string>
+    <string name="tips_swipe_horizontal">இடது அ வலதில் தேய்</string>
+    <string name="tips_hold_seek">நாட அழுத்திப்பிடி</string>
+    <string name="pause_description">இடைநிறுத்த இரட்டைத்தட்டு</string>
+    <string name="seek_tap_description">10நொடி முன்னே அ பின்னே செல்ல இரட்டைத்தட்டு</string>
+    <string name="close">மூடு</string>
+
     <string name="playlist_tips">பட்டியல் உதவிக்குறிப்புகள்</string>
     <string name="remove_song">பாடலை நீக்கு</string>
     <string name="rearrange_order">மறுசீரமைக்க</string>
-    <string name="hold_to_seek">நாட அழுத்திப் பிடி</string>
+    <string name="hold_to_seek">நாட அழுத்திப்பிடி</string>
 
     <string name="audio_player_tips">ஒலி இயக்கி உதவிக்குறிப்புகள்:</string>
     <string name="previous_next_song">முந்தைய/அடுத்த பாடல்</string>
@@ -184,12 +193,9 @@
 
     <!-- About -->
     <string name="app_name_full">ஆண்ட்ராய்டு VLC</string>
-    <string name="licence">உரிமம்</string>
     <string name="revision">மறுபதிப்பு</string>
     <string name="about">பற்றி</string>
-    <string name="about_text">ஆண்ட்ராய்டு(Android™) VLC என்பது ஒரு சிறந்த கட்டற்ற VLC ஊடக இயக்கி மென்பொருளின் இடுவை(Porting) ஆகும். ஆண்ட்ராய்டு(Android™) பதிப்பானது அனைத்து கோப்புகளையும் பிணைய ஓடங்களையும்(Network Streams) படிக்கக் கூடியது.</string>
     <string name="vlc_authors">மற்றும் VLC ஆசிரியர்கள்.</string>
-    <string name="compiled_by">VLCயின் இப்பதிப்பை உருவாக்கியவர்கள்:</string>
 
     <!-- Preferences -->
     <string name="preferences">அமைப்புகள்</string>
@@ -226,6 +232,11 @@
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
     <string name="enable_volume_gesture_title">ஒலிச்சத்தம் சைகை</string>
     <string name="enable_volume_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் ஒலிச்சத்தம் கட்டுப்படுத்து</string>
+    <string name="enable_seek_buttons">நாடுதல் பொத்தான்கள்</string>
+    <string name="enable_double_tap_seek_title">நாட இரட்டைத்தட்டு</string>
+    <string name="enable_double_tap_play_title">இயக்க/இடைநிறுத்த இரட்டைத்தட்டு</string>
+    <string name="enable_double_tap_play_summary">இயக்க அ இடைநிறுத்த திரை மையத்தில் இரட்டைத்தட்டு</string>
+    <string name="enable_swipe_seek_title">நாட தேய்</string>
     <string name="subtitles_prefs_category">துணைஉரைகள்</string>
     <string name="subtitles_size_title">துணை உரைகளின் அளவு</string>
     <string name="subtitles_size_small">சிறிய</string>
@@ -244,6 +255,7 @@
     <string name="subtitles_autoload_title">துணைஉரைகளை தானாக ஏற்று</string>
 
     <string name="audio_prefs_category">ஒலி</string>
+    <string name="show_seek_in_compact_notif_title">அறிவிப்புப் பலகையில் நாடுதல் பொத்தான்கள்</string>
     <string name="list_title_ellipsize_default">இயல்புநிலை</string>
     <string name="list_title_ellipsize_left">இடது</string>
     <string name="list_title_ellipsize_right">வலது</string>
@@ -255,6 +267,7 @@
     <string name="casting_quality_medium">சராசரி</string>
     <string name="casting_quality_low">குறைந்த</string>
     <string name="casting_quality_lowcpu">மிக குறைந்த</string>
+    <string name="artists_show_all_title">எல்லா கலைஞர்களும் காட்டு</string>
     <string name="extensions_prefs_category">நீட்சிகள்</string>
     <string name="extension_prefs_activation_title">செயற்படுத்து</string>
     <string name="android_auto">ஆண்ட்ராய்டு ஆட்டோ</string>
@@ -313,7 +326,6 @@
     <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
     <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
     <string name="go_to_chapter">அத்தியாயம் செல்ல…</string>
-    <string name="chapter">அத்தியாயம்</string>
     <string name="tv_ui_title">ஆண்ட்ராய்டு  டிவி இடைமுகப்பு</string>
     <string name="medialibrary">ஊடக நூலகம்</string>
     <string name="medialibrary_directories">ஊடக நூலக கோப்புறைகள்</string>
@@ -324,7 +336,7 @@
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை</string>
     <string name="music_now_playing">இப்போ ஒடுவது</string>
 
-    <string name="exit_app">VLC-ஐ நிறுத்து</string>
+    <string name="exit_app">VLC-ஐ மூடு</string>
 
     <!-- Plugins -->
     <string name="plugins">நிரல்கள்</string>
@@ -369,11 +381,13 @@
     <string name="next">அடுத்து</string>
     <string name="download">பதிவிறக்கு</string>
     <string name="ctx_player_audio_track">ஒலி தடம்</string>
+    <string name="ctx_pip_title">திரைமேலியக்கி</string>
     <string name="welcome_title">VLC க்கு வருக!</string>
     <string name="done">முடிந்தது</string>
     <string name="add">சேர்க்க</string>
     <string name="show_video_thumbnails_summary">பட்டியல்களில் காணொளி சிறுவுருவங்களை காட்டு</string>
     <string name="show_video_thumbnails">காணொளி சிறுவுருவங்கள்</string>
+    <string name="display_in_list">பட்டியலில் காண்பி</string>
     <string name="display_in_grid">கட்டத்தில் காண்பி</string>
     <string name="send">அனுப்பு</string>
     <string name="favorite">பிடித்தவை</string>
@@ -382,6 +396,9 @@
     <string name="share">பகிர்</string>
     <string name="invalid_file">தவறான கோப்பு. பகிர முடியாது.</string>
     <string name="share_file">%s யை பகிர்</string>
+    <string name="recently_added">அண்மையில் சேர்ந்தவை</string>
+    <string name="video_information">காணொளி தகவல்</string>
+
     <string name="text">எழுத்து</string>
     <string name="unknown">தெரியாத</string>
     <string name="sortby_track">தடம்</string>
@@ -391,8 +408,13 @@
     <string name="favorites">பிடித்தவை</string>
     <string name="new_stream">புது ஓடை</string>
     <string name="rename_group">காணொளி குழுவை மறுபெயரிடு</string>
+    <string name="swipe_unlock">பூட்டவிழ்க்க தேய்</string>
     <string name="donate">VLC-ஐ உதவு</string>
     <string name="donate_desc">VLC-ஐ கட்டும் தன்னார்வலர்களை ஆதரி</string>
     <string name="tip_jar">VLC-ஐ உதவு</string>
+    <string name="air_action_forward">10நொடி முன்னே நாடு</string>
+    <string name="video_hud_timeout">காணொளியியக்கி கட்டுப்பாடுகள் மறைய தாமதம்</string>
     <string name="apply_to_all">எல்லா காணொளிகளுக்கும் உபயோகி</string>
+    <string name="bookmarks_title">நூற்குறிகள்</string>
+    <string name="player_controls">இயக்கி கட்டுப்பாடுகள்</string>
 </resources>
