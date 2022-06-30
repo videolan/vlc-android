@@ -71,7 +71,6 @@
     <string name="nomedia">मीडिया फायली नाही आढळल्या, आपल्या उपकरणावर काही फायली स्थानांतरीत करा किंवा आपली प्राधान्ये समायोजित करा.</string>
     <string name="directorynotfound">\'%1$s\' निर्देशिकाचा मार्ग नाही सापडला</string>
     <string name="nohistory">आपल्याकडे आतापर्यंत प्लेबॅक इतिहास नाही.</string>
-    <string name="validation">आपली खात्री आहे?</string>
 
     <string name="cover_art">कव्हर आर्ट</string>
     <string name="previous">मागील</string>
@@ -108,7 +107,6 @@
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
     <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
     <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
-
     <string name="search">शोधा</string>
 
 
@@ -125,11 +123,8 @@
     <string name="show_playlist">प्लेलिस्ट दाखवा</string>
     <string name="hold_to_stop">थांबवण्यासाठी दाबून ठेवा</string>
 
-    <string name="licence">परवाना</string>
     <string name="revision">पुनरावृत्ती</string>
     <string name="about">VLC विषयी</string>
-    <string name="about_text">Android™ साठी VLC ही VLC मीडिया प्लेयर या लोकप्रिय आणि उघड-स्त्रोत मीडिया प्लेयरची आवृत्ती आहे. ही Android™ आवृत्ती जवळपास सर्व फाईल्स आणि नेटवर्क स्ट्रीम वाचू शकते .</string>
-    <string name="compiled_by">ही VLC आवृत्ती यांनी संकलित केली:</string>
     <string name="directories_summary">मीडिया लायब्ररी मध्ये समावेश करण्यासाठी निर्देशिका निवडा</string>
     <string name="add_custom_path">सानुकूल मार्ग प्रविष्ट करा</string>
     <string name="add_custom_path_description">स्कॅन करण्यासाठी अधिक सानुकूल निर्देशिका प्रविष्ट करा:</string>
