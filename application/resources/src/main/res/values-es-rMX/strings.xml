@@ -21,6 +21,7 @@
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
+        <item quantity="many">%d resultados encontrados</item>
         <item quantity="other">%d resultados encontrados</item>
     </plurals>
 
@@ -42,17 +43,18 @@
     <string name="append_all">Adjuntar todo al final</string>
     <string name="resume_playback_short_title">Reanudar reproducción</string>
     <string name="resume_playback_long_title">Reanudar reproducción de la última lista</string>
+    <string name="resume_playback_error">Nada a continuar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="set_song_question">Establecer \'%1$s\' como tono de llamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Borrar el archivo \'%1$s\'?</string>
+    <string name="confirm_delete_message">Esta acción es permanente y no se puede deshacer.</string>
     <string name="confirm_delete_album">¿Borrar el álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">¿Borrar %1$d medio(s)?</string>
     <string name="confirm_delete_folder">¿Borrar la carpeta \'%1$s\' y todo su contenido?</string>
     <string name="confirm_delete_playlist">¿Borrar lista \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">¿Remover \'%1$s\' de la lista?</string>
     <string name="ringtone_set">El archivo \'%1$s\' se estableció como tono de llamada.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
@@ -68,30 +70,37 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
+        <item quantity="many">%d álbumes</item>
         <item quantity="other">%d álbumes</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">1 subcarpeta</item>
+        <item quantity="many">%d subcarpetas</item>
         <item quantity="other">%d subcarpetas</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">1 medio</item>
+        <item quantity="many">%d medio</item>
         <item quantity="other">%d medio</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 archivo multimedia</item>
+        <item quantity="many">%d archivos multimedia</item>
         <item quantity="other">%d archivos multimedia</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 vídeo</item>
+        <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 película</item>
+        <item quantity="many">%d películas</item>
         <item quantity="other">%d películas</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">1 programa de TV</item>
+        <item quantity="many">%d programas de TV</item>
         <item quantity="other">%d programas de TV</item>
     </plurals>
     <string name="internal_memory">Memoria interna</string>
@@ -111,7 +120,6 @@
     <string name="nosubfolder">Sin subcarpetas</string>
     <string name="directorynotfound">La ruta del directorio \'%1$s\' no ha sido encontrada</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
-    <string name="validation">¿Está seguro?</string>
 
     <string name="cover_art">Portada</string>
     <string name="shuffle_all_title">Todo aleatorio</string>
@@ -149,6 +157,7 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
+        <item quantity="many">%1$d canales\n</item>
         <item quantity="other">%1$d canales\n</item>
     </plurals>
 
@@ -167,7 +176,6 @@
     <string name="server_share_hint">Nombre de red compartida (o dirección IP)</string>
     <string name="server_folder_hint">Ruta de carpeta (opcional)</string>
     <string name="server_username_hint">Nombre de usuario</string>
-    <string name="server_servername_hint">Nombre de servidor, por conveniencia</string>
     <string name="server_port">Puerto:</string>
     <string name="login">Ingresar</string>
     <string name="password">Contraseña</string>
@@ -184,7 +192,6 @@
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC a encontrado un error con este medio.\nPor favor intente actualizar la biblioteca</string>
     <string name="invalid_location">La ubicación %1$s no se puede reproducir.</string>
-
     <string name="search">Busqueda</string>
 
 
@@ -211,12 +218,10 @@
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
-    <string name="licence">Licencia</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
-    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión para Android™ puede leer la mayoría de archivos y flujos de red.</string>
+    <string name="authors">Autores</string>
     <string name="vlc_authors">y Autores de VLC.</string>
-    <string name="compiled_by">Esta versión de VLC está compilada por:</string>
     <string name="feedback_forum">Foro de comentarios</string>
 
     <!-- Preferences -->
@@ -242,7 +247,6 @@
     <string name="subtitle_text_encoding">Codificador textual de subtítulos</string>
     <string name="daynight_title">Modo Noche</string>
     <string name="daynight_follow_system_title">Coincidir con el sistema</string>
-
     <string name="extra_prefs_category">Ajustes extras</string>
 
     <string name="interface_prefs_screen">Interfaz</string>
@@ -271,7 +275,6 @@
     <string name="enable_volume_gesture_title">Gestos de volumen</string>
     <string name="enable_volume_gesture_summary">Controlar volumen con gestos en la reproducción de vídeo</string>
     <string name="enable_seek_buttons">Mostrar botones para rebobinar</string>
-    <string name="enable_seek_buttons_summary">Mostrar botones para adelantar y rebobinar en los vídeos</string>
     <string name="enable_double_tap_seek_title">Doble toque para rebobinar</string>
     <string name="enable_double_tap_seek_summary">Toca dos veces en la derecha o izquierda para atrasar o adelantar 10 segundos, respectivamente.</string>
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo miniatura</string>
@@ -358,12 +361,10 @@
     <string name="clear_history">Limpiar historial</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="network_caching">Valor de cache de red</string>
-    <string name="network_caching_summary">La cantidad de tiempo (en ms) de búfer para decodificar medios de red. Dejar vació para restablecer</string>
     <string name="resume_playback_title">Reanudar reproducción al fin de llamada</string>
     <string name="resume_playback_summary">Desmarcar para mantener pausa</string>
     <string name="blurred_cover_background_title">Portada borrosa de fondo</string>
     <string name="blurred_cover_background_summary">Portada borrosa de fondo en reproductor de audio</string>
-    <string name="network_caching_popup">Este valor debe ser entre 0-6000 ms</string>
     <string name="quit">Cerrar y reiniciar aplicación</string>
     <string name="restart_message">Los cambios se aplicaran al reiniciar.\n\n¿Desea reiniciar ahora?</string>
     <string name="restart_message_OK">Aceptar</string>
@@ -417,8 +418,6 @@
     <string name="playlist_save">Guardar lista</string>
     <string name="playlist_name_hint">Nombre de la lista</string>
     <string name="go_to_chapter">Ir al capítulo...</string>
-    <string name="chapter">Capítulo</string>
-    <string name="resume_from_position">Reanudar en la última posición</string>
     <string name="confirm_resume">¿Reanudar desde la ultima posición?</string>
     <string name="confirm_resume_title">Reanudar reproducción de vídeos</string>
     <string name="tv_ui_title">Interfaz de Android TV</string>
@@ -595,10 +594,12 @@
     <string name="reset">Restablecer</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Pista agregada</item>
+        <item quantity="many">%d Pistas agregadas</item>
         <item quantity="other">%d Pistas agregadas</item>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">%d Pista adjuntada</item>
+        <item quantity="many">%d Pistas adjuntadas</item>
         <item quantity="other">%d Pistas adjuntadas</item>
     </plurals>
     <string name="remove_current">Borrar actual</string>
@@ -735,9 +736,6 @@
     <string name="allow_otg">Permitir acceso OTG</string>
     <string name="allow_otg_description">Por favor, selecciona tu unidad OTG para que VLC pueda acceder</string>
     <string name="timeout_infinite">Infinito</string>
-    <string name="timeout_short">Corto</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Largo</string>
     <string name="video_hud_timeout">Tiempo para ocultar controles del reproductor de vídeo</string>
     <string name="remove_from_history">Quitar del historial</string>
     <string name="prefersmbv1">Preferir SMB 1</string>
