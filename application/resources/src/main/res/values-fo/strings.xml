@@ -67,7 +67,6 @@
     <string name="nomedia">Eingin miðlafíla funnin, vinaliga flyt onkrar fílur inn á eina eind ella broyt stillingarnar.</string>
     <string name="directorynotfound">Fíluskráin á leiðini \'%1$s\' var ikki funnin.</string>
     <string name="nohistory">Tú hevur onga avspælingarsøgu enn.</string>
-    <string name="validation">Ert tú vis/ur?</string>
 
     <string name="cover_art">Húsasnið</string>
     <string name="previous">Undanfarna</string>
@@ -103,7 +102,6 @@
     <string name="encountered_error_title">Avspælingarvilla</string>
     <string name="encountered_error_message">Ein villa er íkomin, tá ið VLC skuldi spæla henda miðil.\nRoyn og endurbyrja miðlasavnið.</string>
     <string name="invalid_location">Keldan %1$s kann ikki spælast.</string>
-
     <string name="search">Leita</string>
 
 
@@ -120,11 +118,8 @@
     <string name="show_playlist">Vís spælilista</string>
     <string name="hold_to_stop">Halt fry at stegða</string>
 
-    <string name="licence">Rættindi</string>
     <string name="revision">Endurskoðan</string>
     <string name="about">Um</string>
-    <string name="about_text">VLC til Android™ er eitt portur hjá VLC margmiðlaspælaranum, tí víða gitta open-source spælaranum. Android™ útgávan klárar at lesa flestu fílur og kann stroyma flestu keldur.</string>
-    <string name="compiled_by">Henda útgáva av VLC verður umsett av:</string>
     <string name="directories_summary">Vel fíluskráir av hava við í miðlasavninum</string>
     <string name="add_custom_path">Legg sjálvvalda rás afturat</string>
     <string name="add_custom_path_description">Skriva inn egnar fíluskráir at lesa:</string>
