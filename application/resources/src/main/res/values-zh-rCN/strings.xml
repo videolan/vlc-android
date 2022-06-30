@@ -525,6 +525,8 @@
     <string name="allow_settings_access_brightness_description">VLC 需要您的授权方可更改您的亮度模式。</string>
     <string name="allow_draw_overlays_title">允许 VLC 播放器浮动在其他应用之上</string>
     <string name="allow_sdraw_overlays_description">VLC 需要您的授权方可在其他应用程序之上的浮层显示您的视频。</string>
+    <string name="allow_pip">允许 VLC 播放器进入 ｢画中画｣ 模式</string>
+    <string name="allow_pip_description">VLC 需要您授予该权限，才能以 ｢画中画｣ 模式显示视频画面。</string>
     <string name="permission_ask_again">授予权限</string>
     <string name="pick_file">选择文件</string>
     <string name="permission_not_granted">未授予权限</string>
@@ -998,6 +1000,7 @@
     <string name="talkback_action_rewind">快退 %s 秒</string>
     <string name="talkback_action_forward">前进 %s 秒</string>
     <string name="talkback_display_settings">显示设置</string>
+    <string name="talkback_already_played">已经播放</string>
 
 
 </resources>
