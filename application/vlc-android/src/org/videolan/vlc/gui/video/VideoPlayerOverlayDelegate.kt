@@ -140,49 +140,51 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Changes the device layout depending on the scree foldable status and features
      */
      fun manageHinge() {
-         resetHingeLayout()
-         if (foldingFeature == null || !Settings.getInstance(player).getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true))  return
+        player.service?.mediaplayer?.setUseOrientationFromBounds(false)
+        resetHingeLayout()
+        if (foldingFeature == null || !Settings.getInstance(player).getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true)) return
         val foldingFeature = foldingFeature!!
 
-         //device is fully occluded and split vertically. We display the controls on the half left or right side
-         if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
-             val onRight = Settings.getInstance(player).getBoolean(HINGE_ON_RIGHT, true)
-             hingeArrowLeft?.visibility = if (onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
-             hingeArrowRight?.visibility = if (!onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
-             val halfScreenSize = player.getScreenWidth() - foldingFeature.bounds.right
-             arrayOf(playerUiContainer, hudBackground, hudRightBackground, playlistContainer).forEach {
-                 it?.let { view ->
-                     val lp = (view.layoutParams as FrameLayout.LayoutParams)
-                     lp.width = halfScreenSize
-                     //get vertical flags to keep them
-                     val newGravity = lp.gravity and Gravity.VERTICAL_GRAVITY_MASK
-                     lp.gravity = newGravity or (if (onRight) Gravity.END else Gravity.START)
-                     view.layoutParams = lp
-                 }
-             }
-             showHingeSnackIfNeeded()
-         } else {
-             //device is separated and half opened. We display the controls on the bottom half and the video on the top half
-             if (foldingFeature.state == FoldingFeature.State.HALF_OPENED) {
-                 val videoLayoutLP = (player.videoLayout!!.layoutParams as ViewGroup.LayoutParams)
-                 val halfScreenSize = foldingFeature.bounds.top
-                 videoLayoutLP.height = halfScreenSize
-                 player.videoLayout!!.layoutParams = videoLayoutLP
-                 player.findViewById<FrameLayout>(R.id.player_surface_frame).children.forEach { it.requestLayout() }
+        //device is fully occluded and split vertically. We display the controls on the half left or right side
+        if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+            val onRight = Settings.getInstance(player).getBoolean(HINGE_ON_RIGHT, true)
+            hingeArrowLeft?.visibility = if (onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
+            hingeArrowRight?.visibility = if (!onRight && ::hudBinding.isInitialized) View.VISIBLE else View.GONE
+            val halfScreenSize = player.getScreenWidth() - foldingFeature.bounds.right
+            arrayOf(playerUiContainer, hudBackground, hudRightBackground, playlistContainer).forEach {
+                it?.let { view ->
+                    val lp = (view.layoutParams as FrameLayout.LayoutParams)
+                    lp.width = halfScreenSize
+                    //get vertical flags to keep them
+                    val newGravity = lp.gravity and Gravity.VERTICAL_GRAVITY_MASK
+                    lp.gravity = newGravity or (if (onRight) Gravity.END else Gravity.START)
+                    view.layoutParams = lp
+                }
+            }
+            showHingeSnackIfNeeded()
+        } else {
+            //device is separated and half opened. We display the controls on the bottom half and the video on the top half
+            if (foldingFeature.state == FoldingFeature.State.HALF_OPENED) {
+                val videoLayoutLP = (player.videoLayout!!.layoutParams as ViewGroup.LayoutParams)
+                val halfScreenSize = foldingFeature.bounds.top
+                videoLayoutLP.height = halfScreenSize
+                player.videoLayout!!.layoutParams = videoLayoutLP
+                player.service?.mediaplayer?.setUseOrientationFromBounds(true)
+                player.findViewById<FrameLayout>(R.id.player_surface_frame).children.forEach { it.requestLayout() }
 
-                 arrayOf(playerUiContainer, playlistContainer).forEach {
-                     val lp = (it.layoutParams as FrameLayout.LayoutParams)
-                     lp.height = halfScreenSize
-                     lp.gravity = Gravity.BOTTOM
-                     it.layoutParams = lp
-                 }
-                 arrayOf(hudBackground, hudRightBackground).forEach {
-                     it?.setGone()
-                 }
-                 showHingeSnackIfNeeded()
-             }
-         }
-     }
+                arrayOf(playerUiContainer, playlistContainer).forEach {
+                    val lp = (it.layoutParams as FrameLayout.LayoutParams)
+                    lp.height = halfScreenSize
+                    lp.gravity = Gravity.BOTTOM
+                    it.layoutParams = lp
+                }
+                arrayOf(hudBackground, hudRightBackground).forEach {
+                    it?.setGone()
+                }
+                showHingeSnackIfNeeded()
+            }
+        }
+    }
 
     /**
      * Shows the fold layout snackbar if needed
