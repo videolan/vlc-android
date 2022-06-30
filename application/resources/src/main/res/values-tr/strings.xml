@@ -36,7 +36,7 @@
     <string name="return_to_video">Görüntüyü geri yüklemek için kapak üzerine uzun dokunun</string>
     <string name="video_app_switch_title">Arka Plan/PiP Kipi</string>
     <string name="video_app_switch_summary">Görüntü oynatılırken başka bir uygulamaya geçildiğinde VLC tarafından yapılacak işlemi seçin</string>
-    <string name="play_pip_title">Görüntüler görsel içinde görsel kipinde oynatılsın</string>
+    <string name="play_pip_title">Görüntüler görüntü içinde görüntü kipinde oynatılsın</string>
     <string name="play_as_audio_background">Görüntüler arka planda oynatılsın</string>
     <string name="append">Ekle</string>
     <string name="insert_next">Sonrakini ekle</string>
@@ -535,6 +535,8 @@
     <string name="allow_settings_access_brightness_description">VLC parlaklık kipini ayarlamak için bu izne gereksinim duyar.</string>
     <string name="allow_draw_overlays_title">VLC oynatıcı diğer uygulamaların üzerine açılabilsin</string>
     <string name="allow_sdraw_overlays_description">VLC oynatıcı penceresini diğer uygulamaların üzerine açmak için bu izne gereksinim duyar.</string>
+    <string name="allow_pip">VLC oynatıcı görüntü içinde görüntü başlatabilsin</string>
+    <string name="allow_pip_description">VLC oynatıcının görüntü içinde görüntü kipini kullanabilmesi için bu izni vermeniz gerekir.</string>
     <string name="permission_ask_again">İzin ver</string>
     <string name="pick_file">Bir dosya seçin</string>
     <string name="permission_not_granted">İzin verilmedi</string>
@@ -689,8 +691,8 @@
     <string name="add_to_new_playlist">Yeni oynatma listesine ekle</string>
     <string name="resume_card_message">%1$s oynatımı sürdürülsün mü?</string>
     <string name="misc">Çeşitli</string>
-    <string name="popup_force_legacy_title">Görsel içinde görsel penceresi kullanılsın</string>
-    <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görsel içinde görsel penceresi kullanılsın</string>
+    <string name="popup_force_legacy_title">Görüntü içinde görüntü penceresi kullanılsın</string>
+    <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görüntü içinde görüntü penceresi kullanılsın</string>
     <string name="device_default">Aygıt varsayılanları</string>
     <string name="track_number">%d kayıt</string>
     <string name="jump_to">Şuraya atla</string>
@@ -1011,6 +1013,7 @@
     <string name="talkback_action_rewind">%s saniye geri atla</string>
     <string name="talkback_action_forward">%s saniye ileri atla</string>
     <string name="talkback_display_settings">Görüntü ayarları</string>
+    <string name="talkback_already_played">Zaten oynatılmış</string>
 
 
 </resources>
