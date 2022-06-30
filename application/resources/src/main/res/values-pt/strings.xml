@@ -14,12 +14,15 @@
     <string name="sortby_length">Duração</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Adicionado recentemente</string>
+    <string name="sortby_insertion">Data de inserção</string>
+    <string name="sortby_media_number">Número multimédia</string>
     <string name="sortby_number">Número de faixas</string>
     <string name="searchable_hint">Procurar…</string>
     <string name="history">Histórico</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">Encontrado %d resultado</item>
+        <item quantity="many">Encontrados %d resultados</item>
         <item quantity="other">Encontrados %d resultados</item>
     </plurals>
 
@@ -31,6 +34,7 @@
     <string name="play_from_start">Reproduzir do início</string>
     <string name="play_as_audio">Reproduzir como áudio</string>
     <string name="play_as_video">Reproduzir como vídeo</string>
+    <string name="return_to_video">Toque longo na capa para restaurar o vídeo</string>
     <string name="video_app_switch_title">Modo de segundo plano / PiP</string>
     <string name="video_app_switch_summary">Selecione o comportamento do VLC quando mudar para outra aplicação da reprodução do vídeo</string>
     <string name="play_pip_title">Reproduzir vídeos no modo \'imagem na imagem\'</string>
@@ -41,18 +45,21 @@
     <string name="append_all">Acrescentar tudo</string>
     <string name="resume_playback_short_title">Retomar reprodução</string>
     <string name="resume_playback_long_title">Retomar reprodução da última lista de reprodução</string>
+    <string name="resume_playback_error">Nada para retomar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
     <string name="set_song_question">Definir \'%1$s\' como toque de chamada?</string>
     <string name="info">Informação</string>
     <string name="confirm_delete">Eliminar o ficheiro \'%1$s\'?</string>
+    <string name="confirm_delete_message">Isto é permanente e não pode ser desfeito.</string>
     <string name="confirm_delete_album">Eliminar o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Eliminar estes %1$d média?</string>
     <string name="confirm_delete_folder">Eliminar a pasta \'%1$s\' e todo o seu conteúdo?</string>
+    <string name="confirm_delete_folders">Eliminar estas %1$s pastas e todos os seus conteúdos?</string>
     <string name="confirm_delete_files">Apagar estes ficheiros \'%1$s\' ?</string>
+    <string name="confirm_delete_folders_and_files">Eliminar estas %1$s pastas e %2$s ficheiros?</string>
     <string name="confirm_delete_playlist">Eliminar a lista de reprodução \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Remover \'%1$s\' da lista de reprodução?</string>
     <string name="ringtone_set">O ficheiro \'%1$s\' foi definido como toque de chamada.</string>
     <string name="ringtone_error">Ocorreu um erro ao definir o toque de chamada.</string>
     <string name="pause">Pausar</string>
@@ -60,7 +67,7 @@
     <string name="unknown_album">Álbum desconhecido</string>
     <string name="unknown_genre">Género desconhecido</string>
     <string name="songs">Músicas</string>
-    <string name="track_info_copied_to_clipboard">A informação do ficheiro foi copiada para a prancheta</string>
+    <string name="track_info_copied_to_clipboard">A informação da faixa foi copiada para a área de transferência</string>
 
     <string name="artists">Artistas</string>
     <string name="albums">Álbuns</string>
@@ -68,28 +75,45 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
+        <item quantity="many">%d álbuns</item>
         <item quantity="other">%d álbuns</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">1 subpasta</item>
+        <item quantity="many">%d subpastas</item>
         <item quantity="other">%d subpastas</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 média</item>
+        <item quantity="many">%d médias</item>
+        <item quantity="other">%d médias</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 ficheiro de média</item>
+        <item quantity="many">%d ficheiros de média</item>
         <item quantity="other">%d ficheiros de média</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 vídeo</item>
+        <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 filme</item>
+        <item quantity="many">%d filmes</item>
         <item quantity="other">%d filmes</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">1 Programa de TV</item>
+        <item quantity="many">%d 1 Programas de TV</item>
         <item quantity="other">%d 1 Programas de TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 faixa</item>
+        <item quantity="many">%d faixas</item>
+        <item quantity="other">%d faixas</item>
+    </plurals>
+
     <string name="internal_memory">Memória interna</string>
     <string name="audio">Áudio</string>
     <string name="video">Vídeo</string>
@@ -103,17 +127,18 @@
     <string name="loading">A carregar</string>
     <string name="please_wait">Por favor, aguarde…</string>
     <string name="nomedia">Não foram encontrados ficheiros de multimédia, por favor, transfira alguns ficheiros para o seu dispositivo ou ajuste as suas preferências.</string>
+    <string name="empty_search">Não foi encontrado nenhum item para a pesquisa %s</string>
     <string name="noplaylist">Não foi encontrada qualquer lista de reprodução.</string>
     <string name="nosubfolder">Nenhuma subpasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Ainda não tem um histórico de reprodução.</string>
-    <string name="validation">Tem a certeza?</string>
 
     <string name="cover_art">Imagem da capa</string>
     <string name="shuffle_all_title">Tudo aleatório</string>
     <string name="shuffle_title">Modo aleatório</string>
     <string name="shuffle">Aleatório: desativado</string>
     <string name="shuffle_on">Aleatório: ativado</string>
+    <string name="shuffle_play">Aleatório</string>
     <string name="repeat_title">Modo de repetição</string>
     <string name="repeat">Não repetir</string>
     <string name="repeat_single">Repetir uma</string>
@@ -127,6 +152,7 @@
     <string name="surface_fit_screen">Ajustar ao ecrã</string>
     <string name="surface_fill">Preencher</string>
     <string name="surface_original">Centrar</string>
+    <string name="resize_tip">Toque longo para mais opções</string>
     <string name="unseekable_stream">Emissão que não é possível procurar</string>
     <string name="refresh">Atualizar</string>
     <string name="track_audio">Faixa de áudio</string>
@@ -145,6 +171,7 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
+        <item quantity="many">%1$dcanais\n</item>
         <item quantity="other">%1$dcanais\n</item>
     </plurals>
 
@@ -163,7 +190,7 @@
     <string name="server_share_hint">Nome da partilha de rede (ou endereço de IP)</string>
     <string name="server_folder_hint">Caminho da pasta (opcional)</string>
     <string name="server_username_hint">Nome de utilizador</string>
-    <string name="server_servername_hint">Nome do servidor (para conveniência)</string>
+    <string name="server_servername_hint">Nome do servidor, para conveniência</string>
     <string name="server_port">Porta:</string>
     <string name="login">Iniciar sessão</string>
     <string name="password">Palavra-passe</string>
@@ -180,6 +207,7 @@
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um erro com esta média.\nPor favor, tente atualizar a mediateca.</string>
     <string name="invalid_location">A localização %1$s não pode ser reproduzida.</string>
+    <string name="missing_location">Esta média é de um armazenamento indisponível e por isso não pode ser reproduzido.</string>
 
     <string name="search">Procurar</string>
 
@@ -191,9 +219,34 @@
 
     <string name="play_button">Botão de Reproduzir</string>
 
+    <!-- Tips -->
+    <string name="tips_title">Dicas do reprodutor de vídeos</string>
     <string name="seek">Pesquisar</string>
     <string name="subtitles">Legendas</string>
+    <string name="tips_player_controls">Controlos do reprodutor</string>
+    <string name="tips_audio_sub">Faixas de áudio e legendas</string>
+    <string name="tips_play_description">Toque para reproduzir o vídeo</string>
     <string name="lock">Bloquear</string>
+    <string name="tap">Toque para ver</string>
+    <string name="tap_to_remove">Toque para remover</string>
+    <string name="tap_to_rearrange">Toque para reorganizar</string>
+    <string name="tap_to_previous_next">Toque para ir para o anterior/seguinte</string>
+    <string name="lock_orientation">Orientação</string>
+    <string name="lock_orientation_description">Toque para bloquear/desbloquear a orientação</string>
+    <string name="aspect_ratio">Proporção</string>
+    <string name="aspect_ratio_description">Toque para alterar a proporção do vídeo</string>
+    <string name="advanced_options">Opções avançadas</string>
+    <string name="advanced_options_description">Tais como a velocidade de reprodução, modo de repetição…</string>
+    <string name="tips_swipe">Deslize para cima ou para baixo</string>
+    <string name="tips_swipe_horizontal">Deslize para a esquerda ou para a direita</string>
+    <string name="tips_playlist">Lista de reprodução</string>
+    <string name="tips_hold_seek">Toque sem largar para procurar</string>
+    <string name="tips_long_drop">Toque longo e largar</string>
+    <string name="pause_description">Toque duplo para pausar</string>
+    <string name="seek_tap">+/- 10 seg.</string>
+    <string name="seek_tap_description">Toque duplo para avançar ou retroceder 10 seg.</string>
+    <string name="close">Fechar</string>
+
     <string name="playlist_tips">Dicas da lista de reprodução</string>
     <string name="remove_song">Remover faixa</string>
     <string name="remove_playlist_item">%1$s foi ignorado da lista de reprodução</string>
@@ -203,16 +256,19 @@
     <string name="audio_player_tips">Dicas do reprodutor de áudio</string>
     <string name="previous_next_song">Faixa Anterior/Seguinte</string>
     <string name="show_playlist">Mostrar lista de reprodução</string>
+    <string name="hide_playlist">Ocultar lista de reprodução</string>
     <string name="hold_to_stop">Segure para parar</string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
-    <string name="licence">Licença</string>
     <string name="revision">Revisão</string>
     <string name="about">Sobre</string>
-    <string name="about_text">O VLC para Android™ é uma versão do VLC media player, o reprodutor de multimédia de código aberto popular. A versão de Android™ pode ler a maioria dos ficheiros e transmissões de rede.</string>
+    <string name="about_vlc_text">O VLC para Android™ é uma versão do VLC media player, o popular reprodutor de multimédia de código aberto. A versão para Android™ pode ler a maioria dos ficheiros e transmissões de rede.</string>
+    <string name="authors">Autores</string>
     <string name="vlc_authors">e autores do VLC.</string>
-    <string name="compiled_by">Esta versão do VLC é compilada por:</string>
+    <string name="is_compiled_by">Compilado por</string>
+    <string name="sources">Código-fonte</string>
+    <string name="libraries">Bibliotecas</string>
     <string name="feedback_forum">Fórum de comentários</string>
 
     <!-- Preferences -->
@@ -233,10 +289,16 @@
     <string name="screen_orientation_sensor">Automática (sensor)</string>
     <string name="screen_orientation_portrait">Retrato</string>
     <string name="screen_orientation_landscape">Paisagem</string>
+    <string name="screen_orientation_landscape_reverse">Paisagem invertida</string>
+    <string name="screen_orientation_last_locked">Última orientação bloqueada</string>
     <string name="enable_black_theme">Tema escuro</string>
+    <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificação do texto das legendas</string>
+    <string name="subtitle_preferred_language">Idioma preferencial para legendas</string>
     <string name="daynight_title">Modo Dia/Noite</string>
     <string name="daynight_follow_system_title">Seguir o modo do sistema</string>
+    <string name="no_track_preference">Sem preferência de idioma</string>
+    <string name="track_preference">Preferência de faixa: %s</string>
 
     <string name="extra_prefs_category">Definições extra</string>
 
@@ -266,7 +328,6 @@
     <string name="enable_volume_gesture_title">Gestos para volume</string>
     <string name="enable_volume_gesture_summary">Controlar o volume com um gesto durante a reprodução do vídeo</string>
     <string name="enable_seek_buttons">Botões de pesquisa</string>
-    <string name="enable_seek_buttons_summary">Mostrar botões para avançar e recuar a reprodução</string>
     <string name="enable_double_tap_seek_title">Toque duplo para mover</string>
     <string name="enable_double_tap_seek_summary">Toque duplo nas margens do ecrã para mover 10 segundos</string>
     <string name="popup_keepscreen_title">Manter ecrã ligado no modo de janela</string>
@@ -306,6 +367,8 @@
     <string name="enable_headset_detection_summary">Detetar inserção e remoção dos auriculares</string>
     <string name="enable_play_on_headset_insertion">Continuar ao inserir os auriculares</string>
     <string name="enable_play_on_headset_insertion_summary">Caso contrário, colocar em pausa</string>
+    <string name="replaygain_track">Faixa</string>
+    <string name="replaygain_album">Álbum</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC utiliza para a saída de áudio</string>
     <string name="audio_ducking_title">Reduzir o volume do VLC em caso de notificação</string>
@@ -322,6 +385,7 @@
     <string name="casting_quality_lowcpu">Baixíssima</string>
     <string name="casting_connected_renderer">Conectado ao processador \'%1$s\'</string>
     <string name="artists_show_all_title">Mostrar todos os artistas</string>
+    <string name="show_headers">Mostrar cabeçalhos</string>
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_empty">Nenhuma extensão detetada</string>
     <string name="extension_permission_title">Ativar a nova extensão \"%1$s\"?</string>
@@ -349,6 +413,8 @@
     <string name="dump_media_db_summary">Copiar base de dados para raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar base de dados de multimédia</string>
     <string name="clear_media_database_summary">Limpar base de dados para recomeçar</string>
+    <string name="clear_app_data">Limpar dados da aplicação</string>
+    <string name="clear_app_data_summary">Elimina os dados do VLC para Android</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="set_locale">Definir idioma</string>
     <string name="network_caching">Valor da cache da rede</string>
@@ -356,7 +422,6 @@
     <string name="resume_playback_summary">Caso contrário, manter em pausa</string>
     <string name="blurred_cover_background_title">Fundo da capa difuso</string>
     <string name="blurred_cover_background_summary">Capa difusa na fundo do reprodutor de áudio</string>
-    <string name="network_caching_popup">Este valor tem que estar entre 0 e 6000 ms</string>
     <string name="quit">Sair e reiniciar a aplicação</string>
     <string name="restart_message">As alterações surtirão efeito após a aplicação ser reiniciada.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
@@ -392,6 +457,7 @@
 
     <string name="no_result">Não existem resultados</string>
     <string name="no_internet_connection">Verifique a sua ligação à Internet</string>
+    <string name="retry">Voltar a tentar</string>
     <string name="subs_download_error">Serviço indisponível. Por favor tente mais tarde</string>
 
     <string name="network_browsing">Rede local</string>
@@ -410,8 +476,7 @@
     <string name="playlist_save">Guardar lista de reprodução</string>
     <string name="playlist_name_hint">Nome da lista de reprodução</string>
     <string name="go_to_chapter">Ir para o capítulo…</string>
-    <string name="chapter">Capítulo</string>
-    <string name="resume_from_position">Retomar da última posição</string>
+    <string name="current_chapter">Capítulo: %s</string>
     <string name="confirm_resume">Retomar da última posição?</string>
     <string name="confirm_resume_title">Retomar vídeos reproduzidos</string>
     <string name="tv_ui_title">Interface Android TV</string>
@@ -429,8 +494,19 @@
     <!-- Widget -->
     <string name="widget_name_w">Widget claro</string>
     <string name="widget_name_b">Widget escuro</string>
+    <string name="widget_name_mini_player">Mini reprodutor VLC</string>
+    <string name="widget_old_text">Atualizamos os nossos widgets!</string>
+    <string name="widget_old_description_start">Boas notícias! Lançamos widgets melhorados.\nEstes fornecem mais interatividade e personalização</string>
+    <string name="whats_next">O que se segue?</string>
+    <string name="click_here">Clique aqui para saber mais.</string>
     <string name="allow_storage_access_title">Permitir que o VLC aceda a ficheiros de vídeo e áudio</string>
     <string name="allow_storage_access_description">O VLC necessita desta permissão para aceder aos ficheiros multimédia do dispositivo.</string>
+    <string name="allow_storage_manager_title">Permitir que o VLC aceda a todos os ficheiros</string>
+    <string name="allow_storage_manager_description">%s\n\nConceder permissão?</string>
+    <string name="allow_storage_manager_explanation">Para obter todas as funcionalidades do VLC e o suporte a todos os tipos de ficheiros multimédia, recomendamos fortemente que a permissão seja concedida.</string>
+    <string name="partial_content">O VLC não consegue aceder a todos os seus ficheiros</string>
+    <string name="partial_content_description">A partir do Android 11, as aplicações precisam de permissão especial para aceder a todos os ficheiros de um dispositivo.\n\n%s</string>
+    <string name="never_ask_again">Não perguntar novamente</string>
     <string name="allow_settings_access_ringtone_title">Permitir que o VLC defina o toque</string>
     <string name="allow_settings_access_ringtone_description">O VLC necessita desta permissão para definir uma faixa como toque de chamada.</string>
     <string name="allow_settings_access_brightness_title">Permitir que o VLC altere o brilho</string>
@@ -438,6 +514,13 @@
     <string name="allow_draw_overlays_title">Permitir que o VLC apareça por cima das outras aplicações</string>
     <string name="allow_sdraw_overlays_description">O VLC necessita desta permissão para mostrar os vídeos por cima das outras aplicações.</string>
     <string name="permission_ask_again">Permitir</string>
+    <string name="pick_file">Escolher um ficheiro</string>
+    <string name="permission_not_granted">Permissão não concedida</string>
+    <string name="permission_expanation_no_allow">Não será possível descobrir automaticamente ficheiros multimédia nem usar legendas externas</string>
+    <string name="permission_expanation_allow">Apenas poderá reproduzir transmissões ou multimédia de rede</string>
+    <string name="permission_onboarding_no_perm">Não será possível descobrir automaticamente ficheiros multimédia.\nApenas poderá reproduzir transmissões ou multimédia de rede</string>
+    <string name="permission_onboarding_perm_media">Apenas poderá descobrir automaticamente ficheiros multimédia comuns</string>
+    <string name="permission_onboarding_perm_all">Poderá descobrir automaticamente todos os seus ficheiros multimédia e reproduzir todos os tipos de ficheiros multimédia, mesmo os incomuns ou comprimidos</string>
     <string name="exit_app">Fechar VLC</string>
     <string name="exit_app_msg">Tem a certeza de que deseja fechar o VLC?</string>
 
@@ -466,6 +549,7 @@
     <string name="download_subtitles">Transferir legendas</string>
     <string name="browse_folder">Explorar pasta</string>
     <string name="listen">Escutar</string>
+    <string name="apply_to_bt">Aplicar ao dispositivo bluetooth</string>
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
@@ -493,6 +577,7 @@
     <string name="existing_custom_set_save_message">Guardar definições de equalizador como…</string>
     <string name="new_custom_set_save_message">Guardar novo conjunto de equalizador como…</string>
     <string name="save">Guardar</string>
+    <string name="saved">%s guardado</string>
     <string name="do_not_save">Não guardar</string>
     <string name="custom_set_deleted_message">Definições de equalizador \"%1$s\" apagada.</string>
     <string name="custom_set_wrong_input">Nome inválido.</string>
@@ -514,6 +599,7 @@
     <string name="audio_digital_failed">Não foi possível alterar o estado de saída do áudio digital</string>
     <string name="audio_digital_output_enabled">Saída de áudio digital ativada</string>
     <string name="audio_digital_output_disabled">Saída de áudio digital desativada</string>
+    <string name="audio_preferred_language">Idioma de áudio preferido</string>
     <string name="audio_digital_title">Saída de áudio digital (passagem)</string>
     <string name="audio_task_cleared_title">Parar ao deslizar na aplicação </string>
     <string name="audio_task_cleared_summary">Parar reprodução quando a aplicação é interrompida</string>
@@ -528,6 +614,8 @@
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Navegador</string>
     <string name="ab_repeat">Repetição A-B</string>
+    <string name="ab_repeat_reset">Limpar reprodução A-B</string>
+    <string name="ab_repeat_stop">Parar reprodução A-B</string>
     <string name="stop_after_this">Parar após esta faixa</string>
     <string name="time_category_new">Nova multimédia</string>
     <string name="time_category_current_month">Este mês</string>
@@ -540,10 +628,13 @@
     <string name="subtitle_search_name_hint">Nome</string>
     <string name="subtitle_search_episode_hint">Episódio</string>
     <string name="subtitle_search_season_hint">Temporada</string>
+    <string name="subtitles_download_failed">Falha ao descarregar</string>
     <string name="language_to_download">Idioma</string>
     <string name="delete_the_selected">Eliminar seleção</string>
     <string name="download_the_selected">Transferir seleção</string>
     <string name="next">Seguinte</string>
+    <string name="skip">Ignorar</string>
+    <string name="next_step">Seguinte</string>
     <string name="download">Transferir</string>
     <string name="ctx_player_video_track">Selecionar faixa de vídeo</string>
     <string name="ctx_player_audio_track">Faixa de áudio</string>
@@ -564,6 +655,7 @@
     <string name="onboarding_theme_title">Sinta-se em casa</string>
     <string name="done">Feito</string>
     <string name="onboarding_scan_title">Descobrir automaticamente ficheiros multimédia</string>
+    <string name="onboarding_all_set">O VLC está configurado!</string>
     <string name="daynight_system_explanation">O VLC irá mudar automaticamente para o modo noturno de acordo com a definição do sistema</string>
     <string name="daynight_legacy_explanation">O VLC irá mudar automaticamente para o modo noturno na hora apropriada</string>
     <string name="onboarding_scanning_enable">Deixar o VLC procurar por ficheiros multimédia no meu dispositivo</string>
@@ -588,6 +680,7 @@
     <string name="reset">Repor</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d faixa inserida</item>
+        <item quantity="many">%d faixas inseridas</item>
         <item quantity="other">%d faixas inseridas</item>
     </plurals>
     <string name="remove_current">Remover atual</string>
@@ -642,6 +735,7 @@
     <string name="open_network_settings">Abrir definições de rede?</string>
     <string name="recently_played">Reproduzido recentemente</string>
     <string name="recently_added">Adicionado recentemente</string>
+    <string name="clear">Limpar </string>
     <string name="abrepeat_add_first_marker">Definir ponto de início</string>
     <string name="abrepeat_add_second_marker">Definir ponto de fim</string>
     <string name="demux_bitrate">Taxa de bits de demultiplexagem</string>
@@ -651,6 +745,7 @@
     <string name="channels">Canais</string>
     <string name="resolution">Resolução</string>
     <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Taxa de fotogramas</string>
     <string name="framerate_value">%1$.3f</string>
     <string name="bitrate_value">%1$s/s</string>
     <string name="language">Idioma</string>
@@ -665,6 +760,8 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Faixa: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
+    <string name="audio_queue_progress_remaining">Restante: %s</string>
+    <string name="audio_queue_progress_finished">Termina em: %s</string>
     <string name="sortby_track">Faixa</string>
     <string name="this_folder">Adicionar esta pasta</string>
     <string name="all_subfolders">Adicionar esta pasta e subpastas</string>
@@ -708,14 +805,62 @@
     <string name="air_action_volume_up">Aumentar volume</string>
     <string name="air_action_volume_down">Diminuir volume</string>
     <string name="timeout_infinite">Infinito</string>
-    <string name="timeout_short">Curto</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Longo</string>
     <string name="apply_to_all">Aplicar a todos os videos</string>
     <string name="search_prefs">Procurar definições</string>
     <string name="preferred_resolution">Resolução de vídeo preferida</string>
     <string name="pref_resolution_very_low">Muito baixa definição (240p)</string>
     <string name="delete_forever">Apagar definitivamente</string>
+    <string name="start_vlc">Iniciar o VLC</string>
+    <string name="jump_delay_summary">%s segundos</string>
+    <string name="move_up">Subir</string>
+    <string name="move_down">Descer</string>
+    <string name="remove_from_playlist">Remover da lista de reprodução</string>
+    <string name="play_media">Reproduzir %s</string>
+
     <string name="add_button">Adicionar</string>
     <string name="add_all_button">Adicionar todos</string>
+    <string name="undo">Desfazer</string>
+    <string name="custom">Personalizado</string>
+    <string name="opacity">Opacidade</string>
+    <string name="open_vlc">Abrir o VLC</string>
+    <string name="talkback_genre">Género: %s</string>
+    <string name="talkback_history_item">Item do histórico</string>
+    <string name="talkback_playlist">Lista de reprodução: %s</string>
+    <string name="talkback_folder">Pasta: %s</string>
+    <string name="talkback_file">Ficheiro: %s</string>
+    <string name="talkback_favorite">Favorito: %s</string>
+    <string name="talkback_track_number">Número da faixa %s</string>
+    <string name="talkback_duration">Duração: %s</string>
+    <string name="talkback_album">Álbum: %s</string>
+    <string name="talkback_artist">Artista: %s</string>
+    <string name="talkback_release_date">Lançado em %s</string>
+    <string name="talkback_video">Vídeo: %s</string>
+    <string name="talkback_stream">Transmissão: %s</string>
+    <string name="talkback_audio_track">Faixa de áudio: %s</string>
+    <string name="talkback_video_group">Grupo de vídeo: %s</string>
+    <string name="talkback_hours">horas</string>
+    <string name="talkback_minutes">minutos</string>
+    <string name="talkback_seconds">segundos</string>
+    <string name="talkback_list_section">Cabeçalho: %s</string>
+    <string name="talkback_enter_screen">Navegar para %s</string>
+    <string name="talkback_file_size">Tamanho do ficheiro: %s</string>
+    <string name="talkback_open_in_browser">Abrir no navegador de internet</string>
+    <string name="talkback_video_tracks">Faixas de vídeo</string>
+    <string name="talkback_audio_tracks">Faixas de áudio</string>
+    <string name="talkback_subtitle_tracks">Faixas de legendas</string>
+    <string name="talkback_subtitle_dowload_item">Idioma: %s. %s. Nome: %s</string>
+    <string name="selected">Selecionado</string>
+    <string name="talkback_increase_delay">Aumentar atraso</string>
+    <string name="talkback_decrease_delay">Diminuir atraso</string>
+    <string name="talkback_increase_speed">Aumentar velocidade</string>
+    <string name="talkback_decrease_speed">Diminuir velocidade</string>
+    <string name="talkback_subtitle_history">Histórico de legendas</string>
+    <string name="talkback_language_selection">%s idiomas selecionados</string>
+    <string name="downloaded">Descarregado</string>
+    <string name="not_downloaded">Não descarregado</string>
+    <string name="downloading">A descarregar</string>
+    <string name="talkback_display_settings">Definições de visualização</string>
+    <string name="talkback_already_played">Já reproduzido</string>
+
+
 </resources>
