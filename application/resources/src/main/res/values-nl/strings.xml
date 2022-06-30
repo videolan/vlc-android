@@ -122,7 +122,6 @@
     <string name="nosubfolder">Geen submap</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
     <string name="nohistory">U hebt nog geen afspeelgeschiedenis.</string>
-    <string name="validation">Bent u zeker?</string>
 
     <string name="cover_art">Albumhoes</string>
     <string name="shuffle_all_title">Alles in willekeurige volgorde</string>
@@ -531,8 +530,6 @@
     <string name="permission_not_granted">Toestemming niet verleend</string>
     <string name="permission_expanation_no_allow">U zult niet in staat zijn om uw media automatisch te ontdekken of externe ondertitels te gebruiken</string>
     <string name="permission_expanation_allow">U zult alleen streams of netwerkmedia kunnen afspelen</string>
-    <string name="permission_expanation_subtitles">Externe ondertitels gebruiken</string>
-    <string name="permission_expanation_allow_explanation">Internet-streams of netwerkmedia afspelen</string>
     <string name="exit_app">VLC sluiten</string>
     <string name="exit_app_msg">Weet u zeker dat u VLC wilt afsluiten?</string>
 
@@ -927,5 +924,4 @@
     <string name="foldable">Vouwbaar scherm</string>
     <string name="undo">Ongedaan maken</string>
     <string name="add_server_favorite">Een server-favoriet toevoegen</string>
-
 </resources>
