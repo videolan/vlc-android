@@ -140,7 +140,7 @@
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintStart_toEndOf="@id/title"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_network" />
+                vlc:srcCompat="@drawable/ic_emoji_sd" />
 
         <ImageView
                 android:id="@+id/otg_media"
