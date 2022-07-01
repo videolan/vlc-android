@@ -17,6 +17,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowLayoutInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.Settings
@@ -33,6 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private var currentNightMode: Int = 0
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
+    var windowLayoutInfo: WindowLayoutInfo? = null
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
@@ -52,6 +60,15 @@ abstract class BaseActivity : AppCompatActivity() {
         if (UiTools.currentNightMode != resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             UiTools.invalidateBitmaps()
             UiTools.currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        }
+        lifecycleScope.launch(Dispatchers.Main) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                WindowInfoTracker.getOrCreate(this@BaseActivity)
+                        .windowLayoutInfo(this@BaseActivity)
+                        .collect { layoutInfo ->
+                            windowLayoutInfo = layoutInfo
+                        }
+            }
         }
     }
 
