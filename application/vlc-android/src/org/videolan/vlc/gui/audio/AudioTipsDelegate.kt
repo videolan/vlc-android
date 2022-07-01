@@ -37,6 +37,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import androidx.window.layout.FoldingFeature
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,6 +46,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
+import org.videolan.vlc.util.getScreenWidth
 
 class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     var currentTip: AudioPlayerTipsStep? = null
@@ -59,6 +61,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     private lateinit var tapGestureHorizontal: View
     private lateinit var helpTitle: TextView
     private lateinit var helpDescription: TextView
+    private var rightGuidelineEndBound = 1F
 
     private val transition = Fade().apply {
         interpolator = AccelerateDecelerateInterpolator()
@@ -90,6 +93,11 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
         audioPlayerTips.setVisible()
         audioPlayerTips.setOnTouchListener { _, _ -> true }
         activity.lifecycleScope.launch(Dispatchers.Main) { next() }
+        (activity.windowLayoutInfo?.displayFeatures?.firstOrNull() as? FoldingFeature)?.let {foldingFeature ->
+            if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+                rightGuidelineEndBound = foldingFeature.bounds.left.toFloat() / activity.getScreenWidth()
+            }
+        }
     }
 
     private fun updateBackgroundPosition(peek: Int) {
@@ -111,10 +119,10 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
         val constraintSet = ConstraintSet().apply { clone(initialConstraintSet) }
         TransitionManager.beginDelayedTransition(audioPlayerTips, transition)
 
-
         clearAllAnimations()
         nextButton.setText(R.string.next_step)
 
+        constraintSet.setGuidelinePercent(R.id.endGuideline, rightGuidelineEndBound)
         when (currentTip) {
             AudioPlayerTipsStep.SWIPE_NEXT -> {
                 if (activity.isTablet()) {

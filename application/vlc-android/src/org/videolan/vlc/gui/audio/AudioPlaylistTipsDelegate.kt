@@ -43,6 +43,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import androidx.window.layout.FoldingFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.tools.*
@@ -52,6 +53,7 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivity) {
@@ -75,6 +77,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
     private lateinit var plTipsTimeline: SeekBar
     private lateinit var helpTitle: TextView
     private lateinit var helpDescription: TextView
+    private var rightGuidelineEndBound = 1F
 
     fun init(vsc: ViewStubCompat?) {
         vsc?.inflate()
@@ -130,6 +133,11 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
         audioPlaylistTips.setVisible()
         activity.lifecycleScope.launch(Dispatchers.Main) { next() }
+        (activity.windowLayoutInfo?.displayFeatures?.firstOrNull() as? FoldingFeature)?.let {foldingFeature ->
+            if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
+                rightGuidelineEndBound = foldingFeature.bounds.left.toFloat() / activity.getScreenWidth()
+            }
+        }
     }
 
     private fun getItemColor(): Int {
@@ -271,6 +279,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
         clearAllAnimations()
         nextButton.setText(R.string.next_step)
 
+        constraintSet.setGuidelinePercent(R.id.endGuideline, rightGuidelineEndBound)
         when (currentTip) {
             AudioPlaylistTipsStep.REMOVE -> {
                 if (activity.isTablet()){
