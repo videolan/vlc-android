@@ -542,6 +542,8 @@ Känynnistimestä riippuen saatat joutua poistamaan ja korvaamaan vanhat.</strin
     <string name="allow_settings_access_brightness_description">Sinun tarvitsee myöntää VLC:lle oikeudet vaihtaa kirkkautta.</string>
     <string name="allow_draw_overlays_title">Salli VLC-soittimen ilmoitukset muiden sovellusten päällä</string>
     <string name="allow_sdraw_overlays_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää ilmoitukset muiden sovellusten päällä.</string>
+    <string name="allow_pip">Salli VLC-soittimen käynnistyä kuva kuvassa</string>
+    <string name="allow_pip_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää videosi tilassa kuva kuvassa.</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="pick_file">Valitse tiedosto</string>
     <string name="permission_not_granted">Lupaa ei myönnetty</string>
@@ -1021,6 +1023,7 @@ URL on %s</string>
     <string name="talkback_action_rewind">Kelaa taakse %s sekuntia</string>
     <string name="talkback_action_forward">Kelaa eteen %s sekuntia</string>
     <string name="talkback_display_settings">Näytön asetukset</string>
+    <string name="talkback_already_played">Jo toistettu</string>
 
 
 </resources>
