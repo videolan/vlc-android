@@ -804,15 +804,22 @@
                 app:srcCompat="@drawable/ic_arrow_right"
                 tools:visibility="visible" />
 
-        <androidx.appcompat.widget.ViewStubCompat
-                android:id="@+id/player_options_stub"
+        <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout="@layout/player_options"
+                android:elevation="32dp"
+                android:id="@+id/player_options_container"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.ViewStubCompat
+                    android:id="@+id/player_options_stub"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout="@layout/player_options" />
+        </FrameLayout>
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/bookmarks_stub"

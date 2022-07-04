@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.window.layout.FoldingFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,12 +31,14 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.isTalkbackIsEnabled
 
 private const val ACTION_AUDIO_DELAY = 2
@@ -137,6 +141,20 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             recyclerview.itemAnimator = null
 
             rootView.setOnClickListener { hide() }
+        }
+        val windowInfoLayout = if (activity is VideoPlayerActivity) activity.windowLayoutInfo else if (activity is BaseActivity) activity.windowLayoutInfo else null
+        val foldingFeature = windowInfoLayout?.displayFeatures?.firstOrNull() as? FoldingFeature
+        if (foldingFeature?.isSeparating == true && foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL) {
+            val halfScreenSize = activity.getScreenHeight() - foldingFeature.bounds.bottom
+            val lp = (rootView.layoutParams as ViewGroup.MarginLayoutParams)
+            lp.height = halfScreenSize
+            if (lp is FrameLayout.LayoutParams) lp.gravity = Gravity.BOTTOM
+            rootView.layoutParams = lp
+        } else {
+             val lp = (rootView.layoutParams as ViewGroup.MarginLayoutParams)
+            lp.height = FrameLayout.LayoutParams.MATCH_PARENT
+            if (lp is FrameLayout.LayoutParams) lp.gravity = Gravity.BOTTOM
+            rootView.layoutParams = lp
         }
         setup()
         rootView.visibility = View.VISIBLE

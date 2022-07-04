@@ -71,6 +71,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -154,6 +155,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var lockBackButton = false
     private var wasPaused = false
     private var savedTime: Long = -1
+
+    lateinit var windowLayoutInfo: WindowLayoutInfo
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -504,6 +507,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         .collect { layoutInfo ->
                             overlayDelegate.foldingFeature = layoutInfo.displayFeatures
                                     .firstOrNull() as? FoldingFeature
+                            windowLayoutInfo = layoutInfo
                         }
             }
         }
