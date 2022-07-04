@@ -545,6 +545,8 @@
     <string name="allow_settings_access_brightness_description">VLC cere permisiunea pentru a schimba modul pentru luminozitate.</string>
     <string name="allow_draw_overlays_title">Permite ferestrei de redare a programului VLC să apară peste alte aplicații</string>
     <string name="allow_sdraw_overlays_description">VLC cere permisiunea să afișeze videoclipul într-o fereastră peste alte aplicații.</string>
+    <string name="allow_pip">Permite playerului VLC să lanseze Picture in Picture</string>
+    <string name="allow_pip_description">VLC are nevoie de tine ca să-i acorzi permisiunea să-ți afișeze videoclipul în modul Picture in Picture.</string>
     <string name="permission_ask_again">Permisiune garantata</string>
     <string name="pick_file">Alege un fișier</string>
     <string name="permission_not_granted">Permisiune neacordată</string>
@@ -1025,6 +1027,7 @@
     <string name="talkback_action_rewind">Derulează înapoi %s secunde</string>
     <string name="talkback_action_forward">Caută înainte %s secunde</string>
     <string name="talkback_display_settings">Setări de afișare</string>
+    <string name="talkback_already_played">Deja redat</string>
 
 
 </resources>
