@@ -59,8 +59,7 @@
             android:id="@+id/guideline8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            android:orientation="horizontal"/>
 
     <TextView
             android:id="@+id/helpTitle"
@@ -74,7 +73,7 @@
             app:layout_constraintEnd_toStartOf="@+id/endGuideline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/close"
+            app:layout_constraintTop_toTopOf="@+id/topGuideline"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Help title" />
 
@@ -102,6 +101,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0" />
 
     <Button
             android:id="@+id/nextButton"

@@ -70,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/close" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline8"
+            android:id="@+id/middleGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -80,8 +80,7 @@
             android:id="@+id/endGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="1" />
+            android:orientation="vertical"/>
 
     <TextView
             android:id="@+id/helpTitle"
@@ -120,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintBottom_toTopOf="@+id/middleGuideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/tips_gesture_horizontal"

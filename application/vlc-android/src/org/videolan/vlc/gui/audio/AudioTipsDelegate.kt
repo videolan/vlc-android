@@ -46,6 +46,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
+import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.getScreenWidth
 
 class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
@@ -62,6 +63,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     private lateinit var helpTitle: TextView
     private lateinit var helpDescription: TextView
     private var rightGuidelineEndBound = 1F
+    private var topGuidelineEndBound = 0F
 
     private val transition = Fade().apply {
         interpolator = AccelerateDecelerateInterpolator()
@@ -94,8 +96,11 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
         audioPlayerTips.setOnTouchListener { _, _ -> true }
         activity.lifecycleScope.launch(Dispatchers.Main) { next() }
         (activity.windowLayoutInfo?.displayFeatures?.firstOrNull() as? FoldingFeature)?.let {foldingFeature ->
-            if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL) {
-                rightGuidelineEndBound = foldingFeature.bounds.left.toFloat() / activity.getScreenWidth()
+            if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL) {
+                if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL)
+                    rightGuidelineEndBound = foldingFeature.bounds.left.toFloat() / activity.getScreenWidth()
+                else
+                    topGuidelineEndBound = foldingFeature.bounds.bottom.toFloat() / activity.getScreenHeight()
             }
         }
     }
@@ -123,6 +128,7 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
         nextButton.setText(R.string.next_step)
 
         constraintSet.setGuidelinePercent(R.id.endGuideline, rightGuidelineEndBound)
+        constraintSet.setGuidelinePercent(R.id.topGuideline, topGuidelineEndBound)
         when (currentTip) {
             AudioPlayerTipsStep.SWIPE_NEXT -> {
                 if (activity.isTablet()) {
