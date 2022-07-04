@@ -384,7 +384,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        sortMenuTitles()
+        sortMenuTitles(currentTab)
         if (adapter == getCurrentAdapter()) {
             restoreMultiSelectHelper()
         }
