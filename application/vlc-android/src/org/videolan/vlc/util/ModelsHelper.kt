@@ -10,6 +10,7 @@ import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.util.*
 import org.videolan.vlc.PlaybackService
 import java.util.*
@@ -288,8 +289,8 @@ val filenameAscComp by lazy {
         val type2 = (item2 as? MediaWrapper)?.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        val filename1 = (item1 as? MediaWrapper)?.fileName
-        val filename2 = (item2 as? MediaWrapper)?.fileName
+        val filename1 = (item1 as? MediaWrapper)?.fileName ?: (item1 as? Storage)?.title
+        val filename2 = (item2 as? MediaWrapper)?.fileName ?: (item2 as? Storage)?.title
         filename1?.lowercase(Locale.getDefault())?.compareTo(filename2?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }
@@ -300,8 +301,8 @@ val filenameDescComp by lazy {
         val type2 = (item2 as? MediaWrapper)?.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        val filename1 = (item1 as? MediaWrapper)?.fileName
-        val filename2 = (item2 as? MediaWrapper)?.fileName
+        val filename1 = (item1 as? MediaWrapper)?.fileName ?: (item1 as? Storage)?.title
+        val filename2 = (item2 as? MediaWrapper)?.fileName ?: (item2 as? Storage)?.title
         filename2?.lowercase(Locale.getDefault())?.compareTo(filename1?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
 }
