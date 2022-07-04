@@ -61,7 +61,6 @@
     <string name="confirm_delete_files">هل تريد حذف هذه %1$s الملفات؟</string>
     <string name="confirm_delete_folders_and_files">هل تريد حذف هذه %1$s المجلدات و%2$s الملفات؟</string>
     <string name="confirm_delete_playlist">أأحذف قائمة التشغيل ”%1$s‘؟</string>
-    <string name="confirm_remove_from_playlist">أأُزيل ”%1$s“ من قائمة التشغيل؟</string>
     <string name="ringtone_set">ضُبط الملف ”%1$s“ ليكون للرنين.</string>
     <string name="ringtone_error">حدث خطأ أثناء الضبط ليكون للرنين.</string>
     <string name="pause">ألبِث</string>
@@ -157,7 +156,6 @@
     <string name="nosubfolder">لا يوجد مجلد فرعي</string>
     <string name="directorynotfound">لم يوجد مسار الدليل ”%1$s“.</string>
     <string name="nohistory">من من شيء شغّلته في التأريخ.</string>
-    <string name="validation">أمتأكّد؟</string>
 
     <string name="cover_art">الغلاف الفني</string>
     <string name="shuffle_all_title">اخلطها كلها</string>
@@ -218,7 +216,6 @@
     <string name="server_share_hint">اسم مشاركة الشبكة (او عنوان آي بي IP )</string>
     <string name="server_folder_hint">مسار المجلد (اختياري)</string>
     <string name="server_username_hint">اسم المستخدم</string>
-    <string name="server_servername_hint">اسم الخادم، تيسيراً</string>
     <string name="server_port">المنفذ:</string>
     <string name="login">تسجيل الدخول</string>
     <string name="password">كلمة السر</string>
@@ -235,6 +232,7 @@
     <string name="encountered_error_title">خطأ تشغيلي</string>
     <string name="encountered_error_message">صادف VLC خطأ عند قراءة هذا الوسيط.\nيُرجى إعادة إنعاش مكتبة الوسائط.</string>
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
+    <string name="missing_location">إن مكان تخزين هذا الوسيط غير متاح، لذلك لا يمكن تشغيله.</string>
 
     <string name="search">ابحث</string>
 
@@ -246,9 +244,26 @@
 
     <string name="play_button">زر التشغيل</string>
 
+    <!-- Tips -->
+    <string name="tips_title">نصائح حول مُشغِّل الفيديو</string>
     <string name="seek">سعي</string>
     <string name="subtitles">التّرجمات</string>
+    <string name="tips_player_controls">تحكمات المُشغِّل</string>
+    <string name="tips_player_controls_description">يُرجى لمس تحكمات المُشغِّل أسفله لاستكشاف دورها في الاستخدام</string>
+    <string name="tips_audio_sub">المسارات الصوتية والترجمات</string>
+    <string name="tips_play_description">يُرجى اللمس لتشغيل الفيديو</string>
     <string name="lock">اقفلْ</string>
+    <string name="tap">يُرجى اللمس للعرض</string>
+    <string name="tap_to_remove">يُرجى اللمس للإزالة</string>
+    <string name="tap_to_rearrange">يٌرجى اللمس لإعادة الترتيب</string>
+    <string name="tap_to_previous_next">يُرجى اللمس للذهاب إلى السابق (أو اللاحق)</string>
+    <string name="lock_orientation">الاتجاه</string>
+    <string name="lock_orientation_description">يُرجى اللمس لتعطيل (أو تفعيل) الاتجاه</string>
+    <string name="advanced_options">الخيارات المتقدمة</string>
+    <string name="advanced_options_description">مثلا تحديد سرعة التشغيل، وضع التكرار، …</string>
+    <string name="pause_description">اللمس مرتين للتوقف المؤقت</string>
+    <string name="close">إغلاق</string>
+
     <string name="playlist_tips">نصائح حول قائمة التشغيل</string>
     <string name="remove_song">أزِل الأغنية</string>
     <string name="remove_playlist_item">%1$s تم تجاهله من قائمة التشغيل</string>
@@ -258,16 +273,19 @@
     <string name="audio_player_tips">نصائح حول قارئ الأصوات</string>
     <string name="previous_next_song">الأغنية السابقة/اللاحقة</string>
     <string name="show_playlist">أعرض قائمة التشغيل</string>
+    <string name="hide_playlist">إخفاء قائمة التشغيل</string>
     <string name="hold_to_stop">أبقِ للتوقيف</string>
 
     <!-- About -->
     <string name="app_name_full"> VLC للأندرويد</string>
-    <string name="licence">الرّخصة</string>
     <string name="revision">التّنقيح</string>
     <string name="about">حول</string>
-    <string name="about_text">VLC للأندرويد™ هو فرعٌ من مشغّل الوسائط VLC، مشغّل الوسائط مفتوح المصدر الشّهير. يُمكن للإصدارة الخاصة بأندرويد™ قراءة الكثير من صيغ الملفات و البث الشّبكي.</string>
+    <string name="about_vlc_text">إن VLC لأجهزة أندرويد هو نقل عن VLC للحاسوب، وهو المُشغِّل الوسائط الذائع الصيت ومفتوح المصدر. إن هذا الإصدار لأندرويد يستطيع قراءة كل ملفات الوسائط وكذلك التدفقات عبر الشبكات.</string>
+    <string name="authors">المؤلفون</string>
     <string name="vlc_authors">و مؤلفو VLC.</string>
-    <string name="compiled_by">هذه الإصدارة من VLC مبنية بواسطة:</string>
+    <string name="is_compiled_by">مُجمَّع من طرف</string>
+    <string name="sources">الكود المصدري</string>
+    <string name="libraries">المكتبات البرمجية</string>
     <string name="feedback_forum">استمارة التعليقات</string>
 
     <!-- Preferences -->
@@ -292,10 +310,10 @@
     <string name="screen_orientation_landscape_reverse">عرضي معكوس</string>
     <string name="screen_orientation_last_locked">آخر اتجاه مغلق</string>
     <string name="enable_black_theme">الثيم الأسود</string>
+    <string name="theme_auto">السمة التلقائية</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="daynight_title">نمط ليلي نهاري</string>
     <string name="daynight_follow_system_title">متابعة نمط النظام</string>
-
     <string name="extra_prefs_category">إعدادات إضافية</string>
 
     <string name="interface_prefs_screen">الواجهة</string>
@@ -324,7 +342,6 @@
     <string name="enable_volume_gesture_title">إيماء الصوت</string>
     <string name="enable_volume_gesture_summary">التحكم في الصوت بالإيماء أثناء تشغيل الفيديو</string>
     <string name="enable_seek_buttons">أزرار البحث</string>
-    <string name="enable_seek_buttons_summary">أعرض أزرار ال‏‏إرجاع و إلى الأمام على واجهة الفيديو</string>
     <string name="enable_double_tap_seek_title">اضغط مرتين للبحث</string>
     <string name="enable_double_tap_seek_summary">اضغط مزدوجًا في زوايا الشاشة للتقديم او التأخي بـ10 ثواني</string>
     <string name="popup_keepscreen_title">ضع الشاشة في وضع التشغل في نمط المنبثق</string>
@@ -416,12 +433,10 @@
     <string name="clear_history">امسح التأريخ</string>
     <string name="set_locale">اضبط المحلّية</string>
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
-    <string name="network_caching_summary">مقدار الوقت المستغرق في تخزين وسائط الشبكة مؤقتًا (بالمللي ثانية) لفك تشفير البرامج\nاتركها فارغة لإعادة التعيين</string>
     <string name="resume_playback_title">استأنف التشغيل بعد انتهاء مكالمة</string>
     <string name="resume_playback_summary">غير ذلك البقاء متوقف</string>
     <string name="blurred_cover_background_title">تضبيب خلفية الغلاف</string>
     <string name="blurred_cover_background_summary">تضبيب الغلاف في خلفية مشغل الموسيقى</string>
-    <string name="network_caching_popup">يجب أن تتراوح هذه القيمة بين 0 و 6000 ملي ثانية</string>
     <string name="quit">أغلق وأعِدْ تشغيل التّطبيق</string>
     <string name="restart_message">ستسري التغييرات بمجرد إعادة تشغيل التطبيق.\n\n إعادة التشغيل الآن؟</string>
     <string name="restart_message_OK">حسنًا</string>
@@ -475,8 +490,6 @@
     <string name="playlist_save">احفظ قائمة التشغيل</string>
     <string name="playlist_name_hint">اسم قائمة التشغيل</string>
     <string name="go_to_chapter">انتقل إلى الفصل…</string>
-    <string name="chapter">الفصل</string>
-    <string name="resume_from_position">إسئناف من آخر موقع</string>
     <string name="confirm_resume">هل تريد إستئناف من آخر موقع؟</string>
     <string name="confirm_resume_title">استئناف تشغيل الفيديوهات</string>
     <string name="tv_ui_title">واجهة Android TV</string>
@@ -506,8 +519,6 @@
     <string name="permission_not_granted">لم يتم منح الإذن</string>
     <string name="permission_expanation_no_allow">لن تتمكن من اكتشاف الوسائط تلقائيًا ولا استخدام ترجمات خارجية</string>
     <string name="permission_expanation_allow">ستتمكن من تشغيل البث أو وسائط الشبكة فقط</string>
-    <string name="permission_expanation_subtitles">استخدم ترجمات خارجية</string>
-    <string name="permission_expanation_allow_explanation">قم بتشغيل تدفقات الإنترنت أو وسائط الشبكة</string>
     <string name="exit_app">أغلق VLC</string>
     <string name="exit_app_msg">هل أنت متأكد من مغادرة VLC؟</string>
 
@@ -814,9 +825,6 @@
     <string name="allow_otg">السماح بالوصول إلى OTG</string>
     <string name="allow_otg_description">يرجى تحديد محرك OTG الخاص بك للسماح بالوصول إلى VLC.</string>
     <string name="timeout_infinite">لا نهائي</string>
-    <string name="timeout_short">قصيرة</string>
-    <string name="timeout_normal">عادية</string>
-    <string name="timeout_long">طويلة</string>
     <string name="video_hud_timeout">مشغل الفيديو يتحكم في إخفاء التأخير</string>
     <string name="remove_from_history">أزِل من التاريخ</string>
     <string name="prefersmbv1">تفضل SMB 1</string>
@@ -875,5 +883,4 @@
         <item quantity="many">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
         <item quantity="other">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
     </plurals>
-
 </resources>
