@@ -4,15 +4,18 @@
 
     <!-- Main VLC Interface -->
     <string name="ok">እሺ</string>
-    <string name="cancel">ሰርዝ</string>
-    <string name="other">ሌሎች</string>
-    <string name="sortby">መለያ በ…</string>
+    <string name="cancel">አቋርጥ</string>
+    <string name="other">ሌላ</string>
+    <string name="sortby">የተደረደረው በ...</string>
     <string name="sortby_name">ስም</string>
-    <string name="sortby_filename">የ ፋይል ስም</string>
-    <string name="sortby_artist_name">የ ከያኒ ስም</string>
-    <string name="sortby_album_name">የ አልበም ስም</string>
+    <string name="sortby_filename">የፋይል ስም</string>
+    <string name="sortby_artist_name">የከያኒ ስም</string>
+    <string name="sortby_album_name">የአልበም ስም</string>
     <string name="sortby_length">እርዝመት</string>
     <string name="sortby_date">ቀን</string>
+    <string name="sortby_last_modified_date">በቅርቡ የተጨመሩ</string>
+    <string name="sortby_insertion">የተጨመረበት ቀን</string>
+    <string name="sortby_media_number">የሚዲያ ቁጥር</string>
     <string name="sortby_number">ተረኛ የለም</string>
     <string name="searchable_hint">መፈለጊያ…</string>
     <string name="history">ታሪክ</string>
@@ -22,26 +25,37 @@
         <item quantity="other">%d ውጤቶች ተገኝተዋል</item>
     </plurals>
 
-    <string name="play">ማጫወቻ</string>
-    <string name="playback">በድጋሚ ማጫወቻ</string>
-    <string name="playback_controls">በድጋሚ ማጫወቻ መቆጣጠሪያ</string>
-    <string name="medialibrary_scan">የ መገናኛ መጻህፍት ቤት ማሰሻ</string>
-    <string name="Medialibrary_progress">የ መገናኛ መጻህፍት ቤት ማሰሻ ሂደት ማሻሻያ</string>
-    <string name="play_from_start">ከ መጀመሪያው ማጫወቻ</string>
-    <string name="play_as_audio">እንደ ድምፅ ማጫወቻ</string>
-    <string name="play_as_video">እንደ ቪዲዮ ማጫወቻ</string>
-    <string name="video_app_switch_title">መደብ/PiP mode</string>
-    <string name="play_as_audio_background">ቪዲዮ ከ መደቡ ጀርባ ማጫወቻ</string>
-    <string name="append">መጨመሪያ</string>
-    <string name="insert_next">ቀጥሎ ማስገቢያ</string>
-    <string name="play_all">ሁሉንም ማጫወቻ</string>
-    <string name="append_all">ሁሉንም መጨመሪያ</string>
-    <string name="delete">ማጥፊያ</string>
-    <string name="remove">ማስወገጃ</string>
-    <string name="set_song">እንደ ስልክ መጥሪያ ማሰናጃ</string>
+    <string name="play">አጫዉት</string>
+    <string name="playback">ማጫወቻ</string>
+    <string name="playback_controls">የማጫወቻ መቆጣጠሪያዎች</string>
+    <string name="medialibrary_scan">የሚዲያ ማከማቻ ቅኝት</string>
+    <string name="Medialibrary_progress">የሚዲያ ማከማቻ ቅኝት ሂደት ማሳወቂያ</string>
+    <string name="play_from_start">ከመጀመሪያው ጀምሮ ጫዋታዉ ይጀም</string>
+    <string name="play_as_audio">በድምፅ ብቻ አጫዉት</string>
+    <string name="play_as_video">በቪዲዮ አጫዉት</string>
+    <string name="return_to_video">ቪዲዮውን ወደነበረበት ለመመለስ ሽፋኑን ረዘም ላለ ጊዜ ይጫኑ</string>
+    <string name="video_app_switch_title">ከኋላ/PiP የማጫወቻ ሁኔታ</string>
+    <string name="video_app_switch_summary">ከቪዲዮ ማጫወት ወደ ሌላ መተግበሪያ ሲቀይሩ የVLC ባህሪን ይምረጡ</string>
+    <string name="play_pip_title">ቪዲዮዎችን በ Picture-in-picture ሁነታ ያጫውቱ</string>
+    <string name="play_as_audio_background">ቪዲዮችን ከበስተጀርባ አጫዉት</string>
+    <string name="append">ጨምር</string>
+    <string name="insert_next">ቀጥለህ አስገባ</string>
+    <string name="play_all">ሁሉንም አጫዉት</string>
+    <string name="append_all">ሁሉንም ጨምር</string>
+    <string name="resume_playback_short_title">ማጫወቻው ከቆመበት ቀጥል</string>
+    <string name="resume_playback_long_title">የመጨረሻው ማጫወቻ ዝርዝር ከቆመበት ቀጥል</string>
+    <string name="resume_playback_error">ከቆመበት የሚቀጥል የለም</string>
+    <string name="delete">ሰርዝ</string>
+    <string name="remove">አስወግድ</string>
+    <string name="set_song">የስልክ ጥሪ ድምፅ ይደረግ</string>
+    <string name="set_song_question">%1$s የስልክ ጥሪ ድምፅ ሆኖ ይቀመጥ?</string>
     <string name="info">መረጃ</string>
-    <string name="confirm_delete">ፋይሉን ማጥፊያ \'%1$s\'?</string>
-    <string name="confirm_delete_folder">ፎልደሩን ማጥፊያ \'%1$s\' እና ሁሉንም ይዞታዎቹን በሙሉ?</string>
+    <string name="confirm_delete">%1$s ፋይል ይሰረዝ?</string>
+    <string name="confirm_delete_message">ይህ ቋሚ ነው እና ሊቀለበስ አይችልም።</string>
+    <string name="confirm_delete_album">%1$s አልበም ይሰረዝ?</string>
+    <string name="confirm_delete_several_media">እነዚህ %1$d ሚዲያዎች ይሰረዙ?</string>
+    <string name="confirm_delete_folder">አቃፊ %1$s እና ሁሉም ይዘቶቹ ይሰረዙ?</string>
+    <string name="confirm_delete_folders">እነዚህ %1$s አቃፊዎች እና ሁሉም ይዘቶቻቸው ይሰረዙ?</string>
     <string name="confirm_delete_playlist">የ ማጫወቻ ዝርዝር ላጥፋ \'%1$s\'?</string>
     <string name="ringtone_set">ይህ ፋይል \'%1$s\' እንደ ስልክ መጥሪያ ተሰናድቷል</string>
     <string name="ringtone_error">እንደ ስልክ መጥሪያ በ ማሰናዳት ላይ እንዳለ ስህተት ተፈጥሯል</string>
@@ -81,8 +95,6 @@
     <string name="loading">በ መጫን ላይ</string>
     <string name="please_wait">እባክዎን ይቆዩ…</string>
     <string name="noplaylist">የ ማጫወቻ ዝርዝር የለም</string>
-    <string name="validation">እርግጠኛ ነዎት</string>
-
     <string name="cover_art">የ ሽፋን ኪነት</string>
     <string name="shuffle_title">መበወዣ ዘዴ</string>
     <string name="shuffle">መበወዣ ማጥፊያ</string>
@@ -147,7 +159,6 @@
 
     <!-- About -->
     <string name="app_name_full">ቪኤልሲ ለ አንድሮይድ</string>
-    <string name="licence">ፍቃድ</string>
     <string name="revision">እትም</string>
     <string name="about">ስለ</string>
     <string name="vlc_authors">እና የ ቪኤልሲ ደራሲዎች</string>
@@ -215,7 +226,6 @@
     <string name="search_hint">መገናኛ መፈለጊያ</string>
     <string name="playlist_save">የ ማጫወቻ ዝርዝር ማስቀመጫ</string>
     <string name="go_to_chapter">መሄጃ ወደ ምእራፍ…</string>
-    <string name="chapter">ምእራፍ</string>
     <string name="medialibrary">የ መገናኛ መጻህፍት ቤት</string>
     <string name="medialibrary_directories">የ መገናኛ መጻህፍት ቤት ፎልደሮች</string>
 
