@@ -21,6 +21,7 @@
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d ᱛᱮᱞᱟ ᱧᱟᱢᱮᱱᱟ</item>
+        <item quantity="two">%d ᱛᱮᱞᱟᱠᱚ ᱧᱟᱢᱮᱱᱟ</item>
         <item quantity="other">%d ᱛᱮᱞᱟᱠᱚ ᱧᱟᱢᱮᱱᱟ</item>
     </plurals>
 
@@ -57,7 +58,6 @@
     <string name="confirm_delete_files">%1$s ᱨᱮᱫ ᱠᱚ ᱢᱮᱴᱟᱣ ᱟᱢ ᱥᱮ?</string>
     <string name="confirm_delete_folders_and_files">%1$s ᱯᱚᱴᱚᱢ ᱟᱨ %2$s ᱨᱮᱫ ᱠᱚ ᱢᱮᱴᱟᱣ ᱥᱟᱱᱟᱢ ᱠᱟᱱᱟ ᱥᱮ?</string>
     <string name="confirm_delete_playlist">\'%1$s\' ᱯᱞᱮᱞᱤᱥᱴ ᱢᱮᱴᱟᱣᱟᱢ ᱥᱮ?</string>
-    <string name="confirm_remove_from_playlist">\'%1$s\' ᱯᱞᱮᱞᱤᱥᱴ ᱠᱷᱚᱱ ᱚᱪᱚᱜ ᱟᱢ ᱥᱮ?</string>
     <string name="ringtone_set">\'%1$s\' ᱨᱮᱫᱽ ᱨᱤᱝᱴᱚᱱ ᱞᱮᱠᱷᱟ ᱥᱮᱴ ᱮᱱᱟ ᱾</string>
     <string name="ringtone_error">ᱨᱤᱝᱴᱚᱱ ᱥᱮᱴ ᱡᱚᱠᱷᱟᱜ ᱵᱷᱩᱞ ᱦᱩᱭ ᱮᱱᱟ ᱾</string>
     <string name="pause">ᱛᱷᱩᱠᱩᱢ</string>
@@ -73,34 +73,42 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">᱑ ᱮᱞᱵᱟᱹᱢ</item>
+        <item quantity="two">%d ᱮᱞᱵᱟᱹᱢ ᱠᱚ</item>
         <item quantity="other">%d ᱮᱞᱵᱟᱹᱢ ᱠᱚ</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">᱑ ᱯᱚᱴᱼᱯᱚᱴᱚᱢ</item>
+        <item quantity="two">%d ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱠᱚ</item>
         <item quantity="other">%d ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱠᱚ</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">᱑ ᱢᱤᱰᱤᱭᱟ</item>
+        <item quantity="two">%d ᱢᱤᱰᱤᱭᱟ</item>
         <item quantity="other">%d ᱢᱤᱰᱤᱭᱟ</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">᱑ ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱽ</item>
+        <item quantity="two">%d ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱽ ᱠᱚ</item>
         <item quantity="other">%d ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱽ ᱠᱚ</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">᱑ ᱣᱤᱰᱤᱭᱚ</item>
+        <item quantity="two">%d ᱣᱤᱰᱤᱭᱚ ᱠᱚ</item>
         <item quantity="other">%d ᱣᱤᱰᱤᱭᱚ ᱠᱚ</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">᱑ ᱥᱤᱱᱮᱢᱟ</item>
+        <item quantity="two">%d ᱥᱤᱱᱮᱢᱟ ᱠᱚ</item>
         <item quantity="other">%d ᱥᱤᱱᱮᱢᱟ ᱠᱚ</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">᱑ TV ᱥᱷᱚ</item>
+        <item quantity="two">%d TV ᱥᱷᱚ ᱠᱚ</item>
         <item quantity="other">%d TV ᱥᱷᱚ ᱠᱚ</item>
     </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 ᱴᱨᱮᱠ</item>
+        <item quantity="two">%d ᱴᱨᱮᱠ ᱠᱚ</item>
         <item quantity="other">%d ᱴᱨᱮᱠ ᱠᱚ</item>
     </plurals>
 
@@ -121,7 +129,6 @@
     <string name="nosubfolder">ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱵᱟᱹᱱᱩᱜᱼᱟ</string>
     <string name="directorynotfound">%1$s ᱩᱱᱩᱫᱩᱜ ᱡᱟᱭᱜᱟ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ ᱾</string>
     <string name="nohistory">ᱟᱢ ᱴᱷᱮᱱ ᱚᱠᱟ ᱯᱞᱮᱵᱮᱠ ᱱᱟᱜᱟᱢ ᱵᱟᱹᱱᱩᱜᱟ ᱾</string>
-    <string name="validation">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱛᱮᱢ ᱢᱮᱱᱟᱢ-ᱟ ᱥᱮ?</string>
 
     <string name="cover_art">ᱠᱚᱵᱷᱟᱹᱨ ᱟᱨᱴ</string>
     <string name="shuffle_all_title">ᱡᱷᱚᱛᱚ ᱯᱷᱮᱱᱴᱟᱣ ᱢᱮ</string>
@@ -160,6 +167,7 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">᱑ ᱪᱟᱱᱱᱮᱞ\n</item>
+        <item quantity="two">%1$d ᱪᱟᱱᱱᱮᱞᱠᱚ\n</item>
         <item quantity="other">%1$d ᱪᱟᱱᱱᱮᱞᱠᱚ\n</item>
     </plurals>
 
@@ -178,7 +186,7 @@
     <string name="server_share_hint">ᱱᱮᱴᱣᱟᱨᱠ ᱦᱟᱹᱴᱤᱧ ᱧᱩᱛᱩᱢ (ᱟᱨ ᱵᱟᱝ IP ᱴᱷᱤᱠᱬᱟᱹ)</string>
     <string name="server_folder_hint">ᱯᱚᱴᱟᱢ ᱡᱟᱭᱜᱟ(ᱚᱯᱥᱚᱱᱟᱞ)</string>
     <string name="server_username_hint">ᱵᱮᱵᱷᱟᱨᱤᱭᱟᱹ ᱧᱩᱛᱩᱢ</string>
-    <string name="server_servername_hint">ᱥᱟᱹᱨᱣᱟᱹᱨ ᱧᱩᱛᱩᱢ, ᱰᱮᱥ ᱞᱟᱹᱜᱤᱫ</string>
+    <string name="server_servername_hint">ᱥᱟᱹᱨᱣᱟᱹᱨ ᱧᱩᱛᱩᱢ, ᱥᱩᱵᱤᱫᱷᱟᱹ ᱞᱟᱹᱜᱤᱫ</string>
     <string name="server_port">ᱯᱚᱨᱴ: </string>
     <string name="login">ᱵᱚᱞᱚ</string>
     <string name="password">ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫᱽ</string>
@@ -195,6 +203,7 @@
     <string name="encountered_error_title">ᱯᱞᱮᱵᱮᱠ ᱵᱷᱩᱞ</string>
     <string name="encountered_error_message">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱥᱟᱞᱟᱜᱽ VLC ᱵᱷᱤᱞ ᱮ ᱧᱟᱢ ᱠᱮᱜᱼᱟᱭ ᱾\n ᱫᱟᱭᱟᱠᱟᱛᱮ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱤᱯᱷᱨᱮᱥ ᱠᱟᱛᱮ ᱧᱮᱞ ᱵᱤᱲᱟᱹᱣ ᱢᱮ᱾</string>
     <string name="invalid_location">ᱡᱟᱭᱜᱟ %1$s ᱵᱟᱝ ᱯᱞᱮ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾</string>
+    <string name="missing_location">ᱱᱚᱶᱟ ᱢᱮᱰᱤᱭᱟ ᱫᱚ ᱵᱟᱹᱱᱩᱜᱼᱟᱱ ᱫᱚᱦᱚ ᱡᱟᱭᱜᱟ ᱠᱷᱚᱱ ᱢᱮᱱᱟᱜᱼᱟ ᱟᱨ ᱯᱞᱮ ᱵᱟᱭ ᱜᱟᱱᱚᱜᱼᱟ ᱾</string>
 
     <string name="search">ᱥᱮᱸᱫᱽᱨᱟ</string>
 
@@ -210,7 +219,22 @@
     <string name="tips_title">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱭᱟᱹᱨ ᱴᱤᱯᱥ</string>
     <string name="seek">ᱥᱤᱻᱠ</string>
     <string name="subtitles">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ</string>
+    <string name="tips_player_controls">ᱯᱞᱮᱭᱟᱹᱨ ᱠᱚᱵᱡᱟ ᱠᱚ</string>
+    <string name="tips_player_controls_description">ᱪᱮᱫ ᱞᱟᱹᱜᱤᱫ ᱵᱮᱵᱷᱟᱨ ᱠᱚ ᱵᱟᱲᱟᱭ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫ ᱞᱟᱛᱟᱨ ᱨᱮ ᱯᱞᱮᱭᱚᱨ ᱠᱚᱵᱡᱟ ᱨᱮ ᱚᱛᱟᱭ ᱢᱮ</string>
+    <string name="tips_audio_sub">ᱥᱟᱰᱮ ᱴᱨᱟᱠ ᱠᱚ ᱟᱨ ᱥᱟᱹᱵᱴᱟᱭᱴᱚᱞ ᱠᱚ</string>
+    <string name="tips_play_description">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱞᱟᱹᱜᱤᱫ ᱚᱛᱟᱭ ᱢᱮ</string>
     <string name="lock">ᱠᱩᱞᱩᱯ ᱢᱮ</string>
+    <string name="tap">ᱧᱮᱞ ᱞᱟᱹᱜᱤᱫ ᱴᱤᱯᱟᱹᱣ ᱢᱮ</string>
+    <string name="tap_to_remove">ᱚᱪᱚᱜᱽ ᱞᱟᱹᱜᱤᱫ ᱴᱤᱯᱟᱹᱣ ᱢᱮ</string>
+    <string name="tap_to_rearrange">ᱫᱩᱦᱲᱟᱹ ᱥᱮᱴ ᱞᱟᱹᱜᱤᱫ ᱴᱤᱯᱟᱹᱣ ᱢᱮ</string>
+    <string name="tap_to_previous_next">ᱢᱟᱲᱟᱝ/ᱞᱟᱦᱟ ᱥᱮᱫ ᱪᱟᱞᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱴᱤᱯᱟᱹᱣ ᱢᱮ</string>
+    <string name="lock_orientation">ᱡᱷᱟᱞᱠᱟᱣᱟᱜ ᱡᱤᱱᱤᱥ</string>
+    <string name="lock_orientation_description">ᱠᱩᱞᱩᱯ/ᱠᱷᱩᱞᱟᱹ ᱡᱷᱟᱞᱠᱟᱣᱟᱜ ᱡᱤᱱᱤᱥ ᱞᱟᱹᱜᱤᱫ ᱚᱛᱟᱭ ᱢᱮ</string>
+    <string name="aspect_ratio">ᱵᱟᱵᱚᱛ ᱩᱱᱩᱯᱟᱛ</string>
+    <string name="aspect_ratio_description">ᱣᱤᱰᱤᱰᱤᱭᱚ ᱵᱟᱵᱚᱛ ᱩᱱᱩᱯᱟᱛ ᱵᱚᱫᱚᱞ ᱞᱟᱹᱜᱤᱫ ᱚᱛᱟᱭ ᱢᱮ</string>
+    <string name="advanced_options">ᱞᱟᱦᱟᱣᱟᱜ ᱟᱯᱱᱟᱨ ᱢᱚᱱᱮ ᱛᱮᱭᱟᱜ ᱠᱚ</string>
+    <string name="close">ᱵᱚᱸᱫ</string>
+
     <string name="playlist_tips">ᱯᱞᱮᱞᱤᱥᱴ ᱴᱤᱯᱠᱚ</string>
     <string name="remove_song">ᱥᱮᱨᱮᱧ ᱚᱪᱚᱜᱽ ᱢᱮ</string>
     <string name="remove_playlist_item">%1$s ᱫᱚ ᱯᱞᱮᱞᱤᱥᱴ ᱠᱷᱚᱱ ᱚᱪᱚᱜᱽ ᱮᱱᱟ</string>
@@ -224,12 +248,9 @@
 
     <!-- About -->
     <string name="app_name_full">VlC for Android</string>
-    <string name="licence">ᱞᱟᱭᱥᱮᱸᱱᱥ</string>
     <string name="revision">ᱫᱚᱦᱲᱟᱭᱮᱱ</string>
     <string name="about">ᱵᱟᱵᱚᱛ</string>
-    <string name="about_text">VLC for Android™ ᱫᱚ VLC ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱭᱟᱹᱨ ᱨᱮᱭᱟᱜ ᱦᱟᱹᱴᱤᱧ ᱠᱟᱱᱟ, ᱧᱩᱛᱩᱢᱟᱱ ᱠᱷᱩᱞᱟᱹ ᱢᱩᱞ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱭᱟᱹᱨ ᱠᱟᱱᱟ ᱾ The Android™ ᱵᱷᱟᱹᱨᱥᱚᱱ ᱫᱚ ᱟᱭᱢᱟ ᱨᱮᱫᱽ ᱟᱨ ᱱᱮᱴᱣᱟᱨᱠ ᱥᱴᱨᱤᱢ ᱠᱚ ᱯᱟᱲᱦᱟᱣ ᱫᱟᱲᱮᱭᱟᱼᱟᱭ ᱾</string>
     <string name="vlc_authors">ᱟᱨ VLC ᱚᱱᱚᱞᱤᱭᱟᱹᱠᱚ ᱾</string>
-    <string name="compiled_by">ᱱᱚᱶᱟ ᱵᱷᱟᱹᱨᱥᱚᱱ ᱨᱮᱭᱟᱜ VLC ᱨᱤᱱᱤᱽ ᱠᱚᱢᱯᱟᱭᱤᱞᱤᱡ ᱫᱚ:</string>
     <string name="feedback_forum">ᱯᱷᱤᱻᱰᱵᱮᱠ ᱯᱷᱚᱨᱢ</string>
 
     <!-- Preferences -->
@@ -257,7 +278,6 @@
     <string name="subtitle_text_encoding">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱚᱞ ᱮᱱᱠᱳᱰᱤᱝ</string>
     <string name="daynight_title">ᱫᱤᱱᱧᱤᱸᱫᱟᱹ ᱢᱳᱰ</string>
     <string name="daynight_follow_system_title">ᱥᱭᱥᱴᱟᱹᱢ ᱢᱳᱰ ᱯᱟᱹᱧᱡᱟ</string>
-
     <string name="extra_prefs_category">ᱟᱨᱦᱚᱸ ᱥᱟᱡᱟᱣᱠᱚ</string>
 
     <string name="interface_prefs_screen">ᱤᱱᱴᱚᱨᱯᱷᱮᱥ</string>
@@ -286,7 +306,6 @@
     <string name="enable_volume_gesture_title">ᱣᱚᱞᱭᱩᱢ ᱜᱮᱥᱪᱚᱨ</string>
     <string name="enable_volume_gesture_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱡᱷᱚᱜ ᱜᱮᱥᱪᱚᱨ ᱛᱮ ᱣᱚᱞᱭᱩᱢ ᱠᱚᱱᱴᱨᱚᱞ ᱢᱮ</string>
     <string name="enable_seek_buttons">ᱥᱤᱻᱠ ᱵᱩᱛᱟᱹᱢ</string>
-    <string name="enable_seek_buttons_summary">ᱣᱤᱰᱤᱭᱚ ᱤᱱᱴᱚᱨᱛᱷᱮᱥ ᱨᱮ ᱤᱣᱤᱸᱰ ᱟᱨ ᱯᱷᱚᱨᱣᱟᱰ ᱵᱩᱛᱟᱹᱢ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
     <string name="enable_double_tap_seek_title">ᱥᱤᱻᱠ ᱞᱟᱹᱜᱤᱫ ᱵᱟᱨ ᱡᱮᱠᱷᱟ ᱚᱛᱟᱭ ᱢᱮ</string>
     <string name="enable_double_tap_seek_summary">᱑᱐ ᱴᱤᱡᱽ ᱞᱟᱹᱤᱫᱽ ᱮᱤᱻᱠ ᱞᱟᱹᱜᱤᱫ ᱥᱠᱨᱤᱻᱱ ᱠᱩᱱᱟᱹ ᱨᱮ ᱵᱟᱨ ᱡᱮᱠᱷᱟ ᱚᱛᱟᱭ ᱢᱮ</string>
     <string name="popup_keepscreen_title">ᱯᱳᱯᱼᱟᱹᱯ ᱢᱳᱰ ᱨᱮ ᱥᱠᱨᱤᱻᱱ ᱢᱳᱰ ᱮᱢ ᱢᱮ</string>
@@ -375,12 +394,10 @@
     <string name="clear_history">ᱦᱤᱛᱟᱹᱞ ᱯᱷᱟᱨᱪᱟᱭ ᱢᱮ</string>
     <string name="set_locale">ᱞᱚᱠᱟᱹᱞᱮ ᱥᱟᱡᱟᱣ</string>
     <string name="network_caching">ᱱᱮᱴᱣᱟᱨᱠ ᱠᱮᱪ ᱜᱚᱱᱚᱝ</string>
-    <string name="network_caching_summary">ᱥᱚᱯᱷᱴᱣᱮᱨ ᱰᱤᱠᱚᱰᱤᱝ ᱞᱟᱹᱜᱤᱫ ᱱᱮᱴᱣᱟᱨᱠ ᱢᱮᱰᱤᱭᱟ ᱵᱟᱹᱯᱷᱟᱹᱨ ᱚᱠᱛᱚ (ms ᱨᱮ)\nᱨᱤᱥᱮᱴ ᱞᱟᱹᱜᱤᱫ ᱠᱷᱟᱹᱞᱤ ᱟᱲᱟᱜ ᱠᱟᱜ ᱢᱮ</string>
     <string name="resume_playback_title">ᱠᱚᱞ ᱯᱚᱨᱮ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱹᱞᱩᱭ ᱢᱮ</string>
     <string name="resume_playback_summary">ᱟᱨ ᱵᱟᱝᱠᱷᱟᱱ ᱯᱚᱡᱽ ᱨᱮ ᱛᱟᱦᱮᱸᱱ ᱢᱮ</string>
     <string name="blurred_cover_background_title">ᱫᱷᱩᱸᱫ ᱠᱚᱣᱟᱹᱨ ᱵᱮᱠᱜᱨᱟᱩᱸᱰ</string>
     <string name="blurred_cover_background_summary">ᱥᱟᱲᱮ ᱯᱞᱮᱭᱟᱹᱨ ᱵᱮᱠᱜᱨᱟᱩᱸᱰ ᱨᱮ ᱫᱷᱩᱸᱫ ᱠᱚᱣᱟᱹᱨ </string>
-    <string name="network_caching_popup">ᱜᱚᱱᱚᱝ ᱫᱚ ᱐ ᱟᱨ ᱖᱐᱐᱐ ms ᱛᱟᱞᱟ ᱨᱮ ᱛᱟᱦᱮᱸᱱ ᱠᱟᱛᱷᱟ</string>
     <string name="quit">ᱵᱟᱹᱰ ᱟᱨ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱨᱤᱥᱴᱟᱴ ᱢᱮ</string>
     <string name="restart_message">ᱵᱚᱫᱚᱞ ᱠᱚ ᱫᱚ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱫᱩᱦᱲᱟᱹ ᱮᱦᱚᱵ ᱯᱚᱨᱮ ᱮᱢᱚᱜᱼᱚᱜ ᱟ ᱾\n\nᱱᱤᱛᱚᱜ ᱫᱩᱦᱲᱟᱹ ᱮᱦᱚᱵ ᱢᱮ?</string>
     <string name="restart_message_OK">ᱴᱷᱤᱠ</string>
@@ -434,8 +451,6 @@
     <string name="playlist_save">ᱯᱞᱮᱞᱤᱥᱴ ᱥᱟᱸᱪᱟᱣ ᱢᱮ</string>
     <string name="playlist_name_hint">ᱯᱞᱮᱞᱤᱥᱴ ᱧᱩᱛᱩᱢ</string>
     <string name="go_to_chapter">ᱪᱟᱯᱴᱟᱹᱨ ᱛᱮ ᱪᱟᱞᱟᱜ ᱢᱮ…</string>
-    <string name="chapter">ᱪᱟᱯᱴᱟᱹᱨ</string>
-    <string name="resume_from_position">ᱢᱩᱪᱟᱹᱫ ᱡᱟᱭᱜᱟ ᱠᱷᱚᱱ ᱞᱟᱦᱟᱜ ᱢᱮ</string>
     <string name="confirm_resume">ᱢᱟᱲᱟᱝ ᱡᱟᱭᱜᱟ ᱠᱷᱚᱱ ᱞᱟᱦᱟᱭ ᱢᱮ?</string>
     <string name="confirm_resume_title">ᱯᱮᱞ ᱟᱠᱟᱱᱟ ᱣᱤᱰᱤᱭᱚ ᱠᱚ ᱞᱟᱦᱟᱭ ᱢᱮ</string>
     <string name="tv_ui_title">Android TV ᱤᱱᱴᱚᱨᱯᱷᱮᱥ</string>
@@ -517,6 +532,7 @@
     <string name="existing_custom_set_save_message">ᱤᱠᱣᱟᱞᱟᱭᱡᱟᱹᱨᱼᱥᱮᱴ ᱫᱚ ᱥᱟᱸᱪᱟᱣ ᱢᱮ…</string>
     <string name="new_custom_set_save_message">ᱱᱟᱶᱟ ᱤᱠᱣᱟᱞᱟᱭᱡᱟᱹᱨᱼᱥᱮᱴ ᱞᱮᱠᱷᱟ ᱥᱟᱸᱪᱟᱣ ᱢᱮ…</string>
     <string name="save">ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
+    <string name="saved">%s ᱥᱟᱺᱪᱟᱣ ᱮᱱᱟ</string>
     <string name="do_not_save">ᱟᱞᱚᱢ ᱥᱟᱺᱪᱟᱣ-ᱟ</string>
     <string name="custom_set_deleted_message">ᱠᱚᱥᱴᱚᱢ ᱤᱠᱣᱟᱞᱟᱭᱡᱟᱹᱨ-ᱥᱮᱴ \"%1$s\" ᱢᱮᱴᱟᱣᱮᱱᱟ ᱾</string>
     <string name="custom_set_wrong_input">ᱵᱟᱝ ᱵᱟᱛᱟᱣ ᱧᱩᱛᱩᱢ ᱾</string>
@@ -526,6 +542,7 @@
     <string name="equalizer_new_preset_name">ᱱᱟᱶᱟ</string>
     <string name="settings_ml_block_scan">ᱢᱤᱰᱤᱭᱟᱞᱟᱭᱵᱽᱨᱮᱨᱤ ᱱᱤᱛᱚᱜ ᱥᱠᱮᱭᱱᱤᱝ ᱮᱫᱟᱭ</string>
     <string name="recommendations">ᱨᱤᱠᱚᱢᱮᱱᱰᱮᱥᱚᱱᱥ</string>
+    <string name="browser_quick_access">ᱞᱚᱜᱚᱱ ᱟᱫᱮᱨ</string>
     <string name="browser_storages">ᱡᱚᱜᱟᱣᱠᱚ</string>
     <string name="msg_delete_failed">%1$s ᱢᱤᱰᱤᱭᱟ ᱚᱪᱚᱫ ᱯᱷᱮᱭᱞ ᱜᱮᱭᱟ</string>
     <string name="renderer_list_title">ᱰᱤᱥᱯᱞᱮᱠᱚ</string>
@@ -577,7 +594,14 @@
     <string name="jump_to">ᱨᱮ ᱫᱚᱱ ᱢᱮ</string>
     <string name="show_video_thumbnails">ᱣᱤᱰᱤᱭᱚ-ᱟ ᱪᱤᱛᱟᱹᱨ ᱪᱤᱱᱦᱟᱹ ᱠᱚ</string>
     <string name="enable_equalizer">ᱦᱩᱭ ᱦᱚᱪᱚᱜ</string>
+    <string name="preamp">ᱯᱨᱤᱮᱢᱯ</string>
+    <string name="presets">ᱯᱨᱮᱥᱮᱴ ᱠᱚ</string>
     <string name="reset">ᱫᱚᱦᱲᱟ ᱥᱟᱡᱟᱣ</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d ᱴᱨᱮᱠ ᱠᱷᱟᱹᱲ ᱮᱱᱟ</item>
+        <item quantity="two">%d ᱴᱨᱮᱠ ᱠᱚ ᱠᱷᱟᱹᱲ ᱮᱱᱟ</item>
+        <item quantity="other">%d ᱴᱨᱮᱠ ᱠᱚ ᱠᱷᱟᱹᱲ ᱮᱱᱟ</item>
+    </plurals>
     <string name="remove_current">ᱱᱤᱛᱚᱜ-ᱟ ᱚᱪᱚᱜ ᱢᱮ</string>
     <string name="display_in_list">ᱞᱤᱥᱴᱤ ᱨᱮ ᱩᱫᱩᱜ</string>
     <string name="display_in_grid">ᱡᱟᱸᱜᱽᱞᱟ ᱨᱮ ᱩᱫᱩᱜ</string>
@@ -589,12 +613,20 @@
     <string name="report_a_bug">ᱢᱤᱫ ᱴᱟᱝ ᱵᱚᱜ ᱨᱤᱯᱚᱴ ᱢᱮ</string>
     <string name="report_a_crash">ᱢᱤᱫ ᱴᱟᱝ ᱨᱟᱹᱯᱩᱫ ᱨᱤᱯᱚᱴ ᱢᱮ</string>
     <string name="describe_crash">ᱫᱟᱭᱟ ᱠᱟᱛᱮ ᱵᱚᱨᱱᱚᱱ ᱢᱮ ᱪᱮᱞᱮᱠᱟ ᱛᱮ ᱱᱚᱣᱟ ᱨᱟᱹᱯᱩᱫ ᱦᱚᱭᱮᱱᱟ</string>
+    <string name="favorite">ᱠᱩᱥᱤᱠᱚ</string>
+    <string name="always">ᱡᱷᱚᱛᱚ ᱵᱮᱲᱟ</string>
+    <string name="never">ᱰᱤᱥ ᱦᱚᱸ ᱵᱟᱝᱟ</string>
+    <string name="ask_confirmation">ᱴᱷᱟᱹᱣᱠᱟᱹ ᱠᱩᱠᱞᱤ ᱢᱮ</string>
     <string name="add_to_scanned">ᱱᱚᱶᱟ ᱯᱚᱴᱚᱢ ᱥᱠᱮᱱ ᱢᱮ</string>
     <string name="share">ᱦᱟᱹᱴᱤᱧ ᱢᱮ</string>
     <string name="share_file">%s ᱦᱟᱹᱴᱤᱧ ᱢᱮ</string>
+    <string name="share_message">%s ᱫᱚ ᱱᱚᱰᱮ ᱢᱮᱱᱟᱜᱼᱟ</string>
     <string name="find_metadata">ᱢᱮᱴᱟᱰᱟᱴᱟ ᱧᱟᱢ ᱢᱮ</string>
     <string name="moviepedia_hint">ᱢᱮᱴᱟᱰᱟᱴᱟ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
+    <string name="moviepedia_result">ᱣᱤᱰᱤᱭᱚ ᱛᱮᱞᱟ ᱠᱚ</string>
     <string name="casting">ᱠᱟᱥᱴᱤᱝ</string>
+    <string name="written_by">ᱚᱱᱚᱞᱤᱡ</string>
+    <string name="music_by">ᱥᱮᱨᱮᱧᱤᱡ</string>
     <string name="posters">ᱯᱳᱥᱴᱟᱨᱠᱚ</string>
     <string name="backdrops">ᱯᱟᱨᱫᱟᱠᱚ</string>
     <string name="header_tvshows">TV ᱥᱚ</string>
@@ -607,6 +639,7 @@
     <string name="recently_played">ᱱᱮᱛᱟᱨᱟᱜᱽ ᱯᱞᱮᱭᱟᱜᱽ</string>
     <string name="recently_added">ᱱᱮᱛᱟᱨᱟᱜ ᱥᱮᱞᱮᱫᱟᱜ</string>
     <string name="playback_multiple_errors">ᱟᱭᱢᱟ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮ ᱵᱟᱭ ᱜᱟᱱᱚᱜᱼᱟ</string>
+    <string name="clear">ᱯᱷᱟᱨᱪᱟ</string>
     <string name="abrepeat_add_first_marker">ᱮᱦᱚᱵ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮ</string>
     <string name="abrepeat_add_second_marker">ᱢᱩᱪᱟᱹᱫ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮ</string>
     <string name="demux_bitrate">ᱰᱮᱢᱟᱹᱠᱥ ᱵᱤᱴᱨᱮᱴ</string>
@@ -666,10 +699,8 @@
     <string name="allow_otg">OTG ᱟᱫᱮᱨ ᱪᱷᱚᱭ ᱢᱮ</string>
     <string name="allow_otg_description">VLC ᱛᱮ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫ ᱫᱚᱭᱟᱠᱟᱛᱮ OTG ᱰᱨᱟᱭᱤᱵᱷ ᱪᱚᱭᱚᱱ ᱢᱮ ᱾</string>
     <string name="timeout_infinite">ᱚᱦᱤᱥᱟᱹᱵᱽ</string>
-    <string name="timeout_short">ᱠᱷᱟᱴᱚ</string>
-    <string name="timeout_normal">ᱥᱟᱫᱷᱟᱨᱚᱬ </string>
-    <string name="timeout_long">ᱡᱤᱞᱤᱧ</string>
     <string name="video_hud_timeout">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱭᱟᱹᱨ ᱠᱟᱹᱱᱴᱨᱚᱞ ᱜᱷᱟᱲᱤᱡᱽ ᱩᱠᱩ</string>
+    <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">ᱦᱤᱛᱟᱹᱞ ᱠᱷᱚᱱ ᱚᱪᱚᱜ ᱢᱮ</string>
     <string name="prefersmbv1">SMB ᱑ ᱠᱩᱥᱤᱭᱟᱜ ᱢᱮ</string>
     <string name="prefersmbv1_summary">SMB ᱥᱟᱹᱨᱣᱟᱹᱨ ᱵᱨᱟᱩᱡᱽ ᱡᱷᱚᱜ ᱮᱴᱠᱮᱴᱚᱬᱮ ᱦᱩᱭᱩᱜ ᱠᱷᱟᱱ ᱱᱚᱶᱟ ᱥᱟᱡᱟᱣ ᱠᱚ ᱟᱹᱱᱪᱮᱠ ᱢᱮ</string>
@@ -683,9 +714,11 @@
     <string name="soundfont_summary">midi ᱥᱟᱲᱮ ᱴᱨᱟᱠ ᱠᱚ ᱯᱞᱮ ᱞᱟᱹᱜᱤᱫ ᱥᱟᱲᱮᱯᱷᱚᱸᱴ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="search_prefs">ᱥᱮᱸᱫᱽᱨᱟᱣᱟ ᱥᱟᱡᱟᱣᱠᱚ</string>
     <string name="start_vlc">VLC ᱮᱦᱚᱵᱽ ᱢᱮ</string>
-
     <string name="add_button">ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="add_all_button">ᱡᱚᱛᱚ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="add_new_only_button">ᱱᱟᱶᱟᱱᱟᱜ ᱠᱷᱟᱹᱞᱤ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="start">ᱮᱦᱚᱵ</string>
+    <string name="customize">ᱠᱩᱥᱤᱭᱟᱜ</string>
+    <string name="controls_setting">ᱠᱚᱵᱡᱟ ᱨᱮᱭᱟᱜ ᱥᱟᱡᱟᱣ ᱠᱚ</string>
+    <string name="view_online">ᱚᱱᱞᱟᱭᱤᱱ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
 </resources>
