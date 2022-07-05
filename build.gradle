@@ -37,8 +37,8 @@ allprojects {
 
 ext {
     appId = "org.videolan.vlc"
-    versionName = '3.5.0 RC 1'
-    versionCode = 3040480
+    versionName = '3.5.0 RC 2'
+    versionCode = 3040490
     libvlcVersion = '3.5.0-eap9'
     medialibraryVersion = '0.12.0-eap9'
     minSdkVersion = 17
