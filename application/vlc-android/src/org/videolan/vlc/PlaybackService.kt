@@ -1353,7 +1353,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val queue = withContext(Dispatchers.Default) {
             ArrayList<MediaSessionCompat.QueueItem>(toIndex - fromIndex).also {
                 for ((position, media) in mediaList.subList(fromIndex, toIndex).withIndex()) {
-                    val title: String = media.nowPlaying ?: media.title
+                    val title: String? = media.nowPlaying ?: media.title
                     val mediaId = MediaSessionBrowser.generateMediaId(media)
                     val iconUri = when {
                         isSchemeHttpOrHttps(media.artworkMrl) -> {
