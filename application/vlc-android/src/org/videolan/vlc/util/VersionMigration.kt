@@ -39,7 +39,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 6
+private const val CURRENT_VERSION = 7
 
 object VersionMigration {
 
@@ -64,6 +64,10 @@ object VersionMigration {
         if (lastVersion < 6) {
             migrateToVersion6(settings)
         }
+        if (lastVersion < 7) {
+            migrateToVersion7(settings)
+        }
+
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
 
@@ -157,5 +161,20 @@ object VersionMigration {
         val hudTimeOut = settings.getInt(VIDEO_HUD_TIMEOUT, 4)
         if (hudTimeOut == 0) settings.edit { putInt(VIDEO_HUD_TIMEOUT, 16) }
         Settings.videoHudDelay = settings.getInt(VIDEO_HUD_TIMEOUT, 4).coerceInOrDefault(1,15,-1)
+    }
+
+    /**
+     * Migrate the PLAYLIST_REPEAT_MODE_KEY from the PlaylistManager to split it in two
+     * audio / video separate preferences, PLAYLIST_VIDEO_REPEAT_MODE_KEY and
+     * PLAYLIST_AUDIO_REPEAT_MODE_KEY, but keep the value previously set by the user
+     */
+    private fun migrateToVersion7(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrating to Version 7: migrate PlaylistManager " +
+                "PLAYLIST_REPEASE_MODE_KEY to PLAYLIST_VIDEO_REPEAT_MODE_KEY " + 
+                "and PLAYLIST_AUDIO_REPEAT_MODE_KEY")
+        val repeat = settings.getInt("audio_repeat_mode", -1)
+        if (repeat != -1) {
+            settings.putSingle("video_repeat_mode", repeat)
+        }
     }
 }

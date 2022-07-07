@@ -37,7 +37,8 @@ import kotlin.math.max
 
 private const val TAG = "VLC/PlaylistManager"
 private const val PREVIOUS_LIMIT_DELAY = 5000L
-private const val PLAYLIST_REPEAT_MODE_KEY = "audio_repeat_mode" //we keep the old string for migration reasons
+private const val PLAYLIST_AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
+private const val PLAYLIST_VIDEO_REPEAT_MODE_KEY = "video_repeat_mode"
 
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, IMedia.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
@@ -92,7 +93,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var shouldDisableCookieForwarding: Boolean = false
 
     init {
-        repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+        repeating = settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
         resetResumeStatus()
     }
 
@@ -344,10 +345,23 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         launch { determinePrevAndNextIndices() }
     }
 
+    /**
+     * Will set the repeating variable from the value that has been saved in settings
+     */
+    private fun setRepeatTypeFromSettings() {
+        repeating = if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO) {
+            settings.getInt(PLAYLIST_VIDEO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+        } else
+            settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+    }
+
     @MainThread
     fun setRepeatType(repeatType: Int) {
         repeating = repeatType
-        settings.putSingle(PLAYLIST_REPEAT_MODE_KEY, repeating)
+        if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO)
+            settings.putSingle(PLAYLIST_VIDEO_REPEAT_MODE_KEY, repeating)
+        else
+            settings.putSingle(PLAYLIST_AUDIO_REPEAT_MODE_KEY, repeating)
         savePosition()
         launch { determinePrevAndNextIndices() }
     }
@@ -372,6 +386,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         val mw = mediaList.getMedia(index) ?: return
         val isVideoPlaying = mw.type == MediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
+        setRepeatTypeFromSettings()
         if (!videoBackground && isVideoPlaying) mw.addFlags(MediaWrapper.MEDIA_VIDEO)
         if (videoBackground) mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         if (isBenchmark) mw.addFlags(MediaWrapper.MEDIA_BENCHMARK)
