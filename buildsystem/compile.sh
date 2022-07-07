@@ -17,31 +17,6 @@ fail()
     exit 1
 }
 
-# Try to check whether a patch file has already been applied to the current directory tree
-# Warning: this function assumes:
-# - The patch file contains a Message-Id header. This can be generated with `git format-patch --thread ...` option
-# - The patch has been applied with `git am --message-id ...` option to keep the Message-Id in the commit description
-check_patch_is_applied()
-{
-    patch_file=$1
-    diagnostic "Checking presence of patch $1"
-    message_id=$(grep -E '^Message-Id: [^ ]+' "$patch_file" | sed 's/^Message-Id: \([^\ ]+\)/\1/')
-    if [ -z "$message_id" ]; then
-        diagnostic "Error: patch $patch_file does not contain a Message-Id."
-        diagnostic "Please consider generating your patch files with the 'git format-patch --thread ...' option."
-        diagnostic ""
-        exit 1
-    fi
-    if [ -z "$(git log --grep="$message_id")" ]; then
-        diagnostic "Cannot find patch $patch_file in tree, aborting."
-        diagnostic "There can be two reasons for that:"
-        diagnostic "- you forgot to apply the patch on this tree, or"
-        diagnostic "- you applied the patch without the 'git am --message-id ...' option."
-        diagnostic ""
-        exit 1
-    fi
-}
-
 # Read the Android Wiki http://wiki.videolan.org/AndroidCompile
 # Setup all that stuff correctly.
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
@@ -279,9 +254,7 @@ fi
 # Fetch VLC source #
 ####################
 
-VLC_TESTED_HASH=47243c4a85d0cc0a8ff5a54f775e314c71fa7199
-VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
-LIBVLCJNI_TESTED_HASH=9a07c766a69ad7decbd76a819a5d310570b1e79e
+LIBVLCJNI_TESTED_HASH=9ea3e7a5fc5daee2e1c4368091a8e4a846f3a17e
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
 if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
@@ -298,40 +271,16 @@ if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
     init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
     cd ..
 fi
-if [ ! -d "vlc" ]; then
-    diagnostic "VLC sources: not found, cloning"
-    git clone "${VLC_REPOSITORY}" vlc -b 3.0.x --single-branch || fail "VLC sources: git clone failed"
-    cd vlc
-    diagnostic "VLC sources: resetting to the VLC_TESTED_HASH commit (${VLC_TESTED_HASH})"
-    git reset --hard ${VLC_TESTED_HASH} || fail "VLC sources: VLC_TESTED_HASH ${VLC_TESTED_HASH} not found"
-    diagnostic "VLC sources: applying custom patches"
-    # Keep Message-Id inside commits description to track them afterwards
-    git am --message-id ../libvlcjni/libvlc/patches/vlc3/*.patch || fail "VLC sources: cannot apply custom patches"
-    cd ..
-else
-    diagnostic "VLC source: found sources, leaving untouched"
-fi
+
+get_vlc_args=
 if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
-    diagnostic "VLC sources: Bypassing checks (required by option)"
-elif [ $RESET -eq 1 ]; then
-    cd vlc
-    git reset --hard ${VLC_TESTED_HASH} || fail "VLC sources: VLC_TESTED_HASH ${VLC_TESTED_HASH} not found"
-    for patch_file in ../libvlcjni/libvlc/patches/vlc3/*.patch; do
-        git am --message-id $patch_file
-        check_patch_is_applied "$patch_file"
-    done
-    cd ..
-else
-    diagnostic "VLC sources: Checking VLC_TESTED_HASH and patches presence"
-    diagnostic "NOTE: checks can be bypass by adding '-b' option to this script."
-    cd vlc
-    git cat-file -e ${VLC_TESTED_HASH} 2> /dev/null || \
-        fail "Error: Your vlc checkout does not contain the latest tested commit: ${VLC_TESTED_HASH}"
-    for patch_file in ../libvlcjni/libvlc/patches/vlc3/*.patch; do
-        check_patch_is_applied "$patch_file"
-    done
-    cd ..
+    get_vlc_args="${get_vlc_args} -b"
 fi
+if [ $RESET -eq 1 ]; then
+    get_vlc_args="${get_vlc_args} --reset"
+fi
+
+./libvlcjni/buildsystem/get-vlc.sh ${get_vlc_args}
 
 # Always clone VLC when using --init since we'll need to package some files
 # during the final assembly (lua/hrtfs/..)
