@@ -165,4 +165,10 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
     }
 
     override fun onItemMoved(dragFrom: Int, dragTo: Int) {    }
+
+    override fun createCB(): DiffCallback<MediaWrapper> = object : DiffCallback<MediaWrapper>() {
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                oldList[oldItemPosition].title == newList[newItemPosition].title &&
+                        oldList[oldItemPosition].description == newList[newItemPosition].description
+    }
 }
