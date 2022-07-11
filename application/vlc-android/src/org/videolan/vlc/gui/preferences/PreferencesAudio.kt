@@ -51,6 +51,8 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 private const val TAG = "VLC/PreferencesAudio"
 private const val FILE_PICKER_RESULT_CODE = 10000
@@ -157,7 +159,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 val newValue = sharedPreferences.getString(key, defValue)
                 var fmtValue = defValue
                 try {
-                    fmtValue = DecimalFormat("###0.0###").format(newValue?.toDouble())
+                    fmtValue = DecimalFormat("###0.0###", DecimalFormatSymbols(Locale.ENGLISH)).format(newValue?.toDouble())
                 } catch (e: IllegalArgumentException) {
                     Log.w(TAG, "Could not parse value: $newValue. Setting $key to $fmtValue", e)
                 } finally {
