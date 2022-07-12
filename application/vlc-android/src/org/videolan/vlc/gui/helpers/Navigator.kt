@@ -54,7 +54,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "Navigator"
-class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, DefaultLifecycleObserver, INavigator {
+class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObserver, INavigator {
 
     private val defaultFragmentId= R.id.nav_video
     override var currentFragmentId : Int = 0
@@ -127,15 +127,6 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Default
         updateCheckedItem(id)
         currentFragment = fragment
         currentFragmentId = id
-    }
-
-    private fun showSecondaryFragment(fragmentTag: String, param: String? = null) {
-        val i = Intent(activity, SecondaryActivity::class.java)
-        i.putExtra("fragment", fragmentTag)
-        param?.let { i.putExtra("param", it) }
-        activity.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
-        // Slide down the audio player if needed.
-        activity.slideDownAudioPlayer()
     }
 
     override fun currentIdIsExtension() = idIsExtension(currentFragmentId)
