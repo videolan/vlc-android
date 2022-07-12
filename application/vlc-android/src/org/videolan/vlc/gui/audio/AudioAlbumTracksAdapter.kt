@@ -40,6 +40,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.databinding.AudioAlbumTrackItemBinding
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.TextUtils
 
 class AudioAlbumTracksAdapter @JvmOverloads constructor(
@@ -100,10 +101,7 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
                 binding.trackNumber.text = "${item.trackNumber}."
             else
                 binding.trackNumber.visibility = View.GONE
-            var subtitle = Tools.millisToString(item.length)
-            if (item.artist.isNotEmpty())
-                subtitle += " ${TextUtils.separator} ${item.artist}"
-            binding.subtitle.text = subtitle
+            binding.subtitle.text = MediaUtils.getMediaSubtitle(item)
         }
 
         override fun recycle() {
