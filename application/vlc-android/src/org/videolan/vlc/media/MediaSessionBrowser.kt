@@ -58,8 +58,8 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.isPathValid
 import org.videolan.vlc.media.MediaUtils.getMediaAlbum
 import org.videolan.vlc.media.MediaUtils.getMediaArtist
-import org.videolan.vlc.media.MediaUtils.getMediaDescription
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.isSchemeStreaming
 import java.util.concurrent.Semaphore
@@ -581,7 +581,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         when {
                             media.type == MediaWrapper.TYPE_STREAM -> media.uri.toString()
                             parentId.startsWith(ID_ALBUM) -> getMediaSubtitle(media)
-                            else -> getMediaDescription(getMediaArtist(context, media), getMediaAlbum(context, media))
+                            else -> TextUtils.separatedString(getMediaArtist(context, media), getMediaAlbum(context, media))
                         }
                     }
                     MediaLibraryItem.TYPE_PLAYLIST -> res.getString(R.string.track_number, libraryItem.tracksCount)
@@ -743,7 +743,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
             } else if (endTitleSize > halfLabelSize) {
                 endTitleSize = (maxLabelSize - beginTitleSize).coerceAtMost(endTitleSize)
             }
-            return "${beginTitle.abbreviate(beginTitleSize).markBidi()} ⋅ ${endTitle.abbreviate(endTitleSize).markBidi()}"
+            return TextUtils.separatedString(beginTitle.abbreviate(beginTitleSize).markBidi(), endTitle.abbreviate(endTitleSize).markBidi())
         }
 
         private fun getPlayAllBuilder(ctx: Context, mediaId: String, @StringRes title: Int, trackCount: Int, uri: Uri? = null): MediaDescriptionCompat.Builder {

@@ -429,15 +429,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         return if (tracks.size == 1) tracks.first().formatTrackInfoString(this) else null
     }
 
-    fun IMedia.AudioTrack.formatTrackInfoString(context: Context) = buildString {
-        if (bitrate > 0) {
-            append(context.getString(R.string.track_bitrate_info, bitrate.toLong().readableSize()))
-            append(" ⋅ ")
-        }
-        append(context.getString(R.string.track_codec_info, codec))
-        append(" ⋅ ")
-        append(context.getString(R.string.track_samplerate_info, rate))
-    }.replace("\n", "")
+    fun IMedia.AudioTrack.formatTrackInfoString(context: Context): String {
+        val trackInfo = mutableListOf<String>()
+        if (bitrate > 0)
+            trackInfo.add(context.getString(R.string.track_bitrate_info, bitrate.toLong().readableSize()))
+        trackInfo.add(context.getString(R.string.track_codec_info, codec))
+        trackInfo.add(context.getString(R.string.track_samplerate_info, rate))
+        return TextUtils.separatedString(trackInfo.toTypedArray()).replace("\n", "")
+    }
 
     fun IMedia.getAudioTracks(): List<IMedia.AudioTrack> {
         val tracks = ArrayList<IMedia.AudioTrack>()

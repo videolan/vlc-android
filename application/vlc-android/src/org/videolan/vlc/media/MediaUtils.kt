@@ -29,7 +29,10 @@ import org.videolan.resources.*
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.Settings
+import org.videolan.tools.localBroadcastManager
+import org.videolan.tools.markBidi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -38,14 +41,10 @@ import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.isSchemeStreaming
+import org.videolan.vlc.util.*
 import java.io.File
 import java.security.SecureRandom
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
@@ -318,7 +317,7 @@ object MediaUtils {
 
     @JvmOverloads
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
-        if (list.isNullOrEmpty() || context == null) return
+        if (list.isEmpty() || context == null) return
         SuspendDialogCallback(context) { service ->
             service.load(list, position)
             if (shuffle && !service.isShuffling) service.shuffle()
@@ -374,46 +373,30 @@ object MediaUtils {
     fun getMediaGenre(ctx: Context, media: MediaWrapper?) = media?.genre
             ?: getMediaString(ctx, R.string.unknown_genre)
 
-    fun getMediaSubtitle(media: MediaWrapper): String? {
-        var subtitle = when {
-            media.type == MediaWrapper.TYPE_VIDEO -> ""
+    fun getMediaSubtitle(media: MediaWrapper): String {
+        val prefix = when {
+            media.length <= 0L -> null
+            media.type == MediaWrapper.TYPE_VIDEO -> Tools.millisToText(media.length)
+            else -> Tools.millisToString(media.length)
+        }
+        val suffix = when {
+            media.type == MediaWrapper.TYPE_VIDEO -> generateResolutionClass(media.width, media.height)
             media.length > 0L -> media.artist
             isSchemeStreaming(media.uri.scheme) -> media.uri.toString()
             else -> media.artist
         }
-        if (media.length > 0L) {
-            if (media.type == MediaWrapper.TYPE_VIDEO) {
-                subtitle = Tools.millisToText(media.length)
-                val resolution = generateResolutionClass(media.width, media.height)
-                if (resolution != null) subtitle = "$subtitle ⋅ $resolution"
-            } else {
-                subtitle = if (subtitle.isNullOrEmpty()) Tools.millisToString(media.length)
-                else "$subtitle ⋅ ${Tools.millisToString(media.length)}"
-            }
-        }
-        return subtitle
-    }
-
-    fun getMediaDescription(artist: String?, album: String?): String {
-        val hasArtist = !artist.isNullOrEmpty()
-        val hasAlbum = !album.isNullOrEmpty()
-        if (!hasAlbum && !hasArtist) return ""
-        val contentBuilder = StringBuilder(artist ?: "")
-        if (hasArtist && hasAlbum) contentBuilder.append(" - ")
-        if (hasAlbum) contentBuilder.append(album)
-        return contentBuilder.toString()
+        return TextUtils.separatedString(prefix, suffix)
     }
 
     fun getDisplaySubtitle(ctx: Context, media: MediaWrapper, mediaPosition: Int, mediaSize: Int): String {
-        val sb = StringBuilder()
-        if (mediaSize > 1) sb.append("${mediaPosition + 1} / $mediaSize")
-        val artist = getMediaArtist(ctx, media)
         val album = getMediaAlbum(ctx, media)
-        val desc = if (artist != getMediaString(ctx, R.string.unknown_artist) && album != getMediaString(ctx, R.string.unknown_album))
-            getMediaDescription(artist.markBidi(), album.markBidi()) else ""
-        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " ⋅ $desc" else desc) else "")
-        //Replace full-spaces with thin-spaces (Unicode 2009)
-        return sb.toString().replace(" ", "\u2009")
+        val artist = getMediaArtist(ctx, media)
+        val isAlbumUnknown = album == getMediaString(ctx, R.string.unknown_album)
+        val isArtistUnknown = artist == getMediaString(ctx, R.string.unknown_artist)
+        val prefix = if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
+        val suffix = if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
+        //Replace full-spaces with thin-spaces (Unicode 2009)}
+        return TextUtils.separatedString(prefix, suffix).replace(" ", "\u2009")
     }
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title

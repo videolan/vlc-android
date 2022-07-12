@@ -42,7 +42,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.hasFlag
 import org.videolan.vlc.R
-import org.videolan.vlc.media.MediaUtils.getMediaDescription
+import org.videolan.vlc.util.TextUtils
 import kotlin.math.abs
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
@@ -68,9 +68,9 @@ object NotificationHelper {
         builder.setSmallIcon(if (video) R.drawable.ic_notif_video else R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
-                .setContentText(getMediaDescription(artist, album))
+                .setContentText(TextUtils.separatedString('-', artist, album))
                 .setLargeIcon(cover)
-                .setTicker("$title - $artist")
+                .setTicker(TextUtils.separatedString('-', title, artist))
                 .setAutoCancel(!playing)
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
