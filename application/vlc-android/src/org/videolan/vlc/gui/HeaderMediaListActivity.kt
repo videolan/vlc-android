@@ -43,7 +43,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -142,12 +144,12 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                 binding.releaseYear =  if (releaseYear > 0) releaseYear.toString() else ""
                 if (releaseYear <= 0) binding.releaseDate.visibility = View.GONE
             }
-            binding.btnShuffle.setOnClickListener {
-                MediaUtils.playTracks(this, viewModel.playlist, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
-            }
-            binding.btnAddPlaylist.setOnClickListener {
-                addToPlaylist(viewModel.playlist.tracks.toList())
-            }
+        }
+        binding.btnShuffle.setOnClickListener {
+            MediaUtils.playTracks(this, viewModel.playlist, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
+        }
+        binding.btnAddPlaylist.setOnClickListener {
+            addToPlaylist(viewModel.playlist.tracks.toList())
         }
 
         binding.songs.layoutManager = LinearLayoutManager(this)
