@@ -1,9 +1,11 @@
-Changes between 3.5.0 RC 1 and 3.5.0 RC 2:
+Changes between 3.5.0 RC 1 and 3.5.0 RC 3:
 ------------------
  * Improve the layout for foldable devices
  * Fix some sorting issues
  * Improve the PiP permission management
  * UI fixes
+ * Android Auto improvements
+ * Some SMB fixes
  * Crash fixes
 
 Changes between 3.5.0 Beta 7 and 3.5.0 RC 1:
