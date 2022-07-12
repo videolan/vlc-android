@@ -258,7 +258,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0, allowRandom: Boolean = false) {
         mediaList?.let {
             if (AndroidDevices.isCarMode(playbackService.applicationContext))
-                mediaList.forEach { mw -> if (mw.type == MediaWrapper.TYPE_VIDEO) mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
+                mediaList.forEach { mw -> mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
             // Pick a random first track if allowRandom is true and shuffle is enabled
             playbackService.load(mediaList, if (allowRandom && playbackService.isShuffling) SecureRandom().nextInt(min(mediaList.size, MEDIALIBRARY_PAGE_SIZE)) else position)
         }
