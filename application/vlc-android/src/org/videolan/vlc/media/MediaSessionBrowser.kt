@@ -480,7 +480,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
 
         /**
          * The search method is passed a simple query string absent metadata indicating
-         * the user's intent to load a playlist, album, artist, or song. This is slightly different
+         * the user's intent to load a playlist, genre, artist, album, or song. This is slightly different
          * than PlaybackService.onPlayFromSearch (which is also invoked by voice search) and allows
          * the user to navigate to other content via on-screen menus.
          */
@@ -491,6 +491,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
             val searchAggregate = Medialibrary.getInstance().search(query, false)
             val searchMediaId = ID_SEARCH.toUri().buildUpon().appendQueryParameter("query", query).toString()
             results.addAll(buildMediaItems(context, ID_PLAYLIST, searchAggregate.playlists, res.getString(R.string.playlists)))
+            results.addAll(buildMediaItems(context, ID_GENRE, searchAggregate.genres, res.getString(R.string.genres)))
             results.addAll(buildMediaItems(context, ID_ARTIST, searchAggregate.artists, res.getString(R.string.artists)))
             results.addAll(buildMediaItems(context, ID_ALBUM, searchAggregate.albums, res.getString(R.string.albums)))
             results.addAll(buildMediaItems(context, searchMediaId, searchAggregate.tracks, res.getString(R.string.tracks)))

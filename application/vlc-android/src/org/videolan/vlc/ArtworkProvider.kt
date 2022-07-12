@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.util.Log
@@ -48,17 +49,13 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.AccessControl
 import org.videolan.vlc.util.ThumbnailsProvider
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
+import java.io.*
 import java.nio.ByteBuffer
 import java.security.SecureRandom
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.zip.CRC32
-import kotlin.collections.ArrayList
 import kotlin.math.max
 
 private const val TAG = "VLC/ArtworkProvider"
@@ -383,7 +380,11 @@ class ArtworkProvider : ContentProvider() {
         return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap
         ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bmp: Bitmap? ->
             /* Compression is performed on an AsyncTask thread within openPipeHelper() */
-            bmp?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
+            try {
+                bmp?.let { FileOutputStream(pfd.fileDescriptor).use { bmp.compress(CompressFormat.WEBP, 100, it) } }
+            } catch (e: IOException) {
+                logError(e)
+            }
         }
     }
 
@@ -393,8 +394,19 @@ class ArtworkProvider : ContentProvider() {
     private fun getPFDFromByteArray(byteArray: ByteArray?): ParcelFileDescriptor {
         return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray
         ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bArray: ByteArray? ->
-            if (bArray != null) FileOutputStream(pfd.fileDescriptor).write(bArray)
+            try {
+                bArray?.let { FileOutputStream(pfd.fileDescriptor).use { it.write(bArray) } }
+            } catch (e: IOException) {
+                logError(e)
+            }
         }
+    }
+
+    private fun logError(e: Exception) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+            Log.e(TAG, "Could not transfer cover art", e)
+        else
+            Log.e(TAG, "Could not transfer cover art to caller: $callingPackage", e)
     }
 
     private val dateFormatter by lazy {
