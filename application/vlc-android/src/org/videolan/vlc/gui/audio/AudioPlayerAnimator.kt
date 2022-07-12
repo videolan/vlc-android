@@ -68,6 +68,12 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         audioPlayer = this
         cl = binding.root as ConstraintLayout
         this@AudioPlayerAnimator.binding = binding
+        showPlaylistConstraint.clone(cl)
+        hidePlaylistConstraint.clone(cl)
+        hidePlaylistLandscapeConstraint.clone(cl)
+        headerShowPlaylistConstraint.clone(binding.header)
+        headerHidePlaylistConstraint.clone(binding.header)
+        headerHidePlaylistLandscapeConstraint.clone(binding.header)
         defaultBackgroundId = UiTools.getResourceFromAttribute(requireActivity(), R.attr.background_default)
         lifecycle.addObserver(this@AudioPlayerAnimator)
         initConstraintSets()
@@ -126,6 +132,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             audioPlayer.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> headerHidePlaylistLandscapeConstraint
             else -> headerHidePlaylistConstraint
         }.applyTo(binding.header)
+        headerShowPlaylistConstraint.applyTo(binding.header)
         audioPlayer.showChips()
     }
 
@@ -144,12 +151,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
      * It is used to switch between play queue and cover display modes.
      */
     private fun initConstraintSets() {
-        showPlaylistConstraint.clone(cl)
-        hidePlaylistConstraint.clone(cl)
-        hidePlaylistLandscapeConstraint.clone(cl)
-        headerShowPlaylistConstraint.clone(binding.header)
-        headerHidePlaylistConstraint.clone(binding.header)
-        headerHidePlaylistLandscapeConstraint.clone(binding.header)
         arrayOf(headerShowPlaylistConstraint, headerHidePlaylistConstraint, headerHidePlaylistLandscapeConstraint).forEach {constraintSet ->
             constraintSet.setVisibility(R.id.header_shuffle, if (showTabletControls() && audioPlayer.playlistModel.canShuffle) View.VISIBLE else View.GONE)
             arrayOf(R.id.header_previous, R.id.header_large_play_pause, R.id.header_next, R.id.header_repeat).forEach {
@@ -157,7 +158,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             }
             constraintSet.setVisibility(R.id.header_play_pause, if (showTabletControls()) View.GONE else View.VISIBLE)
         }
-        headerShowPlaylistConstraint.applyTo(binding.header)
 
         hidePlaylistConstraint.setVisibility(R.id.songs_list, View.GONE)
         hidePlaylistConstraint.setVisibility(R.id.cover_media_switcher, View.VISIBLE)
