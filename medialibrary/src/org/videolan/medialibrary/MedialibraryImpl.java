@@ -25,18 +25,17 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
+import androidx.annotation.*;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.libvlc.util.*;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -601,6 +600,50 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGroups(query, sort, desc, includeMissing, nbItems, offset) : new VideoGroup[0];
     }
 
+    public MlService getService(MlService.Type type) {
+        return mIsInitiated ? nativeGetService(type.value) : null;
+    }
+
+    @Override
+    public boolean fitsInSubscriptionCache(MediaWrapper media) {
+        return mIsInitiated && nativeFitsInSubscriptionCache(this, media.getId());
+    }
+
+    @Override
+    public void cacheNewSubscriptionMedia() {
+        if (mIsInitiated) nativeCacheNewSubscriptionMedia(this);
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCachedMedia(int nbMedia) {
+        return mIsInitiated && nativeSetSubscriptionMaxCacheMedia(this, nbMedia);
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCacheSize(long size) {
+        return mIsInitiated && nativeSetSubscriptionMaxCacheSize(this, size);
+    }
+
+    @Override
+    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
+        return mIsInitiated && nativeSetGlobalSubscriptionMaxCacheSize(this, size);
+    }
+
+    @Override
+    public int getSubscriptionMaxCachedMedia() {
+        return mIsInitiated ? nativeGetSubscriptionMaxCacheMedia(this) : -1;
+    }
+
+    @Override
+    public long getSubscriptionMaxCacheSize() {
+        return mIsInitiated ? nativeGetSubscriptionMaxCacheSize(this) : -1L;
+    }
+
+    @Override
+    public long getGlobalSubscriptionMaxCacheSize() {
+        return mIsInitiated ? nativeGetGlobalSubscriptionMaxCacheSize(this) : -1L;
+    }
+
     // Native methods
     private native void nativeConstruct(String dbPath, String thumbsPath);
     private native int nativeInit(String dbPath);
@@ -704,4 +747,14 @@ public class MedialibraryImpl extends Medialibrary {
     private native int nativeGetSearchFoldersCount(String query);
     private native VideoGroup[] nativeSearchPagedGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native void nativeRequestThumbnail(long mediaId);
+    private native boolean nativeIsServiceSupported(int type);
+    private native MlService nativeGetService(int type);
+    private native boolean nativeFitsInSubscriptionCache(Medialibrary ml, long mediaId);
+    private native void nativeCacheNewSubscriptionMedia(Medialibrary ml);
+    private native boolean nativeSetSubscriptionMaxCacheMedia(Medialibrary ml, int nbMedia);
+    private native boolean nativeSetSubscriptionMaxCacheSize(Medialibrary ml, long size);
+    private native boolean nativeSetGlobalSubscriptionMaxCacheSize(Medialibrary ml, long size);
+    private native int nativeGetSubscriptionMaxCacheMedia(Medialibrary ml);
+    private native long nativeGetSubscriptionMaxCacheSize(Medialibrary ml);
+    private native long nativeGetGlobalSubscriptionMaxCacheSize(Medialibrary ml);
 }

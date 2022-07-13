@@ -42,6 +42,7 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -800,4 +801,14 @@ abstract public class Medialibrary {
     abstract public Folder[] searchFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(String query);
     abstract public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+
+    abstract public MlService getService(MlService.Type type);
+    abstract public boolean fitsInSubscriptionCache(MediaWrapper media);
+    abstract public void cacheNewSubscriptionMedia();
+    abstract public boolean setSubscriptionMaxCachedMedia(int nbMedia);
+    abstract public boolean setSubscriptionMaxCacheSize(long size);
+    abstract public boolean setGlobalSubscriptionMaxCacheSize(long size);
+    abstract public int getSubscriptionMaxCachedMedia();
+    abstract public long getSubscriptionMaxCacheSize();
+    abstract public long getGlobalSubscriptionMaxCacheSize();
 }

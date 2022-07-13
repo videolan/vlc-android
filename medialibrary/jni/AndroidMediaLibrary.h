@@ -186,6 +186,25 @@ public:
     bool onUnhandledException( const char* /* context */, const char* /* errMsg */, bool /* clearSuggested */ );
     void onRescanStarted();
 
+    bool removeSubscription( int64_t );
+
+    medialibrary::ServicePtr service( medialibrary::IService::Type);
+    medialibrary::SubscriptionPtr subscription( int64_t id);
+    bool fitsInSubscriptionCache( const medialibrary::IMedia& m);
+    void cacheNewSubscriptionMedia();
+    bool setSubscriptionMaxCachedMedia( int nbMedia );
+    bool setSubscriptionMaxCacheSize( long size );
+    bool setGlobalSubscriptionMaxCacheSize( long size );
+    uint32_t getSubscriptionMaxCachedMedia();
+    uint64_t getSubscriptionMaxCacheSize();
+    uint64_t getGlobalSubscriptionMaxCacheSize();
+    void onSubscriptionsAdded( std::vector<medialibrary::SubscriptionPtr> );
+    void onSubscriptionsModified( std::set<int64_t> );
+    void onSubscriptionsDeleted( std::set<int64_t> );
+    void onSubscriptionNewMedia( std::set<int64_t> );
+    void onSubscriptionCacheUpdated( int64_t subscriptionId );
+    void onCacheIdleChanged( bool idle );
+
 private:
     void jni_detach_thread(void *data);
     JNIEnv *getEnv();

@@ -226,6 +226,22 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
                           albums.get(), artists.get(), genres.get(), videoList.get(), tracksList.get(), playlists.get())
     };
 }
+utils::jni::object
+convertSubscriptionObject(JNIEnv* env, fields *fields, medialibrary::SubscriptionPtr const& subsPtr)
+{
+    auto name = vlcNewStringUTF(env, subsPtr->name().c_str());
+    return utils::jni::object{ env, env->NewObject(fields->Subscription.clazz, fields->Subscription.initID,
+            (jlong) subsPtr->id(), (jint) subsPtr->service(), name.get())
+    };
+}
+
+utils::jni::object
+convertServiceObject(JNIEnv* env, fields *fields, medialibrary::ServicePtr const& servicePtr)
+{
+    return utils::jni::object{ env, env->NewObject(fields->Service.clazz,
+            fields->Service.initID, (jint) servicePtr->type())
+    };
+}
 
 utils::jni::longArray
 idArray(JNIEnv* env, std::set<int64_t> ids)

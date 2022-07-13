@@ -15,6 +15,7 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -683,5 +684,50 @@ public class StubMedialibrary extends Medialibrary {
         File mediaFile = new File(childMrl);
         String parentPath = mediaFile.getParent();
         return parentPath.equals(parentMrl);
+    }
+
+    @Override
+    public MlService getService(MlService.Type type) {
+        return null;
+    }
+
+    @Override
+    public boolean fitsInSubscriptionCache(MediaWrapper media) {
+        return false;
+    }
+
+    @Override
+    public void cacheNewSubscriptionMedia() {
+
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCachedMedia(int nbMedia) {
+        return false;
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCacheSize(long size) {
+        return false;
+    }
+
+    @Override
+    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
+        return false;
+    }
+
+    @Override
+    public int getSubscriptionMaxCachedMedia() {
+        return -1;
+    }
+
+    @Override
+    public long getSubscriptionMaxCacheSize() {
+        return -1L;
+    }
+
+    @Override
+    public long getGlobalSubscriptionMaxCacheSize() {
+        return -1L;
     }
 }
