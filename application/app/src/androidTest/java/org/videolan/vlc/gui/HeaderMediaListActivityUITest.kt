@@ -1,22 +1,15 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import androidx.test.espresso.Espresso.*
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.*
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.contrib.DrawerActions.*
-import androidx.test.espresso.matcher.RootMatchers.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.BaseUITest
-import org.videolan.vlc.R
 import org.videolan.vlc.*
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter

@@ -30,11 +30,11 @@ import android.util.Log
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
+import org.hamcrest.core.AllOf
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
@@ -91,7 +91,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
     @Test
     fun testTakeScreenshotVideo() {
-        onView(withId(R.id.nav_video))
+        onView(AllOf.allOf(withId(R.id.nav_video), withEffectiveVisibility(Visibility.VISIBLE)))
                 .perform(click())
         Log.d("Espresso", "0")
         waitUntilLoaded { activity.findViewById(R.id.video_grid) }
@@ -128,7 +128,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
     @Test
     fun testTakeScreenshotBrowser() {
-         onView(withId(R.id.nav_directories))
+        onView(AllOf.allOf(withId(R.id.nav_directories), withEffectiveVisibility(Visibility.VISIBLE)))
                  .perform(click())
          ScreenshotUtil.takeScreenshot(4,"browser")
      }

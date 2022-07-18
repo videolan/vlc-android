@@ -57,7 +57,7 @@ fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: DiffUtilAdapter
     return -1
 }
 
-fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: PagedListAdapter<D, VH>, vararg matchers: DiffAdapterMatcher<D>): Int  {
+fun <D : Any, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: PagedListAdapter<D, VH>, vararg matchers: DiffAdapterMatcher<D>): Int  {
     val iter = adapter.currentList!!.iterator().withIndex()
     while (iter.hasNext()) {
         val index = iter.next()
