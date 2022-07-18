@@ -38,6 +38,7 @@ const val TOUCH_FLAG_BRIGHTNESS = 1 shl 1
 const val TOUCH_FLAG_DOUBLE_TAP_SEEK = 1 shl 2
 const val TOUCH_FLAG_PLAY = 1 shl 3
 const val TOUCH_FLAG_SWIPE_SEEK = 1 shl 4
+const val TOUCH_FLAG_SCREENSHOT = 1 shl 5
 //Touch Events
 private const val TOUCH_NONE = 0
 private const val TOUCH_VOLUME = 1
@@ -167,7 +168,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        if (event.pointerCount == 3) touchAction = TOUCH_SCREENSHOT
+                        if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3) touchAction = TOUCH_SCREENSHOT
                         if (touchAction == TOUCH_IGNORE) return false
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
@@ -201,7 +202,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
                     }
                     MotionEvent.ACTION_UP -> {
-                        if (touchAction == TOUCH_SCREENSHOT) {
+                        if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && touchAction == TOUCH_SCREENSHOT) {
                             player.takeScreenshot()
                             return true
                         }

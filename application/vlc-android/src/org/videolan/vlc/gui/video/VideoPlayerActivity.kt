@@ -537,7 +537,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
                 + (if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_DOUBLE_TAP_SEEK else 0)
                 + (if (settings.getBoolean(ENABLE_DOUBLE_TAP_PLAY, true)) TOUCH_FLAG_PLAY else 0)
-                + (if (settings.getBoolean(ENABLE_SWIPE_SEEK, true)) TOUCH_FLAG_SWIPE_SEEK else 0))
+                + (if (settings.getBoolean(ENABLE_SWIPE_SEEK, true)) TOUCH_FLAG_SWIPE_SEEK else 0)
+                + (if (settings.getBoolean(ENABLE_SCREENSHOT_GESTURE, false)) TOUCH_FLAG_SCREENSHOT else 0))
     } else 0
 
     override fun fireDialog(dialog: Dialog) {
@@ -2245,7 +2246,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     fun onChangedControlSetting(key: String) = when(key) {
         AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(AUDIO_BOOST, true)
-        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK -> touchDelegate.touchControls = generateTouchFlags()
+        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCREENSHOT_GESTURE -> touchDelegate.touchControls = generateTouchFlags()
         ENABLE_SEEK_BUTTONS -> overlayDelegate.seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
         else -> {}
     }
