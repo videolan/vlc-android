@@ -979,6 +979,7 @@
     <string name="disable_track">Disable track</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
+    <string name="screenshot_error">Error while taking the screenshot</string>
 
 
 

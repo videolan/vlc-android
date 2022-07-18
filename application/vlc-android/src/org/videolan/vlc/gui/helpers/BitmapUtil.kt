@@ -46,6 +46,10 @@ import org.videolan.tools.dp
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 object BitmapUtil {
@@ -146,7 +150,8 @@ object BitmapUtil {
 
     fun vectorToBitmap(context: Context, @DrawableRes resVector: Int, width: Int? = null, height: Int? = null): Bitmap? {
         val drawable = AppCompatResources.getDrawable(context, resVector) ?: return null
-        val b = Bitmap.createBitmap(width ?: drawable.intrinsicWidth, height ?: drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val b = Bitmap.createBitmap(width ?: drawable.intrinsicWidth, height
+                ?: drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val c = Canvas(b)
         drawable.setBounds(0, 0, c.width, c.height)
         drawable.draw(c)
@@ -227,7 +232,7 @@ object BitmapUtil {
      * Cut a [Bitmap] into a rounded rectangle
      *
      * @param bm the [Bitmap] to cut
-     * @param size the size of the returned bitmap
+     * @param width the size of the returned bitmap
      * @param radius the corner radius to use
      * @param topLeft cut the top left corner?
      * @param topRight cut the top right corner?
@@ -235,10 +240,10 @@ object BitmapUtil {
      * @param bottomRight cut the bottom right corner?
      * @return a rounded rectangle bitmap
      */
-    fun roundedRectangleBitmap(bm: Bitmap, size:Int, radius: Float = 12.dp.toFloat(), topLeft: Boolean = true, topRight: Boolean = true, bottomLeft: Boolean = true, bottomRight: Boolean = true): Bitmap {
+    fun roundedRectangleBitmap(bm: Bitmap, width: Int, height: Int = -1, radius: Float = 12.dp.toFloat(), topLeft: Boolean = true, topRight: Boolean = true, bottomLeft: Boolean = true, bottomRight: Boolean = true): Bitmap {
 
-        val w: Int = size
-        val h: Int = size
+        val w: Int = width
+        val h: Int = if (height == -1) width else height
 
 
         val bmOut = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -257,12 +262,12 @@ object BitmapUtil {
         if (!topLeft) canvas.drawRect(RectF(0F, 0F, radius, radius), paint)
         if (!topRight) canvas.drawRect(RectF(w.toFloat() - radius, 0F, w.toFloat(), radius), paint)
         if (!bottomLeft) canvas.drawRect(RectF(0F, h.toFloat() - radius, radius, h.toFloat()), paint)
-        if (!bottomRight) canvas.drawRect(RectF(w.toFloat() - radius, h.toFloat() - radius, w.toFloat(),h.toFloat()), paint)
+        if (!bottomRight) canvas.drawRect(RectF(w.toFloat() - radius, h.toFloat() - radius, w.toFloat(), h.toFloat()), paint)
 
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
 
         //depending on the bm ratio, modify the bounds to keep a square bitmap
-        val bounds = bm.getMaximalSquareBounds()
+        val bounds = if (height == -1 || width == height) bm.getMaximalSquareBounds() else null
 
         canvas.drawBitmap(bm, bounds, rect, paint)
 
@@ -278,6 +283,23 @@ object BitmapUtil {
         width > height -> Rect((width - height) / 2, 0, height + ((width - height) / 2), height)
         width < height -> Rect(0, (height - width) / 2, width, width + ((height - width) / 2))
         else -> Rect(0, 0, width, height)
+    }
+
+    fun saveOnDisk(bitmap: Bitmap, destPath: String) {
+        val destFile = File(destPath)
+        when {
+            destFile.canWrite() -> {
+                try {
+                    ByteArrayOutputStream().use { stream ->
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                        FileOutputStream(destFile).use { it.write(stream.toByteArray()) }
+                    }
+                } catch (e: IOException) {
+                    Log.e(TAG, "Could not save image to disk", e)
+                }
+            }
+            else -> Log.e(TAG, "File path not writable: $destFile")
+        }
     }
 
 }

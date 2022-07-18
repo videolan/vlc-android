@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ *************************************************************************
+  ~  player_screenshot.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/screenshotContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false">
+
+    <FrameLayout
+            android:id="@+id/screenshot_actions"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:alpha="0"
+            android:background="@drawable/rounded_corners_white"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+        <ImageView
+                android:id="@+id/screenshot_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_corners_orange"
+                android:padding="4dp"
+                android:src="@drawable/ic_share" />
+    </FrameLayout>
+
+    <View
+            android:id="@+id/screenshot_bitmap_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="@drawable/rounded_corners_white"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/screenshot_bitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constrainedWidth="true"
+            tools:srcCompat="@tools:sample/avatars"
+            tools:visibility="visible" />
+
+    <View
+            android:id="@+id/screenshot_flash"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0"
+            android:background="@color/white_transparent_75"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+</FrameLayout>

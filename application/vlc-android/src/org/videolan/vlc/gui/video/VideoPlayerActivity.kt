@@ -30,6 +30,7 @@ import android.bluetooth.BluetoothHeadset
 import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
@@ -57,6 +58,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -97,10 +99,7 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
-import org.videolan.vlc.gui.helpers.KeycodeListener
-import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
-import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
@@ -113,7 +112,10 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FileUtils.getUri
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.io.File
 import java.lang.Runnable
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.roundToInt
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
@@ -181,6 +183,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     lateinit var touchDelegate: VideoTouchDelegate
     val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE) }, { overlayDelegate.showOverlay(true) }) }
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
+    val screenshotDelegate: VideoPlayerScreenshotDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerScreenshotDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     val resizeDelegate: VideoPlayerResizeDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerResizeDelegate(this@VideoPlayerActivity) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@VideoPlayerActivity) }
@@ -249,6 +252,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     SHOW_INFO -> overlayDelegate.showOverlay()
                     HIDE_SEEK -> touchDelegate.hideSeekOverlay()
                     HIDE_SETTINGS -> delayDelegate.endPlaybackSetting()
+                    FADE_OUT_SCREENSHOT -> screenshotDelegate.hide()
                     else -> {
                     }
                 }
@@ -720,6 +724,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updateHudMargins()
         overlayDelegate.updateTitleConstraints()
         overlayDelegate.rotateBookmarks()
+        screenshotDelegate.hide()
     }
 
     override fun onStart() {
@@ -893,6 +898,41 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
+    /**
+     * Takes a screenshot from the surface view and forwards it to the [screenshotDelegate]
+     *
+     */
+    fun takeScreenshot() {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                videoLayout?.findViewById<FrameLayout>(R.id.player_surface_frame)?.let {
+                    val surfaceView = it.findViewById<SurfaceView>(R.id.surface_video)
+                    surfaceView?.let { surface ->
+                        val width = service?.currentVideoTrack?.width ?: surface.width
+                        val height = service?.currentVideoTrack?.height ?: surface.height
+                        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                        val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.toFile().mkdirs()
+                        val dst = File(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.path + "/vlc_${simpleDateFormat.format(Date())}.jpg")
+
+                        PixelCopy.request(surface, bitmap, { copyResult ->
+                            if (copyResult != 0) {
+                                UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
+                                return@request
+                            }
+                            val coords = IntArray(2)
+                            surfaceView.getLocationOnScreen(coords)
+                            screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
+                            BitmapUtil.saveOnDisk(bitmap, dst.absolutePath)
+                        }, Handler(Looper.getMainLooper()))
+                    }
+                }
+
+            }
+        }
+
+    }
+
     private fun cleanUI() {
 
         rootView?.run { keepScreenOn = false }
@@ -1035,6 +1075,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
                 exitOK()
+                return true
+            }
+            KeyEvent.KEYCODE_P -> {
+                takeScreenshot()
                 return true
             }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
@@ -2237,6 +2281,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         internal const val HIDE_SETTINGS = 11
         const val FADE_OUT_BRIGHTNESS_INFO = 12
         const val FADE_OUT_VOLUME_INFO = 13
+        const val FADE_OUT_SCREENSHOT = 14
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
 

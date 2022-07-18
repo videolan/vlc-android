@@ -45,6 +45,7 @@ private const val TOUCH_BRIGHTNESS = 2
 private const val TOUCH_MOVE = 3
 private const val TOUCH_TAP_SEEK = 4
 private const val TOUCH_IGNORE = 5
+private const val TOUCH_SCREENSHOT = 6
 
 private const val MIN_FOV = 20f
 private const val MAX_FOV = 150f
@@ -166,6 +167,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
                     }
                     MotionEvent.ACTION_MOVE -> {
+                        if (event.pointerCount == 3) touchAction = TOUCH_SCREENSHOT
                         if (touchAction == TOUCH_IGNORE) return false
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
@@ -199,6 +201,10 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
                     }
                     MotionEvent.ACTION_UP -> {
+                        if (touchAction == TOUCH_SCREENSHOT) {
+                            player.takeScreenshot()
+                            return true
+                        }
                         val touchSlop = ViewConfiguration.get(player).scaledTouchSlop
                         if (touchAction == TOUCH_IGNORE) touchAction = TOUCH_NONE
                         // Mouse events for the core
