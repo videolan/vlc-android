@@ -395,8 +395,7 @@ object MediaUtils {
         val isArtistUnknown = artist == getMediaString(ctx, R.string.unknown_artist)
         val prefix = if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
         val suffix = if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
-        //Replace full-spaces with thin-spaces (Unicode 2009)}
-        return TextUtils.separatedString(prefix, suffix).replace(" ", "\u2009")
+        return TextUtils.separatedString(prefix, suffix)
     }
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title
