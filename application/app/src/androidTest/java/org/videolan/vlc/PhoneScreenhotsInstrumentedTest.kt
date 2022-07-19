@@ -25,6 +25,7 @@
 package org.videolan.vlc
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.SystemClock
 import android.util.Log
 import androidx.test.espresso.Espresso.onView
@@ -41,6 +42,7 @@ import org.junit.Test
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.util.DpadHelper.pressHome
 import org.videolan.vlc.util.DpadHelper.pressPip
 import org.videolan.vlc.util.DpadHelper.pressStop
@@ -73,12 +75,12 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(3, "audio_list")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
+        SystemClock.sleep(500)
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
 
         onView(withId(R.id.ml_menu_last_playlist)).perform(click())
-        onView(isRoot()).perform(waitId(R.id.header, 5000))
-//        ScreenshotUtil.takeScreenshot(7,"audio_player_collapsed")
-        onView(withId(R.id.header)).perform(click())
+        onView(isRoot()).perform(waitId(R.id.audio_media_switcher, 5000))
+        onView(withId(R.id.audio_media_switcher)).perform(click())
         SystemClock.sleep(300)
         ScreenshotUtil.takeScreenshot(6,"audio_player_playlist")
         onView(withId(R.id.playlist_switch)).perform(click())
@@ -120,7 +122,8 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         onView(withRecyclerView(R.id.options_list).atPositionOnView(4, R.id.option_title)).perform(click())
 //        ScreenshotUtil.takeScreenshot(9,"video_player_equalizer")
         pressBack()
-        pressPip()
+        onView(withId(R.id.player_overlay_adv_function)).perform(ForceClickAction())
+        onView(withRecyclerView(R.id.options_list).atPositionOnView(6, R.id.option_title)).perform(click())
         pressHome()
         pressPip()
         ScreenshotUtil.takeScreenshot(8,"pip")
@@ -150,5 +153,8 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         }
         activityTestRule.launchActivity(intent)
         activity = activityTestRule.activity
+        if (activity.isTablet()) {
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
     }
 }
