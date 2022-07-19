@@ -581,7 +581,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         when {
                             media.type == MediaWrapper.TYPE_STREAM -> media.uri.toString()
                             parentId.startsWith(ID_ALBUM) -> getMediaSubtitle(media)
-                            else -> TextUtils.separatedString(getMediaArtist(context, media), getMediaAlbum(context, media))
+                            else -> TextUtils.separatedString('-', getMediaArtist(context, media), getMediaAlbum(context, media))
                         }
                     }
                     MediaLibraryItem.TYPE_PLAYLIST -> res.getString(R.string.track_number, libraryItem.tracksCount)
