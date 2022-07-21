@@ -247,10 +247,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
             if (media.isParsed()) {
                 mLength = media.getDuration();
 
-                for (int i = 0; i < media.getTrackCount(); ++i) {
-                    final IMedia.Track track = media.getTrack(i);
-                    if (track == null)
-                        continue;
+                IMedia.Track[] tracks = media.getTracks();
+                int trackCount = tracks != null ? tracks.length : 0;
+                for (int i = 0; i < trackCount; ++i) {
+                    final IMedia.Track track = tracks[i];
                     if (track.type == Media.Track.Type.Video) {
                         final IMedia.VideoTrack videoTrack = (IMedia.VideoTrack) track;
                         mType = TYPE_VIDEO;

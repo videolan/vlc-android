@@ -265,10 +265,10 @@ class InfoModel : ViewModel() {
         }
         if (!isActive) return@launch
         var subs = false
-        val trackCount = media.trackCount
+        val trackCount = media.tracks?.size ?: 0
         val tracks = LinkedList<IMedia.Track>()
         for (i in 0 until trackCount) {
-            val track = media.getTrack(i)
+            val track = media.tracks[i]
             tracks.add(track)
             subs = subs or (track.type == IMedia.Track.Type.Text)
         }
