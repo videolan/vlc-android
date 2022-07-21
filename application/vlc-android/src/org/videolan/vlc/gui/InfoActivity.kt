@@ -41,6 +41,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
+import org.videolan.vlc.getTracks
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -265,10 +266,10 @@ class InfoModel : ViewModel() {
         }
         if (!isActive) return@launch
         var subs = false
-        val trackCount = media.trackCount
+        val trackCount = media.getTracks().size
         val tracks = LinkedList<IMedia.Track>()
         for (i in 0 until trackCount) {
-            val track = media.getTrack(i)
+            val track = media.getTracks()[i]
             tracks.add(track)
             subs = subs or (track.type == IMedia.Track.Type.Text)
         }

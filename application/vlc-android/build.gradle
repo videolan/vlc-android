@@ -32,6 +32,7 @@ android {
         buildConfigField 'int', 'VLC_VERSION_CODE', "${rootProject.ext.versionCode}"
         buildConfigField 'String', 'VLC_VERSION_NAME', "\"${rootProject.ext.versionName}\""
         buildConfigField 'String[]', 'TRANSLATION_ARRAY', generateTranslation()
+        buildConfigField 'int', 'VLC_MAJOR_VERSION', "${rootProject.ext.vlcMajorVersion}"
 
         testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -86,7 +87,7 @@ android {
 
     sourceSets.main {
         manifest.srcFile 'AndroidManifest.xml'
-        java.srcDirs = ['src']
+        java.srcDirs = rootProject.ext.vlcMajorVersion == 4 ? ['src', 'vlc4/src'] : ['src', 'vlc3/src']
         resources.srcDirs = ['src']
         aidl.srcDirs = ['src']
         renderscript.srcDirs = ['src']

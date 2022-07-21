@@ -92,6 +92,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.getTracks
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
@@ -1491,8 +1492,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val allTracks= ArrayList<IMedia.Track>()
             service.mediaplayer.media?.let { media ->
                 if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
-                for (i in 0..media.trackCount) {
-                    val track = media.getTrack(i)
+                for (i in 0..media.getTracks().size) {
+                    val track = media.getTracks()[i]
                     if (track != null) allTracks.add(track)
                 }
                 currentTracks = Pair(media.uri.toString(), allTracks)

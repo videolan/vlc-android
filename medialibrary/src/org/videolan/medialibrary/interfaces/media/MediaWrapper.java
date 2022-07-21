@@ -37,7 +37,9 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.vlc.VlcMigrationHelper;
 
+import java.util.List;
 import java.util.Locale;
 
 public abstract class MediaWrapper extends MediaLibraryItem implements Parcelable {
@@ -247,10 +249,9 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
             if (media.isParsed()) {
                 mLength = media.getDuration();
 
-                for (int i = 0; i < media.getTrackCount(); ++i) {
-                    final IMedia.Track track = media.getTrack(i);
-                    if (track == null)
-                        continue;
+                List<IMedia.Track> tracks = VlcMigrationHelper.getMediaTracks(media);
+                for (int i = 0; i < tracks.size(); ++i) {
+                    final IMedia.Track track = tracks.get(i);
                     if (track.type == Media.Track.Type.Video) {
                         final IMedia.VideoTrack videoTrack = (IMedia.VideoTrack) track;
                         mType = TYPE_VIDEO;
