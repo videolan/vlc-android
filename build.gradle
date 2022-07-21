@@ -40,7 +40,7 @@ ext {
     appId = "org.videolan.vlc"
     versionName = '3.5.0'
     versionCode = 3050000
-    vlcMajorVersion = 3
+    vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
     libvlcVersion = vlcMajorVersion == 3 ? '3.5.0-eap10' :'3.5.0-snapshotvlc4'
     medialibraryVersion = vlcMajorVersion == 3 ? '0.12.0-eap10' :'0.12.0-eap10-snapshotvlc4'
     minSdkVersion = 17
