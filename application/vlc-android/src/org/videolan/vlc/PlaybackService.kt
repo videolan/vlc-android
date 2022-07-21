@@ -438,7 +438,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         return TextUtils.separatedString(trackInfo.toTypedArray()).replace("\n", "")
     }
 
-    private fun IMedia.getAudioTracks():List<IMedia.AudioTrack> = getTracks(IMedia.Track.Type.Audio)?.map { it as IMedia.AudioTrack }?.toList() ?: emptyList()
+
 
     val length: Long
         @MainThread

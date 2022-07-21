@@ -21,6 +21,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
     tasks.withType(Javadoc) {
         // Ignores errors from mavenAndroidJavadocs task
@@ -39,8 +40,9 @@ ext {
     appId = "org.videolan.vlc"
     versionName = '3.5.0'
     versionCode = 3050000
-    libvlcVersion = '3.5.0-eap10'
-    medialibraryVersion = '0.12.0-eap10'
+    vlcMajorVersion = 3
+    libvlcVersion = vlcMajorVersion == 3 ? '3.5.0-eap10' :'3.5.0-snapshotvlc4'
+    medialibraryVersion = vlcMajorVersion == 3 ? '0.12.0-eap10' :'0.12.0-eap10-snapshotvlc4'
     minSdkVersion = 17
     targetSdkVersion = 30
     compileSdkVersion = 31
