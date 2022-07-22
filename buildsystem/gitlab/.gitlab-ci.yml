@@ -8,7 +8,7 @@ cache:
 
 default:
   interruptible: true
-  image: registry.videolan.org/vlc-debian-android:20220224093321
+  image: registry.videolan.org/vlc-debian-android:20220505164734
   tags:
     - amd64
     - docker
@@ -117,6 +117,30 @@ build-ml-x86_64:
     variables:
         ARCH: x86_64
 
+build-ml-arm64-v4:
+    extends: .build-ml-base
+    variables:
+        ARCH: arm64
+        EXTRA_BUILD_PARAM: -vlc4
+
+build-ml-armv7-v4:
+    extends: .build-ml-base
+    variables:
+        ARCH: arm
+        EXTRA_BUILD_PARAM: -vlc4
+
+build-ml-x86-v4:
+    extends: .build-ml-base
+    variables:
+        ARCH: x86
+        EXTRA_BUILD_PARAM: -vlc4
+
+build-ml-x86_64-v4:
+    extends: .build-ml-base
+    variables:
+        ARCH: x86_64
+        EXTRA_BUILD_PARAM: -vlc4
+
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
     extends: .build-all-base
@@ -162,19 +186,14 @@ nightly-x86_64:
             - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
-.build-release-libs-base:
-    rules:
-      - if: '$CI_COMMIT_TAG =~ /^libvlc-.*$/'
-    variables:
-      M2_REPO: "$CI_PROJECT_DIR/aars/repository"
-
 .build-libs-base:
-    extends: .build-release-libs-base
+    rules:
+      - if: '$CI_COMMIT_TAG =~ /^libvlc-3.*$/'
     stage: build
     script:
       - mkdir -p $M2_REPO
-      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release
-      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b
+      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release ${EXTRA_BUILD_PARAM}
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b ${EXTRA_BUILD_PARAM}
     artifacts:
       expire_in: 1h
       when: on_success
@@ -182,6 +201,26 @@ nightly-x86_64:
         - $CI_PROJECT_DIR/libvlcjni/libvlc/jni/libs/*
         - $CI_PROJECT_DIR/medialibrary/jni/libs/*
         - $CI_PROJECT_DIR/.dbg/*
+    variables:
+      M2_REPO: "$CI_PROJECT_DIR/aars/repository"
+
+.build-libs-base-v4:
+    rules:
+      - if: '$CI_COMMIT_TAG =~ /^libvlc-4.*$/'
+    stage: build
+    script:
+      - mkdir -p $M2_REPO
+      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release -vlc4
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b -vlc4
+    artifacts:
+      expire_in: 1h
+      when: on_success
+      paths:
+        - $CI_PROJECT_DIR/libvlcjni/libvlc/jni/libs/*
+        - $CI_PROJECT_DIR/medialibrary/jni/libs/*
+        - $CI_PROJECT_DIR/.dbg/*
+    variables:
+      M2_REPO: "$CI_PROJECT_DIR/aars/repository"
 
 build-libs-arm64:
     extends: .build-libs-base
@@ -203,8 +242,32 @@ build-libs-x86_64:
     variables:
         ARCH: x86_64
 
+build-libs-arm64-v4:
+    extends: .build-libs-base-v4
+    variables:
+        ARCH: arm64
+        EXTRA_BUILD_PARAM: -vlc4
+
+build-libs-armv7-v4:
+    extends: .build-libs-base-v4
+    variables:
+        ARCH: arm
+        EXTRA_BUILD_PARAM: -vlc4
+
+build-libs-x86-v4:
+    extends: .build-libs-base-v4
+    variables:
+        ARCH: x86
+        EXTRA_BUILD_PARAM: -vlc4
+
+build-libs-x86_64-v4:
+    extends: .build-libs-base-v4
+    variables:
+        ARCH: x86_64
+        EXTRA_BUILD_PARAM: -vlc4
+
 publish_libs:
-    extends: .build-release-libs-base
+    extends: .build-libs-base
     stage: package
     needs: 
       - job: "build-libs-arm64"
@@ -216,6 +279,26 @@ publish_libs:
         - ./buildsystem/compile.sh --init -b
         - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
         - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
+    artifacts:
+        name: "${CI_COMMIT_TAG}.dbg"
+        paths:
+            - .dbg/
+            - $M2_REPO
+        expire_in: 2 weeks
+
+publish_libs-v4:
+    extends: .build-libs-base-v4
+    stage: package
+    needs:
+      - job: "build-libs-arm64-v4"
+      - job: "build-libs-armv7-v4"
+      - job: "build-libs-x86-v4"
+      - job: "build-libs-x86_64-v4"
+    script:
+        - mkdir -p $M2_REPO
+        - ./buildsystem/compile.sh --init -b -vlc4
+        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
+        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
