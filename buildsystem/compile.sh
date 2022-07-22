@@ -90,6 +90,9 @@ while [ $# -gt 0 ]; do
         -b)
             BYPASS_VLC_SRC_CHECKS=1
             ;;
+        -vlc4)
+            FORCE_VLC_4=1
+            ;;
         *)
             diagnostic "$0: Invalid option '$1'."
             diagnostic "$0: Try --help for more information."
@@ -254,18 +257,28 @@ fi
 # Fetch VLC source #
 ####################
 
-LIBVLCJNI_TESTED_HASH=1a292138d3dd475d4e460b5720f09a4b7b01980a
+
+if [ "$FORCE_VLC_4" = 1 ]; then
+    LIBVLCJNI_TESTED_HASH=93e383fe19c84cfcb5298e69693fc1669735875f
+else
+    LIBVLCJNI_TESTED_HASH=1a292138d3dd475d4e460b5720f09a4b7b01980a
+fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
 if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
+    if [ "$FORCE_VLC_4" = 1 ]; then
+        branch="master"
+    else
+        branch="libvlcjni-3.x"
+    fi
     if [ ! -d "libvlcjni" ]; then
-        git clone --single-branch --branch libvlcjni-3.x "${LIBVLCJNI_REPOSITORY}"
+        git clone --single-branch --branch ${branch} "${LIBVLCJNI_REPOSITORY}"
         cd libvlcjni
     else # folder exist with only the artifacts
         cd libvlcjni
         git init
         git remote add origin "${LIBVLCJNI_REPOSITORY}"
-        git pull origin libvlcjni-3.x
+        git pull origin ${branch}
     fi
     git reset --hard ${LIBVLCJNI_TESTED_HASH} || fail "libvlcjni sources: LIBVLCJNI_TESTED_HASH ${LIBVLCJNI_TESTED_HASH} not found"
     init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
@@ -323,11 +336,17 @@ elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
 
+if [ "$FORCE_VLC_4" = 1 ]; then
+    gradle_prop="-PforceVlc4=true"
+else
+    gradle_prop=""
+fi
+
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni/libvlc assemble${BUILDTYPE}
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO ${gradle_prop} -p libvlcjni/libvlc assemble${BUILDTYPE}
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary assemble${BUILDTYPE}
+    GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO -p medialibrary assemble${BUILDTYPE}
     RUN=0
 else
     if [ "$TEST" = 1 -o "$RUN" = 1 ]; then
@@ -336,11 +355,10 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO $TARGET
-
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
     if [ "$TEST" = 1 ]; then
         TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO $TARGET
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
 
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
