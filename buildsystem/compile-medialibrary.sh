@@ -149,7 +149,7 @@ if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/buil
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
         -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
-        --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}.crossfile \
+        --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}-ndk${REL}.crossfile \
         -Dlibjpeg_prefix="$SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
         -Dforce_attachment_api=true \
