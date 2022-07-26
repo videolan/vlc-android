@@ -21,6 +21,7 @@
 #ifndef VLC_MEDIALIB_UTILS_H
 #define VLC_MEDIALIB_UTILS_H
 #include <jni.h>
+#include <assert.h>
 #include <medialibrary/Types.h>
 #include <medialibrary/IMediaLibrary.h>
 #include <medialibrary/IVideoTrack.h>
