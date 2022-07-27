@@ -904,6 +904,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      *
      */
     fun takeScreenshot() {
+        if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage(this)) {
+            Permissions.askWriteStoragePermission(this, false){}
+            return
+        }
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 videoLayout?.findViewById<FrameLayout>(R.id.player_surface_frame)?.let {
@@ -923,8 +927,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             }
                             val coords = IntArray(2)
                             surfaceView.getLocationOnScreen(coords)
-                            screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
-                            BitmapUtil.saveOnDisk(bitmap, dst.absolutePath)
+                            if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath))
+                                screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
+                            else
+                                UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
                         }, Handler(Looper.getMainLooper()))
                     }
                 }

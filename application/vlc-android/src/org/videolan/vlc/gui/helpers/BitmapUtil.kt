@@ -285,20 +285,25 @@ object BitmapUtil {
         else -> Rect(0, 0, width, height)
     }
 
-    fun saveOnDisk(bitmap: Bitmap, destPath: String) {
+    fun saveOnDisk(bitmap: Bitmap, destPath: String):Boolean {
         val destFile = File(destPath)
-        when {
-            destFile.canWrite() -> {
+        return when {
+            destFile.parentFile?.canWrite() == true -> {
                 try {
                     ByteArrayOutputStream().use { stream ->
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                         FileOutputStream(destFile).use { it.write(stream.toByteArray()) }
                     }
+                    true
                 } catch (e: IOException) {
                     Log.e(TAG, "Could not save image to disk", e)
+                    false
                 }
             }
-            else -> Log.e(TAG, "File path not writable: $destFile")
+            else -> {
+                Log.e(TAG, "File path not writable: $destFile")
+                false
+            }
         }
     }
 
