@@ -46,10 +46,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
-import org.videolan.tools.AppScope
-import org.videolan.tools.dp
-import org.videolan.tools.runIO
-import org.videolan.tools.runOnMainThread
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -256,10 +253,11 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
 
+        val settings = Settings.getInstance(context)
 
         if (!forPreview) widgetCacheEntry.currentMedia = service?.currentMediaWrapper
         if (!playing)
-            setupTexts(context, views, widgetType, context.getString(R.string.widget_default_text), "")
+            setupTexts(context, views, widgetType, settings.getString(KEY_CURRENT_AUDIO_RESUME_TITLE, context.getString(R.string.widget_default_text)), settings.getString(KEY_CURRENT_AUDIO_RESUME_ARTIST, ""))
         else
             setupTexts(context, views, widgetType, service?.title ?: widgetCacheEntry.currentMedia?.title, service?.artist ?: widgetCacheEntry.currentMedia?.artist)
 
@@ -270,9 +268,6 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setInt(R.id.player_container_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
         views.setViewPadding(R.id.player_container_background, 1.dp, 1.dp, 1.dp, 1.dp)
         views.setInt(R.id.play_pause_background, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
-        if (!playing) displayCover(context, views, playing, widgetType, widgetCacheEntry)
-
-
         //cover
 
         //set it square on layouts needing it
@@ -287,14 +282,14 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         if (forPreview) {
             displayCover(context, views, true, widgetType, widgetCacheEntry)
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
-        } else if (playing && (widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover || widgetCacheEntry.currentCoverInvalidated)) {
+        } else if (widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover || widgetCacheEntry.currentCoverInvalidated) {
             widgetCacheEntry.currentCoverInvalidated = false
-            widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl
-            if (!widgetCacheEntry.currentMedia?.artworkMrl.isNullOrEmpty()) {
+            widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl ?: settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null)
+            if (!widgetCacheEntry.currentCover.isNullOrEmpty()) {
                 log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId}")
                 runIO {
                     log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Generating cover")
-                    val cover = AudioUtil.readCoverBitmap(Uri.decode(widgetCacheEntry.currentMedia?.artworkMrl), 320)
+                    val cover = AudioUtil.readCoverBitmap(Uri.decode(widgetCacheEntry.currentCover), 320)
                     val wm = context.getSystemService<WindowManager>()!!
                     val dm = DisplayMetrics().also { wm.defaultDisplay.getMetrics(it) }
                     runOnMainThread {
@@ -319,6 +314,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 displayCover(context, views, false, widgetType, widgetCacheEntry)
             }
         }
+
+        if (!playing && widgetCacheEntry.currentCover == null) displayCover(context, views, playing, widgetType, widgetCacheEntry)
 
 
         //position

@@ -124,6 +124,9 @@ const val KEY_MEDIA_LAST_PLAYLIST_RESUME = "media_list_resume"
 const val KEY_CURRENT_AUDIO = "current_song"
 const val KEY_CURRENT_MEDIA = "current_media"
 const val KEY_CURRENT_MEDIA_RESUME = "current_media_resume"
+const val KEY_CURRENT_AUDIO_RESUME_TITLE = "key_current_audio_resume_title"
+const val KEY_CURRENT_AUDIO_RESUME_ARTIST = "key_current_audio_resume_artist"
+const val KEY_CURRENT_AUDIO_RESUME_THUMB = "key_current_audio_resume_thumb"
 
 // Info Activity
 const val TAG_ITEM = "ML_ITEM"

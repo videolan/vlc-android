@@ -607,10 +607,22 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @Synchronized
     fun saveCurrentMedia(forceVideo:Boolean = false) {
         val media = getCurrentMedia() ?: return
-        if (media.uri.scheme.isSchemeFD()) return
         val isAudio = isAudioList() || forceVideo
+        if (media.uri.scheme.isSchemeFD()) {
+            if (isAudio) {
+                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, "")
+                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, "")
+                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, "")
+            }
+            return
+        }
         settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
         settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
+        if (isAudio) {
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artist ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
+        }
     }
 
     suspend fun saveMediaList(forceVideo:Boolean = false) {
