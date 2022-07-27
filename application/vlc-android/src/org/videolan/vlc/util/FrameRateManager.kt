@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.getSelectedVideoTrack
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -36,7 +37,7 @@ class FrameRateManager(val activity: FragmentActivity, val service: PlaybackServ
             activity.lifecycleScope.launch(Dispatchers.IO) {
                 delay(2000)
                 val videoTrack = try {
-                    this@FrameRateManager.service.mediaplayer.currentVideoTrack
+                    this@FrameRateManager.service.mediaplayer.getSelectedVideoTrack()
                 } catch (e: IllegalStateException) {
                     null
                 }
@@ -56,10 +57,10 @@ class FrameRateManager(val activity: FragmentActivity, val service: PlaybackServ
     fun matchFrameRate(surfaceView: SurfaceView, window: Window) {
         /* automatic frame rate switching for displays/HDMI
         most media will be either 23.976, 24, 25, 29.97, 30, 48, 50, 59.94, and 60 fps */
-        service.mediaplayer.currentVideoTrack?.let { videoTrack ->
-            if (videoTrack.frameRateDen == 0)
+        service.mediaplayer.getSelectedVideoTrack()?.let { videoTrack ->
+            if (videoTrack.getFrameRateDen() == 0)
                 return@let
-            val videoFrameRate = videoTrack.frameRateNum / videoTrack.frameRateDen.toFloat()
+            val videoFrameRate = videoTrack.getFrameRateNum() / videoTrack.getFrameRateDen().toFloat()
             val surface = surfaceView.holder.surface
 
             when {

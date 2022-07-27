@@ -234,14 +234,14 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         VideoTracksDialog.VideoTrackOption.SUB_DOWNLOAD -> downloadSubtitles()
                         VideoTracksDialog.VideoTrackOption.SUB_PICK -> pickSubtitles()
                     }
-                }, { trackID: Int, trackType: VideoTracksDialog.TrackType ->
+                }, { trackID: String, trackType: VideoTracksDialog.TrackType ->
             when (trackType) {
                 VideoTracksDialog.TrackType.AUDIO -> {
                     player.service?.let { service ->
                         service.setAudioTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
-                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
+                            if (mw != null && mw.id != 0L) mw.setStringMeta(MediaWrapper.META_AUDIOTRACK, trackID)
                         }
                     }
                 }
@@ -250,7 +250,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         service.setSpuTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
-                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
+                            if (mw != null && mw.id != 0L) mw.setStringMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID)
                         }
                     }
                 }
@@ -260,7 +260,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         service.setVideoTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
-                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_VIDEOTRACK, trackID.toLong())
+                            if (mw != null && mw.id != 0L) mw.setStringMeta(MediaWrapper.META_VIDEOTRACK, trackID)
                         }
                     }
                 }

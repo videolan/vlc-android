@@ -38,7 +38,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.DependencyProvider
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
@@ -47,6 +46,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.util.isTalkbackIsEnabled
 
@@ -60,7 +60,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     override fun initialFocusedView(): View = binding.subtitleTracks.emptyView
 
     lateinit var menuItemListener: (VideoTrackOption) -> Unit
-    lateinit var trackSelectionListener: (Int, TrackType) -> Unit
+    lateinit var trackSelectionListener: (String, TrackType) -> Unit
 
     private fun onServiceChanged(service: PlaybackService?) {
         service?.let { playbackService ->
@@ -74,26 +74,26 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             }
 
             playbackService.videoTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.videoTrack }, getString(R.string.track_video))
+                val trackAdapter = TrackAdapter(trackList as Array<VlcTrack>, trackList.firstOrNull { it.getId() == playbackService.videoTrack }, getString(R.string.track_video))
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    trackSelectionListener.invoke(track.id, TrackType.VIDEO)
+                    trackSelectionListener.invoke(track.getId(), TrackType.VIDEO)
                 }
                 binding.videoTracks.trackList.adapter = trackAdapter
                 binding.videoTracks.trackTitle.contentDescription = getString(R.string.talkback_video_tracks)
             }
             playbackService.audioTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.audioTrack }, getString(R.string.track_audio))
+                val trackAdapter = TrackAdapter(trackList as Array<VlcTrack>, trackList.firstOrNull { it.getId() == playbackService.audioTrack }, getString(R.string.track_audio))
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    trackSelectionListener.invoke(track.id, TrackType.AUDIO)
+                    trackSelectionListener.invoke(track.getId(), TrackType.AUDIO)
                 }
                 binding.audioTracks.trackList.adapter = trackAdapter
                 binding.audioTracks.trackTitle.contentDescription = getString(R.string.talkback_audio_tracks)
             }
             playbackService.spuTracks?.let { trackList ->
                 if (!playbackService.hasRenderer()) {
-                    val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack }, getString(R.string.track_text))
+                    val trackAdapter = TrackAdapter(trackList as Array<VlcTrack>, trackList.firstOrNull { it.getId() == playbackService.spuTrack }, getString(R.string.track_text))
                     trackAdapter.setOnTrackSelectedListener { track ->
-                        trackSelectionListener.invoke(track.id, TrackType.SPU)
+                        trackSelectionListener.invoke(track.getId(), TrackType.SPU)
                     }
                     binding.subtitleTracks.trackList.adapter = trackAdapter
                 } else {

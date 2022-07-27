@@ -89,10 +89,9 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.*
+import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.getTracks
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
@@ -100,6 +99,7 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
@@ -118,6 +118,7 @@ import java.lang.Runnable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+import org.videolan.vlc.getAllTracks
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
@@ -147,14 +148,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var enableCloneMode: Boolean = false
     lateinit var orientationMode: PlayerOrientationMode
 
-    private var currentAudioTrack = -2
-    private var currentSpuTrack = -2
+    private var currentAudioTrack = "-2"
+    private var currentSpuTrack = "-2"
 
     var isLocked = false
 
     /* -1 is a valid track (Disable) */
-    private var lastAudioTrack = -2
-    private var lastSpuTrack = -2
+    private var lastAudioTrack = "-2"
+    private var lastSpuTrack = "-2"
     var lockBackButton = false
     private var wasPaused = false
     private var savedTime: Long = -1
@@ -334,7 +335,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private val downloadedSubtitleObserver = Observer<List<org.videolan.vlc.mediadb.models.ExternalSub>> { externalSubs ->
         for (externalSub in externalSubs) {
             if (!addedExternalSubs.contains(externalSub)) {
-                service?.addSubtitleTrack(externalSub.subtitlePath, currentSpuTrack == -2)
+                service?.addSubtitleTrack(externalSub.subtitlePath, currentSpuTrack == "-2")
                 addedExternalSubs.add(externalSub)
             }
         }
@@ -683,9 +684,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             Permissions.checkPiPPermission(this)
             if (AndroidUtil.isOOrLater)
                 try {
-                    val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack
+                    val track = service?.playlistManager?.player?.mediaplayer?.getSelectedVideoTrack()
                             ?: return
-                    val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+                    val ar = Rational(track.getWidth().coerceAtMost((track.getHeight() * 2.39f).toInt()), track.getHeight())
                     service?.updateWidgetState()
                     enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(ar).build())
                 } catch (e: IllegalArgumentException) { // Fallback with default parameters
@@ -916,8 +917,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 videoLayout?.findViewById<FrameLayout>(R.id.player_surface_frame)?.let {
                     val surfaceView = it.findViewById<SurfaceView>(R.id.surface_video)
                     surfaceView?.let { surface ->
-                        val width = service?.currentVideoTrack?.width ?: surface.width
-                        val height = service?.currentVideoTrack?.height ?: surface.height
+                        val width = service?.currentVideoTrack?.getWidth() ?: surface.width
+                        val height = service?.currentVideoTrack?.getHeight() ?: surface.height
                         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                         val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
                         AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.toFile().mkdirs()
@@ -1382,7 +1383,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         if (event.esChangedType == IMedia.Track.Type.Audio) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
-                                var preferredTrack = 0
+                                var preferredTrack = "0"
                                 val preferredAudioLang = settings.getString(AUDIO_PREFERRED_LANGUAGE, "")
                                 if (!preferredAudioLang.isNullOrEmpty()) {
                                     /** ⚠️limitation: See [LocaleUtil] header comment */
@@ -1390,52 +1391,52 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     service.audioTracks?.iterator()?.let { audioTracks ->
                                         while (audioTracks.hasNext()) {
                                             val next = audioTracks.next()
-                                            val realTrack = allTracks.find { it.id == next.id }
+                                            val realTrack = allTracks.find { it.id.toString() == next.getId() }
                                             if (LocaleUtil.getLocaleFromVLC(realTrack?.language
                                                             ?: "") == preferredAudioLang) {
-                                                preferredTrack = next.id
+                                                preferredTrack = next.getId()
                                                 break
                                             }
                                         }
                                     }
                                 }
-                                val audioTrack = when (val savedTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()) {
-                                    0 -> preferredTrack
+                                val audioTrack = when (val savedTrack = media.getMetaString(MediaWrapper.META_AUDIOTRACK) ?: "0") {
+                                    "0" -> preferredTrack
                                     else -> savedTrack
                                 }
-                                if (audioTrack != 0 || currentAudioTrack != -2)
-                                    service.setAudioTrack(audioTrack)
+                                if (audioTrack != "0" || currentAudioTrack != "-2")
+                                    service.setAudioTrack(audioTrack.toString())
                             }
                         } else if (event.esChangedType == IMedia.Track.Type.Text) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
-                                var preferredTrack = 0
+                                var preferredTrack = "0"
                                 val preferredSpuLang = settings.getString(SUBTITLE_PREFERRED_LANGUAGE, "")
                                 if (!preferredSpuLang.isNullOrEmpty()) {
                                     val allTracks = getCurrentMediaTracks()
                                     service.spuTracks?.iterator()?.let { spuTracks ->
                                         while (spuTracks.hasNext()) {
                                             val next = spuTracks.next()
-                                            val realTrack = allTracks.find {it.id == next.id }
+                                            val realTrack = allTracks.find {it.id.toString() == next.getId() }
                                             if (LocaleUtil.getLocaleFromVLC(realTrack?.language
                                                             ?: "") == preferredSpuLang) {
-                                                preferredTrack = next.id
+                                                preferredTrack = next.getId()
                                                 break
                                             }
                                         }
                                     }
                                 }
-                                val spuTrack = when (val savedTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()) {
-                                    0 -> preferredTrack
+                                val spuTrack = when (val savedTrack = media.getMetaString(MediaWrapper.META_SUBTITLE_TRACK) ?: "0") {
+                                    "0" -> preferredTrack
                                     else -> savedTrack
                                 }
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
-                                    if (!(tracks as Array<MediaPlayer.TrackDescription>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].id)
+                                    if (!(tracks as Array<VlcTrack>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].getId())
                                     addNextTrack = false
-                                } else if (spuTrack != 0 || currentSpuTrack != -2) {
+                                } else if (spuTrack != "0" || currentSpuTrack != "-2") {
                                     service.setSpuTrack(spuTrack)
-                                    lastSpuTrack = -2
+                                    lastSpuTrack = "-2"
                                 }
                             }
                         }
@@ -1446,8 +1447,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         lifecycleScope.launch(Dispatchers.IO) {
                             service.currentMediaWrapper?.let { mw ->
                                 val media = medialibrary.findMedia(mw)
-                                val videoTrack = media.getMetaLong(MediaWrapper.META_VIDEOTRACK).toInt()
-                                if (videoTrack != 0 && media.id != 0L) service.setVideoTrack(videoTrack)
+                                val videoTrack = media.getMetaString(MediaWrapper.META_VIDEOTRACK) ?: "0"
+                                if (videoTrack != "0" && media.id != 0L) service.setVideoTrack(videoTrack)
                             }
                         }
                     }
@@ -1461,7 +1462,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 MediaPlayer.Event.ESSelected -> if (event.esChangedType == IMedia.Track.Type.Video) {
                     val vt = service.currentVideoTrack
                     if (vt != null)
-                        fov = if (vt.projection == IMedia.VideoTrack.Projection.Rectangular) 0f else DEFAULT_FOV
+                        fov = if (vt.getProjection() == IMedia.VideoTrack.Projection.Rectangular) 0f else DEFAULT_FOV
                 }
                 MediaPlayer.Event.SeekableChanged -> overlayDelegate.updateSeekable(event.seekable)
                 MediaPlayer.Event.PausableChanged -> overlayDelegate.updatePausable(event.pausable)
@@ -1492,8 +1493,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val allTracks= ArrayList<IMedia.Track>()
             service.mediaplayer.media?.let { media ->
                 if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
-                for (i in 0..media.getTracks().size) {
-                    val track = media.getTracks()[i]
+                for (i in 0..media.getAllTracks().size) {
+                    val track = media.getAllTracks()[i]
                     if (track != null) allTracks.add(track)
                 }
                 currentTracks = Pair(media.uri.toString(), allTracks)
@@ -1525,9 +1526,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         optionsDelegate?.setup()
         settings.edit { remove(VIDEO_PAUSED) }
         if (isInPictureInPictureMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack ?: return
+            val track = service?.playlistManager?.player?.mediaplayer?.getSelectedVideoTrack() ?: return
             val ar =
-                Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+                Rational(track.getWidth().coerceAtMost((track.getHeight() * 2.39f).toInt()), track.getHeight())
             if (ar.isFinite && !ar.isZero) {
                 setPictureInPictureParams(
                     PictureInPictureParams.Builder().setAspectRatio(ar).build()
@@ -1858,13 +1859,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun setESTracks() {
-        if (lastAudioTrack >= -1) {
+        if (lastAudioTrack >= "-1") {
             service?.setAudioTrack(lastAudioTrack)
-            lastAudioTrack = -2
+            lastAudioTrack = "-2"
         }
-        if (lastSpuTrack >= -1) {
+        if (lastSpuTrack >=" -1") {
             service?.setSpuTrack(lastSpuTrack)
-            lastSpuTrack = -2
+            lastSpuTrack = "-2"
         }
     }
 
@@ -1983,8 +1984,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (media != null) {
                         // in media library
 
-                        lastAudioTrack = media.audioTrack
-                        lastSpuTrack = media.spuTrack
+                        lastAudioTrack = media.audioTrack.toString()
+                        lastSpuTrack = media.spuTrack.toString()
                     } else if (!fromStart) {
                         // not in media library
                             val rTime = settings.getLong(VIDEO_RESUME_TIME, -1L)

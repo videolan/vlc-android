@@ -47,7 +47,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.util.LocaleUtil
-import org.videolan.vlc.getTracks
+import org.videolan.vlc.getAllTracks
 
 class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling: () -> Unit, val idle: () -> Unit) {
     lateinit var container: ConstraintLayout
@@ -107,11 +107,11 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
         if (lastMediaUri != media.uri) {
             lastMediaUri = media.uri
             binding.infoGrids.removeAllViews()
-            for (i in 0 until media.getTracks().size) {
+            for (i in 0 until media.getAllTracks().size) {
                 val grid = GridLayout(player)
                 grid.columnCount = 2
 
-                val track = media.getTracks()[i]
+                val track = media.getAllTracks()[i]
                 if (track.bitrate > 0) addStreamGridView(grid, player.getString(R.string.bitrate), player.getString(R.string.bitrate_value, track.bitrate.toLong().readableSize()))
                 addStreamGridView(grid, player.getString(R.string.codec), track.codec)
                 if (track.language != null && !track.language.equals("und", ignoreCase = true))

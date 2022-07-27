@@ -505,7 +505,7 @@ object UiTools {
         }
     }
 
-    fun FragmentActivity.showVideoTrack(menuListener:(VideoTracksDialog.VideoTrackOption) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
+    fun FragmentActivity.showVideoTrack(menuListener:(VideoTracksDialog.VideoTrackOption) -> Unit, trackSelectionListener:(String, VideoTracksDialog.TrackType) -> Unit) {
         if (!isStarted()) return
         val videoTracksDialog = VideoTracksDialog()
         videoTracksDialog.arguments = bundleOf()

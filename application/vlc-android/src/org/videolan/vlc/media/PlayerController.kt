@@ -19,8 +19,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.*
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.*
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.repository.SlaveRepository
 import kotlin.math.abs
 
@@ -120,23 +120,23 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun canSwitchToVideo() = getVideoTracksCount() > 0
 
-    fun getVideoTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTracksCount else 0
+    fun getVideoTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getVideoTracksCount() else 0
 
-    fun getVideoTracks(): Array<out MediaPlayer.TrackDescription>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTracks else emptyArray()
+    fun getVideoTracks(): Array<out VlcTrack> = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getAllVideoTracks() else emptyArray()
 
-    fun getVideoTrack() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTrack else -1
+    fun getVideoTrack():String = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSelectedVideoTrack()?.getId() ?: "-1" else "-1"
 
-    fun getCurrentVideoTrack(): IMedia.VideoTrack? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.currentVideoTrack else null
+    fun getCurrentVideoTrack(): VlcTrack? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSelectedVideoTrack() else null
 
-    fun getAudioTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTracksCount else 0
+    fun getAudioTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getAudioTracksCount() else 0
 
-    fun getAudioTracks(): Array<out MediaPlayer.TrackDescription>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTracks else emptyArray()
+    fun getAudioTracks(): Array<out VlcTrack>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getAllAudioTracks() else emptyArray()
 
-    fun getAudioTrack() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTrack else -1
+    fun getAudioTrack():String = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSelectedAudioTrackId() else "-1"
 
-    fun setVideoTrack(index: Int) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setVideoTrack(index)
+    fun setVideoTrack(index: String) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setVideoTrack(index)
 
-    fun setAudioTrack(index: Int) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setAudioTrack(index)
+    fun setAudioTrack(index: String) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setAudioTrack(index)
 
     fun setAudioDigitalOutputEnabled(enabled: Boolean) = !mediaplayer.isReleased && mediaplayer.setAudioDigitalOutputEnabled(enabled)
 
@@ -154,13 +154,13 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun addSubtitleTrack(uri: Uri, select: Boolean) = mediaplayer.addSlave(IMedia.Slave.Type.Subtitle, uri, select)
 
-    fun getSpuTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.spuTracks
+    fun getSpuTracks(): Array<out VlcTrack>? = mediaplayer.getAllSpuTracks()
 
-    fun getSpuTrack() = mediaplayer.spuTrack
+    fun getSpuTrack() = mediaplayer.getSelectedSpuTrackId()
 
-    fun setSpuTrack(index: Int) = mediaplayer.setSpuTrack(index)
+    fun setSpuTrack(index: String) = mediaplayer.setSpuTrack(index)
 
-    fun getSpuTracksCount() = mediaplayer.spuTracksCount
+    fun getSpuTracksCount() = mediaplayer.getSpuTracksCount()
 
     fun setAudioDelay(delay: Long) = mediaplayer.setAudioDelay(delay)
 

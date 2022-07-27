@@ -68,6 +68,7 @@ import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
@@ -511,11 +512,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         @MainThread
         get() = playlistManager.player.getAudioTracksCount()
 
-    val audioTracks: Array<out MediaPlayer.TrackDescription>?
+    val audioTracks: Array<out VlcTrack>?
         @MainThread
         get() = playlistManager.player.getAudioTracks()
 
-    val audioTrack: Int
+    val audioTrack: String
         @MainThread
         get() = playlistManager.player.getAudioTrack()
 
@@ -523,25 +524,25 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         @MainThread
         get() = if (hasMedia()) playlistManager.player.getVideoTracksCount() else 0
 
-    val videoTracks: Array<out MediaPlayer.TrackDescription>?
+    val videoTracks: Array<out VlcTrack>?
         @MainThread
         get() = playlistManager.player.getVideoTracks()
 
-    val currentVideoTrack: IMedia.VideoTrack?
+    val currentVideoTrack: VlcTrack?
         @MainThread
         get() = playlistManager.player.getCurrentVideoTrack()
 
-    val videoTrack: Int
+    val videoTrack: String
         @MainThread
         get() = playlistManager.player.getVideoTrack()
 
-    val spuTracks: Array<out MediaPlayer.TrackDescription>?
+    val spuTracks: Array<out VlcTrack>?
         @MainThread
         get() = playlistManager.player.getSpuTracks()
 
-    val spuTrack: Int
+    val spuTrack: String
         @MainThread
-        get() = playlistManager.player.getSpuTrack()
+        get() = playlistManager.player.getSpuTrack() ?: "-1"
 
     val spuTracksCount: Int
         @MainThread
@@ -1581,13 +1582,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private fun setPosition(pos: Float) = playlistManager.player.setPosition(pos)
 
     @MainThread
-    fun setAudioTrack(index: Int) = playlistManager.player.setAudioTrack(index)
+    fun setAudioTrack(index: String) = playlistManager.player.setAudioTrack(index)
 
     @MainThread
     fun setAudioDigitalOutputEnabled(enabled: Boolean) = playlistManager.player.setAudioDigitalOutputEnabled(enabled)
 
     @MainThread
-    fun setVideoTrack(index: Int) = playlistManager.player.setVideoTrack(index)
+    fun setVideoTrack(index: String) = playlistManager.player.setVideoTrack(index)
 
     @MainThread
     fun addSubtitleTrack(path: String, select: Boolean) = playlistManager.player.addSubtitleTrack(path, select)
@@ -1596,7 +1597,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     fun addSubtitleTrack(uri: Uri, select: Boolean) = playlistManager.player.addSubtitleTrack(uri, select)
 
     @MainThread
-    fun setSpuTrack(index: Int) = playlistManager.setSpuTrack(index)
+    fun setSpuTrack(index: String) = playlistManager.setSpuTrack(index)
 
     @MainThread
     fun setAudioDelay(delay: Long) = playlistManager.setAudioDelay(delay)

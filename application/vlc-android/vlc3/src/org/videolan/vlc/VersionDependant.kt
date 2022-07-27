@@ -1,6 +1,8 @@
 package org.videolan.vlc
 
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 
 /*
  * ************************************************************************
@@ -35,10 +37,57 @@ fun IMedia.getAudioTracks(): List<IMedia.AudioTrack> {
     return tracks.toList()
 }
 
-fun IMedia.getTracks(): List<IMedia.Track> {
+fun IMedia.getAllTracks(): List<IMedia.Track> {
     val result = ArrayList<IMedia.Track>()
     for (i in 0 until trackCount) {
         result.add(getTrack(i))
     }
     return result
+}
+
+
+fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? = getCurrentVideoTrack()?.let { VlcTrackImpl(it) } ?: null
+
+fun MediaPlayer.getSelectedAudioTrackId(): String {
+    return getAudioTrack().toString()
+}
+
+fun MediaPlayer.getSelectedSpuTrackId(): String {
+    return spuTrack.toString()
+}
+
+fun MediaPlayer.getVideoTracksCount(): Int {
+    return videoTracksCount
+}
+
+fun MediaPlayer.getAudioTracksCount(): Int {
+    return audioTracksCount
+}
+
+fun MediaPlayer.getSpuTracksCount(): Int {
+    return spuTracksCount
+}
+
+fun MediaPlayer.setVideoTrack(index:String):Boolean {
+    return setVideoTrack(index.toInt())
+}
+fun MediaPlayer.setAudioTrack(index:String):Boolean {
+    return setAudioTrack(index.toInt())
+}
+
+fun MediaPlayer.setSpuTrack(index:String):Boolean {
+    return setSpuTrack(index.toInt())
+}
+
+fun MediaPlayer.getAllAudioTracks(): Array<VlcTrack> = audioTracks.convertToVlcTrack()
+fun MediaPlayer.getAllVideoTracks():Array<VlcTrack> = videoTracks.convertToVlcTrack()
+fun MediaPlayer.getAllSpuTracks():Array<VlcTrack> = spuTracks.convertToVlcTrack()
+
+fun Array<MediaPlayer.TrackDescription>?.convertToVlcTrack(): Array<VlcTrack> {
+    if (this == null) return arrayOf()
+    val newTracks = ArrayList<VlcTrack>()
+    this.forEach {
+        newTracks.add(VlcTrackImpl(it))
+    }
+    return newTracks.toTypedArray()
 }
