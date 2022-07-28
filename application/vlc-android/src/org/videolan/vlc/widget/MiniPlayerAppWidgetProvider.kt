@@ -180,7 +180,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             log(appWidgetId, WidgetLogType.INFO, "Size is 0. Getting size from db: $widgetCacheEntry.widget")
             Pair(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
         } else size
-        log(appWidgetId, WidgetLogType.INFO, "New widget size by provider: ${correctedSize.first} / ${correctedSize.second}")
+        log(appWidgetId, WidgetLogType.INFO, "New widget size by provider: ${correctedSize.first} / ${correctedSize.second} // ratio = ${correctedSize.first.toFloat() / correctedSize.second}")
         val widgetType = getWidgetTypeFromSize(correctedSize.first, correctedSize.second)
 
 
@@ -398,8 +398,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      */
     private fun getWidgetTypeFromSize(width: Int, height: Int) = when {
         width > 220 && height > 220 -> WidgetType.MACRO
-        width > 128 && height > 128 -> WidgetType.MICRO
         width > 220 && height > 72 -> WidgetType.MINI
+        width > 128 && height > 148 -> WidgetType.MICRO
         else -> WidgetType.PILL
     }
 
