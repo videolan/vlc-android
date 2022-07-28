@@ -46,8 +46,12 @@ import org.videolan.tools.WIDGETS_FOREGROUND_LAST_COLORS
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.BasePreferenceFragment
+import org.videolan.vlc.gui.view.NumberPickerPreference
 import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.widget.WidgetViewModel
+import org.videolan.vlc.widget.utils.WidgetType
+import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetTypeFromSize
+import org.videolan.vlc.widget.utils.WidgetUtils.hasEnoughSpaceForSeek
 
 const val WIDGET_ID = "WIDGET_ID"
 
@@ -59,6 +63,9 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
     private lateinit var backgroundPreference: ColorPreferenceCompat
     private lateinit var foregroundPreference: ColorPreferenceCompat
     private lateinit var lightThemePreference: CheckBoxPreference
+    private lateinit var showSeek: CheckBoxPreference
+    private lateinit var forwardDelay: NumberPickerPreference
+    private lateinit var rewindDelay: NumberPickerPreference
 
     override fun getXml() = R.xml.preferences_widgets
 
@@ -86,6 +93,9 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         backgroundPreference = findPreference("background_color")!!
         foregroundPreference = findPreference("foreground_color")!!
         lightThemePreference = findPreference("widget_light_theme")!!
+        showSeek = findPreference("widget_show_seek")!!
+        forwardDelay = findPreference("widget_forward_delay")!!
+        rewindDelay = findPreference("widget_rewind_delay")!!
         val configurationIcon = findPreference<CheckBoxPreference>("widget_show_configure")!!
         val themePreference = findPreference<ListPreference>("widget_theme")!!
 
@@ -109,6 +119,11 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             lightThemePreference.isChecked = widget.lightTheme
             lightThemePreference.isVisible = widget.theme != 2
             configurationIcon.isChecked = widget.showConfigure
+            val widgetType = getWidgetTypeFromSize(widget.width, widget.height)
+            val showSeekPrefs = (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) && hasEnoughSpaceForSeek(widget, widgetType)
+            showSeek.isVisible = showSeekPrefs
+            forwardDelay.isVisible = showSeekPrefs
+            rewindDelay.isVisible = showSeekPrefs
         }
 
         if (!DynamicColors.isDynamicColorAvailable()) {
@@ -161,6 +176,10 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 val newValue = sharedPreferences.getBoolean(key, true)
                 model.widget.value?.showConfigure = newValue
 
+            }
+            "widget_show_seek" -> {
+                val newValue = sharedPreferences.getBoolean(key, true)
+                model.widget.value?.showSeek = newValue
             }
         }
         updateWidgetEntity()

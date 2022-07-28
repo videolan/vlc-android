@@ -59,6 +59,8 @@ import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getPendingIntent
 import org.videolan.vlc.widget.utils.*
+import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetTypeFromSize
+import org.videolan.vlc.widget.utils.WidgetUtils.shouldShowSeek
 import java.util.*
 
 
@@ -353,14 +355,17 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             }
         }
 
-        log(appWidgetId, WidgetLogType.INFO, "hasEnoughSpaceForSeek: ${hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)}")
+        val showSeek = shouldShowSeek(widgetCacheEntry.widget, widgetType)
+        log(appWidgetId, WidgetLogType.INFO, "hasEnoughSpaceForSeek: $showSeek")
         views.setViewVisibility(R.id.progress_round, if (playing) View.VISIBLE else View.GONE)
         views.setViewVisibility(R.id.forward, if (playing) View.VISIBLE else View.INVISIBLE)
         views.setViewVisibility(R.id.backward, if (playing) View.VISIBLE else View.INVISIBLE)
-        views.setViewVisibility(R.id.seek_forward, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
-        views.setViewVisibility(R.id.seek_forward_text, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
-        views.setViewVisibility(R.id.seek_rewind, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
-        views.setViewVisibility(R.id.seek_rewind_text, if (!hasEnoughSpaceForSeek(widgetCacheEntry, widgetType)) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
+        views.setViewVisibility(R.id.seek_forward, if (!showSeek) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
+        views.setViewVisibility(R.id.seek_forward_text, if (!showSeek) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
+        views.setViewVisibility(R.id.seek_rewind, if (!showSeek) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
+        views.setViewVisibility(R.id.seek_rewind_text, if (!showSeek) View.GONE else if (playing) View.VISIBLE else View.INVISIBLE)
+        views.setViewVisibility(R.id.widget_left_space, if (!showSeek) View.VISIBLE else if (playing) View.GONE else View.VISIBLE)
+        views.setViewVisibility(R.id.widget_right_space, if (!showSeek) View.VISIBLE else if (playing) View.GONE else View.VISIBLE)
 
         views.setContentDescription(R.id.seek_rewind, context.getString(R.string.seek_backward_content_description, widgetCacheEntry.widget.rewindDelay.toString()))
         views.setContentDescription(R.id.seek_forward, context.getString(R.string.seek_forward_content_description, widgetCacheEntry.widget.forwardDelay.toString()))
@@ -387,33 +392,6 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             }
         }")
         return views
-    }
-
-    /**
-     * Calculate the [WidgetType] depending on the size
-     *
-     * @param width the widget width
-     * @param height the widget height
-     * @return the [WidgetType] for this size
-     */
-    private fun getWidgetTypeFromSize(width: Int, height: Int) = when {
-        width > 220 && height > 220 -> WidgetType.MACRO
-        width > 220 && height > 72 -> WidgetType.MINI
-        width > 128 && height > 148 -> WidgetType.MICRO
-        else -> WidgetType.PILL
-    }
-
-    /**
-     * Check if the widget has enough space to display the seek icons
-     *
-     * @param widgetCacheEntry the widget cache entry to check the size on
-     * @param widgetType the current [WidgetType]
-     * @return true if the widget has nough space
-     */
-    private fun hasEnoughSpaceForSeek(widgetCacheEntry: WidgetCacheEntry, widgetType: WidgetType) = when (widgetType) {
-        WidgetType.MINI -> widgetCacheEntry.widget.width.dp > widgetCacheEntry.widget.height.dp + 48.dp * 5
-        WidgetType.MACRO -> widgetCacheEntry.widget.width.dp > 48.dp * 5
-        else -> false
     }
 
     /**

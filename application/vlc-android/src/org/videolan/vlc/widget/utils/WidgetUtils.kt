@@ -275,3 +275,41 @@ fun WidgetCacheEntry.generatePillProgressbar(context: Context, progress: Float):
 enum class WidgetType(@LayoutRes val layout: Int) {
     PILL(R.layout.widget_pill), MINI(R.layout.widget_mini), MICRO(R.layout.widget_micro), MACRO(R.layout.widget_macro)
 }
+
+object WidgetUtils {
+    /**
+     * Calculate the [WidgetType] depending on the size
+     *
+     * @param width the widget width
+     * @param height the widget height
+     * @return the [WidgetType] for this size
+     */
+    fun getWidgetTypeFromSize(width: Int, height: Int) = when {
+        width > 220 && height > 220 -> WidgetType.MACRO
+        width > 220 && height > 72 -> WidgetType.MINI
+        width > 128 && height > 148 -> WidgetType.MICRO
+        else -> WidgetType.PILL
+    }
+
+    /**
+     * Check if the widget has enough space to display the seek icons
+     *
+     * @param widget the widget to check the size on
+     * @param widgetType the current [WidgetType]
+     * @return true if the widget has enough space
+     */
+    fun hasEnoughSpaceForSeek(widget: Widget, widgetType: WidgetType) = when (widgetType) {
+        WidgetType.MINI -> widget.width.dp > widget.height.dp + 48.dp * 5
+        WidgetType.MACRO -> widget.width.dp > 48.dp * 5
+        else -> false
+    }
+
+    /**
+     * Check if the widget should show the seek buttons
+     *
+     * @param widget the widget to check the size on
+     * @param widgetType the current [WidgetType]
+     * @return true if the widget has enough space and the setting is set to on
+     */
+    fun shouldShowSeek(widget: Widget, widgetType: WidgetType) = widget.showSeek && hasEnoughSpaceForSeek(widget, widgetType)
+}

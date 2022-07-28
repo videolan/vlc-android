@@ -218,6 +218,12 @@ val migration_30_31 = object:Migration(30, 31) {
     }
 }
 
+val migration_31_32 = object:Migration(31, 32) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE $WIDGET_TABLE_NAME ADD COLUMN show_seek INTEGER NOT NULL DEFAULT 0;")
+    }
+}
+
 @OptIn(DelicateCoroutinesApi::class)
 fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,

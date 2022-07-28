@@ -971,6 +971,7 @@
     <string name="configure_widget">Widget configuration</string>
     <string name="widget_preview">Widget preview</string>
     <string name="widget_forward_delay">Forward time delay</string>
+    <string name="widget_show_seek">Show seek buttons</string>
     <string name="widget_rewind_delay">Backward time delay</string>
     <string name="widget_show_configure">Show configuration icon</string>
     <string name="widget_show_configure_summary">Even if it\'s not shown, you can tap the upper right corner to open the configuration</string>

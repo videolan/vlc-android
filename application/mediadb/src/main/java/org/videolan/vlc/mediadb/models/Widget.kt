@@ -52,5 +52,7 @@ data class Widget(
         @ColumnInfo(name = "opacity")
         var opacity: Int,
         @ColumnInfo(name = "show_configure")
-        var showConfigure: Boolean
+        var showConfigure: Boolean,
+        @ColumnInfo(name = "show_seek")
+        var showSeek: Boolean
 )

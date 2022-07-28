@@ -60,14 +60,21 @@
                 app:cpv_showAlphaSlider="false"
                 android:title="@string/widget_foreground"/>
 
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="widget_show_seek"
+                android:title="@string/widget_show_seek" />
+
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="10"
                 app:key="widget_forward_delay"
+                android:dependency="widget_show_seek"
                 app:title="@string/widget_forward_delay" />
 
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="10"
                 app:key="widget_rewind_delay"
+                android:dependency="widget_show_seek"
                 app:title="@string/widget_rewind_delay" />
 
         <CheckBoxPreference
