@@ -332,7 +332,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         val canSortByFileNameName = (viewModel as SortableModel).canSortByFileNameName()
         menu.menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName
         menu.menu.findItem(R.id.ml_menu_sortby_length).isVisible = (viewModel as SortableModel).canSortByDuration()
-        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = (viewModel as SortableModel).canSortByInsertionDate() || (viewModel as SortableModel).canSortByReleaseDate() || (viewModel as SortableModel).canSortByLastModified()
+        menu.menu.findItem(R.id.ml_menu_sortby_insertion_date).isVisible = (viewModel as SortableModel).canSortByInsertionDate() || (viewModel as SortableModel).canSortByReleaseDate() || (viewModel as SortableModel).canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = (viewModel as SortableModel).canSortByReleaseDate()
         menu.menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = (viewModel as SortableModel).canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
