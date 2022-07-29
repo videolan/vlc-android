@@ -566,6 +566,10 @@
     <string name="permission_onboarding_perm_all">You will be able to auto-discover all your files to play all types of media even weird ones, or compressed files</string>
     <string name="exit_app">Close VLC</string>
     <string name="exit_app_msg">Are you sure you want to quit VLC?</string>
+    <string name="widget_explanation_title">VLC widgets</string>
+    <string name="widget_explanation_size">The widgets come in different sizes and flavors</string>
+    <string name="widget_explanation_resize">To change the widget type, long press it and use the handles to resize it to the size you like</string>
+    <string name="widget_explanation_end">Widgets are heavily customizable. Unleash your creativity and make them look like you!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller track</string>

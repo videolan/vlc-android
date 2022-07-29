@@ -41,6 +41,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.tools.PREF_WIDGETS_TIPS_SHOWN
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.putSingle
@@ -48,6 +49,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.WidgetMiniPlayerConfigureBinding
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.dialogs.WidgetExplanationDialog
 import org.videolan.vlc.gui.helpers.bitmapFromView
 import org.videolan.vlc.gui.preferences.widgets.PreferencesWidgets
 import org.videolan.vlc.gui.preferences.widgets.WIDGET_ID
@@ -115,6 +117,11 @@ class MiniPlayerConfigureActivity : BaseActivity() {
 
         binding.previewPlaying.setOnCheckedChangeListener { _, _ -> updatePreview() }
 
+        if (!settings.getBoolean(PREF_WIDGETS_TIPS_SHOWN, false)) {
+            val widgetExplanationDialog = WidgetExplanationDialog()
+            widgetExplanationDialog.show(supportFragmentManager, "fragment_widget_explanation")
+            settings.putSingle(PREF_WIDGETS_TIPS_SHOWN, true)
+        }
     }
 
     private fun updatePreview() {
@@ -148,10 +155,17 @@ class MiniPlayerConfigureActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.widget_configure_done) {
-            onWidgetContainerClicked()
-            finish()
-            return true
+        when (item.itemId) {
+            R.id.widget_configure_done -> {
+                onWidgetContainerClicked()
+                finish()
+                return true
+            }
+            R.id.widget_info -> {
+                val widgetExplanationDialog = WidgetExplanationDialog()
+                widgetExplanationDialog.show(supportFragmentManager, "fragment_widget_explanation")
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
