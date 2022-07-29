@@ -174,7 +174,7 @@
                         android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
-                        android:src="@drawable/ic_emoji_absent"/>
+                        vlc:srcCompat="@drawable/ic_emoji_absent"/>
 
                 <ImageView
                         android:id="@+id/ml_item_seen"
