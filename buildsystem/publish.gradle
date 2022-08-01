@@ -2,8 +2,8 @@
 group = 'org.videolan.android'
 version = library_version
 
-def siteUrl = 'https://code.videolan.org/videolan/vlc-android/'
-def gitUrl = 'https://code.videolan.org/videolan/vlc-android.git'
+def siteUrl = 'https://code.videolan.org/videolan/libvlcjni/'
+def gitUrl = 'https://code.videolan.org/videolan/libvlcjni.git'
 
 def licenseName = 'GNU Lesser General Public License, version 2.1'
 def licenseUrl = 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html'
