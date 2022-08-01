@@ -763,11 +763,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 dataset.observe(player, player.playlistObserver)
             }
         }
-        if (player.service?.hasPlaylist() == true) hudRightBinding.playlistToggle.setVisible() else hudRightBinding.playlistToggle.setGone()
-        if (::hudBinding.isInitialized) {
-            hudBinding.playlistPrevious.setVisible()
-            hudBinding.playlistNext.setVisible()
-        }
+        if (player.service?.hasPlaylist() == true) {
+            hudRightBinding.playlistToggle.setVisible()
+            if (::hudBinding.isInitialized) {
+                hudBinding.playlistPrevious.setVisible()
+                hudBinding.playlistNext.setVisible()
+            }
+        } else hudRightBinding.playlistToggle.setGone()
         hudRightBinding.playlistToggle.setOnClickListener(player)
         closeButton.setOnClickListener { togglePlaylist() }
         hingeArrowLeft?.setOnClickListener {
