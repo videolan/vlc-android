@@ -284,7 +284,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
         } else if (widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover || widgetCacheEntry.currentCoverInvalidated) {
             widgetCacheEntry.currentCoverInvalidated = false
-            widgetCacheEntry.currentCover = widgetCacheEntry.currentMedia?.artworkMrl ?: settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null)
+            widgetCacheEntry.currentCover = if (service?.isVideoPlaying == false) widgetCacheEntry.currentMedia?.artworkMrl
+                    ?: settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null) else settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null)
             if (!widgetCacheEntry.currentCover.isNullOrEmpty()) {
                 log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId}")
                 runIO {

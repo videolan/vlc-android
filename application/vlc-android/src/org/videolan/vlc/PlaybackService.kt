@@ -1195,7 +1195,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         sendBroadcast(intent)
     }
 
-    private fun updateWidgetState() {
+    fun updateWidgetState() {
         val media = playlistManager.getCurrentMedia()
         val widgetIntents = arrayOf(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE), Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_UPDATE))
         lifecycleScope.launch(Dispatchers.Default) { widgetIntents.forEach { sendWidgetBroadcast(it) } }

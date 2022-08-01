@@ -684,6 +684,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack
                             ?: return
                     val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+                    service?.updateWidgetState()
                     enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(ar).build())
                 } catch (e: IllegalArgumentException) { // Fallback with default parameters
                     enterPictureInPictureMode()
