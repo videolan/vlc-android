@@ -28,15 +28,21 @@ import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 import androidx.paging.toLiveData
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.SortModule
 import org.videolan.vlc.viewmodels.SortableModel
+import kotlin.math.min
 
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val model: SortableModel) : HeaderProvider(),
         SortModule
@@ -70,6 +76,35 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     )
 
     val pagedList by lazy(LazyThreadSafetyMode.NONE) { MLDatasourceFactory().toLiveData(pagingConfig) }
+
+    /**
+     * With pagedLists when a list is over the MEDIALIBRARY_SIZE_LIMIT, media over it won't be set.
+     * This method forces the initialisation of all items, and then loads the media files.
+     * @param context Context
+     * @param pageSizeLambda lambda for the case count in 1..MEDIALIBRARY_PAGE_SIZE
+     * @param loadLambda lambda to load list to service
+     */
+    suspend fun loadPagedList(context: Context, pageSizeLambda: (service: PlaybackService) -> List<MediaWrapper>,
+                              loadLambda: (list: List<MediaWrapper>, service: PlaybackService) -> Unit) {
+        MediaUtils.SuspendDialogCallback(context) { service ->
+            val list =  withContext(Dispatchers.IO) {
+                when (val count = getTotalCount()) {
+                    0 -> listOf()
+                    in 1..MEDIALIBRARY_PAGE_SIZE -> pageSizeLambda(service)
+                    else -> mutableListOf<MediaWrapper>().apply {
+                        var index = 0
+                        while (index < count) {
+                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+                            val page = getPage(pageCount, index)
+                            for (item in page) addAll(item.tracks)
+                            index += pageCount
+                        }
+                    }
+                }
+            }
+            loadLambda(list, service)
+        }
+    }
 
     abstract fun getTotalCount(): Int
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>

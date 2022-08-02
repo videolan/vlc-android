@@ -231,11 +231,11 @@ object TvUtil {
         when (item) {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_AUDIO -> {
-                    val list = withContext(Dispatchers.IO) {
+                    provider.loadPagedList(activity, {
                         (provider.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
-                    }
-                    val position = list.getposition(item)
-                    playAudioList(activity, list, position)
+                    }, { list, _ ->
+                        playAudioList(activity, list, list.getposition(item))
+                    })
                 }
                 MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
@@ -251,11 +251,11 @@ object TvUtil {
                     activity.startActivity(intent)
                 }
                 else -> {
-                    val list = withContext(Dispatchers.IO) {
+                    provider.loadPagedList(activity, {
                         (provider.getAll().toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
-                    }
-                    val position = list.getposition(item)
-                    MediaUtils.openList(activity, list, position)
+                    }, { list, _ ->
+                        MediaUtils.openList(activity, list, list.getposition(item))
+                    })
                 }
             }
             is DummyItem -> when (item.id) {
