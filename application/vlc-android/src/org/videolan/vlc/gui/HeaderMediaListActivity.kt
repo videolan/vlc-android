@@ -509,7 +509,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     override fun onQueryTextSubmit(query: String?) = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText?.length ?: 0 < 3)
+        if (newText?.length  == 0)
             restoreList()
         else
             filter(newText ?: "")

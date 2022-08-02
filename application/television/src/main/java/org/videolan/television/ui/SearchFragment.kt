@@ -62,7 +62,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     override fun getResultsAdapter() = rowsAdapter
 
     private fun queryByWords(words: String?) {
-        if (words == null || words.length < 3) return
+        if (words == null || words.isEmpty()) return
         rowsAdapter.clear()
         if (words.isNotEmpty()) loadRows(words)
     }
@@ -75,7 +75,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     }
 
     private fun loadRows(query: String?) = lifecycleScope.launch {
-        if (query == null || query.length < 3) return@launch
+        if (query == null || query.isEmpty()) return@launch
         val searchAggregate = context?.getFromMl { search(query, Settings.includeMissing) }
         val empty = searchAggregate == null || searchAggregate.isEmpty
         updateEmtyView(empty)

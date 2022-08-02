@@ -135,7 +135,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     override fun onQueryTextChange(filterQueryString: String): Boolean {
         val current = currentFragment
         if (current is Filterable) {
-            if (filterQueryString.length < 3)
+            if (filterQueryString.isEmpty())
                 (current as Filterable).restoreList()
             else
                 (current as Filterable).filter(filterQueryString)

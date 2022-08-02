@@ -22,7 +22,7 @@ open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLi
     protected open suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T>? {
         if (charSequence !== null) initSource()?.let {
             return withContext(Dispatchers.Default) { mutableListOf<T>().apply {
-                val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
+                val queryStrings = charSequence.trim().toString().split(" ")
                 for (item in it) for (query in queryStrings)
                     if (item.title.contains(query, true)) {
                         this.add(item)
