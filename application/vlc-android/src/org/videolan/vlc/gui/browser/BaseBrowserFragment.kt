@@ -41,12 +41,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -102,6 +108,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     protected abstract fun createFragment(): Fragment
     protected abstract fun browseRoot()
+    private var needToRefreshMeta = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +123,19 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         showHiddenFiles = Settings.getInstance(requireContext()).getBoolean("browser_show_hidden_files", false)
         isRootDirectory = defineIsRoot()
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
+        PlaybackService.serviceFlow.onEach {
+            it?.addCallback(object :PlaybackService.Callback {
+                override fun update() { }
+
+                override fun onMediaEvent(event: IMedia.Event) { }
+
+                override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+                    //any event of the playback service will force the media metadata to be reloaded upon future playbacks
+                    needToRefreshMeta = true
+                }
+
+            })
+        }.launchIn(MainScope())
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -373,12 +393,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             handler.sendEmptyMessageDelayed(MSG_SHOW_ENQUEUING, 1000)
             withContext(Dispatchers.IO) {
                 val files = if (viewModel.url?.startsWith("file") == true) viewModel.provider.browseUrl(viewModel.url!!) else viewModel.dataset.getList()
-                for (file in files.filterIsInstance(MediaWrapper::class.java))
-                    if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
-                        mediaLocations.add(file)
-                        if (mw != null && file.equals(mw))
-                            positionInPlaylist = mediaLocations.size - 1
-                    }
+                    for (file in files.filterIsInstance(MediaWrapper::class.java))
+                        if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
+                            mediaLocations.add(getMediaWithMeta(file))
+                            if (mw != null && file.equals(mw))
+                                positionInPlaylist = mediaLocations.size - 1
+                        }
             }
             handler.sendEmptyMessage(MSG_HIDE_ENQUEUING)
             activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist) }
@@ -416,8 +436,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 ?: return false
         if (list.isNotEmpty()) {
             when (item.itemId) {
-                R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
-                R.id.action_mode_file_append -> MediaUtils.appendMedia(activity, list)
+                R.id.action_mode_file_play -> lifecycleScope.launch { MediaUtils.openList(activity, list.map { getMediaWithMeta(it) }, 0) }
+                R.id.action_mode_file_append -> lifecycleScope.launch { MediaUtils.appendMedia(activity, list.map { getMediaWithMeta(it) }) }
                 R.id.action_mode_file_add_playlist -> requireActivity().addToPlaylist(list)
                 R.id.action_mode_file_info -> requireActivity().showMediaInfo(list[0])
                 R.id.action_mode_file_delete -> removeItems(list)
@@ -508,13 +528,15 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
                 if (!Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, false)) {
-                    MediaUtils.openMedia(requireContext(), item)
+                    lifecycleScope.launch {
+                        MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
+                    }
                 } else {
-                    MediaUtils.openList(v.context,
-                        viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
-                            .map { it as MediaWrapper },
-                        position
-                    )
+                    lifecycleScope.launch {
+                            val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
+                                    .map { getMediaWithMeta(it as MediaWrapper) }
+                            MediaUtils.openList(v.context, media, position)
+                        }
                 }
             }
         }
@@ -571,21 +593,38 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
+    /**
+     * Get the media metadata from ML if needed
+     * This is useful in case a playback has already been running since this fragment has been started
+     * As the ML events are not listened to refresh the browser content, it will reload the ML metadata
+     * for this media to ensure the progress (and other metadata) are up to date
+     *
+     * @param mw the [MediaWrapper] to look into
+     * @return a [MediaWrapper] with up to date ML metadata
+     */
+    private suspend fun getMediaWithMeta(mw:MediaWrapper):MediaWrapper {
+        return if (!needToRefreshMeta) mw else requireActivity().getFromMl {
+            getMedia(mw.uri) ?: mw
+        }
+    }
+
     override fun onCtxAction(position: Int, option: Long) {
         val mw = adapter.getItem(position) as? MediaWrapper
                 ?: return
         when (option) {
-            CTX_PLAY -> MediaUtils.openMedia(activity, mw)
+            CTX_PLAY -> lifecycleScope.launch { MediaUtils.openMedia(activity, getMediaWithMeta(mw)) }
             CTX_PLAY_ALL -> {
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 playAll(mw)
             }
-            CTX_APPEND -> MediaUtils.appendMedia(activity, mw)
+            CTX_APPEND -> lifecycleScope.launch {
+                    MediaUtils.appendMedia(activity, getMediaWithMeta(mw))
+            }
             CTX_DELETE -> removeItem(mw)
             CTX_INFORMATION -> requireActivity().showMediaInfo(mw)
-            CTX_PLAY_AS_AUDIO -> {
+            CTX_PLAY_AS_AUDIO -> lifecycleScope.launch {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                MediaUtils.openMedia(activity, mw)
+                MediaUtils.openMedia(activity, getMediaWithMeta(mw))
             }
             CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
