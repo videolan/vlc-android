@@ -1621,7 +1621,7 @@ searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, js
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    const auto query = aml->searchFromPLaylist(id, queryChar);
+    const auto query = aml->searchFromPlaylist(id, queryChar);
     if (query == nullptr)
     {
         env->ReleaseStringUTFChars(filterQuery, queryChar);
@@ -1641,7 +1641,7 @@ searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, js
 jint
 getSearchFromPlaylistCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery) {
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromPLaylist(id, queryChar);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromPlaylist(id, queryChar);
     env->ReleaseStringUTFChars(filterQuery, queryChar);
     return (jint) (query != nullptr ? query->count() : 0);
 }

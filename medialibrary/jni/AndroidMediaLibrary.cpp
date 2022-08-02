@@ -299,7 +299,7 @@ AndroidMediaLibrary::searchAlbumsFromGenre( int64_t genreId, const std::string& 
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::searchFromPLaylist( int64_t playlistId, const std::string& query, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::searchFromPlaylist( int64_t playlistId, const std::string& query, const medialibrary::QueryParameters* params )
 {
     auto playlist = p_ml->playlist(playlistId);
     return playlist == nullptr ? nullptr : playlist->searchMedia(query, params);
