@@ -1,3 +1,13 @@
+Changes between 3.5.0 and 3.5.1 Beta 1:
+------------------
+ * Take a screenshot of your video
+ * Widgets improvements
+ * UPnP client fixes
+ * Playback fixes
+ * UI fixes
+ * Crash fixes
+
+
 Changes between 3.5.0 RC 1 and 3.5.0:
 ------------------
  * Improve the layout for foldable devices
