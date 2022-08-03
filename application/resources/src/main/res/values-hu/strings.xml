@@ -334,6 +334,8 @@
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
     <string name="popup_keepscreen_summary">A képernyő bekapcsolva tartása, ha a felugró megjelenített, akkor is, ha a videó szüneteltetett.</string>
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
+    <string name="enable_video_screenshot">Képernyőkép készítése</string>
+    <string name="enable_video_screenshot_summary">Koppintson 3 ujjal képernyőkép készítéséhez</string>
 
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
@@ -547,6 +549,10 @@
     <string name="permission_onboarding_perm_all">Mindenféle fájlt fel tud kutatni, hogy lejátszhassa az összes típusú médiát, beleértve a furcsa vagy a tömörített fájlokat is</string>
     <string name="exit_app">VLC bezárása</string>
     <string name="exit_app_msg">Biztosan kilép a VLC-ből?</string>
+    <string name="widget_explanation_title">VLC widgetek</string>
+    <string name="widget_explanation_size">A modulok különböző méretűek és stílusúak</string>
+    <string name="widget_explanation_resize">A modul típusának módosításához nyomja hosszan, és használja a fogantyúkat, hogy átméretezze a megfelelő méretre</string>
+    <string name="widget_explanation_end">A modulok nagy mértékben testreszabhatók. Engedje szabadjára a kreativitását, és alakítsa az Önnek megfelelőre.</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Gyorsgörgető sáv</string>
@@ -870,6 +876,8 @@
     <string name="browser_show_missing_media">Hiányzó médiák mutatása</string>
     <string name="browser_show_missing_media_summary">Távoli médiák megjelenítése, még akkor is, ha nincsenek jelen</string>
     <string name="search_prefs">Keresési beállítások</string>
+    <string name="video_match_frame_rate_title">Kijelző képfrissítési sebességének igazítása</string>
+    <string name="video_match_frame_rate_summary">A kijelző képfrissítési sebességének igazítása a médiához. Például egy 24p-s filmnek 24p-s képfrissítéssel kellene futnia.</string>
     <string name="preferred_resolution">Előnyben részesített videófelbontás</string>
     <string name="preferred_resolution_summary">A közvetítések maximális videóminősége, ha alkalmazható, legyen: %s</string>
     <string name="pref_resolution_best_available">Az elérhető legjobb</string>
@@ -952,6 +960,7 @@
     <string name="configure_widget">Modulbeállítások</string>
     <string name="widget_preview">Modul előnézete</string>
     <string name="widget_forward_delay">Előretekerés késleltetése</string>
+    <string name="widget_show_seek">Tekerőgombok megjelenítése</string>
     <string name="widget_rewind_delay">Hátratekerés késleltetése</string>
     <string name="widget_show_configure">Beállítások ikon megjelenítése</string>
     <string name="widget_show_configure_summary">Ha nem jelenik meg, akkor is a jobb felső sarokba koppinthat, hogy megnyissa a beállításokat.</string>
@@ -962,6 +971,7 @@
     <string name="disable_track">Szám letiltása</string>
     <string name="ascending">Emelkedő</string>
     <string name="descending">Csökkenő</string>
+    <string name="screenshot_error">Hiba a képernyőkép készítése közben</string>
 
 
 
