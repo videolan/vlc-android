@@ -8,7 +8,7 @@
     <string name="other">Άλλο</string>
     <string name="sortby">Ταξινόμηση κατά…</string>
     <string name="sortby_name">Όνομα</string>
-    <string name="sortby_filename"> Όνομα αρχείου</string>
+    <string name="sortby_filename">Όνομα αρχείου</string>
     <string name="sortby_artist_name">Όνομα καλλιτέχνη</string>
     <string name="sortby_album_name">Όνομα άλμπουμ</string>
     <string name="sortby_length">Διάρκεια</string>
@@ -118,7 +118,7 @@
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Περιμένετε…</string>
     <string name="nomedia">Δε βρέθηκε κανένα αρχείο πολυμέσων, μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις.</string>
-    <string name="empty_search">Δεν βρέθηκε αντικείμενο για αναζήτηση %s</string>
+    <string name="empty_search">Δεν βρέθηκε στοιχείο για την αναζήτηση %s</string>
     <string name="noplaylist">Δε βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="nosubfolder">Δε βρέθηκε υποφάκελος</string>
     <string name="directorynotfound">Η διαδρομή του φακέλου \'%1$s\' δε βρέθηκε.</string>
@@ -255,7 +255,7 @@
     <string name="revision">Αναθεώρηση</string>
     <string name="about">Σχετικά</string>
     <string name="about_vlc_text">Το VLC για Android™ είναι ένα port του προγράμματος αναπαραγωγής πολυμέσων VLC, του δημοφιλούς προγράμματος αναπαραγωγής πολυμέσων ανοιχτού κώδικα. Η έκδοση Android™ μπορεί να διαβάσει όλα τα αρχεία και τις  μεταδόσεις δικτύου.</string>
-    <string name="authors">Συντάκτες</string>
+    <string name="authors">Δημιουργοί</string>
     <string name="vlc_authors">Δημιουργούς του VLC.</string>
     <string name="is_compiled_by">Μεταγλωττίστηκε από</string>
     <string name="sources">Πηγαίος κώδικας</string>
@@ -334,23 +334,25 @@
     <string name="popup_keepscreen_title">Διατήρηση της οθόνης αναμμένης κατά την αναδυόμενη λειτουργία</string>
     <string name="popup_keepscreen_summary">Πάντα διατήρηση της οθόνης αναμμένης κατά τη διάρκεια αναδυόμενης λειτουργίας, ακόμα και με το βίντεο σε παύση.</string>
     <string name="browser_show_hidden_files_title">Εμφάνιση κρυφών αρχείων</string>
+    <string name="enable_video_screenshot">Λήψη στιγμιότυπου οθόνης</string>
+    <string name="enable_video_screenshot_summary">Πατήστε με 3 δάχτυλα για να τραβήξετε ένα στιγμιότυπο οθόνης</string>
 
     <string name="subtitles_prefs_category">Υπότιτλοι</string>
-    <string name="subtitles_size_title">Μέγεθος υποτίτλων</string>
+    <string name="subtitles_size_title">Μέγεθος υπότιτλων</string>
     <string name="subtitles_size_small">Μικρό</string>
     <string name="subtitles_size_normal">Κανονικό</string>
     <string name="subtitles_size_big">Μεγάλο</string>
     <string name="subtitles_size_huge">Τεράστιο</string>
-    <string name="subtitles_color_title">Χρώμα υποτίτλων</string>
+    <string name="subtitles_color_title">Χρώμα υπότιτλων</string>
     <string name="subtitles_color_white">Λευκό</string>
     <string name="subtitles_color_gray">Γκρι</string>
     <string name="subtitles_color_pink">Ροζ</string>
     <string name="subtitles_color_blue">Μπλε</string>
     <string name="subtitles_color_yellow">Κίτρινο</string>
     <string name="subtitles_color_green">Πράσινο</string>
-    <string name="subtitles_background_title">Υπόβαθρο υποτίτλων</string>
+    <string name="subtitles_background_title">Υπόβαθρο υπότιτλων</string>
     <string name="subtitles_bold_title">Έντονοι υπότιτλοι</string>
-    <string name="subtitles_autoload_title">Αυτόματη φόρτωση υποτίτλων</string>
+    <string name="subtitles_autoload_title">Αυτόματη φόρτωση υπότιτλων</string>
 
     <string name="audio_prefs_category">Ήχος</string>
     <string name="lockscreen_cover_title">Εξώφυλλο στην οθόνη κλειδώματος</string>
@@ -428,11 +430,11 @@
     <string name="auto_rescan_summary">Αυτόματη σάρωση της συσκευής για νέα ή διαγραμμένα αρχεία πολυμέσων κατά την εκκίνηση εφαρμογής</string>
     <string name="dump_media_db">Αντιγραφή βάσης δεδομένων πολυμέσων</string>
     <string name="dump_media_db_summary">Αντιγραφή βάσης δεδομένων στη ρίζα του εσωτερικού χώρου αποθήκευσης</string>
-    <string name="clear_media_db">Καθαρισμός βάσης δεδομένων μέσων</string>
-    <string name="clear_media_database_summary">Καθαρισμός βάσης δεδομένων για αρχικοποίηση</string>
+    <string name="clear_media_db">Εκκαθάριση βάσης δεδομένων μέσων</string>
+    <string name="clear_media_database_summary">Εκκαθάριση βάσης δεδομένων για επανέναρξη</string>
     <string name="clear_app_data">Εκκαθάριση δεδομένων εφαρμογής</string>
     <string name="clear_app_data_summary">Διαγράφει τα δεδομένα του VLC για Android</string>
-    <string name="clear_history">Καθαρισμός ιστορικού</string>
+    <string name="clear_history">Εκκαθάριση ιστορικού</string>
     <string name="clear_history_message">Θα χάσετε το ιστορικό σας, τις τρέχουσες λίστες αναπαραγωγής και τις προόδους σας</string>
     <string name="set_locale">Ορισμός εντοπιότητας</string>
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
@@ -454,7 +456,7 @@
     <string name="debug_logs">Καταγραφές αποσφαλμάτωσης</string>
     <string name="start_logging">Έναρξη καταγραφής</string>
     <string name="stop_logging">Τέλος καταγραφής</string>
-    <string name="clear_log">Απαλοιφή καταγραφής</string>
+    <string name="clear_log">Εκκαθάριση καταγραφής</string>
     <string name="log_service_title">Αρχεία καταγραφής του VLC</string>
     <string name="log_service_text">Άνοιγμα της κονσόλας καταγραφής</string>
     <string name="copy_to_clipboard">Αντιγραφή στο πρόχειρο</string>
@@ -516,10 +518,10 @@
     <string name="widget_name_w">Λευκό γραφικό στοιχείο VLC</string>
     <string name="widget_name_b">Σκούρο γραφικό στοιχείο VLC</string>
     <string name="widget_name_mini_player">Μίνι αναπαραγωγός πολυμέσων VLC</string>
-    <string name="widget_old_text">Ενημερώσαμε τα widgets μας!</string>
-    <string name="widget_old_description_start">Ευχάριστα νέα! Κυκλοφόρησαν βελτιωμένα widgets.\nΠροσφέρουν μεγαλύτερη ανταπόκριση και προσαρμογή</string>
-    <string name="whats_next">Τι έπεται?</string>
-    <string name="widget_old_description_end">Διαπιστώσαμε ότι έχετε ήδη widgets στον εκκινητή σας. Δυστυχώς, δεν είναι συμβατά με τα νέα βελτιωμένα μας.\nΑνάλογα με τον εκκινητή σας, ίσως χρειαστεί να αφαιρέσετε τα παλιά για να τα αντικαταστήσετε.</string>
+    <string name="widget_old_text">Ενημερώσαμε τις μικροεφαρμογές μας!</string>
+    <string name="widget_old_description_start">Ευχάριστα νέα! Κυκλοφόρησαν βελτιωμένες μικροεφαρμογές.\nΠροσφέρουν μεγαλύτερη απόκριση και εξατομίκευση</string>
+    <string name="whats_next">Τι έπεται;</string>
+    <string name="widget_old_description_end">Διαπιστώσαμε ότι έχετε ήδη μικροεφαρμογές στον εκκινητή σας. Δυστυχώς, δεν είναι συμβατές με τις βελτιώσεις μας.\nΑνάλογα με τον εκκινητή σας, ίσως χρειαστεί να τις αντικαταστήσετε με νεότερες.</string>
     <string name="click_here">Κάντε κλικ εδώ για να μάθετε περισσότερα.</string>
     <string name="allow_storage_access_title">Παραχώρηση πρόσβασης στα αρχεία βίντεο και ήχου από τον VLC</string>
     <string name="allow_storage_access_description">Το VLC χρειάζεται παραχώρηση πρόσβασης στα αρχεία πολυμέσων αυτής της συσκευής.</string>
@@ -535,18 +537,22 @@
     <string name="allow_settings_access_brightness_description">Το VLC  σας ζητάει να του επιτρέψετε να μεταβάλλει το επίπεδο φωτεινότητας.</string>
     <string name="allow_draw_overlays_title">Επιτρέψτε το VLC να εμφανίζεται πάνω από άλλες εφαρμογές</string>
     <string name="allow_sdraw_overlays_description">Το VLC σας ζητάει να του επιτρέψετε να παίζει το βίντεο αναδυόμενο πάνω από άλλες εφαρμογές.</string>
-    <string name="allow_pip">Επιτρέψτε στο πρόγραμμα αναπαραγωγής VLC να εκκινήσει το Picture in Picture</string>
-    <string name="allow_pip_description">Το VLC χρειάζεται να εκχωρήσετε αυτήν την άδεια για την εμφάνιση του βίντεό σας σε λειτουργία Picture in Picture.</string>
+    <string name="allow_pip">Επιτρέψτε στο πρόγραμμα αναπαραγωγής VLC να εκκινήσει τη λειτουργία εικόνα-σε-εικόνα.</string>
+    <string name="allow_pip_description">Το VLC χρειάζεται άδεια για την εμφάνιση του βίντεό σας σε λειτουργία εικόνα-σε-εικόνα.</string>
     <string name="permission_ask_again">Παραχώρηση άδειας</string>
     <string name="pick_file">Επιλέξτε ένα αρχείο</string>
     <string name="permission_not_granted">Δεν παραχωρήθηκε άδεια</string>
     <string name="permission_expanation_no_allow">Δε θα μπορείτε να ανακαλύψετε αυτόματα τα αρχεία πολυμέσων σας ούτε να χρησιμοποιήσετε εξωτερικούς υπότιτλους</string>
     <string name="permission_expanation_allow">Θα έχετε τη δυνατότητα αναπαραγωγής μόνο μεταδόσεων ή αρχείων πολυμέσων μέσω δικτύου </string>
-    <string name="permission_onboarding_no_perm">Δεν θα μπορείτε να ανακαλύψετε αυτόματα τα πολυμέσα σας.\nΘα μπορείτε να αναπαράγετε μόνο ροές ή πολυμέσα δικτύου</string>
-    <string name="permission_onboarding_perm_media">Θα μπορείτε μόνο να ανακαλύπτετε αυτόματα τυπικά αρχεία πολυμέσων</string>
-    <string name="permission_onboarding_perm_all">Θα μπορείτε να ανακαλύπτετε αυτόματα όλα τα αρχεία σας για αναπαραγωγή όλων των τύπων πολυμέσων, ακόμα και περίεργα ή συμπιεσμένα αρχεία</string>
+    <string name="permission_onboarding_no_perm">Τα πολυμέσα σας δεν θα ανακαλύπτονται αυτόματα.\nΘα μπορείτε να αναπαράγετε μόνο μεταδόσεις ή πολυμέσα δικτύου</string>
+    <string name="permission_onboarding_perm_media">Θα γίνεται αυτόματη ανακάλυψη μόνο τυπικών αρχείων πολυμέσων</string>
+    <string name="permission_onboarding_perm_all">Θα γίνεται αυτόματη ανακάλυψη όλων των αρχείων σας για αναπαραγωγή, όλων των τύπων πολυμέσων, ακόμα και περίεργα ή συμπιεσμένα αρχεία</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
     <string name="exit_app_msg">Είστε βέβαιοι ότι θέλετε να κλείσετε το VLC;</string>
+    <string name="widget_explanation_title">VLC widgets</string>
+    <string name="widget_explanation_size">Τα widget διατίθενται σε διαφορετικά μεγέθη και γεύσεις</string>
+    <string name="widget_explanation_resize">Για να αλλάξετε τον τύπο του widget, πατήστε το παρατεταμένα και χρησιμοποιήστε τις λαβές για να αλλάξετε το μέγεθός του στο μέγεθος που θέλετε</string>
+    <string name="widget_explanation_end">Τα widgets είναι σε μεγάλο βαθμό προσαρμόσιμα. Απελευθερώστε τη δημιουργικότητά σας και κάντε τους να σας μοιάζουν!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Κομμάτι FastScroller</string>
@@ -555,7 +561,7 @@
     <!-- Plugins -->
     <string name="plugins">Πρόσθετα</string>
     <string name="download_on_device">Λήψη</string>
-    <string name="extension_empty">Κανένα αντικείμενο για εμφάνιση, μετάβαση στις επιλογές του πρόσθετου για να βρείτε κάποιο.</string>
+    <string name="extension_empty">Κανένα στοιχείο για εμφάνιση, μετάβαση στις επιλογές του πρόσθετου για να βρείτε κάποιο.</string>
 
     <string name="opengl_title">Χρήση OpenGL ES2</string>
     <string name="opengl_summary">Από προεπιλογή, γίνεται χρήση του OpenGL ES2 για την αποκωδικοποίηση μέσω λογισμικού και μέσω υλικού όπου απαιτείται (360° βίντεο)</string>
@@ -578,7 +584,7 @@
     <string name="movies">ταινίες</string>
     <string name="videos">βίντεο</string>
     <string name="videos_all">Όλα τα βίντεο</string>
-    <string name="clear_playback_history">Καθαρισμός ιστορικού αναπαραγωγής</string>
+    <string name="clear_playback_history">Εκκαθάριση ιστορικού αναπαραγωγής</string>
     <string name="ml_scanning">Σάρωση για αρχεία πολυμέσων</string>
     <string name="ml_parse_media">Ανάλυση πολυμέσων</string>
     <string name="ml_discovering">Ανακάλυψη</string>
@@ -662,7 +668,7 @@
     <string name="download">Λήψη</string>
     <string name="ctx_player_video_track">Επιλογή κομματιού βίντεο</string>
     <string name="ctx_player_audio_track"> Κομμάτι ήχου</string>
-    <string name="ctx_player_subs_track"> Κομμάτι υποτίτλων</string>
+    <string name="ctx_player_subs_track"> Κομμάτι υπότιτλων</string>
     <string name="ctx_pip_title">Αναδυόμενη αναπαραγωγή</string>
     <string name="device_dialog_title">Εξωτερική συσκευή εισήχθη</string>
     <string name="device_dialog_message">Μόλις συνδέσατε μια νέα συσκευή αποθήκευσης στο TV box σας, θέλετε να την ανοίξετε με το VLC;</string>
@@ -862,7 +868,7 @@
     <string name="warning_stream_speed">Αύξηση της ταχύτητας αναπαραγωγής πάνω από 1 στις μεταδόσεις μπορεί να προκαλέσει τραύλισμα</string>
     <string name="go_to_folder">Περιήγηση γονικού</string>
     <string name="create_shortcut">Δημιουργία συντόμευσης εκκινητή</string>
-    <string name="no_sub_renderer">Δεν υπάρχει υποστήριξη υποτίτλων ακόμη κατά τη μετάδοση</string>
+    <string name="no_sub_renderer">Δεν υπάρχει υποστήριξη υπότιτλων ακόμη κατά τη μετάδοση</string>
     <string name="enqueuing">Φόρτωση των πολυμέσων σας</string>
     <string name="soundfont">Αρχείο MIDI SoundFont</string>
     <string name="soundfont_summary">Επιλέξτε ένα αρχείο SoundFont για αναπαραγωγή κομματιών ήχου midi</string>
@@ -870,6 +876,8 @@
     <string name="browser_show_missing_media">Εμφάνιση πολυμέσων που λείπουν</string>
     <string name="browser_show_missing_media_summary">Εμφάνιση απομακρυσμένων πολυμέσων ακόμη και εάν δεν είναι διαθέσιμα</string>
     <string name="search_prefs">Ρυθμίσεις αναζήτησης</string>
+    <string name="video_match_frame_rate_title">Αντιστοίχιση Ρυθμού Καρέ Οθόνης</string>
+    <string name="video_match_frame_rate_summary">Αντιστοιχίστε το ρυθμό ανανέωσης της οθόνης με το ρυθμό καρέ πολυμέσων. Για παράδειγμα, μια ταινία 24p πρέπει να παίζει σε 24p</string>
     <string name="preferred_resolution">Προτιμώμενη ανάλυση βίντεο</string>
     <string name="preferred_resolution_summary">Η μέγιστη ανάλυση μεταδόσεων, αν αυτή είναι δυνατή, θα είναι: %s</string>
     <string name="pref_resolution_best_available">Βέλτιστη διαθέσιμη</string>
@@ -940,35 +948,37 @@
     <string name="fold_optimize">Βελτιστοποιημένο για αναδιπλούμενες οθόνες</string>
     <string name="foldable">Αναδιπλούμενη οθόνη</string>
     <string name="undo">Αναίρεση</string>
-    <string name="add_server_favorite">Προσθέστε ένα αγαπημένο διακομιστή</string>
-    <string name="widget_theme">Θέμα widget</string>
-    <string name="widget_preferences">Διαμόρφωση widget</string>
-    <string name="material_you">Material You (τραβάει χρώματα από την ταπετσαρία)</string>
-    <string name="palette">Παλέτα (τραβάει χρώματα από το εξώφυλλο πολυμέσων)</string>
+    <string name="add_server_favorite">Προσθήκη ενός αγαπημένου διακομιστή</string>
+    <string name="widget_theme">Θέμα μικροεφαρμογής</string>
+    <string name="widget_preferences">Διαμόρφωση μικροεφαρμογής</string>
+    <string name="material_you">Material You (επηρεάζεται από την ταπετσαρία)</string>
+    <string name="palette">Παλέτα (επηρεάζεται από το εξώφυλλο πολυμέσων)</string>
     <string name="custom">Εξατομικευμένο</string>
     <string name="opacity">Αδιαφάνεια</string>
     <string name="widget_background">Παρασκήνιο</string>
     <string name="widget_foreground">Προσκήνιο</string>
-    <string name="configure_widget">Διαμόρφωση widget</string>
-    <string name="widget_preview">Προεπισκόπηση widget</string>
-    <string name="widget_forward_delay">Προώθηση χρονικής καθυστέρησης</string>
+    <string name="configure_widget">Διαμόρφωση μικροεφαρμογής</string>
+    <string name="widget_preview">Προεπισκόπηση μικροεφαρμογής</string>
+    <string name="widget_forward_delay">Χρονική καθυστέρηση εμπρός</string>
+    <string name="widget_show_seek">Εμφάνιση κουμπιών αναζήτησης</string>
     <string name="widget_rewind_delay">Χρονική καθυστέρηση προς τα πίσω</string>
     <string name="widget_show_configure">Εμφάνιση εικονιδίου διαμόρφωσης</string>
-    <string name="widget_show_configure_summary">Ακόμα κι αν δεν εμφανίζεται, μπορείτε να πατήσετε την επάνω δεξιά γωνία για να ανοίξετε τη διαμόρφωση</string>
-    <string name="seek_backward_content_description">Αναζητήστε %s δευτερόλεπτα προς τα πίσω</string>
-    <string name="seek_forward_content_description">Αναζητήστε %s δευτερόλεπτα προς τα εμπρός</string>
-    <string name="open_vlc">Ανοίξτε το VLC</string>
+    <string name="widget_show_configure_summary">Ακόμη και αν δεν εμφανίζεται, μπορείτε να πατήσετε στην επάνω δεξιά γωνία για να ανοίξετε τη διαμόρφωση</string>
+    <string name="seek_backward_content_description">Ανίχνευση %s δευτερολέπτων προς τα πίσω</string>
+    <string name="seek_forward_content_description">Ανίχνευση %s δευτερολέπτων προς τα εμπρός</string>
+    <string name="open_vlc">Άνοιγμα του VLC</string>
     <string name="playing">Αναπαράγεται</string>
     <string name="disable_track">Απενεργοποίηση κομματιού</string>
     <string name="ascending">Αύξουσα</string>
     <string name="descending">Φθίνουσα</string>
+    <string name="screenshot_error">Σφάλμα κατά τη λήψη του στιγμιότυπου οθόνης</string>
 
 
 
     <!--    accessibility-->
     <string name="talkback_media_content_description">%s - τίτλος: %s - διάρκεια: %s</string>
     <string name="talkback_genre">Είδος: %s</string>
-    <string name="talkback_history_item">Ιστορικό στοιχείου</string>
+    <string name="talkback_history_item">Στοιχείο ιστορικού</string>
     <string name="talkback_playlist">Λίστα αναπαραγωγής: %s</string>
     <string name="talkback_folder">Φάκελος: %s</string>
     <string name="talkback_file">Αρχείο: %s</string>
@@ -977,7 +987,7 @@
     <string name="talkback_duration">Διάρκεια: %s</string>
     <string name="talkback_album">Άλμπουμ: %s</string>
     <string name="talkback_artist">Καλλιτέχνης: %s</string>
-    <string name="talkback_release_date">Κυκλοφόρησε %s</string>
+    <string name="talkback_release_date">Κυκλοφορία %s</string>
     <string name="talkback_video">Βίντεο: %s</string>
     <string name="talkback_stream">Μετάδοση: %s</string>
     <string name="talkback_audio_track">Κομμάτι ήχου: %s</string>
@@ -986,10 +996,10 @@
     <string name="talkback_minutes">λεπτά</string>
     <string name="talkback_seconds">δευτερόλεπτα</string>
     <string name="talkback_list_section">Επικεφαλίδα: %s</string>
-    <string name="talkback_enter_screen">Πλοηγηθείτε στο %s</string>
+    <string name="talkback_enter_screen">Πλοήγηση στο %s</string>
     <string name="talkback_file_size">Μέγεθος αρχείου: %s</string>
     <string name="talkback_open_in_browser">Άνοιγμα στο πρόγραμμα περιήγησης ιστού</string>
-    <string name="talkback_video_player">Πρόγραμμα αναπαραγωγής Βίντεο. Πατήστε για να εμφανιστούν τα στοιχεία ελέγχου. Πατήστε το κουμπί πίσω για να τα αποκρύψετε</string>
+    <string name="talkback_video_player">Αναπαραγωγή βίντεο. Πατήστε για να εμφανιστούν τα στοιχεία ελέγχου. Πατήστε το κουμπί πίσω για να τα αποκρύψετε</string>
     <string name="talkback_video_tracks">Κομμάτια βίντεο</string>
     <string name="talkback_audio_tracks">Κομμάτια ήχου</string>
     <string name="talkback_subtitle_tracks">Κομμάτια υπότιτλων</string>
@@ -999,21 +1009,21 @@
     <string name="talkback_decrease_delay">Μείωση καθυστέρησης</string>
     <string name="talkback_increase_speed">Αύξηση ταχύτητας</string>
     <string name="talkback_decrease_speed">Μείωση ταχύτητας</string>
-    <string name="talkback_subtitle_history">Ιστορικό υποτίτλων</string>
+    <string name="talkback_subtitle_history">Ιστορικό υπότιτλων</string>
     <string name="talkback_language_selection">%s επιλεγμένες γλώσσες</string>
-    <string name="talkback_audio_player_opened">Το πρόγραμμα αναπαραγωγής ήχου άνοιξε</string>
-    <string name="talkback_audio_player_collapsed">Το πρόγραμμα αναπαραγωγής ήχου κατέρρευσε</string>
-    <string name="talkback_audio_player_closed">Το πρόγραμμα αναπαραγωγής ήχου έκλεισε</string>
-    <string name="talkback_audio_player">Πρόγραμμα αναπαραγωγής ήχου. Παίζει αυτήν τη στιγμή: %s</string>
+    <string name="talkback_audio_player_opened">Άνοιξε η αναπαραγωγή ήχου</string>
+    <string name="talkback_audio_player_collapsed">Κατέρρευσε η αναπαραγωγή ήχου</string>
+    <string name="talkback_audio_player_closed">Έκλεισε η αναπαραγωγή ήχου</string>
+    <string name="talkback_audio_player">Αναπαραγωγή ήχου. Τρέχουσα αναπαραγωγή: %s</string>
     <string name="talkback_out_of">%s από %s</string>
     <string name="talkback_track_index">Κομμάτι %s από %s</string>
-    <string name="downloaded">Κατέβηκε</string>
-    <string name="not_downloaded">Δεν κατέβηκε</string>
+    <string name="downloaded">Έγινε λήψη</string>
+    <string name="not_downloaded">Δεν έγινε λήψη</string>
     <string name="downloading">Γίνεται λήψη...</string>
-    <string name="talkback_action_rewind">Πίσω %s δευτερόλεπτα</string>
-    <string name="talkback_action_forward">Αναζητήστε μπροστά %s  δευτερόλεπτα</string>
+    <string name="talkback_action_rewind">Οπισθοχώρηση %s δευτερόλεπτα</string>
+    <string name="talkback_action_forward">Ανίχνευση μπροστά %s δευτερόλεπτα</string>
     <string name="talkback_display_settings">Ρυθμίσεις οθόνης</string>
-    <string name="talkback_already_played">Παίζεται ήδη</string>
+    <string name="talkback_already_played">Έχει αναπαραχθεί</string>
 
 
 </resources>
