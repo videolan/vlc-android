@@ -334,6 +334,8 @@
     <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
     <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popupp visas, även om videon är pausad.</string>
     <string name="browser_show_hidden_files_title">Visa dolda filer</string>
+    <string name="enable_video_screenshot">Ta en skärmdump</string>
+    <string name="enable_video_screenshot_summary">Tryck med 3 fingrar för att ta en skärmdump</string>
 
     <string name="subtitles_prefs_category">Undertexter</string>
     <string name="subtitles_size_title">Undertextstorlek</string>
@@ -547,6 +549,10 @@
     <string name="permission_onboarding_perm_all">Du kommer upptäcka alla dina filer automatiskt för att kunna spela upp alla typer av mediafiler, även de konstiga, eller komprimerade filer</string>
     <string name="exit_app">Avsluta VLC</string>
     <string name="exit_app_msg">Är du säker på att du vill avsluta VLC?</string>
+    <string name="widget_explanation_title">VLC:s widgetar</string>
+    <string name="widget_explanation_size">Widgetar kommer i olika storlekar och varianter</string>
+    <string name="widget_explanation_resize">För att ändra widgettyp håller du ned på den och använder handtagen för att ändra storleken till det du önskar</string>
+    <string name="widget_explanation_end">Widgetar är mycket anpassningsbara. Släpp loss din kreativitet och få de att likna dig!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller-spår</string>
@@ -870,6 +876,8 @@
     <string name="browser_show_missing_media">Visa mediafiler som saknas</string>
     <string name="browser_show_missing_media_summary">Visa avlägsna mediafiler även om de inte är närvarande</string>
     <string name="search_prefs">Sök efter inställningar</string>
+    <string name="video_match_frame_rate_title">Matcha skärmens bildfrekvens</string>
+    <string name="video_match_frame_rate_summary">Matcha skärmens bildfrekvens till mediafilens bildfrekvens. Till exempel bör en film med 24p spelas upp med 24p</string>
     <string name="preferred_resolution">Föredragen videoupplösning</string>
     <string name="preferred_resolution_summary">Maximal videokvalitet för strömmar kommer, där det går, att vara: %s</string>
     <string name="pref_resolution_best_available">Bästa tillgängliga</string>
@@ -952,6 +960,7 @@
     <string name="configure_widget">Konfiguration av widget</string>
     <string name="widget_preview">Förhandsvisning av widget</string>
     <string name="widget_forward_delay">Tidsfördröjning av framåtspolning</string>
+    <string name="widget_show_seek">Visa snabbspolningsknappar</string>
     <string name="widget_rewind_delay">Tidsfördröjning av bakåtspolning</string>
     <string name="widget_show_configure">Visa konfigurationsikon</string>
     <string name="widget_show_configure_summary">Även om den inte visas kan du trycka längst upp till höger för att öppna konfigurationen</string>
@@ -962,6 +971,7 @@
     <string name="disable_track">Inaktivera spår</string>
     <string name="ascending">Stigande</string>
     <string name="descending">Fallande</string>
+    <string name="screenshot_error">Fel uppstod när skärmdumpen skulle tas</string>
 
 
 
