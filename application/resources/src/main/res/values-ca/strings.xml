@@ -334,6 +334,8 @@
     <string name="popup_keepscreen_title">Manté la pantalla engegada en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manté la pantalla oberta mentre es mostra un Pop-Up, encara que el vídeo estigui en pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
+    <string name="enable_video_screenshot">Obtén una instantània</string>
+    <string name="enable_video_screenshot_summary">Feu toc amb 3 dits per obtenir una instantània</string>
 
     <string name="subtitles_prefs_category">Subtítols</string>
     <string name="subtitles_size_title">Mida dels subtítols</string>
@@ -547,6 +549,10 @@
     <string name="permission_onboarding_perm_all">Podreu auto-descobrir tots els vostres fitxers per reproduir qualsevol tipus de fitxer multimèdia, àdhuc els fitxers comprimits</string>
     <string name="exit_app">Tanca el VLC</string>
     <string name="exit_app_msg">Esteu segur que voleu sortir del VLC?</string>
+    <string name="widget_explanation_title">Ginys del VLC</string>
+    <string name="widget_explanation_size">Els ginys tenen diferents mides i sabors</string>
+    <string name="widget_explanation_resize">Per canviar el tipus de giny, premeu una estona i useu els agafadors per ajustar a la mida que us agradi</string>
+    <string name="widget_explanation_end">Els ginys són molt ajustables. Desfermeu la vostra creativitat i feu que se us assemblin!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Pista de DesplaçamentRàpid</string>
@@ -870,6 +876,8 @@
     <string name="browser_show_missing_media">Mostra els multimèdia que falten</string>
     <string name="browser_show_missing_media_summary">Mostra multimèdies distants tot i que no estiguin presents</string>
     <string name="search_prefs">Configuració de cerca</string>
+    <string name="video_match_frame_rate_title">Igualar la velocitat de fotogrames</string>
+    <string name="video_match_frame_rate_summary">Iguala la velocitat de refresc a la velocitat de fotogrames. Per exemple, una pel·lícula de 24p s\'hauria de reproduir a 24p.</string>
     <string name="preferred_resolution">Resolució de vídeo preferida</string>
     <string name="preferred_resolution_summary">La qualitat màxima de vídeo per a fluxos, quan pertoqui, serà: %s</string>
     <string name="pref_resolution_best_available">El millor disponible</string>
@@ -952,6 +960,7 @@
     <string name="configure_widget">Configuració del giny</string>
     <string name="widget_preview">Visualització prèvia del giny</string>
     <string name="widget_forward_delay">Retard de temps endavant</string>
+    <string name="widget_show_seek">Mostra els botons de cerca</string>
     <string name="widget_rewind_delay">Retard de temps enrere</string>
     <string name="widget_show_configure">Mostra la icona de configuració</string>
     <string name="widget_show_configure_summary">Encara que no es vegi, per obrir la configuració podeu fer un toc al racó superior dret</string>
@@ -962,6 +971,7 @@
     <string name="disable_track">Inhabilita la pista</string>
     <string name="ascending">Ascendent</string>
     <string name="descending">Descendent</string>
+    <string name="screenshot_error">S\'ha produït un error mentre s\'obtenia la instantània</string>
 
 
 
