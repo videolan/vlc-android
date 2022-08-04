@@ -43,7 +43,7 @@ ext {
     medialibraryVersion = '0.13.4-eap1'
     minSdkVersion = 17
     targetSdkVersion = 30
-    compileSdkVersion = 31
+    compileSdkVersion = 33
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.7.0'
     appCompatVersion = '1.4.1'

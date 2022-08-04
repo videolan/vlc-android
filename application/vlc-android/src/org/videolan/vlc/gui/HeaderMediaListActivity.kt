@@ -536,7 +536,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         return true
     }
 
-    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+    override fun onMenuItemActionExpand(item: MenuItem): Boolean {
         binding.appbar.setExpanded(false, true)
         audioBrowserAdapter.stopReorder = true
         audioBrowserAdapter.notifyItemRangeChanged(0, audioBrowserAdapter.itemCount, UPDATE_REORDER)
@@ -544,7 +544,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         return true
     }
 
-    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+    override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
         audioBrowserAdapter.stopReorder = false
         audioBrowserAdapter.notifyItemRangeChanged(0, audioBrowserAdapter.itemCount, UPDATE_REORDER)
         ((binding.appbar.layoutParams as CoordinatorLayout.LayoutParams).behavior as ExpandStateAppBarLayoutBehavior).scrollEnabled = true
