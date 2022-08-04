@@ -27,20 +27,20 @@ class FadableImageView : AppCompatImageView {
         alpha = 0f
         animationRunning?.set(true)
         animate().setListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(p0: Animator?) {
+            override fun onAnimationRepeat(p0: Animator) {
             }
 
-            override fun onAnimationEnd(p0: Animator?) {
+            override fun onAnimationEnd(p0: Animator) {
                 animationRunning?.set(false)
                 alpha = 1f
             }
 
-            override fun onAnimationCancel(p0: Animator?) {
+            override fun onAnimationCancel(p0: Animator) {
                 animationRunning?.set(false)
                 alpha = 1f
             }
 
-            override fun onAnimationStart(p0: Animator?) {
+            override fun onAnimationStart(p0: Animator) {
             }
         }).alpha(1f)
     }
