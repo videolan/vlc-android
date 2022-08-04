@@ -73,7 +73,8 @@
 
         <activity
             android:name=".StartActivity"
-            android:theme="@style/Theme.VLC.Transparent.NoUI">
+            android:theme="@style/Theme.VLC.Transparent.NoUI"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -978,6 +979,7 @@
             android:icon="@mipmap/ic_launcher_reporter"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -1034,7 +1036,8 @@
         </activity>
 
         <service android:name=".extensions.ExtensionManagerService"/>
-        <service android:name=".PlaybackService">
+        <service android:name=".PlaybackService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
@@ -1091,7 +1094,8 @@
                     android:resource="@xml/widget_provider_mini"/>
         </receiver>
 
-        <receiver android:name="androidx.media.session.MediaButtonReceiver">
+        <receiver android:name="androidx.media.session.MediaButtonReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON"/>
             </intent-filter>
@@ -1158,6 +1162,7 @@
 
         <service
             android:name=".PreviewVideoInputService"
+            android:exported="false"
             android:permission="android.permission.BIND_TV_INPUT">
             <intent-filter>
                 <action android:name="android.media.tv.TvInputService"/>

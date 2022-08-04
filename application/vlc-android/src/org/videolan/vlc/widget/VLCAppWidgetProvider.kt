@@ -29,10 +29,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
-import androidx.core.content.getSystemService
-import org.videolan.resources.*
-import org.videolan.tools.runIO
-import org.videolan.tools.runOnMainThread
+import org.videolan.resources.buildPkgString
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -64,7 +61,7 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
         val partial = ACTION_WIDGET_INIT != action
         val appCtx = context.applicationContext
         val iVlc = Intent(appCtx, StartActivity::class.java)
-        val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT)
+        val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         views.setOnClickPendingIntent(R.id.widget_container, piVlc)
 
         applyUpdate(context, views, partial)

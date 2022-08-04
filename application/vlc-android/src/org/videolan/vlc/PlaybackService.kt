@@ -235,16 +235,16 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             return when {
                 playlistManager.player.isVideoPlaying() -> {//PIP
                     val notificationIntent = Intent(this, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }
-                    PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 }
                 playlistManager.videoBackground || canSwitchToVideo() && !currentMediaHasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) -> {//resume video playback
                     /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
                     val notificationIntent = Intent(ACTION_REMOTE_SWITCH_VIDEO)
-                    PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 }
                 else -> { /* Show audio player */
                     val notificationIntent = Intent(this, StartActivity::class.java)
-                    PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 }
             }
         }
@@ -958,7 +958,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
 
         mediaButtonIntent.setClass(this, MediaButtonReceiver::class.java)
-        val mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0)
+        val mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
         val mbrName = ComponentName(this, MediaButtonReceiver::class.java)
         val playbackState = PlaybackStateCompat.Builder()
                 .setActions(enabledActions)
