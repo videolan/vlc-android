@@ -500,7 +500,7 @@ object UiTools {
                     .build()
 
             val pinnedShortcutCallbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, pinShortcutInfo)
-            val successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0)
+            val successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent,  PendingIntent.FLAG_IMMUTABLE)
             ShortcutManagerCompat.requestPinShortcut(context, pinShortcutInfo, successCallback.intentSender)
         }
     }

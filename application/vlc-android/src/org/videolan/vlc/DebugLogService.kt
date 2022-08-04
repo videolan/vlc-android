@@ -127,7 +127,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         val debugLogIntent = Intent(this, DebugLogActivity::class.java)
         debugLogIntent.action = "android.intent.action.MAIN"
         debugLogIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        val pi = PendingIntent.getActivity(this, 0, debugLogIntent, 0)
+        val pi = PendingIntent.getActivity(this, 0, debugLogIntent,  PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(this, NotificationHelper.VLC_DEBUG_CHANNEL)
         builder.setContentTitle(resources.getString(R.string.log_service_title))

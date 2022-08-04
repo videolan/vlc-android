@@ -143,13 +143,13 @@ object NotificationHelper {
     private fun buildCustomButtonPendingIntent(ctx: Context, actionId: String): PendingIntent {
         val intent = Intent(CUSTOM_ACTION)
         intent.putExtra(EXTRA_CUSTOM_ACTION_ID, actionId)
-        return PendingIntent.getBroadcast(ctx, actionId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(ctx, actionId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 
     fun createScanNotification(ctx: Context, progressText: String, paused: Boolean, max:Int, progress: Int): Notification {
         val intent = Intent(Intent.ACTION_VIEW).setClassName(ctx, START_ACTIVITY)
         val scanCompatBuilder = NotificationCompat.Builder(ctx, MEDIALIBRRARY_CHANNEL_ID)
-                .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
+                .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
                 .setSmallIcon(R.drawable.ic_notif_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(ctx.getString(R.string.ml_scanning))
@@ -160,7 +160,7 @@ object NotificationHelper {
         scanCompatBuilder.setContentText(progressText)
 
         notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
-        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val playpause = if (paused)
             NotificationCompat.Action(R.drawable.ic_play_notif, ctx.getString(R.string.resume), pi)
         else

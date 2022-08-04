@@ -76,7 +76,7 @@ class TvReceiver : BroadcastReceiver() {
     private fun scheduleRecommendationUpdate(context: Context) {
         val alarmManager = context.applicationContext.getSystemService<AlarmManager>()!!
         val ri = Intent(context, RecommendationsService::class.java)
-        val pi = PendingIntent.getService(context, 0, ri, 0)
+        val pi = PendingIntent.getService(context, 0, ri,  PendingIntent.FLAG_IMMUTABLE)
 
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, INITIAL_DELAY, AlarmManager.INTERVAL_HOUR, pi)
     }

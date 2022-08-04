@@ -212,8 +212,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         val piPlay = context.getPendingIntent(iPlay)
         val piStop = context.getPendingIntent(iStop)
         val piForward = context.getPendingIntent(iForward)
-        val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT)
-        val piConfigure = PendingIntent.getActivity(context, 0, iConfigure, PendingIntent.FLAG_UPDATE_CURRENT)
+        val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val piConfigure = PendingIntent.getActivity(context, 0, iConfigure, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val piSeekForward = context.getPendingIntent(iSeekForward)
         val piSeekBackward = context.getPendingIntent(iSeekBackward)
 
