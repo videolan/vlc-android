@@ -1814,7 +1814,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
             pause()
         } else {
-            if (Settings.videoHudDelay != -1) handler.sendEmptyMessageDelayed(FADE_OUT, 300L)
+            if (Settings.videoHudDelay != -1) handler.sendEmptyMessageDelayed(FADE_OUT, 800L)
             play()
         }
     }
