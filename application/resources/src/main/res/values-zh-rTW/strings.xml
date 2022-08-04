@@ -324,6 +324,8 @@
     <string name="popup_keepscreen_title">在彈出式視窗模式中保持螢幕開啟</string>
     <string name="popup_keepscreen_summary">當彈出式視窗顯示時，即便影片已暫停，也總是保持螢幕開啟。</string>
     <string name="browser_show_hidden_files_title">顯示隱藏檔案</string>
+    <string name="enable_video_screenshot">螢幕截圖</string>
+    <string name="enable_video_screenshot_summary">三指輕點即可擷取螢幕畫面</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -537,6 +539,10 @@
     <string name="permission_onboarding_perm_all">您將可以自動探索您所有的檔案以播放所有類型的媒體，甚至是奇怪的檔案或壓縮檔</string>
     <string name="exit_app">關閉 VLC</string>
     <string name="exit_app_msg">您確定要退出 VLC 嗎？</string>
+    <string name="widget_explanation_title">VLC 小工具</string>
+    <string name="widget_explanation_size">小工具有不同的尺寸與風格</string>
+    <string name="widget_explanation_resize">要變更小工具類型，請長按它並使用其外框調整為您想要的大小</string>
+    <string name="widget_explanation_end">小工具是高度可自訂的。釋放您的創造力，讓它們看起來像您！</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller 軌道</string>
@@ -858,6 +864,8 @@
     <string name="browser_show_missing_media">顯示遺失的媒體</string>
     <string name="browser_show_missing_media_summary">即便不存在也要顯示遠端媒體</string>
     <string name="search_prefs">搜尋設定</string>
+    <string name="video_match_frame_rate_title">符合顯示影格率</string>
+    <string name="video_match_frame_rate_summary">讓顯示更新速率與媒體影格率相符。舉例來說，一部 24p 的電影應該以 24p 播放</string>
     <string name="preferred_resolution">偏好的視訊解析度</string>
     <string name="preferred_resolution_summary">若可用的話，串流的最大視訊品質將為：%s</string>
     <string name="pref_resolution_best_available">最佳可用</string>
@@ -938,6 +946,7 @@
     <string name="configure_widget">小工具設定</string>
     <string name="widget_preview">小工具預覽</string>
     <string name="widget_forward_delay">向前快轉時間延遲</string>
+    <string name="widget_show_seek">顯示快轉按鈕</string>
     <string name="widget_rewind_delay">向後快轉時間延遲</string>
     <string name="widget_show_configure">顯示設定圖示</string>
     <string name="widget_show_configure_summary">即便其沒有顯示，您也可以點擊右上角以開啟設定</string>
@@ -948,6 +957,7 @@
     <string name="disable_track">停用軌道</string>
     <string name="ascending">遞增</string>
     <string name="descending">遞減</string>
+    <string name="screenshot_error">擷取螢幕畫面時發生錯誤</string>
 
 
 
