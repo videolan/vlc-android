@@ -344,7 +344,7 @@
     <string name="enable_android_auto_speed_buttons">Android Auto grojimo greitis</string>
     <string name="enable_android_auto_speed_buttons_summary">Greičio valdiklį rodyti iškylančiame meniu</string>
     <string name="enable_android_auto_seek_buttons">Android Auto prasukimo mygtukai</string>
-    <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus iškylančiame meniu. Prieš įjungdami, pabandykite palaikyti ilgiau nuspaudę vairo mygtukus perėjimui į ankstesnį ir tolesnį kūrinį.</string>
+    <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus iškylančiame meniu. Prieš įjungdami, pabandykite palaikyti ilgiau nuspaudę vairo mygtukus perėjimui į ankstesnį ir tolesnį kūrinį</string>
     <string name="enable_double_tap_seek_title">Vaizdo įrašo prasukimas bakstelėjus du kartus</string>
     <string name="enable_double_tap_seek_summary">Prasukti vaizdo įrašą 10 sekundžių, du kartus bakstelėjus ekrano kraštą</string>
     <string name="enable_double_tap_play_title">Grojimo paleidimas / pristabdymas du kartus bakstelėjus</string>
@@ -354,6 +354,8 @@
     <string name="popup_keepscreen_title">Laikyti ekraną įjungtą, kai rodomas iškylantis langas</string>
     <string name="popup_keepscreen_summary">Visada laikyti ekraną įjungtą tol, kol rodomas iškylantis langas, net jei vaizdo įrašas pristabdytas.</string>
     <string name="browser_show_hidden_files_title">Rodyti slepiamąsias rinkmenas</string>
+    <string name="enable_video_screenshot">Padaryti ekrano kopiją</string>
+    <string name="enable_video_screenshot_summary">Padaryti ekrano kopiją bakstelėjus 3 pirštais</string>
 
     <string name="subtitles_prefs_category">Subtitrai</string>
     <string name="subtitles_size_title">Subtitrų dydis</string>
@@ -394,7 +396,7 @@
     <string name="replaygain_enable">Įjungti garsumo normalizavimą</string>
     <string name="replaygain_enable_summary">Srautai be garsumo valdymo informacijos gali būti tylesni dėl numatytosios garsumo normalizavimo nuostatos</string>
     <string name="replaygain_mode">Garsumo normalizavimo veiksena</string>
-    <string name="replaygain_mode_summary">Takelio veiksenoje srautai su garsumo valdymo informacija grojami tuo pačiu garsumu. Albumo veiksena išsaugo santykinį srauto garsumą tame pačiame albume.</string>
+    <string name="replaygain_mode_summary">Takelio veiksenoje srautai su garsumo valdymo informacija grojami tuo pačiu garsumu. Albumo veiksena išsaugo santykinį srauto garsumą tame pačiame albume</string>
     <string name="replaygain_preamp">Sustiprinti garsumo normalizavimui</string>
     <string name="replaygain_preamp_summary">Leidžia pakeisti numatytąjį tikslinį lygį (89 dB), srautams su garsumo valdymo informacija</string>
     <string name="replaygain_default">Numatytoji garsumo normalizavimo nuostata</string>
@@ -556,7 +558,7 @@
     <string name="allow_draw_overlays_title">Leisti VLC programai iškilti virš kitų programų</string>
     <string name="allow_sdraw_overlays_description">VLC reikia Jūsų leidimo rodyti vaizdo įrašą iškylančiame lange virš kitų programų.</string>
     <string name="allow_pip">Leisti VLC leistuvei groti vaizdo įr. „vaizdo-vaizde“ veiksenoje</string>
-    <string name="allow_pip_description">VLC reikia Jūsų leidimo rodyti vaizdo įrašą „vaizdo-vaizde“ veiksenoje</string>
+    <string name="allow_pip_description">VLC reikia Jūsų leidimo rodyti vaizdo įrašą „vaizdo-vaizde“ veiksenoje.</string>
     <string name="permission_ask_again">Leisti</string>
     <string name="pick_file">Pasirinkti rinkmeną</string>
     <string name="permission_not_granted">Leidimas nesuteiktas</string>
@@ -567,6 +569,10 @@
     <string name="permission_onboarding_perm_all">Galėsite automatiškai žvalgyti visas rinkmenas (netgi suglaudintas) ir leisti visų tipų laikmenas, netgi neaiškias</string>
     <string name="exit_app">Uždaryti VLC</string>
     <string name="exit_app_msg">Ar tikrai norite uždaryti VLC?</string>
+    <string name="widget_explanation_title">VLC valdikliai</string>
+    <string name="widget_explanation_size">Valdikliai būna įvairių dydžių ir atspalvių</string>
+    <string name="widget_explanation_resize">Norėdami pakeisti valdiklio tipą, paspauskite jį ilgėliau ir naudodamiesi rankenėlėmis pakeiskite jo dydį iki norimo dydžio</string>
+    <string name="widget_explanation_end">Valdikliai yra stipriai tinkintini. Išlaisvinkite savo kūrybiškumą ir padarykite juos panašius į Jus!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Greitoji slinktis</string>
@@ -894,6 +900,8 @@
     <string name="browser_show_missing_media">Rodyti trūkstamus kūrinius</string>
     <string name="browser_show_missing_media_summary">Rodyti žiniatinklio kūrinius, net jei jų nėra</string>
     <string name="search_prefs">Ieškoti nuostatose</string>
+    <string name="video_match_frame_rate_title">Sutapatinti ekrano kadrų dažnį</string>
+    <string name="video_match_frame_rate_summary">Sutapatinti ekrano atnaujinimo dažnį su medijos kadrų dažniu. Pavyzdžiui, 24p filmas bus rodomas 24p</string>
     <string name="preferred_resolution">Pageidautina vaizdo raiška</string>
     <string name="preferred_resolution_summary">Didžiausia vaizdo raiška, jei įmanoma, bus: %s</string>
     <string name="pref_resolution_best_available">Pati geriausia</string>
@@ -980,6 +988,7 @@
     <string name="configure_widget">Valdiklio konfigūracija</string>
     <string name="widget_preview">Valdiklio peržiūra</string>
     <string name="widget_forward_delay">Peršokimo „pirmyn“ intervalas</string>
+    <string name="widget_show_seek">Rodyti prasukimo mygtukus</string>
     <string name="widget_rewind_delay">Peršokimo „atgal“ intervalas</string>
     <string name="widget_show_configure">Rodyti konfigūracijos piktogramą</string>
     <string name="widget_show_configure_summary">Net jei ji nerodoma, visada galite bakstelėti viršutinį dešinįjį kampą, kad atidarytumėte konfigūraciją</string>
@@ -990,6 +999,7 @@
     <string name="disable_track">Išjungti takelį</string>
     <string name="ascending">Didėjančiai</string>
     <string name="descending">Mažėjančiai</string>
+    <string name="screenshot_error">Darant ekrano kopiją iškilo klaida</string>
 
 
 
