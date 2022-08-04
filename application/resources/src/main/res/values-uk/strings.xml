@@ -354,6 +354,8 @@
     <string name="popup_keepscreen_title">Зберігати увімкненим екран у режимі вигульків</string>
     <string name="popup_keepscreen_summary">Завжди зберігає увімкненим екран, коли показуються вигульки, навіть при зупинці відео.</string>
     <string name="browser_show_hidden_files_title">Показати приховані файли</string>
+    <string name="enable_video_screenshot">Зробити знімок екрану</string>
+    <string name="enable_video_screenshot_summary">Торкніться трьома пальцями, щоб зробити знімок екрану</string>
 
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
@@ -567,6 +569,10 @@
     <string name="permission_onboarding_perm_all">Ви зможете автоматично знаходити всі свої файли, щоб відтворювати всі типи медіа, навіть дивні, або стиснуті файли</string>
     <string name="exit_app">Закрити VLC</string>
     <string name="exit_app_msg">Ви справді хочете вийти із VLC?</string>
+    <string name="widget_explanation_title">Віджети VLC</string>
+    <string name="widget_explanation_size">Віджети поставляються різними розмірами та кольорами</string>
+    <string name="widget_explanation_resize">Для зміни типу віджета натисніть його та використайте ручки, щоб змінити його розмір до бажаного вам</string>
+    <string name="widget_explanation_end">Віджети важко налаштувати. Розкрийте свій творчий потенціал і зробіть їх схожими на вас!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Доріжка FastScroller</string>
@@ -894,6 +900,8 @@
     <string name="browser_show_missing_media">Показати відсутні медіа</string>
     <string name="browser_show_missing_media_summary">Показувати віддалені медіа навіть якщо вони не присутні</string>
     <string name="search_prefs">Налаштування пошуку</string>
+    <string name="video_match_frame_rate_title">Збіг частоти оновлення кадрів дисплею</string>
+    <string name="video_match_frame_rate_summary">Збіг частоти оновлення кадрів дисплею з частотою оновлення кадрів медіафайлу. Наприклад,  фільм з 24 кадрами буде відтворюватися зі швидкістю 24 кадри.</string>
     <string name="preferred_resolution">Бажана роздільна здатність</string>
     <string name="preferred_resolution_summary">Максимальна якість відео для потоків, коли застосовна, буде: %s</string>
     <string name="pref_resolution_best_available">Найкраща доступна</string>
@@ -980,6 +988,7 @@
     <string name="configure_widget">Конфігурація віджету</string>
     <string name="widget_preview">Перегляд віджету</string>
     <string name="widget_forward_delay">Затримка у часі для відтворення вперед</string>
+    <string name="widget_show_seek">Показати кнопки пошуку</string>
     <string name="widget_rewind_delay">Затримка у часі для відтворення назад</string>
     <string name="widget_show_configure">Показати піктограму налаштування</string>
     <string name="widget_show_configure_summary">Навіть якщо вона не показується, ви можете торкнутися верхнього правого кута, щоб відкрити налаштування</string>
@@ -990,6 +999,7 @@
     <string name="disable_track">Вимкнути доріжку</string>
     <string name="ascending">Зростанням</string>
     <string name="descending">Спаданням</string>
+    <string name="screenshot_error">Помилка під час створення знімка екрану</string>
 
 
 
