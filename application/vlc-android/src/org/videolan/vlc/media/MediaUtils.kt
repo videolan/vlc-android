@@ -187,7 +187,26 @@ object MediaUtils {
     }
 
     fun playTracks(context: Context, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean = false) = context.scope.launch {
-        withContext(Dispatchers.IO) { provider.pagedList }.value?.let { openList(context, it.toList(), position, shuffle) }
+        SuspendDialogCallback(context) {
+            withContext(Dispatchers.IO) {
+                val list = when (val count = provider.getTotalCount()) {
+                    0 -> listOf()
+                    in 1..MEDIALIBRARY_PAGE_SIZE -> provider.pagedList.value ?: listOf()
+                    else -> mutableListOf<MediaWrapper>().apply {
+                        var index = 0
+                        while (index < count) {
+                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+                            val page = provider.getPage(pageCount, index)
+                            for (item in page) addAll(item.tracks)
+                            index += pageCount
+                        }
+                    }
+                }
+                list.takeIf { it.isNotEmpty() }?.let {
+                    openList(context, it, position, shuffle)
+                }
+            }
+        }
     }
 
     fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {
