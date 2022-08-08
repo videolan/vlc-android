@@ -46,7 +46,9 @@ import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.details.MediaListActivity
+import org.videolan.tools.FORCE_PLAY_ALL
 import org.videolan.tools.HttpImageLoader
+import org.videolan.tools.Settings
 import org.videolan.tools.getposition
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
@@ -202,9 +204,13 @@ object TvUtil {
                 }
                 else -> {
                     model.run {
-                        val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }
-                        val position = list.getposition(item)
-                        MediaUtils.openList(activity, list, position)
+                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL, false)) {
+                            MediaUtils.openMedia(activity, item)
+                        } else {
+                            val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }
+                            val position = list.getposition(item)
+                            MediaUtils.openList(activity, list, position)
+                        }
                     }
                 }
             }
