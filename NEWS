@@ -1,3 +1,10 @@
+Changes between 3.5.1 Beta 1 and 3.5.1:
+------------------
+ * Fix UPnP/DLNA files listing
+ * Fix empty notification icons on Android 4
+ * Increase the video controls delay when hitting play
+ * Crash fixes
+
 Changes between 3.5.0 and 3.5.1 Beta 1:
 ------------------
  * Take a screenshot of your video
