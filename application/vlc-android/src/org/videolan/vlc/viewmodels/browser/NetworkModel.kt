@@ -21,17 +21,15 @@
 package org.videolan.vlc.viewmodels.browser
 
 import android.content.Context
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.videolan.vlc.ExternalMonitor
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.NetworkMonitor
 
-class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true, coroutineContextProvider = coroutineContextProvider) {
+class NetworkModel(context: Context, url: String? = null, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, true, coroutineContextProvider = coroutineContextProvider) {
 
     init {
         NetworkMonitor.getInstance(context).connectionFlow.onEach {
@@ -40,10 +38,10 @@ class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boole
         }.launchIn(viewModelScope)
     }
 
-    class Factory(val context: Context, val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return NetworkModel(context.applicationContext, url, showHiddenFiles) as T
+            return NetworkModel(context.applicationContext, url) as T
         }
     }
 }

@@ -99,7 +99,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
     }
 
     override fun setupBrowser() {
-        viewModel = getBrowserModel(TYPE_STORAGE, mrl, showHiddenFiles)
+        viewModel = getBrowserModel(TYPE_STORAGE, mrl)
     }
 
     override fun onStart() {

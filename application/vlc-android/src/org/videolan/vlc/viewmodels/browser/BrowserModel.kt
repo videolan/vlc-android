@@ -49,7 +49,6 @@ open class BrowserModel(
         context: Context,
         val url: String?,
         val type: Long,
-        showHiddenFiles: Boolean,
         private val showDummyCategory: Boolean,
         pickerType: PickerType = PickerType.SUBTITLE,
         coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
@@ -62,9 +61,9 @@ open class BrowserModel(
 
     override val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType)
-        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles)
-        TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory, sort = sort, desc = desc)
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url)
+        TYPE_STORAGE -> StorageProvider(context, dataset, url)
+        else -> FileBrowserProvider(context, dataset, url, showDummyCategory = showDummyCategory, sort = sort, desc = desc)
     }
 
     override val loading = provider.loading
@@ -126,20 +125,16 @@ open class BrowserModel(
         provider.updateShowAllFiles(value)
     }
 
-    fun updateShowHiddenFiles(value: Boolean) {
-        provider.updateShowHiddenFiles(value)
-    }
-
     fun addCustomDirectory(path: String) = DirectoryRepository.getInstance(context).addCustomDirectory(path)
 
     fun deleteCustomDirectory(path: String) = DirectoryRepository.getInstance(context).deleteCustomDirectory(path)
 
     suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
 
-    class Factory(val context: Context, val url: String?, private val type: Long, private val showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true, private val pickerType: PickerType = PickerType.SUBTITLE) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, private val type: Long, private val showDummyCategory: Boolean = true, private val pickerType: PickerType = PickerType.SUBTITLE) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return BrowserModel(context.applicationContext, url, type, showHiddenFiles, showDummyCategory = showDummyCategory, pickerType = pickerType) as T
+            return BrowserModel(context.applicationContext, url, type, showDummyCategory = showDummyCategory, pickerType = pickerType) as T
         }
     }
 
@@ -151,7 +146,7 @@ open class BrowserModel(
     }
 }
 
-fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
-    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, showHiddenFiles)).get(NetworkModel::class.java)
+fun Fragment.getBrowserModel(category: Long, url: String?, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
+    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url)).get(NetworkModel::class.java)
 else
-    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)

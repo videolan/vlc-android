@@ -37,7 +37,6 @@ import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.tools.NetworkMonitor
-import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -67,7 +66,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = getBrowserModel(TYPE_NETWORK, mrl, Settings.showHiddenFiles)
+        viewModel = getBrowserModel(TYPE_NETWORK, mrl)
         if (isRootDirectory) swipeRefreshLayout.isEnabled = false
     }
 

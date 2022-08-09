@@ -99,7 +99,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override var isRootDirectory: Boolean = false
     override val scannedDirectory = false
     override val inCards = false
-    protected var showHiddenFiles: Boolean = false
     protected lateinit var adapter: BaseBrowserAdapter
     protected abstract val categoryTitle: String
 
@@ -473,7 +472,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
                 Settings.getInstance(requireActivity()).putSingle(BROWSER_SHOW_HIDDEN_FILES, item.isChecked)
                 Settings.showHiddenFiles = item.isChecked
-                viewModel.updateShowHiddenFiles(item.isChecked)
+                viewModel.refresh()
                 true
             }
             R.id.ml_menu_scan -> {

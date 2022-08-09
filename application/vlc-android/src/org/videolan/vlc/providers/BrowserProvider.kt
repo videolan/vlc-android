@@ -57,7 +57,7 @@ import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
 
-abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean, var sort:Int, var desc:Boolean) : CoroutineScope, HeaderProvider() {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, var sort:Int, var desc:Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -354,7 +354,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun getFlags(interact : Boolean) : Int {
         var flags = if (interact) MediaBrowser.Flag.Interact else 0
-        if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
+        if (Settings.showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
         return flags
     }
 
@@ -375,11 +375,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     fun updateShowAllFiles(value: Boolean) {
         showAll = value
-        refresh()
-    }
-
-    fun updateShowHiddenFiles(value: Boolean) {
-        showHiddenFiles = value
         refresh()
     }
 

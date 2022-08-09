@@ -107,7 +107,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         localEntry = view.findViewById(R.id.local_browser_entry)
         val storageBrowserAdapter = StorageBrowserAdapter(getBrowserContainer(false))
         localEntry.list.adapter = storageBrowserAdapter
-        localViewModel = getBrowserModel(category = TYPE_STORAGE, url = null, showHiddenFiles = false)
+        localViewModel = getBrowserModel(category = TYPE_STORAGE, url = null)
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
@@ -131,7 +131,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         networkEntry.loading.emptyText = getString(R.string.nomedia)
         val networkAdapter = StorageBrowserAdapter(getBrowserContainer(true))
         networkEntry.list.adapter = networkAdapter
-        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
+        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null)
         networkViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 val filtered = it.filter { item -> item is MediaWrapper && item.uri?.scheme == "smb" }

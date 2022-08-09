@@ -33,7 +33,9 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -106,7 +108,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 requireArguments().getString(KEY_FOLDER)?.let { folder ->
 
                     isLoading = true
-                    val viewModel = getBrowserModel(category = TYPE_FILE, url = folder, showHiddenFiles = false)
+                    val viewModel = getBrowserModel(category = TYPE_FILE, url = folder)
                     if (requireArguments().getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
                         withContext(Dispatchers.IO) {
                             newTracks = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()

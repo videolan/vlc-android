@@ -52,7 +52,7 @@ class FavoritesProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
         scope: CoroutineScope
-) : BrowserProvider(context, dataset, null, false, Medialibrary.SORT_FILENAME, false) {
+) : BrowserProvider(context, dataset, null, Medialibrary.SORT_FILENAME, false) {
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
 
     init {
