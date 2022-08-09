@@ -26,6 +26,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var videoDoubleTapJumpDelay = 10
     var audioJumpDelay = 10
     var audioLongJumpDelay = 20
+    var showHiddenFiles = false
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -45,6 +46,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 10)
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
+        showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
         return prefs
     }
 
@@ -170,6 +172,9 @@ const val PERMISSION_NEXT_ASK = "permission_next_ask"
 const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
 const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
 const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
+
+//files
+const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

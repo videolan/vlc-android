@@ -37,6 +37,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.CTX_FAV_ADD
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.Settings
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
@@ -84,6 +86,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     protected open fun setupBrowser() {
+        showHiddenFiles = Settings.getInstance(requireActivity()).getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
         viewModel = getBrowserModel(category = TYPE_FILE, url = if (!isRootDirectory) mrl else null, showHiddenFiles = showHiddenFiles)
     }
 
