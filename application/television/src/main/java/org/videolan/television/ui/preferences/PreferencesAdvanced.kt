@@ -199,6 +199,24 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 return true
             }
+            "dump_app_db" -> {
+                val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + ROOM_DATABASE)
+                launch {
+                    if ((activity as FragmentActivity).getWritePermission(Uri.fromFile(dst))) {
+                        val copied = withContext(Dispatchers.IO) {
+                            val db = File((activity as FragmentActivity).getDir("db", Context.MODE_PRIVATE).parent!! + "/databases")
+
+                            val files = db.listFiles()?.map { it.path }?.toTypedArray()
+
+                            if (files == null) false else
+                                FileUtils.zip(files, dst.path)
+
+                        }
+                        Toast.makeText(activity, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                    }
+                }
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

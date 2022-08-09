@@ -445,6 +445,7 @@
     <string name="auto_rescan">Auto rescan</string>
     <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
     <string name="dump_media_db">Dump media database</string>
+    <string name="dump_app_db">Dump app database</string>
     <string name="dump_media_db_summary">Copy database to internal storage root</string>
     <string name="clear_media_db">Clear media database</string>
     <string name="clear_media_database_summary">Clears the database to start over</string>

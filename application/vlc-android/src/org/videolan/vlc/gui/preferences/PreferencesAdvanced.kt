@@ -195,6 +195,29 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 return true
             }
+            "dump_app_db" -> {
+                val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + ROOM_DATABASE)
+                lifecycleScope.launch {
+                    if (getWritePermission(Uri.fromFile(dst))) {
+                        val copied = withContext(Dispatchers.IO) {
+                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).parent!! + "/databases")
+
+                            val files = db.listFiles()?.map { it.path }?.toTypedArray()
+
+                            if (files == null) false else
+                                FileUtils.zip(files, dst.path)
+
+                        }
+                        if (copied)
+                            UiTools.snackerConfirm(requireActivity(), getString(R.string.dump_db_succes), confirmMessage = R.string.share, overAudioPlayer = false) {
+                                requireActivity().share(dst)
+                            } else {
+                            Toast.makeText(context, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+                return true
+            }
             "optional_features" -> {
                 loadFragment(PreferencesOptional())
                 return true

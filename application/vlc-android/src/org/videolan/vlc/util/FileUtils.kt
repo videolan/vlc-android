@@ -481,8 +481,8 @@ object FileUtils {
     }
 
     const val BUFFER = 2048
-    fun zip(files: Array<String>, zipFileName: String) {
-        try {
+    fun zip(files: Array<String>, zipFileName: String):Boolean {
+        return try {
             var origin: BufferedInputStream? = null
             val dest = FileOutputStream(zipFileName)
             val out = ZipOutputStream(BufferedOutputStream(
@@ -505,8 +505,10 @@ object FileUtils {
             }
 
             out.close()
+            true
         } catch (e: Exception) {
             e.printStackTrace()
+            false
         }
     }
 
