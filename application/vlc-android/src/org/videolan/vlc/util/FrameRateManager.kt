@@ -6,12 +6,15 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Surface
+import android.view.SurfaceView
+import android.view.Window
+import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
-import org.videolan.vlc.PlaybackService
-import android.view.*
-import androidx.annotation.RequiresApi
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -31,7 +34,11 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
                 //switching mode may cause playback to pause i.e HDMI
                 //wait 2 seconds and resume play, mode switch will have happened by then
                 Handler(Looper.getMainLooper()).postDelayed({
-                    val videoTrack = this@FrameRateManager.service.mediaplayer.currentVideoTrack
+                    val videoTrack = try {
+                        this@FrameRateManager.service.mediaplayer.currentVideoTrack
+                    } catch (e: IllegalStateException) {
+                        null
+                    }
                     if (videoTrack != null) {
                         service.play()
                     }
