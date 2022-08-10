@@ -39,6 +39,7 @@ const val TOUCH_FLAG_DOUBLE_TAP_SEEK = 1 shl 2
 const val TOUCH_FLAG_PLAY = 1 shl 3
 const val TOUCH_FLAG_SWIPE_SEEK = 1 shl 4
 const val TOUCH_FLAG_SCREENSHOT = 1 shl 5
+const val TOUCH_FLAG_SCALE = 1 shl 6
 //Touch Events
 private const val TOUCH_NONE = 0
 private const val TOUCH_VOLUME = 1
@@ -433,11 +434,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
         private var savedScale: MediaPlayer.ScaleType? = null
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+            if (touchControls and TOUCH_FLAG_SCALE != TOUCH_FLAG_SCALE) return false
             return screenConfig.xRange != 0 || player.fov == 0f
         }
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            if (player.fov != 0f && !player.isLocked) {
+            if (player.fov != 0f && !player.isLocked && (touchControls and TOUCH_FLAG_SCALE == TOUCH_FLAG_SCALE)) {
                 val diff = VideoPlayerActivity.DEFAULT_FOV * (1 - detector.scaleFactor)
                 if (player.updateViewpoint(0f, 0f, diff)) {
                     player.fov = (player.fov + diff).coerceIn(MIN_FOV, MAX_FOV)
@@ -448,7 +450,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            if (player.fov == 0f && !player.isLocked) {
+            if (player.fov == 0f && !player.isLocked && (touchControls and TOUCH_FLAG_SCALE == TOUCH_FLAG_SCALE)) {
                 val grow = detector.scaleFactor > 1.0f
                 if (grow && player.currentScaleType != MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     savedScale = player.currentScaleType

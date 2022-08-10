@@ -27,6 +27,12 @@
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
+                android:key="enable_scale_gesture"
+                android:summary="@string/enable_scale_gesture_summary"
+                android:title="@string/enable_scale_gesture_title"
+                app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="true"
                 android:key="enable_double_tap_seek"
                 android:summary="@string/enable_double_tap_seek_summary"
                 android:title="@string/enable_double_tap_seek_title"

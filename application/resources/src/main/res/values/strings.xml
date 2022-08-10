@@ -345,6 +345,8 @@
     <string name="enable_double_tap_play_summary">Double tap on screen center to play or pause</string>
     <string name="enable_swipe_seek_title">Swipe to seek</string>
     <string name="enable_swipe_seek_summary">Swipe you finger across the screen to seek</string>
+    <string name="enable_scale_gesture_title">Two finger zoom</string>
+    <string name="enable_scale_gesture_summary">Zoom in and out with two fingers</string>
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
     <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
     <string name="browser_show_hidden_files_title">Show hidden files</string>
