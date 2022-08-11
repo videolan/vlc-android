@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.collect
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -47,7 +48,10 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
 import org.videolan.tools.isStarted
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.browser.KEY_MEDIA
 import java.io.File
 import java.lang.ref.WeakReference
 import java.net.URI
@@ -375,4 +379,15 @@ val View.scope : CoroutineScope
 
 fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.launchWhenStarted {
     collect() // tail-call
+}
+
+
+fun Fragment.showParentFolder(media: MediaWrapper) {
+    val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
+        type = MediaWrapper.TYPE_DIR
+    }
+    val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
+    intent.putExtra(KEY_MEDIA, parent)
+    intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
+    startActivity(intent)
 }

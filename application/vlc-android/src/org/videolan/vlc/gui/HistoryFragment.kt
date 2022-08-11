@@ -48,6 +48,7 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.HistoryModel
 
 private const val TAG = "VLC/HistoryFragment"
