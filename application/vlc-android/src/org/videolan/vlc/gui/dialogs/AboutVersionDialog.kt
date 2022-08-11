@@ -67,6 +67,8 @@ class AboutVersionDialog : VLCBottomSheetDialogFragment() {
         binding.changelog.text = getString(R.string.changelog).replace("*", "•")
         binding.revision.text = getString(R.string.build_revision)
         binding.vlcRevision.text = getString(R.string.build_vlc_revision)
+        binding.libvlcRevision.text = getString(R.string.build_libvlc_revision)
+        binding.libvlcVersion.text = BuildConfig.LIBVLC_VERSION
         binding.compiledBy.text = getString(R.string.build_host)
     }
 
