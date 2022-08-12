@@ -95,7 +95,7 @@ object ThumbnailsProvider {
             BitmapCache.addBitmapToMemCache(getMediaCacheKey(true, media, width.toString()), bitmap)
             if (hasCache) {
                 media.setThumbnail(thumbPath)
-                BitmapUtil.saveOnDisk(bitmap, thumbPath)
+                if (media.id > 0) BitmapUtil.saveOnDisk(bitmap, thumbPath)
                 media.artworkURL = thumbPath
             }
         } else if (media.id != 0L) {
