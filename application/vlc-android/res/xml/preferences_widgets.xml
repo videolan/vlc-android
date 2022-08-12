@@ -62,6 +62,11 @@
 
         <CheckBoxPreference
                 android:defaultValue="true"
+                android:key="widget_show_cover"
+                android:title="@string/widget_show_cover" />
+
+        <CheckBoxPreference
+                android:defaultValue="true"
                 android:key="widget_show_seek"
                 android:title="@string/widget_show_seek" />
 

@@ -54,5 +54,7 @@ data class Widget(
         @ColumnInfo(name = "show_configure")
         var showConfigure: Boolean,
         @ColumnInfo(name = "show_seek")
-        var showSeek: Boolean
+        var showSeek: Boolean,
+        @ColumnInfo(name = "show_cover")
+        var showCover: Boolean
 )

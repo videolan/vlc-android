@@ -478,6 +478,15 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      * @param widgetCacheEntry the [WidgetCacheEntry] used for the colors
      */
     private fun displayCover(context: Context, views: RemoteViews, playing: Boolean, widgetType: WidgetType, widgetCacheEntry: WidgetCacheEntry) {
+        if (widgetType == WidgetType.MINI && !widgetCacheEntry.widget.showCover) {
+            views.setViewVisibility(R.id.app_icon, View.GONE)
+            views.setViewVisibility(R.id.cover, View.GONE)
+            views.setViewVisibility(R.id.cover_background, View.GONE)
+            views.setViewVisibility(R.id.cover_parent, View.GONE)
+            views.setViewVisibility(R.id.separator, View.GONE)
+
+            return
+        }
         val foregroundColor = widgetCacheEntry.widget.getForegroundColor(context, palette = widgetCacheEntry.palette)
         log(widgetCacheEntry.widget.widgetId, WidgetLogType.INFO, "Bugfix displayCover: widgetType $widgetType /// playing $playing /// foregroundColor $foregroundColor -> ${java.lang.String.format("#%06X", 0xFFFFFF and foregroundColor)}")
         if (!playing) {

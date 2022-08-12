@@ -64,6 +64,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
     private lateinit var foregroundPreference: ColorPreferenceCompat
     private lateinit var lightThemePreference: CheckBoxPreference
     private lateinit var showSeek: CheckBoxPreference
+    private lateinit var showCover: CheckBoxPreference
     private lateinit var forwardDelay: NumberPickerPreference
     private lateinit var rewindDelay: NumberPickerPreference
 
@@ -93,6 +94,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         backgroundPreference = findPreference("background_color")!!
         foregroundPreference = findPreference("foreground_color")!!
         lightThemePreference = findPreference("widget_light_theme")!!
+        showCover = findPreference("widget_show_cover")!!
         showSeek = findPreference("widget_show_seek")!!
         forwardDelay = findPreference("widget_forward_delay")!!
         rewindDelay = findPreference("widget_rewind_delay")!!
@@ -124,6 +126,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             showSeek.isVisible = showSeekPrefs
             forwardDelay.isVisible = showSeekPrefs
             rewindDelay.isVisible = showSeekPrefs
+            showCover.isVisible = widgetType == WidgetType.MINI
         }
 
         if (!DynamicColors.isDynamicColorAvailable()) {
@@ -180,6 +183,10 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             "widget_show_seek" -> {
                 val newValue = sharedPreferences.getBoolean(key, true)
                 model.widget.value?.showSeek = newValue
+            }
+            "widget_show_cover" -> {
+                val newValue = sharedPreferences.getBoolean(key, true)
+                model.widget.value?.showCover = newValue
             }
         }
         updateWidgetEntity()
