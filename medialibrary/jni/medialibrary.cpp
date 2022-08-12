@@ -1449,6 +1449,14 @@ markAsPlayed(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 }
 
 jboolean
+setFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
 setBookmarkName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
@@ -2466,6 +2474,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeRemoveBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)removeBookmark },
     {"nativeRemoveAllBookmarks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeAllBookmarks },
     {"nativeMarkAsPlayed", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)markAsPlayed },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setFavorite },
 };
 
 static JNINativeMethod bookmark_methods[] = {
@@ -2706,7 +2715,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaWrapper.initID,
            ml_fields.MediaWrapper.clazz,
-           "<init>", "(JLjava/lang/String;JFJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZIZ)V");
+           "<init>", "(JLjava/lang/String;JFJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZZIZ)V");
 
     GET_CLASS(ml_fields.HistoryItem.clazz,
               "org/videolan/medialibrary/media/HistoryItem", true);

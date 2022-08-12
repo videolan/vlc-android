@@ -41,11 +41,11 @@ public class MediaWrapperImpl extends MediaWrapper {
     public MediaWrapperImpl(long id, String mrl, long time, float position, long length, int type, String title,
                             String filename, String artist, String genre, String album, String albumArtist,
                             int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                            int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate, boolean isPresent) {
+                            int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, boolean isFavorite, int releaseDate, boolean isPresent) {
         super(id, mrl, time, position, length, type, title, filename, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
-                seen, isThumbnailGenerated, releaseDate, isPresent);
+                seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent);
     }
 
     public MediaWrapperImpl(Uri uri, long time, float position, long length, int type,
@@ -296,6 +296,16 @@ public class MediaWrapperImpl extends MediaWrapper {
         return ret;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeSetFavorite(ml, mId, favorite);
+        return ret;
+    }
+
     private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
     private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
@@ -312,4 +322,5 @@ public class MediaWrapperImpl extends MediaWrapper {
     private native boolean nativeRemoveBookmark(Medialibrary ml, long id, long time);
     private native boolean nativeRemoveAllBookmarks(Medialibrary ml, long id);
     private native boolean nativeMarkAsPlayed(Medialibrary ml, long id);
+    private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 }

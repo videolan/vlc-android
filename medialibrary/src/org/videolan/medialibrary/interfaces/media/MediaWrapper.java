@@ -106,6 +106,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     protected String mTrackID;
     protected String mArtworkURL;
     protected boolean mThumbnailGenerated;
+    protected boolean mFavorite;
     private boolean mIsPresent = true;
 
     protected final Uri mUri;
@@ -145,6 +146,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract boolean removeBookmark(long time);
     public abstract boolean removeAllBookmarks();
     public abstract boolean markAsPlayed();
+    public abstract boolean setFavorite(boolean favorite);
 
     /**
      * Create a new MediaWrapper
@@ -154,7 +156,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public MediaWrapper(long id, String mrl, long time, float position, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate, boolean isPresent) {
+                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, boolean isFavorite, int releaseDate, boolean isPresent) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
@@ -185,6 +187,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
             mDescription = sb.toString();
         defineType();
         mThumbnailGenerated = isThumbnailGenerated;
+        mFavorite = isFavorite;
     }
 
     private String manageVLCMrl(String mrl) {
@@ -636,6 +639,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public boolean isThumbnailGenerated() {
         return mThumbnailGenerated;
+    }
+
+    public boolean isFavorite() {
+        return mFavorite;
     }
 
     @Override

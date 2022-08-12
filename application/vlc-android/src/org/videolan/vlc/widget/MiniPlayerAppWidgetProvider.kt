@@ -439,6 +439,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 0L,
                 0L,
                 true,
+                false,
                 0,
                 true
         )
