@@ -48,7 +48,6 @@ import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeHttpOrHttps
 import java.io.*
-import java.lang.Runnable
 
 object AudioUtil {
     const val TAG = "VLC/AudioUtil"
@@ -214,7 +213,7 @@ object AudioUtil {
 
             // Decode the file (with memory allocation this time)
             cover = BitmapFactory.decodeFile(path, options)
-            BitmapCache.addBitmapToMemCache(path, cover)
+            BitmapCache.addBitmapToMemCache(path.removeFileScheme() + "_$width", cover)
         }
         return cover
     }
