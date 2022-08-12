@@ -184,14 +184,15 @@
                 vlc:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
+        <org.videolan.vlc.gui.view.FocusableTextView
                 android:id="@+id/player_overlay_time"
                 style="@style/VLC.Player.TimeText"
                 android:layout_width="0dp"
-                android:importantForAccessibility="no"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:importantForAccessibility="no"
                 android:nextFocusUp="@+id/ab_repeat_add_marker"
                 android:onClick="@{(v) -> player.toggleTimeDisplay()}"
                 android:text="@{Tools.millisToString(progress.time)}"
@@ -202,15 +203,16 @@
                 vlc:layout_constraintStart_toStartOf="parent" />
 
 
-        <TextView
+        <org.videolan.vlc.gui.view.FocusableTextView
                 android:id="@+id/player_overlay_length"
                 style="@style/VLC.Player.TimeText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="right"
                 android:importantForAccessibility="no"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:nextFocusUp="@+id/ab_repeat_add_marker"
                 android:onClick="@{(v) -> player.toggleTimeDisplay()}"
                 tools:text="56:37"
