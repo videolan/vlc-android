@@ -92,7 +92,7 @@ object ThumbnailsProvider {
             }
         }
         if (bitmap != null) {
-            BitmapCache.addBitmapToMemCache(thumbPath, bitmap)
+            BitmapCache.addBitmapToMemCache(getMediaCacheKey(true, media, width.toString()), bitmap)
             if (hasCache) {
                 media.setThumbnail(thumbPath)
                 BitmapUtil.saveOnDisk(bitmap, thumbPath)

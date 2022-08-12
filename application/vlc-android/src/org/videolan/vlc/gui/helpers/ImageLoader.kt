@@ -27,7 +27,10 @@ import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -74,10 +77,11 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     }
     val isGroup = isMedia && item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER
+    val cacheWidth = if (imageWidth != 0) imageWidth else v.width
     val cacheKey = when {
         isGroup -> "videogroup:${item.title}"
         isFolder -> "folder:${(item as Folder).mMrl.sanitizePath()}"
-        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, imageWidth.toString())
+        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, cacheWidth.toString())
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding, tv = tv, card = card)
