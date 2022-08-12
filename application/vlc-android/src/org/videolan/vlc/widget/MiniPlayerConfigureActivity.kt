@@ -41,10 +41,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.tools.PREF_WIDGETS_TIPS_SHOWN
-import org.videolan.tools.Settings
-import org.videolan.tools.dp
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.WidgetMiniPlayerConfigureBinding
@@ -115,7 +112,11 @@ class MiniPlayerConfigureActivity : BaseActivity() {
                     .commit()
         }
 
-        binding.previewPlaying.setOnCheckedChangeListener { _, _ -> updatePreview() }
+        binding.previewPlaying.isChecked = Settings.getInstance(this).getBoolean(WIDGETS_PREVIEW_PLAYING, true)
+        binding.previewPlaying.setOnCheckedChangeListener { _, checked ->
+            Settings.getInstance(this).putSingle(WIDGETS_PREVIEW_PLAYING, checked)
+            updatePreview()
+        }
 
         if (!settings.getBoolean(PREF_WIDGETS_TIPS_SHOWN, false)) {
             val widgetExplanationDialog = WidgetExplanationDialog()

@@ -177,6 +177,9 @@ const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
 
+//widgets
+const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
+
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
     val tm = context.getSystemService<TelephonyManager>()!!
