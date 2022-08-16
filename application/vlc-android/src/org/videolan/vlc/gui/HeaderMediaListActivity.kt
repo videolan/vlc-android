@@ -476,8 +476,9 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
             withContext(Dispatchers.IO) {
                 for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
-                    itemsRemoved[playlistIndex] = tracks[playlistIndex].id
-                    playlist.remove(playlistIndex - index)
+                    val trueIndex = viewModel.playlist.tracks.indexOf(list[index])
+                    itemsRemoved[trueIndex] = tracks[playlistIndex].id
+                    playlist.remove(trueIndex)
                 }
             }
             var removedMessage = if (indexes.size>1) getString(R.string.removed_from_playlist_anonymous) else getString(R.string.remove_playlist_item,list.first().title)
