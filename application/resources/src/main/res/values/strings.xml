@@ -324,7 +324,9 @@
     <string name="media_seen">Show seen video marker</string>
     <string name="media_seen_summary">Mark a video as seen when you play it until the end</string>
     <string name="force_play_all_summary">Play all videos, starting with the one you clicked on</string>
+    <string name="force_play_all_audio_summary">Play all audio, starting with the one you clicked on</string>
     <string name="force_play_all_title">Video playlist mode</string>
+    <string name="force_play_all_audio_title">Audio playlist mode</string>
     <string name="save_brightness_summary">Keep brightness level between media</string>
     <string name="save_brightness_title">Save brightness level</string>
     <string name="save_audiodelay_summary">Save individual audio delay for each video</string>

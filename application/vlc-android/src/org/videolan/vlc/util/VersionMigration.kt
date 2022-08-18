@@ -39,7 +39,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 7
+private const val CURRENT_VERSION = 8
 
 object VersionMigration {
 
@@ -66,6 +66,9 @@ object VersionMigration {
         }
         if (lastVersion < 7) {
             migrateToVersion7(settings)
+        }
+        if (lastVersion < 8) {
+            migrateToVersion8(settings)
         }
 
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
@@ -176,5 +179,17 @@ object VersionMigration {
         if (repeat != -1) {
             settings.putSingle("video_repeat_mode", repeat)
         }
+    }
+
+    /**
+     * Migrate from having one force_play_all that was labeled as Video Playlist Mode in the settings
+     * but also affected some audio in the browser to two separate settings force_play_all,
+     * historically will continue forcing to play all videos, and force_play_all_audio which will
+     * do the same when playing audio files. Migration to keep the previous value in both settings
+     */
+    private fun migrateToVersion8(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 8: split force_play_all " +
+                "and add force_play_all_audio to separately handle video and audio")
+        settings.putSingle("force_play_all", settings.getBoolean("force_play_all", false))
     }
 }

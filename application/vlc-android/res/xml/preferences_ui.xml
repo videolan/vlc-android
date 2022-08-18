@@ -83,6 +83,12 @@
                 android:title="@string/audio_resume_card_title"
                 android:summary="@string/audio_resume_card_summary"/>
         <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="force_play_all_audio"
+            android:summary="@string/force_play_all_audio_summary"
+            android:title="@string/force_play_all_audio_title"/>
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="lockscreen_cover"
