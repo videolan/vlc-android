@@ -59,7 +59,6 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
 
 private const val TAG = "VLC/MediaParsingService"
-private const val NOTIFICATION_DELAY = 1000L
 
 class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
@@ -362,7 +361,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private suspend fun showNotification(done:Int, scheduled: Int) {
         val currentTime = System.currentTimeMillis()
-        if ((lastNotificationTime == -1L  && done != 0) || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
         lastNotificationTime = currentTime
         val parsing = (done.toFloat() / scheduled.toFloat() * 100F)
         val discovery = withContext(Dispatchers.Default) {
