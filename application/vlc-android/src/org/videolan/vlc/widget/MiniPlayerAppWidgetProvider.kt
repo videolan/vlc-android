@@ -498,10 +498,15 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.app_icon, context.getColoredBitmapFromColor(R.drawable.ic_widget_icon, foregroundColor, iconSize, iconSize))
             views.setViewVisibility(R.id.cover, View.INVISIBLE)
             views.setViewVisibility(R.id.app_icon, View.VISIBLE)
+            views.setViewVisibility(R.id.separator, View.VISIBLE)
+            views.setViewVisibility(R.id.cover_parent, View.VISIBLE)
+
             widgetCacheEntry.currentCover = null
         } else {
             views.setViewVisibility(R.id.app_icon, View.INVISIBLE)
             views.setViewVisibility(R.id.cover, View.VISIBLE)
+            views.setViewVisibility(R.id.separator, View.VISIBLE)
+            views.setViewVisibility(R.id.cover_parent, View.VISIBLE)
         }
     }
 
