@@ -49,7 +49,7 @@ class StoragesMonitor : BroadcastReceiver() {
                             putExtra(DialogActivity.EXTRA_PATH, action.path)
                             putExtra(DialogActivity.EXTRA_UUID, action.uuid)
                             putExtra(DialogActivity.EXTRA_SCAN, isNew)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         }
                         action.ctx.startActivity(intent)
                     }
