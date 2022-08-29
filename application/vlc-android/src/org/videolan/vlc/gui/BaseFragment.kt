@@ -2,6 +2,7 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
@@ -55,10 +56,12 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<SwipeRefreshLayout>(R.id.swipeLayout)?.let {
             swipeRefreshLayout = it
-            val a: TypedArray = requireActivity().obtainStyledAttributes(TypedValue().data, intArrayOf(R.attr.colorPrimary))
+            val a: TypedArray = requireActivity().obtainStyledAttributes(TypedValue().data, intArrayOf(R.attr.colorPrimary, R.attr.background_default))
             val color = a.getColor(0, 0)
+            val bColor = a.getColor(1, Color.WHITE)
             a.recycle()
             it.setColorSchemeColors(color)
+            it.setProgressBackgroundColorSchemeColor(bColor)
         }
         val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
         ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
