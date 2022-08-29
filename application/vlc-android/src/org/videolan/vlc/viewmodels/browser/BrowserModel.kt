@@ -78,8 +78,7 @@ open class BrowserModel(
      */
     fun reSort() {
         viewModelScope.launch {
-            val comp = provider.comparator
-            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) } }
         }
     }
 
@@ -101,8 +100,7 @@ open class BrowserModel(
             desc = if (sort == Medialibrary.SORT_DEFAULT) false else !desc
             provider.sort = sort
             provider.desc = desc
-            val comp = provider.comparator
-            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) } }
             settings.putSingle(sortKey, sort)
             settings.putSingle("${sortKey}_desc", desc)
         }

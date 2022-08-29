@@ -21,6 +21,7 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
+import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
@@ -73,10 +74,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
-    val comparator : Comparator<MediaLibraryItem>
+    private val comparator : Comparator<MediaLibraryItem>?
         get() = when {
             Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> tvDescComp
             Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> tvAscComp
+            url != null && Uri.parse(url)?.scheme == "upnp" -> null
             sort == Medialibrary.SORT_ALPHA && desc -> descComp
             sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
             (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> filenameDescComp
@@ -161,12 +163,22 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             discoveryJob = launch(coroutineContextProvider.Main) { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
             val files = filesFlow(url).mapNotNull { findMedia(it) }.toList().toMutableList()
-            files.apply { this.sortWith(comparator) }
+            sort(files)
             dataset.value = files
             computeHeaders(files)
             parseSubDirectories(files)
         }
         if (url != null ) loading.postValue(false)
+    }
+
+    /**
+     * Sort the files using the comparator. If the comparator is null (UPnP) it keeps the
+     * files order (or reverse it in desc mode)
+     *
+     * @param files the files to sort
+     */
+    fun sort(files: MutableList<MediaLibraryItem>) {
+        comparator?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() }
     }
 
     suspend fun browseUrl(url: String): List<MediaLibraryItem> {
@@ -192,9 +204,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun refreshImpl() {
-        val files = filesFlow().mapNotNull { findMedia(it) }.toList()
-        files.apply { (this as MutableList).sortWith(comparator) }
-        dataset.value = files as MutableList<MediaLibraryItem>
+        val files = filesFlow().mapNotNull { findMedia(it) }.toList() as MutableList<MediaLibraryItem>
+        sort(files)
+        dataset.value = files
         computeHeaders(files)
         parseSubDirectories(files)
         loading.postValue(false)
@@ -303,7 +315,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                             descriptionUpdate.value = Pair(position, it)
                         }
                         directories.addAll(files)
-                        comparator?.let { directories.sortWith(it) }
+                        sort(directories.toMutableList())
                         withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories.toMutableList()) }
                     }
                     directories.clear()
