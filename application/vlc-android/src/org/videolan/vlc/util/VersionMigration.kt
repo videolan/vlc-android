@@ -190,6 +190,12 @@ object VersionMigration {
     private fun migrateToVersion8(settings: SharedPreferences) {
         Log.i(this::class.java.simpleName, "Migration to Version 8: split force_play_all " +
                 "and add force_play_all_audio to separately handle video and audio")
-        settings.putSingle("force_play_all", settings.getBoolean("force_play_all", false))
+        if (settings.contains("force_play_all"))
+            settings.edit {
+                val oldSetting = settings.getBoolean("force_play_all", false)
+                putBoolean(FORCE_PLAY_ALL_VIDEO, oldSetting)
+                putBoolean(FORCE_PLAY_ALL_AUDIO, oldSetting)
+                remove("force_play_all")
+            }
     }
 }
