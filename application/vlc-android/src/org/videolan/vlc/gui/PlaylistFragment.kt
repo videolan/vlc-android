@@ -97,7 +97,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         setupLayoutManager()
 
         playlists.adapter = playlistAdapter
-        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
+        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller_playlist) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }
 

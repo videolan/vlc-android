@@ -43,15 +43,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.HeadersIndex
+import org.videolan.tools.WeakHandler
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.resources.util.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.tools.WeakHandler
 import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
@@ -72,7 +73,8 @@ private const val ITEM_THRESHOLD = 25
 class FastScroller : LinearLayout, Observer<HeadersIndex> {
 
     private var currentHeight: Int = 0
-    private var itemCount: Int = 0
+    private val itemCount: Int
+        get() = recyclerView.adapter?.itemCount ?: 0
     private var fastScrolling: Boolean = false
     private var showBubble: Boolean = false
     private var currentPosition: Int = 0
@@ -99,8 +101,8 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     private val handler = object : WeakHandler<FastScroller>(this) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                HIDE_HANDLE -> hideBubble()
-                HIDE_SCROLLER -> this@FastScroller.visibility = View.INVISIBLE
+                HIDE_HANDLE ->  hideBubble()
+                HIDE_SCROLLER ->  this@FastScroller.visibility = View.INVISIBLE
                 SHOW_SCROLLER -> {
                     if (itemCount < ITEM_THRESHOLD) {
                         return
@@ -228,7 +230,6 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
         visibility = View.INVISIBLE
-        itemCount = recyclerView.adapter!!.itemCount
         if (this::provider.isInitialized) this.provider.liveHeaders.removeObserver(this)
         this.provider = provider
         provider.liveHeaders.observeForever(this)
