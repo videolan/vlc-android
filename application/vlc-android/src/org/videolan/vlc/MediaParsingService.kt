@@ -199,7 +199,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
-        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused)
+        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused, -1, -1)
         startForeground(43, notification)
     }
 
@@ -372,7 +372,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             if (!isActive) return@withContext ""
             if (lastNotificationTime != -1L) {
                 try {
-                    val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused)
+                    val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused, scheduled, done)
                     startForeground(43, notification)
                 } catch (ignored: IllegalArgumentException) {}
                 progressText

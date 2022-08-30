@@ -146,13 +146,14 @@ object NotificationHelper {
         return PendingIntent.getBroadcast(ctx, actionId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    fun createScanNotification(ctx: Context, progressText: String, paused: Boolean): Notification {
+    fun createScanNotification(ctx: Context, progressText: String, paused: Boolean, max:Int, progress: Int): Notification {
         val intent = Intent(Intent.ACTION_VIEW).setClassName(ctx, START_ACTIVITY)
         val scanCompatBuilder = NotificationCompat.Builder(ctx, MEDIALIBRRARY_CHANNEL_ID)
                 .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_notif_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(ctx.getString(R.string.ml_scanning))
+                .setProgress(max, progress, max < 1 || progress < 1)
                 .setAutoCancel(false)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setOngoing(true)
