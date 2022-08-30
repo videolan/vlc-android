@@ -61,7 +61,7 @@
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="false"
-                android:key="force_play_all"
+                android:key="force_play_all_video"
                 android:summary="@string/force_play_all_summary"
                 android:title="@string/force_play_all_title"/>
         <CheckBoxPreference

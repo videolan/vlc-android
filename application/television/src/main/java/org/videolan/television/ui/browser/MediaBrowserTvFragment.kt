@@ -15,7 +15,7 @@ import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.viewmodel.MediaBrowserViewModel
 import org.videolan.television.viewmodel.getMediaBrowserModel
-import org.videolan.tools.FORCE_PLAY_ALL
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -97,7 +97,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         lifecycleScope.launchWhenStarted {
-            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
+            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_VIDEO, true)) {
                 TvUtil.playMedia(requireActivity(), item as MediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)

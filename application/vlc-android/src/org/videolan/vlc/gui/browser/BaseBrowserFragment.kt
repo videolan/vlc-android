@@ -526,7 +526,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
-                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_VIDEO) FORCE_PLAY_ALL else FORCE_PLAY_ALL_AUDIO
+                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_VIDEO) FORCE_PLAY_ALL_VIDEO else FORCE_PLAY_ALL_AUDIO
                 if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, false)) {
                     lifecycleScope.launch {
                         MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))

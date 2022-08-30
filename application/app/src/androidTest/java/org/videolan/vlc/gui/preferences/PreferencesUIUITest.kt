@@ -10,7 +10,6 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.onPreferenceRow
 import org.videolan.vlc.util.*
 
@@ -104,7 +103,7 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
     @Test
     fun checkVideoPlaylistMode() {
-        val key = FORCE_PLAY_ALL
+        val key = FORCE_PLAY_ALL_VIDEO
 
         checkToggleWorks(key, settings)
     }
