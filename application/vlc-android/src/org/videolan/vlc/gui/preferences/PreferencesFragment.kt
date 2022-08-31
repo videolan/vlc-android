@@ -28,15 +28,18 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentActivity
+import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.tools.PLAYBACK_HISTORY
-import org.videolan.tools.RESULT_RESTART
+import org.videolan.resources.*
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.dialogs.ConfirmAudioPlayQueueDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.util.Permissions
@@ -57,9 +60,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findPreference<Preference>("extensions_category")?.isVisible = BuildConfig.DEBUG
@@ -117,6 +117,43 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                 activity?.setResult(RESULT_RESTART)
                 return true
             }
+            AUDIO_RESUME_PLAYBACK -> {
+
+                val audioResumePref = findPreference<CheckBoxPreference>(AUDIO_RESUME_PLAYBACK)
+                if (audioResumePref?.isChecked == false) {
+                    val dialog = ConfirmAudioPlayQueueDialog()
+                    dialog.show((activity as FragmentActivity).supportFragmentManager, ConfirmAudioPlayQueueDialog::class.simpleName)
+                    dialog.setListener {
+                        Settings.getInstance(requireActivity()).edit()
+                                .remove(KEY_AUDIO_LAST_PLAYLIST)
+                                .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                                .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
+                                .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
+                                .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
+                                .remove(KEY_CURRENT_AUDIO)
+                                .remove(KEY_CURRENT_MEDIA)
+                                .remove(KEY_CURRENT_MEDIA_RESUME)
+                                .apply()
+                        val activity = activity
+                        activity?.setResult(RESULT_RESTART)
+                        audioResumePref.isChecked = false
+                    }
+
+                    audioResumePref.isChecked = true
+                }
+                return true
+            }
+            VIDEO_RESUME_PLAYBACK -> {
+                Settings.getInstance(requireActivity()).edit()
+                        .remove(KEY_MEDIA_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                        .remove(KEY_CURRENT_MEDIA_RESUME)
+                        .remove(KEY_CURRENT_MEDIA)
+                        .apply()
+                val activity = activity
+                activity?.setResult(RESULT_RESTART)
+                return true
+            }
             else -> return super.onPreferenceTreeClick(preference)
         }
         return true
@@ -128,6 +165,12 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
             "video_action_switch" -> if (!AndroidUtil.isOOrLater && findPreference<ListPreference>(key)?.value == "2"
                     && !Permissions.canDrawOverlays(activity))
                 Permissions.checkDrawOverlaysPermission(activity)
+            PLAYBACK_HISTORY -> {
+                if (sharedPreferences.getBoolean(key, true)) {
+                    findPreference<CheckBoxPreference>(AUDIO_RESUME_PLAYBACK)?.isChecked = true
+                    findPreference<CheckBoxPreference>(VIDEO_RESUME_PLAYBACK)?.isChecked = true
+                }
+            }
         }
     }
 }

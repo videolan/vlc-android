@@ -211,6 +211,11 @@
 
     <string name="playback_history_title">Playback history</string>
     <string name="playback_history_summary">Save all media played in History section</string>
+    <string name="video_resume_playback_title">Video play queue history</string>
+    <string name="video_resume_playback_summary">Allow saving the video play queue to resume later</string>
+    <string name="audio_resume_playback_title">Audio play queue history</string>
+    <string name="audio_resume_playback_warning">Disabling the audio play queue history may lead to some behavior issues.\nAfter disabling it you may not be able to resume the playback from:\n\n\t- a  bluetooth device\n\t- the widget\n\t- the media notification</string>
+    <string name="audio_resume_playback_summary">Allow saving the audio play queue to resume later</string>
     <string name="playback_speed_title">Save Playback Speed</string>
     <string name="playback_speed_summary">Keep playback speed between medias</string>
 

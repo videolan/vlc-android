@@ -615,9 +615,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             return
         }
-        settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
-        settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
-        if (isAudio) {
+        val saveAudioPlayQueue = settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)
+        val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
+        if (!isAudio && saveVideoPlayQueue) {
+            settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
+            settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
+        }
+        if (isAudio && saveAudioPlayQueue) {
+            settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
+            settings.putSingle(KEY_CURRENT_AUDIO, media.location)
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artist ?: "")
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
@@ -633,8 +639,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
             for (mw in list) locations.append(" ").append(mw.uri.toString())
             //We save a concatenated String because putStringSet is APIv11.
-            settings.putSingle(if (isAudio) KEY_AUDIO_LAST_PLAYLIST else KEY_MEDIA_LAST_PLAYLIST, locations.toString().trim())
-            settings.putSingle(KEY_MEDIA_LAST_PLAYLIST_RESUME, locations.toString().trim())
+            if (isAudio) {
+                if (settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) {
+                    settings.putSingle(KEY_MEDIA_LAST_PLAYLIST_RESUME, locations.toString().trim())
+                    settings.putSingle(KEY_AUDIO_LAST_PLAYLIST, locations.toString().trim())
+                }
+            } else {
+                if (settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)) {
+                    settings.putSingle(KEY_MEDIA_LAST_PLAYLIST_RESUME, locations.toString().trim())
+                    settings.putSingle(KEY_MEDIA_LAST_PLAYLIST, locations.toString().trim())
+                }
+            }
         }
     }
 
@@ -821,7 +836,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             //we reached the end. The next proposed media should be the first of the list
             if (reset) {
                 val media = getMediaList()[0]
-                putString(KEY_CURRENT_AUDIO, media.location)
+                if(audio && settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) putString(KEY_CURRENT_AUDIO, media.location)
             }
         }
     }

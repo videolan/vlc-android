@@ -601,6 +601,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         if (PlaylistManager.showAudioPlayer.value == true) return@launchWhenStarted
         val song = settings.getString(KEY_CURRENT_AUDIO, null) ?: return@launchWhenStarted
         val media = getFromMl { getMedia(song.toUri()) } ?: return@launchWhenStarted
+        if (!settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) return@launchWhenStarted
         val title = media.title
         resumeCard = Snackbar.make(getSnackAnchorView()
                 ?: appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
