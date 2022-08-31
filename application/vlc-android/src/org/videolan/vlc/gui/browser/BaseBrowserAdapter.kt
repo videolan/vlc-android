@@ -134,6 +134,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val vh = holder as SeparatorViewHolder
             vh.binding.title = dataset[position].title
         }
+        itemFocusChanged(position, false, (holder as MediaViewHolder).bindingContainer)
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
@@ -148,6 +149,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val value = payloads[0] as Int
             if (value == UPDATE_SELECTION) holder.selectView(multiSelectHelper.isSelected(position))
         }
+        itemFocusChanged(position, false, (holder as MediaViewHolder).bindingContainer)
     }
 
     private fun onBindMediaViewHolder(vh: MediaViewHolder, position: Int) {
@@ -164,6 +166,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
+        itemFocusChanged(position, false, vh.bindingContainer)
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
@@ -190,7 +193,18 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
         open fun onMoreClick(v: View) {}
 
+        open fun onBanClick(v: View) {}
+
     }
+
+    /**
+     * Listener for the item focus. For now it's only used on TV to manage the ban icon visibility
+     *
+     * @param position the item position
+     * @param hasFocus true if the item has the focus
+     * @param bindingContainer the [BrowserItemBindingContainer] to be used
+     */
+    open fun itemFocusChanged(position: Int, hasFocus: Boolean, bindingContainer: BrowserItemBindingContainer) {}
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
@@ -206,6 +220,14 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             if (this@BaseBrowserAdapter is FilePickerAdapter) {
                 bindingContainer.itemIcon.isFocusable = false
             }
+
+
+            val focusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                itemFocusChanged(layoutPosition, hasFocus, bindingContainer)
+            }
+
+            bindingContainer.banIcon.onFocusChangeListener = focusChangeListener
+            bindingContainer.container.onFocusChangeListener = focusChangeListener
         }
 
         override fun selectView(selected: Boolean) {
@@ -240,6 +262,11 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val position = layoutPosition
             if (position < dataset.size && position >= 0)
                 browserContainer.onCtxClick(v, position, dataset[position])
+        }
+
+        override fun onBanClick(v: View) {
+            val position = layoutPosition
+            browserContainer.onLongClick(v, position, dataset[position])
         }
 
         override fun onLongClick(v: View): Boolean {

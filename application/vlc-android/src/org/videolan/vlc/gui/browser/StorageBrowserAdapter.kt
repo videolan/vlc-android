@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.browser
 import android.content.Context
 import android.net.Uri
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,9 +36,11 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.containsPath
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
@@ -66,6 +69,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             if (!storagePath.endsWith("/")) storagePath += "/"
             if (storage.title.isNullOrBlank()) storage.title = title
             vh.bindingContainer.setItem(storage)
+            vh.bindingContainer.setIsTv(AndroidDevices.isTv)
             updateJob?.join()
             if (updateJob?.isCancelled == true) return@launch
             val hasContextMenu = customDirsLocation.contains(storagePath) && !multiSelectHelper.inActionMode
@@ -82,6 +86,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
                 hasDiscoveredChildren(storagePath) -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
                 else -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
+            if(AndroidDevices.isTv && !browserContainer.isRootDirectory) vh.bindingContainer.banIcon.visibility = View.VISIBLE
             vh.bindingContainer.setCheckEnabled(!browserContainer.scannedDirectory)
         }
     }
@@ -93,6 +98,32 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
                 holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
             }
         } else super.onBindViewHolder(holder, position, payloads)
+    }
+
+    /**
+     * Manages the item visibility on focus changes
+     *
+     * @param position the item position
+     * @param hasFocus true if the item has focus
+     * @param bindingContainer the [BrowserItemBindingContainer] associated with the item
+     */
+
+    override fun itemFocusChanged(position: Int, hasFocus: Boolean, bindingContainer: BrowserItemBindingContainer) {
+        if (!AndroidDevices.isTv) return
+        if (browserContainer.isRootDirectory) return
+        if (position < 0 || position > itemCount - 1) return
+        val uri = (getItem(position) as Storage).uri.toString()
+        val banned = MedialibraryUtils.isBanned(uri, bannedFolders)
+        val context = bindingContainer.container.context
+        val bannedParent = banned && !MedialibraryUtils.isStrictlyBanned(uri, bannedFolders)
+        val alpha = when {
+            banned || bannedParent -> 1F
+            hasFocus -> 1F
+            else ->0F
+        }
+
+        bindingContainer.banIcon.animate().alpha(alpha)
+        bindingContainer.banIcon.setImageDrawable( ContextCompat.getDrawable(context, if (banned || bannedParent) R.drawable.ic_banned else R.drawable.ic_ban))
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {

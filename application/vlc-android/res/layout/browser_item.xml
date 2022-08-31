@@ -54,6 +54,10 @@
         <variable
                 name="bgColor"
                 type="int" />
+
+        <variable
+                name="isTv"
+                type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,6 +68,7 @@
             android:id="@+id/browser_container"
             android:contentDescription="@{TalkbackUtil.INSTANCE.getDir(context, item, favorite)}"
             android:focusable="true"
+            android:nextFocusRight="@+id/item_ban"
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
             android:minHeight="48dp"
@@ -122,6 +127,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="marquee"
+                android:enabled="@{!isBanned}"
                 android:lineSpacingMultiplier="1.1"
                 android:marqueeRepeatLimit="1"
                 android:scrollHorizontally="true"
@@ -130,9 +136,8 @@
                 android:textColor="?attr/list_title"
                 android:textSize="16sp"
                 app:ellipsizeMode="@{true}"
-                android:enabled="@{!isBanned}"
                 app:layout_constraintBottom_toTopOf="@+id/text"
-                app:layout_constraintEnd_toStartOf="@+id/item_more"
+                app:layout_constraintEnd_toStartOf="@+id/item_ban"
                 app:layout_constraintStart_toEndOf="@+id/item_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
@@ -144,14 +149,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:enabled="@{!isBanned}"
                 android:maxLines="1"
                 android:textColor="?attr/list_subtitle"
                 android:textSize="12sp"
-                android:enabled="@{!isBanned}"
                 android:visibility="@{TextUtils.isEmpty(item.description) &amp;&amp; !isBanned ? View.GONE : View.VISIBLE, default=gone}"
-                app:browserDescription="@{isBannedParent ? @string/banned_parent : isBanned ? @string/banned : item.description}"
+                app:browserDescription="@{isBannedParent ? @string/banned_parent : isBanned ? isTv ? @string/banned_tv : @string/banned : item.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/item_more"
+                app:layout_constraintEnd_toStartOf="@+id/item_ban"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/title"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:text="Empty"
@@ -171,6 +177,28 @@
                 android:contentDescription="@string/more_actions"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_more"
+                tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_ban"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:padding="2dp"
+                android:alpha="0"
+                android:contentDescription="@string/more_actions"
+                android:onClick="@{holder::onBanClick}"
+                android:nextFocusLeft="@+id/browser_container"
+                android:nextFocusRight="@+id/browser_container"
+                android:nextFocusUp="@+id/browser_container"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_more"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_ban"
                 tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

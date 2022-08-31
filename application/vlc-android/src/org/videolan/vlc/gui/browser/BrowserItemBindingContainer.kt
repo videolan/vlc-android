@@ -106,6 +106,12 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         }
     }
 
+    fun setIsTv(isTv:Boolean) {
+        when (binding) {
+            is BrowserItemBinding -> binding.isTv = isTv
+        }
+    }
+
     fun setHolder(holder: BaseBrowserAdapter.ViewHolder<ViewDataBinding>) {
         when (binding) {
             is CardBrowserItemBinding -> binding.holder = holder
@@ -117,6 +123,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     var title: TextView
     var itemIcon: ImageView
     var browserCheckbox: ThreeStatesCheckbox
+    var banIcon: ImageView
     var text: TextView
     var container: View
     var moreIcon: ImageView
@@ -131,6 +138,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
                 browserCheckbox = binding.browserCheckbox
                 moreIcon = binding.itemMore
                 container = binding.browserContainer
+                banIcon = binding.itemBan
             }
             is BrowserItemBinding -> {
                 text = binding.text
@@ -139,6 +147,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
                 browserCheckbox = binding.browserCheckbox
                 moreIcon = binding.itemMore
                 container = binding.browserContainer
+                banIcon = binding.itemBan
             }
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
