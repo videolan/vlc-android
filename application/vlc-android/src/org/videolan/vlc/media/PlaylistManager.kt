@@ -585,7 +585,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private fun loadMediaMeta(media: MediaWrapper) {
-        if (media.id == 0L) return
         if (player.canSwitchToVideo()) {
             val savedDelay = media.getMetaLong(MediaWrapper.META_AUDIODELAY)
             val globalDelay = Settings.getInstance(AppContextProvider.appContext).getLong(AUDIO_DELAY_GLOBAL, 0L)
