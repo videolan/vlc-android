@@ -353,7 +353,6 @@
     <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
     <string name="browser_show_hidden_files_title">Show hidden files</string>
     <string name="enable_video_screenshot">Take a screenshot</string>
-    <string name="enable_video_screenshot_summary">Tap with 3 fingers to take a screenshot</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
@@ -995,6 +994,10 @@
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="screenshot_error">Error while taking the screenshot</string>
+    <string name="disabled">Disabled</string>
+    <string name="enable_screenshot_gesture">Tap with 3 fingers</string>
+    <string name="enable_screenshot_button">Show the screenshot button</string>
+    <string name="enable_screenshot_button_and_gesture">Button and gesture</string>
 
 
 

@@ -563,6 +563,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 player.updateNavStatus()
                 setListeners(true)
                 initPlaylistUi()
+                updateScreenshotButton()
                 if (foldingFeature != null) manageHinge()
             } else if (::hudBinding.isInitialized) {
                 hudBinding.progress = service.playlistManager.player.progress
@@ -749,6 +750,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private fun applyVerticalMargin(view: View, margin: Int) = (view.layoutParams as ConstraintLayout.LayoutParams).apply {
         bottomMargin = margin
         view.layoutParams = this
+    }
+
+    fun updateScreenshotButton() {
+        hudRightBinding.playerScreenshot.visibility =  if (Settings.getInstance(player).getString(SCREENSHOT_MODE, "0") in arrayOf("1", "3")) View.VISIBLE else View.GONE
+        hudRightBinding.playerScreenshot.setOnClickListener(player)
     }
 
     private fun initPlaylistUi() {

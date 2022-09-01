@@ -400,6 +400,19 @@
         <item>240</item>
     </string-array>
 
+    <string-array name="video_screenshot">
+        <item>@string/disabled</item>
+        <item>@string/enable_screenshot_button</item>
+        <item>@string/enable_screenshot_gesture</item>
+        <item>@string/enable_screenshot_button_and_gesture</item>
+    </string-array>
+    <string-array name="video_screenshot_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="opengl_list">
         <item>@string/opengl_automatic</item>
         <item>@string/opengl_on</item>

@@ -39,7 +39,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 8
+private const val CURRENT_VERSION = 9
 
 object VersionMigration {
 
@@ -69,6 +69,10 @@ object VersionMigration {
         }
         if (lastVersion < 8) {
             migrateToVersion8(settings)
+        }
+
+        if (lastVersion < 9) {
+            migrateToVersion9(settings)
         }
 
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
@@ -196,6 +200,20 @@ object VersionMigration {
                 putBoolean(FORCE_PLAY_ALL_VIDEO, oldSetting)
                 putBoolean(FORCE_PLAY_ALL_AUDIO, oldSetting)
                 remove("force_play_all")
+            }
+    }
+
+    /**
+     * Migrate the video screenshot control setting from a boolean
+     * to a multiple entry value
+     */
+    private fun migrateToVersion9(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 9: migrate the screenshot setting to a multiple entry value")
+        if (settings.contains("enable_screenshot_gesture"))
+            settings.edit {
+                val oldSetting = settings.getBoolean("enable_screenshot_gesture", false)
+                if (oldSetting) putString(SCREENSHOT_MODE, "2")
+                remove("enable_screenshot_gesture")
             }
     }
 }

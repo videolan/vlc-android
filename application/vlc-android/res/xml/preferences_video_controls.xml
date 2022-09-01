@@ -55,10 +55,12 @@
                 android:dependency="enable_double_tap_seek"
                 app:key="video_double_tap_jump_delay"
                 app:title="@string/video_double_tap_jump_delay" />
-        <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="enable_screenshot_gesture"
-                android:summary="@string/enable_video_screenshot_summary"
+        <ListPreference
+                android:defaultValue="0"
+                android:key="screenshot_mode"
+                android:summary="%s"
+                android:entries="@array/video_screenshot"
+                android:entryValues="@array/video_screenshot_values"
                 android:title="@string/enable_video_screenshot"
                 app:singleLineTitle="false"                />
 
