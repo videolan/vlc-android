@@ -25,6 +25,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,12 +34,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
+import org.videolan.tools.dp
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ChapterListItemBinding
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
-import java.util.*
 
 class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedListener {
 
@@ -49,6 +51,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
     }
 
     private lateinit var chapterList: RecyclerView
+    private lateinit var nestedScrollView: NestedScrollView
 
     private var service: PlaybackService? = null
 
@@ -58,6 +61,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_select_chapter, container)
         chapterList = view.findViewById(R.id.chapter_list)
+        nestedScrollView = view.findViewById(R.id.chapter_nested_scroll)
 
         return view
     }
@@ -82,10 +86,17 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
 
         val adapter = ChapterAdapter(chapterData, service?.chapterIdx, this)
 
-        chapterList.layoutManager = LinearLayoutManager(requireActivity())
+        chapterList.layoutManager = object : LinearLayoutManager(activity, VERTICAL, false) {
+            override fun onLayoutCompleted(state: RecyclerView.State?) {
+                super.onLayoutCompleted(state)
+                service?.chapterIdx?.let { index ->
+                    //we cannot scroll the recyclerview as its height is wrap_content. We scroll the nestedScrollView instead
+                    nestedScrollView.smoothScrollTo(0, 48.dp * index)
+                }
+            }
+        }
+        ViewCompat.setNestedScrollingEnabled(chapterList, false)
         chapterList.adapter = adapter
-
-
     }
 
     override fun onChapterSelected(position: Int) {
