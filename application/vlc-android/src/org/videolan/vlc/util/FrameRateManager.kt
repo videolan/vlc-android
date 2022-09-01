@@ -11,7 +11,6 @@ import android.view.SurfaceView
 import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -44,9 +43,15 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
             }
         }
 
-        val displayManager = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-        displayManager.registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
+        getDisplayManager().registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
     }
+
+    /**
+     * Retrieve the [DisplayManager]
+     *
+     * @return the current [DisplayManager]
+     */
+    private fun getDisplayManager() = (context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager)
 
     fun matchFrameRate(surfaceView: SurfaceView, window: Window) {
         /* automatic frame rate switching for displays/HDMI
@@ -85,8 +90,6 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
         } else {
             //detect if a non-seamless refresh rate switch is about to happen
             var seamless = false
-            val androidDisplayManager: DisplayManager =
-                    context.getSystemService(AppCompatActivity.DISPLAY_SERVICE) as DisplayManager
             display?.mode?.alternativeRefreshRates?.let { refreshRates ->
                 for (rate in refreshRates) {
                     if ((videoFrameRate.toString().startsWith(rate.toString())) || (rate.toString().startsWith(videoFrameRate.toString())) || rate % videoFrameRate == 0F) {
@@ -99,7 +102,7 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
             if (seamless) {
                 //switch will be seamless
                 surface.setFrameRate(videoFrameRate, Surface.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE, Surface.CHANGE_FRAME_RATE_ALWAYS)
-            } else if (!seamless && (androidDisplayManager.matchContentFrameRateUserPreference == DisplayManager.MATCH_CONTENT_FRAMERATE_ALWAYS)) {
+            } else if (!seamless && (getDisplayManager().matchContentFrameRateUserPreference == DisplayManager.MATCH_CONTENT_FRAMERATE_ALWAYS)) {
                 //switch will be non seamless, check if user has opted in for this at the OS level
                 //TODO: only included this here because Android guide makes it sound like seamless-behavior includes stuff like HDMI switching
                 //may have to remove this block since we intend to switch only if it will be seamless
