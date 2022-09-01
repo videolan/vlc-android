@@ -19,31 +19,30 @@ import java.math.RoundingMode
 
 private const val TAG = "VLC/FrameRateMatch"
 private const val SHORT_VIDEO_LENGTH = 300000
+
 class FrameRateManager(var context: Context, var service: PlaybackService) {
 
-    init {
-        // listen for display change and resume play
-        // TODO: check if display change is because of frame rate mode switch
-        val displayListener = object : DisplayManager.DisplayListener {
-            override fun onDisplayAdded(displayId: Int) = Unit
-            override fun onDisplayRemoved(displayId: Int) = Unit
-            override fun onDisplayChanged(displayId: Int) {
-                //switching mode may cause playback to pause i.e HDMI
-                //wait 2 seconds and resume play, mode switch will have happened by then
-                Handler(Looper.getMainLooper()).postDelayed({
+
+    // listen for display change and resume play
+    private val displayListener = object : DisplayManager.DisplayListener {
+        override fun onDisplayAdded(displayId: Int) = Unit
+        override fun onDisplayRemoved(displayId: Int) = Unit
+        override fun onDisplayChanged(displayId: Int) {
+            //switching mode may cause playback to pause i.e HDMI
+            //wait 2 seconds and resume play, mode switch will have happened by then
+            Handler(Looper.getMainLooper()).postDelayed({
                     val videoTrack = try {
                         this@FrameRateManager.service.mediaplayer.currentVideoTrack
                     } catch (e: IllegalStateException) {
                         null
                     }
-                    if (videoTrack != null) {
-                        service.play()
-                    }
-                }, 2000)
-            }
+                if (videoTrack != null) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Call play.")
+                    service.play()
+                }
+            }, 2000)
+            getDisplayManager().unregisterDisplayListener(this)
         }
-
-        getDisplayManager().registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
     }
 
     /**
@@ -71,15 +70,16 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
 
     @RequiresApi(Build.VERSION_CODES.R)
     fun setFrameRateR(videoFrameRate: Float, surface: Surface) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Optimal frame rate will be set by Android system")
+        if (BuildConfig.DEBUG) Log.d(TAG, "setFrameRateR: Optimal frame rate will be set by Android system")
 
         //Android 11 does not support Frame Rate Strategy
         surface.setFrameRate(videoFrameRate, Surface.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE)
+        getDisplayManager().registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun setFrameRateS(videoFrameRate: Float, surface: Surface) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Optimal frame rate will be set by Android system")
+        if (BuildConfig.DEBUG) Log.d(TAG, "setFrameRateS: Optimal frame rate will be set by Android system")
 
         //on Android 12 and up supports Frame Rate Strategy
         //for short video less than 5 minutes, only change frame rate if seamless
@@ -102,11 +102,13 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
             if (seamless) {
                 //switch will be seamless
                 surface.setFrameRate(videoFrameRate, Surface.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE, Surface.CHANGE_FRAME_RATE_ALWAYS)
+                getDisplayManager().registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
             } else if (!seamless && (getDisplayManager().matchContentFrameRateUserPreference == DisplayManager.MATCH_CONTENT_FRAMERATE_ALWAYS)) {
                 //switch will be non seamless, check if user has opted in for this at the OS level
                 //TODO: only included this here because Android guide makes it sound like seamless-behavior includes stuff like HDMI switching
                 //may have to remove this block since we intend to switch only if it will be seamless
                 surface.setFrameRate(videoFrameRate, Surface.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE, Surface.CHANGE_FRAME_RATE_ALWAYS)
+                getDisplayManager().registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
             }
         }
     }
@@ -144,6 +146,7 @@ class FrameRateManager(var context: Context, var service: PlaybackService) {
                 // set frame rate
                 if (modeToUse != currentMode) {
                     window.attributes.preferredDisplayModeId = modeToUse.modeId
+                    getDisplayManager().registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
                 }
             }
         }
