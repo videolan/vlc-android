@@ -49,12 +49,12 @@
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
-    <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
+    <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
+    <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
     <string name="confirm_delete_message">Cette décision est permanente et ne peut être annulée.</string>
-    <string name="confirm_delete_album">Supprimer l\'album  « %1$s » ?</string>
-    <string name="confirm_delete_several_media">Supprimer ces %1$d médias ?</string>
+    <string name="confirm_delete_album">Supprimer l\'album  « %1$s » ?</string>
+    <string name="confirm_delete_several_media">Supprimer ces %1$d médias ?</string>
     <string name="confirm_delete_folder">Supprimer le dossier « %1$s » ainsi que son contenu ?</string>
     <string name="confirm_delete_folders">Supprimer ces %1$s dossiers et leurs contenus ?</string>
     <string name="confirm_delete_files">Supprimer ces %1$s fichiers ?</string>
@@ -214,6 +214,11 @@
 
     <string name="playback_history_title">Historique de lecture</string>
     <string name="playback_history_summary">Sauvegarder tous les médias joués dans la section  « Historique »</string>
+    <string name="video_resume_playback_title">Historique de la file d\'attente des vidéos</string>
+    <string name="video_resume_playback_summary">Permet de sauvegarder la file d\'attente de lecture des vidéos pour la reprendre plus tard</string>
+    <string name="audio_resume_playback_title">Historique de la file d\'attente de lecture audio</string>
+    <string name="audio_resume_playback_warning">La désactivation de l\'historique de la file d\'attente de lecture audio peut entraîner certains problèmes de comportement.\nAprès l\'avoir désactivée, il se peut que vous ne puissiez pas reprendre la lecture à partir de : \n\n\t- un périphérique Bluetooth\n\t- le widget\n\t- la notification de média</string>
+    <string name="audio_resume_playback_summary">Permet de sauvegarder la file d\'attente de lecture audio pour la reprendre plus tard</string>
     <string name="playback_speed_title">Enregistrer la vitesse de lecture</string>
     <string name="playback_speed_summary">Maintenir la vitesse de lecture entre les médias</string>
 
@@ -320,7 +325,9 @@
     <string name="media_seen">Afficher le marqueur de vidéo vue</string>
     <string name="media_seen_summary">Marquer une vidéo comme vue lorsque vous la regardez jusqu\'à la fin</string>
     <string name="force_play_all_summary">Jouer toutes les vidéos en commençant par celle sélectionnée</string>
+    <string name="force_play_all_audio_summary">Lire tous les médias audio, en commençant par celui sur lequel vous avez cliqué.</string>
     <string name="force_play_all_title">Mode liste de lecture vidéo</string>
+    <string name="force_play_all_audio_title">Mode de la liste de lecture audio</string>
     <string name="save_brightness_summary">Maintenir le niveau de luminosité entre les médias</string>
     <string name="save_brightness_title">Sauvegarder le niveau de luminosité</string>
     <string name="save_audiodelay_summary">Enregistrer le décalage audio pour chaque vidéo</string>
@@ -341,9 +348,12 @@
     <string name="enable_double_tap_play_summary">Double appui sur le centre de l\'écran pour lire ou mettre en pause</string>
     <string name="enable_swipe_seek_title">Balayer pour chercher</string>
     <string name="enable_swipe_seek_summary">Faites glisser votre doigt sur l\'écran pour chercher</string>
+    <string name="enable_scale_gesture_title">Zoom avec deux doigts</string>
+    <string name="enable_scale_gesture_summary">Zoomer et dézoomer avec deux doigts</string>
     <string name="popup_keepscreen_title">Maintenir l\'écran allumé en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Maintenir l\'écran allumé en mode Pop-Up, y compris lorsque la vidéo est en pause</string>
     <string name="browser_show_hidden_files_title">Afficher les fichiers cachés</string>
+    <string name="enable_video_screenshot">Prendre une capture d\'écran</string>
 
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
@@ -436,7 +446,8 @@
     <string name="advanced_prefs_category">Avancé</string>
     <string name="auto_rescan">Réanalyser automatiquement</string>
     <string name="auto_rescan_summary">Analyser automatiquement au démarrage de l\'application, les médias ajoutés ou supprimés sur l\'appareil</string>
-    <string name="dump_media_db">Exporter la base de données de médias</string>
+    <string name="dump_media_db">Exporter la base de données des médias</string>
+    <string name="dump_app_db">Exporter la base de données de l\'application</string>
     <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="clear_media_database_summary">Efface la base de données pour recommencer à zéro</string>
@@ -557,6 +568,10 @@
     <string name="permission_onboarding_perm_all">Vous pourrez découvrir tous vos fichiers pour jouer tout type de médias même les types inhabituels ou les fichiers compressés</string>
     <string name="exit_app">Fermer VLC</string>
     <string name="exit_app_msg">Voulez-vous vraiment quitter VLC ?</string>
+    <string name="widget_explanation_title">Widgets VLC</string>
+    <string name="widget_explanation_size">Les widgets existent en différentes tailles et variétés.</string>
+    <string name="widget_explanation_resize">Pour modifier le type de widget, appuyez longuement dessus et utilisez les poignées pour le redimensionner à la taille qui vous convient.</string>
+    <string name="widget_explanation_end">Les widgets sont largement personnalisables. Libérez votre créativité et faites en sorte qu\'ils vous ressemblent !</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">indicateur de défilement rapide</string>
@@ -576,7 +591,7 @@
     <string name="network_shared_folders">Dossiers partagés</string>
     <string name="encryption_warning">Avertissement, le chiffrement n\'est pas disponible pour cette version d\'Android, le mot de passe sera stocké dans un espace privé mais de manière non chiffrée</string>
     <string name="store_password">Enregistrer le mot de passe</string>
-    <string name="add_to_playlist">Ajouter à la liste de lecture</string>
+    <string name="add_to_playlist">Ajouter à une liste de lecture</string>
     <string name="popup_playback_title">Lire la vidéo dans une fenêtre popup</string>
     <string name="popup_playback">Lecture dans une fenêtre popup</string>
     <string name="popup_expand">Maximiser la vidéo</string>
@@ -866,7 +881,7 @@
     <string name="video_hud_timeout">Lecteur vidéo controle le délai de masquage</string>
     <string name="video_hud_timeout_summary">%ss</string>
     <string name="remove_from_history">Retirer de l\'historique</string>
-    <string name="prefersmbv1">Préfère SMB 1</string>
+    <string name="prefersmbv1">Préférer SMB 1</string>
     <string name="prefersmbv1_summary">Décochez ce paramètre si vous avez des difficultés à naviguer sur votre serveur SMB</string>
     <string name="apply_to_all">Appliquer à toutes les vidéos</string>
     <string name="audio_delay_global">Délai audio défini à %sms pour toutes les vidéos</string>
@@ -882,6 +897,8 @@
     <string name="browser_show_missing_media">Afficher les médias manquants</string>
     <string name="browser_show_missing_media_summary">Montrer les médias distants même s\'ils ne sont pas présents.</string>
     <string name="search_prefs">Paramètres de recherche</string>
+    <string name="video_match_frame_rate_title">Ajustez à la fréquence de rafraîchissement de l\'écran</string>
+    <string name="video_match_frame_rate_summary">Ajustez la fréquence de rafraîchissement de l\'écran à la fréquence d\'images du média. Par exemple, un film en 24ips doit être affiché en 24ips.</string>
     <string name="preferred_resolution">Résolution vidéo préférée</string>
     <string name="preferred_resolution_summary">La qualité vidéo maximale pour les flux, le cas échéant, sera : %s</string>
     <string name="pref_resolution_best_available">Le meilleur possible</string>
@@ -928,6 +945,7 @@
     <string name="video_double_tap_jump_delay">Délai par double appui</string>
     <string name="video_key_jump_delay">Délai ou temporisation des touches de navigation</string>
     <string name="banned">Dossier interdit (appui long pour changer)</string>
+    <string name="banned_tv">Dossier banni</string>
     <string name="banned_parent">Interdit par le dossier parent</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Cet élément est déjà dans cette liste de lecture.</item>
@@ -966,6 +984,8 @@
     <string name="configure_widget">Configuration du widget</string>
     <string name="widget_preview">Aperçu du widget</string>
     <string name="widget_forward_delay">Délai d\'avance</string>
+    <string name="widget_show_seek">Afficher les boutons de positionnement</string>
+    <string name="widget_show_cover">Montrer la pochette</string>
     <string name="widget_rewind_delay">Délai de retour</string>
     <string name="widget_show_configure">Afficher l\'icône de configuration</string>
     <string name="widget_show_configure_summary">Même s\'il n\'est pas affiché, vous pouvez toucher le coin supérieur droit pour accéder à la configuration.</string>
@@ -976,6 +996,11 @@
     <string name="disable_track">Désactiver la piste</string>
     <string name="ascending">Ascendant</string>
     <string name="descending">Descendant</string>
+    <string name="screenshot_error">Erreur lors de la prise de la capture d\'écran</string>
+    <string name="disabled">Désactivé</string>
+    <string name="enable_screenshot_gesture">Tapoter avec 3 doigts</string>
+    <string name="enable_screenshot_button">Afficher le bouton de capture d\'écran</string>
+    <string name="enable_screenshot_button_and_gesture">Bouton et geste</string>
 
 
 
