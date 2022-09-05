@@ -56,7 +56,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<SwipeRefreshLayout>(R.id.swipeLayout)?.let {
             swipeRefreshLayout = it
-            val a: TypedArray = requireActivity().obtainStyledAttributes(TypedValue().data, intArrayOf(R.attr.colorPrimary, R.attr.background_default))
+            val a: TypedArray = requireActivity().obtainStyledAttributes(TypedValue().data, intArrayOf(R.attr.colorPrimary, R.attr.swipe_refresh_background))
             val color = a.getColor(0, 0)
             val bColor = a.getColor(1, Color.WHITE)
             a.recycle()

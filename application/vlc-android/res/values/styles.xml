@@ -72,6 +72,7 @@
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
         <item name="primary_focus">@color/orange_800_transparent_20</item>
+        <item name="swipe_refresh_background">?attr/background_default</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
@@ -219,6 +220,7 @@
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble_black</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
+        <item name="swipe_refresh_background">?attr/background_default_darker</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
