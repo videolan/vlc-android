@@ -804,6 +804,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         hideOverlay(true)
         playlistContainer.setVisible()
         playlist.adapter = playlistAdapter
+        player.onSelectionSet(playlistAdapter.currentIndex)
         player.update()
         if (player.isTalkbackIsEnabled()) playlistSearchText.editText?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
