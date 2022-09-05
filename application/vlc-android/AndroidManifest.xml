@@ -682,6 +682,12 @@
                 android:name="android.media.tv.input"
                 android:resource="@xml/previewinputservice"/>
         </service>
+
+        <activity android:name=".gui.DebugLogActivity"
+                android:theme="@style/Theme.VLC"
+                android:launchMode="singleTop" />
+        <service android:name=".DebugLogService"
+                android:process=":logger" />
     </application>
 
 </manifest>
