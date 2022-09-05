@@ -214,6 +214,11 @@
 
     <string name="playback_history_title">Cronologia di riproduzione</string>
     <string name="playback_history_summary">Salva tutti i media riprodotti nella sezione Cronologia</string>
+    <string name="video_resume_playback_title">Cronologia della coda riproduzione video</string>
+    <string name="video_resume_playback_summary">Consenti il salvataggio della coda di riproduzione video per riprendere in seguito</string>
+    <string name="audio_resume_playback_title">Cronologia della coda riproduzione audio</string>
+    <string name="audio_resume_playback_warning">La disabilitazione della cronologia della coda di riproduzione audio potrebbe causare alcuni comportamenti anomali.\nDopo averla disabilitata potresti non essere in grado di riprendere la riproduzione da:\n\n\t- un dispositivo Bluetooth\n\t- il widget\n\t- la notifica dei media</string>
+    <string name="audio_resume_playback_summary">Consenti il salvataggio della coda di riproduzione audio per riprendere in seguito</string>
     <string name="playback_speed_title">Salva velocità di riproduzione</string>
     <string name="playback_speed_summary">Ricorda la velocità di riproduzione tra le riproduzioni</string>
 
@@ -320,7 +325,9 @@
     <string name="media_seen">Mostra marcatore del video visto</string>
     <string name="media_seen_summary">Marca un video come visto quando lo riproduci fino alla fine</string>
     <string name="force_play_all_summary">Riproduci tutti i video, iniziando con quello su che hai toccato</string>
+    <string name="force_play_all_audio_summary">Riproduci tutti i file audio, iniziando con quello su che hai toccato</string>
     <string name="force_play_all_title">Modalità scaletta video</string>
+    <string name="force_play_all_audio_title">Modalità scaletta audio</string>
     <string name="save_brightness_summary">Ricorda il livello di luminosità tra le riproduzioni</string>
     <string name="save_brightness_title">Salva il livello di luminosità</string>
     <string name="save_audiodelay_summary">Salva ritardo audio individuale per ogni video</string>
@@ -341,9 +348,12 @@
     <string name="enable_double_tap_play_summary">Doppio tocco al centro dello schermo per riprodurre o sospendere</string>
     <string name="enable_swipe_seek_title">Scorri per posizionare</string>
     <string name="enable_swipe_seek_summary">Scorri il tuo dito sullo schermo per posizionare</string>
+    <string name="enable_scale_gesture_title">Ingrandimento con due dita</string>
+    <string name="enable_scale_gesture_summary">Ingrandisci e rimpicciolisci con due dita</string>
     <string name="popup_keepscreen_title">Mantieni lo schermo attivo in modalità con finestra a comparsa</string>
     <string name="popup_keepscreen_summary">Mantieni lo schermo sempre attivo quando la finestra a comparsa è visualizzata, anche se il video è in pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
+    <string name="enable_video_screenshot">Cattura una schermata</string>
 
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
@@ -437,6 +447,7 @@
     <string name="auto_rescan">Nuova scansione automatica</string>
     <string name="auto_rescan_summary">Scansione automatica del dispositivo all\'avvio dell\'applicazione per media nuovi o eliminati</string>
     <string name="dump_media_db">Estrai il database multimediale</string>
+    <string name="dump_app_db">Estrai il database dell\'applicazione</string>
     <string name="dump_media_db_summary">Copia il database nella radice dell\'archiviazione interna.</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="clear_media_database_summary">Cancella il database per ricominciare</string>
@@ -557,6 +568,10 @@
     <string name="permission_onboarding_perm_all">Sarai in grado di rilevare automaticamente tutti i tuoi file per riprodurre tutti i tipi di media anche quelli strani, o file compressi</string>
     <string name="exit_app">Chiudi VLC</string>
     <string name="exit_app_msg">Sei sicuro di voler chiudere VLC?</string>
+    <string name="widget_explanation_title">Widget di VLC</string>
+    <string name="widget_explanation_size">I widget sono presenti in diverse dimensioni e forme</string>
+    <string name="widget_explanation_resize">Per cambiare il tipo del widget, fai una pressione prolungata su di esso e utilizza le maniglie per ridimensionarlo alla dimensione desiderata</string>
+    <string name="widget_explanation_end">I widget sono incredibilmente personalizzabili. Dai spazio alla tua creatività e dagli l\'aspetto che preferisci!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Traccia FastScroller</string>
@@ -882,6 +897,8 @@
     <string name="browser_show_missing_media">Mostra i media mancanti</string>
     <string name="browser_show_missing_media_summary">Mostra media distanti anche se non sono presenti</string>
     <string name="search_prefs">Impostazioni di ricerca</string>
+    <string name="video_match_frame_rate_title">Verifica frequenza di aggiornamento schermo</string>
+    <string name="video_match_frame_rate_summary">Verifica la frequenza di aggiornamento dello schermo. Ad esempio, un film a 24p dovrebbe essere riprodotto a 24p</string>
     <string name="preferred_resolution">Risoluzione video preferita</string>
     <string name="preferred_resolution_summary">La massima qualità video per i flussi, se applicabile, sarà: %s</string>
     <string name="pref_resolution_best_available">Migliore disponibile</string>
@@ -928,6 +945,7 @@
     <string name="video_double_tap_jump_delay">Ritardo di tempo doppio tocco</string>
     <string name="video_key_jump_delay">Ritardo di tempo dei tasti di navigazione</string>
     <string name="banned">Cartella esclusa (toccare a lungo per modificare)</string>
+    <string name="banned_tv">Cartella vietata</string>
     <string name="banned_parent">Esclusa dalla cartella superiore</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Questo elemento è già in questa scaletta.</item>
@@ -966,6 +984,8 @@
     <string name="configure_widget">Configurazione widget</string>
     <string name="widget_preview">Anteprima widget</string>
     <string name="widget_forward_delay">Ritardo in avanti</string>
+    <string name="widget_show_seek">Mostra i pulsanti di posizionamento</string>
+    <string name="widget_show_cover">Mostra copertina</string>
     <string name="widget_rewind_delay">Ritardo indietro</string>
     <string name="widget_show_configure">Mostra l\'icona di configurazione</string>
     <string name="widget_show_configure_summary">Anche se non è mostrato, puoi toccare l\'angolo in alto a destra per aprire la configurazione</string>
@@ -976,6 +996,11 @@
     <string name="disable_track">Disabilita traccia</string>
     <string name="ascending">Crescente</string>
     <string name="descending">Decrescente</string>
+    <string name="screenshot_error">Errore durante l\'acquisizione della schermata</string>
+    <string name="disabled">Disabilitato</string>
+    <string name="enable_screenshot_gesture">Tocca con 3 dita</string>
+    <string name="enable_screenshot_button">Mostra il pulsante della schermata</string>
+    <string name="enable_screenshot_button_and_gesture">Pulsante e gesto</string>
 
 
 
