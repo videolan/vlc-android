@@ -82,6 +82,7 @@ import kotlin.math.min
 
 open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
+    private var lastDismissedPosition: Int = -1
     private lateinit var searchView: SearchView
     private lateinit var itemTouchHelperCallback: SwipeDragItemTouchHelperCallback
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
@@ -295,6 +296,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 
     override fun onRemove(position: Int, item: MediaLibraryItem) {
+        lastDismissedPosition = position
         val tracks = ArrayList(listOf(*item.tracks))
         removeFromPlaylist(tracks, ArrayList(listOf(position)))
     }
@@ -482,9 +484,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                 }
             }
             var removedMessage = if (indexes.size>1) getString(R.string.removed_from_playlist_anonymous) else getString(R.string.remove_playlist_item,list.first().title)
-            UiTools.snackerWithCancel(this@HeaderMediaListActivity, removedMessage, action = {}) {
+            UiTools.snackerWithCancel(this@HeaderMediaListActivity, removedMessage, action = {
+                lastDismissedPosition = -1
+            }) {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
+                    if (lastDismissedPosition != -1) {
+                        audioBrowserAdapter.notifyItemChanged(lastDismissedPosition)
+                        lastDismissedPosition = -1
+                    }
                 }
             }
         }
