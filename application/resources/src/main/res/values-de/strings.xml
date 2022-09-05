@@ -33,7 +33,7 @@
     <string name="play_from_start">Vom Anfang wiedergeben</string>
     <string name="play_as_audio">Als Audio wiedergeben</string>
     <string name="play_as_video">Als Video wiedergeben</string>
-    <string name="return_to_video">Lange auf das Cover tippen, um das Video wiederherzustellen</string>
+    <string name="return_to_video">Lange auf das Titelbild tippen, um das Video wiederherzustellen</string>
     <string name="video_app_switch_title">Hintergrund-/PiP-Modus</string>
     <string name="video_app_switch_summary">VLC-Verhalten auswählen, wenn Sie von der Filmwiedergabe zu einer anderen Anwendung wechseln</string>
     <string name="play_pip_title">Videos im Bild-in-Bild-Modus wiedergeben</string>
@@ -204,6 +204,11 @@
 
     <string name="playback_history_title">Wiedergabeverlauf</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Verlaufsbereich speichern</string>
+    <string name="video_resume_playback_title">Verlauf der Video-Wiedergabewarteschlange</string>
+    <string name="video_resume_playback_summary">Speichern der Video-Wiedergabewarteschlange zulassen, um später fortzufahren</string>
+    <string name="audio_resume_playback_title">Verlauf der Audio-Wiedergabewarteschlange</string>
+    <string name="audio_resume_playback_warning">Das Deaktivieren des Audiowiedergabe-Warteschlangenverlaufs kann zu einigen Verhaltensproblemen führen.\nNach dem Deaktivieren können Sie die Wiedergabe möglicherweise nicht fortsetzen von:\n\n\t- einem Bluetooth-Gerät\n\t- dem Widget\n\t- die Medienmitteilung</string>
+    <string name="audio_resume_playback_summary">Speichern der Audio-Wiedergabewarteschlange zulassen, um später fortzufahren</string>
     <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
     <string name="playback_speed_summary">Wiedergabegeschwindigkeit zwischen den Medien gleich behalten</string>
 
@@ -310,7 +315,9 @@
     <string name="media_seen">\"Markierung gesehen\" einblenden</string>
     <string name="media_seen_summary">Ein Video als gesehen markieren, wenn es bis zum Ende wiedergegeben wurde</string>
     <string name="force_play_all_summary">Alle Videos wiedergeben, mit dem angeklickten Video beginnen</string>
+    <string name="force_play_all_audio_summary">Alle Audio-Dateien wiedergeben, mit dem angeklickten beginnen</string>
     <string name="force_play_all_title">Modus für Video-Wiedergabelisten</string>
+    <string name="force_play_all_audio_title">Modus für Audio-Wiedergabelisten</string>
     <string name="save_brightness_summary">Helligkeit zwischen den Medien gleich behalten</string>
     <string name="save_brightness_title">Helligkeitseinstellung speichern</string>
     <string name="save_audiodelay_summary">Individuelle Audioverzögerung für jedes einzelne Video speichern</string>
@@ -319,7 +326,7 @@
     <string name="enable_brightness_gesture_summary">Helligkeit durch Gesten während der Videowiedergabe steuern</string>
     <string name="enable_volume_gesture_title">Lautstärkengeste</string>
     <string name="enable_volume_gesture_summary">Lautstärke durch Gesten während der Videowiedergabe steuern</string>
-    <string name="enable_seek_buttons">Suchen-Knöpfe</string>
+    <string name="enable_seek_buttons">Suchschaltflächen</string>
     <string name="enable_seek_buttons_summary">Schaltflächen zum Zurückspulen und schnelles Vorspulen auf der Videooberfläche anzeigen</string>
     <string name="enable_android_auto_speed_buttons">Android Auto Wiedergabegeschwindigkeit</string>
     <string name="enable_android_auto_speed_buttons_summary">Geschwindigkeitssteuerung im Überlaufmenü anzeigen</string>
@@ -331,9 +338,12 @@
     <string name="enable_double_tap_play_summary">Doppelt auf der Bildschirmmitte antippen, um abzuspielen oder zu pausieren</string>
     <string name="enable_swipe_seek_title">Zum Suchen wischen</string>
     <string name="enable_swipe_seek_summary">Streichen Sie zum Suchen mit dem Finger über den Bildschirm</string>
+    <string name="enable_scale_gesture_title">Zwei-Finger-Zoom</string>
+    <string name="enable_scale_gesture_summary">Vergrößern und verkleinern Sie mit zwei Fingern</string>
     <string name="popup_keepscreen_title">Im Pop-Up-Modus Anzeige nicht ausschalten</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up-Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
     <string name="browser_show_hidden_files_title">Versteckte Dateien anzeigen</string>
+    <string name="enable_video_screenshot">Ein Bildschirmfoto aufnehmen</string>
 
     <string name="subtitles_prefs_category">Untertitel</string>
     <string name="subtitles_size_title">Untertitelgröße</string>
@@ -426,7 +436,8 @@
     <string name="advanced_prefs_category">Erweitert</string>
     <string name="auto_rescan">Automatisch durchsuchen</string>
     <string name="auto_rescan_summary">Gerät beim Start der Anwendung automatisch nach neuen oder gelöschten Medien durchsuchen</string>
-    <string name="dump_media_db">Mediendatenbank erstellen</string>
+    <string name="dump_media_db">Mediendatenbank sichern</string>
+    <string name="dump_app_db">App-Datenbank sichern</string>
     <string name="dump_media_db_summary">Datenbank in den internen Speicherstammordner kopieren</string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
     <string name="clear_media_database_summary">Löscht die Datenbank zum Neustart</string>
@@ -547,6 +558,10 @@
     <string name="permission_onboarding_perm_all">Sie können alle Ihre Dateien automatisch erkennen, um alle Arten von Medien abzuspielen, sogar seltsame oder komprimierte Dateien</string>
     <string name="exit_app">VLC schließen</string>
     <string name="exit_app_msg">Möchten Sie VLC wirklich verlassen?</string>
+    <string name="widget_explanation_title">VLC-Widgets</string>
+    <string name="widget_explanation_size">Die Widgets gibt es in verschiedenen Größen und Geschmacksrichtungen</string>
+    <string name="widget_explanation_resize">Um den Widget-Typ zu ändern, drücken Sie lange darauf und verwenden Sie die Anfasspunkte, um die Größe auf die gewünschte Größe zu ändern</string>
+    <string name="widget_explanation_end">Widgets sind stark anpassbar. Lassen Sie Ihrer Kreativität freien Lauf und lassen Sie diese wie Sie aussehen!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Schneller Bildlauf für Titel</string>
@@ -870,6 +885,8 @@
     <string name="browser_show_missing_media">Fehlenden Medien anzeigen</string>
     <string name="browser_show_missing_media_summary">Zeige entferntes Medienereignis, wenn diese nicht verfügbar sind</string>
     <string name="search_prefs">Suche in Einstellungen</string>
+    <string name="video_match_frame_rate_title">Bildwiederholrate der Anzeige anpassen</string>
+    <string name="video_match_frame_rate_summary">Die Aktualisierungsrate der Anzeige an die Framerate der Medien anpassen. Beispielsweise sollte ein 24p-Film mit 24p abgespielt werden</string>
     <string name="preferred_resolution">Bevorzugte Videoauflösung</string>
     <string name="preferred_resolution_summary">Die maximale Videoqualität für Streams, wenn verfügbar, beträgt: %s</string>
     <string name="pref_resolution_best_available">Bestmögliche</string>
@@ -916,6 +933,7 @@
     <string name="video_double_tap_jump_delay">Zeitverzögerung für doppeltes tippen</string>
     <string name="video_key_jump_delay">Zeitverzögerung für Navigationstasten</string>
     <string name="banned">Gesperrter Ordner (zum Ändern lange tippen)</string>
+    <string name="banned_tv">Gesperrter Ordner</string>
     <string name="banned_parent">Gesperrt durch übergeordneten Ordner</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Dieses Element befinden sich bereits in dieser Wiedergabeliste. </item>
@@ -952,6 +970,8 @@
     <string name="configure_widget">Widget-Konfiguration</string>
     <string name="widget_preview">Widget-Vorschau</string>
     <string name="widget_forward_delay">Zeitverzögerung vorwärts</string>
+    <string name="widget_show_seek">Suchschaltflächen anzeigen</string>
+    <string name="widget_show_cover">Titelbild  anzeigen</string>
     <string name="widget_rewind_delay">Zeitverzögerung rückwärts</string>
     <string name="widget_show_configure">Konfigurationssymbol anzeigen</string>
     <string name="widget_show_configure_summary">Auch wenn es nicht angezeigt wird, können Sie auf die obere rechte Ecke tippen, um die Konfiguration zu öffnen</string>
@@ -962,6 +982,11 @@
     <string name="disable_track">Titel deaktivieren</string>
     <string name="ascending">Aufsteigend</string>
     <string name="descending">Absteigend</string>
+    <string name="screenshot_error">Fehler beim Aufnehmen des Bildschirmfotos</string>
+    <string name="disabled">Deaktiviert</string>
+    <string name="enable_screenshot_gesture">Mit 3 Fingern tippen</string>
+    <string name="enable_screenshot_button">Die Bildschirmfoto-Schaltfläche anzeigen</string>
+    <string name="enable_screenshot_button_and_gesture">Schaltfläche und Geste</string>
 
 
 
