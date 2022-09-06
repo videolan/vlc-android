@@ -194,6 +194,11 @@
 
     <string name="playback_history_title">播放記錄</string>
     <string name="playback_history_summary">儲存所有播放過的媒體到歷史記錄部分中</string>
+    <string name="video_resume_playback_title">影片播放佇列歷史紀錄</string>
+    <string name="video_resume_playback_summary">允許儲存影片播放佇列內容，以便在稍後繼續播放</string>
+    <string name="audio_resume_playback_title">音訊播放佇列歷史紀錄</string>
+    <string name="audio_resume_playback_warning">停用音訊播放佇列可能會導致一些奇怪的行為。\n在停用後，您將無法在以下位置執行繼續播放動作：\n\n\t- 藍牙裝置\n\t- 小工具\n\t- 媒體通知</string>
+    <string name="audio_resume_playback_summary">允許儲存音訊播放佇列內容，以便在稍後繼續播放</string>
     <string name="playback_speed_title">儲存播放速度</string>
     <string name="playback_speed_summary">在不同媒體間保持播放速度</string>
 
@@ -300,7 +305,9 @@
     <string name="media_seen">顯示已看過影片的標記</string>
     <string name="media_seen_summary">將影片播放到最後之後，將它標示為已看過</string>
     <string name="force_play_all_summary">播放所有影片，從您點選的開始</string>
+    <string name="force_play_all_audio_summary">播放所有音訊，從您點選的開始</string>
     <string name="force_play_all_title">影片播放清單模式</string>
+    <string name="force_play_all_audio_title">音訊播放清單模式</string>
     <string name="save_brightness_summary">在不同媒體間保持亮度</string>
     <string name="save_brightness_title">儲存亮度</string>
     <string name="save_audiodelay_summary">為每個影片儲存獨立的音訊延遲</string>
@@ -321,11 +328,12 @@
     <string name="enable_double_tap_play_summary">輕觸螢幕中央兩下以播放或暫停</string>
     <string name="enable_swipe_seek_title">滑動以快轉</string>
     <string name="enable_swipe_seek_summary">在螢幕上用手指滑動以快轉</string>
+    <string name="enable_scale_gesture_title">雙指縮放</string>
+    <string name="enable_scale_gesture_summary">用雙指進行縮放動作</string>
     <string name="popup_keepscreen_title">在彈出式視窗模式中保持螢幕開啟</string>
     <string name="popup_keepscreen_summary">當彈出式視窗顯示時，即便影片已暫停，也總是保持螢幕開啟。</string>
     <string name="browser_show_hidden_files_title">顯示隱藏檔案</string>
     <string name="enable_video_screenshot">螢幕截圖</string>
-    <string name="enable_video_screenshot_summary">三指輕點即可擷取螢幕畫面</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -419,6 +427,7 @@
     <string name="auto_rescan">自動重新掃瞄</string>
     <string name="auto_rescan_summary">在應用程式啟動時自動掃瞄裝置上新增或刪除的媒體</string>
     <string name="dump_media_db">傾印媒體資料庫</string>
+    <string name="dump_app_db">傾印應用程式資料庫</string>
     <string name="dump_media_db_summary">複製資料庫到內部儲存空間根目錄</string>
     <string name="clear_media_db">清除媒體資料庫</string>
     <string name="clear_media_database_summary">清除資料庫以重新開始</string>
@@ -912,6 +921,7 @@
     <string name="video_double_tap_jump_delay">雙擊時間延遲</string>
     <string name="video_key_jump_delay">導航鍵時間延遲</string>
     <string name="banned">已封鎖的資料夾（長按以變更）</string>
+    <string name="banned_tv">已封鎖的資料夾</string>
     <string name="banned_parent">被上層資料夾封鎖</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">這些項目已在此播放清單中。</item>
@@ -947,6 +957,7 @@
     <string name="widget_preview">小工具預覽</string>
     <string name="widget_forward_delay">向前快轉時間延遲</string>
     <string name="widget_show_seek">顯示快轉按鈕</string>
+    <string name="widget_show_cover">顯示封面</string>
     <string name="widget_rewind_delay">向後快轉時間延遲</string>
     <string name="widget_show_configure">顯示設定圖示</string>
     <string name="widget_show_configure_summary">即便其沒有顯示，您也可以點擊右上角以開啟設定</string>
@@ -958,6 +969,10 @@
     <string name="ascending">遞增</string>
     <string name="descending">遞減</string>
     <string name="screenshot_error">擷取螢幕畫面時發生錯誤</string>
+    <string name="disabled">已停用</string>
+    <string name="enable_screenshot_gesture">三指輕點</string>
+    <string name="enable_screenshot_button">顯示螢幕截圖按鈕</string>
+    <string name="enable_screenshot_button_and_gesture">按鈕與手勢</string>
 
 
 
