@@ -254,12 +254,12 @@ fi
 # Fetch VLC source #
 ####################
 
-LIBVLCJNI_TESTED_HASH=c509a1c955e64c889e784a784d581d84a43b7b1c
-LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
+LIBVLCJNI_TESTED_HASH=32e7aa2c2ca56343598d9466a740fa1264093065
+LIBVLCJNI_REPOSITORY=https://code.videolan.org/asenat/libvlcjni
 if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
     if [ ! -d "libvlcjni" ]; then
-        git clone --single-branch --branch libvlcjni-3.x "${LIBVLCJNI_REPOSITORY}"
+        git clone --single-branch --branch enable-upnp-debug "${LIBVLCJNI_REPOSITORY}"
         cd libvlcjni
     else # folder exist with only the artifacts
         cd libvlcjni

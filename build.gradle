@@ -37,7 +37,7 @@ allprojects {
 
 ext {
     appId = "org.videolan.vlc"
-    versionName = '3.5.1'
+    versionName = '3.5.1-upnpdebug'
     versionCode = 3050100
     libvlcVersion = '3.5.1'
     medialibraryVersion = '0.13.3'
