@@ -224,6 +224,11 @@
 
     <string name="playback_history_title">היסטוריית נגינה</string>
     <string name="playback_history_summary">לשמור את כל המדיה שהתנגנה באגף ההיסטוריה</string>
+    <string name="video_resume_playback_title">היסטוריית תור נגינת וידאו</string>
+    <string name="video_resume_playback_summary">לאפשר לשמור את תור נגינת הווידאו כדי להמשיך מאוחר יותר</string>
+    <string name="audio_resume_playback_title">היסטוריית תור השמעה</string>
+    <string name="audio_resume_playback_warning">השבתת היסטוריית תור ההשמעה עלולה לגרום לתקלות בהתנהלות.\nלאחר ההשבתה יכול להיות שאי אפשר יהיה להמשיך להשמיע מתוך:\n\n\t- התקן Bluetooth\n\t- התראת המדיה</string>
+    <string name="audio_resume_playback_summary">לאפשר לשמור את תור ההשמעה כדי להמשיך מאוחר יותר</string>
     <string name="playback_speed_title">לשמור את מהירות הנגינה</string>
     <string name="playback_speed_summary">לשמור על מהירות הנגינה בין ניגונים</string>
 
@@ -330,7 +335,9 @@
     <string name="media_seen">הצגת סמן צפייה</string>
     <string name="media_seen_summary">סימון צפייה על הסרטון בעת נגינתו עד לסופו</string>
     <string name="force_play_all_summary">לנגן את כל הסרטונים, החל מזה שעליו לחצת</string>
+    <string name="force_play_all_audio_summary">לנגן את כל קטעי השמע, החל מזה שלחצת עליו</string>
     <string name="force_play_all_title">מצב רשימת סרטונים</string>
+    <string name="force_play_all_audio_title">מצב רשימת השמעה</string>
     <string name="save_brightness_summary">לשמור על רמת הבהירות בין ניגונים</string>
     <string name="save_brightness_title">שמירת רמת הבהירות</string>
     <string name="save_audiodelay_summary">שמירת השהיית שמע נקודתית לכל סרטון</string>
@@ -351,9 +358,12 @@
     <string name="enable_double_tap_play_summary">נגיעה כפולה במסך תנגן או תשהה</string>
     <string name="enable_swipe_seek_title">החלקה מעבירה בציר הזמן</string>
     <string name="enable_swipe_seek_summary">החלקת האצבע על גבי המסך שולטת במיקום הנגינה של הסרטון</string>
+    <string name="enable_scale_gesture_title">תקריב עם שתי אצבעות</string>
+    <string name="enable_scale_gesture_summary">התקרבות והתרחקות עם שתי אצבעות</string>
     <string name="popup_keepscreen_title">להשאיר את המסך פעיל במצב חלונית</string>
     <string name="popup_keepscreen_summary">תמיד להשאיר את המסך פעיל כאשר מוצג חלון קופץ, אפילו אם הסרטון מושהה.</string>
     <string name="browser_show_hidden_files_title">הצגת קבצים מוסתרים</string>
+    <string name="enable_video_screenshot">צילום המסך</string>
 
     <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
@@ -447,6 +457,7 @@
     <string name="auto_rescan">סריקה אוטומטית מחדש</string>
     <string name="auto_rescan_summary">יש לסרוק את ההתקן אוטומטית לאיתור מדיה חדשה או כזאת שנמחקה עם הפעלת היישומון</string>
     <string name="dump_media_db">ייצוא מסד נתוני המדיה</string>
+    <string name="dump_app_db">יצירת היטל של מסד הנתונים של היישומון</string>
     <string name="dump_media_db_summary">העתקת מסד הנתונים לשורש האחסון הפנימי</string>
     <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
     <string name="clear_media_database_summary">מסד הנתונים יימחק כדי להתחיל מאפס</string>
@@ -567,6 +578,10 @@
     <string name="permission_onboarding_perm_all">תהיה לך אפשרות לגלות אוטומטית את כל הקבצים שלך כדי לנגן את כל סוגי המדיה, אפילו סוגים מוזרים או קבצים דחוסים</string>
     <string name="exit_app">סגירת VLC</string>
     <string name="exit_app_msg">לצאת מ־VLC?</string>
+    <string name="widget_explanation_title">וידג׳טים של VLC</string>
+    <string name="widget_explanation_size">הווידג׳טים מגיעים במגוון גדלים וצורות</string>
+    <string name="widget_explanation_resize">כדי לשנות את סוג הווידג׳ט, יש ללחוץ עליו ארוכות ולהשתמש בידיות כדי לשנות את גודלו לגודל הרצוי.</string>
+    <string name="widget_explanation_end">וידג׳טים הם גמישים להפליא. אפשר לבטא אתם את הצד היצירתי שבך ולגרום להם להתאים בדיוק בשבילך!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">רצועת גלילה מהירה</string>
@@ -894,6 +909,8 @@
     <string name="browser_show_missing_media">להציג פריטי מדיה חסרים</string>
     <string name="browser_show_missing_media_summary">הצגת פריטי מדיה מרוחקים אפילו אם הם אינם</string>
     <string name="search_prefs">חיפוש בהגדרות</string>
+    <string name="video_match_frame_rate_title">התאמת קצב הרענון של התצוגה</string>
+    <string name="video_match_frame_rate_summary">התאמת קצב רענון התצורה לקצב הרענון של המדיה. למשל, סרט של 24p אמור להתנגן ב־24p</string>
     <string name="preferred_resolution">רזולוציית הווידאו המועדפת</string>
     <string name="preferred_resolution_summary">איכות הווידאו המרבית לתזרימים, כשזאת אכן משפיעה, תהיה: %s</string>
     <string name="pref_resolution_best_available">המיטבית ביותר הזמינה</string>
@@ -940,6 +957,7 @@
     <string name="video_double_tap_jump_delay">זמן השהיית נגיעה כפולה</string>
     <string name="video_key_jump_delay">זמן השהיית מקשי ניווט</string>
     <string name="banned">תיקייה חסומה (נגיעה ארוכה לשינוי)</string>
+    <string name="banned_tv">תיקייה חסומה</string>
     <string name="banned_parent">נחסמה על ידי תיקיית ההורה</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">הפריט הזה כבר קיים ברשימת נגינה זו.</item>
@@ -980,6 +998,8 @@
     <string name="configure_widget">הגדרות וידג׳ט</string>
     <string name="widget_preview">תצוגה מקדימה של הווידג׳ט</string>
     <string name="widget_forward_delay">זמן השהיה קדימה</string>
+    <string name="widget_show_seek">הצגת כפתורי דילוג</string>
+    <string name="widget_show_cover">הצגת תמונת הכותרת</string>
     <string name="widget_rewind_delay">זמן השהיה אחורה</string>
     <string name="widget_show_configure">הצגת סמל הגדרות</string>
     <string name="widget_show_configure_summary">אפילו אם זה לא מופיע, אפשר לגעת בפינה הימנית העליונה כדי לפתוח את ההגדרות</string>
@@ -990,6 +1010,11 @@
     <string name="disable_track">השבתת רצועה</string>
     <string name="ascending">עולה</string>
     <string name="descending">יורד</string>
+    <string name="screenshot_error">שגיאה בצילום המסך</string>
+    <string name="disabled">מושבת</string>
+    <string name="enable_screenshot_gesture">נגיעה ב־3 אצבעות</string>
+    <string name="enable_screenshot_button">להציג את כפתור צילום המסך</string>
+    <string name="enable_screenshot_button_and_gesture">כפתור ומחווה</string>
 
 
 
