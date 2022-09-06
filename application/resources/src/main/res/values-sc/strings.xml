@@ -204,6 +204,11 @@
 
     <string name="playback_history_title">Cronologia de riprodutzione</string>
     <string name="playback_history_summary">Sarva totu sos documentos multimediales riproduidos in sa  setzione Cronologia</string>
+    <string name="video_resume_playback_title">Cronologia de sa lista de riprodutzione de vìdeos</string>
+    <string name="video_resume_playback_summary">Permite su sarvamentu de sa lista de riprodutzione de vìdeos pro sighire a pustis</string>
+    <string name="audio_resume_playback_title">Cronologia de sa lista de riprodutzione àudio</string>
+    <string name="audio_resume_playback_warning">S\'inabilitatzione de sa cronologia de riprodutzione àudio diat pòdere causare de unos cantos problemas de cumportamentu.\nA pustis de l\'àere disabilitada dias pòdere no èssere in gradu de torrare a sighire sa riprodutzione dae:\n\n\t- un dispositivu bluetooth\n\t- su widget\n\t- sa notìfica multimediale</string>
+    <string name="audio_resume_playback_summary">Permite su sarvamentu de sa lista de riprodutzione àudio pro torrare a sighire prus a tardu</string>
     <string name="playback_speed_title">Sarva sa lestresa de riprodutzione</string>
     <string name="playback_speed_summary">Sarva sa lestresa de riprodutzione intre sos cuntenutos multimediales</string>
 
@@ -310,7 +315,9 @@
     <string name="media_seen">Ammustra su marcadore de su vìdeu pompiadu</string>
     <string name="media_seen_summary">Marca unu vìdeu comente bidu cando l\'as riproduidu finas a sa fine</string>
     <string name="force_play_all_summary">Riprodui totu sos vìdeos, incumintzende cun su chi as tocadu</string>
+    <string name="force_play_all_audio_summary">Riprodui totu sos elementos àudio, incumintzende cun su chi as tocadu</string>
     <string name="force_play_all_title">Modalidade iscalita de vìdeos</string>
+    <string name="force_play_all_audio_title">Modalidade iscalita de àudio</string>
     <string name="save_brightness_summary">Ammenta su livellu de luminosidade intre sas riprodutziones</string>
     <string name="save_brightness_title">Sarva su livellu de luminosidade</string>
     <string name="save_audiodelay_summary">Sarva su ritardu àudio individuale pro cada vìdeu</string>
@@ -331,9 +338,12 @@
     <string name="enable_double_tap_play_summary">Tocu dòpiu in su tzentru de s\'ischermu pro riproduire o pònnere in pàusa</string>
     <string name="enable_swipe_seek_title">Trìsina pro positzionare</string>
     <string name="enable_swipe_seek_summary">Trìsina su pòddighe tuo in s\'ischermu pro positzionare</string>
+    <string name="enable_scale_gesture_title">Ismanniamentu cun duos pòddighes</string>
+    <string name="enable_scale_gesture_summary">Ismànnia e mìnima cun duos pòddighes</string>
     <string name="popup_keepscreen_title">Mantene s\'ischermu ativu in modalidade cun ventana a cumparsa</string>
     <string name="popup_keepscreen_summary">Mantene s\'ischermu semper ativu cando sa ventana a cumparsa est ammustrada, fintzas si su vìdeu est in pàusa.</string>
     <string name="browser_show_hidden_files_title">Ammustra sos documentos istichidos</string>
+    <string name="enable_video_screenshot">Faghe un\'ischermada</string>
 
     <string name="subtitles_prefs_category">Sutatìtulos</string>
     <string name="subtitles_size_title">Mannària de sos sutatìtulos</string>
@@ -427,6 +437,7 @@
     <string name="auto_rescan">Iscansidura automàtica noa</string>
     <string name="auto_rescan_summary">Iscansidura automàtica de su dispositivu a s\'allughìngiu de s\'aplicatzione pro documentos multimediales noos o iscantzellados</string>
     <string name="dump_media_db">Iscàrriga sa base de datos multimediales</string>
+    <string name="dump_app_db">Estrai sa base de datos dae s\'aplicatzione</string>
     <string name="dump_media_db_summary">Còpia sa base de datos multimediales in sa raighina de sa memòria interna</string>
     <string name="clear_media_db">Iscantzella sa base de datos multimediales</string>
     <string name="clear_media_database_summary">Isbòidat sa base de datos pro torrare a incumentzare</string>
@@ -535,6 +546,8 @@
     <string name="allow_settings_access_brightness_description">VLC tenet bisòngiu de custu permissu pro  modificare sa luminosidade.</string>
     <string name="allow_draw_overlays_title">Permiti a su leghidore VLC de aparire in subra de sas àteras aplicatziones</string>
     <string name="allow_sdraw_overlays_description">VLC tenet bisòngiu de custu permissu pro ammustrare su vìdeu in una ventana chi at a aparire in subra de sas àteras aplicatziones.</string>
+    <string name="allow_pip">Permite a su leghidore VLC de aviare su Picture in Picture</string>
+    <string name="allow_pip_description">VLC tenet bisòngiu de custu permissu pro ammustrare su vìdeu tuo in sa modalidade Picture in Picture.</string>
     <string name="permission_ask_again">Dae su permissu</string>
     <string name="pick_file">Issèbera unu documentu</string>
     <string name="permission_not_granted">Permissu non frunidu</string>
@@ -545,6 +558,10 @@
     <string name="permission_onboarding_perm_all">As a pòdere rilevare totu sos archìvios tuos pro riproduire cale si siat casta de cuntenutu multimediale, fintzas cussas istranas o archìvios cumprimidos</string>
     <string name="exit_app">Serra VLC</string>
     <string name="exit_app_msg">Seguru ses de chèrrere serrare VLC?</string>
+    <string name="widget_explanation_title">Widgets de VLC</string>
+    <string name="widget_explanation_size">Sos widgets tenent mannàrias e caraterìsticas diferentes</string>
+    <string name="widget_explanation_resize">Pro mudare casta de widget incarca·bi a longu e imprea sas manìllias pro li dare sa mannària noa chi boles</string>
+    <string name="widget_explanation_end">Sos widgets si podent personalizare meda. Lìbera sa creatividade tua e dae·li s\'aspetu prus adatu a tie!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Rasta FastScroller</string>
@@ -868,6 +885,8 @@
     <string name="browser_show_missing_media">Ammustra sos mèdios chi mancant</string>
     <string name="browser_show_missing_media_summary">Ammustra sos mèdios indedda fintzas si non sunt presentes</string>
     <string name="search_prefs">Paràmetros de chirca</string>
+    <string name="video_match_frame_rate_title">Faghe currispòndere sa frecuèntzia de fotogrammas de s\'ischermu</string>
+    <string name="video_match_frame_rate_summary">Faghe currispòndere sa frecuèntzia de annoamentu de sos fotogrammas de s\'ischermu a cussa de su cuntenutu multimediale. A esèmpiu, unu film a 24p si diat dèpere riproduire a 24p</string>
     <string name="preferred_resolution">Risolutzione de su vìdeu preferida</string>
     <string name="preferred_resolution_summary">Sa calidade màssima de su vìdeu pro sos flussos, si s\'at a pòdere aplicare, at a èssere: %s</string>
     <string name="pref_resolution_best_available">Mègius a disponimentu</string>
@@ -914,6 +933,7 @@
     <string name="video_double_tap_jump_delay">Tempus de ritardu de su tocu dòpiu</string>
     <string name="video_key_jump_delay">Tempus de ritardu de sas teclas de navigatzione</string>
     <string name="banned">Cartella esclusa (incarca a longu pro cambiare)</string>
+    <string name="banned_tv">Cartella bandida</string>
     <string name="banned_parent">Esclusa dae sa cartella superiore</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Custu elementu est giai in cust\'iscalita.</item>
@@ -950,6 +970,8 @@
     <string name="configure_widget">Cunfiguratzione de su widget</string>
     <string name="widget_preview">Anteprima de su widget</string>
     <string name="widget_forward_delay">Ritardu cara a in antis</string>
+    <string name="widget_show_seek">Ammustra sos butones de positzionamentu</string>
+    <string name="widget_show_cover">Ammustra sa cobertedda</string>
     <string name="widget_rewind_delay">Ritardu cara a segus</string>
     <string name="widget_show_configure">Ammustra s\'icona de cunfiguratzione</string>
     <string name="widget_show_configure_summary">Fintzas si no est ammustrada podes tocare s\'àngulu in artu a destra pro abèrrere sa cunfiguratzione</string>
@@ -960,6 +982,11 @@
     <string name="disable_track">Disabìlita sa rasta</string>
     <string name="ascending">Creschente</string>
     <string name="descending">Minimante</string>
+    <string name="screenshot_error">Errore durante su sarvamentu de s\'ischermada</string>
+    <string name="disabled">Disabilitadu</string>
+    <string name="enable_screenshot_gesture">Toca cun 3 pòddighes</string>
+    <string name="enable_screenshot_button">Ammustra su butone de s\'ischermada</string>
+    <string name="enable_screenshot_button_and_gesture">Butone e gestu</string>
 
 
 
