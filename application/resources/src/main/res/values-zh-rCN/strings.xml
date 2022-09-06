@@ -121,10 +121,10 @@
     <string name="shuffle">随机关闭</string>
     <string name="shuffle_on">随机开启</string>
     <string name="shuffle_play">随机</string>
-    <string name="repeat_title">重复模式</string>
-    <string name="repeat">重复关闭</string>
-    <string name="repeat_single">单曲重复</string>
-    <string name="repeat_all">全部重复</string>
+    <string name="repeat_title">循环模式</string>
+    <string name="repeat">循环关闭</string>
+    <string name="repeat_single">单曲循环</string>
+    <string name="repeat_all">全部循环</string>
     <string name="previous">上一项</string>
     <string name="stop">停止</string>
     <string name="firstsong">播放列表第一首</string>
@@ -194,6 +194,11 @@
 
     <string name="playback_history_title">回放历史</string>
     <string name="playback_history_summary">在「历史记录」下保留所有播放过的媒体</string>
+    <string name="video_resume_playback_title">视频播放队列历史</string>
+    <string name="video_resume_playback_summary">允许储存视频播放队列内容，以便稍后继续播放</string>
+    <string name="audio_resume_playback_title">音频播放队列历史</string>
+    <string name="audio_resume_playback_warning">禁用音频播放队列历史可能会引发异常行为。\n禁用以后，您将无法在以下位置执行继续播放操作:\n\n\t- 蓝牙设备\n\t- 小工具\n\t- 媒体通知界面</string>
+    <string name="audio_resume_playback_summary">允许储存音频播放队列内容，以便稍后继续播放</string>
     <string name="playback_speed_title">记住回放速度</string>
     <string name="playback_speed_summary">切换媒体时保持回放速度不变</string>
 
@@ -217,7 +222,7 @@
     <string name="aspect_ratio">宽高比</string>
     <string name="aspect_ratio_description">轻按可更改视频宽高比</string>
     <string name="advanced_options">高级选项</string>
-    <string name="advanced_options_description">例如播放速度、重复模式等功能</string>
+    <string name="advanced_options_description">例如播放速度、循环模式等功能</string>
     <string name="tips_swipe">上滑或下滑</string>
     <string name="tips_swipe_horizontal">左滑或右滑</string>
     <string name="tips_playlist">播放列表</string>
@@ -300,7 +305,9 @@
     <string name="media_seen">显示视频已看过标记</string>
     <string name="media_seen_summary">当视频播放到底时标记为已经看过</string>
     <string name="force_play_all_summary">播放所有视频，从您点击的那个视频开始</string>
+    <string name="force_play_all_audio_summary">从选中的曲目开始播放所有音频文件</string>
     <string name="force_play_all_title">视频播放列表模式</string>
+    <string name="force_play_all_audio_title">音频播放列表模式</string>
     <string name="save_brightness_summary">切换媒体时保持亮度级别不变</string>
     <string name="save_brightness_title">记住亮度级别</string>
     <string name="save_audiodelay_summary">保存每个视频相应的音频延迟</string>
@@ -321,9 +328,12 @@
     <string name="enable_double_tap_play_summary">在屏幕中央轻按两下可播放／暂停</string>
     <string name="enable_swipe_seek_title">滑动可进退</string>
     <string name="enable_swipe_seek_summary">在屏幕上用手指滑动来控制进退</string>
+    <string name="enable_scale_gesture_title">双指缩放</string>
+    <string name="enable_scale_gesture_summary">用两根手指进行放大/缩小操作</string>
     <string name="popup_keepscreen_title">浮层模式保持屏幕常亮</string>
     <string name="popup_keepscreen_summary">浮层模式显示时总保持屏幕常亮，即使视频已暂停。</string>
     <string name="browser_show_hidden_files_title">显示隐藏文件</string>
+    <string name="enable_video_screenshot">抓取截图</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -417,6 +427,7 @@
     <string name="auto_rescan">自动重新扫描</string>
     <string name="auto_rescan_summary">应用启动时，自动扫描设备中新增或删除的媒体文件</string>
     <string name="dump_media_db">转储媒体数据库</string>
+    <string name="dump_app_db">转储应用数据库</string>
     <string name="dump_media_db_summary">将数据库复制到内部存储根目录</string>
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="clear_media_database_summary">清除数据库并从头开始</string>
@@ -537,6 +548,10 @@
     <string name="permission_onboarding_perm_all">您将能够在所有文件中自动扫描、播放各类媒体文件（包括奇怪的格式以及压缩文件）</string>
     <string name="exit_app">关闭 VLC</string>
     <string name="exit_app_msg">是否确定要退出 VLC?</string>
+    <string name="widget_explanation_title">VLC 小工具</string>
+    <string name="widget_explanation_size">小工具有不同的尺寸与风格</string>
+    <string name="widget_explanation_resize">要更改小工具的尺寸，请长按它，然后使用操控杆调整为您想要的尺寸</string>
+    <string name="widget_explanation_end">小工具高度可定制。发挥你的创造力，将它们改造成你的风格！</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller 轨道</string>
@@ -628,8 +643,8 @@
     <string name="otg_device_title">OTG 设备</string>
     <string name="browser">浏览器</string>
     <string name="ab_repeat">A-B 循环</string>
-    <string name="ab_repeat_reset">重置 A-B 重复</string>
-    <string name="ab_repeat_stop">停止 A-B 重复</string>
+    <string name="ab_repeat_reset">重置 A-B 循环</string>
+    <string name="ab_repeat_stop">停止 A-B 循环</string>
     <string name="stop_after_this">当前曲目后停止播放</string>
     <string name="time_category_new">新媒体</string>
     <string name="time_category_current_month">本月</string>
@@ -858,6 +873,8 @@
     <string name="browser_show_missing_media">显示缺失的媒体文件</string>
     <string name="browser_show_missing_media_summary">显示远程媒体，即使它们不存在</string>
     <string name="search_prefs">搜索设置</string>
+    <string name="video_match_frame_rate_title">匹配显示器帧率</string>
+    <string name="video_match_frame_rate_summary">使显示刷新率与媒体帧率相匹配。例如，24p (每秒24帧、逐行扫描) 的影片会以 24p 刷新率播放</string>
     <string name="preferred_resolution">首选视频分辨率</string>
     <string name="preferred_resolution_summary">流媒体有多种格式可选时，自动选择的视频质量上限为: %s</string>
     <string name="pref_resolution_best_available">可用的最高画质</string>
@@ -905,6 +922,7 @@
     <string name="video_double_tap_jump_delay">轻按两下的时间延迟</string>
     <string name="video_key_jump_delay">导航键时延</string>
     <string name="banned">已屏蔽文件夹 (长按可更改)</string>
+    <string name="banned_tv">已屏蔽文件夹</string>
     <string name="banned_parent">被上级文件夹屏蔽</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">项目在此播放列表内已存在。</item>
@@ -939,6 +957,8 @@
     <string name="configure_widget">小工具配置</string>
     <string name="widget_preview">小工具预览</string>
     <string name="widget_forward_delay">快进延迟</string>
+    <string name="widget_show_seek">显示定位按钮</string>
+    <string name="widget_show_cover">显示封面</string>
     <string name="widget_rewind_delay">快退延迟</string>
     <string name="widget_show_configure">显示配置图标</string>
     <string name="widget_show_configure_summary">即使隐藏该图标，您也可以轻按小工具的右上角来打开配置界面</string>
@@ -949,6 +969,11 @@
     <string name="disable_track">禁用轨道</string>
     <string name="ascending">升序</string>
     <string name="descending">降序</string>
+    <string name="screenshot_error">抓取截图出错</string>
+    <string name="disabled">已禁用</string>
+    <string name="enable_screenshot_gesture">三指轻按</string>
+    <string name="enable_screenshot_button">显示截屏按钮</string>
+    <string name="enable_screenshot_button_and_gesture">按钮与手势</string>
 
 
 
