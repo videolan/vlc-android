@@ -204,6 +204,11 @@
 
     <string name="playback_history_title">Ιστορικό αναπαραγωγής</string>
     <string name="playback_history_summary">Αποθήκευση όλων των αναπαραγμένων πολυμέσων στην ενότητα ιστορικού</string>
+    <string name="video_resume_playback_title">Ιστορικό ουράς αναπαραγωγής βίντεο</string>
+    <string name="video_resume_playback_summary">Επιτρέψτε την αποθήκευση της ουράς αναπαραγωγής βίντεο για να συνεχιστεί αργότερα</string>
+    <string name="audio_resume_playback_title">Ιστορικό ουράς αναπαραγωγής ήχου</string>
+    <string name="audio_resume_playback_warning">Η απενεργοποίηση του ιστορικού ουράς αναπαραγωγής ήχου μπορεί να οδηγήσει σε ορισμένα προβλήματα συμπεριφοράς.\nΜετά την απενεργοποίησή του, ενδέχεται να μην μπορείτε να συνεχίσετε την αναπαραγωγή από:\n\n\t- μια συσκευή bluetooth\n\t- το widget\n\t- την ειδοποίηση μέσων ενημέρωσης</string>
+    <string name="audio_resume_playback_summary">Επιτρέψτε την αποθήκευση της ουράς αναπαραγωγής ήχου για να συνεχιστεί αργότερα</string>
     <string name="playback_speed_title">Αποθήκευση ταχύτητας αναπαραγωγής</string>
     <string name="playback_speed_summary">Διατήρηση ταχύτητας αναπαραγωγής μεταξύ των πολυμέσων</string>
 
@@ -310,7 +315,9 @@
     <string name="media_seen">Εμφάνιση δείκτη \"προβεβλημένο\"</string>
     <string name="media_seen_summary">Ορισμός ενός βίντεο ως προβεβλημένου όταν το αναπαράγετε μέχρι το τέλος</string>
     <string name="force_play_all_summary">Αναπαραγωγή όλων των βίντεο, ξεκινώντας από αυτό που έχετε κάνει κλικ</string>
+    <string name="force_play_all_audio_summary">Αναπαραγωγή όλων των ήχων, ξεκινώντας από αυτόν στον οποίο κάνατε κλικ</string>
     <string name="force_play_all_title">Λειτουργία λίστας αναπαραγωγής βίντεο</string>
+    <string name="force_play_all_audio_title">Λειτουργία λίστας αναπαραγωγής ήχου</string>
     <string name="save_brightness_summary">Διατήρηση επιπέδου φωτεινότητας μεταξύ των πολυμέσων</string>
     <string name="save_brightness_title">Αποθήκευση επιπέδου φωτεινότητας</string>
     <string name="save_audiodelay_summary">Αποθήκευση ξεχωριστής καθυστέρησης ήχου για κάθε βίντεο</string>
@@ -331,11 +338,12 @@
     <string name="enable_double_tap_play_summary">Πατήστε δύο φορές στο κέντρο της οθόνης για αναπαραγωγή ή παύση</string>
     <string name="enable_swipe_seek_title">Σύρετε για αναζήτηση</string>
     <string name="enable_swipe_seek_summary">Σύρετε το δάχτυλό σας στην οθόνη για αναζήτηση</string>
+    <string name="enable_scale_gesture_title">Ζουμ με δύο δάχτυλα</string>
+    <string name="enable_scale_gesture_summary">Μεγέθυνση και σμίκρυνση με δύο δάχτυλα</string>
     <string name="popup_keepscreen_title">Διατήρηση της οθόνης αναμμένης κατά την αναδυόμενη λειτουργία</string>
     <string name="popup_keepscreen_summary">Πάντα διατήρηση της οθόνης αναμμένης κατά τη διάρκεια αναδυόμενης λειτουργίας, ακόμα και με το βίντεο σε παύση.</string>
     <string name="browser_show_hidden_files_title">Εμφάνιση κρυφών αρχείων</string>
     <string name="enable_video_screenshot">Λήψη στιγμιότυπου οθόνης</string>
-    <string name="enable_video_screenshot_summary">Πατήστε με 3 δάχτυλα για να τραβήξετε ένα στιγμιότυπο οθόνης</string>
 
     <string name="subtitles_prefs_category">Υπότιτλοι</string>
     <string name="subtitles_size_title">Μέγεθος υπότιτλων</string>
@@ -429,6 +437,7 @@
     <string name="auto_rescan">Αυτόματη επανασάρωση</string>
     <string name="auto_rescan_summary">Αυτόματη σάρωση της συσκευής για νέα ή διαγραμμένα αρχεία πολυμέσων κατά την εκκίνηση εφαρμογής</string>
     <string name="dump_media_db">Αντιγραφή βάσης δεδομένων πολυμέσων</string>
+    <string name="dump_app_db">Αντιγραφή βάσης δεδομένων εφαρμογής</string>
     <string name="dump_media_db_summary">Αντιγραφή βάσης δεδομένων στη ρίζα του εσωτερικού χώρου αποθήκευσης</string>
     <string name="clear_media_db">Εκκαθάριση βάσης δεδομένων μέσων</string>
     <string name="clear_media_database_summary">Εκκαθάριση βάσης δεδομένων για επανέναρξη</string>
@@ -515,8 +524,8 @@
     <string name="music_now_playing">Αναπαράγεται τώρα</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Λευκό γραφικό στοιχείο VLC</string>
-    <string name="widget_name_b">Σκούρο γραφικό στοιχείο VLC</string>
+    <string name="widget_name_w">Ανοιχτόχρωμες μικροεφαρμογές VLC</string>
+    <string name="widget_name_b">Σκουρόχρωμες μικροεφαρμογές VLC</string>
     <string name="widget_name_mini_player">Μίνι αναπαραγωγός πολυμέσων VLC</string>
     <string name="widget_old_text">Ενημερώσαμε τις μικροεφαρμογές μας!</string>
     <string name="widget_old_description_start">Ευχάριστα νέα! Κυκλοφόρησαν βελτιωμένες μικροεφαρμογές.\nΠροσφέρουν μεγαλύτερη απόκριση και εξατομίκευση</string>
@@ -549,10 +558,10 @@
     <string name="permission_onboarding_perm_all">Θα γίνεται αυτόματη ανακάλυψη όλων των αρχείων σας για αναπαραγωγή, όλων των τύπων πολυμέσων, ακόμα και περίεργα ή συμπιεσμένα αρχεία</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
     <string name="exit_app_msg">Είστε βέβαιοι ότι θέλετε να κλείσετε το VLC;</string>
-    <string name="widget_explanation_title">VLC widgets</string>
-    <string name="widget_explanation_size">Τα widget διατίθενται σε διαφορετικά μεγέθη και γεύσεις</string>
-    <string name="widget_explanation_resize">Για να αλλάξετε τον τύπο του widget, πατήστε το παρατεταμένα και χρησιμοποιήστε τις λαβές για να αλλάξετε το μέγεθός του στο μέγεθος που θέλετε</string>
-    <string name="widget_explanation_end">Τα widgets είναι σε μεγάλο βαθμό προσαρμόσιμα. Απελευθερώστε τη δημιουργικότητά σας και κάντε τους να σας μοιάζουν!</string>
+    <string name="widget_explanation_title">Μικροεφαρμογές VLC</string>
+    <string name="widget_explanation_size">Οι μικροεφαρμογές διατίθενται σε διαφορετικά μεγέθη και παραλλαγές</string>
+    <string name="widget_explanation_resize">Για να αλλάξετε τον τύπο της μικροεφαρμογής, πατήστε επάνω της παρατεταμένα και χρησιμοποιήστε τις λαβές για να αλλάξετε το μέγεθός της στο μέγεθος που θέλετε</string>
+    <string name="widget_explanation_end">Οι μικροεφαρμογές είναι σε μεγάλο βαθμό προσαρμόσιμες. Απελευθερώστε τη δημιουργικότητά σας και κάντε τις να σας μοιάζουν!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Κομμάτι FastScroller</string>
@@ -876,8 +885,8 @@
     <string name="browser_show_missing_media">Εμφάνιση πολυμέσων που λείπουν</string>
     <string name="browser_show_missing_media_summary">Εμφάνιση απομακρυσμένων πολυμέσων ακόμη και εάν δεν είναι διαθέσιμα</string>
     <string name="search_prefs">Ρυθμίσεις αναζήτησης</string>
-    <string name="video_match_frame_rate_title">Αντιστοίχιση Ρυθμού Καρέ Οθόνης</string>
-    <string name="video_match_frame_rate_summary">Αντιστοιχίστε το ρυθμό ανανέωσης της οθόνης με το ρυθμό καρέ πολυμέσων. Για παράδειγμα, μια ταινία 24p πρέπει να παίζει σε 24p</string>
+    <string name="video_match_frame_rate_title">Αντιστοίχιση ρυθμού καρέ οθόνης</string>
+    <string name="video_match_frame_rate_summary">Αντιστοιχίστε τον ρυθμό ανανέωσης της οθόνης με τον ρυθμό καρέ πολυμέσων. Για παράδειγμα, μια ταινία 24p πρέπει να παίζει σε 24p</string>
     <string name="preferred_resolution">Προτιμώμενη ανάλυση βίντεο</string>
     <string name="preferred_resolution_summary">Η μέγιστη ανάλυση μεταδόσεων, αν αυτή είναι δυνατή, θα είναι: %s</string>
     <string name="pref_resolution_best_available">Βέλτιστη διαθέσιμη</string>
@@ -924,6 +933,7 @@
     <string name="video_double_tap_jump_delay">Χρονική καθυστέρηση με διπλό πάτημα</string>
     <string name="video_key_jump_delay">Χρονική καθυστέρηση πλήκτρων πλοήγησης</string>
     <string name="banned">Αποκλεισμένος φάκελος (πατήστε παρατεταμένα για αλλαγή)</string>
+    <string name="banned_tv">Απαγορευμένος φάκελος</string>
     <string name="banned_parent">Αποκλείστηκε από τον γονικό φάκελο</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
@@ -960,7 +970,8 @@
     <string name="configure_widget">Διαμόρφωση μικροεφαρμογής</string>
     <string name="widget_preview">Προεπισκόπηση μικροεφαρμογής</string>
     <string name="widget_forward_delay">Χρονική καθυστέρηση εμπρός</string>
-    <string name="widget_show_seek">Εμφάνιση κουμπιών αναζήτησης</string>
+    <string name="widget_show_seek">Εμφάνιση πλήκτρων ανίχνευσης</string>
+    <string name="widget_show_cover">Εμφάνιση εξώφυλλου</string>
     <string name="widget_rewind_delay">Χρονική καθυστέρηση προς τα πίσω</string>
     <string name="widget_show_configure">Εμφάνιση εικονιδίου διαμόρφωσης</string>
     <string name="widget_show_configure_summary">Ακόμη και αν δεν εμφανίζεται, μπορείτε να πατήσετε στην επάνω δεξιά γωνία για να ανοίξετε τη διαμόρφωση</string>
@@ -972,6 +983,10 @@
     <string name="ascending">Αύξουσα</string>
     <string name="descending">Φθίνουσα</string>
     <string name="screenshot_error">Σφάλμα κατά τη λήψη του στιγμιότυπου οθόνης</string>
+    <string name="disabled">Απενεργοποιημένο</string>
+    <string name="enable_screenshot_gesture">Πατήστε με 3 δάχτυλα</string>
+    <string name="enable_screenshot_button">Εμφάνιση του κουμπιού στιγμιότυπου οθόνης</string>
+    <string name="enable_screenshot_button_and_gesture">Κουμπί και χειρονομία</string>
 
 
 
