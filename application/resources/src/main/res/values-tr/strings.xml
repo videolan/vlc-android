@@ -204,6 +204,11 @@
 
     <string name="playback_history_title">Oynatma geçmişi</string>
     <string name="playback_history_summary">Oynatılan tüm ortamlar geçmiş bölümüne kaydedilir</string>
+    <string name="video_resume_playback_title">Görüntü oynatma kuyruğu geçmişi</string>
+    <string name="video_resume_playback_summary">Görüntü oynatma kuyruğu daha sonra sürdürülmek üzere kaydedilebilsin</string>
+    <string name="audio_resume_playback_title">Ses oynatma kuyruğu geçmişi</string>
+    <string name="audio_resume_playback_warning">Ses oynatma kuyruğu geçmişi devre dışı bırakılırsa bazı davranış sorunları ortaya çıkabilir.\nDevre dışı bırakıldığında şunlardan biriyle oynatmayı sürdüremeyebilirsiniz:\n\n- Bluetooth aygıtları\n\t- Ekran bileşeni (widget)\n\t- Ortam bildirimi</string>
+    <string name="audio_resume_playback_summary">Ses oynatma kuyruğu daha sonra sürdürülmek üzere kaydedilebilsin</string>
     <string name="playback_speed_title">Oynatma hızı kaydedilsin</string>
     <string name="playback_speed_summary">Ortamlar arasında oynatma hızı korunur</string>
 
@@ -310,7 +315,9 @@
     <string name="media_seen">Görüldü görüntü işareti görüntülensin</string>
     <string name="media_seen_summary">Sonuna dek oynatılmış görüntüleri görüldü olarak işaretler</string>
     <string name="force_play_all_summary">Tüm görüntüleri oynatın, birine tıklayarak başlayın</string>
+    <string name="force_play_all_audio_summary">Tıkladığınızdan başlayarak tüm sesleri oynatır</string>
     <string name="force_play_all_title">Görüntü oynatma listesi kipi</string>
+    <string name="force_play_all_audio_title">Ses oynatma listesi kipi</string>
     <string name="save_brightness_summary">Ortamlar arasında parlaklık düzeyi korunsun</string>
     <string name="save_brightness_title">Parlaklık düzeyini kaydet</string>
     <string name="save_audiodelay_summary">Her görüntü için ayrı ses gecikmesi kaydedilsin</string>
@@ -331,9 +338,12 @@
     <string name="enable_double_tap_play_summary">Oynatmak ya da duraklatmak için ekranın ortasına çift dokunun</string>
     <string name="enable_swipe_seek_title">Atlamak için kaydırın</string>
     <string name="enable_swipe_seek_summary">Atlamak için parmağınızı ekran boyunca kaydırın</string>
+    <string name="enable_scale_gesture_title">İki parmakla yakınlaştırma</string>
+    <string name="enable_scale_gesture_summary">İki parmakla büyültme ve küçültme</string>
     <string name="popup_keepscreen_title">Açılan pencere kipinde ekran açık kalsın</string>
     <string name="popup_keepscreen_summary">Açılan pencere görüntülenirken görüntü duraklatılmış olsa bile ekran açık kalır.</string>
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
+    <string name="enable_video_screenshot">Ekran görüntüsü al</string>
 
     <string name="subtitles_prefs_category">Alt yazılar</string>
     <string name="subtitles_size_title">Alt yazı boyutu</string>
@@ -427,6 +437,7 @@
     <string name="auto_rescan">Otomatik yeniden tarama</string>
     <string name="auto_rescan_summary">Bu seçenek etkinleştirildiğinde, uygulama başlatıldığında aygıt otomatik olarak yeni ya da silinmiş ortamlar için taranır</string>
     <string name="dump_media_db">Ortam veritabanı indirilsin</string>
+    <string name="dump_app_db">Ortam veritabanı indirilsin</string>
     <string name="dump_media_db_summary">Bu seçenek etkinleştirildiğinde, veritabanı iç depolama kök klasörüne kopyalanır</string>
     <string name="clear_media_db">Ortam veritabanı temizlensin</string>
     <string name="clear_media_database_summary">Baştan başlamak için veritabanını temizler</string>
@@ -547,6 +558,10 @@
     <string name="permission_onboarding_perm_all">Garip olanlar veya sıkıştırılmış dosyalar ile birlikte her tür ortamı oynatmak için tüm dosyalarınızı otomatik olarak keşfedebileceksiniz.</string>
     <string name="exit_app">Kapat</string>
     <string name="exit_app_msg">VLC uygulamasından çıkmak istediğinize emin misiniz?</string>
+    <string name="widget_explanation_title">VLC bileşenleri</string>
+    <string name="widget_explanation_size">Farklı boyut ve biçimlerde bileşenler vardır</string>
+    <string name="widget_explanation_resize">Bileşen türünü değiştirmek için, üzerine uzun basın ve istediğiniz boyuta getirmek için tutamaçları kullanın.</string>
+    <string name="widget_explanation_end">Bileşenler ayrıntılı şekilde özelleştirilebilir. Yaratıcılığınızı serbest bırakın ve size özgü görünmesini sağlayın!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Hızlı kayıt kaydırıcı</string>
@@ -870,6 +885,8 @@
     <string name="browser_show_missing_media">Eksik ortamları görüntüle</string>
     <string name="browser_show_missing_media_summary">Uzak ortamlar var olmasalar da görüntülensin</string>
     <string name="search_prefs">Arama ayarları</string>
+    <string name="video_match_frame_rate_title">Ekran kare hızı ortama uysun</string>
+    <string name="video_match_frame_rate_summary">Bu seçenek etkinleştirildiğinde, ekran kare hızı ortamın kare hızına uydurulur. Örneğin 24p olan bir film 24p olarak oynatılmalıdır.</string>
     <string name="preferred_resolution">Yeğlenen görüntü çözünürlüğü</string>
     <string name="preferred_resolution_summary">Akışlar için en yüksek görüntü çözünürlüğü, uygulanabildiğinde: %s</string>
     <string name="pref_resolution_best_available">Olabilecek en iyisi</string>
@@ -916,6 +933,7 @@
     <string name="video_double_tap_jump_delay">Çift dokunma zaman gecikmesi</string>
     <string name="video_key_jump_delay">Gezinme tuşları zaman gecikmesi</string>
     <string name="banned">Yasaklanmış klasör (değiştirmek için uzun dokunun)</string>
+    <string name="banned_tv">Engellenmiş klasör</string>
     <string name="banned_parent">Üst klasör tarafından yasaklanmış</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Bu öge zaten oynatma listesinde var.</item>
@@ -952,6 +970,8 @@
     <string name="configure_widget">Ekran bileşeni yapılandırması</string>
     <string name="widget_preview">Ekran bileşeni ön izlemesi</string>
     <string name="widget_forward_delay">İleri zaman gecikmesi</string>
+    <string name="widget_show_seek">Atlama düğmeleri görüntülensin</string>
+    <string name="widget_show_cover">Kapak görüntülensin</string>
     <string name="widget_rewind_delay">Geri zaman gecikmesi</string>
     <string name="widget_show_configure">Yapılandırma simgesi görüntülensin</string>
     <string name="widget_show_configure_summary">Görüntülenmese de, sağ üst köşeye dokunarak yapılandırmayı açabilirsiniz</string>
@@ -962,6 +982,11 @@
     <string name="disable_track">Kaydı devre dışı bırak</string>
     <string name="ascending">Artan</string>
     <string name="descending">Azalan</string>
+    <string name="screenshot_error">Ekran görüntüsü alınırken sorun çıktı</string>
+    <string name="disabled">Devre dışı</string>
+    <string name="enable_screenshot_gesture">3 parmakla dokunma</string>
+    <string name="enable_screenshot_button">Ekran görüntüsü düğmesi görüntülensin</string>
+    <string name="enable_screenshot_button_and_gesture">Düğme ve el hareketi</string>
 
 
 
