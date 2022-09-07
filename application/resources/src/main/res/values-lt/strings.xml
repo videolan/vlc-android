@@ -224,6 +224,11 @@
 
     <string name="playback_history_title">Grojimo istorija</string>
     <string name="playback_history_summary">Išsaugoti visas leistas rinkmenas skiltyje „Istorija“</string>
+    <string name="video_resume_playback_title">Įsiminti leistų vaizdo įrašų istoriją</string>
+    <string name="video_resume_playback_summary">Leisti įrašyti vaizdo įrašų atkūrimo istoriją jų pratęsimui vėliau</string>
+    <string name="audio_resume_playback_title">Įsiminti leistų garso įrašų istoriją</string>
+    <string name="audio_resume_playback_warning">Išjungus garso leidimo istoriją gali kilti tam tikrų veikimo problemų.\nJą išjungę negalėsite tęsti atkūrimo iš:\n\n\t- Bluetooth įrenginio\n\t- valdiklio\n\t- daugiaformačio pranešimo</string>
+    <string name="audio_resume_playback_summary">Leisti įrašyti garso įrašų atkūrimo istoriją jų pratęsimui vėliau</string>
     <string name="playback_speed_title">Išsaugoti grojimo greitį</string>
     <string name="playback_speed_summary">Įsiminti savitą atkūrimo greitį tarp rinkmenų</string>
 
@@ -330,7 +335,9 @@
     <string name="media_seen">Rodyti peržiūrėto vaizdo įrašo žymeklį</string>
     <string name="media_seen_summary">Pažymėti vaizdo įrašą kaip peržiūrėtą, jei jis peržiūrimas iki pabaigos</string>
     <string name="force_play_all_summary">Paleisti visus vaizdo įrašus, pradedant nuo to, kurį paspaudėte</string>
+    <string name="force_play_all_audio_summary">Paleisti visus garso įrašus, pradedant nuo to, kurį paspaudėte</string>
     <string name="force_play_all_title">Vaizdo įrašų grojaraščio veiksena</string>
+    <string name="force_play_all_audio_title">Garso įrašų grojaraščio veiksena</string>
     <string name="save_brightness_summary">Įsiminti savitą ryškumo lygį tarp rinkmenų</string>
     <string name="save_brightness_title">Išsaugoti ryškumo lygį</string>
     <string name="save_audiodelay_summary">Įsiminti savitą garso vėlinimą kiekvienam vaizdo įrašui</string>
@@ -351,11 +358,12 @@
     <string name="enable_double_tap_play_summary">Paleisti arba pristabdyti vaizdo įrašą, du kartus bakstelėjus ekrano centrą</string>
     <string name="enable_swipe_seek_title">Prasukimas braukiant</string>
     <string name="enable_swipe_seek_summary">Prasukti vaizdo įrašą, braukiant pirštu per ekraną </string>
+    <string name="enable_scale_gesture_title">Mastelio keitimas dviem pirštais</string>
+    <string name="enable_scale_gesture_summary">Padidinti arba sumažinti dviem pirštais</string>
     <string name="popup_keepscreen_title">Laikyti ekraną įjungtą, kai rodomas iškylantis langas</string>
     <string name="popup_keepscreen_summary">Visada laikyti ekraną įjungtą tol, kol rodomas iškylantis langas, net jei vaizdo įrašas pristabdytas.</string>
     <string name="browser_show_hidden_files_title">Rodyti slepiamąsias rinkmenas</string>
     <string name="enable_video_screenshot">Padaryti ekrano kopiją</string>
-    <string name="enable_video_screenshot_summary">Padaryti ekrano kopiją bakstelėjus 3 pirštais</string>
 
     <string name="subtitles_prefs_category">Subtitrai</string>
     <string name="subtitles_size_title">Subtitrų dydis</string>
@@ -448,10 +456,11 @@
     <string name="advanced_prefs_category">Sudėtingesnės</string>
     <string name="auto_rescan">Automatinis nuskaitymas</string>
     <string name="auto_rescan_summary">Paleidus programėlę, automatiškai peržvalgyti įrenginį dėl įvairialypės terpės kūrinių pasikeitimų</string>
-    <string name="dump_media_db">Sukurti duomenų bazę</string>
-    <string name="dump_media_db_summary">Nukopijuoti duomenų bazę į vidinę atmintį</string>
-    <string name="clear_media_db">Išvalyti kūrinių duombazę</string>
-    <string name="clear_media_database_summary">Išvalyti kūrinių duombazę jos sukūrimui iš naujo</string>
+    <string name="dump_media_db">Iškelti medijos duombazę</string>
+    <string name="dump_app_db">Iškelti programėlės duombazę</string>
+    <string name="dump_media_db_summary">Nukopijuoti duombazę į vidinę atmintį</string>
+    <string name="clear_media_db">Išvalyti medijos duombazę</string>
+    <string name="clear_media_database_summary">Išvalyti medijos duombazę jos sukūrimui iš naujo</string>
     <string name="clear_app_data">Išvalyti programos duomenis</string>
     <string name="clear_app_data_summary">Išvalyti VLC duomenis „Android“ sistemoje</string>
     <string name="clear_history">Išvalyti žurnalą</string>
@@ -484,7 +493,7 @@
     <string name="copied_from_clipboard">Adresas įterptas iš iškarpinės</string>
     <string name="dump_logcat">Įrašyti pranešimų žurnalą</string>
     <string name="dump_logcat_success">Pranešimų žurnalas „logcat“ sėkmingai įrašytas į %1$s!</string>
-    <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“.</string>
+    <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“ pranešimų žurnalo.</string>
     <string name="custom_libvlc_options">Savitos libVLC parinktys</string>
     <string name="custom_libvlc_options_invalid">Netinkamos libVLC parinktys!</string>
 
@@ -746,8 +755,8 @@
     <string name="validation_delete_playlist_text">Šio veiksmo nebus galima anuliuoti.</string>
     <string name="display_in_list">Rodyti sąraše</string>
     <string name="display_in_grid">Rodyti tinklelyje</string>
-    <string name="dump_db_succes">Duomenų bazė iškelta į vidinę atmintį</string>
-    <string name="dump_db_failure">Nepavyko įkelti duomenų bazės</string>
+    <string name="dump_db_succes">Duombazė iškelta į vidinę atmintį</string>
+    <string name="dump_db_failure">Nepavyko iškelti duombazės</string>
     <string name="send_crash_title">Pranešti apie VLC lūžimą</string>
     <string name="send_crash_description">Nusiųsdami pranešimą apie lūžimą, padėsite pagerinti VLC stabilumą.</string>
     <string name="send_crash_warning">Prieš išsiųsdami pašalinkite visą jautrią ar asmeninę informaciją, kurios nenorėtumėte siųsti.</string>
@@ -901,7 +910,7 @@
     <string name="browser_show_missing_media_summary">Rodyti žiniatinklio kūrinius, net jei jų nėra</string>
     <string name="search_prefs">Ieškoti nuostatose</string>
     <string name="video_match_frame_rate_title">Sutapatinti ekrano kadrų dažnį</string>
-    <string name="video_match_frame_rate_summary">Sutapatinti ekrano atnaujinimo dažnį su medijos kadrų dažniu. Pavyzdžiui, 24p filmas bus rodomas 24p</string>
+    <string name="video_match_frame_rate_summary">Sutapatinti ekrano atnaujinimo dažnį su medijos kadrų dažniu. Pavyzdžiui, 24kps filmą rodyti 24Hz dažniu</string>
     <string name="preferred_resolution">Pageidautina vaizdo raiška</string>
     <string name="preferred_resolution_summary">Didžiausia vaizdo raiška, jei įmanoma, bus: %s</string>
     <string name="pref_resolution_best_available">Pati geriausia</string>
@@ -948,6 +957,7 @@
     <string name="video_double_tap_jump_delay">Dvigubo bakstelėjimo delsa</string>
     <string name="video_key_jump_delay">Navigacijos mygtukų delsa</string>
     <string name="banned">Uždraustas aplankas (laikykite nuspaudę, kad tai pakeistumėte) </string>
+    <string name="banned_tv">Uždraustas aplankas</string>
     <string name="banned_parent">Uždraustas pirminio aplanko</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Jis jau yra grojaraštyje.</item>
@@ -989,6 +999,7 @@
     <string name="widget_preview">Valdiklio peržiūra</string>
     <string name="widget_forward_delay">Peršokimo „pirmyn“ intervalas</string>
     <string name="widget_show_seek">Rodyti prasukimo mygtukus</string>
+    <string name="widget_show_cover">Rodyti viršelį</string>
     <string name="widget_rewind_delay">Peršokimo „atgal“ intervalas</string>
     <string name="widget_show_configure">Rodyti konfigūracijos piktogramą</string>
     <string name="widget_show_configure_summary">Net jei ji nerodoma, visada galite bakstelėti viršutinį dešinįjį kampą, kad atidarytumėte konfigūraciją</string>
@@ -1000,6 +1011,10 @@
     <string name="ascending">Didėjančiai</string>
     <string name="descending">Mažėjančiai</string>
     <string name="screenshot_error">Darant ekrano kopiją iškilo klaida</string>
+    <string name="disabled">Išjungta</string>
+    <string name="enable_screenshot_gesture">Bakstelėjus 3 pirštais</string>
+    <string name="enable_screenshot_button">Bakstelėjus ekr. kop. mygtuką</string>
+    <string name="enable_screenshot_button_and_gesture">Pasitelkus mygtuką ir gestus</string>
 
 
 
