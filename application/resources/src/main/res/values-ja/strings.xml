@@ -194,6 +194,11 @@
 
     <string name="playback_history_title">再生履歴</string>
     <string name="playback_history_summary">履歴にあるすべての再生済みメディアを保存</string>
+    <string name="video_resume_playback_title">ビデオ再生キューの履歴</string>
+    <string name="video_resume_playback_summary">後で再生を再開するためにビデオ再生キューを保存することを許可</string>
+    <string name="audio_resume_playback_title">オーディオ再生キューの履歴</string>
+    <string name="audio_resume_playback_warning">オーディオ再生キューの履歴を無効化すると問題が発生する可能性があります。\n無効化後は次からの再生を再開することができなくなります。\n\n\t- ブルートゥースデバイス\n\n\t- メディア通知</string>
+    <string name="audio_resume_playback_summary">後で再生を再開するためにオーディオ再生キューを保存することを許可</string>
     <string name="playback_speed_title">再生速度を保存</string>
     <string name="playback_speed_summary">メディア間での再生速度を一定に保つ</string>
 
@@ -300,7 +305,9 @@
     <string name="media_seen">ビデオの再生記録マーカー</string>
     <string name="media_seen_summary">ビデオを終わりまで再生した場合に再生済みとマーク</string>
     <string name="force_play_all_summary">クリックしたものからすべてのビデオを再生</string>
+    <string name="force_play_all_audio_summary">クリックしたものからすべてのオーディオを再生</string>
     <string name="force_play_all_title">ビデオプレイリストモード</string>
+    <string name="force_play_all_audio_title">オーディオプレイリストモード</string>
     <string name="save_brightness_summary">メディア間での輝度を一定に保つ</string>
     <string name="save_brightness_title">輝度を保存</string>
     <string name="save_audiodelay_summary">個々のビデオごとにオーディオの遅延を保存</string>
@@ -321,9 +328,12 @@
     <string name="enable_double_tap_play_summary">画面の中心をダブルタップで再生/一時停止</string>
     <string name="enable_swipe_seek_title">スワイプでシーク</string>
     <string name="enable_swipe_seek_summary">スクリーンを横切るように指でスワイプすることでシークできます。</string>
+    <string name="enable_scale_gesture_title">日本指ズーム</string>
+    <string name="enable_scale_gesture_summary">二本の指でズームイン・アウトします</string>
     <string name="popup_keepscreen_title">ポップアップモードでスクリーンをオンに保持</string>
     <string name="popup_keepscreen_summary">ビデオが一時停止状態にポップアップが表示されている間もスクリーンをオンに保持します。</string>
     <string name="browser_show_hidden_files_title">隠しファイルを表示</string>
+    <string name="enable_video_screenshot">スクリーンショットを撮る</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕サイズ</string>
@@ -417,6 +427,7 @@
     <string name="auto_rescan">自動再検索</string>
     <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスを検索し、新しいメディア、および削除されたメディアを検出します。</string>
     <string name="dump_media_db">メディアデータベースをダンプ</string>
+    <string name="dump_app_db">アプリケーションデータべースをダンプ</string>
     <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="clear_media_database_summary">やり直すためにデータベースをクリアします</string>
@@ -537,6 +548,10 @@
     <string name="permission_onboarding_perm_all">すべてのファイルを自動検出して、変なメディアや圧縮ファイルを含むすべてのタイプのメディアを再生できるようになります</string>
     <string name="exit_app">VLCを閉じる</string>
     <string name="exit_app_msg">本当にVLCを終了してもいいですか?</string>
+    <string name="widget_explanation_title">VLCウィジェット</string>
+    <string name="widget_explanation_size">ウィジェットは異なるサイズとフレーバーを楽しむことができます</string>
+    <string name="widget_explanation_resize">ウィジェットを長押しするとタイプの変更やサイズをお好みに合わせて変更することができます。</string>
+    <string name="widget_explanation_end">ウィジェットは自由にカスタマイズすることができます。あなたの想像を解き放ちデザインしてください。</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller トラック</string>
@@ -858,6 +873,8 @@
     <string name="browser_show_missing_media">見つからないメディアを表示</string>
     <string name="browser_show_missing_media_summary">現在、存在しない古いデータを表示</string>
     <string name="search_prefs">検索設定</string>
+    <string name="video_match_frame_rate_title">ディスプレイのフレームレートを一致</string>
+    <string name="video_match_frame_rate_summary">ディスプレイのリフレッシュレートをメディアのフレームレートに一致させます。例えば、24pのフィルムは24pで再生されます。</string>
     <string name="preferred_resolution">優先するビデオの解像度</string>
     <string name="preferred_resolution_summary">ストリーム用の最大ビデオ品質が有効時%sになります。</string>
     <string name="pref_resolution_best_available">利用可能な最高値</string>
@@ -904,6 +921,7 @@
     <string name="video_double_tap_jump_delay">ダブルタップの遅延時間</string>
     <string name="video_key_jump_delay">ナビゲーションキーの遅延時間</string>
     <string name="banned">禁止フォルダ (長押しで変更)</string>
+    <string name="banned_tv">禁止されたフォルダー</string>
     <string name="banned_parent">親フォルダが禁止</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">これらの項目は既にこのプレイリストに存在します。</item>
@@ -938,6 +956,8 @@
     <string name="configure_widget">ウィジェットの設定</string>
     <string name="widget_preview">ウィジェットのプレビュー</string>
     <string name="widget_forward_delay">進める遅延時間</string>
+    <string name="widget_show_seek">シークボタンの表示</string>
+    <string name="widget_show_cover">カバーを表示</string>
     <string name="widget_rewind_delay">戻る遅延時間</string>
     <string name="widget_show_configure">設定アイコンを表示</string>
     <string name="widget_show_configure_summary">もし表示されなかったとしても右上の部分をタップすることで設定を開くことができます。</string>
@@ -948,6 +968,11 @@
     <string name="disable_track">トラックを無効化</string>
     <string name="ascending">昇順</string>
     <string name="descending">降順</string>
+    <string name="screenshot_error">スクリーンショットを撮っている時にエラーが発生しました</string>
+    <string name="disabled">無効</string>
+    <string name="enable_screenshot_gesture">3本指タップ</string>
+    <string name="enable_screenshot_button">スクリーンショットのボタンを表示</string>
+    <string name="enable_screenshot_button_and_gesture">ボタンとジェスチャー</string>
 
 
 
