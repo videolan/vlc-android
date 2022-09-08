@@ -204,6 +204,11 @@
 
     <string name="playback_history_title">Lejátszási előzmények</string>
     <string name="playback_history_summary">Minden lejátszott média mentése az előzmények közé</string>
+    <string name="video_resume_playback_title">Videólejátszási sor előzményei</string>
+    <string name="video_resume_playback_summary">Videólejátszási sor mentésének engedélyezése a későbbi folytatáshoz</string>
+    <string name="audio_resume_playback_title">Hanglejátszási sor előzményei</string>
+    <string name="audio_resume_playback_warning">A hanglejátszási sor előzményeinek letiltása viselkedési problémákhoz vezethet.\nLetiltás után előfordulhat, hogy nem tudja folytatni a lejátszást a következőkről:\n\n\t- Bluetooth-eszközről\n\t- a modulról\n\t- a médiaértesítésről</string>
+    <string name="audio_resume_playback_summary">Hanglejátszási sor mentésének engedélyezése a későbbi folytatáshoz</string>
     <string name="playback_speed_title">Lejátszási sebesség mentése</string>
     <string name="playback_speed_summary">Lejátszási sebesség megtartása a médiák között</string>
 
@@ -310,7 +315,9 @@
     <string name="media_seen">Megtekintett videók megjelölése</string>
     <string name="media_seen_summary">A videók megjelölése megtekintettként, ha végignézte</string>
     <string name="force_play_all_summary">Az összes videó lejátszása, kezdve azzal, amelyikre kattintott</string>
+    <string name="force_play_all_audio_summary">Az összes hang lejátszása, kezdve azzal, amelyikre kattintott</string>
     <string name="force_play_all_title">Videó lejátszólista mód</string>
+    <string name="force_play_all_audio_title">Hang lejátszólista mód</string>
     <string name="save_brightness_summary">Fényerő szintjének megtartása a médiák között</string>
     <string name="save_brightness_title">Fényerő szintjének mentése</string>
     <string name="save_audiodelay_summary">Hangkésleltetés mentése külön az összes videóhoz</string>
@@ -331,11 +338,12 @@
     <string name="enable_double_tap_play_summary">Dupla koppintás a képernyő közepén a lejátszáshoz vagy szüneteltetéshez</string>
     <string name="enable_swipe_seek_title">Csúsztassa a tekeréshez</string>
     <string name="enable_swipe_seek_summary">Csúsztassa az ujjait a képernyőn a tekeréshez</string>
+    <string name="enable_scale_gesture_title">Kétujjas nagyítás</string>
+    <string name="enable_scale_gesture_summary">Nagyítás és kicsinyítés két ujjal</string>
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
     <string name="popup_keepscreen_summary">A képernyő bekapcsolva tartása, ha a felugró megjelenített, akkor is, ha a videó szüneteltetett.</string>
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
     <string name="enable_video_screenshot">Képernyőkép készítése</string>
-    <string name="enable_video_screenshot_summary">Koppintson 3 ujjal képernyőkép készítéséhez</string>
 
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
@@ -429,6 +437,7 @@
     <string name="auto_rescan">Automatikus újraátvizsgálás</string>
     <string name="auto_rescan_summary">Automatikusan átvizsgálja az eszközt új és törölt médiák után az alkalmazás indításakor.</string>
     <string name="dump_media_db">Média-adatbázis kiírása</string>
+    <string name="dump_app_db">Alkalmazás-adatbázis kiírása</string>
     <string name="dump_media_db_summary">Adatbázis másolása a belső tárhely gyökerébe</string>
     <string name="clear_media_db">Média-adatbázis törlése</string>
     <string name="clear_media_database_summary">Törli az adatbázis az újrakezdéshez</string>
@@ -924,6 +933,7 @@
     <string name="video_double_tap_jump_delay">Dupla koppintás késleltetése</string>
     <string name="video_key_jump_delay">Navigációs gombok késleltetése</string>
     <string name="banned">Tiltott mappa (hosszú koppintás a módosításhoz)</string>
+    <string name="banned_tv">Tiltott mappa</string>
     <string name="banned_parent">Szülőmappa miatt tiltott</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Ez az elem már rajta van a lejátszólistán.</item>
@@ -961,6 +971,7 @@
     <string name="widget_preview">Modul előnézete</string>
     <string name="widget_forward_delay">Előretekerés késleltetése</string>
     <string name="widget_show_seek">Tekerőgombok megjelenítése</string>
+    <string name="widget_show_cover">Borító megjelenítése</string>
     <string name="widget_rewind_delay">Hátratekerés késleltetése</string>
     <string name="widget_show_configure">Beállítások ikon megjelenítése</string>
     <string name="widget_show_configure_summary">Ha nem jelenik meg, akkor is a jobb felső sarokba koppinthat, hogy megnyissa a beállításokat.</string>
@@ -972,6 +983,10 @@
     <string name="ascending">Emelkedő</string>
     <string name="descending">Csökkenő</string>
     <string name="screenshot_error">Hiba a képernyőkép készítése közben</string>
+    <string name="disabled">Letiltva</string>
+    <string name="enable_screenshot_gesture">Koppintson 3 ujjal</string>
+    <string name="enable_screenshot_button">A képernyőkép gomb megjelenítése</string>
+    <string name="enable_screenshot_button_and_gesture">Gomb és gesztus</string>
 
 
 
