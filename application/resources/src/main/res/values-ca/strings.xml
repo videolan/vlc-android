@@ -204,6 +204,11 @@
 
     <string name="playback_history_title">Historial de reproducció</string>
     <string name="playback_history_summary">Desa tots els fitxers multimèdia reproduïts a la secció Història</string>
+    <string name="video_resume_playback_title">Historial de cua de reproducció de vídeo</string>
+    <string name="video_resume_playback_summary">Permet desar la cua de reproducció de vídeo per reprendre-la més tard</string>
+    <string name="audio_resume_playback_title">Historial de cua de reproducció d\'àudio</string>
+    <string name="audio_resume_playback_warning">Desactivar l\'historial de cua de reproducció d\'àudio pot provocar alguns problemes de comportament.\nDesprés de desactivar-la potser no es pot reprendre la reproducció des de:\n\n\t- un dispositiu bluetooth\n\t- el giny\n\t- la notificació del mitjà</string>
+    <string name="audio_resume_playback_summary">Permet desar la cua de reproducció d\'àudio per reprendre-la més tard</string>
     <string name="playback_speed_title">Desa la velocitat de reproducció</string>
     <string name="playback_speed_summary">Manté la velocitat de reproducció entre multimèdia</string>
 
@@ -310,7 +315,9 @@
     <string name="media_seen">Mostra el marcador de vídeo vist</string>
     <string name="media_seen_summary">Marca el vídeo com a vist quan reprodueixes fins al final</string>
     <string name="force_play_all_summary">Reprodueix tots els vídeos, començant pel que has clickat</string>
+    <string name="force_play_all_audio_summary">Reproduir tots els àudios, començant pel que heu fet clic</string>
     <string name="force_play_all_title">Mode de llista de reproducció de vídeo</string>
+    <string name="force_play_all_audio_title">Mode de llista de reproducció d\'àudio</string>
     <string name="save_brightness_summary">Manté el nivell de brillantor entre multimèdia</string>
     <string name="save_brightness_title">Desa el nivell de brillantor</string>
     <string name="save_audiodelay_summary">Desa el retard d\'àudio individual per a cada vídeo</string>
@@ -331,11 +338,12 @@
     <string name="enable_double_tap_play_summary">Feu doble toc al centre de la pantalla per reproduir o pausar</string>
     <string name="enable_swipe_seek_title">Llisca per cercar</string>
     <string name="enable_swipe_seek_summary">Lliscar el dit per la pantalla per cercar</string>
+    <string name="enable_scale_gesture_title">Zoom amb dos dits</string>
+    <string name="enable_scale_gesture_summary">Amplia i redueix amb dos dits</string>
     <string name="popup_keepscreen_title">Manté la pantalla engegada en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manté la pantalla oberta mentre es mostra un Pop-Up, encara que el vídeo estigui en pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
     <string name="enable_video_screenshot">Obtén una instantània</string>
-    <string name="enable_video_screenshot_summary">Feu toc amb 3 dits per obtenir una instantània</string>
 
     <string name="subtitles_prefs_category">Subtítols</string>
     <string name="subtitles_size_title">Mida dels subtítols</string>
@@ -428,7 +436,8 @@
     <string name="advanced_prefs_category">Avançat</string>
     <string name="auto_rescan">Auto re-escaneig</string>
     <string name="auto_rescan_summary">Escaneja el dispositiu automàticament buscant fitxers multimèdia nous o esborrats quan s\'engegi l\'aplicació</string>
-    <string name="dump_media_db">Base de dades de fitxers multimèdia descartats</string>
+    <string name="dump_media_db">Bolca la base de dades multimèdia</string>
+    <string name="dump_app_db">Bolca la base de dades de l\'aplicació</string>
     <string name="dump_media_db_summary">Copia la base de dades a l\'arrel de l\'emmagatzematge intern</string>
     <string name="clear_media_db">Neteja la base de dades multimèdia</string>
     <string name="clear_media_database_summary">Esborra la base de dades per tornar a començar</string>
@@ -462,8 +471,8 @@
     <string name="copy_to_clipboard">Còpia cap al porta-retalls</string>
     <string name="copied_to_clipboard">Copiat el fitxer de registre al porta-retalls</string>
     <string name="copied_from_clipboard">L\'adreça s\'ha enganxat des del porta-retalls</string>
-    <string name="dump_logcat">Aboca el registre logcat</string>
-    <string name="dump_logcat_success">S\'ha abocat el registre logcat a %1$s!</string>
+    <string name="dump_logcat">Bolca el registre logcat</string>
+    <string name="dump_logcat_success">S\'ha bolcat el registre logcat a %1$s!</string>
     <string name="dump_logcat_failure">No s\'ha pogut bolcar el logcat.</string>
     <string name="custom_libvlc_options">Opcions personalitzades libVLC</string>
     <string name="custom_libvlc_options_invalid">Opcions invàlides libVLC!</string>
@@ -924,6 +933,7 @@
     <string name="video_double_tap_jump_delay">Retard del doble toc</string>
     <string name="video_key_jump_delay">Retard de les tecles de navegació</string>
     <string name="banned">Carpeta prohibida (feu un toc llarg per canviar)</string>
+    <string name="banned_tv">Carpeta prohibida</string>
     <string name="banned_parent">Prohibit per la carpeta pare</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Aquest element ja està a la llista de reproducció.</item>
@@ -961,6 +971,7 @@
     <string name="widget_preview">Visualització prèvia del giny</string>
     <string name="widget_forward_delay">Retard de temps endavant</string>
     <string name="widget_show_seek">Mostra els botons de cerca</string>
+    <string name="widget_show_cover">Mostra la portada</string>
     <string name="widget_rewind_delay">Retard de temps enrere</string>
     <string name="widget_show_configure">Mostra la icona de configuració</string>
     <string name="widget_show_configure_summary">Encara que no es vegi, per obrir la configuració podeu fer un toc al racó superior dret</string>
@@ -972,6 +983,10 @@
     <string name="ascending">Ascendent</string>
     <string name="descending">Descendent</string>
     <string name="screenshot_error">S\'ha produït un error mentre s\'obtenia la instantània</string>
+    <string name="disabled">Desactivat</string>
+    <string name="enable_screenshot_gesture">Feu un toc amb 3 dits</string>
+    <string name="enable_screenshot_button">Mostra el botó de captura de pantalla</string>
+    <string name="enable_screenshot_button_and_gesture">Botó i gest</string>
 
 
 
