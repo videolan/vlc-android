@@ -5,7 +5,7 @@
    viewBox="0 0 48.0 48.0"
    version="1.1"
    id="SVGRoot"
-   sodipodi:docname="ic_player_navmenu_.svg"
+   sodipodi:docname="ic_player_playqueue.svg"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313709"
-     inkscape:cx="7.4246212"
-     inkscape:cy="14.71666"
+     inkscape:zoom="64.000002"
+     inkscape:cx="23.984374"
+     inkscape:cy="29.882812"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -69,8 +69,9 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       id="path3196-9"
-       style="fill:#000000;stroke-width:2"
-       d="m 23.9997,4 c -11.04,0 -20,8.96 -20,20 0,11.04 8.96,20 20,20 v -4 c -8.82,0 -16,-7.18 -16,-16 0,-8.82 7.18,-16 16,-16 8.82,0 16,7.18 16,16 0,0.50477 -0.026,1.0031 -0.072,1.49609 l 3.5352,3.09375 C 43.8098,27.11515 44,25.58008 44,24 44,12.96 35.04,4 24,4 Z m -7.2695,10.95898 a 2,2 0 0 0 -1.1914,0.57032 v 0 c -2.2526,2.24088 -3.5255,5.28549 -3.5371,8.46289 A 2,2 0 0 0 13.9939,26 2,2 0 0 0 16.0017,24.00781 c 0.01,-2.11948 0.8548,-4.14774 2.3574,-5.64258 a 2,2 0 0 0 0.01,-2.82812 2,2 0 0 0 -1.6367,-0.57813 z M 23.9997,20 a 4.0000043,4.0000043 0 0 0 -4,4 4.0000043,4.0000043 0 0 0 4,4 4.0000043,4.0000043 0 0 0 4,-4 4.0000043,4.0000043 0 0 0 -4,-4 z m 10,6 c -0.3527,0 -0.7054,0.12339 -0.9883,0.37109 l -8,7 C 23.9692,34.28343 24.6146,36.00017 25.9997,36 h 2 v 3 5 h 4 v -5 h 4 v 5 h 4 v -5 -3 h 2 c 1.3851,1.7e-4 2.0305,-1.71657 0.9883,-2.62891 l -8,-7 C 34.7051,26.12339 34.3524,26 33.9997,26 Z" />
+       id="path7266"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;marker:none;enable-background:accumulate"
+       inkscape:transform-center-x="-1.9340001"
+       d="M 6 10 C 4.892 10 4 10.892002 4 12 C 4 13.107998 4.892 14 6 14 L 30 14 C 31.108 14 32 13.107998 32 12 C 32 10.892002 31.108 10 30 10 L 6 10 z M 6 20 C 4.892 20 4 20.892002 4 22 C 4 23.107998 4.892 24 6 24 L 22 24 C 23.108 24 24 23.107998 24 22 C 24 20.892002 23.108 20 22 20 L 6 20 z M 28 20 L 28 40 L 44 30 L 28 20 z M 6 30 C 4.892 30 4 30.892002 4 32 C 4 33.107998 4.892 34 6 34 L 22 34 C 23.108 34 24 33.107998 24 32 C 24 30.892002 23.108 30 22 30 L 6 30 z " />
   </g>
 </svg>
