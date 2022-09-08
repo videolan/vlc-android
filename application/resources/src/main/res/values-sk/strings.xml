@@ -224,6 +224,11 @@
 
     <string name="playback_history_title">História prehrávania</string>
     <string name="playback_history_summary">Ukladať všetky prehrané médiá do sekcie História</string>
+    <string name="video_resume_playback_title">História frontu prehrávania videa</string>
+    <string name="video_resume_playback_summary">Umožniť ukladanie frontu pre prehrávanie videa, aby bolo možné pokračovať neskôr</string>
+    <string name="audio_resume_playback_title">História frontu prehrávania zvuku</string>
+    <string name="audio_resume_playback_warning">Zablokovanie histórie frontu pre prehrávanie zvuku môže viesť k problémom s ovládaním.\nPo jeho zablokovaní možno nebudete môcť pokračovať v prehrávaní zo: \n\n\t- zariadenia Bluetooto\n\t- widgetu\n\t- notifikácie pre médium</string>
+    <string name="audio_resume_playback_summary">Umožniť ukladanie frontu pre prehrávanie zvuku, aby bolo možné pokračovať neskôr</string>
     <string name="playback_speed_title">Uložiť rýchlosť prehrávania</string>
     <string name="playback_speed_summary">Zachovať rýchlosť prehrávania medzi médiami</string>
 
@@ -330,7 +335,9 @@
     <string name="media_seen">Zobraziť značku pre už videné video</string>
     <string name="media_seen_summary">Pri prehratí videa až do konca ho označiť ako videné</string>
     <string name="force_play_all_summary">Prehrať všetky videá počínajúc tým, na ktoré ste klikli</string>
+    <string name="force_play_all_audio_summary">Prehrať všetko audio, počínajúc tým, na ktoré ste klikli</string>
     <string name="force_play_all_title">Režim playlistu videa</string>
+    <string name="force_play_all_audio_title">Režim audio playlistu</string>
     <string name="save_brightness_summary">Zachovať úroveň jasu medzi médiami</string>
     <string name="save_brightness_title">Uložiť úroveň jasu</string>
     <string name="save_audiodelay_summary">Uložiť individuálne oneskorenie zvuku pre každé video</string>
@@ -351,9 +358,12 @@
     <string name="enable_double_tap_play_summary">Pre prehrávanie/pozastavenie dvakrát ťuknite na stred obrazovky</string>
     <string name="enable_swipe_seek_title">Vyhľadávanie spustíte potiahnutím</string>
     <string name="enable_swipe_seek_summary">Pre vyhľadávanie potiahnite prst cez obrazovku</string>
+    <string name="enable_scale_gesture_title">Priblíženie dvomi prstami</string>
+    <string name="enable_scale_gesture_summary">Priblížiť a oddialiť dvomi prstami</string>
     <string name="popup_keepscreen_title">V režime vyskakovacieho okna ponechať ZAPNUTÝ displej</string>
     <string name="popup_keepscreen_summary">Počas zobrazenia vyskakovacieho okna ponechať displej ZAPNUTÝ, aj pri pozastavení videa.</string>
     <string name="browser_show_hidden_files_title">Zobraziť skryté súbory</string>
+    <string name="enable_video_screenshot">Zaznamenať screenshot</string>
 
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Veľkosť titulkov</string>
@@ -447,6 +457,7 @@
     <string name="auto_rescan">Automatické opätovné skenovanie</string>
     <string name="auto_rescan_summary">Pri spustení aplikácie automaticky vyhľadať v zariadení nové alebo vymazané médiá</string>
     <string name="dump_media_db">Analyzovať databázu médií</string>
+    <string name="dump_app_db">Analýza databázy aplikácie</string>
     <string name="dump_media_db_summary">Kopírovať databázu do interného hlavného úložiska (root)</string>
     <string name="clear_media_db">Vyprázdniť databázu médií</string>
     <string name="clear_media_database_summary">Vyprázdni databázu pre začatie odznovu</string>
@@ -567,6 +578,10 @@
     <string name="permission_onboarding_perm_all">Bude možné automatické zisťovanie všetkých vašich súborov na prehrávanie všetkých typov médií, aj zvláštnych alebo komprimovaných súborov</string>
     <string name="exit_app">Zavrieť VLC</string>
     <string name="exit_app_msg">Naozaj chcete ukončiť aplikáciu VLC?</string>
+    <string name="widget_explanation_title">Widgety VLC</string>
+    <string name="widget_explanation_size">Widgety sú dostupné v rôznych veľkostiach a vzhľadoch</string>
+    <string name="widget_explanation_resize">Ak chcete zmeniť widget, podržte ho stlačený a pomocou príslušných prvkov zmeňte jeho veľkosť</string>
+    <string name="widget_explanation_end">Widgety sú veľmi prispôsobiteľné. Prejavte svoju kreativitu a upravte si ich vzhľad podľa svojich želaní!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Rýchle rolovanie stopy</string>
@@ -894,6 +909,8 @@
     <string name="browser_show_missing_media">Zobraziť chýbajúce médiá</string>
     <string name="browser_show_missing_media_summary">Zobrazovať vzdialené médiá aj keď nie sú prítomné</string>
     <string name="search_prefs">Nastavenia vyhľadávania</string>
+    <string name="video_match_frame_rate_title">Zhoda s obnovovacou frekvenciou displeja</string>
+    <string name="video_match_frame_rate_summary">Nastavte zhodu obnovovacej frekvencie displeja a média. Napríklad film s frekvenciou 24p by sa mal prehrávať na frekvencii 24p</string>
     <string name="preferred_resolution">Preferované rozlíšenie videa</string>
     <string name="preferred_resolution_summary">Maximálna kvalita videa pre streamy, ak sa dá použiť, bude: %s</string>
     <string name="pref_resolution_best_available">Najlepšie dostupné</string>
@@ -940,6 +957,7 @@
     <string name="video_double_tap_jump_delay">Časový posun pri dvojitom ťuknutí</string>
     <string name="video_key_jump_delay">Časové oneskorenie - navigačné klávesy</string>
     <string name="banned">Zablokovaný priečinok (zmenu vykonáte dlhým dotykom)</string>
+    <string name="banned_tv">Vylúčený priečinok</string>
     <string name="banned_parent">Zablokované rodičovským priečinkom</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Táto položka už je v playliste.</item>
@@ -980,6 +998,8 @@
     <string name="configure_widget">Konfigurácia widgetov</string>
     <string name="widget_preview">Náhľad widgetu</string>
     <string name="widget_forward_delay">Časový posun dopredu</string>
+    <string name="widget_show_seek">Zobraziť tlačidlá vyhľadávania</string>
+    <string name="widget_show_cover">Zobraziť obal</string>
     <string name="widget_rewind_delay">Časový posun dozadu</string>
     <string name="widget_show_configure">Zobraziť ikonu konfigurácie</string>
     <string name="widget_show_configure_summary">Ak keď sa daná voľba nezobrazuje, dotknutím sa pravého horného rohu otvoríte konfiguráciu</string>
@@ -990,6 +1010,11 @@
     <string name="disable_track">Zablokovať stopu</string>
     <string name="ascending">Vzostupne</string>
     <string name="descending">Zostupne</string>
+    <string name="screenshot_error">Chyba počas zaznamenávania screenshotu</string>
+    <string name="disabled">Vypnuté</string>
+    <string name="enable_screenshot_gesture">Dotyk 3 prstami</string>
+    <string name="enable_screenshot_button">Zobraziť tlačidlo pre screenshot</string>
+    <string name="enable_screenshot_button_and_gesture">Tlačidlo a gesto</string>
 
 
 
