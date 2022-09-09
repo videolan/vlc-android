@@ -43,4 +43,5 @@ dependencies {
     api project(':application:moviepedia')
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
 }
