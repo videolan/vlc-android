@@ -154,6 +154,9 @@
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7" />
+    <style name="Theme.VLC.Material.TV" parent="Theme.VLC.Black" >
+        <item name="android:background">@color/tv_card_content_darker</item>
+    </style>
 
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <!--        <item name="actionBarStyle">@style/ActionBar</item>-->

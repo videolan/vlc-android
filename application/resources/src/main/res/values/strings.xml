@@ -386,6 +386,8 @@
     <string name="subtitle_decoration_outline">Outline</string>
     <string name="subtitles_bold_title">Bold subtitles</string>
     <string name="subtitles_autoload_title">Auto load subtitles</string>
+    <string name="previous_color">Previous color</string>
+    <string name="new_color">New color</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
