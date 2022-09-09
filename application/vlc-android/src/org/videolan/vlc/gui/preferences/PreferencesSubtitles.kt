@@ -24,14 +24,17 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.SeekBarPreference
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -104,9 +107,10 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
             "subtitles_background_color", "subtitles_background_color_opacity", "subtitles_background",
             "subtitles_outline", "subtitles_outline_size", "subtitles_outline_color", "subtitles_outline_color_opacity",
             "subtitles_shadow", "subtitles_shadow_color", "subtitles_shadow_color_opacity" -> {
-                VLCInstance.restart()
-                if (activity != null)
-                    (activity as PreferencesActivity).restartMediaPlayer()
+                lifecycleScope.launch {
+                    VLCInstance.restart()
+                    restartMediaPlayer()
+                }
                 managePreferenceVisibilities()
             }
             "subtitle_preferred_language" -> updatePreferredSubtitleTrack()

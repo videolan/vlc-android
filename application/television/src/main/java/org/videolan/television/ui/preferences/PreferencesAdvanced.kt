@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.deleteAllWatchNext
@@ -235,27 +236,29 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
                     }
                 }
-                restartLibVLC()
+                launch { restartLibVLC() }
             }
             "custom_libvlc_options" -> {
-                try {
-                    VLCInstance.restart()
-                } catch (e: IllegalStateException){
-                    activity?.let { Toast.makeText(it, R.string.custom_libvlc_options_invalid, Toast.LENGTH_LONG).show() }
-                    sharedPreferences.putSingle("custom_libvlc_options", "")
-                } finally {
-                    (activity as? PreferencesActivity)?.restartMediaPlayer()
+                launch {
+                    try {
+                        VLCInstance.restart()
+                    } catch (e: IllegalStateException) {
+                        activity?.let { Toast.makeText(it, R.string.custom_libvlc_options_invalid, Toast.LENGTH_LONG).show() }
+                        sharedPreferences.putSingle("custom_libvlc_options", "")
+                    } finally {
+                        restartMediaPlayer()
+                    }
+                    restartLibVLC()
                 }
-                restartLibVLC()
             }
             "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode", "prefer_smbv1" -> {
-                restartLibVLC()
+                launch { restartLibVLC() }
             }
         }
     }
 
-    private fun restartLibVLC() {
+    private suspend fun restartLibVLC() {
         VLCInstance.restart()
-        (activity as? PreferencesActivity)?.restartMediaPlayer()
+        restartMediaPlayer()
     }
 }

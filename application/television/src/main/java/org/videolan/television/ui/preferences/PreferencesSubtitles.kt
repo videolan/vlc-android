@@ -32,6 +32,9 @@ import android.util.Log
 import androidx.preference.ListPreference
 import androidx.preference.SeekBarPreference
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
@@ -40,13 +43,14 @@ import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
 private const val SUBTITLE_COLOR_RESULT = 1
 private const val SUBTITLE_BACKGROUND_COLOR_RESULT = 2
 private const val SUBTITLE_SHADOW_COLOR_RESULT = 3
 private const val SUBTITLE_OUTLINE_COLOR_RESULT = 4
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
 
     private lateinit var settings: SharedPreferences
     private lateinit var preferredSubtitleTrack: ListPreference
@@ -157,9 +161,10 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
             "subtitles_background_color", "subtitles_background_color_opacity", "subtitles_background",
             "subtitles_outline", "subtitles_outline_size", "subtitles_outline_color", "subtitles_outline_color_opacity",
             "subtitles_shadow", "subtitles_shadow_color", "subtitles_shadow_color_opacity" -> {
-                VLCInstance.restart()
-                if (activity != null)
-                    (activity as PreferencesActivity).restartMediaPlayer()
+                launch {
+                    VLCInstance.restart()
+                    restartMediaPlayer()
+                }
                 managePreferenceVisibilities()
             }
             "subtitle_preferred_language" -> updatePreferredSubtitleTrack()

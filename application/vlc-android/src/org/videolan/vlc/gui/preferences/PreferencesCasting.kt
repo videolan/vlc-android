@@ -24,9 +24,12 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
-import org.videolan.vlc.R
+import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
 class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -51,8 +54,10 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             "casting_passthrough", "casting_quality" -> {
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+                lifecycleScope.launch {
+                    VLCInstance.restart()
+                    restartMediaPlayer()
+                }
             }
         }
     }
