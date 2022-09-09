@@ -160,6 +160,19 @@
         <item>10</item>
     </string-array>
 
+    <string-array name="subtitles_outline_size_entries">
+        <item>@string/subtitles_size_small</item>
+        <item>@string/subtitles_size_normal</item>
+        <item>@string/subtitles_size_big</item>
+    </string-array>
+
+    <string-array name="subtitles_outline_size_values">
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+    </string-array>
+
+
     <string-array name="subtitles_color_entries">
         <item>@string/subtitles_color_white</item>
         <item>@string/subtitles_color_gray</item>

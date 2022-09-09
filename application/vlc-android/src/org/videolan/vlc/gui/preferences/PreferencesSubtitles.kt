@@ -25,6 +25,8 @@ package org.videolan.vlc.gui.preferences
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.ListPreference
+import androidx.preference.SeekBarPreference
+import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
@@ -33,7 +35,18 @@ import org.videolan.vlc.R
 
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private lateinit var settings: SharedPreferences
     private lateinit var preferredSubtitleTrack: ListPreference
+
+    private lateinit var subtitlesBackgroundColor: ColorPreferenceCompat
+    private lateinit var subtitlesBackgroundOpacity: SeekBarPreference
+
+    private lateinit var subtitlesShadowColor: ColorPreferenceCompat
+    private lateinit var subtitlesShadowOpacity: SeekBarPreference
+
+    private lateinit var subtitlesOutlineSize: ListPreference
+    private lateinit var subtitlesOutlineColor: ColorPreferenceCompat
+    private lateinit var subtitlesOutlineOpacity: SeekBarPreference
 
     override fun getXml(): Int {
         return R.xml.preferences_subtitles
@@ -45,9 +58,25 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        settings = Settings.getInstance(requireActivity())
         preferredSubtitleTrack = findPreference("subtitle_preferred_language")!!
+
+        //background
+        subtitlesBackgroundColor = findPreference("subtitles_background_color")!!
+        subtitlesBackgroundOpacity = findPreference("subtitles_background_color_opacity")!!
+
+        //shadow
+        subtitlesShadowColor = findPreference("subtitles_shadow_color")!!
+        subtitlesShadowOpacity = findPreference("subtitles_shadow_color_opacity")!!
+
+        //outline
+        subtitlesOutlineSize = findPreference("subtitles_outline_size")!!
+        subtitlesOutlineColor = findPreference("subtitles_outline_color")!!
+        subtitlesOutlineOpacity = findPreference("subtitles_outline_color_opacity")!!
+
         updatePreferredSubtitleTrack()
         prepareLocaleList()
+        managePreferenceVisibilities()
     }
 
     private fun updatePreferredSubtitleTrack() {
@@ -70,13 +99,34 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "subtitles_size", "subtitles_bold", "subtitles_color", "subtitles_background", "subtitle_text_encoding" -> {
+            "subtitles_size", "subtitles_bold", "subtitle_text_encoding",
+            "subtitles_color", "subtitles_color_opacity",
+            "subtitles_background_color", "subtitles_background_color_opacity", "subtitles_background",
+            "subtitles_outline", "subtitles_outline_size", "subtitles_outline_color", "subtitles_outline_color_opacity",
+            "subtitles_shadow", "subtitles_shadow_color", "subtitles_shadow_color_opacity" -> {
                 VLCInstance.restart()
                 if (activity != null)
                     (activity as PreferencesActivity).restartMediaPlayer()
+                managePreferenceVisibilities()
             }
             "subtitle_preferred_language" -> updatePreferredSubtitleTrack()
         }
+    }
+
+    private fun managePreferenceVisibilities() {
+        val subtitleBackgroundEnabled = settings.getBoolean("subtitles_background", false)
+        subtitlesBackgroundColor.isVisible = subtitleBackgroundEnabled
+        subtitlesBackgroundOpacity.isVisible = subtitleBackgroundEnabled
+
+        val subtitleShadowEnabled = settings.getBoolean("subtitles_shadow", true)
+        subtitlesShadowColor.isVisible = subtitleShadowEnabled
+        subtitlesShadowOpacity.isVisible = subtitleShadowEnabled
+
+        val subtitleOutlineEnabled = settings.getBoolean("subtitles_outline", true)
+        //we disable the size for now as it causes some render issues. May be shown in the future
+//        subtitlesOutlineSize.isVisible = subtitleOutlineEnabled
+        subtitlesOutlineColor.isVisible = subtitleOutlineEnabled
+        subtitlesOutlineOpacity.isVisible = subtitleOutlineEnabled
     }
 
     private fun prepareLocaleList() {

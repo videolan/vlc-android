@@ -26,6 +26,7 @@ import android.media.AudioManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.MainThread
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import org.videolan.libvlc.MediaPlayer
@@ -82,8 +83,25 @@ object VLCOptions {
             val networkCaching = pref.getInt("network_caching_value", 0).coerceIn(0, 60000)
             val freetypeRelFontsize = pref.getString("subtitles_size", "16")
             val freetypeBold = pref.getBoolean("subtitles_bold", false)
-            val freetypeColor = pref.getString("subtitles_color", "16777215")
-            val freetypeBackground = pref.getBoolean("subtitles_background", false)
+
+            val freetypeColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_color", 16777215))))
+            val freetypeColorOpacity = pref.getInt("subtitles_color_opacity", 255)
+
+            val freetypeBackgroundColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_background_color", 16777215))))
+            val freetypeBackgroundColorOpacity = pref.getInt("subtitles_background_color_opacity", 255)
+            val freetypeBackgroundEnabled = pref.getBoolean("subtitles_background", false)
+
+            val freetypeOutlineEnabled = pref.getBoolean("subtitles_outline", true)
+            val freetypeOutlineSize = pref.getString("subtitles_outline_size", "4")
+            val freetypeOutlineColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_outline_color", 0))))
+            val freetypeOutlineOpacity = pref.getInt("subtitles_outline_color_opacity", 255)
+
+
+            val freetypeShadowEnabled = pref.getBoolean("subtitles_shadow", true)
+            val freetypeShadowColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_shadow_color", ContextCompat.getColor(context, R.color.grey_subtitle_shadow)))))
+            val freetypeShadowOpacity = pref.getInt("subtitles_shadow_color_opacity", 255)
+
+
             val opengl = Integer.parseInt(pref.getString("opengl", "-1")!!)
             options.add(if (timeStreching) "--audio-time-stretch" else "--no-audio-time-stretch")
             options.add("--avcodec-skiploopfilter")
@@ -103,9 +121,25 @@ object VLCOptions {
 
             options.add("--freetype-rel-fontsize=" + freetypeRelFontsize!!)
             if (freetypeBold) options.add("--freetype-bold")
-            options.add("--freetype-color=" + freetypeColor!!)
+            options.add("--freetype-color=$freetypeColor")
+            options.add("--freetype-opacity=$freetypeColorOpacity")
+            if (freetypeBackgroundEnabled) {
+                options.add("--freetype-background-color=$freetypeBackgroundColor")
+                options.add("--freetype-background-opacity=$freetypeBackgroundColorOpacity")
+            } else options.add("--freetype-background-opacity=0")
 
-            options.add(if (freetypeBackground) "--freetype-background-opacity=128" else "--freetype-background-opacity=0")
+            if (freetypeShadowEnabled) {
+                options.add("--freetype-shadow-color=$freetypeShadowColor")
+                options.add("--freetype-shadow-opacity=$freetypeShadowOpacity")
+            } else options.add("--freetype-shadow-opacity=0")
+
+            if (freetypeOutlineEnabled) {
+                options.add("--freetype-outline-thickness=$freetypeOutlineSize")
+                    options.add("--freetype-outline-color=$freetypeOutlineColor")
+                    options.add("--freetype-outline-opacity=$freetypeOutlineOpacity")
+            } else options.add("--freetype-outline-opacity=0")
+
+
             if (opengl == 1) options.add("--vout=gles2,none")
             else if (opengl == 0) options.add("--vout=android_display,none")
             options.add("--keystore")
@@ -149,6 +183,7 @@ object VLCOptions {
                 options.add("--soundfont=${soundFontFile.path}")
             }
             options.add("--preferred-resolution=${pref.getString("preferred_resolution", "-1")!!}")
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "VLC Options: ${options.joinToString(" ")}")
             return options
         }
 
