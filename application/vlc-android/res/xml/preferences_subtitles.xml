@@ -5,6 +5,14 @@
         android:key="subtitles_category"
         android:title="@string/subtitles_prefs_category">
 
+    <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/subtitles_presets_entries"
+            android:entryValues="@array/subtitles_presets_values"
+            android:key="subtitles_presets"
+            android:persistent="false"
+            android:title="@string/subtitles_presets_title" />
+
     <CheckBoxPreference
             android:defaultValue="true"
             android:key="subtitles_autoload"
