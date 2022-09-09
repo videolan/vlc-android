@@ -214,6 +214,11 @@
 
     <string name="playback_history_title">Istoric redare</string>
     <string name="playback_history_summary">Salvați toate fișierele media redate din secțiunea Istoric</string>
+    <string name="video_resume_playback_title">Istoricul cozii de redare video</string>
+    <string name="video_resume_playback_summary">Permite salvarea cozii de redare video pentru a o relua mai târziu</string>
+    <string name="audio_resume_playback_title">Istoricul cozii de redare audio</string>
+    <string name="audio_resume_playback_warning">Dezactivarea istoricului cozii de redare audio poate duce la unele probleme de comportament.\nDupă dezactivarea acestuia, este posibil să nu poți relua redarea de pe:\n\n\t- un dispozitiv Bluetooth\n\t- widget-ul\n\t- notificarea media</string>
+    <string name="audio_resume_playback_summary">Permite salvarea cozii de redare audio pentru a o relua mai târziu</string>
     <string name="playback_speed_title">Salvați viteza de redare</string>
     <string name="playback_speed_summary">Reține viteza redării între fișiere media</string>
 
@@ -320,7 +325,9 @@
     <string name="media_seen">Afișează marcajul pentru video văzut</string>
     <string name="media_seen_summary">Marchează un videoclip ca văzut atunci cândeste redat până la sfârșit</string>
     <string name="force_play_all_summary">Redă toate videoclipurile, începând cu cel pe care am făcut clic</string>
+    <string name="force_play_all_audio_summary">Redă toate fișierele audio, începând cu cea pe care ai apăsat</string>
     <string name="force_play_all_title">Modul video playlist</string>
+    <string name="force_play_all_audio_title">Modul listă de redare audio</string>
     <string name="save_brightness_summary">Păstrează nivelul luminozității între sesiuni</string>
     <string name="save_brightness_title">Salvează nivelul luminozității</string>
     <string name="save_audiodelay_summary">Salvează întârzierea audio individual pentru fiecare videoclip</string>
@@ -341,9 +348,12 @@
     <string name="enable_double_tap_play_summary">Atingeți de două ori în centrul ecranului pentru a reda sau a pune pe pauză</string>
     <string name="enable_swipe_seek_title">Glisați pentru a derula</string>
     <string name="enable_swipe_seek_summary">Glisați degetele pe ecran pentru a derula</string>
+    <string name="enable_scale_gesture_title">Redimensionare cu două degete</string>
+    <string name="enable_scale_gesture_summary">Mărește sau micșorează cu două degete</string>
     <string name="popup_keepscreen_title">Mențineți ecranul activat în modul Pop-Up</string>
     <string name="popup_keepscreen_summary">Mențineți întotdeauna ecranul activat în timp ce se afișează ferestrele pop-up, chiar dacă videoclipul este întrerupt.</string>
     <string name="browser_show_hidden_files_title">Afișați fișierele ascunse</string>
+    <string name="enable_video_screenshot">Fă o captură de ecran</string>
 
     <string name="subtitles_prefs_category">Subtitrari</string>
     <string name="subtitles_size_title">Marime subtitrari</string>
@@ -437,6 +447,7 @@
     <string name="auto_rescan">Reluarea automată a scanării</string>
     <string name="auto_rescan_summary">Scanați automat dispozitivul pentru medii noi sau șterse la pornirea aplicației</string>
     <string name="dump_media_db">Descarcă baza de date</string>
+    <string name="dump_app_db">Șterge baza de date a aplicației</string>
     <string name="dump_media_db_summary">Copie baza de date în rădăcina dispozitivului de stocare</string>
     <string name="clear_media_db">Curăță baza de date media</string>
     <string name="clear_media_database_summary">Curăță baza de date media pentru a începe din nou</string>
@@ -557,6 +568,10 @@
     <string name="permission_onboarding_perm_all">Vei putea să îți descoperi automat toate fișierele ca să redai toate tipurile de conținut media, chiar și pe cele ciudate sau fișierele comprimate</string>
     <string name="exit_app">Inchide VLC -ul</string>
     <string name="exit_app_msg">Sigur doriți să închideți aplicația VLC?</string>
+    <string name="widget_explanation_title">Widgeturi VLC</string>
+    <string name="widget_explanation_size">Widgeturile vin în diferite dimensiuni și arome</string>
+    <string name="widget_explanation_resize">Pentru a schimba tipul de widget, apasă lung și folosește mânerele pentru a-l redimensiona la dimensiunea dorită</string>
+    <string name="widget_explanation_end">Widgeturile sunt foarte personalizabile. Eliberează-ți creativitatea și fă-le să arate ca tine!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Pista de derulare rapidă</string>
@@ -882,6 +897,8 @@
     <string name="browser_show_missing_media">Afișați mediile lipsă</string>
     <string name="browser_show_missing_media_summary">Afișați mediile îndepărtate chiar dacă acestea nu sunt prezente</string>
     <string name="search_prefs">Setări de căutare</string>
+    <string name="video_match_frame_rate_title">Potrivește rata de cadre de afișare</string>
+    <string name="video_match_frame_rate_summary">Potrivește rata de reîmprospătare a afișajului cu rata de cadre media. De exemplu, un film de 24p ar trebui să fie redat la 24p</string>
     <string name="preferred_resolution">Rezoluția video preferată</string>
     <string name="preferred_resolution_summary">Calitatea video maximă pentru fluxuri, atunci când este cazul, va fi următoarea: %s</string>
     <string name="pref_resolution_best_available">Cel mai bun disponibil</string>
@@ -928,6 +945,7 @@
     <string name="video_double_tap_jump_delay">Întarzierea pentru funcţia de dublu apăsare</string>
     <string name="video_key_jump_delay">Întârzierea pentru butoanele de navigare</string>
     <string name="banned">Dosar interzis (atinge lung pentru a schimba)</string>
+    <string name="banned_tv">Dosar interzis</string>
     <string name="banned_parent">Interzis de dosarul părinte</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Acest element este deja în lista de redare.</item>
@@ -966,6 +984,8 @@
     <string name="configure_widget">Configurarea widget-ului</string>
     <string name="widget_preview">Previzualizează widget-ul</string>
     <string name="widget_forward_delay">Întârziere înainte</string>
+    <string name="widget_show_seek">Afișează butoanele de căutare</string>
+    <string name="widget_show_cover">Arată coperta</string>
     <string name="widget_rewind_delay">Întârziere înapoi</string>
     <string name="widget_show_configure">Afișează iconița de configurare</string>
     <string name="widget_show_configure_summary">Chiar dacă nu este afișat, poți atinge colțul din dreapta sus ca să deschizi configurația</string>
@@ -976,6 +996,11 @@
     <string name="disable_track">Dezactivează pista</string>
     <string name="ascending">Ascendent</string>
     <string name="descending">Descendent</string>
+    <string name="screenshot_error">Eroare la efectuarea capturii de ecran</string>
+    <string name="disabled">Dezactivat</string>
+    <string name="enable_screenshot_gesture">Atinge cu 3 degete</string>
+    <string name="enable_screenshot_button">Afișează butonul de captură de ecran</string>
+    <string name="enable_screenshot_button_and_gesture">Buton și gest</string>
 
 
 
