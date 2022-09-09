@@ -172,24 +172,22 @@
         <item>6</item>
     </string-array>
 
-
-    <string-array name="subtitles_color_entries">
-        <item>@string/subtitles_color_white</item>
-        <item>@string/subtitles_color_gray</item>
-        <item>@string/subtitles_color_pink</item>
-        <item>@string/subtitles_color_blue</item>
-        <item>@string/subtitles_color_yellow</item>
-        <item>@string/subtitles_color_green</item>
+    <string-array name="subtitles_presets_entries">
+        <item>@string/subtitles_preset_default</item>
+        <item>@string/subtitles_preset_default_large</item>
+        <item>@string/subtitles_preset_white_background</item>
+        <item>@string/subtitles_yellow</item>
+        <item>@string/subtitles_yellow_background</item>
     </string-array>
 
-    <string-array name="subtitles_color_values">
-        <item>16777215</item>
-        <item>12632256</item>
-        <item>16711935</item>
-        <item>65535</item>
-        <item>16776960</item>
-        <item>65280</item>
+    <string-array name="subtitles_presets_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
+
 
     <string-array name="video_app_switch_action_titles" translatable="false">
         <item>@string/stop</item>

@@ -26,9 +26,12 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.SeekBarPreference
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
@@ -54,14 +57,21 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     private lateinit var settings: SharedPreferences
     private lateinit var preferredSubtitleTrack: ListPreference
-    private lateinit var subtitleColorPref: ColorPreferenceCompat
 
+    private lateinit var subtitlesSize: ListPreference
+    private lateinit var subtitlesBold: CheckBoxPreference
+    private lateinit var subtitlesOpacity: SeekBarPreference
+    private lateinit var subtitlesColor: ColorPreferenceCompat
+
+    private lateinit var subtitlesBackgroundEnabled: CheckBoxPreference
     private lateinit var subtitlesBackgroundColor: ColorPreferenceCompat
     private lateinit var subtitlesBackgroundOpacity: SeekBarPreference
 
+    private lateinit var subtitlesShadowEnabled: CheckBoxPreference
     private lateinit var subtitlesShadowColor: ColorPreferenceCompat
     private lateinit var subtitlesShadowOpacity: SeekBarPreference
 
+    private lateinit var subtitlesOutlineEnabled: CheckBoxPreference
     private lateinit var subtitlesOutlineSize: ListPreference
     private lateinit var subtitlesOutlineColor: ColorPreferenceCompat
     private lateinit var subtitlesOutlineOpacity: SeekBarPreference
@@ -78,23 +88,53 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         super.onCreate(savedInstanceState)
         settings = Settings.getInstance(activity)
         preferredSubtitleTrack = findPreference("subtitle_preferred_language")!!
-        subtitleColorPref = findPreference("subtitles_color")!!
+
+        //main
+        subtitlesSize = findPreference("subtitles_size")!!
+        subtitlesBold = findPreference("subtitles_bold")!!
+        subtitlesColor = findPreference("subtitles_color")!!
+        subtitlesOpacity = findPreference("subtitles_color_opacity")!!
 
         //background
+        subtitlesBackgroundEnabled = findPreference("subtitles_background")!!
         subtitlesBackgroundColor = findPreference("subtitles_background_color")!!
         subtitlesBackgroundOpacity = findPreference("subtitles_background_color_opacity")!!
 
         //shadow
+        subtitlesShadowEnabled = findPreference("subtitles_shadow")!!
         subtitlesShadowColor = findPreference("subtitles_shadow_color")!!
         subtitlesShadowOpacity = findPreference("subtitles_shadow_color_opacity")!!
 
         //outline
+        subtitlesOutlineEnabled = findPreference("subtitles_outline")!!
         subtitlesOutlineSize = findPreference("subtitles_outline_size")!!
         subtitlesOutlineColor = findPreference("subtitles_outline_color")!!
         subtitlesOutlineOpacity = findPreference("subtitles_outline_color_opacity")!!
 
+        val presetPreference = findPreference<ListPreference>("subtitles_presets")!!
+        presetPreference.value = "-1"
+        presetPreference.setOnPreferenceChangeListener { preference, newValue ->
+            resetAll()
+            when (newValue) {
+                "1" -> subtitlesSize.value = "13"
+                "2" -> {
+                    subtitlesBackgroundEnabled.isChecked = true
+                    subtitlesBackgroundOpacity.value = 128
+                    subtitlesShadowEnabled.isChecked = false
+                }
+                "3" -> subtitlesColor.saveValue(Color.YELLOW)
+                "4" -> {
+                    subtitlesColor.saveValue(Color.YELLOW)
+                    subtitlesBackgroundEnabled.isChecked = true
+                    subtitlesBackgroundOpacity.value = 128
+                    subtitlesShadowEnabled.isChecked = false
+                }
+            }
+            false
+        }
 
-        subtitleColorPref.setOnShowDialogListener { title, currentColor ->
+
+        subtitlesColor.setOnShowDialogListener { title, currentColor ->
             val intent = Intent(activity, ColorPickerActivity::class.java)
             intent.putExtra(COLOR_PICKER_SELECTED_COLOR, currentColor)
             intent.putExtra(COLOR_PICKER_TITLE, getString(R.string.subtitles_color_title))
@@ -125,6 +165,25 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         managePreferenceVisibilities()
     }
 
+    private fun resetAll() {
+        subtitlesSize.value = "16"
+        subtitlesBold.isChecked = false
+        subtitlesColor.saveValue(ContextCompat.getColor(activity, R.color.white))
+        subtitlesOpacity.value = 255
+
+        subtitlesBackgroundEnabled.isChecked = false
+        subtitlesBackgroundColor.saveValue(Color.BLACK)
+        subtitlesBackgroundOpacity.value = 255
+
+        subtitlesShadowEnabled.isChecked = true
+        subtitlesShadowColor.saveValue(ContextCompat.getColor(activity, R.color.grey_subtitle_shadow))
+        subtitlesShadowOpacity.value = 255
+
+        subtitlesOutlineEnabled.isChecked = true
+        subtitlesOutlineColor.saveValue(Color.BLACK)
+        subtitlesOutlineOpacity.value = 255
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -132,7 +191,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
         if (resultCode == Activity.RESULT_OK && data.hasExtra(COLOR_PICKER_SELECTED_COLOR)) {
            when (requestCode) {
-               SUBTITLE_COLOR_RESULT -> subtitleColorPref
+               SUBTITLE_COLOR_RESULT -> subtitlesColor
                SUBTITLE_SHADOW_COLOR_RESULT -> subtitlesShadowColor
                SUBTITLE_OUTLINE_COLOR_RESULT -> subtitlesOutlineColor
                SUBTITLE_BACKGROUND_COLOR_RESULT -> subtitlesBackgroundColor
@@ -186,6 +245,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         subtitlesOutlineColor.isVisible = subtitleOutlineEnabled
         subtitlesOutlineOpacity.isVisible = subtitleOutlineEnabled
     }
+
 
     private fun prepareLocaleList() {
         val localePair = LocaleUtils.getLocalesUsedInProject(activity, BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))

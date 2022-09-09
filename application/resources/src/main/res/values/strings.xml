@@ -361,6 +361,7 @@
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
+    <string name="subtitles_presets_title">Subtitles presets</string>
     <string name="subtitles_size_small">Small</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Big</string>
@@ -371,12 +372,6 @@
     <string name="subtitles_color">Color</string>
     <string name="subtitles_size">Size</string>
     <string name="subtitles_background_color_title">Subtitles background</string>
-    <string name="subtitles_color_white">White</string>
-    <string name="subtitles_color_gray">Gray</string>
-    <string name="subtitles_color_pink">Pink</string>
-    <string name="subtitles_color_blue">Blue</string>
-    <string name="subtitles_color_yellow">Yellow</string>
-    <string name="subtitles_color_green">Green</string>
     <string name="subtitles_background_title">Subtitles Background</string>
     <string name="subtitles_outline_title">Subtitles outline</string>
     <string name="subtitles_shadow_title">Subtitles shadow</string>
@@ -388,6 +383,11 @@
     <string name="subtitles_autoload_title">Auto load subtitles</string>
     <string name="previous_color">Previous color</string>
     <string name="new_color">New color</string>
+    <string name="subtitles_preset_default">Default</string>
+    <string name="subtitles_preset_default_large">Large text</string>
+    <string name="subtitles_preset_white_background">With background</string>
+    <string name="subtitles_yellow">Yellow</string>
+    <string name="subtitles_yellow_background">Yellow with background</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
