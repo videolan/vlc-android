@@ -62,6 +62,8 @@ class ColorPickerActivity : AppCompatActivity() {
         binding.colorPickerTitle.text = intent.extras?.getString(COLOR_PICKER_TITLE)
                 ?: getString(R.string.subtitles_color)
         val previousColor = intent.extras?.getInt(COLOR_PICKER_SELECTED_COLOR) ?: Color.BLACK
+        binding.oldColor.color = previousColor
+        binding.newColor.color = previousColor
 
 
         val colorsAndSelection = generateColorsAndSelection(previousColor)
@@ -104,7 +106,9 @@ class ColorPickerActivity : AppCompatActivity() {
         })
 
 
-        val colorAdapter = ColorAdapter(colors, closestColorIndex, closestVariantIndex)
+        val colorAdapter = ColorAdapter(colors, closestColorIndex, closestVariantIndex) {
+            binding.newColor.color = it
+        }
         grid.adapter = colorAdapter
 
         binding.colorPickerButtonOk.setOnClickListener {
@@ -218,7 +222,7 @@ class ColorPickerActivity : AppCompatActivity() {
      * @property selectedIndex the main color selected index (between 0 and 99)
      * @property selectedVariantIndex the selected color variant index (between 0 and 19)
      */
-    inner class ColorAdapter(private val colors: List<Int>, private var selectedIndex: Int, private var selectedVariantIndex: Int) : DiffUtilAdapter<Int, ColorPickerViewHolder>() {
+    inner class ColorAdapter(private val colors: List<Int>, private var selectedIndex: Int, private var selectedVariantIndex: Int, private val colorSelectionListener: (Int) -> Unit) : DiffUtilAdapter<Int, ColorPickerViewHolder>() {
 
 
         // tracks the focus restoration upon item changes
@@ -276,6 +280,7 @@ class ColorPickerActivity : AppCompatActivity() {
                     notifyItemChanged(position)
                     notifyItemChanged(colors.size + oldSelection)
                 }
+                colorSelectionListener.invoke(getSelectedColor())
             }
 
         }

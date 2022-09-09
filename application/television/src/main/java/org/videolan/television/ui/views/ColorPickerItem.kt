@@ -43,6 +43,10 @@ class ColorPickerItem @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    init {
+        setWillNotDraw(false)
+    }
+
 
     /**
      * Change the selection state and manages the addition/removal of the icon
