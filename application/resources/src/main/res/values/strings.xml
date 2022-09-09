@@ -365,7 +365,12 @@
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Big</string>
     <string name="subtitles_size_huge">Huge</string>
+    <string name="subtitles_font_style">Subtitles font style</string>
     <string name="subtitles_color_title">Subtitles Color</string>
+    <string name="subtitles_opacity">Opacity</string>
+    <string name="subtitles_color">Color</string>
+    <string name="subtitles_size">Size</string>
+    <string name="subtitles_background_color_title">Subtitles background</string>
     <string name="subtitles_color_white">White</string>
     <string name="subtitles_color_gray">Gray</string>
     <string name="subtitles_color_pink">Pink</string>
@@ -373,6 +378,12 @@
     <string name="subtitles_color_yellow">Yellow</string>
     <string name="subtitles_color_green">Green</string>
     <string name="subtitles_background_title">Subtitles Background</string>
+    <string name="subtitles_outline_title">Subtitles outline</string>
+    <string name="subtitles_shadow_title">Subtitles shadow</string>
+    <string name="subtitles_decoration_title">Subtitles decoration</string>
+    <string name="subtitle_decoration_none">None</string>
+    <string name="subtitle_decoration_shadow">Shadow</string>
+    <string name="subtitle_decoration_outline">Outline</string>
     <string name="subtitles_bold_title">Bold subtitles</string>
     <string name="subtitles_autoload_title">Auto load subtitles</string>
 

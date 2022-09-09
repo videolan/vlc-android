@@ -1,50 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                      xmlns:app="http://schemas.android.com/apk/res-auto"
-                                      android:key="subtitles_category"
-                                      android:title="@string/subtitles_prefs_category">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="subtitles_category"
+        android:title="@string/subtitles_prefs_category">
 
     <CheckBoxPreference
-            app:singleLineTitle="false"
             android:defaultValue="true"
             android:key="subtitles_autoload"
-            android:title="@string/subtitles_autoload_title"/>
-    <ListPreference
-            android:defaultValue="16"
-            android:entries="@array/subtitles_size_entries"
-            android:entryValues="@array/subtitles_size_values"
-            android:key="subtitles_size"
-            android:persistent="true"
-            android:title="@string/subtitles_size_title"/>
-    <ListPreference
-            android:defaultValue="16777215"
-            android:entries="@array/subtitles_color_entries"
-            android:entryValues="@array/subtitles_color_values"
-            android:key="subtitles_color"
-            android:persistent="true"
-            android:title="@string/subtitles_color_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="subtitles_background"
-            android:title="@string/subtitles_background_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="subtitles_bold"
-            android:title="@string/subtitles_bold_title"/>
+            android:title="@string/subtitles_autoload_title"
+            app:singleLineTitle="false" />
     <ListPreference
             android:defaultValue=""
             android:entries="@array/subtitles_encoding_list"
             android:entryValues="@array/subtitles_encoding_values"
             android:key="subtitle_text_encoding"
             android:persistent="true"
-            android:title="@string/subtitle_text_encoding"/>
+            android:summary="%s"
+            android:title="@string/subtitle_text_encoding" />
     <ListPreference
             android:defaultValue=""
             android:key="subtitle_preferred_language"
             android:persistent="true"
-            android:title="@string/subtitle_preferred_language"/>
+            android:title="@string/subtitle_preferred_language" />
+
+    <PreferenceCategory android:title="@string/subtitles_font_style">
+        <ListPreference
+                android:defaultValue="16"
+                android:entries="@array/subtitles_size_entries"
+                android:entryValues="@array/subtitles_size_values"
+                android:key="subtitles_size"
+                android:summary="%s"
+                android:persistent="true"
+                android:title="@string/subtitles_size_title" />
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="subtitles_bold"
+                android:title="@string/subtitles_bold_title"
+                app:singleLineTitle="false" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+                android:defaultValue="@color/white"
+                android:key="subtitles_color"
+                android:title="@string/subtitles_color" />
+        <SeekBarPreference
+                android:defaultValue="255"
+                android:iconSpaceReserved="false"
+                android:key="subtitles_color_opacity"
+                android:max="255"
+                android:title="@string/subtitles_opacity"
+                app:iconSpaceReserved="false"
+                app:min="50" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/subtitles_background_title">
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="subtitles_background"
+                android:title="@string/subtitles_background_title"
+                app:singleLineTitle="false" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+                android:defaultValue="@color/black"
+                android:key="subtitles_background_color"
+                android:title="@string/subtitles_color" />
+
+        <SeekBarPreference
+                android:defaultValue="255"
+                android:iconSpaceReserved="false"
+                android:key="subtitles_background_color_opacity"
+                android:max="255"
+                android:title="@string/subtitles_opacity"
+                app:iconSpaceReserved="false"
+                app:min="0" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/subtitles_shadow_title">
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="subtitles_shadow"
+                android:title="@string/subtitles_shadow_title"
+                app:singleLineTitle="false" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+                android:defaultValue="@color/grey_subtitle_shadow"
+                android:key="subtitles_shadow_color"
+                app:isPreferenceVisible="false"
+                android:title="@string/subtitles_color" />
+
+        <SeekBarPreference
+                android:defaultValue="255"
+                android:key="subtitles_shadow_color_opacity"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="false"
+                android:max="255"
+                android:title="@string/subtitles_opacity"
+                app:min="0" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/subtitles_outline_title">
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="subtitles_outline"
+                android:title="@string/subtitles_outline_title"
+                app:singleLineTitle="false" />
+        <ListPreference
+                android:defaultValue="4"
+                android:entries="@array/subtitles_outline_size_entries"
+                android:entryValues="@array/subtitles_outline_size_values"
+                android:key="subtitles_outline_size"
+                app:isPreferenceVisible="false"
+                android:summary="%s"
+                android:persistent="true"
+                android:title="@string/subtitles_size" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+                android:defaultValue="@color/black"
+                android:key="subtitles_outline_color"
+                app:isPreferenceVisible="false"
+                android:title="@string/subtitles_color" />
+
+        <SeekBarPreference
+                android:defaultValue="255"
+                android:key="subtitles_outline_color_opacity"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="false"
+                android:max="255"
+                android:title="@string/subtitles_opacity"
+                app:min="0" />
+    </PreferenceCategory>
+
+
 
 </androidx.preference.PreferenceScreen>
