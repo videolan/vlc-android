@@ -47,6 +47,7 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
@@ -135,8 +136,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             if (data.hasExtra(EXTRA_MRL)) {
                 lifecycleScope.launch {
                     MediaUtils.useAsSoundFont(requireActivity(), Uri.parse(data.getStringExtra(EXTRA_MRL)))
+                    VLCInstance.restart()
                 }
-                VLCInstance.restart()
                 UiTools.restartDialog(requireActivity())
             }
         }
@@ -146,14 +147,14 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         if (activity == null) return
         when (key) {
             "aout" -> {
-                restartLibVLC()
+                lifecycleScope.launch { restartLibVLC() }
                 val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
             "audio_digital_output" -> updatePassThroughSummary()
             "audio_preferred_language" -> updatePreferredAudioTrack()
-            "audio-replay-gain-enable", "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> restartLibVLC()
+            "audio-replay-gain-enable", "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> lifecycleScope.launch { restartLibVLC() }
             "audio-replay-gain-default", "audio-replay-gain-preamp" -> {
                 val defValue = if (key == "audio-replay-gain-default") "-7.0" else "0.0"
                 val newValue = sharedPreferences.getString(key, defValue)
@@ -169,15 +170,15 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                             putString(key, fmtValue)
                             findPreference<EditTextPreference>(key)?.let { it.text = fmtValue }
                         }
-                    } else restartLibVLC()
+                    } else lifecycleScope.launch { restartLibVLC() }
                 }
             }
         }
     }
 
-    private fun restartLibVLC() {
+    private suspend fun restartLibVLC() {
         VLCInstance.restart()
-        (activity as? PreferencesActivity)?.restartMediaPlayer()
+        restartMediaPlayer()
     }
 
     private fun prepareLocaleList() {

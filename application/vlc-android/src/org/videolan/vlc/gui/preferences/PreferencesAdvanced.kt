@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.share
@@ -240,32 +241,34 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     }
                 }
-                restartLibVLC()
+                lifecycleScope.launch { restartLibVLC() }
             }
             // No break because need VLCInstance.restart();
             "custom_libvlc_options" -> {
-                try {
-                    VLCInstance.restart()
-                } catch (e: IllegalStateException){
-                    UiTools.snacker(requireActivity(), R.string.custom_libvlc_options_invalid)
-                    sharedPreferences.putSingle("custom_libvlc_options", "")
-                } finally {
-                    (activity as? PreferencesActivity)?.restartMediaPlayer()
+                lifecycleScope.launch {
+                    try {
+                        VLCInstance.restart()
+                    } catch (e: IllegalStateException) {
+                        UiTools.snacker(requireActivity(), R.string.custom_libvlc_options_invalid)
+                        sharedPreferences.putSingle("custom_libvlc_options", "")
+                    } finally {
+                        restartMediaPlayer()
+                    }
+                    restartLibVLC()
                 }
-                restartLibVLC()
             }
             "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
-                restartLibVLC()
+                lifecycleScope.launch { restartLibVLC() }
             }
             "prefer_smbv1" -> {
-                VLCInstance.restart()
+                lifecycleScope.launch { VLCInstance.restart() }
                 UiTools.restartDialog(requireActivity())
             }
         }
     }
 
-    private fun restartLibVLC() {
+    private suspend fun restartLibVLC() {
         VLCInstance.restart()
-        (activity as? PreferencesActivity)?.restartMediaPlayer()
+        restartMediaPlayer()
     }
 }

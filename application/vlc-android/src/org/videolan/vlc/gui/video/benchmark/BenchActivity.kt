@@ -33,6 +33,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
 import androidx.core.content.edit
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
@@ -41,6 +42,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import java.io.*
 
 /**
@@ -138,8 +140,10 @@ class BenchActivity : ShallowVideoPlayer() {
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
                 }
             }
-            VLCInstance.restart()
-            this.service?.restartMediaPlayer()
+            lifecycleScope.launch {
+                VLCInstance.restart()
+                restartMediaPlayer()
+            }
         }
     }
 
@@ -553,8 +557,8 @@ class BenchActivity : ShallowVideoPlayer() {
                     putString(PREFERENCE_OPENGL, oldOpenglValue)
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
                 }
+                VLCInstance.restart()
             }
-            VLCInstance.restart()
         }
         /* Case of error in VideoPlayerActivity, then finish is not overridden */
         if (hasVLCFailed) {

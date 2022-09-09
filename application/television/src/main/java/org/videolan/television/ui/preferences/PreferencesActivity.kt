@@ -61,11 +61,6 @@ class PreferencesActivity : BaseTvActivity() {
         }
     }
 
-    fun restartMediaPlayer() {
-        val le = PlaybackService.restartPlayer
-        if (le.hasObservers()) le.value = true
-    }
-
     fun setRestart() {
         setResult(RESULT_RESTART)
     }

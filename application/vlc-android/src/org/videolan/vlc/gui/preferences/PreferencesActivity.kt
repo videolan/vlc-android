@@ -101,11 +101,6 @@ class PreferencesActivity : BaseActivity() {
 
     }
 
-    fun restartMediaPlayer() {
-        val le = PlaybackService.restartPlayer
-        if (le.hasObservers()) le.value = true
-    }
-
     fun exitAndRescan() {
         setRestart()
         val intent = intent
