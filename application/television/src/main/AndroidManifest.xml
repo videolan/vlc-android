@@ -79,6 +79,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.Black"
             tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name="org.videolan.television.ui.ColorPickerActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Black"
+            tools:ignore="LockedOrientationActivity" />
         <!-- Provides search suggestions for keywords against video meta data. -->
         <provider
             android:name="org.videolan.television.util.TVSearchProvider"
