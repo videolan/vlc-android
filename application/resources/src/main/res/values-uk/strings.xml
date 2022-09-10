@@ -224,6 +224,11 @@
 
     <string name="playback_history_title">Історія відтворення</string>
     <string name="playback_history_summary">Зберігати усі відтворені медіафайли у Історії</string>
+    <string name="video_resume_playback_title">Історія черги відтворення відео</string>
+    <string name="video_resume_playback_summary">Дозволити збереження черги відтворення відео, щоб відновити пізніше</string>
+    <string name="audio_resume_playback_title">Історія черги відтворення аудіо</string>
+    <string name="audio_resume_playback_warning">Вимкнення історії черги відтворення аудіо може призвести до деяких проблем із роботою програми.\nПісля вимкнення ви не зможете відновити відтворення з:\n\n\t- пристрою Bluetooth\n\t- віджета\n\t- сповіщення медіа</string>
+    <string name="audio_resume_playback_summary">Дозволити збереження черги відтворення аудіо, щоб відновити пізніше</string>
     <string name="playback_speed_title">Зберігати швидкість відтворення</string>
     <string name="playback_speed_summary">Зберігати швидкість відтворення між медіа</string>
 
@@ -330,7 +335,9 @@
     <string name="media_seen">Показувати заголовок медіа на початку відтворення</string>
     <string name="media_seen_summary">Позначте відео, як переглянути, коли ви додивитеся до кінця</string>
     <string name="force_play_all_summary">Відтворювати усе відео, починаючи з першого, на тицьнули</string>
+    <string name="force_play_all_audio_summary">Відтворювати усе аудіо, починаючи з першого натиснутого</string>
     <string name="force_play_all_title">Режим відтворення списку відео</string>
+    <string name="force_play_all_audio_title">Режим відтворення списку аудіо </string>
     <string name="save_brightness_summary">Зберігати рівень яскравості між  медіа</string>
     <string name="save_brightness_title">Зберегти рівень яскравості</string>
     <string name="save_audiodelay_summary">Зберігати індивідуальну затримку звуку для кожного відео</string>
@@ -351,11 +358,12 @@
     <string name="enable_double_tap_play_summary">Подвійний натиск по центру екрана, щоб відтворювати або призупинити</string>
     <string name="enable_swipe_seek_title">Провести для пошуку</string>
     <string name="enable_swipe_seek_summary">Проведіть своїм пальцем через екран, щоб шукати</string>
+    <string name="enable_scale_gesture_title">Масштабування двома пальцями </string>
+    <string name="enable_scale_gesture_summary">Збільшення та зменшення двома пальцями </string>
     <string name="popup_keepscreen_title">Зберігати увімкненим екран у режимі вигульків</string>
     <string name="popup_keepscreen_summary">Завжди зберігає увімкненим екран, коли показуються вигульки, навіть при зупинці відео.</string>
     <string name="browser_show_hidden_files_title">Показати приховані файли</string>
     <string name="enable_video_screenshot">Зробити знімок екрану</string>
-    <string name="enable_video_screenshot_summary">Торкніться трьома пальцями, щоб зробити знімок екрану</string>
 
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
@@ -449,6 +457,7 @@
     <string name="auto_rescan">Автоматично сканувати повторно</string>
     <string name="auto_rescan_summary">Автоматично перевіряти пристрій на наявність нових або вилучених носіїв під час запуску програми</string>
     <string name="dump_media_db">Знімок бази даних медіа</string>
+    <string name="dump_app_db">Знімок бази даних програми</string>
     <string name="dump_media_db_summary">Копіювати базу даних у внутрішній каталог root</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="clear_media_database_summary">Очищає базу даних, щоб наново усе розпочати </string>
@@ -948,6 +957,7 @@
     <string name="video_double_tap_jump_delay">Затримка у часі для подвійного дотику</string>
     <string name="video_key_jump_delay">Затримка у часі для кнопок навігації</string>
     <string name="banned">Заблокована тека (тривалий натиск, щоб змінити)</string>
+    <string name="banned_tv">Заборонена тека</string>
     <string name="banned_parent">Заблоковано через батьківську тека</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Цей елемент вже наявний у цьому списку.</item>
@@ -989,6 +999,7 @@
     <string name="widget_preview">Перегляд віджету</string>
     <string name="widget_forward_delay">Затримка у часі для відтворення вперед</string>
     <string name="widget_show_seek">Показати кнопки пошуку</string>
+    <string name="widget_show_cover">Показати обкладинку</string>
     <string name="widget_rewind_delay">Затримка у часі для відтворення назад</string>
     <string name="widget_show_configure">Показати піктограму налаштування</string>
     <string name="widget_show_configure_summary">Навіть якщо вона не показується, ви можете торкнутися верхнього правого кута, щоб відкрити налаштування</string>
@@ -1000,6 +1011,10 @@
     <string name="ascending">Зростанням</string>
     <string name="descending">Спаданням</string>
     <string name="screenshot_error">Помилка під час створення знімка екрану</string>
+    <string name="disabled">Вимкнено</string>
+    <string name="enable_screenshot_gesture">Дотик 3 пальцями </string>
+    <string name="enable_screenshot_button">Показувати кнопку знімка екрану</string>
+    <string name="enable_screenshot_button_and_gesture">Кнопка і жест</string>
 
 
 
