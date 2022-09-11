@@ -14,7 +14,7 @@
     <string name="sortby_length">Tempoh</string>
     <string name="sortby_date">Tarikh</string>
     <string name="sortby_last_modified_date">Ditambah baru-baru ini</string>
-    <string name="sortby_insertion">Tarikh sisip</string>
+    <string name="sortby_insertion">Tarikh disisip</string>
     <string name="sortby_media_number">Nombor media</string>
     <string name="sortby_number">Trek Nb</string>
     <string name="searchable_hint">Gelintar…</string>
@@ -194,6 +194,11 @@
 
     <string name="playback_history_title">Sejarah main balik</string>
     <string name="playback_history_summary">Simpan semua media telah dimainkan dalam seksyen Sejarah</string>
+    <string name="video_resume_playback_title">Sejarah baris gilir main video</string>
+    <string name="video_resume_playback_summary">Benarkan penyimpanan baris gilir main video untuk disambung semula nanti</string>
+    <string name="audio_resume_playback_title">Sejarah baris gilir main audio</string>
+    <string name="audio_resume_playback_warning">Melumpuhkan sejarah baris gilir main audio boleh mengakibatkan beberapa masalah kelakuan pemain.\nSelepas melumpuhkannya anda mungkin tidak dapat menyambung semula main balik daripada:\n\n\t- peranti  bluetooth\n\t- widget\n\t- pemberitahuan media</string>
+    <string name="audio_resume_playback_summary">Benarkan penyimpanan baris gilir main audio untuk disambung semula nanti</string>
     <string name="playback_speed_title">Simpan Kelajuan Main Balik</string>
     <string name="playback_speed_summary">Kekalkan kelajuan main balik antara media</string>
 
@@ -300,7 +305,9 @@
     <string name="media_seen">Tunjuk penanda video ditonton</string>
     <string name="media_seen_summary">Tanda video yang telah ditonton yang anda telah mainkan sehingga tamat</string>
     <string name="force_play_all_summary">Main semua video, mulakan dengan salah satu yang anda klik</string>
+    <string name="force_play_all_audio_summary">Main semua audio, mulakan dengan salah satu yang anda klik</string>
     <string name="force_play_all_title">Mod senarai main video</string>
+    <string name="force_play_all_audio_title">Mod senarai main audio</string>
     <string name="save_brightness_summary">Kekalkan aras kecerahan antara media</string>
     <string name="save_brightness_title">Simpan aras kecerahan</string>
     <string name="save_audiodelay_summary">Lengah simpan audio individu untuk setiap video</string>
@@ -321,9 +328,12 @@
     <string name="enable_double_tap_play_summary">Ketik dua kali di tengah skrin untuk main atau jeda</string>
     <string name="enable_swipe_seek_title">Seret untuk jangkau</string>
     <string name="enable_swipe_seek_summary">Seret jari anda merentasi skrin untuk jangkau</string>
+    <string name="enable_scale_gesture_title">Zum dua jari</string>
+    <string name="enable_scale_gesture_summary">Zum masuk dan keluar dengan dua jari</string>
     <string name="popup_keepscreen_title">Kekalkan skrin HIDUP dalam mod Timbul</string>
     <string name="popup_keepscreen_summary">Sentiasa kekalkan skrin HIDUP ketika Kotak Timbul dipaparkan, walaupun ketika video dijeda.</string>
     <string name="browser_show_hidden_files_title">Tunjuk fail tersembunyi</string>
+    <string name="enable_video_screenshot">Ambil tangkap layar</string>
 
     <string name="subtitles_prefs_category">Sari kata</string>
     <string name="subtitles_size_title">Saiz Sari Kata</string>
@@ -417,6 +427,7 @@
     <string name="auto_rescan">Auto imbas semula</string>
     <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
     <string name="dump_media_db">Longgok pangkalan data media</string>
+    <string name="dump_app_db">Longgok pangkalan data apl</string>
     <string name="dump_media_db_summary">Salin pangkalan data ke dalam root storan dalaman</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
     <string name="clear_media_database_summary">Kosongkan pangkalan data untuk mula kembali</string>
@@ -509,6 +520,7 @@
     <string name="widget_old_text">Kami telah mengemas kini widget anda!</string>
     <string name="widget_old_description_start">Berita baik! Kami telah menambah baik widget.\nIa lebih respons dan boleh disuaikan</string>
     <string name="whats_next">Yang berikutnya?</string>
+    <string name="widget_old_description_end">Kami telah mendapati anda sudah ada widget dalam pelancar anda. Malangnya, ia tidak serasi dengan versi terbaharu kami.\nBergantung kepada keserasian dengan pelancar anda, anda boleh buang yang lama untuk digantikan dengan yang lain.</string>
     <string name="click_here">Klik di sini untuk ketahui lebih lanjut.</string>
     <string name="allow_storage_access_title">Benarkan VLC mencapai fail video dan audio</string>
     <string name="allow_storage_access_description">VLC memerlukan keizinan anda untuk mencapai fail media dalam peranti ini.</string>
@@ -536,6 +548,10 @@
     <string name="permission_onboarding_perm_all">Anda akan dapat auto-temui semua fail anda untuk memainkan semua jenis media walaupun formatnya pelik, atau fail termampat</string>
     <string name="exit_app">Tutup VLC</string>
     <string name="exit_app_msg">Anda pasti mahu menutup VLC?</string>
+    <string name="widget_explanation_title">Widget VLC</string>
+    <string name="widget_explanation_size">Widget tersedia dalam pelbagai saiz dan rupa</string>
+    <string name="widget_explanation_resize">Untuk mengubah jenis widget, tahan ia dan guna pemegang untuk saizkan semula ia mengikut cita rasa anda</string>
+    <string name="widget_explanation_end">Widget sangat mudah disuaikan. Lepaskan kreativiti anda dan ubah ia mengikut kehendak anda!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Trek PenatalPantas</string>
@@ -857,6 +873,8 @@
     <string name="browser_show_missing_media">Tunjuk media yang hilang</string>
     <string name="browser_show_missing_media_summary">Tunjuk media jauh walaupun ia tidak hadir</string>
     <string name="search_prefs">Tetapan gelintar</string>
+    <string name="video_match_frame_rate_title">Padan Kadar Bingkai Paparan</string>
+    <string name="video_match_frame_rate_summary">Padan kadar segar semula paparan mengikut kadar bingkai media. Contohnya, filem 24p sepatutnya dimainkan pada kadar 24p</string>
     <string name="preferred_resolution">Resolusi video diutamakan</string>
     <string name="preferred_resolution_summary">Kualiti video maksimum bagi strim, bila boleh, akan menjadi: %s</string>
     <string name="pref_resolution_best_available">Terbaik yang ada</string>
@@ -903,6 +921,7 @@
     <string name="video_double_tap_jump_delay">Lengah ketik dua kali</string>
     <string name="video_key_jump_delay">Lengah masa kekunci pengemudian</string>
     <string name="banned">Folder dilarang (tahan untuk ubah)</string>
+    <string name="banned_tv">Folder terlarang</string>
     <string name="banned_parent">Dilarang oleh folder induk</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">Item ini sudah ada dalam senarai main ini.</item>
@@ -928,6 +947,8 @@
     <string name="add_server_favorite">Tambah satu pelayan kegemaran</string>
     <string name="widget_theme">Tema widget</string>
     <string name="widget_preferences">Konfigur widget</string>
+    <string name="material_you">Material You (dapatkan warna daripada kertas dinding)</string>
+    <string name="palette">Palet (ambil warna dari kulit hadapan media)</string>
     <string name="custom">Suai</string>
     <string name="opacity">Kelegapan</string>
     <string name="widget_background">Latar Belakang</string>
@@ -935,6 +956,8 @@
     <string name="configure_widget">Konfigurasi widget</string>
     <string name="widget_preview">Pratonton widget</string>
     <string name="widget_forward_delay">Maju lengah masa</string>
+    <string name="widget_show_seek">Tunjuk butang jangkau</string>
+    <string name="widget_show_cover">Tunjuk kulit hadapan</string>
     <string name="widget_rewind_delay">Undur lengah masa</string>
     <string name="widget_show_configure">Tunjuk ikon konfigurasi</string>
     <string name="widget_show_configure_summary">Walaupun ia tersembunyi, anda masih boleh mengetik bucu kanan atas untuk membuka konfigurasi</string>
@@ -945,6 +968,11 @@
     <string name="disable_track">Lumpuhkan trek</string>
     <string name="ascending">Menaik</string>
     <string name="descending">Menurun</string>
+    <string name="screenshot_error">Ralat ketika mengambil tangkap layar</string>
+    <string name="disabled">Dilumpuhkan</string>
+    <string name="enable_screenshot_gesture">Ketik dengan 3 jari</string>
+    <string name="enable_screenshot_button">Tunjuk butang tangkap layar</string>
+    <string name="enable_screenshot_button_and_gesture">Butang dan gerak isyarat</string>
 
 
 
