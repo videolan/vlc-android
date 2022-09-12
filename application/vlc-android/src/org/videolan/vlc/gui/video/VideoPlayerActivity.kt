@@ -759,7 +759,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         unregisterReceiver(btReceiver)
         alertDialog?.dismiss()
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
-                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0")) {
+                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()) {
             switchToAudioMode(false)
         }
 
