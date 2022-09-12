@@ -175,6 +175,7 @@
     <string-array name="subtitles_presets_entries">
         <item>@string/subtitles_preset_default</item>
         <item>@string/subtitles_preset_default_large</item>
+        <item>@string/subtitles_preset_default_largest</item>
         <item>@string/subtitles_preset_white_background</item>
         <item>@string/subtitles_yellow</item>
         <item>@string/subtitles_yellow_background</item>
@@ -186,6 +187,7 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
     </string-array>
 
 
