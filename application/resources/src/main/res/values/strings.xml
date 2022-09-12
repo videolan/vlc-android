@@ -385,6 +385,7 @@
     <string name="new_color">New color</string>
     <string name="subtitles_preset_default">Default</string>
     <string name="subtitles_preset_default_large">Large text</string>
+    <string name="subtitles_preset_default_largest">Largest text and contrast</string>
     <string name="subtitles_preset_white_background">With background</string>
     <string name="subtitles_yellow">Yellow</string>
     <string name="subtitles_yellow_background">Yellow with background</string>

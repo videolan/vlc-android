@@ -118,12 +118,19 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
             when (newValue) {
                 "1" -> subtitlesSize.value = "13"
                 "2" -> {
+                    subtitlesSize.value = "10"
+                    subtitlesBackgroundEnabled.isChecked = true
+                    subtitlesBackgroundOpacity.value = 255
+                    subtitlesShadowEnabled.isChecked = false
+                    subtitlesOutlineEnabled.isChecked = false
+                }
+                "3" -> {
                     subtitlesBackgroundEnabled.isChecked = true
                     subtitlesBackgroundOpacity.value = 128
                     subtitlesShadowEnabled.isChecked = false
                 }
-                "3" -> subtitlesColor.saveValue(Color.YELLOW)
-                "4" -> {
+                "4" -> subtitlesColor.saveValue(Color.YELLOW)
+                "5" -> {
                     subtitlesColor.saveValue(Color.YELLOW)
                     subtitlesBackgroundEnabled.isChecked = true
                     subtitlesBackgroundOpacity.value = 128
