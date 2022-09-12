@@ -118,6 +118,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         viewModel.provider.liveHeaders.observe(viewLifecycleOwner) {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
+            animationDelegate.setVisibility(binding.imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+            animationDelegate.setVisibility(binding.headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+            animationDelegate.setVisibility(binding.headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         }
 
         (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner) {
