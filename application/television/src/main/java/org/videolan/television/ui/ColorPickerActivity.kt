@@ -271,6 +271,7 @@ class ColorPickerActivity : AppCompatActivity() {
                 if (position in colors.indices) {
                     val oldSelection = selectedIndex
                     selectedIndex = position
+                    selectedVariantIndex = 9
                     notifyItemChanged(position)
                     notifyItemChanged(oldSelection)
                     notifyItemRangeChanged(colors.size, 20)
