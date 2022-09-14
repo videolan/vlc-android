@@ -156,9 +156,10 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         binding.songs.layoutManager = LinearLayoutManager(this)
         binding.songs.adapter = audioBrowserAdapter
 
+        val context = this
         lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
-                val width = getScreenWidth()
+                val width = if (binding.backgroundView.width > 0) binding.backgroundView.width else context.getScreenWidth()
                 if (!playlist.artworkMrl.isNullOrEmpty()) {
                     AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), width)
                 } else {
@@ -168,16 +169,12 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             if (cover != null) {
                 binding.cover = BitmapDrawable(this@HeaderMediaListActivity.resources, cover)
                 binding.appbar.setExpanded(true, true)
-            }
-        }
-
-        val context = this
-        lifecycleScope.launch(Dispatchers.IO) {
-            val width = if (binding.backgroundView.width > 0) binding.backgroundView.width else context.getScreenWidth()
-            val blurredCover = UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(viewModel.playlist.artworkMrl), width))
-            withContext(Dispatchers.Main) {
-                binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
-                binding.backgroundView.setImageBitmap(blurredCover)
+                val radius = if (isPlaylist) 25f else 15f
+                val blurredCover = UiTools.blurBitmap(cover, radius)
+                withContext(Dispatchers.Main) {
+                    binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
+                    binding.backgroundView.setImageBitmap(blurredCover)
+                }
             }
         }
 
