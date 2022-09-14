@@ -27,6 +27,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var audioJumpDelay = 10
     var audioLongJumpDelay = 20
     var showHiddenFiles = false
+    var showTrackNumber = true
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -47,6 +48,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
         showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
+        showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         return prefs
     }
 
@@ -179,6 +181,9 @@ const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
+
+// Albums
+const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"
 
 //widgets
 const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
