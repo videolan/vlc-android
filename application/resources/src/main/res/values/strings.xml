@@ -357,6 +357,7 @@
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
     <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
     <string name="browser_show_hidden_files_title">Show hidden files</string>
+    <string name="albums_show_track_numbers">Show track numbers</string>
     <string name="enable_video_screenshot">Take a screenshot</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>

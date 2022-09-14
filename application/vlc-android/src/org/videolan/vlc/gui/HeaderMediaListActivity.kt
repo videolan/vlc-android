@@ -52,8 +52,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
-import org.videolan.tools.copy
-import org.videolan.tools.isStarted
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.HeaderMediaListActivityBinding
@@ -74,6 +73,7 @@ import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.security.SecureRandom
@@ -194,7 +194,12 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.playlist_option, menu)
-        if (!isPlaylist) menu.findItem(R.id.ml_menu_sortby).isVisible = true
+        if (!isPlaylist) {
+            menu.findItem(R.id.ml_menu_sortby).isVisible = true
+            val showTrackNumber = menu.findItem(R.id.ml_menu_albums_show_track_numbers)
+            showTrackNumber.isVisible = true
+            showTrackNumber.isChecked = Settings.showTrackNumber
+        }
         menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
         menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
         menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
@@ -246,6 +251,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             }
             R.id.ml_menu_sortby_album_name -> {
                 viewModel.sort(Medialibrary.SORT_ALBUM)
+                return true
+            }
+            R.id.ml_menu_albums_show_track_numbers -> {
+                item.isChecked = !Settings.getInstance(this).getBoolean(
+                    ALBUMS_SHOW_TRACK_NUMBER, true)
+                Settings.getInstance(this).putSingle(ALBUMS_SHOW_TRACK_NUMBER, item.isChecked)
+                Settings.showTrackNumber = item.isChecked
+                audioBrowserAdapter.notifyDataSetChanged()
+                viewModel.refresh()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

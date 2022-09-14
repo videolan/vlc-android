@@ -75,4 +75,11 @@
                     android:visible="false" />
         </menu>
     </item>
+    <item
+        android:orderInCategory="3"
+        android:title="@string/albums_show_track_numbers"
+        android:visible="false"
+        android:checkable="true"
+        app:showAsAction="never"
+        android:id="@+id/ml_menu_albums_show_track_numbers" />
 </menu>

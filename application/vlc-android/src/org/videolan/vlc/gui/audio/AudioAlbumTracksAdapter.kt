@@ -36,6 +36,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.Settings
 import org.videolan.vlc.BR
 import org.videolan.vlc.databinding.AudioAlbumTrackItemBinding
 import org.videolan.vlc.interfaces.IEventsHandler
@@ -97,8 +98,10 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
 
         override fun setItem(item: MediaLibraryItem?) {
             binding.item = item as MediaWrapper
-            if (item.trackNumber > 0)
+            if (item.trackNumber > 0 && Settings.showTrackNumber) {
                 binding.trackNumber.text = "${item.trackNumber}."
+                binding.trackNumber.visibility = View.VISIBLE
+            }
             else
                 binding.trackNumber.visibility = View.GONE
             binding.subtitle.text = MediaUtils.getMediaSubtitle(item)
