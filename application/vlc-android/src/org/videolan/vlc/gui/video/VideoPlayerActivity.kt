@@ -200,7 +200,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var playbackStarted = false
 
     // Navigation handling (DVD, Blu-Ray...)
-    private var menuIdx = -1
+    var menuIdx = -1
     var isNavMenu = false
 
     /* for getTime and seek */
