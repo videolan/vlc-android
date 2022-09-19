@@ -226,17 +226,17 @@
         <ImageView
                 android:id="@+id/item_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
+                android:padding="8dp"
                 android:scaleType="center"
-                vlc:srcCompat="@drawable/ic_more"
                 android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
-                vlc:layout_constraintTop_toTopOf="@+id/title" />
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:srcCompat="@drawable/ic_more" />
 
         <ImageView
                 android:id="@+id/selected_check"
