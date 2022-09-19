@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.onboarding
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -21,6 +22,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.hf.NotificationDelegate.Companion.getNotificationPermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
 
@@ -43,6 +45,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             FragmentName.ASK_PERMISSION -> OnboardingPermissionFragment.newInstance()
             FragmentName.SCAN -> OnboardingScanningFragment.newInstance()
             FragmentName.NO_PERMISSION -> OnboardingNoPermissionFragment.newInstance()
+            FragmentName.NOTIFICATION_PERMISSION -> OnboardingNotificationPermissionFragment.newInstance()
             FragmentName.THEME -> OnboardingThemeFragment.newInstance()
         }
         (fragment as OnboardingFragment).onboardingFragmentListener = this
@@ -98,12 +101,21 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         }
     }
 
+    private fun askNotificationPermission() {
+        lifecycleScope.launch {
+            viewModel.notificationPermissionAlreadyAsked = true
+            getNotificationPermission()
+            onNext()
+        }
+    }
+
     override fun onNext() {
         when(viewModel.currentFragment) {
             FragmentName.WELCOME -> if (Permissions.canReadStorage(this)) showFragment(FragmentName.SCAN) else showFragment(FragmentName.ASK_PERMISSION)
             FragmentName.ASK_PERMISSION -> if(viewModel.permissionType != PermissionType.NONE && !viewModel.permissionAlreadyAsked) askPermission() else showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
-            FragmentName.SCAN -> showFragment(FragmentName.THEME)
+            FragmentName.NOTIFICATION_PERMISSION -> if(!Permissions.canSendNotifications(applicationContext) && !viewModel.notificationPermissionAlreadyAsked) askNotificationPermission() else showFragment(FragmentName.THEME)
+            FragmentName.SCAN -> if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S && !Permissions.canSendNotifications(applicationContext)) showFragment(FragmentName.NOTIFICATION_PERMISSION) else showFragment(FragmentName.THEME)
             else ->  onDone()
         }
         if (viewModel.currentFragment == FragmentName.THEME) nextButton.text = getString(R.string.done)
@@ -120,6 +132,7 @@ enum class FragmentName {
     ASK_PERMISSION,
     SCAN,
     NO_PERMISSION,
+    NOTIFICATION_PERMISSION,
     THEME
 }
 

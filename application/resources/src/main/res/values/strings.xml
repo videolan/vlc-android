@@ -958,6 +958,8 @@
     <string name="lock_use_sensor_title">Lock with sensor</string>
     <string name="lock_use_sensor_summary">When the orientation is locked, use the sensor to allow the reverse orientation</string>
     <string name="start">Start</string>
+    <string name="notification_permission">Notification permission</string>
+    <string name="notification_permission_explanation">VLC needs your permission to send notifications.\nThe app will only notify you when scanning your media or using the custom video Picture in Picture.\nRefusing it won\'t prevent VLC to work, however the notifications will be hidden.</string>
     <string name="permission">Permission</string>
     <string name="customize">Customize</string>
     <string name="selection_count">%d selected</string>

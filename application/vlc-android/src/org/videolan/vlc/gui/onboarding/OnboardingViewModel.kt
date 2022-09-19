@@ -6,6 +6,7 @@ import org.videolan.resources.AndroidDevices
 
 class OnboardingViewModel : ViewModel() {
     var permissionAlreadyAsked: Boolean = false
+    var notificationPermissionAlreadyAsked: Boolean = false
     var scanStorages = true
     var permissionType: PermissionType = PermissionType.ALL
 
