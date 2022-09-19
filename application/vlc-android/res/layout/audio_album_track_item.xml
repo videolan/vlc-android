@@ -64,9 +64,7 @@
             android:longClickable="true"
             android:minHeight="@dimen/audio_browser_item_size"
             android:onClick="@{holder::onClick}"
-            android:onLongClick="@{holder::onLongClick}"
-            android:paddingTop="@dimen/half_default_margin"
-            android:paddingBottom="@dimen/half_default_margin">
+            android:onLongClick="@{holder::onLongClick}">
 
         <TextView
                 android:id="@+id/track_number"
@@ -166,13 +164,13 @@
         <ImageView
                 android:id="@+id/item_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
                 android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
