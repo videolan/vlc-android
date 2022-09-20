@@ -105,6 +105,9 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         lifecycleScope.launch {
             viewModel.notificationPermissionAlreadyAsked = true
             getNotificationPermission()
+            Settings.getInstance(this@OnboardingActivity).edit {
+                putBoolean(NOTIFICATION_PERMISSION_ASKED, true)
+            }
             onNext()
         }
     }

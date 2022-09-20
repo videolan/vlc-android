@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
+import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
@@ -99,6 +100,7 @@ class MainActivity : ContentActivity(),
 
 //        VLCBilling.getInstance(application).retrieveSkus()
         WidgetMigration.launchIfNeeded(this)
+        NotificationPermissionManager.launchIfNeeded(this)
     }
 
     override fun onResume() {

@@ -180,6 +180,8 @@ const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
 const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
 const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 
+const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
+
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
 
