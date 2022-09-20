@@ -179,15 +179,15 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         subtitlesOpacity.value = 255
 
         subtitlesBackgroundEnabled.isChecked = false
-        subtitlesBackgroundColor.saveValue(Color.BLACK)
+        subtitlesBackgroundColor.saveValue(ContextCompat.getColor(activity, R.color.black))
         subtitlesBackgroundOpacity.value = 255
 
         subtitlesShadowEnabled.isChecked = true
-        subtitlesShadowColor.saveValue(ContextCompat.getColor(activity, R.color.grey_subtitle_shadow))
+        subtitlesShadowColor.saveValue(ContextCompat.getColor(activity, R.color.black))
         subtitlesShadowOpacity.value = 255
 
         subtitlesOutlineEnabled.isChecked = true
-        subtitlesOutlineColor.saveValue(Color.BLACK)
+        subtitlesOutlineColor.saveValue(ContextCompat.getColor(activity, R.color.black))
         subtitlesOutlineOpacity.value = 255
     }
 
