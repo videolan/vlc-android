@@ -74,15 +74,22 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
-    private val comparator : Comparator<MediaLibraryItem>?
-        get() = when {
+    fun isComparatorAboutFilename() = when {
+        Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> false
+        Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> false
+        sort == Medialibrary.SORT_ALPHA && desc -> false
+        sort == Medialibrary.SORT_ALPHA && !desc -> false
+        (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> true
+        else -> true
+    }
+    fun getComparator(nbOfDigits: Int): Comparator<MediaLibraryItem>? = when {
             Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> tvDescComp
             Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> tvAscComp
             url != null && Uri.parse(url)?.scheme == "upnp" -> null
             sort == Medialibrary.SORT_ALPHA && desc -> descComp
             sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
-            (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> filenameDescComp
-            else -> filenameAscComp
+            (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> getFilenameDescComp(nbOfDigits)
+            else -> getFilenameAscComp(nbOfDigits)
         }
 
     init {
@@ -178,7 +185,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
      * @param files the files to sort
      */
     fun sort(files: MutableList<MediaLibraryItem>) {
-        comparator?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() }
+        getComparator(if (isComparatorAboutFilename())  files.determineMaxNbOfDigits() else 0)?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() }
     }
 
     suspend fun browseUrl(url: String): List<MediaLibraryItem> {
@@ -232,7 +239,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) {
-        comparator?.let { dataset.add(media, it) } ?: dataset.add(media)
+        getComparator(if (isComparatorAboutFilename())  dataset.value.determineMaxNbOfDigits() else 0)?.let { dataset.add(media, it) } ?: dataset.add(media)
     }
 
     open fun refresh() {
