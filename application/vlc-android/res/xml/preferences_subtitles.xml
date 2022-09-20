@@ -88,13 +88,13 @@
                 android:title="@string/subtitles_shadow_title"
                 app:singleLineTitle="false" />
         <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-                android:defaultValue="@color/grey_subtitle_shadow"
+                android:defaultValue="@color/black"
                 android:key="subtitles_shadow_color"
                 app:isPreferenceVisible="false"
                 android:title="@string/subtitles_color" />
 
         <SeekBarPreference
-                android:defaultValue="255"
+                android:defaultValue="128"
                 android:key="subtitles_shadow_color_opacity"
                 app:iconSpaceReserved="false"
                 app:isPreferenceVisible="false"

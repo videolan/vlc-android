@@ -98,8 +98,8 @@ object VLCOptions {
 
 
             val freetypeShadowEnabled = pref.getBoolean("subtitles_shadow", true)
-            val freetypeShadowColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_shadow_color", ContextCompat.getColor(context, R.color.grey_subtitle_shadow)))))
-            val freetypeShadowOpacity = pref.getInt("subtitles_shadow_color_opacity", 255)
+            val freetypeShadowColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_shadow_color", ContextCompat.getColor(context, R.color.black)))))
+            val freetypeShadowOpacity = pref.getInt("subtitles_shadow_color_opacity", 128)
 
 
             val opengl = Integer.parseInt(pref.getString("opengl", "-1")!!)
