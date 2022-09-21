@@ -24,6 +24,13 @@
             android:summary="%ss"
             android:defaultValue="20"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="audio_force_shuffle"
+            android:summary="@string/force_shuffle_summary"
+            android:title="@string/force_shuffle_title"/>
+
 
 
 </androidx.preference.PreferenceScreen>
