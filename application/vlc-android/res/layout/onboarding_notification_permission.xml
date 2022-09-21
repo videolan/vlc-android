@@ -38,6 +38,18 @@
             app:layout_constraintGuide_percent="0.25" />
 
 
+    <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/permission_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/ic_onboarding_notification" />
+
     <TextView
             android:id="@+id/permission_title"
             android:layout_width="0dp"
@@ -59,9 +71,9 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/notification_permission_explanation"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
