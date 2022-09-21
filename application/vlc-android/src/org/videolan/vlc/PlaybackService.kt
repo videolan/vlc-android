@@ -33,7 +33,6 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -140,8 +139,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             val state = intent.getIntExtra("state", 0)
 
             // skip all headsets events if there is a call
-            val telManager = applicationContext.getSystemService<TelephonyManager>()
-            if (telManager?.callState != TelephonyManager.CALL_STATE_IDLE) return
+            if ((context.getSystemService(AUDIO_SERVICE) as AudioManager).mode == AudioManager.MODE_IN_CALL) return
 
             /*
              * Launch the activity if needed
