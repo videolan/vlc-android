@@ -392,7 +392,11 @@ fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.l
 fun String?.sanitizeStringForAlphaCompare(nbOfDigits: Int): String? {
     if (this == null) return null
     if (first().isDigit()) return buildString {
-        for (i in 0 until (nbOfDigits - (getStartingNumber()?.numberOfDigits() ?: 0))) {
+        var numberOfPrependingZeros =0
+        for (c in this@sanitizeStringForAlphaCompare) {
+            if (c.isDigit() && c.digitToInt() == 0) numberOfPrependingZeros++ else break
+        }
+        for (i in 0 until (nbOfDigits - numberOfPrependingZeros - (getStartingNumber()?.numberOfDigits() ?: 0))) {
             append("0")
         }
         append(this@sanitizeStringForAlphaCompare)
@@ -419,9 +423,10 @@ fun String.getStartingNumber(): Int? {
     return try {
         buildString {
             for (c in this@getStartingNumber)
-                if (c.isDigit())
-                    append(c)
-                else break
+                //we exclude starting "0" to prevent bad sorts
+                if (c.isDigit()) {
+                    if (!(this.isEmpty() && c.digitToInt() == 0)) append(c)
+                } else break
         }.toInt()
     } catch (e: NumberFormatException) {
         null
