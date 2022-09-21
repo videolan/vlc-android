@@ -191,6 +191,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             service.onMediaListChanged()
             service.showNotification()
         }
+        if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && !shuffling && canShuffle()) shuffle()
     }
 
     @Volatile
@@ -863,6 +864,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
         mediaList.addEventListener(this)
         addUpdateActor.trySend(Unit)
+        if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && !shuffling && canShuffle()) shuffle()
     }
 
     /**

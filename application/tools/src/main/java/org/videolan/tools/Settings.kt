@@ -88,6 +88,7 @@ const val KEY_VIDEO_LONG_JUMP_DELAY = "video_long_jump_delay"
 const val KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY = "video_double_tap_jump_delay"
 const val KEY_AUDIO_JUMP_DELAY = "audio_jump_delay"
 const val KEY_AUDIO_LONG_JUMP_DELAY = "audio_long_jump_delay"
+const val KEY_AUDIO_FORCE_SHUFFLE = "audio_force_shuffle"
 
 
 // AudioPlayer

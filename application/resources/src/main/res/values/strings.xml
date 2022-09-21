@@ -483,6 +483,8 @@
     <string name="resume_playback_summary">Stay in pause otherwise</string>
     <string name="blurred_cover_background_title">Blurred cover background</string>
     <string name="blurred_cover_background_summary">Blurred cover in audio player background</string>
+    <string name="force_shuffle_title">Force shuffle</string>
+    <string name="force_shuffle_summary">Force shuffling when launching a playback</string>
     <string name="network_caching_popup">This value must be between 0 and 60000 ms</string>
     <string name="quit">Quit and restart application</string>
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
