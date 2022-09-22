@@ -227,7 +227,7 @@
     <string name="video_resume_playback_title">Įsiminti leistų vaizdo įrašų istoriją</string>
     <string name="video_resume_playback_summary">Leisti įrašyti vaizdo įrašų atkūrimo istoriją jų pratęsimui vėliau</string>
     <string name="audio_resume_playback_title">Įsiminti leistų garso įrašų istoriją</string>
-    <string name="audio_resume_playback_warning">Išjungus garso leidimo istoriją gali kilti tam tikrų veikimo problemų.\nJą išjungę negalėsite tęsti atkūrimo iš:\n\n\t- Bluetooth įrenginio\n\t- valdiklio\n\t- daugiaformačio pranešimo</string>
+    <string name="audio_resume_playback_warning">Išjungus garso įrašų leidimo istoriją gali kilti tam tikrų veikimo problemų.\nJą išjungę negalėsite tęsti atkūrimo iš:\n\n\t- Bluetooth įrenginio\n\t- valdiklio\n\t- daugiaformačio pranešimo</string>
     <string name="audio_resume_playback_summary">Leisti įrašyti garso įrašų atkūrimo istoriją jų pratęsimui vėliau</string>
     <string name="playback_speed_title">Išsaugoti grojimo greitį</string>
     <string name="playback_speed_summary">Įsiminti savitą atkūrimo greitį tarp rinkmenų</string>
@@ -363,24 +363,39 @@
     <string name="popup_keepscreen_title">Laikyti ekraną įjungtą, kai rodomas iškylantis langas</string>
     <string name="popup_keepscreen_summary">Visada laikyti ekraną įjungtą tol, kol rodomas iškylantis langas, net jei vaizdo įrašas pristabdytas.</string>
     <string name="browser_show_hidden_files_title">Rodyti slepiamąsias rinkmenas</string>
+    <string name="albums_show_track_numbers">Rodyti takelių numerį</string>
     <string name="enable_video_screenshot">Padaryti ekrano kopiją</string>
 
     <string name="subtitles_prefs_category">Subtitrai</string>
     <string name="subtitles_size_title">Subtitrų dydis</string>
+    <string name="subtitles_presets_title">Išankstinės subtitrų nuostatos</string>
     <string name="subtitles_size_small">Maži</string>
     <string name="subtitles_size_normal">Vidutiniški</string>
     <string name="subtitles_size_big">Dideli</string>
     <string name="subtitles_size_huge">Milžiniški</string>
+    <string name="subtitles_font_style">Subtitrų šrifto stilius</string>
     <string name="subtitles_color_title">Subtitrų spalva</string>
-    <string name="subtitles_color_white">Balta</string>
-    <string name="subtitles_color_gray">Pilka</string>
-    <string name="subtitles_color_pink">Rožinė</string>
-    <string name="subtitles_color_blue">Mėlyna</string>
-    <string name="subtitles_color_yellow">Geltona</string>
-    <string name="subtitles_color_green">Žalia</string>
+    <string name="subtitles_opacity">Skaidrumas</string>
+    <string name="subtitles_color">Spalva</string>
+    <string name="subtitles_size">Dydis</string>
+    <string name="subtitles_background_color_title">Subtitrų fonas</string>
     <string name="subtitles_background_title">Subtitrų fonas</string>
+    <string name="subtitles_outline_title">Subtitrų kontūras</string>
+    <string name="subtitles_shadow_title">Subtitrų šešėlis</string>
+    <string name="subtitles_decoration_title">Subtitrų dekoravimas</string>
+    <string name="subtitle_decoration_none">Nenaudoti</string>
+    <string name="subtitle_decoration_shadow">Šešėlis</string>
+    <string name="subtitle_decoration_outline">Kontūras</string>
     <string name="subtitles_bold_title">Pusjuodžiai subtitrai</string>
     <string name="subtitles_autoload_title">Automatiškai įkelti subtitrus</string>
+    <string name="previous_color">Ankstesnė spalva</string>
+    <string name="new_color">Nauja spalva</string>
+    <string name="subtitles_preset_default">Numatytoji</string>
+    <string name="subtitles_preset_default_large">Didelis tekstas</string>
+    <string name="subtitles_preset_default_largest">Didžiausias tekstas ir kontrastas</string>
+    <string name="subtitles_preset_white_background">Su fonu</string>
+    <string name="subtitles_yellow">Geltona</string>
+    <string name="subtitles_yellow_background">Geltona su fonu</string>
 
     <string name="audio_prefs_category">Garsas</string>
     <string name="lockscreen_cover_title">Kūrinio viršelis užrakinimo ekrane</string>
@@ -472,6 +487,8 @@
     <string name="resume_playback_summary">Kitu atveju – pristabdyti</string>
     <string name="blurred_cover_background_title">Neryškus viršelio fonas</string>
     <string name="blurred_cover_background_summary">Neryškus viršelis garso grotuvo fone</string>
+    <string name="force_shuffle_title">Priverstinis maišymas</string>
+    <string name="force_shuffle_summary">Priverstinai maišyti paleidžiant atkūrimą</string>
     <string name="network_caching_popup">Ši reikšmė turi būti nuo 0 iki 60000 ms</string>
     <string name="quit">Baigti ir paleisti iš naujo</string>
     <string name="restart_message">Pasikeitimai įsigalios iš naujo paleidus programą.\n\nPaleisti programą iš naujo?</string>
@@ -579,7 +596,7 @@
     <string name="exit_app">Uždaryti VLC</string>
     <string name="exit_app_msg">Ar tikrai norite uždaryti VLC?</string>
     <string name="widget_explanation_title">VLC valdikliai</string>
-    <string name="widget_explanation_size">Valdikliai būna įvairių dydžių ir atspalvių</string>
+    <string name="widget_explanation_size">Valdikliai būna įvairių dydžių ir formų</string>
     <string name="widget_explanation_resize">Norėdami pakeisti valdiklio tipą, paspauskite jį ilgėliau ir naudodamiesi rankenėlėmis pakeiskite jo dydį iki norimo dydžio</string>
     <string name="widget_explanation_end">Valdikliai yra stipriai tinkintini. Išlaisvinkite savo kūrybiškumą ir padarykite juos panašius į Jus!</string>
 
