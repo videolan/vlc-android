@@ -409,6 +409,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_folder_play -> viewModel.playFoldersSelection(selection)
                     R.id.action_folder_append -> viewModel.appendFoldersSelection(selection)
                     R.id.action_folder_add_playlist -> lifecycleScope.launch { requireActivity().addToPlaylist(withContext(Dispatchers.Default) { selection.getAll() }) }
+                    R.id.action_video_delete -> removeItems(selection.getAll())
                     else -> return false
                 }
             }
@@ -423,6 +424,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_rename -> renameGroup(selection.first() as VideoGroup)
                     R.id.action_add_to_group -> addToGroup(selection)
                     R.id.action_mode_go_to_folder -> (selection.first() as? MediaWrapper)?.let { showParentFolder(it) }
+                    R.id.action_video_delete -> removeItems(selection.getAll())
                     else -> return false
                 }
             }
