@@ -26,6 +26,7 @@ package org.videolan.vlc.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
@@ -39,7 +40,7 @@ import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 9
+private const val CURRENT_VERSION = 10
 
 object VersionMigration {
 
@@ -73,6 +74,10 @@ object VersionMigration {
 
         if (lastVersion < 9) {
             migrateToVersion9(settings)
+        }
+
+        if (lastVersion < 10) {
+            migrateToVersion10(settings)
         }
 
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
@@ -214,6 +219,25 @@ object VersionMigration {
                 val oldSetting = settings.getBoolean("enable_screenshot_gesture", false)
                 if (oldSetting) putString(SCREENSHOT_MODE, "2")
                 remove("enable_screenshot_gesture")
+            }
+    }
+
+    /**
+     * Migrate the subtitle color setting
+     */
+    private fun migrateToVersion10(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 10: Migrate the subtitle color setting")
+        if (settings.contains("subtitles_color"))
+            settings.edit(true) {
+                settings.getString("subtitles_color", "16777215")?.let {oldSetting ->
+                    try {
+                        val oldColor = oldSetting.toInt()
+                        val newColor = Color.argb(255, Color.red(oldColor), Color.green(oldColor), Color.blue(oldColor))
+                        putInt("subtitles_color", newColor)
+                    } catch (e: Exception) {
+                        remove("subtitles_color")
+                    }
+                }
             }
     }
 }
