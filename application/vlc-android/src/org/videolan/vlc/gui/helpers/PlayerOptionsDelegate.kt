@@ -112,14 +112,16 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.drawable.ic_addtoplaylist, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
+        if (video)
+            options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
+
         if (!Settings.showTvUi) {
             if (video) {
-            options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
-            options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.drawable.ic_videotips, res.getString(R.string.tips_title)))
+                options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.drawable.ic_videotips, res.getString(R.string.tips_title)))
             } else {
-            options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.controls_setting)))
-            options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.drawable.ic_audiotips, res.getString(R.string.audio_player_tips)))
-            options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
+                options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.controls_setting)))
+                options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.drawable.ic_audiotips, res.getString(R.string.audio_player_tips)))
+                options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
             }
         }
         (recyclerview.adapter as OptionsAdapter).update(options)

@@ -43,6 +43,9 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(AUDIO_BOOST)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_DOUBLE_TAP_PLAY)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(ENABLE_SCALE_GESTURE)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(ENABLE_SWIPE_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(SCREENSHOT_MODE)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
