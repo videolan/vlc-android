@@ -10,6 +10,7 @@
             android:key="audio_boost"
             android:summary="@string/audio_boost_summary"
             android:title="@string/audio_boost_title"
+            app:iconSpaceReserved="false"
             app:singleLineTitle="false" />
 
     <PreferenceCategory android:title="@string/gestures">
@@ -18,12 +19,14 @@
                 android:key="enable_volume_gesture"
                 android:summary="@string/enable_volume_gesture_summary"
                 android:title="@string/enable_volume_gesture_title"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="enable_brightness_gesture"
                 android:summary="@string/enable_brightness_gesture_summary"
                 android:title="@string/enable_brightness_gesture_title"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
@@ -36,33 +39,37 @@
                 android:key="enable_double_tap_seek"
                 android:summary="@string/enable_double_tap_seek_summary"
                 android:title="@string/enable_double_tap_seek_title"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="enable_double_tap_play"
                 android:summary="@string/enable_double_tap_play_summary"
                 android:title="@string/enable_double_tap_play_title"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="enable_swipe_seek"
                 android:summary="@string/enable_swipe_seek_summary"
                 android:title="@string/enable_swipe_seek_title"
-                app:singleLineTitle="false"
-            />
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false" />
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="10"
                 android:dependency="enable_double_tap_seek"
+                app:iconSpaceReserved="false"
                 app:key="video_double_tap_jump_delay"
                 app:title="@string/video_double_tap_jump_delay" />
         <ListPreference
                 android:defaultValue="0"
-                android:key="screenshot_mode"
-                android:summary="%s"
                 android:entries="@array/video_screenshot"
                 android:entryValues="@array/video_screenshot_values"
+                android:key="screenshot_mode"
+                android:summary="%s"
                 android:title="@string/enable_video_screenshot"
-                app:singleLineTitle="false"                />
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false" />
 
     </PreferenceCategory>
 
@@ -72,17 +79,20 @@
                 android:key="enable_seek_buttons"
                 android:summary="@string/enable_seek_buttons_summary"
                 android:title="@string/enable_seek_buttons"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
 
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="10"
                 android:dependency="enable_seek_buttons"
+                app:iconSpaceReserved="false"
                 app:key="video_jump_delay"
                 app:title="@string/jump_delay" />
 
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="20"
                 android:dependency="enable_seek_buttons"
+                app:iconSpaceReserved="false"
                 app:key="video_long_jump_delay"
                 app:title="@string/long_jump_delay" />
 
@@ -91,19 +101,21 @@
                 android:key="popup_keepscreen"
                 android:summary="@string/popup_keepscreen_summary"
                 android:title="@string/popup_keepscreen_title"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
 
 
         <SeekBarPreference
                 android:defaultValue="4"
                 android:key="video_hud_timeout_in_s"
-                app:updatesContinuously="true"
-                android:summary="%s"
                 android:max="16"
+                android:summary="%s"
+                android:title="@string/video_hud_timeout"
+                app:iconSpaceReserved="false"
                 app:min="1"
                 app:seekBarIncrement="1"
-                android:title="@string/video_hud_timeout"
-                app:singleLineTitle="false" />
+                app:singleLineTitle="false"
+                app:updatesContinuously="true" />
     </PreferenceCategory>
 
 
