@@ -14,6 +14,7 @@
     <string name="sortby_length">Længde</string>
     <string name="sortby_date">Dato</string>
     <string name="sortby_last_modified_date">Tilføjet for nylig</string>
+    <string name="sortby_insertion">Indsættelsestidspunkt</string>
     <string name="sortby_media_number">Medienummer</string>
     <string name="sortby_number">Nr. spor</string>
     <string name="searchable_hint">Søg …</string>
@@ -117,6 +118,7 @@
     <string name="loading">Indlæser</string>
     <string name="please_wait">Vent venligst …</string>
     <string name="nomedia">Fandt ingen mediefiler - overfør venligst nogle filer til din enhed eller tilpas dine præferencer.</string>
+    <string name="empty_search">Fandt intet med søgningen %s</string>
     <string name="noplaylist">Ingen spilleliste fundet.</string>
     <string name="nosubfolder">Ingen undermappe</string>
     <string name="directorynotfound">Mappestien \"%1$s\" blev ikke fundet.</string>
@@ -202,6 +204,11 @@
 
     <string name="playback_history_title">Afspilningshistorik</string>
     <string name="playback_history_summary">Gem alle afspillede medier i Historik</string>
+    <string name="video_resume_playback_title">Video afspilningskøhistorik</string>
+    <string name="video_resume_playback_summary">Tillad at gemme video afspilningskø, så den kan genoptages senere</string>
+    <string name="audio_resume_playback_title">Lyd afspilningskøhistorik</string>
+    <string name="audio_resume_playback_warning">At slå lyd afspilningskøhistorik fra kan føre til visse adfærdsmæssige problemer.\nEfter den er slået fra kan du måske ikke genoptage afspilning fra:\n\n\t- en bluetooth-enhed\n\t- widget\n\t- medienotifikation</string>
+    <string name="audio_resume_playback_summary">Tillad at gemme lyd afspilningskøen så den kan genoptages senere</string>
     <string name="playback_speed_title">Gem afspilningshastighed</string>
     <string name="playback_speed_summary">Bevar afspilningshastighed mellem medier</string>
 
@@ -245,6 +252,7 @@
     <string name="audio_player_tips">Tips til lydafspilning</string>
     <string name="previous_next_song">Forrige/næste sang</string>
     <string name="show_playlist">Vis spilleliste</string>
+    <string name="hide_playlist">Skjul afspilningsliste</string>
     <string name="hold_to_stop">Hold nede for stop</string>
 
     <!-- About -->
@@ -281,6 +289,7 @@
     <string name="screen_orientation_landscape_reverse">Landskab omvendt</string>
     <string name="screen_orientation_last_locked">Sidst låste retning</string>
     <string name="enable_black_theme">Sort tema</string>
+    <string name="theme_auto">Autotema</string>
     <string name="subtitle_text_encoding">Tekstkodning for undertekster</string>
     <string name="subtitle_preferred_language">Foretrukket undertekstsprog</string>
     <string name="daynight_title">Dag-nat-tilstand</string>
@@ -306,7 +315,9 @@
     <string name="media_seen">Vis set video-markør</string>
     <string name="media_seen_summary">Mærk en video som set når du afspiller den til slutningen</string>
     <string name="force_play_all_summary">Afspil alle videoer, startende med den du klikkede på</string>
+    <string name="force_play_all_audio_summary">Afspil al lyd startende med den, du har valgt</string>
     <string name="force_play_all_title">Videospilleliste-tilstand</string>
+    <string name="force_play_all_audio_title">Lydafspilningslistetilstand</string>
     <string name="save_brightness_summary">Bevar lysstyrke mellem medier</string>
     <string name="save_brightness_title">Gem niveau for lysstyrke</string>
     <string name="save_audiodelay_summary">Gem individuel lydforsinkelse for hver video</string>
@@ -327,26 +338,44 @@
     <string name="enable_double_tap_play_summary">Dobbelttryk på skærmcentrum for at afspille eller sætte på pause</string>
     <string name="enable_swipe_seek_title">Swipe for at søge</string>
     <string name="enable_swipe_seek_summary">Swipe din finger på tværs af skærmen for at søge</string>
+    <string name="enable_scale_gesture_title">Tofingerzoom</string>
+    <string name="enable_scale_gesture_summary">Zoom ind og ud med to fingre</string>
     <string name="popup_keepscreen_title">Hold skærmen TÆNDT i pop op-tilstand</string>
     <string name="popup_keepscreen_summary">Hold altid skærmen TÆNDT når pop op vises, selv hvis video er på pause.</string>
     <string name="browser_show_hidden_files_title">Vis skjulte filer</string>
+    <string name="albums_show_track_numbers">Vis spornumre</string>
+    <string name="enable_video_screenshot">Tag et skærmbillede</string>
 
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Underteksters størrelse</string>
+    <string name="subtitles_presets_title">Forindstillinger for undertekster</string>
     <string name="subtitles_size_small">Lille</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Stor</string>
     <string name="subtitles_size_huge">Kæmpe</string>
+    <string name="subtitles_font_style">Skrifttypestil for undertekster</string>
     <string name="subtitles_color_title">Underteksters farve</string>
-    <string name="subtitles_color_white">Hvid</string>
-    <string name="subtitles_color_gray">Grå</string>
-    <string name="subtitles_color_pink">Pink</string>
-    <string name="subtitles_color_blue">Blå</string>
-    <string name="subtitles_color_yellow">Gul</string>
-    <string name="subtitles_color_green">Grøn</string>
+    <string name="subtitles_opacity">Gennemsigtighed</string>
+    <string name="subtitles_color">Farve</string>
+    <string name="subtitles_size">Størrelse</string>
+    <string name="subtitles_background_color_title">Undertekstbaggrund</string>
     <string name="subtitles_background_title">Underteksters baggrund</string>
+    <string name="subtitles_outline_title">Undertekstomrids</string>
+    <string name="subtitles_shadow_title">Undertekstskygge</string>
+    <string name="subtitles_decoration_title">Undertekstudsmykning</string>
+    <string name="subtitle_decoration_none">Ingen</string>
+    <string name="subtitle_decoration_shadow">Skygge</string>
+    <string name="subtitle_decoration_outline">Omrids</string>
     <string name="subtitles_bold_title">Undertekster med fed skrift</string>
     <string name="subtitles_autoload_title">Automatisk indlæsning af undertekster</string>
+    <string name="previous_color">Forrige farve</string>
+    <string name="new_color">Ny farve</string>
+    <string name="subtitles_preset_default">Standard</string>
+    <string name="subtitles_preset_default_large">Stor tekst</string>
+    <string name="subtitles_preset_default_largest">Største tekst og kontrast</string>
+    <string name="subtitles_preset_white_background">Med baggrund</string>
+    <string name="subtitles_yellow">Gul</string>
+    <string name="subtitles_yellow_background">Gul med baggrund</string>
 
     <string name="audio_prefs_category">Lyd</string>
     <string name="lockscreen_cover_title">Mediecover på låseskærm</string>
@@ -366,6 +395,19 @@
     <string name="enable_headset_detection_summary">Registrér indsættelse og fjernelse af hovedtelefoner</string>
     <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefoner</string>
     <string name="enable_play_on_headset_insertion_summary">Ellers sæt på pause</string>
+    <string name="replaygain_prefs_category">Afspilningsforstærkning</string>
+    <string name="replaygain_enable">Slå afspilningsforstærkning til</string>
+    <string name="replaygain_enable_summary">Streams uden afspilningsforstærkningsinformation er måske mere afdæmpede pga. standard forstærkningen</string>
+    <string name="replaygain_mode">Afspilningsforstærkningstilstand</string>
+    <string name="replaygain_mode_summary">Sportilstand afspiller streams med afspilningsforstærkningsinformation ved samme loudnessniveau. Albumbilstand bevarer relativ stream loudness for det samme album.</string>
+    <string name="replaygain_preamp">Afspilningsforforstærker</string>
+    <string name="replaygain_preamp_summary">Ændrer standard målniveau (89 dB) for streams med afspilningsforstærkningsinformation</string>
+    <string name="replaygain_default">Standard afspilningsforstærkning</string>
+    <string name="replaygain_default_summary">Gælder for streams uden afspilningsforstærkningsinformation\nSæt til 0 for at slå fra</string>
+    <string name="replaygain_peak_protection">Topniveaubeskyttelse</string>
+    <string name="replaygain_peak_protection_summary">Beskyt mod lydafskæringer</string>
+    <string name="replaygain_track">Spor</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Lydoutput</string>
     <string name="aout_summary">Skift metoden som VLC anvender til at udsende lyd med</string>
     <string name="audio_ducking_title">Lavere VLC-lydstyrke ved notifikationer</string>
@@ -410,18 +452,24 @@
     <string name="auto_rescan">Automatisk genskan</string>
     <string name="auto_rescan_summary">Automatisk skanning af enhed efter nye eller slettede medier ved opstart af program</string>
     <string name="dump_media_db">Dump medie-database</string>
+    <string name="dump_app_db">Dump app database</string>
     <string name="dump_media_db_summary">Kopiér database til roden af internt lager</string>
     <string name="clear_media_db">Ryd medie-database</string>
     <string name="clear_media_database_summary">Rydder databasen for at starte forfra</string>
     <string name="clear_app_data">Nulstil programdata</string>
     <string name="clear_app_data_summary">Nulstiller VLC Android-data</string>
     <string name="clear_history">Ryd historik</string>
+    <string name="clear_history_message">Du vil miste din historik, dine nuværende afspilningslister og dine fremskridt</string>
     <string name="set_locale">Angiv lokalitet</string>
     <string name="network_caching">Mellemlagringsværdi for netværk</string>
+    <string name="network_caching_summary">Den tid, der skal bruges til at buffe netværksmedier (i ms) til softwareafkodning\nSæt til 0 for at slå fra</string>
     <string name="resume_playback_title">Genoptag afspilning efter et opkald</string>
     <string name="resume_playback_summary">Bliv ellers i pause</string>
     <string name="blurred_cover_background_title">Sløret coverbaggrund</string>
     <string name="blurred_cover_background_summary">Sløret cover i lydafspillerens baggrund</string>
+    <string name="force_shuffle_title">Gennemtving bland</string>
+    <string name="force_shuffle_summary">Gennemtving bland ved start af afspilning</string>
+    <string name="network_caching_popup">Værdien skal være mellem 0 og 60000 ms</string>
     <string name="quit">Afslut og genstart programmet</string>
     <string name="restart_message">Ændringerne træder i kraft når programmet er blevet genstartet.\n\nGenstart nu?</string>
     <string name="restart_message_OK">OK</string>
@@ -495,6 +543,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC hvid widget</string>
     <string name="widget_name_b">VLC mørk widget</string>
+    <string name="widget_name_mini_player">VLC miniafspiller</string>
+    <string name="widget_old_text">Vi opdaterede vores widgets!</string>
+    <string name="widget_old_description_start">Gode nyheder! Vi har frigivet forbedrede widgets.\nDe giver mere responsivitet og tilpasning</string>
+    <string name="whats_next">Hwa\' så?</string>
+    <string name="widget_old_description_end">Vi har fornemmet, du allerede har widgets i din startapp. De er desværre inkompatible med vores nye og forbedrede widgets.\nAfhængig af din startapp kan det være nødvendigt at fjerne de gamle for at få de nye aktiveret.</string>
+    <string name="click_here">Klik her for at få mere at vide.</string>
     <string name="allow_storage_access_title">Tillad at VLC tilgår video- og lydfiler</string>
     <string name="allow_storage_access_description">VLC kræver at du giver rettigheder til at tilgå mediefilerne på denne enhed.</string>
     <string name="allow_storage_manager_title">Tillad VLC adgang til alle filer</string>
@@ -509,12 +563,22 @@
     <string name="allow_settings_access_brightness_description">VLC har brug for at du giver denne tilladelse for at ændre din lysstyrketilstand.</string>
     <string name="allow_draw_overlays_title">Tillad VLC-afspiller-pop op over andre apps</string>
     <string name="allow_sdraw_overlays_description">VLC har brug for at du giver denne tilladelse for at vise din video i en pop op over andre programmer.</string>
+    <string name="allow_pip">Tillad VLC at starte Billede i Billede</string>
+    <string name="allow_pip_description">VLC har brug for din tilladelse til at vise din video i Billede i Billede-tilstand.</string>
     <string name="permission_ask_again">Tildel rettighed</string>
+    <string name="pick_file">Vælg en fil</string>
     <string name="permission_not_granted">Tilladelse ikke givet</string>
     <string name="permission_expanation_no_allow">Du vil ikke være i stand til at udføre automatisk opdagelse af dit medie eller anvende eksterne undertekster</string>
     <string name="permission_expanation_allow">Du kan kun afspille streams eller netværksmedier</string>
+    <string name="permission_onboarding_no_perm">Du vil ikke kunne udforske dit medie automatisk.\nDu kan kun afspille streams eller netværksmedier</string>
+    <string name="permission_onboarding_perm_media">Kun standardmediefiler kan udforskes automatisk</string>
+    <string name="permission_onboarding_perm_all">Du kan automatisk udforske alle dine filer, afspille alle typer medier også sære medier eller komprimerede filer</string>
     <string name="exit_app">Luk VLC</string>
     <string name="exit_app_msg">Er du sikker på, at du vil afslutte VLC?</string>
+    <string name="widget_explanation_title">VLC widgets</string>
+    <string name="widget_explanation_size">Widgets findes i forskellige størrelser og typer</string>
+    <string name="widget_explanation_resize">For at ændre widgettypen skal du presse på den i lang tid og anvende håndtagene til at ændre til en passende størrelse</string>
+    <string name="widget_explanation_end">Widgets er dybt konfigurérbare. Frigør din kreativitet og få dem til at se ud som dig!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Hurtig ruller-spor</string>
@@ -625,6 +689,8 @@
     <string name="delete_the_selected">Slet valgte</string>
     <string name="download_the_selected">Download valgte</string>
     <string name="next">Næste</string>
+    <string name="skip">Spring over</string>
+    <string name="next_step">Næste</string>
     <string name="download">Download</string>
     <string name="ctx_player_video_track">Vælg videospor</string>
     <string name="ctx_player_audio_track">Lydspor</string>
@@ -775,9 +841,10 @@
     <string name="rename_group">Omdøb videogruppe</string>
     <string name="ungroup">Afgruppér</string>
     <string name="group_similar">Omgruppér automatisk</string>
+    <string name="no_group_found">Ingen videogruppe fundet</string>
     <string name="no_favorite">Ingen favorit</string>
     <string name="empty_directory">Tom</string>
-    <string name="no_track">Ingen spor</string>
+    <string name="no_track">Intet spor</string>
 
     <string name="swipe_unlock">Stryg for at låse op</string>
     <string name="swipe_unlock_no_touch">Tryk og hold for at låse op</string>
@@ -826,6 +893,7 @@
     <string name="audio_delay_bt">Lydforsinkelse sat til %s ms for bluetooth-enheden</string>
     <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
     <string name="go_to_folder">Gennemse forrige</string>
+    <string name="create_shortcut">Skab en startgenvej</string>
     <string name="no_sub_renderer">Undertekster understøttes endnu ikke under casting</string>
     <string name="enqueuing">Indlæser medier</string>
     <string name="soundfont">MIDI lydskrifttype</string>
@@ -834,6 +902,8 @@
     <string name="browser_show_missing_media">Vis manglende medier</string>
     <string name="browser_show_missing_media_summary">Vis fjernmedier selvom de ikke er til stede</string>
     <string name="search_prefs">Indstillinger for søgning</string>
+    <string name="video_match_frame_rate_title">Match displaybilledfrekvens</string>
+    <string name="video_match_frame_rate_summary">Match displayopdateringsfrekvens til displaybilledfrekvens. For eksempel bør en 24p film afspilles med 24p</string>
     <string name="preferred_resolution">Foretrukken video opløsning</string>
     <string name="preferred_resolution_summary">Maksimal video kvalitet for strømme, når det er relevant, vil være: %s</string>
     <string name="pref_resolution_best_available">Bedst tilgængelige</string>
@@ -880,6 +950,7 @@
     <string name="video_double_tap_jump_delay">Dobbeltklik tidsforsinkelse</string>
     <string name="video_key_jump_delay">Navigationstasters tidsforsinkelse</string>
     <string name="banned">Udeladte mapper (hold finger nede for at ændre)</string>
+    <string name="banned_tv">Forbudt folder</string>
     <string name="banned_parent">Udeladt af overordnet mappe</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Dette element er allerede på denne afspilningsliste.</item>
@@ -895,4 +966,96 @@
     <string name="notch">Hak</string>
     <string name="always_fast_seek">Brug altid hurtigsøg</string>
     <string name="always_fast_seek_summary">Søgning sker hurtigere, men muligvis mindre præcist</string>
+    <string name="touch_only">Kun berøres funktion</string>
+    <string name="touch_only_description">Skift til mobilinterface kan kun gøres med en taktil skærm eller en mus.\nSkub herunder for at bekræfte det er sikkert at ændre funktionen.</string>
+    <string name="no_web_browser">Ingen webbrowser installeret</string>
+    <string name="no_web_browser_message">Du kan skanne det på din smartphone.\nURL\'en er %s</string>
+    <string name="no_video">Video utilgængelig</string>
+    <string name="fold_optimized">Optimeret til din foldeskærm</string>
+    <string name="fold_optimize">Optimeret til foldeskærm</string>
+    <string name="foldable">Foldbar skærm</string>
+    <string name="undo">Fortryd</string>
+    <string name="add_server_favorite">Tilføj en serverfavorit</string>
+    <string name="widget_theme">Widgettema</string>
+    <string name="widget_preferences">Konfigurér widget</string>
+    <string name="material_you">Materie dig (tager farver fra baggrundsbilledet)</string>
+    <string name="palette">Palet (tager farver fra medieomslag)</string>
+    <string name="custom">Tilpasset</string>
+    <string name="opacity">Gennemsigtighed</string>
+    <string name="widget_background">Baggrund</string>
+    <string name="widget_foreground">Forgrund</string>
+    <string name="configure_widget">Widgetkonfiguration</string>
+    <string name="widget_preview">Widgetforhåndsvisning</string>
+    <string name="widget_forward_delay">Tidsforsinkelse fremadrettet</string>
+    <string name="widget_show_seek">Vis søgeknapper</string>
+    <string name="widget_show_cover">Vis omslag</string>
+    <string name="widget_rewind_delay">Tidsforsinkelse bagudrettet</string>
+    <string name="widget_show_configure">Vis konfigurationsikon</string>
+    <string name="widget_show_configure_summary">Selv når det ikke vises, kan du trykke det øvre højre hjørne for at åbne konfigurationen</string>
+    <string name="seek_backward_content_description">Søg %s sekunder bagud</string>
+    <string name="seek_forward_content_description">Søg %s sekunder fremad</string>
+    <string name="open_vlc">Åbn VLC</string>
+    <string name="playing">Afspiller</string>
+    <string name="disable_track">Slå spor fra</string>
+    <string name="ascending">Stigende</string>
+    <string name="descending">Faldende</string>
+    <string name="screenshot_error">Fejl ved optagelse af skærmbilledet</string>
+    <string name="disabled">Slået fra</string>
+    <string name="enable_screenshot_gesture">Tryk med 3 fingre</string>
+    <string name="enable_screenshot_button">Vis skærmbilledeknappen</string>
+    <string name="enable_screenshot_button_and_gesture">Knap og gestus</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - titel: %s - varighed: %s</string>
+    <string name="talkback_genre">Genre: %s</string>
+    <string name="talkback_history_item">Element fra historik</string>
+    <string name="talkback_playlist">Afspilningsliste: %s</string>
+    <string name="talkback_folder">Folder: %s</string>
+    <string name="talkback_file">Fil: %s</string>
+    <string name="talkback_favorite">Favorit: %s</string>
+    <string name="talkback_track_number">Spornummer %s</string>
+    <string name="talkback_duration">Varighed: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Kunstner: %s</string>
+    <string name="talkback_release_date">Frigivet i %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Stream: %s</string>
+    <string name="talkback_audio_track">Lydspor: %s</string>
+    <string name="talkback_video_group">Videogruppe: %s</string>
+    <string name="talkback_hours">timer</string>
+    <string name="talkback_minutes">minutter</string>
+    <string name="talkback_seconds">sekunder</string>
+    <string name="talkback_list_section">Overskrift: %s</string>
+    <string name="talkback_enter_screen">Navigér til %s</string>
+    <string name="talkback_file_size">Filstørrelse: %s</string>
+    <string name="talkback_open_in_browser">Åbn i webbrowser</string>
+    <string name="talkback_video_player">Videoafspiller. Tryk for at vise kontrolelementer. Tryk tilbage-knappen for at skjule dem</string>
+    <string name="talkback_video_tracks">Videospor</string>
+    <string name="talkback_audio_tracks">Lydspor</string>
+    <string name="talkback_subtitle_tracks">Undertekstspor</string>
+    <string name="talkback_subtitle_dowload_item">Sprog: %s. %s. Navn: %s</string>
+    <string name="selected">Valgt</string>
+    <string name="talkback_increase_delay">Øg forsinkelse</string>
+    <string name="talkback_decrease_delay">Sænk forsænkelse</string>
+    <string name="talkback_increase_speed">Øg hastighed</string>
+    <string name="talkback_decrease_speed">Sænk hastighed</string>
+    <string name="talkback_subtitle_history">Underteksthistorik</string>
+    <string name="talkback_language_selection">%s valgte sprog</string>
+    <string name="talkback_audio_player_opened">Lydafspiller åbnet</string>
+    <string name="talkback_audio_player_collapsed">Lydafspiller lukket ned</string>
+    <string name="talkback_audio_player_closed">Lydafspiller slukket</string>
+    <string name="talkback_audio_player">Lydafspiller. Afspiller nu: %s</string>
+    <string name="talkback_out_of">%s af %s</string>
+    <string name="talkback_track_index">Spor %s ud af %s</string>
+    <string name="downloaded">Hentet</string>
+    <string name="not_downloaded">Ikke hentet</string>
+    <string name="downloading">Henter</string>
+    <string name="talkback_action_rewind">Spol %s sekunder tilbage</string>
+    <string name="talkback_action_forward">Søg %s sekunder frem</string>
+    <string name="talkback_display_settings">Skærmindstillinger</string>
+    <string name="talkback_already_played">Allerede afspillet</string>
+
+
 </resources>
