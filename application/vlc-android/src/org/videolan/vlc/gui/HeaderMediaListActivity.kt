@@ -278,7 +278,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         audioBrowserAdapter.multiSelectHelper.toggleSelection(position, true)
-        if (actionMode == null) startActionMode()
+        if (actionMode == null) startActionMode() else invalidateActionMode()
         return true
     }
 
