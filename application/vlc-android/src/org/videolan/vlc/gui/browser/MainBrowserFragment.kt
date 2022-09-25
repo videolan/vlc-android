@@ -358,7 +358,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 if (!checkAdapterForActionMode()) return false
                 val adapter = requireAdapter()
                 adapter.multiSelectHelper.toggleSelection(position)
-                if (actionMode == null) startActionMode()
+                if (actionMode == null) startActionMode() else invalidateActionMode()
             } else onCtxClick(v, position, item)
             return true
         }

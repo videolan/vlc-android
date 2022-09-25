@@ -549,7 +549,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 mediaWrapper.type == MediaWrapper.TYPE_VIDEO ||
                 mediaWrapper.type == MediaWrapper.TYPE_DIR) {
             adapter.multiSelectHelper.toggleSelection(position)
-            if (actionMode == null) startActionMode()
+            if (actionMode == null) startActionMode() else invalidateActionMode()
         } else onCtxClick(v, position, item)
         return true
     }
