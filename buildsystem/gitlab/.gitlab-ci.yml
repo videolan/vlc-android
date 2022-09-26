@@ -119,24 +119,28 @@ build-ml-x86_64:
 
 build-ml-arm64-v4:
     extends: .build-ml-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     variables:
         ARCH: arm64
         EXTRA_BUILD_PARAM: -vlc4
 
 build-ml-armv7-v4:
     extends: .build-ml-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     variables:
         ARCH: arm
         EXTRA_BUILD_PARAM: -vlc4
 
 build-ml-x86-v4:
     extends: .build-ml-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     variables:
         ARCH: x86
         EXTRA_BUILD_PARAM: -vlc4
 
 build-ml-x86_64-v4:
     extends: .build-ml-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     variables:
         ARCH: x86_64
         EXTRA_BUILD_PARAM: -vlc4
@@ -205,6 +209,7 @@ nightly-x86_64:
       M2_REPO: "$CI_PROJECT_DIR/aars/repository"
 
 .build-libs-base-v4:
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     rules:
       - if: '$CI_COMMIT_TAG =~ /^libvlc-4.*$/'
     stage: build
