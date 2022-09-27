@@ -32,32 +32,28 @@ fun IMedia.getAudioTracks():List<IMedia.AudioTrack> = getTracks(IMedia.Track.Typ
 
 fun IMedia.getAllTracks() = tracks.toList()
 
-fun MediaPlayer.getSelectedVideoTrack(): VlcTrack {
-    return VlcTrackImpl(getSelectedTrack(IMedia.Track.Type.Video))
+fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? {
+    return getSelectedTrack(IMedia.Track.Type.Video)?.let { VlcTrackImpl(it) }
 }
 
-fun MediaPlayer.getSelectedAudioTrackId(): String {
-    return getSelectedTrack(IMedia.Track.Type.Audio).id
+fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
+    return getSelectedTrack(IMedia.Track.Type.Audio)?.let { VlcTrackImpl(it) }
 }
 
-fun MediaPlayer.getSelectedSpuTrackId(): String {
-    return getSelectedTrack(IMedia.Track.Type.Text).id
-}
-
-fun MediaPlayer.getCurrentSpuTrack(): VlcTrack? {
-    return VlcTrackImpl(getSelectedTrack(IMedia.Track.Type.Text))
+fun MediaPlayer.getSelectedSpuTrack(): VlcTrack? {
+    return getSelectedTrack(IMedia.Track.Type.Text)?.let { VlcTrackImpl(it) }
 }
 
 fun MediaPlayer.getVideoTracksCount(): Int {
-    return getTracks(IMedia.Track.Type.Video).size
+    return getTracks(IMedia.Track.Type.Video)?.size ?: 0
 }
 
 fun MediaPlayer.getAudioTracksCount(): Int {
-    return getTracks(IMedia.Track.Type.Audio).size
+    return getTracks(IMedia.Track.Type.Audio)?.size ?: 0
 }
 
 fun MediaPlayer.getSpuTracksCount(): Int {
-    return getTracks(IMedia.Track.Type.Text).size
+    return getTracks(IMedia.Track.Type.Text)?.size ?: 0
 }
 
 fun MediaPlayer.setVideoTrack(index:String):Boolean {

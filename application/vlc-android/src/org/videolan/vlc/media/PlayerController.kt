@@ -132,7 +132,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getAudioTracks(): Array<out VlcTrack>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getAllAudioTracks() else emptyArray()
 
-    fun getAudioTrack():String = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSelectedAudioTrackId() else "-1"
+    fun getAudioTrack():String = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.getSelectedAudioTrack()?.getId() ?: "-1" else "-1"
 
     fun setVideoTrack(index: String) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setVideoTrack(index)
 
@@ -156,7 +156,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getSpuTracks(): Array<out VlcTrack>? = mediaplayer.getAllSpuTracks()
 
-    fun getSpuTrack() = mediaplayer.getSelectedSpuTrackId()
+    fun getSpuTrack() = mediaplayer.getSelectedSpuTrack()?.getId() ?: "-1"
 
     fun setSpuTrack(index: String) = mediaplayer.setSpuTrack(index)
 

@@ -48,12 +48,20 @@ fun IMedia.getAllTracks(): List<IMedia.Track> {
 
 fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? = getCurrentVideoTrack()?.let { VlcTrackImpl(it) } ?: null
 
-fun MediaPlayer.getSelectedAudioTrackId(): String {
-    return getAudioTrack().toString()
+fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
+    val currentTrackId = audioTrack
+   getAudioTracks().forEach {
+       if (it.id == currentTrackId) return VlcTrackImpl(it)
+   }
+    return null
 }
 
-fun MediaPlayer.getSelectedSpuTrackId(): String {
-    return spuTrack.toString()
+fun MediaPlayer.getSelectedSpuTrack(): VlcTrack? {
+    val currentTrackId = spuTrack
+    getSpuTracks().forEach {
+        if (it.id == currentTrackId) return VlcTrackImpl(it)
+    }
+    return null
 }
 
 fun MediaPlayer.getVideoTracksCount(): Int {
