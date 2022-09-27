@@ -62,9 +62,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.*
-import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
-import org.videolan.vlc.RendererDelegate
+import org.videolan.vlc.*
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.PlaylistAdapter
@@ -74,7 +72,6 @@ import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
-import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
@@ -238,7 +235,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             when (trackType) {
                 VideoTracksDialog.TrackType.AUDIO -> {
                     player.service?.let { service ->
-                        service.setAudioTrack(trackID)
+                        if (isVLC4() && trackID == "-1")
+                            service.unselectTrackType(trackType)
+                        else
+                            service.setAudioTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setStringMeta(MediaWrapper.META_AUDIOTRACK, trackID)
@@ -247,7 +247,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
                 VideoTracksDialog.TrackType.SPU -> {
                     player.service?.let { service ->
-                        service.setSpuTrack(trackID)
+                        if (isVLC4() && trackID == "-1")
+                            service.unselectTrackType(trackType)
+                        else
+                            service.setSpuTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setStringMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID)
@@ -257,7 +260,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 VideoTracksDialog.TrackType.VIDEO -> {
                     player.service?.let { service ->
                         player.seek(service.getTime())
-                        service.setVideoTrack(trackID)
+                        if (isVLC4() && trackID == "-1")
+                            service.unselectTrackType(trackType)
+                        else
+                            service.setVideoTrack(trackID)
                         runIO {
                             val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
                             if (mw != null && mw.id != 0L) mw.setStringMeta(MediaWrapper.META_VIDEOTRACK, trackID)

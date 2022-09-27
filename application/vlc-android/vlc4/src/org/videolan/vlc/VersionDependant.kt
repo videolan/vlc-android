@@ -1,5 +1,6 @@
 package org.videolan.vlc
 
+import android.content.Context
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
@@ -77,6 +78,28 @@ fun Array<IMedia.Track>.convertToVlcTrack(): Array<VlcTrack> {
         newTracks.add(VlcTrackImpl(it))
     }
     return newTracks.toTypedArray()
+}
+
+/**
+ * Generates a fake track to be used as "Disable track" in the [TrackAdapter]
+ *
+ * @param context the context to use
+ * @return a fake track
+ */
+fun getDisableTrack(context: Context) = object : VlcTrack {
+    override fun getName() = context.getString(R.string.disable_track)
+
+    override fun getId() = "-1"
+
+    override fun getWidth() = 0
+
+    override fun getHeight() = 0
+
+    override fun getProjection() = 0
+
+    override fun getFrameRateDen() = 0
+
+    override fun getFrameRateNum() = 0
 }
 
 fun isVLC4() = true

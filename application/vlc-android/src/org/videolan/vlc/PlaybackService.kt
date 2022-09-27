@@ -69,6 +69,7 @@ import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
+import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -1614,6 +1615,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     @MainThread
     fun setAudioTrack(index: String) = playlistManager.player.setAudioTrack(index)
+
+    @MainThread
+    fun unselectTrackType(trackType: VideoTracksDialog.TrackType) {
+        playlistManager.player.unselectTrackType(trackType)
+    }
 
     @MainThread
     fun setAudioDigitalOutputEnabled(enabled: Boolean) = playlistManager.player.setAudioDigitalOutputEnabled(enabled)

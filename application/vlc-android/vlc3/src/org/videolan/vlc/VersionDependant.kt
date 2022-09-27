@@ -1,5 +1,6 @@
 package org.videolan.vlc
 
+import android.content.Context
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
@@ -99,5 +100,13 @@ fun Array<MediaPlayer.TrackDescription>?.convertToVlcTrack(): Array<VlcTrack> {
     }
     return newTracks.toTypedArray()
 }
+
+fun MediaPlayer.unselectTrackType(type: Int) {
+    throw IllegalStateException("This is a VLC 4 only API. It should not be called by VLC 3")
+}
+fun getDisableTrack(context: Context) : VlcTrack {
+    throw IllegalStateException("This is a VLC 4 only API. It should not be called by VLC 3")
+}
+
 
 fun isVLC4() = false

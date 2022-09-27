@@ -20,6 +20,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.*
 import org.videolan.vlc.*
+import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.repository.SlaveRepository
 import kotlin.math.abs
@@ -137,6 +138,15 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun setVideoTrack(index: String) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setVideoTrack(index)
 
     fun setAudioTrack(index: String) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setAudioTrack(index)
+
+    fun unselectTrackType(trackType: VideoTracksDialog.TrackType) {
+        val vlcTrackType = when(trackType) {
+            VideoTracksDialog.TrackType.VIDEO -> 1
+            VideoTracksDialog.TrackType.AUDIO -> 0
+            VideoTracksDialog.TrackType.SPU -> 2
+        }
+        if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.unselectTrackType(vlcTrackType)
+    }
 
     fun setAudioDigitalOutputEnabled(enabled: Boolean) = !mediaplayer.isReleased && mediaplayer.setAudioDigitalOutputEnabled(enabled)
 

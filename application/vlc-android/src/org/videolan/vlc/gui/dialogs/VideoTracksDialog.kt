@@ -45,10 +45,12 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
+import org.videolan.vlc.getDisableTrack
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.isVLC4
 
 class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
@@ -64,7 +66,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     private fun onServiceChanged(service: PlaybackService?) {
         service?.let { playbackService ->
-            if (playbackService.videoTracksCount <= 2) {
+            if ((isVLC4() && playbackService.videoTracksCount < 2) || (!isVLC4() && playbackService.videoTracksCount <= 2)) {
                 binding.videoTracks.trackContainer.setGone()
                 binding.tracksSeparator3.setGone()
             }
@@ -74,7 +76,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             }
 
             playbackService.videoTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<VlcTrack>, trackList.firstOrNull { it.getId() == playbackService.videoTrack }, getString(R.string.track_video))
+                val trackAdapter = TrackAdapter(generateTrackList(trackList), trackList.firstOrNull { it.getId() == playbackService.videoTrack }, getString(R.string.track_video))
                 trackAdapter.setOnTrackSelectedListener { track ->
                     trackSelectionListener.invoke(track.getId(), TrackType.VIDEO)
                 }
@@ -82,7 +84,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
                 binding.videoTracks.trackTitle.contentDescription = getString(R.string.talkback_video_tracks)
             }
             playbackService.audioTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<VlcTrack>, trackList.firstOrNull { it.getId() == playbackService.audioTrack }, getString(R.string.track_audio))
+                val trackAdapter = TrackAdapter(generateTrackList(trackList), trackList.firstOrNull { it.getId() == playbackService.audioTrack }, getString(R.string.track_audio))
                 trackAdapter.setOnTrackSelectedListener { track ->
                     trackSelectionListener.invoke(track.getId(), TrackType.AUDIO)
                 }
@@ -91,7 +93,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             }
             playbackService.spuTracks?.let { trackList ->
                 if (!playbackService.hasRenderer()) {
-                    val trackAdapter = TrackAdapter(trackList as Array<VlcTrack>, trackList.firstOrNull { it.getId() == playbackService.spuTrack }, getString(R.string.track_text))
+                    val trackAdapter = TrackAdapter(generateTrackList(trackList), trackList.firstOrNull { it.getId() == playbackService.spuTrack }, getString(R.string.track_text))
                     trackAdapter.setOnTrackSelectedListener { track ->
                         trackSelectionListener.invoke(track.getId(), TrackType.SPU)
                     }
@@ -107,6 +109,21 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             if (playbackService.spuTracks == null) binding.subtitleTracks.emptyView.setVisible()
         }
     }
+
+    /**
+     * Create a track list containing a fake "Disable track" track
+     *
+     * @param trackList the base track list
+     * @return a complete track list
+     */
+    private fun generateTrackList(trackList: Array<out VlcTrack>) = if (isVLC4()) {
+        val tempTracks = ArrayList<VlcTrack>()
+        tempTracks.add(getDisableTrack(requireActivity()))
+        trackList.forEach {
+            tempTracks.add(it)
+        }
+        tempTracks.toList().toTypedArray()
+    } else trackList as Array<VlcTrack>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlayerOverlayTracksBinding.inflate(layoutInflater, container, false)
