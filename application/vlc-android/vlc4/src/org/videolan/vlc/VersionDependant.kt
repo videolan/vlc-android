@@ -82,3 +82,5 @@ fun Array<IMedia.Track>.convertToVlcTrack(): Array<VlcTrack> {
     }
     return newTracks.toTypedArray()
 }
+
+fun isVLC4() = true

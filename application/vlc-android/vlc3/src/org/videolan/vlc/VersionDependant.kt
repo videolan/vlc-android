@@ -91,3 +91,5 @@ fun Array<MediaPlayer.TrackDescription>?.convertToVlcTrack(): Array<VlcTrack> {
     }
     return newTracks.toTypedArray()
 }
+
+fun isVLC4() = false
