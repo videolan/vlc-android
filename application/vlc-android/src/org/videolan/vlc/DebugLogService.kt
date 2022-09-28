@@ -34,6 +34,7 @@ import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
@@ -193,6 +194,8 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
                     bw.write("Cannot retrieve changed settings\r\n")
                     bw.write(Log.getStackTraceString(e))
                 }
+                bw.write("____________________________\r\n")
+                bw.write("vlc options: ${VLCOptions.libOptions.joinToString(" ")}\r\n")
                 bw.write("____________________________\r\n")
                 for (line in logList) {
                     bw.write(line)
