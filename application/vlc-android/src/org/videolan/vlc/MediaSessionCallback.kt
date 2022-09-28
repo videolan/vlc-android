@@ -122,7 +122,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
      */
     @SuppressLint("LongLogTag")
     private fun isAndroidAutoHardKey(keyEvent: KeyEvent): Boolean {
-        val carMode = AndroidDevices.isCarMode(playbackService.applicationContext)
+        val carMode = playbackService.isCarMode()
         if (carMode) Log.i(TAG, "Android Auto Key Press: $keyEvent")
         return carMode && keyEvent.deviceId == 0 && (keyEvent.flags and KeyEvent.FLAG_KEEP_TOUCH_MODE != 0)
     }
@@ -258,7 +258,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0, allowRandom: Boolean = false) {
         mediaList?.let {
-            if (AndroidDevices.isCarMode(playbackService.applicationContext))
+            if (playbackService.isCarMode())
                 mediaList.forEach { mw -> mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
             // Pick a random first track if allowRandom is true and shuffle is enabled
             playbackService.load(mediaList, if (allowRandom && playbackService.isShuffling) SecureRandom().nextInt(min(mediaList.size, MEDIALIBRARY_PAGE_SIZE)) else position)
