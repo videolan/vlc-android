@@ -183,6 +183,8 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
                 bw.write("____________________________\r\n")
                 bw.write("App version: ${BuildConfig.VLC_VERSION_CODE} / ${BuildConfig.VLC_VERSION_NAME}\r\n")
                 bw.write("libvlc: ${BuildConfig.LIBVLC_VERSION}\r\n")
+                bw.write("libvlc revision: ${getString(R.string.build_libvlc_revision)}\r\n")
+                bw.write("vlc revision: ${getString(R.string.build_vlc_revision)}\r\n")
                 bw.write("medialibrary: ${BuildConfig.ML_VERSION}\r\n")
                 bw.write("____________________________\r\n")
                 try {
