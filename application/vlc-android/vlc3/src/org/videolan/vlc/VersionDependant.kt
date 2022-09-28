@@ -47,11 +47,11 @@ fun IMedia.getAllTracks(): List<IMedia.Track> {
 }
 
 
-fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? = getCurrentVideoTrack()?.let { VlcTrackImpl(it) } ?: null
+fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? = currentVideoTrack?.let { VlcTrackImpl(it) }
 
 fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
     val currentTrackId = audioTrack
-   getAudioTracks().forEach {
+   audioTracks.forEach {
        if (it.id == currentTrackId) return VlcTrackImpl(it)
    }
     return null
@@ -59,7 +59,7 @@ fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
 
 fun MediaPlayer.getSelectedSpuTrack(): VlcTrack? {
     val currentTrackId = spuTrack
-    getSpuTracks().forEach {
+    spuTracks.forEach {
         if (it.id == currentTrackId) return VlcTrackImpl(it)
     }
     return null
