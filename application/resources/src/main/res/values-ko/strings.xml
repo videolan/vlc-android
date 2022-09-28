@@ -116,7 +116,7 @@
     <string name="directorynotfound">\'%1$s\' 디렉터리 경로를 찾을 수 없습니다.</string>
     <string name="nohistory">아직 재생 내역이 없습니다.</string>
 
-    <string name="cover_art">커버 아트</string>
+    <string name="cover_art">표지 아트</string>
     <string name="shuffle_all_title">모두 순서섞기</string>
     <string name="shuffle_title">순서섞기 모드</string>
     <string name="shuffle">순서섞기 끄기</string>
@@ -195,6 +195,11 @@
 
     <string name="playback_history_title">재생 내역</string>
     <string name="playback_history_summary">내역 섹션에서 재생된 모든 미디어 저장</string>
+    <string name="video_resume_playback_title">동영상 재생 대기열 내역</string>
+    <string name="video_resume_playback_summary">나중에 다시 시작하려면 동영상 재생 대기열 저장 허용하기</string>
+    <string name="audio_resume_playback_title">오디오 재생 대기열 내역</string>
+    <string name="audio_resume_playback_warning">오디오 재생 대기열 내역을 비활성화하면 일부 동작 문제가 발생할 수 있습니다.\n비활성화한 후에는 다음 위치에서 재생을 재개하지 못할 수 있습니다:\n\n\t- 블루투스 장치\n\t- 위젯\n\t- 미디어 알림</string>
+    <string name="audio_resume_playback_summary">나중에 다시 시작하려면 오디오 재생 대기열 저장 허용하기</string>
     <string name="playback_speed_title">재생 속도 저장하기</string>
     <string name="playback_speed_summary">미디어간 재생속도 유지하기</string>
 
@@ -258,11 +263,11 @@
 
     <string name="directories_summary">미디어 라이브러에 포함할 폴더를 선택합니다</string>
     <string name="add_custom_path">사용자 지정 경로 추가하기</string>
-    <string name="add_custom_path_description">스캔할 추가 사용자 디렉터리를 입력하세요:</string>
+    <string name="add_custom_path_description">스캔할 부가적인 사용자 디렉터리 입력하기:</string>
     <string name="remove_custom_path">사용자 지정 경로 제거</string>
     <string name="hardware_acceleration">하드웨어 가속</string>
     <string name="hardware_acceleration_summary">사용 안함: 안정성이 더 좋습니다\n디코딩: 성능이 향상될 수 있습니다\n전부: 성능이 더 향상될 수 있습니다</string>
-    <string name="hardware_acceleration_disabled">사용 안함</string>
+    <string name="hardware_acceleration_disabled">비활성화됨</string>
     <string name="hardware_acceleration_decoding">디코딩 가속</string>
     <string name="hardware_acceleration_full">전체 가속</string>
     <string name="dev_hardware_decoder">고급 하드웨어 디코더</string>
@@ -301,7 +306,9 @@
     <string name="media_seen">시청한 동영상에 마커 표시하기</string>
     <string name="media_seen_summary">끝까지 재생한 동영상을 본 것으로 표시합니다</string>
     <string name="force_play_all_summary">클릭한 항목과 그 이후의 모든 동영상을 재생합니다</string>
+    <string name="force_play_all_audio_summary">클릭한 것부터 시작하여, 모든 오디오 재생</string>
     <string name="force_play_all_title">동영상 재생목록 모드</string>
+    <string name="force_play_all_audio_title">오디오 재생목록 모드</string>
     <string name="save_brightness_summary">미디어간 밝기 단계 유지하기</string>
     <string name="save_brightness_title">밝기 단계 저장</string>
     <string name="save_audiodelay_summary">각각의 동영상에 대해 설정한 오디오 지연 시간을 개별적으로 저장합니다</string>
@@ -322,30 +329,48 @@
     <string name="enable_double_tap_play_summary">재생 또는 일시정지 하려면 화면 중앙을  가볍게 두 번 누르기</string>
     <string name="enable_swipe_seek_title">찾으려면 살짝 밀기</string>
     <string name="enable_swipe_seek_summary">손가락으로 화면을 밀어서 찾습니다</string>
+    <string name="enable_scale_gesture_title">두 손가락 확대/축소</string>
+    <string name="enable_scale_gesture_summary">두 손가락으로 확대 및 축소하기</string>
     <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
     <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 동영상이 일시중지여도 화면 켜짐을 유지합니다</string>
     <string name="browser_show_hidden_files_title">숨김 파일 표시</string>
+    <string name="albums_show_track_numbers">트랙 번호 표시하기</string>
+    <string name="enable_video_screenshot">스크린샷 찍기</string>
 
     <string name="subtitles_prefs_category">자막</string>
     <string name="subtitles_size_title">자막 크기</string>
+    <string name="subtitles_presets_title">자막 프리셋</string>
     <string name="subtitles_size_small">작게</string>
     <string name="subtitles_size_normal">보통</string>
     <string name="subtitles_size_big">크게</string>
     <string name="subtitles_size_huge">더 크게</string>
+    <string name="subtitles_font_style">자막 글꼴 스타일</string>
     <string name="subtitles_color_title">자막 색상</string>
-    <string name="subtitles_color_white">흰색</string>
-    <string name="subtitles_color_gray">회색</string>
-    <string name="subtitles_color_pink">분홍색</string>
-    <string name="subtitles_color_blue">파란색</string>
-    <string name="subtitles_color_yellow">노란색</string>
-    <string name="subtitles_color_green">녹색</string>
+    <string name="subtitles_opacity">불투명도</string>
+    <string name="subtitles_color">색상</string>
+    <string name="subtitles_size">크기</string>
+    <string name="subtitles_background_color_title">자막 배경</string>
     <string name="subtitles_background_title">자막 배경</string>
+    <string name="subtitles_outline_title">자막 윤곽선</string>
+    <string name="subtitles_shadow_title">자막 그림자</string>
+    <string name="subtitles_decoration_title">자막 장식</string>
+    <string name="subtitle_decoration_none">없음</string>
+    <string name="subtitle_decoration_shadow">그림자</string>
+    <string name="subtitle_decoration_outline">윤곽선</string>
     <string name="subtitles_bold_title">자막 굵게</string>
     <string name="subtitles_autoload_title">자막 자동 불러오기</string>
+    <string name="previous_color">이전 색상</string>
+    <string name="new_color">새 색상</string>
+    <string name="subtitles_preset_default">기본값</string>
+    <string name="subtitles_preset_default_large">큰 텍스트</string>
+    <string name="subtitles_preset_default_largest">가장 큰 텍스트 및 대비</string>
+    <string name="subtitles_preset_white_background">배경으로</string>
+    <string name="subtitles_yellow">노란색</string>
+    <string name="subtitles_yellow_background">배경이 있는 노란색</string>
 
     <string name="audio_prefs_category">오디오</string>
-    <string name="lockscreen_cover_title">잠금 화면에 미디어 커버 보기</string>
-    <string name="lockscreen_cover_summary">이용 가능할 때 현재 미디어의 커버 아트를 잠금 화면의 배경으로 설정합니다</string>
+    <string name="lockscreen_cover_title">잠금 화면에 미디어 표지 보기</string>
+    <string name="lockscreen_cover_summary">이용 가능할 때 현재 미디어의 표지 아트를 잠금 화면의 배경으로 설정합니다</string>
     <string name="show_seek_in_compact_notif_title">알림 패널의 찾기 버튼</string>
     <string name="show_seek_in_compact_notif_summary">컴팩트 미디어 컨트롤에 되감기 및 빨리감기 버튼 표시</string>
     <string name="list_title_ellipsize">한줄 리스트로 제목 줄임</string>
@@ -418,6 +443,7 @@
     <string name="auto_rescan">자동 재검색</string>
     <string name="auto_rescan_summary">응용프로그램 시작 시 자동으로 장치에서 새 미디어 또는 삭제된 미디어 검색</string>
     <string name="dump_media_db">미디어 데이터베이스 덤프</string>
+    <string name="dump_app_db">앱 데이터베이스 덤프</string>
     <string name="dump_media_db_summary">내부 저장소 루트에 데이터베이스 복사하기</string>
     <string name="clear_media_db">미디어 데이터베이스 비우기</string>
     <string name="clear_media_database_summary">다시 시작할 데이터베이스 비우기</string>
@@ -432,6 +458,8 @@
     <string name="resume_playback_summary">만약 그렇지 않으면 일시중지한 상태로 있습니다</string>
     <string name="blurred_cover_background_title">흐릿한 음반 전면을 배경으로</string>
     <string name="blurred_cover_background_summary">흐릿한 음반 전면을 오디오 재생기 배경으로</string>
+    <string name="force_shuffle_title">순서섞기 강제 지정</string>
+    <string name="force_shuffle_summary">재생을 시작할 때 순서섞기 강제 지정</string>
     <string name="network_caching_popup">이 값은 0~60000ms 사이여야 합니다</string>
     <string name="quit">응용프로그램 종료 및 다시 시작</string>
     <string name="restart_message">응용프로그램이 다시 시작되면 변경 사항이 적용됩니다.\n\n지금 다시 시작하시겠습니까?</string>
@@ -509,6 +537,7 @@
     <string name="widget_name_mini_player">VLC 미니 플레이어</string>
     <string name="widget_old_text">위젯을 업데이트 했습니다!</string>
     <string name="widget_old_description_start">좋은 소식입니다! 우리는 개선된 위젯을 릴리즈했습니다.\n더 나은 응답성과 커스터마이징 기능을 제공합니다.</string>
+    <string name="whats_next">다음에 할 작업은 무엇입니까?</string>
     <string name="widget_old_description_end">사용자의 런처에 위젯들이 이미 위젯이 있습니다. 유감스럽게도, 그 위젯들은 새로 개선된 위젯들과 호환되지 않습니다.n사용자의 런처에 따라, 당신은 이전 버전을 제거해야 할 수도 있습니다.</string>
     <string name="click_here">여기를 눌러 더 알아보세요.</string>
     <string name="allow_storage_access_title">VLC에서 동영상과 오디오 파일에 접근합니다</string>
@@ -525,6 +554,8 @@
     <string name="allow_settings_access_brightness_description">VLC에서 밝기 모드를 바꾸려면 사용자의 승인이 필요합니다.</string>
     <string name="allow_draw_overlays_title">다른 앱 위로 VLC 재생기 팝업 허용하기</string>
     <string name="allow_sdraw_overlays_description">VLC의 동영상을 다른 앱 위로 띄우려면 사용자의 승인이 필요합니다.</string>
+    <string name="allow_pip">VLC 재생기에서 PIP를 실행하도록 허용하기</string>
+    <string name="allow_pip_description">VLC는 PIP 모드에서 동영상을 표시하려면 이 권한을 부여해야 합니다.</string>
     <string name="permission_ask_again">사용 허락하기</string>
     <string name="pick_file">파일 고르기</string>
     <string name="permission_not_granted">사용 권한이 부여되지 않음</string>
@@ -535,6 +566,10 @@
     <string name="permission_onboarding_perm_all">모든 파일을 자동으로 검색하여 모든 유형의 미디어 또는 압축 파일을 재생할 수 있습니다</string>
     <string name="exit_app">VLC 닫기</string>
     <string name="exit_app_msg">VLC를 정말 종료할까요?</string>
+    <string name="widget_explanation_title">VLC 위젯</string>
+    <string name="widget_explanation_size">위젯은 다양한 크기와 멋으로 제공됩니다</string>
+    <string name="widget_explanation_resize">위젯 유형을 변경하려면 위젯 유형을 길게 누르고 핸들을 사용하여 원하는 크기로 크기를 조정합니다</string>
+    <string name="widget_explanation_end">위젯은 사용자 정의가 매우 용이합니다. 여러분의 창의력을 발휘해보세요!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller 트랙</string>
@@ -577,7 +612,7 @@
     <string name="ml_external_storage_msg">%1$s 장치를 VLC의 미디어 라이브러리에 추가할까요?</string>
     <string name="ml_external_storage_accept">예</string>
     <string name="ml_external_storage_decline">아니오</string>
-    <string name="auto_last_added_media">최근 추가</string>
+    <string name="auto_last_added_media">마지막으로 추가됨</string>
     <string name="auto_my_library">내 라이브러리</string>
     <string name="auto_home">홈</string>
     <string name="no">아니오</string>
@@ -663,7 +698,7 @@
     <string name="welcome_title">VLC에 오신 것을 환영합니다!</string>
     <string name="welcome_subtitle">자유로운 오픈 소스 멀티미디어 재생기</string>
     <string name="permission_media">VLC는 장치의 미디어에 액세스하려면 권한이 필요합니다</string>
-    <string name="medialibrary_scan_explanation">VLC는 자동으로 장치를 스캔하여 미디어 컬렉션을 구성할 수 있습니다.</string>
+    <string name="medialibrary_scan_explanation">VLC는 자동으로 장치를 스캔하여 미디어 모음집을 구성할 수 있습니다.</string>
     <string name="onboarding_theme_title">편하게 계십시오</string>
     <string name="done">완료</string>
     <string name="onboarding_scan_title">사용자의 미디어 자동 검색</string>
@@ -782,20 +817,20 @@
     <string name="audio_queue_progress_remaining">남은 시간: %s</string>
     <string name="audio_queue_progress_finished">종료: %s</string>
     <string name="sortby_track">트랙</string>
-    <string name="this_folder">해당 폴더 추가</string>
-    <string name="all_subfolders">해당 폴더와 하위폴더를 추가</string>
+    <string name="this_folder">해당 폴더 추가하기</string>
+    <string name="all_subfolders">해당 폴더와 하위폴더를 추가하기</string>
     <string name="playlist_existing">재생목록 %s이 이미 존재합니다</string>
     <string name="new_title">새 제목</string>
     <string name="browse">찾기</string>
     <string name="more">더</string>
     <string name="favorites">즐겨찾기</string>
     <string name="new_stream">새 스트림</string>
-    <string name="add_to_group">동영상 그룹에 추가</string>
+    <string name="add_to_group">동영상 그룹에 추가하기</string>
     <string name="remove_from_group">동영상 그룹에서 제거하기</string>
     <string name="rename_group">동영상 그룹 이름 바꾸기</string>
     <string name="ungroup">그룹에서 제외하기</string>
     <string name="group_similar">자동으로 재그룹</string>
-    <string name="no_group_found">비디오 모음집 찾지 못함</string>
+    <string name="no_group_found">비디오 그룹을 찾을 수 없습니다</string>
     <string name="no_favorite">즐겨찾기 없음</string>
     <string name="empty_directory">비었음</string>
     <string name="no_track">트랙 없음</string>
@@ -850,24 +885,26 @@
     <string name="create_shortcut">런처 단축키 만들기</string>
     <string name="no_sub_renderer">전송 중에는 자막이 지원되지 않습니다</string>
     <string name="enqueuing">미디어 로딩</string>
-    <string name="soundfont">MIDI 사운드폰트</string>
-    <string name="soundfont_summary">미디 오디오 트랙을 재생할 SoundFont 파일 선택</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">미디 오디오 트랙을 재생할 SoundFont 파일 고르기</string>
     <string name="missing_media_snack">미디어가 없습니다. 누락된 미디어를 모두 숨기시겠습니까?</string>
     <string name="browser_show_missing_media">누락된 미디어 표시</string>
     <string name="browser_show_missing_media_summary">원격 미디어가 없는 경우에도 표시</string>
     <string name="search_prefs">검색 설정</string>
+    <string name="video_match_frame_rate_title">디스플레이 프레임 속도 일치시키기</string>
+    <string name="video_match_frame_rate_summary">디스플레이 새로고침 빈도를 미디어 프레임 빈도와 일치시킵니다. 예를 들어, 24p 필름은 24p로 재생되어야 합니다</string>
     <string name="preferred_resolution">선호하는 동영상 해상도</string>
     <string name="preferred_resolution_summary">해당되는 경우 스트림의 최대 동영상 화질은 다음과 같습니다: %s</string>
     <string name="pref_resolution_best_available">사용가능한 최적</string>
     <string name="pref_resolution_very_low">매우 낮은 해상도 (240 라인)</string>
     <string name="stop_unpaubale">이 미디어는 일시중지할 수 없습니다. 대신 중지하시겠습니까?</string>
     <string name="delete_forever">영구 삭제하기</string>
-    <string name="add_to_existing_playlist">기존 재생목록에 추가</string>
+    <string name="add_to_existing_playlist">기존 재생목록에 추가하기</string>
     <string name="bookmarks_title">바로찾기</string>
     <string name="no_bookmark">아직 바로찾기가 없습니다</string>
     <string name="bookmark_default_name">%s에서 바로찾기</string>
     <string name="bookmark_name">바로찾기 %s</string>
-    <string name="add_bookmark">바로찾기 추가</string>
+    <string name="add_bookmark">바로찾기 추가하기</string>
     <string name="bookmark_added">바로찾기 추가됨</string>
     <string name="show">표시</string>
     <string name="optional_features">옵션 기능</string>
@@ -886,9 +923,9 @@
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">중복된 항목(들)을 추가하시겠습니까?</string>
-    <string name="add_button">추가</string>
-    <string name="add_all_button">모두 추가</string>
-    <string name="add_new_only_button">새 항목만 추가</string>
+    <string name="add_button">추가하기</string>
+    <string name="add_all_button">모두 추가하기</string>
+    <string name="add_new_only_button">새 항목만 추가하기</string>
     <string name="discovery_failed">다음에 대한 검색 실패: %s</string>
     <string name="lock_use_sensor_title">센서로 잠금</string>
     <string name="lock_use_sensor_summary">방향이 잠겨 있으면 센서를 사용하여 반대 방향을 허용합니다</string>
@@ -902,6 +939,7 @@
     <string name="video_double_tap_jump_delay">두 번 탭 지연 시간</string>
     <string name="video_key_jump_delay">내비게이션 키 지연 시간</string>
     <string name="banned">금지된 폴더 (길게 탭하여 변경)</string>
+    <string name="banned_tv">금지된 폴더</string>
     <string name="banned_parent">상위 폴더에 의해 금지됨</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">이 항목들은 이미 이 재생 목록에 있습니다.</item>
@@ -928,7 +966,7 @@
     <string name="widget_theme">위젯 테마</string>
     <string name="widget_preferences">위젯 구성</string>
     <string name="material_you">Material You (배경화면에서 색상 뽑기)</string>
-    <string name="palette">팔레트 (미디어 커버에서 색상 뽑기)</string>
+    <string name="palette">팔레트 (미디어 표지에서 색상 뽑기)</string>
     <string name="custom">사용자 지정</string>
     <string name="opacity">불투명도</string>
     <string name="widget_background">배경</string>
@@ -936,6 +974,8 @@
     <string name="configure_widget">위젯 구성</string>
     <string name="widget_preview">위젯 미리보기</string>
     <string name="widget_forward_delay">앞으로 이동 시간 지연</string>
+    <string name="widget_show_seek">탐색 버튼 표시하기</string>
+    <string name="widget_show_cover">표지 표시하기</string>
     <string name="widget_rewind_delay">뒤로 이동 시간 지연</string>
     <string name="widget_show_configure">구성 아이콘 표시하기</string>
     <string name="widget_show_configure_summary">위젯이 보이지 않을 때에도 우측 상단을 탭하여 설정을 열 수 있습니다</string>
@@ -946,6 +986,11 @@
     <string name="disable_track">트랙 비활성화</string>
     <string name="ascending">오름차순</string>
     <string name="descending">내림차순</string>
+    <string name="screenshot_error">스크린샷을 찍는 동안 오류가 발생했습니다</string>
+    <string name="disabled">비활성화됨</string>
+    <string name="enable_screenshot_gesture">세 손가락으로 탭</string>
+    <string name="enable_screenshot_button">스크린샷 버튼 표시하기</string>
+    <string name="enable_screenshot_button_and_gesture">버튼 및 제스처</string>
 
 
 
@@ -970,6 +1015,7 @@
     <string name="talkback_minutes">분</string>
     <string name="talkback_seconds">초</string>
     <string name="talkback_list_section">헤더: %s</string>
+    <string name="talkback_enter_screen">%s에서 탐색하기</string>
     <string name="talkback_file_size">파일 크기: %s</string>
     <string name="talkback_open_in_browser">웹 브라우저에서 열기</string>
     <string name="talkback_video_player">동영상 재생기. 컨트롤을 표시하려면 누릅니다. 숨기려면 뒤로 버튼을 누릅니다.</string>
@@ -978,7 +1024,9 @@
     <string name="talkback_subtitle_tracks">자막 트랙</string>
     <string name="talkback_subtitle_dowload_item">언어: %s. %s. 이름: %s</string>
     <string name="selected">선택됨</string>
-    <string name="talkback_increase_speed">속도 향상</string>
+    <string name="talkback_increase_delay">지연 증가</string>
+    <string name="talkback_decrease_delay">지연 감소</string>
+    <string name="talkback_increase_speed">속도 증가</string>
     <string name="talkback_decrease_speed">속도 감소</string>
     <string name="talkback_subtitle_history">자막 내역</string>
     <string name="talkback_language_selection">%s이(가) 선택한 언어</string>
@@ -986,6 +1034,8 @@
     <string name="talkback_audio_player_collapsed">오디오 재생기 접힘</string>
     <string name="talkback_audio_player_closed">오디오 재생기 닫힘</string>
     <string name="talkback_audio_player">오디오 재생기. 현재 재생 중: %s</string>
+    <string name="talkback_out_of"> %s/%s</string>
+    <string name="talkback_track_index">트랙 %s/%s</string>
     <string name="downloaded">다운로드됨</string>
     <string name="not_downloaded">다운로드되지 않음</string>
     <string name="downloading">다운로드하는 중</string>
