@@ -165,11 +165,6 @@ object AndroidDevices {
         return Build.VERSION.SDK_INT > VERSION_CODES.P || Build.VERSION.SDK_INT == VERSION_CODES.P && "samsung" == Build.MANUFACTURER.lowercase(Locale.US)
     }
 
-    fun isCarMode(ctx: Context): Boolean {
-        val uiModeManager = ctx.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-        return uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_CAR
-    }
-
     private fun hasPlayServices(pm: PackageManager): Boolean {
         try {
             pm.getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES)

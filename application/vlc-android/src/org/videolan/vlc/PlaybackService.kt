@@ -24,6 +24,7 @@ import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetManager
 import android.content.*
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
@@ -131,12 +132,18 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var popupManager: PopupManager? = null
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    private lateinit var carConnectionHandler:CarConnectionHandler
 
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
             val state = intent.getIntExtra("state", 0)
+
+            if (action == CarConnectionHandler.RECEIVER_ACTION) {
+                carConnectionHandler.query()
+                return
+            }
 
             // skip all headsets events if there is a call
             if ((context.getSystemService(AUDIO_SERVICE) as AudioManager).mode == AudioManager.MODE_IN_CALL) return
@@ -623,10 +630,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             addAction(MiniPlayerAppWidgetProvider.ACTION_WIDGET_DISABLED)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+            if (CarConnectionHandler.preferCarConnectionHandler()) addAction(CarConnectionHandler.RECEIVER_ACTION)
             addAction(ACTION_CAR_MODE_EXIT)
             addAction(CUSTOM_ACTION)
         }
         registerReceiver(receiver, filter)
+        if (CarConnectionHandler.preferCarConnectionHandler()) {
+            carConnectionHandler = CarConnectionHandler(contentResolver)
+            carConnectionHandler.connectionType.observeForever {
+                if (it != null) publishState()
+            }
+        }
 
         keyguardManager = getSystemService()!!
         renderer.observe(this, Observer { setRenderer(it) })
@@ -995,7 +1009,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val chapterTitle = if (lastChaptersCount > 0) getCurrentChapter(true) else null
         val displayMsg = subtitleMessage.poll()
         val bob = withContext(Dispatchers.Default) {
-            val carMode = AndroidDevices.isCarMode(ctx)
+            val carMode = isCarMode()
             val title = media.nowPlaying ?: media.title
             val coverOnLockscreen = settings.getBoolean(LOCKSCREEN_COVER, true)
             val bob = MediaMetadataCompat.Builder().apply {
@@ -1325,7 +1339,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      * headunits that report the track number show the correct value in the playlist.
      */
     private fun updateMediaQueueSlidingWindow(mediaListChanged: Boolean = false) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
-        if (AndroidDevices.isCarMode(this@PlaybackService)) {
+        if (isCarMode()) {
             val mediaList = playlistManager.getMediaList()
             val halfWindowSize = 7
             val windowSize = 2 * halfWindowSize + 1
@@ -1779,6 +1793,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
 
         return if (length == 0L) position.toInt() else realTime.toInt()
+    }
+
+    fun isCarMode(): Boolean {
+        return if (CarConnectionHandler.preferCarConnectionHandler()) {
+            carConnectionHandler.connectionType.value?.let { it > CarConnectionHandler.CONNECTION_TYPE_NOT_CONNECTED } ?: false
+        } else {
+            (getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_CAR
+        }
     }
 }
 
