@@ -83,8 +83,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         else -> true
     }
     fun getComparator(nbOfDigits: Int): Comparator<MediaLibraryItem>? = when {
-            Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> tvDescComp
-            Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> tvAscComp
+            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT) && desc -> tvDescComp
+            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT) && !desc -> tvAscComp
             url != null && Uri.parse(url)?.scheme == "upnp" -> null
             sort == Medialibrary.SORT_ALPHA && desc -> descComp
             sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
@@ -322,8 +322,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                             descriptionUpdate.value = Pair(position, it)
                         }
                         directories.addAll(files)
-                        sort(directories.toMutableList())
-                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories.toMutableList()) }
+                        sort(directories as MutableList<MediaLibraryItem>)
+                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories) }
                     }
                     directories.clear()
                     files.clear()
