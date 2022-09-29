@@ -264,23 +264,26 @@ val descComp by lazy {
     }
 }
 
-val tvAscComp by lazy {
-    Comparator<MediaLibraryItem> { item1, item2 ->
+fun getTvAscComp(foldersFirst: Boolean): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+    if (foldersFirst) {
         val type1 = (item1 as? MediaWrapper)?.type
         val type2 = (item2 as? MediaWrapper)?.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        item1?.title?.lowercase(Locale.getDefault())?.compareTo(item2?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
+    item1?.title?.lowercase(Locale.getDefault())?.compareTo(item2?.title?.lowercase(Locale.getDefault())
+            ?: "") ?: -1
 }
-val tvDescComp by lazy {
-    Comparator<MediaLibraryItem> { item1, item2 ->
+
+fun getTvDescComp(foldersFirst: Boolean): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+    if (foldersFirst) {
         val type1 = (item1 as? MediaWrapper)?.type
         val type2 = (item2 as? MediaWrapper)?.type
         if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
         else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        item2?.title?.lowercase(Locale.getDefault())?.compareTo(item1?.title?.lowercase(Locale.getDefault()) ?: "") ?: -1
     }
+    item2?.title?.lowercase(Locale.getDefault())?.compareTo(item1?.title?.lowercase(Locale.getDefault())
+            ?: "") ?: -1
 }
 
 fun getFilenameAscComp(nbOfDigits: Int): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->

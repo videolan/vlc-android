@@ -28,6 +28,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var audioLongJumpDelay = 20
     var showHiddenFiles = false
     var showTrackNumber = true
+    var tvFoldersFirst = true
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -49,6 +50,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
         showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
+        tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         return prefs
     }
 
@@ -138,6 +140,7 @@ const val DISPLAY_UNDER_NOTCH = "display_under_notch"
 const val ALLOW_FOLD_AUTO_LAYOUT = "allow_fold_auto_layout"
 const val HINGE_ON_RIGHT = "hinge_on_right"
 const val AUDIO_HINGE_ON_RIGHT = "audio_hinge_on_right"
+const val TV_FOLDERS_FIRST = "tv_folders_first"
 
 const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"

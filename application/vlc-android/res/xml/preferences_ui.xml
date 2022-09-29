@@ -43,6 +43,14 @@
 
     <CheckBoxPreference
             app:singleLineTitle="false"
+            android:key="tv_folders_first"
+            android:defaultValue="true"
+            app:isPreferenceVisible="false"
+            android:summary="@string/tv_folders_first_summary"
+            android:title="@string/tv_folders_first"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
             android:key="include_missing"
             android:defaultValue="true"
             android:summary="@string/browser_show_missing_media_summary"
