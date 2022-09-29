@@ -61,6 +61,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         tvUiPref.setDefaultValue(true)
         findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
         findPreference<Preference>(LIST_TITLE_ELLIPSIZE)?.isVisible = false
+        findPreference<Preference>(TV_FOLDERS_FIRST)?.isVisible = true
         prepareLocaleList()
         currentLocale = AppContextProvider.locale
     }
@@ -95,6 +96,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestartApp()
             }
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
+            TV_FOLDERS_FIRST -> Settings.tvFoldersFirst = sharedPreferences.getBoolean(TV_FOLDERS_FIRST, true)
         }
     }
 

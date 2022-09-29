@@ -83,8 +83,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         else -> true
     }
     fun getComparator(nbOfDigits: Int): Comparator<MediaLibraryItem>? = when {
-            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT) && desc -> tvDescComp
-            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT) && !desc -> tvAscComp
+            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT, Medialibrary.SORT_FILENAME) && desc -> getTvDescComp(Settings.tvFoldersFirst)
+            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT, Medialibrary.SORT_FILENAME) && !desc -> getTvAscComp(Settings.tvFoldersFirst)
             url != null && Uri.parse(url)?.scheme == "upnp" -> null
             sort == Medialibrary.SORT_ALPHA && desc -> descComp
             sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
