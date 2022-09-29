@@ -90,7 +90,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     }
 
     override fun onResume() {
-        viewModel.onRefresh()
+        if (viewModel.isApiLoading.value == false) viewModel.onRefresh()
         super.onResume()
     }
 
