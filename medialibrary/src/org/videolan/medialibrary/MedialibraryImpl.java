@@ -110,12 +110,12 @@ public class MedialibraryImpl extends Medialibrary {
 
     public void banFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeBanFolder(Tools.encodeVLCMrl(path));
+            nativeBanFolder(Tools.mlEncodeMrl(path));
     }
 
     public void unbanFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeUnbanFolder(Tools.encodeVLCMrl(path));
+            nativeUnbanFolder(Tools.mlEncodeMrl(path));
     }
 
     public String[] bannedFolders() {

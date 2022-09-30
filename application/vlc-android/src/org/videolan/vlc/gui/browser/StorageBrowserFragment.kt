@@ -40,8 +40,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -111,8 +111,8 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         addBannedFoldersCallback { folder, _ ->
             (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
             adapter.dataset.forEachIndexed{ index, mediaLibraryItem ->
-                if ("${VLCUtil.encodeVLCString((mediaLibraryItem as Storage).uri.toString())}/" == folder) adapter.notifyItemChanged(index)
-                }
+                if ("${Tools.mlEncodeMrl(((mediaLibraryItem as Storage).uri.toString()))}/" == folder) adapter.notifyItemChanged(index)
+            }
         }
     }
 

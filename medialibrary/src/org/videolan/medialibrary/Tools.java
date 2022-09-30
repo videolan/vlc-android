@@ -134,6 +134,13 @@ public class Tools {
         return sb.toString();
     }
 
+    public static String mlEncodeMrl(String mrl) {
+        if (mrl.startsWith("/")) mrl = "file://"+mrl;
+        mrl = mrl.replace(" ", "%20");
+        mrl = mrl.replace("+", "%2B");
+        return VLCUtil.encodeVLCString(mrl);
+    }
+
     public static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
         return VLCUtil.encodeVLCString(mrl);
