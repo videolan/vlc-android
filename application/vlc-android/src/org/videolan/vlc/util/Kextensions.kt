@@ -59,6 +59,7 @@ import java.net.URISyntaxException
 import java.security.SecureRandom
 import java.util.*
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 fun String.validateLocation(): Boolean {
@@ -361,14 +362,25 @@ fun RecyclerView.Adapter<*>.onAnyChange(listener: ()->Unit): RecyclerView.Adapte
     return dataObserver
 }
 
-fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 || height <= 0) {
+/**
+ * Generate a string containing the commercial denomination of the video resolution
+ *
+ * @param width the video width
+ * @param height the video height
+ * @return the commercial resolution (SD, HD, 4K, ...)
+ */
+fun generateResolutionClass(width: Int, height: Int): String? = if (width <= 0 || height <= 0) {
     null
-} else when {
-    width >= 7680 -> "8K"
-    width >= 3840 -> "4K"
-    width >= 1920 -> "1080p"
-    width >= 1280 -> "720p"
-    else -> "SD"
+} else {
+    val realHeight = min(height, width)
+    when {
+        realHeight >= 4320 -> "8K"
+        realHeight >= 2160 -> "4K"
+        realHeight >= 1440 -> "qHD"
+        realHeight >= 1080 -> "FHD"
+        realHeight >= 720 -> "HD"
+        else -> "SD"
+    }
 }
 
 val View.scope : CoroutineScope
