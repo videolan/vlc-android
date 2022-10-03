@@ -47,6 +47,8 @@ fun String?.isSchemeNetwork() = when(this) {
     else -> false
 }
 
+fun String?.isSchemeFavoriteEditable() = this in arrayOf("ftp", "ftps", "sftp", "smb", "nfs")
+
 fun String?.isSchemeFile() = when(this) {
     "file", null -> true
     else -> false
