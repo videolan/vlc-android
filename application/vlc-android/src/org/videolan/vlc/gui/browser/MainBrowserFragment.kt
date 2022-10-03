@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.isSchemeFavoriteEditable
 import org.videolan.vlc.viewmodels.browser.*
 
 class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionReceiver {
@@ -380,7 +381,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 val isFileBrowser = isFile && item.uri.scheme == "file"
                 val favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(mw.uri) }
                 flags = if (favExists) {
-                    if (withContext(Dispatchers.IO) { browserFavRepository.isFavNetwork(mw.uri) }) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
+                    if (mw.uri.scheme.isSchemeFavoriteEditable() && withContext(Dispatchers.IO) { browserFavRepository.isFavNetwork(mw.uri) }) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
                     else flags or CTX_FAV_REMOVE
                 } else flags or CTX_FAV_ADD
                 if (isFileBrowser) {
