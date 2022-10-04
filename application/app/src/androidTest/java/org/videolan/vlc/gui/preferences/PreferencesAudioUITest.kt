@@ -81,9 +81,10 @@ class PreferencesAudioUITest: BasePreferenceUITest() {
 
         checkModeChanged(key, "0", "0", MAP_AOUT)
         checkModeChanged(key, "1", "0", MAP_AOUT)
+        checkModeChanged(key, "2", "0", MAP_AOUT)
     }
 
     companion object {
-        val MAP_AOUT = mapOf("0" to R.string.aout_audiotrack, "1" to R.string.aout_opensles)
+        val MAP_AOUT = mapOf("0" to R.string.aout_aaudio, "1" to R.string.aout_audiotrack, "2" to R.string.aout_opensles)
     }
 }

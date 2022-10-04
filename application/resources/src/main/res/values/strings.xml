@@ -425,6 +425,7 @@
     <string name="replaygain_album">Album</string>
     <string name="aout">Audio output</string>
     <string name="aout_summary">Change the method that VLC uses to output audio</string>
+    <string name="aout_aaudio" translatable="false">AAudio</string>
     <string name="aout_audiotrack" translatable="false">AudioTrack</string>
     <string name="aout_opensles" translatable="false">OpenSL ES</string>
     <string name="audio_ducking_title">Lower VLC volume on notifications</string>

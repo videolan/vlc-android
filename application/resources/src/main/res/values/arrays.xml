@@ -375,12 +375,14 @@
     </string-array>
 
     <string-array name="aouts">
+        <item>@string/aout_aaudio</item>
         <item>@string/aout_audiotrack</item>
         <item>@string/aout_opensles</item>
     </string-array>
     <string-array name="aouts_values" translatable="false">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="casting_quality">
