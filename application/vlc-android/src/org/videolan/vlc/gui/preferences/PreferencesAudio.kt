@@ -76,7 +76,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             findPreference<Preference>("aout")?.isVisible = false
         }
         updatePassThroughSummary()
-        val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
+        val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         for (key in arrayOf("audio-replay-gain-default", "audio-replay-gain-preamp")) {
             findPreference<EditTextPreference>(key)?.setOnBindEditTextListener {
@@ -148,7 +148,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         when (key) {
             "aout" -> {
                 lifecycleScope.launch { restartLibVLC() }
-                val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
+                val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }

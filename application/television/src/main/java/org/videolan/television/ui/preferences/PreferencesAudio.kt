@@ -83,7 +83,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             findPreference<Preference>("aout")?.isVisible = false
         }
         updatePassThroughSummary()
-        val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
+        val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         preferredAudioTrack = findPreference("audio_preferred_language")!!
         updatePreferredAudioTrack()
@@ -127,7 +127,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         when (key) {
             "aout" -> {
                 launch { restartLibVLC() }
-                val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
+                val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }

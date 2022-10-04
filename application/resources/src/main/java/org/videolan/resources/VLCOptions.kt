@@ -44,8 +44,9 @@ import java.util.*
 object VLCOptions {
     private const val TAG = "VLC/VLCConfig"
 
-    private const val AOUT_AUDIOTRACK = 0
-    private const val AOUT_OPENSLES = 1
+    private const val AOUT_AAUDIO = 0
+    private const val AOUT_AUDIOTRACK = 1
+    private const val AOUT_OPENSLES = 2
 
     private const val HW_ACCELERATION_AUTOMATIC = -1
     private const val HW_ACCELERATION_DISABLED = 0
@@ -204,7 +205,7 @@ object VLCOptions {
         if (hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
             aout = AOUT_OPENSLES
 
-        return if (aout == AOUT_OPENSLES) "opensles" else null /* audiotrack is the default */
+        return if (aout == AOUT_OPENSLES) "opensles" else if (aout == AOUT_AUDIOTRACK) "audiotrack" else null /* aaudio is the default */
     }
 
     private fun getDeblocking(deblocking: Int): Int {
