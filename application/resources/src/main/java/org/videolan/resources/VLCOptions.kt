@@ -201,8 +201,8 @@ object VLCOptions {
         }
 
         val hwaout = HWDecoderUtil.getAudioOutputFromDevice()
-        if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
-            aout = if (hwaout == HWDecoderUtil.AudioOutput.OPENSLES) AOUT_OPENSLES else AOUT_AUDIOTRACK
+        if (hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
+            aout = AOUT_OPENSLES
 
         return if (aout == AOUT_OPENSLES) "opensles_android" else null /* audiotrack is the default */
     }
