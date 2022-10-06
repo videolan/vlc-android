@@ -1,0 +1,85 @@
+@use "@material/theme" with (
+  $primary: #ff610a,
+  $secondary: #ff610a,
+  $on-primary: #ffffff,
+  $on-secondary: #ffffff,
+  $background: #ff0000,
+);
+@use "@material/top-app-bar/mdc-top-app-bar";
+@use "@material/button/styles";
+@use "@material/button";
+@use "@material/data-table/data-table";
+@use "@material/layout-grid/mdc-layout-grid";
+@use "@material/icon-button";
+@use "@material/typography";
+@import "my-theme";
+@import "@material/icon-button/mdc-icon-button";
+@include data-table.core-styles;
+@include data-table.theme-baseline;
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
+form, fieldset, input, textarea, p, blockquote, th, td, nav, header, footer {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+  min-height: calc(100vh - var(--navbar-height));
+   display:flex;
+   flex-direction:column;
+   justify-content:space-between;
+}
+
+:root {
+  --footer-height: 40px;
+}
+
+.footer {
+    background-color: $mdc-theme-primary;
+    padding: 8px;
+    position: fixed;
+    bottom : 0;
+    left : 0;
+    right : 0;
+    height: var(--navbar-height);
+        color: #fff;
+        color: var(--mdc-theme-on-primary, #fff);
+}
+
+
+// This sets all <h1>,...,<h6> elements with Material headline1,...,headline6 typography styles
+// Check out the MDC Web documentation for how to use MDC Typography Sass mixins:
+// https://github.com/material-components/material-components-web/tree/master/packages/mdc-typography
+body {
+    background: $mdc-theme--background;
+    color: $mdc-theme-on-surface;
+}
+
+h1 {
+  @include typography.typography(headline1);
+}
+
+h2 {
+  @include typography.typography(headline2);
+}
+
+h3 {
+  @include typography.typography(headline3);
+}
+
+h4 {
+  @include typography.typography(headline4);
+}
+
+h5 {
+  @include typography.typography(headline5);
+}
+
+h6 {
+  @include typography.typography(headline6);
+}
+
+// This sets all <p> elements with Material body1 typography styles
+p {
+  @include typography.typography(body1);
+}

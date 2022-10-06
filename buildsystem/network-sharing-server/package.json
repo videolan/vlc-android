@@ -1,0 +1,32 @@
+{
+  "name": "vlc-android-network-sharing-server",
+  "version": "1.0.0",
+  "description": "VLC for Android network sharing server",
+  "main": "index.js",
+  "author": "VideoLAN",
+  "license": "LGPL-3.0-or-later",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "extract-loader": "^5.1.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^4.2.0",
+    "sass": "^1.53.0",
+    "sass-loader": "^13.0.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "@material/button": "^14.0.0",
+    "@material/data-table": "^14.0.0",
+    "@material/icon-button": "^14.0.0",
+    "@material/layout-grid": "^14.0.0",
+    "@material/top-app-bar": "^14.0.0",
+    "@material/typography": "^14.0.0"
+  }
+}
