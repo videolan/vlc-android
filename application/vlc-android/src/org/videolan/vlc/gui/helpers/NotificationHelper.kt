@@ -38,6 +38,7 @@ import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
+import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CUSTOM_ACTION
@@ -55,6 +56,7 @@ import kotlin.math.abs
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
+private const val WEB_SERVER_CHANNEL_ID = "vlc_web_server"
 const val MISC_CHANNEL_ID = "misc"
 private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
 
@@ -178,6 +180,26 @@ object NotificationHelper {
         return scanCompatBuilder.build()
     }
 
+    fun createWebServerNotification(ctx: Context, connectionTip:String): Notification {
+        val intent = Intent(Intent.ACTION_VIEW).setClassName(ctx, START_ACTIVITY)
+        val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
+                .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
+                .setSmallIcon(R.drawable.ic_notif_scan)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentTitle(ctx.getString(R.string.ns_server_running))
+                .setAutoCancel(false)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setOngoing(true)
+        webServerCompatBuilder.setContentText(connectionTip)
+
+        val notificationIntent = Intent()
+        notificationIntent.action = ACTION_STOP_SERVER
+        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val action =    NotificationCompat.Action(R.drawable.ic_pause_notif, ctx.getString(R.string.stop), pi)
+        webServerCompatBuilder.addAction(action)
+        return webServerCompatBuilder.build()
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createNotificationChannels(appCtx: Context) {
         if (!AndroidUtil.isOOrLater) return
@@ -197,6 +219,16 @@ object NotificationHelper {
             val name = appCtx.getString(R.string.medialibrary_scan)
             val description = appCtx.getString(R.string.Medialibrary_progress)
             val channel = NotificationChannel(MEDIALIBRRARY_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
+            channel.description = description
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channels.add(channel)
+        }
+
+        // Web server channel
+        if (notificationManager.getNotificationChannel(WEB_SERVER_CHANNEL_ID) == null ) {
+            val name = appCtx.getString(R.string.ns_network_sharing)
+            val description = appCtx.getString(R.string.ns_network_sharing)
+            val channel = NotificationChannel(WEB_SERVER_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             channels.add(channel)

@@ -40,11 +40,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.ACTIVITY_RESULT_OPEN
-import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
-import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
-import org.videolan.resources.EXTRA_TARGET
+import org.videolan.resources.*
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
+import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
@@ -61,7 +60,6 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.server.NetworkSharingServer
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
@@ -105,12 +103,14 @@ class MainActivity : ContentActivity(),
 //        VLCBilling.getInstance(application).retrieveSkus()
         WidgetMigration.launchIfNeeded(this)
         NotificationPermissionManager.launchIfNeeded(this)
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val server = NetworkSharingServer.getInstance(this@MainActivity)
-            }
+//        lifecycleScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val server = NetworkSharingServer.getInstance(this@MainActivity)
+//            }
+//
+//        }
+        AppScope.launch { launchForeground(Intent(ACTION_CHECK_STORAGES, null, this@MainActivity, WebServerService::class.java)) }
 
-        }
     }
 
     override fun onResume() {
