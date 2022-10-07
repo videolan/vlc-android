@@ -35,7 +35,9 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTIVITY_RESULT_OPEN
@@ -60,6 +62,7 @@ import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.server.NetworkSharingServer
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.WidgetMigration
@@ -102,6 +105,12 @@ class MainActivity : ContentActivity(),
 //        VLCBilling.getInstance(application).retrieveSkus()
         WidgetMigration.launchIfNeeded(this)
         NotificationPermissionManager.launchIfNeeded(this)
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val server = NetworkSharingServer.getInstance(this@MainActivity)
+            }
+
+        }
     }
 
     override fun onResume() {

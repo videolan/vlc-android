@@ -83,3 +83,30 @@ h6 {
 p {
   @include typography.typography(body1);
 }
+
+#player {
+    position:absolute;
+    display: flex;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    bottom: 0;
+    width: calc(100% - 32px);
+    padding: 16px;
+    background: #444444;
+    color: #ffffff;
+    border-radius-top-left: 8px;
+    border-radius-top-right: 8px;
+    align-items:center;
+}
+
+.player_info, .player_right, #progress_bar {
+flex: auto;
+}
+
+ #progress_bar {
+ min-width:200px;
+ }
+
+#player_controls_progress {
+display: flex;
+}

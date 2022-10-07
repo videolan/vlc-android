@@ -35,7 +35,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <script src="style-bundle.js"></script>
 </head>
 
 <body>
@@ -108,7 +107,51 @@
             </div>
         </footer>
     </main>
+    <div id="player">
+        <img id="player_artwork" width="48px" height="48px">
+        <div class="player_info">
+            <p id="title"/>
+            <p id="artist"/>
+        </div>
+        <div class="player_controls">
+            <div>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_shuffle"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>shuffle
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_previous"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>skip_previous
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_previous_10"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>replay_10
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_play"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>play_circle
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_pause"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>pause_circle
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_next_10"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>forward_10
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_next"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>skip_next
+                </button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="player_repeat"
+                        aria-label="play"><div class="mdc-icon-button__ripple"></div>repeat
+                </button>
+            </div>
+            <div id="player_controls_progress">
+                <p id="time"/>
+                <div id="progress_bar"></div>
+                <p id="duration"/>
+            </div>
+        </div>
+        <div class="player_right">
+        </div>
+
+    </div>
     <link rel="stylesheet" href="bundle.css">
+    <script src="style-bundle.js"></script>
 
 </body>
 

@@ -108,6 +108,12 @@ object BitmapUtil {
         return cover
     }
 
+    fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray? {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        return stream.toByteArray()
+    }
+
 
     fun centerCrop(srcBmp: Bitmap, width: Int, height: Int): Bitmap {
         val widthDiff = srcBmp.width - width

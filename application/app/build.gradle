@@ -14,7 +14,7 @@ android {
             pickFirsts += ['lib/armeabi-v7a/libc++_shared.so', 'lib/armeabi/libc++_shared.so', 'lib/arm64-v8a/libc++_shared.so', 'lib/x86/libc++_shared.so', 'lib/x86_64/libc++_shared.so']
         }
         resources {
-            excludes += ['META-INF/main.kotlin_module', 'META-INF/donations_debug.kotlin_module', 'META-INF/mediadb_debug.kotlin_module', 'META-INF/resources_debug.kotlin_module', 'META-INF/television_debug.kotlin_module']
+            excludes += ['META-INF/*']
         }
     }
 

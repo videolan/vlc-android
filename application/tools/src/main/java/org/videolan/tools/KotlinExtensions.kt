@@ -172,3 +172,10 @@ fun Resources.getDrawableOrDefault(name: String, defPackage: String, @DrawableRe
         if (it == 0) defaultDrawable else it
     }
 }
+
+fun Context.resIdByName(resIdName: String?, resType: String): Int {
+    resIdName?.let {
+        return resources.getIdentifier(it, resType, packageName)
+    }
+    throw Resources.NotFoundException()
+}
