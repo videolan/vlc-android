@@ -67,8 +67,6 @@ import org.videolan.vlc.util.scanAllowed
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "MainTvModel"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedialibraryReadyListener,
         Medialibrary.OnDeviceChangeListener {
 
@@ -95,14 +93,17 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val updateActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) updateBrowsers()
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val historyActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) setHistory()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoriteList = convertFavorites(list)
         if (!updateActor.isClosedForSend) updateActor.trySend(Unit)
@@ -204,7 +205,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
-                //                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))
+                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))
                 addAll(it)
             }
         }

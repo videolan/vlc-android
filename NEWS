@@ -1,3 +1,114 @@
+Changes between 3.5.2 and 3.5.3 Beta 1:
+------------------
+ * More subtitle settings
+ * New notification permission
+ * Fix the sorting in the file browser
+ * Allow forcing shuffle for audio playbacks
+ * TV allow mixing folders and files
+ * Minor graphical fixes and improvements
+ * Crash fixes
+
+Changes between 3.5.1 and 3.5.2:
+------------------
+ * Fix UPnP/DLNA discovery
+ * Widget fixes and improvements
+ * Improve the history settings
+ * Improve the screenshot feature
+ * Minor graphical improvements
+ * Fix some playback issues
+ * Fix some thumbnail generation issues
+ * Crash fixes
+
+Changes between 3.5.1 Beta 1 and 3.5.1:
+------------------
+ * Fix UPnP/DLNA files listing
+ * Fix empty notification icons on Android 4
+ * Increase the video controls delay when hitting play
+ * Crash fixes
+
+Changes between 3.5.0 and 3.5.1 Beta 1:
+------------------
+ * Take a screenshot of your video
+ * Widgets improvements
+ * UPnP client fixes
+ * Playback fixes
+ * UI fixes
+ * Crash fixes
+
+
+Changes between 3.5.0 RC 1 and 3.5.0:
+------------------
+ * Improve the layout for foldable devices
+ * Fix some sorting issues
+ * Improve the PiP permission management
+ * UI fixes
+ * Android Auto improvements
+ * Some SMB fixes
+ * Crash fixes
+
+Changes between 3.5.0 Beta 7 and 3.5.0 RC 1:
+------------------
+ * Greatly improve the accessibility
+ * Improve the first app launch
+ * Improve the File browser
+ * Material You icon
+ * Some UI fixes
+ * Improve the video player performances
+ * Crash fixes
+
+Changes between 3.5.0 Beta 6 and 3.5.0 Beta 7:
+------------------
+ * Crash fixes
+
+Changes between 3.5.0 Beta 5 and 3.5.0 Beta 6:
+------------------
+ * New widgets. Now fully customizable!
+ * New album details screen
+ * Video player performance improvements
+ * Improve and fix media progress saving
+ * Minor UI fixes and improvements
+ * Crash fixes
+
+Changes between 3.5.0 Beta 4 and 3.5.0 Beta 5:
+------------------
+ * UI improvements
+ * Crash fixes
+ * Codebase cleanups
+
+Changes between 3.5.0 Beta 3 and 3.5.0 Beta 4:
+------------------
+ * Foldable devices support for the video player
+ * New option to add a media shortcut to the launcher
+ * Browse playlists on Android TV
+ * Allow picking files from SAF when no permission is granted
+ * New setting for replay gain
+ * Support for vgm files added
+ * History fixes for streams
+ * UI improvements
+ * Crash fixes
+
+Changes between 3.5.0 Beta 2 and 3.5.0 Beta 3:
+------------------
+ * Ui and media library fixes
+
+Changes between 3.5.0 Beta 1 and 3.5.0 Beta 2:
+------------------
+ * Playlist can now be searched
+ * Prevent losing progress on app crash
+ * Graphical fixes
+ * Crash fixes
+
+Changes between 3.4.4 and 3.5.0 Beta 1:
+------------------
+ * Network indexation is now stable
+ * New dedicated tablet UI
+ * New video controls settings screen allowing more customization
+ * Revamped about screen and audio list
+ * Small visual improvements in the audio player
+ * Improved video ratio and notch management
+ * Improved keyboard shortcuts support
+ * A lot of visual and behavior fixes
+
 Changes between 3.4.3 and 3.4.4:
 ------------------
  * Fix a crash on null medias

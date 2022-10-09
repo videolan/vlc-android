@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.util.Log
@@ -42,27 +43,23 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.AccessControl
 import org.videolan.vlc.util.ThumbnailsProvider
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
+import java.io.*
 import java.nio.ByteBuffer
 import java.security.SecureRandom
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.zip.CRC32
-import kotlin.collections.ArrayList
 import kotlin.math.max
 
 private const val TAG = "VLC/ArtworkProvider"
 private const val MIME_TYPE_IMAGE_WEBP = "image/webp"
-private const val ARTWORK_PROVIDER_AUTHORITY = "${BuildConfig.APP_ID}.artwork"
 private const val ENABLE_TRACING = false
 
 /**
@@ -167,7 +164,7 @@ class ArtworkProvider : ContentProvider() {
         }
         mw?.let {
             if (!mw.artworkMrl.isNullOrEmpty()) {
-                val filePath = Uri.decode(mw.artworkMrl).substringAfter("file://")
+                val filePath = Uri.decode(mw.artworkMrl).removeFileScheme()
                 val file = File(filePath)
                 if (file.exists()) return@getCategoryImage ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             }
@@ -205,7 +202,7 @@ class ArtworkProvider : ContentProvider() {
         val mw: MediaLibraryItem? = runBlocking(Dispatchers.IO) { ctx.getFromMl { getMedia(mediaId) } }
         mw?.let {
             if (!mw.artworkMrl.isNullOrEmpty()) {
-                val filePath = Uri.decode(mw.artworkMrl).substringAfter("file://")
+                val filePath = Uri.decode(mw.artworkMrl).removeFileScheme()
                 val file = File(filePath)
                 if (file.canRead() && isImageSquare(filePath)) return@getMediaImage ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             }
@@ -286,7 +283,7 @@ class ArtworkProvider : ContentProvider() {
     private suspend fun getHomeImage(context: Context, key: String, list: Array<MediaWrapper>?): ByteArray? {
         var cover: Bitmap? = null
         val tracks: ArrayList<MediaWrapper> = ArrayList()
-        list?.let { list ->
+        list?.let {
             tracks.ensureCapacity(list.size.coerceAtMost(MediaSessionBrowser.MAX_COVER_ART_ITEMS))
             for (libraryItem in list) {
                 if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && libraryItem.type != MediaWrapper.TYPE_AUDIO)
@@ -294,7 +291,7 @@ class ArtworkProvider : ContentProvider() {
                 tracks.add(libraryItem)
                 if (tracks.size == MediaSessionBrowser.MAX_COVER_ART_ITEMS) break
             }
-            if (tracks.any { it.artworkMrl != null && it.artworkMrl.isNotEmpty() }) {
+            if (tracks.any { mw -> mw.artworkMrl != null && mw.artworkMrl.isNotEmpty() }) {
                 val iconAddition = when (key) {
                     SHUFFLE_ALL -> getBitmapFromDrawable(context, R.drawable.ic_auto_shuffle_circle)
                     LAST_ADDED -> getBitmapFromDrawable(context, R.drawable.ic_auto_new_circle)
@@ -342,6 +339,7 @@ class ArtworkProvider : ContentProvider() {
     /**
      * Encode bitmap in WEBP format.
      */
+    @Suppress("DEPRECATION")
     private fun encodeImage(bmp: Bitmap?): ByteArray? {
         if (bmp == null) return null
         val bos = ByteArrayOutputStream()
@@ -377,11 +375,16 @@ class ArtworkProvider : ContentProvider() {
      * Return a ParcelFileDescriptor from a Bitmap encoded in WEBP format. This function writes the
      * compressed data stream directly to the file descriptor with no intermediate byte array.
      */
+    @Suppress("DEPRECATION")
     private fun getPFDFromBitmap(bitmap: Bitmap?): ParcelFileDescriptor {
         return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, bitmap
-        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bitmap: Bitmap? ->
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bmp: Bitmap? ->
             /* Compression is performed on an AsyncTask thread within openPipeHelper() */
-            bitmap?.compress(CompressFormat.WEBP, 100, FileOutputStream(pfd.fileDescriptor))
+            try {
+                bmp?.let { FileOutputStream(pfd.fileDescriptor).use { bmp.compress(CompressFormat.WEBP, 100, it) } }
+            } catch (e: IOException) {
+                logError(e)
+            }
         }
     }
 
@@ -390,9 +393,20 @@ class ArtworkProvider : ContentProvider() {
      */
     private fun getPFDFromByteArray(byteArray: ByteArray?): ParcelFileDescriptor {
         return super.openPipeHelper(Uri.EMPTY, MIME_TYPE_IMAGE_WEBP, null, byteArray
-        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, byteArray: ByteArray? ->
-            if (byteArray != null) FileOutputStream(pfd.fileDescriptor).write(byteArray)
+        ) { pfd: ParcelFileDescriptor, _: Uri, _: String, _: Bundle?, bArray: ByteArray? ->
+            try {
+                bArray?.let { FileOutputStream(pfd.fileDescriptor).use { it.write(bArray) } }
+            } catch (e: IOException) {
+                logError(e)
+            }
         }
+    }
+
+    private fun logError(e: Exception) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+            Log.e(TAG, "Could not transfer cover art", e)
+        else
+            Log.e(TAG, "Could not transfer cover art to caller: $callingPackage", e)
     }
 
     private val dateFormatter by lazy {
@@ -475,8 +489,8 @@ class ArtworkProvider : ContentProvider() {
         /**
          * Construct the URI used to access this content provider
          */
-        fun buildUri(path: Uri?): Uri {
-            val uriBuilder = Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority(ARTWORK_PROVIDER_AUTHORITY)
+        fun buildUri(ctx: Context, path: Uri?): Uri {
+            val uriBuilder = Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority("${ctx.packageName}.artwork")
             path?.pathSegments?.forEach { it?.let { uriBuilder.appendPath(it) } }
             path?.queryParameterNames?.forEach { key -> key?.let { uriBuilder.appendQueryParameter(key, path.getQueryParameter(key)) } }
             val uri = uriBuilder.build()
@@ -487,9 +501,9 @@ class ArtworkProvider : ContentProvider() {
         /**
          * Construct the URI for MediaWrappers
          */
-        fun buildMediaUri(media: MediaWrapper): Uri {
+        fun buildMediaUri(ctx: Context, media: MediaWrapper): Uri {
             val audioNoArtwork = media.type == MediaWrapper.TYPE_AUDIO && media.artworkMrl.isNullOrEmpty()
-            return buildUri(Uri.Builder()
+            return buildUri(ctx, Uri.Builder()
                     .appendPath(MEDIA)
                     .appendPath("${if (audioNoArtwork) 0L else media.lastModified}")
                     .appendPath("${if (audioNoArtwork) 0L else media.id}")

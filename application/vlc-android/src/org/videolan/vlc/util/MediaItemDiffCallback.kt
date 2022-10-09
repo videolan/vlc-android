@@ -1,13 +1,9 @@
 package org.videolan.vlc.util
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.DiffUtilAdapter
 
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MediaItemDiffCallback<T : MediaLibraryItem> : DiffUtilAdapter.DiffCallback<T>() {
 
     override fun getOldListSize(): Int {
@@ -29,6 +25,6 @@ class MediaItemDiffCallback<T : MediaLibraryItem> : DiffUtilAdapter.DiffCallback
     }
 
     companion object {
-        private val TAG = "MediaItemDiffCallback"
+        private const val TAG = "VLC/MediaItemDiffCallback"
     }
 }

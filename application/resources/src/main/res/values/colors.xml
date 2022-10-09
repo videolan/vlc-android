@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="black">#000001</color>
+    <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="red">#bb0000</color>
 
@@ -48,6 +48,7 @@
     <color name="grey850">#323232</color>
     <color name="grey875">#2a2a2a</color>
     <color name="grey900">#212121</color>
+
 
     <color name="dark_background">#131313</color>
 
@@ -116,6 +117,8 @@
     <!--<color name="tv_bg">#1c313a</color>-->
     <!--<color name="tv_card_content">#396375</color>-->
     <color name="onboarding_grey">#011422</color>
+    <color name="onboarding_grey_transparent_20">#33011422</color>
+    <color name="onboarding_grey_transparent_75">#BF011422</color>
     <color name="material_blue">#2196f3</color>
     <color name="material_pink">#e91e63</color>
 </resources>

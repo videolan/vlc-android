@@ -32,8 +32,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.Dialog
@@ -67,8 +65,6 @@ import org.videolan.vlc.viewmodels.StreamsModel
 private const val TAG = "VLC/HistoryFragment"
 private const val KEY_SELECTION = "key_selection"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         IStreamsFragmentDelegate by StreamsFragmentDelegate() {
 
@@ -83,7 +79,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(true)
     override fun hasFAB() = false
-    fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
+    private fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
     private var savedSelection = ArrayList<Int>()
     private val dialogsDelegate = DialogDelegate()
 
@@ -285,6 +281,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
                     if (actionMode != null) onClick(position, item)
                     else onLongClick(position, item)
                 }
+                else -> {}
             }
         }
     }

@@ -18,8 +18,5 @@ fun String.sanitizePath(): String {
     if (result.endsWith('/')) {
         result = result.substringBeforeLast("/")
     }
-    if (result.startsWith("file://")) {
-        result = result.substring(7)
-    }
-    return result
+    return result.removeFileScheme()
 }

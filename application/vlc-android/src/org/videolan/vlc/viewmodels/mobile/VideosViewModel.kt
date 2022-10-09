@@ -20,18 +20,19 @@
 
 package org.videolan.vlc.viewmodels.mobile
 
-import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.FORCE_PLAY_ALL
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.gui.helpers.UiTools
@@ -45,8 +46,6 @@ import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Folder?, val group: VideoGroup?) : MedialibraryViewModel(context) {
 
     var groupingType = type
@@ -135,7 +134,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         }
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(context)
-        if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL, false) || forceAll)) {
+        if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL_VIDEO, false) || forceAll)) {
             when(val prov = provider) {
                 is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
                 is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)
@@ -181,7 +180,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         }
     }
 
-    fun ungroup(groups: List<MediaWrapper>) = viewModelScope.launch {
+    fun ungroup(groups: List<MediaLibraryItem>) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             groups.forEach { group ->
                 if (group is VideoGroup) group.destroy()
@@ -241,7 +240,5 @@ enum class VideoGroupingType {
     NONE, FOLDER, NAME
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
-internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group)).get(VideosViewModel::class.java)
+internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group))[VideosViewModel::class.java]
 

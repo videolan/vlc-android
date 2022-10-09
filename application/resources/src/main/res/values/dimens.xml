@@ -15,7 +15,7 @@
     <dimen name="grid_card_subtitle_text_size">10sp</dimen>
     <dimen name="grid_card_vertical_spacing">0dp</dimen>
     <dimen name="tab_layout_horizontal_padding">5dp</dimen>
-    <dimen name="info_appbar_height">150dp</dimen>
+    <dimen name="info_appbar_height">300dp</dimen>
     <dimen name="audioplayer_controls_margin">0dp</dimen>
 
     <!--Keylines-->

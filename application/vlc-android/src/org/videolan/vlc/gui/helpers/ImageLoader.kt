@@ -27,11 +27,13 @@ import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
@@ -55,8 +57,6 @@ private var defaultImageWidth = 0
 private var defaultImageWidthTV = 0
 private const val TAG = "ImageLoader"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @MainThread
 @BindingAdapter(value = ["media", "imageWidth", "tv", "card"], requireAll = false)
 fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
@@ -77,10 +77,11 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     }
     val isGroup = isMedia && item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER
+    val cacheWidth = if (imageWidth != 0) imageWidth else v.width
     val cacheKey = when {
         isGroup -> "videogroup:${item.title}"
         isFolder -> "folder:${(item as Folder).mMrl.sanitizePath()}"
-        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, imageWidth.toString())
+        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, cacheWidth.toString())
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding, tv = tv, card = card)
@@ -210,10 +211,6 @@ fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     }
 }
 
-@BindingAdapter("missingMedia")
-fun missingMedia(imageView: ImageView, media: MediaLibraryItem?) {
-    if (media is VideoGroup && !media.isNetwork()) imageView.setImageResource(R.drawable.ic_sd_media_off) else imageView.setImageResource(R.drawable.ic_network_media_off)
-}
 
 private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
     var bindChanged = false

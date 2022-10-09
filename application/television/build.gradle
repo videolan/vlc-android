@@ -1,18 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     packagingOptions {
         jniLibs {
             pickFirsts += ['**/*.so']
         }
-    }
-
-
-    androidExtensions {
-        features = ["parcelize"]
     }
 
     kotlinOptions.jvmTarget = "1.8"
@@ -39,6 +34,7 @@ android {
             matchingFallbacks = ['debug']
         }
     }
+    namespace 'org.videolan.television'
 
 }
 
@@ -46,5 +42,6 @@ dependencies {
     implementation project(':application:vlc-android')
     api project(':application:moviepedia')
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
 }

@@ -28,16 +28,21 @@ import android.content.Context
 import android.graphics.PixelFormat
 import android.graphics.Point
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.core.view.GestureDetectorCompat
 import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.tools.CUSTOM_POPUP_HEIGHT
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 
 class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
 
+    private lateinit var screenSize: DisplayMetrics
     private var vlcVout: IVLCVout? = null
     private var windowManager: WindowManager? = null
     private var gestureDetector: GestureDetectorCompat? = null
@@ -110,8 +115,16 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
     private fun init(context: Context) {
         windowManager = context.applicationContext.getSystemService()
 
+        screenSize = DisplayMetrics().also { windowManager!!.defaultDisplay.getMetrics(it) }
         popupWidth = context.resources.getDimensionPixelSize(R.dimen.video_pip_width)
         popupHeight = context.resources.getDimensionPixelSize(R.dimen.video_pip_height)
+        val ratio = popupWidth.toFloat() / popupHeight.toFloat()
+        val customPopupHeight = Settings.getInstance(context).getInt(CUSTOM_POPUP_HEIGHT, -1)
+        if (customPopupHeight != -1) {
+            popupHeight = customPopupHeight
+            popupWidth = (popupHeight.toFloat() * ratio).toInt()
+        }
+
         val params = WindowManager.LayoutParams(
                 popupWidth,
                 popupHeight,
@@ -170,7 +183,7 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
     override fun onScale(detector: ScaleGestureDetector): Boolean {
         scaleFactor *= detector.scaleFactor.toDouble()
 
-        scaleFactor = Math.max(0.1, Math.min(scaleFactor, 5.0))
+        scaleFactor = scaleFactor.coerceIn(0.1, 5.0)
         popupWidth = (width * scaleFactor).toInt()
         popupHeight = (height * scaleFactor).toInt()
         return true
@@ -182,12 +195,13 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
 
     override fun onScaleEnd(detector: ScaleGestureDetector) {
         setViewSize(popupWidth, popupHeight)
+        Settings.getInstance(context).putSingle(CUSTOM_POPUP_HEIGHT, popupHeight)
         scaleFactor = 1.0
     }
 
     private fun containInScreen(width: Int, height: Int) {
-        mLayoutParams.x = Math.max(mLayoutParams.x, 0)
-        mLayoutParams.y = Math.max(mLayoutParams.y, 0)
+        mLayoutParams.x = mLayoutParams.x.coerceAtLeast(0)
+        mLayoutParams.y = mLayoutParams.y.coerceAtLeast(0)
         if (mLayoutParams.x + width > screenWidth)
             mLayoutParams.x = screenWidth - width
         if (mLayoutParams.y + height > screenHeight)

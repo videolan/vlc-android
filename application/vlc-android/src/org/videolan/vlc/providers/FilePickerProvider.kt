@@ -21,19 +21,16 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.isSoundFont
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
-class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false, private val pickerType:PickerType = PickerType.SUBTITLE) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
+class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false, private val pickerType:PickerType = PickerType.SUBTITLE) : FileBrowserProvider(context, dataset, url, true, showDummyCategory, Medialibrary.SORT_FILENAME, false) {
 
     override fun getFlags(interact : Boolean) = if (interact) MediaBrowser.Flag.NoSlavesAutodetect
     else MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect

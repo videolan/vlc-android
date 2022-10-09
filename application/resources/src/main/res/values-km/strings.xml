@@ -83,7 +83,6 @@
     <string name="noplaylist">រកមិនឃើញបញ្ជីចាក់</string>
     <string name="directorynotfound">រកមិនឃើញផ្លូវរបស់ថត \'%1$s\' ។</string>
     <string name="nohistory">អ្នក​មិន​មាន​ប្រវត្តិ​ចាក់​ឡើងវិញ​នៅ​ឡើយ​ទេ។</string>
-    <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ?</string>
 
     <string name="cover_art">រូប​គម្រប​មុខ</string>
     <string name="shuffle_title">ទម្រង់បញ្ចូលគ្នា</string>
@@ -131,18 +130,14 @@
     <string name="favorites_edit">កែតម្រូវ</string>
     <string name="encountered_error_title">កំហុស​ក្នុង​ការ​ចាក់​ឡើងវិញ</string>
     <string name="invalid_location">មិន​អាច​បង្ហាញ​ទីតាំង​ %1$s បាន​ទេ។</string>
-
     <string name="search">ស្វែងរក</string>
 
 
     <string name="seek">ស្វែងរក</string>
     <string name="subtitles">ចំណងជើង</string>
     <string name="lock">ចាក់សោ</string>
-    <string name="licence">អាជ្ញាប័ណ្ណ</string>
     <string name="revision">កំណែ</string>
     <string name="about">អំពី</string>
-    <string name="about_text">VLC សម្រាប់ Android™ គឺ​ជា​កម្មវិធី​ចាក់​មេឌៀ VLC ដែល​ជា​កម្មវិធី​មេឌៀ​កូដ​ចំ​ហ​ដ៏​មាន​ប្រជាប្រិយ ។ Android™ អាច​អាន​ឯកសារ និង​​ស្ទ្រីម​បណ្ដាញ​​ភាគ​ច្រើន ។</string>
-    <string name="compiled_by">VLC កំណែ​នេះ​ត្រូវ​បាន​ចងក្រង​ដោយ ៖</string>
     <string name="directories_summary">ជ្រើស​ថត ដើម្បី​ដាក់​បញ្ចូល​បណ្ណាល័យ​មេឌៀ</string>
     <string name="add_custom_path">បន្ថែម​ផ្លូវ​ផ្ទាល់​ខ្លួន</string>
     <string name="add_custom_path_description">បញ្ចូល​ថត​ផ្ទាល់​ខ្លួន​​បន្ថែម ​ដើម្បី​វិភាគ​រក៖</string>
@@ -182,7 +177,6 @@
     <string name="controls_prefs_category">បញ្ជារ</string>
 
     <string name="performance_prefs_category">ការ​អនុវត្ត</string>
-    <string name="chroma_format">បង្ខុំ​​ក្រូមវីដេអូ</string>
     <string name="deblocking">ការ​កំណត់​តម្រង​វីដេអូ</string>
     <string name="deblocking_always">តម្រង​វីដេអូ​ទាំងស្រុង (យឺត​បំផុត)</string>
     <string name="deblocking_nonref">តម្រង​វីដេអូ​ពាក់កណ្ដាល</string>

@@ -55,7 +55,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
     }
 
     private fun performSearh(query: String?) {
-        if (query != null && query.length > 2) lifecycleScope.launchWhenStarted {
+        if (query != null && query.isNotEmpty()) lifecycleScope.launchWhenStarted {
             val searchAggregate = getFromMl { search(query, Settings.includeMissing) }
             binding.searchAggregate = searchAggregate
             searchAggregate?.let { result ->
@@ -86,7 +86,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
     override fun afterTextChanged(s: Editable?) {
-        if (s == null || s.length < 3)
+        if (s == null || s.isEmpty())
             binding.searchAggregate = SearchAggregate()
         else
             performSearh(s.toString())
@@ -102,7 +102,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     inner class ClickHandler {
 
-        fun onBack(v: View) {
+        fun onBack(@Suppress("UNUSED_PARAMETER") v: View) {
             finish()
         }
 

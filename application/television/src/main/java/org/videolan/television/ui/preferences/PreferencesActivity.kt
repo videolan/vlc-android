@@ -27,8 +27,6 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.RESULT_RESTART
@@ -36,8 +34,6 @@ import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesActivity : BaseTvActivity() {
 
@@ -63,11 +59,6 @@ class PreferencesActivity : BaseTvActivity() {
         if (enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black)
         }
-    }
-
-    fun restartMediaPlayer() {
-        val le = PlaybackService.restartPlayer
-        if (le.hasObservers()) le.value = true
     }
 
     fun setRestart() {

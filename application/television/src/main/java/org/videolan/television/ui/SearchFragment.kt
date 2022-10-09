@@ -29,7 +29,6 @@ import android.os.Bundle
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -40,13 +39,12 @@ import org.videolan.vlc.R
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1
 
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
 
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
-        get() = OnItemViewClickedListener { _, item, _, row ->
+        get() = OnItemViewClickedListener { _, item, _, _ ->
             if (item is MediaWrapper) TvUtil.openMedia(requireActivity(), item, null)
             else TvUtil.openAudioCategory(requireActivity(), item as MediaLibraryItem)
             requireActivity().finish()
@@ -64,7 +62,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     override fun getResultsAdapter() = rowsAdapter
 
     private fun queryByWords(words: String?) {
-        if (words == null || words.length < 3) return
+        if (words == null || words.isEmpty()) return
         rowsAdapter.clear()
         if (words.isNotEmpty()) loadRows(words)
     }
@@ -77,7 +75,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     }
 
     private fun loadRows(query: String?) = lifecycleScope.launch {
-        if (query == null || query.length < 3) return@launch
+        if (query == null || query.isEmpty()) return@launch
         val searchAggregate = context?.getFromMl { search(query, Settings.includeMissing) }
         val empty = searchAggregate == null || searchAggregate.isEmpty
         updateEmtyView(empty)

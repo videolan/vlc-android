@@ -7,13 +7,9 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.dp
 import java.util.concurrent.atomic.AtomicBoolean
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
     private var lock = false
     private var listener : ((top:Int) -> Unit)? = null

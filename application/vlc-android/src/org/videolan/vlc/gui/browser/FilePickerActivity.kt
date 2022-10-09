@@ -28,16 +28,12 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import kotlin.reflect.jvm.jvmName
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FilePickerActivity : BaseActivity() {
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
@@ -67,7 +63,7 @@ class FilePickerActivity : BaseActivity() {
         }
     }
 
-    fun onCloseClick(v:View) {
+    fun onCloseClick(@Suppress("UNUSED_PARAMETER") v:View) {
         finish()
     }
 }

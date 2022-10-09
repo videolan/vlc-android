@@ -97,6 +97,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@color/transparent"
                 android:elevation="6dp"
+            android:contentDescription="@string/sortby"
             app:srcCompat="@drawable/ic_sort"
                 app:layout_constraintEnd_toStartOf="@+id/headerButton"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -109,6 +110,7 @@
                 android:layout_marginEnd="@dimen/tv_overscan_horizontal"
                 android:background="@color/transparent"
                 android:elevation="6dp"
+            android:contentDescription="@string/jump_to"
             app:srcCompat="@drawable/ic_jumptoheader"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -162,6 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+            android:contentDescription="@string/sortby"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
             app:srcCompat="@drawable/ic_fabtvmini_sort"
@@ -190,6 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+            android:contentDescription="@string/jump_to"
                 android:elevation="6dp"
                 android:nextFocusUp="@id/imageButtonSort"
                 android:nextFocusDown="@id/imageButtonSettings"
@@ -209,6 +213,7 @@
                 android:elevation="6dp"
                 android:nextFocusUp="@id/imageButtonHeader"
                 android:nextFocusForward="@id/imageButtonHeader"
+            android:contentDescription="@string/talkback_display_settings"
             app:srcCompat="@drawable/ic_fabtv_preferences"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headerListContainer" />

@@ -24,8 +24,6 @@ import android.app.Activity
 import android.app.Service
 import android.content.Context
 import android.text.TextUtils
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.CloseableUtils
@@ -37,10 +35,8 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object Util {
-    val TAG = "VLC/Util"
+    const val TAG = "VLC/Util"
 
     fun readAsset(assetName: String, defaultS: String): String {
         var inputStream: InputStream? = null

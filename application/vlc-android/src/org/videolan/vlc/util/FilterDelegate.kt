@@ -7,6 +7,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.vlc.media.MediaUtils
+import java.util.*
 
 open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLiveData<out List<T>>) {
     private var sourceSet: List<T>? = null
@@ -21,7 +22,7 @@ open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLi
     protected open suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T>? {
         if (charSequence !== null) initSource()?.let {
             return withContext(Dispatchers.Default) { mutableListOf<T>().apply {
-                val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
+                val queryStrings = charSequence.trim().toString().split(" ")
                 for (item in it) for (query in queryStrings)
                     if (item.title.contains(query, true)) {
                         this.add(item)
@@ -50,14 +51,14 @@ class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) :
     override suspend fun filteringJob(charSequence: CharSequence?): MutableList<MediaWrapper>? {
         if (charSequence !== null) initSource()?.let { list ->
             return withContext(Dispatchers.Default) { mutableListOf<MediaWrapper>().apply {
-                val queryStrings = charSequence.trim().toString().split(" ").asSequence().filter { it.isNotEmpty() }.map { it.toLowerCase() }.toList()
+                val queryStrings = charSequence.trim().toString().split(" ").asSequence().filter { it.isNotEmpty() }.map { it.lowercase(Locale.getDefault()) }.toList()
                 for (media in list) {
-                    val title = MediaUtils.getMediaTitle(media).toLowerCase()
-                    val location = media.location.toLowerCase()
-                    val artist = MediaUtils.getMediaArtist(AppContextProvider.appContext, media).toLowerCase()
-                    val albumArtist = MediaUtils.getMediaAlbumArtist(AppContextProvider.appContext, media).toLowerCase()
-                    val album = MediaUtils.getMediaAlbum(AppContextProvider.appContext, media).toLowerCase()
-                    val genre = MediaUtils.getMediaGenre(AppContextProvider.appContext, media).toLowerCase()
+                    val title = MediaUtils.getMediaTitle(media).lowercase(Locale.getDefault())
+                    val location = media.location.lowercase(Locale.getDefault())
+                    val artist = MediaUtils.getMediaArtist(AppContextProvider.appContext, media).lowercase(Locale.getDefault())
+                    val albumArtist = MediaUtils.getMediaAlbumArtist(AppContextProvider.appContext, media).lowercase(Locale.getDefault())
+                    val album = MediaUtils.getMediaAlbum(AppContextProvider.appContext, media).lowercase(Locale.getDefault())
+                    val genre = MediaUtils.getMediaGenre(AppContextProvider.appContext, media).lowercase(Locale.getDefault())
                     for (queryString in queryStrings) {
                         if (title.contains(queryString) ||
                                 location.contains(queryString) ||

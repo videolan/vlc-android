@@ -3,8 +3,6 @@ package org.videolan.vlc.gui.preferences
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
 import org.junit.Test
@@ -12,12 +10,9 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.onPreferenceRow
 import org.videolan.vlc.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesUIUITest: BasePreferenceUITest() {
     @get:Rule
     val intentsTestRule = IntentsTestRule(PreferencesActivity::class.java)
@@ -108,7 +103,7 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
     @Test
     fun checkVideoPlaylistMode() {
-        val key = FORCE_PLAY_ALL
+        val key = FORCE_PLAY_ALL_VIDEO
 
         checkToggleWorks(key, settings)
     }

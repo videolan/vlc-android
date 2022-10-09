@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_widget_rewind_10.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="36"
+    android:viewportHeight="36">
+  <path
+      android:pathData="m17.2637,4.0254c-0.2028,-0.0041 -0.3988,0.0741 -0.543,0.2168l-4.25,4.2266c-0.2946,0.2925 -0.2954,0.7689 -0.002,1.0625l4.252,4.248C17.1935,14.2501 17.9997,13.9153 18,13.248V10c4.4183,0 8,3.5817 8,8 0,4.4183 -3.5817,8 -8,8 -4.4183,0 -8,-3.5817 -8,-8H8c0,5.5228 4.4772,10 10,10 5.5228,0 10,-4.4772 10,-10C28,12.4772 23.5228,8 18,8V4.7754c0,-0.4089 -0.3275,-0.7425 -0.7363,-0.75z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2"
+      android:fillColor="#ffffff"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+</vector>

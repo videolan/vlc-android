@@ -160,23 +160,36 @@
         <item>10</item>
     </string-array>
 
-    <string-array name="subtitles_color_entries">
-        <item>@string/subtitles_color_white</item>
-        <item>@string/subtitles_color_gray</item>
-        <item>@string/subtitles_color_pink</item>
-        <item>@string/subtitles_color_blue</item>
-        <item>@string/subtitles_color_yellow</item>
-        <item>@string/subtitles_color_green</item>
+    <string-array name="subtitles_outline_size_entries">
+        <item>@string/subtitles_size_small</item>
+        <item>@string/subtitles_size_normal</item>
+        <item>@string/subtitles_size_big</item>
     </string-array>
 
-    <string-array name="subtitles_color_values">
-        <item>16777215</item>
-        <item>12632256</item>
-        <item>16711935</item>
-        <item>65535</item>
-        <item>16776960</item>
-        <item>65280</item>
+    <string-array name="subtitles_outline_size_values">
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
     </string-array>
+
+    <string-array name="subtitles_presets_entries">
+        <item>@string/subtitles_preset_default</item>
+        <item>@string/subtitles_preset_default_large</item>
+        <item>@string/subtitles_preset_default_largest</item>
+        <item>@string/subtitles_preset_white_background</item>
+        <item>@string/subtitles_yellow</item>
+        <item>@string/subtitles_yellow_background</item>
+    </string-array>
+
+    <string-array name="subtitles_presets_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
 
     <string-array name="video_app_switch_action_titles" translatable="false">
         <item>@string/stop</item>
@@ -352,6 +365,15 @@
         <item>Windows-1258</item>
     </string-array>
 
+    <string-array name="replaygain">
+        <item>@string/replaygain_track</item>
+        <item>@string/replaygain_album</item>
+    </string-array>
+    <string-array name="replaygain_values" translatable="false">
+        <item>track</item>
+        <item>album</item>
+    </string-array>
+
     <string-array name="aouts">
         <item>@string/aout_audiotrack</item>
         <item>@string/aout_opensles</item>
@@ -391,6 +413,19 @@
         <item>240</item>
     </string-array>
 
+    <string-array name="video_screenshot">
+        <item>@string/disabled</item>
+        <item>@string/enable_screenshot_button</item>
+        <item>@string/enable_screenshot_gesture</item>
+        <item>@string/enable_screenshot_button_and_gesture</item>
+    </string-array>
+    <string-array name="video_screenshot_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="opengl_list">
         <item>@string/opengl_automatic</item>
         <item>@string/opengl_on</item>
@@ -400,18 +435,6 @@
         <item>-1</item>
         <item>1</item>
         <item>0</item>
-    </string-array>
-
-    <string-array name="chroma_formats_values" translatable="false">
-        <item>RV32</item>
-        <item>RV16</item>
-        <item>YV12</item>
-    </string-array>
-
-    <string-array name="chroma_formats" translatable="false">
-        <item>RGB 32-bit</item>
-        <item>RGB 16-bit</item>
-        <item>YUV</item>
     </string-array>
 
     <string-array name="daynight_mode_entries">
@@ -437,6 +460,18 @@
     </string-array>
 
     <string-array name="ask_confirmation_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="widget_themes_entries" translatable="false">
+        <item>@string/material_you</item>
+        <item>@string/palette</item>
+        <item>@string/custom</item>
+    </string-array>
+
+    <string-array name="widget_themes_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>

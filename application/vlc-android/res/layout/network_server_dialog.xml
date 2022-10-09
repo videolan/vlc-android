@@ -160,7 +160,9 @@
 
         <Button
                 android:id="@+id/server_cancel"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:focusable="true"
+                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -171,7 +173,9 @@
 
         <Button
                 android:id="@+id/server_save"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:focusable="true"
+                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"

@@ -30,6 +30,7 @@ import android.bluetooth.BluetoothHeadset
 import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
@@ -57,16 +58,22 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -82,8 +89,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.*
+import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
@@ -92,10 +99,8 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
-import org.videolan.vlc.gui.helpers.KeycodeListener
-import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
-import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
@@ -108,22 +113,25 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FileUtils.getUri
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.io.File
 import java.lang.Runnable
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.roundToInt
+import org.videolan.vlc.getAllTracks
 
-@Suppress("DEPRECATION")
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
+    var hasPhysicalNotch: Boolean = false
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
-    private var videoLayout: VLCVideoLayout? = null
+    var videoLayout: VLCVideoLayout? = null
     lateinit var displayManager: DisplayManager
     var rootView: View? = null
     var videoUri: Uri? = null
+    var savedMediaList: ArrayList<MediaWrapper>? = null
     private var askResume = true
 
     var playlistModel: PlaylistModel? = null
@@ -140,17 +148,19 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var enableCloneMode: Boolean = false
     lateinit var orientationMode: PlayerOrientationMode
 
-    private var currentAudioTrack = -2
-    private var currentSpuTrack = -2
+    private var currentAudioTrack = "-2"
+    private var currentSpuTrack = "-2"
 
     var isLocked = false
 
     /* -1 is a valid track (Disable) */
-    private var lastAudioTrack = -2
-    private var lastSpuTrack = -2
+    private var lastAudioTrack = "-2"
+    private var lastSpuTrack = "-2"
     var lockBackButton = false
     private var wasPaused = false
     private var savedTime: Long = -1
+
+    lateinit var windowLayoutInfo: WindowLayoutInfo
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -175,6 +185,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     lateinit var touchDelegate: VideoTouchDelegate
     val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE) }, { overlayDelegate.showOverlay(true) }) }
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
+    val screenshotDelegate: VideoPlayerScreenshotDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerScreenshotDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     val resizeDelegate: VideoPlayerResizeDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerResizeDelegate(this@VideoPlayerActivity) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@VideoPlayerActivity) }
@@ -191,7 +202,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var playbackStarted = false
 
     // Navigation handling (DVD, Blu-Ray...)
-    private var menuIdx = -1
+    var menuIdx = -1
     var isNavMenu = false
 
     /* for getTime and seek */
@@ -243,6 +254,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     SHOW_INFO -> overlayDelegate.showOverlay()
                     HIDE_SEEK -> touchDelegate.hideSeekOverlay()
                     HIDE_SETTINGS -> delayDelegate.endPlaybackSetting()
+                    FADE_OUT_SCREENSHOT -> screenshotDelegate.hide()
                     else -> {
                     }
                 }
@@ -281,6 +293,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             if (fromUser) {
                 overlayDelegate.showOverlay(true)
+                overlayDelegate.hudBinding.playerOverlaySeekbar.forceAccessibilityUpdate()
             }
         }
     }
@@ -322,7 +335,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private val downloadedSubtitleObserver = Observer<List<org.videolan.vlc.mediadb.models.ExternalSub>> { externalSubs ->
         for (externalSub in externalSubs) {
             if (!addedExternalSubs.contains(externalSub)) {
-                service?.addSubtitleTrack(externalSub.subtitlePath, currentSpuTrack == -2)
+                service?.addSubtitleTrack(externalSub.subtitlePath, currentSpuTrack == "-2")
                 addedExternalSubs.add(externalSub)
             }
         }
@@ -403,6 +416,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.playlistSearchText = findViewById(R.id.playlist_search_text)
         overlayDelegate.playlistContainer = findViewById(R.id.video_playlist_container)
         overlayDelegate.closeButton = findViewById(R.id.close_button)
+        overlayDelegate.hingeArrowRight = findViewById(R.id.hinge_go_right)
+        overlayDelegate.hingeArrowLeft = findViewById(R.id.hinge_go_left)
         overlayDelegate.playlistSearchText.editText?.addTextChangedListener(this)
 
         overlayDelegate.playerUiContainer = findViewById(R.id.player_ui_container)
@@ -473,6 +488,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
+            savedMediaList = savedInstanceState.getParcelableArrayList(KEY_MEDIA_LIST)
             val list = savedInstanceState.getBoolean(KEY_LIST, false)
             if (list) {
                 intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
@@ -489,11 +505,24 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             windowInsetsController.systemBarsBehavior =
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
         }
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                WindowInfoTracker.getOrCreate(this@VideoPlayerActivity)
+                        .windowLayoutInfo(this@VideoPlayerActivity)
+                        .collect { layoutInfo ->
+                            overlayDelegate.foldingFeature = layoutInfo.displayFeatures
+                                    .firstOrNull() as? FoldingFeature
+                            windowLayoutInfo = layoutInfo
+                        }
+            }
+        }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (hasNotch()) {
+        hasPhysicalNotch = hasNotch()
+        if (hasPhysicalNotch) {
             window.attributes.layoutInDisplayCutoutMode = settings.getInt(DISPLAY_UNDER_NOTCH, WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES)
         }
     }
@@ -510,7 +539,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
                 + (if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_DOUBLE_TAP_SEEK else 0)
                 + (if (settings.getBoolean(ENABLE_DOUBLE_TAP_PLAY, true)) TOUCH_FLAG_PLAY else 0)
-                + (if (settings.getBoolean(ENABLE_SWIPE_SEEK, true)) TOUCH_FLAG_SWIPE_SEEK else 0))
+                + (if (settings.getBoolean(ENABLE_SWIPE_SEEK, true)) TOUCH_FLAG_SWIPE_SEEK else 0)
+                + (if (settings.getString(SCREENSHOT_MODE, "0") in arrayOf("2", "3")) TOUCH_FLAG_SCREENSHOT else 0)
+                + (if (settings.getBoolean(ENABLE_SCALE_GESTURE, true)) TOUCH_FLAG_SCALE else 0))
     } else 0
 
     override fun fireDialog(dialog: Dialog) {
@@ -595,6 +626,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             lastTime = -1
             forcedTime = lastTime
             enableSubs()
+            if (this.isPlaying) loadMedia(forceUsingNew = true)
         }
     }
 
@@ -629,6 +661,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             outState.putLong(KEY_TIME, savedTime)
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
+        val mediaList = service?.playlistManager?.getMediaList() ?: savedMediaList
+        if (mediaList != null) {
+            outState.putParcelableArrayList(KEY_MEDIA_LIST, ArrayList(mediaList))
+            savedMediaList = null
+        }
         videoUri = null
         outState.putBoolean(KEY_LIST, overlayDelegate.hasPlaylist)
     }
@@ -644,11 +681,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
         if (AndroidDevices.hasPiP && !forceLegacy) {
+            Permissions.checkPiPPermission(this)
             if (AndroidUtil.isOOrLater)
                 try {
-                    val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack
+                    val track = service?.playlistManager?.player?.mediaplayer?.getSelectedVideoTrack()
                             ?: return
-                    val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+                    val ar = Rational(track.getWidth().coerceAtMost((track.getHeight() * 2.39f).toInt()), track.getHeight())
+                    service?.updateWidgetState()
                     enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(ar).build())
                 } catch (e: IllegalArgumentException) { // Fallback with default parameters
                     enterPictureInPictureMode()
@@ -683,11 +722,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     newConfig.orientation)
             touchDelegate.screenConfig = sc
         }
+        this.resources.configuration.orientation = newConfig.orientation
         overlayDelegate.resetHudLayout()
         overlayDelegate.showControls(isShowing)
         statsDelegate.onConfigurationChanged()
         overlayDelegate.updateHudMargins()
         overlayDelegate.updateTitleConstraints()
+        overlayDelegate.rotateBookmarks()
+        screenshotDelegate.hide()
     }
 
     override fun onStart() {
@@ -710,13 +752,16 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onStop() {
         super.onStop()
+        service?.playlistManager?.getMediaList()?.let {
+            savedMediaList = ArrayList(it)
+        }
         startedScope.cancel()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceReceiver)
 
         unregisterReceiver(btReceiver)
         alertDialog?.dismiss()
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
-                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0")) {
+                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()) {
             switchToAudioMode(false)
         }
 
@@ -858,6 +903,47 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
+    /**
+     * Takes a screenshot from the surface view and forwards it to the [screenshotDelegate]
+     *
+     */
+    fun takeScreenshot() {
+        if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage(this)) {
+            Permissions.askWriteStoragePermission(this, false){}
+            return
+        }
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                videoLayout?.findViewById<FrameLayout>(R.id.player_surface_frame)?.let {
+                    val surfaceView = it.findViewById<SurfaceView>(R.id.surface_video)
+                    surfaceView?.let { surface ->
+                        val width = service?.currentVideoTrack?.getWidth() ?: surface.width
+                        val height = service?.currentVideoTrack?.getHeight() ?: surface.height
+                        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                        val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.toFile().mkdirs()
+                        val dst = File(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.path + "/vlc_${simpleDateFormat.format(Date())}.jpg")
+
+                        PixelCopy.request(surface, bitmap, { copyResult ->
+                            if (copyResult != 0) {
+                                UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
+                                return@request
+                            }
+                            val coords = IntArray(2)
+                            surfaceView.getLocationOnScreen(coords)
+                            if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath))
+                                screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
+                            else
+                                UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
+                        }, Handler(Looper.getMainLooper()))
+                    }
+                }
+
+            }
+        }
+
+    }
+
     private fun cleanUI() {
 
         rootView?.run { keepScreenOn = false }
@@ -910,7 +996,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
-        return !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
+        val result = !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
+        return if (result) true else super.dispatchGenericMotionEvent(event)
     }
 
     override fun onBackPressed() {
@@ -931,7 +1018,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             service?.playlistManager?.videoStatsOn?.postValue(false)
         } else if (overlayDelegate.isBookmarkShown()) {
             overlayDelegate.hideBookmarks()
-        } else if (AndroidDevices.isAndroidTv && isShowing && !isLocked) {
+        } else if ((AndroidDevices.isAndroidTv || isTalkbackIsEnabled()) && isShowing && !isLocked) {
             overlayDelegate.hideOverlay(true)
         } else {
             exitOK()
@@ -999,6 +1086,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
                 exitOK()
+                return true
+            }
+            KeyEvent.KEYCODE_P -> {
+                takeScreenshot()
                 return true
             }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
@@ -1190,6 +1281,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
+    override fun isReady() = true
+
     override fun showAdvancedOptions() {
         if (optionsDelegate == null) service?.let {
             optionsDelegate = PlayerOptionsDelegate(this, it)
@@ -1198,7 +1291,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
         }
         optionsDelegate?.show()
-        overlayDelegate.hideOverlay(false)
+        overlayDelegate.hideOverlay(fromUser = false, forceTalkback = true)
     }
 
     private fun volumeUp() {
@@ -1290,7 +1383,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         if (event.esChangedType == IMedia.Track.Type.Audio) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
-                                var preferredTrack = 0
+                                var preferredTrack = "0"
                                 val preferredAudioLang = settings.getString(AUDIO_PREFERRED_LANGUAGE, "")
                                 if (!preferredAudioLang.isNullOrEmpty()) {
                                     /** ⚠️limitation: See [LocaleUtil] header comment */
@@ -1298,52 +1391,52 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     service.audioTracks?.iterator()?.let { audioTracks ->
                                         while (audioTracks.hasNext()) {
                                             val next = audioTracks.next()
-                                            val realTrack = allTracks.find { it.id == next.id }
+                                            val realTrack = allTracks.find { it.id.toString() == next.getId() }
                                             if (LocaleUtil.getLocaleFromVLC(realTrack?.language
                                                             ?: "") == preferredAudioLang) {
-                                                preferredTrack = next.id
+                                                preferredTrack = next.getId()
                                                 break
                                             }
                                         }
                                     }
                                 }
-                                val audioTrack = when (val savedTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()) {
-                                    0 -> preferredTrack
+                                val audioTrack = when (val savedTrack = media.getMetaString(MediaWrapper.META_AUDIOTRACK) ?: "0") {
+                                    "0" -> preferredTrack
                                     else -> savedTrack
                                 }
-                                if (audioTrack != 0 || currentAudioTrack != -2)
-                                    service.setAudioTrack(audioTrack)
+                                if (audioTrack != "0" || currentAudioTrack != "-2")
+                                    service.setAudioTrack(audioTrack.toString())
                             }
                         } else if (event.esChangedType == IMedia.Track.Type.Text) {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
-                                var preferredTrack = 0
+                                var preferredTrack = "0"
                                 val preferredSpuLang = settings.getString(SUBTITLE_PREFERRED_LANGUAGE, "")
                                 if (!preferredSpuLang.isNullOrEmpty()) {
                                     val allTracks = getCurrentMediaTracks()
                                     service.spuTracks?.iterator()?.let { spuTracks ->
                                         while (spuTracks.hasNext()) {
                                             val next = spuTracks.next()
-                                            val realTrack = allTracks.find {it.id == next.id }
+                                            val realTrack = allTracks.find {it.id.toString() == next.getId() }
                                             if (LocaleUtil.getLocaleFromVLC(realTrack?.language
                                                             ?: "") == preferredSpuLang) {
-                                                preferredTrack = next.id
+                                                preferredTrack = next.getId()
                                                 break
                                             }
                                         }
                                     }
                                 }
-                                val spuTrack = when (val savedTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()) {
-                                    0 -> preferredTrack
+                                val spuTrack = when (val savedTrack = media.getMetaString(MediaWrapper.META_SUBTITLE_TRACK) ?: "0") {
+                                    "0" -> preferredTrack
                                     else -> savedTrack
                                 }
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
-                                    if (!(tracks as Array<MediaPlayer.TrackDescription>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].id)
+                                    if (!(tracks as Array<VlcTrack>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].getId())
                                     addNextTrack = false
-                                } else if (spuTrack != 0 || currentSpuTrack != -2) {
+                                } else if (spuTrack != "0" || currentSpuTrack != "-2") {
                                     service.setSpuTrack(spuTrack)
-                                    lastSpuTrack = -2
+                                    lastSpuTrack = "-2"
                                 }
                             }
                         }
@@ -1354,8 +1447,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         lifecycleScope.launch(Dispatchers.IO) {
                             service.currentMediaWrapper?.let { mw ->
                                 val media = medialibrary.findMedia(mw)
-                                val videoTrack = media.getMetaLong(MediaWrapper.META_VIDEOTRACK).toInt()
-                                if (videoTrack != 0 && media.id != 0L) service.setVideoTrack(videoTrack)
+                                val videoTrack = media.getMetaString(MediaWrapper.META_VIDEOTRACK) ?: "0"
+                                if (videoTrack != "0" && media.id != 0L) service.setVideoTrack(videoTrack)
                             }
                         }
                     }
@@ -1369,7 +1462,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 MediaPlayer.Event.ESSelected -> if (event.esChangedType == IMedia.Track.Type.Video) {
                     val vt = service.currentVideoTrack
                     if (vt != null)
-                        fov = if (vt.projection == IMedia.VideoTrack.Projection.Rectangular) 0f else DEFAULT_FOV
+                        fov = if (vt.getProjection() == IMedia.VideoTrack.Projection.Rectangular) 0f else DEFAULT_FOV
                 }
                 MediaPlayer.Event.SeekableChanged -> overlayDelegate.updateSeekable(event.seekable)
                 MediaPlayer.Event.PausableChanged -> overlayDelegate.updatePausable(event.pausable)
@@ -1400,8 +1493,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val allTracks= ArrayList<IMedia.Track>()
             service.mediaplayer.media?.let { media ->
                 if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
-                for (i in 0..media.trackCount) {
-                    val track = media.getTrack(i)
+                for (i in 0..media.getAllTracks().size) {
+                    val track = media.getAllTracks()[i]
                     if (track != null) allTracks.add(track)
                 }
                 currentTracks = Pair(media.uri.toString(), allTracks)
@@ -1419,7 +1512,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         stopLoading()
         overlayDelegate.updateOverlayPausePlay()
         updateNavStatus()
-        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
+        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED) && Settings.videoHudDelay != -1)
             handler.sendEmptyMessageDelayed(FADE_OUT, Settings.videoHudDelay.toLong() * 1000)
         else {
             mw.removeFlags(MediaWrapper.MEDIA_PAUSED)
@@ -1433,24 +1526,35 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         optionsDelegate?.setup()
         settings.edit { remove(VIDEO_PAUSED) }
         if (isInPictureInPictureMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack ?: return
-            val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+            val track = service?.playlistManager?.player?.mediaplayer?.getSelectedVideoTrack() ?: return
+            val ar =
+                Rational(track.getWidth().coerceAtMost((track.getHeight() * 2.39f).toInt()), track.getHeight())
             if (ar.isFinite && !ar.isZero) {
-                setPictureInPictureParams(PictureInPictureParams.Builder().setAspectRatio(ar).build())
+                setPictureInPictureParams(
+                    PictureInPictureParams.Builder().setAspectRatio(ar).build()
+                )
             }
         }
         if (tipsDelegate.currentTip != null) pause()
+
+        //if possible, match display with content frame rate
+        val preferMatchFrameRate =
+            settings.getBoolean("video_match_frame_rate", false)
+        if (preferMatchFrameRate) {
+            val surfaceView = rootView?.findViewById<View>(R.id.surface_video) as SurfaceView
+            FrameRateManager(this, service!!).matchFrameRate(surfaceView, window)
+        }
     }
 
     private fun encounteredError() {
         if (isFinishing || service?.hasNext() == true) return
         /* Encountered Error, exit player with a message */
         alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-                .setOnCancelListener { exit(RESULT_PLAYBACK_ERROR) }
-                .setPositiveButton(R.string.ok) { _, _ -> exit(RESULT_PLAYBACK_ERROR) }
-                .setTitle(R.string.encountered_error_title)
-                .setMessage(R.string.encountered_error_message)
-                .create().apply { show() }
+            .setOnCancelListener { exit(RESULT_PLAYBACK_ERROR) }
+            .setPositiveButton(R.string.ok) { _, _ -> exit(RESULT_PLAYBACK_ERROR) }
+            .setTitle(R.string.encountered_error_title)
+            .setMessage(R.string.encountered_error_message)
+            .create().apply { show() }
     }
 
     private fun handleVout(voutCount: Int) {
@@ -1664,6 +1768,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 delayDelegate.showSubsDelaySetting()
                 overlayDelegate.hideOverlay(false)
             }
+            R.id.player_screenshot -> {
+                overlayDelegate.hideOverlay(false)
+                takeScreenshot()
+            }
         }
     }
 
@@ -1713,7 +1821,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
             pause()
         } else {
-            handler.sendEmptyMessageDelayed(FADE_OUT, 300L)
+            if (Settings.videoHudDelay != -1) handler.sendEmptyMessageDelayed(FADE_OUT, 800L)
             play()
         }
     }
@@ -1751,13 +1859,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun setESTracks() {
-        if (lastAudioTrack >= -1) {
+        if (lastAudioTrack >= "-1") {
             service?.setAudioTrack(lastAudioTrack)
-            lastAudioTrack = -2
+            lastAudioTrack = "-2"
         }
-        if (lastSpuTrack >= -1) {
+        if (lastSpuTrack >=" -1") {
             service?.setSpuTrack(lastSpuTrack)
-            lastSpuTrack = -2
+            lastSpuTrack = "-2"
         }
     }
 
@@ -1777,14 +1885,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         rootView?.run { keepScreenOn = false }
     }
 
-    /*
-     * Additionnal method to prevent alert dialog to pop up
-     */
-    private fun loadMedia(fromStart: Boolean) {
-        askResume = false
-        intent.putExtra(PLAY_EXTRA_FROM_START, fromStart)
-        loadMedia()
-    }
 
     /**
      * External extras:
@@ -1795,7 +1895,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     @SuppressLint("SdCardPath")
     @TargetApi(12)
-    protected open fun loadMedia() {
+    protected open fun loadMedia(fromStart: Boolean = false, forceUsingNew:Boolean = false) {
+        if (fromStart) {
+            askResume = false
+            intent.putExtra(PLAY_EXTRA_FROM_START, fromStart)
+        }
         service?.let { service ->
             isPlaying = false
             var title: String? = null
@@ -1880,8 +1984,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (media != null) {
                         // in media library
 
-                        lastAudioTrack = media.audioTrack
-                        lastSpuTrack = media.spuTrack
+                        lastAudioTrack = media.audioTrack.toString()
+                        lastSpuTrack = media.spuTrack.toString()
                     } else if (!fromStart) {
                         // not in media library
                             val rTime = settings.getLong(VIDEO_RESUME_TIME, -1L)
@@ -1896,7 +2000,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 // Start playback & seek
                 /* prepare playback */
                 val medialoaded = media != null
-                if (!medialoaded) media = if (hasMedia) currentMedia else MLServiceLocator.getAbstractMediaWrapper(uri)
+                if (!medialoaded) media = if (hasMedia && !forceUsingNew) currentMedia else MLServiceLocator.getAbstractMediaWrapper(uri)
                 itemTitle?.let { media?.title = Uri.decode(it) }
                 if (wasPaused) media?.addFlags(MediaWrapper.MEDIA_PAUSED)
                 if (intent.hasExtra(PLAY_DISABLE_HARDWARE)) media?.addFlags(MediaWrapper.MEDIA_NO_HWACCEL)
@@ -2034,14 +2138,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 .create().apply {
                     setCancelable(false)
-                    setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
+                    setOnKeyListener { dialog, keyCode, _ ->
                         if (keyCode == KeyEvent.KEYCODE_BACK) {
                             dialog.dismiss()
                             finish()
-                            return@OnKeyListener true
-                        }
-                        false
-                    })
+                            true
+                        } else false
+                    }
                     show()
                 }
     }
@@ -2136,6 +2239,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     open fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
             this.service = service
+            if (savedMediaList != null && service.currentMediaWrapper == null) {
+                service.append(savedMediaList!!)
+                savedMediaList = null
+            }
             //We may not have the permission to access files
             if (!switchingView)
                 handler.sendEmptyMessage(START_PLAYBACK)
@@ -2149,6 +2256,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             service.playlistManager.waitForConfirmation.observe(this) {
                 if (it != null) showConfirmResumeDialog(it)
             }
+            //if (isTalkbackIsEnabled()) overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
         } else if (this.service != null) {
             this.service?.removeCallback(this)
             this.service = null
@@ -2163,7 +2271,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     fun onChangedControlSetting(key: String) = when(key) {
         AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(AUDIO_BOOST, true)
-        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK -> touchDelegate.touchControls = generateTouchFlags()
+        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCALE_GESTURE -> touchDelegate.touchControls = generateTouchFlags()
+        SCREENSHOT_MODE -> {
+            touchDelegate.touchControls = generateTouchFlags()
+            overlayDelegate.updateScreenshotButton()
+        }
         ENABLE_SEEK_BUTTONS -> overlayDelegate.seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
         else -> {}
     }
@@ -2183,6 +2295,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         internal const val DEFAULT_FOV = 80f
         private const val KEY_TIME = "saved_time"
         private const val KEY_LIST = "saved_list"
+        private const val KEY_MEDIA_LIST = "media_list"
         private const val KEY_URI = "saved_uri"
         const val OVERLAY_INFINITE = -1
         const val FADE_OUT = 1
@@ -2198,6 +2311,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         internal const val HIDE_SETTINGS = 11
         const val FADE_OUT_BRIGHTNESS_INFO = 12
         const val FADE_OUT_VOLUME_INFO = 13
+        const val FADE_OUT_SCREENSHOT = 14
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
 
@@ -2259,8 +2373,6 @@ data class PlayerOrientationMode(
         var orientation: Int = 0
 )
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @BindingAdapter("length", "time")
 fun setPlaybackTime(view: TextView, length: Long, time: Long) {
     view.text = if (VideoPlayerActivity.sDisplayRemainingTime && length > 0)

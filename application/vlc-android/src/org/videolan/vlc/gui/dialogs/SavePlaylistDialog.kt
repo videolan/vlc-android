@@ -33,7 +33,9 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -58,8 +60,6 @@ import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
@@ -108,7 +108,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 requireArguments().getString(KEY_FOLDER)?.let { folder ->
 
                     isLoading = true
-                    val viewModel = getBrowserModel(category = TYPE_FILE, url = folder, showHiddenFiles = false)
+                    val viewModel = getBrowserModel(category = TYPE_FILE, url = folder)
                     if (requireArguments().getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
                         withContext(Dispatchers.IO) {
                             newTracks = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
@@ -145,12 +145,11 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         binding.dialogPlaylistSave.setOnClickListener(this)
 
         binding.dialogPlaylistName.editText!!.setOnEditorActionListener(this)
-        binding.dialogPlaylistName.editText!!.setOnKeyListener { v, keyCode, event ->
+        binding.dialogPlaylistName.editText!!.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 addToNewPlaylist()
                 true
-            }
-            false
+            } else false
         }
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
@@ -159,7 +158,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         updateEmptyView()
         parentFragmentManager.setFragmentResultListener(
                 REQUEST_KEY,
-                viewLifecycleOwner) { s: String, bundle: Bundle ->
+                viewLifecycleOwner) { _: String, bundle: Bundle ->
             when (bundle.getInt(OPTION_KEY)) {
                 ADD_ALL -> {
                     savePlaylist(selectedPlaylist!!, newTracks)
@@ -252,7 +251,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     companion object : DependencyProvider<Any>() {
 
-        val TAG = "VLC/SavePlaylistDialog"
+        const val TAG = "VLC/SavePlaylistDialog"
 
         const val KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS"
         const val KEY_FOLDER = "PLAYLIST_FROM_FOLDER"

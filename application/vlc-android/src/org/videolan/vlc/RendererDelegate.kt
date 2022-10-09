@@ -33,11 +33,9 @@ import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.retry
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object RendererDelegate : RendererDiscoverer.EventListener {
 
-    private val TAG = "VLC/RendererDelegate"
+    private const val TAG = "VLC/RendererDelegate"
     private val discoverers = ArrayList<RendererDiscoverer>()
     val renderers : LiveDataset<RendererItem> = LiveDataset()
 

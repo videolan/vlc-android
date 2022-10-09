@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=725ff59a2ac3c8107f2cc2ae34bce627aa1202c5
+MEDIALIBRARY_HASH=981f88679d71409ee3c1be23ef190ce17cf3f70f
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -26,7 +26,7 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
+AVLC_SOURCED=1 . libvlcjni/buildsystem/compile-libvlc.sh
 
 ################
 # MEDIALIBRARY #
@@ -136,8 +136,8 @@ fi
 
 cd ${MEDIALIBRARY_BUILD_DIR}
 
-if [ "$RELEASE" = "0" ]; then
-    git describe --exact-match --tags ${MEDIALIBRARY_HASH} > /dev/null || \
+if [ "$RELEASE" = "1" ]; then
+    git describe --exact-match HEAD > /dev/null || \
         avlc_checkfail "Release builds must use tags"
 fi
 
@@ -149,7 +149,7 @@ if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/buil
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
         -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
-        --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}.crossfile \
+        --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}-ndk${REL}.crossfile \
         -Dlibjpeg_prefix="$SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
         -Dforce_attachment_api=true \
@@ -170,7 +170,7 @@ avlc_checkfail "medialibrary: build failed"
 
 cd ${SRC_DIR}
 
-MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
+MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlcjni/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
 -L${NDK_LIB_DIR} -lc++abi"
 

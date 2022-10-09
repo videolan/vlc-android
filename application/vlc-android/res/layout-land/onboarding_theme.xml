@@ -39,7 +39,7 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/theme_selection_rounded"
             android:padding="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintBottom_toTopOf="@+id/theme_title"
             app:layout_constraintEnd_toStartOf="@+id/lightTheme"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -60,7 +60,7 @@
             android:padding="16dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintBottom_toTopOf="@+id/theme_title"
             app:layout_constraintEnd_toStartOf="@+id/darkTheme"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/dayNightTheme"
@@ -81,9 +81,8 @@
             android:padding="16dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/theme_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/lightTheme">
 
         <ImageView
@@ -93,18 +92,15 @@
     </FrameLayout>
 
     <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/theme_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/onboarding_theme_title"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Title"
             app:layout_constraintBottom_toTopOf="@+id/themeDescription"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lightTheme" />
 
@@ -112,44 +108,13 @@
             android:id="@+id/themeDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:padding="8dp"
             android:text="@string/daynight_legacy_explanation"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.66" />
-
-    <View
-            android:id="@+id/view4"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/white_transparent_10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/guideline"
-            app:layout_constraintStart_toEndOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-            android:id="@+id/doneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/done"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/theme_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

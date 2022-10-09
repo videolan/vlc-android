@@ -45,14 +45,10 @@
 package org.videolan.television.ui
 
 import android.os.Bundle
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MediaScrapingTvshowDetailsActivity : BaseTvActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

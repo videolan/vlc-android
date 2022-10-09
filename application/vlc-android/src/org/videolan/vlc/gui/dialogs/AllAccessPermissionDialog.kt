@@ -30,18 +30,13 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.tools.PERMISSION_NEVER_ASK
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AllAccessPermissionDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var titleView:TextView
@@ -65,8 +60,6 @@ class AllAccessPermissionDialog : VLCBottomSheetDialogFragment() {
         grantAllAccessButton = view.findViewById(R.id.grant_all_access_button)
         neverAskAgain = view.findViewById(R.id.never_ask_again)
         val settings = Settings.getInstance(requireActivity())
-        if (!settings.getBoolean("permission_already_asked", false)) neverAskAgain.setGone()
-        settings.putSingle("permission_already_asked", true)
         grantAllAccessButton.setOnClickListener {
             lifecycleScope.launch { requireActivity().getStoragePermission(withDialog = false) }
             dismiss()

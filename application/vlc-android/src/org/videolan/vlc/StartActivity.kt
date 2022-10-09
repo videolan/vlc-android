@@ -33,10 +33,14 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
+import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
@@ -56,8 +60,6 @@ import videolan.org.commontools.TV_CHANNEL_SCHEME
 
 private const val SEND_CRASH_RESULT = 0
 private const val TAG = "VLC/StartActivity"
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class StartActivity : FragmentActivity() {
 
     private val idFromShortcut: Int
@@ -168,11 +170,29 @@ class StartActivity : FragmentActivity() {
                 }
             }
         } else {
-            val target = idFromShortcut
-            if (target == R.id.ml_menu_last_playlist)
-                PlaybackService.loadLastAudio(this)
-            else
-                startApplication(tv, firstRun, upgrade, target, removeOldDevices)
+            if (action != null && action.startsWith("vlc.mediashortcut:")) {
+                val split = action.split(":")
+                val type = split[split.count() - 2]
+                val id = split.last()
+                lifecycleScope.launch {
+                    getFromMl {
+                        val album = when(type) {
+                         "album" ->   getAlbum(id.toLong())
+                         "artist" ->   getArtist(id.toLong())
+                         "genre" ->   getGenre(id.toLong())
+                         "playlist" ->   getPlaylist(id.toLong(), false)
+                         else ->   getMedia(id.toLong())
+                        }
+                        MediaUtils.playTracks(this@StartActivity, album, 0)
+                    }
+                }
+            } else {
+                val target = idFromShortcut
+                if (target == R.id.ml_menu_last_playlist)
+                    PlaybackService.loadLastAudio(this)
+                else
+                    startApplication(tv, firstRun, upgrade, target, removeOldDevices)
+            }
         }
         FileUtils.copyLua(applicationContext, upgrade)
         FileUtils.copyHrtfs(applicationContext, upgrade)
@@ -189,7 +209,7 @@ class StartActivity : FragmentActivity() {
 
     private fun startApplication(tv: Boolean, firstRun: Boolean, upgrade: Boolean, target: Int, removeDevices:Boolean = false) {
         val settings = Settings.getInstance(this@StartActivity)
-        val onboarding = !tv && !settings.getBoolean(ONBOARDING_DONE_KEY, false)
+        val onboarding = !settings.getBoolean(if (tv) KEY_TV_ONBOARDING_DONE else ONBOARDING_DONE_KEY, false)
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
         if (!onboarding || !firstRun) {
@@ -212,7 +232,7 @@ class StartActivity : FragmentActivity() {
             if (target != 0) mainIntent.putExtra(EXTRA_TARGET, target)
             startActivity(mainIntent)
         } else {
-            startOnboarding()
+            if (!tv) startOnboarding() else startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(applicationContext, TV_ONBOARDING_ACTIVITY) })
         }
     }
 
@@ -236,7 +256,10 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun showTvUi(): Boolean {
-        return AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp ||
-                Settings.getInstance(this).getBoolean("tv_ui", false)
+        val settings = Settings.getInstance(this)
+        //because the [VersionMigration] is done after the first call to this method, we have to keep the old implementation for people coming from an older version of the app
+        if (settings.getInt(KEY_CURRENT_SETTINGS_VERSION, 0) < 5) return AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp ||
+                settings.getBoolean("tv_ui", false)
+        return  settings.getBoolean("tv_ui", false)
     }
 }

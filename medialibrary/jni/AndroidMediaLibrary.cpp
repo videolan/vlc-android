@@ -31,10 +31,10 @@ AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject
     myVm = vm;
     p_lister = std::make_shared<AndroidDeviceLister>();
     medialibrary::SetupConfig config;
+    config.logger = std::make_shared<AndroidMediaLibraryLogger>();
+    config.logLevel = medialibrary::LogLevel::Debug;
     config.deviceListers["file://"] = p_lister;
     p_ml = NewMediaLibrary( dbPath, mlFolder, false, &config);
-    p_ml->setLogger( new AndroidMediaLibraryLogger );
-    p_ml->setVerbosity(medialibrary::LogLevel::Debug);
     pthread_once(&key_once, key_init);
     JNIEnv *env = getEnv();
     if (env == NULL) return;
@@ -299,7 +299,7 @@ AndroidMediaLibrary::searchAlbumsFromGenre( int64_t genreId, const std::string& 
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::searchFromPLaylist( int64_t playlistId, const std::string& query, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::searchFromPlaylist( int64_t playlistId, const std::string& query, const medialibrary::QueryParameters* params )
 {
     auto playlist = p_ml->playlist(playlistId);
     return playlist == nullptr ? nullptr : playlist->searchMedia(query, params);

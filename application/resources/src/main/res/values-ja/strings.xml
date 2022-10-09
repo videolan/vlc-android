@@ -14,6 +14,7 @@
     <string name="sortby_length">長さ</string>
     <string name="sortby_date">日付</string>
     <string name="sortby_last_modified_date">追加された順</string>
+    <string name="sortby_insertion">挿入日</string>
     <string name="sortby_media_number">メディア番号</string>
     <string name="sortby_number">トラック数</string>
     <string name="searchable_hint">検索…</string>
@@ -31,6 +32,7 @@
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
     <string name="play_as_video">ビデオとして再生</string>
+    <string name="return_to_video">カバーを長押しでビデオを戻す</string>
     <string name="video_app_switch_title">バックグラウンド/PiPモード</string>
     <string name="video_app_switch_summary">ビデオ再生中に他のアプリケーションへ切り替えた場合の動作を選択してください</string>
     <string name="play_pip_title">ピクチャーインピクチャーモードでビデオを再生</string>
@@ -107,11 +109,11 @@
     <string name="loading">ロード中…</string>
     <string name="please_wait">しばらくおまちください…</string>
     <string name="nomedia">メディアファイルが見つかりません、ファイルをデバイスに転送するか設定を調整してください。</string>
+    <string name="empty_search">見つかりませんでした %s</string>
     <string name="noplaylist">プレイリストが見つかりません。</string>
     <string name="nosubfolder">サブフォルダがありません</string>
     <string name="directorynotfound">ディレクトリのパス \'%1$s\' がみつかりません。</string>
     <string name="nohistory">再生履歴がありません。</string>
-    <string name="validation">本当に実行しますか?</string>
 
     <string name="cover_art">アートワーク</string>
     <string name="shuffle_all_title">すべてをシャッフル</string>
@@ -132,6 +134,7 @@
     <string name="surface_fit_screen">画面に合わせる</string>
     <string name="surface_fill">画面一杯に合わせる</string>
     <string name="surface_original">センター表示</string>
+    <string name="resize_tip">長押しで他のオプション</string>
     <string name="unseekable_stream">シークできないストリーム</string>
     <string name="refresh">再表示</string>
     <string name="track_audio">オーディオトラック</string>
@@ -191,6 +194,11 @@
 
     <string name="playback_history_title">再生履歴</string>
     <string name="playback_history_summary">履歴にあるすべての再生済みメディアを保存</string>
+    <string name="video_resume_playback_title">ビデオ再生キューの履歴</string>
+    <string name="video_resume_playback_summary">後で再生を再開するためにビデオ再生キューを保存することを許可</string>
+    <string name="audio_resume_playback_title">オーディオ再生キューの履歴</string>
+    <string name="audio_resume_playback_warning">オーディオ再生キューの履歴を無効化すると問題が発生する可能性があります。\n無効化後は次からの再生を再開することができなくなります。\n\n\t- ブルートゥースデバイス\n\n\t- メディア通知</string>
+    <string name="audio_resume_playback_summary">後で再生を再開するためにオーディオ再生キューを保存することを許可</string>
     <string name="playback_speed_title">再生速度を保存</string>
     <string name="playback_speed_summary">メディア間での再生速度を一定に保つ</string>
 
@@ -234,6 +242,7 @@
     <string name="audio_player_tips">オーディオプレイヤーのTips</string>
     <string name="previous_next_song">前/次の曲</string>
     <string name="show_playlist">プレイリストの表示</string>
+    <string name="hide_playlist">プレイリストを隠す</string>
     <string name="hold_to_stop">停止を保持</string>
 
     <!-- About -->
@@ -270,6 +279,7 @@
     <string name="screen_orientation_landscape_reverse">ランドスケープ反転</string>
     <string name="screen_orientation_last_locked">最後にロックされた方向</string>
     <string name="enable_black_theme">ブラックテーマ</string>
+    <string name="theme_auto">自動テーマ</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="subtitle_preferred_language">優先する字幕の言語</string>
     <string name="daynight_title">昼夜モード</string>
@@ -295,7 +305,9 @@
     <string name="media_seen">ビデオの再生記録マーカー</string>
     <string name="media_seen_summary">ビデオを終わりまで再生した場合に再生済みとマーク</string>
     <string name="force_play_all_summary">クリックしたものからすべてのビデオを再生</string>
+    <string name="force_play_all_audio_summary">クリックしたものからすべてのオーディオを再生</string>
     <string name="force_play_all_title">ビデオプレイリストモード</string>
+    <string name="force_play_all_audio_title">オーディオプレイリストモード</string>
     <string name="save_brightness_summary">メディア間での輝度を一定に保つ</string>
     <string name="save_brightness_title">輝度を保存</string>
     <string name="save_audiodelay_summary">個々のビデオごとにオーディオの遅延を保存</string>
@@ -316,26 +328,44 @@
     <string name="enable_double_tap_play_summary">画面の中心をダブルタップで再生/一時停止</string>
     <string name="enable_swipe_seek_title">スワイプでシーク</string>
     <string name="enable_swipe_seek_summary">スクリーンを横切るように指でスワイプすることでシークできます。</string>
+    <string name="enable_scale_gesture_title">日本指ズーム</string>
+    <string name="enable_scale_gesture_summary">二本の指でズームイン・アウトします</string>
     <string name="popup_keepscreen_title">ポップアップモードでスクリーンをオンに保持</string>
     <string name="popup_keepscreen_summary">ビデオが一時停止状態にポップアップが表示されている間もスクリーンをオンに保持します。</string>
     <string name="browser_show_hidden_files_title">隠しファイルを表示</string>
+    <string name="albums_show_track_numbers">トラック番号を表示</string>
+    <string name="enable_video_screenshot">スクリーンショットを撮る</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕サイズ</string>
+    <string name="subtitles_presets_title">字幕プリセット</string>
     <string name="subtitles_size_small">小</string>
     <string name="subtitles_size_normal">通常</string>
     <string name="subtitles_size_big">大</string>
     <string name="subtitles_size_huge">特大</string>
+    <string name="subtitles_font_style">字幕フォントのスタイル</string>
     <string name="subtitles_color_title">字幕の色</string>
-    <string name="subtitles_color_white">白</string>
-    <string name="subtitles_color_gray">グレー</string>
-    <string name="subtitles_color_pink">ピンク</string>
-    <string name="subtitles_color_blue">青</string>
-    <string name="subtitles_color_yellow">黄</string>
-    <string name="subtitles_color_green">緑</string>
+    <string name="subtitles_opacity">不透明度</string>
+    <string name="subtitles_color">色</string>
+    <string name="subtitles_size">サイズ</string>
+    <string name="subtitles_background_color_title">字幕の背景</string>
     <string name="subtitles_background_title">字幕の背景</string>
+    <string name="subtitles_outline_title">字幕の輪郭</string>
+    <string name="subtitles_shadow_title">字幕の影</string>
+    <string name="subtitles_decoration_title">字幕の装飾</string>
+    <string name="subtitle_decoration_none">なし</string>
+    <string name="subtitle_decoration_shadow">影</string>
+    <string name="subtitle_decoration_outline">輪郭</string>
     <string name="subtitles_bold_title">字幕を太字表示</string>
     <string name="subtitles_autoload_title">字幕の自動読み込み</string>
+    <string name="previous_color">前の色</string>
+    <string name="new_color">新しい色</string>
+    <string name="subtitles_preset_default">デフォルト</string>
+    <string name="subtitles_preset_default_large">大きいテキスト</string>
+    <string name="subtitles_preset_default_largest">大きい文字とコントラスト</string>
+    <string name="subtitles_preset_white_background">背景付き</string>
+    <string name="subtitles_yellow">黄</string>
+    <string name="subtitles_yellow_background">黄、背景付き</string>
 
     <string name="audio_prefs_category">オーディオ</string>
     <string name="lockscreen_cover_title">メディアのカバーをロックスクリーンに表示</string>
@@ -355,6 +385,19 @@
     <string name="enable_headset_detection_summary">ヘッドセットの着脱を検出</string>
     <string name="enable_play_on_headset_insertion">ヘッドセットの装着で再開</string>
     <string name="enable_play_on_headset_insertion_summary">それ以外では一時停止</string>
+    <string name="replaygain_prefs_category">再生ゲイン</string>
+    <string name="replaygain_enable">再生ゲインを有効化</string>
+    <string name="replaygain_enable_summary">再生ゲイン情報のないストリームはデフォルトのゲインによってより静かになるかも知れません</string>
+    <string name="replaygain_mode">再生ゲインモード</string>
+    <string name="replaygain_mode_summary">再生ゲイン情報のあるストリームの再生を同じラウドネスで行うトラックモード。同じアルバムで相対的なストリームのラウドネスを保存するアルバムモード。</string>
+    <string name="replaygain_preamp">再生プリアンプ</string>
+    <string name="replaygain_preamp_summary">再生ゲイン情報のあるデフォルトのターゲットレベル(89 dB)を変更します。</string>
+    <string name="replaygain_default">デフォルト再生ゲイン</string>
+    <string name="replaygain_default_summary">再生ゲイン情報のないストリームに適用します。\n0を設定することで無効化します。</string>
+    <string name="replaygain_peak_protection">ピークプロテクション</string>
+    <string name="replaygain_peak_protection_summary">音飛びに対して保護します</string>
+    <string name="replaygain_track">トラック</string>
+    <string name="replaygain_album">アルバム</string>
     <string name="aout">オーディオ出力</string>
     <string name="aout_summary">オーディオ出力に使用するメソッドを変更します。</string>
     <string name="audio_ducking_title">通知時にVLCの音量を下げる</string>
@@ -384,8 +427,6 @@
     <string name="controls_prefs_category">コントロール</string>
 
     <string name="performance_prefs_category">パフォーマンス</string>
-    <string name="chroma_format">強制クロマ</string>
-    <string name="chroma_format_summary">RGB 32ビット: デフォルトのクロマ\nRGB 16ビット: より良いパフォーマンス、低品質\nYUV: 最高のパフォーマンス、すべてのデバイスでは動作しません。(Android 2.3以降のみ動作)</string>
     <string name="deblocking">ブロック化抑止フィルター設定</string>
     <string name="deblocking_summary">ブロック化抑止フィルターの設定を変更します。ビデオ品質の向上が可能です。(アドバンスドユーザー向け設定)</string>
     <string name="deblocking_always">ブロック化抑止最大 (低速)</string>
@@ -401,20 +442,24 @@
     <string name="auto_rescan">自動再検索</string>
     <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスを検索し、新しいメディア、および削除されたメディアを検出します。</string>
     <string name="dump_media_db">メディアデータベースをダンプ</string>
+    <string name="dump_app_db">アプリケーションデータべースをダンプ</string>
     <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="clear_media_database_summary">やり直すためにデータベースをクリアします</string>
     <string name="clear_app_data">アプリケーションデータをクリア</string>
     <string name="clear_app_data_summary">VLC for Androidのデータをクリア</string>
     <string name="clear_history">履歴をクリア</string>
+    <string name="clear_history_message">履歴、現在のプレイリストと進行状況を失います。</string>
     <string name="set_locale">ロケールの設定</string>
     <string name="network_caching">ネットワークキャッシュ値</string>
-    <string name="network_caching_summary">ソフトウェアデコーディングのためのネットワークメディアのバッファーサイズをミリ秒単位で指定します。\n空白入力でリセットします。</string>
+    <string name="network_caching_summary">ソフトウェアデコーディングのためのネットワークメディアのバッファーサイズをミリ秒単位で指定します。\n0を入力すると無効化します。</string>
     <string name="resume_playback_title">通話終了後に再生を再開</string>
     <string name="resume_playback_summary">それ以外は一時停止</string>
     <string name="blurred_cover_background_title">カバーの背景をぼやけさせる</string>
     <string name="blurred_cover_background_summary">オーディオプレイヤーのカバーの背景をぼやけさせる</string>
-    <string name="network_caching_popup">値は0〜6000msの間で指定してください</string>
+    <string name="force_shuffle_title">強制シャッフル</string>
+    <string name="force_shuffle_summary">再生開始時にシャッフルを行う</string>
+    <string name="network_caching_popup">値は0〜60000msの間で指定してください</string>
     <string name="quit">アプリケーションを再起動</string>
     <string name="restart_message">変更はアプリケーションの再起動後に有効になります。\n\n今すぐ再起動しますか?</string>
     <string name="restart_message_OK">OK</string>
@@ -451,6 +496,7 @@
 
     <string name="no_result">結果がみつかりません</string>
     <string name="no_internet_connection">インターネット接続を確認してください</string>
+    <string name="retry">再試行</string>
     <string name="subs_download_error">サービスは利用できません。あとで再試行してください</string>
 
     <string name="network_browsing">ローカルネットワーク</string>
@@ -469,9 +515,7 @@
     <string name="playlist_save">プレイリストを保存</string>
     <string name="playlist_name_hint">プレイリスト名</string>
     <string name="go_to_chapter">チャプター指定…</string>
-    <string name="chapter">チャプター</string>
     <string name="current_chapter">チャプター: %s</string>
-    <string name="resume_from_position">前回の位置から再生</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
     <string name="confirm_resume_title">再生していたビデオを再開</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
@@ -489,6 +533,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC白色ウィジェット</string>
     <string name="widget_name_b">VLCダークウィジェット</string>
+    <string name="widget_name_mini_player">VLCミニプレイヤー</string>
+    <string name="widget_old_text">私たちのWebサイトが更新されました!</string>
+    <string name="widget_old_description_start">お知らせです!改善されたウィジェットをリリースしました。\n応答性が良く、カスタマイズも可能です。</string>
+    <string name="whats_next">さて、次は?</string>
+    <string name="widget_old_description_end">あなたのラウンチャーにウィジェットが使われていることを検出しましたが、残念ながら新しいものと互換性がありません。\nご使用中のラウンチャーに依存しますが、古いウィジェットを削除して新しいものと入れ替える必要があるかも知れません。</string>
+    <string name="click_here">ここをクリックすると詳細を表示します。</string>
     <string name="allow_storage_access_title">VLCがビデオとオーディオファイルにアクセスすることを許可</string>
     <string name="allow_storage_access_description">このデバイスのメディアファイルにアクセスするためにVLCに許可を与える必要があります。</string>
     <string name="allow_storage_manager_title">VLCにすべてのファイルへのアクセスを許可</string>
@@ -503,14 +553,22 @@
     <string name="allow_settings_access_brightness_description">輝度モードを変更するためにVLCに許可を与える必要があります。</string>
     <string name="allow_draw_overlays_title">他のアプリケーション上へポップアップ表示を許可</string>
     <string name="allow_sdraw_overlays_description">他のアプリケーションの上にビデオをポップアップ表示するためにVLCに許可を与える必要があります。</string>
+    <string name="allow_pip">VLCプレイヤーがピクチャーインピクチャーで表示することを許可</string>
+    <string name="allow_pip_description">ピクチャーインピクチャーモードで表示するためにVLCに権限を与える必要があります。</string>
     <string name="permission_ask_again">許可する</string>
+    <string name="pick_file">ファイルの取り出し</string>
     <string name="permission_not_granted">権限が付与されていません</string>
     <string name="permission_expanation_no_allow">自動検索と外部の字幕の使用ができません</string>
     <string name="permission_expanation_allow">ストリームの再生または、ネットワークメディアの再生のみ利用可能です</string>
-    <string name="permission_expanation_subtitles">外部の字幕の使用</string>
-    <string name="permission_expanation_allow_explanation">インターネット上のストリームまたは、ネットワークメディアの再生</string>
+    <string name="permission_onboarding_no_perm">メディアを自動検出することはできません。\n再生できるのはストリームまたはネットワークメディアのみです。</string>
+    <string name="permission_onboarding_perm_media">自動検出できるのは、標準のメディアファイルのみです。</string>
+    <string name="permission_onboarding_perm_all">すべてのファイルを自動検出して、変なメディアや圧縮ファイルを含むすべてのタイプのメディアを再生できるようになります</string>
     <string name="exit_app">VLCを閉じる</string>
     <string name="exit_app_msg">本当にVLCを終了してもいいですか?</string>
+    <string name="widget_explanation_title">VLCウィジェット</string>
+    <string name="widget_explanation_size">ウィジェットは異なるサイズとフレーバーを楽しむことができます</string>
+    <string name="widget_explanation_resize">ウィジェットを長押しするとタイプの変更やサイズをお好みに合わせて変更することができます。</string>
+    <string name="widget_explanation_end">ウィジェットは自由にカスタマイズすることができます。あなたの想像を解き放ちデザインしてください。</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller トラック</string>
@@ -616,10 +674,13 @@
     <string name="subtitle_search_name_hint">名前</string>
     <string name="subtitle_search_episode_hint">エピソード</string>
     <string name="subtitle_search_season_hint">シーズン</string>
+    <string name="subtitles_download_failed">ダウンロードに失敗</string>
     <string name="language_to_download">言語</string>
     <string name="delete_the_selected">削除するものを選択</string>
     <string name="download_the_selected">ダウンロードするものを選択</string>
     <string name="next">次へ</string>
+    <string name="skip">スキップ</string>
+    <string name="next_step">次へ</string>
     <string name="download">ダウンロード</string>
     <string name="ctx_player_video_track">ビデオトラックを選択</string>
     <string name="ctx_player_audio_track">オーディオトラック</string>
@@ -768,6 +829,7 @@
     <string name="rename_group">ビデオグループ名の変更</string>
     <string name="ungroup">グループ解除</string>
     <string name="group_similar">自動再グループ化</string>
+    <string name="no_group_found">ビデオグループが見つかりませんでした</string>
     <string name="no_favorite">お気に入りがありません</string>
     <string name="empty_directory">空</string>
     <string name="no_track">トラックがありません</string>
@@ -819,6 +881,7 @@
     <string name="audio_delay_bt">bluetoothデバイスのオーディオに %s ミリ秒の遅延を適用</string>
     <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
     <string name="go_to_folder">親をブラウズ</string>
+    <string name="create_shortcut">ランチャーのショートカットを作成</string>
     <string name="no_sub_renderer">キャスト中の字幕はまだサポートされていません</string>
     <string name="enqueuing">メディアを読み込み中</string>
     <string name="soundfont">MIDIサウンドフォント</string>
@@ -827,6 +890,8 @@
     <string name="browser_show_missing_media">見つからないメディアを表示</string>
     <string name="browser_show_missing_media_summary">現在、存在しない古いデータを表示</string>
     <string name="search_prefs">検索設定</string>
+    <string name="video_match_frame_rate_title">ディスプレイのフレームレートを一致</string>
+    <string name="video_match_frame_rate_summary">ディスプレイのリフレッシュレートをメディアのフレームレートに一致させます。例えば、24pのフィルムは24pで再生されます。</string>
     <string name="preferred_resolution">優先するビデオの解像度</string>
     <string name="preferred_resolution_summary">ストリーム用の最大ビデオ品質が有効時%sになります。</string>
     <string name="pref_resolution_best_available">利用可能な最高値</string>
@@ -839,6 +904,8 @@
     <string name="bookmark_default_name">ブックマーク %s</string>
     <string name="bookmark_name">ブックマーク %s</string>
     <string name="add_bookmark">ブックマークを追加</string>
+    <string name="bookmark_added">ブックマークが追加されました</string>
+    <string name="show">表示</string>
     <string name="optional_features">オプション機能</string>
     <string name="optional_features_summary">現在、テスト中で不安定なベータ機能</string>
     <string name="optional_features_warning">この機能はベータであり、クラッシュを起こしたり、機能が変わることがあります</string>
@@ -848,6 +915,10 @@
     <string name="jump_delay">進める/戻るの遅延時間</string>
     <string name="long_jump_delay">長押しによる進める/戻るの遅延時間</string>
     <string name="jump_delay_summary">%s 秒</string>
+    <string name="move_up">上に移動</string>
+    <string name="move_down">下に移動</string>
+    <string name="remove_from_playlist">プレイリストから削除</string>
+    <string name="play_media"> %sを再生</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">重複する項目を追加しますか?</string>
@@ -860,12 +931,15 @@
     <string name="start">開始</string>
     <string name="permission">権限</string>
     <string name="customize">カスタマイズ</string>
-    <string name="selection_count">%d 件選択されました</string>
+    <string name="selection_count">%d 選択されました</string>
     <string name="controls_setting">制御設定</string>
     <string name="gestures">ジェスチャー</string>
     <string name="player_controls">プレイヤー制御</string>
     <string name="video_double_tap_jump_delay">ダブルタップの遅延時間</string>
     <string name="video_key_jump_delay">ナビゲーションキーの遅延時間</string>
+    <string name="banned">禁止フォルダ (長押しで変更)</string>
+    <string name="banned_tv">禁止されたフォルダー</string>
+    <string name="banned_parent">親フォルダが禁止</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">これらの項目は既にこのプレイリストに存在します。</item>
     </plurals>
@@ -874,5 +948,100 @@
     </plurals>
     <string name="official_website">公式ウェブサイト</string>
     <string name="view_online">オンラインで表示</string>
+    <string name="player_under_notch">ノッチの下にビデオを表示</string>
+    <string name="notch">ノッチ</string>
+    <string name="always_fast_seek">高速シークを常に使用</string>
+    <string name="always_fast_seek_summary">シークは高速になりますが正確性が少し劣ります</string>
+    <string name="touch_only">タッチのみの機能</string>
+    <string name="touch_only_description">スクリーンに触れるかマウスを動かすことでモバイルインターフェースに切り替えることができます。\n下にスライドしてこの機能が安全に使用できることを確認してください。</string>
+    <string name="no_web_browser">ウェブブラウザがインストールされていません</string>
+    <string name="no_web_browser_message">あなたのスマートフォン上でスキャン可能です。\nURLは %s です。</string>
+    <string name="no_video">ビデオがありません</string>
+    <string name="fold_optimized">あなたの折り畳み可能な画面に最適化</string>
+    <string name="fold_optimize">折り畳み可能な画面に最適化</string>
+    <string name="foldable">折り畳み可能な画面</string>
+    <string name="undo">元に戻す</string>
+    <string name="add_server_favorite">お気に入りにサーバーを追加</string>
+    <string name="widget_theme">ウィジェットテーマ</string>
+    <string name="widget_preferences">ウィジェットの設定</string>
+    <string name="material_you">マテリアル（壁紙から色を抽出）</string>
+    <string name="palette">パレット（メディアのカバーから色を抽出）</string>
+    <string name="custom">カスタム</string>
+    <string name="opacity">不透明度</string>
+    <string name="widget_background">背景</string>
+    <string name="widget_foreground">前面</string>
+    <string name="configure_widget">ウィジェットの設定</string>
+    <string name="widget_preview">ウィジェットのプレビュー</string>
+    <string name="widget_forward_delay">進める遅延時間</string>
+    <string name="widget_show_seek">シークボタンの表示</string>
+    <string name="widget_show_cover">カバーを表示</string>
+    <string name="widget_rewind_delay">戻る遅延時間</string>
+    <string name="widget_show_configure">設定アイコンを表示</string>
+    <string name="widget_show_configure_summary">もし表示されなかったとしても右上の部分をタップすることで設定を開くことができます。</string>
+    <string name="seek_backward_content_description"> %s 秒前へシーク</string>
+    <string name="seek_forward_content_description"> %s 秒先へシーク</string>
+    <string name="open_vlc">VLCを開く</string>
+    <string name="playing">再生中</string>
+    <string name="disable_track">トラックを無効化</string>
+    <string name="ascending">昇順</string>
+    <string name="descending">降順</string>
+    <string name="screenshot_error">スクリーンショットを撮っている時にエラーが発生しました</string>
+    <string name="disabled">無効</string>
+    <string name="enable_screenshot_gesture">3本指タップ</string>
+    <string name="enable_screenshot_button">スクリーンショットのボタンを表示</string>
+    <string name="enable_screenshot_button_and_gesture">ボタンとジェスチャー</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - タイトル: %s - 長さ: %s</string>
+    <string name="talkback_genre">ジャンル: %s</string>
+    <string name="talkback_history_item">履歴の項目</string>
+    <string name="talkback_playlist">プレイリスト: %s</string>
+    <string name="talkback_folder">フォルダー: %s</string>
+    <string name="talkback_file">ファイル: %s</string>
+    <string name="talkback_favorite">お気に入り: %s</string>
+    <string name="talkback_track_number">トラック番号 %s</string>
+    <string name="talkback_duration">D長さ: %s</string>
+    <string name="talkback_album">アルバム: %s</string>
+    <string name="talkback_artist">アーティスト: %s</string>
+    <string name="talkback_release_date">リリース年 %s</string>
+    <string name="talkback_video">ビデオ: %s</string>
+    <string name="talkback_stream">ストリーム: %s</string>
+    <string name="talkback_audio_track">オーディオトラック: %s</string>
+    <string name="talkback_video_group">ビデオグループ: %s</string>
+    <string name="talkback_hours">時間</string>
+    <string name="talkback_minutes">分</string>
+    <string name="talkback_seconds">秒</string>
+    <string name="talkback_list_section">ヘッダー: %s</string>
+    <string name="talkback_enter_screen">%s に移動</string>
+    <string name="talkback_file_size">ファイルサイズ: %s</string>
+    <string name="talkback_open_in_browser">ブラウザーで開く</string>
+    <string name="talkback_video_player">ビデオプレイヤー。タップするとコントロールを表示します。戻るボタンをタップすると隠します。</string>
+    <string name="talkback_video_tracks">ビデオトラック</string>
+    <string name="talkback_audio_tracks">オーディオトラック</string>
+    <string name="talkback_subtitle_tracks">字幕トラック</string>
+    <string name="talkback_subtitle_dowload_item">言語: %s. %s. 名前: %s</string>
+    <string name="selected">選択されました</string>
+    <string name="talkback_increase_delay">遅延を増加させる</string>
+    <string name="talkback_decrease_delay">遅延を減少させる</string>
+    <string name="talkback_increase_speed">速度を上げる</string>
+    <string name="talkback_decrease_speed">速度を下げる</string>
+    <string name="talkback_subtitle_history">字幕の履歴</string>
+    <string name="talkback_language_selection">選択された言語 %s</string>
+    <string name="talkback_audio_player_opened">オーディオプレイヤーが開きました</string>
+    <string name="talkback_audio_player_collapsed">オーディオプレイヤーが畳まれました</string>
+    <string name="talkback_audio_player_closed">オーディオプレイヤーが閉じました</string>
+    <string name="talkback_audio_player">オーディオプレイヤーで再生中: %s</string>
+    <string name="talkback_out_of">残り %s 全体 %s</string>
+    <string name="talkback_track_index">残りトラック %s 全体 %s</string>
+    <string name="downloaded">ダウンロードされました</string>
+    <string name="not_downloaded">ダウンロードされていません</string>
+    <string name="downloading">ダウンロードしています</string>
+    <string name="talkback_action_rewind">%s 秒戻す</string>
+    <string name="talkback_action_forward"> %s 秒進める</string>
+    <string name="talkback_display_settings">表示設定</string>
+    <string name="talkback_already_played">既に再生されています</string>
+
 
 </resources>

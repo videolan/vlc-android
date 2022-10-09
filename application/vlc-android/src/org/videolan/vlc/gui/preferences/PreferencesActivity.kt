@@ -31,8 +31,6 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.RESULT_RESTART
@@ -46,8 +44,6 @@ import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.gui.preferences.search.PreferenceSearchActivity
 
 const val EXTRA_PREF_END_POINT = "extra_pref_end_point"
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesActivity : BaseActivity() {
 
     private val searchRequestCode = 167
@@ -103,11 +99,6 @@ class PreferencesActivity : BaseActivity() {
             }
         }
 
-    }
-
-    fun restartMediaPlayer() {
-        val le = PlaybackService.restartPlayer
-        if (le.hasObservers()) le.value = true
     }
 
     fun exitAndRescan() {

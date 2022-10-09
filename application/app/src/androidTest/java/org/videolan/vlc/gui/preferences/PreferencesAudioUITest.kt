@@ -4,8 +4,6 @@ import android.os.Build
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.filters.SdkSuppress
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.vlc.PreferenceMatchers.withKey
@@ -14,8 +12,6 @@ import org.videolan.vlc.onPreferenceRow
 import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
 import org.videolan.tools.RESUME_PLAYBACK
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesAudioUITest: BasePreferenceUITest() {
     @get:Rule
     val intentsTestRule = IntentsTestRule(PreferencesActivity::class.java)

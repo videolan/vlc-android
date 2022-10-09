@@ -36,7 +36,6 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 import androidx.test.uiautomator.Direction
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.allOf
 import org.junit.ClassRule
 import org.junit.Rule
@@ -93,7 +92,6 @@ class TvScreenhotsInstrumentedTest : BaseUITest() {
         return currentActivity
     }
 
-    @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshot() {
         SystemClock.sleep(1500)

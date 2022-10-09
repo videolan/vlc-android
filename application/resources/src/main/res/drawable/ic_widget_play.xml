@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_widget_play_normal" android:state_focused="true" android:state_pressed="true"/>
-    <item android:drawable="@drawable/ic_widget_play_pressed" android:state_focused="true"/>
-    <item android:drawable="@drawable/ic_widget_play_pressed" android:state_pressed="true"/>
-    <item android:drawable="@drawable/ic_widget_play_normal"/>
-</selector>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="#ffffff"
+            android:fillType="nonZero"
+            android:pathData="M20.8,31.2 L30.4,24 20.8,16.8ZM24,8C15.168,8 8,15.168 8,24 8,32.832 15.168,40 24,40 32.832,40 40,32.832 40,24 40,15.168 32.832,8 24,8ZM24,38C16.282,38 10,31.718 10,24 10,16.282 16.282,10 24,10c7.718,0 14,6.283 14,14 0,7.718 -6.283,14 -14,14z"
+            android:strokeWidth="0.8"
+            android:strokeColor="#00000000" />
+</vector>

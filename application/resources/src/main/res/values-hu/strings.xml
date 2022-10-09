@@ -14,6 +14,7 @@
     <string name="sortby_length">Hossz</string>
     <string name="sortby_date">Dátum</string>
     <string name="sortby_last_modified_date">Legutóbb hozzáadott</string>
+    <string name="sortby_insertion">Beszúrás dátuma</string>
     <string name="sortby_media_number">Média száma</string>
     <string name="sortby_number">Számok száma</string>
     <string name="searchable_hint">Keresés…</string>
@@ -117,18 +118,18 @@
     <string name="loading">Betöltés</string>
     <string name="please_wait">Kérem várjon…</string>
     <string name="nomedia">Nem található médiafájl, hozzon át néhány fájlt az eszközére vagy módosítsa a beállításokat.</string>
+    <string name="empty_search">Nincs találat az „%s” keresésre</string>
     <string name="noplaylist">Nem található lejátszólista.</string>
     <string name="nosubfolder">Nincs almappa</string>
     <string name="directorynotfound">A(z) „%1$s” könyvtárútvonal nem található.</string>
     <string name="nohistory">Még nincsenek lejátszási előzmények.</string>
-    <string name="validation">Biztos benne?</string>
 
     <string name="cover_art">Borító</string>
     <string name="shuffle_all_title">Az összes véletlen sorrendben</string>
     <string name="shuffle_title">Véletlen mód</string>
     <string name="shuffle">Véletlen sorrend ki</string>
     <string name="shuffle_on">Véletlen sorrend be</string>
-    <string name="shuffle_play">Keverés</string>
+    <string name="shuffle_play">Véletlen sorrend</string>
     <string name="repeat_title">Ismétlés mód</string>
     <string name="repeat">Nincs ismétlés</string>
     <string name="repeat_single">Egy szám ismétlése</string>
@@ -142,6 +143,7 @@
     <string name="surface_fit_screen">Képernyőhöz igazítás</string>
     <string name="surface_fill">Kitöltés</string>
     <string name="surface_original">Középre</string>
+    <string name="resize_tip">Hosszú koppintás a további lehetőségekhez</string>
     <string name="unseekable_stream">Nem lehet tekerni ebben a közvetítésben</string>
     <string name="refresh">Frissítés</string>
     <string name="track_audio">Hangsáv</string>
@@ -202,6 +204,11 @@
 
     <string name="playback_history_title">Lejátszási előzmények</string>
     <string name="playback_history_summary">Minden lejátszott média mentése az előzmények közé</string>
+    <string name="video_resume_playback_title">Videólejátszási sor előzményei</string>
+    <string name="video_resume_playback_summary">Videólejátszási sor mentésének engedélyezése a későbbi folytatáshoz</string>
+    <string name="audio_resume_playback_title">Hanglejátszási sor előzményei</string>
+    <string name="audio_resume_playback_warning">A hanglejátszási sor előzményeinek letiltása viselkedési problémákhoz vezethet.\nLetiltás után előfordulhat, hogy nem tudja folytatni a lejátszást a következőkről:\n\n\t- Bluetooth-eszközről\n\t- a modulról\n\t- a médiaértesítésről</string>
+    <string name="audio_resume_playback_summary">Hanglejátszási sor mentésének engedélyezése a későbbi folytatáshoz</string>
     <string name="playback_speed_title">Lejátszási sebesség mentése</string>
     <string name="playback_speed_summary">Lejátszási sebesség megtartása a médiák között</string>
 
@@ -245,6 +252,7 @@
     <string name="audio_player_tips">Zenelejátszó tippek</string>
     <string name="previous_next_song">Előző/következő szám</string>
     <string name="show_playlist">Lejátszólista megjelenítése</string>
+    <string name="hide_playlist">Lejátszási lista rejtése</string>
     <string name="hold_to_stop">Tartsa a leállításhoz</string>
 
     <!-- About -->
@@ -281,6 +289,7 @@
     <string name="screen_orientation_landscape_reverse">Fordított fekvő</string>
     <string name="screen_orientation_last_locked">Utolsó zárolt tájolás</string>
     <string name="enable_black_theme">Fekete téma</string>
+    <string name="theme_auto">Automatikus téma</string>
     <string name="subtitle_text_encoding">Feliratszöveg kódolása</string>
     <string name="subtitle_preferred_language">Felirat előnyben részesített nyelve</string>
     <string name="daynight_title">Éjjel-nappali mód</string>
@@ -306,7 +315,9 @@
     <string name="media_seen">Megtekintett videók megjelölése</string>
     <string name="media_seen_summary">A videók megjelölése megtekintettként, ha végignézte</string>
     <string name="force_play_all_summary">Az összes videó lejátszása, kezdve azzal, amelyikre kattintott</string>
+    <string name="force_play_all_audio_summary">Az összes hang lejátszása, kezdve azzal, amelyikre kattintott</string>
     <string name="force_play_all_title">Videó lejátszólista mód</string>
+    <string name="force_play_all_audio_title">Hang lejátszólista mód</string>
     <string name="save_brightness_summary">Fényerő szintjének megtartása a médiák között</string>
     <string name="save_brightness_title">Fényerő szintjének mentése</string>
     <string name="save_audiodelay_summary">Hangkésleltetés mentése külön az összes videóhoz</string>
@@ -327,26 +338,44 @@
     <string name="enable_double_tap_play_summary">Dupla koppintás a képernyő közepén a lejátszáshoz vagy szüneteltetéshez</string>
     <string name="enable_swipe_seek_title">Csúsztassa a tekeréshez</string>
     <string name="enable_swipe_seek_summary">Csúsztassa az ujjait a képernyőn a tekeréshez</string>
+    <string name="enable_scale_gesture_title">Kétujjas nagyítás</string>
+    <string name="enable_scale_gesture_summary">Nagyítás és kicsinyítés két ujjal</string>
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
     <string name="popup_keepscreen_summary">A képernyő bekapcsolva tartása, ha a felugró megjelenített, akkor is, ha a videó szüneteltetett.</string>
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
+    <string name="albums_show_track_numbers">Számok sorszámának megjelenítése</string>
+    <string name="enable_video_screenshot">Képernyőkép készítése</string>
 
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
+    <string name="subtitles_presets_title">Felirat-előbeállítások</string>
     <string name="subtitles_size_small">Kicsi</string>
     <string name="subtitles_size_normal">Normál</string>
     <string name="subtitles_size_big">Nagy</string>
     <string name="subtitles_size_huge">Hatalmas</string>
+    <string name="subtitles_font_style">Felirat betűtípusa</string>
     <string name="subtitles_color_title">Feliratok színe</string>
-    <string name="subtitles_color_white">Fehér</string>
-    <string name="subtitles_color_gray">Szürke</string>
-    <string name="subtitles_color_pink">Rózsaszín</string>
-    <string name="subtitles_color_blue">Kék</string>
-    <string name="subtitles_color_yellow">Sárga</string>
-    <string name="subtitles_color_green">Zöld</string>
+    <string name="subtitles_opacity">Átlátszatlanság</string>
+    <string name="subtitles_color">Szín</string>
+    <string name="subtitles_size">Méret</string>
+    <string name="subtitles_background_color_title">Felirat háttére</string>
     <string name="subtitles_background_title">Feliratok háttere</string>
+    <string name="subtitles_outline_title">Felirat körvonala</string>
+    <string name="subtitles_shadow_title">Felirat árnyéka</string>
+    <string name="subtitles_decoration_title">Felirat dekorációja</string>
+    <string name="subtitle_decoration_none">Nincs</string>
+    <string name="subtitle_decoration_shadow">Árnyék</string>
+    <string name="subtitle_decoration_outline">Körvonal</string>
     <string name="subtitles_bold_title">Félkövér feliratok</string>
     <string name="subtitles_autoload_title">Feliratok automatikus betöltése</string>
+    <string name="previous_color">Előző szín</string>
+    <string name="new_color">Új szín</string>
+    <string name="subtitles_preset_default">Alapértelmezett</string>
+    <string name="subtitles_preset_default_large">Nagy szöveg</string>
+    <string name="subtitles_preset_default_largest">Nagyobb szöveg és kontraszt</string>
+    <string name="subtitles_preset_white_background">Háttérrel</string>
+    <string name="subtitles_yellow">Sárga</string>
+    <string name="subtitles_yellow_background">Sárga, háttérrel</string>
 
     <string name="audio_prefs_category">Hang</string>
     <string name="lockscreen_cover_title">Médiaborító a zárképernyőn</string>
@@ -366,6 +395,19 @@
     <string name="enable_headset_detection_summary">Fejhallgató eltávolításakor szünet; visszahelyezésekor folytatás</string>
     <string name="enable_play_on_headset_insertion">Folytatás a fejhallgató visszahelyezésekor</string>
     <string name="enable_play_on_headset_insertion_summary">Egyébként szüneteltetés</string>
+    <string name="replaygain_prefs_category">Hangerő-korrekció</string>
+    <string name="replaygain_enable">Hangerő-korrekció engedélyezése</string>
+    <string name="replaygain_enable_summary">A hangerő-korrekciós információk nélküli közvetítések csendesebbek lehetnek az alapértelmezett hangerő miatt</string>
+    <string name="replaygain_mode">Hangerő-korrekció módja</string>
+    <string name="replaygain_mode_summary">A szám mód azonos hangosság mellett játssza le a hangerő-korrekciós információkkal rendelkező hangadatfolyamokat. Az album mód az album relatív hangosságát őrzi meg.</string>
+    <string name="replaygain_preamp">Lejátszás előerősítése</string>
+    <string name="replaygain_preamp_summary">Átállítja az alapértelmezett célszintet (89 dB) a hangerő-korrekciós információkat tartalmazó közvetítéseknél</string>
+    <string name="replaygain_default">Alapértelmezett hangerő-korrekció</string>
+    <string name="replaygain_default_summary">A hangerő-korrekciós információk nélküli közvetítésekre érvényes.\nA kikapcsoláshoz állítsa 0-ra</string>
+    <string name="replaygain_peak_protection">Hangcsúcsvédelem </string>
+    <string name="replaygain_peak_protection_summary">Védelem a hangcsúcsok ellen</string>
+    <string name="replaygain_track">Szám</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Hangkimenet</string>
     <string name="aout_summary">A VLC hangkimenetének módosítása</string>
     <string name="audio_ducking_title">Értesítéskor a VLC hangerejének csökkentése</string>
@@ -395,8 +437,6 @@
     <string name="controls_prefs_category">Vezérlők</string>
 
     <string name="performance_prefs_category">Teljesítmény</string>
-    <string name="chroma_format">Videó színesség kényszerítése</string>
-    <string name="chroma_format_summary">32 bites RGB: alapértelmezett színtartomány\n16 bites RGB: jobb teljesítmény, de rosszabb minőség\nYUV: legjobb teljesítmény, de nem minden eszköz támogatja (Android 2.3 vagy újabb szükséges)</string>
     <string name="deblocking">Blokkszűrő beállítások</string>
     <string name="deblocking_summary">A blokkszűrő beállításainak módosítása javíthatja a videólejátszás minőségét (csak haladó felhasználóknak).</string>
     <string name="deblocking_always">Teljes (leglassabb)</string>
@@ -412,20 +452,24 @@
     <string name="auto_rescan">Automatikus újraátvizsgálás</string>
     <string name="auto_rescan_summary">Automatikusan átvizsgálja az eszközt új és törölt médiák után az alkalmazás indításakor.</string>
     <string name="dump_media_db">Média-adatbázis kiírása</string>
+    <string name="dump_app_db">Alkalmazás-adatbázis kiírása</string>
     <string name="dump_media_db_summary">Adatbázis másolása a belső tárhely gyökerébe</string>
     <string name="clear_media_db">Média-adatbázis törlése</string>
     <string name="clear_media_database_summary">Törli az adatbázis az újrakezdéshez</string>
     <string name="clear_app_data">Alkalmazásadatok törlése</string>
     <string name="clear_app_data_summary">Törli a VLC for Android adatait</string>
     <string name="clear_history">Előzmények törlése</string>
+    <string name="clear_history_message">Elveszti az előzményeket, a jelenlegi lejátszólistákat és az előrehaladásokat</string>
     <string name="set_locale">Területi beállítás megadása</string>
     <string name="network_caching">Hálózati gyorsítótárazás időtartama</string>
-    <string name="network_caching_summary">Hálózati média pufferelési ideje (ms) szoftveres dekódolásnál\nHagyja üresen az alapértelmezés használatához</string>
+    <string name="network_caching_summary">Hálózati média pufferelési ideje (ms) szoftveres dekódolásnál\nÁllítsa 0-ra a letiltásához</string>
     <string name="resume_playback_title">Lejátszás folytatása hívás után</string>
     <string name="resume_playback_summary">Egyébként szüneteltetve marad</string>
     <string name="blurred_cover_background_title">Elmosott borítóháttér</string>
     <string name="blurred_cover_background_summary">Elmosott borító a zenelejátszó hátterében</string>
-    <string name="network_caching_popup">Az értéknek 0 és 6000 ms közöttinek kell lennie</string>
+    <string name="force_shuffle_title">Véletlen sorrend kényszerítése</string>
+    <string name="force_shuffle_summary">Véletlen sorrend kényszerítése a lejátszás indításakor</string>
+    <string name="network_caching_popup">Az értéknek 0 és 60000 ms között kell lennie</string>
     <string name="quit">Kilépés és az alkalmazás újraindítása</string>
     <string name="restart_message">A változások az alkalmazás újraindítása után lépnek érvénybe.\n\nÚjraindítja most?</string>
     <string name="restart_message_OK">OK</string>
@@ -462,6 +506,7 @@
 
     <string name="no_result">Nincs találat</string>
     <string name="no_internet_connection">Ellenőrizze az internetkapcsolatát</string>
+    <string name="retry">Újra</string>
     <string name="subs_download_error">A szolgáltatás nem érhető el, próbálja újra később</string>
 
     <string name="network_browsing">Helyi hálózat</string>
@@ -481,7 +526,6 @@
     <string name="playlist_name_hint">Lejátszólista neve</string>
     <string name="go_to_chapter">Fejezethez ugrás…</string>
     <string name="current_chapter">Fejezet: %s</string>
-    <string name="resume_from_position">Folytatás az utolsó pozícióról</string>
     <string name="confirm_resume">Folytatja az utolsó pozícióról?</string>
     <string name="confirm_resume_title">Lejátszott videók folytatása</string>
     <string name="tv_ui_title">Android TV felület</string>
@@ -499,6 +543,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC fehér ablakelem</string>
     <string name="widget_name_b">VLC sötét ablakelem</string>
+    <string name="widget_name_mini_player">VLC minilejátszó</string>
+    <string name="widget_old_text">Frissítettük a moduljainkat!</string>
+    <string name="widget_old_description_start">Jó hírek! Kiadtuk a továbbfejlesztett moduljainkat.\nNagyobb alkalmazkodóképességet és tesztreszabhatóságot kínálnak.</string>
+    <string name="whats_next">Mik az újdonságok?</string>
+    <string name="widget_old_description_end">Észleltük, hogy már használ modulokat az indítóképernyőjén. Sajnos ezek nem kompatibilisek az új, fejlesztett társaikkal.\nAz indítójától függően lehet, hogy el kell távolítania a régieket, és le kell cserélni azokat.</string>
+    <string name="click_here">Kattintson ide, hogy többet tudjon meg.</string>
     <string name="allow_storage_access_title">A VLC hozzáférhet a videó- és hangfájlokhoz</string>
     <string name="allow_storage_access_description">A VLC-nek szüksége van erre az engedélyre a médiafájlok eléréséhez az eszközén.</string>
     <string name="allow_storage_manager_title">Engedélyezés, hogy a VLC elérje az összes fájlt</string>
@@ -513,14 +563,22 @@
     <string name="allow_settings_access_brightness_description">A VLC-nek szüksége van erre az engedélyre a fényerősség beállításához.</string>
     <string name="allow_draw_overlays_title">A VLC felugró engedélyezése más appok felett</string>
     <string name="allow_sdraw_overlays_description">A VLC-nek szüksége van erre az engedélyre a videók más appok feletti felugró ablakban megjelenítéshez.</string>
+    <string name="allow_pip">A Kép a képben mód indításának engedélyezése a VLC lejátszó számára</string>
+    <string name="allow_pip_description">A VLC-nek engedélyre van szüksége a videó Kép a képben módban való lejátszásához.</string>
     <string name="permission_ask_again">Engedély megadása</string>
+    <string name="pick_file">Válasszon egy fájlt</string>
     <string name="permission_not_granted">Az engedély nincs megadva</string>
     <string name="permission_expanation_no_allow">Nem tudja automatikusan beolvasni a médiafájljait, és nem használhat külső feliratokat</string>
     <string name="permission_expanation_allow">Csak közvetítéseket vagy hálózati médiát tud majd lejátszani</string>
-    <string name="permission_expanation_subtitles">Külső feliratok használata</string>
-    <string name="permission_expanation_allow_explanation">Internetes közvetítések vagy hálózati média lejátszása</string>
+    <string name="permission_onboarding_no_perm">Nem fogja tudni automatikusan felkutatni a saját médiát.\nCsak közvetítéseket vagy hálózati médiát tud majd lejátszani.</string>
+    <string name="permission_onboarding_perm_media">Csak szabványos médiafájlokat tud majd automatikusan felkutatni</string>
+    <string name="permission_onboarding_perm_all">Mindenféle fájlt fel tud kutatni, hogy lejátszhassa az összes típusú médiát, beleértve a furcsa vagy a tömörített fájlokat is</string>
     <string name="exit_app">VLC bezárása</string>
     <string name="exit_app_msg">Biztosan kilép a VLC-ből?</string>
+    <string name="widget_explanation_title">VLC widgetek</string>
+    <string name="widget_explanation_size">A modulok különböző méretűek és stílusúak</string>
+    <string name="widget_explanation_resize">A modul típusának módosításához nyomja hosszan, és használja a fogantyúkat, hogy átméretezze a megfelelő méretre</string>
+    <string name="widget_explanation_end">A modulok nagy mértékben testreszabhatók. Engedje szabadjára a kreativitását, és alakítsa az Önnek megfelelőre.</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Gyorsgörgető sáv</string>
@@ -626,10 +684,13 @@
     <string name="subtitle_search_name_hint">Név</string>
     <string name="subtitle_search_episode_hint">Epizód</string>
     <string name="subtitle_search_season_hint">Évad</string>
+    <string name="subtitles_download_failed">A letöltés sikertelen</string>
     <string name="language_to_download">Nyelv</string>
     <string name="delete_the_selected">Kiválasztás törlése</string>
     <string name="download_the_selected">Kiválasztás letöltése</string>
     <string name="next">Következő</string>
+    <string name="skip">Kihagyás</string>
+    <string name="next_step">Következő</string>
     <string name="download">Letöltés</string>
     <string name="ctx_player_video_track">Videosáv kiválasztása</string>
     <string name="ctx_player_audio_track">Hangsáv</string>
@@ -780,6 +841,7 @@
     <string name="rename_group">Videócsoport átnevezése</string>
     <string name="ungroup">Csoport felbontása</string>
     <string name="group_similar">Újracsoportosítás automatikusan</string>
+    <string name="no_group_found">Nem található videócsoport</string>
     <string name="no_favorite">Nincs kedvenc</string>
     <string name="empty_directory">Üres</string>
     <string name="no_track">Nincs szám</string>
@@ -831,6 +893,7 @@
     <string name="audio_delay_bt">A bluetoothos eszköz számára a hangkésleltetés %sms-ra állítva</string>
     <string name="warning_stream_speed">A lejátszási sebesség 1 fölé állítása akadozást okozhat a közvetítéseknél</string>
     <string name="go_to_folder">Szülő tallózása</string>
+    <string name="create_shortcut">Indítóikon létrehozása</string>
     <string name="no_sub_renderer">A feliratok megjelenítése még nem támogatott vetítés közben</string>
     <string name="enqueuing">Médiafájlok betöltése</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -839,6 +902,8 @@
     <string name="browser_show_missing_media">Hiányzó médiák mutatása</string>
     <string name="browser_show_missing_media_summary">Távoli médiák megjelenítése, még akkor is, ha nincsenek jelen</string>
     <string name="search_prefs">Keresési beállítások</string>
+    <string name="video_match_frame_rate_title">Kijelző képfrissítési sebességének igazítása</string>
+    <string name="video_match_frame_rate_summary">A kijelző képfrissítési sebességének igazítása a médiához. Például egy 24p-s filmnek 24p-s képfrissítéssel kellene futnia.</string>
     <string name="preferred_resolution">Előnyben részesített videófelbontás</string>
     <string name="preferred_resolution_summary">A közvetítések maximális videóminősége, ha alkalmazható, legyen: %s</string>
     <string name="pref_resolution_best_available">Az elérhető legjobb</string>
@@ -884,6 +949,9 @@
     <string name="player_controls">Lejátszásvezérlők</string>
     <string name="video_double_tap_jump_delay">Dupla koppintás késleltetése</string>
     <string name="video_key_jump_delay">Navigációs gombok késleltetése</string>
+    <string name="banned">Tiltott mappa (hosszú koppintás a módosításhoz)</string>
+    <string name="banned_tv">Tiltott mappa</string>
+    <string name="banned_parent">Szülőmappa miatt tiltott</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Ez az elem már rajta van a lejátszólistán.</item>
         <item quantity="other">Ezek az elemek már rajta vannak a lejátszólistán.</item>
@@ -894,5 +962,100 @@
     </plurals>
     <string name="official_website">Hivatalos honlap</string>
     <string name="view_online">Online megtekintés</string>
+    <string name="player_under_notch">Videó megjelenítése a bevágás alatt</string>
+    <string name="notch">Bevágás</string>
+    <string name="always_fast_seek">Mindig a gyors tekerés használata</string>
+    <string name="always_fast_seek_summary">A tekerés gyorsabb lesz, de lehet, hogy kevésbé pontos</string>
+    <string name="touch_only">Csak érintős funkció</string>
+    <string name="touch_only_description">A mobilos felületre csak érintőképernyővel vagy egérrel lehet átváltani.\nCsúsztassa le, hogy ellenőrizze, biztonságos-e a funkció megváltoztatása.</string>
+    <string name="no_web_browser">Nincs webböngésző telepítve</string>
+    <string name="no_web_browser_message">Ezt leolvashatja az okostelefonján.\nAz URL a következő: %s</string>
+    <string name="no_video">Nem érhető el videó</string>
+    <string name="fold_optimized">Az Ön összehajtható képernyőjére optimalizálva</string>
+    <string name="fold_optimize">Optimalizálás összehajtható képernyőre</string>
+    <string name="foldable">Összehajtható képernyő</string>
+    <string name="undo">Visszavonás</string>
+    <string name="add_server_favorite">Kiszolgáló hozzáadása a kedvencekhez</string>
+    <string name="widget_theme">Modultéma</string>
+    <string name="widget_preferences">Modul beállítása</string>
+    <string name="material_you">Material You (a színeket a háttérképből veszi)</string>
+    <string name="palette">Paletta (a színeket a médiaborítóból veszi)</string>
+    <string name="custom">Egyéni</string>
+    <string name="opacity">Átlátszatlanság</string>
+    <string name="widget_background">Háttér</string>
+    <string name="widget_foreground">Előtér</string>
+    <string name="configure_widget">Modulbeállítások</string>
+    <string name="widget_preview">Modul előnézete</string>
+    <string name="widget_forward_delay">Előretekerés késleltetése</string>
+    <string name="widget_show_seek">Tekerőgombok megjelenítése</string>
+    <string name="widget_show_cover">Borító megjelenítése</string>
+    <string name="widget_rewind_delay">Hátratekerés késleltetése</string>
+    <string name="widget_show_configure">Beállítások ikon megjelenítése</string>
+    <string name="widget_show_configure_summary">Ha nem jelenik meg, akkor is a jobb felső sarokba koppinthat, hogy megnyissa a beállításokat.</string>
+    <string name="seek_backward_content_description">Hátratekerés %s másodperccel</string>
+    <string name="seek_forward_content_description">Előretekerés %s másodperccel</string>
+    <string name="open_vlc">VLC megnyitása</string>
+    <string name="playing">Lejátszás</string>
+    <string name="disable_track">Szám letiltása</string>
+    <string name="ascending">Emelkedő</string>
+    <string name="descending">Csökkenő</string>
+    <string name="screenshot_error">Hiba a képernyőkép készítése közben</string>
+    <string name="disabled">Letiltva</string>
+    <string name="enable_screenshot_gesture">Koppintson 3 ujjal</string>
+    <string name="enable_screenshot_button">A képernyőkép gomb megjelenítése</string>
+    <string name="enable_screenshot_button_and_gesture">Gomb és gesztus</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - cím: %s - időtartam: %s</string>
+    <string name="talkback_genre">Műfaj: %s</string>
+    <string name="talkback_history_item">Előzményelem</string>
+    <string name="talkback_playlist">Lejátszási lista: %s</string>
+    <string name="talkback_folder">Mappa: %s</string>
+    <string name="talkback_file">Fájl: %s</string>
+    <string name="talkback_favorite">Kedvenc: %s</string>
+    <string name="talkback_track_number">Szám sorszáma: %s</string>
+    <string name="talkback_duration">Időtartam: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Előadó: %s</string>
+    <string name="talkback_release_date">Megjelenés: %s</string>
+    <string name="talkback_video">Videó: %s</string>
+    <string name="talkback_stream">Közvetítés: %s</string>
+    <string name="talkback_audio_track">Zeneszám: %s</string>
+    <string name="talkback_video_group">Videócsoport: %s</string>
+    <string name="talkback_hours">óra</string>
+    <string name="talkback_minutes">perc</string>
+    <string name="talkback_seconds">mp</string>
+    <string name="talkback_list_section">Fejléc: %s</string>
+    <string name="talkback_enter_screen">Ugrás ehhez: %s</string>
+    <string name="talkback_file_size">Fájlméret: %s</string>
+    <string name="talkback_open_in_browser">Megnyitás böngészőben</string>
+    <string name="talkback_video_player">Videólejátszó. Koppintson a vezérlők megjelenítéséhez. Koppintson a vissza gombra az elrejtésükhöz</string>
+    <string name="talkback_video_tracks">Videósávok</string>
+    <string name="talkback_audio_tracks">Zeneszámok</string>
+    <string name="talkback_subtitle_tracks">Feliratsávok</string>
+    <string name="talkback_subtitle_dowload_item">Nyelv: %s. %s. Név: %s</string>
+    <string name="selected">Kiválasztva</string>
+    <string name="talkback_increase_delay">Késleltetés növelése</string>
+    <string name="talkback_decrease_delay">Késleltetés csökkentése</string>
+    <string name="talkback_increase_speed">Sebesség növelése</string>
+    <string name="talkback_decrease_speed">Sebesség csökkentése</string>
+    <string name="talkback_subtitle_history">Feliratelőzmények</string>
+    <string name="talkback_language_selection">%s kiválasztott nyelv</string>
+    <string name="talkback_audio_player_opened">Zenelejátszó megnyitva</string>
+    <string name="talkback_audio_player_collapsed">Zenelejátszó összecsukva</string>
+    <string name="talkback_audio_player_closed">Zenelejátszó bezárva</string>
+    <string name="talkback_audio_player">Zenelejátszó. Most játszott: %s</string>
+    <string name="talkback_out_of">%s / %s</string>
+    <string name="talkback_track_index">Szám: %s / %s</string>
+    <string name="downloaded">Letöltve</string>
+    <string name="not_downloaded">Nincs letöltve</string>
+    <string name="downloading">Letöltés</string>
+    <string name="talkback_action_rewind">Visszatekerés %s másodperccel</string>
+    <string name="talkback_action_forward">Előretekerés %s másodperccel</string>
+    <string name="talkback_display_settings">Kijelzőbeállítások</string>
+    <string name="talkback_already_played">Már lejátszva</string>
+
 
 </resources>

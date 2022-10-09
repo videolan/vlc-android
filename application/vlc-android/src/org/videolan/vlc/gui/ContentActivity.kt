@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui
 
-import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
@@ -31,8 +30,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
@@ -44,12 +41,10 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.Filterable
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-@SuppressLint("Registered")
 open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView
+    private lateinit var searchItem: MenuItem
     private var showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.renderers.value.isNullOrEmpty()
     private val searchHiddenMenuItem = ArrayList<MenuItem>()
     open fun hideRenderers() = false
@@ -77,6 +72,11 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         UiTools.setOnDragListener(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (::searchItem.isInitialized) searchItem.collapseActionView()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val current = currentFragment
         super.onCreateOptionsMenu(menu)
@@ -88,7 +88,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         }
         if (current is Filterable) {
             val filterable = current as Filterable?
-            val searchItem = menu.findItem(R.id.ml_menu_filter)
+            searchItem = menu.findItem(R.id.ml_menu_filter)
             searchView = searchItem.actionView as SearchView
             searchView.queryHint = getString(R.string.search_in_list_hint)
             searchView.setOnQueryTextListener(this)
@@ -135,7 +135,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     override fun onQueryTextChange(filterQueryString: String): Boolean {
         val current = currentFragment
         if (current is Filterable) {
-            if (filterQueryString.length < 3)
+            if (filterQueryString.isEmpty())
                 (current as Filterable).restoreList()
             else
                 (current as Filterable).filter(filterQueryString)

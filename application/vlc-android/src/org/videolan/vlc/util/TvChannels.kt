@@ -47,13 +47,12 @@ import videolan.org.commontools.*
 private const val TAG = "VLC/TvChannels"
 private const val MAX_RECOMMENDATIONS = 3
 
-@ExperimentalCoroutinesApi
 @RequiresApi(Build.VERSION_CODES.O)
 fun setChannel(context: Context) = GlobalScope.launch(start = CoroutineStart.UNDISPATCHED) {
     val channelId = withContext(Dispatchers.IO) {
         val prefs = Settings.getInstance(context)
         val name = context.getString(R.string.tv_my_new_videos)
-        createOrUpdateChannel(prefs, context, name, R.drawable.ic_channel_icon, BuildConfig.APP_ID)
+        createOrUpdateChannel(prefs, context, name, R.drawable.ic_channel_icon)
     }
     if (Permissions.canReadStorage(context)) updatePrograms(context, channelId)
 }
@@ -106,8 +105,6 @@ suspend fun insertWatchNext(context: Context, mw: MediaWrapper) {
     if (watchNextProgramUri == null || watchNextProgramUri == Uri.EMPTY) Log.e(TAG, "Insert watch next program failed")
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleOwner, context: Context, mw: MediaWrapper) {
     Medialibrary.lastThumb.observe(lifecycleOwner) { media ->
         lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
@@ -141,10 +138,10 @@ suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleO
     }
 }
 
-suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
+suspend fun setResumeProgram(context: Context, media: MediaWrapper) {
     var cursor: Cursor? = null
     var isProgramPresent =  false
-    val mw = context.getFromMl { findMedia(mw) }
+    val mw = context.getFromMl { findMedia(media) }
     try {
         cursor = context.contentResolver.query(
                 TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
@@ -182,9 +179,8 @@ suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
 
 }
 
-@ExperimentalCoroutinesApi
 suspend fun cleanupWatchNextList(context: Context) {
-    var cursor: Cursor? = null
+    var cursor: Cursor?
     try {
         cursor = context.contentResolver.query(
             TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
@@ -257,7 +253,6 @@ fun deleteAllWatchNext(context: Context) {
 
 // Checks wether the program has contentId (media path), and wether the media id is the right one
 // comparing paths from the media from the medialibrary and from the path from the program
-@ExperimentalCoroutinesApi
 suspend fun checkWatchNextId(context: Context, id: Long): Long {
     val cursor: Cursor?
     try {

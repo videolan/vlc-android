@@ -38,18 +38,18 @@
             app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/text_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            android:id="@+id/text_barrier"
-            app:constraint_referenced_ids="permissionTextView,emptyTextView"/>
+            app:constraint_referenced_ids="permissionTextView,emptyTextView" />
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/text_barrier_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="emptyTextView"/>
+            app:constraint_referenced_ids="emptyTextView" />
 
     <TextView
             android:id="@+id/emptyTextView"
@@ -59,8 +59,8 @@
             android:layout_marginRight="16dp"
             android:gravity="center"
             android:maxWidth="600dp"
-            android:textSize="16sp"
             android:textColor="?attr/font_light"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/guideline12"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -106,10 +106,10 @@
             android:id="@+id/emptyImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/emptyTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/emptyTextView"
             app:srcCompat="@drawable/ic_empty" />
 
     <Button
@@ -131,8 +131,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/permission_ask_again"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintEnd_toStartOf="@+id/pickFile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/permissionTextView" />
+
+    <Button
+            android:id="@+id/pickFile"
+            style="?attr/empty_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/pick_file"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/grantPermissionButton"
             app:layout_constraintTop_toBottomOf="@+id/permissionTextView" />
 
     <TextView

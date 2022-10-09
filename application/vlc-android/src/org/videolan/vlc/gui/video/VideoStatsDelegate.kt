@@ -37,8 +37,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.liveplotgraph.LineGraph
@@ -49,13 +47,11 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.util.LocaleUtil
-import org.videolan.vlc.util.getScreenWidth
-import java.lang.Double
+import org.videolan.vlc.getAllTracks
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling: () -> Unit, val idle: () -> Unit) {
     lateinit var container: ConstraintLayout
+    private var lastMediaUri: Uri? = null
     private var started = false
     private val plotHandler: Handler = Handler()
     private val firstTimecode = System.currentTimeMillis()
@@ -95,8 +91,6 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
         setupLayout()
     }
 
-    var lastMediaUri:Uri?= null
-
     @SuppressLint("SetTextI18n")
     private val runnable = Runnable {
         val media = player.service?.mediaplayer?.media as? Media ?: return@Runnable
@@ -113,11 +107,11 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
         if (lastMediaUri != media.uri) {
             lastMediaUri = media.uri
             binding.infoGrids.removeAllViews()
-            for (i in 0 until media.trackCount) {
+            for (i in 0 until media.getAllTracks().size) {
                 val grid = GridLayout(player)
                 grid.columnCount = 2
 
-                val track = media.getTrack(i)
+                val track = media.getAllTracks()[i]
                 if (track.bitrate > 0) addStreamGridView(grid, player.getString(R.string.bitrate), player.getString(R.string.bitrate_value, track.bitrate.toLong().readableSize()))
                 addStreamGridView(grid, player.getString(R.string.codec), track.codec)
                 if (track.language != null && !track.language.equals("und", ignoreCase = true))
@@ -125,18 +119,18 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
 
                 when (track.type) {
                     IMedia.Track.Type.Audio -> {
-                        (track as? IMedia.AudioTrack)?.let { track ->
+                        (track as? IMedia.AudioTrack)?.let {
                             addStreamGridView(grid, player.getString(R.string.channels), track.channels.toString())
                             addStreamGridView(grid, player.getString(R.string.track_samplerate), player.getString(R.string.track_samplerate_value, track.rate))
                         }
                     }
                     IMedia.Track.Type.Video -> {
-                        (track as? IMedia.VideoTrack)?.let { track ->
-                            val framerate = track.frameRateNum / track.frameRateDen.toDouble()
+                        (track as? IMedia.VideoTrack)?.let {
+                            val frameRate = track.frameRateNum / track.frameRateDen.toDouble()
                             if (track.width != 0 && track.height != 0)
                                 addStreamGridView(grid, player.getString(R.string.resolution), player.getString(R.string.resolution_value, track.width, track.height))
-                            if (!Double.isNaN(framerate))
-                                addStreamGridView(grid, player.getString(R.string.framerate), player.getString(R.string.framerate_value, framerate))
+                            if (!frameRate.isNaN())
+                                addStreamGridView(grid, player.getString(R.string.framerate), player.getString(R.string.framerate_value, frameRate))
                         }
                     }
                 }

@@ -14,6 +14,7 @@
     <string name="sortby_length">Pituus</string>
     <string name="sortby_date">Päiväys</string>
     <string name="sortby_last_modified_date">Viimeksi lisätyt</string>
+    <string name="sortby_insertion">Lisätty päivänä</string>
     <string name="sortby_media_number">Kappaleen numero</string>
     <string name="sortby_number">Nb raidat</string>
     <string name="searchable_hint">Etsi…</string>
@@ -117,11 +118,11 @@
     <string name="loading">Ladataan</string>
     <string name="please_wait">Odota hetki…</string>
     <string name="nomedia">Yhtäkään mediatiedostoa ei löydetty, siirrä tiedostoja laitteeseesi tai muuta asetuksia.</string>
+    <string name="empty_search">Haku ei löytynyt %s</string>
     <string name="noplaylist">Soittolistaa ei löytynyt.</string>
     <string name="nosubfolder">Ei alikansiota</string>
     <string name="directorynotfound">Hakemiston polkua \'%1$s\' ei löytynyt.</string>
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
-    <string name="validation">Oletko varma?</string>
 
     <string name="cover_art">Kansikuva</string>
     <string name="shuffle_all_title">Sekoita kaikki</string>
@@ -142,7 +143,8 @@
     <string name="surface_fit_screen">Sovita näyttöön</string>
     <string name="surface_fill">Täytä</string>
     <string name="surface_original">Keskitä</string>
-    <string name="unseekable_stream">Selaamiskelvoton stream</string>
+    <string name="resize_tip">Pitkä painallus näyttää lisää vaihtoehtoja</string>
+    <string name="unseekable_stream">Kelaamaton suoratoisto</string>
     <string name="refresh">Päivitä</string>
     <string name="track_audio">Ääniraita</string>
     <string name="track_video">Videoraita</string>
@@ -209,7 +211,7 @@
 
     <!-- Tips -->
     <string name="tips_title">Videosoittimen vinkit</string>
-    <string name="seek">Hae kohta</string>
+    <string name="seek">Kelaa</string>
     <string name="subtitles">Tekstitykset</string>
     <string name="tips_player_controls">Soittimen säädöt</string>
     <string name="tips_player_controls_description">Napauta soittimen säätimiä saadaksesi selville, mihin niitä käytetään</string>
@@ -229,7 +231,7 @@
     <string name="tips_swipe">Pyyhkäise ylös tai alas</string>
     <string name="tips_swipe_horizontal">Pyyhkäise vasemmalle tai oikealle</string>
     <string name="tips_playlist">Soittolista</string>
-    <string name="tips_hold_seek">Pidä painettuna hakeaksesi</string>
+    <string name="tips_hold_seek">Pidä kelaus painamalla</string>
     <string name="tips_long_drop">Pitkä painallus ja pudotus</string>
     <string name="pause_description">Keskeytä napauttamalla kahdesti</string>
     <string name="seek_tap">+/- 10 s.</string>
@@ -240,11 +242,12 @@
     <string name="remove_song">Poista kappale</string>
     <string name="remove_playlist_item">%1$s on hylätty toistolistasta</string>
     <string name="rearrange_order">Uudelleenjärjestä</string>
-    <string name="hold_to_seek">Pidä painettuna hakeaksesi</string>
+    <string name="hold_to_seek">Pidä kelaus painamalla</string>
 
     <string name="audio_player_tips">Äänisoittimen vinkit</string>
     <string name="previous_next_song">Edellinen/Seuraava kappale</string>
     <string name="show_playlist">Näytä soittolista</string>
+    <string name="hide_playlist">Piilota soittolista</string>
     <string name="hold_to_stop">Pidä pysäyttääksesi</string>
 
     <!-- About -->
@@ -283,6 +286,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="screen_orientation_landscape_reverse">Vaaka taaksepäin</string>
     <string name="screen_orientation_last_locked">Viimeinen lukittu suunta</string>
     <string name="enable_black_theme">Musta teema</string>
+    <string name="theme_auto">Auto teema</string>
     <string name="subtitle_text_encoding">Tekstityksen merkistökoodaus</string>
     <string name="subtitle_preferred_language">Ensisijainen tekstityksen kieli</string>
     <string name="daynight_title">PäiväYö tila</string>
@@ -317,18 +321,18 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
     <string name="enable_volume_gesture_title">Äänenvoimakkuuden ele</string>
     <string name="enable_volume_gesture_summary">Säädä äänenvoimakkuutta eleellä videotoiston aikana</string>
-    <string name="enable_seek_buttons">Kelauksen painikkeet</string>
+    <string name="enable_seek_buttons">Kelauspainikkeet</string>
     <string name="enable_seek_buttons_summary">Näytä käyttöliittymässä kelauspainikkeet eteen ja taakse</string>
     <string name="enable_android_auto_speed_buttons">Android Auto, toistonopeus</string>
     <string name="enable_android_auto_speed_buttons_summary">Näytä nopeudensäätö pudotusvalikossa</string>
-    <string name="enable_android_auto_seek_buttons">Android Auto, hakupainikkeet</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto, kelauspainikkeet</string>
     <string name="enable_android_auto_seek_buttons_summary">Näytä kelaus eteen- ja taaksepäin pudotusvalikossa. Kokeile ensin ohjauspyörän edellinen- ja seuraava-painiketta ennen kuin otat tämän käyttöön.</string>
-    <string name="enable_double_tap_seek_title">Kelaa kaksoisnapauttamalla</string>
-    <string name="enable_double_tap_seek_summary">Kaksoisnapauta näytön reunalla, kelaa 10 sekunnilla</string>
+    <string name="enable_double_tap_seek_title">Kelaa napauttamalla kahdesti</string>
+    <string name="enable_double_tap_seek_summary">Napauta kahdesti näytön reunalla, kelaa 10s</string>
     <string name="enable_double_tap_play_title">Toista/keskeytä napauttamalla kahdesti</string>
     <string name="enable_double_tap_play_summary">Toista tai keskeytä napauttamalla kahdesti näytön keskiosaa</string>
-    <string name="enable_swipe_seek_title">Pyyhkäise etsiäksesi</string>
-    <string name="enable_swipe_seek_summary">Pyyhkäise sormella halki ruudun etsiäksesi</string>
+    <string name="enable_swipe_seek_title">Kelaa pyyhkäisemällä</string>
+    <string name="enable_swipe_seek_summary">Kelaa pyyhkäisemällä näytön poikki</string>
     <string name="popup_keepscreen_title">Pidä näyttö PÄÄLLÄ Pop-Up tilassa</string>
     <string name="popup_keepscreen_summary">Pidä näyttö aina PÄÄLLÄ, kun ponnahdusikkuna on näkyvissä, vaikka video olisi tauolla. </string>
     <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
@@ -353,7 +357,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Median kansikuva lukitusnäytöllä</string>
     <string name="lockscreen_cover_summary">Kun mahdollista, aseta nykyisen mediatiedoston kuva lukitusnäytön taustakuvaksi</string>
-    <string name="show_seek_in_compact_notif_title">Etsi painikkeet ilmoituspaneelissa</string>
+    <string name="show_seek_in_compact_notif_title">Kelauspainikkeet ilmoituspaneelissa</string>
     <string name="show_seek_in_compact_notif_summary">Näytä säätimessä kelauksen painikkeet taakse ja pikakelaus eteen</string>
     <string name="list_title_ellipsize">Otsikon kolme pistettä</string>
     <string name="list_title_ellipsize_default">Oletus</string>
@@ -368,6 +372,20 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_headset_detection_summary">Tunnista kuulokkeiden kiinnittäminen ja irrottaminen</string>
     <string name="enable_play_on_headset_insertion">Jatka kuulokkeiden kiinnittämisen jälkeen</string>
     <string name="enable_play_on_headset_insertion_summary">Tauota muussa tapauksessa</string>
+    <string name="replaygain_prefs_category">Toiston vahvistus</string>
+    <string name="replaygain_enable">Käytä toiston vahvistusta</string>
+    <string name="replaygain_enable_summary">Suoratoistot, joissa ei ole toiston vahvistustietoja, voivat olla hiljaisempia oletusvahvistuksesta johtuen</string>
+    <string name="replaygain_mode">Toiston vahvistustila:</string>
+    <string name="replaygain_mode_summary">Raitatila toistaa suoratoistoa, joissa on toiston vahvistustiedot samalla voimakkuudella. Albumitila säilyttää suhteellisen äänenvoimakkuuden samassa albumissa.</string>
+    <string name="replaygain_preamp">Toiston esivahvistin</string>
+    <string name="replaygain_preamp_summary">Muuttaa oletus tavoitetasoa (89 dB) suoratoistolle, joissa on toiston vahvistustiedot</string>
+    <string name="replaygain_default">Toiston oletus vahvistus</string>
+    <string name="replaygain_default_summary">Koskee suoratoistoa ilman toiston vahvistustietoja
+Arvo 0 poistaa tämän käytöstä</string>
+    <string name="replaygain_peak_protection">Huippupiikin suojaus</string>
+    <string name="replaygain_peak_protection_summary">Suojaa äänen leikkaantumiselta</string>
+    <string name="replaygain_track">Raita</string>
+    <string name="replaygain_album">Albumi</string>
     <string name="aout">Ääniulostulo</string>
     <string name="aout_summary">Vaihda menetelmää, jota VLC käyttää äänen ulosantiin.</string>
     <string name="audio_ducking_title">Alenna VLC-ilmoitusten äänenvoimakkuutta</string>
@@ -397,8 +415,6 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="controls_prefs_category">Säätimet</string>
 
     <string name="performance_prefs_category">Suorituskyky</string>
-    <string name="chroma_format">Pakota videon chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: oletus chroma\nRGB 16-bit: parempi suorituskyky mutta heikompi laatu\nYUV: paras suorituskyky mutta ei toimi kaikilla laitteilla (vain Android 2.3 ja myöhemmät)</string>
     <string name="deblocking">Purkusuodattimen asetukset</string>
     <string name="deblocking_summary">Vaihda purkusuodattimen asetuksia. Tämä voi parantaa kuvanlaatua (vain kokeneet käyttäjät)</string>
     <string name="deblocking_always">Täysi purku (hitain)</string>
@@ -420,15 +436,16 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="clear_app_data">Tyhjennä sovelluksen tiedot</string>
     <string name="clear_app_data_summary">Tyhjentää Androidissa VLC-datan</string>
     <string name="clear_history">Tyhjennä historia</string>
+    <string name="clear_history_message">Menetät historian, nykyiset soittolistat ja toistokohdat</string>
     <string name="set_locale">Aseta kieli</string>
     <string name="network_caching">Verkkovälimuistin arvo</string>
-    <string name="network_caching_summary">Aika millisekunneissa (ms) jota käytetään median puskuroinnissa verkkoon.
-Jätä tyhjäksi nollataksesi.</string>
+    <string name="network_caching_summary">Aika, joka kuluu median puskurointiin (ms) ohjelmiston dekoodausta varten
+Arvo 0 poistaa käytöstä</string>
     <string name="resume_playback_title">Jatka toistoa puhelun jälkeen</string>
     <string name="resume_playback_summary">Pysy muuten tauolla</string>
     <string name="blurred_cover_background_title">Sumea kannen tausta</string>
     <string name="blurred_cover_background_summary">Sumea kansi soittimen taustalla</string>
-    <string name="network_caching_popup">Tämän arvon on oltava välillä 0 - 6000 ms</string>
+    <string name="network_caching_popup">Arvon on oltava välillä 0 - 60000 ms</string>
     <string name="quit">Lopeta ja käynnistä ohjelma uudelleen</string>
     <string name="restart_message">Muutokset tulevat voimaan, kun sovellus on käynnistetty uudelleen.
 Käynnistä uudelleen nyt?</string>
@@ -466,6 +483,7 @@ Käynnistä uudelleen nyt?</string>
 
     <string name="no_result">Tuloksia ei löytynyt</string>
     <string name="no_internet_connection">Tarkista internetyhteytesi</string>
+    <string name="retry">Yritä uudelleen</string>
     <string name="subs_download_error">Palvelu ei saatavilla. Yritä myöhemmin uudelleen</string>
 
     <string name="network_browsing">Lähiverkko</string>
@@ -485,7 +503,6 @@ Käynnistä uudelleen nyt?</string>
     <string name="playlist_name_hint">Soittolistan nimi</string>
     <string name="go_to_chapter">Siirry lukuun...</string>
     <string name="current_chapter">Osio: %s</string>
-    <string name="resume_from_position">Jatka viimeisimmästä kohdasta</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
     <string name="confirm_resume_title">Jatka toistettuja videoita</string>
     <string name="tv_ui_title">Android TV käyttöliittymä</string>
@@ -503,6 +520,14 @@ Käynnistä uudelleen nyt?</string>
     <!-- Widget -->
     <string name="widget_name_w">VLC vaalea pienoisohjelma</string>
     <string name="widget_name_b">VLC tumma pienoisohjelma</string>
+    <string name="widget_name_mini_player">VLC minisoitin</string>
+    <string name="widget_old_text">Päivitimme widgetit!</string>
+    <string name="widget_old_description_start">Hyviä uutisia! Julkaisimme parannetut widgetit.
+Ne tarjoavat enemmän reagointikykyä ja räätälöintiä</string>
+    <string name="whats_next">Mitä seuraavaksi?</string>
+    <string name="widget_old_description_end">Havaitsimme, että käynnistimessäsi on jo widgettejä. Valitettavasti ne eivät ole yhteensopivia uusien kanssa.
+Känynnistimestä riippuen saatat joutua poistamaan ja korvaamaan vanhat.</string>
+    <string name="click_here">Napsauta saadaksesi lisätietoja.</string>
     <string name="allow_storage_access_title">Salli VLC:lle pääsy video- ja äänitiedostoihin</string>
     <string name="allow_storage_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle siirtyä tämän laitteen mediatiedostoihin.</string>
     <string name="allow_storage_manager_title">Salli VLC:lle käyttö kaikille tiedostoille</string>
@@ -517,12 +542,17 @@ Käynnistä uudelleen nyt?</string>
     <string name="allow_settings_access_brightness_description">Sinun tarvitsee myöntää VLC:lle oikeudet vaihtaa kirkkautta.</string>
     <string name="allow_draw_overlays_title">Salli VLC-soittimen ilmoitukset muiden sovellusten päällä</string>
     <string name="allow_sdraw_overlays_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää ilmoitukset muiden sovellusten päällä.</string>
+    <string name="allow_pip">Salli VLC-soittimen käynnistyä kuva kuvassa</string>
+    <string name="allow_pip_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää videosi tilassa kuva kuvassa.</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
+    <string name="pick_file">Valitse tiedosto</string>
     <string name="permission_not_granted">Lupaa ei myönnetty</string>
     <string name="permission_expanation_no_allow">Et voi löytää mediaasi automaattisesti etkä käyttää ulkoista tekstitystä</string>
     <string name="permission_expanation_allow">Voit toistaa vain suoratoistoa tai verkkomediaa</string>
-    <string name="permission_expanation_subtitles">Käytä ulkoisia tekstityksiä</string>
-    <string name="permission_expanation_allow_explanation">Toista suoratoistoa tai verkkomediaa internetistä</string>
+    <string name="permission_onboarding_no_perm">Et voi löytää mediaasi automaattisesti.
+Voit toistaa vain suoratoistoa tai verkkomediaa</string>
+    <string name="permission_onboarding_perm_media">Pystyt löytämään automaattisesti vain mediatiedostoja</string>
+    <string name="permission_onboarding_perm_all">Pystyt löytämään kaikki tiedostosi automaattisesti ja toistaa kaikentyyppistä mediaa, jopa outoja tai pakattuja tiedostoja</string>
     <string name="exit_app">Sulje VLC</string>
     <string name="exit_app_msg">Haluatko varmasti lopettaa VLC:n?</string>
 
@@ -630,10 +660,13 @@ Käynnistä uudelleen nyt?</string>
     <string name="subtitle_search_name_hint">Nimi</string>
     <string name="subtitle_search_episode_hint">Jakso</string>
     <string name="subtitle_search_season_hint">Kausi</string>
+    <string name="subtitles_download_failed">Lataus epäonnistui</string>
     <string name="language_to_download">Kieli</string>
     <string name="delete_the_selected">Poista valinta</string>
     <string name="download_the_selected">Lataa valinta</string>
     <string name="next">Seuraava</string>
+    <string name="skip">Ohita</string>
+    <string name="next_step">Seuraava</string>
     <string name="download">Lataa</string>
     <string name="ctx_player_video_track">Valitse videoraita</string>
     <string name="ctx_player_audio_track">Ääniraita</string>
@@ -784,6 +817,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="rename_group">Nimeä video ryhmä</string>
     <string name="ungroup">Pura ryhmä</string>
     <string name="group_similar">Ryhmitä automaattisesti</string>
+    <string name="no_group_found">Videoryhmää ei löytynyt</string>
     <string name="no_favorite">Ei suosikkia</string>
     <string name="empty_directory">Tyhjä</string>
     <string name="no_track">Ei kappaletta</string>
@@ -835,6 +869,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="audio_delay_bt">Äänen viive %s ms on asetettu laitteelle bluetooth</string>
     <string name="warning_stream_speed">Toistonopeuden nostaminen yli 1 suoratoistolle voi aiheuttaa änkytystä</string>
     <string name="go_to_folder">Selaa vanhempaa</string>
+    <string name="create_shortcut">Luo ohjelman pikakuvake</string>
     <string name="no_sub_renderer">Tekstityksiä ei vielä tueta suoratoiston aikana</string>
     <string name="enqueuing">Median lataaminen</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -888,6 +923,8 @@ Käynnistä uudelleen nyt?</string>
     <string name="player_controls">Soittimen säätimet</string>
     <string name="video_double_tap_jump_delay">Kaksoisnapauta viive</string>
     <string name="video_key_jump_delay">Ohjausnäppäinten viive</string>
+    <string name="banned">Kielletty kansio (vaihda painamalla pitkään)</string>
+    <string name="banned_parent">Pääkansion kieltämä</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Nämä ovat jo tässä soittolistassa.</item>
         <item quantity="other">Nämä ovat jo tässä soittolistassa.</item>
@@ -898,5 +935,95 @@ Käynnistä uudelleen nyt?</string>
     </plurals>
     <string name="official_website">Virallinen verkkosivu</string>
     <string name="view_online">Katso verkossa</string>
+    <string name="player_under_notch">Näytä video loven alla</string>
+    <string name="notch">Lovi</string>
+    <string name="always_fast_seek">Käytä aina pikakelausta</string>
+    <string name="always_fast_seek_summary">Kelaus on nopeampi, mutta tarkkuutta voi olla vähemmän</string>
+    <string name="touch_only">Vain kosketustoiminto</string>
+    <string name="touch_only_description">Mobiilikäyttöliittymään vaihtaminen onnistuu kosketusnäytöllä tai hiirellä.
+Liu\'uta alla varmistaaksesi, että tätä ominaisuutta on turvallista muuttaa.</string>
+    <string name="no_web_browser">Selainta ei ole asennettu</string>
+    <string name="no_web_browser_message">Voit skannata tämän älypuhelimellasi.
+URL on %s</string>
+    <string name="no_video">Videota ei ole saatavilla</string>
+    <string name="fold_optimized">Optimoitu taitettavalle näytölle</string>
+    <string name="fold_optimize">Optimoi taitettavia näyttöjä varten</string>
+    <string name="foldable">Taitettava näyttö</string>
+    <string name="undo">Kumoa</string>
+    <string name="add_server_favorite">Lisää palvelinsuosikki</string>
+    <string name="widget_theme">Widgetin teema</string>
+    <string name="widget_preferences">Määritä widgetti</string>
+    <string name="material_you">Material You (vetää värit taustakuvasta)</string>
+    <string name="palette">Palette (poimii värit median kannesta)</string>
+    <string name="custom">Mukautettu</string>
+    <string name="opacity">Läpikuultavuus</string>
+    <string name="widget_background">Tausta</string>
+    <string name="widget_foreground">Etuala</string>
+    <string name="configure_widget">Widgetin asetukset</string>
+    <string name="widget_preview">Widgetin esikatselu</string>
+    <string name="widget_forward_delay">Aikaviive eteenpäin</string>
+    <string name="widget_rewind_delay">Aikaviive taaksepäin</string>
+    <string name="widget_show_configure">Näytä asetuskuvake</string>
+    <string name="widget_show_configure_summary">Vaikka sitä ei näytetä, voit avata asetukset painamalla oikeaa yläkulmaa</string>
+    <string name="seek_backward_content_description">Kelaa %s sekuntia taaksepäin</string>
+    <string name="seek_forward_content_description">Kelaa %s sekuntia eteenpäin</string>
+    <string name="open_vlc">Avaa VLC</string>
+    <string name="playing">Toistetaan</string>
+    <string name="disable_track">Poista raita käytöstä</string>
+    <string name="ascending">Nouseva</string>
+    <string name="descending">Laskeva</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - nimi: %s - kesto: %s</string>
+    <string name="talkback_genre">Tyyli: %s</string>
+    <string name="talkback_history_item">Historiakohde</string>
+    <string name="talkback_playlist">Soittolista: %s</string>
+    <string name="talkback_folder">Kansio: %s</string>
+    <string name="talkback_file">Tiedosto: %s</string>
+    <string name="talkback_favorite">Suosikki: %s</string>
+    <string name="talkback_track_number">Raidan numero %s</string>
+    <string name="talkback_duration">Kesto: %s</string>
+    <string name="talkback_album">Albumi: %s</string>
+    <string name="talkback_artist">Artisti: %s</string>
+    <string name="talkback_release_date">Julkaistu %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Streami: %s</string>
+    <string name="talkback_audio_track">Ääniraita: %s</string>
+    <string name="talkback_video_group">Videoryhmä: %s</string>
+    <string name="talkback_hours">tuntia</string>
+    <string name="talkback_minutes">minuuttia</string>
+    <string name="talkback_seconds">sekuntia</string>
+    <string name="talkback_list_section">Otsikko: %s</string>
+    <string name="talkback_enter_screen">Ohjaa %s</string>
+    <string name="talkback_file_size">Tiedoston koko: %s</string>
+    <string name="talkback_open_in_browser">Avaa selaimessa</string>
+    <string name="talkback_video_player">Videosoitin. Näytä säätimet napauttamalla. Takaisin-painikeella piilottaaksesi ne</string>
+    <string name="talkback_video_tracks">Videoraidat</string>
+    <string name="talkback_audio_tracks">Ääniraidat</string>
+    <string name="talkback_subtitle_tracks">Tekstitysraidat</string>
+    <string name="talkback_subtitle_dowload_item">Kieli: %s. %s. Nimi: %s</string>
+    <string name="selected">Valittu</string>
+    <string name="talkback_increase_delay">Lisää viivettä</string>
+    <string name="talkback_decrease_delay">Vähennä viivettä</string>
+    <string name="talkback_increase_speed">Lisää nopeutta</string>
+    <string name="talkback_decrease_speed">Vähennä nopeutta</string>
+    <string name="talkback_subtitle_history">Tekstityshistoria</string>
+    <string name="talkback_language_selection">%s valitut kielet</string>
+    <string name="talkback_audio_player_opened">Äänisoitin avattu</string>
+    <string name="talkback_audio_player_collapsed">Äänisoitin taustalla</string>
+    <string name="talkback_audio_player_closed">Äänisoitin suljettu</string>
+    <string name="talkback_audio_player">Äänisoitin, nyt toistetaan: %s</string>
+    <string name="talkback_out_of">%s / %s</string>
+    <string name="talkback_track_index">Raita %s / %s</string>
+    <string name="downloaded">Ladattu</string>
+    <string name="not_downloaded">Ei ladattu</string>
+    <string name="downloading">Ladataan</string>
+    <string name="talkback_action_rewind">Kelaa taakse %s sekuntia</string>
+    <string name="talkback_action_forward">Kelaa eteen %s sekuntia</string>
+    <string name="talkback_display_settings">Näytön asetukset</string>
+    <string name="talkback_already_played">Jo toistettu</string>
+
 
 </resources>

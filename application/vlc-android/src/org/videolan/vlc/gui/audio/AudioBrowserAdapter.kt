@@ -41,15 +41,14 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.UPDATE_REORDER
 import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.resources.interfaces.FocusListener
 import org.videolan.tools.MultiSelectAdapter
@@ -67,30 +66,33 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
-import org.videolan.vlc.util.isSchemeDistant
+import org.videolan.vlc.util.isOTG
+import org.videolan.vlc.util.isSD
+import org.videolan.vlc.util.isSchemeSMB
 
 private const val SHOW_IN_LIST = -1
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-class AudioBrowserAdapter @JvmOverloads constructor(
+open class AudioBrowserAdapter @JvmOverloads constructor(
         type: Int,
-        private val eventsHandler: IEventsHandler<MediaLibraryItem>,
-        private val listEventsHandler: IListEventsHandler? = null,
-        private val reorder: Boolean = false,
+        protected val eventsHandler: IEventsHandler<MediaLibraryItem>,
+        protected val listEventsHandler: IListEventsHandler? = null,
+        protected val reorderable: Boolean = false,
         internal var cardSize: Int = SHOW_IN_LIST
 ) : PagedListAdapter<MediaLibraryItem,
         AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter
 {
-    private var listImageWidth: Int
+    protected var listImageWidth: Int
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
-    private val defaultCover: BitmapDrawable?
+    protected val defaultCover: BitmapDrawable?
     private val defaultCoverCard: BitmapDrawable?
     private var focusNext = -1
     private var focusListener: FocusListener? = null
-    private lateinit var inflater: LayoutInflater
+    lateinit var inflater: LayoutInflater
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    var stopReorder = false
+
+    protected fun inflaterInitialized() = ::inflater.isInitialized
 
     val isEmpty: Boolean
         get() = currentList.isNullOrEmpty()
@@ -139,9 +141,14 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         if (item is Genre) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
         val isSelected = multiSelectHelper.isSelected(position)
         holder.selectView(isSelected)
-        holder.binding.setVariable(BR.isNetwork,(item as? MediaWrapper)?.uri?.scheme?.isSchemeDistant() ?: false)
-        holder.binding.setVariable(BR.isPresent,(item as? MediaWrapper)?.isPresent ?: true)
+        if (item is MediaWrapper) {
+            holder.binding.setVariable(BR.isNetwork, item.uri.scheme.isSchemeSMB())
+            holder.binding.setVariable(BR.isOTG, item.uri.isOTG())
+            holder.binding.setVariable(BR.isSD, item.uri.isSD())
+            holder.binding.setVariable(BR.isPresent, item.isPresent)
+        } else holder.binding.setVariable(BR.isPresent, true)
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
+        holder.binding.invalidateAll()
         holder.binding.executePendingBindings()
         if (position == focusNext) {
             holder.binding.root.requestFocus()
@@ -158,9 +165,14 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                 val isSelected = payload.hasStateFlags(FLAG_SELECTED)
                 holder.selectView(isSelected)
             } else if (payload is Int) {
-                if (payload == UPDATE_SELECTION) {
-                    val isSelected = multiSelectHelper.isSelected(position)
-                    holder.selectView(isSelected)
+                when (payload) {
+                    UPDATE_SELECTION -> {
+                        val isSelected = multiSelectHelper.isSelected(position)
+                        holder.selectView(isSelected)
+                    }
+                    UPDATE_REORDER -> {
+                       holder.binding.invalidateAll()
+                    }
                 }
             }
         }
@@ -225,7 +237,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemViewHolder(binding: AudioBrowserItemBinding) : AbstractMediaItemViewHolder<AudioBrowserItemBinding>(binding) {
-        private var coverlayResource = 0
         var onTouchListener: View.OnTouchListener
 
         override val titleView: TextView? = binding.title
@@ -316,7 +327,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
 
         val canBeReordered: Boolean
-            get() = reorder
+            get() = reorderable && !stopReorder
 
         fun onClick(v: View) {
             getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
@@ -349,7 +360,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
     companion object {
 
-        private val TAG = "VLC/AudioBrowserAdapter"
+        private const val TAG = "VLC/AudioBrowserAdapter"
         private const val UPDATE_PAYLOAD = 1
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations

@@ -5,14 +5,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Environment
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +24,7 @@ import org.videolan.vlc.gui.helpers.hf.getExtWritePermission
 import org.videolan.vlc.repository.ExternalSubRepository
 
 
-object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
+object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
     private val downloadManager = AppContextProvider.appContext.getSystemService<DownloadManager>()!!
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
     private lateinit var defaultSubsDirectory : String
@@ -49,15 +47,13 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun register() {
+    override fun onStart(owner: LifecycleOwner) {
         AppContextProvider.appContext.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun unRegister() {
-        ExternalSubRepository.getInstance(AppContextProvider.appContext).downloadingSubtitles.observeForever {
-            it?.keys?.forEach {
+    override fun onDestroy(owner: LifecycleOwner) {
+        ExternalSubRepository.getInstance(AppContextProvider.appContext).downloadingSubtitles.observeForever { map ->
+            map?.keys?.forEach {
                 downloadManager.remove(it)
             }
         }

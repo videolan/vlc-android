@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
@@ -30,6 +31,7 @@ class StoragesMonitor : BroadcastReceiver() {
         }
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val actor = AppScope.actor<MediaEvent>(capacity = Channel.UNLIMITED) {
         for (action in channel) when (action){
             is Mount -> {
@@ -47,7 +49,7 @@ class StoragesMonitor : BroadcastReceiver() {
                             putExtra(DialogActivity.EXTRA_PATH, action.path)
                             putExtra(DialogActivity.EXTRA_UUID, action.uuid)
                             putExtra(DialogActivity.EXTRA_SCAN, isNew)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         }
                         action.ctx.startActivity(intent)
                     }

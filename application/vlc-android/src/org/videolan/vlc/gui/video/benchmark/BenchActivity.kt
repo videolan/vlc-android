@@ -33,9 +33,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
 import androidx.core.content.edit
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.VLCInstance
@@ -43,6 +42,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import java.io.*
 
 /**
@@ -63,8 +63,6 @@ import java.io.*
  * screenshot timestamp or stop if there aren't any left.
  */
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(21)
 class BenchActivity : ShallowVideoPlayer() {
 
@@ -142,15 +140,17 @@ class BenchActivity : ShallowVideoPlayer() {
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
                 }
             }
-            VLCInstance.restart()
-            this.service?.restartMediaPlayer()
+            lifecycleScope.launch {
+                VLCInstance.restart()
+                restartMediaPlayer()
+            }
         }
     }
 
-    override fun loadMedia() {
+    override fun loadMedia(fromStart: Boolean, forceUsingNew: Boolean) {
         service?.setBenchmark()
         if (isHardware) service?.setHardware()
-        super.loadMedia()
+        super.loadMedia(fromStart, true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -557,8 +557,8 @@ class BenchActivity : ShallowVideoPlayer() {
                     putString(PREFERENCE_OPENGL, oldOpenglValue)
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
                 }
+                VLCInstance.restart()
             }
-            VLCInstance.restart()
         }
         /* Case of error in VideoPlayerActivity, then finish is not overridden */
         if (hasVLCFailed) {

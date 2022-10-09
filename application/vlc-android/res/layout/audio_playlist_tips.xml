@@ -46,6 +46,7 @@
             android:background="?attr/actionBarItemBackground"
             android:nextFocusRight="@+id/add_bookmark"
             android:onClick="onClickDismissPlaylistTips"
+            android:contentDescription="@string/close"
             android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_bias="0.5"
@@ -69,11 +70,17 @@
             app:layout_constraintTop_toTopOf="@+id/close" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline8"
+            android:id="@+id/middleGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
 
     <TextView
             android:id="@+id/helpTitle"
@@ -85,7 +92,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="?attr/font_default"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/endGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tap_gesture_horizontal_background"
             tools:text="Help title" />
@@ -101,7 +108,7 @@
             android:textColor="?attr/font_light"
             android:textSize="14sp"
             app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/endGuideline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/helpTitle"
@@ -112,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintBottom_toTopOf="@+id/middleGuideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/tips_gesture_horizontal"
@@ -125,8 +132,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:onClick="onClickNextPlaylistTips"
-            android:text="@string/next"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/next_step"
+            app:layout_constraintEnd_toEndOf="@+id/endGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/helpDescription" />
 

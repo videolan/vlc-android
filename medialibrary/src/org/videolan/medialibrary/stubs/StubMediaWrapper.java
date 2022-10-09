@@ -108,6 +108,11 @@ public class StubMediaWrapper extends MediaWrapper {
         return true;
     }
 
+    @Override
+    public long getPlayCount() {
+        return 1;
+    }
+
     public void removeThumbnail() {}
 
     @Override
@@ -122,5 +127,8 @@ public class StubMediaWrapper extends MediaWrapper {
     public boolean removeFromHistory() {
         return true;
     }
+
+    @Override
+    public boolean markAsPlayed() { return true; }
 
 }

@@ -25,6 +25,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+            android:orderInCategory="1"
+            android:id="@+id/ml_menu_filter"
+            android:icon="@drawable/ic_menu_search_w"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            android:title="@string/searchable_hint"
+            app:showAsAction="always|collapseActionView"/>
+    <item
             android:orderInCategory="2"
             android:title="@string/sortby"
             android:icon="@drawable/ic_menu_sort"
@@ -68,4 +75,11 @@
                     android:visible="false" />
         </menu>
     </item>
+    <item
+        android:orderInCategory="3"
+        android:title="@string/albums_show_track_numbers"
+        android:visible="false"
+        android:checkable="true"
+        app:showAsAction="never"
+        android:id="@+id/ml_menu_albums_show_track_numbers" />
 </menu>

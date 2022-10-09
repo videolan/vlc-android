@@ -52,7 +52,6 @@
     <string name="confirm_delete_several_media">Obriši ove %1$d medije?</string>
     <string name="confirm_delete_folder">Želite li obrisati mapu \'%1$s\' i sav njen sadržaj?</string>
     <string name="confirm_delete_playlist">Želite li obrisati \'%1$s\' popis izvođenja?</string>
-    <string name="confirm_remove_from_playlist">Ukloni \'%1$s\' iz popisa izvođenja?</string>
     <string name="ringtone_set">Datoteka \'%1$s\' je postavljena kao melodija zvona.</string>
     <string name="ringtone_error">Nastala je greška pri postavljanju melodije zvona.</string>
     <string name="pause">Pauza</string>
@@ -118,7 +117,6 @@
     <string name="nosubfolder">Nema podmapa</string>
     <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Još nemate povijest reprodukcije.</string>
-    <string name="validation">Jeste li sigurni?</string>
 
     <string name="cover_art">Omot slike</string>
     <string name="shuffle_all_title">Naizmjenično sve</string>
@@ -175,7 +173,6 @@
     <string name="server_share_hint">Naziv mrežnog dijeljenja (ili IP adresa)</string>
     <string name="server_folder_hint">Putanja mape (neobavezno)</string>
     <string name="server_username_hint">Korisničko ime</string>
-    <string name="server_servername_hint">Naziv poslužitelja, za praktičnost</string>
     <string name="server_port">Ulaz:</string>
     <string name="login">Prijava</string>
     <string name="password">Lozinka</string>
@@ -192,7 +189,6 @@
     <string name="encountered_error_title">Geška izvođenja</string>
     <string name="encountered_error_message">VLC je naišao na grešku s ovim medijem.\nPokušajte osvježiti medijsku zbirku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može reproducirati.</string>
-
     <string name="search">Pretraživanje</string>
 
 
@@ -219,12 +215,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC za Android</string>
-    <string name="licence">Licenca</string>
     <string name="revision">Izdanje</string>
     <string name="about">O aplikaciji</string>
-    <string name="about_text">VLC za Android™ je izdanje popularnog VLC medijskog reproduktora otvorenog kôda. Inačica za Android™ može reproducirati većinu datoteka i mrežnih strujanja.</string>
     <string name="vlc_authors">Autori VLC-a.</string>
-    <string name="compiled_by">Ovu VLC inačicu su kompilirali:</string>
     <string name="feedback_forum">Forum za povratne informacije</string>
 
     <!-- Preferences -->
@@ -277,7 +270,6 @@
     <string name="enable_volume_gesture_title">Pokreti glasnoće zvuka</string>
     <string name="enable_volume_gesture_summary">Upravljanje glasnoćom zvuka s pokretom tijekom reprodukcije video snimki</string>
     <string name="enable_seek_buttons">Tipke premotavanja</string>
-    <string name="enable_seek_buttons_summary">Prikaži tipke premotavanja na video sučelju</string>
     <string name="enable_double_tap_seek_title">Dvostruko dotakni za premotavanje</string>
     <string name="enable_double_tap_seek_summary">Dvostruko dotaknite na rubove zaslona za premotavanje od 10 sekundi</string>
     <string name="popup_keepscreen_title">Drži zaslon uključenim u skočnom načinu rada</string>
@@ -341,8 +333,6 @@
     <string name="controls_prefs_category">Upravljanje</string>
 
     <string name="performance_prefs_category">Pefomanse</string>
-    <string name="chroma_format">Nametni boju</string>
-    <string name="chroma_format_summary">RGB 32-bit: zadana boja\nRGB 16-bit: bolje performanse ali lošija kvaliteta\nYUV: najbolje performanse ali ne radi na svim uređajima. (Android 2.3 i novija izdanja)</string>
     <string name="deblocking">Postavke filtra deblokiranja</string>
     <string name="deblocking_summary">Promijenite postavke filtra deblokiranja. Može poboljšati video kvalitetu. (Samo za napredne korisnike)</string>
     <string name="deblocking_always">Potpuno deblokiranje (najsporije)</string>
@@ -364,12 +354,10 @@
     <string name="clear_history">Obriši povijest</string>
     <string name="set_locale">Postavi lokalizaciju</string>
     <string name="network_caching">Vrijednost mrežne predmemorije</string>
-    <string name="network_caching_summary">Vremensko trajanje predmemorije mrežnog medija (u ms) za softversko dekodiranje\nOstavite prazno za zadano sustavom.</string>
     <string name="resume_playback_title">Nastavi reprodukciju nakon završetka poziva</string>
     <string name="resume_playback_summary">U suprotnome ostani pauziran</string>
     <string name="blurred_cover_background_title">Zamućena pozadina naslovne slike</string>
     <string name="blurred_cover_background_summary">Zamućena  naslovna slika u pozadini zvučnog izvodjača</string>
-    <string name="network_caching_popup">Ova vrijednost mora biti između 0 i 6000 ms</string>
     <string name="quit">Zatvori i ponovno pokreni aplikaciju</string>
     <string name="restart_message">Promjene će biti primjenjene nakon ponovnog pokretanja\n\nŽelite li to učiniti odmah?</string>
     <string name="restart_message_OK">U redu</string>
@@ -423,8 +411,6 @@
     <string name="playlist_save">Spremi popis izvođenja</string>
     <string name="playlist_name_hint">Naziv popisa izvođenja</string>
     <string name="go_to_chapter">Idi na poglavlje…</string>
-    <string name="chapter">Poglavlje</string>
-    <string name="resume_from_position">Nastavi s posljednjeg položaja</string>
     <string name="confirm_resume">Nastavi s posljednjeg položaja?</string>
     <string name="tv_ui_title">Android TV sučelje</string>
     <string name="tv_ui_summary">Promijeni sučelje na TV prilagođenu temu</string>

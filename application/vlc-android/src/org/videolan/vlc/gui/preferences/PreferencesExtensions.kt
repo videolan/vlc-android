@@ -11,8 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionListing
 import org.videolan.vlc.extensions.ExtensionsManager
@@ -21,8 +19,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesExtensions : BasePreferenceFragment() {
 
     private var extensions: List<ExtensionListing> = ArrayList()

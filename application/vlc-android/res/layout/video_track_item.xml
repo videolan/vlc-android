@@ -7,14 +7,17 @@
 
         <import type="android.view.View" />
 
-        <import type="org.videolan.libvlc.MediaPlayer.TrackDescription" />
+        <import type="org.videolan.vlc.gui.dialogs.adapters.VlcTrack" />
 
         <variable
                 name="track"
-                type="org.videolan.libvlc.MediaPlayer.TrackDescription" />
+                type="org.videolan.vlc.gui.dialogs.adapters.VlcTrack" />
         <variable
                 name="selected"
                 type="Boolean" />
+        <variable
+                name="contentDescription"
+                type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +48,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@{track.name}"
+                android:contentDescription="@{contentDescription}"
+                android:text="@{track.getId().equals(`-1`) ? @string/disable_track : track.getName()}"
                 android:textColor="@{selected ? @color/white : @color/white_transparent_50}"
                 android:maxLines="1"
                 android:singleLine="true"

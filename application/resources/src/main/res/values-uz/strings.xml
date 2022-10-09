@@ -62,7 +62,6 @@
     <string name="nomedia">Hech qanday media fayl topilmadi. Qurilmangizga fayllarni o‘tkazing yoki sozlamalarni o‘zgartiring.</string>
     <string name="directorynotfound">\'%1$s\' jildi topilmadi.</string>
     <string name="nohistory">Ijro tarixi bo‘m-bo‘sh.</string>
-    <string name="validation">Ishonchingiz komilmi?</string>
 
     <string name="cover_art">Muqova</string>
     <string name="previous">Avvalgi</string>
@@ -97,7 +96,6 @@
     <string name="encountered_error_title">Ijro etishda xato</string>
     <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
-
     <string name="search">Izlash</string>
 
 
@@ -114,11 +112,8 @@
     <string name="show_playlist">Ijro ro‘yxatini ko‘rsatish</string>
     <string name="hold_to_stop">To‘xtatish uchun bosib turing</string>
 
-    <string name="licence">Litsenziya</string>
     <string name="revision">Qayta ko‘rish</string>
     <string name="about">Dastur haqida</string>
-    <string name="about_text">Android™ uchun VLC – VLC media pleyerning (ochiq kodli mashhur pleyer) port qilingan versiyasi hisoblanadi. Uning Android™ versyasi ko‘plab fayl turlari va tarmoqli oqim rejimida uzatiladigan videolarni o‘qiy oladi.</string>
-    <string name="compiled_by">VLC dasturining ushbu versiyasi ushbu inson tomonidan kompilatsiya qilingan:</string>
     <string name="directories_summary">Media kutubxonaga qoʻshish uchun direktoriyalarni tanlang</string>
     <string name="add_custom_path">Boshqa yo‘lni qo‘shish</string>
     <string name="add_custom_path_description">Tekshirish uchun boshqa qo‘shimcha katalogni kiriting:</string>
@@ -141,7 +136,6 @@
     <string name="enable_headset_detection">Quloqlikni aniqlash</string>
     <string name="aout">Audio chiqarish</string>
     <string name="performance_prefs_category">Bajarish</string>
-    <string name="chroma_format">Majburiy rangdorlik formati</string>
     <string name="deblocking">Filter sozlamalarini ochish</string>
     <string name="deblocking_always">Toʻliq koddan chiqarish (sekin)</string>
     <string name="deblocking_nonref">Oʻrtacha blokdan chiqarish</string>

@@ -28,20 +28,18 @@ import android.os.Message
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ProgressBar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
-import org.videolan.tools.*
+import org.videolan.tools.RESULT_RESCAN
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART_APP
+import org.videolan.tools.WeakHandler
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
-//import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Util
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MainTvActivity : BaseTvActivity() {
 
@@ -76,17 +74,10 @@ class MainTvActivity : BaseTvActivity() {
         val fragmentManager = supportFragmentManager
         browseFragment = fragmentManager.findFragmentById(R.id.browse_fragment) as MainTvFragment
         progressBar = findViewById(R.id.tv_main_progress)
-//        VLCBilling.getInstance(application).retrieveSkus()
-
-        if (!Settings.getInstance(this).getBoolean(KEY_TV_ONBOARDING_DONE, false)) {
-            // This is the first time running the app, let's go to onboarding
-            startActivity(Intent(this, OnboardingActivity::class.java))
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (VLCBilling.getInstance(this.application).iabHelper.handleActivityResult(requestCode, resultCode, data)) return
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             when (resultCode) {
                 RESULT_RESCAN -> this.reloadLibrary()

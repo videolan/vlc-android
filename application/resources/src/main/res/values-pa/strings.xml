@@ -70,7 +70,6 @@
     <string name="nomedia">ਕੋਈ ਮੀਡਿਆ ਫਾਇਲਾਂ ਨਹੀਂ ਲੱਭੀਆਂ, ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਯੰਤਰ ਉੱਤੇ ਕੁਝ ਫਾਇਲਾਂ ਟਰਾਂਸਫਰ ਕਰੋ ਜਾਂ ਆਪਣੀ ਪਸੰਦ ਨੂੰ ਠੀਕ ਕਰੋ।</string>
     <string name="directorynotfound">ਡਾਇਰੈਕਟਰੀ ਪਾਥ \'%1$s\' ਨਹੀਂ ਲੱਭਿਆ।</string>
     <string name="nohistory">ਤੁਹਾਡੇ ਕੋਲ ਕੋਈ ਪਲੇਅਬੈਕ ਅਤੀਤ ਹਾਲੇ ਨਹੀਂ ਹੈ।</string>
-    <string name="validation">ਪੱਕਾ ਹੈ?</string>
 
     <string name="cover_art">ਕਵਰ ਆਰਟ</string>
     <string name="previous">ਪਿਛਲੇ</string>
@@ -105,7 +104,6 @@
     <string name="encountered_error_title">ਪਲੇਅਬੈਕ ਗਲਤੀ</string>
     <string name="encountered_error_message">VLC ਨੂੰ ਇਸ ਮੀਡਿਆ ਨਾਲ ਸਮੱਸਿਆ ਆਈ ਹੈ।\nਕਿਰਪਾ ਕਰਕੇ ਮੀਡਿਆ ਲਾਇਬਰੇਰੀ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
     <string name="invalid_location">ਟਿਕਾਣਾ %1$s ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।</string>
-
     <string name="search">ਖੋਜ</string>
 
 
@@ -118,7 +116,6 @@
     <string name="show_playlist">ਪਲੇਅਲਿਸਟ ਵੇਖੋ</string>
     <string name="hold_to_stop">ਰੋਕਣ ਲਈ ਹੋਲਡ ਕਰੋ</string>
 
-    <string name="licence">ਲਾਈਸੈਂਸ</string>
     <string name="revision">ਰੀਵਿਜ਼ਨ</string>
     <string name="about">ਇਸ ਬਾਰੇ</string>
     <string name="directories_summary">ਮੀਡਿਆ ਲਾਇਬਰੇਰੀ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਡਾਇਰੈਕਟਰੀਆਂ ਚੁਣੋ</string>

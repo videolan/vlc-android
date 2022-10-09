@@ -56,6 +56,8 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 @JvmField val ACTION_REMOTE_PLAYPAUSE = "${ACTION_REMOTE_GENERIC}PlayPause"
 @JvmField val ACTION_REMOTE_PLAY = "${ACTION_REMOTE_GENERIC}Play"
 @JvmField val ACTION_REMOTE_BACKWARD = "${ACTION_REMOTE_GENERIC}Backward"
+@JvmField val ACTION_REMOTE_SEEK_FORWARD = "${ACTION_REMOTE_GENERIC}SeekForward"
+@JvmField val ACTION_REMOTE_SEEK_BACKWARD = "${ACTION_REMOTE_GENERIC}SeekBackward"
 @JvmField val CUSTOM_ACTION = "CustomAction".buildPkgString()
 @JvmField val CUSTOM_ACTION_BOOKMARK = "bookmark".buildPkgString()
 @JvmField val CUSTOM_ACTION_FAST_FORWARD = "fast_forward".buildPkgString()
@@ -64,6 +66,7 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 @JvmField val CUSTOM_ACTION_REPEAT = "repeat".buildPkgString()
 @JvmField val CUSTOM_ACTION_REWIND = "rewind".buildPkgString()
 @JvmField val EXTRA_CUSTOM_ACTION_ID = "EXTRA_CUSTOM_ACTION_ID".buildPkgString()
+@JvmField val EXTRA_SEEK_DELAY = "EXTRA_CUSTOM_ACTION_ID".buildPkgString()
 const val ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE"
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
@@ -74,15 +77,14 @@ const val WEARABLE_RESERVE_SLOT_SKIP_TO_NEXT = "android.support.wearable.media.e
 const val WEARABLE_RESERVE_SLOT_SKIP_TO_PREV = "android.support.wearable.media.extra.RESERVE_SLOT_SKIP_TO_PREVIOUS"
 const val PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT = "android.media.playback.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_NEXT"
 const val PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV = "android.media.playback.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_PREVIOUS"
-const val CONTENT_STYLE_SUPPORTED = "android.media.browse.CONTENT_STYLE_SUPPORTED"
 const val CONTENT_STYLE_PLAYABLE_HINT = "android.media.browse.CONTENT_STYLE_PLAYABLE_HINT"
 const val CONTENT_STYLE_BROWSABLE_HINT = "android.media.browse.CONTENT_STYLE_BROWSABLE_HINT"
 const val EXTRA_CONTENT_STYLE_GROUP_TITLE_HINT = "android.media.browse.CONTENT_STYLE_GROUP_TITLE_HINT"
 const val EXTRA_CONTENT_STYLE_SINGLE_ITEM = "android.media.browse.CONTENT_STYLE_SINGLE_ITEM_HINT"
 const val EXTRA_MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED"
-const val TABS_OPT_IN_HINT = "android.media.browse.AUTO_TABS_OPT_IN_HINT"
 const val CONTENT_STYLE_LIST_ITEM_HINT_VALUE = 1
 const val CONTENT_STYLE_GRID_ITEM_HINT_VALUE = 2
+const val CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE = 3
 
 // MediaParsingService
 const val ACTION_INIT = "medialibrary_init"
@@ -122,6 +124,9 @@ const val KEY_MEDIA_LAST_PLAYLIST_RESUME = "media_list_resume"
 const val KEY_CURRENT_AUDIO = "current_song"
 const val KEY_CURRENT_MEDIA = "current_media"
 const val KEY_CURRENT_MEDIA_RESUME = "current_media_resume"
+const val KEY_CURRENT_AUDIO_RESUME_TITLE = "key_current_audio_resume_title"
+const val KEY_CURRENT_AUDIO_RESUME_ARTIST = "key_current_audio_resume_artist"
+const val KEY_CURRENT_AUDIO_RESUME_THUMB = "key_current_audio_resume_thumb"
 
 // Info Activity
 const val TAG_ITEM = "ML_ITEM"
@@ -154,6 +159,7 @@ const val CATEGORY_ALBUMS = 22L
 const val CATEGORY_GENRES = 23L
 const val CATEGORY_SONGS = 24L
 const val CATEGORY_VIDEOS = 25L
+const val CATEGORY_PLAYLISTS = 27L
 const val CATEGORY_NOW_PLAYING_PIP = 26L
 
 const val CATEGORY = "category"
@@ -179,6 +185,7 @@ const val UPDATE_SEEN = 3
 const val UPDATE_DESCRIPTION = 4
 const val UPDATE_PAYLOAD = 5
 const val UPDATE_VIDEO_GROUP = 6
+const val UPDATE_REORDER = 7
 
 const val KEY_URI = "uri"
 const val SELECTED_ITEM = "selected"
@@ -221,15 +228,16 @@ const val CTX_RENAME_GROUP = 1L shl 33
 const val CTX_UNGROUP = 1L shl 34
 const val CTX_GROUP_SIMILAR = 1L shl 35
 const val CTX_MARK_AS_PLAYED = 1L shl 36
-const val CTX_MARK_AS_UNPLAYED = 1L shl 39
 const val CTX_MARK_ALL_AS_PLAYED = 1L shl 37
 const val CTX_GO_TO_FOLDER = 1L shl 38
+const val CTX_MARK_AS_UNPLAYED = 1L shl 39
+const val CTX_ADD_SHORTCUT = 1L shl 40
 
-const val CTX_VIDEO_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_DELETE or CTX_DOWNLOAD_SUBTITLES or CTX_INFORMATION or CTX_PLAY or CTX_PLAY_ALL or CTX_PLAY_AS_AUDIO or CTX_ADD_TO_PLAYLIST or CTX_SHARE
-const val CTX_TRACK_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_DELETE or CTX_INFORMATION or CTX_PLAY_ALL or CTX_ADD_TO_PLAYLIST or CTX_SET_RINGTONE or CTX_SHARE or CTX_GO_TO_FOLDER
-const val CTX_AUDIO_FLAGS = CTX_PLAY or CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION
-const val CTX_PLAYLIST_ALBUM_FLAGS = CTX_AUDIO_FLAGS or CTX_DELETE
-const val CTX_PLAYLIST_ITEM_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION or CTX_DELETE or CTX_SET_RINGTONE
+const val CTX_VIDEO_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_DELETE or CTX_DOWNLOAD_SUBTITLES or CTX_INFORMATION or CTX_PLAY or CTX_PLAY_ALL or CTX_PLAY_AS_AUDIO or CTX_ADD_TO_PLAYLIST or CTX_SHARE or CTX_ADD_SHORTCUT
+const val CTX_TRACK_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_DELETE or CTX_INFORMATION or CTX_PLAY_ALL or CTX_ADD_TO_PLAYLIST or CTX_SET_RINGTONE or CTX_SHARE or CTX_GO_TO_FOLDER or CTX_ADD_SHORTCUT
+const val CTX_AUDIO_FLAGS = CTX_PLAY or CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION or CTX_ADD_SHORTCUT
+const val CTX_PLAYLIST_ALBUM_FLAGS = CTX_AUDIO_FLAGS or CTX_DELETE or CTX_ADD_SHORTCUT
+const val CTX_PLAYLIST_ITEM_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION or CTX_DELETE or CTX_SET_RINGTONE or CTX_ADD_SHORTCUT
 const val CTX_VIDEO_GROUP_FLAGS = CTX_APPEND or CTX_MARK_ALL_AS_PLAYED
 const val CTX_FOLDER_FLAGS = CTX_PLAY or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_MARK_ALL_AS_PLAYED
 
@@ -254,6 +262,7 @@ const val CONTENT_RESUME = "${CONTENT_PREFIX}resume_"
 const val CONTENT_EPISODE = "${CONTENT_PREFIX}episode_"
 const val ACTION_OPEN_CONTENT = "action_open_content"
 const val EXTRA_CONTENT_ID = "extra_content_id"
+const val SCHEME_PACKAGE = "package"
 
 // Class names
 const val START_ACTIVITY = "org.videolan.vlc.StartActivity"
@@ -265,3 +274,6 @@ const val MOBILE_MAIN_ACTIVITY = "org.videolan.vlc.gui.MainActivity"
 const val MOVIEPEDIA_ACTIVITY = "org.videolan.moviepedia.ui.MoviepediaActivity"
 const val TV_AUDIOPLAYER_ACTIVITY = "org.videolan.television.ui.audioplayer.AudioPlayerActivity"
 const val MEDIAPARSING_SERVICE = "org.videolan.vlc.MediaParsingService"
+const val TV_ONBOARDING_ACTIVITY = "org.videolan.television.ui.OnboardingActivity"
+
+const val ROOM_DATABASE = "/vlc_database.zip"

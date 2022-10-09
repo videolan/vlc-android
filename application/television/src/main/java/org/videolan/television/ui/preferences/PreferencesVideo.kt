@@ -27,18 +27,18 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.resources.AndroidDevices
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.*
+import org.videolan.tools.LOCK_USE_SENSOR
+import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.SAVE_BRIGHTNESS
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.preferences.PreferencesActivity
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
 
     override fun getXml() = R.xml.preferences_video
 
@@ -69,8 +69,10 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "preferred_resolution" -> {
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+                launch {
+                    VLCInstance.restart()
+                    restartMediaPlayer()
+                }
             }
         }
     }

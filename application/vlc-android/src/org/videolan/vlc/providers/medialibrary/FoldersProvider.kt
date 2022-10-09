@@ -21,12 +21,10 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
-@ExperimentalCoroutinesApi
 class FoldersProvider(context: Context, model: SortableModel, val type: Int) : MedialibraryProvider<Folder>(context, model) {
     override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, desc, Settings.includeMissing, getTotalCount(), 0)
 

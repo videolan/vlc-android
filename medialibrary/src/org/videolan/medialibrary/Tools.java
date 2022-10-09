@@ -96,7 +96,7 @@ public class Tools {
                 final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
                 final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);
-                if (hasArtist && hasAlbum) sb.append(artist).append(" · ").append(album);
+                if (hasArtist && hasAlbum) sb.append(artist).append(" - ").append(album);
                 else if (hasArtist) sb.append(artist);
                 else sb.append(album);
                 item.setDescription(sb.toString());
@@ -132,6 +132,13 @@ public class Tools {
                 sb.append(min).append(':').append(large ? " " : "").append(TWO_DIGITS.get().format(sec));
         }
         return sb.toString();
+    }
+
+    public static String mlEncodeMrl(String mrl) {
+        if (mrl.startsWith("/")) mrl = "file://"+mrl;
+        mrl = mrl.replace(" ", "%20");
+        mrl = mrl.replace("+", "%2B");
+        return VLCUtil.encodeVLCString(mrl);
     }
 
     public static String encodeVLCMrl(String mrl) {

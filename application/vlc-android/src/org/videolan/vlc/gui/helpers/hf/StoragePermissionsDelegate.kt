@@ -21,8 +21,6 @@
  *  ***************************************************************************
  */
 
-@file:Suppress("EXPERIMENTAL_API_USAGE")
-
 package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
@@ -38,19 +36,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.INITIAL_PERMISSION_ASKED
 import org.videolan.tools.Settings
 import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
@@ -59,6 +58,7 @@ import videolan.org.commontools.LiveEvent
 
 private const val WRITE_ACCESS = "write"
 private const val WITH_DIALOG = "with_dialog"
+private const val ONLY_MEDIA = "only_media"
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
@@ -68,6 +68,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
     private var upgrade: Boolean = false
     private var write: Boolean = false
     private var withDialog: Boolean = true
+    private var askOnlyRead: Boolean = true
 
     interface CustomActionController {
         fun onStorageAccessGranted()
@@ -82,6 +83,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
         write = arguments?.getBoolean(WRITE_ACCESS) ?: false
         withDialog = arguments?.getBoolean(WITH_DIALOG) ?: true
+        askOnlyRead = arguments?.getBoolean(ONLY_MEDIA) ?: false
         if (AndroidUtil.isMarshMallowOrLater && (!canReadStorage(requireContext()) ||  !Permissions.hasAllAccess(requireContext()))) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) && !model.permissionRationaleShown) {
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
@@ -131,8 +133,8 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
 
     private fun requestStorageAccess(write: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val uri = Uri.parse("package:${BuildConfig.APP_ID}")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !askOnlyRead) {
+            val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
             val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
             if (intent.isCallable(requireActivity())) {
                if (withDialog) Permissions.showExternalPermissionDialog(requireActivity()) { asked ->
@@ -176,7 +178,8 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             }
         }
 
-        suspend fun FragmentActivity.getStoragePermission(write: Boolean = false, withDialog:Boolean = true) : Boolean {
+        @OptIn(ExperimentalCoroutinesApi::class)
+        suspend fun FragmentActivity.getStoragePermission(write: Boolean = false, withDialog:Boolean = true, onlyMedia:Boolean = false) : Boolean {
             if (isFinishing) return false
             Settings.getInstance(this).putSingle(INITIAL_PERMISSION_ASKED, true)
             val model : PermissionViewmodel by viewModels()
@@ -187,7 +190,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             } else {
                 model.setupDeferred()
                 val fragment = StoragePermissionsDelegate().apply {
-                    arguments = bundleOf(WRITE_ACCESS to write, WITH_DIALOG to withDialog)
+                    arguments = bundleOf(WRITE_ACCESS to write, WITH_DIALOG to withDialog, ONLY_MEDIA to onlyMedia)
                 }
                 supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
             }

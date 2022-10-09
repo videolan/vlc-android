@@ -23,36 +23,28 @@
 
 package org.videolan.vlc.gui.browser
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import org.videolan.medialibrary.MLServiceLocator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.CTX_FAV_ADD
-import org.videolan.tools.removeFileProtocole
-import org.videolan.vlc.ExternalMonitor
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
-import org.videolan.vlc.gui.helpers.hf.OtgAccess
-import org.videolan.vlc.gui.helpers.hf.requestOtgRoot
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class FileBrowserFragment : BaseBrowserFragment() {
 
     private var needsRefresh: Boolean = false
@@ -92,7 +84,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     protected open fun setupBrowser() {
-        viewModel = getBrowserModel(category = TYPE_FILE, url = if (!isRootDirectory) mrl else null, showHiddenFiles = showHiddenFiles)
+        viewModel = getBrowserModel(category = TYPE_FILE, url = if (!isRootDirectory) mrl else null)
     }
 
     override fun getTitle(): String = if (isRootDirectory)
@@ -100,7 +92,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     else {
         when {
             currentMedia != null -> when {
-                AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mrl?.removeFileProtocole() -> getString(R.string.internal_memory)
+                AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mrl?.removeFileScheme() -> getString(R.string.internal_memory)
                 this is FilePickerFragment -> currentMedia!!.uri.toString()
                 else -> currentMedia!!.title
             }
@@ -135,6 +127,13 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override val isNetwork = false
     override val isFile = true
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.resetSort()
+        if (viewModel.dataset.value.isNotEmpty())
+            viewModel.reSort()
+    }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)

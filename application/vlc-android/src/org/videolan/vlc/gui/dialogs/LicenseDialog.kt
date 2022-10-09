@@ -21,26 +21,21 @@
  */
 package org.videolan.vlc.gui.dialogs
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.databinding.DialogLicenseBinding
 import org.videolan.vlc.gui.LibraryWithLicense
+import org.videolan.vlc.util.openLinkIfPossible
 
 const val LICENSE_ITEM = "LICENSE_ITEM"
 
 /**
  * Dialog showing a license text
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LicenseDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var licenseItem: LibraryWithLicense
@@ -74,7 +69,7 @@ class LicenseDialog : VLCBottomSheetDialogFragment() {
         binding = DialogLicenseBinding.inflate(layoutInflater, container, false)
         binding.library = licenseItem
         binding.licenseButton.setOnClickListener {
-            if (licenseItem.licenseLink.isNotEmpty()) requireActivity().startActivity(Intent(Intent.ACTION_VIEW, licenseItem.licenseLink.toUri()))
+            if (licenseItem.licenseLink.isNotEmpty()) requireActivity().openLinkIfPossible(licenseItem.licenseLink)
         }
         return binding.root
     }

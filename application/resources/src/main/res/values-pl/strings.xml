@@ -59,7 +59,6 @@
     <string name="confirm_delete_files">Usunąć te %1$s pliki?</string>
     <string name="confirm_delete_folders_and_files">Usunąć te %1$s foldery i %2$s pliki?</string>
     <string name="confirm_delete_playlist">Usunąć listę odtwarzania \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Usunąć \'%1$s\' z listy odtwarzania?</string>
     <string name="ringtone_set">Plik \"%1$s\" został ustawiony jako dzwonek.</string>
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
@@ -139,7 +138,6 @@
     <string name="nosubfolder">Brak podfolderów</string>
     <string name="directorynotfound">Nie znaleziono ścieżki katalogu \'%1$s\'.</string>
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
-    <string name="validation">Czy jesteś pewny/a?</string>
 
     <string name="cover_art">Okładka</string>
     <string name="shuffle_all_title">Losowo wszystkie</string>
@@ -198,7 +196,6 @@
     <string name="server_share_hint">Nazwa udziału sieciowego (lub adres IP)</string>
     <string name="server_folder_hint">Ścieżka folderu (opcjonalnie)</string>
     <string name="server_username_hint">Nazwa użytkownika</string>
-    <string name="server_servername_hint">Nazwa serwera, dla wygody</string>
     <string name="server_port">Port: </string>
     <string name="login">Nazwa użytkownika</string>
     <string name="password">Hasło</string>
@@ -215,7 +212,6 @@
     <string name="encountered_error_title">Błąd odtwarzania</string>
     <string name="encountered_error_message">VLC napotkał błąd tego nośnika.\nSpróbuj odświeżyć bibliotekę multimediów.</string>
     <string name="invalid_location">Pozycja %1$s nie może zostać odtworzona.</string>
-
     <string name="search">Szukaj</string>
 
 
@@ -242,12 +238,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
-    <string name="licence">Licencja</string>
     <string name="revision">Rewizja</string>
     <string name="about">O VLC</string>
-    <string name="about_text">VLC dla Androida™ jest portem VLC Media Player, popularnego odtwarzacza multimedialnego o otwartym kodzie źródłowym. Wersja systemu Android™ może odczytać większość plików i strumieni sieciowych.</string>
     <string name="vlc_authors">i autorzy VLC.</string>
-    <string name="compiled_by">Ta wersja VLC została skompilowana przez:</string>
     <string name="feedback_forum">Forum opinii</string>
 
     <!-- Preferences -->
@@ -275,7 +268,6 @@
     <string name="subtitle_text_encoding">Kodowanie tekstu napisów</string>
     <string name="daynight_title">Tryb dzień/noc</string>
     <string name="daynight_follow_system_title">Tak jak w trybie systemowym</string>
-
     <string name="extra_prefs_category">Dodatkowe ustawienia</string>
 
     <string name="interface_prefs_screen">Interfejs</string>
@@ -304,7 +296,6 @@
     <string name="enable_volume_gesture_title">Gesty głośności</string>
     <string name="enable_volume_gesture_summary">Regulacja głośności gestem podczas odtwarzania wideo</string>
     <string name="enable_seek_buttons">Przyciski przeszukiwania</string>
-    <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie wideo</string>
     <string name="enable_double_tap_seek_title">Dotknij dwukrotnie, aby przeszukać</string>
     <string name="enable_double_tap_seek_summary">Dotknij dwukrotnie na krawędziach ekranu, aby przeszukiwać co 10 sekund</string>
     <string name="popup_keepscreen_title">Ekran włączony w trybie pop-up</string>
@@ -373,8 +364,6 @@
     <string name="controls_prefs_category">Kontrole</string>
 
     <string name="performance_prefs_category">Wydajność</string>
-    <string name="chroma_format">Wymuś chromę</string>
-    <string name="chroma_format_summary">RGB 32-bit: domyślna chroma\nRGB 16-bit: lepsza wydajność, ale niższa jakość\nYUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach (tylko Android 2.3 i nowsze)</string>
     <string name="deblocking">Ustawienia filtra usuwania bloków</string>
     <string name="deblocking_summary">Zmiana ustawienia filtra usuwania bloków może poprawić jakość obrazu\n(tylko dla zaawansowanych użytkowników)</string>
     <string name="deblocking_always">Pełne usuwanie bloków (najwolniej)</string>
@@ -398,12 +387,10 @@
     <string name="clear_history">Wyczyść historię</string>
     <string name="set_locale">Ustaw język</string>
     <string name="network_caching">Wartość buforowania sieci</string>
-    <string name="network_caching_summary">Czas buforowania multimediów sieciowych (w ms) dla programowego dekodowania\nPozostaw puste, aby zresetować</string>
     <string name="resume_playback_title">Wznów odtwarzanie po połączeniu</string>
     <string name="resume_playback_summary">Lub pozostań w pauzie po zakończeniu połączenia</string>
     <string name="blurred_cover_background_title">Niewyraźna okładka w tle</string>
     <string name="blurred_cover_background_summary">Niewyraźna okładka w tle odtwarzacza audio </string>
-    <string name="network_caching_popup">Ta wartość musi być w zakresie od 0 a 6000 ms</string>
     <string name="quit">Zamknij i uruchom ponownie aplikację</string>
     <string name="restart_message">Zmiany będą zaakceptowane po ponownym uruchomieniu aplikacji.\n\nZrestartować teraz?</string>
     <string name="restart_message_OK">Tak</string>
@@ -457,8 +444,6 @@
     <string name="playlist_save">Zapisz listę odtwarzania</string>
     <string name="playlist_name_hint">Nazwa listy odtwarzania</string>
     <string name="go_to_chapter">Przejdź do rozdziału…</string>
-    <string name="chapter">Rozdział</string>
-    <string name="resume_from_position">Wznów od ostatniej pozycji</string>
     <string name="confirm_resume">Wznowić od ostatniej pozycji?</string>
     <string name="confirm_resume_title">Wznów odtwarzane filmy</string>
     <string name="tv_ui_title">Interfejs Android TV</string>
@@ -785,9 +770,6 @@
     <string name="allow_otg">Zezwól na dostęp do OTG</string>
     <string name="allow_otg_description">Wybierz swój dysk OTG, aby umożliwić dostęp do VLC</string>
     <string name="timeout_infinite">Nieskończoność</string>
-    <string name="timeout_short">Krótko</string>
-    <string name="timeout_normal">Normalnie</string>
-    <string name="timeout_long">Długo</string>
     <string name="video_hud_timeout">Opóźnienie ukrywania kontroli odtwarzacza wideo</string>
     <string name="remove_from_history">Usuń z historii</string>
     <string name="prefersmbv1">Preferuj SMB 1</string>

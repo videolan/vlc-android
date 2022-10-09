@@ -22,9 +22,7 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,12 +33,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -58,15 +53,12 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import kotlin.math.min
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: PlaylistsFragmentBinding
@@ -105,7 +97,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         setupLayoutManager()
 
         playlists.adapter = playlistAdapter
-        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
+        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller_playlist) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }
 
@@ -128,9 +120,16 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     }
 
     private fun updateEmptyView() {
+        if (!isAdded) return
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
+        binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
         binding.emptyLoading.state =
-            if (viewModel.provider.loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                when {
+                    viewModel.provider.loading.value == true && empty -> EmptyLoadingState.LOADING
+                    empty && viewModel.filterQuery != null -> EmptyLoadingState.EMPTY_SEARCH
+                    empty -> EmptyLoadingState.EMPTY
+                    else -> EmptyLoadingState.NONE
+                }
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -196,7 +195,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null) {
-            val i = Intent(activity, PlaylistActivity::class.java)
+            val i = Intent(activity, HeaderMediaListActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
         } else super.onClick(v, position, item)

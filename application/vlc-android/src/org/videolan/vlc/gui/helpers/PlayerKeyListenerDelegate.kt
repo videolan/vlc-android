@@ -37,70 +37,74 @@ class PlayerKeyListenerDelegate(private val keycodeListener: KeycodeListener) {
      * @param keyCode: the keycode from the event
      * @param event: the key event with modifiers etc
      *
-     * @return true if the vent was consumed, false otherwise
+     * @return true if the event was consumed, false otherwise
      */
-    fun onKeyDown(keyCode: Int, event: KeyEvent) = when (keyCode) {
-        KeyEvent.KEYCODE_O, KeyEvent.KEYCODE_BUTTON_Y, KeyEvent.KEYCODE_MENU -> {
-            keycodeListener.showAdvancedOptions()
-            true
-        }
-        KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_SPACE -> {
-            keycodeListener.togglePlayPause()
-            true
-        }
-        KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_BUTTON_R2, KeyEvent.KEYCODE_CHANNEL_UP -> {
-            keycodeListener.next()
-            true
-        }
-        KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
-            keycodeListener.seek(10000)
-            true
-        }
-        KeyEvent.KEYCODE_MEDIA_REWIND -> {
-            keycodeListener.seek(-10000)
-            true
-        }
-        KeyEvent.KEYCODE_BUTTON_R1 -> {
-            keycodeListener.seek(60000)
-            true
-        }
-        KeyEvent.KEYCODE_BUTTON_L1 -> {
-            keycodeListener.seek(-60000)
-            true
-        }
-        KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
-            keycodeListener.stop()
-            true
-        }
-        KeyEvent.KEYCODE_P, KeyEvent.KEYCODE_BUTTON_L2, KeyEvent.KEYCODE_CHANNEL_DOWN -> {
-            keycodeListener.previous()
-            true
-        }
-        KeyEvent.KEYCODE_E -> {
-            if (event.isCtrlPressed) {
-                keycodeListener.showEqualizer()
+    fun onKeyDown(keyCode: Int, event: KeyEvent):Boolean {
+        if (!keycodeListener.isReady()) return false
+        return when (keyCode) {
+
+            KeyEvent.KEYCODE_O, KeyEvent.KEYCODE_BUTTON_Y, KeyEvent.KEYCODE_MENU -> {
+                keycodeListener.showAdvancedOptions()
+                true
             }
-            true
-        }
-        KeyEvent.KEYCODE_PLUS -> {
-            keycodeListener.increaseRate()
-            true
-        }
-        KeyEvent.KEYCODE_EQUALS -> {
-            if (event.isShiftPressed) {
+            KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_SPACE -> {
+                keycodeListener.togglePlayPause()
+                true
+            }
+            KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_BUTTON_R2, KeyEvent.KEYCODE_CHANNEL_UP -> {
+                keycodeListener.next()
+                true
+            }
+            KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
+                keycodeListener.seek(10000)
+                true
+            }
+            KeyEvent.KEYCODE_MEDIA_REWIND -> {
+                keycodeListener.seek(-10000)
+                true
+            }
+            KeyEvent.KEYCODE_BUTTON_R1 -> {
+                keycodeListener.seek(60000)
+                true
+            }
+            KeyEvent.KEYCODE_BUTTON_L1 -> {
+                keycodeListener.seek(-60000)
+                true
+            }
+            KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
+                keycodeListener.stop()
+                true
+            }
+            KeyEvent.KEYCODE_P, KeyEvent.KEYCODE_BUTTON_L2, KeyEvent.KEYCODE_CHANNEL_DOWN -> {
+                keycodeListener.previous()
+                true
+            }
+            KeyEvent.KEYCODE_E -> {
+                if (event.isCtrlPressed) {
+                    keycodeListener.showEqualizer()
+                }
+                true
+            }
+            KeyEvent.KEYCODE_PLUS -> {
                 keycodeListener.increaseRate()
-            } else keycodeListener.resetRate()
-            true
+                true
+            }
+            KeyEvent.KEYCODE_EQUALS -> {
+                if (event.isShiftPressed) {
+                    keycodeListener.increaseRate()
+                } else keycodeListener.resetRate()
+                true
+            }
+            KeyEvent.KEYCODE_MINUS -> {
+                keycodeListener.decreaseRate()
+                true
+            }
+            KeyEvent.KEYCODE_B -> {
+                keycodeListener.bookmark()
+                true
+            }
+            else -> false
         }
-        KeyEvent.KEYCODE_MINUS -> {
-            keycodeListener.decreaseRate()
-            true
-        }
-        KeyEvent.KEYCODE_B -> {
-            keycodeListener.bookmark()
-            true
-        }
-        else -> false
     }
 }
 
@@ -108,6 +112,13 @@ class PlayerKeyListenerDelegate(private val keycodeListener: KeycodeListener) {
  * Interface describing the methods that can be triggered by key events
  */
 interface KeycodeListener {
+
+    /**
+     * Get the readiness state of the callee. I not ready, no event will be triggered
+     * @return true if the callee is ready
+     */
+    fun isReady(): Boolean
+
     /**
      * Opens the advanced options menu
      */

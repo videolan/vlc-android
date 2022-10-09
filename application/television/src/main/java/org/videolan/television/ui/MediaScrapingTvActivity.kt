@@ -50,12 +50,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
 
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MediaScrapingTvActivity : BaseTvActivity() {
 
@@ -91,6 +89,6 @@ class MediaScrapingTvActivity : BaseTvActivity() {
 
     companion object {
         const val MEDIA: String = "MEDIA"
-        private val TAG = "VLC/SearchActivity"
+        private const val TAG = "VLC/MediaScrapingTvActivity"
     }
 }

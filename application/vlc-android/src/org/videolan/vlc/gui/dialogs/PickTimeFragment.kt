@@ -30,16 +30,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.TalkbackUtil
 import org.videolan.vlc.util.launchWhenStarted
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
 
     private var mTextColor: Int = 0
@@ -189,13 +186,21 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
             formatTime = hours + "h " + formatTime
 
         tvTimeToJump.text = formatTime
+        tvTimeToJump.announceForAccessibility(TalkbackUtil.millisToString(requireActivity(), getTimeInMillis() ))
+    }
+
+    fun getTimeInMillis(): Long {
+        val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
+        val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
+        val seconds = if (seconds != "") java.lang.Long.parseLong(seconds) * SECONDS_IN_MICROS else 0L
+        return (hours + minutes + seconds) / 1000L
     }
 
     protected abstract fun executeAction()
 
     companion object {
 
-        val TAG = "VLC/PickTimeFragment"
+        const val TAG = "VLC/PickTimeFragment"
 
         const val MILLIS_IN_MICROS: Long = 1000
         const val SECONDS_IN_MICROS = 1000 * MILLIS_IN_MICROS

@@ -54,7 +54,6 @@
     <string name="confirm_delete_several_media">Dileu\'r %1$dcyfrwng hyn?</string>
     <string name="confirm_delete_folder">Dileu\'r ffolder \'%1$s\' a\'i holl gynnwys?</string>
     <string name="confirm_delete_playlist">Dileu\'r rhestr chwarae \'%1$s?\'</string>
-    <string name="confirm_remove_from_playlist">Tynnu \'%1$s\' o\'r rhestr chwarae?</string>
     <string name="ringtone_set">Gosodwyd y ffeil \'%1$s\' fel y tôn canu.</string>
     <string name="ringtone_error">Roedd gwall wrth osod y sain canu.</string>
     <string name="pause">Oedi</string>
@@ -127,7 +126,6 @@
     <string name="nosubfolder">Dim is-ffolder</string>
     <string name="directorynotfound">Methwyd dod o hyd i\'r cyfeiriadur \'%1$s\'.</string>
     <string name="nohistory">Does dim hanes chwarae eto.</string>
-    <string name="validation">Wyt yn sicr?</string>
 
     <string name="cover_art">Dyluniad clawr</string>
     <string name="shuffle_all_title">Cymysgu\'r cwbl</string>
@@ -185,7 +183,6 @@
     <string name="server_share_hint">Enw rhwydwaith rhannu (neu gyfeiriad IP)</string>
     <string name="server_folder_hint">Llwybr ffolder (opsiynol)</string>
     <string name="server_username_hint">Enw defnyddiwr</string>
-    <string name="server_servername_hint">Enw gweinydd, ar gyfer cyfleustra</string>
     <string name="server_port">Porth:</string>
     <string name="login">Mewngofnodi</string>
     <string name="password">Cyfrinair</string>
@@ -202,7 +199,6 @@
     <string name="encountered_error_title">Gwall chwarae</string>
     <string name="encountered_error_message">Cafodd VLC wall gyda\'r cyfrwng hwn.\nCeisiwch ail-lwytho\'r llyfrgell cyfryngau.</string>
     <string name="invalid_location">Ni all chwarae\'r lleoliad %1$s.</string>
-
     <string name="search">Chwilio</string>
 
 
@@ -229,12 +225,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC ar gyfer Android</string>
-    <string name="licence">Trwydded</string>
     <string name="revision">Adolygiad</string>
     <string name="about">Ynghylch</string>
-    <string name="about_text">Mae VLC ar gyfer Android™ yn borth o\'r chwaraeydd cyfryngau cod agored poblogaidd gan VideoLAN. Mae\'r fersiwn Android™ yn chwarae bron pob math o ffeil cyfryngau a ffrwd rhwydwaith.</string>
     <string name="vlc_authors">ac Awduron VLC.</string>
-    <string name="compiled_by">Cafodd y fersiwn hon o VLC ei grynhoi gan:</string>
     <string name="feedback_forum">Fforwm adborth</string>
 
     <!-- Preferences -->
@@ -260,7 +253,6 @@
     <string name="subtitle_text_encoding">Amgodiad testun isdeitlau</string>
     <string name="daynight_title">Modd DyddNos</string>
     <string name="daynight_follow_system_title">Dilyn modd y system</string>
-
     <string name="extra_prefs_category">Gosodiadau ychwanegol</string>
 
     <string name="interface_prefs_screen">Rhyngwyneb</string>
@@ -289,7 +281,6 @@
     <string name="enable_volume_gesture_title">Cyffyrddiad sain</string>
     <string name="enable_volume_gesture_summary">Rheoli\'r sain gan gyffwrdd y sgrîn wrth chwarae fideo</string>
     <string name="enable_seek_buttons">Botymau chwilio</string>
-    <string name="enable_seek_buttons_summary">Dangos botymau nôl ac ymlaen ar y rhyngwyneb fideo</string>
     <string name="enable_double_tap_seek_title">Tap dwbl i chwilio</string>
     <string name="enable_double_tap_seek_summary">Mae tap dwbl ar ymylon y sgrin yn chwilio fesul 10 eiliad</string>
     <string name="popup_keepscreen_title">Cadw\'r sgrin YMLAEN mewn modd Ffenestr Llaim</string>
@@ -355,8 +346,6 @@
     <string name="controls_prefs_category">Rheolaeth</string>
 
     <string name="performance_prefs_category">Perfformiad</string>
-    <string name="chroma_format">Gorfodi lliw fideo</string>
-    <string name="chroma_format_summary">RGB 32-did: lliw rhagosodedig\nRGB 16-did: gwell perfformiad ond ansawdd is\nYUV: perfformiad gorau ond ddim yn gweithio ar bob dyfais (Android 2.3 a diweddarach yn unig)</string>
     <string name="deblocking">Gosodiadau\'r hidlydd dadflocio</string>
     <string name="deblocking_summary">Gall newid gosodiadau\'r hidlydd dadflocio wella ansawdd fideo (defnyddwyr uwch yn unig)</string>
     <string name="deblocking_always">Dadflocio llawn (arafaf)</string>
@@ -378,12 +367,10 @@
     <string name="clear_history">Clirio\'r hanes</string>
     <string name="set_locale">Gosod rhanbarth</string>
     <string name="network_caching">Gwerth cof dros dro</string>
-    <string name="network_caching_summary">Y cyfnod o amser i fyffro cyfrwng rhwydwaith (mewn milieiliadau).\nGadewch yn wag i\'w ailosod.</string>
     <string name="resume_playback_title">Parhau i chwarae ar ôl galwad</string>
     <string name="resume_playback_summary">Aros wedi oedi fel arall</string>
     <string name="blurred_cover_background_title">Clawr aneglur fel cefndir</string>
     <string name="blurred_cover_background_summary">Dangos y clawr yn aneglur yng nghefndir y chwaraeydd</string>
-    <string name="network_caching_popup">Rhaid i hwn bod rhwng 0 a 6000 ms</string>
     <string name="quit">Diweddu ac ail-ddechrau\'r ap</string>
     <string name="restart_message">Caiff newidiadau eu rhoi ar waith pan fydd yr ap wedi ail-ddechrau.\n\nAil-ddechrau nawr?</string>
     <string name="restart_message_OK">Iawn</string>
@@ -437,8 +424,6 @@
     <string name="playlist_save">Cadw Rhestr Chwarae</string>
     <string name="playlist_name_hint">Enw\'r rhestr chwarae</string>
     <string name="go_to_chapter">Mynd at bennod…</string>
-    <string name="chapter">Pennod</string>
-    <string name="resume_from_position">Parhau o\'r man diwethaf</string>
     <string name="confirm_resume">Parhau o\'r man diwethaf?</string>
     <string name="confirm_resume_title">Parhau fideos wedi\'i chwarae</string>
     <string name="tv_ui_title">Rhyngwyneb teledu Android</string>
@@ -758,9 +743,6 @@
     <string name="allow_otg">Caniatáu mynediad OTG</string>
     <string name="allow_otg_description">Dewisa dy yriant OTG i ganiatáu mynediad at VLC.</string>
     <string name="timeout_infinite">Anfeidrol</string>
-    <string name="timeout_short">Byr</string>
-    <string name="timeout_normal">Arferol</string>
-    <string name="timeout_long">Hir</string>
     <string name="video_hud_timeout">Oediad cyn cuddio botymau</string>
     <string name="remove_from_history">Tynnu o\'r hanes</string>
     <string name="prefersmbv1">Ffafrio SMB 1</string>

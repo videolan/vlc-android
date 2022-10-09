@@ -37,8 +37,7 @@ import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.map
 
 private const val TAG = "VLC/BaseModel"
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
+
 abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineContextProvider: CoroutineContextProvider) : SortableModel(context) {
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
@@ -55,6 +54,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineCo
     }
 
     @Suppress("UNCHECKED_CAST")
+    @OptIn(ObsoleteCoroutinesApi::class)
     protected val updateActor by lazy {
         viewModelScope.actor<Update>(capacity = Channel.UNLIMITED) {
             for (update in channel) if (isActive) when (update) {
@@ -78,6 +78,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineCo
         updateActor.trySend(Remove(mw))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun filter(query: String?) {
         if (!updateActor.isClosedForSend) {
             filterQuery = query

@@ -9,12 +9,8 @@ import android.telephony.TelephonyManager
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.preference.PreferenceManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings.init
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
 
     var showVideoThumbs = true
@@ -27,9 +23,12 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showAudioTrackInfo = false
     var videoJumpDelay = 10
     var videoLongJumpDelay = 20
-    var videoDoubleTapJumpDelay = 20
+    var videoDoubleTapJumpDelay = 10
     var audioJumpDelay = 10
     var audioLongJumpDelay = 20
+    var showHiddenFiles = false
+    var showTrackNumber = true
+    var tvFoldersFirst = true
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -39,16 +38,19 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
-        videoHudDelay = prefs.getInt(VIDEO_HUD_TIMEOUT, 4)
+        videoHudDelay = prefs.getInt(VIDEO_HUD_TIMEOUT, 4).coerceInOrDefault(1, 15, -1)
         device = DeviceInfo(context)
         includeMissing = prefs.getBoolean(KEY_INCLUDE_MISSING, true)
         showHeaders = prefs.getBoolean(KEY_SHOW_HEADERS, true)
         showAudioTrackInfo = prefs.getBoolean(KEY_SHOW_TRACK_INFO, false)
         videoJumpDelay = prefs.getInt(KEY_VIDEO_JUMP_DELAY, 10)
         videoLongJumpDelay = prefs.getInt(KEY_VIDEO_LONG_JUMP_DELAY, 20)
-        videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
+        videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 10)
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
+        showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
+        showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
+        tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         return prefs
     }
 
@@ -88,6 +90,7 @@ const val KEY_VIDEO_LONG_JUMP_DELAY = "video_long_jump_delay"
 const val KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY = "video_double_tap_jump_delay"
 const val KEY_AUDIO_JUMP_DELAY = "audio_jump_delay"
 const val KEY_AUDIO_LONG_JUMP_DELAY = "audio_long_jump_delay"
+const val KEY_AUDIO_FORCE_SHUFFLE = "audio_force_shuffle"
 
 
 // AudioPlayer
@@ -108,9 +111,11 @@ const val ML_SCAN_OFF = 1
 //Tips
 
 const val PREF_TIPS_SHOWN = "video_player_tips_shown"
+const val PREF_WIDGETS_TIPS_SHOWN = "widgets_tips_shown"
 
 const val PREF_TV_UI = "tv_ui"
-const val FORCE_PLAY_ALL = "force_play_all"
+const val FORCE_PLAY_ALL_VIDEO = "force_play_all_video"
+const val FORCE_PLAY_ALL_AUDIO = "force_play_all_audio"
 
 const val SCREEN_ORIENTATION = "screen_orientation"
 const val VIDEO_RESUME_TIME = "VideoResumeTime"
@@ -124,12 +129,18 @@ const val ENABLE_SWIPE_SEEK = "enable_swipe_seek"
 const val ENABLE_DOUBLE_TAP_PLAY = "enable_double_tap_play"
 const val ENABLE_VOLUME_GESTURE = "enable_volume_gesture"
 const val ENABLE_BRIGHTNESS_GESTURE = "enable_brightness_gesture"
+const val SCREENSHOT_MODE = "screenshot_mode"
+const val ENABLE_SCALE_GESTURE = "enable_scale_gesture"
 const val SAVE_BRIGHTNESS = "save_brightness"
 const val BRIGHTNESS_VALUE = "brightness_value"
 const val POPUP_KEEPSCREEN = "popup_keepscreen"
 const val POPUP_FORCE_LEGACY = "popup_force_legacy"
 const val LOCK_USE_SENSOR = "lock_use_sensor"
 const val DISPLAY_UNDER_NOTCH = "display_under_notch"
+const val ALLOW_FOLD_AUTO_LAYOUT = "allow_fold_auto_layout"
+const val HINGE_ON_RIGHT = "hinge_on_right"
+const val AUDIO_HINGE_ON_RIGHT = "audio_hinge_on_right"
+const val TV_FOLDERS_FIRST = "tv_folders_first"
 
 const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"
@@ -152,6 +163,8 @@ const val BETA_WELCOME = "beta_welcome"
 const val CRASH_DONT_ASK_AGAIN = "crash_dont_ask_again"
 
 const val PLAYBACK_HISTORY = "playback_history"
+const val AUDIO_RESUME_PLAYBACK = "audio_resume_playback"
+const val VIDEO_RESUME_PLAYBACK = "video_resume_playback"
 const val RESUME_PLAYBACK = "resume_playback"
 const val AUDIO_DUCKING = "audio_ducking"
 
@@ -164,6 +177,22 @@ const val SUBTITLE_PREFERRED_LANGUAGE = "subtitle_preferred_language"
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
 const val PERMISSION_NEVER_ASK = "permission_never_ask"
+const val PERMISSION_NEXT_ASK = "permission_next_ask"
+
+const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
+const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
+const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
+
+const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
+
+//files
+const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
+
+// Albums
+const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"
+
+//widgets
+const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
@@ -191,3 +220,13 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
         else -> throw IllegalArgumentException("value class is invalid!")
     }
 }
+
+/**
+ * Force an [Int] to be in a reange else set it to a default value
+ *
+ * @param min the minimum value to accept
+ * @param max the maximum value to accept
+ * @param defautValue the default value to return if it's not in the range
+ * @return an [Int] in the range
+ */
+fun Int.coerceInOrDefault(min: Int, max: Int, defautValue: Int) = if (this < min || this > max) defautValue else this

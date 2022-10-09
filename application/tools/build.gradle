@@ -20,6 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'videolan.org.commontools'
 }
 
 dependencies {
@@ -33,6 +34,6 @@ dependencies {
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
 
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "androidx.test:runner:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test:runner:$rootProject.ext.testRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
 }

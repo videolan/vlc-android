@@ -15,6 +15,7 @@
     <string name="sortby_length">Length</string>
     <string name="sortby_date">Date</string>
     <string name="sortby_last_modified_date">Recently added</string>
+    <string name="sortby_insertion">Insertion date</string>
     <string name="sortby_media_number">Media number</string>
     <string name="sortby_number">Nb tracks</string>
     <string name="searchable_hint">Search…</string>
@@ -118,11 +119,11 @@
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait…</string>
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
+    <string name="empty_search">No item found for search %s</string>
     <string name="noplaylist">No playlist found.</string>
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
-    <string name="validation">Are you sure?</string>
 
     <string name="cover_art">Cover art</string>
     <string name="shuffle_all_title">Shuffle all</string>
@@ -210,6 +211,11 @@
 
     <string name="playback_history_title">Playback history</string>
     <string name="playback_history_summary">Save all media played in History section</string>
+    <string name="video_resume_playback_title">Video play queue history</string>
+    <string name="video_resume_playback_summary">Allow saving the video play queue to resume later</string>
+    <string name="audio_resume_playback_title">Audio play queue history</string>
+    <string name="audio_resume_playback_warning">Disabling the audio play queue history may lead to some behavior issues.\nAfter disabling it you may not be able to resume the playback from:\n\n\t- a  bluetooth device\n\t- the widget\n\t- the media notification</string>
+    <string name="audio_resume_playback_summary">Allow saving the audio play queue to resume later</string>
     <string name="playback_speed_title">Save Playback Speed</string>
     <string name="playback_speed_summary">Keep playback speed between medias</string>
 
@@ -253,6 +259,7 @@
     <string name="audio_player_tips">Audio player tips</string>
     <string name="previous_next_song">Previous/Next song</string>
     <string name="show_playlist">Show playlist</string>
+    <string name="hide_playlist">Hide playlist</string>
     <string name="hold_to_stop">Hold to stop</string>
 
     <!-- About -->
@@ -296,6 +303,7 @@
     <string name="screen_orientation_landscape_reverse">Landscape reverse</string>
     <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
+    <string name="theme_auto">Auto theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="subtitle_preferred_language">Preferred subtitle language</string>
     <string name="daynight_title">DayNight mode</string>
@@ -321,7 +329,9 @@
     <string name="media_seen">Show seen video marker</string>
     <string name="media_seen_summary">Mark a video as seen when you play it until the end</string>
     <string name="force_play_all_summary">Play all videos, starting with the one you clicked on</string>
+    <string name="force_play_all_audio_summary">Play all audio, starting with the one you clicked on</string>
     <string name="force_play_all_title">Video playlist mode</string>
+    <string name="force_play_all_audio_title">Audio playlist mode</string>
     <string name="save_brightness_summary">Keep brightness level between media</string>
     <string name="save_brightness_title">Save brightness level</string>
     <string name="save_audiodelay_summary">Save individual audio delay for each video</string>
@@ -342,26 +352,44 @@
     <string name="enable_double_tap_play_summary">Double tap on screen center to play or pause</string>
     <string name="enable_swipe_seek_title">Swipe to seek</string>
     <string name="enable_swipe_seek_summary">Swipe you finger across the screen to seek</string>
+    <string name="enable_scale_gesture_title">Two finger zoom</string>
+    <string name="enable_scale_gesture_summary">Zoom in and out with two fingers</string>
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
     <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
     <string name="browser_show_hidden_files_title">Show hidden files</string>
+    <string name="albums_show_track_numbers">Show track numbers</string>
+    <string name="enable_video_screenshot">Take a screenshot</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
+    <string name="subtitles_presets_title">Subtitles presets</string>
     <string name="subtitles_size_small">Small</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Big</string>
     <string name="subtitles_size_huge">Huge</string>
+    <string name="subtitles_font_style">Subtitles font style</string>
     <string name="subtitles_color_title">Subtitles Color</string>
-    <string name="subtitles_color_white">White</string>
-    <string name="subtitles_color_gray">Gray</string>
-    <string name="subtitles_color_pink">Pink</string>
-    <string name="subtitles_color_blue">Blue</string>
-    <string name="subtitles_color_yellow">Yellow</string>
-    <string name="subtitles_color_green">Green</string>
+    <string name="subtitles_opacity">Opacity</string>
+    <string name="subtitles_color">Color</string>
+    <string name="subtitles_size">Size</string>
+    <string name="subtitles_background_color_title">Subtitles background</string>
     <string name="subtitles_background_title">Subtitles Background</string>
+    <string name="subtitles_outline_title">Subtitles outline</string>
+    <string name="subtitles_shadow_title">Subtitles shadow</string>
+    <string name="subtitles_decoration_title">Subtitles decoration</string>
+    <string name="subtitle_decoration_none">None</string>
+    <string name="subtitle_decoration_shadow">Shadow</string>
+    <string name="subtitle_decoration_outline">Outline</string>
     <string name="subtitles_bold_title">Bold subtitles</string>
     <string name="subtitles_autoload_title">Auto load subtitles</string>
+    <string name="previous_color">Previous color</string>
+    <string name="new_color">New color</string>
+    <string name="subtitles_preset_default">Default</string>
+    <string name="subtitles_preset_default_large">Large text</string>
+    <string name="subtitles_preset_default_largest">Largest text and contrast</string>
+    <string name="subtitles_preset_white_background">With background</string>
+    <string name="subtitles_yellow">Yellow</string>
+    <string name="subtitles_yellow_background">Yellow with background</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
@@ -381,6 +409,19 @@
     <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
     <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
     <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
+    <string name="replaygain_prefs_category">Replay Gain</string>
+    <string name="replaygain_enable">Enable replay gain</string>
+    <string name="replaygain_enable_summary">Streams without replay gain information may be quieter due to the default gain</string>
+    <string name="replaygain_mode">Replay gain mode</string>
+    <string name="replaygain_mode_summary">Track mode plays streams with replay gain information at the same loudness. Album mode preserves relative stream loudness on the same album.</string>
+    <string name="replaygain_preamp">Replay preamp</string>
+    <string name="replaygain_preamp_summary">Changes the default target level (89 dB) for streams with replay gain information</string>
+    <string name="replaygain_default">Default replay gain</string>
+    <string name="replaygain_default_summary">Applies to streams without replay gain information\nSet to 0 to disable</string>
+    <string name="replaygain_peak_protection">Peak protection</string>
+    <string name="replaygain_peak_protection_summary">Protect against sound clipping</string>
+    <string name="replaygain_track">Track</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Audio output</string>
     <string name="aout_summary">Change the method that VLC uses to output audio</string>
     <string name="aout_audiotrack" translatable="false">AudioTrack</string>
@@ -401,6 +442,8 @@
     <string name="artists_show_all_title">Show all artists</string>
     <string name="show_headers">Show headers</string>
     <string name="show_headers_summary">Split lists by headers depending on the sort type</string>
+    <string name="tv_folders_first">Show folders first</string>
+    <string name="tv_folders_first_summary">Show folders and then files in the file browser</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>
@@ -412,8 +455,6 @@
     <string name="controls_prefs_category">Controls</string>
 
     <string name="performance_prefs_category">Performance</string>
-    <string name="chroma_format">Force video chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices (Android 2.3 and later only)</string>
     <string name="deblocking">Deblocking filter settings</string>
     <string name="deblocking_summary">Changing the deblocking filter settings could improve video quality (advanced users only)</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>
@@ -429,20 +470,24 @@
     <string name="auto_rescan">Auto rescan</string>
     <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
     <string name="dump_media_db">Dump media database</string>
+    <string name="dump_app_db">Dump app database</string>
     <string name="dump_media_db_summary">Copy database to internal storage root</string>
     <string name="clear_media_db">Clear media database</string>
     <string name="clear_media_database_summary">Clears the database to start over</string>
     <string name="clear_app_data">Clear app data</string>
     <string name="clear_app_data_summary">Clears VLC for Android data</string>
     <string name="clear_history">Clear history</string>
+    <string name="clear_history_message">You will lose your history, your current playlists and your progresses</string>
     <string name="set_locale">Set locale</string>
     <string name="network_caching">Network caching value</string>
-    <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nLeave blank to reset</string>
+    <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nSet to 0 to disable</string>
     <string name="resume_playback_title">Resume playback after a call</string>
     <string name="resume_playback_summary">Stay in pause otherwise</string>
     <string name="blurred_cover_background_title">Blurred cover background</string>
     <string name="blurred_cover_background_summary">Blurred cover in audio player background</string>
-    <string name="network_caching_popup">This value must be between 0 and 6000 ms</string>
+    <string name="force_shuffle_title">Force shuffle</string>
+    <string name="force_shuffle_summary">Force shuffling when launching a playback</string>
+    <string name="network_caching_popup">This value must be between 0 and 60000 ms</string>
     <string name="quit">Quit and restart application</string>
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
     <string name="restart_message_OK">OK</string>
@@ -516,7 +561,13 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
-    <string name="widget_default_text" translatable="false">VLC mini player</string>
+    <string name="widget_name_mini_player">VLC mini player</string>
+    <string name="widget_old_text">We updated our widgets!</string>
+    <string name="widget_old_description_start">Good news! We released improved widgets.\nThey offer more responsiveness and customization</string>
+    <string name="whats_next">What\'s next?</string>
+    <string name="widget_old_description_end">We detected that you already have widgets on your launcher. Unfortunately, they are not compatible with our new improved ones.\nDepending on your launcher, you may have to remove the old ones to replace them.</string>
+    <string name="click_here">Click here to learn more.</string>
+    <string name="widget_default_text" translatable="false">VLC media player</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="allow_storage_manager_title">Allow VLC all file access</string>
@@ -531,14 +582,22 @@
     <string name="allow_settings_access_brightness_description">VLC needs you to grant this permission to change your brightness mode.</string>
     <string name="allow_draw_overlays_title">Allow VLC player popup over other apps</string>
     <string name="allow_sdraw_overlays_description">VLC needs you to grant this permission display your video in a popup over other applications.</string>
+    <string name="allow_pip">Allow VLC player to launch the Picture in Picture</string>
+    <string name="allow_pip_description">VLC needs you to grant this permission to display your video in Picture in Picture mode.</string>
     <string name="permission_ask_again">Grant permission</string>
+    <string name="pick_file">Pick a file</string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="permission_expanation_no_allow">You won\'t be able to auto-discover your media nor use external subtitles</string>
     <string name="permission_expanation_allow">You will be able to only play streams or network media</string>
-    <string name="permission_expanation_subtitles">Use external subtitles</string>
-    <string name="permission_expanation_allow_explanation">Play Internet streams or network media</string>
+    <string name="permission_onboarding_no_perm">You won\'t be able to auto-discover your media.\nYou will be able to only play streams or network media</string>
+    <string name="permission_onboarding_perm_media">You will only be able to auto-discover standard media files</string>
+    <string name="permission_onboarding_perm_all">You will be able to auto-discover all your files to play all types of media even weird ones, or compressed files</string>
     <string name="exit_app">Close VLC</string>
     <string name="exit_app_msg">Are you sure you want to quit VLC?</string>
+    <string name="widget_explanation_title">VLC widgets</string>
+    <string name="widget_explanation_size">The widgets come in different sizes and flavors</string>
+    <string name="widget_explanation_resize">To change the widget type, long press it and use the handles to resize it to the size you like</string>
+    <string name="widget_explanation_end">Widgets are heavily customizable. Unleash your creativity and make them look like you!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller track</string>
@@ -554,7 +613,6 @@
     <string name="opengl_automatic">Automatic</string>
     <string name="opengl_on">Force On</string>
     <string name="opengl_off">Force Off</string>
-    <string name="chroma_format_default" translatable="false">RV16</string>
     <string name="network_favorites">Network favorites</string>
     <string name="network_shared_folders">Shared folders</string>
     <string name="encryption_warning">Warning, encryption is not available for this Android version, password will be stored in a private space but not encrypted</string>
@@ -650,6 +708,8 @@
     <string name="delete_the_selected">Delete selection</string>
     <string name="download_the_selected">Download selection</string>
     <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="next_step">Next</string>
     <string name="download">Download</string>
     <string name="ctx_player_video_track">Select video track</string>
     <string name="ctx_player_audio_track">Audio track</string>
@@ -800,6 +860,7 @@
     <string name="rename_group">Rename video group</string>
     <string name="ungroup">Ungroup</string>
     <string name="group_similar">Regroup automatically</string>
+    <string name="no_group_found">No video group found</string>
     <string name="no_favorite">No favorite</string>
     <string name="empty_directory">Empty</string>
     <string name="no_track">No track</string>
@@ -851,6 +912,7 @@
     <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
+    <string name="create_shortcut">Create a launcher shortcut</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
     <string name="enqueuing">Loading your medias</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -859,6 +921,8 @@
     <string name="browser_show_missing_media">Show missing medias</string>
     <string name="browser_show_missing_media_summary">Show distant medias even if they are not present</string>
     <string name="search_prefs">Search settings</string>
+    <string name="video_match_frame_rate_title">Match Display Frame Rate</string>
+    <string name="video_match_frame_rate_summary">Match display refresh rate to media frame rate. For example, a 24p film should play at 24p</string>
     <string name="preferred_resolution">Preferred video resolution</string>
     <string name="preferred_resolution_summary">Maximum video quality for streams, when applicable, will be: %s</string>
     <string name="pref_resolution_best_available">Best available</string>
@@ -896,6 +960,8 @@
     <string name="lock_use_sensor_title">Lock with sensor</string>
     <string name="lock_use_sensor_summary">When the orientation is locked, use the sensor to allow the reverse orientation</string>
     <string name="start">Start</string>
+    <string name="notification_permission">Notification permission</string>
+    <string name="notification_permission_explanation">VLC needs your permission to send notifications.\nThe app will only notify you when scanning your media or using the custom video Picture in Picture.\nRefusing it won\'t prevent VLC to work, however the notifications will be hidden.</string>
     <string name="permission">Permission</string>
     <string name="customize">Customize</string>
     <string name="selection_count">%d selected</string>
@@ -905,6 +971,7 @@
     <string name="video_double_tap_jump_delay">Double tap time delay</string>
     <string name="video_key_jump_delay">Navigation keys time delay</string>
     <string name="banned">Banned folder (long tap to change)</string>
+    <string name="banned_tv">Banned folder</string>
     <string name="banned_parent">Banned by parent folder</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">This item is already in this playlist.</item>
@@ -920,5 +987,97 @@
     <string name="notch">Notch</string>
     <string name="always_fast_seek">Always use fast seek</string>
     <string name="always_fast_seek_summary">Seek is faster but may be less precise</string>
+    <string name="touch_only">Touch only feature</string>
+    <string name="touch_only_description">Switching to the mobile interface can only be done with a tactile screen or a mouse.\nPlease slide below to verify that this feature is safe to change.</string>
+    <string name="no_web_browser">No web browser installed</string>
+    <string name="no_web_browser_message">You can scan this on your smartphone.\nThe URL is %s</string>
+    <string name="no_video">No video available</string>
+    <string name="fold_optimized">Optimized for your folding screen</string>
+    <string name="fold_optimize">Optimize for folding screens</string>
+    <string name="foldable">Foldable screen</string>
+    <string name="undo">Undo</string>
+    <string name="add_server_favorite">Add a server favorite</string>
+    <string name="widget_theme">Widget theme</string>
+    <string name="widget_preferences">Configure widget</string>
+    <string name="material_you">Material You (pulls colors from wallpaper)</string>
+    <string name="palette">Palette (pulls colors from the media cover)</string>
+    <string name="custom">Custom</string>
+    <string name="opacity">Opacity</string>
+    <string name="widget_background">Background</string>
+    <string name="widget_foreground">Foreground</string>
+    <string name="configure_widget">Widget configuration</string>
+    <string name="widget_preview">Widget preview</string>
+    <string name="widget_forward_delay">Forward time delay</string>
+    <string name="widget_show_seek">Show seek buttons</string>
+    <string name="widget_show_cover">Show cover</string>
+    <string name="widget_rewind_delay">Backward time delay</string>
+    <string name="widget_show_configure">Show configuration icon</string>
+    <string name="widget_show_configure_summary">Even if it\'s not shown, you can tap the upper right corner to open the configuration</string>
+    <string name="seek_backward_content_description">Seek %s seconds backwards</string>
+    <string name="seek_forward_content_description">Seek %s seconds forwards</string>
+    <string name="open_vlc">Open VLC</string>
+    <string name="playing">Playing</string>
+    <string name="disable_track">Disable track</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="screenshot_error">Error while taking the screenshot</string>
+    <string name="disabled">Disabled</string>
+    <string name="enable_screenshot_gesture">Tap with 3 fingers</string>
+    <string name="enable_screenshot_button">Show the screenshot button</string>
+    <string name="enable_screenshot_button_and_gesture">Button and gesture</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
+    <string name="talkback_genre">Genre: %s</string>
+    <string name="talkback_history_item">History item</string>
+    <string name="talkback_playlist">Playlist: %s</string>
+    <string name="talkback_folder">Folder: %s</string>
+    <string name="talkback_file">File: %s</string>
+    <string name="talkback_favorite">Favorite: %s</string>
+    <string name="talkback_track_number">Track number %s</string>
+    <string name="talkback_duration">Duration: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Artist: %s</string>
+    <string name="talkback_release_date">Released in %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Stream: %s</string>
+    <string name="talkback_audio_track">Audio track: %s</string>
+    <string name="talkback_video_group">Video group: %s</string>
+    <string name="talkback_hours">hours</string>
+    <string name="talkback_minutes">minutes</string>
+    <string name="talkback_seconds">seconds</string>
+    <string name="talkback_list_section">Header: %s</string>
+    <string name="talkback_enter_screen">Navigate to %s</string>
+    <string name="talkback_file_size">File size: %s</string>
+    <string name="talkback_open_in_browser">Open in web browser</string>
+    <string name="talkback_video_player">Video player. Tap to show controls. Tap the back button to hide them</string>
+    <string name="talkback_video_tracks">Video tracks</string>
+    <string name="talkback_audio_tracks">Audio tracks</string>
+    <string name="talkback_subtitle_tracks">Subtitle tracks</string>
+    <string name="talkback_track" translatable="false">%s: %s. %s</string>
+    <string name="talkback_subtitle_dowload_item">Language: %s. %s. Name: %s</string>
+    <string name="selected">Selected</string>
+    <string name="talkback_increase_delay">Increase delay</string>
+    <string name="talkback_decrease_delay">Decrease delay</string>
+    <string name="talkback_increase_speed">Increase speed</string>
+    <string name="talkback_decrease_speed">Decrease speed</string>
+    <string name="talkback_subtitle_history">Subtitle history</string>
+    <string name="talkback_language_selection">%s selected languages</string>
+    <string name="talkback_audio_player_opened">Audio player opened</string>
+    <string name="talkback_audio_player_collapsed">Audio player collapsed</string>
+    <string name="talkback_audio_player_closed">Audio player closed</string>
+    <string name="talkback_audio_player">Audio player. Currently playing: %s</string>
+    <string name="talkback_out_of">%s out of %s</string>
+    <string name="talkback_track_index">Track %s out of %s</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="not_downloaded">Not downloaded</string>
+    <string name="downloading">Downloading</string>
+    <string name="talkback_action_rewind">Rewind %s seconds</string>
+    <string name="talkback_action_forward">Seek forward %s seconds</string>
+    <string name="talkback_display_settings">Display settings</string>
+    <string name="talkback_already_played">Already played</string>
+
 
 </resources>

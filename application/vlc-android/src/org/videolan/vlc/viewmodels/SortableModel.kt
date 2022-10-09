@@ -11,7 +11,7 @@ import org.videolan.vlc.util.SortModule
 abstract class SortableModel(protected val context: Context): ViewModel(), RefreshModel,
     SortModule
 {
-    private val settings = Settings.getInstance(context)
+    open val settings = Settings.getInstance(context)
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)

@@ -56,15 +56,11 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class RenameDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var listener: (media: MediaLibraryItem, name: String) -> Unit
@@ -100,21 +96,19 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
         renameButton.setOnClickListener {
             performRename()
         }
-        newNameInputtext.setOnEditorActionListener { v, actionId, event ->
+        newNameInputtext.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 performRename()
                 true
-            }
-            false
+            } else false
         }
-        newNameInputtext.setOnKeyListener { view: View, keyCode: Int, keyEvent: KeyEvent ->
+        newNameInputtext.setOnKeyListener { _: View, keyCode: Int, keyEvent: KeyEvent ->
             if (keyCode == EditorInfo.IME_ACTION_DONE ||
                     keyCode == EditorInfo.IME_ACTION_GO ||
                     keyEvent.action == KeyEvent.ACTION_DOWN && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
                 performRename()
                 true
-            }
-            false
+            } else false
         }
         view.findViewById<TextView>(R.id.media_title).text = media.title
         return view

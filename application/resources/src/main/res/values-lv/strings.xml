@@ -51,7 +51,6 @@
     <string name="confirm_delete_several_media">Vai izdzēst šos datus %1$d?</string>
     <string name="confirm_delete_folder">Vai izdzēst \'%1$s\'mapi un visu tās saturu?</string>
     <string name="confirm_delete_playlist">Dzēst atskaņošanas sarakstu \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Izņemt \'%1$s\' no atskaņošanas saraksta?</string>
     <string name="ringtone_set">Fails \'%1$s\' iestatīts kā zvana signāls.</string>
     <string name="ringtone_error">Radās kļūda nosakot zvana signālu.</string>
     <string name="pause">Pauzēt</string>
@@ -106,7 +105,6 @@
     <string name="nosubfolder">Apakšmapju nav</string>
     <string name="directorynotfound">Direktorijas ceļš \'%1$s\' netika atrasts.</string>
     <string name="nohistory">Jums nav atskaņošanas vēstures vēl.</string>
-    <string name="validation">Vai esat pārliecināts?</string>
 
     <string name="cover_art">Pārklāšanas māksla</string>
     <string name="shuffle_all_title">Sakārtot visu nejaušā secībā</string>
@@ -174,7 +172,6 @@
     <string name="encountered_error_title">Atskaņošanas kļūda</string>
     <string name="encountered_error_message">VLC radusies kļūda ar šo multivides failu.\nLūdzu mēģiniet atsvaidzināt multivides bibliotēku.</string>
     <string name="invalid_location">Resursu ar adresi %1$s nevar atskaņot.</string>
-
     <string name="search">Meklēt</string>
 
 
@@ -196,12 +193,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC priekš Android</string>
-    <string name="licence">License</string>
     <string name="revision">Revīzija</string>
     <string name="about">Par</string>
-    <string name="about_text">VLC priekš Android ™ ir osta no VLC multimediju atskaņotāja, populārā atvērtā koda multimediju atskaņotājs.Android ™ versiju var izlasīt lielāko failus un tīkla plūsmas.</string>
     <string name="vlc_authors">un VLC autori.</string>
-    <string name="compiled_by">Šī versija VLC tiek apkopota pēc:</string>
     <string name="feedback_forum">Atsauksmju forums</string>
 
     <!-- Preferences -->
@@ -268,7 +262,6 @@
     <string name="aout">Audio izeja</string>
     <string name="extensions_prefs_category">Paplašinājumi</string>
     <string name="performance_prefs_category">Izpildījums</string>
-    <string name="chroma_format">Piespiest video Chroma</string>
     <string name="deblocking">Atbloķēšanas filtra iestatījumi</string>
     <string name="deblocking_always">Pilna atbloķēšana (lēnākais)</string>
     <string name="deblocking_nonref">Vidēja atbloķēšana</string>
@@ -313,7 +306,6 @@
     <string name="playlist_save">Saglabāt atskaņošanas sarakstu</string>
     <string name="playlist_name_hint">Atskaņošanas saraksta nosaukums</string>
     <string name="go_to_chapter">Atskaņot nodaļu...</string>
-    <string name="chapter">Nodaļa</string>
     <string name="medialibrary">Multivides bibliotēka</string>
     <string name="medialibrary_directories">Multivides bibliotēkas mapes</string>
 

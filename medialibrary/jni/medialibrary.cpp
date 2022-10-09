@@ -1441,6 +1441,14 @@ removeAllBookmarks(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 }
 
 jboolean
+markAsPlayed(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    return media->markAsPlayed();
+}
+
+jboolean
 setBookmarkName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
@@ -1531,6 +1539,15 @@ setMediaPlayCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlo
     return media->setPlayCount(playCount);
 }
 
+jlong
+getMediaPlayCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return -1;
+    return media->playCount();
+}
+
 jboolean
 removeMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
@@ -1604,7 +1621,7 @@ searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, js
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    const auto query = aml->searchFromPLaylist(id, queryChar);
+    const auto query = aml->searchFromPlaylist(id, queryChar);
     if (query == nullptr)
     {
         env->ReleaseStringUTFChars(filterQuery, queryChar);
@@ -1624,7 +1641,7 @@ searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, js
 jint
 getSearchFromPlaylistCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery) {
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromPLaylist(id, queryChar);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromPlaylist(id, queryChar);
     env->ReleaseStringUTFChars(filterQuery, queryChar);
     return (jint) (query != nullptr ? query->count() : 0);
 }
@@ -2124,6 +2141,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
     {"nativeSetMediaPlayCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)setMediaPlayCount },
+    {"nativeGetMediaPlayCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)getMediaPlayCount },
     {"nativeRemoveMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
     {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
@@ -2132,6 +2150,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeAddBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Lorg/videolan/medialibrary/interfaces/media/Bookmark;", (void*)addBookmark },
     {"nativeRemoveBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)removeBookmark },
     {"nativeRemoveAllBookmarks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeAllBookmarks },
+    {"nativeMarkAsPlayed", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)markAsPlayed },
 };
 
 static JNINativeMethod bookmark_methods[] = {

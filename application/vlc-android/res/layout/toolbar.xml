@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:importantForAccessibility="no"
                 android:textAppearance="@style/ToolbarTitleText"
                 android:text="@string/app_name" />
 

@@ -11,8 +11,6 @@ import androidx.test.espresso.contrib.RecyclerViewActions.*
 import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
@@ -25,8 +23,6 @@ import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class StorageBrowserFragmentUITest : BaseUITest() {
     @Rule
     @JvmField

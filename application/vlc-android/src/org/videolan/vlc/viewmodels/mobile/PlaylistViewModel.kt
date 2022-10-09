@@ -24,20 +24,16 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
-
-@ExperimentalCoroutinesApi
 class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : MedialibraryViewModel(context) {
 
     val tracksProvider = TracksProvider(playlist, context, this)
@@ -64,6 +60,4 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-internal fun PlaylistActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+internal fun HeaderMediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)

@@ -64,7 +64,7 @@ class AutoFitRecyclerView : RecyclerView {
         super.onMeasure(widthSpec, heightSpec)
         if (spanCount == -1 && columnWidth > 0) {
             val ratio = measuredWidth / columnWidth
-            val spanCount = Math.max(1, ratio)
+            val spanCount = 2.coerceAtLeast(ratio)
             gridLayoutManager!!.spanCount = spanCount
         } else
             gridLayoutManager!!.spanCount = spanCount
@@ -79,7 +79,7 @@ class AutoFitRecyclerView : RecyclerView {
 
         val remainingSpace = displayWidth % columnWidth
         val ratio = displayWidth / columnWidth
-        val spanCount = Math.max(1, ratio)
+        val spanCount = 2.coerceAtLeast(ratio)
 
         return columnWidth + remainingSpace / spanCount
     }

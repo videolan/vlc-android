@@ -34,10 +34,7 @@ import android.hardware.usb.UsbManager
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.getSystemService
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
@@ -58,14 +55,13 @@ import java.lang.ref.WeakReference
 
 private const val TAG = "VLC/ExternalMonitor"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @SuppressLint("StaticFieldLeak")
-object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope by MainScope() {
+object ExternalMonitor : BroadcastReceiver(), DefaultLifecycleObserver, CoroutineScope by MainScope() {
 
     private lateinit var ctx: Context
     private var registered = false
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val actor = actor<DeviceAction>(capacity = Channel.CONFLATED) {
         for (action in channel) when (action){
             is MediaMounted -> {
@@ -115,15 +111,16 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         }
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val storageChannel = BroadcastChannel<DeviceAction>(BUFFERED)
+    @OptIn(ObsoleteCoroutinesApi::class)
     val storageEvents : Flow<DeviceAction>
         get() = storageChannel.asFlow()
     private var storageObserver: WeakReference<Activity>? = null
 
     var devices = LiveDataset<UsbDevice>()
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun register() {
+    override fun onStart(owner: LifecycleOwner) {
         if (registered) return
         val ctx = AppContextProvider.appContext
         val storageFilter = IntentFilter(Intent.ACTION_MEDIA_MOUNTED)
@@ -138,8 +135,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         checkNewStorages(ctx)
     }
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
     private fun checkNewStorages(ctx: Context) {
         if (Medialibrary.getInstance().isStarted) {
             val scanOpt = if (Settings.showTvUi) ML_SCAN_ON
@@ -151,8 +146,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         devices.add(ArrayList(usbManager.deviceList.values))
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    internal fun unregister() {
+    override fun onStop(owner: LifecycleOwner) {
         val ctx = AppContextProvider.appContext
         if (registered) try {
             ctx.unregisterReceiver(this)
@@ -162,6 +156,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     }
 
     @Synchronized
+    @OptIn(ObsoleteCoroutinesApi::class)
     private fun notifyNewStorage(mediaMounted: MediaMounted) {
         val activity = storageObserver?.get() ?: return
         UiTools.newStorageDetected(activity, mediaMounted.path)
@@ -184,7 +179,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
 fun containsDevice(devices: Array<String>, device: String): Boolean {
     if (devices.isNullOrEmpty()) return false
-    for (dev in devices) if (device.startsWith(dev.removeFileProtocole())) return true
+    for (dev in devices) if (device.startsWith(dev.removeFileScheme())) return true
     return false
 }
 

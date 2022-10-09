@@ -14,6 +14,7 @@
     <string name="sortby_length">Durată</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Recent adăugate</string>
+    <string name="sortby_insertion">Data introducerii</string>
     <string name="sortby_media_number">Numărul media</string>
     <string name="sortby_number">Piste Nb</string>
     <string name="searchable_hint">Căutare…</string>
@@ -126,11 +127,11 @@
     <string name="loading">Se încarcă</string>
     <string name="please_wait">Vă rugăm așteptați…</string>
     <string name="nomedia">Nici-un fișier media găsit, vă rugăm să transferați câteva fișiere, pe dispozitivul dumneavoastră sau să ajustați preferințele.</string>
+    <string name="empty_search">Nu a fost găsit niciun articol pentru căutare %s</string>
     <string name="noplaylist">Nu a fost găsit nici un playlist.</string>
     <string name="nosubfolder">Fișier secundar inexistent</string>
     <string name="directorynotfound">Calea directorului \'%1$s\' nu a fost găsită.</string>
     <string name="nohistory">Nu aveţi încă un istoric al redărilor.</string>
-    <string name="validation">Confirmaţi?</string>
 
     <string name="cover_art">Copertă</string>
     <string name="shuffle_all_title">Amestecă tot</string>
@@ -151,6 +152,7 @@
     <string name="surface_fit_screen">Potrivire ecran</string>
     <string name="surface_fill">Umplere</string>
     <string name="surface_original">Centru</string>
+    <string name="resize_tip">Atinge lung pentru mai multe opțiuni</string>
     <string name="unseekable_stream">Flux nederulabil</string>
     <string name="refresh">Reîmprospătare</string>
     <string name="track_audio">Pistă audio</string>
@@ -212,6 +214,11 @@
 
     <string name="playback_history_title">Istoric redare</string>
     <string name="playback_history_summary">Salvați toate fișierele media redate din secțiunea Istoric</string>
+    <string name="video_resume_playback_title">Istoricul cozii de redare video</string>
+    <string name="video_resume_playback_summary">Permite salvarea cozii de redare video pentru a o relua mai târziu</string>
+    <string name="audio_resume_playback_title">Istoricul cozii de redare audio</string>
+    <string name="audio_resume_playback_warning">Dezactivarea istoricului cozii de redare audio poate duce la unele probleme de comportament.\nDupă dezactivarea acestuia, este posibil să nu poți relua redarea de pe:\n\n\t- un dispozitiv Bluetooth\n\t- widget-ul\n\t- notificarea media</string>
+    <string name="audio_resume_playback_summary">Permite salvarea cozii de redare audio pentru a o relua mai târziu</string>
     <string name="playback_speed_title">Salvați viteza de redare</string>
     <string name="playback_speed_summary">Reține viteza redării între fișiere media</string>
 
@@ -255,6 +262,7 @@
     <string name="audio_player_tips">Sfaturi pentru redarea audio</string>
     <string name="previous_next_song">Cântecul anterior / următor</string>
     <string name="show_playlist">Afișați lista de redare</string>
+    <string name="hide_playlist">Ascunde lista de redare</string>
     <string name="hold_to_stop">Apăsați pentru a opri</string>
 
     <!-- About -->
@@ -291,6 +299,7 @@
     <string name="screen_orientation_landscape_reverse">Peisaj invers</string>
     <string name="screen_orientation_last_locked">Ultima orientare blocată</string>
     <string name="enable_black_theme">Tematica neagră</string>
+    <string name="theme_auto">Temă automată</string>
     <string name="subtitle_text_encoding">Codificarea textului din subtitlu</string>
     <string name="subtitle_preferred_language">Limba preferată pentru subtitrare</string>
     <string name="daynight_title">Modul noapte zi</string>
@@ -316,7 +325,9 @@
     <string name="media_seen">Afișează marcajul pentru video văzut</string>
     <string name="media_seen_summary">Marchează un videoclip ca văzut atunci cândeste redat până la sfârșit</string>
     <string name="force_play_all_summary">Redă toate videoclipurile, începând cu cel pe care am făcut clic</string>
+    <string name="force_play_all_audio_summary">Redă toate fișierele audio, începând cu cea pe care ai apăsat</string>
     <string name="force_play_all_title">Modul video playlist</string>
+    <string name="force_play_all_audio_title">Modul listă de redare audio</string>
     <string name="save_brightness_summary">Păstrează nivelul luminozității între sesiuni</string>
     <string name="save_brightness_title">Salvează nivelul luminozității</string>
     <string name="save_audiodelay_summary">Salvează întârzierea audio individual pentru fiecare videoclip</string>
@@ -337,26 +348,44 @@
     <string name="enable_double_tap_play_summary">Atingeți de două ori în centrul ecranului pentru a reda sau a pune pe pauză</string>
     <string name="enable_swipe_seek_title">Glisați pentru a derula</string>
     <string name="enable_swipe_seek_summary">Glisați degetele pe ecran pentru a derula</string>
+    <string name="enable_scale_gesture_title">Redimensionare cu două degete</string>
+    <string name="enable_scale_gesture_summary">Mărește sau micșorează cu două degete</string>
     <string name="popup_keepscreen_title">Mențineți ecranul activat în modul Pop-Up</string>
     <string name="popup_keepscreen_summary">Mențineți întotdeauna ecranul activat în timp ce se afișează ferestrele pop-up, chiar dacă videoclipul este întrerupt.</string>
     <string name="browser_show_hidden_files_title">Afișați fișierele ascunse</string>
+    <string name="albums_show_track_numbers">Arată numerele pistei</string>
+    <string name="enable_video_screenshot">Fă o captură de ecran</string>
 
     <string name="subtitles_prefs_category">Subtitrari</string>
     <string name="subtitles_size_title">Marime subtitrari</string>
+    <string name="subtitles_presets_title">Presetări de subtitrare</string>
     <string name="subtitles_size_small">Mic</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Mare</string>
     <string name="subtitles_size_huge">Imens</string>
+    <string name="subtitles_font_style">Stilul scrisului subtitrărilor</string>
     <string name="subtitles_color_title">Culoare subtitrari</string>
-    <string name="subtitles_color_white">Alb</string>
-    <string name="subtitles_color_gray">Gri</string>
-    <string name="subtitles_color_pink">Roz</string>
-    <string name="subtitles_color_blue">Albastru</string>
-    <string name="subtitles_color_yellow">Galben</string>
-    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_opacity">Opacitate</string>
+    <string name="subtitles_color">Culoare</string>
+    <string name="subtitles_size">Dimensiune</string>
+    <string name="subtitles_background_color_title">Fundalul subtitrărilor</string>
     <string name="subtitles_background_title">Fundal subtitrari</string>
+    <string name="subtitles_outline_title">Conturul subtitrărilor</string>
+    <string name="subtitles_shadow_title">Umbra subtitrărilor</string>
+    <string name="subtitles_decoration_title">Decor de subtitrare</string>
+    <string name="subtitle_decoration_none">Niciunul</string>
+    <string name="subtitle_decoration_shadow">Umbră</string>
+    <string name="subtitle_decoration_outline">Contur</string>
     <string name="subtitles_bold_title">Subtitrări îngroșate</string>
     <string name="subtitles_autoload_title">Încarcă automat subtitrările</string>
+    <string name="previous_color">Culoarea anterioară</string>
+    <string name="new_color">Culoare nouă</string>
+    <string name="subtitles_preset_default">Implicit</string>
+    <string name="subtitles_preset_default_large">Text mare</string>
+    <string name="subtitles_preset_default_largest">Cel mai mare text și contrast</string>
+    <string name="subtitles_preset_white_background">Cu fundal</string>
+    <string name="subtitles_yellow">Galben</string>
+    <string name="subtitles_yellow_background">Galben cu fundal</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Coperta media din Lockscreen</string>
@@ -376,6 +405,19 @@
     <string name="enable_headset_detection_summary">Detectează inserarea și scoaterea căștilor</string>
     <string name="enable_play_on_headset_insertion">Revine la introducerea căștilor</string>
     <string name="enable_play_on_headset_insertion_summary">Pauză</string>
+    <string name="replaygain_prefs_category">Câștig de reluare</string>
+    <string name="replaygain_enable">Activează câștigul reluării</string>
+    <string name="replaygain_enable_summary">Fluxurile fără informații despre câștigul de reluare pot fi mai silențioase din cauza câștigului implicit</string>
+    <string name="replaygain_mode">Modul câștig de reluare</string>
+    <string name="replaygain_mode_summary">Modul Pistă redă fluxuri cu informații despre câștigul de reluare la aceeași intensitate. Modul Album păstrează volumul relativ al fluxului pe același album.</string>
+    <string name="replaygain_preamp">Preamplificarea reluării</string>
+    <string name="replaygain_preamp_summary">Schimbă nivelul țintă implicit (89 dB) pentru fluxurile cu informații despre câștigul de redare</string>
+    <string name="replaygain_default">Câștigul de reluare implicit</string>
+    <string name="replaygain_default_summary">Se aplică fluxurilor fără informații despre câștigul de redare\nSetează la 0 pentru dezactivare</string>
+    <string name="replaygain_peak_protection">Protecție maximă</string>
+    <string name="replaygain_peak_protection_summary">Protecție împotriva întreruperii sunetului</string>
+    <string name="replaygain_track">Pistă</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Ieșire audio</string>
     <string name="aout_summary">Schimbă metoda folosită de VLC pentru a reda audio</string>
     <string name="audio_ducking_title">Redu volumul VLC la notificări</string>
@@ -405,8 +447,6 @@
     <string name="controls_prefs_category">Controale</string>
 
     <string name="performance_prefs_category">Performanță</string>
-    <string name="chroma_format">Forțează cromatica video</string>
-    <string name="chroma_format_summary">RGB pe 32 de biți: cromatică implicită\nRGB pe 16 biți: performanță mai bună, dar calitate mai slabă\nYUV: cea mai bună performanță, dar nu funcționează pe toate dispozitivele (numai pe Android 2.3 și ulterior)</string>
     <string name="deblocking">Setările filtrului de deblocare.</string>
     <string name="deblocking_summary">Modificarea setărilor filtrului de deblocare poate îmbunătății calitatea video (numai utilizatori avansați)</string>
     <string name="deblocking_always">Deblocare completă (cel mai lent)</string>
@@ -422,20 +462,24 @@
     <string name="auto_rescan">Reluarea automată a scanării</string>
     <string name="auto_rescan_summary">Scanați automat dispozitivul pentru medii noi sau șterse la pornirea aplicației</string>
     <string name="dump_media_db">Descarcă baza de date</string>
+    <string name="dump_app_db">Șterge baza de date a aplicației</string>
     <string name="dump_media_db_summary">Copie baza de date în rădăcina dispozitivului de stocare</string>
     <string name="clear_media_db">Curăță baza de date media</string>
     <string name="clear_media_database_summary">Curăță baza de date media pentru a începe din nou</string>
     <string name="clear_app_data">Ștergeți datele aplicației</string>
     <string name="clear_app_data_summary">Șterge datele VLC pentru Android</string>
     <string name="clear_history">Ștergere istoric</string>
+    <string name="clear_history_message">O să-ți pierzi istoricul, listele tale de redare curente și progresele tale</string>
     <string name="set_locale">Stabiliţi localizarea</string>
     <string name="network_caching">Valoarea cache-ului rețelei</string>
-    <string name="network_caching_summary">Timpul de stocare a mediilor de rețea în memoria tampon (în ms) pentru decodarea software\nLasă în alb pentru resetare</string>
+    <string name="network_caching_summary">Perioada de timp pentru salvarea media de rețea (în ms) pentru decodarea software\nSetează la 0 pentru a o dezactiva</string>
     <string name="resume_playback_title">Reluați redarea după un apel telefonic</string>
     <string name="resume_playback_summary">Rămâi pe pauză în caz contrar</string>
     <string name="blurred_cover_background_title">Copertă neclară în fundal</string>
     <string name="blurred_cover_background_summary">Coperta neclară în fundalul playerului audio</string>
-    <string name="network_caching_popup">Valoarea trebuie să fie cuprinsă între 0 și 6000 ms</string>
+    <string name="force_shuffle_title">Forțează amestecarea</string>
+    <string name="force_shuffle_summary">Forțează amestecarea la lansarea unei redări</string>
+    <string name="network_caching_popup">Această valoare trebuie să fie între 0 și 60000 ms</string>
     <string name="quit">Închide și repornește aplicația</string>
     <string name="restart_message">Modificările vor intra în vigoare după repornirea aplicației. \n \nReporniți acum?</string>
     <string name="restart_message_OK">OK</string>
@@ -472,6 +516,7 @@
 
     <string name="no_result">Nici un rezultat găsit</string>
     <string name="no_internet_connection">Verificați conexiunea la internet</string>
+    <string name="retry">Reîncercare</string>
     <string name="subs_download_error">Serviciul este indisponibil. Te rog încearcă mai târziu.</string>
 
     <string name="network_browsing">Rețea locală</string>
@@ -491,7 +536,6 @@
     <string name="playlist_name_hint">Numele listei de redare</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="current_chapter">Chapter: %s</string>
-    <string name="resume_from_position">Reia de la ultima poziție</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
     <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
     <string name="tv_ui_title">Interfata Android TV</string>
@@ -509,6 +553,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC  Widget Alb</string>
     <string name="widget_name_b">VLC  Widget Intunecat</string>
+    <string name="widget_name_mini_player">Mini player VLC</string>
+    <string name="widget_old_text">Ne-am actualizat widget-urile!</string>
+    <string name="widget_old_description_start">Vești bune! Am lansat widget-uri îmbunătățite.\nEle oferă mai multă capacitate de răspuns și personalizare</string>
+    <string name="whats_next">Ce urmează?</string>
+    <string name="widget_old_description_end">Am detectat că deja ai widget-uri în launcher-ul tău. Din păcate, ele nu sunt compatibile cu cele noi și îmbunătățite.\nÎn funcție launcher-ul tău, ar putea fi necesar să le ștergi pe cele vechi ca să le înlocuiești.</string>
+    <string name="click_here">Apasă aici pentru a afla mai multe.</string>
     <string name="allow_storage_access_title">Permiteți VLC să acceseze fișiere video și audio</string>
     <string name="allow_storage_access_description">VLC cere permisiunea pentru a accesa fișierele media de pe acest dispozitiv.</string>
     <string name="allow_storage_manager_title">Permiteți accesul VLC la toate fișierele</string>
@@ -523,14 +573,22 @@
     <string name="allow_settings_access_brightness_description">VLC cere permisiunea pentru a schimba modul pentru luminozitate.</string>
     <string name="allow_draw_overlays_title">Permite ferestrei de redare a programului VLC să apară peste alte aplicații</string>
     <string name="allow_sdraw_overlays_description">VLC cere permisiunea să afișeze videoclipul într-o fereastră peste alte aplicații.</string>
+    <string name="allow_pip">Permite playerului VLC să lanseze Picture in Picture</string>
+    <string name="allow_pip_description">VLC are nevoie de tine ca să-i acorzi permisiunea să-ți afișeze videoclipul în modul Picture in Picture.</string>
     <string name="permission_ask_again">Permisiune garantata</string>
+    <string name="pick_file">Alege un fișier</string>
     <string name="permission_not_granted">Permisiune neacordată</string>
     <string name="permission_expanation_no_allow">Nu veți putea să vă descoperiți automat mediile și nici să folosiți subtitrări externe.</string>
     <string name="permission_expanation_allow">Veți putea să redați doar fluxuri sau medii de rețea</string>
-    <string name="permission_expanation_subtitles">Utilizați subtitrări externe</string>
-    <string name="permission_expanation_allow_explanation">Redarea de fluxuri de internet sau de conținut media din rețea</string>
+    <string name="permission_onboarding_no_perm">Nu îți vei putea descoperi automat conținutul media.\nVei putea să redai doar fluxuri sau conținutul media din rețea</string>
+    <string name="permission_onboarding_perm_media">Vei putea să descoperi automat doar fișierele media standard.</string>
+    <string name="permission_onboarding_perm_all">Vei putea să îți descoperi automat toate fișierele ca să redai toate tipurile de conținut media, chiar și pe cele ciudate sau fișierele comprimate</string>
     <string name="exit_app">Inchide VLC -ul</string>
     <string name="exit_app_msg">Sigur doriți să închideți aplicația VLC?</string>
+    <string name="widget_explanation_title">Widgeturi VLC</string>
+    <string name="widget_explanation_size">Widgeturile vin în diferite dimensiuni și arome</string>
+    <string name="widget_explanation_resize">Pentru a schimba tipul de widget, apasă lung și folosește mânerele pentru a-l redimensiona la dimensiunea dorită</string>
+    <string name="widget_explanation_end">Widgeturile sunt foarte personalizabile. Eliberează-ți creativitatea și fă-le să arate ca tine!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">Pista de derulare rapidă</string>
@@ -636,10 +694,13 @@
     <string name="subtitle_search_name_hint">Nume</string>
     <string name="subtitle_search_episode_hint">Episod</string>
     <string name="subtitle_search_season_hint">Sezon</string>
+    <string name="subtitles_download_failed">Descărcare eșuată</string>
     <string name="language_to_download">Limbă</string>
     <string name="delete_the_selected">Ștergeți selecția</string>
     <string name="download_the_selected">Descărcați selecția</string>
     <string name="next">Următoarea</string>
+    <string name="skip">Sari</string>
+    <string name="next_step">Următorul</string>
     <string name="download">Descărcați</string>
     <string name="ctx_player_video_track">Selectați pista video</string>
     <string name="ctx_player_audio_track">Pistă audio</string>
@@ -792,6 +853,7 @@
     <string name="rename_group">Redenumiți grupul video</string>
     <string name="ungroup">Dezgrupați</string>
     <string name="group_similar">Regruparea automată</string>
+    <string name="no_group_found">Nu a fost găsit niciun grup video</string>
     <string name="no_favorite">Nici un favorit</string>
     <string name="empty_directory">Gol</string>
     <string name="no_track">Nicio pistă</string>
@@ -843,6 +905,7 @@
     <string name="audio_delay_bt">întârzierea audio stabilită la %s ms pentru dispozitivul bluetooth</string>
     <string name="warning_stream_speed">Creșterea vitezei de redare peste 1 pentru fluxuri poate provoca bâlbâieli</string>
     <string name="go_to_folder">Răsfoiți părintele</string>
+    <string name="create_shortcut">Crează o comandă rapidă pentru lansare</string>
     <string name="no_sub_renderer">Subtitrările nu sunt încă acceptate în timpul turnării</string>
     <string name="enqueuing">Încărcarea mediilor dvs.</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -851,6 +914,8 @@
     <string name="browser_show_missing_media">Afișați mediile lipsă</string>
     <string name="browser_show_missing_media_summary">Afișați mediile îndepărtate chiar dacă acestea nu sunt prezente</string>
     <string name="search_prefs">Setări de căutare</string>
+    <string name="video_match_frame_rate_title">Potrivește rata de cadre de afișare</string>
+    <string name="video_match_frame_rate_summary">Potrivește rata de reîmprospătare a afișajului cu rata de cadre media. De exemplu, un film de 24p ar trebui să fie redat la 24p</string>
     <string name="preferred_resolution">Rezoluția video preferată</string>
     <string name="preferred_resolution_summary">Calitatea video maximă pentru fluxuri, atunci când este cazul, va fi următoarea: %s</string>
     <string name="pref_resolution_best_available">Cel mai bun disponibil</string>
@@ -890,12 +955,15 @@
     <string name="start">Start</string>
     <string name="permission">Permisiune</string>
     <string name="customize">Personalizați</string>
-    <string name="selection_count">%d selectat</string>
+    <string name="selection_count"> %d selectat</string>
     <string name="controls_setting">Setările de control</string>
     <string name="gestures">Gesturi</string>
     <string name="player_controls">Controlul player-ului</string>
     <string name="video_double_tap_jump_delay">Întarzierea pentru funcţia de dublu apăsare</string>
     <string name="video_key_jump_delay">Întârzierea pentru butoanele de navigare</string>
+    <string name="banned">Dosar interzis (atinge lung pentru a schimba)</string>
+    <string name="banned_tv">Dosar interzis</string>
+    <string name="banned_parent">Interzis de dosarul părinte</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Acest element este deja în lista de redare.</item>
         <item quantity="few">Aceste elemente sunt deja în lista de redare.</item>
@@ -908,5 +976,100 @@
     </plurals>
     <string name="official_website">Site-ul oficial</string>
     <string name="view_online">Vizualizare online</string>
+    <string name="player_under_notch">Afișează videoclipul sub crestătură</string>
+    <string name="notch">Crestătură</string>
+    <string name="always_fast_seek">Folosește întotdeauna căutarea rapidă</string>
+    <string name="always_fast_seek_summary">Căutarea este mai rapidă, dar poate fi mai puțin precisă</string>
+    <string name="touch_only">Funcția doar atingere</string>
+    <string name="touch_only_description">Trecerea la interfața mobilă se poate face numai cu un ecran tactil sau cu un mouse.\nTe rugăm să glisezi mai jos pentru a verifica dacă această funcție poate fi schimbată în siguranță.</string>
+    <string name="no_web_browser">Niciun browser web nu e instalat</string>
+    <string name="no_web_browser_message">Poți scana asta de pe smartphone-ul tău.\nURL-ul este %s</string>
+    <string name="no_video">Niciun videoclip disponibil</string>
+    <string name="fold_optimized">Optimizat pentru ecranul tău pliabil</string>
+    <string name="fold_optimize">Optimizează pentru ecrane pliabile</string>
+    <string name="foldable">Ecran pliabil</string>
+    <string name="undo">Anulează</string>
+    <string name="add_server_favorite">Adaugă un server la favorite</string>
+    <string name="widget_theme">Tema widget-ului</string>
+    <string name="widget_preferences">Configurează widget-ul</string>
+    <string name="material_you">Materializează-te (trage culori de pe tapet)</string>
+    <string name="palette">Paletă (trage culori de pe coperta media)</string>
+    <string name="custom">Personalizat</string>
+    <string name="opacity">Opacitate</string>
+    <string name="widget_background">Fundal</string>
+    <string name="widget_foreground">Față</string>
+    <string name="configure_widget">Configurarea widget-ului</string>
+    <string name="widget_preview">Previzualizează widget-ul</string>
+    <string name="widget_forward_delay">Întârziere înainte</string>
+    <string name="widget_show_seek">Afișează butoanele de căutare</string>
+    <string name="widget_show_cover">Arată coperta</string>
+    <string name="widget_rewind_delay">Întârziere înapoi</string>
+    <string name="widget_show_configure">Afișează iconița de configurare</string>
+    <string name="widget_show_configure_summary">Chiar dacă nu este afișat, poți atinge colțul din dreapta sus ca să deschizi configurația</string>
+    <string name="seek_backward_content_description">Caută %s secunde înapoi</string>
+    <string name="seek_forward_content_description">Caută %s secunde înainte</string>
+    <string name="open_vlc">Deschide VLC-ul</string>
+    <string name="playing">Redare</string>
+    <string name="disable_track">Dezactivează pista</string>
+    <string name="ascending">Ascendent</string>
+    <string name="descending">Descendent</string>
+    <string name="screenshot_error">Eroare la efectuarea capturii de ecran</string>
+    <string name="disabled">Dezactivat</string>
+    <string name="enable_screenshot_gesture">Atinge cu 3 degete</string>
+    <string name="enable_screenshot_button">Afișează butonul de captură de ecran</string>
+    <string name="enable_screenshot_button_and_gesture">Buton și gest</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - titlu: %s - durată: %s</string>
+    <string name="talkback_genre">Gen: %s</string>
+    <string name="talkback_history_item">Element de istoric</string>
+    <string name="talkback_playlist">Listă de redare: %s</string>
+    <string name="talkback_folder">Dosar: %s</string>
+    <string name="talkback_file">Fișier: %s</string>
+    <string name="talkback_favorite">Favorite: %s</string>
+    <string name="talkback_track_number">Numărul pistei %s</string>
+    <string name="talkback_duration">Durată: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Artist: %s</string>
+    <string name="talkback_release_date">Lansat în %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Flux: %s</string>
+    <string name="talkback_audio_track">Pistă audio: %s</string>
+    <string name="talkback_video_group">Grup video: %s</string>
+    <string name="talkback_hours">ore</string>
+    <string name="talkback_minutes">minute</string>
+    <string name="talkback_seconds">secunde</string>
+    <string name="talkback_list_section">Antet: %s</string>
+    <string name="talkback_enter_screen">Navighează la %s</string>
+    <string name="talkback_file_size">Mărimea fișierului: %s</string>
+    <string name="talkback_open_in_browser">Deschide în browserul web</string>
+    <string name="talkback_video_player">Player video. Atinge pentru a afișa comenzile. Atinge butonul înapoi pentru a le ascunde.</string>
+    <string name="talkback_video_tracks">Piste video</string>
+    <string name="talkback_audio_tracks">Piste audio</string>
+    <string name="talkback_subtitle_tracks">Piste de subtitrări</string>
+    <string name="talkback_subtitle_dowload_item">Limbă: %s. %s. Nume: %s</string>
+    <string name="selected">Selectat</string>
+    <string name="talkback_increase_delay">Crește întârzierea</string>
+    <string name="talkback_decrease_delay">Scade întârzierea</string>
+    <string name="talkback_increase_speed">Crește viteza</string>
+    <string name="talkback_decrease_speed">Scade viteza</string>
+    <string name="talkback_subtitle_history">Istoric de subtitrări</string>
+    <string name="talkback_language_selection">%s limbi selectate</string>
+    <string name="talkback_audio_player_opened">Player audio deschis</string>
+    <string name="talkback_audio_player_collapsed">Player audio restrâns</string>
+    <string name="talkback_audio_player_closed">Player audio închis</string>
+    <string name="talkback_audio_player">Player audio. În prezent se redă: %s</string>
+    <string name="talkback_out_of">%s din %s</string>
+    <string name="talkback_track_index">Pista %s din %s</string>
+    <string name="downloaded">Descărcat</string>
+    <string name="not_downloaded">Nedescărcat</string>
+    <string name="downloading">Se descarcă</string>
+    <string name="talkback_action_rewind">Derulează înapoi %s secunde</string>
+    <string name="talkback_action_forward">Caută înainte %s secunde</string>
+    <string name="talkback_display_settings">Setări de afișare</string>
+    <string name="talkback_already_played">Deja redat</string>
+
 
 </resources>

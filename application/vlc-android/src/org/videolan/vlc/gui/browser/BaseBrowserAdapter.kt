@@ -32,10 +32,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA
@@ -51,17 +50,10 @@ import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
 import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.helpers.MarqueeViewHolder
-import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.gui.helpers.enableMarqueeEffect
-import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.util.getDescriptionSpan
-import java.util.*
 
-
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
-open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -82,6 +74,16 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     private var specialIcons = false
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
+    val diffCallback = BrowserDiffCallback()
+
+    fun changeSort(sort:Int, asc:Boolean) {
+        diffCallback.oldSort = diffCallback.newSort
+        diffCallback.oldAsc = diffCallback.newAsc
+        this.sort = sort
+        this.asc = asc
+        diffCallback.newAsc = asc
+    }
+
     init {
         val root = browserContainer.isRootDirectory
         val fileBrowser = browserContainer.isFile
@@ -100,6 +102,10 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         qaMusicDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_music_normal))
         qaPodcastsDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_podcasts_normal))
         qaDownloadDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_download_normal))
+        diffCallback.oldSort = sort
+        diffCallback.newSort = sort
+        diffCallback.oldAsc = asc
+        diffCallback.newAsc = asc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ViewDataBinding> {
@@ -128,6 +134,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val vh = holder as SeparatorViewHolder
             vh.binding.title = dataset[position].title
         }
+        itemFocusChanged(position, false, (holder as MediaViewHolder).bindingContainer)
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
@@ -136,25 +143,30 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         else if (payloads[0] is CharSequence) {
             (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
             holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
+            val item = getItem(position) as MediaWrapper
+            holder.bindingContainer.container.contentDescription = TalkbackUtil.getDir(holder.binding.root.context, item, item.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE))
         } else if (payloads[0] is Int) {
             val value = payloads[0] as Int
             if (value == UPDATE_SELECTION) holder.selectView(multiSelectHelper.isSelected(position))
         }
+        itemFocusChanged(position, false, (holder as MediaViewHolder).bindingContainer)
     }
 
     private fun onBindMediaViewHolder(vh: MediaViewHolder, position: Int) {
         val media = getItem(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         vh.bindingContainer.setItem(media)
+        vh.bindingContainer.setIsFavorite(isFavorite)
         val scheme = media.uri?.scheme ?: ""
         vh.bindingContainer.setHasContextMenu(((!networkRoot || isFavorite)
                 && "content" != scheme
                 && "otg" != scheme)
                 && !multiSelectHelper.inActionMode)
-        vh.bindingContainer.setFileName(if (media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
+        vh.bindingContainer.setFileName(if ((sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
         if (networkRoot || (isFavorite && getProtocol(media)?.contains("file") == false)) vh.bindingContainer.setProtocol(getProtocol(media))
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
+        itemFocusChanged(position, false, vh.bindingContainer)
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
@@ -181,7 +193,18 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
         open fun onMoreClick(v: View) {}
 
+        open fun onBanClick(v: View) {}
+
     }
+
+    /**
+     * Listener for the item focus. For now it's only used on TV to manage the ban icon visibility
+     *
+     * @param position the item position
+     * @param hasFocus true if the item has the focus
+     * @param bindingContainer the [BrowserItemBindingContainer] to be used
+     */
+    open fun itemFocusChanged(position: Int, hasFocus: Boolean, bindingContainer: BrowserItemBindingContainer) {}
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
@@ -197,6 +220,14 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             if (this@BaseBrowserAdapter is FilePickerAdapter) {
                 bindingContainer.itemIcon.isFocusable = false
             }
+
+
+            val focusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                itemFocusChanged(layoutPosition, hasFocus, bindingContainer)
+            }
+
+            bindingContainer.banIcon.onFocusChangeListener = focusChangeListener
+            bindingContainer.container.onFocusChangeListener = focusChangeListener
         }
 
         override fun selectView(selected: Boolean) {
@@ -231,6 +262,11 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val position = layoutPosition
             if (position < dataset.size && position >= 0)
                 browserContainer.onCtxClick(v, position, dataset[position])
+        }
+
+        override fun onBanClick(v: View) {
+            val position = layoutPosition
+            browserContainer.onLongClick(v, position, dataset[position])
         }
 
         override fun onLongClick(v: View): Boolean {
@@ -315,5 +351,29 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun onUpdateFinished() {
         browserContainer.onUpdateFinished(this)
+        diffCallback.oldSort = diffCallback.newSort
+        diffCallback.oldAsc = diffCallback.newAsc
+    }
+
+    override fun createCB() = diffCallback
+
+    class BrowserDiffCallback : DiffUtilAdapter.DiffCallback<MediaLibraryItem>() {
+        var oldSort = -1
+        var newSort = -1
+        var oldAsc = true
+        var newAsc = true
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int):Boolean {
+            val result =  if (newSort == oldSort && newAsc == oldAsc) true else try {
+                val oldItem = oldList[oldItemPosition] as MediaWrapper
+                val newItem = newList[newItemPosition] as MediaWrapper
+                (oldItem.fileName == newItem.title && newItem.fileName == oldItem.title)
+            } catch (ignored: Exception) {
+                true
+            }
+            return result
+        }
+
+        override fun areItemsTheSame(oldItemPosition : Int, newItemPosition : Int) = oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

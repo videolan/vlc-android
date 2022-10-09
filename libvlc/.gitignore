@@ -1,8 +1,0 @@
-bin/
-gen/
-libs/
-obj/
-jni/libvlcjni-modules.c
-jni/libvlcjni-symbols.c
-.settings
-

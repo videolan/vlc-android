@@ -3,9 +3,11 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.ViewStubCompat
@@ -16,7 +18,11 @@ import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
+import androidx.window.layout.FoldingFeature
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.AppScope
@@ -25,12 +31,15 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.util.getScreenHeight
+import org.videolan.vlc.util.isTalkbackIsEnabled
 
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
@@ -56,8 +65,6 @@ private const val ID_SHOW_AUDIO_TIPS = 17L
 private const val ID_SHOW_PLAYLIST_TIPS = 18L
 private const val ID_VIDEO_CONTROLS_SETTING = 19L
 private const val ID_AUDIO_CONTROLS_SETTING = 20L
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 
@@ -105,14 +112,16 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.drawable.ic_addtoplaylist, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
+        if (video)
+            options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
+
         if (!Settings.showTvUi) {
             if (video) {
-            options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
-            options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.drawable.ic_videotips, res.getString(R.string.tips_title)))
+                options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.drawable.ic_videotips, res.getString(R.string.tips_title)))
             } else {
-            options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.controls_setting)))
-            options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.drawable.ic_audiotips, res.getString(R.string.audio_player_tips)))
-            options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
+                options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.controls_setting)))
+                options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.drawable.ic_audiotips, res.getString(R.string.audio_player_tips)))
+                options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
             }
         }
         (recyclerview.adapter as OptionsAdapter).update(options)
@@ -123,7 +132,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             rootView = it.inflate() as FrameLayout
             recyclerview = rootView.findViewById(R.id.options_list)
             val browseFrameLayout =  rootView.findViewById<BrowseFrameLayout>(R.id.options_background)
-            browseFrameLayout.onFocusSearchListener = OnFocusSearchListener { focused, direction ->
+            browseFrameLayout.onFocusSearchListener = OnFocusSearchListener { focused, _ ->
                 if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
                 else null // someone else will find the next focus
             }
@@ -135,12 +144,32 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
 
             rootView.setOnClickListener { hide() }
         }
+        val windowInfoLayout = if (activity is VideoPlayerActivity) activity.windowLayoutInfo else if (activity is BaseActivity) activity.windowLayoutInfo else null
+        val foldingFeature = windowInfoLayout?.displayFeatures?.firstOrNull() as? FoldingFeature
+        if (foldingFeature?.isSeparating == true && foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL && foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL) {
+            val halfScreenSize = activity.getScreenHeight() - foldingFeature.bounds.bottom
+            val lp = (rootView.layoutParams as ViewGroup.MarginLayoutParams)
+            lp.height = halfScreenSize
+            if (lp is FrameLayout.LayoutParams) lp.gravity = Gravity.BOTTOM
+            rootView.layoutParams = lp
+        } else {
+             val lp = (rootView.layoutParams as ViewGroup.MarginLayoutParams)
+            lp.height = FrameLayout.LayoutParams.MATCH_PARENT
+            if (lp is FrameLayout.LayoutParams) lp.gravity = Gravity.BOTTOM
+            rootView.layoutParams = lp
+        }
         setup()
         rootView.visibility = View.VISIBLE
         if (Settings.showTvUi) AppScope.launch {
-            delay(100L)
+            withContext(Dispatchers.IO){ delay(100L) }
             val position = (recyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
             (recyclerview.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+        } else if (activity.isTalkbackIsEnabled()) {
+            AppScope.launch {
+                withContext(Dispatchers.IO){ delay(100L) }
+                val linearLayoutManager = recyclerview.layoutManager as LinearLayoutManager
+                linearLayoutManager.findViewByPosition(linearLayoutManager.findFirstVisibleItemPosition())?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            }
         }
     }
 
@@ -272,29 +301,35 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat_single)
             }
             PlaybackStateCompat.REPEAT_MODE_ONE -> if (service.hasPlaylist()) {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat_all)
             } else {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat)
             }
         }
     }
 
     private fun setShuffle() {
         shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
+        shuffleBinding.root.contentDescription = shuffleBinding.root.context.getString(if (service.isShuffling) R.string.shuffle_on else R.string.shuffle)
     }
 
     private fun initShuffle(binding: PlayerOptionItemBinding) {
         shuffleBinding = binding
         AppScope.launch(Dispatchers.Main) {
             shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
+            shuffleBinding.root.contentDescription = shuffleBinding.root.context.getString(if (service.isShuffling) R.string.shuffle_on else R.string.shuffle)
         }
     }
 
@@ -305,6 +340,11 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_repeat_one
                 PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_repeat_all
                 else -> R.drawable.ic_repeat
+            })
+            repeatBinding.root.contentDescription = repeatBinding.root.context.getString(when (service.repeatType) {
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.string.repeat_single
+                PlaybackStateCompat.REPEAT_MODE_ALL -> R.string.repeat_all
+                else -> R.string.repeat
             })
         }
     }

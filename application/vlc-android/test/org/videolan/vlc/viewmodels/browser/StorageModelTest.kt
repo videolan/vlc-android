@@ -7,8 +7,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import junit.framework.Assert.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.assertNotEquals
 import org.junit.Rule
 import org.junit.Test
@@ -29,8 +27,6 @@ import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.applyMock
 import java.io.File
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class StorageModelTest : BaseTest() {
     // Preferences choose directories to add in medialibrary scan.
 

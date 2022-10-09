@@ -8,8 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import junit.framework.Assert.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -29,8 +27,6 @@ import org.videolan.vlc.util.applyMock
 import java.io.File
 
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FileBrowserModelTest : BaseTest() {
     // Preferences choose directories to add in medialibrary scan.
 

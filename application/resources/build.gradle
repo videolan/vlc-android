@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -42,6 +41,7 @@ android {
     sourceSets.dev {
         res.srcDirs = ['flavors/debug/res']
     }
+    namespace 'org.videolan.resources'
 
 }
 dependencies {
@@ -53,7 +53,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
     api project(':application:tools')
-    devApi project(':libvlc')
+    devApi project(':libvlcjni:libvlc')
     devApi project(':medialibrary')
     debugApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
@@ -73,7 +73,7 @@ dependencies {
 
     api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
 }
 repositories {
     mavenCentral()

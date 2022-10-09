@@ -7,8 +7,6 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
@@ -17,8 +15,6 @@ import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.media.MediaUtils
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.Adapter<ExtensionAdapter.ViewHolder>() {
     private var itemsList: MutableList<VLCExtensionItem> = ArrayList()
 
@@ -44,7 +40,7 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
             }
         }
 
-        fun onMoreClick(v: View) {
+        fun onMoreClick(@Suppress("UNUSED_PARAMETER") v: View) {
             openContextMenu()
         }
 
@@ -110,6 +106,6 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
     }
 
     companion object {
-        private val TAG = "VLC/ExtensionAdapter"
+        private const val TAG = "VLC/ExtensionAdapter"
     }
 }

@@ -48,6 +48,8 @@ package org.videolan.tools
 
 import java.text.DecimalFormat
 import java.util.*
+import kotlin.math.log10
+import kotlin.math.pow
 
 private const val TAG = "VLC/UiTools/Strings"
 
@@ -65,28 +67,15 @@ fun containsName(list: List<String>, text: String) = list.indexOfLast { it.endsW
  */
 fun Float.formatRateString() = String.format(java.util.Locale.US, "%.2fx", this)
 
-fun Long.readableFileSize(): String {
-    val size: Long = this
-    if (size <= 0) return "0"
-    val units = arrayOf("B", "KiB", "MiB", "GiB", "TiB")
-    val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1024.0)).toInt()
-    return DecimalFormat("#,##0.#").format(size / Math.pow(1024.0, digitGroups.toDouble())) + " " + units[digitGroups]
-}
-
 fun Long.readableSize(): String {
     val size: Long = this
     if (size <= 0) return "0"
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1000.0)).toInt()
-    return DecimalFormat("#,##0.#").format(size / Math.pow(1000.0, digitGroups.toDouble())) + " " + units[digitGroups]
+    val digitGroups = (log10(size.toDouble()) / log10(1000.0)).toInt()
+    return DecimalFormat("#,##0.#").format(size / (1000.0).pow(digitGroups.toDouble())) + " " + units[digitGroups]
 }
 
-fun String.removeFileProtocole(): String {
-    return if (this.startsWith("file://"))
-        this.substring(7)
-    else
-        this
-}
+fun String.removeFileScheme() = if (this.startsWith("file://")) this.drop(7) else this
 
 fun String.getFileNameFromPath() = substringBeforeLast('/')
 
@@ -95,8 +84,8 @@ fun String.firstLetterUppercase(): String {
         return ""
     }
     return if (length == 1) {
-        toUpperCase(Locale.getDefault())
-    } else Character.toUpperCase(this[0]) + substring(1).toLowerCase(Locale.getDefault())
+        uppercase(Locale.getDefault())
+    } else Character.toUpperCase(this[0]) + substring(1).lowercase(Locale.getDefault())
 }
 
 fun String.abbreviate(maxLen: Int): String {

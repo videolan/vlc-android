@@ -31,6 +31,7 @@
             android:background="?attr/background_default_darker"
             android:clickable="true"
             android:focusable="true"
+            android:importantForAccessibility="no"
             android:keyboardNavigationCluster="true"
             tools:targetApi="o">
 
@@ -88,6 +89,7 @@
                 android:layoutDirection="ltr"
                 android:maxHeight="4dp"
                 android:minHeight="4dp"
+                android:importantForAccessibility="no"
                 android:paddingLeft="0px"
                 android:paddingRight="0px"
                 android:progressDrawable="?attr/progress_mini_player"
@@ -433,6 +435,7 @@
                 android:background="?attr/audio_list_background"
                 android:clipToPadding="false"
                 android:paddingBottom="@dimen/listview_bottom_padding"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@id/timeline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header"
@@ -462,6 +465,7 @@
                     android:textColor="?attr/font_default"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="1"
+                android:importantForAccessibility="no"
                     android:singleLine="true"
                     android:textSize="24sp"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -482,6 +486,7 @@
                     app:layout_goneMarginBottom="16dp"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="1"
+                android:importantForAccessibility="no"
                     android:singleLine="true"
                     android:maxLines="1"
                     android:textColor="?attr/font_audio_light"
@@ -498,6 +503,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                android:importantForAccessibility="no"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="16dp"
                     android:maxLines="1"
@@ -519,7 +525,6 @@
                     android:layout_marginEnd="8dp"
                     android:background="?attr/actionBarItemBackground"
                     android:clickable="true"
-                    android:contentDescription="@string/air_action_rewind"
                     android:focusable="true"
                     android:padding="8dp"
                     android:onClick="@{fragment::onJumpBack}"
@@ -536,6 +541,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/player_icon_color"
+                    android:importantForAccessibility="no"
                     android:textSize="8dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/audio_rewind_10"
@@ -552,7 +558,6 @@
                     android:layout_marginStart="8dp"
                     android:background="?attr/actionBarItemBackground"
                     android:clickable="true"
-                    android:contentDescription="@string/air_action_forward"
                     android:focusable="true"
                     android:padding="8dp"
                     android:onClick="@{fragment::onJumpForward}"
@@ -569,6 +574,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/player_icon_color"
+                    android:importantForAccessibility="no"
                     android:textSize="8dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/audio_forward_10"
@@ -590,6 +596,7 @@
                 android:ellipsize="middle"
                 android:maxLines="1"
                 android:paddingStart="16dp"
+                android:accessibilityLiveRegion="none"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
@@ -628,13 +635,14 @@
                 android:elevation="4dp"
                 android:focusable="true"
                 android:onClick="@{fragment::onTimeLabelClick}"
+                android:importantForAccessibility="no"
                 android:text="@string/time_0"
                 android:textColor="?attr/font_default"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/timeline"
                 app:layout_constraintStart_toStartOf="@+id/timeline" />
 
-        <SeekBar
+        <org.videolan.vlc.gui.view.AccessibleSeekBar
                 android:id="@+id/timeline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -658,6 +666,7 @@
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/length"
+                android:importantForAccessibility="no"
                 android:elevation="4dp"
                 android:text="@string/time_0"
                 android:textColor="?attr/font_default"
@@ -756,15 +765,61 @@
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 app:srcCompat="@drawable/ic_repeat_audio" />
 
-        <androidx.appcompat.widget.ViewStubCompat
-                android:id="@+id/player_options_stub"
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/centerGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+                android:id="@+id/hinge_go_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/play_pause"
+                app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
+                app:layout_constraintTop_toTopOf="@+id/play_pause"
+                app:srcCompat="@drawable/ic_arrow_left"
+                tools:visibility="visible" />
+
+        <ImageView
+                android:id="@+id/hinge_go_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginStart="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:clickable="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/play_pause"
+                app:layout_constraintStart_toStartOf="@+id/centerGuideline"
+                app:layout_constraintTop_toTopOf="@+id/play_pause"
+                app:srcCompat="@drawable/ic_arrow_right"
+                tools:visibility="visible" />
+
+        <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout="@layout/player_options"
+                android:elevation="32dp"
+                android:id="@+id/player_options_container"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.ViewStubCompat
+                    android:id="@+id/player_options_stub"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout="@layout/player_options" />
+        </FrameLayout>
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/bookmarks_stub"

@@ -46,7 +46,9 @@ import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.details.MediaListActivity
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.HttpImageLoader
+import org.videolan.tools.Settings
 import org.videolan.tools.getposition
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
@@ -60,9 +62,8 @@ import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
+import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object TvUtil {
 
     private const val TAG = "VLC/TvUtil"
@@ -150,7 +151,7 @@ object TvUtil {
                 MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
-                    val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
+                    val title = item.title.substring(if (item.title.lowercase(Locale.getDefault()).startsWith("the")) 4 else 0)
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
@@ -180,12 +181,11 @@ object TvUtil {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun openMedia(activity: FragmentActivity, item: Any?, model: BrowserModel) {
         when (item) {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_AUDIO -> {
-                    val list = (model.dataset.getList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                    val list = (model.dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
@@ -198,15 +198,19 @@ object TvUtil {
                 MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
-                    val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
+                    val title = item.title.substring(if (item.title.lowercase(Locale.getDefault()).startsWith("the")) 4 else 0)
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
                 else -> {
                     model.run {
-                        val list = (dataset.getList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
-                        val position = list.getposition(item)
-                        MediaUtils.openList(activity, list, position)
+                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, false)) {
+                            MediaUtils.openMedia(activity, item)
+                        } else {
+                            val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }
+                            val position = list.getposition(item)
+                            MediaUtils.openList(activity, list, position)
+                        }
                     }
                 }
             }
@@ -233,11 +237,11 @@ object TvUtil {
         when (item) {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_AUDIO -> {
-                    val list = withContext(Dispatchers.IO) {
+                    provider.loadPagedList(activity, {
                         (provider.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
-                    }
-                    val position = list.getposition(item)
-                    playAudioList(activity, list, position)
+                    }, { list, _ ->
+                        playAudioList(activity, list, list.getposition(item))
+                    })
                 }
                 MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
@@ -248,16 +252,16 @@ object TvUtil {
                 MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
-                    val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
+                    val title = item.title.substring(if (item.title.lowercase(Locale.getDefault()).startsWith("the")) 4 else 0)
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
                 else -> {
-                    val list = withContext(Dispatchers.IO) {
+                    provider.loadPagedList(activity, {
                         (provider.getAll().toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
-                    }
-                    val position = list.getposition(item)
-                    MediaUtils.openList(activity, list, position)
+                    }, { list, _ ->
+                        MediaUtils.openList(activity, list, list.getposition(item))
+                    })
                 }
             }
             is DummyItem -> when (item.id) {
@@ -314,9 +318,6 @@ object TvUtil {
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-@Suppress("UNNECESSARY_SAFE_CALL")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, item: Any?) {
     clearBackground(activity, bm)
@@ -332,7 +333,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
-            blurred?.let { bm?.drawable = BitmapDrawable(activity.resources, it) }
+            blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
         } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             val blurred = withContext(Dispatchers.IO) {
                 var cover: Bitmap? = ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_512", item.tracks.toList(), 512)
@@ -341,7 +342,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
-            blurred?.let { bm?.drawable = BitmapDrawable(activity.resources, it) }
+            blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
         }
     } else if (item is MediaMetadataWithImages) launch {
         val blurred = withContext(Dispatchers.IO) {
@@ -350,7 +351,7 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
             UiTools.blurBitmap(cover, 10f)
         }
         if (!isActive) return@launch
-        blurred?.let { bm?.drawable = BitmapDrawable(activity.resources, it) }
+        blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
 
     }
 }

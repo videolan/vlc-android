@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.text.format.Formatter
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +47,6 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CRASH_ML_CTX
 import org.videolan.resources.CRASH_ML_MSG
 import org.videolan.tools.AppUtils
-import org.videolan.tools.readableFileSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
@@ -55,13 +55,10 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.File
 import java.io.IOException
-import java.lang.Runnable
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private var logMessage = ""
-    override fun onStarted(lostList: List<String>) {
+    override fun onStarted(logList: List<String>) {
         logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
         //initiate a log to wait for
         Log.d("SendCrashActivity", logMessage)
@@ -74,7 +71,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
         //Wait for the log to initiate a save to avoid ANR
         if (msg.contains(logMessage)) {
             if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage())
-                Permissions.askWriteStoragePermission(this, false, Runnable { client.save() })
+                Permissions.askWriteStoragePermission(this, false) { client.save() }
             else
                 client.save()
         }
@@ -90,16 +87,17 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             val emailIntent = withContext(Dispatchers.IO) {
                 client.stop()
                 if (!::logcatZipPath.isInitialized) {
-                    val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                    val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
                         ?: return@withContext null
-                    logcatZipPath = "$path/logcat.zip"
+                    logcatZipPath = "$externalPath/logcat.zip"
                 }
                 val filesToAdd = mutableListOf(path)
                 //add previous crash logs
                 try {
-                    val folder = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
-                    File(folder).listFiles().forEach {
-                        if (it.isFile && (it.name.contains("crash") || it.name.contains("logcat"))) filesToAdd.add(it.path)
+                    AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath?.let { folder ->
+                        File(folder).listFiles()?.forEach {
+                            if (it.isFile && (it.name.contains("crash") || it.name.contains("logcat"))) filesToAdd.add(it.path)
+                        }
                     }
                 } catch (exception: IOException) {
 
@@ -117,10 +115,10 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 val attachments = ArrayList<Uri>()
                 if (binding.includeMedialibSwitch.isChecked) {
                     if (!::dbPath.isInitialized) {
-                        val path = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                        val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
                             ?: return@withContext null
-                        dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
-                        dbZipPath = "$path/db.zip"
+                        dbPath = "$externalPath/${Medialibrary.VLC_MEDIA_DB_NAME}"
+                        dbZipPath = "$externalPath/db.zip"
                     }
                     val db = File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
                     val dbFile = File(dbPath)
@@ -140,7 +138,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 appData.append("Device model: ${Build.MANUFACTURER} ${Build.MODEL}<br/>")
                 appData.append("Android version: ${Build.VERSION.SDK_INT}<br/>")
                 appData.append("System name: ${Build.DISPLAY}<br/>")
-                appData.append("Memory free: ${AppUtils.freeMemory().readableFileSize()} on ${AppUtils.totalMemory().readableFileSize()}")
+                appData.append("Memory free: ${Formatter.formatFileSize(this@SendCrashActivity, AppUtils.freeMemory())} on ${Formatter.formatFileSize(this@SendCrashActivity, AppUtils.totalMemory())}")
 
                 attachments.add(FileProvider.getUriForFile(this@SendCrashActivity, applicationContext.packageName + ".provider", File(logcatZipPath)))
                 emailIntent.putExtra(Intent.EXTRA_STREAM, attachments)

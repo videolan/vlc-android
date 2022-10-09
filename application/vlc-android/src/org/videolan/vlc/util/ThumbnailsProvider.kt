@@ -1,15 +1,15 @@
 package org.videolan.vlc.util
 
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Rect
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.Medialibrary.MEDIALIB_FOLDER_NAME
@@ -19,19 +19,14 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
-import org.videolan.tools.CloseableUtils
 import org.videolan.tools.sanitizePath
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
 import kotlin.math.min
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object ThumbnailsProvider {
 
     @Suppress("unused")
@@ -97,11 +92,13 @@ object ThumbnailsProvider {
             }
         }
         if (bitmap != null) {
-            BitmapCache.addBitmapToMemCache(thumbPath, bitmap)
+            BitmapCache.addBitmapToMemCache(getMediaCacheKey(true, media, width.toString()), bitmap)
             if (hasCache) {
                 media.setThumbnail(thumbPath)
-                saveOnDisk(bitmap, thumbPath)
-                media.artworkURL = thumbPath
+                if (media.id > 0) {
+                    BitmapUtil.saveOnDisk(bitmap, thumbPath)
+                    media.artworkURL = thumbPath
+                }
             }
         } else if (media.id != 0L) {
             media.requestThumbnail(width, 0.4f)
@@ -292,21 +289,5 @@ object ThumbnailsProvider {
             }
         }
         return bmOverlay
-    }
-
-    private fun saveOnDisk(bitmap: Bitmap, destPath: String) {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        val byteArray = stream.toByteArray()
-        var fos: FileOutputStream? = null
-        try {
-            fos = FileOutputStream(destPath)
-            fos.write(byteArray)
-        } catch (e: java.io.IOException) {
-            e.printStackTrace()
-        } finally {
-            CloseableUtils.close(fos)
-            CloseableUtils.close(stream)
-        }
     }
 }

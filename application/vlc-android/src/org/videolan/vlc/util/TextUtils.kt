@@ -32,24 +32,41 @@ object TextUtils {
     /**
      * Common string separator used in the whole app
      */
-    private const val separator = '·'
+    const val separator = '·'
 
     /**
      * Create a string separated by the common [separator]
      *
      * @param pieces the strings to join
-     * @return a string containing all the [pieces] if they are not blanked, spearated by the [separator]
+     * @return a string containing all the [pieces] if they are not blanked, separated by the [separator]
      */
     @JvmName("separatedStringArgs")
-    fun separatedString(vararg pieces: String?) = separatedString(arrayOf(*pieces))
+    fun separatedString(vararg pieces: String?) = separatedString(this.separator, arrayOf(*pieces))
 
     /**
      * Create a string separated by the common [separator]
      *
      * @param pieces the strings to join in an [Array]
-     * @return a string containing all the [pieces] if they are not blanked, spearated by the [separator]
+     * @return a string containing all the [pieces] if they are not blanked, separated by the [separator]
      */
-    fun separatedString(pieces: Array<String?>) = pieces.filter { it?.isNotBlank() == true }.joinToString(separator = " $separator ")
+    fun separatedString(pieces: Array<String?>) = separatedString(this.separator, pieces)
+
+    /**
+     * Create a string separated by a custom [separator]
+     *
+     * @param pieces the strings to join
+     * @return a string containing all the [pieces] if they are not blanked, separated by [separator]
+     */
+    @JvmName("separatedStringArgs")
+    fun separatedString(separator: Char, vararg pieces: String?) = separatedString(separator, arrayOf(*pieces))
+
+    /**
+     * Create a string separated by a custom [separator]
+     *
+     * @param pieces the strings to join in an [Array]
+     * @return a string containing all the [pieces] if they are not blanked, separated by [separator]
+     */
+    fun separatedString(separator: Char, pieces: Array<String?>) = pieces.filter { it?.isNotBlank() == true }.joinToString(separator = " $separator ")
 
     /**
      * Formats the chapter title by prepending "Chapter:" if the current title is made of only non alpha chars

@@ -28,26 +28,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.SwipeToUnlockView
 import org.videolan.vlc.util.FeatureFlag
 
 const val FEATURE_FLAG_WARNING_TITLE = "FEATURE_FLAG_WARNING_TITLE"
 const val FEATURE_FLAG_WARNING_TEXT = "FEATURE_FLAG_WARNING_TEXT"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-class FeatureFlagWarningDialog : VLCBottomSheetDialogFragment() {
+open class FeatureFlagWarningDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var title: TextView
     private lateinit var warning: TextView
     private lateinit var swipeToEnable: SwipeToUnlockView
     private var titleString: String? = null
     private var warningString: String? = null
-    private lateinit var listener: () -> Unit
+    protected lateinit var listener: () -> Unit
 
     companion object {
 
@@ -59,13 +54,9 @@ class FeatureFlagWarningDialog : VLCBottomSheetDialogFragment() {
 
             return FeatureFlagWarningDialog().apply {
                 arguments = bundleOf(FEATURE_FLAG_WARNING_TEXT to featureFlag.warning, FEATURE_FLAG_WARNING_TITLE to featureFlag.title)
-                setListener(listener)
+                this.listener = listener
             }
         }
-    }
-
-    fun setListener(listener: () -> Unit) {
-        this.listener = listener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

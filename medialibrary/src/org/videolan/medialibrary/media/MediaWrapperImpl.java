@@ -262,6 +262,13 @@ public class MediaWrapperImpl extends MediaWrapper {
         return nativeSetMediaPlayCount(ml, mId, playCount);
     }
 
+    @Override
+    public long getPlayCount() {
+        if (mId == 0L) return -1;
+        final Medialibrary ml = Medialibrary.getInstance();
+        return nativeGetMediaPlayCount(ml, mId);
+    }
+
     public void removeThumbnail() {
         if (mId == 0L) return;
         final Medialibrary ml = Medialibrary.getInstance();
@@ -280,6 +287,15 @@ public class MediaWrapperImpl extends MediaWrapper {
         if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, Medialibrary.ThumbnailSizeType.Banner.ordinal(), width, 0, position);
     }
 
+    public boolean markAsPlayed() {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeMarkAsPlayed(ml, mId);
+        return ret;
+    }
+
     private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
     private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
@@ -288,10 +304,12 @@ public class MediaWrapperImpl extends MediaWrapper {
     private native boolean nativeRemoveFromHistory(Medialibrary ml, long id);
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
     private native boolean nativeSetMediaPlayCount(Medialibrary ml, long id, long playCount);
+    private native long nativeGetMediaPlayCount(Medialibrary ml, long id);
     private native boolean nativeRemoveMediaThumbnail(Medialibrary ml, long id);
     private native void nativeRequestThumbnail(Medialibrary ml, long mediaId, int type, int width, int height, float position);
     private native Bookmark[] nativeGetBookmarks(Medialibrary ml, long id);
     private native Bookmark nativeAddBookmark(Medialibrary ml, long id, long time);
     private native boolean nativeRemoveBookmark(Medialibrary ml, long id, long time);
     private native boolean nativeRemoveAllBookmarks(Medialibrary ml, long id);
+    private native boolean nativeMarkAsPlayed(Medialibrary ml, long id);
 }

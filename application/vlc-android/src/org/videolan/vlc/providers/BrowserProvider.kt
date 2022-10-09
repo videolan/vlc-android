@@ -21,9 +21,11 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
+import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
+import android.text.format.Formatter
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
@@ -31,7 +33,10 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.toList
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -42,7 +47,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.HeaderProvider
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.DependencyProvider
+import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.util.*
@@ -50,9 +58,7 @@ import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, var sort:Int, var desc:Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -68,12 +74,22 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
-    var desc : Boolean? = null
-    private val comparator : Comparator<MediaLibraryItem>?
-        get() = when(desc) {
-            true -> tvDescComp
-            false -> tvAscComp
-            else -> null
+    fun isComparatorAboutFilename() = when {
+        Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && desc -> false
+        Settings.showTvUi && sort == Medialibrary.SORT_ALPHA && !desc -> false
+        sort == Medialibrary.SORT_ALPHA && desc -> false
+        sort == Medialibrary.SORT_ALPHA && !desc -> false
+        (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> true
+        else -> true
+    }
+    fun getComparator(nbOfDigits: Int): Comparator<MediaLibraryItem>? = when {
+            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT, Medialibrary.SORT_FILENAME) && desc -> getTvDescComp(Settings.tvFoldersFirst)
+            Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT, Medialibrary.SORT_FILENAME) && !desc -> getTvAscComp(Settings.tvFoldersFirst)
+            url != null && Uri.parse(url)?.scheme == "upnp" -> null
+            sort == Medialibrary.SORT_ALPHA && desc -> descComp
+            sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
+            (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> getFilenameDescComp(nbOfDigits)
+            else -> getFilenameAscComp(nbOfDigits)
         }
 
     init {
@@ -93,6 +109,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED, onCompletion = completionHandler) {
         for (action in channel) if (isActive) {
             when (action) {
@@ -152,12 +169,23 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (url == null) coroutineScope {
             discoveryJob = launch(coroutineContextProvider.Main) { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
-            val files = filesFlow(url).mapNotNull { findMedia(it) }.onEach { addMedia(it) }.toList()
-            comparator?.let { files.apply {  (this as MutableList).sortWith(it) } }
+            val files = filesFlow(url).mapNotNull { findMedia(it) }.toList().toMutableList()
+            sort(files)
+            dataset.value = files
             computeHeaders(files)
             parseSubDirectories(files)
         }
         if (url != null ) loading.postValue(false)
+    }
+
+    /**
+     * Sort the files using the comparator. If the comparator is null (UPnP) it keeps the
+     * files order (or reverse it in desc mode)
+     *
+     * @param files the files to sort
+     */
+    fun sort(files: MutableList<MediaLibraryItem>) {
+        getComparator(if (isComparatorAboutFilename())  files.determineMaxNbOfDigits() else 0)?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() }
     }
 
     suspend fun browseUrl(url: String): List<MediaLibraryItem> {
@@ -183,13 +211,15 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun refreshImpl() {
-        val files = filesFlow().mapNotNull { findMedia(it) }.toList()
-        dataset.value = files as MutableList<MediaLibraryItem>
+        val files = filesFlow().mapNotNull { findMedia(it) }.toList() as MutableList<MediaLibraryItem>
+        sort(files)
+        dataset.value = files
         computeHeaders(files)
         parseSubDirectories(files)
         loading.postValue(false)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<IMedia> {
         val listener = object : EventListener {
             override fun onMediaAdded(index: Int, media: IMedia) {
@@ -209,7 +239,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) {
-        comparator?.let { dataset.add(media, it) } ?: dataset.add(media)
+        getComparator(if (isComparatorAboutFilename())  dataset.value.determineMaxNbOfDigits() else 0)?.let { dataset.add(media, it) } ?: dataset.add(media)
     }
 
     open fun refresh() {
@@ -259,7 +289,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                                 if (mw.length == 0L) {
                                     parseMediaSize(mw)?.let {
                                         withContext(coroutineContextProvider.Main) {
-                                            item.description = if (it == 0L) "" else it.readableFileSize()
+                                            item.description = if (it == 0L) "" else Formatter.formatFileSize(context, it)
                                             descriptionUpdate.value = Pair(currentParsedPosition, item.description)
                                         }
                                     }
@@ -292,8 +322,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                             descriptionUpdate.value = Pair(position, it)
                         }
                         directories.addAll(files)
-                        comparator?.let { directories.sortWith(it) }
-                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories.toMutableList()) }
+                        sort(directories as MutableList<MediaLibraryItem>)
+                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories) }
                     }
                     directories.clear()
                     files.clear()
@@ -343,7 +373,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun getFlags(interact : Boolean) : Int {
         var flags = if (interact) MediaBrowser.Flag.Interact else 0
-        if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
+        if (Settings.showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
         return flags
     }
 
@@ -367,11 +397,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         refresh()
     }
 
-    fun updateShowHiddenFiles(value: Boolean) {
-        showHiddenFiles = value
-        refresh()
-    }
-
     protected fun getList(url: String) =  prefetchLists[url]
 
     protected fun removeList(url: String) =  prefetchLists.remove(url)
@@ -389,6 +414,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         private val prefetchLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun <E> SendChannel<E>.post(element: E) = isActive && !isClosedForSend && trySend(element).isSuccess
 }
 

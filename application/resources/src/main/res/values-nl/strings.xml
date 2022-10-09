@@ -14,6 +14,7 @@
     <string name="sortby_length">Lengte</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_last_modified_date">Recent toegevoegd</string>
+    <string name="sortby_insertion">Datum ingevoegd</string>
     <string name="sortby_media_number">Medianummer</string>
     <string name="sortby_number">Aantal tracks</string>
     <string name="searchable_hint">Zoeken…</string>
@@ -121,7 +122,6 @@
     <string name="nosubfolder">Geen submap</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
     <string name="nohistory">U hebt nog geen afspeelgeschiedenis.</string>
-    <string name="validation">Bent u zeker?</string>
 
     <string name="cover_art">Albumhoes</string>
     <string name="shuffle_all_title">Alles in willekeurige volgorde</string>
@@ -142,6 +142,7 @@
     <string name="surface_fit_screen">Passend op scherm</string>
     <string name="surface_fill">Schermvullend</string>
     <string name="surface_original">Centreren</string>
+    <string name="resize_tip">Lang tikken voor meer opties</string>
     <string name="unseekable_stream">Niet-doorzoekbare stream</string>
     <string name="refresh">Vernieuwen</string>
     <string name="track_audio">Audiospoor</string>
@@ -366,6 +367,19 @@
     <string name="enable_headset_detection_summary">Insteken en verwijderen van headset detecteren</string>
     <string name="enable_play_on_headset_insertion">Hervatten bij insteken van headset</string>
     <string name="enable_play_on_headset_insertion_summary">Anders pauzeren</string>
+    <string name="replaygain_prefs_category">Replay gain</string>
+    <string name="replaygain_enable">Replay gain inschakelen</string>
+    <string name="replaygain_enable_summary">Streams zonder replay gain-informatie kunnen stiller zijn als gevolg van de standaard gain</string>
+    <string name="replaygain_mode">Replay gain modus</string>
+    <string name="replaygain_mode_summary">Trackmodus speelt streams met replay gain-informatie af op dezelfde luidheid. Albummodus behoudt de relatieve luidheid van de streams op hetzelfde album.</string>
+    <string name="replaygain_preamp">Replay-voorversterking</string>
+    <string name="replaygain_preamp_summary">Wijzigt het standaard doelniveau (89 dB) voor streams met replay gain-informatie</string>
+    <string name="replaygain_default">Standaard replay gain</string>
+    <string name="replaygain_default_summary">Van toepassing op streams zonder replay gain-informatie\nZet op 0 om uit te schakelen</string>
+    <string name="replaygain_peak_protection">Piekbescherming</string>
+    <string name="replaygain_peak_protection_summary">Beschermen tegen geluidsoversturing</string>
+    <string name="replaygain_track">Track</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Audio-uitvoer</string>
     <string name="aout_summary">Verander de audio-uitvoermethode die VLC gebruikt</string>
     <string name="audio_ducking_title">VLC-volume verlagen bij meldingen</string>
@@ -395,8 +409,6 @@
     <string name="controls_prefs_category">Besturing</string>
 
     <string name="performance_prefs_category">Prestaties</string>
-    <string name="chroma_format">Chroma forceren</string>
-    <string name="chroma_format_summary">RGB 32-bit: standaard chroma\nRGB 16-bit: betere prestaties maar lagere kwaliteit\nYUV: beste prestaties maar werkt niet op alle apparaten (alleen Android 2.3 en later)</string>
     <string name="deblocking">Deblocking-filter instellingen</string>
     <string name="deblocking_summary">Instellingen van deblocking-filter aanpassen kan de videokwaliteit verbeteren (alleen geavanceerde gebruikers)</string>
     <string name="deblocking_always">Volledige deblocking (traagste)</string>
@@ -420,12 +432,12 @@
     <string name="clear_history">Geschiedenis wissen</string>
     <string name="set_locale">Taal instellen</string>
     <string name="network_caching">Netwerkbuffergrootte</string>
-    <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te bufferen (in ms) voor software-decoderen\nLeeg laten om te herstellen</string>
+    <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te bufferen (in ms) voor software-decoderen\nOp 0 instellen om uit te schakelen</string>
     <string name="resume_playback_title">Afspelen hervatten na een oproep</string>
     <string name="resume_playback_summary">Anders blijven pauzeren</string>
     <string name="blurred_cover_background_title">Wazige albumhoes-achtergrond</string>
     <string name="blurred_cover_background_summary">Wazige albumhoes in audiospeler-achtergrond</string>
-    <string name="network_caching_popup">Deze waarde moet tussen 0 en 6000 ms zijn</string>
+    <string name="network_caching_popup">Deze waarde moet tussen 0 en 60 000 ms zijn</string>
     <string name="quit">Toepassing afsluiten en opnieuw starten</string>
     <string name="restart_message">Wijzigingen zullen van kracht worden van zodra de toepassing opnieuw gestart is.\n\nNu opnieuw starten?</string>
     <string name="restart_message_OK">Ok</string>
@@ -462,6 +474,7 @@
 
     <string name="no_result">Geen resultaten gevonden</string>
     <string name="no_internet_connection">Controleer uw internetverbinding</string>
+    <string name="retry">Opnieuw proberen</string>
     <string name="subs_download_error">Dienst niet beschikbaar. Probeer het later opnieuw</string>
 
     <string name="network_browsing">Lokaal netwerk</string>
@@ -481,7 +494,6 @@
     <string name="playlist_name_hint">Naam afspeellijst</string>
     <string name="go_to_chapter">Naar hoofdstuk gaan…</string>
     <string name="current_chapter">Hoofdstuk: %s</string>
-    <string name="resume_from_position">Hervatten vanaf laatste positie</string>
     <string name="confirm_resume">Hervatten vanaf laatste positie?</string>
     <string name="confirm_resume_title">Afgespeelde video\'s hervatten</string>
     <string name="tv_ui_title">Android tv-interface</string>
@@ -514,11 +526,10 @@
     <string name="allow_draw_overlays_title">Popup van VLC-speler toestaan over andere apps</string>
     <string name="allow_sdraw_overlays_description">VLC moet uw toestemming hebben om uw video weer te geven in een popup bovenop andere toepassingen.</string>
     <string name="permission_ask_again">Toegang toestaan</string>
+    <string name="pick_file">Bestand kiezen</string>
     <string name="permission_not_granted">Toestemming niet verleend</string>
     <string name="permission_expanation_no_allow">U zult niet in staat zijn om uw media automatisch te ontdekken of externe ondertitels te gebruiken</string>
     <string name="permission_expanation_allow">U zult alleen streams of netwerkmedia kunnen afspelen</string>
-    <string name="permission_expanation_subtitles">Externe ondertitels gebruiken</string>
-    <string name="permission_expanation_allow_explanation">Internet-streams of netwerkmedia afspelen</string>
     <string name="exit_app">VLC sluiten</string>
     <string name="exit_app_msg">Weet u zeker dat u VLC wilt afsluiten?</string>
 
@@ -626,10 +637,12 @@
     <string name="subtitle_search_name_hint">Naam</string>
     <string name="subtitle_search_episode_hint">Aflevering</string>
     <string name="subtitle_search_season_hint">Seizoen</string>
+    <string name="subtitles_download_failed">Downloaden mislukt</string>
     <string name="language_to_download">Taal</string>
     <string name="delete_the_selected">Selectie verwijderen</string>
     <string name="download_the_selected">Selectie downloaden</string>
     <string name="next">Volgende</string>
+    <string name="next_step">Volgende</string>
     <string name="download">Downloaden</string>
     <string name="ctx_player_video_track">Videospoor selecteren</string>
     <string name="ctx_player_audio_track">Audiospoor</string>
@@ -831,6 +844,7 @@
     <string name="audio_delay_bt">Audiovertraging ingesteld op %s ms voor het bluetooth-apparaat</string>
     <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
+    <string name="create_shortcut">Launcher-snelkoppeling aanmaken</string>
     <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>
     <string name="enqueuing">Uw media laden</string>
     <string name="soundfont">MIDI SoundFont</string>
@@ -884,6 +898,8 @@
     <string name="player_controls">Spelerbediening</string>
     <string name="video_double_tap_jump_delay">Tijdvertraging dubbeltikken</string>
     <string name="video_key_jump_delay">Tijdvertraging navigatietoetsen</string>
+    <string name="banned">Verbannen map (lang tikken om te wijzigen)</string>
+    <string name="banned_parent">Verbannen door bovenliggende map</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Dit item staat al in deze afspeellijst.</item>
         <item quantity="other">Deze items staan al in deze afspeellijst.</item>
@@ -894,5 +910,18 @@
     </plurals>
     <string name="official_website">Officiële website</string>
     <string name="view_online">Online weergeven</string>
-
+    <string name="player_under_notch">Video weergeven onder notch</string>
+    <string name="notch">Notch</string>
+    <string name="always_fast_seek">Altijd snel zoeken gebruiken</string>
+    <string name="always_fast_seek_summary">Zoeken is sneller maar kan minder precies zijn</string>
+    <string name="touch_only">Functie uitsluitend voor touch</string>
+    <string name="touch_only_description">Omschakelen naar de mobiele interface kan alleen met een aanraakscherm of een muis. Schuif hieronder om te verifiëren dat deze functie veilig kan worden gewijzigd.</string>
+    <string name="no_web_browser">Geen webbrowser geïnstalleerd</string>
+    <string name="no_web_browser_message">U kunt dit scannen op uw smartphone.\De URL is %s</string>
+    <string name="no_video">Geen video beschikbaar</string>
+    <string name="fold_optimized">Geoptimaliseerd voor uw klapscherm</string>
+    <string name="fold_optimize">Optimaliseren voor klapschermen</string>
+    <string name="foldable">Vouwbaar scherm</string>
+    <string name="undo">Ongedaan maken</string>
+    <string name="add_server_favorite">Een server-favoriet toevoegen</string>
 </resources>

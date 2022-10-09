@@ -2,15 +2,15 @@ package org.videolan.vlc.gui.onboarding
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.EXTRA_FIRST_RUN
@@ -22,14 +22,14 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.hf.NotificationDelegate.Companion.getNotificationPermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
+    private lateinit var nextButton: Button
     private val viewModel: OnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,27 +38,35 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         showFragment(viewModel.currentFragment)
     }
 
-    fun showFragment(fragmentName:FragmentName) {
+    fun showFragment(fragmentName:FragmentName, backward:Boolean = false) {
         val fragment = supportFragmentManager.getFragment(Bundle(), fragmentName.name) ?:
         when (fragmentName) {
             FragmentName.WELCOME -> OnboardingWelcomeFragment.newInstance()
             FragmentName.ASK_PERMISSION -> OnboardingPermissionFragment.newInstance()
             FragmentName.SCAN -> OnboardingScanningFragment.newInstance()
             FragmentName.NO_PERMISSION -> OnboardingNoPermissionFragment.newInstance()
+            FragmentName.NOTIFICATION_PERMISSION -> OnboardingNotificationPermissionFragment.newInstance()
             FragmentName.THEME -> OnboardingThemeFragment.newInstance()
         }
         (fragment as OnboardingFragment).onboardingFragmentListener = this
         supportFragmentManager.commit {
-            setCustomAnimations(
+            if (!backward) setCustomAnimations(
                  R.anim.anim_enter_right,
                  R.anim.anim_leave_left,
                  android.R.anim.fade_in,
                  android.R.anim.fade_out
+            ) else setCustomAnimations(
+                    R.anim.anim_enter_left,
+                    R.anim.anim_leave_right,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
             )
             replace(R.id.fragment_onboarding_placeholder, fragment, fragmentName.name)
         }
         viewModel.currentFragment = fragmentName
-        findViewById<View>(R.id.close).setOnClickListener { onDone() }
+        findViewById<View>(R.id.skip_button).setOnClickListener { onDone() }
+        nextButton = findViewById(R.id.next_button)
+        nextButton.setOnClickListener { onNext() }
     }
 
     override fun onDestroy() {
@@ -84,13 +92,22 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         finish()
     }
 
-    override fun onBackPressed() {
-//        if (viewPager.currentItem != 0) super.onBackPressed()
+    private fun askPermission() {
+        lifecycleScope.launch {
+            val onlyMedia = viewModel.permissionType == PermissionType.MEDIA
+            viewModel.permissionAlreadyAsked = true
+            getStoragePermission(withDialog = false, onlyMedia = onlyMedia)
+            onNext()
+        }
     }
 
-    override fun askPermission() {
+    private fun askNotificationPermission() {
         lifecycleScope.launch {
-            getStoragePermission()
+            viewModel.notificationPermissionAlreadyAsked = true
+            getNotificationPermission()
+            Settings.getInstance(this@OnboardingActivity).edit {
+                putBoolean(NOTIFICATION_PERMISSION_ASKED, true)
+            }
             onNext()
         }
     }
@@ -98,10 +115,17 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     override fun onNext() {
         when(viewModel.currentFragment) {
             FragmentName.WELCOME -> if (Permissions.canReadStorage(this)) showFragment(FragmentName.SCAN) else showFragment(FragmentName.ASK_PERMISSION)
-            FragmentName.ASK_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
+            FragmentName.ASK_PERMISSION -> if(viewModel.permissionType != PermissionType.NONE && !viewModel.permissionAlreadyAsked) askPermission() else showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
-            FragmentName.SCAN -> showFragment(FragmentName.THEME)
+            FragmentName.NOTIFICATION_PERMISSION -> if(!Permissions.canSendNotifications(applicationContext) && !viewModel.notificationPermissionAlreadyAsked) askNotificationPermission() else showFragment(FragmentName.THEME)
+            FragmentName.SCAN -> if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S && !Permissions.canSendNotifications(applicationContext)) showFragment(FragmentName.NOTIFICATION_PERMISSION) else showFragment(FragmentName.THEME)
+            else ->  onDone()
         }
+        if (viewModel.currentFragment == FragmentName.THEME) nextButton.text = getString(R.string.done)
+    }
+
+    fun manageNextVisibility(visible: Boolean) {
+        nextButton.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
 }
@@ -111,9 +135,8 @@ enum class FragmentName {
     ASK_PERMISSION,
     SCAN,
     NO_PERMISSION,
+    NOTIFICATION_PERMISSION,
     THEME
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 fun Activity.startOnboarding() = startActivityForResult(Intent(this, OnboardingActivity::class.java), ACTIVITY_RESULT_PREFERENCES)

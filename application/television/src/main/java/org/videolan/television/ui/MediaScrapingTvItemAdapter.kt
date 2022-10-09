@@ -37,8 +37,6 @@ import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -55,8 +53,6 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MediaScrapingTvItemAdapter(
         type: Long,
         private val eventsHandler: IEventsHandler<MediaMetadataWithImages>,

@@ -13,7 +13,6 @@ import android.text.SpannableString
 import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.WorkerThread
@@ -22,6 +21,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.text.PrecomputedTextCompat
+import androidx.core.text.toSpannable
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
@@ -32,10 +32,10 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import org.videolan.BuildConfig
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -48,19 +48,25 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
 import org.videolan.tools.isStarted
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.browser.KEY_MEDIA
 import java.io.File
-import java.lang.StringBuilder
+import java.lang.ref.WeakReference
 import java.net.URI
 import java.net.URISyntaxException
 import java.security.SecureRandom
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 fun String.validateLocation(): Boolean {
     var location = this
     /* Check if the MRL contains a scheme */
     if (!location.matches("\\w+://.+".toRegex())) location = "file://$location"
-    if (location.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
+    if (location.lowercase(Locale.ENGLISH).startsWith("file://")) {
         /* Ensure the file exists */
         val f: File
         try {
@@ -80,6 +86,19 @@ inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProvider(this)
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProvider(this).get(T::class.java)
 
 fun Media?.canExpand() = this != null && (type == IMedia.Type.Directory || type == IMedia.Type.Playlist)
+
+fun FragmentActivity.share(file: File) {
+    val intentShareFile = Intent(Intent.ACTION_SEND)
+    val fileWithinMyDir = File(file.path)
+    if (isStarted()) {
+        intentShareFile.type = "*/*"
+        intentShareFile.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, "$packageName.provider", fileWithinMyDir))
+        intentShareFile.putExtra(Intent.EXTRA_SUBJECT, file.name)
+        intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, file.name))
+        startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file,file.name)))
+    }
+}
+
 suspend fun AppCompatActivity.share(media: MediaWrapper) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
     val fileWithinMyDir = File(media.uri.path)
@@ -139,8 +158,6 @@ fun List<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
     return list
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 suspend fun String.scanAllowed() = withContext(Dispatchers.IO) {
     val file = File(toUri().path ?: return@withContext false)
     if (!file.exists() || !file.canRead()) return@withContext false
@@ -167,7 +184,7 @@ fun asyncText(view: TextView, text: CharSequence?) {
     }
     view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
-    (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
+    setTextAsync(view, text, params)
 }
 
 @BindingAdapter("app:asyncText", requireAll = false)
@@ -176,9 +193,11 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         view.visibility = View.GONE
         return
     }
-    val text = if (item is Playlist){
-        val duration = if (item.duration != 0L) Tools.millisToString(item.duration) else null
-        TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.nbDurationUnknown > 0) "$duration+" else duration)
+    val text = if (item is Playlist) {
+        if (item.duration != 0L) {
+            val duration = Tools.millisToString(item.duration)
+            TextUtils.separatedString(view.context.getString(R.string.track_number, item.tracksCount), if (item.nbDurationUnknown > 0) "$duration+" else duration)
+        } else view.context.getString(R.string.track_number, item.tracksCount)
     } else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
@@ -186,7 +205,20 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     }
     view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
-    (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
+    setTextAsync(view, text, params)
+}
+
+private fun setTextAsync(view: TextView, text: CharSequence, params: PrecomputedTextCompat.Params) {
+    val ref = WeakReference(view)
+    AppScope.launch(Dispatchers.Default) {
+        val pText = PrecomputedTextCompat.create(text, params)
+        val result = pText.toSpannable()
+        withContext(Dispatchers.Main) {
+            ref.get()?.let { textView ->
+                textView.text = result
+            }
+        }
+    }
 }
 
 const val folderReplacementMarker = "§*§"
@@ -208,6 +240,30 @@ fun CharSequence.getDescriptionSpan(context: Context):SpannableString {
     return string
 }
 
+/**
+ * Get the folder number from the formatted string
+ *
+ * @return the folder number
+ */
+fun CharSequence?.getFolderNumber():Int {
+    if (isNullOrBlank()) return 0
+    if (!contains(folderReplacementMarker)) return 0
+    val cutString = replace(Regex("[^0-9 ]"), "")
+    return cutString.trim().split(" ")[0].toInt()
+}
+
+/**
+ * Get the file number from the formatted string
+ *
+ * @return the file number
+ */
+fun CharSequence?.getFilesNumber():Int {
+    if (isNullOrBlank()) return 0
+    if (!contains(fileReplacementMarker)) return 0
+    val cutString = replace(Regex("[^0-9 ]"), "").trim().split(" ")
+    return cutString[cutString.size -1].toInt()
+}
+
 const val presentReplacementMarker = "§*§"
 const val missingReplacementMarker = "*§*"
 
@@ -224,10 +280,10 @@ fun presenceDescription(view: TextView, description: String?) {
 fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
     val string = SpannableString(this)
     if (this.contains(presentReplacementMarker)) {
-        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_network_media, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(folderReplacementMarker), this.indexOf(folderReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_media_present, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(folderReplacementMarker), this.indexOf(folderReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
     if (this.contains(missingReplacementMarker)) {
-        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_network_media_off, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_media_absent, DynamicDrawableSpan.ALIGN_CENTER), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
     return string
 }
@@ -235,7 +291,7 @@ fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
 fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = toFloat() * (metrics.densityDpi / 160f)
-    return Math.round(px)
+    return px.roundToInt()
 }
 
 fun Activity.getScreenWidth() : Int {
@@ -257,8 +313,8 @@ fun Activity.hasNotch() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && wind
 
 @TargetApi(Build.VERSION_CODES.O)
 fun Context.getPendingIntent(iPlay: Intent): PendingIntent {
-    return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
-    else PendingIntent.getService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
+    return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+    else PendingIntent.getService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 }
 
 /**
@@ -306,14 +362,25 @@ fun RecyclerView.Adapter<*>.onAnyChange(listener: ()->Unit): RecyclerView.Adapte
     return dataObserver
 }
 
-fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 || height <= 0) {
+/**
+ * Generate a string containing the commercial denomination of the video resolution
+ *
+ * @param width the video width
+ * @param height the video height
+ * @return the commercial resolution (SD, HD, 4K, ...)
+ */
+fun generateResolutionClass(width: Int, height: Int): String? = if (width <= 0 || height <= 0) {
     null
-} else when {
-    width >= 7680 -> "8K"
-    width >= 3840 -> "4K"
-    width >= 1920 -> "1080p"
-    width >= 1280 -> "720p"
-    else -> "SD"
+} else {
+    val realHeight = min(height, width)
+    when {
+        realHeight >= 4320 -> "8K"
+        realHeight >= 2160 -> "4K"
+        realHeight >= 1440 -> "qHD"
+        realHeight >= 1080 -> "FHD"
+        realHeight >= 720 -> "HD"
+        else -> "SD"
+    }
 }
 
 val View.scope : CoroutineScope
@@ -325,4 +392,80 @@ val View.scope : CoroutineScope
 
 fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.launchWhenStarted {
     collect() // tail-call
+}
+
+/**
+ * Sanitize a string by adding enough "0" at the start
+ * to make a "natural" alphanumeric comparison (1, 2, 10, 11, 20) instead of a strict one (1, 10, 11, 21, 20)
+ *
+ * @param nbOfDigits the number of digits to reach
+ * @return a string having exactly [nbOfDigits] digits at the start
+ */
+fun String?.sanitizeStringForAlphaCompare(nbOfDigits: Int): String? {
+    if (this == null) return null
+    if (first().isDigit()) return buildString {
+        var numberOfPrependingZeros =0
+        for (c in this@sanitizeStringForAlphaCompare) {
+            if (c.isDigit() && c.digitToInt() == 0) numberOfPrependingZeros++ else break
+        }
+        for (i in 0 until (nbOfDigits - numberOfPrependingZeros - (getStartingNumber()?.numberOfDigits() ?: 0))) {
+            append("0")
+        }
+        append(this@sanitizeStringForAlphaCompare)
+    }
+    return this
+}
+
+/**
+ * Calculate the number of digits of an Int
+ *
+ * @return the number of digits of this Int
+ */
+fun Int.numberOfDigits(): Int = when (this) {
+    in -9..9 -> 1
+    else -> 1 + (this / 10).numberOfDigits()
+}
+
+/**
+ * Get the number described at the start of this String if any
+ *
+ * @return the starting number of this String, null if no number found
+ */
+fun String.getStartingNumber(): Int? {
+    return try {
+        buildString {
+            for (c in this@getStartingNumber)
+                //we exclude starting "0" to prevent bad sorts
+                if (c.isDigit()) {
+                    if (!(this.isEmpty() && c.digitToInt() == 0)) append(c)
+                } else break
+        }.toInt()
+    } catch (e: NumberFormatException) {
+        null
+    }
+}
+
+/**
+ * Determine the max number of digits iat the start of
+ * this lit items' filename
+ *
+ * @return a max number of digits
+ */
+fun List<MediaLibraryItem>.determineMaxNbOfDigits(): Int {
+    var numberOfPrepending = 0
+    forEach {
+        numberOfPrepending = max((it as? MediaWrapper)?.fileName?.getStartingNumber()?.numberOfDigits()
+                ?: 0, numberOfPrepending)
+    }
+    return numberOfPrepending
+}
+
+fun Fragment.showParentFolder(media: MediaWrapper) {
+    val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
+        type = MediaWrapper.TYPE_DIR
+    }
+    val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
+    intent.putExtra(KEY_MEDIA, parent)
+    intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
+    startActivity(intent)
 }

@@ -72,6 +72,7 @@
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
         <item name="primary_focus">@color/orange_800_transparent_20</item>
+        <item name="swipe_refresh_background">?attr/background_default</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
@@ -101,6 +102,7 @@
         <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top</item>
         <item name="tips_item_background">@color/grey300</item>
         <item name="about_text_primary">@color/black</item>
+        <item name="widget_preview_rounded_bg">@drawable/rounded_top_corners_left_background</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
@@ -152,6 +154,9 @@
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7" />
+    <style name="Theme.VLC.Material.TV" parent="Theme.VLC.Black" >
+        <item name="android:background">@color/tv_card_content_darker</item>
+    </style>
 
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <!--        <item name="actionBarStyle">@style/ActionBar</item>-->
@@ -179,7 +184,7 @@
         <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorControlHighlight">@color/orange500</item>
-        <item name="colorControlNormal">@color/grey700</item>
+        <item name="colorControlNormal">@color/grey300</item>
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/grey875</item>
@@ -218,6 +223,7 @@
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble_black</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
+        <item name="swipe_refresh_background">?attr/background_default_darker</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
@@ -248,6 +254,7 @@
         <item name="audio_player_gradient_top">@drawable/gradient_audio_player_top_dark</item>
         <item name="tips_item_background">@color/grey900</item>
         <item name="about_text_primary">@color/orange500</item>
+        <item name="widget_preview_rounded_bg">@drawable/rounded_top_corners_left_background_dark</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Onboarding.7"/>
@@ -385,6 +392,7 @@
     <style name="Theme.VLC.Transparent" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/orange500</item>
         <item name="colorAccent">@color/orange500</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -564,6 +572,10 @@
         <item name="colorControlNormal">@color/grey700</item>
     </style>
 
+    <style name="ExpandableToolbar.VLC" parent="Toolbar.VLC">
+        <item name="background">@color/white</item>
+    </style>
+
     <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:shadowDy">0</item>
         <item name="android:shadowDx">0</item>
@@ -721,12 +733,24 @@
 
     </style>
 
-        <style name="About"/>
-        <style name="About.Title">
-            <item name="android:textSize">16sp</item>
-            <item name="android:textColor">?attr/font_default</item>
-            <item name="android:fontFamily">sans-serif-medium</item>
+    <style name="About" />
 
-        </style>
+    <style name="About.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/font_default</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+
+    </style>
+
+    <style name="VLCDialogButton" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <style name="WidgetConfiguration" parent="WidgetConfiguration.19"/>
+    <style name="WidgetConfiguration.19" parent="Theme.VLC">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
 
 </resources>

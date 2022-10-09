@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 
 android {
 
@@ -25,13 +25,14 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
-        resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".tv"
+        resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
         buildConfigField 'int', 'VLC_VERSION_CODE', "${rootProject.ext.versionCode}"
         buildConfigField 'String', 'VLC_VERSION_NAME', "\"${rootProject.ext.versionName}\""
         buildConfigField 'String[]', 'TRANSLATION_ARRAY', generateTranslation()
+        buildConfigField 'int', 'VLC_MAJOR_VERSION', "${rootProject.ext.vlcMajorVersion}"
 
         testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -42,13 +43,6 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/assets/schemas".toString(),
-                             "room.incremental":"true"]
-            }
-        }
     }
 
     testOptions {
@@ -78,7 +72,7 @@ android {
             buildConfigField "boolean", "BETA", "false"
             resValue 'string', 'benchmark_package_name', 'org.videolan.vlcbenchmark.debug'
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
-            resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".debug.tv"
+            resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.debug.tv"
             multiDexEnabled true
         }
         signedRelease {
@@ -93,7 +87,7 @@ android {
 
     sourceSets.main {
         manifest.srcFile 'AndroidManifest.xml'
-        java.srcDirs = ['src']
+        java.srcDirs = rootProject.ext.vlcMajorVersion == 4 ? ['src', 'vlc4/src'] : ['src', 'vlc3/src']
         resources.srcDirs = ['src']
         aidl.srcDirs = ['src']
         renderscript.srcDirs = ['src']
@@ -117,6 +111,7 @@ android {
         assets.srcDirs = ['flavors/debug/assets']
         assets.srcDirs += files("$projectDir/assets/schemas".toString())
     }
+    namespace 'org.videolan.vlc'
 }
 
 def generateTranslation() {
@@ -144,7 +139,7 @@ task generateSources(type: Jar) {
 }
 
 dependencies {
-    devApi project(':libvlc')
+    devApi project(':libvlcjni:libvlc')
     devApi project(':medialibrary')
     debugApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
@@ -163,6 +158,7 @@ dependencies {
     api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
     api "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
     api "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
+    api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     api "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     api "androidx.viewpager2:viewpager2:$rootProject.ext.viewPager2Version"
@@ -174,6 +170,8 @@ dependencies {
     api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    api "androidx.window:window:1.0.0"
+    api "androidx.media:media:1.6.0"
 
     kapt ('org.xerial:sqlite-jdbc:3.36.0')
     kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
@@ -182,6 +180,8 @@ dependencies {
 
 
     //TV
+    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
 
     // Kotlin
@@ -190,6 +190,9 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
     implementation 'nl.dionsegijn:konfetti:1.2.2'
+    implementation 'com.google.zxing:core:3.4.0'
+    implementation "androidx.palette:palette-ktx:1.0.0"
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
 
     // Tests
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
@@ -199,7 +202,7 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.orchestrator"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"

@@ -8,8 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import junit.framework.Assert.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -27,8 +25,6 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.applyMock
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class NetworkModelTest : BaseTest() {
     @get:Rule
     val temporaryFolder = TemporaryFolder()

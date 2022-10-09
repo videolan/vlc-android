@@ -31,37 +31,37 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
-import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
-import org.videolan.resources.VLCInstance
+import org.videolan.resources.*
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.share
 import java.io.File
 import java.io.IOException
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() =  R.xml.preferences_adv
@@ -72,9 +72,13 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.DEBUG) findPreference<Preference>("debug_logs")?.isVisible = false
         if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
 
+        findPreference<EditTextPreference>("network_caching")?.setOnBindEditTextListener {
+            it.inputType = InputType.TYPE_CLASS_NUMBER
+            it.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
+            it.setSelection(it.editableText.length)
+        }
     }
 
     override fun onStart() {
@@ -98,46 +102,57 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_history" -> {
-                AlertDialog.Builder(requireContext())
-                        .setTitle(R.string.clear_playback_history)
-                        .setMessage(R.string.validation)
-                        .setIcon(R.drawable.ic_warning)
-                        .setPositiveButton(R.string.yes) { _, _ ->
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                Medialibrary.getInstance().clearHistory()
-                                Settings.getInstance(requireActivity()).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
-                            }
-                        }
-
-                        .setNegativeButton(R.string.cancel, null).show()
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
+                dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                dialog.setListener {
+                    Medialibrary.getInstance().clearHistory()
+                    Settings.getInstance(requireActivity()).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
+                }
                 return true
             }
             "clear_media_db" -> {
-                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_media_db), description = getString(R.string.clear_media_db_message), buttonText = getString(R.string.clear))
-                dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
-                dialog.setListener {
-                    lifecycleScope.launch {
-                        val medialibrary = Medialibrary.getInstance()
-                        requireActivity().stopService(Intent(requireActivity(), MediaParsingService::class.java))
-                        withContext((Dispatchers.IO)) {
-                            medialibrary.clearDatabase(false)
-                            //delete thumbnails
-                            try {
-                                requireActivity().getExternalFilesDir(null)?. let {
-                                    val files = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
-                                    files?.forEach { file ->
-                                        if (file.isFile) FileUtils.deleteFile(file)
-                                    }
-                                }
-                                BitmapCache.clear()
-                            } catch (e: IOException) {
-                                Log.e(this::class.java.simpleName, e.message, e)
-                            }
-                        }
-                        medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                val medialibrary = Medialibrary.getInstance()
+                if (medialibrary.isWorking) {
+                    activity?.let {
+                        Toast.makeText(
+                            it,
+                            R.string.settings_ml_block_scan,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
+                } else {
+                    val dialog = ConfirmDeleteDialog.newInstance(
+                        title = getString(R.string.clear_media_db),
+                        description = getString(R.string.clear_media_db_message),
+                        buttonText = getString(R.string.clear)
+                    )
+                    dialog.show(
+                        requireActivity().supportFragmentManager,
+                        RenameDialog::class.simpleName
+                    )
+                    dialog.setListener {
+                        lifecycleScope.launch {
+                            withContext((Dispatchers.IO)) {
+                                medialibrary.clearDatabase(false)
+                                //delete thumbnails
+                                try {
+                                    requireActivity().getExternalFilesDir(null)?.let {
+                                        val files =
+                                            File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
+                                        files?.forEach { file ->
+                                            if (file.isFile) FileUtils.deleteFile(file)
+                                        }
+                                    }
+                                    BitmapCache.clear()
+                                } catch (e: IOException) {
+                                    Log.e(this::class.java.simpleName, e.message, e)
+                                }
+                            }
+                            MedialibraryUtils.addDir(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, requireContext())
+                        }
+                    }
+                    return true
                 }
-                return true
             }
             "clear_app_data" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -147,7 +162,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 } else {
                     val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     i.addCategory(Intent.CATEGORY_DEFAULT)
-                    i.data = Uri.parse("package:" + requireActivity().applicationContext.packageName)
+                    i.data = Uri.fromParts(SCHEME_PACKAGE, requireActivity().applicationContext.packageName, null)
                     startActivity(i)
                 }
                 return true
@@ -168,7 +183,35 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
                                 FileUtils.copyFile(db, dst)
                             }
-                            Toast.makeText(context, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            if (copied)
+                                UiTools.snackerConfirm(requireActivity(), getString(R.string.dump_db_succes), confirmMessage = R.string.share, overAudioPlayer = false) {
+                                    requireActivity().share(dst)
+                                } else {
+                                Toast.makeText(context, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                }
+                return true
+            }
+            "dump_app_db" -> {
+                val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + ROOM_DATABASE)
+                lifecycleScope.launch {
+                    if (getWritePermission(Uri.fromFile(dst))) {
+                        val copied = withContext(Dispatchers.IO) {
+                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).parent!! + "/databases")
+
+                            val files = db.listFiles()?.map { it.path }?.toTypedArray()
+
+                            if (files == null) false else
+                                FileUtils.zip(files, dst.path)
+
+                        }
+                        if (copied)
+                            UiTools.snackerConfirm(requireActivity(), getString(R.string.dump_db_succes), confirmMessage = R.string.share, overAudioPlayer = false) {
+                                requireActivity().share(dst)
+                            } else {
+                            Toast.makeText(context, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -187,40 +230,45 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "network_caching" -> {
                 sharedPreferences.edit {
                     try {
-                        putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
+                        val origValue = Integer.parseInt(sharedPreferences.getString(key, "0") ?: "0")
+                        val newValue = origValue.coerceIn(0, 60000)
+                        putInt("network_caching_value", newValue)
+                        findPreference<EditTextPreference>(key)?.let { it.text = newValue.toString() }
+                        if (origValue != newValue) UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     } catch (e: NumberFormatException) {
                         putInt("network_caching_value", 0)
-                        val networkCachingPref = findPreference<EditTextPreference>(key)
-                        networkCachingPref?.text = ""
+                        findPreference<EditTextPreference>(key)?.let { it.text = "0" }
                         UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     }
                 }
-                restartLibVLC()
+                lifecycleScope.launch { restartLibVLC() }
             }
             // No break because need VLCInstance.restart();
             "custom_libvlc_options" -> {
-                try {
-                    VLCInstance.restart()
-                } catch (e: IllegalStateException){
-                    UiTools.snacker(requireActivity(), R.string.custom_libvlc_options_invalid)
-                    sharedPreferences.putSingle("custom_libvlc_options", "")
-                } finally {
-                    (activity as? PreferencesActivity)?.restartMediaPlayer()
+                lifecycleScope.launch {
+                    try {
+                        VLCInstance.restart()
+                    } catch (e: IllegalStateException) {
+                        UiTools.snacker(requireActivity(), R.string.custom_libvlc_options_invalid)
+                        sharedPreferences.putSingle("custom_libvlc_options", "")
+                    } finally {
+                        restartMediaPlayer()
+                    }
+                    restartLibVLC()
                 }
-                restartLibVLC()
             }
-            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+            "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
+                lifecycleScope.launch { restartLibVLC() }
             }
             "prefer_smbv1" -> {
-                VLCInstance.restart()
+                lifecycleScope.launch { VLCInstance.restart() }
                 UiTools.restartDialog(requireActivity())
             }
         }
     }
-    fun restartLibVLC() {
+
+    private suspend fun restartLibVLC() {
         VLCInstance.restart()
-        (activity as? PreferencesActivity)?.restartMediaPlayer()
+        restartMediaPlayer()
     }
 }

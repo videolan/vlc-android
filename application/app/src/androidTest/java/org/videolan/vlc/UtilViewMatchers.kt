@@ -22,8 +22,6 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -93,8 +91,6 @@ fun withBgColor(@ColorInt color: Int): Matcher<View> {
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MediaRecyclerViewMatcher<VH : SelectorViewHolder<out ViewDataBinding>>(@IdRes private val recyclerViewId: Int) {
     var recyclerView: RecyclerView? = null
 

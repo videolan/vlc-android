@@ -67,10 +67,32 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
+                    android:text="libvlcjni"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+            <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
                     android:text="VLC"
                     android:textColor="?attr/font_light"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+            <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="libvlc"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
             <TextView
                     android:id="@+id/textView30"
@@ -83,7 +105,8 @@
                     android:textColor="?attr/font_light"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
+                    app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                     android:id="@+id/revision"
@@ -103,10 +126,36 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:textColor="?attr/font_default"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView35"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
+                    app:layout_constraintTop_toTopOf="@+id/textView35"
+                    tools:text="cb3c6284d" />
+
+            <TextView
+                    android:id="@+id/libvlc_revision"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:textColor="?attr/font_default"
                     app:layout_constraintBottom_toBottomOf="@+id/textView29"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
                     app:layout_constraintTop_toTopOf="@+id/textView29"
+                    tools:text="cb3c6284d" />
+
+            <TextView
+                    android:id="@+id/libvlc_version"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:textColor="?attr/font_default"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
+                    app:layout_constraintTop_toTopOf="@+id/textView2"
+                    app:layout_constraintVertical_bias="1.0"
                     tools:text="cb3c6284d" />
 
             <TextView

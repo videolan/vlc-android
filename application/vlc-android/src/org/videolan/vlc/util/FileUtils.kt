@@ -55,11 +55,9 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object FileUtils {
 
-    val TAG = "VLC/FileUtils"
+    const val TAG = "VLC/FileUtils"
 
     interface Callback {
         fun onResult(success: Boolean)
@@ -301,11 +299,10 @@ object FileUtils {
     }
 
     @WorkerThread
-    fun canWrite(path: String?): Boolean {
-        var path = path
-        if (path.isNullOrEmpty()) return false
-        if (path.startsWith("file://")) path = path.substring(7)
-        return path.startsWith("/")
+    fun canWrite(writePath: String?): Boolean {
+        val path = writePath ?: return false
+        if (path.isEmpty()) return false
+        return path.removeFileScheme().startsWith("/")
     }
 
     @WorkerThread
@@ -484,8 +481,8 @@ object FileUtils {
     }
 
     const val BUFFER = 2048
-    fun zip(files: Array<String>, zipFileName: String) {
-        try {
+    fun zip(files: Array<String>, zipFileName: String):Boolean {
+        return try {
             var origin: BufferedInputStream? = null
             val dest = FileOutputStream(zipFileName)
             val out = ZipOutputStream(BufferedOutputStream(
@@ -508,8 +505,10 @@ object FileUtils {
             }
 
             out.close()
+            true
         } catch (e: Exception) {
             e.printStackTrace()
+            false
         }
     }
 

@@ -6,10 +6,13 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.format.Formatter
 import android.view.Gravity
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
@@ -21,21 +24,24 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.Extensions
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.readableFileSize
+import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
+import org.videolan.vlc.getAllTracks
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -53,8 +59,6 @@ import java.util.*
 private const val TAG = "VLC/InfoActivity"
 private const val TAG_FAB_VISIBILITY = "FAB"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener,
         IPathOperationDelegate by PathOperationDelegate() {
 
@@ -63,6 +67,10 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     private lateinit var model: InfoModel
 
     internal lateinit var binding: InfoActivityBinding
+    override fun isTransparent() = true
+    override val insetListener = {insets:Insets ->
+        (binding.mlItemResolution.layoutParams as ConstraintLayout.LayoutParams).topMargin = insets.top + 16.dp
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +110,10 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
         model.hasSubs.observe(this) { if (it) binding.infoSubtitles.visibility = View.VISIBLE }
         model.mediaTracks.observe(this) { adapter.setTracks(it) }
-        model.sizeText.observe(this) { binding.sizeValueText = it }
+        model.sizeText.observe(this) {
+            binding.fileSizeViews.visibility = if (it != -1L) View.VISIBLE else View.GONE
+            binding.sizeValueText = Formatter.formatFileSize(this, it)
+        }
         model.cover.observe(this) {
             if (it != null) {
                 binding.cover = BitmapDrawable(this@InfoActivity.resources, it)
@@ -130,7 +141,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         val nbTracks = tracks?.size ?: 0
         if (nbTracks > 0) for (media in tracks!!) length += media.length
         if (length > 0)
-            binding.length = Tools.millisToTextLarge(length)
+            binding.length = length
 
         if (item is MediaWrapper) {
             val media = item as MediaWrapper
@@ -229,13 +240,11 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class InfoModel : ViewModel() {
 
     val hasSubs = MutableLiveData<Boolean>()
     val mediaTracks = MutableLiveData<List<IMedia.Track>>()
-    val sizeText = MutableLiveData<String>()
+    val sizeText = MutableLiveData<Long>()
     val cover = MutableLiveData<Bitmap>()
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
@@ -257,10 +266,10 @@ class InfoModel : ViewModel() {
         }
         if (!isActive) return@launch
         var subs = false
-        val trackCount = media.trackCount
+        val trackCount = media.getAllTracks().size
         val tracks = LinkedList<IMedia.Track>()
         for (i in 0 until trackCount) {
-            val track = media.getTrack(i)
+            val track = media.getAllTracks()[i]
             tracks.add(track)
             subs = subs or (track.type == IMedia.Track.Type.Text)
         }
@@ -272,9 +281,12 @@ class InfoModel : ViewModel() {
     fun checkFile(mw: MediaWrapper) = viewModelScope.launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
-        if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
+        if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) {
+            sizeText.value = -1L
+            return@launch
+        }
         if (mw.type == MediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
-        sizeText.value = itemFile.length().readableFileSize()
+        sizeText.value = itemFile.length()
     }
 
     private suspend fun checkSubtitles(itemFile: File) = withContext(Dispatchers.IO) {
@@ -284,7 +296,7 @@ class InfoModel : ViewModel() {
         val parentPath = Uri.decode(itemFile.parent)
         videoName = videoName.substring(0, videoName.lastIndexOf('.'))
         val subFolders = arrayOf("/Subtitles", "/subtitles", "/Subs", "/subs")
-        var files: Array<String>? = itemFile.parentFile.list()
+        var files: Array<String>? = itemFile.parentFile?.list()
         var filesLength = files?.size ?: 0
         for (subFolderName in subFolders) {
             val subFolder = File(parentPath + subFolderName)

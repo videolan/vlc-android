@@ -90,11 +90,11 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
     }
 
     private fun appendVideo(textBuilder: StringBuilder, res: Resources, track: IMedia.VideoTrack) {
-        val framerate = track.frameRateNum / track.frameRateDen.toDouble()
+        val frameRate = track.frameRateNum / track.frameRateDen.toDouble()
         if (track.width != 0 && track.height != 0)
             textBuilder.append(res.getString(R.string.track_resolution_info, track.width, track.height))
-        if (!java.lang.Double.isNaN(framerate))
-            textBuilder.append(res.getString(R.string.track_framerate_info, framerate))
+        if (!frameRate.isNaN())
+            textBuilder.append(res.getString(R.string.track_framerate_info, frameRate))
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

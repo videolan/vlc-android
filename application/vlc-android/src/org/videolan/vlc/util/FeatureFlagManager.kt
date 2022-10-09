@@ -27,17 +27,13 @@ package org.videolan.vlc.util
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.annotation.StringRes
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.vlc.R
+import java.util.*
 
 /**
  * This manager allows the user to enable / disable experimental features
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object FeatureFlagManager {
 
     fun isEnabled(context: Context, feature:FeatureFlag) = Settings.getInstance(context).getBoolean(feature.getKey(), false)
@@ -53,8 +49,9 @@ object FeatureFlagManager {
  * @param title: a string reference for this feature's title
  */
 enum class FeatureFlag(var dependsOn:FeatureFlag?, @StringRes var title:Int, @StringRes var warning:Int?) {
-    NETWORK_INDEXING(null, R.string.network_indexing, R.string.network_indexing_warning);
+
+    ;
 
     @SuppressLint("DefaultLocale")
-    fun getKey() = "ff_${name.toLowerCase()}"
+    fun getKey() = "ff_${name.lowercase(Locale.getDefault())}"
 }

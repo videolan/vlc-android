@@ -22,6 +22,7 @@ package org.videolan.mobile.app
 import android.annotation.TargetApi
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
@@ -38,6 +39,7 @@ import org.videolan.mobile.app.delegates.IIndexersDelegate
 import org.videolan.mobile.app.delegates.IMediaContentDelegate
 import org.videolan.mobile.app.delegates.IndexersDelegate
 import org.videolan.mobile.app.delegates.MediaContentDelegate
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
@@ -47,6 +49,7 @@ import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.VersionMigration
+import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider
@@ -87,14 +90,17 @@ class AppSetupDelegate : AppDelegate,
     }
 
     // init operations executed in background threads
-    private fun Context.backgroundInit() = AppScope.launch {
-        launch(Dispatchers.IO) {
-            if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@launch
+    private fun Context.backgroundInit() = AppScope.launch outerLaunch@ {
+        VersionMigration.migrateVersion(this@backgroundInit)
+        launch(Dispatchers.IO) innerLaunch@ {
+            if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@innerLaunch
             Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
         }
         packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
                 if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-        VersionMigration.migrateVersion(this@backgroundInit)
+        if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
+            component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
+        })
 
     }
 }

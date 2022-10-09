@@ -43,9 +43,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import androidx.window.layout.FoldingFeature
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.tools.*
 import org.videolan.vlc.R
@@ -54,10 +53,10 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.getScreenHeight
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.PlaylistModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivity) {
     private lateinit var thirdItemBinding: PlaylistItemBinding
     private lateinit var secondItemBinding: PlaylistItemBinding
@@ -79,6 +78,8 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
     private lateinit var plTipsTimeline: SeekBar
     private lateinit var helpTitle: TextView
     private lateinit var helpDescription: TextView
+    private var rightGuidelineEndBound = 1F
+    private var middleGuidelineEndBound = 0.5F
 
     fun init(vsc: ViewStubCompat?) {
         vsc?.inflate()
@@ -134,6 +135,14 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
         audioPlaylistTips.setVisible()
         activity.lifecycleScope.launch(Dispatchers.Main) { next() }
+        (activity.windowLayoutInfo?.displayFeatures?.firstOrNull() as? FoldingFeature)?.let {foldingFeature ->
+            if (foldingFeature.occlusionType == FoldingFeature.OcclusionType.FULL) {
+                if (foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL)
+                    rightGuidelineEndBound = foldingFeature.bounds.left.toFloat() / activity.getScreenWidth()
+                else
+                    middleGuidelineEndBound = (foldingFeature.bounds.bottom.toFloat() + ((activity.getScreenHeight() - foldingFeature.bounds.bottom.toFloat()) / 2)) / activity.getScreenHeight()
+            }
+        }
     }
 
     private fun getItemColor(): Int {
@@ -273,8 +282,10 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
 
         clearAllAnimations()
-        nextButton.setText(R.string.next)
+        nextButton.setText(R.string.next_step)
 
+        constraintSet.setGuidelinePercent(R.id.endGuideline, rightGuidelineEndBound)
+        constraintSet.setGuidelinePercent(R.id.middleGuideline, middleGuidelineEndBound)
         when (currentTip) {
             AudioPlaylistTipsStep.REMOVE -> {
                 if (activity.isTablet()){
@@ -328,6 +339,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
                 currentAnimations.add(longTapSeek(tapIndicatorRewind, tapIndicatorForward, plTipsTimeline))
                 nextButton.setText(R.string.close)
             }
+            else -> {}
         }
 
         constraintSet.applyTo(audioPlaylistTips)

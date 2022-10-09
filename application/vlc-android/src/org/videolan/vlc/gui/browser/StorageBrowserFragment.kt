@@ -36,15 +36,18 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.CTX_CUSTOM_REMOVE
-import org.videolan.tools.*
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -58,8 +61,6 @@ import java.io.File
 
 const val KEY_IN_MEDIALIB = "key_in_medialib"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem>, IStorageFragmentDelegate by StorageFragmentDelegate() {
 
     override var scannedDirectory = false
@@ -79,12 +80,11 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         return super.hasFAB()
     }
 
-    override fun onCreate(bundle: Bundle?) {
-        var bundle = bundle
-        super.onCreate(bundle)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         adapter = StorageBrowserAdapter(this)
         (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
-        if (bundle == null) bundle = arguments
+        val bundle = savedInstanceState ?: arguments
         if (bundle != null) scannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB)
         withContext(requireActivity())
         withAdapters(arrayOf(adapter as StorageBrowserAdapter))
@@ -100,7 +100,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
     }
 
     override fun setupBrowser() {
-        viewModel = getBrowserModel(TYPE_STORAGE, mrl, showHiddenFiles)
+        viewModel = getBrowserModel(TYPE_STORAGE, mrl)
     }
 
     override fun onStart() {
@@ -108,10 +108,10 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         addEntryPointsCallback()
         snack?.show()
         lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
-        addBannedFoldersCallback { folder, banned ->
+        addBannedFoldersCallback { folder, _ ->
             (adapter as StorageBrowserAdapter).bannedFolders = Medialibrary.getInstance().bannedFolders().toList()
             adapter.dataset.forEachIndexed{ index, mediaLibraryItem ->
-                if ("${(mediaLibraryItem as Storage).uri}/" == folder) adapter.notifyItemChanged(index)
+                if ("${Tools.mlEncodeMrl(((mediaLibraryItem as Storage).uri.toString()))}/" == folder) adapter.notifyItemChanged(index)
             }
         }
     }
@@ -152,7 +152,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
             val path = storage.uri.path ?: return
             lifecycleScope.launchWhenStarted {
                 val isCustom = viewModel.customDirectoryExists(path)
-                if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
+                if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item, CTX_CUSTOM_REMOVE)
             }
         }
     }
@@ -191,7 +191,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         builder.setMessage(R.string.add_custom_path_description)
         builder.setView(input)
         builder.setNegativeButton(R.string.cancel) { _, _ -> }
-        builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+        builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { _, _ ->
             val path = input.text.toString().trim { it <= ' ' }
             val f = File(path)
             if (!f.exists() || !f.isDirectory) {

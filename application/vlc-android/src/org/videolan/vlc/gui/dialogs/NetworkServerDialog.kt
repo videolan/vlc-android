@@ -1,6 +1,5 @@
 package org.videolan.vlc.gui.dialogs
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
@@ -9,11 +8,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.*
-import androidx.appcompat.app.AppCompatDialog
 import androidx.core.net.toUri
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
@@ -23,6 +19,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.repository.BrowserFavRepository
+import java.util.*
 
 class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 
@@ -95,7 +92,7 @@ class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSe
             if (!networkName.isEmpty())
                 editServername.setText(networkName)
 
-            networkUri.scheme?.toUpperCase()?.let {
+            networkUri.scheme?.uppercase(Locale.getDefault())?.let {
                 val position = getProtocolSpinnerPosition(it)
                 spinnerProtocol.setSelection(position)
                 val port = networkUri.port
@@ -129,7 +126,7 @@ class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSe
 
     private fun updateUrl() {
         val sb = StringBuilder()
-        sb.append(spinnerProtocol.selectedItem.toString().toLowerCase())
+        sb.append(spinnerProtocol.selectedItem.toString().lowercase(Locale.getDefault()))
                 .append("://")
         if (editUsername.isEnabled && !editUsername.editText!!.text.isNullOrEmpty()) {
             sb.append(editUsername.editText!!.text).append('@')

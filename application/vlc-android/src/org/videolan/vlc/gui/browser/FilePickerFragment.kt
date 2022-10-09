@@ -32,14 +32,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.removeFileProtocole
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.providers.PickerType
@@ -50,15 +48,13 @@ import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
 const val EXTRA_MRL = "sub_mrl"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem> {
 
     override fun createFragment(): Fragment {
         return FilePickerFragment()
     }
 
-    override fun onCreate(bundle: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         requireActivity().intent?.getParcelableExtra<MediaWrapper>(KEY_MEDIA)?.let { media ->
             if (media.uri == null || media.uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
                 activity?.intent = null
@@ -67,7 +63,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
         requireActivity().intent?.getIntExtra(KEY_PICKER_TYPE, 0)?.let { pickerIndex ->
             pickerType = PickerType.values()[pickerIndex]
         } ?: PickerType.SUBTITLE
-        super.onCreate(bundle)
+        super.onCreate(savedInstanceState)
         adapter = FilePickerAdapter(this)
     }
 
@@ -77,7 +73,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.emptyLoading.emptyText = R.string.no_subs_found
+        binding.emptyLoading.emptyText = getString(R.string.no_subs_found)
     }
 
     override fun onStart() {
@@ -119,7 +115,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     fun browseUp() {
         when {
             isRootDirectory -> requireActivity().finish()
-            mrl?.removeFileProtocole() == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY -> {
+            mrl?.removeFileScheme() == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY -> {
                 mrl = null
                 isRootDirectory = true
                 viewModel.refresh()
@@ -133,7 +129,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
 
     override fun defineIsRoot() = mrl?.run {
         if (startsWith("file")) {
-            val path = removeFileProtocole()
+            val path = removeFileScheme()
             val rootDirectories = runBlocking(Dispatchers.IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true

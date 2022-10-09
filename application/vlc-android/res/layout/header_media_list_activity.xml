@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
+        <import type="org.videolan.vlc.gui.helpers.TalkbackUtil" />
+        <import type="org.videolan.medialibrary.Tools" />
+
+        <variable
+                name="playlist"
+                type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+        <variable
+                name="totalDuration"
+                type="Long" />
+        <variable
+                name="releaseYear"
+                type="String" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/background_default"
+                android:fitsSystemWindows="true"
+                vlc:layout_behavior="org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsing_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:importantForAccessibility="no"
+                    android:fitsSystemWindows="true"
+                    android:keyboardNavigationCluster="true"
+                    tools:targetApi="O"
+                    vlc:contentScrim="?attr/background_actionbar"
+                    vlc:expandedTitleMarginEnd="64dp"
+                    vlc:expandedTitleMarginStart="48dp"
+                    vlc:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded.Shadow"
+                    vlc:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    vlc:statusBarScrim="?attr/background_default"
+                    vlc:theme="@style/Toolbar.VLC"
+                    vlc:title="@{playlist.title}"
+                    vlc:titleEnabled="false">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/header_layout"
+                        android:layout_width="@dimen/default_content_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:clipChildren="false"
+                        android:fitsSystemWindows="true"
+                        vlc:layout_collapseMode="parallax">
+
+                    <ImageView
+                            android:id="@+id/backgroundView"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:scaleType="centerCrop"
+                            vlc:layout_constraintTop_toTopOf="parent"
+                            vlc:layout_constraintBottom_toBottomOf="parent"
+                            vlc:layout_constraintStart_toStartOf="parent"
+                            vlc:layout_constraintEnd_toEndOf="parent"
+                            android:src="?attr/background_default_darker" />
+
+                    <ImageView
+                            android:id="@+id/playlist_cover"
+                            android:layout_width="128dp"
+                            android:layout_height="128dp"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="86dp"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            android:fitsSystemWindows="true"
+                            android:scaleType="fitCenter"
+                            android:src="@{cover}"
+                            vlc:layout_constraintStart_toStartOf="parent"
+                            vlc:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                            android:id="@+id/header_list_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            android:ellipsize="end"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="3"
+                            android:text="@{playlist.title}"
+                            android:contentDescription="@{TalkbackUtil.INSTANCE.getAlbumTitle(context, playlist.title)}"
+                            android:textColor="?attr/font_default"
+                            android:textSize="@dimen/lb_browse_header_text_size"
+                            tools:text="Title"
+                            vlc:layout_constraintEnd_toEndOf="parent"
+                            vlc:layout_constraintStart_toEndOf="@id/playlist_cover"
+                            vlc:layout_constraintTop_toTopOf="@id/playlist_cover" />
+
+                    <TextView
+                            android:id="@+id/header_list_artist"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="@dimen/half_default_margin"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="@{playlist.description}"
+                            android:textColor="?attr/font_default"
+                            android:contentDescription="@{TalkbackUtil.INSTANCE.getArtist(context, playlist.description)}"
+                            android:visibility="@{TextUtils.isEmpty(playlist.description) ? View.GONE : View.VISIBLE, default=gone}"
+                            tools:text="Artist"
+                            vlc:layout_constraintEnd_toEndOf="parent"
+                            vlc:layout_constraintStart_toEndOf="@+id/playlist_cover"
+                            vlc:layout_constraintTop_toBottomOf="@id/header_list_title" />
+
+                    <TextView
+                            android:id="@+id/release_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="@dimen/half_default_margin"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            tools:text="2000"
+                            android:text="@{releaseYear}"
+                            android:contentDescription="@{TalkbackUtil.INSTANCE.getReleaseDate(context, releaseYear)}"
+                            vlc:layout_constraintStart_toEndOf="@+id/playlist_cover"
+                            vlc:layout_constraintTop_toBottomOf="@+id/header_list_artist" />
+
+                    <TextView
+                            android:id="@+id/duration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="@dimen/half_default_margin"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            android:text="@{Tools.millisToTextLarge(totalDuration)}"
+                            android:contentDescription="@{TalkbackUtil.INSTANCE.getDuration(context, totalDuration)}"
+                            tools:text="30:00"
+                            vlc:layout_constraintStart_toEndOf="@+id/playlist_cover"
+                            vlc:layout_constraintTop_toBottomOf="@+id/release_date" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrier"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        vlc:barrierDirection="bottom"
+                        vlc:constraint_referenced_ids="playlist_cover, duration"
+                        />
+
+                    <Button
+                            android:id="@+id/play_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="@dimen/half_default_margin"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            android:layout_marginBottom="@dimen/default_margin"
+                            android:text="@string/play"
+                            vlc:layout_constraintBottom_toBottomOf="parent"
+                            vlc:layout_constraintStart_toStartOf="parent"
+                            vlc:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+                    <ImageView
+                            android:id="@+id/btn_add_playlist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/add_to_playlist"
+                            android:padding="4dp"
+                            vlc:srcCompat="@drawable/ic_album_addtoplaylist"
+                            vlc:layout_constraintBottom_toBottomOf="@id/play_btn"
+                            vlc:layout_constraintStart_toEndOf="@id/play_btn"
+                            vlc:layout_constraintTop_toTopOf="@id/play_btn" />
+
+                    <ImageView
+                            android:id="@+id/btn_shuffle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/shuffle_all_title"
+                            android:padding="4dp"
+                            vlc:srcCompat="@drawable/ic_album_shuffle"
+                            vlc:layout_constraintBottom_toBottomOf="@id/play_btn"
+                            vlc:layout_constraintStart_toEndOf="@id/btn_add_playlist"
+                            vlc:layout_constraintTop_toTopOf="@id/play_btn" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/main_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        vlc:layout_collapseMode="pin"
+                        vlc:layout_scrollFlags="scroll|enterAlways"
+                        vlc:navigationContentDescription="@string/abc_action_bar_up_description"
+                        vlc:navigationIcon="?attr/homeAsUpIndicator"
+                        vlc:popupTheme="?attr/toolbar_popup_style"
+                        vlc:theme="@style/Toolbar.VLC"
+                        vlc:titleMarginStart="@dimen/default_margin" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/songs"
+                android:layout_width="@dimen/default_content_width"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|top"
+                android:background="?attr/background_default"
+                android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="64dp"
+                android:scrollbars="vertical"
+                vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include layout="@layout/audioplayercontainer" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/audio_player_tips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/audio_player_tips" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

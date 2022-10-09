@@ -27,30 +27,14 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
-import android.text.TextUtils
-import android.util.DisplayMetrics
-import android.view.View
-import android.view.WindowManager
 import android.widget.RemoteViews
-import androidx.core.content.getSystemService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.resources.*
-import org.videolan.tools.runIO
-import org.videolan.tools.runOnMainThread
+import org.videolan.resources.buildPkgString
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.util.getPendingIntent
-import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class VLCAppWidgetProvider : AppWidgetProvider() {
 
     protected abstract fun getlayout(): Int
@@ -75,74 +59,10 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
 
         val views = RemoteViews(BuildConfig.APP_ID, getlayout())
         val partial = ACTION_WIDGET_INIT != action
-
-        if (!partial) {
-            /* commands */
-            val appCtx = context.applicationContext
-            val iBackward = Intent(ACTION_REMOTE_BACKWARD, null, appCtx, PlaybackService::class.java)
-            val iPlay = Intent(ACTION_REMOTE_PLAYPAUSE, null, appCtx, PlaybackService::class.java)
-            val iStop = Intent(ACTION_REMOTE_STOP, null, appCtx, PlaybackService::class.java)
-            val iForward = Intent(ACTION_REMOTE_FORWARD, null, appCtx, PlaybackService::class.java)
-            val iVlc = Intent(appCtx, StartActivity::class.java)
-
-            val piBackward = context.getPendingIntent(iBackward)
-            val piPlay = context.getPendingIntent(iPlay)
-            val piStop = context.getPendingIntent(iStop)
-            val piForward = context.getPendingIntent(iForward)
-            val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            views.setOnClickPendingIntent(R.id.backward, piBackward)
-            views.setOnClickPendingIntent(R.id.play_pause, piPlay)
-            views.setOnClickPendingIntent(R.id.stop, piStop)
-            views.setOnClickPendingIntent(R.id.forward, piForward)
-            views.setOnClickPendingIntent(R.id.cover, piVlc)
-            views.setOnClickPendingIntent(R.id.widget_container, piVlc)
-            if (TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
-                val black = this is VLCAppWidgetProviderBlack
-                views.setImageViewResource(R.id.forward, if (black) R.drawable.ic_widget_previous_w else R.drawable.ic_widget_previous)
-                views.setImageViewResource(R.id.backward, if (black) R.drawable.ic_widget_next_w else R.drawable.ic_widget_next)
-            }
-        }
-
-        when {
-            ACTION_WIDGET_UPDATE == action -> {
-                val title = intent.getStringExtra("title")
-                val artist = intent.getStringExtra("artist")
-                val isplaying = intent.getBooleanExtra("isplaying", false)
-
-                views.setTextViewText(R.id.songName, title)
-                views.setTextViewText(R.id.artist, artist)
-                if (title == context.getString(R.string.widget_default_text))
-                    views.setViewVisibility(R.id.artist, View.GONE)
-                else
-                    views.setViewVisibility(R.id.artist, View.VISIBLE)
-                views.setImageViewResource(R.id.play_pause, getPlayPauseImage(isplaying))
-            }
-            ACTION_WIDGET_UPDATE_COVER == action -> {
-                val artworkMrl = intent.getStringExtra("artworkMrl")
-                if (!artworkMrl.isNullOrEmpty()) {
-                    runIO {
-                        val cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320)
-                        val wm = context.getSystemService<WindowManager>()!!
-                        val dm = DisplayMetrics().also { wm.defaultDisplay.getMetrics(it) }
-                        runOnMainThread {
-                            if (cover != null) {
-                                if (cover.byteSize() < dm.widthPixels * dm.heightPixels * 6) views.setImageViewBitmap(R.id.cover, cover)
-                            } else
-                                views.setImageViewResource(R.id.cover, R.drawable.icon)
-                            views.setProgressBar(R.id.timeline, 100, 0, false)
-                            applyUpdate(context, views, partial)
-                        }
-                    }
-                } else
-                    views.setImageViewResource(R.id.cover, R.drawable.icon)
-                views.setProgressBar(R.id.timeline, 100, 0, false)
-            }
-            ACTION_WIDGET_UPDATE_POSITION == action -> {
-                val pos = intent.getFloatExtra("position", 0f)
-                views.setProgressBar(R.id.timeline, 100, (100 * pos).toInt(), false)
-            }
-        }
+        val appCtx = context.applicationContext
+        val iVlc = Intent(appCtx, StartActivity::class.java)
+        val piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        views.setOnClickPendingIntent(R.id.widget_container, piVlc)
 
         applyUpdate(context, views, partial)
     }
@@ -178,11 +98,4 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
         val ACTION_WIDGET_ENABLED = ACTION_WIDGET_PREFIX + "ENABLED"
         val ACTION_WIDGET_DISABLED = ACTION_WIDGET_PREFIX + "DISABLED"
     }
-}
-
-fun Bitmap.byteSize(): Int {
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-        return allocationByteCount
-    }
-    return rowBytes * height
 }

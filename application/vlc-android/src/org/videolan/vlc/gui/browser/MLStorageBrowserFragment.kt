@@ -35,14 +35,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.tools.*
+import org.videolan.tools.NetworkMonitor
+import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.BaseFragment
@@ -51,14 +50,14 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.TitleListView
-import org.videolan.vlc.util.FeatureFlag
-import org.videolan.vlc.util.FeatureFlagManager
-import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.io.File
 
 private const val FROM_ONBOARDING = "from_onboarding"
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
+
 class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by StorageFragmentDelegate() {
 
     private lateinit var localEntry: TitleListView
@@ -108,7 +107,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         localEntry = view.findViewById(R.id.local_browser_entry)
         val storageBrowserAdapter = StorageBrowserAdapter(getBrowserContainer(false))
         localEntry.list.adapter = storageBrowserAdapter
-        localViewModel = getBrowserModel(category = TYPE_STORAGE, url = null, showHiddenFiles = false)
+        localViewModel = getBrowserModel(category = TYPE_STORAGE, url = null)
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
@@ -128,12 +127,11 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         }
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
-        networkEntry.visibility = if (FeatureFlagManager.isEnabled(requireActivity(), FeatureFlag.NETWORK_INDEXING)) View.VISIBLE else View.GONE
         networkEntry.loading.showNoMedia = false
-        networkEntry.loading.emptyText = R.string.nomedia
+        networkEntry.loading.emptyText = getString(R.string.nomedia)
         val networkAdapter = StorageBrowserAdapter(getBrowserContainer(true))
         networkEntry.list.adapter = networkAdapter
-        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
+        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null)
         networkViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 val filtered = it.filter { item -> item is MediaWrapper && item.uri?.scheme == "smb" }
@@ -161,10 +159,10 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
                 } else {
                     if (networkMonitor.lanAllowed) {
                         emptyLoading.state = EmptyLoadingState.LOADING
-                        emptyLoading.loadingText = R.string.network_shares_discovery
+                        emptyLoading.loadingText = getString(R.string.network_shares_discovery)
                     } else {
                         emptyLoading.state = EmptyLoadingState.EMPTY
-                        emptyLoading.emptyText = R.string.network_connection_needed
+                        emptyLoading.emptyText = getString(R.string.network_connection_needed)
                     }
                     networkEntry.list.visibility = View.GONE
                 }
@@ -174,7 +172,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
             }
         } else {
             emptyLoading.state = EmptyLoadingState.EMPTY
-            emptyLoading.emptyText = R.string.network_connection_needed
+            emptyLoading.emptyText = getString(R.string.network_connection_needed)
             networkEntry.list.visibility = View.GONE
         }
     }
@@ -207,7 +205,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         builder.setMessage(R.string.add_custom_path_description)
         builder.setView(input)
         builder.setNegativeButton(R.string.cancel) { _, _ -> }
-        builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+        builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { _, _ ->
             val path = input.text.toString().trim { it <= ' ' }
             val f = File(path)
             if (!f.exists() || !f.isDirectory) {

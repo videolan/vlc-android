@@ -46,8 +46,24 @@
                 app:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="playback_history"
+                android:disableDependentsState="true"
                 android:summary="@string/playback_history_summary"
                 android:title="@string/playback_history_title"/>
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:dependency="playback_history"
+                android:key="video_resume_playback"
+                android:summary="@string/video_resume_playback_summary"
+                android:title="@string/video_resume_playback_title"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:dependency="playback_history"
+                android:key="audio_resume_playback"
+                android:summary="@string/audio_resume_playback_summary"
+                android:title="@string/audio_resume_playback_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/extra_prefs_category">

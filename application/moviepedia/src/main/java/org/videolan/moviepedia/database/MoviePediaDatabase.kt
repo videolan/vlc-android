@@ -35,7 +35,7 @@ import org.videolan.tools.SingletonHolder
 
 private const val DB_NAME = "moviepedia_database"
 
-@Database(entities = [MediaMetadata::class, Person::class, MediaPersonJoin::class, MediaImage::class], version = 1)
+@Database(entities = [MediaMetadata::class, Person::class, MediaPersonJoin::class, MediaImage::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MoviePediaDatabase: RoomDatabase() {
     abstract fun mediaMetadataDao(): MediaMetadataDao

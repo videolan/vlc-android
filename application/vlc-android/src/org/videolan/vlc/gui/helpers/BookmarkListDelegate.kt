@@ -37,8 +37,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.tools.setGone
@@ -49,11 +47,10 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.viewmodels.BookmarkModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel) :
-    LifecycleObserver, BookmarkAdapter.IBookmarkManager {
+        LifecycleObserver, BookmarkAdapter.IBookmarkManager {
 
+    lateinit var addBookmarButton: ImageView
     lateinit var markerContainer: ConstraintLayout
     private lateinit var adapter: BookmarkAdapter
     lateinit var bookmarkList: RecyclerView
@@ -68,8 +65,12 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             rootView = it.inflate() as ConstraintLayout
             bookmarkList = rootView.findViewById(R.id.bookmark_list)
             rootView.findViewById<ImageView>(R.id.close).setOnClickListener { hide() }
-            rootView.findViewById<ImageView>(R.id.add_bookmark).setOnClickListener { bookmarkModel.addBookmark(activity) }
-            rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, event ->
+            addBookmarButton = rootView.findViewById<ImageView>(R.id.add_bookmark)
+            addBookmarButton.setOnClickListener {
+                bookmarkModel.addBookmark(activity)
+                addBookmarButton.announceForAccessibility(activity.getString(R.string.bookmark_added))
+            }
+            rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, _ ->
                 v.parent.requestDisallowInterceptTouchEvent(true)
                 true
             }
@@ -157,8 +158,8 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
         menu.show()
     }
 
-    override fun onBookmarkClick(position: Int, item: Bookmark) {
-        service.setTime(item.time)
+    override fun onBookmarkClick(position: Int, bookmark: Bookmark) {
+        service.setTime(bookmark.time)
     }
 
     fun setProgressHeight(y: Float) {

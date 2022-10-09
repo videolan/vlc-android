@@ -28,8 +28,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.UPDATE_SELECTION
@@ -42,10 +40,11 @@ import org.videolan.vlc.databinding.HistoryItemCardBinding
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
-import org.videolan.vlc.util.isSchemeFile
+import org.videolan.vlc.util.isOTG
+import org.videolan.vlc.util.isSD
+import org.videolan.vlc.util.isSchemeNetwork
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
+
 class HistoryAdapter(private val inCards: Boolean = false, private val listEventsHandler: IListEventsHandler? = null) : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(),
         MultiSelectAdapter<MediaWrapper>, IEventsSource<Click> by EventsSource(), SwipeDragHelperAdapter {
 
@@ -71,13 +70,13 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
 
         }
 
-        fun onClick(v: View) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             eventsChannel.trySend(SimpleClick(layoutPosition))
         }
 
-        fun onLongClick(v: View) = eventsChannel.trySend(LongClick(layoutPosition)).isSuccess
+        fun onLongClick(@Suppress("UNUSED_PARAMETER") v: View) = eventsChannel.trySend(LongClick(layoutPosition)).isSuccess
 
-        fun onImageClick(v: View) {
+        fun onImageClick(@Suppress("UNUSED_PARAMETER") v: View) {
             if (inCards)
                 eventsChannel.trySend(SimpleClick(layoutPosition))
             else
@@ -114,13 +113,17 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
         when (holder.binding) {
             is HistoryItemBinding -> {
                 (holder.binding as HistoryItemBinding).media = media
-                holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isNetwork, media.uri.scheme.isSchemeNetwork())
+                holder.binding.setVariable(BR.isSD, media.uri.isSD())
+                holder.binding.setVariable(BR.isOTG, media.uri.isOTG())
                 (holder.binding as HistoryItemBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
                 ((holder.binding as HistoryItemBinding).icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
             }
             is HistoryItemCardBinding -> {
                 (holder.binding as HistoryItemCardBinding).media = media
-                holder.binding.setVariable(BR.isNetwork, !media.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isNetwork, media.uri.scheme.isSchemeNetwork())
+                holder.binding.setVariable(BR.isSD, media.uri.isSD())
+                holder.binding.setVariable(BR.isOTG, media.uri.isOTG())
                 (holder.binding as HistoryItemCardBinding).cover = getMediaIconDrawable(holder.itemView.context, media.type)
                 ((holder.binding as HistoryItemCardBinding).icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
             }
@@ -162,4 +165,10 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
     }
 
     override fun onItemMoved(dragFrom: Int, dragTo: Int) {    }
+
+    override fun createCB(): DiffCallback<MediaWrapper> = object : DiffCallback<MediaWrapper>() {
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                oldList[oldItemPosition].title == newList[newItemPosition].title &&
+                        oldList[oldItemPosition].description == newList[newItemPosition].description
+    }
 }

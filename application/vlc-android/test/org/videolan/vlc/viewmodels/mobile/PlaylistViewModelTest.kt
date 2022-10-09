@@ -1,8 +1,6 @@
 package org.videolan.vlc.viewmodels.mobile
 
 import com.jraska.livedata.test
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -11,8 +9,6 @@ import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistViewModelTest : BaseTest() {
     private lateinit var playlistViewModel: PlaylistViewModel
     private lateinit var parent: Playlist

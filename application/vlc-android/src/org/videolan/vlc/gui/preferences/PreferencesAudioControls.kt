@@ -23,16 +23,12 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.KEY_AUDIO_JUMP_DELAY
 import org.videolan.tools.KEY_AUDIO_LONG_JUMP_DELAY
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
     override fun getXml() = R.xml.preferences_audio_controls

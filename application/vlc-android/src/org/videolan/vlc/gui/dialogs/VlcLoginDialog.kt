@@ -58,7 +58,7 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
         settings = Settings.getInstance(requireActivity())
     }
 
-    fun onLogin(v: View) {
+    fun onLogin(@Suppress("UNUSED_PARAMETER") v: View) {
         vlcDialog.postLogin(binding.login.text.toString().trim(),
                 binding.password.text.toString().trim(), binding.store.isChecked)
         settings.putSingle(LOGIN_STORE, binding.store.isChecked)

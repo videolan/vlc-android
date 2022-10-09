@@ -24,7 +24,7 @@
 
 package org.videolan.television.ui
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +32,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.OnboardingSupportFragment
-import androidx.leanback.widget.GuidedAction
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.resources.TV_MAIN_ACTIVITY
 import org.videolan.resources.util.canReadStorage
 import org.videolan.television.R
 import org.videolan.tools.KEY_TV_ONBOARDING_DONE
@@ -42,8 +40,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.util.Permissions
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class OnboardingFragment : OnboardingSupportFragment() {
     override fun getPageCount() = 3
 
@@ -86,6 +82,8 @@ class OnboardingFragment : OnboardingSupportFragment() {
         super.onFinishFragment()
         Settings.getInstance(requireActivity()).putSingle(KEY_TV_ONBOARDING_DONE, true)
         requireActivity().finish()
+        val intent = Intent(Intent.ACTION_VIEW).setClassName(requireActivity(), TV_MAIN_ACTIVITY)
+        startActivity(intent)
     }
 
     override fun onCreateForegroundView(inflater: LayoutInflater?, container: ViewGroup?) = null

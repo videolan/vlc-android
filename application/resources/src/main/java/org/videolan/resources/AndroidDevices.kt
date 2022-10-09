@@ -30,22 +30,18 @@ import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.os.Environment
 import android.telephony.TelephonyManager
-import android.util.Log
 import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.containsName
 import org.videolan.tools.getFileNameFromPath
 import org.videolan.tools.startsWith
 import java.io.*
 import java.util.*
+import kotlin.math.abs
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(VERSION_CODES.N)
 object AndroidDevices {
     const val TAG = "VLC/UiTools/AndroidDevices"
@@ -65,7 +61,7 @@ object AndroidDevices {
     val hasPlayServices: Boolean
 
     //Devices mountpoints management
-    private val typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs")
+    private val typeWL = listOf("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs")
     private val typeBL = listOf("tmpfs")
     private val mountWL = arrayOf("/mnt", "/Removable", "/storage")
     val mountBL = arrayOf(EXTERNAL_PUBLIC_DIRECTORY, "/mnt/secure", "/mnt/shell", "/mnt/asec", "/mnt/nand", "/mnt/runtime", "/mnt/obb", "/mnt/media_rw/extSdCard", "/mnt/media_rw/sdcard", "/storage/emulated", "/var/run/arc")
@@ -113,7 +109,7 @@ object AndroidDevices {
         get() {
             if (!AndroidUtil.isMarshMallowOrLater)
                 for (manufacturer in noMediaStyleManufacturers)
-                    if (Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains(manufacturer))
+                    if (Build.MANUFACTURER.lowercase(Locale.getDefault()).contains(manufacturer))
                         return true
             return false
         }
@@ -135,7 +131,7 @@ object AndroidDevices {
         hasPlayServices = pm == null || hasPlayServices(pm)
         hasPiP = AndroidUtil.isOOrLater && pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) || AndroidUtil.isNougatOrLater && isAndroidTv
         pipAllowed = hasPiP || hasTsp && !AndroidUtil.isOOrLater
-        val tm = ctx?.getSystemService<TelephonyManager>()
+        val tm = ctx.getSystemService<TelephonyManager>()
         isPhone = tm == null || tm.phoneType != TelephonyManager.PHONE_TYPE_NONE
     }
 
@@ -158,7 +154,7 @@ object AndroidDevices {
 
             // Ignore axis values that are within the 'flat' region of the
             // joystick axis center.
-            if (Math.abs(value) > flat) {
+            if (abs(value) > flat) {
                 return value
             }
         }
@@ -166,12 +162,7 @@ object AndroidDevices {
     }
 
     fun canUseSystemNightMode(): Boolean {
-        return Build.VERSION.SDK_INT > VERSION_CODES.P || Build.VERSION.SDK_INT == VERSION_CODES.P && "samsung" == Build.MANUFACTURER.toLowerCase(Locale.US)
-    }
-
-    fun isCarMode(ctx: Context): Boolean {
-        val uiModeManager = ctx.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-        return uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_CAR
+        return Build.VERSION.SDK_INT > VERSION_CODES.P || Build.VERSION.SDK_INT == VERSION_CODES.P && "samsung" == Build.MANUFACTURER.lowercase(Locale.US)
     }
 
     private fun hasPlayServices(pm: PackageManager): Boolean {
@@ -186,12 +177,12 @@ object AndroidDevices {
 
     fun isDex(ctx: Context): Boolean {
         if (!AndroidUtil.isNougatOrLater) return false
-        try {
+        return try {
             val config = ctx.resources.configuration
             val configClass = config.javaClass
-            return configClass.getField("SEM_DESKTOP_MODE_ENABLED").getInt(configClass) == configClass.getField("semDesktopModeEnabled").getInt(config)
+            configClass.getField("SEM_DESKTOP_MODE_ENABLED").getInt(configClass) == configClass.getField("semDesktopModeEnabled").getInt(config)
         } catch (ignored: Exception) {
-            return false
+            false
         }
 
     }
@@ -204,6 +195,7 @@ object AndroidDevices {
         private val EXTERNAL_PUBLIC_DCIM_DIRECTORY_FILE: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
         private val WHATSAPP_VIDEOS_FILE: File = File("$EXTERNAL_PUBLIC_DIRECTORY/WhatsApp/Media/WhatsApp Video/")
         private val WHATSAPP_VIDEOS_FILE_A11: File = File("$EXTERNAL_PUBLIC_DIRECTORY/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Video/")
+        private val EXTERNAL_PUBLIC_SCREENSHOTS_DIRECTORY: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/Screenshots")
 
         val EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE)
         val EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE)
@@ -212,6 +204,7 @@ object AndroidDevices {
         val EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_DCIM_DIRECTORY_FILE)
         val WHATSAPP_VIDEOS_FILE_URI = getFolderUri(WHATSAPP_VIDEOS_FILE)
         val WHATSAPP_VIDEOS_FILE_URI_A11 = getFolderUri(WHATSAPP_VIDEOS_FILE_A11)
+        val EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY = getFolderUri(EXTERNAL_PUBLIC_SCREENSHOTS_DIRECTORY)
 
         private fun getFolderUri(file: File): Uri {
             return try {

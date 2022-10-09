@@ -2,21 +2,20 @@ package org.videolan.vlc.gui.browser
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
-class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
+class PathAdapter(val browser: PathAdapterListener, val media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
 
     private val pathOperationDelegate = browser.getPathOperationDelegate()
 
@@ -38,10 +37,19 @@ class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : Recyc
     override fun getItemCount() = segments.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.root.text = when {
+        val text: String? = when {
             //substitute a storage path to its name. See [replaceStoragePath]
             PathOperationDelegate.storages.containsKey(segments[position].toUri().path) -> pathOperationDelegate.retrieveSafePath(PathOperationDelegate.storages.valueAt(PathOperationDelegate.storages.indexOfKey(segments[position].toUri().path)))
             else -> segments[position].toUri().lastPathSegment
+        }
+        holder.root.text = text
+        text?.let {
+            val isFile = try {
+                Uri.parse(segments[position]).toFile().isFile
+            } catch (e: Exception) {
+                false
+            }
+            holder.root.contentDescription =  holder.root.context.getString(if (isFile) R.string.talkback_file else R.string.talkback_folder, holder.root.text)
         }
     }
 

@@ -6,8 +6,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -17,15 +15,13 @@ import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.viewmodel.MediaBrowserViewModel
 import org.videolan.television.viewmodel.getMediaBrowserModel
-import org.videolan.tools.FORCE_PLAY_ALL
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
-@UseExperimental(ObsoleteCoroutinesApi::class)
-@ExperimentalCoroutinesApi
 class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return MediaTvItemAdapter(when ((viewModel as MediaBrowserViewModel).category) {
@@ -33,6 +29,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
             CATEGORY_ALBUMS -> MediaWrapper.TYPE_ALBUM
             CATEGORY_ARTISTS -> MediaWrapper.TYPE_ARTIST
             CATEGORY_GENRES -> MediaWrapper.TYPE_GENRE
+            CATEGORY_PLAYLISTS -> MediaWrapper.TYPE_PLAYLIST
             else -> MediaWrapper.TYPE_VIDEO
         }, this, itemSize)
     }
@@ -46,6 +43,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
         CATEGORY_ALBUMS -> getString(R.string.albums)
         CATEGORY_ARTISTS -> getString(R.string.artists)
         CATEGORY_GENRES -> getString(R.string.genres)
+        CATEGORY_PLAYLISTS -> getString(R.string.playlists)
         else -> getString(R.string.video)
     }
 
@@ -99,7 +97,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         lifecycleScope.launchWhenStarted {
-            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
+            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_VIDEO, true)) {
                 TvUtil.playMedia(requireActivity(), item as MediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)

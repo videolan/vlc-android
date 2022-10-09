@@ -41,7 +41,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
@@ -55,7 +57,9 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.INavigator
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
@@ -65,13 +69,12 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.share
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import java.security.SecureRandom
 import java.util.*
 import kotlin.math.min
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragment<T>(), IEventsHandler<MediaLibraryItem>, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     var backgroundColor: Int = -1
@@ -237,7 +240,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()
         needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() ?: false
-        lastQuery = (activity as? ContentActivity)?.getCurrentQuery() as? String ?: ""
+        lastQuery = (activity as? ContentActivity)?.getCurrentQuery() ?: ""
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -350,6 +353,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position, true)
+        if (actionMode == null && inSearchMode()) UiTools.setKeyboardVisibility(v, false)
         if (actionMode == null) startActionMode() else invalidateActionMode()
         return true
     }
@@ -373,7 +377,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
             else -> CTX_AUDIO_FLAGS
         }
-        if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
+        if (actionMode == null) showContext(requireActivity(), this, position, item, flags)
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
@@ -381,7 +385,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        sortMenuTitles()
+        sortMenuTitles(currentTab)
         if (adapter == getCurrentAdapter()) {
             restoreMultiSelectHelper()
         }
@@ -403,6 +407,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_SET_RINGTONE -> activity?.setRingtone(media as MediaWrapper)
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
             CTX_GO_TO_FOLDER -> showParentFolder(media as MediaWrapper)
+            CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
         }
     }
 

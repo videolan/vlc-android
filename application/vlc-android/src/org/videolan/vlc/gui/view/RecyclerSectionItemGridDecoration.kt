@@ -106,7 +106,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         if (!Settings.showHeaders) return
         c.save()
         if (sticky) {
-            c.translate(0f, Math.max(0, child.top - headerView.height - (space * 1.5).toInt()).toFloat())
+            c.translate(0f, (child.top - headerView.height - (space * 1.5).toInt()).coerceAtLeast(0).toFloat())
         } else {
             c.translate(0f, (child.top - headerView.height).toFloat())
         }

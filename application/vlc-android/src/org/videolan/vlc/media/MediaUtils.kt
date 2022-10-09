@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
@@ -29,7 +30,10 @@ import org.videolan.resources.*
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.Settings
+import org.videolan.tools.localBroadcastManager
+import org.videolan.tools.markBidi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -38,22 +42,16 @@ import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.isSchemeStreaming
+import org.videolan.vlc.util.*
 import java.io.File
 import java.security.SecureRandom
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
 
 private typealias MediaContentResolver = SimpleArrayMap<String, IMediaContentResolver>
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object MediaUtils {
     fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
         if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri }, mediaList.map { it.title })
@@ -189,100 +187,52 @@ object MediaUtils {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position, shuffle)
     }
 
-    fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {
-        if (context == null) return
-        SuspendDialogCallback(context) { service ->
-            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            when (count) {
-                0 -> null
-                in 1..MEDIALIBRARY_PAGE_SIZE -> withContext(Dispatchers.IO) {
-                    mutableListOf<MediaWrapper>().apply {
-                        for (album in provider.getAll()) album.tracks?.let { addAll(it) }
-                    }
-                }
-                else -> withContext(Dispatchers.IO) {
-                    mutableListOf<MediaWrapper>().apply {
-                        var index = 0
-                        while (index < count) {
-                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                            val albums = withContext(Dispatchers.IO) { provider.getPage(pageCount, index) }
-                            for (album in albums) addAll(album.tracks)
-                            index += pageCount
-                        }
-                    }
-                }
-            }?.takeIf { it.isNotEmpty() }?.let { list ->
-                service.load(list, if (shuffle) SecureRandom().nextInt(count) else position)
-                if (shuffle && !service.isShuffling) service.shuffle()
-            }
-        }
+    fun playTracks(context: Context, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean = false) = context.scope.launch {
+        provider.loadPagedList(context, {
+                provider.pagedList.value ?: listOf()
+            }, { list, _ ->
+           openList(context, list, position, shuffle)
+        })
     }
 
-    fun playAll(context: Activity?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean) {
-        if (context == null) return
-        SuspendDialogCallback(context) { service ->
-            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list: List<MediaWrapper>) {
-                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+    fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) = context?.scope?.launch {
+        provider.loadPagedList(context, {
+            mutableListOf<MediaWrapper>().apply {
+                for (album in provider.getAll()) album.tracks?.let { addAll(it) }
+            }
+        }, { l, service ->
+            l.takeIf { l.isNotEmpty() }?.let { list ->
+                service.load(list, if (shuffle) SecureRandom().nextInt(list.size) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
-            when (count) {
-                0 -> return@SuspendDialogCallback
-                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { provider.getAll().toList() })
-                else -> {
-                    var index = 0
-                    val appendList = mutableListOf<MediaWrapper>()
-                    while (index < count) {
-                        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                        val list = withContext(Dispatchers.IO) { provider.getPage(pageCount, index).toList() }
-                        if (index == 0) play(list)
-                        else appendList.addAll(list)
-                        index += pageCount
-                    }
-                    service.append(appendList)
-                }
-            }
-        }
+        })
     }
 
-    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) {
-        if (context == null) return
-        SuspendDialogCallback(context) { service ->
-            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list: List<MediaWrapper>, position:Int) {
-                service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+    fun playAll(context: Activity?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean) = context?.scope?.launch {
+        provider.loadPagedList(context, {
+            provider.getAll().toList()
+        }, { l, service ->
+            l.takeIf { l.isNotEmpty() }?.let { list ->
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(list.size, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
-            when (count) {
-                0 -> return@SuspendDialogCallback
-                in 1..MEDIALIBRARY_PAGE_SIZE -> {
-                    val flatList =  withContext(Dispatchers.IO) {
-                        val allGroups = provider.getAll()
-                        allGroups.flatMap {
-                            it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
-                        }
-                    }
-                    play(flatList, flatList.indexOf(mediaToPlay))
-                }
-                else -> {
-                    var index = 0
-                    val completeList = ArrayList<MediaWrapper>()
-                    withContext(Dispatchers.IO) {
-                        while (index < count) {
-                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                            val list = provider.getPage(pageCount, index).toList()
-                            completeList.addAll(list)
-                            index += pageCount
-                        }
-                    }
-                    play(completeList, completeList.indexOf(mediaToPlay))
-                }
-            }
-        }
+        })
     }
 
-    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean) {
-        if (context == null) return
+    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) = context?.scope?.launch {
+        provider.loadPagedList(context, {
+            provider.getAll().flatMap {
+                it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
+            }
+        }, {l, service ->
+            l.takeIf { l.isNotEmpty() }?.let { list ->
+                service.load(list, if (shuffle) SecureRandom().nextInt(min(list.size, MEDIALIBRARY_PAGE_SIZE)) else list.indexOf(mediaToPlay))
+                if (shuffle && !service.isShuffling) service.shuffle()
+            }
+        })
+    }
+
+    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean) = context?.scope?.launch {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
@@ -316,7 +266,7 @@ object MediaUtils {
 
     @JvmOverloads
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
-        if (list.isNullOrEmpty() || context == null) return
+        if (list.isEmpty() || context == null) return
         SuspendDialogCallback(context) { service ->
             service.load(list, position)
             if (shuffle && !service.isShuffling) service.shuffle()
@@ -372,46 +322,29 @@ object MediaUtils {
     fun getMediaGenre(ctx: Context, media: MediaWrapper?) = media?.genre
             ?: getMediaString(ctx, R.string.unknown_genre)
 
-    fun getMediaSubtitle(media: MediaWrapper): String? {
-        var subtitle = when {
-            media.type == MediaWrapper.TYPE_VIDEO -> ""
+    fun getMediaSubtitle(media: MediaWrapper): String {
+        val prefix = when {
+            media.length <= 0L -> null
+            media.type == MediaWrapper.TYPE_VIDEO -> Tools.millisToText(media.length)
+            else -> Tools.millisToString(media.length)
+        }
+        val suffix = when {
+            media.type == MediaWrapper.TYPE_VIDEO -> generateResolutionClass(media.width, media.height)
             media.length > 0L -> media.artist
             isSchemeStreaming(media.uri.scheme) -> media.uri.toString()
             else -> media.artist
         }
-        if (media.length > 0L) {
-            if (media.type == MediaWrapper.TYPE_VIDEO) {
-                subtitle = Tools.millisToText(media.length)
-                val resolution = generateResolutionClass(media.width, media.height)
-                if (resolution != null) subtitle = "$subtitle ⋅ $resolution"
-            } else {
-                subtitle = if (subtitle.isNullOrEmpty()) Tools.millisToString(media.length)
-                else "$subtitle ⋅ ${Tools.millisToString(media.length)}"
-            }
-        }
-        return subtitle
-    }
-
-    fun getMediaDescription(artist: String?, album: String?): String {
-        val hasArtist = !artist.isNullOrEmpty()
-        val hasAlbum = !album.isNullOrEmpty()
-        if (!hasAlbum && !hasArtist) return ""
-        val contentBuilder = StringBuilder(artist ?: "")
-        if (hasArtist && hasAlbum) contentBuilder.append(" - ")
-        if (hasAlbum) contentBuilder.append(album)
-        return contentBuilder.toString()
+        return TextUtils.separatedString(prefix, suffix)
     }
 
     fun getDisplaySubtitle(ctx: Context, media: MediaWrapper, mediaPosition: Int, mediaSize: Int): String {
-        val sb = StringBuilder()
-        if (mediaSize > 1) sb.append("${mediaPosition + 1} / $mediaSize")
-        val artist = getMediaArtist(ctx, media)
         val album = getMediaAlbum(ctx, media)
-        val desc = if (artist != getMediaString(ctx, R.string.unknown_artist) && album != getMediaString(ctx, R.string.unknown_album))
-            getMediaDescription(artist.markBidi(), album.markBidi()) else ""
-        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " ⋅ $desc" else desc) else "")
-        //Replace full-spaces with thin-spaces (Unicode 2009)
-        return sb.toString().replace(" ", "\u2009")
+        val artist = getMediaArtist(ctx, media)
+        val isAlbumUnknown = album == getMediaString(ctx, R.string.unknown_album)
+        val isArtistUnknown = artist == getMediaString(ctx, R.string.unknown_artist)
+        val prefix = if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
+        val suffix = if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
+        return TextUtils.separatedString(prefix, suffix)
     }
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title
@@ -454,11 +387,11 @@ object MediaUtils {
         abstract fun onServiceReady(service: PlaybackService)
     }
 
-    @ObsoleteCoroutinesApi
-    private class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) {
+    class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) {
         private lateinit var dialog: ProgressDialog
         var job: Job = Job()
         val scope = context.scope
+        @OptIn(ObsoleteCoroutinesApi::class)
         val actor = scope.actor<Action>(capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
                 Connect -> {
@@ -653,9 +586,7 @@ suspend fun MediaContentResolver.getList(context: Context, id: String) : Resumab
 private val Context.scope: CoroutineScope
     get() = (this as? CoroutineScope) ?: AppScope
 
-private sealed class Action
+open class Action
 private object Connect : Action()
 private object Disconnect : Action()
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 private class Task(val service: PlaybackService, val task: suspend (service: PlaybackService) -> Unit) : Action()

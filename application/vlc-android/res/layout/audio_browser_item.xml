@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -33,6 +32,14 @@
                 type="boolean" />
 
         <variable
+                name="isOTG"
+                type="boolean" />
+
+        <variable
+                name="isSD"
+                type="boolean" />
+
+        <variable
                 name="isPresent"
                 type="boolean" />
 
@@ -51,6 +58,7 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/video_list_background"
+            vlc:mediaContentDescription="@{item}"
             selected="@{selected}"
             android:longClickable="true"
             android:foreground="?attr/selectableItemBackground"
@@ -81,6 +89,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:importantForAccessibility="no"
                 android:onClick="@{holder::onImageClick}"
                 android:scaleType="centerCrop"
                 android:src="@{cover}"
@@ -110,7 +119,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/grey400transparent"
-                android:visibility="@{isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                 vlc:layout_constraintBottom_toBottomOf="@+id/selector_image"
                 vlc:layout_constraintEnd_toEndOf="@+id/selector_image"
                 vlc:layout_constraintStart_toStartOf="@+id/selector_image"
@@ -124,10 +133,34 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/rounded_corners_black_more_transparent"
                 android:padding="3dp"
-                android:visibility="@{isNetwork &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
+                android:visibility="@{isNetwork ? View.VISIBLE : View.GONE}"
                 vlc:layout_constraintEnd_toEndOf="@+id/selector_image"
                 vlc:layout_constraintTop_toTopOf="@+id/selector_image"
-                vlc:srcCompat="@drawable/ic_network_media" />
+                vlc:srcCompat="@drawable/ic_emoji_network" />
+        <ImageView
+                android:id="@+id/sd_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isSD ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintEnd_toEndOf="@+id/selector_image"
+                vlc:layout_constraintTop_toTopOf="@+id/selector_image"
+                vlc:srcCompat="@drawable/ic_emoji_sd" />
+        <ImageView
+                android:id="@+id/otg_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isOTG ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintEnd_toEndOf="@+id/selector_image"
+                vlc:layout_constraintTop_toTopOf="@+id/selector_image"
+                vlc:srcCompat="@drawable/ic_emoji_otg" />
 
         <ImageView
                 android:id="@+id/network_media_off"
@@ -137,10 +170,10 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/rounded_corners_black_more_transparent"
                 android:padding="3dp"
-                android:visibility="@{isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                 vlc:layout_constraintEnd_toEndOf="@+id/selector_image"
                 vlc:layout_constraintTop_toTopOf="@+id/selector_image"
-                vlc:srcCompat="@drawable/ic_network_media_off" />
+                vlc:srcCompat="@drawable/ic_emoji_absent" />
 
         <ImageView
                 android:id="@+id/selector_image"
@@ -193,18 +226,17 @@
         <ImageView
                 android:id="@+id/item_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
+                android:padding="8dp"
                 android:scaleType="center"
-                vlc:srcCompat="@drawable/ic_more"
                 android:visibility="@{isPresent &amp;&amp; !inSelection ? View.VISIBLE : View.INVISIBLE}"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
-                vlc:layout_constraintTop_toTopOf="@+id/title" />
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:srcCompat="@drawable/ic_more" />
 
         <ImageView
                 android:id="@+id/selected_check"

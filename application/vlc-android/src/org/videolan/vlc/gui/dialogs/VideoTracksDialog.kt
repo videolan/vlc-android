@@ -36,11 +36,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.DependencyProvider
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
@@ -48,11 +45,13 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
+import org.videolan.vlc.getDisableTrack
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
+import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.isVLC4
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
@@ -63,11 +62,11 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     override fun initialFocusedView(): View = binding.subtitleTracks.emptyView
 
     lateinit var menuItemListener: (VideoTrackOption) -> Unit
-    lateinit var trackSelectionListener: (Int, TrackType) -> Unit
+    lateinit var trackSelectionListener: (String, TrackType) -> Unit
 
     private fun onServiceChanged(service: PlaybackService?) {
         service?.let { playbackService ->
-            if (playbackService.videoTracksCount <= 2) {
+            if ((isVLC4() && playbackService.videoTracksCount < 2) || (!isVLC4() && playbackService.videoTracksCount <= 2)) {
                 binding.videoTracks.trackContainer.setGone()
                 binding.tracksSeparator3.setGone()
             }
@@ -77,24 +76,26 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             }
 
             playbackService.videoTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.videoTrack })
+                val trackAdapter = TrackAdapter(generateTrackList(trackList), trackList.firstOrNull { it.getId() == playbackService.videoTrack }, getString(R.string.track_video))
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    trackSelectionListener.invoke(track.id, TrackType.VIDEO)
+                    trackSelectionListener.invoke(track.getId(), TrackType.VIDEO)
                 }
                 binding.videoTracks.trackList.adapter = trackAdapter
+                binding.videoTracks.trackTitle.contentDescription = getString(R.string.talkback_video_tracks)
             }
             playbackService.audioTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.audioTrack })
+                val trackAdapter = TrackAdapter(generateTrackList(trackList), trackList.firstOrNull { it.getId() == playbackService.audioTrack }, getString(R.string.track_audio))
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    trackSelectionListener.invoke(track.id, TrackType.AUDIO)
+                    trackSelectionListener.invoke(track.getId(), TrackType.AUDIO)
                 }
                 binding.audioTracks.trackList.adapter = trackAdapter
+                binding.audioTracks.trackTitle.contentDescription = getString(R.string.talkback_audio_tracks)
             }
             playbackService.spuTracks?.let { trackList ->
                 if (!playbackService.hasRenderer()) {
-                    val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack })
+                    val trackAdapter = TrackAdapter(generateTrackList(trackList), trackList.firstOrNull { it.getId() == playbackService.spuTrack }, getString(R.string.track_text))
                     trackAdapter.setOnTrackSelectedListener { track ->
-                        trackSelectionListener.invoke(track.id, TrackType.SPU)
+                        trackSelectionListener.invoke(track.getId(), TrackType.SPU)
                     }
                     binding.subtitleTracks.trackList.adapter = trackAdapter
                 } else {
@@ -103,10 +104,26 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
                     binding.subtitleTracks.trackMore.setGone()
                 }
                 if (trackList.isEmpty()) binding.subtitleTracks.emptyView.setVisible()
+                binding.subtitleTracks.trackTitle.contentDescription = getString(R.string.talkback_subtitle_tracks)
             }
             if (playbackService.spuTracks == null) binding.subtitleTracks.emptyView.setVisible()
         }
     }
+
+    /**
+     * Create a track list containing a fake "Disable track" track
+     *
+     * @param trackList the base track list
+     * @return a complete track list
+     */
+    private fun generateTrackList(trackList: Array<out VlcTrack>) = if (isVLC4()) {
+        val tempTracks = ArrayList<VlcTrack>()
+        tempTracks.add(getDisableTrack(requireActivity()))
+        trackList.forEach {
+            tempTracks.add(it)
+        }
+        tempTracks.toList().toTypedArray()
+    } else trackList as Array<VlcTrack>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlayerOverlayTracksBinding.inflate(layoutInflater, container, false)
@@ -152,6 +169,17 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             binding.subtitleTracks.options.collapse()
         }
 
+        if (requireActivity().isTalkbackIsEnabled()) {
+            binding.subtitleTracks.options.onReady {
+                binding.subtitleTracks.trackMore.setGone()
+                binding.subtitleTracks.options.lock()
+            }
+            binding.audioTracks.options.onReady {
+                binding.audioTracks.trackMore.setGone()
+                binding.audioTracks.options.lock()
+            }
+        }
+
         binding.subtitleTracks.trackMore.setOnClickListener {
             binding.subtitleTracks.options.toggle()
             binding.audioTracks.options.collapse()
@@ -186,7 +214,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     companion object : DependencyProvider<Any>() {
 
-        val TAG = "VLC/SavePlaylistDialog"
+        const val TAG = "VLC/SavePlaylistDialog"
     }
 
     enum class TrackType {

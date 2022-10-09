@@ -71,8 +71,8 @@ platform :android do
 
   end
 
-  lane :deploy_screenshots do
-    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft")
+  lane :deploy_screenshots do |options|
+    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft", version_code:options[:version])
     slack(message: 'Successfully uploaded screenshots to Play Store')
   end
 

@@ -23,8 +23,6 @@ package org.videolan.vlc.gui.video.benchmark
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
@@ -33,8 +31,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
  * Class to store the overriden methods in BenchActivity
  * for code readability
  */
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 open class ShallowVideoPlayer : VideoPlayerActivity() {
     override fun onGenericMotionEvent(event: MotionEvent): Boolean {
         return true

@@ -30,10 +30,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -60,8 +59,6 @@ import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeNetwork
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class SecondaryActivity : ContentActivity(), IDialogManager {
 
     private var fragment: Fragment? = null
@@ -72,6 +69,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         return intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING
     }
 
+
     override fun forcedTheme() =
         if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Black
         else null
@@ -80,6 +78,8 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.secondary)
         initAudioPlayerContainerActivity()
+
+        if (isOnboarding) WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         val fph = findViewById<View>(R.id.fragment_placeholder)
         val params = fph.layoutParams as CoordinatorLayout.LayoutParams

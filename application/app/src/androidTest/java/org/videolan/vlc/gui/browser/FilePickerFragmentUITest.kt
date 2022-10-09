@@ -29,16 +29,12 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.vlc.R
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FilePickerFragmentUITest : org.videolan.vlc.BaseUITest() {
     @Rule
     @JvmField

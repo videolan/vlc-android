@@ -60,7 +60,6 @@
     <string name="confirm_delete_files">Dilemel an/ar %1$s a restroù-mañ?</string>
     <string name="confirm_delete_folders_and_files">Dilemel an/ar %1$s a restroù-mañ ha(g) %2$s restr?</string>
     <string name="confirm_delete_playlist">Dilemel ar roll-lenn \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Dilemel \'%1$s\' eus ar roll-lenn?</string>
     <string name="ringtone_set">Ar restr \'%1$s\' a zo bet lakaet evel soniri.</string>
     <string name="ringtone_error">Degouezhet ez eus ur fazi en ur lakaat ar soniri.</string>
     <string name="pause">Ehan</string>
@@ -148,7 +147,6 @@
     <string name="nosubfolder">Isteuliad ebet</string>
     <string name="directorynotfound">Neket bet kavet hent ar c\'havlec\'h \'%1$s\'.</string>
     <string name="nohistory">N\'ho peus ket a roll-lenn evit ar mare.</string>
-    <string name="validation">Ha sur oc\'h?</string>
 
     <string name="cover_art">Arz ar golo</string>
     <string name="shuffle_all_title">Lenn pep-tra dre zegouezh</string>
@@ -208,7 +206,6 @@
     <string name="server_share_hint">Anv rannañ kenrouedad (pe chomlec\'h IP)</string>
     <string name="server_folder_hint">Hent an teuliad (diret)</string>
     <string name="server_username_hint">Anv-implijader</string>
-    <string name="server_servername_hint">Anv ar servijer, evit ar c\'hevlusk</string>
     <string name="server_port">Porzh:</string>
     <string name="login">Anaouder</string>
     <string name="password">Ger-tremen</string>
@@ -225,7 +222,6 @@
     <string name="encountered_error_title">Fazi lenn</string>
     <string name="encountered_error_message">VLC a zo en em gavet gant ur fazi gant ar media-mañ.\nKlaskit freskaat al levraoueg mediaoù.</string>
     <string name="invalid_location">Ne c\'hall ket bezañ lennet al lec\'hiadur %1$s.</string>
-
     <string name="search">Klask</string>
 
 
@@ -264,12 +260,9 @@
 
     <!-- About -->
     <string name="app_name_full">VLC evit Android</string>
-    <string name="licence">Lisañs</string>
     <string name="revision">Adwel</string>
     <string name="about">Diwar-benn</string>
-    <string name="about_text">VLC evit Android™ a zo ur porzh eus VLC media player, al lenner mediaoù poblek en open source. Stumm Android™ a c\'hall lenn lodenn vrasañ ar restroù ha froudoù ar genrouedad.</string>
     <string name="vlc_authors">hag aozerien VLC.</string>
-    <string name="compiled_by">Ar stumm-mañ eus VLC a zo kempunet gant:</string>
     <string name="feedback_forum">Forom an evezhiadennoù</string>
 
     <!-- Preferences -->
@@ -297,7 +290,6 @@
     <string name="subtitle_text_encoding">Enkodañ testenn an istitloù</string>
     <string name="daynight_title">Mod DeizNoz</string>
     <string name="daynight_follow_system_title">Heuliañ ar mod sistem</string>
-
     <string name="extra_prefs_category">Arventennoù ouzhpenn</string>
 
     <string name="interface_prefs_screen">Etrefas</string>
@@ -326,7 +318,6 @@
     <string name="enable_volume_gesture_title">Jestroù al live-son</string>
     <string name="enable_volume_gesture_summary">Kontrolliñ al live-son gant ar biz e-pad ma lenn ar video</string>
     <string name="enable_seek_buttons">Boutonoù fiñval</string>
-    <string name="enable_seek_buttons_summary">Diskouiez ar boutonoù distreiñ ha mont war-raok e-barzh etrefas ar video</string>
     <string name="enable_double_tap_seek_title">Stokañ div wech evit dilec\'hiañ</string>
     <string name="enable_double_tap_seek_summary">Pouezañ div wech war vord ar skramm evit mont war-raok pe mont war-gil eus 10 eilenn</string>
     <string name="popup_keepscreen_title">Leuskel ar skramm war-enaou e mod Pop-Up</string>
@@ -388,7 +379,6 @@
     <string name="controls_prefs_category">Kontrolloù</string>
 
     <string name="performance_prefs_category">Askorad</string>
-    <string name="chroma_format">Rediañ video chroma</string>
     <string name="deblocking">Arventennoù silañ enepbloc\'hadoù</string>
     <string name="deblocking_always">Enepbloc\'hadoù klok (gorrekoc\'h)</string>
     <string name="deblocking_nonref">Enep-bloc\'hadoù etre</string>
@@ -408,7 +398,6 @@
     <string name="resume_playback_title">Adkregiñ gant al lenn war-lerc\'h ur galv</string>
     <string name="resume_playback_summary">Leuskel ehanet mod-all</string>
     <string name="blurred_cover_background_title">Golo drekleur dispisaet</string>
-    <string name="network_caching_popup">An dalvoudegezh a rank bezañ etre 0 ha 6000 ms</string>
     <string name="quit">Kuitaat hag adloc\'hañ an arload</string>
     <string name="restart_message">Kemeret e vo e kont ar c\'hemmoù ur wech ma vo adloc\'het an arload.\n\nAdloc\'hañ bremañ?</string>
     <string name="restart_message_OK">Mat eo</string>
@@ -459,8 +448,6 @@
     <string name="playlist_save">Enrollañ ar roll-lenn</string>
     <string name="playlist_name_hint">Anv ar roll-lenn</string>
     <string name="go_to_chapter">Mont d\'ar chabistr...</string>
-    <string name="chapter">Chabistr</string>
-    <string name="resume_from_position">Adkregiñ adalek al lec\'hiadur diwezhañ</string>
     <string name="confirm_resume">Adkregiñ adalek al lec\'hiadur diwezhañ?</string>
     <string name="confirm_resume_title">Adkregiñ gant ar videoioù lennet</string>
     <string name="tv_ui_title">Etrefas TV Android</string>
@@ -487,7 +474,6 @@
     <string name="allow_sdraw_overlays_description">Ezhomm en deus VLC da gaout hoc\'h aotre da ziskouez ho video en ur pop-up a-us d\'an arloadoù all.</string>
     <string name="permission_ask_again">Aotren</string>
     <string name="permission_not_granted">Aotre nac\'het</string>
-    <string name="permission_expanation_subtitles">Implijout an istitloù diavaez</string>
     <string name="exit_app">Serriñ VLC</string>
     <string name="exit_app_msg">Ha sur oc\'h da gaout c\'hoant da guitaat VLC?</string>
 
@@ -771,9 +757,6 @@
     <string name="air_action_previous">Elfenn gent el lenn</string>
     <string name="allow_otg">Aotren ar moned OTG</string>
     <string name="timeout_infinite">Difin</string>
-    <string name="timeout_short">Berr</string>
-    <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Hir</string>
     <string name="remove_from_history">Tennañ eus ar roll-istor</string>
     <string name="prefersmbv1">Kavout gwelloc\'h SMB 1</string>
     <string name="apply_to_all">Arloañ d\'an holl videoioù</string>

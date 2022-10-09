@@ -25,23 +25,24 @@
 package org.videolan.vlc
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.SystemClock
 import android.util.Log
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.hamcrest.core.AllOf
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.util.DpadHelper.pressHome
 import org.videolan.vlc.util.DpadHelper.pressPip
 import org.videolan.vlc.util.DpadHelper.pressStop
@@ -64,7 +65,6 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
     lateinit var activity: MainActivity
 
-    @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshot() {
         onView(isRoot()).perform(waitId(R.id.audio_list, 5000))
@@ -75,12 +75,12 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(3, "audio_list")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
+        SystemClock.sleep(500)
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
 
         onView(withId(R.id.ml_menu_last_playlist)).perform(click())
-        onView(isRoot()).perform(waitId(R.id.header, 5000))
-//        ScreenshotUtil.takeScreenshot(7,"audio_player_collapsed")
-        onView(withId(R.id.header)).perform(click())
+        onView(isRoot()).perform(waitId(R.id.audio_media_switcher, 5000))
+        onView(withId(R.id.audio_media_switcher)).perform(click())
         SystemClock.sleep(300)
         ScreenshotUtil.takeScreenshot(6,"audio_player_playlist")
         onView(withId(R.id.playlist_switch)).perform(click())
@@ -91,10 +91,9 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         pressStop()
     }
 
-    @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshotVideo() {
-        onView(withId(R.id.nav_video))
+        onView(AllOf.allOf(withId(R.id.nav_video), withEffectiveVisibility(Visibility.VISIBLE)))
                 .perform(click())
         Log.d("Espresso", "0")
         waitUntilLoaded { activity.findViewById(R.id.video_grid) }
@@ -123,16 +122,16 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         onView(withRecyclerView(R.id.options_list).atPositionOnView(4, R.id.option_title)).perform(click())
 //        ScreenshotUtil.takeScreenshot(9,"video_player_equalizer")
         pressBack()
-        pressPip()
+        onView(withId(R.id.player_overlay_adv_function)).perform(ForceClickAction())
+        onView(withRecyclerView(R.id.options_list).atPositionOnView(6, R.id.option_title)).perform(click())
         pressHome()
         pressPip()
         ScreenshotUtil.takeScreenshot(8,"pip")
     }
 
-     @ObsoleteCoroutinesApi
     @Test
     fun testTakeScreenshotBrowser() {
-         onView(withId(R.id.nav_directories))
+        onView(AllOf.allOf(withId(R.id.nav_directories), withEffectiveVisibility(Visibility.VISIBLE)))
                  .perform(click())
          ScreenshotUtil.takeScreenshot(4,"browser")
      }
@@ -154,5 +153,8 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         }
         activityTestRule.launchActivity(intent)
         activity = activityTestRule.activity
+        if (activity.isTablet()) {
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
     }
 }

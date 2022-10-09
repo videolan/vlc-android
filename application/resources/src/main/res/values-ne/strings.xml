@@ -6,14 +6,14 @@
     <string name="ok">ठीक</string>
     <string name="cancel">रद्द गर्नुहोस्</string>
     <string name="other">अन्य</string>
-    <string name="sortby">क्रमाङ्कन</string>
+    <string name="sortby">निम्नद्वारा क्रमाङ्कन गर्नुहोस्...</string>
     <string name="sortby_name">नाम</string>
     <string name="sortby_filename">फाइलको नाम</string>
     <string name="sortby_artist_name">कलाकारको नाम</string>
     <string name="sortby_album_name">सङ्ग्रहको नाम</string>
     <string name="sortby_length">लम्बाइ</string>
     <string name="sortby_date">मिति</string>
-    <string name="sortby_last_modified_date">हालसालै थपिएको</string>
+    <string name="sortby_last_modified_date">हालै थपिएको</string>
     <string name="sortby_media_number">मिडिया नम्बर</string>
     <string name="sortby_number">Nb ट्र्याकहरू</string>
     <string name="searchable_hint">खोज्नुहोस…</string>
@@ -42,18 +42,22 @@
     <string name="append_all">सबै थप्नुहोस्</string>
     <string name="resume_playback_short_title">प्लेब्याक पुनःसुरु गर्नुहोस्</string>
     <string name="resume_playback_long_title">अन्तिम प्लेसूचीको प्लेब्याक पुनःसुरु गर्नुहोस्</string>
-    <string name="delete">रद्द गर्नुहोस्</string>
-    <string name="remove">रद्द गर्नुहोस्</string>
+    <string name="resume_playback_error">रिज्युम गर्न केही पनि छैन</string>
+    <string name="delete">मेटाउनुहोस्</string>
+    <string name="remove">हटाउनुहोस्</string>
     <string name="set_song">रिङटोनको रुपमा राख्ने</string>
     <string name="set_song_question">%1$s रिंगटोनको रूपमा सेट गर्नुहुन्छ?</string>
     <string name="info">जानकारी</string>
     <string name="confirm_delete">%1$s फाइल मेटाउन चाहनुहुन्छ?</string>
+    <string name="confirm_delete_message">यो स्थायी हो र पूर्ववत गर्न सकिँदैन।</string>
     <string name="confirm_delete_album">%1$sएल्बम मेटाउने हो?</string>
     <string name="confirm_delete_several_media">%1$dयी मिडिया मेटाउने हो?</string>
     <string name="confirm_delete_folder">%1$s फोल्डरका साथै यस भित्रको सबै सामाग्रीहरू मेटाउन चाहनुहुन्छ?</string>
-    <string name="confirm_delete_playlist">बजाउनेसूची \'%1$s\' मेटाउन चाहनुहुन्छ?</string>
-    <string name="confirm_remove_from_playlist">%1$sप्लेसूचीबाट हटाउने हो?</string>
-    <string name="ringtone_set">\'%1$s\' लाई रिङटोनको रुपमा स्थापित गरियो।</string>
+    <string name="confirm_delete_folders">यी %1$s फोल्डरका साथै यिनका सबै सामग्रीहरू मेटाउने हो? </string>
+    <string name="confirm_delete_files">यी %1$s फाइलहरू मेटाउने हो?</string>
+    <string name="confirm_delete_folders_and_files">यी %1$s फोल्डरका साथै %2$s फाइलहरू मेटाउन चाहनुहुन्छ?</string>
+    <string name="confirm_delete_playlist">\'%1$s\' प्लेसूची मेटाउन चाहनुहुन्छ?</string>
+    <string name="ringtone_set">फाइल \'%1$s\' लाई रिङटोनको रूपमा सेट गरियो।</string>
     <string name="ringtone_error">रिङटोनको रुपमा स्थापित गर्ने क्रममा त्रुटि भयो ।</string>
     <string name="pause">पौज गर्नुहोस</string>
     <string name="unknown_artist">अज्ञात कलाकार</string>
@@ -68,7 +72,7 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">१ सङग्रह</item>
-        <item quantity="other">%d संग्रहहरू</item>
+        <item quantity="other">%dएल्बमहरू </item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">१ सहफोल्डर</item>
@@ -111,7 +115,6 @@
     <string name="nosubfolder">कुनै सबफोल्डर छैन</string>
     <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
     <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको इतिहास छैन ।</string>
-    <string name="validation">तपाई पक्का हुनुहुन्छ?</string>
 
     <string name="cover_art">खोल चित्र</string>
     <string name="shuffle_all_title">सबै फेरबदल गर्नुहोस्</string>
@@ -167,7 +170,6 @@
     <string name="server_share_hint">नेटवर्क शेयर नाम (वा आईपी ठेगाना)</string>
     <string name="server_folder_hint">फोल्डर पाथ (ऐच्छिक)</string>
     <string name="server_username_hint">प्रयोगकर्ता नाम</string>
-    <string name="server_servername_hint">सर्भर नाम, सहजताको लागि</string>
     <string name="server_port">पोर्ट: </string>
     <string name="login">लग इन</string>
     <string name="password">पासवर्ड</string>
@@ -184,7 +186,6 @@
     <string name="encountered_error_title">बजाउँदा त्रुटि</string>
     <string name="encountered_error_message">VLC ले यो मिडियाको साथ एक त्रुटिको सामना गर्यो।\nकृपया मिडिया लाइब्रेरीलाई ताजा गर्ने प्रयास गर्नुहोस्। </string>
     <string name="invalid_location">स्थान %1$sबजाउन सकिएन।</string>
-
     <string name="search">खोज्नुहोस</string>
 
 
@@ -197,7 +198,17 @@
 
     <string name="seek">खोज्नुहोस्</string>
     <string name="subtitles">उपशिर्षकहरु</string>
+    <string name="tips_audio_sub">अडियो ट्रयाक र उपशीर्षकहरू</string>
+    <string name="tips_play_description">भिडियो प्ले गर्न ट्याप गर्नुहोस्</string>
     <string name="lock">लक गर्नुहोस्</string>
+    <string name="tap">हेर्नको लागि ट्यटप गर्नुहोस्</string>
+    <string name="aspect_ratio">आकार अनुपात</string>
+    <string name="aspect_ratio_description">भिडियोको आकार अनुपात परिवर्तन गर्न ट्याप गर्नुहोस्</string>
+    <string name="advanced_options">उन्नत विकल्पहरू</string>
+    <string name="tips_playlist">प्लेसूची</string>
+    <string name="seek_tap">+/- 10 sec.</string>
+    <string name="close">बन्द गर्नुहोस्</string>
+
     <string name="playlist_tips">प्लेलिस्ट जानकारीहरू</string>
     <string name="remove_song">गीत हटाउनुहोस</string>
     <string name="remove_playlist_item">%1$s लाई बजाउने सुचीबाट हटाइएको छ।</string>
@@ -211,12 +222,9 @@
 
     <!-- About -->
     <string name="app_name_full">एन्ड्रोइडका लागि भिएलसी</string>
-    <string name="licence">लाइसेन्स</string>
     <string name="revision">संशोधन</string>
     <string name="about">बारे</string>
-    <string name="about_text">VLC for Android™ VLC मिडिया प्लेयरको पोर्ट हो जुन एक प्रचलित खुला स्रोत मिडिया प्लेयर हो। Android™ संस्करणले अधिकांश फाइल र नेटवर्क स्ट्रिमहरू पढ्न सक्छ।</string>
     <string name="vlc_authors">र VLC लेखकहरु</string>
-    <string name="compiled_by">भीएलसीको यो संस्करण कम्पाइल गर्ने:</string>
     <string name="feedback_forum">पृष्टपोषण फोरुम</string>
 
     <!-- Preferences -->
@@ -228,17 +236,24 @@
     <string name="remove_custom_path">अनुकूलित बाटो हटाउनुहोस्</string>
     <string name="hardware_acceleration">हार्डवेयर प्रवेग</string>
     <string name="hardware_acceleration_disabled">अक्षम गरिएको छ</string>
-    <string name="hardware_acceleration_full">पूरा प्रवेग</string>
+    <string name="hardware_acceleration_decoding">डिकोडिङ एक्सेलेरेसन</string>
+    <string name="hardware_acceleration_full">पूरा एक्सेलेरेसन</string>
     <string name="dev_hardware_decoder">उन्नत हार्डवेयर डिकोडर</string>
+    <string name="dev_hardware_decoder_summary">उन्नत प्रयोगकर्ताहरूको लागि हार्डवयेर डिकोडर सवलिकरण गर्नुहोस्</string>
     <string name="automatic">स्वचालित</string>
     <string name="screen_orientation">भिडियो पर्दा ढल्काइ</string>
     <string name="screen_orientation_sensor">स्वतः (सेन्सर)</string>
     <string name="screen_orientation_portrait">पोट्रेट</string>
     <string name="screen_orientation_landscape">ल्यान्डस्केप</string>
+    <string name="screen_orientation_landscape_reverse">ल्यान्डस्केप रिभर्स</string>
+    <string name="screen_orientation_last_locked">अन्तिमपटक लक गरिएको ओरिएन्टेसन</string>
     <string name="enable_black_theme">कालो थिम</string>
     <string name="subtitle_text_encoding">उपशीर्षक पाठ इनकोडिङ</string>
+    <string name="subtitle_preferred_language">रुचाइएको उपशीर्षक भाडा</string>
     <string name="daynight_title">दिनरात्री मोड</string>
     <string name="daynight_follow_system_title">प्रणाली मोड अनुसरण गर्नुहोस्</string>
+    <string name="no_track_preference">कुनै भाषा प्राथमिकता छैन</string>
+    <string name="track_preference">ट्रयाक प्राथमिकता:%s</string>
 
     <string name="extra_prefs_category">अतिरिक्त सेटिङहरू</string>
 
@@ -266,7 +281,12 @@
     <string name="enable_volume_gesture_summary">भिडियो प्लेब्याक अवधिमा सङ्केत दिएर भोल्युम नियन्त्रण गर्नुहोस्</string>
     <string name="enable_seek_buttons">बटनहरू खोजी गर्नुहोस्</string>
     <string name="enable_seek_buttons_summary">भिडियो इन्टरफेसमा रिवाइन्ड र फर्वाड बटनहरू देखाउनुहोस्</string>
-    <string name="enable_double_tap_seek_title">खोजी गर्न दुई पटक ट्याप गर्नुहोस्</string>
+    <string name="enable_double_tap_seek_title">सिक गर्न दुई पटक ट्याप गर्नुहोस्</string>
+    <string name="enable_double_tap_seek_summary">10 सेकेन्डले सिक गर्न स्क्रिनको किनारामा दुई पटक ट्याप गर्नुहोस्</string>
+    <string name="enable_double_tap_play_title">प्ले/पज गर्न दुई पटक ट्याप गर्नुहोस्</string>
+    <string name="enable_double_tap_play_summary">प्ले वा पज गर्न स्क्रिनको बीचमा दुई पटक ट्याप गर्नुहोस्</string>
+    <string name="popup_keepscreen_title">पप-अप मोडमा स्क्रिन अन राख्नुहोस्</string>
+    <string name="popup_keepscreen_summary">भिडियो पज हुँदा समेत पप-अप प्रदर्शित हुँदा स्क्रिन सधैँ अन राख्नुहोस्</string>
     <string name="browser_show_hidden_files_title">लुकेका फाइलहरू देखाउनुहोस्</string>
 
     <string name="subtitles_prefs_category">उपशीर्षकहरू</string>
@@ -310,18 +330,29 @@
     <string name="casting_passthrough_title">ध्वनीलाई पास हुन दिने</string>
     <string name="casting_passthrough_summary">तपाईँको TV लाई अडियो रेन्डरिङ व्यवस्थापन गर्न दिनुहोस्</string>
     <string name="casting_conversion_quality_title">रूपान्तरण गुणस्तर</string>
+    <string name="casting_conversion_quality_summary">रिमोट स्क्रिनमा कास्ट गर्दा रूपान्तरण गुणस्तर चयन गर्नुहोस्</string>
     <string name="casting_quality_high">उच्च</string>
+    <string name="casting_quality_medium">मध्यम</string>
+    <string name="casting_quality_low">न्यून</string>
+    <string name="casting_quality_lowcpu">न्यूनतम</string>
+    <string name="casting_connected_renderer">रेन्डरर \'%1$s\' मा जोडिएको</string>
+    <string name="artists_show_all_title">सबै कलाकारहरू देखाउनुहोस्</string>
     <string name="extensions_prefs_category">एक्सटेन्सन</string>
+    <string name="extension_permission_checkbox_title">%1$s मा देखाउनुहोस्</string>
     <string name="extension_prefs_activation_title">सक्रिय गर्नुहोस्</string>
+    <string name="android_auto">Android Auto</string>
+
     <string name="controls_prefs_category">नियन्त्रण</string>
 
     <string name="performance_prefs_category">प्रदर्शन</string>
     <string name="advanced_prefs_category">उन्नत</string>
     <string name="dump_media_db_summary">आन्तरिक भण्डारण रुटमा डाटाबेस प्रतिलिपि गर्नुहोस्</string>
     <string name="clear_media_db">मिडिया डाटाबेस मेटाउनुहोस्</string>
+    <string name="clear_media_database_summary">सुरु गर्न डाटाबेस खाली गर्नुहोस्</string>
+    <string name="clear_app_data">एप डाटा खाली गर्नुहोस्</string>
+    <string name="clear_app_data_summary">Android  डाटाका लागि VLC खाली गर्नुहोस्</string>
     <string name="clear_history">इतिहास मेटाउनुहोस्</string>
     <string name="set_locale">स्थान सेट गर्नुहोस</string>
-    <string name="network_caching_popup">यो मान 0 र 6000 ms बीच हुनुपर्छ </string>
     <string name="quit">छोड्नुहोस् र अनुप्रयोग पुन: सुरु गर्नुहोस्</string>
     <string name="restart_message">एकपटक अनुप्रयोग पुनः सुरु भएपछि परिवर्तन प्रभावी हुनेछ।\n\nअहिले नै पुनः सुरु गर्ने हो?</string>
     <string name="restart_message_OK">ठीक</string>
@@ -333,12 +364,24 @@
     <string name="enable_verbose_mode_summary">वर्बोसिटी (लगक्याट) वृद्धि गर्नुहोस्</string>
     <string name="debug_logs">डिबग लगहरू</string>
     <string name="start_logging">लगिङ सुरु गर्नुहोस्</string>
+    <string name="stop_logging">लगिङ बन्द गर्नुहोस्</string>
     <string name="clear_log">लग खाली गर्नुहोस्</string>
     <string name="copy_to_clipboard">क्लिपबोर्डमा प्रतिलिपीगर्नुहोस्</string>
+    <string name="custom_libvlc_options_invalid">अमान्य libVLC विकल्पहरू!</string>
+
+    <string name="serious_crash">संयोगवश, गम्भीर त्रुटि भयो र VLC बन्द गर्नुपर्‍यो।</string>
     <string name="help_us_send_log">निम्न त्रुटिलग पठाएर VLC लाई राम्रो बनाउन सहयोग गर्नुहोस:</string>
     <string name="restart_vlc">VLCलाई फेरि सुरु गर्नुहोस</string>
     <string name="send_log">लग पठाउनुहोस्</string>
     <string name="sending_log">लग पठाउँद…</string>
+
+    <string name="delete_sub_title">उपशीर्षक मेटाउनुहोस्</string>
+    <string name="delete_sub_message">के तपाईँ यो उपशीर्षक मेटाउन चाहनुहुन्छ?</string>
+    <string name="download_subtitle_title">उपशीर्षक डाउमलोड गर्नुहोस्</string>
+
+    <string name="no_result">कुनै नतिजा फेला परेन</string>
+    <string name="no_internet_connection">तपाईँको इन्टरनेट जडान जाँच गर्नुहोस्</string>
+    <string name="subs_download_error">सेवा उपलब्ध छैन। कृपया केही समयपछि प्रयास गर्नुहोस्</string>
 
     <string name="network_browsing">लोकल नेटवर्क</string>
     <string name="browsing">ब्राउजिङ</string>
@@ -346,6 +389,7 @@
     <string name="file_size">फाइल आकार</string>
 
     <string name="audio_delay">अडियो ढिलाइ</string>
+    <string name="spu_delay">उपशीर्षक ढिलाइ</string>
     <string name="network_shares_discovery">नेटवर्क साझेदारीका लागि खोज्दै</string>
     <string name="network_empty">यस निर्देशिका खाली छ।</string>
     <string name="network_connection_needed">स्थानीय नेटवर्कमा जडान छैन</string>
@@ -355,8 +399,6 @@
     <string name="playlist_save">प्लेलिस्ट सङ्ग्रह गर्नुहोस्</string>
     <string name="playlist_name_hint">प्लेसूचीको नाम</string>
     <string name="go_to_chapter">च्याप्टरमा जानुहोस्</string>
-    <string name="chapter">च्याप्टर</string>
-    <string name="resume_from_position">अन्तिम स्थानबाट पुनः निरन्तरता दिनुहोस्</string>
     <string name="tv_ui_title">Android टिभी इन्टर्फेस</string>
     <string name="medialibrary">मेडिया लाइब्रेरी</string>
     <string name="medialibrary_directories">मेडिया लाइब्रेरी फोल्डरहरू</string>
@@ -380,6 +422,9 @@
     <string name="allow_draw_overlays_title">VLC प्लेयरलाई अन्य एपहरूमा पपअपको अनुमति दिनुहोस्</string>
     <string name="allow_sdraw_overlays_description">VLC लाई अन्य अनुप्रयोगहरूको पपअपमा तपाईँको भिडियो प्रदर्शन अनुमति दिन आवश्यक पर्दछ।</string>
     <string name="permission_ask_again">अनुमति दिनुहोस्</string>
+    <string name="permission_not_granted">अनुमति स्वीकृत छैन</string>
+    <string name="permission_expanation_no_allow">तपाईँ आफ्नो मिडिया स्वत: पत्ता लगाउन वा बाह्य उपशीर्षकहरू प्रयोग गर्न सक्षम हुनुहुने छैन</string>
+    <string name="permission_expanation_allow">तपाईंले केवल स्ट्रिम्स वा नेटवर्क मिडिया प्ले गर्न सक्षम हुनुहुने छ</string>
     <string name="exit_app">VLC बन्द गर्नुहोस्</string>
     <string name="exit_app_msg">के तपाईँ VLC छोड्न निश्चित हुनुहुन्छ?</string>
 
@@ -408,6 +453,7 @@
     <string name="download_subtitles">उपशीर्षकहरू डाउनलोड</string>
     <string name="browse_folder">फोल्डर अन्वेषण गर्नुहोस्</string>
     <string name="listen">सुन्नुहोस्</string>
+    <string name="apply_to_bt">ब्लुटुथ यन्त्रमा लागू गर्नुहोस्</string>
     <string name="episodes">भागहरू</string>
     <string name="movies">चलचित्रहरू</string>
     <string name="videos">भिडियोहरू</string>
@@ -422,6 +468,7 @@
     <string name="ml_external_storage_accept">हो</string>
     <string name="ml_external_storage_decline">हैन</string>
     <string name="auto_last_added_media">अन्तिममा थपिएको</string>
+    <string name="auto_my_library">मेरो लाइब्रेरी</string>
     <string name="auto_home">गृह</string>
     <string name="no">होइन</string>
     <string name="loading_medialibrary">मिडिया लाइब्रेरी लोड हुदैछ...</string>
@@ -439,6 +486,7 @@
     <string name="recommendations">सिफारिसहरू</string>
     <string name="browser_quick_access">छरितो पहुँच</string>
     <string name="browser_storages">भण्डारण</string>
+    <string name="msg_delete_failed">%1$s मिडिया मेटाउन असफल भयो</string>
     <string name="dialog_sd_wizard">मलाई देखाउनुहोस्</string>
     <string name="renderers_disconnect">विच्छेद गर्नुहोस्</string>
     <string name="audio_digital_output_enabled">अडियो डिजिटल आउटपुट सक्षम पारियो</string>
@@ -455,6 +503,10 @@
     <string name="time_category_older">पुरानो मिडिया</string>
     <string name="rename">पुन: नामाकरण गर्नुहोस्</string>
     <string name="rename_media"> पुन: नामाकरण %1$s</string>
+    <string name="manual_search">म्यानुअल खोज</string>
+    <string name="subtitle_search_name_hint">नाम</string>
+    <string name="subtitle_search_episode_hint">एपिसोड</string>
+    <string name="subtitle_search_season_hint">सिजन</string>
     <string name="language_to_download">भाषा</string>
     <string name="delete_the_selected">छनौट मेटाउनुहोस्</string>
     <string name="download_the_selected">छनौट डाउनलोड गर्नुहोस्</string>
@@ -462,7 +514,15 @@
     <string name="download">डाउनलोड</string>
     <string name="ctx_player_video_track">भिडियो ट्रायाक चयन गर्नुहोस्</string>
     <string name="ctx_player_audio_track">अडियो ट्र्याक</string>
+    <string name="ctx_player_subs_track">उपशीर्षक ट्रयाक</string>
+    <string name="ctx_pip_title">पप-अप प्लेयर</string>
+    <string name="device_dialog_title">बाह्य यन्त्र घुसाइयो</string>
+    <string name="device_dialog_message">तपाईँले भर्खरै आफ्नो TV बक्समा नयाँ भण्डारण यन्त्र प्लग गर्नुभयो, के तपाईँ यसलाई VLC सँग खोल्न चाहनुहुन्छ?</string>
     <string name="welcome_title">VLC मा स्वागत छ!</string>
+    <string name="permission_media">तपाईँको यन्त्रमा भएको मिडिया पहँच गर्न VLC लाई तपाईँको अनुमति आवश्यक छ</string>
+    <string name="medialibrary_scan_explanation">VLC ले तपाईँको मिडिया सङ्ग्रह व्यवस्थित गर्न स्वचालित रूपमा तपाईँको यन्त्र स्क्यान गर्न सक्छ</string>
+    <string name="done">भयो</string>
+    <string name="onboarding_all_set">VLC पूर्ण रूपमा तयार छ!</string>
     <string name="add">थप्नुहोस्</string>
     <string name="add_to_new_playlist">नयाँ प्लेलिस्ट थप्नुहोस्</string>
     <string name="device_default">यन्त्र पूर्वनिर्धारित</string>
@@ -580,9 +640,6 @@
     <string name="allow_otg"> OTG पहुँच अनुमति दिनुहोस्</string>
     <string name="allow_otg_description"> कृपया VLC मा पहुँच गर्न अनुमति दिन तपाईँको OTG यन्त्र छनौट गर्नुहोस्  </string>
     <string name="timeout_infinite">असीम</string>
-    <string name="timeout_short">छोटो</string>
-    <string name="timeout_normal">सामान्य</string>
-    <string name="timeout_long">लामो</string>
     <string name="video_hud_timeout">भिडियो प्लेयरले लुकाउने ढिलाइ नियन्त्रण गर्दछ</string>
     <string name="remove_from_history">इतिहासबाट हटाउनुहोस्</string>
     <string name="prefersmbv1">SMB 1 लाई प्राथमिकता दिनुहोस्</string>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ *************************************************************************
+  ~  widget_macro.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widget_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/cover_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_above="@+id/player_container"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/widget_rectangle_background" />
+
+    <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:contentDescription="@string/open_vlc"
+            android:layout_alignBottom="@id/cover_background"
+            android:layout_alignTop="@id/cover_background"
+            android:layout_alignLeft="@id/cover_background"
+            android:layout_alignRight="@id/cover_background"
+            android:src="@drawable/ic_widget_icon" />
+
+    <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/cover_background"
+            android:layout_alignTop="@id/cover_background"
+            android:layout_alignLeft="@id/cover_background"
+            android:layout_alignRight="@id/cover_background"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_widget_icon" />
+
+    <ImageView
+            android:id="@+id/player_container_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/player_container"
+            android:layout_alignTop="@+id/player_container"
+            android:layout_alignRight="@+id/player_container"
+            android:layout_alignBottom="@+id/player_container"
+            android:src="@drawable/widget_rectangle_background" />
+
+    <LinearLayout
+            android:id="@+id/player_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/widget_default_text"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        <TextView
+                android:id="@+id/songName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:text="Track"
+                android:textColor="@color/white" />
+
+        <TextView
+                android:id="@+id/artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="Author"
+                android:textColor="@color/white" />
+
+
+        <include layout="@layout/widget_content_full_player" />
+
+    </LinearLayout>
+
+    <ImageView
+            android:id="@+id/widget_configure"
+            android:layout_width="48dp"
+            android:background="@drawable/widget_touch_background"
+            android:layout_height="48dp"
+            android:scaleType="center"
+                android:contentDescription="@string/configure_widget"
+            android:layout_alignTop="@+id/cover_background"
+            android:layout_alignRight="@+id/cover_background" />
+
+</RelativeLayout>

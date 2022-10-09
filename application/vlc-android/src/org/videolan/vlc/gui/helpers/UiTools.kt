@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -42,6 +43,7 @@ import android.view.animation.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -51,8 +53,12 @@ import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuItemCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -75,20 +81,23 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.helpers.BitmapUtil.vectorToBitmap
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.openLinkIfPossible
+import kotlin.math.min
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 object UiTools {
     var currentNightMode: Int = 0
-    private val TAG = "VLC/UiTools"
+    private const val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_AUTO_DRAWABLE: BitmapDrawable? = null
@@ -379,13 +388,13 @@ object UiTools {
             AboutVersionDialog.newInstance().show(activity.supportFragmentManager, "AboutVersionDialog")
         }
         v.findViewById<View>(R.id.about_website_container).setOnClickListener {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://www.videolan.org/vlc/".toUri()))
+            activity.openLinkIfPossible("https://www.videolan.org/vlc/")
         }
         v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://forum.videolan.org/viewforum.php?f=35".toUri()))
+            activity.openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
         }
         v.findViewById<View>(R.id.about_sources_container).setOnClickListener {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, "https://code.videolan.org/videolan/vlc-android".toUri()))
+            activity.openLinkIfPossible("https://code.videolan.org/videolan/vlc-android")
         }
 
         v.findViewById<View>(R.id.about_authors_container).setOnClickListener {
@@ -458,7 +467,45 @@ object UiTools {
         addToGroupDialog.newGroupListener = newGroupListener
     }
 
-    fun FragmentActivity.showVideoTrack(menuListener:(VideoTracksDialog.VideoTrackOption) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
+    /**
+     * Creates a shortcut to the media on the launcher
+     * @param mediaLibraryItem: the [MediaLibraryItem] to create a shortcut to
+     */
+    suspend fun FragmentActivity.createShortcut(mediaLibraryItem: MediaLibraryItem) {
+        if (!isStarted()) return
+
+        val context = this
+        withContext(Dispatchers.IO) {
+            val iconBitmap = if (mediaLibraryItem is Genre || mediaLibraryItem is Playlist)
+                ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${mediaLibraryItem.id}_${48.dp}", mediaLibraryItem.tracks.toList(), 48.dp)
+            else
+                BitmapCache.getBitmapFromMemCache(ThumbnailsProvider.getMediaCacheKey(mediaLibraryItem is MediaWrapper, mediaLibraryItem, 48.dp.toString()))
+                        ?: ThumbnailsProvider.obtainBitmap(mediaLibraryItem, 48.dp)
+
+
+            val size = min(48.dp, iconBitmap?.height ?: 0)
+            val iconCompat = IconCompat.createWithAdaptiveBitmap(iconBitmap.centerCrop(size, size)
+                    ?: vectorToBitmap(context, R.drawable.ic_icon, 48.dp, 48.dp))
+            val actionType = when (mediaLibraryItem) {
+                is Album -> "album"
+                is Artist -> "artist"
+                is Genre -> "genre"
+                is Playlist -> "playlist"
+                else -> "media"
+            }
+            val pinShortcutInfo = ShortcutInfoCompat.Builder(context, mediaLibraryItem.id.toString())
+                    .setShortLabel(mediaLibraryItem.title)
+                    .setIntent(Intent(context, StartActivity::class.java).apply { action = "vlc.mediashortcut:$actionType:${mediaLibraryItem.id}" })
+                    .setIcon(iconCompat)
+                    .build()
+
+            val pinnedShortcutCallbackIntent = ShortcutManagerCompat.createShortcutResultIntent(context, pinShortcutInfo)
+            val successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent,  PendingIntent.FLAG_IMMUTABLE)
+            ShortcutManagerCompat.requestPinShortcut(context, pinShortcutInfo, successCallback.intentSender)
+        }
+    }
+
+    fun FragmentActivity.showVideoTrack(menuListener:(VideoTracksDialog.VideoTrackOption) -> Unit, trackSelectionListener:(String, VideoTracksDialog.TrackType) -> Unit) {
         if (!isStarted()) return
         val videoTracksDialog = VideoTracksDialog()
         videoTracksDialog.arguments = bundleOf()
@@ -506,7 +553,6 @@ object UiTools {
             //Create an Intrinsic Blur Script using the Renderscript
             val blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
 
-
             //Create the Allocations (in/out) with the Renderscript and the in/out bitmaps
             val allIn = Allocation.createFromBitmap(rs, if (bitmap.config == Bitmap.Config.ARGB_8888) bitmap else bitmap.copy(Bitmap.Config.ARGB_8888, true))
             val allOut = Allocation.createFromBitmap(rs, outBitmap)
@@ -534,20 +580,14 @@ object UiTools {
     fun updateSortTitles(menu: Menu, provider: MedialibraryProvider<*>) {
         val sort = provider.sort
         val desc = provider.desc
-        var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${provider.context.getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${provider.context.getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.title = "${provider.context.getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.title = "${provider.context.getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.title = "${provider.context.getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.title = "${provider.context.getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.title = "${provider.context.getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE && !desc) "▼" else ""}"
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_name, R.string.sortby_name, (sort == Medialibrary.SORT_ALPHA || sort == Medialibrary.SORT_DEFAULT), desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_filename, R.string.sortby_filename, sort == Medialibrary.SORT_FILENAME, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_artist_name, R.string.sortby_artist_name, sort == Medialibrary.SORT_ARTIST, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_album_name, R.string.sortby_album_name, sort == Medialibrary.SORT_ALBUM, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_length, R.string.sortby_length, sort == Medialibrary.SORT_DURATION, desc)
+        menu.appendSortOrder(provider.context, R.id.ml_menu_sortby_date, R.string.sortby_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
+        menu.appendSortOrder(provider.context,R.id.ml_menu_sortby_last_modified, R.string.sortby_last_modified_date, sort == Medialibrary.SORT_LASTMODIFICATIONDATE, desc)
+        menu.appendSortOrder(provider.context,R.id.ml_menu_sortby_insertion_date, R.string.sortby_insertion, sort == Medialibrary.SORT_INSERTIONDATE, desc)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
@@ -558,23 +598,31 @@ object UiTools {
         val model = sortable.viewModel
         val sort = model.sort
         val desc = model.desc
-        var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_name)} ${if (sort == Medialibrary.SORT_ALPHA && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_filename)} ${if (sort == Medialibrary.SORT_FILENAME && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_artist_name)} ${if (sort == Medialibrary.SORT_ARTIST && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_album_name)} ${if (sort == Medialibrary.SORT_ALBUM && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_length)} ${if (sort == Medialibrary.SORT_DURATION && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE && !desc) "▼" else ""}"
-        item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.title = "${sortable.requireContext().getString(R.string.sortby_last_modified_date)} ${if (sort == Medialibrary.SORT_RELEASEDATE && !desc) "▼" else ""}"
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_name, R.string.sortby_name, sort == Medialibrary.SORT_ALPHA, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_filename, R.string.sortby_filename, (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT), desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_artist_name, R.string.sortby_artist_name, sort == Medialibrary.SORT_ARTIST, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_album_name, R.string.sortby_album_name, sort == Medialibrary.SORT_ALBUM, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_length, R.string.sortby_length, sort == Medialibrary.SORT_DURATION, desc)
+        menu.appendSortOrder(sortable.requireActivity(), R.id.ml_menu_sortby_date, R.string.sortby_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
+        menu.appendSortOrder(sortable.requireActivity(),R.id.ml_menu_sortby_last_modified, R.string.sortby_last_modified_date, sort == Medialibrary.SORT_RELEASEDATE, desc)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
+    }
+
+    /**
+     * Sets a [MenuItem] title and contentDescription depending on the sort it shows
+     *
+     * @param context the context to be used for strings
+     * @param id the [MenuItem] id
+     * @param titleRes the string resource to use as a title
+     * @param isCurrent is this the current sort
+     * @param desc is the sort descending
+     */
+    private fun Menu.appendSortOrder(context: Context, @IdRes id:Int, @StringRes titleRes:Int, isCurrent:Boolean, desc:Boolean) = findItem(id)?.let { menuItem ->
+        val title = context.getString(titleRes)
+        menuItem.title = if (!isCurrent) title else "$title ${if (desc) "▼" else "▲"}"
+        MenuItemCompat.setContentDescription(menuItem, if (!isCurrent) title else "$title. ${context.getString(if (desc) R.string.descending else R.string.ascending)}")
     }
 
     fun confirmExit(activity: Activity) {

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.interfaces.FocusListener
@@ -21,8 +19,6 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.interfaces.ITVEventsHandler
 import org.videolan.vlc.util.ModelsHelper.getDiscNumberString
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) : DiffUtilAdapter<MediaWrapper, MediaListAdapter.MediaListViewHolder>(), TvFocusableAdapter {
 
     private var focusListener: FocusListener? = null
@@ -76,7 +72,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
+    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, @Suppress("UNUSED_PARAMETER") type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
 
         init {
             val fadableViews = arrayOf(binding.itemMoveDown, binding.itemMoveUp, binding.itemAddPlaylist, binding.itemInsertNext, binding.itemAppend, binding.itemSelector, binding.itemRemove)

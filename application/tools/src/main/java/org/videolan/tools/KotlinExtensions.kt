@@ -1,13 +1,9 @@
 package org.videolan.tools
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.content.res.Resources
@@ -23,10 +19,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -63,6 +58,7 @@ val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).to
 fun Boolean.toInt() = if (this) 1 else 0
 fun Long.hasFlag(flag: Long) = (flag and this) != 0L
 
+@OptIn(ObsoleteCoroutinesApi::class)
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
         action()
@@ -107,7 +103,7 @@ suspend fun Context.awaitAppIsForegroung(): Boolean {
 
 private fun ActivityManager.isAppForeground() = runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 
-@UseExperimental(ExperimentalContracts::class)
+@OptIn(ExperimentalContracts::class)
 fun String?.isValidUrl(): Boolean {
     contract {
         returns(true) implies (this@isValidUrl != null)
@@ -127,6 +123,13 @@ fun Context.isConnected(): Boolean {
 
 val Context.localBroadcastManager: LocalBroadcastManager
     get() = LocalBroadcastManager.getInstance(this)
+
+fun Resources.getResourceUri(@DrawableRes id: Int): Uri = Uri.Builder()
+    .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+    .authority(getResourcePackageName(id))
+    .appendPath(getResourceTypeName(id))
+    .appendPath(getResourceEntryName(id))
+    .build()
 
 fun Uri?.retrieveParent(): Uri? {
     try {

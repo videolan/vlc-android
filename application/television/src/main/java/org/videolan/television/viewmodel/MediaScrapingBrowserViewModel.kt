@@ -29,7 +29,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
@@ -40,7 +39,6 @@ import org.videolan.vlc.viewmodels.ICallBackHandler
 import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
-@ExperimentalCoroutinesApi
 class MediaScrapingBrowserViewModel(context: Context, val category: Long) : SortableModel(context), TvBrowserModel<MediaMetadataWithImages>,
         ICallBackHandler by CallBackDelegate() {
 
@@ -82,5 +80,4 @@ class MediaScrapingBrowserViewModel(context: Context, val category: Long) : Sort
     }
 }
 
-@ExperimentalCoroutinesApi
 fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProvider(requireActivity(), MediaScrapingBrowserViewModel.Factory(requireContext(), category)).get(MediaScrapingBrowserViewModel::class.java)

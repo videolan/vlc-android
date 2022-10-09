@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -45,8 +47,6 @@ import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
 
-@OptIn(ObsoleteCoroutinesApi::class)
-@ExperimentalCoroutinesApi
 class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener, IDialogManager {
 
     private var favExists: Boolean = false
@@ -80,7 +80,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (currentItem as? MediaWrapper)?.run { mrl = location }
         val category = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
-        viewModel = getBrowserModel(category = category, url = mrl, showHiddenFiles = false)
+        viewModel = getBrowserModel(category = category, url = mrl)
 
         viewModel.currentItem = currentItem
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
@@ -118,6 +118,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         viewModel.provider.liveHeaders.observe(viewLifecycleOwner) {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
+            animationDelegate.setVisibility(binding.imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+            animationDelegate.setVisibility(binding.headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+            animationDelegate.setVisibility(binding.headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         }
 
         (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner) {
@@ -198,7 +201,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_favorite else R.drawable.ic_favorite_outline)
+            binding.favoriteButton.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
+            binding.imageButtonFavorite.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
         }
         binding.favoriteButton.setOnClickListener(favoriteClickListener)
         binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
@@ -272,7 +277,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                 }
                 favExists = browserFavRepository.browserFavExists(mw.uri)
                 binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_favorite else R.drawable.ic_favorite_outline)
+                binding.favoriteButton.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
                 binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
+                binding.imageButtonFavorite.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
             }
         }
     }

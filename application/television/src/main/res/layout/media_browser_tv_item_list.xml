@@ -69,6 +69,14 @@
                 type="boolean" />
 
         <variable
+                name="isSD"
+                type="boolean" />
+
+        <variable
+                name="isOTG"
+                type="boolean" />
+
+        <variable
                 name="isPresent"
                 type="boolean" />
 
@@ -99,6 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tv_list_background_transition"
+            vlc:mediaContentDescription="@{item}"
             android:clickable="true"
             android:focusable="true"
             android:longClickable="true"
@@ -131,7 +140,7 @@
                 android:id="@+id/network_off_overlay"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="@{isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                 android:background="?attr/disabled_overlay_color"
                 vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
                 vlc:layout_constraintEnd_toEndOf="@+id/media_cover"
@@ -178,7 +187,35 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_goneMarginBottom="4dp"
-                vlc:srcCompat="@drawable/ic_network_media" />
+                vlc:srcCompat="@drawable/ic_emoji_network" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/sd_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isSD ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_goneMarginBottom="4dp"
+                vlc:srcCompat="@drawable/ic_emoji_sd" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/otg_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isOTG ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_goneMarginBottom="4dp"
+                vlc:srcCompat="@drawable/ic_emoji_otg" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/network_media_off"
@@ -192,7 +229,7 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_goneMarginBottom="4dp"
-                vlc:srcCompat="@drawable/ic_network_media_off" />
+                vlc:srcCompat="@drawable/ic_emoji_absent" />
 
         <TextView
                 android:id="@+id/badgeTV"

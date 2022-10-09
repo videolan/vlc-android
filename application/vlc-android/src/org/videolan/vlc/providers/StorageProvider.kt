@@ -23,9 +23,9 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.util.MediaBrowser
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
@@ -33,11 +33,11 @@ import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
 import java.io.File
-import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
-class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean): FileBrowserProvider(context, dataset, url, false, showHiddenFiles) {
+class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?) : FileBrowserProvider(context, dataset, url, false, sort = Medialibrary.SORT_FILENAME, desc = false) {
+
+    // the ML doesn't index hidden files. no need to display them here
+    override fun getFlags(interact: Boolean) = if (interact) MediaBrowser.Flag.NoSlavesAutodetect else 0
 
     override suspend fun browseRootImpl() {
         val storages = DirectoryRepository.getInstance(context).getMediaDirectories()

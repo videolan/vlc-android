@@ -10,10 +10,8 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.moshi.*
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
@@ -27,8 +25,6 @@ import org.videolan.resources.util.applyOverscanMargin
 /**
  * Activity showing the different libraries used by VLC for Android and their licenses
  */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LibrariesActivity : BaseActivity() {
 
     private lateinit var adapter: LibrariesAdapter
@@ -54,10 +50,10 @@ class LibrariesActivity : BaseActivity() {
         }
         binding.licenses.adapter = adapter
 
-        model = ViewModelProvider(this).get(LicenseModel::class.java)
-        model.licenses.observe(this) {
+        model = ViewModelProvider(this)[LicenseModel::class.java]
+        model.licenses.observe(this, Observer {
             adapter.update(it)
-        }
+        })
         lifecycleScope.launchWhenStarted { model.refresh() }
         if (AndroidDevices.isTv) applyOverscanMargin(this)
 
@@ -90,8 +86,6 @@ class LibrariesAdapter(private val itemClickHandler: (license: LibraryWithLicens
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class LicenseModel : ViewModel() {
 
     /**

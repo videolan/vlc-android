@@ -32,6 +32,7 @@
             android:background="?attr/actionBarItemBackground"
             android:nextFocusRight="@+id/add_bookmark"
             android:onClick="onClickDismissTips"
+            android:contentDescription="@string/close"
             android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_bias="0.5"
@@ -58,24 +59,21 @@
             android:id="@+id/guideline8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            android:orientation="horizontal"/>
 
     <TextView
             android:id="@+id/helpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif-light"
             android:textColor="?attr/font_default"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/helpDescription"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/close"
+            app:layout_constraintTop_toTopOf="@+id/topGuideline"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Help title" />
 
@@ -91,11 +89,25 @@
             android:textSize="14sp"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/nextButton"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/endGuideline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/helpTitle"
             tools:text="Help description" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0" />
 
     <Button
             android:id="@+id/nextButton"
@@ -103,9 +115,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickNextTips"
-            android:text="@string/next"
+            android:text="@string/next_step"
             app:layout_constraintBottom_toBottomOf="@+id/audio_tips_background"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/endGuideline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/helpDescription" />

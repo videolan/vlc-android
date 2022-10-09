@@ -34,8 +34,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -55,8 +53,6 @@ import org.videolan.vlc.viewmodels.sortMenuTitles
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filterable {
 
     private lateinit var searchButtonView: View
@@ -99,6 +95,17 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     override fun onStop() {
         super.onStop()
         releaseBreadCrumb()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (viewModel as? MedialibraryViewModel)?.resume()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        (viewModel as? MedialibraryViewModel)?.pause()
     }
 
     override fun onDestroy() {
@@ -175,6 +182,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
+            R.id.ml_menu_sortby_insertion_date -> {
+                sortBy(Medialibrary.SORT_INSERTIONDATE)
+                return true
+            }
             R.id.ml_menu_sortby_artist_name -> {
                 sortBy(Medialibrary.SORT_ARTIST)
                 return true
@@ -195,7 +206,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         }
     }
 
-    protected open fun sortBy(sort: Int) {
+    open fun sortBy(sort: Int) {
         viewModel.sort(sort)
     }
 
@@ -240,6 +251,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         } else
             searchButtonView.visibility = if (visible) View.VISIBLE else View.GONE
     }
+
+    fun inSearchMode() = searchButtonView.visibility == View.VISIBLE
 
     override fun allowedToExpand() = true
 }

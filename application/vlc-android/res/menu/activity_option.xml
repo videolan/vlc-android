@@ -3,6 +3,21 @@
       xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
     <item
+            android:orderInCategory="0"
+            android:id="@+id/play_all"
+            android:icon="@drawable/ic_am_play"
+            android:title="@string/play_all"
+            vlc:showAsAction="always"
+            android:visible="false"/>
+
+    <item
+            android:orderInCategory="0"
+            android:id="@+id/shuffle_all"
+            android:icon="@drawable/ic_am_shuffle"
+            android:title="@string/shuffle_all_title"
+            vlc:showAsAction="always"
+            android:visible="false"/>
+    <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_renderers"
             android:icon="@drawable/ic_am_renderer"
@@ -87,6 +102,12 @@
                     android:id="@+id/ml_menu_sortby_last_modified"
                     android:title="@string/sortby_last_modified_date"
                     android:visible="false"/>
+
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_insertion_date"
+                    android:title="@string/sortby_insertion"
+                    android:visible="false"/>
             <item
                     android:orderInCategory="2"
                     android:id="@+id/ml_menu_sortby_number"
@@ -139,6 +160,12 @@
                     android:title="@string/all_subfolders" />
         </menu>
     </item>
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/add_server_favorite"
+            android:title="@string/add_server_favorite"
+            vlc:showAsAction="never"
+            android:visible="false"/>
     <item
             android:orderInCategory="4"
             android:id="@+id/ml_menu_refresh"

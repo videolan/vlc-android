@@ -199,11 +199,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{progress.timeText}"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toTopOf="@+id/media_progress"
                 app:layout_constraintStart_toStartOf="@+id/media_progress"
                 tools:text="0:30" />
 
-        <SeekBar
+        <org.videolan.vlc.gui.view.AccessibleSeekBar
                 android:id="@+id/media_progress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -233,6 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:importantForAccessibility="no"
                 android:text="@{progress.lengthText}"
                 app:layout_constraintBottom_toTopOf="@+id/media_progress"
                 app:layout_constraintEnd_toEndOf="@+id/media_progress"
@@ -266,6 +268,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/ic_circle_audio_player"
                 android:clickable="true"
+                android:contentDescription="@string/previous"
                 android:focusable="true"
                 android:nextFocusDown="@+id/playlist"
                 android:onClick="onClick"
@@ -308,6 +311,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:nextFocusDown="@+id/playlist"
+                android:contentDescription="@string/next"
                 android:onClick="onClick"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/button_play"
@@ -347,6 +351,7 @@
                 android:nextFocusDown="@+id/playlist"
                 android:onClick="onClick"
                 android:padding="8dp"
+                android:contentDescription="@string/more_actions"
                 app:layout_constraintBottom_toBottomOf="@+id/button_play"
                 app:layout_constraintEnd_toEndOf="@+id/media_progress"
                 app:layout_constraintTop_toTopOf="@+id/button_play"

@@ -23,22 +23,24 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.view.ActionMode
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IHistory
 import org.videolan.vlc.interfaces.IListEventsHandler
@@ -46,17 +48,16 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.HistoryModel
 
 private const val TAG = "VLC/HistoryFragment"
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IListEventsHandler {
 
     private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
-    private val historyAdapter: HistoryAdapter = HistoryAdapter(listEventsHandler = this)
+    private val historyAdapter: HistoryAdapter = HistoryAdapter(listEventsHandler = this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var list: RecyclerView
     private lateinit var empty: TextView
@@ -69,7 +70,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         super.onViewCreated(view, savedInstanceState)
         list = view.findViewById(R.id.list)
         empty = view.findViewById(R.id.empty)
-        viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext()))[HistoryModel::class.java]
         viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 historyAdapter.update(it)
@@ -128,8 +129,13 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ml_menu_clean -> {
-                clearHistory()
-                requireActivity().finish()
+
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
+                dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                dialog.setListener {
+                    clearHistory()
+                    requireActivity().finish()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -171,6 +177,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun clearHistory() {
         mediaLibrary.clearHistory()
         viewModel.clearHistory()
+        Settings.getInstance(requireActivity()).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -226,6 +233,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                 if (actionMode != null) onClick(position, item)
                 else onLongClick(position, item)
             }
+            else -> {}
         }
     }
 

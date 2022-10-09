@@ -59,10 +59,7 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
 
 private const val TAG = "VLC/MediaParsingService"
-private const val NOTIFICATION_DELAY = 1000L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val dispatcher = ServiceLifecycleDispatcher(this)
@@ -70,7 +67,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val binder = LocalBinder()
     private lateinit var medialibrary: Medialibrary
-    private var parsing = 0F
     private var reload = 0
     private var currentDiscovery: String? = null
     @Volatile private var lastNotificationTime = 0L
@@ -90,26 +86,28 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     var lastDone = -1
     var lastScheduled = -1
 
-    private val exceptionHandler = if (BuildConfig.BETA) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
-        val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
-            putExtra(CRASH_ML_CTX, context)
-            putExtra(CRASH_ML_MSG, errMsg)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        Log.wtf(TAG, "medialibrary reported unhandled exception: -----------------")
-        // Lock the Medialibrary thread during DB extraction.
-        runBlocking {
-            SendCrashActivity.job = Job()
-            try {
-                startActivity(intent)
-                SendCrashActivity.job?.join()
-            } catch (e: Exception) {
-                SendCrashActivity.job = null
+    private val exceptionHandler = when {
+        BuildConfig.BETA -> Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
+            val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
+                putExtra(CRASH_ML_CTX, context)
+                putExtra(CRASH_ML_MSG, errMsg)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            Log.wtf(TAG, "medialibrary reported unhandled exception: -----------------")
+            // Lock the Medialibrary thread during DB extraction.
+            runBlocking {
+                SendCrashActivity.job = Job()
+                try {
+                    startActivity(intent)
+                    SendCrashActivity.job?.join()
+                } catch (e: Exception) {
+                    SendCrashActivity.job = null
+                }
             }
         }
-    } else if (BuildConfig.DEBUG) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
-        throw IllegalStateException("$context:\n$errMsg")
-    } else  null
+        BuildConfig.DEBUG -> Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ -> throw IllegalStateException("$context:\n$errMsg") }
+        else -> null
+    }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
@@ -133,18 +131,23 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         filter.addAction(ACTION_RESUME_SCAN)
         registerReceiver(receiver, filter)
         val pm = applicationContext.getSystemService<PowerManager>()!!
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsingService")
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
-        Medialibrary.getState().observe(this) { running ->
-            if (!running) {
-                exitCommand()
+        Medialibrary.getState().observe(this, Observer { running ->
+            lifecycleScope.launch {
+                if (!running) {
+                    delay(1000L)
+                    if (!medialibrary.isWorking)
+                        exitCommand()
+                }
             }
-        }
+        })
         medialibrary.exceptionHandler = exceptionHandler
         setupScope()
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private fun setupScope() {
         actions = lifecycleScope.actor(context = Dispatchers.IO, capacity = Channel.UNLIMITED) { processAction() }
         notificationActor = lifecycleScope.actor(capacity = Channel.UNLIMITED) {
@@ -156,7 +159,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
         dispatcher.onServicePreSuperOnBind()
         return binder
@@ -196,7 +199,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
-        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused)
+        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused, -1, -1)
         startForeground(43, notification)
     }
 
@@ -219,21 +222,26 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private fun addDeviceIfNeeded(path: String) {
         for (devicePath in medialibrary.devices) {
-            if (path.startsWith(devicePath.removeFileProtocole())) {
-                exitCommand()
+            if (path.startsWith(devicePath.removeFileScheme())) {
                 return
             }
         }
-        for (storagePath in AndroidDevices.externalStorageDirectories) {
-            if (path.startsWith(storagePath)) {
-                val uuid = FileUtils.getFileNameFromPath(path)
-                if (uuid.isEmpty()) {
-                    exitCommand()
-                    return
+        val isMainStorage = path.removeFileScheme().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+        if (isMainStorage) {
+            medialibrary.addDevice("main-storage", path, false)
+        } else if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
+            for (storagePath in AndroidDevices.externalStorageDirectories) {
+                if (path.removeFileScheme().startsWith(storagePath)) {
+                    val uuid = FileUtils.getFileNameFromPath(path)
+                    if (uuid.isEmpty()) {
+                        exitCommand()
+                        return
+                    }
+                    medialibrary.addDevice(uuid, path, true)
+                    for (folder in Medialibrary.getBanList()) {
+                        medialibrary.banFolder(path + folder)
+                    }
                 }
-                medialibrary.addDevice(uuid, path, true)
-                for (folder in Medialibrary.getBanList())
-                    medialibrary.banFolder(path + folder)
             }
         }
     }
@@ -353,18 +361,18 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private suspend fun showNotification(done:Int, scheduled: Int) {
         val currentTime = System.currentTimeMillis()
-        if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
         lastNotificationTime = currentTime
+        val parsing = (done.toFloat() / scheduled.toFloat() * 100F)
         val discovery = withContext(Dispatchers.Default) {
             val progressText = when {
-                inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
+                inDiscovery -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileScheme())
                 parsing > 0 -> TextUtils.separatedString(getString(R.string.ml_parse_media) + " " + String.format("%.02f",parsing) + "%", "$done/$scheduled")
                 else -> getString(R.string.ml_parse_media)
             }
             if (!isActive) return@withContext ""
             if (lastNotificationTime != -1L) {
                 try {
-                    val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused)
+                    val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused, scheduled, done)
                     startForeground(43, notification)
                 } catch (ignored: IllegalArgumentException) {}
                 progressText
@@ -402,8 +410,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     override fun onParsingStatsUpdated(done: Int, scheduled:Int) {
         lastDone = done
         lastScheduled = scheduled
-        parsing = (done.toFloat() / scheduled.toFloat() * 100F)
-        if (parsing != 100F && ::notificationActor.isInitialized) notificationActor.trySend(Show(done, scheduled))
+        val doneParsing = (done == scheduled)
+        if (!doneParsing && ::notificationActor.isInitialized) notificationActor.trySend(Show(done, scheduled))
+        else if (doneParsing && ::notificationActor.isInitialized) notificationActor.trySend(Hide)
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -453,9 +462,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             return
         }
         val status = progress.value
-        progress.value = if (status === null) ScanProgress(parsing, progressText, inDiscovery) else status.copy(parsing = parsing, progressText = progressText, inDiscovery)
+        progress.value = if (status === null) ScanProgress(parsing, progressText, inDiscovery) else status.copy(parsing = parsing, progressText = progressText, inDiscovery = inDiscovery)
     }
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     private suspend fun ActorScope<MLAction>.processAction() {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
@@ -479,7 +489,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     }
                     addDevices(context, action.parse)
                     val initCode = medialibrary.init(context)
-                    medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).getInstance())
+                    medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).instance)
                     medialibrary.setDiscoverNetworkEnabled(true)
                     if (initCode == Medialibrary.ML_INIT_DB_UNRECOVERABLE) {
                         throw IllegalStateException("Medialibrary DB file is corrupted and unrecoverable")
@@ -520,17 +530,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
     }
 
-    private fun String.isSelected(): Boolean {
-        if (preselectedStorages.isNotEmpty()) for (mrl in preselectedStorages) {
-            if (mrl.substringAfter("file://").startsWith(this)) return true
-        }
-        return false
-    }
-
     override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     companion object {
-        val progress = MutableLiveData<ScanProgress>()
+        val progress = MutableLiveData<ScanProgress?>()
         val discoveryError = MutableLiveData<DiscoveryError>()
         val newStorages = MutableLiveData<MutableList<String>>()
         val preselectedStorages = mutableListOf<String>()

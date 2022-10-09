@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.util.isTalkbackIsEnabled
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -67,6 +69,7 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
         initialFocusedView().isFocusableInTouchMode = true
 
         initialFocusedView().requestFocus()
+        if (requireActivity().isTalkbackIsEnabled()) initialFocusedView().sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
 

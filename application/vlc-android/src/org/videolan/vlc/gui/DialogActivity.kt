@@ -25,8 +25,6 @@ package org.videolan.vlc.gui
 
 import android.os.Bundle
 import android.view.View
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
@@ -36,7 +34,6 @@ import org.videolan.vlc.gui.dialogs.NetworkServerDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.showVlcDialog
 
-@ExperimentalCoroutinesApi
 class DialogActivity : BaseActivity() {
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById<View>(android.R.id.content)
 
@@ -79,7 +76,6 @@ class DialogActivity : BaseActivity() {
         networkServerDialog.show(supportFragmentManager, "fragment_edit_network")
     }
 
-    @ObsoleteCoroutinesApi
     private fun setupSubsDialog() {
         val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(EXTRA_MEDIALIST)
         if (medialist != null)

@@ -22,13 +22,9 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context, coroutineContextProvider: CoroutineContextProvider) : BaseModel<T>(context, coroutineContextProvider), ICallBackHandler by CallBackDelegate() {
 
     init {

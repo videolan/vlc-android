@@ -14,6 +14,7 @@
     <string name="sortby_length">अवधि</string>
     <string name="sortby_date">दिनांक</string>
     <string name="sortby_last_modified_date">हाल ही में जुड़ा</string>
+    <string name="sortby_insertion">डालने की तिथि</string>
     <string name="sortby_media_number">मीडिया क्रम</string>
     <string name="sortby_number">Nb ट्रैक</string>
     <string name="searchable_hint">खोजें…</string>
@@ -32,6 +33,7 @@
     <string name="play_from_start">शुरू से चलायें</string>
     <string name="play_as_audio">ऑडियो के रूप में चलायें</string>
     <string name="play_as_video">वीडियो के रूप में चलायें</string>
+    <string name="return_to_video">वीडियो को पुनर्निर्माण करने के लिए कवर को लंबा टैप करें</string>
     <string name="video_app_switch_title">पृष्ठभूमि / चित्र के अंदर चित्र मोड</string>
     <string name="video_app_switch_summary">वीएलसी व्यवहार का चयन करें जब आप वीडियो प्लेबैक से अन्य एप्लिकेशन पर स्विच करते हैं</string>
     <string name="play_pip_title">वीडियो को चित्र के अंदर चित्र मोड में चलाये</string>
@@ -49,6 +51,7 @@
     <string name="set_song_question">\'%1$s\' को रिंगटोन के रूप में सेट करें?</string>
     <string name="info">जानकारी</string>
     <string name="confirm_delete">फाइल \'%1$s\' को मिटायें</string>
+    <string name="confirm_delete_message">यह स्थायी है और इसे पूर्ववत नहीं किया जा सकता है.</string>
     <string name="confirm_delete_album">\'%1$s\' एल्बम हटा दें?</string>
     <string name="confirm_delete_several_media">इन %1$d मीडिया को हटाएं?</string>
     <string name="confirm_delete_folder">फ़ोल्डर \'%1$s\' और उसकी सभी सामग्री हटाएं?</string>
@@ -56,7 +59,6 @@
     <string name="confirm_delete_files">इन %1$s फ़ाइलों को हटाएं?</string>
     <string name="confirm_delete_folders_and_files">इन %1$s फ़ोल्डरों और %2$sफ़ाइलों को हटाएं?</string>
     <string name="confirm_delete_playlist">प्लेलिस्ट \'%1$s\' को मिटायें?</string>
-    <string name="confirm_remove_from_playlist">\'%1$s\' को प्लेलिस्ट से निकालें?</string>
     <string name="ringtone_set">फ़ाइल \'1%1$s\' को रिंगटोन के रूप में सेट किया गया था|</string>
     <string name="ringtone_error">रिंगटोन सेट करते समय कोई त्रुटि हुई.</string>
     <string name="pause">ठहराए</string>
@@ -98,6 +100,11 @@
         <item quantity="one">1 टीवी शो</item>
         <item quantity="other">%d टीवी शो</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 ट्रैक</item>
+        <item quantity="other">%d ट्रैक</item>
+    </plurals>
+
     <string name="internal_memory">आन्तरिक याददाश्त</string>
     <string name="audio">ऑडियो</string>
     <string name="video">वीडियो</string>
@@ -115,7 +122,6 @@
     <string name="nosubfolder">कोई सबफ़ोल्डर नहीं</string>
     <string name="directorynotfound">\'%1$s\' डायरेक्टरी पथ  नहीं मिला.</string>
     <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है।</string>
-    <string name="validation">क्या आपको यकीन है?</string>
 
     <string name="cover_art">आवरण कला</string>
     <string name="shuffle_all_title">सबको फेंटो </string>
@@ -172,7 +178,6 @@
     <string name="server_share_hint">नेटवर्क शेयर नाम (या आईपी पता)</string>
     <string name="server_folder_hint">फ़ोल्डर पथ (वैकल्पिक)</string>
     <string name="server_username_hint">प्रयोक्ता नाम</string>
-    <string name="server_servername_hint">सर्वर नाम, सुविधा के लिए</string>
     <string name="server_port">द्वार :</string>
     <string name="login">लॉगिन </string>
     <string name="password">पासवर्ड</string>
@@ -189,7 +194,6 @@
     <string name="encountered_error_title">प्लेबैक में त्रुटि</string>
     <string name="encountered_error_message">VLC को इस मीडिया के साथ एक त्रुटि का सामना करना पड़ा.\nकृपया मीडिया लाइब्रेरी को ताजा करें.</string>
     <string name="invalid_location">फाइल \'%1$s\' को नहीं चलाया जा सकता।</string>
-
     <string name="search">ढूंढे</string>
 
 
@@ -216,12 +220,9 @@
 
     <!-- About -->
     <string name="app_name_full">ऐंडरॉयड के लिए VLC</string>
-    <string name="licence">अनुज्ञाप‍त्र</string>
     <string name="revision">संशोधन</string>
     <string name="about">के संबंध में</string>
-    <string name="about_text">VLCAndroid ™ के लिए  VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
     <string name="vlc_authors">और VLC रचयिता</string>
-    <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
     <string name="feedback_forum">प्रतिक्रिया मंच</string>
 
     <!-- Preferences -->
@@ -247,7 +248,6 @@
     <string name="subtitle_text_encoding">उपशीर्षक टेक्सट एन्कोडिंग</string>
     <string name="daynight_title">दिन-रात मोड</string>
     <string name="daynight_follow_system_title">सिस्टम मोड का पालन करें</string>
-
     <string name="extra_prefs_category">अतिरिक्त सेटिंग्स</string>
 
     <string name="interface_prefs_screen">इंटरफेस</string>
@@ -303,7 +303,6 @@
     <string name="controls_prefs_category">नियंत्रण</string>
 
     <string name="performance_prefs_category">निष्पादन</string>
-    <string name="chroma_format">वीडियो के रंगो को प्राथमिकता दें</string>
     <string name="deblocking">डेब्लोक्किंग फिल्टर सेटिंग</string>
     <string name="deblocking_always">पूर्ण डेब्लोक्किंग (धीरे)</string>
     <string name="deblocking_nonref">मध्यम डेब्लोक्किंग</string>
@@ -320,7 +319,6 @@
     <string name="network_caching">नेटवर्क कैशिंग मूल्य</string>
     <string name="resume_playback_title">कॉल के बाद प्लेबैक पुनः प्रारम्भ करें</string>
     <string name="resume_playback_summary">अन्यथा रोके रहें</string>
-    <string name="network_caching_popup">ये संख्या 0 से 60000 ms के बीच ही होनी चाहिए</string>
     <string name="quit">एप से बहार निकलें और पुनः शुरू करें</string>
     <string name="restart_message_OK">ठीक है</string>
     <string name="restart_message_Later">बाद में</string>
@@ -344,8 +342,6 @@
     <string name="playlist_save">प्लेलिस्ट सहेजें</string>
     <string name="playlist_name_hint">प्लेलिस्ट का नाम</string>
     <string name="go_to_chapter">इस अध्याय पर जायें…</string>
-    <string name="chapter">अध्याय</string>
-    <string name="resume_from_position">पिछली स्थिति से पुनः चलायें</string>
     <string name="confirm_resume">पिछले पंक्ति से पुनः आरंभ करें?</string>
     <string name="confirm_resume_title">चलाये हुए वीडियो को पुनः चलायें</string>
     <string name="medialibrary">मीडिया भंडार</string>
@@ -461,14 +457,10 @@
     <string name="air_action_volume_up">आवाज तेज करें</string>
     <string name="air_action_volume_down">आवाज हल्की करें</string>
     <string name="timeout_infinite">अनन्त</string>
-    <string name="timeout_short">छोटे</string>
-    <string name="timeout_normal">साधारण</string>
-    <string name="timeout_long">बड़े</string>
     <string name="apply_to_all">सभी वीडियो पर लागू करें</string>
     <string name="audio_delay_global">सभी वीडियो के लिए \'%s\' ms का ऑडियो विलम्ब सेट किया</string>
     <string name="audio_delay_bt">ब्लूटूथ डिवाइस के लिए \'%s\' ms का ऑडियो विलम्ब सेट किया</string>
     <string name="start_vlc">वीएलसी चलायें</string>
-
     <string name="add_button">जोड़ें</string>
     <string name="add_all_button">सभी को जोड़ें</string>
     <string name="add_new_only_button">केवल नए जोड़ें</string>

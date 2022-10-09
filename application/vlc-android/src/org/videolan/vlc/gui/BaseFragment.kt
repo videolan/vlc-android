@@ -1,10 +1,9 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -17,21 +16,16 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.TAG_ITEM
-import org.videolan.tools.dp
-import org.videolan.tools.retrieveParent
 import org.videolan.tools.setGone
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.KEY_IN_MEDIALIB
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
-import org.videolan.vlc.util.getScreenWidth
 
 abstract class BaseFragment : Fragment(), ActionMode.Callback {
     var actionMode: ActionMode? = null
@@ -62,10 +56,12 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<SwipeRefreshLayout>(R.id.swipeLayout)?.let {
             swipeRefreshLayout = it
-            val a: TypedArray = requireActivity().obtainStyledAttributes(TypedValue().data, intArrayOf(R.attr.colorPrimary))
+            val a: TypedArray = requireActivity().obtainStyledAttributes(TypedValue().data, intArrayOf(R.attr.colorPrimary, R.attr.swipe_refresh_background))
             val color = a.getColor(0, 0)
+            val bColor = a.getColor(1, Color.WHITE)
             a.recycle()
             it.setColorSchemeColors(color)
+            it.setProgressBackgroundColorSchemeColor(bColor)
         }
         val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
         ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
@@ -92,18 +88,6 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     override fun onStop() {
         super.onStop()
         setFabPlayVisibility(false)
-    }
-
-    override fun onResume() {
-        updateAudioPlayerMargin()
-        super.onResume()
-    }
-
-    fun updateAudioPlayerMargin() {
-        val activity = activity as? AudioPlayerContainerActivity? ?: return
-        view?.let {
-            it.setPadding(0,0,0,activity.getAudioMargin())
-        }
     }
 
     fun startActionMode() {
@@ -134,16 +118,6 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         val i = Intent(activity, InfoActivity::class.java)
         i.putExtra(TAG_ITEM, item)
         startActivity(i)
-    }
-
-    protected fun showParentFolder(media: MediaWrapper) {
-        val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
-            type = MediaWrapper.TYPE_DIR
-        }
-        val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
-        intent.putExtra(KEY_MEDIA, parent)
-        intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
-        startActivity(intent)
     }
 
     protected fun setRefreshing(refreshing: Boolean, action: ((loading: Boolean) -> Unit)? = null) {

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ *************************************************************************
+  ~  widget_micro.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="192dp"
+        android:layout_height="192dp">
+
+    <ImageView
+            android:id="@+id/player_container_background"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@null"
+            android:src="@drawable/widget_round_white"
+            tools:tint="@color/orange200" />
+
+    <ImageView
+            android:id="@+id/cover"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true" />
+
+    <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+                android:contentDescription="@string/open_vlc"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_widget_icon" />
+
+    <ImageView
+            android:id="@+id/progress_round"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true" />
+
+    <ImageView
+            android:id="@+id/play_pause_background"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_below="@+id/cover"
+            android:layout_alignStart="@+id/cover"
+            android:layout_marginTop="-32dp"
+            android:src="@drawable/widget_rectangle_background"
+            tools:tint="@color/orange500" />
+
+    <ImageView
+            android:id="@+id/play_pause"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_below="@+id/cover"
+            android:layout_alignStart="@+id/cover"
+            android:layout_marginTop="-32dp"
+            android:background="@drawable/widget_touch_background"
+            android:padding="6dp"
+            android:src="@drawable/ic_widget_play" />
+
+    <ImageView
+            android:id="@+id/widget_configure"
+            android:layout_width="48dp"
+            android:background="@drawable/widget_touch_background"
+            android:layout_height="48dp"
+                android:contentDescription="@string/configure_widget"
+            android:scaleType="center"
+            android:layout_alignTop="@id/player_container_background"
+            android:layout_alignRight="@id/player_container_background" />
+
+</RelativeLayout>

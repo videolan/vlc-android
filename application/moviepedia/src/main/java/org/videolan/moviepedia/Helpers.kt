@@ -4,16 +4,17 @@ import android.content.Context
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadata
 import org.videolan.moviepedia.database.models.getYear
+import java.util.*
 
 
 fun getHeaderMoviepedia(context: Context?, sort: Int, item: MediaMetadata?, aboveItem: MediaMetadata?) = if (context !== null && item != null) when (sort) {
     Medialibrary.SORT_DEFAULT,
     Medialibrary.SORT_FILENAME,
     Medialibrary.SORT_ALPHA -> {
-        val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0])) "#" else item.title.substring(0, 1).toUpperCase()
+        val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0])) "#" else item.title.substring(0, 1).uppercase(Locale.getDefault())
         if (aboveItem == null) letter
         else {
-            val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0])) "#" else aboveItem.title.substring(0, 1).toUpperCase()
+            val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0])) "#" else aboveItem.title.substring(0, 1).uppercase(Locale.getDefault())
             letter.takeIf { it != previous }
         }
     }

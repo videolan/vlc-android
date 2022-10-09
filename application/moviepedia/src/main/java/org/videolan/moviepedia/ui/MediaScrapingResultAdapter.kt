@@ -29,8 +29,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.moviepedia.databinding.MoviepediaItemBinding
 import org.videolan.moviepedia.models.resolver.ResolverMedia
 import org.videolan.tools.getLocaleLanguages
@@ -69,8 +67,6 @@ class MediaScrapingResultAdapter internal constructor(private val layoutInflater
     }
 }
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 @BindingAdapter("year")
 fun showYear(view: TextView, item: ResolverMedia) {
     view.text = item.year()

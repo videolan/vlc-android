@@ -24,6 +24,7 @@ import android.net.Uri
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.mediadb.models.BrowserFav
 import java.io.File
 
@@ -46,10 +47,17 @@ fun String?.isSchemeNetwork() = when(this) {
     else -> false
 }
 
+fun String?.isSchemeFavoriteEditable() = this in arrayOf("ftp", "ftps", "sftp", "smb", "nfs")
+
 fun String?.isSchemeFile() = when(this) {
     "file", null -> true
     else -> false
 }
+
+fun Uri.isOTG() = this.path?.startsWith("/mnt") == true
+fun Uri.isSD() = this.path != null && this.path?.startsWith("/storage") == true && this.path?.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) == false
+fun String?.isSchemeSMB() = this == "smb"
+fun String?.isSchemeFD() = this == "fd"
 
 fun String?.isSchemeDistant() = !this.isSchemeFile()
 

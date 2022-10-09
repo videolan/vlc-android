@@ -24,13 +24,9 @@
 package org.videolan.vlc.gui.browser
 
 import androidx.databinding.ViewDataBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class FilePickerAdapter internal constructor(browserContainer: BrowserContainer<MediaLibraryItem>) : BaseBrowserAdapter(browserContainer) {
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {

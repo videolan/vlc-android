@@ -23,6 +23,7 @@ package org.videolan.vlc.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
@@ -44,6 +45,8 @@ interface ICallBackHandler {
     fun watchPlaylists()
     fun watchHistory()
     fun watchMediaGroups()
+    fun pause()
+    fun resume()
 }
 
 class CallBackDelegate : ICallBackHandler,
@@ -69,9 +72,37 @@ class CallBackDelegate : ICallBackHandler,
     private var playlistsCb = false
     private var historyCb = false
     private var mediaGroupsCb = false
+    var paused = false
+        set(value) {
+            field = value
+            if (!value && isInvalid) {
+                refreshActor.trySend(Unit)
+                isInvalid = false
+            }
+        }
+    var isInvalid = false
 
+    /**
+     * Pause the callbacks while the caller is paused to avoid unwanted refreshes
+     * During this time, instead of refreshing, it's marked as invalid.
+     * If invalid, a refresh is launched upon resuming
+     */
+    override fun pause() {
+        paused = true
+    }
+
+    /**
+     * Resumes the callback and refresh if it has been marked invalid in the meantime
+     */
+    override fun resume() {
+        paused = false
+    }
+
+    @OptIn(ObsoleteCoroutinesApi::class)
     override fun CoroutineScope.registerCallBacks(refresh: () -> Unit) {
-        refreshActor = conflatedActor { refresh() }
+        refreshActor = conflatedActor {
+           if (paused) isInvalid = true else refresh()
+        }
         deleteActor = actor(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
                 is MediaDeletedAction -> {

@@ -37,8 +37,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
@@ -46,15 +44,13 @@ import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
-import org.videolan.vlc.util.hasNotch
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
     private val overlayDelegate: VideoPlayerOverlayDelegate
         get() = player.overlayDelegate
-    lateinit var resizeMainView: View
-    lateinit var notchCheckbox: CheckBox
+    private lateinit var resizeMainView: View
+    private lateinit var notchCheckbox: CheckBox
+    private lateinit var foldCheckbox: CheckBox
     private lateinit var scrollView: NestedScrollView
     private lateinit var sizeList: RecyclerView
     private lateinit var sizeAdapter: SizeAdapter
@@ -68,11 +64,14 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
     /**
      * Show the resize overlay. Inflate it if it's not yet
      */
-    private fun showResizeOverlay() {
-        player.findViewById<ViewStubCompat>(R.id.player_resize_stub)?.let {
-            resizeMainView = it.inflate() as FrameLayout
+    fun showResizeOverlay() {
+        player.findViewById<ViewStubCompat?>(R.id.player_resize_stub)?.let {
+            it.setVisible()
+        }
+        player.findViewById<FrameLayout>(R.id.resize_background)?.let {
+            resizeMainView = it
             val browseFrameLayout = resizeMainView.findViewById<BrowseFrameLayout>(R.id.resize_background)
-            browseFrameLayout.onFocusSearchListener = BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
+            browseFrameLayout.onFocusSearchListener = BrowseFrameLayout.OnFocusSearchListener { focused, _ ->
                 if (sizeList.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
                 else null // someone else will find the next focus
             }
@@ -81,6 +80,13 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             sizeList = resizeMainView.findViewById(R.id.size_list)
             scrollView = resizeMainView.findViewById(R.id.resize_scrollview)
 
+            foldCheckbox = resizeMainView.findViewById(R.id.foldable)
+            val foldTitle = resizeMainView.findViewById<View>(R.id.foldable_title)
+
+            resizeMainView.findViewById<View>(R.id.close).setOnClickListener {
+                hideResizeOverlay()
+            }
+
             sizeList.layoutManager = LinearLayoutManager(player)
             sizeAdapter = SizeAdapter()
             sizeAdapter.setOnSizeSelectedListener { scale ->
@@ -88,8 +94,21 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             }
             sizeList.adapter = sizeAdapter
 
-            if (player.hasNotch()) {
-                val settings = Settings.getInstance(player)
+            val settings = Settings.getInstance(player)
+            if (player.overlayDelegate.foldingFeature != null) {
+                foldCheckbox.setVisible()
+                foldTitle.setVisible()
+                foldCheckbox.isChecked = settings.getBoolean(ALLOW_FOLD_AUTO_LAYOUT, true)
+                foldCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                    settings.edit { putBoolean(ALLOW_FOLD_AUTO_LAYOUT, isChecked) }
+                    player.overlayDelegate.manageHinge()
+                }
+            } else {
+                foldCheckbox.setGone()
+                foldTitle.setGone()
+            }
+
+            if (player.hasPhysicalNotch) {
                 notchCheckbox.setVisible()
                 notchTitle.setVisible()
                 notchCheckbox.isChecked = settings.getInt(DISPLAY_UNDER_NOTCH, WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES) == WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -107,14 +126,14 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             }
 
             resizeMainView.setOnClickListener { hideResizeOverlay() }
-        }
-        sizeAdapter.selectedSize = MediaPlayer.ScaleType.values().indexOf(player.service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT)
-        scrollView.scrollTo(0, 0)
-        resizeMainView.visibility = View.VISIBLE
-        if (Settings.showTvUi) AppScope.launch {
-            delay(100L)
-            val position = (sizeList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-            (sizeList.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+            sizeAdapter.selectedSize = MediaPlayer.ScaleType.values().indexOf(player.service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT)
+            scrollView.scrollTo(0, 0)
+            resizeMainView.visibility = View.VISIBLE
+            if (Settings.showTvUi) AppScope.launch {
+                delay(100L)
+                val position = (sizeList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                (sizeList.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+            }
         }
     }
 
@@ -161,6 +180,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
      * display the resize overlay and hide everything else
      */
     fun displayResize(): Boolean {
+        if (player.service?.hasRenderer() == true) return false
         showResizeOverlay()
         overlayDelegate.hideOverlay(true)
         return true
@@ -227,7 +247,6 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
                 MediaPlayer.ScaleType.SURFACE_235_1 -> "2.35:1"
                 MediaPlayer.ScaleType.SURFACE_239_1 -> "2.39:1"
                 MediaPlayer.ScaleType.SURFACE_5_4 -> "5:4"
-                MediaPlayer.ScaleType.SURFACE_BEST_FIT -> binding.trackTitle.context.getString(R.string.surface_best_fit)
             }
             binding.selected = selected
             binding.executePendingBindings()

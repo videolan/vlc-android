@@ -11,8 +11,6 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -30,8 +28,6 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean, private var inGrid: Boolean = true) : DiffUtilAdapter<MediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
@@ -130,8 +126,11 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 
+        override fun getView() = binding.container
+
         init {
             binding.holder = this
+            binding.isPresent = true
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             defaultCover?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)
@@ -216,8 +215,11 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 
+        override fun getView() = binding.container
+
         init {
             binding.holder = this
+            binding.isPresent = true
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             defaultCover?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)

@@ -33,8 +33,6 @@ import android.view.ViewGroup
 import androidx.annotation.MainThread
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.tools.Settings
@@ -42,8 +40,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BookmarkItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     DiffUtilAdapter<Bookmark, BookmarkAdapter.ViewHolder>() {
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
@@ -98,8 +94,8 @@ class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     }
 
     interface IBookmarkManager {
-        fun onPopupMenu(view: View, position: Int, item: Bookmark?)
-        fun onBookmarkClick(position: Int, item: Bookmark)
+        fun onPopupMenu(view: View, position: Int, bookmark: Bookmark?)
+        fun onBookmarkClick(position: Int, bookmark: Bookmark)
     }
 
     override fun createCB(): DiffCallback<Bookmark> = object : DiffCallback<Bookmark>() {

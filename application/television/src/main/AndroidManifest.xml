@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.videolan.television">
+    xmlns:tools="http://schemas.android.com/tools">
     <application>
         <activity
             android:name="org.videolan.television.ui.MainTvActivity"
@@ -79,6 +78,12 @@
             android:name="org.videolan.television.ui.AboutActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.Black"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name="org.videolan.television.ui.ColorPickerActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Material.TV"
             tools:ignore="LockedOrientationActivity" />
         <!-- Provides search suggestions for keywords against video meta data. -->
         <provider

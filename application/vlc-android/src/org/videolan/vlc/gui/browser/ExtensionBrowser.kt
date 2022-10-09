@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_APPEND
 import org.videolan.resources.CTX_ITEM_DL
@@ -25,13 +23,9 @@ import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.Utils
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
-import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.media.MediaUtils
-import java.util.*
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
     private var mTitle: String? = null
@@ -51,10 +45,9 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         mExtensionManagerService = service
     }
 
-    override fun onCreate(bundle: Bundle?) {
-        var bundle = bundle
-        super.onCreate(bundle)
-        if (bundle == null) bundle = arguments
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
             mTitle = bundle.getString(KEY_TITLE)
             showSettings = bundle.getBoolean(KEY_SHOW_FAB)
@@ -151,7 +144,7 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
     }
 
     fun openContextMenu(position: Int) {
-        showContext(requireActivity(), this, position, mAdapter.getItem(position).title, CTX_PLAY_ALL or CTX_APPEND or CTX_PLAY_AS_AUDIO or CTX_ITEM_DL)
+        //showContext(requireActivity(), this, position, mAdapter.getItem(position), CTX_PLAY_ALL or CTX_APPEND or CTX_PLAY_AS_AUDIO or CTX_ITEM_DL)
     }
 
     override fun onCtxAction(position: Int, option: Long) {

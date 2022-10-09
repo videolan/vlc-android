@@ -43,8 +43,8 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
             val seekBarHeight: Int = seekBar.measuredWidth
             val hPadding = paddingLeft + paddingRight
             val vPadding = paddingTop + paddingBottom
-            val innerContentWidthMeasureSpec = MeasureSpec.makeMeasureSpec(Math.max(0, widthSize - hPadding), widthMode)
-            val innerContentHeightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.max(0, heightSize - vPadding), heightMode)
+            val innerContentWidthMeasureSpec = MeasureSpec.makeMeasureSpec((widthSize - hPadding).coerceAtLeast(0), widthMode)
+            val innerContentHeightMeasureSpec = MeasureSpec.makeMeasureSpec((heightSize - vPadding).coerceAtLeast(0), heightMode)
 
             seekBar.measure(innerContentHeightMeasureSpec, innerContentWidthMeasureSpec)
 

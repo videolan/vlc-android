@@ -14,6 +14,7 @@
     <string name="sortby_length">Độ dài</string>
     <string name="sortby_date">Ngày</string>
     <string name="sortby_last_modified_date">Được thêm gần đây</string>
+    <string name="sortby_insertion">Ngày chèn</string>
     <string name="sortby_media_number">Số hiệu media</string>
     <string name="sortby_number">Số bài hát</string>
     <string name="searchable_hint">Tìm kiếm…</string>
@@ -31,6 +32,7 @@
     <string name="play_from_start">Phát từ đầu</string>
     <string name="play_as_audio">Phát dưới dạng âm thanh</string>
     <string name="play_as_video">Phát dưới dạng video</string>
+    <string name="return_to_video">Nhấn giữ ảnh bìa để khôi phục video</string>
     <string name="video_app_switch_title">Mở trong nền / hình trong hình</string>
     <string name="video_app_switch_summary">Chọn hành động của VLC khi bạn chuyển sang ứng dụng khác khi đang phát video</string>
     <string name="play_pip_title">Mở video ở chế độ hình-trong-hình</string>
@@ -56,7 +58,6 @@
     <string name="confirm_delete_files">Xoá %1$s tệp này?</string>
     <string name="confirm_delete_folders_and_files">Xoá %1$s thư mục và %2$s tệp này?</string>
     <string name="confirm_delete_playlist">Xoá danh sách phát ‘%1$s‘?</string>
-    <string name="confirm_remove_from_playlist">Xoá ‘%1$s‘ khỏi danh sách phát?</string>
     <string name="ringtone_set">File ‘%1$s‘ đã được đặt làm nhạc chuông.</string>
     <string name="ringtone_error">Xảy ra lỗi khi chọn đối tượng làm nhạc chuông.</string>
     <string name="pause">Tạm dừng</string>
@@ -112,7 +113,6 @@
     <string name="nosubfolder">Không có thư mục con nào</string>
     <string name="directorynotfound">Không tìm thấy đường dẫn thư mục ‘%1$s‘.</string>
     <string name="nohistory">Bạn chưa có lịch sử phát.</string>
-    <string name="validation">Bạn có chắc không?</string>
 
     <string name="cover_art">Ảnh bìa</string>
     <string name="shuffle_all_title">Xáo trộn tất cả</string>
@@ -133,6 +133,7 @@
     <string name="surface_fit_screen">Làm cho vừa màn hình</string>
     <string name="surface_fill">Lấp đầy</string>
     <string name="surface_original">Giữa</string>
+    <string name="resize_tip">Nhấn giữ để xem thêm tùy chọn</string>
     <string name="unseekable_stream">Không tìm được luồng dữ liệu</string>
     <string name="refresh">Làm mới</string>
     <string name="track_audio">Tập tin Audio</string>
@@ -185,6 +186,7 @@
     <string name="encountered_error_title">Lỗi khi phát</string>
     <string name="encountered_error_message">VLC gặp phải trục trặc với tập tin media này. \nHãy thử cập nhật lại hệ thống thư viện tập tin của bạn.</string>
     <string name="invalid_location">Vị trí %1$s không thể phát được.</string>
+    <string name="missing_location">Phương tiện này đến từ kho lưu trữ không có sẵn và không thể được phát.</string>
 
     <string name="search">Tìm kiếm</string>
 
@@ -202,9 +204,13 @@
     <string name="subtitles">Phụ đề</string>
     <string name="tips_player_controls">Điều khiển trình phát</string>
     <string name="tips_player_controls_description">Nhấn vào điều khiển trình phát ở dưới để khám phá mục đích của chúng</string>
+    <string name="tips_audio_sub">Âm thanh và phụ đề</string>
     <string name="tips_play_description">Nhấn để phát video</string>
     <string name="lock">Khóa</string>
     <string name="tap">Nhấn để xem</string>
+    <string name="tap_to_remove">Nhấn để xóa</string>
+    <string name="tap_to_rearrange">Nhấn để sắp xếp lại</string>
+    <string name="tap_to_previous_next">Nhấn để đi đến mục tiếp/trước</string>
     <string name="lock_orientation">Hướng xoay</string>
     <string name="lock_orientation_description">Nhấn để khóa/mở khóa hướng xoay</string>
     <string name="aspect_ratio">Tỉ lệ hiển thị</string>
@@ -234,12 +240,13 @@
 
     <!-- About -->
     <string name="app_name_full">VLC dành cho Android</string>
-    <string name="licence">Giấy phép</string>
     <string name="revision">Duyệt lại</string>
     <string name="about">Thông tin</string>
-    <string name="about_text">VLC dành cho Android™ là một sự chuyển đổi của trình phát đa phương tiện VLC, trình phát đa phương tiện mã nguồn mở phổ biến. Phiên bản dành cho Android™ có thể đọc được hầu hết các tập tin và các buổi truyền dữ liệu qua mạng.</string>
+    <string name="authors">Tác giả</string>
     <string name="vlc_authors">và những tác giả của VLC</string>
-    <string name="compiled_by">Phiên bản VLC này được biên dịch bởi:</string>
+    <string name="is_compiled_by">Biên dịch bởi</string>
+    <string name="sources">Mã nguồn</string>
+    <string name="libraries">Thư viện</string>
     <string name="feedback_forum">Diễn đàn góp ý</string>
 
     <!-- Preferences -->
@@ -265,9 +272,10 @@
     <string name="screen_orientation_last_locked">Hướng xoay đã khoá lần cuối</string>
     <string name="enable_black_theme">Giao diện tối</string>
     <string name="subtitle_text_encoding">Mã hóa văn bản phụ đề</string>
+    <string name="subtitle_preferred_language">Ngôn ngữ phụ đề được ưu tiên</string>
     <string name="daynight_title">Chế độ ngày đêm</string>
     <string name="daynight_follow_system_title">Dựa vào chế dộ của hệ thống</string>
-
+    <string name="no_track_preference">Không có ưu tiên ngôn ngữ</string>
     <string name="extra_prefs_category">Thiết lập khác</string>
 
     <string name="interface_prefs_screen">Giao diện</string>
@@ -297,8 +305,15 @@
     <string name="enable_volume_gesture_summary">Điều chình âm lượng bằng cử chỉ trong khi phát video</string>
     <string name="enable_seek_buttons">Nút tua</string>
     <string name="enable_seek_buttons_summary">Hiện nút lùi và tiến trên giao diện video</string>
+    <string name="enable_android_auto_speed_buttons">Tốc độ phát trên Android Auto</string>
+    <string name="enable_android_auto_speed_buttons_summary">Hiện mục điều khiển tốc độ trong menu nổi</string>
+    <string name="enable_android_auto_seek_buttons">Nút tua trên Android Auto</string>
     <string name="enable_double_tap_seek_title">Chạm đôi để tua</string>
     <string name="enable_double_tap_seek_summary">Bấm hai lần ở hai góc màn hình để tua 10 giây</string>
+    <string name="enable_double_tap_play_title">Nhấn đúp để phát/tạm dừng</string>
+    <string name="enable_double_tap_play_summary">Nhấn đúp ở giữa màn hình để phát hoặc tạm dừng</string>
+    <string name="enable_swipe_seek_title">Vuốt để tua</string>
+    <string name="enable_swipe_seek_summary">Vuốt ngón tay trên màn hình để tua</string>
     <string name="popup_keepscreen_title">Giữ màn hình bật khi đang ở chế dộ cửa sổ</string>
     <string name="popup_keepscreen_summary">Luôn giữ màn hình bật khi cửa sổ nhỏ hiện ra, kể cả khi video tạm dừng</string>
     <string name="browser_show_hidden_files_title">Hiển thị các file đã ẩn</string>
@@ -323,6 +338,8 @@
     <string name="audio_prefs_category">Âm thanh</string>
     <string name="lockscreen_cover_title">Hình nền media trên màn hình khóa</string>
     <string name="lockscreen_cover_summary">Khi có thể, đặt hình đại diện của media làm nền màn hình khoá</string>
+    <string name="show_seek_in_compact_notif_title">Nút tua ở panel thông báo</string>
+    <string name="show_seek_in_compact_notif_summary">Hiện nút lùi và tiến ở nơi điều khiển phương tiện thu gọn</string>
     <string name="list_title_ellipsize">Hình elip tiêu đề danh sách một dòng</string>
     <string name="list_title_ellipsize_default">Mặc định</string>
     <string name="list_title_ellipsize_left">Bên trái</string>
@@ -365,10 +382,6 @@
     <string name="controls_prefs_category">Điều khiển</string>
 
     <string name="performance_prefs_category">Thể hiện</string>
-    <string name="chroma_format">Bắt buộc video hiển thị đơn sắc</string>
-    <string name="chroma_format_summary">RGB 32-bit: màu sắc mặc định
-RGB 16-bit: hiệu suất cao hơn nhưng chất lượng thấp hơn
-YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết bị (Android 2.3 hoặc cao hơn)</string>
     <string name="deblocking">Mở khóa với thiết lập liên quan đến bộ lọc</string>
     <string name="deblocking_summary">Thay đổi thiết lập bộ lọc mở khóa. Có thể cải thiện chất lượng video (chỉ dành cho người dùng nâng cao)</string>
     <string name="deblocking_always">Mở khóa đầy đủ (chậm nhất)</string>
@@ -392,12 +405,10 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
     <string name="clear_history">Xóa lịch sử</string>
     <string name="set_locale">Chọn ngôn ngữ</string>
     <string name="network_caching">Dữ liệu tạm lưu thuộc mạng</string>
-    <string name="network_caching_summary">Khoảng thời gian để tải phương tiện trên mạng (tính bằng phần nghìn giây) đối với giải mã phần mềm\nĐể trống để đặt lại</string>
     <string name="resume_playback_title">Tiếp tục phát sau cuộc gọi</string>
     <string name="resume_playback_summary">Nếu không thì vẫn tạm dừng</string>
     <string name="blurred_cover_background_title">Nền bìa được làm mờ</string>
     <string name="blurred_cover_background_summary">Nền bìa trong trình chơi nhạc được làm mờ</string>
-    <string name="network_caching_popup">Giá trị phải nằm giữa 0 và 6000 ms</string>
     <string name="quit">Thoát và khởi động lại ứng dụng</string>
     <string name="restart_message">Thay đổi sẽ được áp dụng sau khi ứng dụng khởi động lại.\n\nKhởi động lại ngay ?</string>
     <string name="restart_message_OK">Đồng ý</string>
@@ -415,6 +426,7 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
     <string name="log_service_text">Mở bảng điều khiển nhật ký</string>
     <string name="copy_to_clipboard">Lưu vào bộ nhớ ảo</string>
     <string name="copied_to_clipboard">Đã sao chép Nhật Ký vào bộ nhớ ảo.</string>
+    <string name="copied_from_clipboard">Đã dán địa chỉ từ bộ nhớ tạm</string>
     <string name="dump_logcat">Xuất nhật ký</string>
     <string name="dump_logcat_success">Nhật ký được xuất thành công ra %1$s!</string>
     <string name="dump_logcat_failure">Xuất nhật ký thất bại.</string>
@@ -433,6 +445,7 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
 
     <string name="no_result">Không tìm thấy kết quả</string>
     <string name="no_internet_connection">Kiểm tra kết nối internet của bạn</string>
+    <string name="retry">Thử lại</string>
     <string name="subs_download_error">Dịch vụ không có sẵn. Hãy thử lại sau</string>
 
     <string name="network_browsing">Mạng cục bộ</string>
@@ -451,8 +464,7 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
     <string name="playlist_save">Lưu danh sách phát</string>
     <string name="playlist_name_hint">Tên danh sách phát</string>
     <string name="go_to_chapter">Đi đến chương...</string>
-    <string name="chapter">Chương</string>
-    <string name="resume_from_position">Tiếp tục từ vị trí cuối</string>
+    <string name="current_chapter">Chương: %s</string>
     <string name="confirm_resume">Tiếp tục từ vị trí cuối?</string>
     <string name="confirm_resume_title">Tiếp tục các video đã phát</string>
     <string name="tv_ui_title"> Giao Diện Android TV</string>
@@ -472,6 +484,12 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
     <string name="widget_name_b">Tiện ích VLC màu tối</string>
     <string name="allow_storage_access_title">Cho phép VLC truy cập tập tin âm thanh và video</string>
     <string name="allow_storage_access_description">VLC cần bạn cấp quyền để truy cập tập tin đa phương tiện trên thiết bị.</string>
+    <string name="allow_storage_manager_title">Cho phép VLC truy cập tất cả tệp</string>
+    <string name="allow_storage_manager_description">%s\n\nCấp quyền?</string>
+    <string name="allow_storage_manager_explanation">Để tận hưởng tất cả khả năng của VLC và sự hỗ trợ tất cả các loại tệp phương tiện, chúng tôi khuyên bạn cấp quyền này.</string>
+    <string name="partial_content">VLC không thể truy cập tất cả tệp</string>
+    <string name="partial_content_description">Từ Android 11 trở đi, các ứng dụng cần quyền đặc biệt để truy cập tất cả tệp của thiết bị.\n\n%s</string>
+    <string name="never_ask_again">Không hỏi lại</string>
     <string name="allow_settings_access_ringtone_title">Cho phép VLC đặt nhạc chuông</string>
     <string name="allow_settings_access_ringtone_description">VLC cần bạn cấp quyền để đặt bài hát này làm nhạc chuông của bạn.</string>
     <string name="allow_settings_access_brightness_title">Cho phép VLC thay đổi độ sáng</string>
@@ -482,8 +500,6 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
     <string name="permission_not_granted">Quyền không được cấp</string>
     <string name="permission_expanation_no_allow">Bạn sẽ không thể tự động khám phá phương tiện của bạn và sử dụng phụ đề ngoài</string>
     <string name="permission_expanation_allow">Bạn sẽ chỉ có thể phát các luồng truyền hoặc phương tiện trên mạng</string>
-    <string name="permission_expanation_subtitles">Sử dụng phụ đề ngoài</string>
-    <string name="permission_expanation_allow_explanation">Phát luồng truyền trên Internet hoặc phương tiện trên mạng</string>
     <string name="exit_app">Đóng VLC</string>
     <string name="exit_app_msg">Bạn có chắc muốn thoát VLC ?</string>
 
@@ -536,6 +552,7 @@ YUV: hiệu suất cao nhất nhưng không hoạt động trên mọi thiết b
     <string name="existing_custom_set_save_message">Lưu thiết lập bộ cân bằng dưới dạng...</string>
     <string name="new_custom_set_save_message">Lưu thiết lập bộ cân bằng mới dưới dạng...</string>
     <string name="save">Lưu</string>
+    <string name="saved">Đã lưu %s</string>
     <string name="do_not_save">Không lưu</string>
     <string name="custom_set_deleted_message">Đã xoá thiết lập bộ cân bằng tuỳ chỉnh \"%1$s\".</string>
     <string name="custom_set_wrong_input">Tên không hợp lệ.</string>
@@ -559,6 +576,7 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="audio_digital_failed">Thay đổi tình trạng đầu ra âm thanh kỹ thuật số thất bại</string>
     <string name="audio_digital_output_enabled">Đầu ra âm thanh kỹ thuật số đã được kích hoạt</string>
     <string name="audio_digital_output_disabled">Đầu ra âm thanh kỹ thuật số đã được tắt</string>
+    <string name="audio_preferred_language">Ngôn ngữ âm thanh được ưu tiên</string>
     <string name="audio_digital_title">Đầu ra âm thanh kỹ thuật số (chuyển qua)</string>
     <string name="audio_task_cleared_title">Dừng khi vuốt ứng dụng</string>
     <string name="audio_task_cleared_summary">Dừng việc phát khi ứng dụng bị loại bỏ</string>
@@ -587,6 +605,7 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="subtitle_search_name_hint">Tên</string>
     <string name="subtitle_search_episode_hint">Tập</string>
     <string name="subtitle_search_season_hint">Phần</string>
+    <string name="subtitles_download_failed">Tải xuống thất bại</string>
     <string name="language_to_download">Ngôn ngữ</string>
     <string name="delete_the_selected">Xóa mục đã chọn</string>
     <string name="download_the_selected">Tải mục đã chọn</string>
@@ -777,10 +796,8 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="allow_otg">Cho phép truy cập OTG</string>
     <string name="allow_otg_description">Hãy chọn thiết bị OTG của bạn để cho phép quyền truy cập vào VLC.</string>
     <string name="timeout_infinite">Vô hạn</string>
-    <string name="timeout_short">Ngắn</string>
-    <string name="timeout_normal">Bình thường</string>
-    <string name="timeout_long">Dài</string>
     <string name="video_hud_timeout">Thời gian ẩn giao diện điều khiển của trình phát video</string>
+    <string name="video_hud_timeout_summary">%s giây</string>
     <string name="remove_from_history">Xóa khỏi lịch sử</string>
     <string name="prefersmbv1">Ưu tiên SMB 1</string>
     <string name="prefersmbv1_summary">Bỏ chọn cài đặt này nếu bạn gặp khó khăn khi duyệt máy chủ SMB của bạn</string>
@@ -795,6 +812,7 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="soundfont_summary">Chọn một tệp tin SoundFont để chơi nhạc midi</string>
     <string name="missing_media_snack">Media bị thiếu. Ẩn tất cả media bị thiếu?</string>
     <string name="browser_show_missing_media">Hiện media bị thiếu</string>
+    <string name="browser_show_missing_media_summary">Hiện phương tiện ở xa kể cả nếu chúng không có sẵn</string>
     <string name="search_prefs">Tìm kiếm cài đặt</string>
     <string name="preferred_resolution">Độ phân giải video được ưu tiên</string>
     <string name="preferred_resolution_summary">Chất lượng video tối đa cho streams, khi có thể, sẽ là: %s</string>
@@ -805,11 +823,20 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="add_to_existing_playlist">Thêm vào trong danh sách hiện có</string>
     <string name="bookmarks_title">Đánh dấu</string>
     <string name="no_bookmark">Chưa có đánh dấu</string>
+    <string name="bookmark_default_name">Dấu trang tại %s</string>
     <string name="bookmark_name">Đánh dấu %s</string>
+    <string name="add_bookmark">Thêm dấu trang</string>
+    <string name="bookmark_added">Đã thêm dấu trang</string>
+    <string name="show">Hiện</string>
     <string name="optional_features">Chức năng phụ</string>
     <string name="optional_features_summary">Những chức năng trong giai đoạn thử nghiệm và có thể không ổn định</string>
     <string name="optional_features_warning">Chức năng này đang được thử nghiệm và có thể gây ra lỗi hoặc các vấn đề khác</string>
     <string name="start_vlc">Khởi động VLC</string>
+    <string name="jump_delay_summary">%s giây</string>
+    <string name="move_up">Di chuyển lên</string>
+    <string name="move_down">Di chuyển xuống</string>
+    <string name="remove_from_playlist">Xóa khỏi danh sách phát</string>
+    <string name="play_media">Phát %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Thêm đối tượng bị trùng lập?</string>
@@ -822,11 +849,26 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="start">Bắt đầu</string>
     <string name="permission">Quyền</string>
     <string name="customize">Tùy chỉnh</string>
+    <string name="selection_count">Đã chọn %d</string>
+    <string name="controls_setting">Cài đặt mục điều khiển</string>
+    <string name="gestures">Cử chỉ</string>
+    <string name="player_controls">Điều khiển trình phát</string>
+    <string name="video_double_tap_jump_delay">Độ trễ nhấn đúp</string>
+    <string name="video_key_jump_delay">Độ trễ phím điều hướng</string>
+    <string name="banned">Thư mục bị cấm (nhấn giữ để thay đổi)</string>
+    <string name="banned_parent">Bị thư mục mẹ cấm</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="other">Những đối tượng này đã có trong danh sách.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
         <item quantity="other">%dtrong các đối tượng được chọn đã có trong danh sách.</item>
     </plurals>
-
+    <string name="official_website">Trang web chính thức</string>
+    <string name="view_online">Xem trên mạng</string>
+    <string name="player_under_notch">Hiển thị video dưới tai thỏ</string>
+    <string name="notch">Tai thỏ</string>
+    <string name="always_fast_seek">Luôn sử dụng tua nhanh</string>
+    <string name="always_fast_seek_summary">Tua nhanh hơn nhưng có thể ít chính xác hơn</string>
+    <string name="touch_only">Tính năng chỉ để chạm</string>
+    <string name="touch_only_description">Việc chuyển sang giao diện di động chỉ có thể làm được bằng màn hình cảm ứng hoặc chuột.\nVui lòng vuốt ở dưới để xác nhận rằng tính năng này có thể thay đổi an toàn.</string>
 </resources>

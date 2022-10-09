@@ -31,8 +31,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
@@ -41,9 +39,8 @@ import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.util.launchWhenStarted
+import kotlin.math.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var speedValue: TextView
@@ -58,7 +55,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
             if (playbackService == null || playbackService!!.currentMediaWrapper == null)
                 return
             if (fromUser) {
-                val rate = Math.pow(4.0, progress.toDouble() / 100.toDouble() - 1).toFloat()
+                val rate = (4.0).pow(progress.toDouble() / 100.0 - 1).toFloat()
                 playbackService!!.setRate(rate, true)
                 updateInterface()
             }
@@ -129,20 +126,22 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private fun setRateProgress() {
         var speed = playbackService!!.rate.toDouble()
-        speed = 100 * (1 + Math.log(speed) / Math.log(4.0))
+        speed = 100 * (1 + ln(speed) / ln(4.0))
         seekSpeed.progress = speed.toInt()
         updateInterface()
     }
 
     private fun changeSpeed(delta: Float) {
-        var initialRate = Math.round(playbackService!!.rate * 100.0) / 100.0
+        var initialRate = (playbackService!!.rate * 100.0).roundToInt() / 100.0
         initialRate = if (delta > 0)
-            Math.floor((initialRate + 0.005) / 0.05) * 0.05
+            floor((initialRate + 0.005) / 0.05) * 0.05
         else
-            Math.ceil((initialRate - 0.005) / 0.05) * 0.05
-        val rate = Math.round((initialRate + delta) * 100f) / 100f
+            ceil((initialRate - 0.005) / 0.05) * 0.05
+        val rate = ((initialRate + delta) * 100f).roundToInt() / 100f
         if (rate < 0.25f || rate > 4f || playbackService!!.currentMediaWrapper == null)
             return
+        seekSpeed.announceForAccessibility(rate.toString())
+        seekSpeed.contentDescription = rate.toString()
         playbackService!!.setRate(rate, true)
     }
 

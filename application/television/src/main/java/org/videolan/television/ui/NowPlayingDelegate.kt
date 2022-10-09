@@ -24,8 +24,6 @@ package org.videolan.television.ui
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -36,8 +34,6 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callback by EmptyPBSCallback {
     private var service: PlaybackService? = null
 

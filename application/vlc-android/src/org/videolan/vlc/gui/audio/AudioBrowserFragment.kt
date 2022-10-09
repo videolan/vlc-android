@@ -36,8 +36,6 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -52,7 +50,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -61,11 +59,10 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private lateinit var songsAdapter: AudioBrowserAdapter
@@ -106,7 +103,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         val coordinator = view.rootView.findViewById<CoordinatorLayout>(R.id.coordinator)
         val fab = view.rootView.findViewById<FloatingActionButton>(R.id.fab)
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller)
-        emptyView = view.rootView.findViewById(R.id.empty_loading)
+        emptyView = view.rootView.findViewById(R.id.audio_empty_loading)
         fastScroller.attachToCoordinator(appbar, coordinator, fab)
         emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
     }
@@ -184,10 +181,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel = getViewModel()
         currentTab = viewModel.currentTab
 
-        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this)
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
-        genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
+        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
         setupProvider()
     }
@@ -237,6 +234,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         super.onStart()
         setFabPlayShuffleAllVisibility()
         fabPlay?.setImageResource(R.drawable.ic_fab_shuffle)
+        fabPlay?.contentDescription = getString(R.string.shuffle_play)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -249,6 +247,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
             menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
             menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
+            menu.findItem(R.id.ml_menu_sortby_insertion_date).isVisible = canSortByInsertionDate()
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
             menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
@@ -257,9 +256,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             showAllArtistsItem.isVisible = currentTab == 0
             showAllArtistsItem.isChecked = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         }
-        sortMenuTitles()
+        sortMenuTitles(currentTab)
         reopenSearchIfNeeded()
-    }
+         if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.shuffle_all).isVisible = true
+   }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -276,6 +276,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, item.isChecked)
                 viewModel.artistsProvider.showAll = item.isChecked
                 viewModel.refresh()
+                true
+            }
+            R.id.shuffle_all -> {
+                onFabPlayClick(emptyView)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -300,8 +304,15 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        emptyView.state =
-                if (!Permissions.canReadStorage(requireActivity()) && empty) EmptyLoadingState.MISSING_PERMISSION else if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        emptyView.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
+        emptyView.state = when {
+            !Permissions.canReadStorage(requireActivity()) && empty -> EmptyLoadingState.MISSING_PERMISSION
+            viewModel.providers[currentTab].loading.value == true && empty -> EmptyLoadingState.LOADING
+            empty && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
+            empty -> EmptyLoadingState.EMPTY
+            else -> EmptyLoadingState.NONE
+
+        }
     }
 
     override fun onPageSelected(position: Int) {
@@ -341,6 +352,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             super.onClick(v, position, item)
             return
         }
+        if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
         if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
             if (item is MediaWrapper && !item.isPresent) {
                 UiTools.snackerMissing(requireActivity())
@@ -357,7 +369,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 i.putExtra(TAG_ITEM, item)
             }
             MediaLibraryItem.TYPE_ALBUM -> {
-                i = Intent(activity, PlaylistActivity::class.java)
+                i = Intent(activity, HeaderMediaListActivity::class.java)
                 i.putExtra(TAG_ITEM, item)
             }
             else -> return
@@ -383,7 +395,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun allowedToExpand() = getCurrentRV().scrollState == RecyclerView.SCROLL_STATE_IDLE
 
     companion object {
-        val TAG = "VLC/AudioBrowserFragment"
+        const val TAG = "VLC/AudioBrowserFragment"
 
         private const val KEY_LISTS_POSITIONS = "key_lists_position"
         private const val MODE_TOTAL = 4 // Number of audio lists

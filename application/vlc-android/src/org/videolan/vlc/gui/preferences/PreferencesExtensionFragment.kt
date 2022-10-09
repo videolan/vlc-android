@@ -9,17 +9,13 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.TwoStatePreference
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionListing
 import org.videolan.vlc.extensions.ExtensionsManager
-import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import java.util.*
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PreferencesExtensionFragment : BasePreferenceFragment() {
 
     private var extension: ExtensionListing? = null
@@ -81,7 +77,7 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
 
         //Main switch
         val switchPreference = SwitchPreferenceCompat(preferenceScreen!!.context)
-        switchPreference.title = preferenceScreen!!.context.getString(R.string.extension_prefs_activation_title).toUpperCase()
+        switchPreference.title = preferenceScreen!!.context.getString(R.string.extension_prefs_activation_title).uppercase(Locale.getDefault())
         switchPreference.key = extensionKey
         switchPreference.isChecked = settings.getBoolean(extensionKey, false)
         switchPreference.onPreferenceChangeListener = null

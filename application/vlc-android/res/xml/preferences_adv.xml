@@ -12,7 +12,7 @@
             android:fragment="org.videolan.television.ui.preferences.PreferencesOptional"/>
 
     <EditTextPreference
-            android:defaultValue=""
+            android:defaultValue="0"
             android:key="network_caching"
             android:maxLength="5"
             android:summary="@string/network_caching_summary"
@@ -30,6 +30,12 @@
             android:key="dump_media_db"
             android:summary="@string/dump_media_db_summary"
             android:title="@string/dump_media_db"/>
+
+    <Preference
+            android:enabled="true"
+            android:key="dump_app_db"
+            android:summary="@string/dump_media_db_summary"
+            android:title="@string/dump_app_db"/>
 
     <Preference
             android:enabled="true"
@@ -66,13 +72,6 @@
                 android:key="opengl"
                 android:summary="@string/opengl_summary"
                 android:title="@string/opengl_title"/>
-        <ListPreference
-                android:defaultValue="@string/chroma_format_default"
-                android:entries="@array/chroma_formats"
-                android:entryValues="@array/chroma_formats_values"
-                android:key="chroma_format"
-                android:summary="@string/chroma_format_summary"
-                android:title="@string/chroma_format"/>
         <ListPreference
                 android:defaultValue="-1"
                 android:entries="@array/deblocking_list"

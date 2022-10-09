@@ -28,14 +28,13 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.core.content.contentValuesOf
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
@@ -43,15 +42,13 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.HttpImageLoader
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeHttpOrHttps
 import java.io.*
-import java.lang.Runnable
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
 object AudioUtil {
     const val TAG = "VLC/AudioUtil"
 
@@ -72,9 +69,12 @@ object AudioUtil {
                 return@snackerConfirm
             }
 
+            val type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                MimeTypeMap.getFileExtensionFromUrl(song.uri.path))
+
             val values = contentValuesOf(
                     MediaStore.MediaColumns.TITLE to song.title,
-                    MediaStore.MediaColumns.MIME_TYPE to "audio/*",
+                    MediaStore.MediaColumns.MIME_TYPE to type,
                     MediaStore.Audio.Media.ARTIST to song.artist,
                     MediaStore.Audio.Media.IS_RINGTONE to true,
                     MediaStore.Audio.Media.IS_NOTIFICATION to false,
@@ -187,12 +187,12 @@ object AudioUtil {
         if (isSchemeHttpOrHttps(path)) return runBlocking(Dispatchers.Main) {
             HttpImageLoader.downloadBitmap(path)
         }
-        return BitmapCache.getBitmapFromMemCache(path.substringAfter("file://")+"_$width") ?: fetchCoverBitmap(path, width)
+        return BitmapCache.getBitmapFromMemCache(path.removeFileScheme() + "_$width") ?: fetchCoverBitmap(path, width)
     }
 
     @WorkerThread
     fun fetchCoverBitmap(path: String, width: Int): Bitmap? {
-        val path = path.substringAfter("file://")
+        val path = path.removeFileScheme()
         if (path.isNullOrEmpty() || !File(path).exists()) return null
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()
@@ -213,7 +213,7 @@ object AudioUtil {
 
             // Decode the file (with memory allocation this time)
             cover = BitmapFactory.decodeFile(path, options)
-            BitmapCache.addBitmapToMemCache(path, cover)
+            BitmapCache.addBitmapToMemCache(path.removeFileScheme() + "_$width", cover)
         }
         return cover
     }

@@ -44,6 +44,8 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
     val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
     val nextEpisode: MutableLiveData<MediaMetadataWithImages> = MutableLiveData()
     val provider = MediaScrapingTvshowProvider(context)
+
+    @OptIn(ObsoleteCoroutinesApi::class)
     private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
         for (entry in channel) {
             updateLiveData.value = entry
@@ -115,16 +117,14 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
                 updateActor.trySend(mediaMetadataFull)
                 if (it?.metadata?.type == MediaMetadataType.TV_SHOW) {
                     val episodes = MediaMetadataRepository.getInstance(context).getEpisodesLive(mId)
-                    updateLiveData.addSource(episodes) { episodes ->
-
+                    updateLiveData.addSource(episodes) {
                         launch {
                             val seasons = withContext(Dispatchers.IO) { provider.getAllSeasons(mediaMetadataFull.metadata!!) }
-                            mediaMetadataFull.seasons = seasons.sortedBy { it.seasonNumber }
+                            mediaMetadataFull.seasons = seasons.sortedBy { season -> season.seasonNumber }
                             updateActor.trySend(mediaMetadataFull)
                         }
                     }
                 }
-
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.ACTOR)) {
                 mediaMetadataFull.actors = it

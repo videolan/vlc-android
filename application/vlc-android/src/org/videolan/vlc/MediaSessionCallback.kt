@@ -1,3 +1,25 @@
+/**
+ * **************************************************************************
+ * MediaSessionCallback.kt
+ * ****************************************************************************
+ * Copyright © 2018 VLC authors and VideoLAN
+ * Author: Geoffrey Métais
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * ***************************************************************************
+ */
 package org.videolan.vlc
 
 import android.annotation.SuppressLint
@@ -11,13 +33,14 @@ import android.util.Log
 import android.view.KeyEvent
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
@@ -27,29 +50,25 @@ import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import java.security.SecureRandom
-import java.util.*
 import kotlin.math.abs
 import kotlin.math.min
 
-@Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
 private const val ONE_SECOND = 1000L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
     private var prevActionSeek = false
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
-        else if (!AndroidDevices.isAndroidTv && Settings.getInstance(playbackService).getBoolean(PLAYBACK_HISTORY, true)) PlaybackService.loadLastAudio(playbackService)
+        else if (!AndroidDevices.isAndroidTv) PlaybackService.loadLastAudio(playbackService)
     }
 
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
         val keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent? ?: return false
         if (!playbackService.hasMedia()
                 && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)) {
-            return if (keyEvent.action == KeyEvent.ACTION_DOWN && Settings.getInstance(playbackService).getBoolean(PLAYBACK_HISTORY, true)) {
+            return if (keyEvent.action == KeyEvent.ACTION_DOWN) {
                 PlaybackService.loadLastAudio(playbackService)
                 true
             } else false
@@ -103,7 +122,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
      */
     @SuppressLint("LongLogTag")
     private fun isAndroidAutoHardKey(keyEvent: KeyEvent): Boolean {
-        val carMode = AndroidDevices.isCarMode(playbackService.applicationContext)
+        val carMode = playbackService.isCarMode()
         if (carMode) Log.i(TAG, "Android Auto Key Press: $keyEvent")
         return carMode && keyEvent.deviceId == 0 && (keyEvent.flags and KeyEvent.FLAG_KEEP_TOUCH_MODE != 0)
     }
@@ -238,9 +257,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0, allowRandom: Boolean = false) {
-        mediaList?.let { mediaList ->
-            if (AndroidDevices.isCarMode(playbackService.applicationContext))
-                mediaList.forEach { if (it.type == MediaWrapper.TYPE_VIDEO) it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
+        mediaList?.let {
+            if (playbackService.isCarMode())
+                mediaList.forEach { mw -> mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
             // Pick a random first track if allowRandom is true and shuffle is enabled
             playbackService.load(mediaList, if (allowRandom && playbackService.isShuffling) SecureRandom().nextInt(min(mediaList.size, MEDIALIBRARY_PAGE_SIZE)) else position)
         }
@@ -277,7 +296,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 else -> null
             }
             if (!isActive) return@launch
-            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) {
+            if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.isNotEmpty() == true) {
                 playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
                     tracks = when {
                         !albums.isNullOrEmpty() -> albums!!.flatMap { it.tracks.toList() }.toTypedArray()

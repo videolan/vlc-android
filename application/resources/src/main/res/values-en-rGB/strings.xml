@@ -8,7 +8,14 @@
     <string name="other">Other</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
+    <string name="sortby_filename">File name</string>
+    <string name="sortby_artist_name">Artist name</string>
+    <string name="sortby_album_name">Album name</string>
     <string name="sortby_length">Length</string>
+    <string name="sortby_date">Date</string>
+    <string name="sortby_last_modified_date">Recently added</string>
+    <string name="sortby_insertion">Insertion date</string>
+    <string name="sortby_media_number">Media number</string>
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
 
@@ -67,7 +74,6 @@
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
-    <string name="validation">Are you sure?</string>
 
     <string name="cover_art">Cover art</string>
     <string name="previous">Previous</string>
@@ -103,7 +109,6 @@
     <string name="encountered_error_title">Playback error</string>
     <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
     <string name="invalid_location">The location %1$s cannot be played.</string>
-
     <string name="search">Search</string>
 
 
@@ -120,11 +125,8 @@
     <string name="show_playlist">Show playlist</string>
     <string name="hold_to_stop">Hold to stop</string>
 
-    <string name="licence">License</string>
     <string name="revision">Revision</string>
     <string name="about">About</string>
-    <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
-    <string name="compiled_by">This version of VLC is compiled by:</string>
     <string name="directories_summary">Select directories to include in the media library</string>
     <string name="add_custom_path">Add a custom path</string>
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
@@ -147,7 +149,6 @@
     <string name="enable_headset_detection">Detect headset</string>
     <string name="aout">Audio output</string>
     <string name="performance_prefs_category">Performance</string>
-    <string name="chroma_format">Force video chroma</string>
     <string name="deblocking">Deblocking filter settings</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>
     <string name="deblocking_nonref">Medium deblocking</string>

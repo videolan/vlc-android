@@ -42,7 +42,7 @@ android {
         main {
             jniLibs.srcDir 'jni/libs' // Where generated .so files are placed.
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
+            java.srcDirs = rootProject.ext.vlcMajorVersion == 4 ? ['src', 'vlc4/src'] : ['src', 'vlc3/src']
             resources.srcDirs = ['src']
             aidl.srcDirs = ['src']
             renderscript.srcDirs = ['src']
@@ -89,9 +89,9 @@ clean {
 }
 
 dependencies {
-    releaseImplementation project(':libvlc')
+    releaseImplementation project(':libvlcjni:libvlc')
     debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
-    devImplementation project(':libvlc')
+    devImplementation project(':libvlcjni:libvlc')
     api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxLegacyVersion"
     api "androidx.core:core:$rootProject.ext.androidxCoreVersion"
     api "androidx.fragment:fragment:$rootProject.ext.androidxFragmentVersion"

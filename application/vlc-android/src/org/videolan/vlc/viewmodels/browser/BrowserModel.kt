@@ -26,16 +26,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
@@ -44,13 +45,10 @@ const val TYPE_NETWORK = 1L
 const val TYPE_PICKER = 2L
 const val TYPE_STORAGE = 3L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 open class BrowserModel(
         context: Context,
         val url: String?,
         val type: Long,
-        showHiddenFiles: Boolean,
         private val showDummyCategory: Boolean,
         pickerType: PickerType = PickerType.SUBTITLE,
         coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
@@ -61,13 +59,11 @@ open class BrowserModel(
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 
-    private val tv = Settings.showTvUi
-
     override val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType)
-        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles)
-        TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory)
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url)
+        TYPE_STORAGE -> StorageProvider(context, dataset, url)
+        else -> FileBrowserProvider(context, dataset, url, showDummyCategory = showDummyCategory, sort = sort, desc = desc)
     }
 
     override val loading = provider.loading
@@ -76,18 +72,37 @@ open class BrowserModel(
 
     fun browseRoot() = provider.browseRoot()
 
+    /**
+     * Sorts again. Useful on resume
+     *
+     */
+    fun reSort() {
+        viewModelScope.launch {
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) } }
+        }
+    }
+
+    /**
+     * Resets the sorts info from the shared preferences for the model and provider
+     *
+     */
+    fun resetSort() {
+        sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
+        desc = settings.getBoolean("${sortKey}_desc", false)
+        provider.desc = desc
+        provider.sort = sort
+    }
+
     @MainThread
     override fun sort(sort: Int) {
         viewModelScope.launch {
             this@BrowserModel.sort = sort
-            desc = !desc
-            if (tv) provider.desc = desc
-            val comp = if (tv) {
-                if (desc) tvDescComp else tvAscComp
-            } else {
-                if (desc) descComp else ascComp
-            }
-            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
+            desc = if (sort == Medialibrary.SORT_DEFAULT) false else !desc
+            provider.sort = sort
+            provider.desc = desc
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) } }
+            settings.putSingle(sortKey, sort)
+            settings.putSingle("${sortKey}_desc", desc)
         }
     }
 
@@ -108,20 +123,16 @@ open class BrowserModel(
         provider.updateShowAllFiles(value)
     }
 
-    fun updateShowHiddenFiles(value: Boolean) {
-        provider.updateShowHiddenFiles(value)
-    }
-
     fun addCustomDirectory(path: String) = DirectoryRepository.getInstance(context).addCustomDirectory(path)
 
     fun deleteCustomDirectory(path: String) = DirectoryRepository.getInstance(context).deleteCustomDirectory(path)
 
     suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
 
-    class Factory(val context: Context, val url: String?, private val type: Long, private val showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true, private val pickerType: PickerType = PickerType.SUBTITLE) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, private val type: Long, private val showDummyCategory: Boolean = true, private val pickerType: PickerType = PickerType.SUBTITLE) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return BrowserModel(context.applicationContext, url, type, showHiddenFiles, showDummyCategory = showDummyCategory, pickerType = pickerType) as T
+            return BrowserModel(context.applicationContext, url, type, showDummyCategory = showDummyCategory, pickerType = pickerType) as T
         }
     }
 
@@ -133,8 +144,7 @@ open class BrowserModel(
     }
 }
 
-@ExperimentalCoroutinesApi
-fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
-    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, showHiddenFiles)).get(NetworkModel::class.java)
+fun Fragment.getBrowserModel(category: Long, url: String?, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
+    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url)).get(NetworkModel::class.java)
 else
-    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)

@@ -1,26 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<layout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:layout_height="match_parent">
 
-        <TextView
-                android:id="@+id/ctx_title"
-                style="@style/Theme.VLC.BottomSheetTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ctx_list"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-    </LinearLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_goneMarginStart="16dp">
 
-</androidx.core.widget.NestedScrollView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctx_cover_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/ctx_cover_card"
+                        android:layout_width="@dimen/audio_cover"
+                        android:layout_height="@dimen/audio_cover"
+                        android:layout_margin="@dimen/default_margin"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                            android:id="@+id/ctx_cover"
+                            style="@style/Theme.VLC.BottomSheetTitle"
+                            android:layout_width="@dimen/audio_cover"
+                            android:layout_height="@dimen/audio_cover"
+                            android:scaleType="centerCrop" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                        android:id="@+id/ctx_cover_title"
+                        style="@style/Theme.VLC.BottomSheetTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/ctx_cover_card"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ctx_cover_card"
+                        app:layout_constraintTop_toTopOf="@id/ctx_cover_card" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                    android:id="@+id/ctx_title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ctx_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -25,13 +25,28 @@
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
-                android:padding="2dp"
+                android:padding="6dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_player_navmenu"
                 tools:visibility="visible" />
 
+
+        <ImageView
+                android:id="@+id/player_screenshot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="6dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/player_overlay_navmenu"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_player_screenshot"
+                tools:visibility="visible" />
 
         <TextView
                 android:id="@+id/player_overlay_title"
@@ -68,11 +83,12 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/show_playlist"
                 android:focusable="true"
+                android:padding="6dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:srcCompat="@drawable/ic_player_playlist"
+                app:srcCompat="@drawable/ic_player_playqueue"
                 tools:visibility="visible" />
 
         <ImageView
@@ -86,6 +102,7 @@
                 android:contentDescription="@string/video_remote_enable"
                 android:focusable="true"
                 android:onClick="onClick"
+                android:padding="6dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/video_renderer"
                 app:layout_constraintTop_toTopOf="parent"
@@ -102,6 +119,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/renderer_list_title"
                 android:focusable="true"
+                android:padding="6dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/playlist_toggle"
                 app:layout_constraintTop_toTopOf="parent"

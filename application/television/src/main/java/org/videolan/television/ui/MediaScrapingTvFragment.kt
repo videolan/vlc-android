@@ -55,7 +55,6 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -70,7 +69,6 @@ import org.videolan.tools.NetworkMonitor
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1
 
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
 
@@ -79,7 +77,7 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
 
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
-        get() = OnItemViewClickedListener { _, item, _, row ->
+        get() = OnItemViewClickedListener { _, item, _, _ ->
             if (item is MoviepediaMedia) {
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {

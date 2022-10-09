@@ -89,11 +89,11 @@ class StringsTest {
     }
 
     @Test
-    fun removeFileProtocole() {
-        var s = "file://foopath".removeFileProtocole()
+    fun removeFileScheme() {
+        var s = "file://foopath".removeFileScheme()
         assertEquals(s, "foopath")
 
-        s = "barpath".removeFileProtocole()
+        s = "barpath".removeFileScheme()
         assertEquals(s, "barpath")
     }
 

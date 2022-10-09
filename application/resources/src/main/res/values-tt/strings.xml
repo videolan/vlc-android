@@ -7,8 +7,9 @@
     <string name="cancel">Баш тарту</string>
     <string name="other">Башка</string>
     <string name="sortby">Тәртипләү…</string>
-    <string name="sortby_name">исем буенча</string>
-    <string name="sortby_artist_name">Башкаручы</string>
+    <string name="sortby_name">Исем буенча</string>
+    <string name="sortby_filename">Файл исеме</string>
+    <string name="sortby_artist_name">Башкаручы исеме</string>
     <string name="sortby_album_name">Альбом исеме</string>
     <string name="sortby_length">Зурлык буенча</string>
     <string name="sortby_date">Дата</string>
@@ -80,7 +81,6 @@
     <string name="noplaylist">Уйнату бите табылмады.</string>
     <string name="directorynotfound">\'%1$s\' папкасы табылмады.</string>
     <string name="nohistory">Уйнату тарихы буш.</string>
-    <string name="validation">Шикләнмисезме?</string>
 
     <string name="cover_art">Тышлык</string>
     <string name="shuffle_title">Бутау режимы</string>
@@ -134,7 +134,6 @@
     <string name="server_share_hint">Челтәр ресурсының исеме (яисә IP адресы)</string>
     <string name="server_folder_hint">Папкага юл (өстәмә)</string>
     <string name="server_username_hint">Кулланучы исеме</string>
-    <string name="server_servername_hint">Сервер исеме, уңайлык өчен</string>
     <string name="server_port">Порт:</string>
     <string name="login">Логин</string>
     <string name="password">Серсүз</string>
@@ -150,7 +149,6 @@
     <string name="encountered_error_title">Уйнатуда хата</string>
     <string name="encountered_error_message">Бу медиа белән хата чыкты.\nМедиаханәне яңартып карагыз.</string>
     <string name="invalid_location">%1$s уйнатып булмый.</string>
-
     <string name="search">Эзләү</string>
 
 
@@ -160,6 +158,9 @@
     <string name="seek">Эзләү</string>
     <string name="subtitles">Субтитрлар</string>
     <string name="lock">Тыю</string>
+    <string name="seek_tap">+/- 10 сек.</string>
+    <string name="close">Ябу</string>
+
     <string name="playlist_tips">Уйнату бит киңәше</string>
     <string name="remove_song">Җырны бетерергә</string>
     <string name="remove_playlist_item">%1$s уйнату битеннән алынды</string>
@@ -173,12 +174,9 @@
 
     <!-- About -->
     <string name="app_name_full">Android өчен VLC</string>
-    <string name="licence">Хокук</string>
     <string name="revision">Ревизия</string>
     <string name="about">Кушымта турында</string>
-    <string name="about_text">VLC Android™ өчен - VLC медиа уйнаткычы порты (популяр уйнаткыч ачык башлангыч код белән). Android™ өчен юрама күпчелек файл һәм челтәр ташкыннарын уйната ала.</string>
     <string name="vlc_authors">һәм VLC ясаучылары.</string>
-    <string name="compiled_by">Бу VLC юрамасын җыйды:</string>
 
     <!-- Preferences -->
     <string name="preferences">Көйләүләр</string>
@@ -217,7 +215,6 @@
     <string name="enable_brightness_gesture_summary">Видео уйнатканда яктылык белән ишарә ярдәмендә идарә итү</string>
     <string name="enable_volume_gesture_title">Ишарә белән тавыш көчен үзгәртү</string>
     <string name="enable_volume_gesture_summary">Видео уйнатканда тавыш көче белән ишарә ярдәмендә идарә итү</string>
-    <string name="enable_seek_buttons_summary">Видео күренешендә алга һәм артка чорнау төймәләрен күрсәтергә</string>
     <string name="enable_double_tap_seek_title">Чорнау өчен ике тапкыр басыгыз</string>
     <string name="enable_double_tap_seek_summary">10 секундка чорнау өчен экран кырыена ике тапкыр басыгыз</string>
     <string name="browser_show_hidden_files_title">Яшерен файлларны күрсәтергә</string>
@@ -260,10 +257,11 @@
     <string name="extensions_empty">Киңәйтүләр табылмады</string>
     <string name="extension_permission_title">Яңа \"%1$s\" киңәйтүен кабызыргамы?</string>
     <string name="extension_prefs_activation_title">Кабызырга</string>
+    <string name="android_auto">Android Auto</string>
+
     <string name="controls_prefs_category">Идарә итү</string>
 
     <string name="performance_prefs_category">Җитештерүчәнлек</string>
-    <string name="chroma_format">Мәҗбүри төслек форматы</string>
     <string name="deblocking">Чыгырлык бетерү шартлары</string>
     <string name="deblocking_always">Тулы бушату (иң әкрен)</string>
     <string name="deblocking_nonref">Уртача арындыру</string>
@@ -278,8 +276,8 @@
     <string name="network_caching">Челтәр мәгълүматы кэшы күләме</string>
     <string name="resume_playback_title">Шалтыратудан соң уйнатуны дәвам итү</string>
     <string name="resume_playback_summary">Яисә паузада калу</string>
-    <string name="network_caching_popup">Бу мәгънә 0 һәм 6000 мс арасында булырга тиеш</string>
     <string name="quit">Кушымтаны киредән кабызу</string>
+    <string name="restart_message_OK">ОК</string>
     <string name="developer_prefs_category">Әзерләүчеләр өчен</string>
     <string name="enable_verbose_mode">Җентекләү</string>
     <string name="enable_verbose_mode_summary">Хәбәрләр җентекләү дәрәҗәсе (logcat)</string>
@@ -303,6 +301,8 @@
     <string name="network_browsing">Локаль челтәр</string>
     <string name="browsing">Карау</string>
 
+    <string name="file_size">Файл үлчәме</string>
+
     <string name="audio_delay">Аудио соңаруы</string>
     <string name="spu_delay">Субтитрлар соңаруы</string>
     <string name="network_empty">Бу папка буш.</string>
@@ -311,8 +311,6 @@
     <string name="search_global">Бөтен медиаханәдә эзләү</string>
     <string name="playlist_save">Уйнату битен саклау</string>
     <string name="go_to_chapter">Go to chapter…</string>
-    <string name="chapter">Бүлек</string>
-    <string name="resume_from_position">Соңгы урыннан дәвам итү</string>
     <string name="confirm_resume">Соңгы урыннан дәвам итәргәме?</string>
     <string name="tv_ui_title">Android TV күренеше</string>
     <string name="tv_ui_summary">Күренешне TV өчен темага алыштыру</string>
@@ -367,6 +365,7 @@
     <string name="episodes">эпизодлар</string>
     <string name="movies">фильмнар</string>
     <string name="videos">видеолар</string>
+    <string name="videos_all">Бөтен видеолар</string>
     <string name="clear_playback_history">Уйнату тарихын чистарту</string>
     <string name="ml_scanning">Медиафайлларны сканерлау</string>
     <string name="ml_parse_media">Медианы тәфсилләү</string>
@@ -378,6 +377,7 @@
     <string name="ml_external_storage_msg">VLC  %1$s җайланмасын медиаханәгезгә өстәсенме?</string>
     <string name="ml_external_storage_accept">Әйе</string>
     <string name="ml_external_storage_decline">Юк</string>
+    <string name="auto_home">Өй</string>
     <string name="no">Юк</string>
     <string name="loading_medialibrary">Медиаханәне йөкләү…</string>
     <string name="yes">Әйе</string>
@@ -404,5 +404,10 @@
     <string name="sdcard_permission_dialog_title">Сезгә VLC-га SD-картага язырга рөхсәт бирергә кирәк.</string>
     <string name="sdcard_permission_dialog_message">VLC бу файлны язуга рөхсәтсез бетерә алмый.\nSD-картагызга күчегез һәм \"Сайларга\" төймәсенә басыгыз.\nБәлки, сезгә баштан өске уң яктагы \"SD-картаны күрсәтергә\" төймәсенә басырга кирәк булыр.</string>
     <string name="dialog_sd_wizard">Күрсәтергә</string>
+    <string name="subtitle_search_name_hint">Исем</string>
+    <string name="subtitle_search_episode_hint">Эпизод</string>
+    <string name="subtitle_search_season_hint">Сезон</string>
+    <string name="language_to_download">Тел</string>
     <string name="next">&amp;Чираттагы</string>
+    <string name="download">Йөкләү</string>
 </resources>

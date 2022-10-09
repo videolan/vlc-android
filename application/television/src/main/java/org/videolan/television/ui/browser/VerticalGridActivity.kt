@@ -28,8 +28,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -44,8 +42,6 @@ import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
@@ -81,6 +77,8 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 fragment = MediaScrapingBrowserTvFragment.newInstance(type)
             } else if (type == HEADER_DIRECTORIES) {
                 fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) }, true)
+            } else if (type == HEADER_PLAYLISTS) {
+                fragment = MediaBrowserTvFragment.newInstance(CATEGORY_PLAYLISTS, null)
             } else {
                 finish()
                 return

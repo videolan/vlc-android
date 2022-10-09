@@ -12,8 +12,6 @@ import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.google.android.material.internal.NavigationMenuItemView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Rule
@@ -25,8 +23,6 @@ import org.videolan.tools.CoroutineContextProvider
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.vlc.util.TestCoroutineContextProvider
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class PlaylistFragmentUITest: BaseUITest() {
     @Rule
     @JvmField

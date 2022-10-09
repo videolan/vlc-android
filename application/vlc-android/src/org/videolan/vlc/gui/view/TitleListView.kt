@@ -33,7 +33,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.tools.dp
@@ -90,7 +89,10 @@ class TitleListView : ConstraintLayout {
         attrs.let {
             val a = context.theme.obtainStyledAttributes(attrs, R.styleable.TitleListView, 0, defStyle)
             try {
-                titleView.text = a.getString(R.styleable.TitleListView_title)
+                val titleString = a.getString(R.styleable.TitleListView_title)
+                titleView.text = titleString
+                titleView.contentDescription = context.getString(R.string.talkback_list_section, titleString)
+                actionButton.contentDescription = context.getString(R.string.talkback_enter_screen, titleString)
                 if (!a.getBoolean(R.styleable.TitleListView_show_button, false)) actionButton.setGone()
                 actionButton.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }

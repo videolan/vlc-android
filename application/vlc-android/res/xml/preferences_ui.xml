@@ -43,6 +43,14 @@
 
     <CheckBoxPreference
             app:singleLineTitle="false"
+            android:key="tv_folders_first"
+            android:defaultValue="true"
+            app:isPreferenceVisible="false"
+            android:summary="@string/tv_folders_first_summary"
+            android:title="@string/tv_folders_first"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
             android:key="include_missing"
             android:defaultValue="true"
             android:summary="@string/browser_show_missing_media_summary"
@@ -61,7 +69,7 @@
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="false"
-                android:key="force_play_all"
+                android:key="force_play_all_video"
                 android:summary="@string/force_play_all_summary"
                 android:title="@string/force_play_all_title"/>
         <CheckBoxPreference
@@ -82,6 +90,12 @@
                 android:key="audio_resume_card"
                 android:title="@string/audio_resume_card_title"
                 android:summary="@string/audio_resume_card_summary"/>
+        <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="force_play_all_audio"
+            android:summary="@string/force_play_all_audio_summary"
+            android:title="@string/force_play_all_audio_title"/>
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="true"

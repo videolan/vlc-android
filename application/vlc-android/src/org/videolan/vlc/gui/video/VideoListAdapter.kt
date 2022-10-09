@@ -36,7 +36,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
@@ -52,10 +51,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
-import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.getPresenceDescription
-import org.videolan.vlc.util.isSchemeFile
-import org.videolan.vlc.util.scope
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "VLC/VideoListAdapter"
@@ -145,13 +141,12 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
-                holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else item.getPresenceDescription())
+                holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else if(item.presentCount == 0) holder.itemView.context.resources.getString(R.string.no_video) else item.getPresenceDescription())
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
-                val seen = if (item.presentSeen == item.presentCount) 1L else 0L
+                val seen = if (item.presentSeen == item.presentCount && item.presentCount != 0) 1L else 0L
                 holder.binding.setVariable(BR.seen, seen)
                 holder.binding.setVariable(BR.max, 0)
-                holder.binding.setVariable(BR.isNetwork, item.isNetwork)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
             }
             is MediaWrapper -> {
@@ -161,7 +156,9 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 var max = 0
                 var progress = 0
                 var seen = 0L
-                holder.binding.setVariable(BR.isNetwork, !item.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isNetwork, item.uri.scheme.isSchemeSMB())
+                holder.binding.setVariable(BR.isOTG, item.uri.isOTG())
+                holder.binding.setVariable(BR.isSD, item.uri.isSD())
                 holder.binding.setVariable(BR.isPresent, item.isPresent)
 
                 text = if (item.type == MediaWrapper.TYPE_GROUP) {
@@ -209,22 +206,22 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 }
         }
 
-        fun onImageClick(v: View) {
+        fun onImageClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoImageClick(layoutPosition, it)) }
         }
 
-        fun onClick(v: View) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoClick(layoutPosition, it)) }
         }
 
-        fun onMoreClick(v: View) {
+        fun onMoreClick(@Suppress("UNUSED_PARAMETER") v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.trySend(VideoCtxClick(layoutPosition, it)) }
         }
 
-        fun onLongClick(v: View): Boolean {
+        fun onLongClick(@Suppress("UNUSED_PARAMETER") v: View): Boolean {
             val position = layoutPosition
             return isPositionValid(position) && getItem(position)?.let { eventsChannel.trySend(VideoLongClick(layoutPosition, it)).isSuccess } == true
         }

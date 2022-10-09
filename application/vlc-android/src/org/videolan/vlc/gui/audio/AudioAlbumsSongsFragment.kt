@@ -31,8 +31,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -42,12 +40,14 @@ import org.videolan.tools.dp
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -58,8 +58,6 @@ private const val MODE_SONG = 1
 private const val MODE_TOTAL = 2 // Number of audio mProvider modes
 
 /* All subclasses of Fragment must include a public empty constructor. */
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private var spacing: Int = 0
@@ -130,6 +128,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
+        fabPlay?.contentDescription = getString(R.string.play)
         viewModel.albumsProvider.pagedList.observe(requireActivity()) { albums ->
             @Suppress("UNCHECKED_CAST")
             (albums as? PagedList<MediaLibraryItem>)?.let { albumsAdapter.submitList(it) }
@@ -184,6 +183,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
+            if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
         }
         sortMenuTitles()
         reopenSearchIfNeeded()
@@ -197,6 +197,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 lists[currentTab].adapter = adapters[currentTab]
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid)
+                true
+            }
+            R.id.play_all -> {
+                onFabPlayClick(fastScroller)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -213,11 +217,13 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             return
         }
         if (item is Album) {
-            val i = Intent(activity, PlaylistActivity::class.java)
+            val i = Intent(activity, HeaderMediaListActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
-        } else
+        } else {
+            if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
             MediaUtils.openMedia(v.context, item as MediaWrapper)
+        }
     }
 
     override fun onCtxAction(position: Int, option: Long) {

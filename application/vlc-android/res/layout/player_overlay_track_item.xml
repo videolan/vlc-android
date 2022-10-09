@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:focusable="true"
+                android:contentDescription="@string/more_actions"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="@id/track_title"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -31,6 +31,7 @@
     <string name="play_from_start">Urar s tazwara</string>
     <string name="play_as_audio">Urar-it amzun d imesli</string>
     <string name="play_as_video">Urar-it amzun d avidyu</string>
+    <string name="video_app_switch_title">Agilal/Askar PiP</string>
     <string name="video_app_switch_summary">Fren tikli ara yeḍfer VLC mi ara tɛeddiḍ ɣer usnas-nniḍen ticki tetteddu tvidyut.</string>
     <string name="play_pip_title">Ɣer tividyutin s uskar n tugna ɣef tugna</string>
     <string name="play_as_audio_background">Ɣer tividyutin deg ugilal</string>
@@ -40,6 +41,7 @@
     <string name="append_all">Lire tout à la suite</string>
     <string name="resume_playback_short_title">Kemmel taɣuri</string>
     <string name="resume_playback_long_title">Kemmel taɣuri n tebdart n tɣuri taneggarut</string>
+    <string name="resume_playback_error">Ulac acu ara ikemmelen</string>
     <string name="delete">Kkes</string>
     <string name="remove">Kkes</string>
     <string name="info">Issalan</string>
@@ -47,8 +49,10 @@
     <string name="confirm_delete_album">Kkes album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Kkes amidya-agi %1$d</string>
     <string name="confirm_delete_folder">Ad tekkeseḍ akaram %1$s akked ugbur-ines ?</string>
+    <string name="confirm_delete_folders">Ad tekkseḍ %1$s n ikaramen-agi akked igburen-nnsen ?</string>
+    <string name="confirm_delete_files">Ad tekkseḍ %1$sn ifuyla-agi ?</string>
+    <string name="confirm_delete_folders_and_files">Ad tekkseḍ %1$s n ikaramen-agi akked %2$s n ifuyla-nnsen ?</string>
     <string name="confirm_delete_playlist">Kkes tabdart n tɣuri \'%1$s\'?</string>
-    <string name="confirm_remove_from_playlist">Kkes \'%1$s\' si tebdart n tɣuri?</string>
     <string name="pause">Asgunfu</string>
     <string name="unknown_artist">Anaẓur ur nettwassen ara</string>
     <string name="unknown_album">Album ur nettwassen ara</string>
@@ -105,13 +109,13 @@
     <string name="nosubfolder">Ulac akaram anaddaw</string>
     <string name="directorynotfound">Abrid n ukaram \'%1$s\' ur yettwaf ara.</string>
     <string name="nohistory">Ulac amazray n tɣuri.</string>
-    <string name="validation">Tetḥeqqeḍ?</string>
 
     <string name="cover_art">Taduli</string>
     <string name="shuffle_all_title">Ɣer kulec s ugacur</string>
     <string name="shuffle_title">Askar agacuran</string>
     <string name="shuffle">Taɣuri tagacurant tensa</string>
     <string name="shuffle_on">Taɣuri tagacurant termed</string>
+    <string name="shuffle_play">Agacuran</string>
     <string name="repeat_title">Askar n tulsa</string>
     <string name="repeat">Ulac tulsa</string>
     <string name="repeat_single">Ales i yiwen</string>
@@ -138,6 +142,8 @@
     <string name="sound_off">Imesla yensa</string>
     <string name="brightness">Tafat</string>
     <string name="advanced">Tinefrunin tinaẓiyin</string>
+    <string name="audio_boost_warning">Rnu drurem d asawen akken ad tɛeddiḍ 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 n ubadu\n</item>
         <item quantity="other">%1$d n yibuda\n</item>
@@ -157,7 +163,6 @@
     <string name="server_share_hint">Isem n beḍḍu n uzeḍḍa (neɣ tansa IP)</string>
     <string name="server_folder_hint">Abrid n ukaram (d anefrunan)</string>
     <string name="server_username_hint">Isem n useqdac</string>
-    <string name="server_servername_hint">Isem ara yettwabeqqeḍen</string>
     <string name="server_port">Tawwurt:</string>
     <string name="login">Kcem</string>
     <string name="password">Awal uffir</string>
@@ -174,7 +179,6 @@
     <string name="encountered_error_title">Anezri di tɣuri</string>
     <string name="encountered_error_message">VLC yemlal-d tuccḍa akked umidya-agi.\nMa ulac uɣilif, sismeḍ tamkarḍit n umidya inek.</string>
     <string name="invalid_location">D awezɣi taɣuri n usun  %1$s .</string>
-
     <string name="search">Nadi</string>
 
 
@@ -187,7 +191,18 @@
 
     <string name="seek">Inig</string>
     <string name="subtitles">Iduzewlen</string>
+    <string name="tips_player_controls">Isenqaden n imeɣri</string>
+    <string name="tips_player_controls_description">Ssed ɣef isenqaden n imeɣri ukessar-agi akken ad teẓreḍ i wacu ttwaxedmen</string>
+    <string name="tips_audio_sub">Tizribin n imesli akked iduzwilen</string>
+    <string name="tips_play_description">Ssed akken ad teddu tvidyut</string>
     <string name="lock">Sekkeṛ</string>
+    <string name="tap">Ssed akken ad twaliḍ</string>
+    <string name="lock_orientation">Taɣda</string>
+    <string name="lock_orientation_description">Ssed akken ad tsekkṛeḍ/ad tekkseḍ asekkeṛ i teɣda</string>
+    <string name="advanced_options">Tinefrunin tinaẓiyin</string>
+    <string name="tips_playlist">Tabdart n tɣuri</string>
+    <string name="close">Mdel</string>
+
     <string name="playlist_tips">Tixidas n tebdart n tɣuri</string>
     <string name="remove_song">Kkes taɣect</string>
     <string name="remove_playlist_item">%1$s yettwakkes si tebdart n tɣuri</string>
@@ -198,10 +213,8 @@
 
     <!-- About -->
     <string name="app_name_full">VLC i Android</string>
-    <string name="licence">Ttriḥ</string>
     <string name="revision">Aceggeṛ</string>
     <string name="about">Ɣef</string>
-    <string name="compiled_by">Lqem-agi n VLC yesefsa-t :</string>
 
     <!-- Preferences -->
     <string name="preferences">Iɣewwaren</string>
@@ -217,12 +230,14 @@
     <string name="automatic">Awurman</string>
     <string name="screen_orientation">Taɣda n wegdil</string>
     <string name="screen_orientation_sensor">Awurman  (sensor)</string>
+    <string name="screen_orientation_portrait">S ibeddi</string>
     <string name="screen_orientation_landscape">Agama</string>
+    <string name="screen_orientation_landscape_reverse">S tehri yetti</string>
+    <string name="screen_orientation_last_locked">Taɣda taneggarut tsekkeṛ</string>
     <string name="enable_black_theme">Asentel imsulles</string>
     <string name="subtitle_text_encoding">Asettengel n iduzwilen</string>
     <string name="daynight_title">Askar Ass d yiḍ</string>
     <string name="daynight_follow_system_title">Ḍfer askar n unagraw</string>
-
     <string name="extra_prefs_category">Iɣewwaren n zzyada</string>
 
     <string name="interface_prefs_screen">Agrudem</string>
@@ -278,6 +293,7 @@
     <string name="casting_quality_low">Adday</string>
     <string name="casting_quality_lowcpu">Adday maḍi</string>
     <string name="artists_show_all_title">Sken akk inaẓuren</string>
+    <string name="show_headers">Beqqeḍ inixfen</string>
     <string name="extensions_prefs_category">Iseɣzaf</string>
     <string name="extensions_empty">Ulac aseɣzef yettwafen</string>
     <string name="extension_permission_title">Sermed asiɣzef amaynut \"%1$s\"?</string>
@@ -306,6 +322,8 @@
     <string name="quit">Ffeɣ sakin sekker asnas tikkelt nniḍen</string>
     <string name="restart_message_OK">Ih</string>
     <string name="restart_message_Later">Aredqal</string>
+    <string name="browser_show_all_title">Beqqeḍ akk ifuyla</string>
+
     <string name="developer_prefs_category">Aneflay</string>
     <string name="enable_verbose_mode">Talqayt</string>
     <string name="debug_logs">Aɣmis n useɣti</string>
@@ -350,8 +368,6 @@
     <string name="playlist_save">Sekles tabdart n tɣuri</string>
     <string name="playlist_name_hint">Isem n tebdart n tɣuri</string>
     <string name="go_to_chapter">Ddu s ixef...</string>
-    <string name="chapter">Ixef</string>
-    <string name="resume_from_position">Kemmel seg wadig aneggaru</string>
     <string name="confirm_resume">Kemmel seg wadig aneggaru?</string>
     <string name="confirm_resume_title">Kemmel tividyutin yettwaɣren</string>
     <string name="tv_ui_title">Agudem Android n tiliẓri</string>
@@ -388,6 +404,10 @@
     <string name="network_favorites">Inurifen n uzeḍḍa</string>
     <string name="network_shared_folders">Ikaramen yebḍan</string>
     <string name="add_to_playlist">Rnu ɣer tebdart n tɣuri</string>
+    <string name="popup_playback_title">Ɣer tavidyut deg usfaylu udhim</string>
+    <string name="popup_playback">Taɣuri deg usfaylu udhim</string>
+    <string name="download_subtitles">Sader iduzwilen</string>
+    <string name="browse_folder">Ldi akaram</string>
     <string name="listen">Ssel</string>
     <string name="movies">isura</string>
     <string name="videos">tividyutin</string>
@@ -401,6 +421,7 @@
     <string name="ml_external_storage_accept">Ih</string>
     <string name="ml_external_storage_decline">Ala</string>
     <string name="auto_last_added_media">Timern</string>
+    <string name="auto_my_library">Tamkarḍit-iw</string>
     <string name="auto_home">Amager</string>
     <string name="no">Ala</string>
     <string name="loading_medialibrary">Asali n temkarḍit n yimidyaten...</string>
@@ -409,6 +430,10 @@
     <string name="custom_set_save_title">Ibeddilen ur nettwasekles ara</string>
     <string name="save">Sekles</string>
     <string name="do_not_save">Ur seklas ara</string>
+    <string name="custom_set_wrong_input">Isem armeɣtu.</string>
+    <string name="equalizer_new_preset_name">Amaynut</string>
+    <string name="browser_quick_access">Adduf s tɣawla</string>
+    <string name="renderer_list_title">Ibeqqiḍen</string>
     <string name="playback_rewind">Tuɣalin</string>
     <string name="playback_forward">Tikli s tɣawla</string>
     <string name="tv_my_new_videos">Tividyutin-iw timaynutin</string>
@@ -480,6 +505,7 @@
     <string name="recently_played">Yettwaɣer melmi kan</string>
     <string name="recently_added">Yettwarna melmi kan</string>
     <string name="playback_multiple_errors">Aṭas n yimidyaten ulamek ara ttwaɣren</string>
+    <string name="clear">Sfeḍ</string>
     <string name="abrepeat_add_first_marker">Sbadu tanqiḍt n tazwara</string>
     <string name="abrepeat_add_second_marker">Sbadu tanqiḍt n taggara</string>
     <string name="input_bitrate">Aktum n unekcum</string>

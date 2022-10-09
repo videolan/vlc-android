@@ -40,13 +40,18 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
@@ -60,6 +65,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
@@ -76,6 +82,7 @@ import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.share
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -85,9 +92,6 @@ import kotlin.math.absoluteValue
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-@Suppress("UNUSED_PARAMETER")
 class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlayerAnimator by AudioPlayerAnimator() {
 
     private lateinit var binding: AudioPlayerBinding
@@ -123,7 +127,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
         playlistModel.service?.let {
-            if (it.videoTracksCount > 0)
+            if (!it.isVideoPlaying && it.videoTracksCount > 0)
                 UiTools.snacker(requireActivity(), R.string.return_to_video)
         }
         playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }
@@ -148,6 +152,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = AudioPlayerBinding.inflate(inflater)
         setupAnimator(binding)
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                WindowInfoTracker.getOrCreate(requireActivity())
+                        .windowLayoutInfo(requireActivity())
+                        .collect { layoutInfo ->
+                            foldingFeature = layoutInfo.displayFeatures.firstOrNull() as? FoldingFeature
+                        }
+            }
+        }
         return binding.root
     }
 
@@ -229,6 +242,24 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.songTitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
         binding.songSubtitle?.setOnClickListener { coverMediaSwitcherListener.onTextClicked() }
+
+        binding.hingeGoLeft.setOnClickListener {
+            Settings.getInstance(requireActivity()).putSingle(AUDIO_HINGE_ON_RIGHT, false)
+            manageHinge()
+        }
+        binding.hingeGoRight.setOnClickListener {
+            Settings.getInstance(requireActivity()).putSingle(AUDIO_HINGE_ON_RIGHT, true)
+            manageHinge()
+        }
+
+        setBottomMargin()
+    }
+
+    fun setBottomMargin() {
+        (binding.playPause.layoutParams as? ConstraintLayout.LayoutParams)?.let {
+            val audioPlayerContainerActivity = (requireActivity() as AudioPlayerContainerActivity)
+            if (audioPlayerContainerActivity is MainActivity && !audioPlayerContainerActivity.isTablet()) it.bottomMargin = 8.dp + audioPlayerContainerActivity.bottomInset
+        }
     }
 
     fun isTablet() = requireActivity().isTablet()
@@ -282,6 +313,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 }
                 CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
+                CTX_GO_TO_FOLDER -> showParentFolder(playlistAdapter.getItem(position))
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
             }
         }
@@ -296,9 +328,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        var flags = CTX_REMOVE_FROM_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION
+        var flags = CTX_REMOVE_FROM_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION or CTX_GO_TO_FOLDER
         if (item?.uri?.scheme != "content") flags = flags or CTX_ADD_TO_PLAYLIST or CTX_SHARE or CTX_SET_RINGTONE
-        showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
+        showContext(activity, ctxReceiver, position, item, flags)
     }
 
     private suspend fun doUpdate() {
@@ -308,6 +340,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         updateRepeatMode()
         binding.audioMediaSwitcher.updateMedia(playlistModel.service)
         binding.coverMediaSwitcher.updateMedia(playlistModel.service)
+        playlistModel.service?.currentMediaWrapper?.let {
+            binding.audioMediaSwitcher.contentDescription = getString(R.string.talkback_audio_player,TalkbackUtil.getAudioTrack(requireActivity(), it))
+            binding.trackInfoContainer?.contentDescription = getString(R.string.talkback_audio_player,TalkbackUtil.getAudioTrack(requireActivity(), it))
+        }
 
         val chapter = playlistModel.service?.getCurrentChapter(true)
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
@@ -320,6 +356,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         binding.audioRewindText.text = "${Settings.audioJumpDelay}"
         binding.audioForwardText.text = "${Settings.audioJumpDelay}"
+        binding.audioForward10.contentDescription = getString(R.string.talkback_action_forward, Settings.audioJumpDelay.toString())
+        binding.audioRewind10.contentDescription = getString(R.string.talkback_action_rewind, Settings.audioJumpDelay.toString())
         updateBackground()
     }
 
@@ -387,6 +425,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         previousRepeatType = repeatType
     }
 
+    /**
+     * Updates the text views in the player with the current progress
+     * It includes the time, the length and the progress pill text and content description
+     *
+     * @param progress the progress to be displayed
+     */
     private fun updateProgress(progress: PlaybackProgress) {
         if (playlistModel.currentMediaPosition == -1) return
         binding.length.text = progress.lengthText
@@ -402,42 +446,63 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         lifecycleScope.launchWhenStarted {
-            val text = withContext(Dispatchers.Default) {
-                val medias = playlistModel.medias ?: return@withContext ""
+            val text:Pair<String, String> = withContext(Dispatchers.Default) {
+                val medias = playlistModel.medias ?: return@withContext Pair("", "")
                 withContext(Dispatchers.Main) { if (!shouldHidePlayProgress()) binding.audioPlayProgress.setVisible() else binding.audioPlayProgress.setGone() }
-                if (playlistModel.currentMediaPosition == -1) return@withContext ""
-                val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
+                if (playlistModel.currentMediaPosition == -1) return@withContext Pair("", "")
+                val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext Pair("", "")
                 val progressTime = elapsedTracksTime + progress.time
                 val totalTime = playlistModel.getTotalTime()
                 val progressTimeText = Tools.millisToString(
-                    if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime,
-                    false,
-                    true,
-                    false
+                        if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime,
+                        false,
+                        true,
+                        false
                 )
                 val totalTimeText = Tools.millisToString(totalTime, false, false, false)
+                val totalTimeDescription = TalkbackUtil.millisToString(requireActivity(), totalTime)
+                val progressTimeDescription =  TalkbackUtil.millisToString(requireActivity(), if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime)
                 val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
+                val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "${medias.size}")
 
                 val textProgress = if (audioPlayProgressMode) {
                     val endsAt = System.currentTimeMillis() + totalTime - progressTime
                     if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
                     getString(
-                        R.string.audio_queue_progress_finished,
-                        getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
+                            R.string.audio_queue_progress_finished,
+                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
                     )
-                } else if (showRemainingTime && totalTime > 0) getString(
-                    R.string.audio_queue_progress_remaining,
-                        currentProgressText
-                )
-                else getString(
-                        R.string.audio_queue_progress,
-                        if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText"
+                } else
+                    if (showRemainingTime && totalTime > 0) getString(
+                            R.string.audio_queue_progress_remaining,
+                            currentProgressText
                     )
-                "$textTrack  •  $textProgress"
+                    else getString(
+                            R.string.audio_queue_progress,
+                            if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText"
+                    )
+                val textDescription = if (audioPlayProgressMode) {
+                    val endsAt = System.currentTimeMillis() + totalTime - progressTime
+                    if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
+                    getString(
+                            R.string.audio_queue_progress_finished,
+                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
+                    )
+                } else
+                    if (showRemainingTime && totalTime > 0) getString(
+                            R.string.audio_queue_progress_remaining,
+                            progressTimeDescription
+                    )
+                    else getString(
+                            R.string.audio_queue_progress,
+                            if (totalTimeText.isNullOrEmpty()) progressTimeDescription else getString(R.string.talkback_out_of, progressTimeDescription, totalTimeDescription)
+                    )
+                Pair("$textTrack  ${TextUtils.separator}  $textProgress", "$textTrackDescription. $textDescription")
             }
-            binding.audioPlayProgress.text = text
+            binding.audioPlayProgress.text = text.first
+            binding.audioPlayProgress.contentDescription = text.second
         }
     }
 
@@ -452,26 +517,26 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.play(playlistModel.getPlaylistPosition(position, item))
     }
 
-    fun onTimeLabelClick(view: View) {
+    fun onTimeLabelClick(@Suppress("UNUSED_PARAMETER") view: View) {
         showRemainingTime = !showRemainingTime
         Settings.getInstance(requireContext()).edit().putBoolean(SHOW_REMAINING_TIME, showRemainingTime).apply()
         playlistModel.progress.value?.let { updateProgress(it) }
     }
 
-    fun onJumpBack(view: View) {
+    fun onJumpBack(@Suppress("UNUSED_PARAMETER") view: View) {
         jump(forward = false, long = false)
     }
 
-    fun onJumpBackLong(view: View):Boolean {
+    fun onJumpBackLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
         jump(forward = false, long = true)
         return true
     }
 
-    fun onJumpForward(view: View) {
+    fun onJumpForward(@Suppress("UNUSED_PARAMETER") view: View) {
         jump(forward = true, long = false)
     }
 
-    fun onJumpForwardLong(view: View):Boolean {
+    fun onJumpForwardLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
         jump(forward = true, long = true)
         return true
     }
@@ -496,7 +561,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun onPlayPauseClick(view: View?) {
+    fun onPlayPauseClick(@Suppress("UNUSED_PARAMETER") view: View?) {
         if (playlistModel.service?.isPausable == false) {
             UiTools.snackerConfirm(requireActivity(), getString(R.string.stop_unpaubale), true) {
                 playlistModel.stop()
@@ -506,22 +571,22 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel.togglePlayPause()
     }
 
-    fun onStopClick(view: View?): Boolean {
+    fun onStopClick(@Suppress("UNUSED_PARAMETER") view: View?): Boolean {
         playlistModel.stop()
         if (activity is AudioPlayerContainerActivity)
             (activity as AudioPlayerContainerActivity).closeMiniPlayer()
         return true
     }
 
-    fun onNextClick(view: View?) {
+    fun onNextClick(@Suppress("UNUSED_PARAMETER") view: View?) {
         if (!playlistModel.next()) UiTools.snacker(requireActivity(), R.string.lastsong, true)
     }
 
-    fun onPreviousClick(view: View?) {
+    fun onPreviousClick(@Suppress("UNUSED_PARAMETER") view: View?) {
         if (!playlistModel.previous()) UiTools.snacker(requireActivity(),  R.string.firstsong)
     }
 
-    fun onRepeatClick(view: View) {
+    fun onRepeatClick(@Suppress("UNUSED_PARAMETER") view: View) {
         playlistModel.repeatType = when (playlistModel.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
             PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
@@ -530,13 +595,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         updateRepeatMode()
     }
 
-    fun onPlaylistSwitchClick(view: View) {
+    fun onPlaylistSwitchClick(@Suppress("UNUSED_PARAMETER") view: View) {
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
         lifecycleScope.launch { doUpdate() }
     }
 
-    fun onShuffleClick(view: View) {
+    fun onShuffleClick(@Suppress("UNUSED_PARAMETER") view: View) {
         playlistModel.shuffle()
         updateShuffleMode()
     }
@@ -552,7 +617,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    fun showAdvancedOptions(v: View?) {
+    fun showAdvancedOptions(@Suppress("UNUSED_PARAMETER") v: View?) {
         if (!isVisible) return
         if (!this::optionsDelegate.isInitialized) {
             val service = playlistModel.service ?: return
@@ -590,11 +655,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
     }
 
-    fun onABRepeatStopClick(v: View) {
+    fun onABRepeatStopClick(@Suppress("UNUSED_PARAMETER") v: View) {
         playlistModel.service?.playlistManager?.clearABRepeat()
     }
 
-    fun onABRepeatResetClick(v: View) {
+    fun onABRepeatResetClick(@Suppress("UNUSED_PARAMETER") v: View) {
         playlistModel.service?.playlistManager?.resetABRepeatValues()
     }
 
@@ -732,6 +797,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 playlistModel.setTime(progress.toLong(), true)
                 binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
+                binding.timeline.forceAccessibilityUpdate()
             }
         }
     }
