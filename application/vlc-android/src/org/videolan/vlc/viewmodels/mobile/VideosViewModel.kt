@@ -134,7 +134,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         }
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(context)
-        if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL_VIDEO, false) || forceAll)) {
+        if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI) || forceAll)) {
             when(val prov = provider) {
                 is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
                 is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)

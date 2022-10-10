@@ -204,7 +204,7 @@ object TvUtil {
                 }
                 else -> {
                     model.run {
-                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, false)) {
+                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI)) {
                             MediaUtils.openMedia(activity, item)
                         } else {
                             val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }
