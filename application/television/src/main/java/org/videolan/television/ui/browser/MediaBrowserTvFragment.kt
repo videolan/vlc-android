@@ -97,7 +97,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         lifecycleScope.launchWhenStarted {
-            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_VIDEO, true)) {
+            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI)) {
                 TvUtil.playMedia(requireActivity(), item as MediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)
