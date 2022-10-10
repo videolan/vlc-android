@@ -96,7 +96,7 @@ public:
     medialibrary::ArtistPtr artist(int64_t artistId);
     medialibrary::Query<medialibrary::IGenre> genres(const medialibrary::QueryParameters* params);
     medialibrary::GenrePtr genre(int64_t genreId);
-    medialibrary::Query<medialibrary::IPlaylist> playlists(const medialibrary::QueryParameters* params);
+    medialibrary::Query<medialibrary::IPlaylist> playlists(medialibrary::PlaylistType type, medialibrary::QueryParameters* params);
     medialibrary::PlaylistPtr playlist( int64_t playlistId );
     medialibrary::PlaylistPtr PlaylistCreate( const std::string &name );
     medialibrary::Query<medialibrary::IMedia> tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params = nullptr );

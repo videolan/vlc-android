@@ -37,6 +37,7 @@ import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.*
@@ -293,7 +294,7 @@ class MediaSessionBrowser {
                     list = genres.copyOfRange(pageOffset.coerceAtMost(genres.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(genres.size))
                 }
                 ID_PLAYLIST -> {
-                        list = ml.playlists
+                        list = ml.getPlaylists(Playlist.Type.AudioOnly)
                     list.sortWith(MediaComparators.ANDROID_AUTO)
                 }
                 ID_STREAM -> {

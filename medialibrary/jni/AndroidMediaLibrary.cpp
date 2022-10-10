@@ -437,9 +437,9 @@ AndroidMediaLibrary::genre(int64_t genreId)
 }
 
 medialibrary::Query<medialibrary::IPlaylist>
-AndroidMediaLibrary::playlists(const medialibrary::QueryParameters* params)
+AndroidMediaLibrary::playlists(medialibrary::PlaylistType type, medialibrary::QueryParameters* params)
 {
-    return p_ml->playlists(medialibrary::PlaylistType::All, params);
+    return p_ml->playlists(type, params);
 }
 
 medialibrary::PlaylistPtr

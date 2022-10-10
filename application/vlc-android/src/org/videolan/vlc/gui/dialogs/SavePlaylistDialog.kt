@@ -153,7 +153,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         }
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
-        adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists.apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } }))
+        adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.getPlaylists(Playlist.Type.All).apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } }))
         if (!Tools.isArrayEmpty(newTracks)) binding.dialogPlaylistSave.setText(R.string.save)
         updateEmptyView()
         parentFragmentManager.setFragmentResultListener(
@@ -261,4 +261,4 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 }
 
-fun Medialibrary.getPlaylistByName(name: String) = playlists.firstOrNull { it.title == name }
+fun Medialibrary.getPlaylistByName(name: String) = getPlaylists(Playlist.Type.All).firstOrNull { it.title == name }

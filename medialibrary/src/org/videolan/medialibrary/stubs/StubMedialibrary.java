@@ -319,15 +319,15 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
-    public Playlist[] getPlaylists() {
+    public Playlist[] getPlaylists(Playlist.Type type) {
         return dt.mPlaylists.toArray(new Playlist[0]);
     }
 
-    public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing) {
+    public Playlist[] getPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing) {
         return dt.sortPlaylist(dt.mPlaylists, sort, desc);
     }
 
-    public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public Playlist[] getPagedPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortPlaylist(dt.secureSublist(dt.mPlaylists, offset, offset + nbItems), sort, desc);
     }
 

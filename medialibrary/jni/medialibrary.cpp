@@ -915,11 +915,11 @@ getGenre(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
+getPlaylists(JNIEnv* env, jobject thiz, medialibrary::PlaylistType type, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
-    std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(&params)->all();
+    std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(type, &params)->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
@@ -931,11 +931,11 @@ getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jbo
 
 
 jobjectArray
-getPagedPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
+getPagedPlaylists(JNIEnv* env, jobject thiz, medialibrary::PlaylistType type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
-    const auto query = aml->playlists(&params);
+    const auto query = aml->playlists(type, &params);
     std::vector<medialibrary::PlaylistPtr> playlists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
@@ -947,8 +947,8 @@ getPagedPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc
 }
 
 jint
-getPlaylistsCount(JNIEnv* env, jobject thiz) {
-    return (jint) MediaLibrary_getInstance(env, thiz)->playlists(nullptr)->count();
+getPlaylistsCount(JNIEnv* env, medialibrary::PlaylistType type, jobject thiz) {
+    return (jint) MediaLibrary_getInstance(env, thiz)->playlists(type, nullptr)->count();
 }
 
 jobject
@@ -2444,8 +2444,8 @@ static JNINativeMethod methods[] = {
     {"nativeGetPagedGenres", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getPagedGenres },
     {"nativeGetGenresCount", "()I", (void*)getGenresCount },
     {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getGenre },
-    {"nativeGetPlaylists", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylists },
-    {"nativeGetPagedPlaylists", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPagedPlaylists },
+    {"nativeGetPlaylists", "(IIZZ)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylists },
+    {"nativeGetPagedPlaylists", "(IIZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(JZ)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
     {"nativeGetFolders", "(IIZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },

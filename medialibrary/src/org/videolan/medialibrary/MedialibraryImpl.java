@@ -361,18 +361,18 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @WorkerThread
-    public Playlist[] getPlaylists() {
-        return getPlaylists(Medialibrary.SORT_DEFAULT, false, true);
+    public Playlist[] getPlaylists(Playlist.Type type) {
+        return getPlaylists(type, Medialibrary.SORT_DEFAULT, false, true);
     }
 
     @WorkerThread
-    public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing) {
-        return mIsInitiated ? nativeGetPlaylists(sort, desc, includeMissing) : new Playlist[0];
+    public Playlist[] getPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing) {
+        return mIsInitiated ? nativeGetPlaylists(type.ordinal(), sort, desc, includeMissing) : new Playlist[0];
     }
 
     @WorkerThread
-    public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetPagedPlaylists(sort, desc, includeMissing, nbItems, offset) : new Playlist[0];
+    public Playlist[] getPagedPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetPagedPlaylists(type.ordinal(), sort, desc, includeMissing, nbItems, offset) : new Playlist[0];
     }
 
     public int getPlaylistsCount() {
@@ -706,8 +706,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native Genre[] nativeGetPagedGenres(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetGenresCount();
     private native Genre nativeGetGenre(long genreId);
-    private native Playlist[] nativeGetPlaylists(int sort, boolean desc, boolean includeMissing);
-    private native Playlist[] nativeGetPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    private native Playlist[] nativeGetPlaylists(int type, int sort, boolean desc, boolean includeMissing);
+    private native Playlist[] nativeGetPagedPlaylists(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetPlaylistsCount();
     private native Playlist nativeGetPlaylist(long playlistId, boolean includeMissing);
     private native Playlist nativePlaylistCreate(String name, boolean includeMissing);

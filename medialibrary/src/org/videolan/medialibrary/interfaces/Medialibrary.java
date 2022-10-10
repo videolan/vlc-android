@@ -753,9 +753,9 @@ abstract public class Medialibrary {
     abstract public int getGenresCount();
     abstract public int getGenresCount(String query);
     abstract public Genre getGenre(long genreId);
-    abstract public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing);
-    abstract public Playlist[] getPlaylists();
-    abstract public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Playlist[] getPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing);
+    abstract public Playlist[] getPlaylists(Playlist.Type type);
+    abstract public Playlist[] getPagedPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getPlaylistsCount();
     abstract public int getPlaylistsCount(String query);
     abstract public Playlist getPlaylist(long playlistId, boolean includeMissing);
