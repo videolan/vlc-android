@@ -44,7 +44,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.MainBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
-import org.videolan.vlc.gui.video.VideoGridFragment
+import org.videolan.vlc.gui.video.VideoBrowserFragment
 import org.videolan.vlc.util.getScreenWidth
 
 private const val TAG = "Navigator"
@@ -88,7 +88,7 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
             R.id.nav_directories -> MainBrowserFragment()
             R.id.nav_playlists -> PlaylistFragment()
             R.id.nav_more -> MoreFragment()
-            else -> VideoGridFragment()
+            else -> VideoBrowserFragment()
         }
     }
 

@@ -40,6 +40,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         false
     }
     open val hasTabs = false
+    open val isChild = false
 
     private var refreshJob : Job? = null
         set(value) {
@@ -105,6 +106,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun updateActionBar() {
+        if (isChild) return
         val activity = activity as? AppCompatActivity ?: return
         activity.supportActionBar?.let {
             if (requireActivity() !is ContentActivity || (requireActivity() as ContentActivity).displayTitle) requireActivity().title = getTitle()
