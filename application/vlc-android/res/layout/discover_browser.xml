@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
-  ~  bottom_navigation.xml
+  ~  discover_browser.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -24,28 +22,19 @@
   ~
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-
-    <item
-            android:id="@+id/nav_video"
-            android:title="@string/video"
-            android:icon="@drawable/ic_menu_video" />
-    <item
-            android:id="@+id/nav_audio"
-            android:title="@string/audio"
-            android:icon="@drawable/ic_menu_audio" />
-    <item
-            android:id="@+id/nav_directories"
-            android:title="@string/browse"
-            android:icon="@drawable/ic_menu_folder" />
-    <item
-            android:id="@+id/nav_discover"
-            android:title="@string/discover"
-            android:icon="@drawable/ic_menu_discover" />
-    <item
-            android:id="@+id/nav_more"
-            android:title="@string/more"
-            android:icon="@drawable/ic_nav_more" />
-
-</menu>
+    <TextView
+            android:id="@+id/textView37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Soon!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
