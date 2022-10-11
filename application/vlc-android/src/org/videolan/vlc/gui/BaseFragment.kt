@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
@@ -31,6 +32,13 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    /*
+     * Disable Swipe Refresh while scrolling horizontally
+     */
+    val swipeFilter = View.OnTouchListener { _, event ->
+        swipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
+        false
+    }
     open val hasTabs = false
 
     private var refreshJob : Job? = null

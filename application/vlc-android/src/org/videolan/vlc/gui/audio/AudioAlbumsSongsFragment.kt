@@ -69,14 +69,6 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
     override val hasTabs = true
 
-    /*
-     * Disable Swipe Refresh while scrolling horizontally
-     */
-    private val swipeFilter = View.OnTouchListener { _, event ->
-        swipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
-        false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

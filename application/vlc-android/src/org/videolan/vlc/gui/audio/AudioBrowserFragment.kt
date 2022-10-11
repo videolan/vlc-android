@@ -80,14 +80,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private var spacing = 0
     private var restorePositions: SparseArray<Int> = SparseArray()
 
-    /*
-     * Disable Swipe Refresh while scrolling horizontally
-     */
-    private val swipeFilter = View.OnTouchListener { _, event ->
-        swipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
-        false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         spacing = requireActivity().resources.getDimension(R.dimen.kl_small).toInt()
