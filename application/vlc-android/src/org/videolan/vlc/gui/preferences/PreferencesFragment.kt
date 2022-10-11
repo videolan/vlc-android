@@ -62,7 +62,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        findPreference<Preference>("extensions_category")?.isVisible = BuildConfig.DEBUG
         arguments?.getParcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let { endPoint ->
             when (endPoint.parentScreen) {
                 R.xml.preferences_ui -> loadFragment(PreferencesUi().apply {
@@ -75,9 +74,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
                 R.xml.preferences_audio -> loadFragment(PreferencesAudio().apply {
-                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
-                })
-                R.xml.preferences_extensions -> loadFragment(PreferencesExtensions().apply {
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
                 R.xml.preferences_adv -> loadFragment(PreferencesAdvanced().apply {
@@ -109,7 +105,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
             "video_category" -> loadFragment(PreferencesVideo())
             "subtitles_category" -> loadFragment(PreferencesSubtitles())
             "audio_category" -> loadFragment(PreferencesAudio())
-            "extensions_category" -> loadFragment(PreferencesExtensions())
             "adv_category" -> loadFragment(PreferencesAdvanced())
             "casting_category" -> loadFragment(PreferencesCasting())
             PLAYBACK_HISTORY -> {

@@ -87,9 +87,6 @@
                 android:title="@string/casting_category"
                 android:key="casting_category"/>
         <Preference
-                android:title="@string/extensions_prefs_category"
-                android:key="extensions_category"/>
-        <Preference
                 android:title="@string/advanced_prefs_category"
                 android:key="adv_category"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesAdvanced"/>

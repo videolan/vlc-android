@@ -72,8 +72,6 @@ class StartActivity : FragmentActivity() {
                     "vlc.shortcut.video" -> R.id.nav_video
                     "vlc.shortcut.audio" -> R.id.nav_audio
                     "vlc.shortcut.browser" -> R.id.nav_directories
-                    "vlc.shortcut.network" -> R.id.nav_network
-                    "vlc.shortcut.playlists" -> R.id.nav_playlists
                     "vlc.shortcut.resume" -> R.id.ml_menu_last_playlist
                     else -> 0
                 }

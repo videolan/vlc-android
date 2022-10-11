@@ -35,7 +35,6 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
-import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.browser.MLStorageBrowserFragment
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.UiTools
@@ -82,10 +81,6 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         super.onCreateOptionsMenu(menu)
         if (current is AboutFragment) return true
         menuInflater.inflate(R.menu.activity_option, menu)
-        if (current is ExtensionBrowser) {
-            menu.findItem(R.id.ml_menu_last_playlist).isVisible = false
-            menu.findItem(R.id.ml_menu_sortby).isVisible = false
-        }
         if (current is Filterable) {
             val filterable = current as Filterable?
             searchItem = menu.findItem(R.id.ml_menu_filter)

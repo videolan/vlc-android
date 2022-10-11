@@ -67,7 +67,6 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 @JvmField val CUSTOM_ACTION_REWIND = "rewind".buildPkgString()
 @JvmField val EXTRA_CUSTOM_ACTION_ID = "EXTRA_CUSTOM_ACTION_ID".buildPkgString()
 @JvmField val EXTRA_SEEK_DELAY = "EXTRA_CUSTOM_ACTION_ID".buildPkgString()
-const val ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE"
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
 const val PLAYLIST_TYPE_VIDEO_RESUME = 2
