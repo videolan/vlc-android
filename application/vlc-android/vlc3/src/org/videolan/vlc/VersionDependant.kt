@@ -51,7 +51,7 @@ fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? = currentVideoTrack?.let { Vl
 
 fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
     val currentTrackId = audioTrack
-   audioTracks.forEach {
+   audioTracks?.forEach {
        if (it.id == currentTrackId) return VlcTrackImpl(it)
    }
     return null
@@ -59,7 +59,7 @@ fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
 
 fun MediaPlayer.getSelectedSpuTrack(): VlcTrack? {
     val currentTrackId = spuTrack
-    spuTracks.forEach {
+    spuTracks?.forEach {
         if (it.id == currentTrackId) return VlcTrackImpl(it)
     }
     return null
