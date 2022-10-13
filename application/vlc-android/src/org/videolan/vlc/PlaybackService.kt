@@ -1249,7 +1249,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (media == null || isVideoPlaying) return
         if (lifecycleScope.isActive) lifecycleScope.launch(Dispatchers.Default) {
             sendBroadcast(Intent("com.android.music.metachanged")
-                    .putExtra("track", media.title)
+                    .putExtra("track", media.nowPlaying ?: media.title)
                     .putExtra("artist", media.artist)
                     .putExtra("album", media.album)
                     .putExtra("duration", media.length)
