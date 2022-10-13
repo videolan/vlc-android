@@ -36,6 +36,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -192,15 +193,18 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private fun setupProvider(index: Int = viewModel.currentTab) {
         val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size - 1)]
         if (provider.loading.hasObservers()) return
-        provider.pagedList.observe(viewLifecycleOwner) { items ->
-            @Suppress("UNCHECKED_CAST")
-            if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
-            updateEmptyView()
-            restorePositions.get(index)?.let {
-                lists[index].scrollToPosition(it)
-                restorePositions.delete(index)
+        lifecycleScope.launch {
+            waitForML()
+            provider.pagedList.observe(viewLifecycleOwner) { items ->
+                @Suppress("UNCHECKED_CAST")
+                if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
+                updateEmptyView()
+                restorePositions.get(index)?.let {
+                    lists[index].scrollToPosition(it)
+                    restorePositions.delete(index)
+                }
+                setFabPlayShuffleAllVisibility(items.isNotEmpty())
             }
-            setFabPlayShuffleAllVisibility(items.isNotEmpty())
         }
         provider.loading.observe(viewLifecycleOwner) { loading ->
             if (loading == null || currentTab != index) return@observe
