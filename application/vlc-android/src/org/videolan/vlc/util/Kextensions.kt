@@ -376,9 +376,9 @@ fun generateResolutionClass(width: Int, height: Int): String? = if (width <= 0 |
     when {
         realHeight >= 4320 -> "8K"
         realHeight >= 2160 -> "4K"
-        realHeight >= 1440 -> "qHD"
-        realHeight >= 1080 -> "FHD"
-        realHeight >= 720 -> "HD"
+        realHeight >= 1440 -> "1440p"
+        realHeight >= 1080 -> "1080p"
+        realHeight >= 720 -> "720p"
         else -> "SD"
     }
 }
