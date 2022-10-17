@@ -204,7 +204,7 @@ object VLCOptions {
         if (hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
             aout = AOUT_OPENSLES
 
-        return if (aout == AOUT_OPENSLES) "opensles_android" else null /* audiotrack is the default */
+        return if (aout == AOUT_OPENSLES) "opensles" else null /* audiotrack is the default */
     }
 
     private fun getDeblocking(deblocking: Int): Int {
