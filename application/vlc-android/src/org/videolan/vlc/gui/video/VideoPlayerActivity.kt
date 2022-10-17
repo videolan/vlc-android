@@ -130,6 +130,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var rootView: View? = null
     var videoUri: Uri? = null
     var savedMediaList: ArrayList<MediaWrapper>? = null
+    var savedMediaIndex: Int = 0
     private var askResume = true
 
     var playlistModel: PlaylistModel? = null
@@ -487,6 +488,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
             savedMediaList = savedInstanceState.getParcelableArrayList(KEY_MEDIA_LIST)
+            savedMediaIndex = savedInstanceState.getInt(KEY_MEDIA_INDEX)
             val list = savedInstanceState.getBoolean(KEY_LIST, false)
             if (list) {
                 intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
@@ -660,8 +662,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         val mediaList = service?.playlistManager?.getMediaList() ?: savedMediaList
+        val mediaIndex = service?.playlistManager?.currentIndex ?: 0
         if (mediaList != null) {
             outState.putParcelableArrayList(KEY_MEDIA_LIST, ArrayList(mediaList))
+            outState.putInt(KEY_MEDIA_INDEX, mediaIndex)
             savedMediaList = null
         }
         videoUri = null
@@ -2238,7 +2242,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service != null) {
             this.service = service
             if (savedMediaList != null && service.currentMediaWrapper == null) {
-                service.append(savedMediaList!!)
+                service.append(savedMediaList!!, savedMediaIndex)
                 savedMediaList = null
             }
             //We may not have the permission to access files
@@ -2294,6 +2298,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val KEY_TIME = "saved_time"
         private const val KEY_LIST = "saved_list"
         private const val KEY_MEDIA_LIST = "media_list"
+        private const val KEY_MEDIA_INDEX = "media_index"
         private const val KEY_URI = "saved_uri"
         const val OVERLAY_INFINITE = -1
         const val FADE_OUT = 1

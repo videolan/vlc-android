@@ -1513,11 +1513,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      */
 
     @MainThread
-    fun append(mediaList: Array<MediaWrapper>) = append(mediaList.toList())
+    fun append(mediaList: Array<MediaWrapper>, index: Int = 0) = append(mediaList.toList(), index)
 
     @MainThread
-    fun append(mediaList: List<MediaWrapper>) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
-        playlistManager.append(mediaList)
+    fun append(mediaList: List<MediaWrapper>, index: Int = 0) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+        playlistManager.append(mediaList, index)
         onMediaListChanged()
     }
 
