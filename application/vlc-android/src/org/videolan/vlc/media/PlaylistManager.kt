@@ -846,10 +846,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Append to the current existing playlist
      */
     @MainThread
-    suspend fun append(list: List<MediaWrapper>) {
+    suspend fun append(list: List<MediaWrapper>, index: Int = 0) {
         if (BuildConfig.BETA) Log.d(TAG, "append with values: ", Exception("Call stack"))
         if (!hasCurrentMedia()) {
-            launch { load(list, 0, mlUpdate = true) }
+            launch { load(list, index, mlUpdate = true) }
             return
         }
         val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
