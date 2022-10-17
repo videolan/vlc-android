@@ -297,7 +297,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun startScan(shouldInit: Boolean, upgrade: Boolean) {
         scanActivated = true
         if (MLServiceLocator.getLocatorMode() == MLServiceLocator.LocatorMode.TESTS) {
-            (medialibrary as StubMedialibrary).loadJsonData(Util.readAsset("basic_stub.json", ""))
+            val jsonData = AppContextProvider.appResources.openRawResource(R.raw.basic_stub).bufferedReader().use {
+                it.readText()
+            }
+            (medialibrary as StubMedialibrary).loadJsonData(jsonData)
         }
         when {
             shouldInit -> {

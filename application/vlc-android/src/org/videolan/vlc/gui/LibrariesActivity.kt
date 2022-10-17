@@ -93,7 +93,7 @@ class LicenseModel : ViewModel() {
      */
     suspend fun refresh() {
         val parsedLicenses = withContext(Dispatchers.IO) {
-            val jsonData = AppContextProvider.appContext.assets.open("libraries.json").bufferedReader().use {
+            val jsonData = AppContextProvider.appResources.openRawResource(R.raw.libraries).bufferedReader().use {
                 it.readText()
             }
 

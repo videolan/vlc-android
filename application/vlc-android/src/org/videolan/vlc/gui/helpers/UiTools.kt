@@ -406,7 +406,7 @@ object UiTools {
         v.findViewById<View>(R.id.about_vlc_card).setOnClickListener {
            var licenseText = ""
             activity.lifecycleScope.launchWhenStarted {
-                licenseText = AppContextProvider.appContext.assets.open("vlc_license.txt").bufferedReader().use {
+                licenseText = AppContextProvider.appResources.openRawResource(R.raw.vlc_license).bufferedReader().use {
                    it.readText()
                }
             }

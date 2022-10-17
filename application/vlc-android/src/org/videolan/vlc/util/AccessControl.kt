@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.resources.AppContextProvider
+import org.videolan.vlc.R
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -109,8 +110,7 @@ object AccessControl {
     private suspend fun loadAuthorizedKeys(): Map<String, CertInfo> {
         return withContext(Dispatchers.IO) {
             val certificateAllowList = mutableMapOf<String, CertInfo>()
-            val ctx = AppContextProvider.appContext
-            val jsonData = ctx.assets.open("authorized_keys.json").bufferedReader().use {
+            val jsonData = AppContextProvider.appResources.openRawResource(R.raw.authorized_keys).bufferedReader().use {
                 it.readText()
             }
             val signatures = JSONArray(jsonData)
