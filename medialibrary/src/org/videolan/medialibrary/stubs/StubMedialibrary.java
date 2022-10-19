@@ -527,7 +527,7 @@ public class StubMedialibrary extends Medialibrary {
         Album[] albums = searchAlbum(query);
         Artist[] artists = searchArtist(query);
         Genre[] genres = searchGenre(query);
-        Playlist[] playlists = searchPlaylist(query, true);
+        Playlist[] playlists = searchPlaylist(query, Playlist.Type.All, true);
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
     }
 
@@ -651,7 +651,7 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortGenre(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public Playlist[] searchPlaylist(String query, boolean includeMissing) {
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, boolean includeMissing) {
         ArrayList<Playlist> results = new ArrayList<>();
         for (Playlist playlist : dt.mPlaylists) {
             if (Tools.hasSubString(playlist.getTitle(), query)) results.add(playlist);
@@ -659,8 +659,8 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Playlist[0]);
     }
 
-    public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query, includeMissing)));
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query, type, includeMissing)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 

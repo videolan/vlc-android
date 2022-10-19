@@ -678,11 +678,11 @@ getGenreSearchCount(JNIEnv* env, jobject thiz, jstring filterQuery) {
 }
 
 jobjectArray
-searchPlaylist(JNIEnv* env, jobject thiz, jstring query, jboolean includeMissing)
+searchPlaylist(JNIEnv* env, jobject thiz, jstring query, medialibrary::PlaylistType type, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
-    std::vector<medialibrary::PlaylistPtr> playlists = aml->searchPlaylists(queryChar)->all();
+    std::vector<medialibrary::PlaylistPtr> playlists = aml->searchPlaylists(queryChar, type)->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
@@ -694,12 +694,12 @@ searchPlaylist(JNIEnv* env, jobject thiz, jstring query, jboolean includeMissing
 }
 
 jobjectArray
-searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
+searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, medialibrary::PlaylistType type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    const auto query = aml->searchPlaylists(queryChar, &params);
+    const auto query = aml->searchPlaylists(queryChar, type, &params);
     std::vector<medialibrary::PlaylistPtr> playlists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
@@ -712,9 +712,9 @@ searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sorting
 }
 
 jint
-getPlaylistSearchCount(JNIEnv* env, jobject thiz, jstring filterQuery) {
+getPlaylistSearchCount(JNIEnv* env, jobject thiz, jstring filterQuery, medialibrary::PlaylistType type) {
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    jint count = (jint) MediaLibrary_getInstance(env, thiz)->searchPlaylists(queryChar)->count();
+    jint count = (jint) MediaLibrary_getInstance(env, thiz)->searchPlaylists(queryChar, type)->count();
     env->ReleaseStringUTFChars(filterQuery, queryChar);
     return count;
 }
@@ -2389,8 +2389,8 @@ static JNINativeMethod methods[] = {
     {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchGenre },
     {"nativeSearchPagedGenre", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchPagedGenre },
     {"nativeGetGenreSearchCount", "(Ljava/lang/String;)I", (void*)getGenreSearchCount },
-    {"nativeSearchPlaylist", "(Ljava/lang/String;Z)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPlaylist },
-    {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPagedPlaylist },
+    {"nativeSearchPlaylist", "(Ljava/lang/String;IZ)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPlaylist },
+    {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IIZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPagedPlaylist },
     {"nativeGetPlaylistSearchCount", "(Ljava/lang/String;)I", (void*)getPlaylistSearchCount },
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromMrl },

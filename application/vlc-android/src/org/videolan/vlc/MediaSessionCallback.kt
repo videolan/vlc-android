@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.Settings
@@ -286,7 +287,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 vsp.isAlbumFocus -> playbackService.medialibrary.searchAlbum(vsp.album)
                 vsp.isGenreFocus -> playbackService.medialibrary.searchGenre(vsp.genre)
                 vsp.isArtistFocus -> playbackService.medialibrary.searchArtist(vsp.artist)
-                vsp.isPlaylistFocus -> playbackService.medialibrary.searchPlaylist(vsp.playlist, Settings.includeMissing)
+                vsp.isPlaylistFocus -> playbackService.medialibrary.searchPlaylist(vsp.playlist, Playlist.Type.All, Settings.includeMissing)
                 else -> null
             }
             if (!isActive) return@launch

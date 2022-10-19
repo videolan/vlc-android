@@ -66,7 +66,7 @@ public:
     medialibrary::Query<medialibrary::IMedia> searchMedia(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IMedia> searchAudio(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IMedia> searchVideo(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
-    medialibrary::Query<medialibrary::IPlaylist> searchPlaylists(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
+    medialibrary::Query<medialibrary::IPlaylist> searchPlaylists(const std::string& query, medialibrary::PlaylistType type, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IAlbum> searchAlbums(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IGenre> searchGenre(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IArtist> searchArtists(const std::string& query, const medialibrary::QueryParameters* params = nullptr);

@@ -319,9 +319,9 @@ AndroidMediaLibrary::searchFromFolder( int64_t folderId, const std::string& quer
 }
 
 medialibrary::Query<medialibrary::IPlaylist>
-AndroidMediaLibrary::searchPlaylists(const std::string& query, const medialibrary::QueryParameters* params)
+AndroidMediaLibrary::searchPlaylists(const std::string& query, medialibrary::PlaylistType type, const medialibrary::QueryParameters* params)
 {
-    return p_ml->searchPlaylists(query, params);
+    return p_ml->searchPlaylists(query, type, params);
 }
 
 medialibrary::Query<medialibrary::IAlbum>

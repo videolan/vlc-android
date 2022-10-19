@@ -577,12 +577,12 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGenre(query, sort, desc, includeMissing, nbItems, offset) : null;
     }
 
-    public Playlist[] searchPlaylist(String query, boolean includeMissing) {
-        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPlaylist(query, includeMissing) : null;
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, boolean includeMissing) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPlaylist(query, type.ordinal(), includeMissing) : null;
     }
 
-    public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedPlaylist(query, sort, desc, includeMissing, nbItems, offset) : null;
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedPlaylist(query, type.ordinal(), sort, desc, includeMissing, nbItems, offset) : null;
     }
 
     @Override
@@ -740,8 +740,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native Genre[] nativeSearchGenre(String query);
     private native Genre[] nativeSearchPagedGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetGenreSearchCount(String query);
-    private native Playlist[] nativeSearchPlaylist(String query, boolean includeMissing);
-    private native Playlist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    private native Playlist[] nativeSearchPlaylist(String query, int type, boolean includeMissing);
+    private native Playlist[] nativeSearchPagedPlaylist(String query, int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetPlaylistSearchCount(String query);
     private native Folder[] nativeSearchPagedFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetSearchFoldersCount(String query);

@@ -796,8 +796,8 @@ abstract public class Medialibrary {
     abstract public Album[] searchAlbum(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Genre[] searchGenre(String query);
     abstract public Genre[] searchGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public Playlist[] searchPlaylist(String query, boolean includeMissing);
-    abstract public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Playlist[] searchPlaylist(String query, Playlist.Type type, boolean includeMissing);
+    abstract public Playlist[] searchPlaylist(String query, Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Folder[] searchFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(String query);
     abstract public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);

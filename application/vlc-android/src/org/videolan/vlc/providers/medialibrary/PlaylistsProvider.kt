@@ -33,7 +33,7 @@ class PlaylistsProvider(context: Context, model: SortableModel) : MedialibraryPr
 
     override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {
         val list = if (model.filterQuery == null) medialibrary.getPagedPlaylists(sort, desc, Settings.includeMissing, loadSize, startposition)
-        else medialibrary.searchPlaylist(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        else medialibrary.searchPlaylist(model.filterQuery, Playlist.Type.All, sort, desc, Settings.includeMissing, loadSize, startposition)
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list
     }

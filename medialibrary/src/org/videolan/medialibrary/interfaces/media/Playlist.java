@@ -27,6 +27,15 @@ public abstract class Playlist extends MediaLibraryItem {
         mNbDurationUnknown = nbDurationUnknown;
     }
 
+    public enum Type {
+        /// Include all kind of playlist, regarding of the media types
+        All,
+        /// Only include audio playlists
+        AudioOnly,
+        /// Only include video playlist
+        VideoOnly
+    }
+
     abstract public MediaWrapper[] getTracks(boolean includeMissing);
     abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing);
     abstract public int getRealTracksCount(boolean includeMissing);
