@@ -1243,11 +1243,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (lifecycleScope.isActive) lifecycleScope.launch(Dispatchers.Default) {
             sendBroadcast(Intent("com.android.music.metachanged")
                     .putExtra("track", media.nowPlaying ?: media.title)
-                    .putExtra("artist", media.artist)
-                    .putExtra("album", media.album)
+                    .putExtra("artist", MediaUtils.getMediaArtist(this@PlaybackService, media))
+                    .putExtra("album", MediaUtils.getMediaAlbum(this@PlaybackService, media))
                     .putExtra("duration", media.length)
                     .putExtra("playing", isPlaying)
-                    .putExtra("package", "org.videolan.vlc"))
+                    .putExtra("package", "org.videolan.vlc")
+                    .apply {
+                        if (lastChaptersCount > 0) getCurrentChapter()?.let { putExtra("chapter", it) }
+                    })
         }
     }
 
