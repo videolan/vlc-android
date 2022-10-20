@@ -17,13 +17,14 @@ abstract public class Artist extends MediaLibraryItem {
     private int tracksCount;
     private int albumsCount;
     private int presentTracksCount;
+    private boolean mFavorite;
 
     public static class SpecialRes {
         public static String UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
         public static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
     }
 
-    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
+    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount, boolean isFavorite) {
         super(id, name);
         this.shortBio = shortBio;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -31,6 +32,7 @@ abstract public class Artist extends MediaLibraryItem {
         this.tracksCount = tracksCount;
         this.albumsCount = albumsCount;
         this.presentTracksCount = presentTracksCount;
+        this.mFavorite = isFavorite;
         if (id == 1L) {
             mTitle = SpecialRes.UNKNOWN_ARTIST;
         } else if (id == 2L) {
@@ -46,6 +48,7 @@ abstract public class Artist extends MediaLibraryItem {
     abstract public int searchTracksCount(String query);
     abstract public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing);
     abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    public abstract boolean setFavorite(boolean favorite);
 
     public String getShortBio() {
         return shortBio;
@@ -85,6 +88,10 @@ abstract public class Artist extends MediaLibraryItem {
         return presentTracksCount;
     }
 
+    public boolean isFavorite() {
+        return mFavorite;
+    }
+
     @Override
     public MediaWrapper[] getTracks() {
         return getTracks(Medialibrary.SORT_ALBUM, false, true);
@@ -103,6 +110,7 @@ abstract public class Artist extends MediaLibraryItem {
         parcel.writeString(musicBrainzId);
         parcel.writeInt(tracksCount);
         parcel.writeInt(albumsCount);
+        parcel.writeBoolean(mFavorite);
     }
 
     public static Parcelable.Creator<Artist> CREATOR
@@ -125,5 +133,6 @@ abstract public class Artist extends MediaLibraryItem {
         this.musicBrainzId = in.readString();
         this.tracksCount = in.readInt();
         this.albumsCount = in.readInt();
+        this.mFavorite = in.readBoolean();
     }
 }

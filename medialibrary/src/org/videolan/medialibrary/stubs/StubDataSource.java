@@ -126,9 +126,9 @@ public class StubDataSource {
     }
 
     public void init() {
-        Artist artist = MLServiceLocator.getAbstractArtist(1L, "", "", "", "", 0, 0, 0);
+        Artist artist = MLServiceLocator.getAbstractArtist(1L, "", "", "", "", 0, 0, 0, false);
         addArtistSecure(artist);
-        artist = MLServiceLocator.getAbstractArtist(2L, "", "", "", "", 0, 0, 0);
+        artist = MLServiceLocator.getAbstractArtist(2L, "", "", "", "", 0, 0, 0, false);
         addArtistSecure(artist);
     }
 
@@ -495,7 +495,8 @@ public class StubDataSource {
                         artist.getId(),
                         album.getTracksCount(),
                         album.getPresentTracksCount(),
-                        album.getDuration() + duration));
+                        album.getDuration() + duration,
+                        album.isFavorite()));
                 break;
             }
         }
@@ -522,7 +523,7 @@ public class StubDataSource {
         Artist albumArtist = getArtistFromName(albumArtistName);
         if (albumArtist == null) {
             albumArtist = MLServiceLocator.getAbstractArtist(getUUID(), albumArtistName,
-                    "", media.getArtworkMrl(), "", 0, trackTotal, trackTotal);
+                    "", media.getArtworkMrl(), "", 0, trackTotal, trackTotal, false);
             addArtistSecure(albumArtist);
         }
         if (media.getArtist().isEmpty()) {
@@ -531,7 +532,7 @@ public class StubDataSource {
             Artist artist = getArtistFromName(media.getArtist());
             if (artist == null) {
                 artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtist(),
-                        "", media.getArtworkMrl(), "", 1, trackTotal, trackTotal);
+                        "", media.getArtworkMrl(), "", 1, trackTotal, trackTotal, false);
                 addArtistSecure(artist);
             }
         }
@@ -540,11 +541,11 @@ public class StubDataSource {
         if (album == null) {
             album = MLServiceLocator.getAbstractAlbum(getUUID(), albumName, releaseYear,
                     media.getArtworkMrl(), albumArtist.getTitle(),
-                    albumArtist.getId(), trackTotal, trackTotal, 0);
+                    albumArtist.getId(), trackTotal, trackTotal, 0, false);
             addAlbumSecure(album);
         }
         raiseAlbumDuration(album, (int) media.getLength());
-        Genre genre = MLServiceLocator.getAbstractGenre(getUUID(), media.getGenre());
+        Genre genre = MLServiceLocator.getAbstractGenre(getUUID(), media.getGenre(), false);
         addGenreSecure(genre);
         MediaWrapper newMedia = MLServiceLocator.getAbstractMediaWrapper(
                 media.getId(),

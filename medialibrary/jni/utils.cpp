@@ -84,11 +84,12 @@ convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& al
     medialibrary::ArtistPtr artist = albumPtr->albumArtist();
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
     utils::jni::string artistName;
+    auto isFavorite = albumPtr->isFavorite();
     if ( artist != nullptr )
         artistName = vlcNewStringUTF(env, artist->name().c_str());
     return utils::jni::object{ env, env->NewObject(fields->Album.clazz, fields->Album.initID,
                           (jlong) albumPtr->id(), title.get(), albumPtr->releaseYear(),
-                                  thumbnailMrl.get(), artistName.get(), albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration())
+                                  thumbnailMrl.get(), artistName.get(), albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration(), isFavorite)
     };
 }
 
@@ -98,10 +99,11 @@ convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& 
     auto name = vlcNewStringUTF(env, artistPtr->name().c_str());
     auto thumbnailMrl = vlcNewStringUTF(env, artistPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
     auto shortBio = vlcNewStringUTF(env, artistPtr->shortBio().c_str());
+    auto isFavorite = artistPtr->isFavorite();
     auto musicBrainzId = vlcNewStringUTF(env, artistPtr->musicBrainzId().c_str());
     return utils::jni::object{ env, env->NewObject(fields->Artist.clazz, fields->Artist.initID,
                           (jlong) artistPtr->id(), name.get(), shortBio.get(), thumbnailMrl.get(),
-                                  musicBrainzId.get(), (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks())
+                                  musicBrainzId.get(), (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks(), isFavorite)
     };
 }
 
@@ -109,8 +111,9 @@ utils::jni::object
 convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr)
 {
     auto name = vlcNewStringUTF(env, genrePtr->name().c_str());
+    auto isFavorite = genrePtr->isFavorite();
     return utils::jni::object{ env, env->NewObject(fields->Genre.clazz, fields->Genre.initID,
-                          (jlong) genrePtr->id(), name.get(), (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks())
+                          (jlong) genrePtr->id(), name.get(), (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks(), isFavorite)
     };
 }
 

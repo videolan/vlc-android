@@ -14,8 +14,8 @@ public class StubArtist extends Artist {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
-        super(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount);
+    public StubArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount, boolean isFavorite) {
+        super(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount, isFavorite);
     }
 
     public StubArtist(Parcel in) {
@@ -132,4 +132,7 @@ public class StubArtist extends Artist {
         }
         return count;
     }
+
+    @Override
+    public boolean setFavorite(boolean favorite) { return true; }
 }

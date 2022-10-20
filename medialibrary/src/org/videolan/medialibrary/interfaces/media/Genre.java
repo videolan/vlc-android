@@ -11,11 +11,13 @@ public abstract class Genre extends MediaLibraryItem {
 
     private int mPresentTracksCount;
     private int mTracksCount;
+    private boolean mFavorite;
 
-    public Genre(long id, String title, int nbTracks, int nbPresentTracks) {
+    public Genre(long id, String title, int nbTracks, int nbPresentTracks, boolean isFavorite) {
         super(id, title);
         this.mTracksCount = nbTracks;
         this.mPresentTracksCount = nbPresentTracks;
+        this.mFavorite = isFavorite;
     }
     public Genre(Parcel in) { super(in); }
 
@@ -29,6 +31,7 @@ public abstract class Genre extends MediaLibraryItem {
     abstract public int searchAlbumsCount(String query);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
+    public abstract boolean setFavorite(boolean favorite);
 
     public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return getPagedTracks(false, sort, desc, includeMissing, nbItems, offset);
@@ -59,6 +62,10 @@ public abstract class Genre extends MediaLibraryItem {
 
     public int getPresentTracksCount() {
         return mPresentTracksCount;
+    }
+
+    public boolean isFavorite() {
+        return mFavorite;
     }
 
     public static Parcelable.Creator<Genre> CREATOR

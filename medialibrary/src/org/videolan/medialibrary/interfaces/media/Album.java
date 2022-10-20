@@ -22,8 +22,9 @@ public abstract class Album extends MediaLibraryItem {
     protected int mTracksCount;
     protected long duration;
     public int mPresentTracksCount;
+    public boolean mFavorite;
 
-    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration) {
+    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration, boolean isFavorite) {
         super(id, title);
         this.releaseYear = releaseYear;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -32,6 +33,7 @@ public abstract class Album extends MediaLibraryItem {
         this.mTracksCount = nbTracks;
         this.mPresentTracksCount = nbPresentTracks;
         this.duration = duration;
+        this.mFavorite = isFavorite;
         if (TextUtils.isEmpty(title)) mTitle = SpecialRes.UNKNOWN_ALBUM;
         if (albumArtistId == 1L) {
             this.albumArtist = Artist.SpecialRes.UNKNOWN_ARTIST;
@@ -48,6 +50,7 @@ public abstract class Album extends MediaLibraryItem {
         this.albumArtistId = in.readLong();
         this.mTracksCount = in.readInt();
         this.duration = in.readLong();
+        this.mFavorite = in.readBoolean();
         this.mPresentTracksCount = in.readInt();
     }
 
@@ -57,6 +60,7 @@ public abstract class Album extends MediaLibraryItem {
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public Artist retrieveAlbumArtist();
+    public abstract boolean setFavorite(boolean favorite);
 
     @Override
     public long getId() {
@@ -107,6 +111,10 @@ public abstract class Album extends MediaLibraryItem {
         return mPresentTracksCount;
     }
 
+    public boolean isFavorite() {
+        return mFavorite;
+    }
+
     public static Parcelable.Creator<Album> CREATOR
             = new Parcelable.Creator<Album>() {
         @Override
@@ -131,5 +139,6 @@ public abstract class Album extends MediaLibraryItem {
         parcel.writeInt(mPresentTracksCount);
         parcel.writeLong(duration);
         parcel.writeInt(mTracksCount);
+        parcel.writeBoolean(mFavorite);
     }
 }

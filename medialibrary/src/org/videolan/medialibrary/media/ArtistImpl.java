@@ -12,8 +12,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 @SuppressWarnings("JniMissingFunction")
 public class ArtistImpl extends Artist {
 
-    public ArtistImpl(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
-        super(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount);
+    public ArtistImpl(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount, boolean isFavorite) {
+        super(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount, isFavorite);
     }
 
     public ArtistImpl(Parcel in) {
@@ -61,6 +61,15 @@ public class ArtistImpl extends Artist {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetPagedMedia(ml, mId, sort, desc, includeMissing, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeSetFavorite(ml, mId, favorite);
+        return ret;
+    }
 
 
     private native Album[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing);
@@ -71,4 +80,5 @@ public class ArtistImpl extends Artist {
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native int nativeGetSearchAlbumCount(Medialibrary ml, long mId, String query);
+    private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 }

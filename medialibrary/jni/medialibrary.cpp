@@ -1449,9 +1449,33 @@ markAsPlayed(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 }
 
 jboolean
-setFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+setMediaFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
+setArtistFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::ArtistPtr media = aml->artist(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
+setAlbumFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::AlbumPtr media = aml->album(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
+setGenreFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::GenrePtr media = aml->genre(id);
     if (media == nullptr) return 0L;
     return media->setFavorite(favorite);
 }
@@ -2474,7 +2498,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeRemoveBookmark", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)removeBookmark },
     {"nativeRemoveAllBookmarks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeAllBookmarks },
     {"nativeMarkAsPlayed", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)markAsPlayed },
-    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setFavorite },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setMediaFavorite },
 };
 
 static JNINativeMethod bookmark_methods[] = {
@@ -2489,6 +2513,7 @@ static JNINativeMethod album_methods[] = {
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromAlbum },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromAlbumCount },
     {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getTracksFromAlbumCount },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setAlbumFavorite },
 };
 
 static JNINativeMethod artist_methods[] = {
@@ -2500,6 +2525,7 @@ static JNINativeMethod artist_methods[] = {
     {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromArtist },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromArtistCount },
     {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumFromArtistCount },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setArtistFavorite },
 };
 
 static JNINativeMethod genre_methods[] = {
@@ -2515,6 +2541,7 @@ static JNINativeMethod genre_methods[] = {
     {"nativeGetArtistsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreArtistsCount },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchMediaFromGenreCount },
     {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumsFromGenreCount },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setGenreFavorite },
 };
 
 static JNINativeMethod folder_methods[] = {
@@ -2644,7 +2671,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Artist.initID,
            ml_fields.Artist.clazz,
-           "<init>", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;III)V");
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIIZ)V");
 
     GET_CLASS(ml_fields.Album.clazz, "org/videolan/medialibrary/media/AlbumImpl", true);
     if (env->RegisterNatives(ml_fields.Album.clazz, album_methods, sizeof(album_methods) / sizeof(album_methods[0])) < 0) {
@@ -2654,7 +2681,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Album.initID,
            ml_fields.Album.clazz,
-           "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIIJ)V");
+           "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIIJZ)V");
 
     GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/FolderImpl", true);
     if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
@@ -2674,7 +2701,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Genre.initID,
            ml_fields.Genre.clazz,
-           "<init>", "(JLjava/lang/String;II)V");
+           "<init>", "(JLjava/lang/String;IIZ)V");
 
     GET_CLASS(ml_fields.Playlist.clazz, "org/videolan/medialibrary/media/PlaylistImpl", true);
     if (env->RegisterNatives(ml_fields.Playlist.clazz, playlist_methods, sizeof(playlist_methods) / sizeof(playlist_methods[0])) < 0) {
