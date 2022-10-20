@@ -32,7 +32,7 @@
     },
     {
       "title"    : "GSM",
-      "copyright": "Copyright © 1992-1994 Jutta Degener &amp; Carsten Bormann",
+      "copyright": "Copyright © 1992-1994 Jutta Degener & Carsten Bormann",
       "license"  : "gsm"
     },
     {
@@ -192,7 +192,7 @@
     {
       "id"         : "gsm",
       "name"       : "GSM permissive license",
-      "description": "GSM permissive license Permission to use, copy, modify, and distribute this software for any purpose with or without fee is hereby granted, provided that this notice is not removed and that neither the authors nor the Technische Universitaet Berlin are deemed to have made any representations as to the suitability of this software for any purpose nor are held responsible for any defects of this software. THERE IS ABSOLUTELY NO WARRANTY FOR THIS SOFTWARE.",
+      "description": "Permission to use, copy, modify, and distribute this software for any purpose with or without fee is hereby granted, provided that this notice is not removed and that neither the authors nor the Technische Universitaet Berlin are deemed to have made any representations as to the suitability of this software for any purpose nor are held responsible for any defects of this software. THERE IS ABSOLUTELY NO WARRANTY FOR THIS SOFTWARE.",
       "link"       : ""
     },
     {
