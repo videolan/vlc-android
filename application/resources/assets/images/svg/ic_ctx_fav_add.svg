@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="40"
    height="40"
    viewBox="0 0 40 40"
    version="1.1"
    id="SVGRoot"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_ctx_fav_add_normal.svg">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="ic_ctx_fav_add.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -25,16 +25,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16"
-     inkscape:cx="9.8596412"
-     inkscape:cy="13.266373"
+     inkscape:zoom="8"
+     inkscape:cx="5.875"
+     inkscape:cy="27.6875"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1016"
      inkscape:window-x="0"
-     inkscape:window-y="1107"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:grid-bbox="true"
      inkscape:snap-page="true"
@@ -49,7 +49,8 @@
      inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true">
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:pagecheckerboard="1">
     <inkscape:grid
        type="xygrid"
        id="grid8234" />
@@ -62,7 +63,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -72,9 +72,9 @@
      id="layer1"
      transform="translate(0,-8)">
     <path
-       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 20,16 3.11114,9.3334 H 32 L 24.85716,30.57146 28.00002,40 20,34.13336 11.99998,40 15.14284,30.57146 8,25.3334 h 8.88886 z"
-       id="path1655"
-       inkscape:connector-curvature="0" />
+       d="M 31.49,15.985 C 27.53,13.285 22.64,14.545 20,17.635 17.36,14.545 12.47,13.27 8.51,15.985 6.41,17.425 5.09,19.855 5,22.42 4.79,28.24 9.95,32.905 17.825,40.06 l 0.15,0.135 c 1.14,1.035 2.895,1.035 4.035,-0.015 l 0.165,-0.15 C 30.05,32.89 35.195,28.225 35,22.405 c -0.09,-2.55 -1.41,-4.98 -3.51,-6.42 z"
+       id="path3809"
+       style="fill:#000000;stroke-width:2"
+       sodipodi:nodetypes="ccsccccscc" />
   </g>
 </svg>
