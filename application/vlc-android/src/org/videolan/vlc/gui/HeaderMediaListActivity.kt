@@ -47,9 +47,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Album
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.parcelable
@@ -308,6 +306,8 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             (item as? MediaWrapper)?.let { media ->
                 if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME or CTX_COPY
                 else  flags = flags or CTX_SHARE
+                flags = flags or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
+
                 showContext(this, this, position, media, flags)
             }
         }
@@ -440,6 +440,9 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_COPY -> {
                 copy(media.title, media.location)
                 Snackbar.make(window.decorView.findViewById(android.R.id.content), R.string.url_copied_to_clipboard, Snackbar.LENGTH_LONG).show()
+            }
+            CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
+                media.isFavorite = option == CTX_FAV_ADD
             }
         }
 

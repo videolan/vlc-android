@@ -23,6 +23,7 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.Album
@@ -42,9 +43,13 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
     init {
         when (playlist) {
             is Playlist -> watchPlaylists()
-            is Album -> watchAlbums()
+            is Album -> {
+                watchAlbums()
+                watchMedia()
+            }
             else -> watchMedia()
         }
+        viewModelScope.registerCallBacks { refresh() }
     }
 
     class Factory(val context: Context, val playlist: MediaLibraryItem): ViewModelProvider.NewInstanceFactory() {

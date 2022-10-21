@@ -44,6 +44,9 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
@@ -368,11 +371,23 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         val flags: Long = when (item.itemType) {
-            MediaLibraryItem.TYPE_MEDIA -> CTX_TRACK_FLAGS
-            MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> {
-                if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+            MediaLibraryItem.TYPE_MEDIA -> {
+                if ((item as? MediaWrapper)?.isFavorite == true) CTX_TRACK_FLAGS or CTX_FAV_REMOVE else CTX_TRACK_FLAGS or CTX_FAV_ADD
             }
-            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> {
+            MediaLibraryItem.TYPE_ARTIST -> {
+                val flags = if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+                if ((item as? Artist)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+
+            }
+            MediaLibraryItem.TYPE_ALBUM -> {
+                val flags = if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
+                if ((item as? Album)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+            }
+            MediaLibraryItem.TYPE_GENRE -> {
+                val flags = if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+                if ((item as? Genre)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+            }
+            MediaLibraryItem.TYPE_PLAYLIST -> {
                 if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
             }
             else -> CTX_AUDIO_FLAGS
@@ -408,6 +423,14 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
             CTX_GO_TO_FOLDER -> showParentFolder(media as MediaWrapper)
             CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
+            CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
+                when (media) {
+                    is Album -> media.isFavorite = option == CTX_FAV_ADD
+                    is Artist -> media.isFavorite = option == CTX_FAV_ADD
+                    is Genre -> media.isFavorite = option == CTX_FAV_ADD
+                    is MediaWrapper -> media.isFavorite = option == CTX_FAV_ADD
+                }
+            }
         }
     }
 

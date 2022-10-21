@@ -374,7 +374,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                     oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem): Boolean {
                 return if (preventNextAnim) {
                     true
-                } else if (oldMedia is MediaWrapper && newMedia is MediaWrapper && oldMedia.isPresent != newMedia.isPresent) {
+                } else if (oldMedia is MediaWrapper && newMedia is MediaWrapper && (oldMedia.isPresent != newMedia.isPresent || oldMedia.isFavorite != newMedia.isFavorite)) {
                     false
                 } else oldMedia === newMedia || oldMedia.title == newMedia.title && oldMedia.itemType == newMedia.itemType && oldMedia.tracksCount == newMedia.tracksCount && oldMedia.equals(newMedia)
             }
