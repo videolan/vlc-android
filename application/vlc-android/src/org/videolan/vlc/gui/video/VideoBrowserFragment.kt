@@ -196,23 +196,29 @@ class VideoBrowserFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
      *
      * @return the current shown fragment
      */
-    private fun getCurrentFragment() = childFragmentManager.fragments.find{ it is Filterable && it.isResumed } as Filterable
+    private fun getCurrentFragment() = childFragmentManager.fragments.find{ it.isResumed }
 
     override fun getFilterQuery() = try {
-        getCurrentFragment().getFilterQuery()
+        (getCurrentFragment() as? Filterable)?.getFilterQuery()
     } catch (e: Exception) {
         null
     }
 
-    override fun enableSearchOption() = getCurrentFragment().enableSearchOption()
+    override fun enableSearchOption() = (getCurrentFragment() as? Filterable)?.enableSearchOption() ?: false
 
-    override fun filter(query: String) = getCurrentFragment().filter(query)
+    override fun filter(query: String) {
+        (getCurrentFragment() as? Filterable)?.filter(query)
+    }
 
-    override fun restoreList() = getCurrentFragment().restoreList()
+    override fun restoreList() {
+        (getCurrentFragment() as? Filterable)?.restoreList()
+    }
 
-    override fun setSearchVisibility(visible: Boolean) = getCurrentFragment().setSearchVisibility(visible)
+    override fun setSearchVisibility(visible: Boolean) {
+        (getCurrentFragment() as? Filterable)?.setSearchVisibility(visible)
+    }
 
-    override fun allowedToExpand() = getCurrentFragment().allowedToExpand()
+    override fun allowedToExpand() = (getCurrentFragment() as? Filterable)?.allowedToExpand() ?: false
 
 
 }
