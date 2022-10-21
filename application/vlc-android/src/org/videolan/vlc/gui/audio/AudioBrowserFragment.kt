@@ -366,7 +366,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(TAG_ITEM, item)
             }
-            MediaLibraryItem.TYPE_ALBUM -> {
+            MediaLibraryItem.TYPE_ALBUM, MediaLibraryItem.TYPE_PLAYLIST -> {
                 i = Intent(activity, HeaderMediaListActivity::class.java)
                 i.putExtra(TAG_ITEM, item)
             }
