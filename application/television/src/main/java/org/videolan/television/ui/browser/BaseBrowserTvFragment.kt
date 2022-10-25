@@ -267,7 +267,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
     private fun setupDisplayIcon() {
         binding.imageButtonDisplay.setImageResource(if (inGrid) R.drawable.ic_fabtvmini_list else R.drawable.ic_fabtvmini_grid)
-        binding.displayButton.setImageResource(if (inGrid) R.drawable.ic_list else R.drawable.ic_grid)
+        binding.displayButton.setImageResource(if (inGrid) R.drawable.ic_tv_browser_list else R.drawable.ic_tv_browser_grid)
         binding.displayDescription.setText(if (inGrid) R.string.display_in_list else R.string.display_in_grid)
         binding.displayButton.contentDescription = getString(if (inGrid) R.string.display_in_list else R.string.display_in_grid)
         binding.imageButtonDisplay.contentDescription = getString(if (inGrid) R.string.display_in_list else R.string.display_in_grid)

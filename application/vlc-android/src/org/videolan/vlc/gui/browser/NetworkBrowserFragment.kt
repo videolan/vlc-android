@@ -87,7 +87,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         item.isVisible = !isRootDirectory
         lifecycleScope.launchWhenStarted {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(mrl!!.toUri())
-            item.setIcon(if (isFavorite) R.drawable.ic_menu_bookmark_w else R.drawable.ic_menu_bookmark_outline_w)
+            item.setIcon(if (isFavorite) R.drawable.ic_menu_favorite else R.drawable.ic_menu_favorite_outline)
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
             mrl?.let {
                 val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
