@@ -148,8 +148,8 @@ object BitmapUtil {
         }
     }
 
-    fun vectorToBitmap(context: Context, @DrawableRes resVector: Int, width: Int? = null, height: Int? = null): Bitmap? {
-        val drawable = AppCompatResources.getDrawable(context, resVector) ?: return null
+    fun vectorToBitmap(context: Context, @DrawableRes resVector: Int, width: Int? = null, height: Int? = null): Bitmap {
+        val drawable = AppCompatResources.getDrawable(context, resVector) ?: throw IllegalStateException("Invalid drawable")
         val b = Bitmap.createBitmap(width ?: drawable.intrinsicWidth, height
                 ?: drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val c = Canvas(b)

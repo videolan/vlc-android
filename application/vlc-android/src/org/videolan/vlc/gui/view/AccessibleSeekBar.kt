@@ -32,7 +32,7 @@ class AccessibleSeekBar : AppCompatSeekBar {
          * @param host the view selected
          * @param event the accessibility event to send
          */
-        override fun sendAccessibilityEventUnchecked(host: View?, event: AccessibilityEvent) {
+        override fun sendAccessibilityEventUnchecked(host: View, event: AccessibilityEvent) {
             if (disabled) {
                 super.sendAccessibilityEventUnchecked(host, event)
                 return
