@@ -35,6 +35,10 @@ android {
 
     }
 
+    sourceSets.main {
+        java.srcDirs = rootProject.ext.vlcMajorVersion == 4 ? ['src', 'vlc4/src'] : ['src', 'vlc3/src']
+    }
+
     sourceSets.debug {
         res.srcDirs = ['flavors/debug/res']
     }

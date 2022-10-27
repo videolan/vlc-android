@@ -101,5 +101,3 @@ fun getDisableTrack(context: Context) = object : VlcTrack {
 
     override fun getFrameRateNum() = 0
 }
-
-fun isVLC4() = true

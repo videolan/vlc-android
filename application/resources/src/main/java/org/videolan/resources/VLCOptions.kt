@@ -38,6 +38,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.isVLC4
 import java.io.File
 import java.util.*
 
@@ -119,7 +120,7 @@ object VLCOptions {
             options.add("soxr")
             options.add("--audiotrack-session-id=$audiotrackSessionId")
 
-            options.add("--freetype-rel-fontsize=" + freetypeRelFontsize!!)
+            if (isVLC4()) options.add("--sub-text-scale=" + (1600 / freetypeRelFontsize!!.toFloat()).toString()) else options.add("--freetype-rel-fontsize=" + freetypeRelFontsize!!)
             if (freetypeBold) options.add("--freetype-bold")
             options.add("--freetype-color=$freetypeColor")
             options.add("--freetype-opacity=$freetypeColorOpacity")
@@ -147,11 +148,14 @@ object VLCOptions {
             options.add("--keystore-file")
             options.add(File(context.getDir("keystore", Context.MODE_PRIVATE), "file").absolutePath)
             options.add(if (verboseMode) "-vv" else "-v")
-            if (pref.getBoolean("casting_passthrough", false))
-                options.add("--sout-chromecast-audio-passthrough")
-            else
-                options.add("--no-sout-chromecast-audio-passthrough")
-            options.add("--sout-chromecast-conversion-quality=" + pref.getString("casting_quality", "2")!!)
+            // fixme comment temporarily
+            if (!isVLC4()) {
+                if (pref.getBoolean("casting_passthrough", false))
+                    options.add("--sout-chromecast-audio-passthrough")
+                else
+                    options.add("--no-sout-chromecast-audio-passthrough")
+                options.add("--sout-chromecast-conversion-quality=" + pref.getString("casting_quality", "2")!!)
+            }
             options.add("--sout-keep")
 
             val customOptions = pref.getString("custom_libvlc_options", null)
@@ -201,8 +205,8 @@ object VLCOptions {
         }
 
         val hwaout = HWDecoderUtil.getAudioOutputFromDevice()
-        if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
-            aout = if (hwaout == HWDecoderUtil.AudioOutput.OPENSLES) AOUT_OPENSLES else AOUT_AUDIOTRACK
+        if (hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
+            aout = AOUT_OPENSLES
 
         return if (aout == AOUT_OPENSLES) "opensles_android" else null /* audiotrack is the default */
     }

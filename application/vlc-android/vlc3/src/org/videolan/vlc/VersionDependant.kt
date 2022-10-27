@@ -95,6 +95,3 @@ fun MediaPlayer.unselectTrackType(type: Int) {
 fun getDisableTrack(context: Context) : VlcTrack {
     throw IllegalStateException("This is a VLC 4 only API. It should not be called by VLC 3")
 }
-
-
-fun isVLC4() = false
