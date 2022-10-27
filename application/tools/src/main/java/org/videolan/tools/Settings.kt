@@ -34,6 +34,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var incognitoMode = false
     var safeMode = false
     var remoteAccessEnabled = MutableLiveData(false)
+    var fastplaySpeed = 2f
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -59,6 +60,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
+        fastplaySpeed = prefs.getString(FASTPLAY_SPEED, "2")?.toFloat() ?: 2f
         return prefs
     }
 
@@ -166,6 +168,8 @@ const val ENABLE_VOLUME_GESTURE = "enable_volume_gesture"
 const val ENABLE_BRIGHTNESS_GESTURE = "enable_brightness_gesture"
 const val SCREENSHOT_MODE = "screenshot_mode"
 const val ENABLE_SCALE_GESTURE = "enable_scale_gesture"
+const val ENABLE_FASTPLAY = "enable_fastplay"
+const val FASTPLAY_SPEED = "fastplay_speed"
 const val SAVE_BRIGHTNESS = "save_brightness"
 const val BRIGHTNESS_VALUE = "brightness_value"
 const val POPUP_KEEPSCREEN = "popup_keepscreen"

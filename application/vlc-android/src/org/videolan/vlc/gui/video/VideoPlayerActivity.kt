@@ -142,6 +142,7 @@ import org.videolan.tools.DISPLAY_UNDER_NOTCH
 import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
 import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
 import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_FASTPLAY
 import org.videolan.tools.ENABLE_SCALE_GESTURE
 import org.videolan.tools.ENABLE_SEEK_BUTTONS
 import org.videolan.tools.ENABLE_SWIPE_SEEK
@@ -672,7 +673,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 + (if (settings.getBoolean(ENABLE_DOUBLE_TAP_PLAY, true)) TOUCH_FLAG_PLAY else 0)
                 + (if (settings.getBoolean(ENABLE_SWIPE_SEEK, true)) TOUCH_FLAG_SWIPE_SEEK else 0)
                 + (if (settings.getString(SCREENSHOT_MODE, "0") in arrayOf("2", "3")) TOUCH_FLAG_SCREENSHOT else 0)
-                + (if (settings.getBoolean(ENABLE_SCALE_GESTURE, true)) TOUCH_FLAG_SCALE else 0))
+                + (if (settings.getBoolean(ENABLE_SCALE_GESTURE, true)) TOUCH_FLAG_SCALE else 0)
+                + (if (settings.getBoolean(ENABLE_FASTPLAY, false)) TOUCH_FLAG_FASTPLAY else 0))
     } else 0
 
     override fun fireDialog(dialog: Dialog) {
@@ -2439,7 +2441,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     fun onChangedControlSetting(key: String) = when(key) {
         AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(AUDIO_BOOST, true)
-        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCALE_GESTURE -> touchDelegate.touchControls = generateTouchFlags()
+        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCALE_GESTURE, ENABLE_FASTPLAY -> touchDelegate.touchControls = generateTouchFlags()
         SCREENSHOT_MODE -> {
             touchDelegate.touchControls = generateTouchFlags()
             overlayDelegate.updateScreenshotButton()

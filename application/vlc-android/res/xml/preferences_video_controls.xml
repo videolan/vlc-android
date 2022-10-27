@@ -56,6 +56,13 @@
                 android:title="@string/enable_swipe_seek_title"
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="enable_fastplay"
+                android:summary="@string/enable_tap_and_hold_fastplay_summary"
+                android:title="@string/enable_tap_and_hold_fastplay_title"
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false" />
         <org.videolan.vlc.gui.view.NumberPickerPreference
                 android:defaultValue="10"
                 android:dependency="enable_double_tap_seek"
@@ -69,6 +76,16 @@
                 android:key="screenshot_mode"
                 android:summary="%s"
                 android:title="@string/enable_video_screenshot"
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false" />
+        <ListPreference
+                android:defaultValue="2"
+                android:dependency="enable_fastplay"
+                android:entries="@array/fastplay_speed_entries"
+                android:entryValues="@array/fastplay_speed_values"
+                android:key="fastplay_speed"
+                android:summary="%s"
+                android:title="@string/fastplay_speed_title"
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
 

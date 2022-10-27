@@ -31,9 +31,11 @@ import org.videolan.tools.AUDIO_BOOST
 import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
 import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
 import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_FASTPLAY
 import org.videolan.tools.ENABLE_SCALE_GESTURE
 import org.videolan.tools.ENABLE_SWIPE_SEEK
 import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.FASTPLAY_SPEED
 import org.videolan.tools.KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_LONG_JUMP_DELAY
@@ -59,6 +61,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(ENABLE_DOUBLE_TAP_PLAY)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_SCALE_GESTURE)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_SWIPE_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(ENABLE_FASTPLAY)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(SCREENSHOT_MODE)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
@@ -102,6 +105,9 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
             }
             KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY -> {
                 Settings.videoDoubleTapJumpDelay = sharedPreferences.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
+            }
+            FASTPLAY_SPEED -> {
+                Settings.fastplaySpeed = sharedPreferences.getString(FASTPLAY_SPEED, "2")?.toFloat() ?: 2f
             }
         }
     }

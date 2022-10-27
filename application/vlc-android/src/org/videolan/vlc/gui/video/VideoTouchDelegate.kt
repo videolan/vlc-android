@@ -41,6 +41,7 @@ const val TOUCH_FLAG_PLAY = 1 shl 3
 const val TOUCH_FLAG_SWIPE_SEEK = 1 shl 4
 const val TOUCH_FLAG_SCREENSHOT = 1 shl 5
 const val TOUCH_FLAG_SCALE = 1 shl 6
+const val TOUCH_FLAG_FASTPLAY = 1 shl 7
 //Touch Events
 private const val TOUCH_NONE = 0
 private const val TOUCH_VOLUME = 1
@@ -49,6 +50,7 @@ private const val TOUCH_MOVE = 3
 private const val TOUCH_TAP_SEEK = 4
 private const val TOUCH_IGNORE = 5
 private const val TOUCH_SCREENSHOT = 6
+private const val TOUCH_FASTPLAY = 7
 
 private const val MIN_FOV = 20f
 private const val MAX_FOV = 150f
@@ -75,6 +77,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private var verticalTouchActive = false
 
     private var lastMove: Long = 0
+    private var savedRate: Float = 1f
 
     //Seek
     private var nbTimesTaped = 0
@@ -125,7 +128,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 return true
             }
             else -> {
-                if (!player.isLocked) {
+                if (!player.isLocked && touchAction != TOUCH_FASTPLAY) {
                     scaleGestureDetector.onTouchEvent(event)
                     if (scaleGestureDetector.isInProgress) {
                         touchAction = TOUCH_IGNORE
@@ -168,10 +171,20 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         touchX = event.x
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
+                        var fastPlayRunable = Runnable {
+                            if (touchAction == TOUCH_NONE) {
+                                savedRate = player.service!!.rate
+                                player.service?.setRate(org.videolan.tools.Settings.fastplaySpeed, false)
+                                player.overlayDelegate.showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
+                                touchAction = TOUCH_FASTPLAY
+                            }
+                        }
+                        if (touchControls and TOUCH_FLAG_FASTPLAY != 0)
+                            handler.postDelayed(fastPlayRunable, 250)
                     }
                     MotionEvent.ACTION_MOVE -> {
                         if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3) touchAction = TOUCH_SCREENSHOT
-                        if (touchAction == TOUCH_IGNORE) return false
+                        if (touchAction == TOUCH_IGNORE || touchAction == TOUCH_FASTPLAY) return false
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
 
@@ -210,10 +223,19 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
                         val touchSlop = ViewConfiguration.get(player).scaledTouchSlop
                         if (touchAction == TOUCH_IGNORE) touchAction = TOUCH_NONE
+
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
                         touchX = -1f
                         touchY = -1f
+
+                        // FastPlay
+                        if (touchAction == TOUCH_FASTPLAY) {
+                            player.overlayDelegate.hideOverlay(false)
+                            player.service?.setRate(savedRate, false)
+                            touchAction = TOUCH_NONE
+                            return true
+                        }
                         // Seek
                         if (touchAction == TOUCH_TAP_SEEK) {
                             doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
