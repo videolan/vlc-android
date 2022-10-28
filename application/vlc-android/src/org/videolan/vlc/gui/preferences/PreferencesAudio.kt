@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.preferences
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
@@ -48,6 +49,7 @@ import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.isVLC4
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
@@ -70,11 +72,17 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         super.onCreate(savedInstanceState)
         findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
         findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = AndroidDevices.isPhone
+        val aoutPref = findPreference<ListPreference>("aout")
         val aout = HWDecoderUtil.getAudioOutputFromDevice()
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
-            findPreference<Preference>("aout")?.isVisible = false
+            aoutPref?.isVisible = false
         }
+        if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            aoutPref?.entryValues = requireActivity().resources.getStringArray(R.array.aouts_complete_values)
+            aoutPref?.entries = requireActivity().resources.getStringArray(R.array.aouts_complete)
+        }
+
         updatePassThroughSummary()
         val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
