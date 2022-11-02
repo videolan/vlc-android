@@ -126,8 +126,7 @@
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_constraintVertical_chainStyle="packed"
-                vlc:srcCompat="@drawable/ic_emoji_favorite"
-                vlc:tint="@color/list_subtitle" />
+                vlc:srcCompat="@drawable/ic_emoji_favorite"/>
 
         <ImageView
                 android:id="@+id/media_network"
@@ -138,8 +137,7 @@
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toBottomOf="@+id/media_favorite"
-                vlc:srcCompat="@drawable/ic_emoji_network"
-                vlc:tint="@color/list_subtitle" />
+                vlc:srcCompat="@drawable/ic_emoji_network"/>
 
         <ImageView
                 android:id="@+id/media_sd"
@@ -150,8 +148,7 @@
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_sd"
-                vlc:tint="@color/list_subtitle" />
+                vlc:srcCompat="@drawable/ic_emoji_sd"/>
 
         <ImageView
                 android:id="@+id/otg_media"
@@ -162,8 +159,7 @@
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_otg"
-                vlc:tint="@color/list_subtitle" />
+                vlc:srcCompat="@drawable/ic_emoji_otg"/>
 
         <ImageView
                 android:id="@+id/media_absent"
@@ -174,8 +170,7 @@
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_media_absent"
-                vlc:tint="@color/list_subtitle" />
+                vlc:srcCompat="@drawable/ic_emoji_media_absent"/>
 
 
         <ImageView

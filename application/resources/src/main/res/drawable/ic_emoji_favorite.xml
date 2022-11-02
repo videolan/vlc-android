@@ -28,7 +28,7 @@
         android:viewportWidth="12"
         android:viewportHeight="12">
     <path
-            android:fillColor="?attr/list_subtitle"
+            android:fillColor="?attr/font_default"
             android:pathData="M6.675,10.065C6.295,10.41 5.71,10.41 5.33,10.06L5.275,10.01C2.65,7.635 0.935,6.08 1,4.14 1.03,3.29 1.465,2.475 2.17,1.995 3.49,1.095 5.12,1.515 6,2.545 6.88,1.515 8.51,1.09 9.83,1.995 10.535,2.475 10.97,3.29 11,4.14 11.07,6.08 9.35,7.635 6.725,10.02Z"
             android:strokeWidth="2" />
 </vector>
