@@ -43,6 +43,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -149,6 +150,12 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             holder.binding.setVariable(BR.isSD, item.uri.isSD())
             holder.binding.setVariable(BR.isPresent, item.isPresent)
         } else holder.binding.setVariable(BR.isPresent, true)
+        when (item) {
+            is MediaWrapper -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+            is Album -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+            is Artist -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+            is Genre -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+        }
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
         holder.binding.invalidateAll()
         holder.binding.executePendingBindings()

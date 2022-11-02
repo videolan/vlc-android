@@ -53,6 +53,10 @@
                 type="boolean" />
 
         <variable
+                name="isFavorite"
+                type="boolean" />
+
+        <variable
                 name="inSelection"
                 type="boolean" />
 
@@ -156,7 +160,7 @@
                         android:padding="3dp"
                         android:visibility="@{isSD ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
-                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:srcCompat="@drawable/ic_emoji_sd" />
                 <ImageView
                         android:id="@+id/otg_media"
@@ -168,7 +172,7 @@
                         android:padding="3dp"
                         android:visibility="@{isOTG ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
-                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:srcCompat="@drawable/ic_emoji_otg" />
 
                 <ImageView
@@ -181,7 +185,7 @@
                         android:padding="3dp"
                         android:visibility="@{isNetwork ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
-                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:srcCompat="@drawable/ic_emoji_network" />
 
                 <ImageView
@@ -194,8 +198,21 @@
                         android:padding="3dp"
                         android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
-                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:srcCompat="@drawable/ic_emoji_absent" />
+
+                <ImageView
+                        android:id="@+id/media_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/rounded_corners_black_more_transparent"
+                        android:padding="3dp"
+                        android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
+                        vlc:layout_constraintBottom_toBottomOf="parent"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:srcCompat="@drawable/ic_emoji_favorite" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
