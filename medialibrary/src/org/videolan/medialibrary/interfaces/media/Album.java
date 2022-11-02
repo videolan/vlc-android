@@ -3,10 +3,12 @@ package org.videolan.medialibrary.interfaces.media;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 
+import org.videolan.BuildConfig;
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.MLServiceLocator;
+import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -49,8 +51,10 @@ public abstract class Album extends MediaLibraryItem {
         this.albumArtist = in.readString();
         this.albumArtistId = in.readLong();
         this.mTracksCount = in.readInt();
+        this.mPresentTracksCount = in.readInt();
         this.duration = in.readLong();
-        this.mFavorite = in.readBoolean();
+        this.mFavorite = in.readInt() == 1;
+        if (BuildConfig.DEBUG) Log.d("Parcel test", "During unparcel: "+mFavorite);
         this.mPresentTracksCount = in.readInt();
     }
 
@@ -138,7 +142,8 @@ public abstract class Album extends MediaLibraryItem {
         parcel.writeInt(mTracksCount);
         parcel.writeInt(mPresentTracksCount);
         parcel.writeLong(duration);
+        if (BuildConfig.DEBUG) Log.d("Parcel test", "During parcel: "+mFavorite);
+        parcel.writeInt(mFavorite ? 1 : 0);
         parcel.writeInt(mTracksCount);
-        parcel.writeBoolean(mFavorite);
     }
 }

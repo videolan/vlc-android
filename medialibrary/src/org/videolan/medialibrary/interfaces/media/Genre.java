@@ -19,7 +19,20 @@ public abstract class Genre extends MediaLibraryItem {
         this.mPresentTracksCount = nbPresentTracks;
         this.mFavorite = isFavorite;
     }
-    public Genre(Parcel in) { super(in); }
+    public Genre(Parcel in) {
+        super(in);
+        this.mTracksCount = in.readInt();
+        this.mPresentTracksCount = in.readInt();
+        this.mFavorite = in.readInt() == 1;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        super.writeToParcel(parcel, i);
+        parcel.writeInt(mTracksCount);
+        parcel.writeInt(mPresentTracksCount);
+        parcel.writeInt(mFavorite ? 1 : 0);
+    }
 
     abstract public Album[] getAlbums(int sort, boolean desc, boolean includeMissing);
     abstract public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);

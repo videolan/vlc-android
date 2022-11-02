@@ -90,11 +90,11 @@ public class MLServiceLocator {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapperImpl(uri, time, position, length, type, picture, title, artist, genre,
                     album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
-                    discNumber, lastModified, seen);
+                    discNumber, lastModified, seen, false);
         } else {
             return new StubMediaWrapper(uri, time, position, length, type, picture, title, artist, genre,
                     album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
-                    discNumber, lastModified, seen);
+                    discNumber, lastModified, seen, false);
         }
     }
 
