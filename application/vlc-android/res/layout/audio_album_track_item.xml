@@ -45,6 +45,10 @@
                 type="boolean" />
 
         <variable
+                name="isFavorite"
+                type="boolean" />
+
+        <variable
                 name="inSelection"
                 type="boolean" />
 
@@ -71,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                android:minWidth="20dp"
                 android:contentDescription="@{TalkbackUtil.INSTANCE.getTrackNumber(context, item)}"
+                android:minWidth="20dp"
                 tools:text="1."
                 vlc:layout_constraintBottom_toBottomOf="@id/title"
                 vlc:layout_constraintStart_toStartOf="parent"
@@ -111,17 +115,31 @@
                 vlc:layout_constraintTop_toBottomOf="@id/title"
                 vlc:layout_constraintVertical_chainStyle="packed" />
 
+
+        <ImageView
+                android:id="@+id/media_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintBottom_toTopOf="@+id/media_network"
+                vlc:layout_constraintEnd_toStartOf="@id/item_more"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintVertical_chainStyle="packed"
+                vlc:srcCompat="@drawable/ic_emoji_favorite"
+                vlc:tint="@color/list_subtitle" />
+
         <ImageView
                 android:id="@+id/media_network"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:visibility="@{isNetwork &amp; isPresent? View.VISIBLE : View.GONE}"
-                vlc:tint="@color/list_subtitle"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
-                vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_network" />
+                vlc:layout_constraintTop_toBottomOf="@+id/media_favorite"
+                vlc:srcCompat="@drawable/ic_emoji_network"
+                vlc:tint="@color/list_subtitle" />
 
         <ImageView
                 android:id="@+id/media_sd"
@@ -129,11 +147,11 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:visibility="@{isSD &amp; isPresent ? View.VISIBLE : View.GONE}"
-                vlc:tint="@color/list_subtitle"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_sd" />
+                vlc:srcCompat="@drawable/ic_emoji_sd"
+                vlc:tint="@color/list_subtitle" />
 
         <ImageView
                 android:id="@+id/otg_media"
@@ -141,11 +159,11 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:visibility="@{isOTG &amp; !isPresent ? View.VISIBLE : View.GONE}"
-                vlc:tint="@color/list_subtitle"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_otg" />
+                vlc:srcCompat="@drawable/ic_emoji_otg"
+                vlc:tint="@color/list_subtitle" />
 
         <ImageView
                 android:id="@+id/media_absent"
@@ -153,11 +171,11 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:visibility="@{!isPresent ? View.VISIBLE : View.INVISIBLE}"
-                vlc:tint="@color/list_subtitle"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toStartOf="@id/item_more"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:srcCompat="@drawable/ic_emoji_media_absent" />
+                vlc:srcCompat="@drawable/ic_emoji_media_absent"
+                vlc:tint="@color/list_subtitle" />
 
 
         <ImageView
