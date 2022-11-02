@@ -124,7 +124,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags and CTX_SET_RINGTONE != 0L && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone))
         if (flags and CTX_FAV_ADD != 0L) add(Simple(CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_ctx_fav_add))
         if (flags and CTX_ADD_SCANNED != 0L) add(Simple(CTX_ADD_SCANNED, getString(R.string.add_to_scanned), R.drawable.ic_ctx_addtoscan))
-        if (flags and CTX_FAV_EDIT != 0L) add(Simple(CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_ctx_fav_edit))
+        if (flags and CTX_FAV_EDIT != 0L) add(Simple(CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_ctx_edit))
         if (flags and CTX_FAV_REMOVE != 0L) add(Simple(CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_ctx_fav_remove))
         if (flags and CTX_REMOVE_FROM_PLAYLIST != 0L) add(Simple(CTX_REMOVE_FROM_PLAYLIST, getString(R.string.remove), R.drawable.ic_ctx_remove_from_playlist))
         if (flags and CTX_STOP_AFTER_THIS != 0L) add(Simple(CTX_STOP_AFTER_THIS, getString(R.string.stop_after_this), R.drawable.ic_ctx_stop_after_this))

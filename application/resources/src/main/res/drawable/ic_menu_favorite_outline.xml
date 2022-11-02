@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_menu_bookmark_outline_w.xml
+  ~  ic_menu_favorite_outline.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -22,16 +22,13 @@
   ~
   -->
 
-<vector android:height="48dp"
-        android:viewportHeight="24"
-        android:viewportWidth="24"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
         android:width="48dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
     <path
-            android:fillAlpha="1"
             android:fillColor="?attr/colorControlNormal"
-            android:fillType="nonZero"
-            android:pathData="m12,3.8594 l-2,6.2188 -6.5625,0 5.3125,3.8125 -2.0313,6.25 5.2813,-3.875 5.2813,3.875 -2.0313,-6.25 5.3125,-3.8125 -6.5625,0 -2,-6.2188zM12,7.8594 L13.125,11.2969 16.75,11.2969 13.8125,13.4219 14.9375,16.8906 12,14.7344 9.0625,16.8906 10.1875,13.4219 7.25,11.2969 10.875,11.2969 12,7.8594z"
-            android:strokeColor="#00000000"
-            android:strokeWidth="1.5" />
+            android:pathData="M31.461,9.5C28.578,9.481 25.808,10.82 24,12.936 21.108,9.55 15.75,8.171 11.412,11.129 9.095,12.707 7.665,15.384 7.566,18.178 7.353,24.554 12.99,29.665 21.617,37.471l0.18,0.164c1.249,1.15 3.173,1.151 4.422,0.018l0.164,-0.148c8.628,-7.839 14.281,-12.95 14.051,-19.326 -0.099,-2.794 -1.529,-5.471 -3.846,-7.049 -1.627,-1.115 -3.397,-1.617 -5.127,-1.629zM17.041,13.5c2.382,0 4.702,1.523 5.522,3.631h2.891C26.257,15.023 28.577,13.5 30.959,13.5c3.093,0 5.414,2.308 5.414,5.385 0,4.446 -4.857,8.83 -12.219,15.461L24,34.5 23.846,34.346C16.484,27.715 11.627,23.331 11.627,18.885 11.627,15.808 13.948,13.5 17.041,13.5Z"
+            android:strokeWidth="2" />
 </vector>

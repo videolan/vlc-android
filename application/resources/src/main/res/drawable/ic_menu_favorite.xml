@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_menu_bookmark_w.xml
+  ~  ic_menu_favorite.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -22,16 +22,13 @@
   ~
   -->
 
-<vector android:height="48dp"
-        android:viewportHeight="24"
-        android:viewportWidth="24"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
         android:width="48dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
     <path
-            android:fillAlpha="1"
             android:fillColor="?attr/colorControlNormal"
-            android:fillType="nonZero"
-            android:pathData="m12,3.8594 l2.0102,6.2332 6.5493,-0.0143 -5.3069,3.838 2.0375,6.2243 -5.2901,-3.8612 -5.2901,3.8612 2.0375,-6.2243 -5.3069,-3.838 6.5493,0.0143z"
-            android:strokeColor="#00000000"
-            android:strokeWidth="1.5" />
+            android:pathData="m26.218,37.652c-1.249,1.134 -3.172,1.134 -4.421,-0.016L21.617,37.471C12.989,29.665 7.352,24.554 7.566,18.178c0.099,-2.794 1.528,-5.472 3.846,-7.05 4.338,-2.958 9.696,-1.578 12.588,1.808 2.892,-3.385 8.25,-4.782 12.588,-1.808 2.317,1.578 3.747,4.256 3.845,7.05 0.23,6.376 -5.423,11.487 -14.051,19.326z"
+            android:strokeWidth="2" />
 </vector>

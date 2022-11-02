@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_fabtvmini_bookmark.xml
+  ~  ic_fabtvmini_favorite.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -29,22 +29,14 @@
         android:viewportHeight="40">
     <path
             android:pathData="M20,20m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"
-            android:strokeAlpha="1"
             android:strokeLineJoin="round"
-            android:strokeWidth="12.59842491"
+            android:strokeWidth="12.5984"
             android:fillColor="@color/standard_selection_orange500_orange700"
             android:strokeColor="#00000000"
             android:fillType="nonZero"
-            android:fillAlpha="1"
             android:strokeLineCap="butt" />
     <path
-            android:pathData="m20,12 l1.9688,6L28,18L23.1659,21.6484 25.25,28 20,24.0377 14.75,28 16.8341,21.6484 12,18h6.0313z"
-            android:strokeAlpha="1"
-            android:strokeLineJoin="miter"
-            android:strokeWidth="0.5"
-            android:fillColor="#ffffff"
-            android:strokeColor="#00000000"
-            android:fillType="evenOdd"
-            android:fillAlpha="1"
-            android:strokeLineCap="butt" />
+            android:pathData="m21.109,26.826c-0.625,0.567 -1.586,0.567 -2.21,-0.008l-0.09,-0.082c-4.314,-3.903 -7.132,-6.458 -7.025,-9.646 0.049,-1.397 0.764,-2.736 1.923,-3.525 2.169,-1.479 4.848,-0.789 6.294,0.904 1.446,-1.693 4.125,-2.391 6.294,-0.904 1.158,0.789 1.873,2.128 1.923,3.525 0.115,3.188 -2.711,5.743 -7.025,9.663z"
+            android:strokeWidth="2"
+            android:fillColor="#ffffff" />
 </vector>
