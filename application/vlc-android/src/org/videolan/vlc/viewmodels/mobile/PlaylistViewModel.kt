@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
+import java.util.ArrayList
 
 class PlaylistViewModel(context: Context, private val initialPlaylist: MediaLibraryItem) : MedialibraryViewModel(context) {
 
@@ -89,7 +90,7 @@ class PlaylistViewModel(context: Context, private val initialPlaylist: MediaLibr
         refresh()
     }
 
-    suspend fun toggleFavorite() = withContext(Dispatchers.IO){
+    suspend fun toggleFavorite() = withContext(Dispatchers.IO) {
         playlist?.let { it.setFavorite(!it.isFavorite) }
     }
 }

@@ -3,10 +3,14 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import android.view.Menu
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import java.util.ArrayList
 
 
 abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
@@ -52,6 +56,13 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
     override fun canSortByAlbum () = providers.any { it.canSortByAlbum () }
     override fun canSortByPlayCount() = providers.any { it.canSortByPlayCount() }
     override fun canSortByMediaNumber() = providers.any { it.canSortByMediaNumber() }
+
+
+    suspend fun changeFavorite(tracks: List<MediaLibraryItem>, favorite: Boolean) = withContext(Dispatchers.IO) {
+        tracks.forEach {
+            it.isFavorite = favorite
+        }
+    }
 }
 
 fun MedialibraryViewModel.prepareOptionsMenu(menu: Menu) {

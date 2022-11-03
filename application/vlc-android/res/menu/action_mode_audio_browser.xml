@@ -29,6 +29,17 @@
             android:icon="@drawable/ic_am_play"
         app:showAsAction="always"/>
     <item
+        android:id="@+id/action_mode_favorite_add"
+        android:title="@string/favorites_add"
+            android:icon="@drawable/ic_menu_favorite"
+            app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_mode_favorite_remove"
+        android:title="@string/favorites_remove"
+            android:icon="@drawable/ic_menu_favorite_outline"
+            app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_mode_audio_append"
         android:title="@string/append"
             android:icon="@drawable/ic_am_append"
