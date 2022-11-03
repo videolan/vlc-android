@@ -63,6 +63,13 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
         withContext(Dispatchers.IO) { (media as? MediaWrapper)?.rename(name) }
         refresh()
     }
+
+    suspend fun toggleFavorite() = withContext(Dispatchers.IO){
+        when (playlist) {
+            is Album -> playlist.setFavorite(!playlist.isFavorite)
+            else ->{}
+        }
+    }
 }
 
 internal fun HeaderMediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)

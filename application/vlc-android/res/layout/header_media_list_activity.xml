@@ -201,6 +201,20 @@
                             vlc:layout_constraintStart_toEndOf="@id/btn_add_playlist"
                             vlc:layout_constraintTop_toTopOf="@id/play_btn" />
 
+                    <ImageView
+                            android:id="@+id/btn_favorite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/favorites_add"
+                            android:padding="4dp"
+                            vlc:srcCompat="@drawable/ic_menu_favorite"
+                            vlc:layout_constraintBottom_toBottomOf="@id/play_btn"
+                            vlc:layout_constraintStart_toEndOf="@id/btn_shuffle"
+                            vlc:layout_constraintTop_toTopOf="@id/play_btn" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar

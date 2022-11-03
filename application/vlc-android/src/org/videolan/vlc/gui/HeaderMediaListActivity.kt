@@ -36,6 +36,7 @@ import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
@@ -152,6 +153,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             addToPlaylist(viewModel.playlist.tracks.toList())
         }
 
+        updateFavoriteState()
+
+        binding.btnFavorite.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.toggleFavorite()
+                updateFavoriteState()
+            }
+        }
+
         binding.headerListArtist.setOnClickListener {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
@@ -188,6 +198,13 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         }
 
         binding.playBtn.setOnClickListener(this)
+    }
+
+    private fun updateFavoriteState() {
+        (viewModel.playlist as? Album)?.let {
+            binding.btnFavorite.setVisible()
+            binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(this, if (it.isFavorite) R.drawable.ic_header_media_favorite else R.drawable.ic_header_media_favorite_outline))
+        } ?: binding.btnFavorite.setGone()
     }
 
     override fun onStop() {
