@@ -90,10 +90,7 @@ class PlaylistViewModel(context: Context, private val initialPlaylist: MediaLibr
     }
 
     suspend fun toggleFavorite() = withContext(Dispatchers.IO){
-        when (playlist) {
-            is Album -> (playlist as Album).setFavorite(!(playlist as Album).isFavorite)
-            else ->{}
-        }
+        playlist?.let { it.setFavorite(!it.isFavorite) }
     }
 }
 

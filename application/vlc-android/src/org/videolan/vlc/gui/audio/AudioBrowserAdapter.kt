@@ -150,12 +150,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             holder.binding.setVariable(BR.isSD, item.uri.isSD())
             holder.binding.setVariable(BR.isPresent, item.isPresent)
         } else holder.binding.setVariable(BR.isPresent, true)
-        when (item) {
-            is MediaWrapper -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
-            is Album -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
-            is Artist -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
-            is Genre -> holder.binding.setVariable(BR.isFavorite, item.isFavorite)
-        }
+        item?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
         holder.binding.invalidateAll()
         holder.binding.executePendingBindings()
@@ -182,6 +177,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                     UPDATE_REORDER -> {
                        holder.binding.invalidateAll()
                     }
+                    UPDATE_FAVORITE_STATE -> getItem(position)?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
                 }
             }
         }
@@ -371,6 +367,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
         private const val TAG = "VLC/AudioBrowserAdapter"
         private const val UPDATE_PAYLOAD = 1
+        private const val UPDATE_FAVORITE_STATE = 2
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations
          */
@@ -381,7 +378,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                     oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem): Boolean {
                 return if (preventNextAnim) {
                     true
-                } else if (oldMedia is MediaWrapper && newMedia is MediaWrapper && (oldMedia.isPresent != newMedia.isPresent || oldMedia.isFavorite != newMedia.isFavorite)) {
+                } else if (oldMedia is MediaWrapper && newMedia is MediaWrapper && oldMedia.isPresent != newMedia.isPresent) {
                     false
                 } else oldMedia === newMedia || oldMedia.title == newMedia.title && oldMedia.itemType == newMedia.itemType && oldMedia.tracksCount == newMedia.tracksCount && oldMedia.equals(newMedia)
             }
@@ -391,8 +388,11 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                 return false
             }
 
-            override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any? {
+            override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any {
                 preventNextAnim = false
+                when {
+                    oldItem.isFavorite != newItem.isFavorite  -> return UPDATE_FAVORITE_STATE
+                }
                 return UPDATE_PAYLOAD
             }
         }

@@ -424,12 +424,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_GO_TO_FOLDER -> showParentFolder(media as MediaWrapper)
             CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
-                when (media) {
-                    is Album -> media.isFavorite = option == CTX_FAV_ADD
-                    is Artist -> media.isFavorite = option == CTX_FAV_ADD
-                    is Genre -> media.isFavorite = option == CTX_FAV_ADD
-                    is MediaWrapper -> media.isFavorite = option == CTX_FAV_ADD
-                }
+                withContext(Dispatchers.IO) { media.isFavorite = option == CTX_FAV_ADD }
             }
         }
     }
