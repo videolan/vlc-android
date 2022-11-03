@@ -24,7 +24,6 @@ public abstract class Album extends MediaLibraryItem {
     protected int mTracksCount;
     protected long duration;
     public int mPresentTracksCount;
-    public boolean mFavorite;
 
     public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration, boolean isFavorite) {
         super(id, title);
@@ -64,7 +63,6 @@ public abstract class Album extends MediaLibraryItem {
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public Artist retrieveAlbumArtist();
-    public abstract boolean setFavorite(boolean favorite);
 
     @Override
     public long getId() {
@@ -115,9 +113,6 @@ public abstract class Album extends MediaLibraryItem {
         return mPresentTracksCount;
     }
 
-    public boolean isFavorite() {
-        return mFavorite;
-    }
 
     public static Parcelable.Creator<Album> CREATOR
             = new Parcelable.Creator<Album>() {
@@ -142,7 +137,6 @@ public abstract class Album extends MediaLibraryItem {
         parcel.writeInt(mTracksCount);
         parcel.writeInt(mPresentTracksCount);
         parcel.writeLong(duration);
-        if (BuildConfig.DEBUG) Log.d("Parcel test", "During parcel: "+mFavorite);
         parcel.writeInt(mFavorite ? 1 : 0);
         parcel.writeInt(mTracksCount);
     }

@@ -106,7 +106,6 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     protected String mTrackID;
     protected String mArtworkURL;
     protected boolean mThumbnailGenerated;
-    protected boolean mFavorite;
     private boolean mIsPresent = true;
 
     protected final Uri mUri;
@@ -146,7 +145,6 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract boolean removeBookmark(long time);
     public abstract boolean removeAllBookmarks();
     public abstract boolean markAsPlayed();
-    public abstract boolean setFavorite(boolean favorite);
 
     /**
      * Create a new MediaWrapper
@@ -640,10 +638,6 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public boolean isThumbnailGenerated() {
         return mThumbnailGenerated;
-    }
-
-    public boolean isFavorite() {
-        return mFavorite;
     }
 
     @Override

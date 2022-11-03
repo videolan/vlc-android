@@ -17,7 +17,6 @@ abstract public class Artist extends MediaLibraryItem {
     private int tracksCount;
     private int albumsCount;
     private int presentTracksCount;
-    private boolean mFavorite;
 
     public static class SpecialRes {
         public static String UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
@@ -48,7 +47,6 @@ abstract public class Artist extends MediaLibraryItem {
     abstract public int searchTracksCount(String query);
     abstract public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing);
     abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    public abstract boolean setFavorite(boolean favorite);
 
     public String getShortBio() {
         return shortBio;
@@ -88,9 +86,6 @@ abstract public class Artist extends MediaLibraryItem {
         return presentTracksCount;
     }
 
-    public boolean isFavorite() {
-        return mFavorite;
-    }
 
     @Override
     public MediaWrapper[] getTracks() {

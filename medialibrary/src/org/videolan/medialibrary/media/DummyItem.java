@@ -40,6 +40,11 @@ public class DummyItem extends MediaLibraryItem {
         return mArtWork;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
+
     public void setArtWork(String artWork) {
         mArtWork = artWork;
     }

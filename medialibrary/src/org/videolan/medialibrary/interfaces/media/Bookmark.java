@@ -41,6 +41,10 @@ abstract public class Bookmark extends MediaLibraryItem {
         this.setDescription(description);
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
 
     @Override
     public MediaWrapper[] getTracks() {

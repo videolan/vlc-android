@@ -54,6 +54,11 @@ public abstract class Playlist extends MediaLibraryItem {
         return mTracksCount;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
+
     public long getDuration() {
         return mDuration;
     }

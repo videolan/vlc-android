@@ -49,6 +49,11 @@ public abstract class Folder extends MediaLibraryItem {
     }
 
     @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
+
+    @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeString(mMrl);
