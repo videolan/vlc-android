@@ -123,14 +123,29 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             if (::itemTouchHelperCallback.isInitialized) itemTouchHelperCallback.swipeEnabled = true
         }
 
+        viewModel.playlistLiveData.observe(this) { playlist ->
+            (playlist as? Album)?.let {
+                binding.btnFavorite.setVisible()
+                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(this, if (it.isFavorite) R.drawable.ic_header_media_favorite else R.drawable.ic_header_media_favorite_outline))
+            } ?: binding.btnFavorite.setGone()
+
+            var totalDuration = 0L
+            for (item in playlist.tracks)
+                totalDuration += item.length
+            binding.totalDuration = totalDuration
+
+            if (playlist is Album) {
+                val releaseYear = playlist.releaseYear
+                binding.releaseYear = if (releaseYear > 0) releaseYear.toString() else ""
+                if (releaseYear <= 0) binding.releaseDate.visibility = View.GONE
+            }
+        }
+
         viewModel.tracksProvider.liveHeaders.observe(this) {
             binding.songs.invalidateItemDecorations()
         }
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
-        var totalDuration = 0L
-        for (item in viewModel.playlist.tracks)
-            totalDuration += item.length
-        binding.totalDuration = totalDuration
+
         if (isPlaylist) {
             audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
@@ -140,25 +155,18 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         } else {
             audioBrowserAdapter = AudioAlbumTracksAdapter(MediaLibraryItem.TYPE_MEDIA, this, this)
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
-            if (viewModel.playlist is Album) {
-                val releaseYear = (viewModel.playlist as Album).releaseYear
-                binding.releaseYear =  if (releaseYear > 0) releaseYear.toString() else ""
-                if (releaseYear <= 0) binding.releaseDate.visibility = View.GONE
-            }
+
         }
         binding.btnShuffle.setOnClickListener {
-            MediaUtils.playTracks(this, viewModel.playlist, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
+            viewModel.playlist?.let { MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
         }
         binding.btnAddPlaylist.setOnClickListener {
-            addToPlaylist(viewModel.playlist.tracks.toList())
+            viewModel.playlist?.let { addToPlaylist(it.tracks.toList()) }
         }
-
-        updateFavoriteState()
 
         binding.btnFavorite.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.toggleFavorite()
-                updateFavoriteState()
             }
         }
 
@@ -200,20 +208,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         binding.playBtn.setOnClickListener(this)
     }
 
-    private fun updateFavoriteState() {
-        (viewModel.playlist as? Album)?.let {
-            binding.btnFavorite.setVisible()
-            binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(this, if (it.isFavorite) R.drawable.ic_header_media_favorite else R.drawable.ic_header_media_favorite_outline))
-        } ?: binding.btnFavorite.setGone()
-    }
-
     override fun onStop() {
         super.onStop()
         stopActionMode()
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, viewModel.playlist)
+        viewModel.playlist?.let {
+            outState.putParcelable(AudioBrowserFragment.TAG_ITEM, it)
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -518,11 +521,13 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         itemTouchHelperCallback.swipeEnabled = false
         lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
-            withContext(Dispatchers.IO) {
-                for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
-                    val trueIndex = viewModel.playlist.tracks.indexOf(list[index])
-                    itemsRemoved[trueIndex] = tracks[playlistIndex].id
-                    playlist.remove(trueIndex)
+            viewModel.playlist?.let { playlist ->
+                withContext(Dispatchers.IO) {
+                    for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
+                        val trueIndex = playlist.tracks.indexOf(list[index])
+                        itemsRemoved[trueIndex] = tracks[playlistIndex].id
+                        (playlist as Playlist).remove(trueIndex)
+                    }
                 }
             }
             var removedMessage = if (indexes.size>1) getString(R.string.removed_from_playlist_anonymous) else getString(R.string.remove_playlist_item,list.first().title)
