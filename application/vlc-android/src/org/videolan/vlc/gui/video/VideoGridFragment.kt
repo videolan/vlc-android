@@ -226,15 +226,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.emptyLoading.setOnNoMediaClickListener {
             requireActivity().setResult(RESULT_RESTART)
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
         binding.videoGrid.adapter = videoListAdapter
         binding.fastScroller.attachToCoordinator(binding.videoGrid.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, binding.videoGrid.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, binding.videoGrid.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
         binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
     }
+
 
     override fun onResume() {
         super.onResume()

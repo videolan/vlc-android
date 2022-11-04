@@ -178,6 +178,10 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             }
         })
         setAnimator(view as ConstraintLayout)
+        binding.list.adapter = adapter as RecyclerView.Adapter<*>
+        if (!backgroundManager.isAttached) {
+            backgroundManager.attachToView(view)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -291,14 +295,6 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         (gridLayoutManager as? GridLayoutManager)?.spanCount = viewModel.nbColumns
         if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}")
         binding.list.layoutManager = gridLayoutManager
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        binding.list.adapter = adapter as RecyclerView.Adapter<*>
-        if (!backgroundManager.isAttached) {
-            backgroundManager.attachToView(view)
-        }
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun refresh() = (viewModel as RefreshModel).refresh()

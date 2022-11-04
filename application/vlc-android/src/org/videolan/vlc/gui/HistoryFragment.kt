@@ -89,15 +89,6 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             restoreMultiSelectHelper()
         }
         historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.refresh()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         list.layoutManager = LinearLayoutManager(activity)
         list.adapter = historyAdapter
         list.nextFocusUpId = R.id.ml_menu_search
@@ -113,6 +104,12 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         registerForContextMenu(list)
         swipeRefreshLayout.setOnRefreshListener(this)
     }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.refresh()
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_option_history, menu)

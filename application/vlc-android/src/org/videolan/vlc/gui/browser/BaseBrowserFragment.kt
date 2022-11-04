@@ -164,8 +164,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this, viewModel.sort, !viewModel.desc).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager

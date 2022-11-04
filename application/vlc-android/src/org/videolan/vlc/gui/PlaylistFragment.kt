@@ -101,10 +101,6 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         playlists.adapter = playlistAdapter
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller_playlist) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel.provider.pagedList.observe(requireActivity()) {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             updateEmptyView()
@@ -118,8 +114,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         }
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
-
     }
+
 
     private fun updateEmptyView() {
         if (!isAdded) return

@@ -100,10 +100,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         emptyView = view.rootView.findViewById(R.id.audio_empty_loading)
         fastScroller.attachToCoordinator(appbar, coordinator, fab)
         emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         val views = ArrayList<View>(MODE_TOTAL)
         for (i in 0 until MODE_TOTAL) {
             viewPager.getChildAt(i).let {
@@ -148,6 +144,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             }
         })
     }
+
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

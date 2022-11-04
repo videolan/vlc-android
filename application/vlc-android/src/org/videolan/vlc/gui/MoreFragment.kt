@@ -163,21 +163,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         donationsButton.setOnClickListener {
             requireActivity().showDonations()
         }
-    }
 
-    private fun manageDonationVisibility() {
-        if (activity == null) return
-//         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.refresh()
-        (activity as? ContentActivity)?.setTabLayoutVisibility(false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         historyEntry.list.adapter = historyAdapter
         historyEntry.list.nextFocusUpId = R.id.ml_menu_search
         historyEntry.list.nextFocusLeftId = android.R.id.list
@@ -196,6 +182,18 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         historyEntry.list.requestFocus()
         registerForContextMenu(historyEntry.list)
     }
+
+    private fun manageDonationVisibility() {
+        if (activity == null) return
+//         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.refresh()
+        (activity as? ContentActivity)?.setTabLayoutVisibility(false)
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         getMultiHelper()?.let {
