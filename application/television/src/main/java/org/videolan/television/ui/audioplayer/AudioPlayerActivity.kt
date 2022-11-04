@@ -30,6 +30,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.view.*
 import android.widget.SeekBar
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -128,6 +129,18 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             true
         }
         bookmarkModel = BookmarkModel.get(this)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (this@AudioPlayerActivity::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
+                    optionsDelegate.hide()
+                    return
+                }
+                if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
+                    bookmarkListDelegate.hide()
+                    return
+                }
+            }
+        })
     }
 
     private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
@@ -154,18 +167,6 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             binding.sleepQuickAction.setVisible()
             binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
         }
-    }
-
-    override fun onBackPressed() {
-        if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
-            optionsDelegate.hide()
-            return
-        }
-        if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
-            bookmarkListDelegate.hide()
-            return
-        }
-        super.onBackPressed()
     }
 
     override fun refresh() {}

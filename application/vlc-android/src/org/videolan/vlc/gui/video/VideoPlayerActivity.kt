@@ -48,6 +48,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -521,6 +522,33 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         }
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (optionsDelegate?.isShowing() == true) {
+                    optionsDelegate?.hide()
+                } else if (resizeDelegate.isShowing()) {
+                    resizeDelegate.hideResizeOverlay()
+                } else if (lockBackButton) {
+                    lockBackButton = false
+                    handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
+                    Toast.makeText(applicationContext, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show()
+                } else if (isPlaylistVisible) {
+                    overlayDelegate.togglePlaylist()
+                } else if (isPlaybackSettingActive) {
+                    delayDelegate.endPlaybackSetting()
+                } else if (isShowing && service?.playlistManager?.videoStatsOn?.value == true) {
+                    //hides video stats if they are displayed
+                    service?.playlistManager?.videoStatsOn?.postValue(false)
+                } else if (overlayDelegate.isBookmarkShown()) {
+                    overlayDelegate.hideBookmarks()
+                } else if ((AndroidDevices.isAndroidTv || isTalkbackIsEnabled()) && isShowing && !isLocked) {
+                    overlayDelegate.hideOverlay(true)
+                } else {
+                    exitOK()
+                }
+            }
+        })
     }
 
     override fun onAttachedToWindow() {
@@ -1004,32 +1032,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
         val result = !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
         return if (result) true else super.dispatchGenericMotionEvent(event)
-    }
-
-    override fun onBackPressed() {
-        if (optionsDelegate?.isShowing() == true) {
-            optionsDelegate?.hide()
-        } else if (resizeDelegate.isShowing()) {
-            resizeDelegate.hideResizeOverlay()
-        } else if (lockBackButton) {
-            lockBackButton = false
-            handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
-            Toast.makeText(applicationContext, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show()
-        } else if (isPlaylistVisible) {
-            overlayDelegate.togglePlaylist()
-        } else if (isPlaybackSettingActive) {
-            delayDelegate.endPlaybackSetting()
-        } else if (isShowing && service?.playlistManager?.videoStatsOn?.value == true) {
-            //hides video stats if they are displayed
-            service?.playlistManager?.videoStatsOn?.postValue(false)
-        } else if (overlayDelegate.isBookmarkShown()) {
-            overlayDelegate.hideBookmarks()
-        } else if ((AndroidDevices.isAndroidTv || isTalkbackIsEnabled()) && isShowing && !isLocked) {
-            overlayDelegate.hideOverlay(true)
-        } else {
-            exitOK()
-            super.onBackPressed()
-        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

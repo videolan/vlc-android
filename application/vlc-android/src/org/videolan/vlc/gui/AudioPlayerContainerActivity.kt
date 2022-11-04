@@ -32,6 +32,7 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -166,6 +167,11 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
             WindowInsetsCompat.CONSUMED
         }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (slideDownAudioPlayer()) return
+            }
+        })
     }
 
     /**
@@ -381,11 +387,6 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             applyMarginToProgressBar(0)
         setContentBottomPadding()
         super.onResume()
-    }
-
-    override fun onBackPressed() {
-        if (slideDownAudioPlayer()) return
-        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
