@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
+import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
 import org.videolan.vlc.gui.helpers.UiTools
@@ -80,8 +81,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        uris = savedInstanceState?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList()
-                ?: arguments?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
+        uris = savedInstanceState?.parcelableList<Uri>(MEDIA_PATHS)?.toList()
+                ?: arguments?.parcelableList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
         names = savedInstanceState?.getStringArrayList(MEDIA_NAMES)?.toList()
                 ?: arguments?.getStringArrayList(MEDIA_NAMES)?.toList() ?: listOf()
 

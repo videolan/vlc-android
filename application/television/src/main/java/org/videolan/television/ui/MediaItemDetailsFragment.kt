@@ -52,6 +52,7 @@ import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.FAVORITE_TITLE
 import org.videolan.resources.HEADER_DIRECTORIES
 import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.retrieveParent
@@ -128,10 +129,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
-        viewModel.mediaItemDetails = extras.getParcelable(EXTRA_ITEM) ?: return
+        viewModel.mediaItemDetails = extras.parcelable(EXTRA_ITEM) ?: return
         val hasMedia = extras.containsKey(org.videolan.television.ui.EXTRA_MEDIA)
         fromHistory = extras.getBoolean(EXTRA_FROM_HISTORY, false)
-        val media = (extras.getParcelable<Parcelable>(org.videolan.television.ui.EXTRA_MEDIA)
+        val media = (extras.parcelable<Parcelable>(org.videolan.television.ui.EXTRA_MEDIA)
                 ?: MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.LocationToUri(viewModel.mediaItemDetails.location))) as MediaWrapper
 
         viewModel.media = media

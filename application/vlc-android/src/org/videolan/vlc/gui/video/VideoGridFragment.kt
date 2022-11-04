@@ -48,6 +48,7 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.FolderImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.waitForML
 import org.videolan.tools.*
 import org.videolan.vlc.R
@@ -108,10 +109,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 if (::binding.isInitialized) binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
             }
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
-            else arguments?.getParcelable(KEY_FOLDER)
-            val parentGroup = if (savedInstanceState != null) savedInstanceState.getParcelable<VideoGroup>(KEY_GROUP)
-                    else arguments?.getParcelable(KEY_GROUP)
+            val folder = if (savedInstanceState != null) savedInstanceState.parcelable<Folder>(KEY_FOLDER)
+            else arguments?.parcelable(KEY_FOLDER)
+            val parentGroup = if (savedInstanceState != null) savedInstanceState.parcelable<VideoGroup>(KEY_GROUP)
+                    else arguments?.parcelable(KEY_GROUP)
             val grouping = if (parentGroup != null || folder != null) VideoGroupingType.NONE else when (Settings.getInstance(requireContext()).getString(KEY_GROUP_VIDEOS, null) ?: GROUP_VIDEOS_NAME) {
                 GROUP_VIDEOS_NONE -> VideoGroupingType.NONE
                 GROUP_VIDEOS_FOLDER -> VideoGroupingType.FOLDER

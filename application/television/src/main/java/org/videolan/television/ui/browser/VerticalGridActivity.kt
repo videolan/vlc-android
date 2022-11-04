@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.databinding.TvVerticalGridBinding
 import org.videolan.television.ui.MainTvActivity
@@ -58,7 +59,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 fragment = MediaBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
             } else if (type == HEADER_CATEGORIES) {
                 val audioCategory = intent.getLongExtra(CATEGORY, CATEGORY_SONGS)
-                val item = intent.getParcelableExtra<MediaLibraryItem>(ITEM)
+                val item = intent.parcelable<MediaLibraryItem>(ITEM)
                 when (audioCategory) {
                     CATEGORY_SONGS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
                     CATEGORY_ALBUMS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
@@ -67,7 +68,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 }
             } else if (type == HEADER_NETWORK) {
                 var uri = intent.data
-                if (uri == null) uri = intent.getParcelableExtra(KEY_URI)
+                if (uri == null) uri = intent.parcelable(KEY_URI)
 
                 val item = if (uri == null) null else MLServiceLocator.getAbstractMediaWrapper(uri)
                 if (item != null && intent.hasExtra(FAVORITE_TITLE)) item.title = intent.getStringExtra(FAVORITE_TITLE)

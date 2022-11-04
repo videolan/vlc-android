@@ -50,6 +50,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -114,7 +115,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         super.onCreate(savedInstanceState)
         val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
-            currentMedia = bundle.getParcelable(KEY_MEDIA)
+            currentMedia = bundle.parcelable(KEY_MEDIA)
             mrl = currentMedia?.location ?: bundle.getString(KEY_MRL)
         } else if (requireActivity().intent != null) {
             mrl = requireActivity().intent.dataString

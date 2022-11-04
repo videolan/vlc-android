@@ -37,6 +37,7 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.DUMMY_NEW_GROUP
+import org.videolan.resources.util.parcelableArray
 import org.videolan.tools.AppScope
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.DependencyProvider
@@ -80,7 +81,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         adapter = SimpleAdapter(this)
         newTrack = try {
             @Suppress("UNCHECKED_CAST")
-            val tracks = requireArguments().getParcelableArray(KEY_TRACKS) as Array<MediaWrapper>
+            val tracks = requireArguments().parcelableArray<MediaWrapper>(KEY_TRACKS) as Array<MediaWrapper>
             tracks
         } catch (e: Exception) {
             emptyArray()

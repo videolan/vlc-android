@@ -88,6 +88,8 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.parcelable
+import org.videolan.resources.util.parcelableList
 import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
@@ -489,13 +491,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
-            savedMediaList = savedInstanceState.getParcelableArrayList(KEY_MEDIA_LIST)
+            savedMediaList = savedInstanceState.parcelableList(KEY_MEDIA_LIST)
             savedMediaIndex = savedInstanceState.getInt(KEY_MEDIA_INDEX)
             val list = savedInstanceState.getBoolean(KEY_LIST, false)
             if (list) {
                 intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
             } else {
-                videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
+                videoUri = savedInstanceState.parcelable<Parcelable>(KEY_URI) as Uri?
             }
         }
 
@@ -610,7 +612,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         ?: return@run
             }
             var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
-                intent.extras?.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
+                intent.extras?.parcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
             } else intent.data
             if (uri == null || uri == videoUri) return
             if ("file" == uri.scheme && uri.path?.startsWith("/sdcard") == true) {
@@ -1938,7 +1940,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             if (extras != null) {
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
-                    videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
+                    videoUri = extras.parcelable(PLAY_EXTRA_ITEM_LOCATION)
                     intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
                 }
                 fromStart = fromStart or extras.getBoolean(PLAY_EXTRA_FROM_START, false)

@@ -35,6 +35,7 @@ import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.putSingle
@@ -72,8 +73,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val item = savedInstanceState?.getParcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
-                ?: arguments?.getParcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
+        val item = savedInstanceState?.parcelable(AudioBrowserFragment.TAG_ITEM)
+                ?: arguments?.parcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
         viewModel = getViewModel(item!!)
     }
 

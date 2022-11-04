@@ -57,6 +57,7 @@ import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputEditText
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
@@ -83,7 +84,7 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        media = arguments?.getParcelable(RENAME_DIALOG_MEDIA) ?: return
+        media = arguments?.parcelable(RENAME_DIALOG_MEDIA) ?: return
         super.onCreate(savedInstanceState)
     }
 

@@ -62,6 +62,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.MediaScraper
 import org.videolan.moviepedia.models.identify.MoviepediaMedia
 import org.videolan.moviepedia.viewmodel.MediaScrapingModel
+import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.util.manageHttpException
 import org.videolan.tools.NetworkMonitor
@@ -102,7 +103,7 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
             intent.getStringExtra(SearchManager.QUERY)?.let { onQueryTextSubmit(it) }
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
-        media = extras.getParcelable(MediaScrapingTvActivity.MEDIA) ?: return
+        media = extras.parcelable(MediaScrapingTvActivity.MEDIA) ?: return
 
         viewModel = ViewModelProvider(this).get(media.uri.path
                 ?: "", MediaScrapingModel::class.java)

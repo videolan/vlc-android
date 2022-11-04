@@ -29,6 +29,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -49,7 +50,7 @@ class FilePickerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.file_picker_activity)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA), KEY_PICKER_TYPE to intent.getIntExtra(KEY_PICKER_TYPE, 0)) }, "picker")
+        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.parcelable<MediaWrapper>(KEY_MEDIA), KEY_PICKER_TYPE to intent.getIntExtra(KEY_PICKER_TYPE, 0)) }, "picker")
         ft.commit()
         window.attributes.gravity = Gravity.BOTTOM
     }

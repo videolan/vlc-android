@@ -41,6 +41,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.parcelable
+import org.videolan.resources.util.parcelableArray
 import org.videolan.tools.AppScope
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.DependencyProvider
@@ -100,7 +102,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         adapter = SimpleAdapter(this)
         newTracks = try {
             @Suppress("UNCHECKED_CAST")
-            val tracks = requireArguments().getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
+            val tracks = requireArguments().parcelableArray<MediaWrapper>(KEY_NEW_TRACKS) as Array<MediaWrapper>
             filesText = resources.getQuantityString(R.plurals.media_quantity, tracks.size, tracks.size)
             tracks
         } catch (e: Exception) {
@@ -128,7 +130,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 emptyArray()
             }
         }
-        selectedPlaylist = savedInstanceState?.getParcelable(SELECTED_PLAYLIST)
+        selectedPlaylist = savedInstanceState?.parcelable(SELECTED_PLAYLIST)
         nonDuplicateTracks = selectedPlaylist?.let { getNonDuplicateTracks(it.tracks, newTracks) }
     }
 

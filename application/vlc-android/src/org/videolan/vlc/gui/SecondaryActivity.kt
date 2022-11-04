@@ -41,6 +41,7 @@ import org.videolan.resources.KEY_ANIMATED
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.util.applyOverscanMargin
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.R
@@ -165,7 +166,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 fragment = AudioAlbumsSongsFragment().apply {
                     arguments = bundleOf(
                         AudioBrowserFragment.TAG_ITEM to
-                                intent.getParcelableExtra(AudioBrowserFragment.TAG_ITEM)
+                                intent.parcelable(AudioBrowserFragment.TAG_ITEM)
                     )
                 }
             }
@@ -175,8 +176,8 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
             VIDEO_GROUP_LIST -> {
                 fragment = VideoGridFragment().apply {
                     arguments = bundleOf(
-                        KEY_FOLDER to intent.getParcelableExtra(KEY_FOLDER),
-                        KEY_GROUP to intent.getParcelableExtra(KEY_GROUP)
+                        KEY_FOLDER to intent.parcelable(KEY_FOLDER),
+                        KEY_GROUP to intent.parcelable(KEY_GROUP)
                     )
                 }
             }
@@ -185,7 +186,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 setResult(RESULT_RESTART)
             }
             FILE_BROWSER -> {
-                (intent.getParcelableExtra(KEY_MEDIA) as? MediaWrapper)?.let { media ->
+                (intent.parcelable(KEY_MEDIA) as? MediaWrapper)?.let { media ->
                     fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
                     else FileBrowserFragment()
                     fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }

@@ -33,6 +33,7 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.RESULT_UPDATE_ARTISTS
@@ -58,7 +59,7 @@ class PreferencesActivity : BaseActivity() {
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_placeholder, PreferencesFragment().apply { if (intent.hasExtra(EXTRA_PREF_END_POINT)) arguments = bundleOf(EXTRA_PREF_END_POINT to intent.getParcelableExtra(EXTRA_PREF_END_POINT)) })
+                    .replace(R.id.fragment_placeholder, PreferencesFragment().apply { if (intent.hasExtra(EXTRA_PREF_END_POINT)) arguments = bundleOf(EXTRA_PREF_END_POINT to intent.parcelable(EXTRA_PREF_END_POINT)) })
                     .commit()
         }
         mAppBarLayout = findViewById(R.id.appbar)
@@ -91,7 +92,7 @@ class PreferencesActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == searchRequestCode && resultCode == RESULT_OK) {
-            data?.extras?.getParcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let {
+            data?.extras?.parcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let {
                 supportFragmentManager.popBackStack()
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_placeholder, PreferencesFragment().apply { arguments = bundleOf(EXTRA_PREF_END_POINT to it) })

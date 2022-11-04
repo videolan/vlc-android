@@ -26,6 +26,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CATEGORY
 import org.videolan.resources.ITEM
+import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.ui.FileTvItemAdapter
 import org.videolan.television.ui.TvItemAdapter
@@ -74,8 +75,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
-        else arguments?.getParcelable(ITEM) as? MediaLibraryItem
+        currentItem = if (savedInstanceState != null) savedInstanceState.parcelable<Parcelable>(ITEM) as? MediaLibraryItem
+        else arguments?.parcelable(ITEM) as? MediaLibraryItem
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (currentItem as? MediaWrapper)?.run { mrl = location }
