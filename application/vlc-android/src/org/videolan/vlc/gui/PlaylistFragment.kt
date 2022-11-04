@@ -102,6 +102,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller_playlist) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
         viewModel.provider.pagedList.observe(requireActivity()) {
+            @Suppress("UNCHECKED_CAST")
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             updateEmptyView()
         }
@@ -167,7 +168,10 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             true -> {
                 val screenWidth = (requireActivity() as? INavigator)?.getFragmentWidth(requireActivity()) ?: requireActivity().getScreenWidth()
                 adapter?.cardSize = RecyclerSectionItemGridDecoration.getItemSize(screenWidth, nbColumns, spacing, 16.dp)
-                adapter?.let { adapter -> displayListInGrid(playlists, adapter, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing) }
+                adapter?.let { adapter ->
+                    @Suppress("UNCHECKED_CAST")
+                    displayListInGrid(playlists, adapter, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing)
+                }
             }
             else -> {
                 adapter?.cardSize = -1
@@ -200,6 +204,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     }
 
     override fun onCtxAction(position: Int, option: Long) {
+        @Suppress("UNCHECKED_CAST")
         if (option == CTX_PLAY_ALL) MediaUtils.playAll(activity, viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
         else super.onCtxAction(position, option)
     }

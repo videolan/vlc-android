@@ -310,6 +310,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
         if (!list.isNullOrEmpty()) lifecycleScope.launch {
+            @Suppress("UNCHECKED_CAST")
             if (isStarted()) when (item.itemId) {
                 R.id.action_mode_audio_play -> MediaUtils.openList(activity, list.getTracks(), 0)
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
@@ -413,5 +414,6 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     protected val empty: Boolean
         get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty != false
 
+    @Suppress("UNCHECKED_CAST")
     override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }

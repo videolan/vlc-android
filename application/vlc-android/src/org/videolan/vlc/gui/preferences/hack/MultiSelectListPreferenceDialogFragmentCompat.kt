@@ -61,6 +61,7 @@ class MultiSelectListPreferenceDialogFragmentCompat : PreferenceDialogFragmentCo
     }
 
     override fun <T : Preference?> findPreference(key: CharSequence): T? {
+        @Suppress("UNCHECKED_CAST")
         return preference as? T
     }
 

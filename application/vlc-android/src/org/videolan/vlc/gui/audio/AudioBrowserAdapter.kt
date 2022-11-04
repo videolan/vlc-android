@@ -109,6 +109,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
         defaultCoverCard = getAudioIconDrawable(ctx, type, true)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         if (!::inflater.isInitialized) {
             inflater = LayoutInflater.from(parent.context)

@@ -188,6 +188,7 @@ class BenchActivity : ShallowVideoPlayer() {
                     return
                 }
                 if (intent.getSerializableExtra(EXTRA_TIMESTAMPS) is List<*>) {
+                    @Suppress("UNCHECKED_CAST")
                     screenshotsTimestamp = intent.getSerializableExtra(EXTRA_TIMESTAMPS) as List<Long>
                 } else {
                     errorFinish("Failed to get timestamps")

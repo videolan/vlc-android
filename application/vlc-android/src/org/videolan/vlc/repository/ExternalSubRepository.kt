@@ -40,6 +40,7 @@ class ExternalSubRepository(private val externalSubDao: ExternalSubDao, private 
 
     private var _downloadingSubtitles = LiveDataMap<Long, SubtitleItem>()
 
+    @Suppress("UNCHECKED_CAST")
     val downloadingSubtitles: LiveData<Map<Long, SubtitleItem>>
         get() = _downloadingSubtitles as LiveData<Map<Long, SubtitleItem>>
 

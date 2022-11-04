@@ -111,6 +111,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
+        @Suppress("UNCHECKED_CAST")
         return if (viewType == TYPE_MEDIA || viewType == TYPE_STORAGE)
             MediaViewHolder(if (browserContainer.inCards) BrowserItemBindingContainer(CardBrowserItemBinding.inflate(inflater, parent, false)) else BrowserItemBindingContainer(BrowserItemBinding.inflate(inflater, parent, false)))
         else
@@ -209,7 +210,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
-        override val titleView: TextView? = bindingContainer.title
+        override val titleView: TextView = bindingContainer.title
         var job : Job? = null
 
         init {
@@ -358,7 +359,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun createCB() = diffCallback
 
-    class BrowserDiffCallback : DiffUtilAdapter.DiffCallback<MediaLibraryItem>() {
+    class BrowserDiffCallback : DiffCallback<MediaLibraryItem>() {
         var oldSort = -1
         var newSort = -1
         var oldAsc = true

@@ -91,7 +91,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         if (!isStarted()) return false
-        val list = currentAdapterActionMode?.multiSelectHelper?.getSelection() as? List<MediaWrapper>
+        @Suppress("UNCHECKED_CAST") val list = currentAdapterActionMode?.multiSelectHelper?.getSelection() as? List<MediaWrapper>
                 ?: return false
         if (list.isNotEmpty()) {
             when (item?.itemId) {

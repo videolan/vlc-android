@@ -153,6 +153,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         return getString(R.string.history)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
 
     override fun clear() {}
@@ -183,6 +184,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         return true
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
         val selectionCount = multiSelectHelper.getSelectionCount()
         if (selectionCount == 0) {

@@ -59,6 +59,7 @@ class FavoritesProvider(
         browserFavRepository.browserFavorites
                 .onEach { list ->
                     convertFavorites(list.sortedWith(compareBy(BrowserFav::title, BrowserFav::type))).let {
+                        @Suppress("UNCHECKED_CAST")
                         dataset.postValue(it as MutableList<MediaLibraryItem>)
                         parseSubDirectories()
                     }

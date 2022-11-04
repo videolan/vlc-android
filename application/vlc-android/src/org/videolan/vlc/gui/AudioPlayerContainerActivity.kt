@@ -229,7 +229,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         findViewById<View>(R.id.audio_player_stub).visibility = View.VISIBLE
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
-        val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
+        val bottomBehavior = bottomBar?.let {
+            @Suppress("UNCHECKED_CAST")
+            BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View>
+        }
         if (bottomIsHiddden) bottomBehavior?.setCollapsed() else hideStatusIfNeeded(playerBehavior.state)
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()

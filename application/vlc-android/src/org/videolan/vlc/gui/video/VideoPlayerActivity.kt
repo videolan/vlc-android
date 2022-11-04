@@ -1440,7 +1440,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                 }
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
-                                    if (!(tracks as Array<VlcTrack>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].getId())
+                                    @Suppress("UNCHECKED_CAST")
+                                    if ((tracks as Array<VlcTrack>).isNotEmpty()) service.setSpuTrack(tracks[tracks.size - 1].getId())
                                     addNextTrack = false
                                 } else if (spuTrack != "0" || currentSpuTrack != "-2") {
                                     service.setSpuTrack(spuTrack)

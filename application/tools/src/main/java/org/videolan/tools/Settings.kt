@@ -209,6 +209,7 @@ class DeviceInfo(context: Context) {
     val pipAllowed = hasPiP || hasTsp && Build.VERSION.SDK_INT < Build.VERSION_CODES.O
 }
 
+@Suppress("UNCHECKED_CAST")
 fun SharedPreferences.putSingle(key: String, value: Any) {
     when(value) {
         is Boolean -> edit { putBoolean(key, value) }

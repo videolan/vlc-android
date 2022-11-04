@@ -225,6 +225,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             }
             if (actionMode != null)
                 lifecycleScope.launch(Dispatchers.Main) {
+                    @Suppress("UNCHECKED_CAST")
                     fillActionMode(requireActivity(), actionMode!!, it as MultiSelectHelper<MediaLibraryItem>)
                 }
         }
