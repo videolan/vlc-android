@@ -36,6 +36,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
 import org.videolan.tools.getContextWithLocale
@@ -156,7 +157,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         logcat!!.stop()
         logcat = null
         sendMessage(MSG_STOPPED, null)
-        stopForeground(true)
+        stopForegroundCompat()
         stopSelf()
     }
 

@@ -51,6 +51,7 @@ import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.resources.*
 import org.videolan.resources.util.dbExists
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -386,7 +387,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private fun hideNotification() {
         lastNotificationTime = -1L
-        stopForeground(true)
+        stopForegroundCompat()
         showProgress(-1F, "")
     }
 

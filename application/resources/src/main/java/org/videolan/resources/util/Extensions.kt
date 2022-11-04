@@ -1,5 +1,6 @@
 package org.videolan.resources.util
 
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
@@ -171,4 +172,14 @@ inline fun <reified T : Parcelable> Intent.parcelableArray(key: String): Array<T
 inline fun <reified T : Parcelable> Bundle.parcelableArray(key: String): Array<T>? = when {
     SDK_INT >= 33 -> getParcelableArray(key, T::class.java)
     else -> @Suppress("DEPRECATION", "UNCHECKED_CAST") (getParcelableArray(key) as Array<T>)
+}
+
+/**
+ * Use the new API to stop the foreground state of a service
+ *
+ * @param removeNotification Removes the notification if true
+ */
+fun Service.stopForegroundCompat(removeNotification:Boolean = true) = when {
+    SDK_INT >= 24 -> stopForeground(if (removeNotification) Service.STOP_FOREGROUND_REMOVE else Service.STOP_FOREGROUND_DETACH)
+    else -> @Suppress("DEPRECATION") stopForeground(removeNotification)
 }
