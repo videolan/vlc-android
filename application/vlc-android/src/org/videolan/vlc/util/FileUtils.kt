@@ -194,7 +194,7 @@ object FileUtils {
         if (src.isDirectory) {
             val filesList = src.listFiles()
             dst.mkdirs()
-            for (file in filesList)
+            for (file in filesList ?: arrayOf())
                 ret = ret and copyFile(file, File(dst, file.name))
         } else if (src.isFile) {
             var inputStream: InputStream? = null
@@ -242,7 +242,7 @@ object FileUtils {
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (file.isDirectory) {
             deleted = true
-            for (child in file.listFiles()) deleted = deleted and deleteFile(child)
+            for (child in file.listFiles() ?: arrayOf()) deleted = deleted and deleteFile(child)
             if (deleted) deleted = deleted and file.delete()
         } else {
             val cr = AppContextProvider.appContext.contentResolver
@@ -276,7 +276,7 @@ object FileUtils {
                 return@Runnable
             val success: Boolean
             if (fileOrDirectory.isDirectory) {
-                for (child in fileOrDirectory.listFiles())
+                for (child in fileOrDirectory.listFiles() ?: arrayOf())
                     asyncRecursiveDelete(child, null)
                 success = fileOrDirectory.delete()
             } else {
