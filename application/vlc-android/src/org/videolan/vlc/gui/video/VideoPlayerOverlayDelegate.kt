@@ -161,7 +161,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             showHingeSnackIfNeeded()
         } else {
             //device is separated and half opened. We display the controls on the bottom half and the video on the top half
-            if (foldingFeature.state == FoldingFeature.State.HALF_OPENED) {
+            if (foldingFeature.state == FoldingFeature.State.HALF_OPENED &&
+                !(foldingFeature.occlusionType == FoldingFeature.OcclusionType.NONE && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL)) {
                 val videoLayoutLP = (player.videoLayout!!.layoutParams as ViewGroup.LayoutParams)
                 val halfScreenSize = foldingFeature.bounds.top
                 videoLayoutLP.height = halfScreenSize
