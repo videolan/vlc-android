@@ -116,7 +116,7 @@ object UiTools {
     private var DEFAULT_COVER_FOLDER_DRAWABLE_BIG: BitmapDrawable? = null
 
     private val sHandler = Handler(Looper.getMainLooper())
-    const val DELETE_DURATION = 3000
+    private const val DELETE_DURATION = 3000
 
     fun getDefaultVideoDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
@@ -434,7 +434,7 @@ object UiTools {
         val inputMethodManager = v.context.applicationContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         sHandler.post {
             if (show)
-                inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED)
+                inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
             else
                 inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
         }
@@ -471,6 +471,7 @@ object UiTools {
      * Creates a shortcut to the media on the launcher
      * @param mediaLibraryItem: the [MediaLibraryItem] to create a shortcut to
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     suspend fun FragmentActivity.createShortcut(mediaLibraryItem: MediaLibraryItem) {
         if (!isStarted()) return
 
@@ -539,7 +540,6 @@ object UiTools {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @JvmOverloads
     fun blurBitmap(bitmap: Bitmap?, radius: Float = 15.0f): Bitmap? {
         if (bitmap == null || bitmap.config == null) return null
@@ -701,7 +701,7 @@ object UiTools {
         if (!AndroidUtil.isJellyBeanMR2OrLater) return
         val win = activity.window
         val winParams = win.attributes
-        winParams.rotationAnimation = if (AndroidUtil.isOOrLater) WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS else WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT
+        winParams.rotationAnimation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS else WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT
         win.attributes = winParams
     }
 
@@ -751,8 +751,8 @@ object UiTools {
  *
  * See @array/list_title_alignment_values
  *
- * @param alignMode Align mode as read from preferences
  * @param t         Reference to the textview
+ * @param activated is the ellipsize mode activated
  */
 @BindingAdapter("ellipsizeMode")
 fun setEllipsizeModeByPref(t: TextView, activated: Boolean) {
@@ -798,18 +798,6 @@ private fun launchMarquee(recyclerView: RecyclerView, layoutManager: LinearLayou
             (holder as? MarqueeViewHolder)?.titleView?.isSelected = true
         }
     }, 1500)
-}
-
-/**
- * sets the touch listener for a view
- *
- * @param view            the view
- * @param onTouchListener the listener
- */
-@BindingAdapter("touchListener")
-fun setTouchListener(view: View, onTouchListener: View.OnTouchListener?) {
-    if (onTouchListener != null)
-        view.setOnTouchListener(onTouchListener)
 }
 
 @BindingAdapter("selected")
@@ -912,6 +900,6 @@ suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper
     }
     if (ready) {
         mode.title = context.getString(R.string.selection_count, realCount)
-        mode.subtitle = "${ Tools.millisToString(length)}"
+        mode.subtitle = Tools.millisToString(length)
     }
 }
