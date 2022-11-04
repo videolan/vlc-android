@@ -181,8 +181,8 @@ object AudioUtil {
 
     //TODO Make it a suspend function to get rid of runBlocking {... }
     @WorkerThread
-    fun readCoverBitmap(path: String?, width: Int): Bitmap? {
-        val path = path ?: return null
+    fun readCoverBitmap(requestedPath: String?, width: Int): Bitmap? {
+        val path = requestedPath ?: return null
         if (isSchemeHttpOrHttps(path)) return runBlocking(Dispatchers.Main) {
             HttpImageLoader.downloadBitmap(path)
         }
@@ -190,9 +190,9 @@ object AudioUtil {
     }
 
     @WorkerThread
-    fun fetchCoverBitmap(path: String, width: Int): Bitmap? {
-        val path = path.removeFileScheme()
-        if (path.isNullOrEmpty() || !File(path).exists()) return null
+    fun fetchCoverBitmap(requestedPath: String, width: Int): Bitmap? {
+        val path = requestedPath.removeFileScheme()
+        if (path.isEmpty() || !File(path).exists()) return null
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()
 

@@ -338,8 +338,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
         if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {
-            var coef = coef
-            if (coef == 0) coef = 1
+            var realCoef = coef
+            if (realCoef == 0) realCoef = 1
             // No seek action if coef > 0.5 and gesturesize < 1cm
             if (abs(gesturesize) < 1 || !player.service!!.isSeekable) return
 
@@ -351,7 +351,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
             // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
             var jump = (sign(gesturesize) * (600000 * (gesturesize / 8).toDouble()
-                .pow(4.0) + 3000) / coef).toInt()
+                .pow(4.0) + 3000) / realCoef).toInt()
 
             // Adjust the jump
             if (jump > 0 && time + jump > length) jump = (length - time).toInt()
@@ -367,7 +367,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     if (jump >= 0) "+" else "",
                     Tools.millisToString(jump.toLong()),
                     Tools.millisToString(time + jump),
-                    if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""
+                    if (realCoef > 1) String.format(" x%.1g", 1.0 / realCoef) else ""
                 ), 50
             )
             else player.overlayDelegate.showInfo(R.string.unseekable_stream, 1000)

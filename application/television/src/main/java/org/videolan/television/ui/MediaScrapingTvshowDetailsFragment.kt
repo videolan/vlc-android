@@ -157,73 +157,73 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
 
     private fun updateMetadata(tvshow: MediaMetadataFull?) {
         var backdropLoaded = false
-        tvshow?.let { tvshow ->
-            loadBackdrop(tvshow.metadata?.metadata?.currentBackdrop)
+        tvshow?.let { tvShow ->
+            loadBackdrop(tvShow.metadata?.metadata?.currentBackdrop)
             backdropLoaded = true
             lifecycleScope.launchWhenStarted {
-                if (!tvshow.metadata?.metadata?.currentPoster.isNullOrEmpty()) {
-                    detailsOverview.setImageBitmap(requireActivity(), HttpImageLoader.downloadBitmap(tvshow.metadata?.metadata?.currentPoster!!))
+                if (!tvShow.metadata?.metadata?.currentPoster.isNullOrEmpty()) {
+                    detailsOverview.setImageBitmap(requireActivity(), HttpImageLoader.downloadBitmap(tvShow.metadata?.metadata?.currentPoster!!))
                 }
             }
-            title = tvshow.metadata?.metadata?.title
+            title = tvShow.metadata?.metadata?.title
 
             val items = ArrayList<Any>()
             items.add(detailsOverview)
 
-            tvshow.seasons?.let {
+            tvShow.seasons?.let {
                 it.forEach {
-                    val arrayObjectAdapterSeason = ArrayObjectAdapter(org.videolan.television.ui.MetadataCardPresenter(requireActivity()))
-                    arrayObjectAdapterSeason.setItems(it.episodes, org.videolan.television.ui.TvUtil.metadataDiffCallback)
-                    val headerSeason = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                    val arrayObjectAdapterSeason = ArrayObjectAdapter(MetadataCardPresenter(requireActivity()))
+                    arrayObjectAdapterSeason.setItems(it.episodes, TvUtil.metadataDiffCallback)
+                    val headerSeason = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                             ?: 0, getString(R.string.season_number, it.seasonNumber.toString()))
                     items.add(ListRow(headerSeason, arrayObjectAdapterSeason))
                 }
             }
 
-            if (!tvshow.writers.isNullOrEmpty()) {
+            if (!tvShow.writers.isNullOrEmpty()) {
                 val arrayObjectAdapterWriters = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterWriters.setItems(tvshow.writers, personsDiffCallback)
-                val headerWriters = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                arrayObjectAdapterWriters.setItems(tvShow.writers, personsDiffCallback)
+                val headerWriters = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.written_by))
                 items.add(ListRow(headerWriters, arrayObjectAdapterWriters))
             }
 
-            if (!tvshow.actors.isNullOrEmpty()) {
+            if (!tvShow.actors.isNullOrEmpty()) {
                 val arrayObjectAdapterActors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterActors.setItems(tvshow.actors, personsDiffCallback)
-                val headerActors = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                arrayObjectAdapterActors.setItems(tvShow.actors, personsDiffCallback)
+                val headerActors = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.casting))
                 items.add(ListRow(headerActors, arrayObjectAdapterActors))
             }
 
-            if (!tvshow.directors.isNullOrEmpty()) {
+            if (!tvShow.directors.isNullOrEmpty()) {
                 val arrayObjectAdapterDirectors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterDirectors.setItems(tvshow.directors, personsDiffCallback)
-                val headerDirectors = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                arrayObjectAdapterDirectors.setItems(tvShow.directors, personsDiffCallback)
+                val headerDirectors = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.directed_by))
                 items.add(ListRow(headerDirectors, arrayObjectAdapterDirectors))
             }
 
-            if (!tvshow.producers.isNullOrEmpty()) {
+            if (!tvShow.producers.isNullOrEmpty()) {
                 val arrayObjectAdapterProducers = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterProducers.setItems(tvshow.producers, personsDiffCallback)
-                val headerProducers = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                arrayObjectAdapterProducers.setItems(tvShow.producers, personsDiffCallback)
+                val headerProducers = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.produced_by))
                 items.add(ListRow(headerProducers, arrayObjectAdapterProducers))
             }
 
-            if (!tvshow.musicians.isNullOrEmpty()) {
+            if (!tvShow.musicians.isNullOrEmpty()) {
                 val arrayObjectAdapterMusicians = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterMusicians.setItems(tvshow.musicians, personsDiffCallback)
-                val headerMusicians = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                arrayObjectAdapterMusicians.setItems(tvShow.musicians, personsDiffCallback)
+                val headerMusicians = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.music_by))
                 items.add(ListRow(headerMusicians, arrayObjectAdapterMusicians))
             }
 
-            tvshow.metadata?.let { metadata ->
+            tvShow.metadata?.let { metadata ->
                 if (metadata.images.any { it.imageType == MediaImageType.POSTER }) {
                     arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, imageDiffCallback)
-                    val headerPosters = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                    val headerPosters = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                             ?: 0, getString(R.string.posters))
                     items.add(ListRow(headerPosters, arrayObjectAdapterPosters))
                 }
@@ -231,7 +231,7 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
                 if (metadata.images.any { it.imageType == MediaImageType.BACKDROP }) {
                     val arrayObjectAdapterBackdrops = ArrayObjectAdapter(org.videolan.television.ui.MediaImageCardPresenter(requireActivity(), MediaImageType.BACKDROP))
                     arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, imageDiffCallback)
-                    val headerBackdrops = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
+                    val headerBackdrops = HeaderItem(tvShow.metadata?.metadata?.moviepediaId?.toLong(36)
                             ?: 0, getString(R.string.backdrops))
                     items.add(ListRow(headerBackdrops, arrayObjectAdapterBackdrops))
                 }

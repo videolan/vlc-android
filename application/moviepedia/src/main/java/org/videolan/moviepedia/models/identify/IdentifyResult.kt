@@ -46,8 +46,6 @@ data class IdentifyResult(
     override fun results() = results
 }
 
-fun IdentifyResult.getAllResults() = mutableListOf(lucky).apply { addAll(results) }.distinctBy { media -> media?.mediaId }.filterNotNull()
-
 data class Backdrop(
         @field:Json(name = "language")
         val language: String,

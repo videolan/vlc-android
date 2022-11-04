@@ -735,7 +735,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             shuffling -> {
                 copy.asSequence()
-                        .filterIndexed { index, _ -> previous.contains(index) }
+                        .filterIndexed { prevIndex, _ -> previous.contains(prevIndex) }
                         .map { it.length }
                         .sum()
             }
@@ -852,10 +852,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             launch { load(list, index, mlUpdate = true) }
             return
         }
-        val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
+        val newList = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
         mediaList.removeEventListener(this)
-        for (media in list) mediaList.add(media)
-        if (BuildConfig.BETA) list.forEach {
+        for (media in newList) mediaList.add(media)
+        if (BuildConfig.BETA) newList.forEach {
             try {
                 Log.d(TAG, "Media location: ${it.uri}")
             } catch (e: NullPointerException) {

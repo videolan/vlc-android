@@ -65,18 +65,6 @@ fun MediaPlayer.getSelectedSpuTrack(): VlcTrack? {
     return null
 }
 
-fun MediaPlayer.getVideoTracksCount(): Int {
-    return videoTracksCount
-}
-
-fun MediaPlayer.getAudioTracksCount(): Int {
-    return audioTracksCount
-}
-
-fun MediaPlayer.getSpuTracksCount(): Int {
-    return spuTracksCount
-}
-
 fun MediaPlayer.setVideoTrack(index:String):Boolean {
     return setVideoTrack(index.toInt())
 }
