@@ -411,7 +411,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             true
         }
         KEYCODE_BACK -> {
-            if (binding.headerListContainer != null && binding.headerListContainer.visibility == View.VISIBLE) {
+            if (binding.headerListContainer.visibility == View.VISIBLE) {
                 hideHeaderSelectionScreen()
                 true
             } else false

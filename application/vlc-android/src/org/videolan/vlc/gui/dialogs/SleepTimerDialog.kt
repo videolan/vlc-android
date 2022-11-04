@@ -55,9 +55,7 @@ class SleepTimerDialog : PickTimeFragment() {
         dismiss()
     }
 
-    override fun showDeleteCurrent(): Boolean {
-        return PlaybackService.playerSleepTime != null
-    }
+    override fun showDeleteCurrent() = true
 
     override fun onClick(v: View) {
         if (v.id == R.id.tim_pic_delete_current) {

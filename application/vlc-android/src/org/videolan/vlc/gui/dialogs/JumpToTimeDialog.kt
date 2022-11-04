@@ -28,8 +28,6 @@ import org.videolan.vlc.R
 class JumpToTimeDialog : PickTimeFragment() {
 
     override fun executeAction() {
-        if (playbackService == null)
-            return
         val newTime = getTimeInMillis() //Time in ms
         playbackService.setTime(newTime)
         playbackService.playlistManager.player.updateProgress(newTime)

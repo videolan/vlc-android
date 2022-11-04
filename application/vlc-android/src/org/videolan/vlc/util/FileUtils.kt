@@ -339,7 +339,7 @@ object FileUtils {
     fun getUri(data: Uri?): Uri? {
         var uri = data
         val ctx = AppContextProvider.appContext
-        if (data != null && ctx != null && data.scheme == "content") {
+        if (data != null && data.scheme == "content") {
             // Mail-based apps - download the stream to a temporary file and play it
             if ("com.fsck.k9.attachmentprovider" == data.host || "gmail-ls" == data.host) {
                 var inputStream: InputStream? = null
