@@ -28,6 +28,7 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -89,7 +90,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     private var focusNext = -1
     private var focusListener: FocusListener? = null
     lateinit var inflater: LayoutInflater
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
     var stopReorder = false
 
     protected fun inflaterInitialized() = ::inflater.isInitialized

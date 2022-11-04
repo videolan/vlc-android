@@ -29,6 +29,7 @@ import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
@@ -67,7 +68,7 @@ import java.io.*
 class BenchActivity : ShallowVideoPlayer() {
 
     private lateinit var timeOut: Runnable
-    private val timeoutHandler: Handler = Handler()
+    private val timeoutHandler: Handler = Handler(Looper.getMainLooper())
     private var screenshotsTimestamp: List<Long>? = null
     private var isScreenshot = false
     private var screenshotCount = 0

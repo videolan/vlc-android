@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.view.*
@@ -66,7 +67,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private var lastMove: Long = 0
     private var shuffling = false
     private var currentCoverArt: String? = null

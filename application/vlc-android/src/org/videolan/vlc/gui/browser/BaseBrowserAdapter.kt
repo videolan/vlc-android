@@ -26,6 +26,7 @@ import android.annotation.TargetApi
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +73,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     internal var mediaCount = 0
     private var networkRoot = false
     private var specialIcons = false
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     val diffCallback = BrowserDiffCallback()
 

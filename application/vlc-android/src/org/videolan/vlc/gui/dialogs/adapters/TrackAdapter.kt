@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.dialogs.adapters
 
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,7 @@ import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 class TrackAdapter(private val tracks: Array<VlcTrack>, var selectedTrack: VlcTrack?, val trackTypePrefix:String) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
 
     lateinit var trackSelectedListener: (VlcTrack) -> Unit
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

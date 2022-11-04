@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
@@ -61,7 +62,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val resizeDelegate: VideoPlayerResizeDelegate
         get() = player.resizeDelegate
-    var handler = Handler()
+    var handler = Handler(Looper.getMainLooper())
 
     var numberOfTaps = 0
     var lastTapTimeMs: Long = 0
