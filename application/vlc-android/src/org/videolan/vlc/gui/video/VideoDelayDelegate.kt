@@ -132,7 +132,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
     private fun initPlaybackSettingInfo() {
         player.overlayDelegate.initInfoOverlay()
         delayContainer.setVisible()
-        var text = ""
+        val text: String
         val title = when (playbackSetting) {
             IPlaybackSettingsController.DelayState.AUDIO -> {
                 text = "${player.service!!.audioDelay / 1000L} ms"

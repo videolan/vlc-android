@@ -274,7 +274,7 @@ object FileUtils {
         runIO(Runnable {
             if (!fileOrDirectory.exists() || !fileOrDirectory.canWrite())
                 return@Runnable
-            var success = true
+            val success: Boolean
             if (fileOrDirectory.isDirectory) {
                 for (child in fileOrDirectory.listFiles())
                     asyncRecursiveDelete(child, null)
@@ -483,7 +483,7 @@ object FileUtils {
     const val BUFFER = 2048
     fun zip(files: Array<String>, zipFileName: String):Boolean {
         return try {
-            var origin: BufferedInputStream? = null
+            var origin: BufferedInputStream?
             val dest = FileOutputStream(zipFileName)
             val out = ZipOutputStream(BufferedOutputStream(
                     dest))
