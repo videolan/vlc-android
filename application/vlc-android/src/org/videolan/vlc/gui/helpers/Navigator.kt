@@ -162,12 +162,9 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
             } else {
                 return false
             }
-        } else when (id) {
-//            R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
-            else -> {
-                activity.slideDownAudioPlayer()
-                showFragment(id)
-            }
+        } else {
+            activity.slideDownAudioPlayer()
+            showFragment(id)
         }
         return true
     }

@@ -117,7 +117,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        val activity = activity ?: return
         when (key) {
             PLAYBACK_HISTORY -> {
                 if (sharedPreferences!!.getBoolean(key, true)) {

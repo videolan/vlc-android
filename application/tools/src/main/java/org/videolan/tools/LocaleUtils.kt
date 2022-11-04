@@ -4,12 +4,11 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
-import android.util.Log
 import java.util.*
 import kotlin.collections.ArrayList
 
 object LocaleUtils {
-    fun getLocalesUsedInProject(context: Context, projectLocales: Array<String>, defaultLocaleText: String): LocalePair {
+    fun getLocalesUsedInProject(projectLocales: Array<String>, defaultLocaleText: String): LocalePair {
 
         val localesEntry = arrayOfNulls<String>(projectLocales.size)
         for (i in projectLocales.indices) {

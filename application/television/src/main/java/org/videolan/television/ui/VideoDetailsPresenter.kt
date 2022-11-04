@@ -34,7 +34,7 @@ import androidx.leanback.graphics.ColorOverlayDimmer
 import org.videolan.television.databinding.TvVideoDetailsBinding
 import org.videolan.television.R
 
-class VideoDetailsPresenter(private val context: Context, private val screenWidth: Int) : org.videolan.television.ui.FullWidthRowPresenter() {
+class VideoDetailsPresenter(private val context: Context, private val screenWidth: Int) : FullWidthRowPresenter() {
 
     private lateinit var binding: TvVideoDetailsBinding
 
@@ -47,8 +47,7 @@ class VideoDetailsPresenter(private val context: Context, private val screenWidt
 
     override fun onBindRowViewHolder(viewHolder: ViewHolder, item: Any?) {
         super.onBindRowViewHolder(viewHolder, item)
-        val vh = viewHolder as VideoDetailsViewHolder
-        val metadata = (item as org.videolan.television.ui.VideoDetailsOverviewRow).item
+        val metadata = (item as VideoDetailsOverviewRow).item
         binding.item = metadata
     }
 

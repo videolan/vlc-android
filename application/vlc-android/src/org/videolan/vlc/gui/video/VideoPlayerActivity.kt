@@ -1641,7 +1641,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    internal fun setAudioVolume(volume: Int, fromTouch: Boolean = false) {
+    internal fun setAudioVolume(volume: Int) {
         var vol = volume
         if (AndroidUtil.isNougatOrLater && (vol <= 0) xor isMute) {
             mute(!isMute)
@@ -1668,7 +1668,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 vol = (vol * 100 / audioMax.toFloat()).roundToInt()
                 service.setVolume(vol.toFloat().roundToInt())
             }
-            overlayDelegate.showVolumeBar(vol, fromTouch)
+            overlayDelegate.showVolumeBar(vol)
             volSave = service.volume
         }
     }

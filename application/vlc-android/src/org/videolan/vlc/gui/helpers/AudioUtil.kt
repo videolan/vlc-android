@@ -61,7 +61,6 @@ object AudioUtil {
             Permissions.checkWriteSettingsPermission(this, Permissions.PERMISSION_SYSTEM_RINGTONE)
             return
         }
-        val view = window.decorView.findViewById(R.id.coordinator) ?: window.decorView
         lifecycleScope.snackerConfirm(this, getString(R.string.set_song_question, song.title)) {
             val newRingtone = AndroidUtil.UriToFile(song.uri)
             if (!withContext(Dispatchers.IO) { newRingtone.exists() }) {

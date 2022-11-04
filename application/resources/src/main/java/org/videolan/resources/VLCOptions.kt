@@ -236,7 +236,6 @@ object VLCOptions {
     fun setMediaOptions(media: IMedia, context: Context, flags: Int, hasRenderer: Boolean) {
         val noHardwareAcceleration = flags and MediaWrapper.MEDIA_NO_HWACCEL != 0
         val noVideo = flags and MediaWrapper.MEDIA_VIDEO == 0
-        val benchmark = flags and MediaWrapper.MEDIA_BENCHMARK != 0
         val paused = flags and MediaWrapper.MEDIA_PAUSED != 0
         var hardwareAcceleration = HW_ACCELERATION_DISABLED
         val prefs = Settings.getInstance(context)

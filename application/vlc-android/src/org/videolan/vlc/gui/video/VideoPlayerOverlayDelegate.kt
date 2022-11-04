@@ -341,7 +341,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Show the volume value with  bar
      * @param volume the volume value
      */
-    fun showVolumeBar(volume: Int, fromTouch: Boolean) {
+    fun showVolumeBar(volume: Int) {
         player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
         player.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
         playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
