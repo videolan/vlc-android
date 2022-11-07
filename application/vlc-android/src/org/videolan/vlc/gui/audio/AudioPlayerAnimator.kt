@@ -57,6 +57,7 @@ import kotlin.math.min
 
 internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
+    private var inSearch = false
     override var foldingFeature: FoldingFeature? = null
         set(value) {
             field = value
@@ -242,6 +243,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     }
 
     override fun manageSearchVisibilities(filter: Boolean) {
+        inSearch = filter
         binding.playlistSearch.alpha = if (filter) 0f else 1f
         binding.playlistSwitch.alpha = if (filter) 0f else 1f
         binding.advFunction.alpha = if (filter) 0f else 1f
@@ -250,6 +252,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     }
 
     override fun onSlide(slideOffset: Float) {
+        if (inSearch) return
         binding.progressBar.alpha = 1 - slideOffset
         binding.progressBar.layoutParams.height = ((1 - slideOffset) * 4.dp).toInt()
         binding.progressBar.requestLayout()
