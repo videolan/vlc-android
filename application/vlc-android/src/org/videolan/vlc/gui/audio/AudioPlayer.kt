@@ -647,9 +647,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onSearchClick(v: View) {
+        if (isShowingCover()) onPlaylistSwitchClick(binding.playlistSwitch)
         manageSearchVisibilities(true)
         binding.playlistSearchText.editText?.requestFocus()
-        if (isShowingCover()) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = v.context.applicationContext.getSystemService<InputMethodManager>()!!
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
