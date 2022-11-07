@@ -73,7 +73,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
             it.setProgressBackgroundColorSchemeColor(bColor)
         }
         val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
-        ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
+        ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB() && requireActivity() is MainActivity
         if (hasFAB()) updateFabPlayView()
     }
 
@@ -90,7 +90,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         val fabLarge = requireActivity().findViewById<FloatingActionButton>(R.id.fab_large)
         fab.setGone()
         fabLarge.setGone()
-        fabPlay = if (requireActivity().isTablet()) fabLarge else fab
+        fabPlay = if (requireActivity().isTablet() && requireActivity() is MainActivity) fabLarge else fab
         visibility?.let { fabPlay?.visibility = it }
     }
 
