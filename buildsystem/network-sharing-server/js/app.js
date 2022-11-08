@@ -13,7 +13,7 @@ import index from "../html/index.html"
 
 
 //const playerWS = new WebSocket("wss://"+window.location.origin+"/echo", "protocolOne");
-const playerWS = new WebSocket("ws://192.168.1.83:8080/echo", "player");
+const playerWS = new WebSocket("ws://"+location.host+"/echo", "player");
 playerWS.onopen = (event) => {
 };
 
@@ -76,7 +76,7 @@ playerWS.onmessage = (event) => {
   time.textContent = msecToTime(new Date(msg.progress))
   duration.textContent = msecToTime(new Date(msg.duration))
   if (lastLoadedMediaUri != msg.uri) {
-    artwork.src = "http://192.168.1.83:8080/artwork?randomizer="+Date.now()
+    artwork.src = "http://"+location.host+"/artwork?randomizer="+Date.now()
     lastLoadedMediaUri = msg.uri
   }
 
