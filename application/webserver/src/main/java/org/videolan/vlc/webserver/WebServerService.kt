@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  */
 
-package org.videolan.vlc
+package org.videolan.vlc.webserver
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -34,7 +34,6 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.server.NetworkSharingServer
 
 private const val TAG = "VLC/PlaybackService"
 

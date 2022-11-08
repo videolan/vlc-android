@@ -233,3 +233,8 @@ fun PackageManager.getPackageInfoCompat(packageName: String, vararg flagArgs: In
         getPackageInfo(packageName, flags)
     }
 }
+
+fun Context.startWebserver() {
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, WEBSERVER_SERVICE)
+    launchForeground(intent)
+}

@@ -8,7 +8,7 @@ module.exports = [{
     // This is necessary for webpack to compile
     // But we never use style-bundle.js
     filename: 'style-bundle.js',
-    path: path.join(__dirname, "../../application/vlc-android/assets/web/public"),
+    path: path.join(__dirname, "../../application/webserver/assets/web/public"),
     assetModuleFilename: 'images/[name][ext]'
   },
   plugins: [

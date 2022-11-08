@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.vlc.server
+package org.videolan.vlc.webserver
 
 import android.content.Context
 import android.net.Uri
@@ -55,7 +55,7 @@ import org.videolan.tools.resIdByName
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
-import org.videolan.vlc.server.NetworkSharingServer.init
+import org.videolan.vlc.webserver.NetworkSharingServer.init
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 import java.text.DateFormat
@@ -82,11 +82,11 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
 
     private fun onServiceChanged(service: PlaybackService?) {
         if (service !== null) {
-            this.service = service
+            NetworkSharingServer.service = service
             service.addCallback(this)
-        } else this.service?.let {
+        } else NetworkSharingServer.service?.let {
             it.removeCallback(this)
-            this.service = null
+            NetworkSharingServer.service = null
         }
     }
 
@@ -256,19 +256,19 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
     }
 
     override fun update() {
-        generateNowPlaying()?.let {nowPlaying ->
+        generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
     }
 
     override fun onMediaEvent(event: IMedia.Event) {
-        generateNowPlaying()?.let {nowPlaying ->
+        generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach {it.send(Frame.Text(nowPlaying)) }}
         }
     }
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-        generateNowPlaying()?.let {nowPlaying ->
+        generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach {it.send(Frame.Text(nowPlaying)) }}
         }
     }

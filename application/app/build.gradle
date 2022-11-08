@@ -137,7 +137,9 @@ android {
 dependencies {
     implementation project(':application:vlc-android')
     implementation project(':application:television')
+    implementation project(':application:webserver')
     testImplementation project(':application:television')
+    testImplementation project(':application:webserver')
 
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"

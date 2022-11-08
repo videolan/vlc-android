@@ -129,7 +129,7 @@ object FileUtils {
     }
 
     @WorkerThread
-    internal fun copyAssetFolder(assetManager: AssetManager, fromAssetPath: String, toPath: String, force: Boolean): Boolean {
+    fun copyAssetFolder(assetManager: AssetManager, fromAssetPath: String, toPath: String, force: Boolean): Boolean {
         try {
             val files = assetManager.list(fromAssetPath)
             if (files.isNullOrEmpty()) return false
