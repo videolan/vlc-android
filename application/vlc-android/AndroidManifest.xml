@@ -1036,7 +1036,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".extensions.ExtensionManagerService"/>
         <service android:name=".PlaybackService"
             android:exported="true">
             <intent-filter>
