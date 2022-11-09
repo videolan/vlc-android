@@ -84,7 +84,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     var listColor: Int = -1
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
-    private var tabLayout: TabLayout? = null
+    var tabLayout: TabLayout? = null
     lateinit var viewPager: ViewPager
 
     var nbColumns = 2
@@ -209,7 +209,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         list.layoutParams = lp
     }
 
-    private fun setupTabLayout() {
+    open fun setupTabLayout() {
         if (tabLayout == null || !::viewPager.isInitialized) return
         tabLayout?.setupWithViewPager(viewPager)
         if (!::layoutOnPageChangeListener.isInitialized) layoutOnPageChangeListener = TabLayout.TabLayoutOnPageChangeListener(tabLayout)

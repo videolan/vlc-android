@@ -26,6 +26,8 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
@@ -44,10 +46,7 @@ import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.util.waitForML
-import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
-import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
@@ -66,6 +65,7 @@ import org.videolan.vlc.viewmodels.mobile.getViewModel
 
 class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
+    private lateinit var audioPagerAdapter: AudioPagerAdapter
     private lateinit var songsAdapter: AudioBrowserAdapter
     private lateinit var artistsAdapter: AudioBrowserAdapter
     private lateinit var albumsAdapter: AudioBrowserAdapter
@@ -109,7 +109,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         }
         val titles = arrayOf(getString(R.string.artists), getString(R.string.albums), getString(R.string.tracks), getString(R.string.genres), getString(R.string.playlists))
         viewPager.offscreenPageLimit = MODE_TOTAL - 1
-        val audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
+        audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
         @Suppress("UNCHECKED_CAST")
         viewPager.adapter = audioPagerAdapter
         savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)?.withIndex()?.forEach {
@@ -309,6 +309,27 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             empty -> EmptyLoadingState.EMPTY
             else -> EmptyLoadingState.NONE
 
+        }
+    }
+
+    override fun setupTabLayout() {
+        super.setupTabLayout()
+        updateTabs()
+    }
+
+    /**
+     * Setup the tabs custom views
+     *
+     */
+    private fun updateTabs() {
+        for (i in 0 until tabLayout!!.tabCount) {
+            val tab = tabLayout!!.getTabAt(i)
+            val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
+            val title = view.findViewById<TextView>(R.id.tab_title)
+            val icon = view.findViewById<ImageView>(R.id.tab_icon)
+            title.text = audioPagerAdapter.getPageTitle(i)
+            if (viewModel.providers[i].onlyFavs) icon.setVisible() else icon.setGone()
+            tab?.customView = view
         }
     }
 
