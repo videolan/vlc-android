@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.getPackageInfoCompat
 import org.videolan.vlc.R
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -133,7 +134,7 @@ object AccessControl {
     @Suppress("deprecation")
     private fun getSignature(ctx: Context, callingPackage: String): String? {
         try {
-            val packageInfo = ctx.packageManager.getPackageInfo(callingPackage, PackageManager.GET_SIGNATURES)
+            val packageInfo = ctx.packageManager.getPackageInfoCompat(callingPackage, PackageManager.GET_SIGNATURES)
             if (packageInfo.signatures != null && packageInfo.signatures.size == 1) {
                 return genSigSha256(packageInfo.signatures[0].toByteArray())
             }

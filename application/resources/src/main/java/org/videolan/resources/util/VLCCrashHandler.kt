@@ -101,7 +101,7 @@ class VLCCrashHandler : UncaughtExceptionHandler {
             val bw = BufferedWriter(output)
 
             val version = try {
-                val pInfo: PackageInfo = AppContextProvider.appContext.packageManager.getPackageInfo(AppContextProvider.appContext.packageName, 0)
+                val pInfo: PackageInfo = AppContextProvider.appContext.packageManager.getPackageInfoCompat(AppContextProvider.appContext.packageName, 0)
                 pInfo.versionName
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()

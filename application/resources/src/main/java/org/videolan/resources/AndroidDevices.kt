@@ -21,10 +21,8 @@
 package org.videolan.resources
 
 import android.annotation.TargetApi
-import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES
@@ -35,6 +33,7 @@ import android.view.MotionEvent
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.util.getPackageInfoCompat
 import org.videolan.tools.containsName
 import org.videolan.tools.getFileNameFromPath
 import org.videolan.tools.startsWith
@@ -167,7 +166,7 @@ object AndroidDevices {
 
     private fun hasPlayServices(pm: PackageManager): Boolean {
         try {
-            pm.getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES)
+            pm.getPackageInfoCompat("com.google.android.gsf", PackageManager.GET_SERVICES)
             return true
         } catch (ignored: PackageManager.NameNotFoundException) {
         }

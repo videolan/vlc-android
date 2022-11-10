@@ -3,6 +3,8 @@ package org.videolan.resources.util
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
@@ -182,4 +184,15 @@ inline fun <reified T : Parcelable> Bundle.parcelableArray(key: String): Array<T
 fun Service.stopForegroundCompat(removeNotification:Boolean = true) = when {
     SDK_INT >= 24 -> stopForeground(if (removeNotification) Service.STOP_FOREGROUND_REMOVE else Service.STOP_FOREGROUND_DETACH)
     else -> @Suppress("DEPRECATION") stopForeground(removeNotification)
+}
+
+@Suppress("DEPRECATION")
+fun PackageManager.getPackageInfoCompat(packageName: String, vararg flagArgs: Int): PackageInfo {
+    var flags = 0
+    flagArgs.forEach { flag -> flags = flags or flag }
+    return if (SDK_INT >= 33) {
+        getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+    } else {
+        getPackageInfo(packageName, flags)
+    }
 }
