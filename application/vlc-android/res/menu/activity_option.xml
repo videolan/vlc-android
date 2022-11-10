@@ -39,6 +39,14 @@
             android:title="@string/resume_playback_short_title"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
+
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/ml_menu_display_options"
+            android:icon="@drawable/ic_menu_display_settings"
+            android:title="@string/display_settings"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:visible="false"/>
     <item
             android:orderInCategory="3"
             android:id="@+id/ml_menu_display_list"
@@ -193,13 +201,6 @@
             android:checkable="true"
             vlc:showAsAction="never"
             android:id="@+id/browser_show_hidden_files" />
-    <item
-            android:orderInCategory="3"
-            android:title="@string/artists_show_all_title"
-            android:visible="false"
-            android:checkable="true"
-            vlc:showAsAction="never"
-            android:id="@+id/artists_show_all_title" />
     <item
             android:orderInCategory="5"
             android:title="@string/rename_group"

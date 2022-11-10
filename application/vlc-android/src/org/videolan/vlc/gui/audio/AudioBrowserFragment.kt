@@ -29,6 +29,9 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
@@ -52,6 +55,7 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
@@ -60,6 +64,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -79,6 +84,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override val hasTabs = true
     private var spacing = 0
     private var restorePositions: SparseArray<Int> = SparseArray()
+
+    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,6 +107,40 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         emptyView = view.rootView.findViewById(R.id.audio_empty_loading)
         fastScroller.attachToCoordinator(appbar, coordinator, fab)
         emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect {
+                        when (it.key) {
+                            DISPLAY_IN_CARDS -> {
+                                viewModel.providersInCard[currentTab] = it.value as Boolean
+                                @Suppress("UNCHECKED_CAST")
+                                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
+                                lists[currentTab].adapter = adapters[currentTab]
+                                activity?.invalidateOptionsMenu()
+                                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], it.value)
+                            }
+                            SHOW_ALL_ARTISTS -> {
+                                Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, it.value as Boolean)
+                                viewModel.artistsProvider.showAll = it.value
+                                viewModel.refresh()
+                            }
+                            ONLY_FAVS -> {
+                                viewModel.providers[currentTab].showOnlyFavs(it.value as Boolean)
+                                viewModel.refresh()
+                                updateTabs()
+                            }
+                            CURRENT_SORT -> {
+                                @Suppress("UNCHECKED_CAST") val sort = it.value as Pair<Int, Boolean>
+                                viewModel.providers[currentTab].sort = sort.first
+                                viewModel.providers[currentTab].desc = sort.second
+                                viewModel.refresh()
+                            }
+                        }
+                    }
+        }
         val views = ArrayList<View>(MODE_TOTAL)
         for (i in 0 until MODE_TOTAL) {
             viewPager.getChildAt(i).let {
@@ -236,21 +277,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.ml_menu_last_playlist)?.isVisible = settings.contains(KEY_AUDIO_LAST_PLAYLIST)
         (viewModel.providers[currentTab]).run {
-            menu.findItem(R.id.ml_menu_sortby).isVisible = canSortByName()
-            menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName()
-            menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = canSortByArtist()
-            menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = canSortByAlbum()
-            menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
-            menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
-            menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
-            menu.findItem(R.id.ml_menu_sortby_insertion_date).isVisible = canSortByInsertionDate()
-            menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
-            menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
-            menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
-            menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
-            val showAllArtistsItem = menu.findItem(R.id.artists_show_all_title)
-            showAllArtistsItem.isVisible = currentTab == 0
-            showAllArtistsItem.isChecked = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
+            menu.findItem(R.id.ml_menu_sortby).isVisible = false
+            menu.findItem(R.id.ml_menu_display_options).isVisible = true
         }
         sortMenuTitles(currentTab)
         reopenSearchIfNeeded()
@@ -259,24 +287,25 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
-                viewModel.providersInCard[currentTab] = item.itemId == R.id.ml_menu_display_grid
-                @Suppress("UNCHECKED_CAST")
-                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
-                lists[currentTab].adapter = adapters[currentTab]
-                activity?.invalidateOptionsMenu()
-                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid)
-                true
-            }
-            R.id.artists_show_all_title -> {
-                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
-                Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, item.isChecked)
-                viewModel.artistsProvider.showAll = item.isChecked
-                viewModel.refresh()
-                true
-            }
             R.id.shuffle_all -> {
                 onFabPlayClick(emptyView)
+                true
+            }
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_INSERTIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                    viewModel.providers[currentTab].canSortBy(it)
+                }
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                        displayInCards = viewModel.providersInCard[currentTab],
+                        showAllArtists = if (currentTab == 0) Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false) else null,
+                        onlyFavs = viewModel.providers[currentTab].onlyFavs,
+                        sorts = sorts,
+                        currentSort = viewModel.providers[currentTab].sort,
+                        currentSortDesc = viewModel.providers[currentTab].desc
+                )
+                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
                 true
             }
             else -> super.onOptionsItemSelected(item)
