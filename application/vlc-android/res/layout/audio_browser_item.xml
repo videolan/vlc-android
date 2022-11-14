@@ -130,58 +130,58 @@
                 vlc:layout_constraintStart_toStartOf="@+id/selector_image"
                 vlc:layout_constraintTop_toTopOf="@+id/selector_image" />
 
-        <ImageView
-                android:id="@+id/network_media"
+        <LinearLayout
+                android:id="@+id/linearLayout6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:visibility="@{isNetwork ? View.VISIBLE : View.GONE}"
+                android:orientation="vertical"
                 vlc:layout_constraintBottom_toBottomOf="parent"
-                vlc:layout_constraintEnd_toStartOf="@id/item_more"
-                vlc:layout_constraintTop_toBottomOf="@+id/media_favorite"
-                vlc:srcCompat="@drawable/ic_emoji_network" />
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-                android:id="@+id/sd_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:visibility="@{isSD ? View.VISIBLE : View.GONE}"
-                vlc:layout_constraintEnd_toStartOf="@id/item_more"
-                vlc:layout_constraintTop_toTopOf="@+id/network_media"
-                vlc:srcCompat="@drawable/ic_emoji_sd" />
+            <ImageView
+                    android:id="@+id/media_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
+                    vlc:srcCompat="@drawable/ic_emoji_favorite" />
 
-        <ImageView
-                android:id="@+id/otg_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:visibility="@{isOTG ? View.VISIBLE : View.GONE}"
-                vlc:layout_constraintEnd_toStartOf="@id/item_more"
-                vlc:layout_constraintTop_toTopOf="@+id/network_media"
-                vlc:srcCompat="@drawable/ic_emoji_otg" />
+            <ImageView
+                    android:id="@+id/network_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:visibility="@{isNetwork ? View.VISIBLE : View.GONE}"
+                    vlc:srcCompat="@drawable/ic_emoji_network" />
 
-        <ImageView
-                android:id="@+id/network_media_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
-                vlc:layout_constraintEnd_toStartOf="@id/item_more"
-                vlc:layout_constraintTop_toTopOf="@+id/network_media"
-                vlc:srcCompat="@drawable/ic_emoji_absent" />
+            <ImageView
+                    android:id="@+id/sd_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:visibility="@{isSD ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone"
+                    vlc:srcCompat="@drawable/ic_emoji_sd" />
 
-        <ImageView
-                android:id="@+id/media_favorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
-                vlc:layout_constraintBottom_toTopOf="@+id/network_media"
-                vlc:layout_constraintEnd_toStartOf="@id/item_more"
-                vlc:layout_constraintTop_toTopOf="parent"
-                vlc:layout_constraintVertical_chainStyle="packed"
-                vlc:srcCompat="@drawable/ic_emoji_favorite" />
+            <ImageView
+                    android:id="@+id/otg_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:visibility="@{isOTG ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone"
+                    vlc:srcCompat="@drawable/ic_emoji_otg" />
+
+            <ImageView
+                    android:id="@+id/network_media_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone"
+                    vlc:srcCompat="@drawable/ic_emoji_absent" />
+        </LinearLayout>
 
         <ImageView
                 android:id="@+id/selector_image"
@@ -212,7 +212,7 @@
                 android:singleLine="false"
                 vlc:asyncText="@{item.title}"
                 vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
-                vlc:layout_constraintEnd_toStartOf="@+id/media_favorite"
+                vlc:layout_constraintEnd_toStartOf="@+id/linearLayout6"
                 vlc:layout_constraintStart_toEndOf="@+id/media_cover"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_constraintVertical_chainStyle="packed"
