@@ -967,10 +967,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     private fun initMediaSession() {
-        val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
-
-        mediaButtonIntent.setClass(this, MediaButtonReceiver::class.java)
-        val mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
+        val mbrIntent = MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_PLAY_PAUSE)
         val mbrName = ComponentName(this, MediaButtonReceiver::class.java)
         val playbackState = PlaybackStateCompat.Builder()
                 .setActions(enabledActions)
