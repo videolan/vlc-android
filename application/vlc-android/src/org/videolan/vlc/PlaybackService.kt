@@ -1239,13 +1239,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     private fun broadcastMetadata() {
         val media = playlistManager.getCurrentMedia()
-        if (media == null || isVideoPlaying) return
+        if (isVideoPlaying) return
         if (lifecycleScope.isActive) lifecycleScope.launch(Dispatchers.Default) {
             sendBroadcast(Intent("com.android.music.metachanged")
-                    .putExtra("track", media.nowPlaying ?: media.title)
-                    .putExtra("artist", MediaUtils.getMediaArtist(this@PlaybackService, media))
-                    .putExtra("album", MediaUtils.getMediaAlbum(this@PlaybackService, media))
-                    .putExtra("duration", media.length)
+                    .putExtra("track", media?.nowPlaying ?: media?.title ?: null)
+                    .putExtra("artist", if (media != null) MediaUtils.getMediaArtist(this@PlaybackService, media) else null)
+                    .putExtra("album", if (media != null) MediaUtils.getMediaAlbum(this@PlaybackService, media) else null)
+                    .putExtra("duration", media?.length ?: 0)
                     .putExtra("playing", isPlaying)
                     .putExtra("package", "org.videolan.vlc")
                     .apply {
