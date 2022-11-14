@@ -154,6 +154,18 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             addToPlaylist(viewModel.playlist.tracks.toList())
         }
 
+        binding.headerListArtist.setOnClickListener {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val artist = (viewModel.playlist as Album).retrieveAlbumArtist()
+                    val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
+                    i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                    startActivity(i)
+                }
+            }
+        }
+
         binding.songs.layoutManager = LinearLayoutManager(this)
         binding.songs.adapter = audioBrowserAdapter
 

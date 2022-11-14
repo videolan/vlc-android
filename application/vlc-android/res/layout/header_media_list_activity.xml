@@ -116,6 +116,7 @@
                             android:layout_marginEnd="@dimen/default_margin"
                             android:ellipsize="end"
                             android:maxLines="2"
+                            android:background="?attr/selectableItemBackground"
                             android:text="@{playlist.description}"
                             android:textColor="?attr/font_default"
                             android:contentDescription="@{TalkbackUtil.INSTANCE.getArtist(context, playlist.description)}"
