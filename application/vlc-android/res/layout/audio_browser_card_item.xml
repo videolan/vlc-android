@@ -212,7 +212,7 @@
                         android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        vlc:srcCompat="@drawable/ic_emoji_favorite" />
+                        vlc:srcCompat="@drawable/ic_emoji_favorite_white" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
