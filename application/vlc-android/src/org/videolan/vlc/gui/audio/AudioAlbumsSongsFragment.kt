@@ -69,6 +69,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     private lateinit var fastScroller: FastScroller
 
     override val hasTabs = true
+    private var fromAlbums = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +77,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         val item = savedInstanceState?.parcelable(AudioBrowserFragment.TAG_ITEM)
                 ?: arguments?.parcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
         viewModel = getViewModel(item!!)
+        fromAlbums = savedInstanceState?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM) ?: arguments?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM, false) ?: false
     }
 
     override fun getTitle(): String = viewModel.parent.title
@@ -214,6 +216,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         if (item is Album) {
             val i = Intent(activity, HeaderMediaListActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
+            if (fromAlbums) i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
             startActivity(i)
         } else {
             if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)

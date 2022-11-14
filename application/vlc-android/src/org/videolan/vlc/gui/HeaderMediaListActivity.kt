@@ -161,6 +161,8 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                     val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
                     i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                     i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                    i.putExtra(ARTIST_FROM_ALBUM, true)
+                    i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
                     startActivity(i)
                 }
             }
@@ -520,6 +522,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     companion object {
 
+        const val ARTIST_FROM_ALBUM = "ARTIST_FROM_ALBUM"
         const val TAG = "VLC/PlaylistActivity"
     }
 

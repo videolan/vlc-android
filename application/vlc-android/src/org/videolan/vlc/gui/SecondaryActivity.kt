@@ -166,7 +166,9 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 fragment = AudioAlbumsSongsFragment().apply {
                     arguments = bundleOf(
                         AudioBrowserFragment.TAG_ITEM to
-                                intent.parcelable(AudioBrowserFragment.TAG_ITEM)
+                                intent.parcelable(AudioBrowserFragment.TAG_ITEM),
+                        HeaderMediaListActivity.ARTIST_FROM_ALBUM to
+                                intent.getBooleanExtra(HeaderMediaListActivity.ARTIST_FROM_ALBUM, false)
                     )
                 }
             }
