@@ -146,7 +146,10 @@ class VideoBrowserFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
         tcl.onPageScrollStateChanged(state)
     }
 
-    override fun onPageSelected(position: Int) {}
+    override fun onPageSelected(position: Int) {
+        if (position == 0) setFabPlayVisibility(true)
+        manageFabNeverShow()
+    }
 
     private fun setupTabLayout() {
         if (tabLayout == null || !::viewPager.isInitialized) return
@@ -155,6 +158,10 @@ class VideoBrowserFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
         viewPager.addOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.addOnTabSelectedListener(this)
         viewPager.addOnPageChangeListener(this)
+    }
+
+    override fun hasFAB(): Boolean {
+        return !::viewPager.isInitialized || viewPager.currentItem == 0
     }
 
     private fun unSetTabLayout() {

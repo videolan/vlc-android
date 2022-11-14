@@ -54,6 +54,8 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     val menu: Menu?
         get() = (activity as? AudioPlayerContainerActivity)?.menu
 
+    open val isMainNavigationPoint = true
+
     abstract fun getTitle(): String
     open fun onFabPlayClick(view: View) {}
 
@@ -72,9 +74,13 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
             it.setColorSchemeColors(color)
             it.setProgressBackgroundColorSchemeColor(bColor)
         }
+        if (isMainNavigationPoint) manageFabNeverShow()
+        if (hasFAB()) updateFabPlayView()
+    }
+
+    fun manageFabNeverShow() {
         val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
         ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB() && requireActivity() is MainActivity
-        if (hasFAB()) updateFabPlayView()
     }
 
     override fun onStart() {

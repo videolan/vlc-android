@@ -67,6 +67,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     private lateinit var playlistAdapter: AudioBrowserAdapter
     private lateinit var fastScroller: FastScroller
     override val isChild = true
+    override val isMainNavigationPoint = false
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val type = arguments?.getInt(PLAYLIST_TYPE, 0) ?: 0
