@@ -100,8 +100,4 @@ dependencies {
 
 }
 
-mavenPublish {
-    releaseSigningEnabled = false
-}
-
 apply from: '../buildsystem/publish.gradle'
