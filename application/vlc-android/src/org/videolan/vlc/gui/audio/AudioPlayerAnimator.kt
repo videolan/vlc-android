@@ -214,7 +214,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     /**
      * Updates the player background with or without a blurred cover depending on the user setting
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
             val mw = audioPlayer.playlistModel.currentMediaWrapper ?: return
@@ -223,13 +222,9 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             if (mw.artworkMrl.isNullOrEmpty()) setDefaultBackground()
             else {
                 val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else audioPlayer.activity?.getScreenWidth() ?: return
-                val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
-                if (blurredCover !== null) {
-                    val activity = audioPlayer.activity as? AudioPlayerContainerActivity ?: return
-                    binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
-                    binding.backgroundView.setImageBitmap(blurredCover)
-                    binding.backgroundView.visibility = View.VISIBLE
-                } else setDefaultBackground()
+                val activity = audioPlayer.activity as? AudioPlayerContainerActivity ?: return
+                val bitmap = AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)
+                bitmap?.let { UiTools.blurView(binding.backgroundView, bitmap, 15F, UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint)) } ?:  setDefaultBackground()
             }
         } else {
             currentCoverArt = null

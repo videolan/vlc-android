@@ -31,6 +31,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaRouter
 import android.os.Build
@@ -540,6 +542,40 @@ object UiTools {
         }
     }
 
+    /**
+     * Set a blur effect on the whole [ImageView] using [RenderEffect]
+     * with a fallback on [RenderScript] if needed
+     *
+     * @param imageView the [ImageView] to blur
+     * @param bitmap the [Bitmap] to display
+     * @param radius the blur radius
+     * @param colorFilter the color filter to be used on the view depending on the theme
+     */
+    suspend fun blurView(imageView: ImageView, bitmap: Bitmap?, radius: Float, colorFilter: Int) {
+        imageView.setColorFilter(colorFilter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val blur = RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.CLAMP)
+            imageView.setRenderEffect(blur)
+            imageView.setImageBitmap(bitmap)
+        } else {
+            val blurred = withContext(Dispatchers.IO) {
+                blurBitmap(bitmap, radius)
+            }
+            withContext(Dispatchers.Main) {
+                imageView.setImageBitmap(blurred)
+            }
+        }
+    }
+
+    /**
+     * Blur a [Bitmap]. it uses a deprecated API and therefore should not be used
+     * except for a fallback for API < 31
+     *
+     * @param bitmap the [Bitmap] to blur
+     * @param radius the bur radius
+     * @return a blurred bitmap
+     */
+    @Suppress("DEPRECATION")
     @JvmOverloads
     fun blurBitmap(bitmap: Bitmap?, radius: Float = 15.0f): Bitmap? {
         if (bitmap == null || bitmap.config == null) return null

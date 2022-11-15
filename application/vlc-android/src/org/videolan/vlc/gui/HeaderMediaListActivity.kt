@@ -171,11 +171,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                 binding.cover = BitmapDrawable(this@HeaderMediaListActivity.resources, cover)
                 binding.appbar.setExpanded(true, true)
                 val radius = if (isPlaylist) 25f else 15f
-                val blurredCover = UiTools.blurBitmap(cover, radius)
-                withContext(Dispatchers.Main) {
-                    binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
-                    binding.backgroundView.setImageBitmap(blurredCover)
-                }
+                UiTools.blurView(binding.backgroundView, cover, radius, UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
             }
         }
 

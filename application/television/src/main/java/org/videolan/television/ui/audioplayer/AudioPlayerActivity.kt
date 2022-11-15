@@ -208,15 +208,13 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     private fun updateBackground() = lifecycleScope.launchWhenStarted {
         val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
         val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
-        val blurredCover = if (cover != null) withContext(Dispatchers.Default) { UiTools.blurBitmap(cover) } else null
         if (cover == null) {
             binding.albumCover.setImageResource(R.drawable.ic_no_artwork_big)
             binding.background.clearColorFilter()
             binding.background.setImageResource(0)
         } else {
+            UiTools.blurView(binding.background, cover, 15F, UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
             binding.albumCover.setImageBitmap(cover)
-            binding.background.setColorFilter(UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
-            binding.background.setImageBitmap(blurredCover)
         }
     }
 
