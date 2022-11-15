@@ -99,8 +99,4 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.3.1"
 }
 
-mavenPublish {
-    releaseSigningEnabled = false
-}
-
 apply from: '../buildsystem/publish.gradle'
