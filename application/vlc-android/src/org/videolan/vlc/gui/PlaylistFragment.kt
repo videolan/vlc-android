@@ -109,7 +109,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             updateEmptyView()
         }
         viewModel.provider.loading.observe(requireActivity()) { loading ->
-            setRefreshing(loading) { }
+            if (isResumed) setRefreshing(loading) { }
         }
 
         viewModel.provider.liveHeaders.observe(requireActivity()) {

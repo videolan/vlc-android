@@ -131,7 +131,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
         viewModel.provider.loading.observe(this@VideoGridFragment) { loading ->
-            setRefreshing(loading) { refresh ->
+            if (isResumed) setRefreshing(loading) { refresh ->
                 if (!refresh) {
                     menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
                     restoreMultiSelectHelper()
