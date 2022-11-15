@@ -140,6 +140,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                     bookmarkListDelegate.hide()
                     return
                 }
+                finish()
             }
         })
     }

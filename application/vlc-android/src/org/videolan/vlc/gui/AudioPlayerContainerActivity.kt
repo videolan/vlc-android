@@ -170,6 +170,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (slideDownAudioPlayer()) return
+                finish()
             }
         })
     }
