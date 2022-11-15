@@ -88,6 +88,8 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         super.onCreate(savedInstanceState)
         (savedInstanceState?.getIntegerArrayList(KEY_SELECTION))?.let { savedSelection = it }
         dialogsDelegate.observeDialogs(this, this)
+        viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext()))[HistoryModel::class.java]
+        streamsViewModel = ViewModelProvider(requireActivity(), StreamsModel.Factory(requireContext(), showDummy = true))[StreamsModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -103,7 +105,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         aboutButton = view.findViewById(R.id.aboutButton)
         donationsButton = view.findViewById(R.id.donationsButton)
         if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
-        viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 historyAdapter.update(it)
@@ -125,7 +126,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
 
         streamsEntry = view.findViewById(R.id.streams_entry)
-        streamsViewModel = ViewModelProvider(requireActivity(), StreamsModel.Factory(requireContext(), showDummy = true)).get(StreamsModel::class.java)
         setup(this, streamsViewModel, object : KeyboardListener {
             override fun hideKeyboard() {}
         })

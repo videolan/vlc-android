@@ -62,11 +62,11 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         dialogsDelegate.observeDialogs(this, this)
         networkMonitor = NetworkMonitor.getInstance(requireContext())
         (requireActivity() as? SecondaryActivity)?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
+        viewModel = getBrowserModel(TYPE_NETWORK, mrl)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = getBrowserModel(TYPE_NETWORK, mrl)
         if (isRootDirectory) swipeRefreshLayout.isEnabled = false
     }
 

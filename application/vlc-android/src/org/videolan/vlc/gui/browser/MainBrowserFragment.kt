@@ -158,6 +158,9 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         networkMonitor = NetworkMonitor.getInstance(requireContext())
         super.onCreate(savedInstanceState)
+        localViewModel = getBrowserModel(category = TYPE_FILE, url = null)
+        favoritesViewModel = BrowserFavoritesModel(requireContext())
+        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -170,7 +173,6 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         val storageBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
         val storageBrowserAdapter = BaseBrowserAdapter(storageBrowserContainer)
         localEntry.list.adapter = storageBrowserAdapter
-        localViewModel = getBrowserModel(category = TYPE_FILE, url = null)
         containerAdapterAssociation[storageBrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
@@ -197,7 +199,6 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
         val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
         favoritesEntry.list.adapter = favoritesAdapter
-        favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
         favoritesViewModel.favorites.observe(viewLifecycleOwner) { list ->
             list.let {
@@ -223,7 +224,6 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         val networkBrowserContainer = MainBrowserContainer(isNetwork = true, isFile = false, inCards = !displayInList)
         val networkAdapter = BaseBrowserAdapter(networkBrowserContainer)
         networkEntry.list.adapter = networkAdapter
-        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null)
         containerAdapterAssociation[networkBrowserContainer] = Pair(networkAdapter, networkViewModel)
         networkViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
