@@ -2303,7 +2303,7 @@ getSubscriptionNbUnplayedMedia(JNIEnv *env, jobject thiz, jobject medialibrary, 
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::SubscriptionPtr subscriptionPtr = aml->subscription(id);
-    if (subscriptionPtr == nullptr) return false;
+    if (subscriptionPtr == nullptr) return -1;
     return subscriptionPtr->nbUnplayedMedia();
 }
 
@@ -2367,6 +2367,15 @@ getSubscriptionMedia(JNIEnv* env, jobject thiz, jobject ml, jlong id, jint sorti
    }
    return subsRefs;   
 }
+
+jint getSubscriptionNbMedia(JNIEnv* env, jobject thiz, jobject ml, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, ml);
+    medialibrary::SubscriptionPtr subscriptionPtr = aml->subscription(id);
+    if (subscriptionPtr == nullptr) return -1;
+    return subscriptionPtr->nbMedia();
+}
+
 
  /*
   * JNI stuff
@@ -2600,7 +2609,8 @@ static JNINativeMethod subscription_methods[] = {
     {"nativeGetChildSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getChildSubscriptions},
     {"nativeGetParent", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getParent},
     {"nativeSubscriptionRefresh", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)refresh},
-    {"nativeGetSubscriptionMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSubscriptionMedia}
+    {"nativeGetSubscriptionMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSubscriptionMedia},
+    {"nativeGetSubscriptionNbMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getSubscriptionNbMedia},
 };
 
 /* This function is called when a thread attached to the Java VM is canceled or

@@ -34,4 +34,5 @@ public abstract class Subscription {
     public abstract Subscription getParent();
     public abstract MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing);
     public abstract boolean refresh();
+    public abstract int getNbMedia();
 }
