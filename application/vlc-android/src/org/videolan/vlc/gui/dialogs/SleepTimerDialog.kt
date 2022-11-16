@@ -22,10 +22,16 @@
 
 package org.videolan.vlc.gui.dialogs
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import org.videolan.tools.SLEEP_TIMER_WAIT
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -33,16 +39,28 @@ import java.util.*
 
 class SleepTimerDialog : PickTimeFragment() {
 
+    private lateinit var settings: SharedPreferences
+    private lateinit var waitCheckBox: CheckBox
     private val playlistModel by lazy { PlaylistModel.get(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         maxTimeSize = 4
+        settings = Settings.getInstance(requireActivity())
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        waitCheckBox = view.findViewById(R.id.tim_pic_wait_checkbox)
+        waitCheckBox.isChecked = settings.getBoolean(SLEEP_TIMER_WAIT, false)
+    }
+
     override fun executeAction() {
+        playlistModel.service?.waitForMediaEnd = waitCheckBox.isChecked
+        settings.putSingle(SLEEP_TIMER_WAIT, waitCheckBox.isChecked)
+
         val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
         val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
         val interval = (hours + minutes) / MILLIS_IN_MICROS //Interval in ms
@@ -59,7 +77,9 @@ class SleepTimerDialog : PickTimeFragment() {
 
     override fun onClick(v: View) {
         if (v.id == R.id.tim_pic_delete_current) {
+            playlistModel.service?.waitForMediaEnd = false
             playlistModel.service?.setSleepTimer(null)
+            settings.putSingle(SLEEP_TIMER_WAIT, false)
             dismiss()
         } else super.onClick(v)
     }

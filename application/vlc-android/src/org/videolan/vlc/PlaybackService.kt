@@ -113,6 +113,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
     private lateinit var browserCallback: MediaBrowserCallback
     var sleepTimerJob: Job? = null
+    var waitForMediaEnd = false
+    private var mediaEndReached = false
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
@@ -230,6 +232,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 updateMetadata()
             }
             MediaPlayer.Event.MediaChanged -> if (BuildConfig.DEBUG) Log.d(TAG, "onEvent: MediaChanged")
+            MediaPlayer.Event.EndReached -> mediaEndReached = true
         }
         cbActor.trySend(CbMediaPlayerEvent(event))
     }
@@ -1728,10 +1731,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         sleepTimerJob = launch {
             while (isActive) {
                 playerSleepTime.value?.let {
-                    if (System.currentTimeMillis() > it.timeInMillis) {
+                    val timerExpired = System.currentTimeMillis() > it.timeInMillis
+                    val shouldStop = if (waitForMediaEnd) timerExpired && mediaEndReached else timerExpired
+                    if (shouldStop) {
                         withContext(Dispatchers.Main) { if (isPlaying) stop() else setSleepTimer(null) }
                     }
                 }
+                if (mediaEndReached) mediaEndReached = false
                 delay(1000)
             }
         }

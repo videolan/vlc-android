@@ -175,6 +175,7 @@
     <string name="sleep_in">Sleep in</string>
     <string name="jump_to_time">Jump to Time</string>
     <string name="subtitle_select">Select subtitle file</string>
+    <string name="wait_before_sleep">Wait for current media item to finish first</string>
 
     <string name="server_add_title">Add a new server to favorites</string>
     <string name="server_domain_hint">Server address (domain name or IP)</string>
