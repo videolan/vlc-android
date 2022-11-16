@@ -11,73 +11,73 @@ public class MlServiceImpl extends MlService {
 
     public boolean addSubscription(String mrl) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeAddSubscription(ml, this.type.value, mrl);
+        return ml.isInitiated() && nativeAddSubscription(ml, this.type.value, mrl);
     }
 
     @Override
     public boolean isAutoDownloadEnabled() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeIsAutoDownloadEnabled(ml, this.type.value);
+        return ml.isInitiated() && nativeIsAutoDownloadEnabled(ml, this.type.value);
     }
 
     @Override
     public boolean setAutoDownloadEnabled(boolean enabled) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSetAutoDownloadEnabled(ml, this.type.value, enabled);
+        return ml.isInitiated() && nativeSetAutoDownloadEnabled(ml, this.type.value, enabled);
     }
 
     @Override
     public boolean isNewMediaNotificationEnabled() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeIsNewMediaNotificationEnabled(ml, this.type.value);
+        return ml.isInitiated() && nativeIsNewMediaNotificationEnabled(ml, this.type.value);
     }
 
     @Override
     public boolean setNewMediaNotificationEnabled(boolean enabled) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSetNewMediaNotificationEnabled(ml, this.type.value, enabled);
+        return ml.isInitiated() && nativeSetNewMediaNotificationEnabled(ml, this.type.value, enabled);
     }
 
     @Override
     public long getMaxCachedSize() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetMaxCachedSize(ml, this.type.value);
+        return ml.isInitiated() ? nativeGetMaxCachedSize(ml, this.type.value) : -2L;
     }
 
     @Override
     public boolean setMaxCachedSize(long size) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSetMaxCachedSize(ml, this.type.value, size);
+        return ml.isInitiated() && nativeSetMaxCachedSize(ml, this.type.value, size);
     }
 
     @Override
     public int getNbSubscriptions() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetNbSubscriptions(ml, this.type.value);
+        return ml.isInitiated() ? nativeGetNbSubscriptions(ml, this.type.value) : -1;
     }
 
     @Override
     public int getNbUnplayedMedia() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetNbUnplayedMedia(ml, this.type.value);
+        return ml.isInitiated() ? nativeGetNbUnplayedMedia(ml, this.type.value) : -1;
     }
 
     @Override
     public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetSubscriptions(ml, this.type.value, sort, desc, includeMissing);
+        return ml.isInitiated() ? nativeGetSubscriptions(ml, this.type.value, sort, desc, includeMissing) : new Subscription[0];
     }
 
     @Override
     public int getNbMedia() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetNbMedia(ml, this.type.value);
+        return ml.isInitiated() ? nativeGetNbMedia(ml, this.type.value) : -1;
     }
 
     @Override
     public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetServiceMedia(ml, this.type.value, sortingCriteria, desc, includeMissing);
+        return ml.isInitiated() ? nativeGetServiceMedia(ml, this.type.value, sortingCriteria, desc, includeMissing) : Medialibrary.EMPTY_COLLECTION;
     }
 
     private native boolean nativeAddSubscription(Medialibrary ml, int type, String mrl);

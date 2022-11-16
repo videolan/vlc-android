@@ -1,5 +1,7 @@
 package org.videolan.medialibrary.media;
 
+import androidx.annotation.Nullable;
+
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.MlService;
@@ -18,67 +20,68 @@ public class SubscriptionImpl extends Subscription {
     @Override
     public int getNewMediaNotification() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSubscriptionNewMediaNotification(ml, this.id);
+        return ml.isInitiated() ? nativeSubscriptionNewMediaNotification(ml, this.id) : -1;
     }
 
     @Override
     public boolean setNewMediaNotification(int value) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSetSubscriptionNewMediaNotification(ml, this.id, value);
+        return ml.isInitiated() && nativeSetSubscriptionNewMediaNotification(ml, this.id, value);
     }
 
     @Override
     public long getCachedSize() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetSubscriptionCachedSize(ml, this.id);
+        return ml.isInitiated() ? nativeGetSubscriptionCachedSize(ml, this.id) : -2;
     }
 
     @Override
     public long getMaxCachedSize() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetSubscriptionMaxCachedSize(ml, this.id);
+        return ml.isInitiated() ? nativeGetSubscriptionMaxCachedSize(ml, this.id) : -2;
     }
 
     @Override
     public boolean setMaxCachedSize(long size) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSetSubscriptionMaxCachedSize(ml, this.id, size);
+        return ml.isInitiated() && nativeSetSubscriptionMaxCachedSize(ml, this.id, size);
     }
 
     @Override
     public int getNbUnplayedMedia() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetSubscriptionNbUnplayedMedia(ml, this.id);
+        return ml.isInitiated() ? nativeGetSubscriptionNbUnplayedMedia(ml, this.id) : -1;
     }
 
     @Override
     public Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetChildSubscriptions(ml, id, sortingCriteria, desc, includeMissing);
+        return ml.isInitiated() ? nativeGetChildSubscriptions(ml, id, sortingCriteria, desc, includeMissing) : new Subscription[0];
     }
 
     @Override
+    @Nullable
     public Subscription getParent() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetParent(ml, id);
+        return ml.isInitiated() ? nativeGetParent(ml, id) : null;
     }
 
     @Override
     public boolean refresh() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeSubscriptionRefresh(ml, id);
+        return ml.isInitiated() && nativeSubscriptionRefresh(ml, id);
     }
 
     @Override
     public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetSubscriptionMedia(ml, id, sortingCriteria, desc, includeMissing);
+        return ml.isInitiated() ? nativeGetSubscriptionMedia(ml, id, sortingCriteria, desc, includeMissing) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
     public int getNbMedia() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return nativeGetSubscriptionNbMedia(ml, id);
+        return ml.isInitiated() ? nativeGetSubscriptionNbMedia(ml, id) : -1;
     }
 
     private native int nativeSubscriptionNewMediaNotification(Medialibrary ml, long id);
