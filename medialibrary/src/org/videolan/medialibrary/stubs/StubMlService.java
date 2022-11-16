@@ -67,4 +67,9 @@ public class StubMlService extends MlService {
     public int getNbMedia() {
         return 0;
     }
+
+    @Override
+    public boolean refresh() {
+        return false;
+    }
 }

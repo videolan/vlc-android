@@ -2281,6 +2281,16 @@ jint sortingCriteria, jboolean desc, jboolean includeMissing)
     return mediaRefs;
 }
 
+jboolean
+serviceRefresh(JNIEnv* env, jobject thiz, jobject ml, jint _type)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, ml);
+    medialibrary::IService::Type type = (medialibrary::IService::Type)_type;
+    medialibrary::ServicePtr servicePtr = aml->service(type);
+    if (servicePtr == nullptr) return false;
+    return servicePtr->refresh();
+}
+
 /*
  * Subscriptions
  */
@@ -2631,6 +2641,7 @@ static JNINativeMethod service_methods[] = {
     {"nativeGetSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IIZZ)[Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getSubscriptions},
     {"nativeGetNbMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbMedia},
     {"nativeGetServiceMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getServiceMedia},
+    {"nativeServiceRefresh", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)Z", (void*)serviceRefresh},
 };
 
 static JNINativeMethod subscription_methods[] = {

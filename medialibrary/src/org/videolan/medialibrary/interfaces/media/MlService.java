@@ -40,4 +40,5 @@ public abstract class MlService {
     public abstract Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing);
     public abstract int getNbMedia();
     public abstract MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing);
+    public abstract boolean refresh();
 }
