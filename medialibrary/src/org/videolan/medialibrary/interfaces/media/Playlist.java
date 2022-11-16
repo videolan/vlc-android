@@ -30,9 +30,13 @@ public abstract class Playlist extends MediaLibraryItem {
     public enum Type {
         /// Include all kind of playlist, regarding of the media types
         All,
-        /// Only include audio playlists
+        /// Include playlists containing at least one audio track
+        Audio,
+        /// Include playlists containing at least one video or one unknown track
+        Video,
+        /// Include playlists containing audio tracks only
         AudioOnly,
-        /// Only include video playlist
+        /// Include playlists containing video tracks only
         VideoOnly
     }
 
