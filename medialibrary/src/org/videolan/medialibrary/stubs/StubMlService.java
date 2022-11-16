@@ -1,5 +1,6 @@
 package org.videolan.medialibrary.stubs;
 
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Subscription;
 
@@ -55,6 +56,11 @@ public class StubMlService extends MlService {
     @Override
     public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing) {
         return new Subscription[0];
+    }
+
+    @Override
+    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
+        return new MediaWrapper[0];
     }
 
     @Override

@@ -2259,6 +2259,28 @@ getNbMedia(JNIEnv *env, jobject thiz, jobject ml, jint _type)
     return servicePtr->nbMedia();
 }
 
+jobjectArray
+getServiceMedia(JNIEnv *env, jobject thiz, jobject medialibrary, jint _type,
+jint sortingCriteria, jboolean desc, jboolean includeMissing)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::IService::Type type = (medialibrary::IService::Type)_type;
+    medialibrary::ServicePtr servicePtr = aml->service(type);
+    if (servicePtr == nullptr) {
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
+    std::vector<medialibrary::MediaPtr> mediasArray = servicePtr->media(&params)->all();
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediasArray.size(),
+            ml_fields.MediaWrapper.clazz, NULL);
+    int index = -1;
+    for (medialibrary::MediaPtr const& media : mediasArray) {
+        auto item = mediaToMediaWrapper(env, &ml_fields, media);
+        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
+    }
+    return mediaRefs;
+}
+
 /*
  * Subscriptions
  */
@@ -2608,6 +2630,7 @@ static JNINativeMethod service_methods[] = {
     {"nativeGetNbUnplayedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbUnplayedMedia},
     {"nativeGetSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IIZZ)[Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getSubscriptions},
     {"nativeGetNbMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbMedia},
+    {"nativeGetServiceMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getServiceMedia},
 };
 
 static JNINativeMethod subscription_methods[] = {

@@ -1,6 +1,7 @@
 package org.videolan.medialibrary.media;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Subscription;
 
@@ -73,6 +74,12 @@ public class MlServiceImpl extends MlService {
         return nativeGetNbMedia(ml, this.type.value);
     }
 
+    @Override
+    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return nativeGetServiceMedia(ml, this.type.value, sortingCriteria, desc, includeMissing);
+    }
+
     private native boolean nativeAddSubscription(Medialibrary ml, int type, String mrl);
     private native boolean nativeIsAutoDownloadEnabled(Medialibrary ml, int type);
     private native boolean nativeSetAutoDownloadEnabled(Medialibrary ml, int type, boolean enabled);
@@ -84,4 +91,5 @@ public class MlServiceImpl extends MlService {
     private native int nativeGetNbUnplayedMedia(Medialibrary ml, int type);
     private native Subscription[] nativeGetSubscriptions(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing);
     private native int nativeGetNbMedia(Medialibrary ml, int type);
+    private native MediaWrapper[] nativeGetServiceMedia(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing);
 }
