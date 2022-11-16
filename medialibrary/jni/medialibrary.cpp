@@ -2131,9 +2131,6 @@ getService(JNIEnv* env, jobject thiz, jint _type)
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::IService::Type type = (medialibrary::IService::Type)_type;
     medialibrary::ServicePtr servicePtr = aml->service(type);
-    if (servicePtr == NULL) LOGE("Service Ptr null");
-    if (ml_fields.Service.clazz == NULL) LOGE("ml_fields.Service.clazz Ptr null");
-    if (ml_fields.Service.initID == NULL) LOGE("ml_fields.Service.initID Ptr null");
     jobject serviceObject = env->NewObject(ml_fields.Service.clazz,
             ml_fields.Service.initID, (jint) servicePtr->type());
     return serviceObject;
