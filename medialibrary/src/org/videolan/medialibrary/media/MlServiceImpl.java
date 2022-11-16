@@ -67,6 +67,12 @@ public class MlServiceImpl extends MlService {
         return nativeGetSubscriptions(ml, this.type.value, sort, desc, includeMissing);
     }
 
+    @Override
+    public int getNbMedia() {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return nativeGetNbMedia(ml, this.type.value);
+    }
+
     private native boolean nativeAddSubscription(Medialibrary ml, int type, String mrl);
     private native boolean nativeIsAutoDownloadEnabled(Medialibrary ml, int type);
     private native boolean nativeSetAutoDownloadEnabled(Medialibrary ml, int type, boolean enabled);
@@ -77,4 +83,5 @@ public class MlServiceImpl extends MlService {
     private native int nativeGetNbSubscriptions(Medialibrary ml, int type);
     private native int nativeGetNbUnplayedMedia(Medialibrary ml, int type);
     private native Subscription[] nativeGetSubscriptions(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing);
+    private native int nativeGetNbMedia(Medialibrary ml, int type);
 }

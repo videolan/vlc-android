@@ -38,4 +38,5 @@ public abstract class MlService {
     public abstract int getNbSubscriptions();
     public abstract int getNbUnplayedMedia();
     public abstract Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing);
+    public abstract int getNbMedia();
 }

@@ -56,4 +56,9 @@ public class StubMlService extends MlService {
     public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing) {
         return new Subscription[0];
     }
+
+    @Override
+    public int getNbMedia() {
+        return 0;
+    }
 }

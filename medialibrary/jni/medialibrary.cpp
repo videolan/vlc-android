@@ -2249,6 +2249,16 @@ jint sortingCriteria, jboolean desc, jboolean includeMissing)
     return subsRefs;
 }
 
+jint
+getNbMedia(JNIEnv *env, jobject thiz, jobject ml, jint _type)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, ml);
+    medialibrary::IService::Type type = (medialibrary::IService::Type)_type;
+    medialibrary::ServicePtr servicePtr = aml->service(type);
+    if (servicePtr == nullptr) return -1;
+    return servicePtr->nbMedia();
+}
+
 /*
  * Subscriptions
  */
@@ -2597,6 +2607,7 @@ static JNINativeMethod service_methods[] = {
     {"nativeGetNbSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbSubscriptions},
     {"nativeGetNbUnplayedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbUnplayedMedia},
     {"nativeGetSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IIZZ)[Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getSubscriptions},
+    {"nativeGetNbMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbMedia},
 };
 
 static JNINativeMethod subscription_methods[] = {
