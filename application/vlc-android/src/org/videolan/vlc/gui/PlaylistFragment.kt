@@ -166,23 +166,13 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providerInCard
-        menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providerInCard
+        super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_sortby).isVisible = false
         menu.findItem(R.id.ml_menu_display_options).isVisible = true
-        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
-                viewModel.providerInCard = item.itemId == R.id.ml_menu_display_grid
-                setupLayoutManager()
-                playlists.adapter = adapter
-                activity?.invalidateOptionsMenu()
-                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKey, item.itemId == R.id.ml_menu_display_grid)
-                true
-            }
             R.id.ml_menu_display_options -> {
                 //filter all sorts and keep only applicable ones
                 val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {

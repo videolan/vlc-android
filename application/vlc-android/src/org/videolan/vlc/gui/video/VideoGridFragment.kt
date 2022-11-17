@@ -150,9 +150,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_last_playlist).isVisible = settings.contains(KEY_MEDIA_LAST_PLAYLIST)
-        menu.findItem(R.id.ml_menu_video_group).isVisible = viewModel.group == null && viewModel.folder == null
-        menu.findItem(R.id.ml_menu_display_grid).isVisible = false
-        menu.findItem(R.id.ml_menu_display_list).isVisible = false
         menu.findItem(R.id.rename_group).isVisible = viewModel.group != null
         menu.findItem(R.id.ungroup).isVisible = viewModel.group != null
         menu.findItem(R.id.ml_menu_sortby).isVisible = false
@@ -164,24 +161,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         when (item.itemId) {
             R.id.ml_menu_last_playlist -> {
                 MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
-            }
-            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
-                val displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true)
-                settings.putSingle(KEY_VIDEOS_CARDS, !displayInCards)
-                updateViewMode()
-                activity?.invalidateOptionsMenu()
-            }
-            R.id.video_min_group_length_disable -> {
-                settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NONE)
-                changeGroupingType(VideoGroupingType.NONE)
-            }
-            R.id.video_min_group_length_folder -> {
-                settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_FOLDER)
-                changeGroupingType(VideoGroupingType.FOLDER)
-            }
-            R.id.video_min_group_length_name -> {
-                settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME)
-                changeGroupingType(VideoGroupingType.NAME)
             }
             R.id.rename_group -> {
                 viewModel.group?.let { renameGroup(it) }
