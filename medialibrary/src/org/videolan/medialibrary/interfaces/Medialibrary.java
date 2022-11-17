@@ -811,4 +811,5 @@ abstract public class Medialibrary {
     abstract public int getSubscriptionMaxCachedMedia();
     abstract public long getSubscriptionMaxCacheSize();
     abstract public long getGlobalSubscriptionMaxCacheSize();
+    abstract public boolean refreshAllSubscriptions();
 }

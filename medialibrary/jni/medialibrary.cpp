@@ -2121,6 +2121,12 @@ jlong getGlobalSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject media
     return aml->getGlobalSubscriptionMaxCacheSize();
 }
 
+jboolean refreshAllSubscriptions(JNIEnv* env, jobject thiz, jobject ml)
+{
+        AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, ml);
+    return aml->refreshAllSubscriptions();
+}
+
 /*
  * Services
  */ 
@@ -2527,6 +2533,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetSubscriptionMaxCacheMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)I", (void*)getSubscriptionMaxCachedMedia},
     {"nativeGetSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)J", (void*)getSubscriptionMaxCacheSize},
     {"nativeGetGlobalSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)J", (void*)getGlobalSubscriptionMaxCacheSize},
+    {"nativeRefreshAllSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)Z", (void*)refreshAllSubscriptions},
 };
 
 static JNINativeMethod media_methods[] = {

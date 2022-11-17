@@ -198,6 +198,7 @@ public:
     uint32_t getSubscriptionMaxCachedMedia();
     uint64_t getSubscriptionMaxCacheSize();
     uint64_t getGlobalSubscriptionMaxCacheSize();
+    bool refreshAllSubscriptions();
     void onSubscriptionsAdded( std::vector<medialibrary::SubscriptionPtr> );
     void onSubscriptionsModified( std::set<int64_t> );
     void onSubscriptionsDeleted( std::set<int64_t> );

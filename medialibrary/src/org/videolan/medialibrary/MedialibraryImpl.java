@@ -644,6 +644,11 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetGlobalSubscriptionMaxCacheSize(this) : -1L;
     }
 
+    @Override
+    public boolean refreshAllSubscriptions() {
+        return mIsInitiated && nativeRefreshAllSubscriptions(this);
+    }
+
     // Native methods
     private native void nativeConstruct(String dbPath, String thumbsPath);
     private native int nativeInit(String dbPath);
@@ -757,4 +762,5 @@ public class MedialibraryImpl extends Medialibrary {
     private native int nativeGetSubscriptionMaxCacheMedia(Medialibrary ml);
     private native long nativeGetSubscriptionMaxCacheSize(Medialibrary ml);
     private native long nativeGetGlobalSubscriptionMaxCacheSize(Medialibrary ml);
+    private native boolean nativeRefreshAllSubscriptions(Medialibrary ml);
 }

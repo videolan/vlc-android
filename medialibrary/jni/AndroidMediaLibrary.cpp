@@ -1231,6 +1231,12 @@ AndroidMediaLibrary::getGlobalSubscriptionMaxCacheSize()
     return p_ml->getMaxCacheSize();
 }
 
+bool
+AndroidMediaLibrary::refreshAllSubscriptions()
+{
+    return p_ml->refreshAllSubscriptions();
+}
+
 void AndroidMediaLibrary::onSubscriptionsAdded( std::vector<medialibrary::SubscriptionPtr> )
 {
 }

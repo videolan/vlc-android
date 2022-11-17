@@ -730,4 +730,9 @@ public class StubMedialibrary extends Medialibrary {
     public long getGlobalSubscriptionMaxCacheSize() {
         return -1L;
     }
+
+    @Override
+    public boolean refreshAllSubscriptions() {
+        return false;
+    }
 }
