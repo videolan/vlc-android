@@ -29,6 +29,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
@@ -45,10 +46,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.viewmodels.MedialibraryViewModel
-import org.videolan.vlc.viewmodels.SortableModel
-import org.videolan.vlc.viewmodels.prepareOptionsMenu
-import org.videolan.vlc.viewmodels.sortMenuTitles
+import org.videolan.vlc.viewmodels.*
 
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"

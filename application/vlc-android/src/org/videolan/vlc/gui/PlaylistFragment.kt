@@ -27,17 +27,24 @@ import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.resources.KEY_VIDEOS_CARDS
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.putSingle
@@ -46,7 +53,9 @@ import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.INavigator
+import org.videolan.vlc.gui.video.VideoBrowserFragment
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
@@ -56,6 +65,7 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.onAnyChange
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import kotlin.math.min
@@ -68,7 +78,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     private lateinit var fastScroller: FastScroller
     override val isChild = true
     override val isMainNavigationPoint = false
-    
+    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val type = arguments?.getInt(PLAYLIST_TYPE, 0) ?: 0
@@ -117,6 +128,34 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         }
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
+        viewLifecycleOwner.lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect {
+                        if (isResumed) when (it.key) {
+                            DISPLAY_IN_CARDS -> {
+                                viewModel.providerInCard = it.value as Boolean
+                                setupLayoutManager()
+                                playlists.adapter = adapter
+                                activity?.invalidateOptionsMenu()
+                                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKey, it.value)
+                            }
+                            ONLY_FAVS -> {
+                                viewModel.providers[currentTab].showOnlyFavs(it.value as Boolean)
+                                viewModel.refresh()
+                                (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = it.value
+                            }
+                            CURRENT_SORT -> {
+                                @Suppress("UNCHECKED_CAST") val sort = it.value as Pair<Int, Boolean>
+                                viewModel.providers[currentTab].sort = sort.first
+                                viewModel.providers[currentTab].desc = sort.second
+                                viewModel.refresh()
+                            }
+                        }
+                    }
+        }
+        (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = viewModel.provider.onlyFavs
     }
 
 
@@ -143,6 +182,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providerInCard
         menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providerInCard
+        menu.findItem(R.id.ml_menu_sortby).isVisible = false
+        menu.findItem(R.id.ml_menu_display_options).isVisible = true
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -154,6 +195,22 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 playlists.adapter = adapter
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKey, item.itemId == R.id.ml_menu_display_grid)
+                true
+            }
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_INSERTIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                    viewModel.provider.canSortBy(it)
+                }
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                        displayInCards = viewModel.providerInCard,
+                        onlyFavs = viewModel.provider.onlyFavs,
+                        sorts = sorts,
+                        currentSort = viewModel.provider.sort,
+                        currentSortDesc = viewModel.provider.desc
+                )
+                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
                 true
             }
             else -> super.onOptionsItemSelected(item)

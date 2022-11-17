@@ -29,7 +29,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.InitialPagedList
 import androidx.paging.PagedList
@@ -53,13 +56,9 @@ import org.videolan.resources.util.waitForML
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
-import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
-import org.videolan.vlc.gui.dialogs.CtxActionReceiver
-import org.videolan.vlc.gui.dialogs.RenameDialog
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
@@ -67,13 +66,13 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -92,6 +91,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     //in case of fragment being hosted by other fragments, it's useful to prevent the
     //FAB visibility to be locked hidden
     override val isMainNavigationPoint = false
+    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
 
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
@@ -156,11 +156,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_last_playlist).isVisible = settings.contains(KEY_MEDIA_LAST_PLAYLIST)
         menu.findItem(R.id.ml_menu_video_group).isVisible = viewModel.group == null && viewModel.folder == null
-        val displayInCards = settings.getBoolean("video_display_in_cards", true)
-        menu.findItem(R.id.ml_menu_display_grid).isVisible = !displayInCards
-        menu.findItem(R.id.ml_menu_display_list).isVisible = displayInCards
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = false
+        menu.findItem(R.id.ml_menu_display_list).isVisible = false
         menu.findItem(R.id.rename_group).isVisible = viewModel.group != null
         menu.findItem(R.id.ungroup).isVisible = viewModel.group != null
+        menu.findItem(R.id.ml_menu_sortby).isVisible = false
+        menu.findItem(R.id.ml_menu_display_options).isVisible = parentFragment is VideoBrowserFragment
         if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
     }
 
@@ -195,6 +196,22 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             R.id.play_all -> {
                 onFabPlayClick(binding.root)
+            }
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_INSERTIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                    viewModel.provider.canSortBy(it)
+                }
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                        displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true),
+                        onlyFavs = viewModel.provider.onlyFavs,
+                        sorts = sorts,
+                        currentSort = viewModel.provider.sort,
+                        currentSortDesc = viewModel.provider.desc,
+                        videoGroup = settings.getString(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME)
+                )
+                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
             }
             else -> return super.onOptionsItemSelected(item)
         }
@@ -234,6 +251,37 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.videoGrid.adapter = videoListAdapter
         binding.fastScroller.attachToCoordinator(binding.videoGrid.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, binding.videoGrid.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, binding.videoGrid.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
         binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect {
+                       if (isResumed) when (it.key) {
+                            DISPLAY_IN_CARDS -> {
+                                settings.putSingle(KEY_VIDEOS_CARDS, it.value as Boolean)
+                                updateViewMode()
+                            }
+                            ONLY_FAVS -> {
+                                viewModel.provider.showOnlyFavs(it.value as Boolean)
+                                viewModel.refresh()
+                                (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = it.value
+                            }
+                            CURRENT_SORT -> {
+                                @Suppress("UNCHECKED_CAST") val sort = it.value as Pair<Int, Boolean>
+                                viewModel.provider.sort = sort.first
+                                viewModel.provider.desc = sort.second
+                                viewModel.refresh()
+                            }
+                           SHOW_VIDEO_GROUPS -> {
+                               val videoGroup = it.value as DisplaySettingsDialog.VideoGroup
+                               settings.putSingle(KEY_GROUP_VIDEOS, videoGroup.value)
+                               changeGroupingType(videoGroup.type)
+                           }
+                        }
+                    }
+        }
+        (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = viewModel.provider.onlyFavs
     }
 
 

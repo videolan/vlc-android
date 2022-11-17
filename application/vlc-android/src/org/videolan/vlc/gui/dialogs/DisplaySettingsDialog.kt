@@ -28,6 +28,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -37,14 +40,21 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.GROUP_VIDEOS_FOLDER
+import org.videolan.resources.GROUP_VIDEOS_NAME
+import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
 
 const val DISPLAY_IN_CARDS = "display_in_cards"
 const val SHOW_ALL_ARTISTS = "show_all_artists"
+const val SHOW_VIDEO_GROUPS = "show_video_groups"
 const val ONLY_FAVS = "only_favs"
 const val SORTS = "sorts"
 const val CURRENT_SORT = "current_sort"
@@ -62,6 +72,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     private var currentSort: Int = -1
     private var currentSortDesc = false
     private var showAllArtists: Boolean? = null
+    private var showVideoGroups: String? = null
 
     private lateinit var binding: DialogDisplaySettingsBinding
 
@@ -69,9 +80,9 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean?, onlyFavs: Boolean, sorts: List<Int>, currentSort: Int, currentSortDesc:Boolean): DisplaySettingsDialog {
+        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean, sorts: List<Int>, currentSort: Int, currentSortDesc:Boolean, videoGroup:String? = null): DisplaySettingsDialog {
             return DisplaySettingsDialog().apply {
-                arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, ONLY_FAVS to onlyFavs, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc)
+                arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, ONLY_FAVS to onlyFavs, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, SHOW_VIDEO_GROUPS to videoGroup)
                 if (showAllArtists != null) arguments!!.putBoolean(SHOW_ALL_ARTISTS, showAllArtists)
             }
         }
@@ -100,6 +111,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         currentSortDesc = arguments?.getBoolean(CURRENT_SORT_DESC)
                 ?: throw IllegalStateException("Current sort desc should be provided")
         showAllArtists = if (arguments?.containsKey(SHOW_ALL_ARTISTS) == true) arguments?.getBoolean(SHOW_ALL_ARTISTS) else null
+        showVideoGroups = arguments?.getString(SHOW_VIDEO_GROUPS, null) ?: null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -137,6 +149,27 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             updateShowAllArtists()
             lifecycleScope.launch { displaySettingsViewModel.send(ONLY_FAVS, onlyFavs) }
         }
+        if (showVideoGroups == null) {
+            binding.videoGroupsGroup.setGone()
+            binding.videoGroupSpinner.setGone()
+            binding.videoGroupText.setGone()
+        }
+        val spinnerArrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, VideoGroup.values())
+
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.videoGroupSpinner.adapter = spinnerArrayAdapter
+        binding.videoGroupsGroup.setOnClickListener {
+            binding.videoGroupSpinner.performClick()
+        }
+        binding.videoGroupSpinner.setSelection(VideoGroup.values().indexOf(VideoGroup.findByValue(showVideoGroups)))
+        binding.videoGroupSpinner.onItemSelectedListener = object:OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val groupType = spinnerArrayAdapter.getItem(position) as VideoGroup
+                lifecycleScope.launch { displaySettingsViewModel.send(SHOW_VIDEO_GROUPS, groupType) }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+        }
+
     }
 
     /**
@@ -200,7 +233,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                         Medialibrary.SORT_LASTMODIFICATIONDATE -> getString(if (desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date_asc)
                         Medialibrary.SORT_ALBUM -> getString(if (desc) R.string.sortby_album_name_desc else R.string.sortby_album_name_asc)
                         Medialibrary.SORT_RELEASEDATE -> getString(if (desc) R.string.sortby_date_desc else R.string.sortby_date_asc)
-                        else -> throw IllegalStateException("Unsupported sort")
+                        Medialibrary.NbMedia -> getString(if (desc) R.string.sortby_number_asc else R.string.sortby_number_desc)
+                        else -> throw IllegalStateException("Unsupported sort: $sort")
                     }
                     val isCurrentSort = (sort == currentSort || currentSort == Medialibrary.SORT_DEFAULT && sort == Medialibrary.SORT_ALPHA) && currentSortDesc == desc
                     v.isSelected = isCurrentSort
@@ -212,6 +246,36 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             //views are already added. Update their states
             binding.sortsContainer.children.forEach {
                 it.isSelected = it.getTag(R.id.sort) == currentSort &&  it.getTag(R.id.sort_desc) ==  currentSortDesc
+            }
+        }
+    }
+
+    /**
+     * Video grouping entry
+     *
+     * @property value the value to be saved in the shared preferences
+     * @property title the title resources to be shown
+     * @property type the [VideosViewModel] type for this grouping
+     */
+    enum class VideoGroup(val value: String, val title:Int, val type:VideoGroupingType) {
+        GROUP_BY_NAME(GROUP_VIDEOS_NAME, R.string.video_min_group_length_name, VideoGroupingType.NAME),
+        GROUP_BY_FOLDER(GROUP_VIDEOS_FOLDER, R.string.video_min_group_length_folder, VideoGroupingType.FOLDER),
+        NO_GROUP(GROUP_VIDEOS_NONE, R.string.video_min_group_length_disable, VideoGroupingType.NONE);
+
+        override fun toString(): String {
+            return AppContextProvider.appContext.getString(title)
+        }
+
+        companion object {
+            /**
+             * Retrieve a [VideoGroup] by its value
+             *
+             * @param value of the video group to retrieve
+             * @return a [VideoGroup]
+             */
+            fun findByValue(value: String?): VideoGroup {
+                values().forEach { if (value == it.value) return it }
+                return GROUP_BY_NAME
             }
         }
     }

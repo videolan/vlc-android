@@ -26,6 +26,8 @@ package org.videolan.vlc.gui.video
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -33,6 +35,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.ContentActivity
@@ -46,6 +50,7 @@ import org.videolan.vlc.interfaces.Filterable
  */
 class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, Filterable {
     override fun getTitle() = getString(R.string.videos)
+
     private lateinit var videoPagerAdapter: VideoPagerAdapter
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
     override val hasTabs = true
@@ -56,6 +61,17 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
     private var lastQuery = ""
 
     private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
+
+    var videoGridOnlyFavorites: Boolean = false
+        set(value) {
+            field = value
+            updateTabs()
+        }
+    var playlistOnlyFavorites: Boolean = false
+        set(value) {
+            field = value
+            updateTabs()
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.video_browser, container, false)
@@ -201,6 +217,20 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
     }
 
     override fun allowedToExpand() = (getCurrentFragment() as? Filterable)?.allowedToExpand() ?: false
+    private fun updateTabs() {
+        for (i in 0 until tabLayout!!.tabCount) {
+            val tab = tabLayout!!.getTabAt(i)
+            val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
+            val title = view.findViewById<TextView>(R.id.tab_title)
+            val icon = view.findViewById<ImageView>(R.id.tab_icon)
+            title.text = videoPagerAdapter.getPageTitle(i)
+            when (i) {
+                0 -> if (videoGridOnlyFavorites) icon.setVisible() else icon.setGone()
+                1 -> if (playlistOnlyFavorites) icon.setVisible() else icon.setGone()
+            }
+            tab?.customView = view
+        }
+    }
 
 
 }

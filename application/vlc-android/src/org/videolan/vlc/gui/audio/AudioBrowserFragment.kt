@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.video.VideoBrowserFragment
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.FastScroller

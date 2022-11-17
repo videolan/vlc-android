@@ -152,6 +152,38 @@
                     app:layout_constraintEnd_toEndOf="@+id/only_favs_group"
                     app:layout_constraintTop_toTopOf="@+id/only_favs_group" />
 
+            <View
+                    android:id="@+id/video_groups_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group" />
+
+            <TextView
+                    android:id="@+id/video_group_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/video_min_group_length_title"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/video_groups_group"
+                    app:layout_constraintEnd_toStartOf="@+id/spinner2"
+                    app:layout_constraintStart_toStartOf="@+id/video_groups_group"
+                    app:layout_constraintTop_toTopOf="@+id/video_groups_group" />
+
+            <Spinner
+                    android:id="@+id/video_group_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/video_groups_group"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group" />
+
             <TextView
                     android:id="@+id/sorts_title"
                     android:layout_width="wrap_content"
@@ -161,7 +193,7 @@
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:text="@string/sortby"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/video_groups_group" />
 
             <LinearLayout
                     android:id="@+id/sorts_container"

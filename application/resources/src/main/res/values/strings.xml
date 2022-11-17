@@ -37,6 +37,8 @@
     <string name="sortby_last_modified_date_desc">Newest addition first</string>
     <string name="sortby_insertion_asc">Oldest insertion first</string>
     <string name="sortby_insertion_desc">Newest insertion first</string>
+    <string name="sortby_number_asc">More videos</string>
+    <string name="sortby_number_desc">Less videos</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d result found</item>
