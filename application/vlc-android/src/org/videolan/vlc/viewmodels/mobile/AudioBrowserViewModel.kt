@@ -46,7 +46,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     val providersInCard = arrayOf(true, true, false, false, true)
 
     var showResumeCard = settings.getBoolean("audio_resume_card", true)
-    val displayModeKeys = arrayOf("display_mode_audio_browser_artists", "display_mode_audio_browser_albums", "display_mode_audio_browser_track", "display_mode_audio_browser_genres", "display_mode_playlists")
+    val displayModeKeys = arrayOf("display_mode_audio_browser_artists", "display_mode_audio_browser_albums", "display_mode_audio_browser_track", "display_mode_audio_browser_genres", "display_mode_playlists_AudioOnly")
 
 
     init {

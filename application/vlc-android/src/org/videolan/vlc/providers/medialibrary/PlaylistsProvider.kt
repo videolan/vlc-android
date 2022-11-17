@@ -29,9 +29,6 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 class PlaylistsProvider(context: Context, model: SortableModel, val type: Playlist.Type) : MedialibraryProvider<Playlist>(context, model) {
 
-    override val sortKey: String
-        get() = super.sortKey+"_"+type
-
     override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(type, sort, desc, Settings.includeMissing)
 
     override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {

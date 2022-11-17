@@ -33,6 +33,7 @@ import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
@@ -41,7 +42,7 @@ import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 10
+private const val CURRENT_VERSION = 11
 
 object VersionMigration {
 
@@ -82,6 +83,10 @@ object VersionMigration {
 
         if (lastVersion < 10) {
             migrateToVersion10(settings)
+        }
+
+        if (lastVersion < 11) {
+            migrateToVersion11(settings)
         }
 
         //Major version upgrade
@@ -247,6 +252,27 @@ object VersionMigration {
                     } catch (e: Exception) {
                         remove("subtitles_color")
                     }
+                }
+            }
+    }
+
+    /**
+     * Migrate the  playlists' display in grid setting
+     */
+    private fun migrateToVersion11(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 11: Migrate the  playlists' display in grid setting")
+        if (settings.contains("display_mode_playlists"))
+            settings.edit(true) {
+                settings.getBoolean("display_mode_playlists", true).let {oldSetting ->
+                    try {
+                        val oldColor = oldSetting.toInt()
+                        val newColor = Color.argb(255, Color.red(oldColor), Color.green(oldColor), Color.blue(oldColor))
+                        putInt("subtitles_color", newColor)
+                    } catch (e: Exception) {
+                    }
+                    putBoolean("display_mode_playlists_${Playlist.Type.AudioOnly}", oldSetting)
+                    putBoolean("display_mode_playlists_${Playlist.Type.VideoOnly}", oldSetting)
+                    remove("display_mode_playlists")
                 }
             }
     }
