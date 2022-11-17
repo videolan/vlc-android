@@ -27,24 +27,17 @@ import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
-import org.videolan.resources.KEY_VIDEOS_CARDS
-import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.putSingle
@@ -65,7 +58,6 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.onAnyChange
-import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import kotlin.math.min
@@ -193,7 +185,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             }
             R.id.ml_menu_display_options -> {
                 //filter all sorts and keep only applicable ones
-                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_INSERTIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
                     viewModel.provider.canSortBy(it)
                 }
                 //Open the display settings Bottom sheet

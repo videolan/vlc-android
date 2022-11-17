@@ -54,7 +54,7 @@ import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
 const val DISPLAY_IN_CARDS = "display_in_cards"
 const val SHOW_ALL_ARTISTS = "show_all_artists"
-const val SHOW_VIDEO_GROUPS = "show_video_groups"
+const val VIDEO_GROUPING = "show_video_groups"
 const val ONLY_FAVS = "only_favs"
 const val SORTS = "sorts"
 const val CURRENT_SORT = "current_sort"
@@ -82,7 +82,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
         fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean, sorts: List<Int>, currentSort: Int, currentSortDesc:Boolean, videoGroup:String? = null): DisplaySettingsDialog {
             return DisplaySettingsDialog().apply {
-                arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, ONLY_FAVS to onlyFavs, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, SHOW_VIDEO_GROUPS to videoGroup)
+                arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, ONLY_FAVS to onlyFavs, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, VIDEO_GROUPING to videoGroup)
                 if (showAllArtists != null) arguments!!.putBoolean(SHOW_ALL_ARTISTS, showAllArtists)
             }
         }
@@ -111,7 +111,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         currentSortDesc = arguments?.getBoolean(CURRENT_SORT_DESC)
                 ?: throw IllegalStateException("Current sort desc should be provided")
         showAllArtists = if (arguments?.containsKey(SHOW_ALL_ARTISTS) == true) arguments?.getBoolean(SHOW_ALL_ARTISTS) else null
-        showVideoGroups = arguments?.getString(SHOW_VIDEO_GROUPS, null) ?: null
+        showVideoGroups = arguments?.getString(VIDEO_GROUPING, null)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -166,7 +166,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val groupType = spinnerArrayAdapter.getItem(position) as VideoGroup
                 if (groupType.value != showVideoGroups) {
-                    lifecycleScope.launch { displaySettingsViewModel.send(SHOW_VIDEO_GROUPS, groupType) }
+                    lifecycleScope.launch { displaySettingsViewModel.send(VIDEO_GROUPING, groupType) }
                     //dismissing as changing grouping will also change the available sorts
                     dismiss()
                 }

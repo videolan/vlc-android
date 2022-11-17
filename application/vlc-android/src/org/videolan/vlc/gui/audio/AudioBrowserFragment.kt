@@ -29,9 +29,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
@@ -57,7 +54,6 @@ import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.video.VideoBrowserFragment
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.FastScroller
@@ -65,7 +61,6 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isTalkbackIsEnabled
-import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -287,7 +282,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             }
             R.id.ml_menu_display_options -> {
                 //filter all sorts and keep only applicable ones
-                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_INSERTIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
                     viewModel.providers[currentTab].canSortBy(it)
                 }
                 //Open the display settings Bottom sheet
