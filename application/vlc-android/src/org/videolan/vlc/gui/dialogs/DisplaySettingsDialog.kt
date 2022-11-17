@@ -165,7 +165,11 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         binding.videoGroupSpinner.onItemSelectedListener = object:OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val groupType = spinnerArrayAdapter.getItem(position) as VideoGroup
-                lifecycleScope.launch { displaySettingsViewModel.send(SHOW_VIDEO_GROUPS, groupType) }
+                if (groupType.value != showVideoGroups) {
+                    lifecycleScope.launch { displaySettingsViewModel.send(SHOW_VIDEO_GROUPS, groupType) }
+                    //dismissing as changing grouping will also change the available sorts
+                    dismiss()
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
