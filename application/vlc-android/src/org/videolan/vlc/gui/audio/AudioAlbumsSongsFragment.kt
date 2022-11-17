@@ -23,6 +23,8 @@ package org.videolan.vlc.gui.audio
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,24 +33,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.resources.util.parcelable
-import org.videolan.tools.Settings
-import org.videolan.tools.dp
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -67,6 +68,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     private lateinit var songsAdapter: AudioBrowserAdapter
     private lateinit var albumsAdapter: AudioBrowserAdapter
     private lateinit var fastScroller: FastScroller
+    private lateinit var audioPagerAdapter: AudioPagerAdapter
 
     override val hasTabs = true
     private var fromAlbums = false
@@ -105,8 +107,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         songsList.adapter = songsAdapter
         albumsList.adapter = albumsAdapter
         viewPager.offscreenPageLimit = MODE_TOTAL - 1
+        audioPagerAdapter = AudioPagerAdapter(arrayOf(viewPager.getChildAt(MODE_ALBUM), viewPager.getChildAt(MODE_SONG)), titles)
         @Suppress("UNCHECKED_CAST")
-        viewPager.adapter = AudioPagerAdapter(arrayOf(viewPager.getChildAt(MODE_ALBUM), viewPager.getChildAt(MODE_SONG)), titles)
+        viewPager.adapter = audioPagerAdapter
 
         fastScroller = view.rootView.findViewById<View>(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
@@ -167,20 +170,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        (viewModel.providers[currentTab]).run {
-            menu.findItem(R.id.ml_menu_sortby).isVisible = canSortByName()
-            menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName()
-            menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = canSortByArtist()
-            menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = canSortByAlbum()
-            menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
-            menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
-            menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
-            menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
-            menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
-            menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
-            menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
-            if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
-        }
+        menu.findItem(R.id.ml_menu_display_options).isVisible = true
+        menu.findItem(R.id.ml_menu_sortby).isVisible = false
         sortMenuTitles()
         reopenSearchIfNeeded()
     }
@@ -200,8 +191,69 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 onFabPlayClick(fastScroller)
                 true
             }
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                    viewModel.providers[currentTab].canSortBy(it)
+                }
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                        displayInCards = viewModel.providersInCard[currentTab],
+                        onlyFavs = viewModel.providers[currentTab].onlyFavs,
+                        sorts = sorts,
+                        currentSort = viewModel.providers[currentTab].sort,
+                        currentSortDesc = viewModel.providers[currentTab].desc
+                )
+                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            DISPLAY_IN_CARDS -> {
+                viewModel.providersInCard[currentTab] = value as Boolean
+                @Suppress("UNCHECKED_CAST")
+                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
+                lists[currentTab].adapter = adapters[currentTab]
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], value)
+            }
+            ONLY_FAVS -> {
+                viewModel.providers[currentTab].showOnlyFavs(value as Boolean)
+                viewModel.refresh()
+                updateTabs()
+            }
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.providers[currentTab].sort = sort.first
+                viewModel.providers[currentTab].desc = sort.second
+                viewModel.refresh()
+            }
+        }
+    }
+
+    /**
+     * Setup the tabs custom views
+     *
+     */
+    private fun updateTabs() {
+        for (i in 0 until tabLayout!!.tabCount) {
+            val tab = tabLayout!!.getTabAt(i)
+            val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
+            val title = view.findViewById<TextView>(R.id.tab_title)
+            val icon = view.findViewById<ImageView>(R.id.tab_icon)
+            title.text = audioPagerAdapter.getPageTitle(i)
+            if (viewModel.providers[i].onlyFavs) icon.setVisible() else icon.setGone()
+            tab?.customView = view
+        }
+    }
+
+    override fun setupTabLayout() {
+        super.setupTabLayout()
+        updateTabs()
     }
 
     override fun clear() {
