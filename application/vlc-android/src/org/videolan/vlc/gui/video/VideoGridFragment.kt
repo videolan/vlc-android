@@ -91,7 +91,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     //in case of fragment being hosted by other fragments, it's useful to prevent the
     //FAB visibility to be locked hidden
     override val isMainNavigationPoint = false
-    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
 
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
@@ -252,38 +251,33 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.fastScroller.attachToCoordinator(binding.videoGrid.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, binding.videoGrid.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, binding.videoGrid.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
         binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            //listen to display settings changes
-            displaySettingsViewModel.settingChangeFlow
-                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                    .collect {
-                       if (isResumed) when (it.key) {
-                            DISPLAY_IN_CARDS -> {
-                                settings.putSingle(KEY_VIDEOS_CARDS, it.value as Boolean)
-                                updateViewMode()
-                            }
-                            ONLY_FAVS -> {
-                                viewModel.provider.showOnlyFavs(it.value as Boolean)
-                                viewModel.refresh()
-                                (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = it.value
-                            }
-                            CURRENT_SORT -> {
-                                @Suppress("UNCHECKED_CAST") val sort = it.value as Pair<Int, Boolean>
-                                viewModel.provider.sort = sort.first
-                                viewModel.provider.desc = sort.second
-                                viewModel.refresh()
-                            }
-                           SHOW_VIDEO_GROUPS -> {
-                               val videoGroup = it.value as DisplaySettingsDialog.VideoGroup
-                               settings.putSingle(KEY_GROUP_VIDEOS, videoGroup.value)
-                               changeGroupingType(videoGroup.type)
-                           }
-                        }
-                    }
-        }
         (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = viewModel.provider.onlyFavs
     }
 
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            DISPLAY_IN_CARDS -> {
+                settings.putSingle(KEY_VIDEOS_CARDS, value as Boolean)
+                updateViewMode()
+            }
+            ONLY_FAVS -> {
+                viewModel.provider.showOnlyFavs(value as Boolean)
+                viewModel.refresh()
+                (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = value
+            }
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.provider.sort = sort.first
+                viewModel.provider.desc = sort.second
+                viewModel.refresh()
+            }
+            SHOW_VIDEO_GROUPS -> {
+                val videoGroup = value as DisplaySettingsDialog.VideoGroup
+                settings.putSingle(KEY_GROUP_VIDEOS, videoGroup.value)
+                changeGroupingType(videoGroup.type)
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()

@@ -86,8 +86,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private var spacing = 0
     private var restorePositions: SparseArray<Int> = SparseArray()
 
-    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         spacing = requireActivity().resources.getDimension(R.dimen.kl_small).toInt()
@@ -109,39 +107,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         fastScroller.attachToCoordinator(appbar, coordinator, fab)
         emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            //listen to display settings changes
-            displaySettingsViewModel.settingChangeFlow
-                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                    .collect {
-                        when (it.key) {
-                            DISPLAY_IN_CARDS -> {
-                                viewModel.providersInCard[currentTab] = it.value as Boolean
-                                @Suppress("UNCHECKED_CAST")
-                                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
-                                lists[currentTab].adapter = adapters[currentTab]
-                                activity?.invalidateOptionsMenu()
-                                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], it.value)
-                            }
-                            SHOW_ALL_ARTISTS -> {
-                                Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, it.value as Boolean)
-                                viewModel.artistsProvider.showAll = it.value
-                                viewModel.refresh()
-                            }
-                            ONLY_FAVS -> {
-                                viewModel.providers[currentTab].showOnlyFavs(it.value as Boolean)
-                                viewModel.refresh()
-                                updateTabs()
-                            }
-                            CURRENT_SORT -> {
-                                @Suppress("UNCHECKED_CAST") val sort = it.value as Pair<Int, Boolean>
-                                viewModel.providers[currentTab].sort = sort.first
-                                viewModel.providers[currentTab].desc = sort.second
-                                viewModel.refresh()
-                            }
-                        }
-                    }
-        }
         val views = ArrayList<View>(MODE_TOTAL)
         for (i in 0 until MODE_TOTAL) {
             viewPager.getChildAt(i).let {
@@ -188,6 +153,34 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         })
     }
 
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            DISPLAY_IN_CARDS -> {
+                viewModel.providersInCard[currentTab] = value as Boolean
+                @Suppress("UNCHECKED_CAST")
+                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
+                lists[currentTab].adapter = adapters[currentTab]
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], value)
+            }
+            SHOW_ALL_ARTISTS -> {
+                Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, value as Boolean)
+                viewModel.artistsProvider.showAll = value
+                viewModel.refresh()
+            }
+            ONLY_FAVS -> {
+                viewModel.providers[currentTab].showOnlyFavs(value as Boolean)
+                viewModel.refresh()
+                updateTabs()
+            }
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.providers[currentTab].sort = sort.first
+                viewModel.providers[currentTab].desc = sort.second
+                viewModel.refresh()
+            }
+        }
+    }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

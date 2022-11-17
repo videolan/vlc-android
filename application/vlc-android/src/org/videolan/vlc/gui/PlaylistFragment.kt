@@ -78,7 +78,6 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     private lateinit var fastScroller: FastScroller
     override val isChild = true
     override val isMainNavigationPoint = false
-    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,36 +127,31 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         }
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
-        viewLifecycleOwner.lifecycleScope.launch {
-            //listen to display settings changes
-            displaySettingsViewModel.settingChangeFlow
-                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                    .collect {
-                        if (isResumed) when (it.key) {
-                            DISPLAY_IN_CARDS -> {
-                                viewModel.providerInCard = it.value as Boolean
-                                setupLayoutManager()
-                                playlists.adapter = adapter
-                                activity?.invalidateOptionsMenu()
-                                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKey, it.value)
-                            }
-                            ONLY_FAVS -> {
-                                viewModel.providers[currentTab].showOnlyFavs(it.value as Boolean)
-                                viewModel.refresh()
-                                (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = it.value
-                            }
-                            CURRENT_SORT -> {
-                                @Suppress("UNCHECKED_CAST") val sort = it.value as Pair<Int, Boolean>
-                                viewModel.providers[currentTab].sort = sort.first
-                                viewModel.providers[currentTab].desc = sort.second
-                                viewModel.refresh()
-                            }
-                        }
-                    }
-        }
         (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = viewModel.provider.onlyFavs
     }
 
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            DISPLAY_IN_CARDS -> {
+                viewModel.providerInCard = value as Boolean
+                setupLayoutManager()
+                playlists.adapter = adapter
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKey, value)
+            }
+            ONLY_FAVS -> {
+                viewModel.providers[currentTab].showOnlyFavs(value as Boolean)
+                viewModel.refresh()
+                (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = value
+            }
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.providers[currentTab].sort = sort.first
+                viewModel.providers[currentTab].desc = sort.second
+                viewModel.refresh()
+            }
+        }
+    }
 
     private fun updateEmptyView() {
         if (!isAdded) return

@@ -30,6 +30,8 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
@@ -61,6 +63,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         duration = 300
     }
 
+    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
+
+    /**
+     * Triggered when a display setting is changed
+     *
+     * @param key the display settings key
+     * @param value the new display settings value
+     */
+    open fun onDisplaySettingChanged(key:String, value:Any) { }
+
     open lateinit var viewModel: T
         protected set
 
@@ -75,6 +87,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchButtonView = view.findViewById(R.id.searchButton)
+        viewLifecycleOwner.lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect {
+                        //we only dispatch the event if the fragment is resumed to avoid triggering non current fragment of a view pager
+                        if (isResumed) onDisplaySettingChanged(it.key, it.value)
+                    }
+        }
+
     }
 
     protected open fun setBreadcrumb() {
