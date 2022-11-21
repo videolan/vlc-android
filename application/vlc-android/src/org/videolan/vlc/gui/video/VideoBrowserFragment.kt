@@ -173,7 +173,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
         override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> VideoGridFragment.newInstance()
-                1 -> PlaylistFragment.newInstance(Playlist.Type.VideoOnly)
+                1 -> PlaylistFragment.newInstance(Playlist.Type.Video)
                 else -> throw IllegalStateException("Invalid fragment index")
             }
         }

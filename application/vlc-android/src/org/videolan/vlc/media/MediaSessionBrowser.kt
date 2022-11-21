@@ -26,7 +26,6 @@ package org.videolan.vlc.media
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
-import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -53,7 +52,6 @@ import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.isSchemeStreaming
-import java.util.concurrent.Semaphore
 
 /**
  * The mediaId used in the media session browser is defined as an opaque string token which is left
@@ -294,7 +292,7 @@ class MediaSessionBrowser {
                     list = genres.copyOfRange(pageOffset.coerceAtMost(genres.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(genres.size))
                 }
                 ID_PLAYLIST -> {
-                        list = ml.getPlaylists(Playlist.Type.AudioOnly)
+                        list = ml.getPlaylists(Playlist.Type.Audio)
                     list.sortWith(MediaComparators.ANDROID_AUTO)
                 }
                 ID_STREAM -> {

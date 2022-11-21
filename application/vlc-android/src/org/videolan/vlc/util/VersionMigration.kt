@@ -270,8 +270,8 @@ object VersionMigration {
                         putInt("subtitles_color", newColor)
                     } catch (e: Exception) {
                     }
-                    putBoolean("display_mode_playlists_${Playlist.Type.AudioOnly}", oldSetting)
-                    putBoolean("display_mode_playlists_${Playlist.Type.VideoOnly}", oldSetting)
+                    putBoolean("display_mode_playlists_${Playlist.Type.Audio}", oldSetting)
+                    putBoolean("display_mode_playlists_${Playlist.Type.Video}", oldSetting)
                     remove("display_mode_playlists")
                 }
             }

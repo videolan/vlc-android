@@ -41,7 +41,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     val albumsProvider = AlbumsProvider(null, context, this)
     val tracksProvider = TracksProvider(null, context, this)
     val genresProvider = GenresProvider(context, this)
-    private val playlistsProvider = PlaylistsProvider(context, this, Playlist.Type.AudioOnly)
+    private val playlistsProvider = PlaylistsProvider(context, this, Playlist.Type.Audio)
     override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider, playlistsProvider)
     val providersInCard = arrayOf(true, true, false, false, true)
 
