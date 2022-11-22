@@ -352,7 +352,10 @@ object FileUtils {
                         val filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)).replace("/", "")
                         if (BuildConfig.DEBUG) Log.i(TAG, "Getting file $filename from content:// URI")
                         inputStream = ctx.contentResolver.openInputStream(data)
-                        if (inputStream == null) return data
+                        if (inputStream == null) {
+                            Log.i("FileUtils", "Expanding uri: $data to $data")
+                            return data
+                        }
                         os = FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
                         val buffer = ByteArray(1024)
                         var bytesRead = inputStream.read(buffer)
@@ -363,7 +366,7 @@ object FileUtils {
                         uri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Couldn't download file from mail URI")
+                    Log.e(TAG, "Couldn't download file from mail URI: $data")
                     return null
                 } finally {
                     CloseableUtils.close(inputStream)
@@ -380,7 +383,10 @@ object FileUtils {
                 val inputPFD: ParcelFileDescriptor?
                 try {
                     inputPFD = ctx.contentResolver.openFileDescriptor(data, "r")
-                    if (inputPFD == null) return data
+                    if (inputPFD == null) {
+                        Log.i("FileUtils", "Expanding uri: $data to $data")
+                        return data
+                    }
                     uri = AndroidUtil.LocationToUri("fd://" + inputPFD.fd)
                     //                    Cursor returnCursor =
                     //                            getContentResolver().query(data, null, null, null, null);
@@ -412,6 +418,7 @@ object FileUtils {
                 }
             }// Media or MMS URI
         }
+        Log.i("FileUtils", "Expanding uri: $data to $uri")
         return uri
     }
 
