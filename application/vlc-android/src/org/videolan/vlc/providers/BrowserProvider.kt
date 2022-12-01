@@ -324,7 +324,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                         directories.addAll(files)
                         @Suppress("UNCHECKED_CAST")
                         sort(directories as MutableList<MediaLibraryItem>)
-                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories) }
+                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories.toMutableList()) }
                     }
                     directories.clear()
                     files.clear()
