@@ -30,11 +30,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.tools.isStarted
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
@@ -42,25 +44,25 @@ import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.interfaces.Filterable
+import org.videolan.vlc.util.findCurrentFragment
 
 
 /**
  * Fragment containing the video viewpager
  *
  */
-class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener, Filterable {
+class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Filterable {
     override fun getTitle() = getString(R.string.videos)
 
     private lateinit var videoPagerAdapter: VideoPagerAdapter
-    private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
     override val hasTabs = true
     private var tabLayout: TabLayout? = null
-    private lateinit var viewPager: ViewPager
+    private lateinit var tabLayoutMediator: TabLayoutMediator
+    private lateinit var viewPager: ViewPager2
 
     private var needToReopenSearch = false
     private var lastQuery = ""
 
-    private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
 
     var videoGridOnlyFavorites: Boolean = false
         set(value) {
@@ -81,7 +83,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
         super.onViewCreated(view, savedInstanceState)
         tabLayout = requireActivity().findViewById(R.id.sliding_tabs)
         viewPager = view.findViewById(R.id.pager)
-        videoPagerAdapter = VideoPagerAdapter(fragmentManager = childFragmentManager)
+        videoPagerAdapter = VideoPagerAdapter(this)
         viewPager.adapter = videoPagerAdapter
     }
 
@@ -92,6 +94,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
 
     override fun onStop() {
         unSetTabLayout()
+        (viewPager.findCurrentFragment(childFragmentManager) as? BaseFragment)?.stopActionMode()
         super.onStop()
     }
 
@@ -107,6 +110,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
         stopActionMode()
         needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() ?: false
         lastQuery = (activity as? ContentActivity)?.getCurrentQuery() ?: ""
+        if (isStarted()) (viewPager.findCurrentFragment(childFragmentManager) as? BaseFragment)?.stopActionMode()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -129,26 +133,20 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
 
     override fun onTabReselected(tab: TabLayout.Tab) {}
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        tcl.onPageScrolled(position, positionOffset, positionOffsetPixels)
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {
-        tcl.onPageScrollStateChanged(state)
-    }
-
-    override fun onPageSelected(position: Int) {
-        if (position == 0) setFabPlayVisibility(true)
-        manageFabNeverShow()
-    }
-
     private fun setupTabLayout() {
         if (tabLayout == null || !::viewPager.isInitialized) return
-        tabLayout?.setupWithViewPager(viewPager)
-        if (!::layoutOnPageChangeListener.isInitialized) layoutOnPageChangeListener = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
-        viewPager.addOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.addOnTabSelectedListener(this)
-        viewPager.addOnPageChangeListener(this)
+        tabLayout?.let {
+            tabLayoutMediator = TabLayoutMediator(it, viewPager) { tab, position ->
+                tab.text = getPageTitle(position)
+            }
+            tabLayoutMediator.attach()
+        }
+    }
+
+    private fun getPageTitle(position: Int) = when (position) {
+        0 -> getString(R.string.videos)
+        else -> getString(R.string.playlists)
     }
 
     override fun hasFAB(): Boolean {
@@ -156,45 +154,36 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
     }
 
     private fun unSetTabLayout() {
-        if (tabLayout != null || !::viewPager.isInitialized) return
-        viewPager.removeOnPageChangeListener(layoutOnPageChangeListener)
+        if (tabLayout == null || !::viewPager.isInitialized) return
         tabLayout?.removeOnTabSelectedListener(this)
-        viewPager.removeOnPageChangeListener(this)
+        tabLayoutMediator.detach()
     }
 
     /**
-     * View pager adapter hosting the video an playlist fragments
+     * View pager adapter hosting the video and playlist fragments
      *
-     * @property fragmentManager the [FragmentManager] to be used
+     * @property fa the [FragmentActivity] to be used
      */
-    inner class VideoPagerAdapter(val fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class VideoPagerAdapter(fa: VideoBrowserFragment) : FragmentStateAdapter(fa) {
+
+        override fun getItemCount() = 2
 
         // Returns the fragment to display for that page
-        override fun getItem(position: Int): Fragment {
+        override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> VideoGridFragment.newInstance()
                 1 -> PlaylistFragment.newInstance(Playlist.Type.Video)
                 else -> throw IllegalStateException("Invalid fragment index")
             }
         }
-
-        override fun getCount() = 2
-
-        // Returns the page title for the top indicator
-        override fun getPageTitle(position: Int): CharSequence {
-            return when (position) {
-                0 -> getString(R.string.videos)
-                else -> getString(R.string.playlists)
-            }
-        }
     }
 
     /**
-     * Finds current resumed fragment
+     * Finds current fragment
      *
      * @return the current shown fragment
      */
-    private fun getCurrentFragment() = childFragmentManager.fragments.find{ it.isResumed }
+    private fun getCurrentFragment() = requireActivity().supportFragmentManager.findFragmentByTag("f" + viewPager.currentItem)
 
     override fun getFilterQuery() = try {
         (getCurrentFragment() as? Filterable)?.getFilterQuery()
@@ -223,7 +212,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Vi
             val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
             val title = view.findViewById<TextView>(R.id.tab_title)
             val icon = view.findViewById<ImageView>(R.id.tab_icon)
-            title.text = videoPagerAdapter.getPageTitle(i)
+            title.text = getPageTitle(i)
             when (i) {
                 0 -> if (videoGridOnlyFavorites) icon.setVisible() else icon.setGone()
                 1 -> if (playlistOnlyFavorites) icon.setVisible() else icon.setGone()

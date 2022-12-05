@@ -27,8 +27,10 @@ import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -477,4 +479,25 @@ fun Fragment.showParentFolder(media: MediaWrapper) {
     intent.putExtra(KEY_MEDIA, parent)
     intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
     startActivity(intent)
+}
+
+/**
+ * Finds the [ViewPager2] current fragment
+ * @param fragmentManager: The used [FragmentManager]
+ *
+ * @return the current fragment if found
+ */
+fun ViewPager2.findCurrentFragment(fragmentManager: FragmentManager): Fragment? {
+    return fragmentManager.findFragmentByTag("f$currentItem")
+}
+
+/**
+ * Finds the [ViewPager2] fragment at a specified position
+ * @param fragmentManager: The used [FragmentManager]
+ * @param position: The position to look at
+ *
+ * @return the fragment if found
+ */
+fun ViewPager2.findFragmentAt(fragmentManager: FragmentManager, position: Int): Fragment? {
+    return fragmentManager.findFragmentByTag("f$position")
 }
