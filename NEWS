@@ -1,4 +1,4 @@
-Changes between 3.5.4 Beta 2 and 3.5.4 Beta 3:
+Changes between 3.5.4 Beta 2 and 3.5.4:
 ------------------
  * Fix media controls not working after some time on Android 13
  * Fix audio notification icon transparency
