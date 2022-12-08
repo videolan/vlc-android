@@ -59,6 +59,7 @@ import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
 import videolan.org.commontools.TV_CHANNEL_SCHEME
 
 private const val SEND_CRASH_RESULT = 0
+private const val PROPAGATE_RESULT = 1
 private const val TAG = "VLC/StartActivity"
 class StartActivity : FragmentActivity() {
 
@@ -205,6 +206,9 @@ class StartActivity : FragmentActivity() {
         if (requestCode == SEND_CRASH_RESULT) {
             resume()
         }
+        if (requestCode == PROPAGATE_RESULT) {
+            setResult(resultCode, data)
+        }
     }
 
     private fun startApplication(tv: Boolean, firstRun: Boolean, upgrade: Boolean, target: Int, removeDevices:Boolean = false) {
@@ -245,7 +249,7 @@ class StartActivity : FragmentActivity() {
         }
         if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
             intent.type?.startsWith("video") == true -> try {
-                startActivity(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) })
+                startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT)
             } catch (ex: SecurityException) {
                 intent.data?.let { MediaUtils.openMediaNoUi(it) }
             }
