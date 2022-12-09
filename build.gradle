@@ -31,6 +31,7 @@ allprojects {
     }
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
             freeCompilerArgs += ['-opt-in=kotlin.RequiresOptIn']
         }
     }
@@ -46,6 +47,7 @@ ext {
     minSdkVersion = 17
     targetSdkVersion = 33
     compileSdkVersion = 33
+    buildToolsVersion = '33.0.1'
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.7.0'
     appCompatVersion = '1.4.1'

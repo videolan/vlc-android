@@ -4,8 +4,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-
-    kotlinOptions.jvmTarget = "1.8"
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     dataBinding {
         enabled = true

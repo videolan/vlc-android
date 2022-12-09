@@ -2,15 +2,16 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     packagingOptions {
         jniLibs {
             pickFirsts += ['**/*.so']
         }
     }
-
-    kotlinOptions.jvmTarget = "1.8"
 
     viewBinding.enabled = true
 
