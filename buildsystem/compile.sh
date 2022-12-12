@@ -254,7 +254,7 @@ fi
 # Fetch VLC source #
 ####################
 
-LIBVLCJNI_TESTED_HASH=6c512862228c833234068b50abb67ea03ec8dcde
+LIBVLCJNI_TESTED_HASH=6691a43c73df3abe3e30bda139c6a7b4d1adda87
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
 if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
