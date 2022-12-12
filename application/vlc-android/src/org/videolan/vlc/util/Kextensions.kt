@@ -373,12 +373,13 @@ fun generateResolutionClass(width: Int, height: Int): String? = if (width <= 0 |
     null
 } else {
     val realHeight = min(height, width)
+    val realWidth = max(height, width)
     when {
-        realHeight >= 4320 -> "8K"
-        realHeight >= 2160 -> "4K"
-        realHeight >= 1440 -> "1440p"
-        realHeight >= 1080 -> "1080p"
-        realHeight >= 720 -> "720p"
+        realHeight >= 4320 || realWidth >= 4320.0 * (16.0 / 9.0) -> "8K"
+        realHeight >= 2160 || realWidth >= 2160.0 * (16.0 / 9.0) -> "4K"
+        realHeight >= 1440 || realWidth >= 1440.0 * (16.0 / 9.0) -> "1440p"
+        realHeight >= 1080 || realWidth >= 1080.0 * (16.0 / 9.0) -> "1080p"
+        realHeight >= 720 || realWidth >= 720.0 * (16.0 / 9.0) -> "720p"
         else -> "SD"
     }
 }
