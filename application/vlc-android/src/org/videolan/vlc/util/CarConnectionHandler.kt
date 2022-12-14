@@ -23,6 +23,7 @@
  */
 package org.videolan.vlc.util
 
+import android.annotation.SuppressLint
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
@@ -79,6 +80,7 @@ internal class CarConnectionHandler(resolver: ContentResolver?) : AsyncQueryHand
           */
          const val CONNECTION_TYPE_PROJECTION = 2
 
+         @SuppressLint("AnnotateVersionCheck")
          fun preferCarConnectionHandler() = Build.VERSION.SDK_INT >= 23
      }
 }
