@@ -245,6 +245,8 @@ class StartActivity : FragmentActivity() {
             finish()
             return@launch
         }
+        // Remove FLAG_ACTIVITY_FORWARD_RESULT that is incompatible with startActivityForResult
+        intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT.inv() and intent.flags
         if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
             intent.type?.startsWith("video") == true -> try {
                 startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT)
