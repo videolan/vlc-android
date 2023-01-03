@@ -1037,13 +1037,17 @@
         </activity>
 
         <service android:name=".extensions.ExtensionManagerService"/>
-        <service android:name=".PlaybackService"
-            android:exported="true">
+        <service
+                android:name=".PlaybackService"
+                android:exported="true"
+                android:foregroundServiceType="mediaPlayback">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
         </service>
-        <service android:name=".MediaParsingService"/>
+        <service
+                android:name=".MediaParsingService"
+                android:foregroundServiceType="mediaProjection" />
 
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
