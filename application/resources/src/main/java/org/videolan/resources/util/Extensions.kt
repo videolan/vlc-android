@@ -14,7 +14,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.*
 import org.videolan.tools.*
 import java.io.File
-import java.util.ArrayList
 import kotlin.coroutines.resume
 
 
@@ -92,15 +91,10 @@ suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider 
 }
 
 fun Context.launchForeground(intent: Intent) {
-    try {
-        startService(intent)
-    } catch (e: IllegalStateException) {
-        //wait for the UI thread to be ready
-        val ctx = this
-        AppScope.launch(Dispatchers.Main) {
-            intent.putExtra("foreground", true)
-            ContextCompat.startForegroundService(ctx, intent)
-        }
+    val ctx = this
+    AppScope.launch(Dispatchers.Main) {
+        intent.putExtra("foreground", true)
+        ContextCompat.startForegroundService(ctx, intent)
     }
 }
 
