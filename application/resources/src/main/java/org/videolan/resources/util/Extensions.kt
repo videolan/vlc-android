@@ -87,14 +87,9 @@ suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider 
 }
 
 fun Context.launchForeground(intent: Intent) {
-    try {
-        startService(intent)
-    } catch (e: IllegalStateException) {
-        //wait for the UI thread to be ready
-        val ctx = this
-        AppScope.launch(Dispatchers.Main) {
-            intent.putExtra("foreground", true)
-            ContextCompat.startForegroundService(ctx, intent)
-        }
+    val ctx = this
+    AppScope.launch(Dispatchers.Main) {
+        intent.putExtra("foreground", true)
+        ContextCompat.startForegroundService(ctx, intent)
     }
 }
