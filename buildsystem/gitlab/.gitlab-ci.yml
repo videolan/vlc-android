@@ -150,7 +150,7 @@ build-ml-x86_64-v4:
 nightly-arm64:
     extends: .build-all-base
     rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
         ARCH: arm64
     artifacts:
@@ -161,7 +161,7 @@ nightly-arm64:
 nightly-armv7:
     extends: .build-all-base
     rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
         ARCH: arm
     artifacts:
@@ -172,7 +172,7 @@ nightly-armv7:
 nightly-x86:
     extends: .build-all-base
     rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
         ARCH: x86
     artifacts:
@@ -183,9 +183,58 @@ nightly-x86:
 nightly-x86_64:
     extends: .build-all-base
     rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
         ARCH: x86_64
+    artifacts:
+        paths:
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
+        expire_in: 2 weeks
+
+# Weekly builds: build native & app code, and ship the APK as artifact for vlc4
+nightly-arm64-v4:
+    extends: .build-all-base
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    variables:
+        ARCH: arm64
+        EXTRA_BUILD_PARAM: -vlc4
+    artifacts:
+        paths:
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
+        expire_in: 2 weeks
+
+nightly-armv7-v4:
+    extends: .build-all-base
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    variables:
+        ARCH: arm
+        EXTRA_BUILD_PARAM: -vlc4
+    artifacts:
+        paths:
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
+        expire_in: 2 weeks
+
+nightly-x86-v4:
+    extends: .build-all-base
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    variables:
+        ARCH: x86
+        EXTRA_BUILD_PARAM: -vlc4
+    artifacts:
+        paths:
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
+        expire_in: 2 weeks
+
+nightly-x86_64-v4:
+    extends: .build-all-base
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    variables:
+        ARCH: x86_64
+        EXTRA_BUILD_PARAM: -vlc4
     artifacts:
         paths:
             - application/app/build/outputs/apk/dev/VLC-Android-*.apk
