@@ -194,6 +194,7 @@ nightly-x86_64:
 # Weekly builds: build native & app code, and ship the APK as artifact for vlc4
 nightly-arm64-v4:
     extends: .build-all-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     variables:
@@ -206,6 +207,7 @@ nightly-arm64-v4:
 
 nightly-armv7-v4:
     extends: .build-all-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     variables:
@@ -218,6 +220,7 @@ nightly-armv7-v4:
 
 nightly-x86-v4:
     extends: .build-all-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     variables:
@@ -230,6 +233,7 @@ nightly-x86-v4:
 
 nightly-x86_64-v4:
     extends: .build-all-base
+    image: registry.videolan.org/vlc-debian-android:20220811103057
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     variables:
