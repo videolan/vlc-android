@@ -901,13 +901,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     if (isPlayingPopup) return@launch
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
-                            this@PlaybackService.startForeground(3, notification)
-                            isForeground = true
+                            ctx.launchForeground(Intent(ctx, PlaybackService::class.java)) {
+                                ctx.startForeground(3, notification)
+                                isForeground = true
+                            }
                         } else
                             NotificationManagerCompat.from(ctx).notify(3, notification)
                     } else {
                         if (isForeground) {
-                            ServiceCompat.stopForeground(this@PlaybackService, ServiceCompat.STOP_FOREGROUND_DETACH)
+                            ServiceCompat.stopForeground(ctx, ServiceCompat.STOP_FOREGROUND_DETACH)
                             isForeground = false
                         }
                         NotificationManagerCompat.from(ctx).notify(3, notification)

@@ -86,10 +86,11 @@ suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider 
     File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
-fun Context.launchForeground(intent: Intent) {
-    val ctx = this
+fun Context.launchForeground(intent: Intent, block: () -> Unit = {}) {
+    val ctx = this@launchForeground
     AppScope.launch(Dispatchers.Main) {
         intent.putExtra("foreground", true)
         ContextCompat.startForegroundService(ctx, intent)
+        block()
     }
 }
