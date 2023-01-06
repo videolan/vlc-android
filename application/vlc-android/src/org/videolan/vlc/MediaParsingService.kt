@@ -251,7 +251,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         if (reload > 0) return
         if (path.isNullOrEmpty()) medialibrary.reload()
         else medialibrary.reload(path)
-        val ctx = this
+        val ctx = this@MediaParsingService
         lifecycleScope.launch(Dispatchers.IO) {
             cleanupWatchNextList(ctx)
         }

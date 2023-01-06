@@ -160,7 +160,7 @@ class StartActivity : FragmentActivity() {
                 startApplication(tv, firstRun, upgrade, 0, removeOldDevices)
             else if (path == "/$TV_CHANNEL_PATH_VIDEO") {
                 var id = java.lang.Long.valueOf(data.getQueryParameter(TV_CHANNEL_QUERY_VIDEO_ID)!!)
-                val ctx = this
+                val ctx = this@StartActivity
                 lifecycleScope.launch(Dispatchers.IO) {
                     id = checkWatchNextId(ctx, id)
                     withContext(Dispatchers.Main) {

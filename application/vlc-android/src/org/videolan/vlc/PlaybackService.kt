@@ -552,7 +552,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     val spuTrack: String
         @MainThread
-        get() = playlistManager.player.getSpuTrack() ?: "-1"
+        get() = playlistManager.player.getSpuTrack()
 
     val spuTracksCount: Int
         @MainThread
@@ -874,7 +874,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             val seekInCompactView = settings.getBoolean(SHOW_SEEK_IN_COMPACT_NOTIFICATION, false)
             val playing = isPlaying
             val sessionToken = mediaSession.sessionToken
-            val ctx = this
+            val ctx = this@PlaybackService
             val metaData = mediaSession.controller.metadata
             lifecycleScope.launch(Dispatchers.Default) {
                 delay(100)
@@ -996,7 +996,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private suspend fun updateMetadataInternal() {
         val media = playlistManager.getCurrentMedia() ?: return
         if (!this::mediaSession.isInitialized) initMediaSession()
-        val ctx = this
+        val ctx = this@PlaybackService
         val length = length
         lastLength = length
         val chapterTitle = if (lastChaptersCount > 0) getCurrentChapter(true) else null
@@ -1021,7 +1021,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                         ?: MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
                 bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
-            if (Permissions.canReadStorage(this@PlaybackService) && coverOnLockscreen) {
+            if (Permissions.canReadStorage(ctx) && coverOnLockscreen) {
                 val albumArtUri = when {
                     isSchemeHttpOrHttps(media.artworkMrl) -> {
                         //ArtworkProvider will cache remote images
@@ -1241,7 +1241,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (isVideoPlaying) return
         if (lifecycleScope.isActive) lifecycleScope.launch(Dispatchers.Default) {
             sendBroadcast(Intent("com.android.music.metachanged")
-                    .putExtra("track", media?.nowPlaying ?: media?.title ?: null)
+                    .putExtra("track", media?.nowPlaying ?: media?.title)
                     .putExtra("artist", if (media != null) MediaUtils.getMediaArtist(this@PlaybackService, media) else null)
                     .putExtra("album", if (media != null) MediaUtils.getMediaAlbum(this@PlaybackService, media) else null)
                     .putExtra("duration", media?.length ?: 0)
