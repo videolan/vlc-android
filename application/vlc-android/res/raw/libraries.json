@@ -131,6 +131,21 @@
       "license"  : "mit"
     },
     {
+      "title"    : "Moshi",
+      "copyright": "Copyright © 2014 Square, Inc.",
+      "license"  : "apache2.0"
+    },
+    {
+      "title"    : "OkHttp",
+      "copyright": "Copyright © 2012 Square, Inc.",
+      "license"  : "apache2.0"
+    },
+    {
+      "title"    : "Okio",
+      "copyright": "Copyright © 2013 Square, Inc.",
+      "license"  : "apache2.0"
+    },
+    {
       "title"    : "Openjpeg",
       "copyright": "Copyright © 2002-2012, Communications and Remote Sensing Laboratory, UCL, Belgium",
       "license"  : "isc"
@@ -144,6 +159,11 @@
       "title"    : "ORC",
       "copyright": "Copyright © 2002-2009 David A. Schleef",
       "license"  : "isc"
+    },
+    {
+      "title"    : "Retrofit",
+      "copyright": "Copyright © 2013 Square, Inc.",
+      "license"  : "apache2.0"
     },
     {
       "title"    : "Speex, Speexdsp",
