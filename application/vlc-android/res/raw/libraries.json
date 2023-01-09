@@ -6,6 +6,11 @@
       "license"  : "apache2.0"
     },
     {
+      "title"    : "Color Picker",
+      "copyright": "Copyright © 2016 Jared Rummler",
+      "license"  : "apache2.0"
+    },
+    {
       "title"    : "FFmpeg/Libav",
       "copyright": "Copyright © 2000-2010 the FFmpeg developers",
       "license"  : "lgpl2.1"
