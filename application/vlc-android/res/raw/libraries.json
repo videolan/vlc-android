@@ -11,11 +11,6 @@
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "FLAC",
-      "copyright": "Copyright © 2001-2012 Josh Coalson et al. - codec libs",
-      "license"  : "xiph"
-    },
-    {
       "title"    : "Fribidi",
       "copyright": "Copyright © Behdad Esfahbod",
       "license"  : "lgpl2.1"
@@ -54,6 +49,11 @@
       "title"    : "libebml",
       "copyright": "Copyright © 2002-2010 Steve Lhomme",
       "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "libFLAC",
+      "copyright": "Copyright © 2001-2014 Josh Coalson et al.",
+      "license"  : "xiph"
     },
     {
       "title"    : "libgcrypt",
