@@ -81,6 +81,11 @@
       "license"  : "lgpl2.1"
     },
     {
+      "title"    : "libgme",
+      "copyright": "Copyright © 2002-2017 libgme authors",
+      "license"  : "lgpl2.1"
+    },
+    {
       "title"    : "libgpg-error",
       "copyright": "Copyright © 2003 g10 Code GmbH",
       "license"  : "lgpl2.1"
@@ -131,6 +136,26 @@
       "license"  : "xiph"
     },
     {
+      "title"    : "libupnp",
+      "copyright": "Copyright © 2000-2003 Intel Corporation et al.",
+      "license"  : "bsd3"
+    },
+    {
+      "title"    : "libVLC",
+      "copyright": "Copyright © 1998 VLC authors and VideoLAN",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "libVLCjni",
+      "copyright": "Copyright © 2015 VLC authors, VideoLAN, and VideoLabs",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "libvorbis",
+      "copyright": "Copyright © 2002-2020 Xiph.org Foundation",
+      "license"  : "xiph"
+    },
+    {
       "title"    : "libxml2",
       "copyright": "Copyright © 1998-2003 Daniel Veillard",
       "license"  : "mit"
@@ -144,6 +169,11 @@
       "title"    : "Lua",
       "copyright": "Copyright © 1994-2008 Lua.org",
       "license"  : "mit"
+    },
+    {
+      "title"    : "MediaLibrary",
+      "copyright": "Copyright © 2015-2022 MediaLibrary authors, VideoLAN, and VideoLabs",
+      "license"  : "lgpl2.1"
     },
     {
       "title"    : "Moshi",
@@ -188,6 +218,19 @@
     {
       "title"    : "Taglib",
       "copyright": "Copyright © 2002-2008 Scott Wheeler, et al.",
+    {
+      "title"    : "x264",
+      "copyright": "Copyright © 2003-2022 x264 project",
+      "license"  : "gpl2"
+    },
+    {
+      "title"    : "x265",
+      "copyright": "Copyright © 2013 x265 project",
+      "license"  : "gpl2"
+    },
+    {
+      "title"    : "Zapping VBI library",
+      "copyright": "Copyright © 2000-2003 Michael H. Schimek, Iñaki García Etxebarria",
       "license"  : "lgpl2.1"
     },
     {
