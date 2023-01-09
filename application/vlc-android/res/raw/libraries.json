@@ -184,6 +184,11 @@
       "title"    : "Zlib",
       "copyright": "Copyright © 1995-2012 Jean-loup Gailly and Mark Adler",
       "license"  : "zlib"
+    },
+    {
+      "title"    : "ZXing",
+      "copyright": "Copyright © 2010 ZXing authors",
+      "license"  : "apache2.0"
     }
   ],
   "licenses": [
