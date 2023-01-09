@@ -26,11 +26,6 @@
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "GOOM!",
-      "copyright": "Copyright © 2000-2004 Jean-Christophe Hoelt",
-      "license"  : "lgpl2.1"
-    },
-    {
       "title"    : "GSM",
       "copyright": "Copyright © 1992-1994 Jutta Degener & Carsten Bormann",
       "license"  : "gsm"
@@ -146,11 +141,6 @@
       "license"  : "isc"
     },
     {
-      "title"    : "Schroedinger",
-      "copyright": "Copyright © David Schleef, W.J. van der Laan",
-      "license"  : "mit"
-    },
-    {
       "title"    : "Speex, Speexdsp",
       "copyright": "Copyright © 1992-2008 Xiph.org Foundation, Jean-Marc Valin, Analog Devices Inc, Commonwealth Scientific and Industrial Research Organisation, David Rowe, Jutta Degener, Carsten Bormann",
       "license"  : "bsd3"
@@ -164,11 +154,6 @@
       "title"    : "Zlib",
       "copyright": "Copyright © 1995-2012 Jean-loup Gailly and Mark Adler",
       "license"  : "zlib"
-    },
-    {
-      "title"    : "aXMLRPC",
-      "copyright": "Copyright © 2011-2012 Tim Roes",
-      "license"  : "mit"
     },
     {
       "title"    : "Konfetti",
