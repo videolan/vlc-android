@@ -11,8 +11,8 @@
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "Fribidi",
-      "copyright": "Copyright © Behdad Esfahbod",
+      "title"    : "GNU FriBidi",
+      "copyright": "Copyright © 2004-2012 Behdad Esfahbod, Dov Grobgeld, Roozbeh Pournader",
       "license"  : "lgpl2.1"
     },
     {
