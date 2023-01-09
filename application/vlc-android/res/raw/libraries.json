@@ -11,8 +11,8 @@
       "license"  : "apache2.0"
     },
     {
-      "title"    : "FFmpeg/Libav",
-      "copyright": "Copyright © 2000-2010 the FFmpeg developers",
+      "title"    : "FFmpeg",
+      "copyright": "Copyright © 2000-2017 the FFmpeg developers",
       "license"  : "lgpl2.1"
     },
     {
@@ -47,22 +47,27 @@
     },
     {
       "title"    : "liba52",
-      "copyright": "Copyright © Aaron Holtzman, Michel Lespinasse, et al.",
+      "copyright": "Copyright © 1999-2004 Aaron Holtzman, Michel Lespinasse et al.",
       "license"  : "gpl2"
     },
     {
       "title"    : "libass",
-      "copyright": "Copyright © Evgeniy Stepanov, Grigori Goronzy, et al.",
+      "copyright": "Copyright © 2006-2016 libass contributors",
       "license"  : "isc"
     },
     {
+      "title"    : "libav",
+      "copyright": "Copyright © 2000-2015 the libav developers",
+      "license"  : "lgpl2.1"
+    },
+    {
       "title"    : "libdca",
-      "copyright": "Copyright © Gildas Bazin, Sam Hocevar, et al.",
+      "copyright": "Copyright © 1999-2004 Gildas Bazin, Sam Hocevar et al.",
       "license"  : "gpl2"
     },
     {
       "title"    : "libdvbpsi",
-      "copyright": "Copyright © 2001-2010 VideoLAN",
+      "copyright": "Copyright © 2001-2017 VideoLAN and authors",
       "license"  : "lgpl2.1"
     },
     {
@@ -102,17 +107,17 @@
     },
     {
       "title"    : "libmatroska",
-      "copyright": "Copyright © 2002-2003 Steve Lhomme",
+      "copyright": "Copyright © 2002-2015 Steve Lhomme",
       "license"  : "lgpl2.1"
     },
     {
       "title"    : "libmodplug",
-      "copyright": "Olivier Lapicque, Konstanty",
+      "copyright": "Olivier Lapicque, Konstanty Bialkowski",
       "license"  : "publicdomain"
     },
     {
       "title"    : "libmpeg2",
-      "copyright": "Copyright © 1999-2012 Sam Hocevar, Aaron Holtzman, Michel Lespinasse, Christophe Massiot, et al.",
+      "copyright": "Copyright © 1999-2012 Sam Hocevar, Aaron Holtzman, Michel Lespinasse, Christophe Massiot et al.",
       "license"  : "gpl2"
     },
     {
@@ -132,7 +137,7 @@
     },
     {
       "title"    : "libtheora",
-      "copyright": "Copyright © Xiph.org",
+      "copyright": "Copyright © 2002-2009 Xiph.org",
       "license"  : "xiph"
     },
     {
@@ -162,7 +167,7 @@
     },
     {
       "title"    : "live555",
-      "copyright": "Copyright © 1996-2012 Live Networks, Inc",
+      "copyright": "Copyright © 1996-2012 Live Networks, Inc.",
       "license"  : "lgpl2.1"
     },
     {
@@ -192,7 +197,7 @@
     },
     {
       "title"    : "Openjpeg",
-      "copyright": "Copyright © 2002-2012, Communications and Remote Sensing Laboratory, UCL, Belgium",
+      "copyright": "Copyright © 2002-2012 Communications and Remote Sensing Laboratory, UCL, Belgium",
       "license"  : "isc"
     },
     {
@@ -217,7 +222,9 @@
     },
     {
       "title"    : "Taglib",
-      "copyright": "Copyright © 2002-2008 Scott Wheeler, et al.",
+      "copyright": "Copyright © 2002-2008 Scott Wheeler et al.",
+      "license"  : "lgpl2.1"
+    },
     {
       "title"    : "x264",
       "copyright": "Copyright © 2003-2022 x264 project",
@@ -234,7 +241,7 @@
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "Zlib",
+      "title"    : "zlib",
       "copyright": "Copyright © 1995-2012 Jean-loup Gailly and Mark Adler",
       "license"  : "zlib"
     },
