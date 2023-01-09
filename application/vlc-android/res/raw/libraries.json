@@ -26,6 +26,11 @@
       "license"  : "gsm"
     },
     {
+      "title"    : "Konfetti",
+      "copyright": "Copyright © 2017 Dion Segijn",
+      "license"  : "isc"
+    },
+    {
       "title"    : "liba52",
       "copyright": "Copyright © Aaron Holtzman, Michel Lespinasse, et al.",
       "license"  : "gpl2"
@@ -154,11 +159,6 @@
       "title"    : "Zlib",
       "copyright": "Copyright © 1995-2012 Jean-loup Gailly and Mark Adler",
       "license"  : "zlib"
-    },
-    {
-      "title"    : "Konfetti",
-      "copyright": "Copyright © 2017 Dion Segijn",
-      "license"  : "isc"
     }
   ],
   "licenses": [
