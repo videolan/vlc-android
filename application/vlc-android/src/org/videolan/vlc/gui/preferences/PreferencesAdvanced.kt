@@ -106,7 +106,17 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
                 dialog.setListener {
                     Medialibrary.getInstance().clearHistory()
-                    Settings.getInstance(requireActivity()).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
+                    Settings.getInstance(requireActivity()).edit()
+                        .remove(KEY_AUDIO_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                        .remove(KEY_CURRENT_AUDIO)
+                        .remove(KEY_CURRENT_MEDIA)
+                        .remove(KEY_CURRENT_MEDIA_RESUME)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
+                        .apply()
                 }
                 return true
             }
