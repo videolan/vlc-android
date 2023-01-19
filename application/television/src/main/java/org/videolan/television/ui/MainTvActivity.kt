@@ -37,11 +37,12 @@ import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.WeakHandler
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Util
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MainTvActivity : BaseTvActivity() {
+class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomActionController {
 
     private lateinit var browseFragment: MainTvFragment
     private lateinit var progressBar: ProgressBar
@@ -112,6 +113,10 @@ class MainTvActivity : BaseTvActivity() {
 
     fun hideLoading() {
         handler.sendEmptyMessageDelayed(HIDE_LOADING, 500)
+    }
+
+    override fun onStorageAccessGranted() {
+        refresh()
     }
 
     override fun refresh() {
