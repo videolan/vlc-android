@@ -46,10 +46,7 @@ import org.videolan.resources.EXTRA_UPGRADE
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.INITIAL_PERMISSION_ASKED
-import org.videolan.tools.Settings
-import org.videolan.tools.isCallable
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
@@ -173,8 +170,15 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 val granted = getStoragePermission(write)
                 val model : PermissionViewmodel by viewModels()
                 if (model.permissionPending) model.deferredGrant.complete(granted)
-                if (granted && withContext(Dispatchers.IO) { settings.getBoolean(ONBOARDING_DONE_KEY, false) })
+                val onboardingDone = withContext(Dispatchers.IO) {
+                    if (AndroidDevices.isTv)
+                        settings.getBoolean(KEY_TV_ONBOARDING_DONE, false)
+                    else
+                        settings.getBoolean(ONBOARDING_DONE_KEY, false)
+                }
+                if (granted && onboardingDone) {
                     (cb ?: getAction(this@askStoragePermission, firstRun, upgrade)).run()
+                }
             }
         }
 
