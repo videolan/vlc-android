@@ -237,7 +237,7 @@
     <string name="audio_resume_playback_warning">Disabling the audio play queue history may lead to some behavior issues.\nAfter disabling it you may not be able to resume the playback from:\n\n\t- a  bluetooth device\n\t- the widget\n\t- the media notification</string>
     <string name="audio_resume_playback_summary">Allow saving the audio play queue to resume later</string>
     <string name="playback_speed_title">Save Playback Speed</string>
-    <string name="playback_speed_summary">Keep playback speed between medias</string>
+    <string name="playback_speed_summary">Keep playback speed between media</string>
 
     <string name="play_button">Play Button</string>
 
@@ -706,7 +706,7 @@
     <string name="ml_wizard_scan_checkbox">Scan device for media content</string>
     <string name="ml_wizard_description">Choose whether VLC will scan your device storage to organize your media library or just use it as a simple player with an integrated browser.</string>
     <string name="tv_my_new_videos">My new videos</string>
-    <string name="cast_option_title">Cast medias on another screen</string>
+    <string name="cast_option_title">Cast media on another screen</string>
     <string name="otg_device_title">OTG device</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B repeat</string>
@@ -936,12 +936,12 @@
     <string name="go_to_folder">Browse parent</string>
     <string name="create_shortcut">Create a launcher shortcut</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
-    <string name="enqueuing">Loading your medias</string>
+    <string name="enqueuing">Loading your media</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Pick a SoundFont file to play midi audio tracks</string>
     <string name="missing_media_snack">Media is missing. Hide all missing media?</string>
-    <string name="browser_show_missing_media">Show missing medias</string>
-    <string name="browser_show_missing_media_summary">Show distant medias even if they are not present</string>
+    <string name="browser_show_missing_media">Show missing media</string>
+    <string name="browser_show_missing_media_summary">Show distant media even if they are not present</string>
     <string name="search_prefs">Search settings</string>
     <string name="video_match_frame_rate_title">Match Display Frame Rate</string>
     <string name="video_match_frame_rate_summary">Match display refresh rate to media frame rate. For example, a 24p film should play at 24p</string>
