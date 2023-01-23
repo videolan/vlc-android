@@ -5,7 +5,9 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -30,6 +32,7 @@ class FileProvider : ContentProvider() {
     override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
         val path = uri.path ?: throw SecurityException("Illegal access")
         if (path.contains("..")) throw SecurityException("Illegal access")
+        if (!path.startsWith(AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME)) throw SecurityException("Illegal access")
         val file = File(path)
         if (!AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) }) throw SecurityException("Illegal access")
         if (file.exists()) {
