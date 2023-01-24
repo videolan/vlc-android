@@ -227,12 +227,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 return
             }
         }
-        val isMainStorage = path.removeFileScheme().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
-        if (isMainStorage) {
-            medialibrary.addDevice("main-storage", path, false)
-        } else if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
+        if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
             for (storagePath in AndroidDevices.externalStorageDirectories) {
-                if (path.removeFileScheme().startsWith(storagePath)) {
+                if (path.startsWith(storagePath)) {
                     val uuid = FileUtils.getFileNameFromPath(path)
                     if (uuid.isEmpty()) {
                         exitCommand()
@@ -244,6 +241,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     }
                 }
             }
+        } else {
+            val uuid = FileUtils.getFileNameFromPath(path)
+            medialibrary.addDevice(uuid, path, false)
         }
     }
 
