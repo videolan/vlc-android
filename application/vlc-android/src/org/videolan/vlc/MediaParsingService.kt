@@ -226,7 +226,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 return
             }
         }
-        if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
+        val isMainStorage = path.removeFileScheme().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+        if (isMainStorage) {
+            medialibrary.addDevice("main-storage", path, false)
+        } else if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
             for (storagePath in AndroidDevices.externalStorageDirectories) {
                 if (path.startsWith(storagePath)) {
                     val uuid = FileUtils.getFileNameFromPath(path)
