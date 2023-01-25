@@ -391,7 +391,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     private String updateTitleMeta(IMedia media) {
         String libvlcTitle = getMetaId(media, mTitle, Media.Meta.Title, true);
         String fileName = getFileName();
-        if (TextUtils.isEmpty(fileName) || fileName.equals(libvlcTitle))
+        if (!TextUtils.isEmpty(libvlcTitle) && !TextUtils.isEmpty(fileName) && !libvlcTitle.equals(fileName))
             return libvlcTitle;
         return getTitle();
     }
