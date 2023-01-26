@@ -23,6 +23,9 @@
         <variable
                 name="releaseYear"
                 type="String" />
+        <variable
+                name="topmargin"
+                type="Integer" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -59,6 +62,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/header_layout"
                         android:layout_width="@dimen/default_content_width"
+                        tools:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:clipChildren="false"
@@ -81,7 +85,8 @@
                             android:layout_width="128dp"
                             android:layout_height="128dp"
                             android:layout_marginStart="@dimen/default_margin"
-                            android:layout_marginTop="86dp"
+                            tools:layout_marginTop="86dp"
+                            vlc:layoutMarginTop="@{topmargin}"
                             android:layout_marginEnd="@dimen/default_margin"
                             android:fitsSystemWindows="true"
                             android:scaleType="fitCenter"
@@ -234,6 +239,7 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/songs"
                 android:layout_width="@dimen/default_content_width"
+                tools:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|top"
                 android:background="?attr/background_default"

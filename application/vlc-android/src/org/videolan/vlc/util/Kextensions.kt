@@ -14,6 +14,7 @@ import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
@@ -206,6 +207,13 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
     setTextAsync(view, text, params)
+}
+
+@BindingAdapter("layoutMarginTop")
+fun setLayoutMarginTop(view: View, dimen: Int) {
+    val layoutParams = view.layoutParams as MarginLayoutParams
+    layoutParams.topMargin = dimen
+    view.layoutParams = layoutParams
 }
 
 private fun setTextAsync(view: TextView, text: CharSequence, params: PrecomputedTextCompat.Params) {
