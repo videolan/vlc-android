@@ -104,6 +104,10 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         originalBottomPadding = fragmentContainer.paddingBottom
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
+        binding.topmargin = 86.dp
+        toolbar.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            binding.topmargin = bottom + 8.dp
+        }
 
         val playlist = if (savedInstanceState != null)
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem?
