@@ -24,6 +24,7 @@ package org.videolan.vlc
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.ForegroundServiceStartNotAllowedException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -201,7 +202,13 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused, -1, -1)
-        startForeground(43, notification)
+        try {
+            startForeground(43, notification)
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
+            }
+        }
     }
 
     private fun discoverStorage(path: String) {
@@ -377,7 +384,13 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             if (lastNotificationTime != -1L) {
                 try {
                     val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused, scheduled, done)
-                    startForeground(43, notification)
+                    try {
+                        startForeground(43, notification)
+                    } catch (e: Exception) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                            Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
+                        }
+                    }
                 } catch (ignored: IllegalArgumentException) {}
                 progressText
             } else ""
