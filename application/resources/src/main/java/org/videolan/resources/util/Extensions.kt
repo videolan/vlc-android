@@ -1,7 +1,16 @@
 package org.videolan.resources.util
 
+import android.app.ForegroundServiceStartNotAllowedException
+import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.util.Log
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build.VERSION.SDK_INT
+import android.os.Bundle
+import android.os.Parcelable
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
@@ -90,7 +99,13 @@ fun Context.launchForeground(intent: Intent, block: () -> Unit = {}) {
     val ctx = this@launchForeground
     AppScope.launch(Dispatchers.Main) {
         intent.putExtra("foreground", true)
-        ContextCompat.startForegroundService(ctx, intent)
+        try {
+            ContextCompat.startForegroundService(ctx, intent)
+        } catch (e: Exception) {
+            if (SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
+            }
+        }
         block()
     }
 }
