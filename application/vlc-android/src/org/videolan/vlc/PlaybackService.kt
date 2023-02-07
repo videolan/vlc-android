@@ -134,6 +134,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
     private lateinit var carConnectionHandler:CarConnectionHandler
 
+    /**
+     * Binds a [MediaBrowserCompat] to the service to allow receiving the
+     * [MediaSessionCompat.Callback] callbacks even if the service is killed
+     */
+    lateinit var mediaBrowserCompat:MediaBrowserCompat
+
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
         override fun onReceive(context: Context, intent: Intent) {
@@ -648,6 +654,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         headSetDetection.observe(this, Observer { detectHeadset(it) })
         equalizer.observe(this, Observer { setEqualizer(it) })
         serviceFlow.value = this
+        mediaBrowserCompat = MediaBrowserInstance.getInstance(this)
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)
