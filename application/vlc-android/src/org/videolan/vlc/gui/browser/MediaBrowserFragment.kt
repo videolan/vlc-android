@@ -92,8 +92,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             displaySettingsViewModel.settingChangeFlow
                     .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                     .collect {
-                        //we only dispatch the event if the fragment is resumed to avoid triggering non current fragment of a view pager
-                        if (isResumed) onDisplaySettingChanged(it.key, it.value)
+                        if (isResumed) {
+                            onDisplaySettingChanged(it.key, it.value)
+                            displaySettingsViewModel.consume()
+                        }
                     }
         }
 

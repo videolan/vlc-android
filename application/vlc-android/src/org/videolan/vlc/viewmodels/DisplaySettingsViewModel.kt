@@ -59,4 +59,12 @@ class DisplaySettingsViewModel: ViewModel() {
         _settingChangeFlow.emit(SettingChange(key, value))
     }
 
+    /**
+     * When the flow value is consumed, revert to "init" state
+     *
+     */
+    suspend fun consume() {
+        _settingChangeFlow.emit(SettingChange())
+    }
+
 }
