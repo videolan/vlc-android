@@ -127,13 +127,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
-        val restoreVideoTipCount = settings.getInt(PREF_RESTORE_VIDEO_TIPS_SHOWN, 0)
-        playlistModel.service?.let {
-            if (!it.isVideoPlaying && it.videoTracksCount > 0 && restoreVideoTipCount < 4) {
-                UiTools.snacker(requireActivity(), R.string.return_to_video)
-                settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
-            }
-        }
         playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }
         playlistModel.speed.observe(this@AudioPlayer) { showChips() }
         playlistAdapter.setModel(playlistModel)
@@ -289,6 +282,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onResume() {
         onStateChanged(playerState)
         showRemainingTime = Settings.getInstance(requireContext()).getBoolean(SHOW_REMAINING_TIME, false)
+        val restoreVideoTipCount = settings.getInt(PREF_RESTORE_VIDEO_TIPS_SHOWN, 0)
+        val forceRestoreVideo = settings.getBoolean(RESTORE_BACKGROUND_VIDEO, false)
+        playlistModel.service?.let {
+            if (!it.isVideoPlaying && it.videoTracksCount > 0)
+                if ( !forceRestoreVideo && restoreVideoTipCount < 4) {
+                    UiTools.snacker(requireActivity(), R.string.return_to_video)
+                    settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
+                } else if (forceRestoreVideo) {
+                    onResumeToVideoClick()
+                }
+        }
         super.onResume()
     }
 
