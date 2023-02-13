@@ -75,6 +75,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
         findPreference<Preference>("enable_headset_detection")?.isVisible = false
         findPreference<Preference>("enable_play_on_headset_insertion")?.isVisible = false
+        findPreference<Preference>("ignore_headset_media_button_presses")?.isVisible = false
         findPreference<Preference>("headset_prefs_category")?.isVisible = false
         val aoutPref = findPreference<ListPreference>("aout")
         findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = false

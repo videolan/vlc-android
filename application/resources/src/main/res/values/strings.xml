@@ -1102,6 +1102,8 @@
     <string name="talkback_display_settings">Display settings</string>
     <string name="talkback_already_played">Already played</string>
     <string name="show_only_favs">Show only favorites</string>
+    <string name="ignore_headset_media_button_presses">Ignore headset media button presses</string>
+    <string name="ignore_headset_media_button_presses_summary">Useful, for instance, if you are using a headset with broken physical buttons</string>
 
 
 </resources>
