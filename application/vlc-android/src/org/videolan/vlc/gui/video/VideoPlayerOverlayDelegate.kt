@@ -34,6 +34,7 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AnimationUtils
@@ -48,6 +49,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -922,6 +924,15 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.playlistNext.isEnabled = false
             hudBinding.playlistPrevious.isEnabled = false
             hudBinding.swipeToUnlock.setVisible()
+            //make sure the title and unlock views are not conflicting with the cutout / gestures
+            (playerUiContainer.layoutParams as? FrameLayout.LayoutParams)?.let {
+                it.topMargin =
+                    player.window.decorView.rootWindowInsets.displayCutout?.safeInsetTop ?: 0
+                it.bottomMargin =
+                    (player.window.decorView.rootWindowInsets.displayCutout?.safeInsetBottom
+                        ?: 0) + 24.dp
+            }
+
         }
         hideOverlay(true)
         player.lockBackButton = true
@@ -932,6 +943,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Remove player lock
      */
     fun unlockScreen() {
+        (playerUiContainer.layoutParams as? FrameLayout.LayoutParams)?.let {
+            it.topMargin = 0
+            it.bottomMargin = 0
+        }
         player.orientationMode.locked = orientationLockedBeforeLock
         player.requestedOrientation = player.getScreenOrientation(player.orientationMode)
         if (isHudBindingInitialized()) {
