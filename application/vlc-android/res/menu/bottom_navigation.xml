@@ -40,9 +40,9 @@
             android:title="@string/browse"
             android:icon="@drawable/ic_menu_folder" />
     <item
-            android:id="@+id/nav_discover"
-            android:title="@string/discover"
-            android:icon="@drawable/ic_menu_discover" />
+            android:id="@+id/nav_playlists"
+            android:title="@string/playlists"
+            android:icon="@drawable/ic_menu_playlist" />
     <item
             android:id="@+id/nav_more"
             android:title="@string/more"

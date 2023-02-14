@@ -43,7 +43,6 @@ import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.MainBrowserFragment
-import org.videolan.vlc.gui.discover.DiscoverBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.video.VideoBrowserFragment
 import org.videolan.vlc.util.getScreenWidth
@@ -87,7 +86,7 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
         return when (id) {
             R.id.nav_audio -> AudioBrowserFragment()
             R.id.nav_directories -> MainBrowserFragment()
-            R.id.nav_discover -> DiscoverBrowserFragment()
+            R.id.nav_playlists -> PlaylistFragment()
             R.id.nav_more -> MoreFragment()
             else -> VideoBrowserFragment()
         }
