@@ -25,6 +25,7 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -209,12 +210,15 @@ class ArtworkProvider : ContentProvider() {
         }
         // Non-square cover art will have an artworkMrl, which will be padded, re-encoded, and cached.
         // Videos, tracks with no cover art, etc. use mediaId and will be processed per library item.
-        val image = getOrPutImage(mw?.artworkMrl ?: "${mediaId}}") {
+        val key = mw?.artworkMrl ?: "$mediaId"
+        val nonTransparent = (Build.VERSION.SDK_INT >= 33) && ("com.android.systemui" == callingPackage)
+        val image = getOrPutImage(if (nonTransparent) "${key}_nonTransparent" else key) {
             runBlocking(Dispatchers.IO) {
                 var bitmap = if (mw != null) ThumbnailsProvider.obtainBitmap(mw, width) else null
                 if (bitmap == null) bitmap = readEmbeddedArtwork(mw, width)
                 if (bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
+                if (nonTransparent) bitmap = removeTransparency(bitmap)
                 return@runBlocking encodeImage(bitmap)
             }
         }
@@ -337,6 +341,19 @@ class ArtworkProvider : ContentProvider() {
     }
 
     /**
+     * Workaround for Android 13 notification bar media controls. Crossfade animation between old
+     * cover art and new cover art does not work correctly with transparency.
+     */
+    private fun removeTransparency(src: Bitmap?): Bitmap? {
+        if (src == null) return null
+        val dst = Bitmap.createBitmap(src.width, src.height, Bitmap.Config.ARGB_8888)
+        dst.eraseColor(Color.BLACK)
+        val c = Canvas(dst)
+        c.drawBitmap(src, 0f, 0f, null)
+        return dst
+    }
+
+    /**
      * Encode bitmap in WEBP format.
      */
     @Suppress("DEPRECATION")
@@ -447,8 +464,8 @@ class ArtworkProvider : ContentProvider() {
         const val SHUFFLE = "shuffle"
         const val SHUFFLE_ALL = "shuffle_all"
 
-        //Used to store a single webp encoded copy of the currently playing artwork
-        private val memCache: LruCache<String, ByteArray> = LruCache<String, ByteArray>(1)
+        //Used to store webp encoded bitmap of the currently playing artwork
+        private val memCache: LruCache<String, ByteArray> = LruCache<String, ByteArray>(if (Build.VERSION.SDK_INT >= 33) 2 else 1)
 
         @Synchronized
         fun clear() {
@@ -478,7 +495,7 @@ class ArtworkProvider : ContentProvider() {
         fun computeExpiration(halfDayExpiration: Boolean = true): String {
             val cal = Calendar.getInstance()
             if (halfDayExpiration) {
-                cal.set(Calendar.HOUR, if (cal.get(Calendar.HOUR) < 12) 0 else 12)
+                cal.set(Calendar.HOUR_OF_DAY, if (cal.get(Calendar.HOUR_OF_DAY) < 12) 0 else 12)
                 cal.set(Calendar.MINUTE, 0)
                 cal.set(Calendar.SECOND, 0)
                 cal.set(Calendar.MILLISECOND, 0)
