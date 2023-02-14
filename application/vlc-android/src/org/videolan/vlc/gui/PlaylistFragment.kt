@@ -68,7 +68,6 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     private lateinit var playlists: RecyclerView
     private lateinit var playlistAdapter: AudioBrowserAdapter
     private lateinit var fastScroller: FastScroller
-    override val isChild = true
     override val isMainNavigationPoint = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -258,7 +257,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         private const val PLAYLIST_TYPE = "PLAYLIST_TYPE"
         fun newInstance(type: Playlist.Type) = PlaylistFragment().apply {
             arguments = Bundle().apply {
-                putInt("PLAYLIST_TYPE", type.ordinal)
+                putInt(PLAYLIST_TYPE, type.ordinal)
             }
         }
     }

@@ -83,7 +83,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private lateinit var binding: VideoGridBinding
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
     private lateinit var settings: SharedPreferences
-    override val isChild = true
     //in case of fragment being hosted by other fragments, it's useful to prevent the
     //FAB visibility to be locked hidden
     override val isMainNavigationPoint = false
