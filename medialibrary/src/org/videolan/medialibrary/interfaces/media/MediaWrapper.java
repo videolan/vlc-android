@@ -224,7 +224,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         if (media == null)
             throw new NullPointerException("media was null");
 
-        mUri = media.getUri();
+        mUri = Uri.parse(VLCUtil.encodeVLCUri(media.getUri()));
         init(media);
     }
 
