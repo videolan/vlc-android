@@ -223,8 +223,11 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             else {
                 val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else audioPlayer.activity?.getScreenWidth() ?: return
                 val activity = audioPlayer.activity as? AudioPlayerContainerActivity ?: return
-                val bitmap = AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)
-                bitmap?.let { UiTools.blurView(binding.backgroundView, bitmap, 15F, UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint)) } ?:  setDefaultBackground()
+                val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width) }
+                if (cover == null) setDefaultBackground()
+                else {
+                    UiTools.blurView(binding.backgroundView, cover, 15F, UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                }
             }
         } else {
             currentCoverArt = null
