@@ -856,6 +856,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
             hudRightBinding.spuDelayQuickAction.visibility = if (show && player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.audioDelayQuickAction.visibility = if (show && player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.clock.visibility = if (Settings.showTvUi) View.VISIBLE else View.GONE
 
             hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
             hudRightBinding.playbackSpeedQuickAction.contentDescription = player.getString(R.string.playback_speed)+ ". " + player.service?.rate?.formatRateString()
