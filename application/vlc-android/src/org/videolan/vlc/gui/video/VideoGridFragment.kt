@@ -86,6 +86,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     //in case of fragment being hosted by other fragments, it's useful to prevent the
     //FAB visibility to be locked hidden
     override val isMainNavigationPoint = false
+    override val hasTabs: Boolean
+        get() = parentFragment != null
 
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
