@@ -405,6 +405,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             initOverlay()
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
+                service.playlistManager.videoStatsOn.value == true -> VideoPlayerActivity.OVERLAY_INFINITE
                 player.isTalkbackIsEnabled() -> VideoPlayerActivity.OVERLAY_INFINITE
                 Settings.videoHudDelay == -1 -> VideoPlayerActivity.OVERLAY_INFINITE
                 isBookmarkShown() -> VideoPlayerActivity.OVERLAY_INFINITE
@@ -541,7 +542,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     player.delayDelegate.delayChanged(it, service)
                 }
                 service.playlistManager.videoStatsOn.observe(player) {
-                    if (it) showOverlay(true)
+                    if (it) showOverlay(true) else hideOverlay(false)
                     player.statsDelegate.container = hudBinding.statsContainer
                     player.statsDelegate.initPlotView(hudBinding)
                     if (it) player.statsDelegate.start() else player.statsDelegate.stop()
