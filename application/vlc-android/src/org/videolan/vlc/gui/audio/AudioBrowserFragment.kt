@@ -289,7 +289,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 DisplaySettingsDialog.newInstance(
                         displayInCards = viewModel.providersInCard[currentTab],
                         showAllArtists = if (currentTab == 0) Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false) else null,
-                        onlyFavs = viewModel.providers[currentTab].onlyFavs,
+                        onlyFavs = viewModel.providers[currentTab].onlyFavorites,
                         sorts = sorts,
                         currentSort = viewModel.providers[currentTab].sort,
                         currentSortDesc = viewModel.providers[currentTab].desc
@@ -346,7 +346,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             val title = view.findViewById<TextView>(R.id.tab_title)
             val icon = view.findViewById<ImageView>(R.id.tab_icon)
             title.text = audioPagerAdapter.getPageTitle(i)
-            if (viewModel.providers[i].onlyFavs) icon.setVisible() else icon.setGone()
+            if (viewModel.providers[i].onlyFavorites) icon.setVisible() else icon.setGone()
             tab?.customView = view
         }
     }

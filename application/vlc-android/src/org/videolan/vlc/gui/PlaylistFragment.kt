@@ -118,7 +118,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         }
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
-        (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = viewModel.provider.onlyFavs
+        (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = viewModel.provider.onlyFavorites
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {
@@ -180,7 +180,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
                         displayInCards = viewModel.providerInCard,
-                        onlyFavs = viewModel.provider.onlyFavs,
+                        onlyFavs = viewModel.provider.onlyFavorites,
                         sorts = sorts,
                         currentSort = viewModel.provider.sort,
                         currentSortDesc = viewModel.provider.desc

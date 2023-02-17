@@ -56,7 +56,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     private fun performSearh(query: String?) {
         if (query != null && query.isNotEmpty()) lifecycleScope.launchWhenStarted {
-            val searchAggregate = getFromMl { search(query, Settings.includeMissing) }
+            val searchAggregate = getFromMl { search(query, Settings.includeMissing, false) }
             binding.searchAggregate = searchAggregate
             searchAggregate?.let { result ->
                 result.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }

@@ -37,8 +37,8 @@ public abstract class MlService {
     public abstract boolean setMaxCachedSize(long size);
     public abstract int getNbSubscriptions();
     public abstract int getNbUnplayedMedia();
-    public abstract Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing);
+    public abstract Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);
     public abstract int getNbMedia();
-    public abstract MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing);
+    public abstract MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     public abstract boolean refresh();
 }

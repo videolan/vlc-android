@@ -42,24 +42,24 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
     init {
         sort = Settings.getInstance(context).getInt(sortKey, if (parent is Artist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
-        onlyFavs = Settings.getInstance(context).getBoolean("${sortKey}_only_favs", false)
+        onlyFavorites = Settings.getInstance(context).getBoolean("${sortKey}_only_favs", false)
     }
 
     override fun getAll() : Array<Album> = when (parent) {
-        is Artist -> parent.getAlbums(sort, desc, Settings.includeMissing)
-        is Genre -> parent.getAlbums(sort, desc, Settings.includeMissing)
-        else -> medialibrary.getAlbums(sort, desc, Settings.includeMissing)
+        is Artist -> parent.getAlbums(sort, desc, Settings.includeMissing, onlyFavorites)
+        is Genre -> parent.getAlbums(sort, desc, Settings.includeMissing, onlyFavorites)
+        else -> medialibrary.getAlbums(sort, desc, Settings.includeMissing, onlyFavorites)
     }
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<Album> {
         val list = if (model.filterQuery == null) when(parent) {
-            is Artist -> parent.getPagedAlbums(sort, desc, Settings.includeMissing, loadSize, startposition)
-            is Genre -> parent.getPagedAlbums(sort, desc, Settings.includeMissing, loadSize, startposition)
-            else -> medialibrary.getPagedAlbums(sort, desc, Settings.includeMissing, loadSize, startposition)
+            is Artist -> parent.getPagedAlbums(sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            is Genre -> parent.getPagedAlbums(sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            else -> medialibrary.getPagedAlbums(sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
         } else when(parent) {
-            is Artist -> parent.searchAlbums(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
-            is Genre -> parent.searchAlbums(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
-            else -> medialibrary.searchAlbum(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+            is Artist -> parent.searchAlbums(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            is Genre -> parent.searchAlbums(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            else -> medialibrary.searchAlbum(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
         }
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list

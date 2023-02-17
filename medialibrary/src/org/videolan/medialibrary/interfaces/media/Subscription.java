@@ -1,7 +1,5 @@
 package org.videolan.medialibrary.interfaces.media;
 
-import org.videolan.medialibrary.media.MediaLibraryItem;
-
 public abstract class Subscription {
 
     public Subscription(long id, MlService.Type type, String name, long parentId) {
@@ -30,9 +28,9 @@ public abstract class Subscription {
     public abstract long getMaxCachedSize();
     public abstract boolean setMaxCachedSize(long size);
     public abstract int getNbUnplayedMedia();
-    public abstract Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing);
+    public abstract Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     public abstract Subscription getParent();
-    public abstract MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing);
+    public abstract MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     public abstract boolean refresh();
     public abstract int getNbMedia();
 }

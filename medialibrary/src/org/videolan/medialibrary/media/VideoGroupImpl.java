@@ -23,16 +23,16 @@ public class VideoGroupImpl extends VideoGroup {
 
     @Override
     @WorkerThread
-    public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeMedia(ml, mId, sort, desc, includeMissing, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeMedia(ml, mId, sort, desc, includeMissing, onlyFavorites, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
     @WorkerThread
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, includeMissing, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, includeMissing, onlyFavorites, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class VideoGroupImpl extends VideoGroup {
         return ml.isInitiated() && nativeGroupDestroy(ml, mId);
     }
 
-    private native MediaWrapper[] nativeMedia(Medialibrary ml, long id, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    private native MediaWrapper[] nativeSearch(Medialibrary ml, long id, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    private native MediaWrapper[] nativeMedia(Medialibrary ml, long id, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearch(Medialibrary ml, long id, String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long id, String query);
     private native boolean nativeGroupAddId(Medialibrary ml, long id, long mediaId);
     private native boolean nativeGroupRemoveId(Medialibrary ml, long id, long mediaId);

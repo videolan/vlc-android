@@ -118,13 +118,15 @@ convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& ge
 }
 
 utils::jni::object
-convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr, jboolean includeMissing)
+convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr, jboolean includeMissing, jboolean onlyFavorites)
 {
     auto name = vlcNewStringUTF(env, playlistPtr->name().c_str());
      medialibrary::QueryParameters params {
            medialibrary::SortingCriteria::Default,
            false,
-           static_cast<bool>( includeMissing )
+           static_cast<bool>( includeMissing ),
+           false,
+           static_cast<bool>( onlyFavorites )
         };
     return utils::jni::object{ env, env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
                           (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count(), (jlong)playlistPtr->duration(), (jint)playlistPtr->nbVideo(), (jint)playlistPtr->nbAudio(), (jint)playlistPtr->nbUnknown(), (jint)playlistPtr->nbDurationUnknown())
@@ -161,7 +163,7 @@ convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr con
 }
 
 utils::jni::object
-convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing)
+convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing, jboolean onlyFavorites)
 {
     //Albums
     utils::jni::objectArray albums;
@@ -199,7 +201,7 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         index = -1;
         playlists = utils::jni::objectArray{ env, (jobjectArray) env->NewObjectArray(searchAggregatePtr.playlists->count(), fields->Playlist.clazz, NULL) };
         for(medialibrary::PlaylistPtr const& playlist : searchAggregatePtr.playlists->all()) {
-            auto item = convertPlaylistObject(env, fields, playlist, includeMissing);
+            auto item = convertPlaylistObject(env, fields, playlist, includeMissing, onlyFavorites);
             env->SetObjectArrayElement(playlists.get(), ++index, item.get());
         }
     }

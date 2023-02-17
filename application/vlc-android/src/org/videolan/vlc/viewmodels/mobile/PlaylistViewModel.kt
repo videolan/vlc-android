@@ -73,7 +73,7 @@ class PlaylistViewModel(context: Context, private val initialPlaylist: MediaLibr
         withContext(Dispatchers.IO) {
             when (initialPlaylist) {
                 is Album -> playlistLiveData.postValue(medialibrary.getAlbum(initialPlaylist.id))
-                is Playlist -> playlistLiveData.postValue(medialibrary.getPlaylist(initialPlaylist.id, true))
+                is Playlist -> playlistLiveData.postValue(medialibrary.getPlaylist(initialPlaylist.id, true, false))
             }
         }
     }

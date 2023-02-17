@@ -76,7 +76,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
 
     private fun loadRows(query: String?) = lifecycleScope.launch {
         if (query == null || query.isEmpty()) return@launch
-        val searchAggregate = context?.getFromMl { search(query, Settings.includeMissing) }
+        val searchAggregate = context?.getFromMl { search(query, Settings.includeMissing, false) }
         val empty = searchAggregate == null || searchAggregate.isEmpty
         updateEmtyView(empty)
         if (searchAggregate == null || empty) return@launch

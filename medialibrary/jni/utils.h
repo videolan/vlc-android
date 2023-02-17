@@ -253,11 +253,11 @@ utils::jni::object mediaToMediaWrapper(JNIEnv*, fields*, const medialibrary::Med
 utils::jni::object convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr);
 utils::jni::object convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr);
 utils::jni::object convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr);
-utils::jni::object convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr, jboolean includeMissing);
+utils::jni::object convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr, jboolean includeMissing, jboolean onlyFavorites);
 utils::jni::object convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count);
 utils::jni::object convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr);
 utils::jni::object convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr);
-utils::jni::object convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing);
+utils::jni::object convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing, jboolean onlyFavorites);
 utils::jni::object convertSubscriptionObject(JNIEnv* env, fields *fields, medialibrary::SubscriptionPtr const& subsPtr);
 utils::jni::object convertServiceObject(JNIEnv* env, fields *fields, medialibrary::ServicePtr const& servicePtr);
 utils::jni::objectArray filteredArray(JNIEnv* env, utils::jni::objectArray array, jclass clazz, int removalCount = -1);

@@ -179,7 +179,7 @@ class StartActivity : FragmentActivity() {
                          "album" ->   getAlbum(id.toLong())
                          "artist" ->   getArtist(id.toLong())
                          "genre" ->   getGenre(id.toLong())
-                         "playlist" ->   getPlaylist(id.toLong(), false)
+                         "playlist" ->   getPlaylist(id.toLong(), false, false)
                          else ->   getMedia(id.toLong())
                         }
                         MediaUtils.playTracks(this@StartActivity, album, 0)

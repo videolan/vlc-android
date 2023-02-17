@@ -180,7 +180,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
                         displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true),
-                        onlyFavs = viewModel.provider.onlyFavs,
+                        onlyFavs = viewModel.provider.onlyFavorites,
                         sorts = sorts,
                         currentSort = viewModel.provider.sort,
                         currentSortDesc = viewModel.provider.desc,
@@ -227,7 +227,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.fastScroller.attachToCoordinator(requireActivity().findViewById<View>(R.id.appbar) as AppBarLayout, requireActivity().findViewById<View>(R.id.coordinator) as CoordinatorLayout, requireActivity().findViewById<View>(R.id.fab) as FloatingActionButton)
         binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
 
-        (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = viewModel.provider.onlyFavs
+        (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = viewModel.provider.onlyFavorites
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {

@@ -63,9 +63,9 @@ public class MlServiceImpl extends MlService {
     }
 
     @Override
-    public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing) {
+    public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetSubscriptions(ml, this.type.value, sort, desc, includeMissing) : new Subscription[0];
+        return ml.isInitiated() ? nativeGetSubscriptions(ml, this.type.value, sort, desc, includeMissing, onlyFavorites) : new Subscription[0];
     }
 
     @Override
@@ -75,9 +75,9 @@ public class MlServiceImpl extends MlService {
     }
 
     @Override
-    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
+    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetServiceMedia(ml, this.type.value, sortingCriteria, desc, includeMissing) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetServiceMedia(ml, this.type.value, sortingCriteria, desc, includeMissing, onlyFavorites) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -95,8 +95,8 @@ public class MlServiceImpl extends MlService {
     private native boolean nativeSetMaxCachedSize(Medialibrary ml, int type, long size);
     private native int nativeGetNbSubscriptions(Medialibrary ml, int type);
     private native int nativeGetNbUnplayedMedia(Medialibrary ml, int type);
-    private native Subscription[] nativeGetSubscriptions(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing);
+    private native Subscription[] nativeGetSubscriptions(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);
     private native int nativeGetNbMedia(Medialibrary ml, int type);
-    private native MediaWrapper[] nativeGetServiceMedia(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing);
+    private native MediaWrapper[] nativeGetServiceMedia(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);
     private native boolean nativeServiceRefresh(Medialibrary ml, int type);
 }

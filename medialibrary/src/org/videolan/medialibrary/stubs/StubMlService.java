@@ -54,12 +54,12 @@ public class StubMlService extends MlService {
     }
 
     @Override
-    public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing) {
+    public Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         return new Subscription[0];
     }
 
     @Override
-    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
+    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         return new MediaWrapper[0];
     }
 

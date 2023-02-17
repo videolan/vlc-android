@@ -199,7 +199,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
                         displayInCards = viewModel.providersInCard[currentTab],
-                        onlyFavs = viewModel.providers[currentTab].onlyFavs,
+                        onlyFavs = viewModel.providers[currentTab].onlyFavorites,
                         sorts = sorts,
                         currentSort = viewModel.providers[currentTab].sort,
                         currentSortDesc = viewModel.providers[currentTab].desc
@@ -246,7 +246,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             val title = view.findViewById<TextView>(R.id.tab_title)
             val icon = view.findViewById<ImageView>(R.id.tab_icon)
             title.text = audioPagerAdapter.getPageTitle(i)
-            if (viewModel.providers[i].onlyFavs) icon.setVisible() else icon.setGone()
+            if (viewModel.providers[i].onlyFavorites) icon.setVisible() else icon.setGone()
             tab?.customView = view
         }
     }
