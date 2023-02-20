@@ -1066,6 +1066,33 @@ void AndroidMediaLibrary::onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds
     }
 }
 
+void AndroidMediaLibrary::onFoldersAdded( std::vector<medialibrary::FolderPtr> folder )
+{
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onFoldersAddedId);
+    }
+}
+
+void AndroidMediaLibrary::onFoldersModified( std::set<int64_t> foldersIds )
+{
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onFoldersModifiedId);
+    }
+}
+
+void AndroidMediaLibrary::onFoldersDeleted( std::set<int64_t> foldersIds )
+{
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onFoldersDeletedId);
+    }
+}
+
 void AndroidMediaLibrary::onBookmarksAdded( std::vector<medialibrary::BookmarkPtr> )
 {
 }
@@ -1145,20 +1172,6 @@ AndroidMediaLibrary::getEnv() {
 void
 AndroidMediaLibrary::detachCurrentThread() {
     myVm->DetachCurrentThread();
-}
-
-void
-AndroidMediaLibrary::onFoldersAdded( std::vector<medialibrary::FolderPtr> )
-{
-}
-
-void
-AndroidMediaLibrary::onFoldersModified( std::set<int64_t> )
-{
-}
-
-void AndroidMediaLibrary::onFoldersDeleted( std::set<int64_t> )
-{
 }
 
 /*

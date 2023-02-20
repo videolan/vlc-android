@@ -2949,6 +2949,18 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.clazz,
            "onMediaGroupDeleted", "()V");
     GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onFoldersAddedId,
+           ml_fields.MediaLibrary.clazz,
+           "onFoldersAdded", "()V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onFoldersModifiedId,
+           ml_fields.MediaLibrary.clazz,
+           "onFoldersModified", "()V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onFoldersDeletedId,
+           ml_fields.MediaLibrary.clazz,
+           "onFoldersDeleted", "()V");
+    GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onPlaylistsModifiedId,
            ml_fields.MediaLibrary.clazz,
            "onPlaylistsModified", "()V");

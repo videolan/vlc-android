@@ -110,6 +110,7 @@ abstract public class Medialibrary {
     protected final List<PlaylistsCb> mPlaylistCbs = new ArrayList<>();
     protected final List<HistoryCb> mHistoryCbs = new ArrayList<>();
     protected final List<MediaGroupCb> mMediaGroupCbs = new ArrayList<>();
+    protected final List<FoldersCb> mFoldersCbs = new ArrayList<>();
     protected final List<OnMedialibraryReadyListener> onMedialibraryReadyListeners = new ArrayList<>();
     protected final List<OnDeviceChangeListener> onDeviceChangeListeners = new ArrayList<>();
     protected volatile boolean isMedialibraryStarted = false;
@@ -241,6 +242,12 @@ abstract public class Medialibrary {
         void onMediaGroupsAdded();
         void onMediaGroupsModified();
         void onMediaGroupsDeleted();
+    }
+
+    public interface FoldersCb {
+        void onFoldersAdded();
+        void onFoldersModified();
+        void onFoldersDeleted();
     }
 
     public interface OnMedialibraryReadyListener {
@@ -423,6 +430,27 @@ abstract public class Medialibrary {
     public void onMediaGroupDeleted() {
         synchronized (mMediaGroupCbs) {
             for (MediaGroupCb cb : mMediaGroupCbs) cb.onMediaGroupsDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onFoldersAdded() {
+        synchronized (mFoldersCbs) {
+            for (FoldersCb cb : mFoldersCbs) cb.onFoldersAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onFoldersModified() {
+        synchronized (mFoldersCbs) {
+            for (FoldersCb cb : mFoldersCbs) cb.onFoldersModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onFoldersDeleted() {
+        synchronized (mFoldersCbs) {
+            for (FoldersCb cb : mFoldersCbs) cb.onFoldersDeleted();
         }
     }
 
@@ -643,6 +671,18 @@ abstract public class Medialibrary {
     public void removeMediaGroupCb(MediaGroupCb mediaGroupCb) {
         synchronized (mMediaGroupCbs) {
             this.mMediaGroupCbs.remove(mediaGroupCb);
+        }
+    }
+
+    public void addFoldersCb(FoldersCb foldersCb) {
+        synchronized (mFoldersCbs) {
+            this.mFoldersCbs.add(foldersCb);
+        }
+    }
+
+    public void removeFoldersCb(FoldersCb foldersCb) {
+        synchronized (mFoldersCbs) {
+            this.mFoldersCbs.remove(foldersCb);
         }
     }
 
