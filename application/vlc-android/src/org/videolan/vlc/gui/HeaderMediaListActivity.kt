@@ -128,10 +128,12 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         }
 
         viewModel.playlistLiveData.observe(this) { playlist ->
-            (playlist as? Album)?.let {
-                binding.btnFavorite.setVisible()
-                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(this, if (it.isFavorite) R.drawable.ic_header_media_favorite else R.drawable.ic_header_media_favorite_outline))
-            } ?: binding.btnFavorite.setGone()
+            binding.btnFavorite.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    if (playlist.isFavorite) R.drawable.ic_header_media_favorite else R.drawable.ic_header_media_favorite_outline
+                )
+            )
 
             var totalDuration = 0L
             for (item in playlist.tracks)

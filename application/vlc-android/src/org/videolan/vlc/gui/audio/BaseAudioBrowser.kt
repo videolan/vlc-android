@@ -392,7 +392,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 if ((item as? Genre)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
             }
             MediaLibraryItem.TYPE_PLAYLIST -> {
-                if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
+                (if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS) or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
             }
             else -> CTX_AUDIO_FLAGS
         }
