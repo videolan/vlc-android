@@ -1483,6 +1483,30 @@ setGenreFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboo
 }
 
 jboolean
+setFolderFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::FolderPtr media = aml->folder(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
+setVideoGroupFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaGroupPtr media = aml->videoGroup(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
+setPlaylistFavorite(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean favorite) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::PlaylistPtr media = aml->playlist(id);
+    if (media == nullptr) return 0L;
+    return media->setFavorite(favorite);
+}
+
+jboolean
 setBookmarkName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
@@ -2608,6 +2632,7 @@ static JNINativeMethod folder_methods[] = {
     {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)I", (void*)subFoldersCount },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IIZZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromFolder },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;I)I", (void*)getSearchMediaFromFolderCount },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setFolderFavorite },
 };
 
 static JNINativeMethod videogroup_methods[] = {
@@ -2621,6 +2646,7 @@ static JNINativeMethod videogroup_methods[] = {
     {"nativeGroupUserInteracted", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)groupUserInteracted },
     {"nativeGroupDuration", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)groupDuration },
     {"nativeGroupDestroy", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)groupDestroy },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setVideoGroupFavorite },
 };
 
 static JNINativeMethod playlist_methods[] = {
@@ -2635,6 +2661,7 @@ static JNINativeMethod playlist_methods[] = {
     {"nativePlaylistMove", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JII)Z", (void*)playlistMove },
     {"nativePlaylistRemove", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)Z", (void*)playlistRemove },
     {"nativePlaylistDelete", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)playlistDelete },
+    {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setPlaylistFavorite },
 };
 
 static JNINativeMethod service_methods[] = {
@@ -2744,16 +2771,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.Album.clazz,
            "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIIJZ)V");
 
-    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/FolderImpl", true);
-    if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
-        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/FolderImpl");
-        return -1;
-    }
-    GET_ID(GetMethodID,
-           ml_fields.Folder.initID,
-           ml_fields.Folder.clazz,
-           "<init>", "(JLjava/lang/String;Ljava/lang/String;I)V");
-
     GET_CLASS(ml_fields.Genre.clazz, "org/videolan/medialibrary/media/GenreImpl", true);
     if (env->RegisterNatives(ml_fields.Genre.clazz, genre_methods, sizeof(genre_methods) / sizeof(genre_methods[0])) < 0) {
         LOGE("RegisterNatives failed for org/videolan/medialibrary/media/GenreImpl");
@@ -2772,7 +2789,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Playlist.initID,
            ml_fields.Playlist.clazz,
-           "<init>", "(JLjava/lang/String;IJIIII)V");
+           "<init>", "(JLjava/lang/String;IJIIIIZ)V");
 
     GET_CLASS(ml_fields.Service.clazz, "org/videolan/medialibrary/media/MlServiceImpl", true);
     if (env->RegisterNatives(ml_fields.Service.clazz, service_methods, sizeof(service_methods) / sizeof(service_methods[0])) < 0) {
@@ -2828,7 +2845,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Folder.initID,
            ml_fields.Folder.clazz,
-           "<init>", "(JLjava/lang/String;Ljava/lang/String;I)V");
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;IZ)V");
 
     GET_CLASS(ml_fields.VideoGroup.clazz, "org/videolan/medialibrary/media/VideoGroupImpl", true);
     if (env->RegisterNatives(ml_fields.VideoGroup.clazz, videogroup_methods, sizeof(videogroup_methods) / sizeof(videogroup_methods[0])) < 0) {
@@ -2838,7 +2855,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.VideoGroup.initID,
            ml_fields.VideoGroup.clazz,
-           "<init>", "(JLjava/lang/String;III)V");
+           "<init>", "(JLjava/lang/String;IIIZ)V");
 
     GET_CLASS(ml_fields.Bookmark.clazz, "org/videolan/medialibrary/media/BookmarkImpl", true);
     if (env->RegisterNatives(ml_fields.Bookmark.clazz, bookmark_methods, sizeof(bookmark_methods) / sizeof(bookmark_methods[0])) < 0) {

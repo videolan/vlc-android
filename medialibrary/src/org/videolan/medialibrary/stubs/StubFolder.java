@@ -14,8 +14,8 @@ public class StubFolder extends Folder {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubFolder(long id, String name, String mrl, int count) {
-        super(id, name, mrl, count);
+    public StubFolder(long id, String name, String mrl, int count, boolean isFavorite) {
+        super(id, name, mrl, count, isFavorite);
     }
     public StubFolder(Parcel in) {
         super(in);

@@ -129,7 +129,7 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
            static_cast<bool>( onlyFavorites )
         };
     return utils::jni::object{ env, env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count(), (jlong)playlistPtr->duration(), (jint)playlistPtr->nbVideo(), (jint)playlistPtr->nbAudio(), (jint)playlistPtr->nbUnknown(), (jint)playlistPtr->nbDurationUnknown())
+                          (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count(), (jlong)playlistPtr->duration(), (jint)playlistPtr->nbVideo(), (jint)playlistPtr->nbAudio(), (jint)playlistPtr->nbUnknown(), (jint)playlistPtr->nbDurationUnknown(), (jboolean)playlistPtr->isFavorite())
     };
 }
 
@@ -139,7 +139,7 @@ convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& 
     auto name = vlcNewStringUTF(env, folderPtr->name().c_str());
     auto mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
     return utils::jni::object{ env, env->NewObject(fields->Folder.clazz, fields->Folder.initID,
-                          (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count)
+                          (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count, (jboolean)folderPtr->isFavorite())
     };
 }
 
@@ -148,7 +148,7 @@ convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr
 {
     auto name = vlcNewStringUTF(env, videogroupPtr->name().c_str());
     return utils::jni::object{ env, env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo(), (jint)videogroupPtr->nbPresentSeen())
+                          (jlong) videogroupPtr->id(), name.get(), (jint)videogroupPtr->nbVideo(), (jint)videogroupPtr->nbPresentVideo(), (jint)videogroupPtr->nbPresentSeen(), (jboolean)videogroupPtr->isFavorite())
     };
 }
 

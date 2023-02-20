@@ -178,11 +178,11 @@ public class MLServiceLocator {
     }
 
     //FolderImpl
-    public static Folder getAbstractFolder(long id, String name, String mrl, int count) {
+    public static Folder getAbstractFolder(long id, String name, String mrl, int count, boolean isFavorite) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new FolderImpl(id, name, mrl, count);
+            return new FolderImpl(id, name, mrl, count, isFavorite);
         } else {
-            return new StubFolder(id, name, mrl, count);
+            return new StubFolder(id, name, mrl, count, isFavorite);
         }
     }
 
@@ -220,11 +220,11 @@ public class MLServiceLocator {
     }
 
     //Playlist
-    public static Playlist getAbstractPlaylist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
+    public static Playlist getAbstractPlaylist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown, boolean isFavorite) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new PlaylistImpl(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
+            return new PlaylistImpl(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown, isFavorite);
         } else {
-            return new StubPlaylist(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
+            return new StubPlaylist(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown, isFavorite);
         }
     }
 

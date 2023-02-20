@@ -9,8 +9,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 @SuppressWarnings("JniMissingFunction")
 public class FolderImpl extends Folder {
 
-    public FolderImpl(long id, String name, String mrl, int count) {
-        super(id, name, mrl, count);
+    public FolderImpl(long id, String name, String mrl, int count, boolean isFavorite) {
+        super(id, name, mrl, count, isFavorite);
     }
 
     public FolderImpl(Parcel in) {
@@ -48,6 +48,16 @@ public class FolderImpl extends Folder {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query, mediaType) : 0;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeSetFavorite(ml, mId, favorite);
+        return ret;
+    }
+
     //    private native MediaWrapper[] nativeGetTracks();
 //    private native int nativeGetTracksCount();
     private native MediaWrapper[] nativeMedia(Medialibrary ml, long mId, int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
@@ -56,4 +66,5 @@ public class FolderImpl extends Folder {
     private native int nativeSubfoldersCount(Medialibrary ml, long mId, int type);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int mediaType, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query, int mediaType);
+    private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 }

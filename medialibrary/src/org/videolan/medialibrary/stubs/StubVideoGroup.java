@@ -6,8 +6,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 
 public class StubVideoGroup extends VideoGroup {
-    public StubVideoGroup(String name, int count, int presentCount, int presentSeen) {
-        super(0L, name, count, presentCount, presentSeen);
+    public StubVideoGroup(String name, int count, int presentCount, int presentSeen, boolean isFavorite) {
+        super(0L, name, count, presentCount, presentSeen, isFavorite);
     }
 
     public StubVideoGroup(Parcel in) {

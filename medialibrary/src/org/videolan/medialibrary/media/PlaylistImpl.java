@@ -11,8 +11,8 @@ import java.util.List;
 @SuppressWarnings("JniMissingFunction")
 public class PlaylistImpl extends Playlist {
 
-    public PlaylistImpl(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
-        super(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
+    public PlaylistImpl(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown, boolean isFavorite) {
+        super(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown, isFavorite);
     }
 
     public PlaylistImpl(Parcel in) {
@@ -90,6 +90,16 @@ public class PlaylistImpl extends Playlist {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeSetFavorite(ml, mId, favorite);
+        return ret;
+    }
+
     private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long id, boolean includeMissing, boolean onlyFavorites);
     private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long id, int nbItems, int offset, boolean includeMissing, boolean onlyFavorites);
     private native int nativeGetTracksCount(Medialibrary ml, long id, boolean includeMissing, boolean onlyFavorites);
@@ -103,4 +113,5 @@ public class PlaylistImpl extends Playlist {
 
     private native boolean nativePlaylistRemove(Medialibrary ml, long id, int position);
     private native boolean nativePlaylistDelete(Medialibrary ml, long id);
+    private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 }

@@ -120,7 +120,7 @@ public class StubDataSource {
     }
 
     public Folder createFolder(String name) {
-        Folder folder = MLServiceLocator.getAbstractFolder(getUUID(), name, baseMrl + name, 1);
+        Folder folder = MLServiceLocator.getAbstractFolder(getUUID(), name, baseMrl + name, 1, false);
         mFolders.add(folder);
         return folder;
     }
@@ -616,7 +616,7 @@ public class StubDataSource {
             ArrayList<String> mlFolders = new ArrayList<>(Arrays.asList(getFoldersString()));
             if (!mlFolders.contains(mrl)) {
                 final String name = folderArray[folderArray.length - 1];
-                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID(), name, mrl, 1));
+                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID(), name, mrl, 1, false));
             }
         }
     }

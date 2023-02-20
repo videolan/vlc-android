@@ -17,7 +17,7 @@ public abstract class Playlist extends MediaLibraryItem {
     protected long mNbUnknown;
     protected long mNbDurationUnknown;
 
-    protected Playlist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
+    protected Playlist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown, boolean isFavorite) {
         super(id, name);
         mTracksCount = trackCount;
         mDuration = duration;
@@ -25,6 +25,7 @@ public abstract class Playlist extends MediaLibraryItem {
         mNbAudio = nbAudio;
         mNbUnknown = nbUnknown;
         mNbDurationUnknown = nbDurationUnknown;
+        mFavorite = isFavorite;
     }
 
     public enum Type {
@@ -105,10 +106,12 @@ public abstract class Playlist extends MediaLibraryItem {
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeInt(mTracksCount);
+        parcel.writeInt(mFavorite ? 1 : 0);
     }
 
     public Playlist(Parcel in) {
         super(in);
         this.mTracksCount = in.readInt();
+        this.mFavorite = in.readInt() == 1;
     }
 }

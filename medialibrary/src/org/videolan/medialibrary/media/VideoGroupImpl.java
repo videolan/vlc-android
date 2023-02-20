@@ -13,8 +13,8 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup;
 public class VideoGroupImpl extends VideoGroup {
 
     @SuppressWarnings("unused") /* Used from JNI */
-    VideoGroupImpl(long id, String name, int count, int presentCount, int presentSeen) {
-        super(id, name, count, presentCount, presentSeen);
+    VideoGroupImpl(long id, String name, int count, int presentCount, int presentSeen, boolean isFavorite) {
+        super(id, name, count, presentCount, presentSeen, isFavorite);
     }
 
     public VideoGroupImpl(Parcel in) {
@@ -86,6 +86,16 @@ public class VideoGroupImpl extends VideoGroup {
         return ml.isInitiated() && nativeGroupDestroy(ml, mId);
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeSetFavorite(ml, mId, favorite);
+        return ret;
+    }
+
     private native MediaWrapper[] nativeMedia(Medialibrary ml, long id, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long id, String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long id, String query);
@@ -96,4 +106,5 @@ public class VideoGroupImpl extends VideoGroup {
     private native boolean nativeGroupUserInteracted(Medialibrary ml, long id);
     private native long nativeGroupDuration(Medialibrary ml, long id);
     private native boolean nativeGroupDestroy(Medialibrary ml, long id);
+    private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 }

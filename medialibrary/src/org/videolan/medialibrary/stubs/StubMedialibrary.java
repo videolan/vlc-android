@@ -351,7 +351,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public Playlist createPlaylist(String name, boolean includeMissing, boolean onlyFavorites) {
-        Playlist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0, 0L, 0, 0, 0, 0);
+        Playlist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0, 0L, 0, 0, 0, 0, false);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
         return playlist;
