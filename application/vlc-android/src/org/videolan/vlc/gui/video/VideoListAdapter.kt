@@ -49,6 +49,7 @@ import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.util.*
@@ -101,6 +102,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         fillView(holder, item)
         holder.binding.setVariable(BR.media, item)
         holder.selectView(multiSelectHelper.isSelected(position))
+        item.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
@@ -114,6 +116,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                     UPDATE_TIME, UPDATE_SEEN -> fillView(holder, media as MediaWrapper)
                     UPDATE_SELECTION -> holder.selectView(multiSelectHelper.isSelected(position))
                     UPDATE_VIDEO_GROUP -> fillView(holder, media!!)
+                    UPDATE_FAVORITE_STATE -> getItem(position)?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
                 }
             }
         }
@@ -138,6 +141,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.binding.setVariable(BR.isNetwork, false)
                 holder.binding.setVariable(BR.isPresent, true)
+                holder.binding.setVariable(BR.isFavorite, item.isFavorite)
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
@@ -148,6 +152,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.seen, seen)
                 holder.binding.setVariable(BR.max, 0)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
+                holder.binding.setVariable(BR.isFavorite, item.isFavorite)
             }
             is MediaWrapper -> {
                 holder.title.text = if (showFilename.get()) item.fileName else item.title
@@ -181,6 +186,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.max, max)
                 holder.binding.setVariable(BR.progress, progress)
                 holder.binding.setVariable(BR.seen, seen)
+                holder.binding.setVariable(BR.isFavorite, item.isFavorite)
                 if (!isListMode) holder.binding.setVariable(BR.resolution, resolution)
             }
         }
@@ -250,19 +256,28 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 oldItem === newItem || (oldItem.displayTime == newItem.displayTime
                         && oldItem.artworkMrl == newItem.artworkMrl
                         && oldItem.seen == newItem.seen
-                        && oldItem.isPresent == newItem.isPresent)
+                        && oldItem.isPresent == newItem.isPresent
+                        && oldItem.isFavorite == newItem.isFavorite)
             } //else if (oldItem is FolderImpl && newItem is FolderImpl) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
             else if (oldItem is VideoGroup && newItem is VideoGroup) {
                 oldItem === newItem || (oldItem.title == newItem.title
-                        && oldItem.tracksCount == newItem.tracksCount && oldItem.presentCount != newItem.presentCount)
+                        && oldItem.tracksCount == newItem.tracksCount && oldItem.presentCount != newItem.presentCount
+                        && oldItem.isFavorite == newItem.isFavorite)
             }
-            else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
+            else if (oldItem is Folder && newItem is Folder) {
+                oldItem === newItem || (oldItem.title == newItem.title
+                        && oldItem.tracksCount == newItem.tracksCount
+                        && oldItem.isFavorite == newItem.isFavorite)
+            }
+            else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || (oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
+                        && oldItem.isFavorite == newItem.isFavorite)
         }
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = when {
             (oldItem is MediaWrapper && newItem is MediaWrapper) && oldItem.displayTime != newItem.displayTime -> UPDATE_TIME
             (oldItem is VideoGroup && newItem is VideoGroup) -> UPDATE_VIDEO_GROUP
             oldItem.artworkMrl != newItem.artworkMrl -> UPDATE_THUMB
+            oldItem.isFavorite != newItem.isFavorite  -> UPDATE_FAVORITE_STATE
             else -> UPDATE_SEEN
         }
     }

@@ -30,6 +30,10 @@
                 type="boolean" />
 
         <variable
+            name="isFavorite"
+            type="boolean" />
+
+        <variable
                 name="inSelection"
                 type="boolean" />
 
@@ -222,24 +226,35 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-                android:id="@+id/ml_item_title"
-                style="@style/VLC.TextViewTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="4dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:lineSpacingMultiplier="1"
-                android:text="@{media.title}"
-                android:enabled="@{isPresent}"
-                android:textSize="16sp"
-                tools:text="Star wars Episode 1"
-                vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
-                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-                vlc:layout_constraintStart_toEndOf="@+id/container"
-                vlc:layout_constraintTop_toTopOf="parent"
-                vlc:layout_constraintVertical_chainStyle="packed" />
+            android:id="@+id/ml_item_title"
+            style="@style/VLC.TextViewTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="end"
+            android:enabled="@{isPresent}"
+            android:gravity="center_vertical"
+            android:lineSpacingMultiplier="1"
+            android:text="@{media.title}"
+            android:textSize="16sp"
+            tools:text="Star wars Episode 1"
+            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
+            vlc:layout_constraintEnd_toStartOf="@+id/media_favorite"
+            vlc:layout_constraintStart_toEndOf="@+id/container"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintVertical_chainStyle="packed" />
+
+        <ImageView
+            android:id="@+id/media_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
+            vlc:layout_constraintBottom_toBottomOf="parent"
+            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:srcCompat="@drawable/ic_emoji_favorite" />
 
         <ImageView
                 android:id="@+id/item_more"
@@ -259,23 +274,23 @@
                 vlc:srcCompat="@drawable/ic_more" />
 
         <TextView
-                android:id="@+id/ml_item_time"
-                style="@style/VLC.TextViewDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignWithParentIfMissing="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="4dp"
-                android:gravity="start"
-                vlc:presenceDescription="@{time}"
-                android:textSize="12sp"
-                android:enabled="@{!isNetwork || isPresent}"
-                android:visibility="@{TextUtils.isEmpty(time) ? View.GONE : View.VISIBLE}"
-                tools:text="32:55"
-                vlc:layout_constraintBottom_toBottomOf="parent"
-                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-                vlc:layout_constraintStart_toEndOf="@+id/container"
-                vlc:layout_constraintTop_toBottomOf="@+id/ml_item_title" />
+            android:id="@+id/ml_item_time"
+            style="@style/VLC.TextViewDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp"
+            android:enabled="@{!isNetwork || isPresent}"
+            android:gravity="start"
+            android:textSize="12sp"
+            android:visibility="@{TextUtils.isEmpty(time) ? View.GONE : View.VISIBLE}"
+            tools:text="32:55"
+            vlc:layout_constraintBottom_toBottomOf="parent"
+            vlc:layout_constraintEnd_toStartOf="@+id/media_favorite"
+            vlc:layout_constraintStart_toEndOf="@+id/container"
+            vlc:layout_constraintTop_toBottomOf="@+id/ml_item_title"
+            vlc:presenceDescription="@{time}" />
 
         <ImageView
                 android:id="@+id/selected_check"
