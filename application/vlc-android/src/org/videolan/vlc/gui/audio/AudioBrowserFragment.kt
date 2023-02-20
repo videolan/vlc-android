@@ -165,7 +165,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             }
             ONLY_FAVS -> {
                 viewModel.providers[currentTab].showOnlyFavs(value as Boolean)
-                viewModel.refresh()
+                viewModel.providers[currentTab].refresh()
                 updateTabs()
             }
             CURRENT_SORT -> {
