@@ -185,6 +185,7 @@ const val UPDATE_DESCRIPTION = 4
 const val UPDATE_PAYLOAD = 5
 const val UPDATE_VIDEO_GROUP = 6
 const val UPDATE_REORDER = 7
+const val UPDATE_FAVORITE_STATE = 8
 
 const val KEY_URI = "uri"
 const val SELECTED_ITEM = "selected"
