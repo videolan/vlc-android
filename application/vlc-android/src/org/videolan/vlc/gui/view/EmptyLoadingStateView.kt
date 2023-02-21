@@ -75,7 +75,7 @@ class EmptyLoadingStateView : FrameLayout {
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) View.VISIBLE else View.GONE
             emptyImageView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY,EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) View.VISIBLE else View.GONE
-            emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) R.drawable.ic_empty else R.drawable.ic_empty_warning))
+            emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value == EmptyLoadingState.EMPTY_FAVORITES) R.drawable.ic_fav_empty else if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) R.drawable.ic_empty else R.drawable.ic_empty_warning))
             permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
             grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
