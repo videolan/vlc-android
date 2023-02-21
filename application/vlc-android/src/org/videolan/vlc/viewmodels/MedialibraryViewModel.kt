@@ -27,6 +27,8 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
 
     fun isEmpty() = providers.all { it.isEmpty() }
 
+    fun isEmptyAt(index:Int) = providers[index].isEmpty()
+
     override fun restore() {
         if (filterQuery !== null) filter(null)
     }

@@ -436,6 +436,8 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     protected val empty: Boolean
         get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty != false
 
+    fun emptyAt(index:Int): Boolean = viewModel.isEmptyAt(index) && getCurrentAdapter()?.isEmpty != false
+
     @Suppress("UNCHECKED_CAST")
     override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }
