@@ -147,10 +147,11 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     private fun updateEmptyView() {
         if (!isAdded) return
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
+        binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: if (viewModel.provider.onlyFavorites) getString(R.string.nofav) else getString(R.string.nomedia)
         binding.emptyLoading.state =
                 when {
                     viewModel.provider.loading.value == true && empty -> EmptyLoadingState.LOADING
+                    empty && viewModel.provider.onlyFavorites -> EmptyLoadingState.EMPTY_FAVORITES
                     empty && viewModel.filterQuery != null -> EmptyLoadingState.EMPTY_SEARCH
                     empty -> EmptyLoadingState.EMPTY
                     else -> EmptyLoadingState.NONE
