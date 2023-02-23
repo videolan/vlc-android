@@ -56,7 +56,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             if (!contains(FORCE_PLAY_ALL_VIDEO)) putSingle(FORCE_PLAY_ALL_VIDEO, true)
         }
         super.onCreate(savedInstanceState)
-        findPreference<Preference>("ui_audio_category")?.isVisible = false
         tvUiPref = findPreference(PREF_TV_UI)!!
         tvUiPref.setDefaultValue(true)
         findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
