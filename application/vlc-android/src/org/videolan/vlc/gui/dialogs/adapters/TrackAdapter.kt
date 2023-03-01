@@ -66,8 +66,10 @@ class TrackAdapter(private val tracks: Array<VlcTrack>, var selectedTrack: VlcTr
         init {
 
             itemView.setOnClickListener {
+                val oldSelectedIndex = tracks.indexOf(selectedTrack)
                 selectedTrack = tracks[layoutPosition]
-                notifyDataSetChanged()
+                notifyItemChanged(oldSelectedIndex)
+                notifyItemChanged(layoutPosition)
                 trackSelectedListener.invoke(tracks[layoutPosition])
             }
         }
