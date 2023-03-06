@@ -126,7 +126,7 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
            false,
            static_cast<bool>( includeMissing ),
            false,
-           static_cast<bool>( onlyFavorites )
+           false
         };
     return utils::jni::object{ env, env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
                           (jlong) playlistPtr->id(), name.get(), (jint)playlistPtr->media(&params)->count(), (jlong)playlistPtr->duration(), (jint)playlistPtr->nbVideo(), (jint)playlistPtr->nbAudio(), (jint)playlistPtr->nbUnknown(), (jint)playlistPtr->nbDurationUnknown(), (jboolean)playlistPtr->isFavorite())
