@@ -15,6 +15,7 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -318,15 +319,15 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
-    public Playlist[] getPlaylists() {
+    public Playlist[] getPlaylists(Playlist.Type type) {
         return dt.mPlaylists.toArray(new Playlist[0]);
     }
 
-    public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing) {
+    public Playlist[] getPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing) {
         return dt.sortPlaylist(dt.mPlaylists, sort, desc);
     }
 
-    public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public Playlist[] getPagedPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortPlaylist(dt.secureSublist(dt.mPlaylists, offset, offset + nbItems), sort, desc);
     }
 
@@ -526,7 +527,7 @@ public class StubMedialibrary extends Medialibrary {
         Album[] albums = searchAlbum(query);
         Artist[] artists = searchArtist(query);
         Genre[] genres = searchGenre(query);
-        Playlist[] playlists = searchPlaylist(query, true);
+        Playlist[] playlists = searchPlaylist(query, Playlist.Type.All, true);
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
     }
 
@@ -650,7 +651,7 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortGenre(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public Playlist[] searchPlaylist(String query, boolean includeMissing) {
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, boolean includeMissing) {
         ArrayList<Playlist> results = new ArrayList<>();
         for (Playlist playlist : dt.mPlaylists) {
             if (Tools.hasSubString(playlist.getTitle(), query)) results.add(playlist);
@@ -658,8 +659,8 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Playlist[0]);
     }
 
-    public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query, includeMissing)));
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query, type, includeMissing)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
@@ -683,5 +684,55 @@ public class StubMedialibrary extends Medialibrary {
         File mediaFile = new File(childMrl);
         String parentPath = mediaFile.getParent();
         return parentPath.equals(parentMrl);
+    }
+
+    @Override
+    public MlService getService(MlService.Type type) {
+        return null;
+    }
+
+    @Override
+    public boolean fitsInSubscriptionCache(MediaWrapper media) {
+        return false;
+    }
+
+    @Override
+    public void cacheNewSubscriptionMedia() {
+
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCachedMedia(int nbMedia) {
+        return false;
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCacheSize(long size) {
+        return false;
+    }
+
+    @Override
+    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
+        return false;
+    }
+
+    @Override
+    public int getSubscriptionMaxCachedMedia() {
+        return -1;
+    }
+
+    @Override
+    public long getSubscriptionMaxCacheSize() {
+        return -1L;
+    }
+
+    @Override
+    public long getGlobalSubscriptionMaxCacheSize() {
+        return -1L;
+    }
+
+    @Override
+    public boolean refreshAllSubscriptions() {
+        return false;
     }
 }

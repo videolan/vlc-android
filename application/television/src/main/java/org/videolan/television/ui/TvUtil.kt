@@ -60,7 +60,6 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 
@@ -133,15 +132,9 @@ object TvUtil {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun openMedia(activity: FragmentActivity, item: Any?, model: BaseModel<out MediaLibraryItem>?) {
+    fun openMedia(activity: FragmentActivity, item: Any?) {
         when (item) {
             is MediaWrapper -> when (item.type) {
-                MediaWrapper.TYPE_AUDIO -> {
-                    val list = (model?.dataset?.getList() as? List<MediaWrapper>)?.filter { it.type != MediaWrapper.TYPE_DIR }
-                        ?: return
-                    val position = list.getposition(item)
-                    playAudioList(activity, list, position)
-                }
                 MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
@@ -156,11 +149,7 @@ object TvUtil {
                     activity.startActivity(intent)
                 }
                 else -> {
-                    model?.run {
-                        val list = (dataset.getList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
-                        val position = list.getposition(item)
-                        MediaUtils.openList(activity, list, position)
-                    } ?: MediaUtils.openMedia(activity, item)
+                   MediaUtils.openMedia(activity, item)
                 }
             }
             is DummyItem -> when (item.id) {
@@ -204,7 +193,7 @@ object TvUtil {
                 }
                 else -> {
                     model.run {
-                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, false)) {
+                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI)) {
                             MediaUtils.openMedia(activity, item)
                         } else {
                             val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }

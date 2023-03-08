@@ -31,10 +31,13 @@ import androidx.core.content.getSystemService
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.share
+import java.io.File
 
 class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     private lateinit var client: DebugLogService.Client
@@ -146,9 +149,13 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
 
     override fun onSaved(success: Boolean, path: String) {
         if (success) {
+            if (AndroidDevices.isAndroidTv)
             Snackbar.make(logView, String.format(
                     getString(R.string.dump_logcat_success),
                     path), Snackbar.LENGTH_LONG).show()
+            else UiTools.snackerConfirm(this, String.format(getString(R.string.dump_logcat_success), path), false, R.string.share) {
+                share(File(path))
+            }
         } else {
             UiTools.snacker(window.decorView.findViewById(android.R.id.content), R.string.dump_logcat_failure)
         }

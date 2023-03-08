@@ -259,19 +259,22 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=965402da3c2004dcef4f6575406ace343b2f1b15
+    LIBVLCJNI_TESTED_HASH=720bd2afb4a1eb83aa363656f2a7a375efc1e75c
 else
-    LIBVLCJNI_TESTED_HASH=6c512862228c833234068b50abb67ea03ec8dcde
+    LIBVLCJNI_TESTED_HASH=6691a43c73df3abe3e30bda139c6a7b4d1adda87
 fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
-if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
+
+: ${VLC_LIBJNI_PATH:="$(pwd -P)/libvlcjni"}
+
+if [ ! -d "$VLC_LIBJNI_PATH" ] || [ ! -d "$VLC_LIBJNI_PATH/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
     if [ "$FORCE_VLC_4" = 1 ]; then
         branch="master"
     else
         branch="libvlcjni-3.x"
     fi
-    if [ ! -d "libvlcjni" ]; then
+    if [ ! -d "$VLC_LIBJNI_PATH" ]; then
         git clone --single-branch --branch ${branch} "${LIBVLCJNI_REPOSITORY}"
         cd libvlcjni
     else # folder exist with only the artifacts
@@ -285,15 +288,18 @@ if [ ! -d "libvlcjni" ] || [ ! -d "libvlcjni/.git" ]; then
     cd ..
 fi
 
-get_vlc_args=
-if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
-    get_vlc_args="${get_vlc_args} -b"
-fi
-if [ $RESET -eq 1 ]; then
-    get_vlc_args="${get_vlc_args} --reset"
-fi
+# If you want to use an existing vlc dir add its path to an VLC_SRC_DIR env var
+if [ -z "$VLC_SRC_DIR" ]; then
+    get_vlc_args=
+    if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
+        get_vlc_args="${get_vlc_args} -b"
+    fi
+    if [ $RESET -eq 1 ]; then
+        get_vlc_args="${get_vlc_args} --reset"
+    fi
 
-./libvlcjni/buildsystem/get-vlc.sh ${get_vlc_args}
+    ${VLC_LIBJNI_PATH}/buildsystem/get-vlc.sh ${get_vlc_args}
+fi
 
 # Always clone VLC when using --init since we'll need to package some files
 # during the final assembly (lua/hrtfs/..)
@@ -310,11 +316,11 @@ diagnostic "Configuring"
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 mkdir -p $OUT_DBG_DIR
 
-if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlcjni/libvlc/jni/libs/" ]; then
-    AVLC_SOURCED=1 . libvlcjni/buildsystem/compile-libvlc.sh
+if [ "$BUILD_MEDIALIB" != 1 -o ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ]; then
+    AVLC_SOURCED=1 . ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh
     avlc_build
 
-    cp -a ./libvlcjni/libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+    cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
 
 if [ "$NO_ML" != 1 ]; then
@@ -343,7 +349,7 @@ else
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO ${gradle_prop} -p libvlcjni/libvlc assemble${BUILDTYPE}
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO -p medialibrary assemble${BUILDTYPE}

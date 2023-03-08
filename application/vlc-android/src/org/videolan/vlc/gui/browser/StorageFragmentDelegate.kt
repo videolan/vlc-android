@@ -120,8 +120,8 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
 
     override fun onEntryPointAdded(entryPoint: String, success: Boolean) {}
 
-    override fun onEntryPointRemoved(entryPoint: String, success: Boolean) {
-        var entryPoint = entryPoint
+    override fun onEntryPointRemoved(entrypoint: String, success: Boolean) {
+        var entryPoint = entrypoint
         if (entryPoint.endsWith("/"))
             entryPoint = entryPoint.substring(0, entryPoint.length - 1)
         if (processingFolders.containsKey(entryPoint)) {

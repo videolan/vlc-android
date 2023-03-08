@@ -26,6 +26,7 @@ import android.annotation.TargetApi
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +73,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     internal var mediaCount = 0
     private var networkRoot = false
     private var specialIcons = false
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     val diffCallback = BrowserDiffCallback()
 
@@ -110,6 +111,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
+        @Suppress("UNCHECKED_CAST")
         return if (viewType == TYPE_MEDIA || viewType == TYPE_STORAGE)
             MediaViewHolder(if (browserContainer.inCards) BrowserItemBindingContainer(CardBrowserItemBinding.inflate(inflater, parent, false)) else BrowserItemBindingContainer(BrowserItemBinding.inflate(inflater, parent, false)))
         else
@@ -208,7 +210,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
-        override val titleView: TextView? = bindingContainer.title
+        override val titleView: TextView = bindingContainer.title
         var job : Job? = null
 
         init {
@@ -357,7 +359,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun createCB() = diffCallback
 
-    class BrowserDiffCallback : DiffUtilAdapter.DiffCallback<MediaLibraryItem>() {
+    class BrowserDiffCallback : DiffCallback<MediaLibraryItem>() {
         var oldSort = -1
         var newSort = -1
         var oldAsc = true

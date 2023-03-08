@@ -56,14 +56,14 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         return FileBrowserFragment()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (requireActivity() as? SecondaryActivity)?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupBrowser()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBrowser()
+        (requireActivity() as? SecondaryActivity)?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
     }
 
     override fun onStart() {
@@ -147,9 +147,9 @@ open class FileBrowserFragment : BaseBrowserFragment() {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(mrl!!.toUri())
 
             item.setIcon(if (isFavorite)
-                R.drawable.ic_menu_bookmark_w
+                R.drawable.ic_menu_favorite
             else
-                R.drawable.ic_menu_bookmark_outline_w)
+                R.drawable.ic_menu_favorite_outline)
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
         }
     }

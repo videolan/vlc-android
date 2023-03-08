@@ -40,6 +40,7 @@ import org.videolan.moviepedia.databinding.MoviepediaActivityBinding
 import org.videolan.moviepedia.models.resolver.ResolverMedia
 import org.videolan.moviepedia.viewmodel.MediaScrapingModel
 import org.videolan.resources.MOVIEPEDIA_MEDIA
+import org.videolan.resources.util.parcelable
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
@@ -66,7 +67,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
         binding.nextResults.adapter = mediaScrapingResultAdapter
         binding.nextResults.layoutManager = GridLayoutManager(this, 2)
 
-        intent.getParcelableExtra<MediaWrapper>(MOVIEPEDIA_MEDIA)?.let {
+        intent.parcelable<MediaWrapper>(MOVIEPEDIA_MEDIA)?.let {
             media = it
         }
         if (!::media.isInitialized) {

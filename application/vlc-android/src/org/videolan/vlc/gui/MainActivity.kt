@@ -42,11 +42,8 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.extensions.ExtensionManagerService
-import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
-import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
 import org.videolan.vlc.gui.helpers.INavigator
@@ -67,7 +64,6 @@ import java.util.concurrent.TimeUnit
 private const val TAG = "VLC/MainActivity"
 
 class MainActivity : ContentActivity(),
-        ExtensionManagerService.ExtensionManagerActivity,
         INavigator by Navigator()
 {
     var refreshing: Boolean = false
@@ -95,7 +91,6 @@ class MainActivity : ContentActivity(),
         prepareActionBar()
         /* Reload the latest preferences */
         scanNeeded = savedInstanceState == null && settings.getBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, true)
-        if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = Medialibrary.getInstance()
 
 //        VLCBilling.getInstance(application).retrieveSkus()
@@ -142,7 +137,7 @@ class MainActivity : ContentActivity(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         val current = currentFragment
-        if (current !is ExtensionBrowser) supportFragmentManager.putFragment(outState, "current_fragment", current!!)
+        supportFragmentManager.putFragment(outState, "current_fragment", current!!)
         outState.putInt(EXTRA_TARGET, currentFragmentId)
         super.onSaveInstanceState(outState)
     }
@@ -164,9 +159,6 @@ class MainActivity : ContentActivity(),
         // If it's the directory view, a "backpressed" action shows a parent.
         val fragment = currentFragment
         if (fragment is BaseBrowserFragment && fragment.goBack()) {
-            return
-        } else if (fragment is ExtensionBrowser) {
-            fragment.goBack()
             return
         }
         if (AndroidUtil.isNougatOrLater && isInMultiWindowMode) {

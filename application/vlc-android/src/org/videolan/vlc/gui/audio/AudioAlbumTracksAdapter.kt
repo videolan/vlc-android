@@ -55,6 +55,7 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
             inflater = LayoutInflater.from(parent.context)
         }
         val binding = AudioAlbumTrackItemBinding.inflate(inflater, parent, false)
+        @Suppress("UNCHECKED_CAST")
         return TrackItemViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
     }
 

@@ -66,7 +66,7 @@ public:
     medialibrary::Query<medialibrary::IMedia> searchMedia(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IMedia> searchAudio(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IMedia> searchVideo(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
-    medialibrary::Query<medialibrary::IPlaylist> searchPlaylists(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
+    medialibrary::Query<medialibrary::IPlaylist> searchPlaylists(const std::string& query, medialibrary::PlaylistType type, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IAlbum> searchAlbums(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IGenre> searchGenre(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
     medialibrary::Query<medialibrary::IArtist> searchArtists(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
@@ -96,7 +96,7 @@ public:
     medialibrary::ArtistPtr artist(int64_t artistId);
     medialibrary::Query<medialibrary::IGenre> genres(const medialibrary::QueryParameters* params);
     medialibrary::GenrePtr genre(int64_t genreId);
-    medialibrary::Query<medialibrary::IPlaylist> playlists(const medialibrary::QueryParameters* params);
+    medialibrary::Query<medialibrary::IPlaylist> playlists(medialibrary::PlaylistType type, medialibrary::QueryParameters* params);
     medialibrary::PlaylistPtr playlist( int64_t playlistId );
     medialibrary::PlaylistPtr PlaylistCreate( const std::string &name );
     medialibrary::Query<medialibrary::IMedia> tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params = nullptr );
@@ -185,6 +185,26 @@ public:
 
     bool onUnhandledException( const char* /* context */, const char* /* errMsg */, bool /* clearSuggested */ );
     void onRescanStarted();
+
+    bool removeSubscription( int64_t );
+
+    medialibrary::ServicePtr service( medialibrary::IService::Type);
+    medialibrary::SubscriptionPtr subscription( int64_t id);
+    bool fitsInSubscriptionCache( const medialibrary::IMedia& m);
+    void cacheNewSubscriptionMedia();
+    bool setSubscriptionMaxCachedMedia( int nbMedia );
+    bool setSubscriptionMaxCacheSize( long size );
+    bool setGlobalSubscriptionMaxCacheSize( long size );
+    uint32_t getSubscriptionMaxCachedMedia();
+    uint64_t getSubscriptionMaxCacheSize();
+    uint64_t getGlobalSubscriptionMaxCacheSize();
+    bool refreshAllSubscriptions();
+    void onSubscriptionsAdded( std::vector<medialibrary::SubscriptionPtr> );
+    void onSubscriptionsModified( std::set<int64_t> );
+    void onSubscriptionsDeleted( std::set<int64_t> );
+    void onSubscriptionNewMedia( std::set<int64_t> );
+    void onSubscriptionCacheUpdated( int64_t subscriptionId );
+    void onCacheIdleChanged( bool idle );
 
 private:
     void jni_detach_thread(void *data);

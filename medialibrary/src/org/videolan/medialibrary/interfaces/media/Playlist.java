@@ -27,6 +27,19 @@ public abstract class Playlist extends MediaLibraryItem {
         mNbDurationUnknown = nbDurationUnknown;
     }
 
+    public enum Type {
+        /// Include all kind of playlist, regarding of the media types
+        All,
+        /// Include playlists containing at least one audio track
+        Audio,
+        /// Include playlists containing at least one video or one unknown track
+        Video,
+        /// Include playlists containing audio tracks only
+        AudioOnly,
+        /// Include playlists containing video tracks only
+        VideoOnly
+    }
+
     abstract public MediaWrapper[] getTracks(boolean includeMissing);
     abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing);
     abstract public int getRealTracksCount(boolean includeMissing);
@@ -43,6 +56,11 @@ public abstract class Playlist extends MediaLibraryItem {
     @Override
     public int getTracksCount() {
         return mTracksCount;
+    }
+
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
     }
 
     public long getDuration() {

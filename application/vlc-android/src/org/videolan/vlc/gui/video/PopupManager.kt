@@ -40,6 +40,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
+import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -264,7 +265,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     }
 
     private fun hideNotification() {
-        service.stopForeground(true)
+        service.stopForegroundCompat()
     }
 
     override fun onSurfacesCreated(vlcVout: IVLCVout) {

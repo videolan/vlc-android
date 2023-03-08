@@ -34,6 +34,7 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AnimationUtils
@@ -48,6 +49,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -161,7 +163,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             showHingeSnackIfNeeded()
         } else {
             //device is separated and half opened. We display the controls on the bottom half and the video on the top half
-            if (foldingFeature.state == FoldingFeature.State.HALF_OPENED) {
+            if (foldingFeature.state == FoldingFeature.State.HALF_OPENED &&
+                !(foldingFeature.occlusionType == FoldingFeature.OcclusionType.NONE && foldingFeature.orientation == FoldingFeature.Orientation.VERTICAL)) {
                 val videoLayoutLP = (player.videoLayout!!.layoutParams as ViewGroup.LayoutParams)
                 val halfScreenSize = foldingFeature.bounds.top
                 videoLayoutLP.height = halfScreenSize
@@ -340,7 +343,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Show the volume value with  bar
      * @param volume the volume value
      */
-    fun showVolumeBar(volume: Int, fromTouch: Boolean) {
+    fun showVolumeBar(volume: Int) {
         player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
         player.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
         playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
@@ -402,6 +405,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             initOverlay()
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
+                service.playlistManager.videoStatsOn.value == true -> VideoPlayerActivity.OVERLAY_INFINITE
                 player.isTalkbackIsEnabled() -> VideoPlayerActivity.OVERLAY_INFINITE
                 Settings.videoHudDelay == -1 -> VideoPlayerActivity.OVERLAY_INFINITE
                 isBookmarkShown() -> VideoPlayerActivity.OVERLAY_INFINITE
@@ -538,7 +542,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     player.delayDelegate.delayChanged(it, service)
                 }
                 service.playlistManager.videoStatsOn.observe(player) {
-                    if (it) showOverlay(true)
+                    if (it) showOverlay(true) else hideOverlay(false)
                     player.statsDelegate.container = hudBinding.statsContainer
                     player.statsDelegate.initPlotView(hudBinding)
                     if (it) player.statsDelegate.start() else player.statsDelegate.stop()
@@ -852,6 +856,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
             hudRightBinding.spuDelayQuickAction.visibility = if (show && player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.audioDelayQuickAction.visibility = if (show && player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.clock.visibility = if (Settings.showTvUi) View.VISIBLE else View.GONE
 
             hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
             hudRightBinding.playbackSpeedQuickAction.contentDescription = player.getString(R.string.playback_speed)+ ". " + player.service?.rate?.formatRateString()
@@ -921,6 +926,15 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.playlistNext.isEnabled = false
             hudBinding.playlistPrevious.isEnabled = false
             hudBinding.swipeToUnlock.setVisible()
+            //make sure the title and unlock views are not conflicting with the cutout / gestures
+            (playerUiContainer.layoutParams as? FrameLayout.LayoutParams)?.let {
+                it.topMargin =
+                    player.window.decorView.rootWindowInsets.displayCutout?.safeInsetTop ?: 0
+                it.bottomMargin =
+                    (player.window.decorView.rootWindowInsets.displayCutout?.safeInsetBottom
+                        ?: 0) + 24.dp
+            }
+
         }
         hideOverlay(true)
         player.lockBackButton = true
@@ -931,6 +945,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Remove player lock
      */
     fun unlockScreen() {
+        (playerUiContainer.layoutParams as? FrameLayout.LayoutParams)?.let {
+            it.topMargin = 0
+            it.bottomMargin = 0
+        }
         player.orientationMode.locked = orientationLockedBeforeLock
         player.requestedOrientation = player.getScreenOrientation(player.orientationMode)
         if (isHudBindingInitialized()) {

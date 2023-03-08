@@ -93,9 +93,9 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
     /*
      * Update layout dimensions and apply layout params to window manager
      */
-    fun setViewSize(width: Int, height: Int) {
-        var width = width
-        var height = height
+    fun setViewSize(requestedWidth: Int, requestedHeight: Int) {
+        var width = requestedWidth
+        var height = requestedHeight
         if (width > screenWidth) {
             height = height * screenWidth / width
             width = screenWidth

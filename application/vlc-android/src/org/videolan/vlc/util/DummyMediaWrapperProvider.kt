@@ -33,6 +33,6 @@ object DummyMediaWrapperProvider {
         return MLServiceLocator.getAbstractMediaWrapper(id, "dummy://Mrl", -1L, -1F, 18820L, MediaWrapper.TYPE_VIDEO,
                 "", "", "", "",
                 "", "", 416, 304, "", 0, -2,
-                0, 0, 1509466228L, 0L, true, 1970, true)
+                0, 0, 1509466228L, 0L, true, false, 1970, true)
     }
 }

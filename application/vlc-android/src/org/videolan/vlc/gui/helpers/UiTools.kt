@@ -31,6 +31,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaRouter
 import android.os.Build
@@ -116,7 +118,7 @@ object UiTools {
     private var DEFAULT_COVER_FOLDER_DRAWABLE_BIG: BitmapDrawable? = null
 
     private val sHandler = Handler(Looper.getMainLooper())
-    const val DELETE_DURATION = 3000
+    private const val DELETE_DURATION = 3000
 
     fun getDefaultVideoDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
@@ -406,7 +408,7 @@ object UiTools {
         v.findViewById<View>(R.id.about_vlc_card).setOnClickListener {
            var licenseText = ""
             activity.lifecycleScope.launchWhenStarted {
-                licenseText = AppContextProvider.appContext.assets.open("vlc_license.txt").bufferedReader().use {
+                licenseText = AppContextProvider.appResources.openRawResource(R.raw.vlc_license).bufferedReader().use {
                    it.readText()
                }
             }
@@ -434,7 +436,7 @@ object UiTools {
         val inputMethodManager = v.context.applicationContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         sHandler.post {
             if (show)
-                inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED)
+                inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
             else
                 inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
         }
@@ -471,6 +473,7 @@ object UiTools {
      * Creates a shortcut to the media on the launcher
      * @param mediaLibraryItem: the [MediaLibraryItem] to create a shortcut to
      */
+    @RequiresApi(Build.VERSION_CODES.M)
     suspend fun FragmentActivity.createShortcut(mediaLibraryItem: MediaLibraryItem) {
         if (!isStarted()) return
 
@@ -539,7 +542,40 @@ object UiTools {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    /**
+     * Set a blur effect on the whole [ImageView] using [RenderEffect]
+     * with a fallback on [RenderScript] if needed
+     *
+     * @param imageView the [ImageView] to blur
+     * @param bitmap the [Bitmap] to display
+     * @param radius the blur radius
+     * @param colorFilter the color filter to be used on the view depending on the theme
+     */
+    suspend fun blurView(imageView: ImageView, bitmap: Bitmap?, radius: Float, colorFilter: Int) {
+        imageView.setColorFilter(colorFilter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val blur = RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.CLAMP)
+            imageView.setRenderEffect(blur)
+            imageView.setImageBitmap(bitmap)
+        } else {
+            val blurred = withContext(Dispatchers.IO) {
+                blurBitmap(bitmap, radius)
+            }
+            withContext(Dispatchers.Main) {
+                imageView.setImageBitmap(blurred)
+            }
+        }
+    }
+
+    /**
+     * Blur a [Bitmap]. it uses a deprecated API and therefore should not be used
+     * except for a fallback for API < 31
+     *
+     * @param bitmap the [Bitmap] to blur
+     * @param radius the bur radius
+     * @return a blurred bitmap
+     */
+    @Suppress("DEPRECATION")
     @JvmOverloads
     fun blurBitmap(bitmap: Bitmap?, radius: Float = 15.0f): Bitmap? {
         if (bitmap == null || bitmap.config == null) return null
@@ -701,7 +737,7 @@ object UiTools {
         if (!AndroidUtil.isJellyBeanMR2OrLater) return
         val win = activity.window
         val winParams = win.attributes
-        winParams.rotationAnimation = if (AndroidUtil.isOOrLater) WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS else WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT
+        winParams.rotationAnimation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS else WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT
         win.attributes = winParams
     }
 
@@ -751,8 +787,8 @@ object UiTools {
  *
  * See @array/list_title_alignment_values
  *
- * @param alignMode Align mode as read from preferences
  * @param t         Reference to the textview
+ * @param activated is the ellipsize mode activated
  */
 @BindingAdapter("ellipsizeMode")
 fun setEllipsizeModeByPref(t: TextView, activated: Boolean) {
@@ -798,18 +834,6 @@ private fun launchMarquee(recyclerView: RecyclerView, layoutManager: LinearLayou
             (holder as? MarqueeViewHolder)?.titleView?.isSelected = true
         }
     }, 1500)
-}
-
-/**
- * sets the touch listener for a view
- *
- * @param view            the view
- * @param onTouchListener the listener
- */
-@BindingAdapter("touchListener")
-fun setTouchListener(view: View, onTouchListener: View.OnTouchListener?) {
-    if (onTouchListener != null)
-        view.setOnTouchListener(onTouchListener)
 }
 
 @BindingAdapter("selected")
@@ -912,6 +936,6 @@ suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper
     }
     if (ready) {
         mode.title = context.getString(R.string.selection_count, realCount)
-        mode.subtitle = "${ Tools.millisToString(length)}"
+        mode.subtitle = Tools.millisToString(length)
     }
 }

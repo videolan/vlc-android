@@ -48,7 +48,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 10)
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
-        showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
+        showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, !tvUI)
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         return prefs
@@ -70,6 +70,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
 }
 
 const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
+const val KEY_CURRENT_MAJOR_VERSION = "key_current_major_version"
 
 // Keys
 const val KEY_ARTISTS_SHOW_ALL = "artists_show_all"
@@ -112,6 +113,7 @@ const val ML_SCAN_OFF = 1
 
 const val PREF_TIPS_SHOWN = "video_player_tips_shown"
 const val PREF_WIDGETS_TIPS_SHOWN = "widgets_tips_shown"
+const val PREF_RESTORE_VIDEO_TIPS_SHOWN = "pref_restore_video_tips_shown"
 
 const val PREF_TV_UI = "tv_ui"
 const val FORCE_PLAY_ALL_VIDEO = "force_play_all_video"
@@ -183,6 +185,8 @@ const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
 const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
 const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 
+const val SLEEP_TIMER_WAIT = "sleep_timer_wait"
+
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
 
 //files
@@ -209,6 +213,7 @@ class DeviceInfo(context: Context) {
     val pipAllowed = hasPiP || hasTsp && Build.VERSION.SDK_INT < Build.VERSION_CODES.O
 }
 
+@Suppress("UNCHECKED_CAST")
 fun SharedPreferences.putSingle(key: String, value: Any) {
     when(value) {
         is Boolean -> edit { putBoolean(key, value) }

@@ -32,6 +32,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.firstLetterUppercase
+import org.videolan.vlc.R
 import java.util.*
 
 /**
@@ -99,7 +100,7 @@ object LocaleUtil {
      */
     private val vlcLocaleList by lazy {
 
-        val jsonData = AppContextProvider.appContext.assets.open("vlc_locales.json").bufferedReader().use {
+        val jsonData = AppContextProvider.appResources.openRawResource(R.raw.vlc_locales).bufferedReader().use {
             it.readText()
         }
 

@@ -21,10 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.RemoteException
+import android.os.*
 import android.text.TextUtils
 import android.util.Log
 import com.android.vending.billing.IInAppBillingService
@@ -522,11 +519,11 @@ class IabHelper(ctx: Context, base64PublicKey: String?) {
      */
     fun queryInventoryAsync(querySkuDetails: Boolean, moreSkus: List<String?>?,
                             listener: QueryInventoryFinishedListener?) {
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         checkNotDisposed()
         checkSetupDone("queryInventory")
         flagStartAsync("refresh inventory")
-        Thread(Runnable {
+        Thread {
             var result = IabResult(BILLING_RESPONSE_RESULT_OK, "Inventory refresh successful.")
             var inv: Inventory? = null
             try {
@@ -540,7 +537,7 @@ class IabHelper(ctx: Context, base64PublicKey: String?) {
             if (!mDisposed && listener != null) {
                 handler.post { listener.onQueryInventoryFinished(result_f, inv_f) }
             }
-        }).start()
+        }.start()
     }
 
     fun queryInventoryAsync(listener: QueryInventoryFinishedListener?) {
@@ -814,9 +811,9 @@ class IabHelper(ctx: Context, base64PublicKey: String?) {
     fun consumeAsyncInternal(purchases: List<Purchase>,
                              singleListener: ((purchase: Purchase?, result: IabResult?)-> Unit)?,
                              multiListener: OnConsumeMultiFinishedListener?) {
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         flagStartAsync("consume")
-        Thread(Runnable {
+        Thread {
             val results: MutableList<IabResult> = ArrayList()
             for (purchase in purchases) {
                 try {
@@ -833,7 +830,7 @@ class IabHelper(ctx: Context, base64PublicKey: String?) {
             if (!mDisposed && multiListener != null) {
                 handler.post { multiListener.onConsumeMultiFinished(purchases, results) }
             }
-        }).start()
+        }.start()
     }
 
     fun logDebug(msg: String?) {

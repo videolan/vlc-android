@@ -66,6 +66,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
+    var onlyFavs = settings.getBoolean("${sortKey}_only_favs", false)
 
     private val pagingConfig = Config(
             pageSize = MEDIALIBRARY_PAGE_SIZE,
@@ -123,6 +124,13 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                 putInt(sortKey, sort)
                 putBoolean("${sortKey}_desc", desc)
             }
+        }
+    }
+
+    fun showOnlyFavs(showOnlyFavs:Boolean) {
+        onlyFavs = showOnlyFavs
+        settings.edit {
+            putBoolean("${sortKey}_only_favs", onlyFavs)
         }
     }
 

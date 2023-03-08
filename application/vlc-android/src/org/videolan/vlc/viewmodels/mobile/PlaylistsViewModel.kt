@@ -23,15 +23,16 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
-class PlaylistsViewModel(context: Context) : MedialibraryViewModel(context) {
-    val displayModeKey: String = "display_mode_playlists"
-    val provider = PlaylistsProvider(context, this)
+class PlaylistsViewModel(context: Context, type: Playlist.Type) : MedialibraryViewModel(context) {
+    val displayModeKey: String = "display_mode_playlists_$type"
+    val provider = PlaylistsProvider(context, this, type)
     var providerInCard = true
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
@@ -40,12 +41,12 @@ class PlaylistsViewModel(context: Context) : MedialibraryViewModel(context) {
         providerInCard = settings.getBoolean(displayModeKey, providerInCard)
     }
 
-    class Factory(val context: Context): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val type: Playlist.Type): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return PlaylistsViewModel(context.applicationContext) as T
+            return PlaylistsViewModel(context.applicationContext, type) as T
         }
     }
 }
 
-internal fun PlaylistFragment.getViewModel() = ViewModelProvider(requireActivity(), PlaylistsViewModel.Factory(requireContext())).get(PlaylistsViewModel::class.java)
+internal fun PlaylistFragment.getViewModel(type: Playlist.Type) = ViewModelProvider(requireActivity(), PlaylistsViewModel.Factory(requireContext(), type)).get(PlaylistsViewModel::class.java)

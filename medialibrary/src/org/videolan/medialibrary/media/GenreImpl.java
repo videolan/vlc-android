@@ -13,8 +13,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 @SuppressWarnings("JniMissingFunction")
 public class GenreImpl extends Genre {
 
-    public GenreImpl(long id, String title, int nbTracks, int nbPresentTracks) {
-        super(id, title, nbTracks, nbPresentTracks);
+    public GenreImpl(long id, String title, int nbTracks, int nbPresentTracks, boolean isFavorite) {
+        super(id, title, nbTracks, nbPresentTracks, isFavorite);
     }
 
 
@@ -68,6 +68,15 @@ public class GenreImpl extends Genre {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        if (mId == 0L) return false;
+        final Medialibrary ml = Medialibrary.getInstance();
+        boolean ret = false;
+        if (ml.isInitiated())
+            ret = nativeSetFavorite(ml, mId, favorite);
+        return ret;
+    }
 
     private native Album[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing);
     private native Artist[] nativeGetArtists(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing);
@@ -82,6 +91,7 @@ public class GenreImpl extends Genre {
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native int nativeGetSearchAlbumCount(Medialibrary ml, long mId, String query);
+    private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 
     public GenreImpl(Parcel in) {
         super(in);

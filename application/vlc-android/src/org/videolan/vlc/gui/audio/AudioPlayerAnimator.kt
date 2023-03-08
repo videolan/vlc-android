@@ -57,6 +57,7 @@ import kotlin.math.min
 
 internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
+    private var inSearch = false
     override var foldingFeature: FoldingFeature? = null
         set(value) {
             field = value
@@ -213,7 +214,6 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     /**
      * Updates the player background with or without a blurred cover depending on the user setting
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
             val mw = audioPlayer.playlistModel.currentMediaWrapper ?: return
@@ -222,13 +222,12 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
             if (mw.artworkMrl.isNullOrEmpty()) setDefaultBackground()
             else {
                 val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else audioPlayer.activity?.getScreenWidth() ?: return
-                val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
-                if (blurredCover !== null) {
-                    val activity = audioPlayer.activity as? AudioPlayerContainerActivity ?: return
-                    binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
-                    binding.backgroundView.setImageBitmap(blurredCover)
-                    binding.backgroundView.visibility = View.VISIBLE
-                } else setDefaultBackground()
+                val activity = audioPlayer.activity as? AudioPlayerContainerActivity ?: return
+                val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width) }
+                if (cover == null) setDefaultBackground()
+                else {
+                    UiTools.blurView(binding.backgroundView, cover, 15F, UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                }
             }
         } else {
             currentCoverArt = null
@@ -242,6 +241,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     }
 
     override fun manageSearchVisibilities(filter: Boolean) {
+        inSearch = filter
         binding.playlistSearch.alpha = if (filter) 0f else 1f
         binding.playlistSwitch.alpha = if (filter) 0f else 1f
         binding.advFunction.alpha = if (filter) 0f else 1f
@@ -250,6 +250,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     }
 
     override fun onSlide(slideOffset: Float) {
+        if (inSearch) return
         binding.progressBar.alpha = 1 - slideOffset
         binding.progressBar.layoutParams.height = ((1 - slideOffset) * 4.dp).toInt()
         binding.progressBar.requestLayout()

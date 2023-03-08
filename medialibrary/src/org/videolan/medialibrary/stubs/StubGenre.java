@@ -15,7 +15,7 @@ public class StubGenre extends Genre {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubGenre(long id, String title, int nbTracks, int nbPresentTracks) { super(id, title, nbTracks, nbPresentTracks); }
+    public StubGenre(long id, String title, int nbTracks, int nbPresentTracks, boolean isFavorite) { super(id, title, nbTracks, nbPresentTracks, isFavorite); }
     public StubGenre(Parcel in) { super(in); }
 
     public Album[] getAlbums(int sort, boolean desc, boolean includeMissing) {
@@ -139,4 +139,7 @@ public class StubGenre extends Genre {
         }
         return count;
     }
+
+    @Override
+    public boolean setFavorite(boolean favorite) { return true; }
 }

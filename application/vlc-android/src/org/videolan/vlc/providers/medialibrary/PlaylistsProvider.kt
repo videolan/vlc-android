@@ -27,13 +27,13 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
-class PlaylistsProvider(context: Context, model: SortableModel) : MedialibraryProvider<Playlist>(context, model) {
+class PlaylistsProvider(context: Context, model: SortableModel, val type: Playlist.Type) : MedialibraryProvider<Playlist>(context, model) {
 
-    override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(sort, desc, Settings.includeMissing)
+    override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(type, sort, desc, Settings.includeMissing)
 
     override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {
-        val list = if (model.filterQuery == null) medialibrary.getPagedPlaylists(sort, desc, Settings.includeMissing, loadSize, startposition)
-        else medialibrary.searchPlaylist(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        val list = if (model.filterQuery == null) medialibrary.getPagedPlaylists(type, sort, desc, Settings.includeMissing, loadSize, startposition)
+        else medialibrary.searchPlaylist(model.filterQuery, type, sort, desc, Settings.includeMissing, loadSize, startposition)
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list
     }

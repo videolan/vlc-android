@@ -42,6 +42,7 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -752,9 +753,9 @@ abstract public class Medialibrary {
     abstract public int getGenresCount();
     abstract public int getGenresCount(String query);
     abstract public Genre getGenre(long genreId);
-    abstract public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing);
-    abstract public Playlist[] getPlaylists();
-    abstract public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Playlist[] getPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing);
+    abstract public Playlist[] getPlaylists(Playlist.Type type);
+    abstract public Playlist[] getPagedPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getPlaylistsCount();
     abstract public int getPlaylistsCount(String query);
     abstract public Playlist getPlaylist(long playlistId, boolean includeMissing);
@@ -795,9 +796,20 @@ abstract public class Medialibrary {
     abstract public Album[] searchAlbum(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Genre[] searchGenre(String query);
     abstract public Genre[] searchGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public Playlist[] searchPlaylist(String query, boolean includeMissing);
-    abstract public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Playlist[] searchPlaylist(String query, Playlist.Type type, boolean includeMissing);
+    abstract public Playlist[] searchPlaylist(String query, Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Folder[] searchFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(String query);
     abstract public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+
+    abstract public MlService getService(MlService.Type type);
+    abstract public boolean fitsInSubscriptionCache(MediaWrapper media);
+    abstract public void cacheNewSubscriptionMedia();
+    abstract public boolean setSubscriptionMaxCachedMedia(int nbMedia);
+    abstract public boolean setSubscriptionMaxCacheSize(long size);
+    abstract public boolean setGlobalSubscriptionMaxCacheSize(long size);
+    abstract public int getSubscriptionMaxCachedMedia();
+    abstract public long getSubscriptionMaxCacheSize();
+    abstract public long getGlobalSubscriptionMaxCacheSize();
+    abstract public boolean refreshAllSubscriptions();
 }

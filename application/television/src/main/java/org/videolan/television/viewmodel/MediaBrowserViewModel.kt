@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.vlc.providers.medialibrary.*
@@ -22,7 +23,7 @@ class MediaBrowserViewModel(context: Context, val category: Long, val parent : M
         CATEGORY_ARTISTS -> ArtistsProvider(context, this, false)
         CATEGORY_GENRES -> GenresProvider(context, this)
         CATEGORY_VIDEOS -> VideosProvider(null, null, context, this)
-        CATEGORY_PLAYLISTS -> PlaylistsProvider(context, this)
+        CATEGORY_PLAYLISTS -> PlaylistsProvider(context, this, Playlist.Type.All)
         else -> TracksProvider(null, context, this)
     }
     override val providers = arrayOf(provider)

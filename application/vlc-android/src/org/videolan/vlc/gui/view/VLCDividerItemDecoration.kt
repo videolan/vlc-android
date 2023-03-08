@@ -17,7 +17,7 @@ open class VLCDividerItemDecoration(private val context: Context, private val or
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        if (parent.layoutManager == null || dividerDrawable == null) {
+        if (parent.layoutManager == null) {
             return
         }
         if (orientation == VERTICAL) {

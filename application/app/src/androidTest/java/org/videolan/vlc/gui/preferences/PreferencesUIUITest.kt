@@ -11,7 +11,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
-import org.videolan.vlc.util.*
 
 class PreferencesUIUITest: BasePreferenceUITest() {
     @get:Rule
@@ -62,7 +61,7 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
     @Test
     fun checkLocaleSetting() {
-        val lp = LocaleUtils.getLocalesUsedInProject(context, BuildConfig.TRANSLATION_ARRAY, context.getString(R.string.device_default))
+        val lp = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, context.getString(R.string.device_default))
         val lpEntries = lp.localeEntries
         val lpValues = lp.localeEntryValues
 

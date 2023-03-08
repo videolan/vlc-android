@@ -44,6 +44,9 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
@@ -81,7 +84,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     var listColor: Int = -1
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
-    private var tabLayout: TabLayout? = null
+    var tabLayout: TabLayout? = null
     lateinit var viewPager: ViewPager
 
     var nbColumns = 2
@@ -206,7 +209,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         list.layoutParams = lp
     }
 
-    private fun setupTabLayout() {
+    open fun setupTabLayout() {
         if (tabLayout == null || !::viewPager.isInitialized) return
         tabLayout?.setupWithViewPager(viewPager)
         if (!::layoutOnPageChangeListener.isInitialized) layoutOnPageChangeListener = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
@@ -216,10 +219,9 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     private fun unSetTabLayout() {
-        if (tabLayout != null || !::viewPager.isInitialized) return
-        viewPager.removeOnPageChangeListener(layoutOnPageChangeListener)
+        if (::viewPager.isInitialized) viewPager.removeOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.removeOnTabSelectedListener(this)
-        viewPager.removeOnPageChangeListener(this)
+        if (::viewPager.isInitialized) viewPager.removeOnPageChangeListener(this)
     }
 
     override fun onStart() {
@@ -289,6 +291,8 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         menu.findItem(R.id.action_mode_audio_delete).isVisible = isMedia
         menu.findItem(R.id.action_mode_audio_share).isVisible = isMedia
         menu.findItem(R.id.action_mode_audio_share).isVisible = isMedia
+        menu.findItem(R.id.action_mode_favorite_add).isVisible = getCurrentAdapter()?.multiSelectHelper?.getSelection()?.none { it.isFavorite } ?: false
+        menu.findItem(R.id.action_mode_favorite_remove).isVisible = getCurrentAdapter()?.multiSelectHelper?.getSelection()?.none { !it.isFavorite } ?: false
         menu.findItem(R.id.action_mode_go_to_folder).isVisible = if (count == 1) getCurrentAdapter()?.multiSelectHelper?.let { selectHelper ->
             (selectHelper.getSelection().first() as? MediaWrapper)?.let {
                 it.uri.retrieveParent() != null
@@ -311,6 +315,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
         if (!list.isNullOrEmpty()) lifecycleScope.launch {
+            @Suppress("UNCHECKED_CAST")
             if (isStarted()) when (item.itemId) {
                 R.id.action_mode_audio_play -> MediaUtils.openList(activity, list.getTracks(), 0)
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
@@ -320,6 +325,8 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 R.id.action_mode_audio_set_song -> activity?.setRingtone(list.first() as MediaWrapper)
                 R.id.action_mode_audio_delete -> removeItems(list)
                 R.id.action_mode_go_to_folder -> (list.first() as? MediaWrapper)?.let { showParentFolder(it) }
+                R.id.action_mode_favorite_add -> lifecycleScope.launch { viewModel.changeFavorite(list, true) }
+                R.id.action_mode_favorite_remove -> lifecycleScope.launch { viewModel.changeFavorite(list, false) }
             }
         }
         return true
@@ -368,11 +375,23 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         val flags: Long = when (item.itemType) {
-            MediaLibraryItem.TYPE_MEDIA -> CTX_TRACK_FLAGS
-            MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> {
-                if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+            MediaLibraryItem.TYPE_MEDIA -> {
+                if ((item as? MediaWrapper)?.isFavorite == true) CTX_TRACK_FLAGS or CTX_FAV_REMOVE else CTX_TRACK_FLAGS or CTX_FAV_ADD
             }
-            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> {
+            MediaLibraryItem.TYPE_ARTIST -> {
+                val flags = if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+                if ((item as? Artist)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+
+            }
+            MediaLibraryItem.TYPE_ALBUM -> {
+                val flags = if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
+                if ((item as? Album)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+            }
+            MediaLibraryItem.TYPE_GENRE -> {
+                val flags = if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
+                if ((item as? Genre)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+            }
+            MediaLibraryItem.TYPE_PLAYLIST -> {
                 if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
             }
             else -> CTX_AUDIO_FLAGS
@@ -408,11 +427,15 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
             CTX_GO_TO_FOLDER -> showParentFolder(media as MediaWrapper)
             CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
+            CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
+                withContext(Dispatchers.IO) { media.isFavorite = option == CTX_FAV_ADD }
+            }
         }
     }
 
     protected val empty: Boolean
         get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty != false
 
+    @Suppress("UNCHECKED_CAST")
     override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }

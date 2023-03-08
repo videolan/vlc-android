@@ -29,6 +29,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +72,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     private var defaultCoverAudio: BitmapDrawable
     private var model: PlaylistModel? = null
     private var currentPlayingVisu: MiniVisualizer? = null
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     init {
         val ctx = when (player) {

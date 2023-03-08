@@ -58,13 +58,6 @@ fun MediaLibraryItem.getYear() = when (itemType) {
     else -> "-"
 }
 
-fun MediaLibraryItem.getTracksCount() = when (itemType) {
-    MediaLibraryItem.TYPE_ALBUM -> (this as Album).tracksCount
-    MediaLibraryItem.TYPE_PLAYLIST -> (this as Playlist).tracksCount
-    else -> 0
-}
-
-
 fun canReadStorage(context: Context): Boolean {
     return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()

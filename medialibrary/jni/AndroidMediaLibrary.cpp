@@ -128,7 +128,7 @@ AndroidMediaLibrary::removeEntryPoint(const std::string& entryPoint)
 std::vector<medialibrary::FolderPtr>
 AndroidMediaLibrary::entryPoints()
 {
-    return p_ml->entryPoints()->all();
+    return p_ml->roots(nullptr)->all();
 }
 
 void
@@ -319,9 +319,9 @@ AndroidMediaLibrary::searchFromFolder( int64_t folderId, const std::string& quer
 }
 
 medialibrary::Query<medialibrary::IPlaylist>
-AndroidMediaLibrary::searchPlaylists(const std::string& query, const medialibrary::QueryParameters* params)
+AndroidMediaLibrary::searchPlaylists(const std::string& query, medialibrary::PlaylistType type, const medialibrary::QueryParameters* params)
 {
-    return p_ml->searchPlaylists(query, params);
+    return p_ml->searchPlaylists(query, type, params);
 }
 
 medialibrary::Query<medialibrary::IAlbum>
@@ -437,9 +437,9 @@ AndroidMediaLibrary::genre(int64_t genreId)
 }
 
 medialibrary::Query<medialibrary::IPlaylist>
-AndroidMediaLibrary::playlists(const medialibrary::QueryParameters* params)
+AndroidMediaLibrary::playlists(medialibrary::PlaylistType type, medialibrary::QueryParameters* params)
 {
-    return p_ml->playlists(medialibrary::PlaylistType::All, params);
+    return p_ml->playlists(type, params);
 }
 
 medialibrary::PlaylistPtr
@@ -1158,5 +1158,105 @@ AndroidMediaLibrary::onFoldersModified( std::set<int64_t> )
 }
 
 void AndroidMediaLibrary::onFoldersDeleted( std::set<int64_t> )
+{
+}
+
+/*
+ * Subscriptions
+ */
+
+bool
+AndroidMediaLibrary::removeSubscription( int64_t id)
+{
+   return p_ml->removeSubscription( id );
+}
+
+medialibrary::ServicePtr
+AndroidMediaLibrary::service( medialibrary::IService::Type type)
+{
+    return p_ml->service( type );
+}
+
+medialibrary::SubscriptionPtr
+AndroidMediaLibrary::subscription( int64_t id)
+{
+    return p_ml->subscription( id );
+}
+
+bool
+AndroidMediaLibrary::fitsInSubscriptionCache( const medialibrary::IMedia& m)
+{
+    return p_ml->fitsInSubscriptionCache( m );
+}
+
+void
+AndroidMediaLibrary::cacheNewSubscriptionMedia()
+{
+    return p_ml->cacheNewSubscriptionMedia();
+}
+
+bool
+AndroidMediaLibrary::setSubscriptionMaxCachedMedia( int nbMedia )
+{
+    return p_ml->setSubscriptionMaxCachedMedia( nbMedia );
+}
+
+bool
+AndroidMediaLibrary::setSubscriptionMaxCacheSize( long size )
+{
+    return p_ml->setSubscriptionMaxCacheSize( size );
+}
+
+bool
+AndroidMediaLibrary::setGlobalSubscriptionMaxCacheSize( long size )
+{
+    return p_ml->setMaxCacheSize( size );
+}
+
+uint32_t
+AndroidMediaLibrary::getSubscriptionMaxCachedMedia()
+{
+    return p_ml->getSubscriptionMaxCachedMedia();
+}
+
+uint64_t
+AndroidMediaLibrary::getSubscriptionMaxCacheSize()
+{
+    return p_ml->getSubscriptionMaxCacheSize();
+}
+
+uint64_t
+AndroidMediaLibrary::getGlobalSubscriptionMaxCacheSize()
+{
+    return p_ml->getMaxCacheSize();
+}
+
+bool
+AndroidMediaLibrary::refreshAllSubscriptions()
+{
+    return p_ml->refreshAllSubscriptions();
+}
+
+void AndroidMediaLibrary::onSubscriptionsAdded( std::vector<medialibrary::SubscriptionPtr> )
+{
+}
+
+void AndroidMediaLibrary::onSubscriptionsModified( std::set<int64_t> )
+{
+}
+
+void AndroidMediaLibrary::onSubscriptionsDeleted( std::set<int64_t> )
+{
+}
+
+void AndroidMediaLibrary::onSubscriptionNewMedia( std::set<int64_t> )
+{
+}
+
+void AndroidMediaLibrary::onSubscriptionCacheUpdated( int64_t subscriptionId )
+{
+}
+
+void AndroidMediaLibrary::onCacheIdleChanged( bool idle )
 {
 }

@@ -20,6 +20,7 @@
 package org.videolan.vlc.gui
 
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
     val updateEvt : LiveData<Unit> = MutableLiveData()
     private lateinit var layoutInflater: LayoutInflater
     var multiSelectHelper: MultiSelectHelper<MediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     inner class ViewHolder(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding), MarqueeViewHolder {
 

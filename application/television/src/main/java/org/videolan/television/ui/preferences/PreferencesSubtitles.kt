@@ -113,7 +113,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
         val presetPreference = findPreference<ListPreference>("subtitles_presets")!!
         presetPreference.value = "-1"
-        presetPreference.setOnPreferenceChangeListener { preference, newValue ->
+        presetPreference.setOnPreferenceChangeListener { _, newValue ->
             resetAll()
             when (newValue) {
                 "1" -> subtitlesSize.value = "13"
@@ -141,7 +141,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         }
 
 
-        subtitlesColor.setOnShowDialogListener { title, currentColor ->
+        subtitlesColor.setOnShowDialogListener { _, currentColor ->
             val intent = Intent(activity, ColorPickerActivity::class.java)
             intent.putExtra(COLOR_PICKER_SELECTED_COLOR, currentColor)
             intent.putExtra(COLOR_PICKER_TITLE, getString(R.string.subtitles_color_title))
@@ -154,13 +154,13 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
             intent.putExtra(COLOR_PICKER_TITLE, getString(R.string.subtitles_background_color_title))
             startActivityForResult(intent, SUBTITLE_BACKGROUND_COLOR_RESULT)
         }
-        subtitlesShadowColor.setOnShowDialogListener { title, currentColor ->
+        subtitlesShadowColor.setOnShowDialogListener { _, currentColor ->
             val intent = Intent(activity, ColorPickerActivity::class.java)
             intent.putExtra(COLOR_PICKER_SELECTED_COLOR, currentColor)
             intent.putExtra(COLOR_PICKER_TITLE, getString(R.string.subtitles_shadow_title))
             startActivityForResult(intent, SUBTITLE_SHADOW_COLOR_RESULT)
         }
-        subtitlesOutlineColor.setOnShowDialogListener { title, currentColor ->
+        subtitlesOutlineColor.setOnShowDialogListener { _, currentColor ->
             val intent = Intent(activity, ColorPickerActivity::class.java)
             intent.putExtra(COLOR_PICKER_SELECTED_COLOR, currentColor)
             intent.putExtra(COLOR_PICKER_TITLE, getString(R.string.subtitles_outline_title))
@@ -255,7 +255,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(activity, BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
         preferredSubtitleTrack.entries = localePair.localeEntries
         preferredSubtitleTrack.entryValues = localePair.localeEntryValues
     }

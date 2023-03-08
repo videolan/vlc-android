@@ -29,6 +29,9 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
@@ -45,10 +48,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.viewmodels.MedialibraryViewModel
-import org.videolan.vlc.viewmodels.SortableModel
-import org.videolan.vlc.viewmodels.prepareOptionsMenu
-import org.videolan.vlc.viewmodels.sortMenuTitles
+import org.videolan.vlc.viewmodels.*
 
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
@@ -62,6 +62,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
     }
+
+    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
+
+    /**
+     * Triggered when a display setting is changed
+     *
+     * @param key the display settings key
+     * @param value the new display settings value
+     */
+    open fun onDisplaySettingChanged(key:String, value:Any) { }
 
     open lateinit var viewModel: T
         protected set
@@ -77,6 +87,18 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchButtonView = view.findViewById(R.id.searchButton)
+        viewLifecycleOwner.lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect {
+                        if (isResumed) {
+                            onDisplaySettingChanged(it.key, it.value)
+                            displaySettingsViewModel.consume()
+                        }
+                    }
+        }
+
     }
 
     protected open fun setBreadcrumb() {
@@ -225,6 +247,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             }
             if (actionMode != null)
                 lifecycleScope.launch(Dispatchers.Main) {
+                    @Suppress("UNCHECKED_CAST")
                     fillActionMode(requireActivity(), actionMode!!, it as MultiSelectHelper<MediaLibraryItem>)
                 }
         }

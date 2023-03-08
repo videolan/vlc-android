@@ -4,7 +4,7 @@
     <item
         android:orderInCategory="2"
         android:id="@+id/ml_menu_save"
-        android:icon="@drawable/ic_menu_bookmark_outline_w"
+        android:icon="@drawable/ic_menu_favorite_outline"
         android:visible="false"
         vlc:showAsAction="always" />
 </menu>

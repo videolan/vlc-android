@@ -29,6 +29,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -47,6 +48,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.isVLC4
 import org.videolan.vlc.util.LocaleUtil
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -73,17 +75,25 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
         findPreference<Preference>("enable_headset_detection")?.isVisible = false
         findPreference<Preference>("enable_play_on_headset_insertion")?.isVisible = false
+        findPreference<Preference>("ignore_headset_media_button_presses")?.isVisible = false
         findPreference<Preference>("headset_prefs_category")?.isVisible = false
+        val aoutPref = findPreference<ListPreference>("aout")
         findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = false
         findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
 
         val aout = HWDecoderUtil.getAudioOutputFromDevice()
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
-            findPreference<Preference>("aout")?.isVisible = false
+            aoutPref?.isVisible = false
         }
+
+        if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            aoutPref?.entryValues = activity.resources.getStringArray(R.array.aouts_complete_values)
+            aoutPref?.entries = activity.resources.getStringArray(R.array.aouts_complete)
+        }
+
         updatePassThroughSummary()
-        val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
+        val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         preferredAudioTrack = findPreference("audio_preferred_language")!!
         updatePreferredAudioTrack()
@@ -127,7 +137,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         when (key) {
             "aout" -> {
                 launch { restartLibVLC() }
-                val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
+                val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
@@ -161,7 +171,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(activity, BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
         preferredAudioTrack.entries = localePair.localeEntries
         preferredAudioTrack.entryValues = localePair.localeEntryValues
     }

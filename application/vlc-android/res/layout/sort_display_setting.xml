@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ *************************************************************************
+  ~  sort_display_setting.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sort_display_setting"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical">
+
+    <TextView
+            android:id="@+id/sort_title"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:textColor="@color/standard_selection_control_normal_primary"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+    <ImageView
+            android:id="@+id/sort_checked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_check_large"
+            app:tint="@color/standard_selection_invisible_primary" />
+</LinearLayout>

@@ -178,6 +178,10 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             }
         })
         setAnimator(view as ConstraintLayout)
+        binding.list.adapter = adapter as RecyclerView.Adapter<*>
+        if (!backgroundManager.isAttached) {
+            backgroundManager.attachToView(view)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -263,7 +267,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
     private fun setupDisplayIcon() {
         binding.imageButtonDisplay.setImageResource(if (inGrid) R.drawable.ic_fabtvmini_list else R.drawable.ic_fabtvmini_grid)
-        binding.displayButton.setImageResource(if (inGrid) R.drawable.ic_list else R.drawable.ic_grid)
+        binding.displayButton.setImageResource(if (inGrid) R.drawable.ic_tv_browser_list else R.drawable.ic_tv_browser_grid)
         binding.displayDescription.setText(if (inGrid) R.string.display_in_list else R.string.display_in_grid)
         binding.displayButton.contentDescription = getString(if (inGrid) R.string.display_in_list else R.string.display_in_grid)
         binding.imageButtonDisplay.contentDescription = getString(if (inGrid) R.string.display_in_list else R.string.display_in_grid)
@@ -291,14 +295,6 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         (gridLayoutManager as? GridLayoutManager)?.spanCount = viewModel.nbColumns
         if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}")
         binding.list.layoutManager = gridLayoutManager
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        binding.list.adapter = adapter as RecyclerView.Adapter<*>
-        if (!backgroundManager.isAttached) {
-            backgroundManager.attachToView(view)
-        }
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun refresh() = (viewModel as RefreshModel).refresh()
@@ -411,7 +407,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             true
         }
         KEYCODE_BACK -> {
-            if (binding.headerListContainer != null && binding.headerListContainer.visibility == View.VISIBLE) {
+            if (binding.headerListContainer.visibility == View.VISIBLE) {
                 hideHeaderSelectionScreen()
                 true
             } else false

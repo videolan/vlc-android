@@ -27,8 +27,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -49,18 +51,18 @@ class FilePickerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.file_picker_activity)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA), KEY_PICKER_TYPE to intent.getIntExtra(KEY_PICKER_TYPE, 0)) }, "picker")
+        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.parcelable<MediaWrapper>(KEY_MEDIA), KEY_PICKER_TYPE to intent.getIntExtra(KEY_PICKER_TYPE, 0)) }, "picker")
         ft.commit()
         window.attributes.gravity = Gravity.BOTTOM
-    }
-
-    override fun onBackPressed() {
-        val fpf = supportFragmentManager.findFragmentById(R.id.fragment_placeholder) as FilePickerFragment
-        when {
-            fpf.isRootDirectory -> finish()
-            supportFragmentManager.backStackEntryCount > 0 -> super.onBackPressed()
-            else -> fpf.browseUp()
-        }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val fpf = supportFragmentManager.findFragmentById(R.id.fragment_placeholder) as FilePickerFragment
+                when {
+                    fpf.isRootDirectory -> finish()
+                    else -> fpf.browseUp()
+                }
+            }
+        })
     }
 
     fun onCloseClick(@Suppress("UNUSED_PARAMETER") v:View) {

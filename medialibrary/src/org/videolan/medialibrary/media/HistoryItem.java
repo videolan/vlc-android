@@ -12,13 +12,12 @@ import java.util.Date;
 
 public class HistoryItem extends MediaLibraryItem {
     private String mrl, title;
-    private boolean favorite;
     private long insertionDate;
 
     public HistoryItem (String mrl, String title, long insertionDate, boolean favorite) {
         this.mrl = mrl;
         this.title = title;
-        this.favorite = favorite;
+        this.mFavorite = favorite;
         this.insertionDate = insertionDate;
     }
 
@@ -43,6 +42,11 @@ public class HistoryItem extends MediaLibraryItem {
         return TYPE_HISTORY;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
+
     public String getMrl() {
         return mrl;
     }
@@ -53,7 +57,7 @@ public class HistoryItem extends MediaLibraryItem {
     }
 
     public boolean isFavorite() {
-        return favorite;
+        return mFavorite;
     }
 
     public long getInsertionDate() {
@@ -68,7 +72,7 @@ public class HistoryItem extends MediaLibraryItem {
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeString(mrl);
-        parcel.writeByte((byte) (favorite ? 1 : 0));
+        parcel.writeByte((byte) (mFavorite ? 1 : 0));
         parcel.writeLong(insertionDate);
     }
 
@@ -88,7 +92,7 @@ public class HistoryItem extends MediaLibraryItem {
     private HistoryItem(Parcel in) {
         super(in);
         this.mrl = in.readString();
-        this.favorite = in.readByte() != 0;
+        this.mFavorite = in.readByte() != 0;
         this.insertionDate = in.readLong();
     }
 }

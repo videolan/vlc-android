@@ -49,7 +49,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         findPreference<Preference>(SCREEN_ORIENTATION)?.isVisible = false
-        findPreference<Preference>("extensions_category")?.isVisible = false
         findPreference<Preference>("casting_category")?.isVisible = false
         findPreference<Preference>(KEY_VIDEO_APP_SWITCH)?.isVisible = AndroidDevices.hasPiP
     }
@@ -118,7 +117,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        val activity = activity ?: return
         when (key) {
             PLAYBACK_HISTORY -> {
                 if (sharedPreferences!!.getBoolean(key, true)) {

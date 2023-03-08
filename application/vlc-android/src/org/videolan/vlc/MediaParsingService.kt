@@ -24,6 +24,7 @@ package org.videolan.vlc
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.ForegroundServiceStartNotAllowedException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -51,6 +52,7 @@ import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.resources.*
 import org.videolan.resources.util.dbExists
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -200,7 +202,13 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused, -1, -1)
-        startForeground(43, notification)
+        try {
+            startForeground(43, notification)
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
+            }
+        }
     }
 
     private fun discoverStorage(path: String) {
@@ -231,7 +239,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             medialibrary.addDevice("main-storage", path, false)
         } else if (AndroidDevices.externalStorageDirectories.isNotEmpty()) {
             for (storagePath in AndroidDevices.externalStorageDirectories) {
-                if (path.removeFileScheme().startsWith(storagePath)) {
+                if (path.startsWith(storagePath)) {
                     val uuid = FileUtils.getFileNameFromPath(path)
                     if (uuid.isEmpty()) {
                         exitCommand()
@@ -243,6 +251,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     }
                 }
             }
+        } else {
+            val uuid = FileUtils.getFileNameFromPath(path)
+            medialibrary.addDevice(uuid, path, false)
         }
     }
 
@@ -250,7 +261,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         if (reload > 0) return
         if (path.isNullOrEmpty()) medialibrary.reload()
         else medialibrary.reload(path)
-        val ctx = this
+        val ctx = this@MediaParsingService
         lifecycleScope.launch(Dispatchers.IO) {
             cleanupWatchNextList(ctx)
         }
@@ -373,7 +384,13 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             if (lastNotificationTime != -1L) {
                 try {
                     val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused, scheduled, done)
-                    startForeground(43, notification)
+                    try {
+                        startForeground(43, notification)
+                    } catch (e: Exception) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                            Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
+                        }
+                    }
                 } catch (ignored: IllegalArgumentException) {}
                 progressText
             } else ""
@@ -383,7 +400,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private fun hideNotification() {
         lastNotificationTime = -1L
-        stopForeground(true)
+        stopForegroundCompat()
         showProgress(-1F, "")
     }
 

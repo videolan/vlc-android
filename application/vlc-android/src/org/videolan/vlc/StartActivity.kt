@@ -59,6 +59,7 @@ import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
 import videolan.org.commontools.TV_CHANNEL_SCHEME
 
 private const val SEND_CRASH_RESULT = 0
+private const val PROPAGATE_RESULT = 1
 private const val TAG = "VLC/StartActivity"
 class StartActivity : FragmentActivity() {
 
@@ -72,8 +73,6 @@ class StartActivity : FragmentActivity() {
                     "vlc.shortcut.video" -> R.id.nav_video
                     "vlc.shortcut.audio" -> R.id.nav_audio
                     "vlc.shortcut.browser" -> R.id.nav_directories
-                    "vlc.shortcut.network" -> R.id.nav_network
-                    "vlc.shortcut.playlists" -> R.id.nav_playlists
                     "vlc.shortcut.resume" -> R.id.ml_menu_last_playlist
                     else -> 0
                 }
@@ -161,7 +160,7 @@ class StartActivity : FragmentActivity() {
                 startApplication(tv, firstRun, upgrade, 0, removeOldDevices)
             else if (path == "/$TV_CHANNEL_PATH_VIDEO") {
                 var id = java.lang.Long.valueOf(data.getQueryParameter(TV_CHANNEL_QUERY_VIDEO_ID)!!)
-                val ctx = this
+                val ctx = this@StartActivity
                 lifecycleScope.launch(Dispatchers.IO) {
                     id = checkWatchNextId(ctx, id)
                     withContext(Dispatchers.Main) {
@@ -205,6 +204,9 @@ class StartActivity : FragmentActivity() {
         if (requestCode == SEND_CRASH_RESULT) {
             resume()
         }
+        if (requestCode == PROPAGATE_RESULT) {
+            setResult(resultCode, data)
+        }
     }
 
     private fun startApplication(tv: Boolean, firstRun: Boolean, upgrade: Boolean, target: Int, removeDevices:Boolean = false) {
@@ -243,13 +245,16 @@ class StartActivity : FragmentActivity() {
             finish()
             return@launch
         }
+        // Remove FLAG_ACTIVITY_FORWARD_RESULT that is incompatible with startActivityForResult
+        intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT.inv() and intent.flags
         if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
             intent.type?.startsWith("video") == true -> try {
-                startActivity(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) })
+                startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT)
             } catch (ex: SecurityException) {
                 intent.data?.let { MediaUtils.openMediaNoUi(it) }
             }
             intent.data?.authority == getString(R.string.tv_provider_authority) -> MediaUtils.openMediaNoUiFromTvContent(this@StartActivity, intent.data)
+            intent.data?.authority == "skip_to" -> PlaybackService.instance?.playIndex(intent.getIntExtra("index", 0))
             else -> withContext(Dispatchers.IO) { FileUtils.getUri(intent.data)}?.let { MediaUtils.openMediaNoUi(it) }
         }
         finish()

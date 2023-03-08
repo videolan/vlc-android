@@ -48,6 +48,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -88,6 +89,8 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.parcelable
+import org.videolan.resources.util.parcelableList
 import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
@@ -132,6 +135,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var rootView: View? = null
     var videoUri: Uri? = null
     var savedMediaList: ArrayList<MediaWrapper>? = null
+    var savedMediaIndex: Int = 0
     private var askResume = true
 
     var playlistModel: PlaylistModel? = null
@@ -488,12 +492,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
-            savedMediaList = savedInstanceState.getParcelableArrayList(KEY_MEDIA_LIST)
+            savedMediaList = savedInstanceState.parcelableList(KEY_MEDIA_LIST)
+            savedMediaIndex = savedInstanceState.getInt(KEY_MEDIA_INDEX)
             val list = savedInstanceState.getBoolean(KEY_LIST, false)
             if (list) {
                 intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
             } else {
-                videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
+                videoUri = savedInstanceState.parcelable<Parcelable>(KEY_URI) as Uri?
             }
         }
 
@@ -517,6 +522,33 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         }
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (optionsDelegate?.isShowing() == true) {
+                    optionsDelegate?.hide()
+                } else if (resizeDelegate.isShowing()) {
+                    resizeDelegate.hideResizeOverlay()
+                } else if (lockBackButton) {
+                    lockBackButton = false
+                    handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
+                    Toast.makeText(applicationContext, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show()
+                } else if (isPlaylistVisible) {
+                    overlayDelegate.togglePlaylist()
+                } else if (isPlaybackSettingActive) {
+                    delayDelegate.endPlaybackSetting()
+                } else if (isShowing && service?.playlistManager?.videoStatsOn?.value == true) {
+                    //hides video stats if they are displayed
+                    service?.playlistManager?.videoStatsOn?.postValue(false)
+                } else if (overlayDelegate.isBookmarkShown()) {
+                    overlayDelegate.hideBookmarks()
+                } else if ((AndroidDevices.isAndroidTv || isTalkbackIsEnabled()) && isShowing && !isLocked) {
+                    overlayDelegate.hideOverlay(true)
+                } else {
+                    exitOK()
+                }
+            }
+        })
     }
 
     override fun onAttachedToWindow() {
@@ -608,7 +640,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         ?: return@run
             }
             var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
-                intent.extras?.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
+                intent.extras?.parcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
             } else intent.data
             if (uri == null || uri == videoUri) return
             if ("file" == uri.scheme && uri.path?.startsWith("/sdcard") == true) {
@@ -662,8 +694,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         val mediaList = service?.playlistManager?.getMediaList() ?: savedMediaList
+        val mediaIndex = service?.playlistManager?.currentIndex ?: 0
         if (mediaList != null) {
             outState.putParcelableArrayList(KEY_MEDIA_LIST, ArrayList(mediaList))
+            outState.putInt(KEY_MEDIA_INDEX, mediaIndex)
             savedMediaList = null
         }
         videoUri = null
@@ -711,6 +745,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
+        this.resources.configuration.orientation = newConfig.orientation
         super.onConfigurationChanged(newConfig)
 
         if (::touchDelegate.isInitialized) {
@@ -722,7 +757,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     newConfig.orientation)
             touchDelegate.screenConfig = sc
         }
-        this.resources.configuration.orientation = newConfig.orientation
         overlayDelegate.resetHudLayout()
         overlayDelegate.showControls(isShowing)
         statsDelegate.onConfigurationChanged()
@@ -998,32 +1032,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
         val result = !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
         return if (result) true else super.dispatchGenericMotionEvent(event)
-    }
-
-    override fun onBackPressed() {
-        if (optionsDelegate?.isShowing() == true) {
-            optionsDelegate?.hide()
-        } else if (resizeDelegate.isShowing()) {
-            resizeDelegate.hideResizeOverlay()
-        } else if (lockBackButton) {
-            lockBackButton = false
-            handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
-            Toast.makeText(applicationContext, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show()
-        } else if (isPlaylistVisible) {
-            overlayDelegate.togglePlaylist()
-        } else if (isPlaybackSettingActive) {
-            delayDelegate.endPlaybackSetting()
-        } else if (isShowing && service?.playlistManager?.videoStatsOn?.value == true) {
-            //hides video stats if they are displayed
-            service?.playlistManager?.videoStatsOn?.postValue(false)
-        } else if (overlayDelegate.isBookmarkShown()) {
-            overlayDelegate.hideBookmarks()
-        } else if ((AndroidDevices.isAndroidTv || isTalkbackIsEnabled()) && isShowing && !isLocked) {
-            overlayDelegate.hideOverlay(true)
-        } else {
-            exitOK()
-            super.onBackPressed()
-        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -1432,7 +1440,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                 }
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
-                                    if (!(tracks as Array<VlcTrack>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].getId())
+                                    @Suppress("UNCHECKED_CAST")
+                                    if ((tracks as Array<VlcTrack>).isNotEmpty()) service.setSpuTrack(tracks[tracks.size - 1].getId())
                                     addNextTrack = false
                                 } else if (spuTrack != "0" || currentSpuTrack != "-2") {
                                     service.setSpuTrack(spuTrack)
@@ -1495,7 +1504,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
                 for (i in 0..media.getAllTracks().size) {
                     val track = media.getAllTracks()[i]
-                    if (track != null) allTracks.add(track)
+                    allTracks.add(track)
                 }
                 currentTracks = Pair(media.uri.toString(), allTracks)
             }
@@ -1635,7 +1644,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    internal fun setAudioVolume(volume: Int, fromTouch: Boolean = false) {
+    internal fun setAudioVolume(volume: Int) {
         var vol = volume
         if (AndroidUtil.isNougatOrLater && (vol <= 0) xor isMute) {
             mute(!isMute)
@@ -1662,7 +1671,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 vol = (vol * 100 / audioMax.toFloat()).roundToInt()
                 service.setVolume(vol.toFloat().roundToInt())
             }
-            overlayDelegate.showVolumeBar(vol, fromTouch)
+            overlayDelegate.showVolumeBar(vol)
             volSave = service.volume
         }
     }
@@ -1934,7 +1943,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             if (extras != null) {
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
-                    videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
+                    videoUri = extras.parcelable(PLAY_EXTRA_ITEM_LOCATION)
                     intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
                 }
                 fromStart = fromStart or extras.getBoolean(PLAY_EXTRA_FROM_START, false)
@@ -2240,7 +2249,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service != null) {
             this.service = service
             if (savedMediaList != null && service.currentMediaWrapper == null) {
-                service.append(savedMediaList!!)
+                service.append(savedMediaList!!, savedMediaIndex)
                 savedMediaList = null
             }
             //We may not have the permission to access files
@@ -2296,6 +2305,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val KEY_TIME = "saved_time"
         private const val KEY_LIST = "saved_list"
         private const val KEY_MEDIA_LIST = "media_list"
+        private const val KEY_MEDIA_INDEX = "media_index"
         private const val KEY_URI = "saved_uri"
         const val OVERLAY_INFINITE = -1
         const val FADE_OUT = 1

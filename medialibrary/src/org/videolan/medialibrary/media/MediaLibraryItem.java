@@ -36,11 +36,13 @@ public abstract class MediaLibraryItem implements Parcelable {
     public abstract MediaWrapper[] getTracks();
     public abstract int getTracksCount();
     public abstract int getItemType();
+    public abstract boolean setFavorite(boolean favorite);
 
     protected long mId;
     protected String mTitle;
     protected String mDescription;
     private int mFlags;
+    protected boolean mFavorite;
 
     protected MediaLibraryItem() {}
 
@@ -89,6 +91,10 @@ public abstract class MediaLibraryItem implements Parcelable {
 
     public boolean hasStateFlags(int flags) {
         return (mFlags & flags) != 0;
+    }
+
+    public boolean isFavorite() {
+        return mFavorite;
     }
 
     public void toggleStateFlag(int flag) {

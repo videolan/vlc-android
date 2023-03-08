@@ -32,6 +32,7 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -166,6 +167,16 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
             WindowInsetsCompat.CONSUMED
         }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (slideDownAudioPlayer()) return
+                if (supportFragmentManager.backStackEntryCount == 0)
+                    finish()
+                else {
+                    supportFragmentManager.popBackStack()
+                }
+            }
+        })
     }
 
     /**
@@ -223,7 +234,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         findViewById<View>(R.id.audio_player_stub).visibility = View.VISIBLE
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
-        val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
+        val bottomBehavior = bottomBar?.let {
+            @Suppress("UNCHECKED_CAST")
+            BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View>
+        }
         if (bottomIsHiddden) bottomBehavior?.setCollapsed() else hideStatusIfNeeded(playerBehavior.state)
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
@@ -381,11 +395,6 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             applyMarginToProgressBar(0)
         setContentBottomPadding()
         super.onResume()
-    }
-
-    override fun onBackPressed() {
-        if (slideDownAudioPlayer()) return
-        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

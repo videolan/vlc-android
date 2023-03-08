@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
@@ -31,8 +32,14 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    /*
+     * Disable Swipe Refresh while scrolling horizontally
+     */
+    val swipeFilter = View.OnTouchListener { _, event ->
+        swipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
+        false
+    }
     open val hasTabs = false
-
     private var refreshJob : Job? = null
         set(value) {
             field?.cancel()
@@ -44,6 +51,8 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
 
     val menu: Menu?
         get() = (activity as? AudioPlayerContainerActivity)?.menu
+
+    open val isMainNavigationPoint = true
 
     abstract fun getTitle(): String
     open fun onFabPlayClick(view: View) {}
@@ -63,9 +72,13 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
             it.setColorSchemeColors(color)
             it.setProgressBackgroundColorSchemeColor(bColor)
         }
-        val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
-        ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
+        if (isMainNavigationPoint) manageFabNeverShow()
         if (hasFAB()) updateFabPlayView()
+    }
+
+    fun manageFabNeverShow() {
+        val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
+        ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB() && requireActivity() is MainActivity
     }
 
     override fun onStart() {
@@ -81,7 +94,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         val fabLarge = requireActivity().findViewById<FloatingActionButton>(R.id.fab_large)
         fab.setGone()
         fabLarge.setGone()
-        fabPlay = if (requireActivity().isTablet()) fabLarge else fab
+        fabPlay = if (requireActivity().isTablet() && requireActivity() is MainActivity) fabLarge else fab
         visibility?.let { fabPlay?.visibility = it }
     }
 
@@ -97,6 +110,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun updateActionBar() {
+        if (parentFragment != null) return
         val activity = activity as? AppCompatActivity ?: return
         activity.supportActionBar?.let {
             if (requireActivity() !is ContentActivity || (requireActivity() as ContentActivity).displayTitle) requireActivity().title = getTitle()

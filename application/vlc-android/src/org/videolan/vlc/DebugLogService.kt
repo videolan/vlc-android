@@ -36,12 +36,14 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
+import org.videolan.vlc.util.Permissions
 import java.io.*
 import java.util.*
 
@@ -155,7 +157,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         logcat!!.stop()
         logcat = null
         sendMessage(MSG_STOPPED, null)
-        stopForeground(true)
+        stopForegroundCompat()
         stopSelf()
     }
 
@@ -187,6 +189,16 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
                 bw.write("libvlc revision: ${getString(R.string.build_libvlc_revision)}\r\n")
                 bw.write("vlc revision: ${getString(R.string.build_vlc_revision)}\r\n")
                 bw.write("medialibrary: ${BuildConfig.ML_VERSION}\r\n")
+                bw.write("Android version: ${Build.VERSION.SDK_INT}\r\n")
+                bw.write("Device Model: ${Build.MANUFACTURER} - ${Build.MODEL}\r\n")
+                bw.write("____________________________\r\n")
+                bw.write("Permissions\r\n")
+                bw.write("____________________________\r\n")
+                bw.write("Can read: ${Permissions.canReadStorage(this)}\r\n")
+                bw.write("Can write: ${Permissions.canWriteStorage(this)}\r\n")
+                bw.write("Storage ALL access: ${Permissions.hasAllAccess(this)}\r\n")
+                bw.write("Notifications: ${Permissions.canSendNotifications(this)}\r\n")
+                bw.write("PiP Allowed: ${Permissions.isPiPAllowed(this)}\r\n")
                 bw.write("____________________________\r\n")
                 try {
                     bw.write("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(this)}\r\n")

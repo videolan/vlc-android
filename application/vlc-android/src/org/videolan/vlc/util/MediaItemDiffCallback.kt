@@ -17,7 +17,7 @@ class MediaItemDiffCallback<T : MediaLibraryItem> : DiffUtilAdapter.DiffCallback
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
-        return oldItem === newItem || oldItem == null == (newItem == null) && oldItem.equals(newItem)
+        return oldItem === newItem && oldItem.equals(newItem)
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

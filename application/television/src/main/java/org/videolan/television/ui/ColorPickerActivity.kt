@@ -236,7 +236,7 @@ class ColorPickerActivity : AppCompatActivity() {
 
             val selected = if (adapterPosition in colors.indices) selectedIndex == adapterPosition else adapterPosition - colors.size == selectedVariantIndex
             holder.binding.colorPicker.currentlySelected = selected
-            holder.binding.colorPicker.setOnFocusChangeListener { v, hasFocus ->
+            holder.binding.colorPicker.setOnFocusChangeListener { _, hasFocus ->
                 if (!waitingForFocusRestore && hasFocus) currentFocusPosition = adapterPosition
             }
             if (adapterPosition == currentFocusPosition) {

@@ -1,0 +1,42 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_fabtvmini_favorite.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="40dp"
+        android:height="40dp"
+        android:viewportWidth="40"
+        android:viewportHeight="40">
+    <path
+            android:pathData="M20,20m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"
+            android:strokeLineJoin="round"
+            android:strokeWidth="12.5984"
+            android:fillColor="@color/standard_selection_orange500_orange700"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:strokeLineCap="butt" />
+    <path
+            android:pathData="m21.109,26.826c-0.625,0.567 -1.586,0.567 -2.21,-0.008l-0.09,-0.082c-4.314,-3.903 -7.132,-6.458 -7.025,-9.646 0.049,-1.397 0.764,-2.736 1.923,-3.525 2.169,-1.479 4.848,-0.789 6.294,0.904 1.446,-1.693 4.125,-2.391 6.294,-0.904 1.158,0.789 1.873,2.128 1.923,3.525 0.115,3.188 -2.711,5.743 -7.025,9.663z"
+            android:strokeWidth="2"
+            android:fillColor="#ffffff" />
+</vector>

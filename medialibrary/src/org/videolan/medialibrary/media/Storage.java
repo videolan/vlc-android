@@ -52,6 +52,11 @@ public class Storage extends MediaLibraryItem {
         return description;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
+
     public Uri getUri() {
         return uri;
     }

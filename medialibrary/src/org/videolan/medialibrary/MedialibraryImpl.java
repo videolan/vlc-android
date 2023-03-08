@@ -25,18 +25,17 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
+import androidx.annotation.*;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.libvlc.util.*;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MlService;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -362,18 +361,18 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @WorkerThread
-    public Playlist[] getPlaylists() {
-        return getPlaylists(Medialibrary.SORT_DEFAULT, false, true);
+    public Playlist[] getPlaylists(Playlist.Type type) {
+        return getPlaylists(type, Medialibrary.SORT_DEFAULT, false, true);
     }
 
     @WorkerThread
-    public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing) {
-        return mIsInitiated ? nativeGetPlaylists(sort, desc, includeMissing) : new Playlist[0];
+    public Playlist[] getPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing) {
+        return mIsInitiated ? nativeGetPlaylists(type.ordinal(), sort, desc, includeMissing) : new Playlist[0];
     }
 
     @WorkerThread
-    public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetPagedPlaylists(sort, desc, includeMissing, nbItems, offset) : new Playlist[0];
+    public Playlist[] getPagedPlaylists(Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetPagedPlaylists(type.ordinal(), sort, desc, includeMissing, nbItems, offset) : new Playlist[0];
     }
 
     public int getPlaylistsCount() {
@@ -578,12 +577,12 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGenre(query, sort, desc, includeMissing, nbItems, offset) : null;
     }
 
-    public Playlist[] searchPlaylist(String query, boolean includeMissing) {
-        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPlaylist(query, includeMissing) : null;
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, boolean includeMissing) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPlaylist(query, type.ordinal(), includeMissing) : null;
     }
 
-    public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedPlaylist(query, sort, desc, includeMissing, nbItems, offset) : null;
+    public Playlist[] searchPlaylist(String query, Playlist.Type type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedPlaylist(query, type.ordinal(), sort, desc, includeMissing, nbItems, offset) : null;
     }
 
     @Override
@@ -599,6 +598,55 @@ public class MedialibraryImpl extends Medialibrary {
     @Override
     public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGroups(query, sort, desc, includeMissing, nbItems, offset) : new VideoGroup[0];
+    }
+
+    public MlService getService(MlService.Type type) {
+        return mIsInitiated ? nativeGetService(type.value) : null;
+    }
+
+    @Override
+    public boolean fitsInSubscriptionCache(MediaWrapper media) {
+        return mIsInitiated && nativeFitsInSubscriptionCache(this, media.getId());
+    }
+
+    @Override
+    public void cacheNewSubscriptionMedia() {
+        if (mIsInitiated) nativeCacheNewSubscriptionMedia(this);
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCachedMedia(int nbMedia) {
+        return mIsInitiated && nativeSetSubscriptionMaxCacheMedia(this, nbMedia);
+    }
+
+    @Override
+    public boolean setSubscriptionMaxCacheSize(long size) {
+        return mIsInitiated && nativeSetSubscriptionMaxCacheSize(this, size);
+    }
+
+    @Override
+    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
+        return mIsInitiated && nativeSetGlobalSubscriptionMaxCacheSize(this, size);
+    }
+
+    @Override
+    public int getSubscriptionMaxCachedMedia() {
+        return mIsInitiated ? nativeGetSubscriptionMaxCacheMedia(this) : -1;
+    }
+
+    @Override
+    public long getSubscriptionMaxCacheSize() {
+        return mIsInitiated ? nativeGetSubscriptionMaxCacheSize(this) : -1L;
+    }
+
+    @Override
+    public long getGlobalSubscriptionMaxCacheSize() {
+        return mIsInitiated ? nativeGetGlobalSubscriptionMaxCacheSize(this) : -1L;
+    }
+
+    @Override
+    public boolean refreshAllSubscriptions() {
+        return mIsInitiated && nativeRefreshAllSubscriptions(this);
     }
 
     // Native methods
@@ -663,8 +711,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native Genre[] nativeGetPagedGenres(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetGenresCount();
     private native Genre nativeGetGenre(long genreId);
-    private native Playlist[] nativeGetPlaylists(int sort, boolean desc, boolean includeMissing);
-    private native Playlist[] nativeGetPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    private native Playlist[] nativeGetPlaylists(int type, int sort, boolean desc, boolean includeMissing);
+    private native Playlist[] nativeGetPagedPlaylists(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetPlaylistsCount();
     private native Playlist nativeGetPlaylist(long playlistId, boolean includeMissing);
     private native Playlist nativePlaylistCreate(String name, boolean includeMissing);
@@ -697,11 +745,22 @@ public class MedialibraryImpl extends Medialibrary {
     private native Genre[] nativeSearchGenre(String query);
     private native Genre[] nativeSearchPagedGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetGenreSearchCount(String query);
-    private native Playlist[] nativeSearchPlaylist(String query, boolean includeMissing);
-    private native Playlist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    private native Playlist[] nativeSearchPlaylist(String query, int type, boolean includeMissing);
+    private native Playlist[] nativeSearchPagedPlaylist(String query, int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetPlaylistSearchCount(String query);
     private native Folder[] nativeSearchPagedFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetSearchFoldersCount(String query);
     private native VideoGroup[] nativeSearchPagedGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native void nativeRequestThumbnail(long mediaId);
+    private native boolean nativeIsServiceSupported(int type);
+    private native MlService nativeGetService(int type);
+    private native boolean nativeFitsInSubscriptionCache(Medialibrary ml, long mediaId);
+    private native void nativeCacheNewSubscriptionMedia(Medialibrary ml);
+    private native boolean nativeSetSubscriptionMaxCacheMedia(Medialibrary ml, int nbMedia);
+    private native boolean nativeSetSubscriptionMaxCacheSize(Medialibrary ml, long size);
+    private native boolean nativeSetGlobalSubscriptionMaxCacheSize(Medialibrary ml, long size);
+    private native int nativeGetSubscriptionMaxCacheMedia(Medialibrary ml);
+    private native long nativeGetSubscriptionMaxCacheSize(Medialibrary ml);
+    private native long nativeGetGlobalSubscriptionMaxCacheSize(Medialibrary ml);
+    private native boolean nativeRefreshAllSubscriptions(Medialibrary ml);
 }

@@ -37,6 +37,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
@@ -55,7 +56,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        requireActivity().intent?.getParcelableExtra<MediaWrapper>(KEY_MEDIA)?.let { media ->
+        requireActivity().intent?.parcelable<MediaWrapper>(KEY_MEDIA)?.let { media ->
             if (media.uri == null || media.uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
                 activity?.intent = null
             }

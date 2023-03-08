@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
-    kotlinOptions.jvmTarget = "1.8"
     packagingOptions {
         jniLibs {
             pickFirsts += ['**/*.so']
@@ -33,6 +33,10 @@ android {
             matchingFallbacks = ['debug']
         }
 
+    }
+
+    sourceSets.main {
+        java.srcDirs = rootProject.ext.vlcMajorVersion == 4 ? ['src', 'vlc4/src'] : ['src', 'vlc3/src']
     }
 
     sourceSets.debug {

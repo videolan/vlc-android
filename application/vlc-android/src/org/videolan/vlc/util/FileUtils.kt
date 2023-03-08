@@ -194,7 +194,7 @@ object FileUtils {
         if (src.isDirectory) {
             val filesList = src.listFiles()
             dst.mkdirs()
-            for (file in filesList)
+            for (file in filesList ?: arrayOf())
                 ret = ret and copyFile(file, File(dst, file.name))
         } else if (src.isFile) {
             var inputStream: InputStream? = null
@@ -242,7 +242,7 @@ object FileUtils {
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (file.isDirectory) {
             deleted = true
-            for (child in file.listFiles()) deleted = deleted and deleteFile(child)
+            for (child in file.listFiles() ?: arrayOf()) deleted = deleted and deleteFile(child)
             if (deleted) deleted = deleted and file.delete()
         } else {
             val cr = AppContextProvider.appContext.contentResolver
@@ -274,9 +274,9 @@ object FileUtils {
         runIO(Runnable {
             if (!fileOrDirectory.exists() || !fileOrDirectory.canWrite())
                 return@Runnable
-            var success = true
+            val success: Boolean
             if (fileOrDirectory.isDirectory) {
-                for (child in fileOrDirectory.listFiles())
+                for (child in fileOrDirectory.listFiles() ?: arrayOf())
                     asyncRecursiveDelete(child, null)
                 success = fileOrDirectory.delete()
             } else {
@@ -339,7 +339,7 @@ object FileUtils {
     fun getUri(data: Uri?): Uri? {
         var uri = data
         val ctx = AppContextProvider.appContext
-        if (data != null && ctx != null && data.scheme == "content") {
+        if (data != null && data.scheme == "content") {
             // Mail-based apps - download the stream to a temporary file and play it
             if ("com.fsck.k9.attachmentprovider" == data.host || "gmail-ls" == data.host) {
                 var inputStream: InputStream? = null
@@ -352,7 +352,10 @@ object FileUtils {
                         val filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)).replace("/", "")
                         if (BuildConfig.DEBUG) Log.i(TAG, "Getting file $filename from content:// URI")
                         inputStream = ctx.contentResolver.openInputStream(data)
-                        if (inputStream == null) return data
+                        if (inputStream == null) {
+                            Log.i("FileUtils", "Expanding uri: $data to $data")
+                            return data
+                        }
                         os = FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
                         val buffer = ByteArray(1024)
                         var bytesRead = inputStream.read(buffer)
@@ -363,7 +366,7 @@ object FileUtils {
                         uri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Couldn't download file from mail URI")
+                    Log.e(TAG, "Couldn't download file from mail URI: $data")
                     return null
                 } finally {
                     CloseableUtils.close(inputStream)
@@ -380,7 +383,10 @@ object FileUtils {
                 val inputPFD: ParcelFileDescriptor?
                 try {
                     inputPFD = ctx.contentResolver.openFileDescriptor(data, "r")
-                    if (inputPFD == null) return data
+                    if (inputPFD == null) {
+                        Log.i("FileUtils", "Expanding uri: $data to $data")
+                        return data
+                    }
                     uri = AndroidUtil.LocationToUri("fd://" + inputPFD.fd)
                     //                    Cursor returnCursor =
                     //                            getContentResolver().query(data, null, null, null, null);
@@ -412,6 +418,7 @@ object FileUtils {
                 }
             }// Media or MMS URI
         }
+        Log.i("FileUtils", "Expanding uri: $data to $uri")
         return uri
     }
 
@@ -483,7 +490,7 @@ object FileUtils {
     const val BUFFER = 2048
     fun zip(files: Array<String>, zipFileName: String):Boolean {
         return try {
-            var origin: BufferedInputStream? = null
+            var origin: BufferedInputStream?
             val dest = FileOutputStream(zipFileName)
             val out = ZipOutputStream(BufferedOutputStream(
                     dest))

@@ -43,6 +43,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is Artist)
+        onlyFavs = Settings.getInstance(context).getBoolean("${sortKey}_only_favs", false)
         if (sort == Medialibrary.SORT_DEFAULT) sort = when (parent) {
             is Artist -> Medialibrary.SORT_ALBUM
             is Album -> Medialibrary.TrackId

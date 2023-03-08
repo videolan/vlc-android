@@ -26,10 +26,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.view.*
 import android.widget.SeekBar
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +42,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.util.parcelableList
 import org.videolan.television.R
 import org.videolan.television.databinding.TvAudioPlayerBinding
 import org.videolan.television.ui.browser.BaseTvActivity
@@ -64,7 +67,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private var lastMove: Long = 0
     private var shuffling = false
     private var currentCoverArt: String? = null
@@ -105,7 +108,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         if (intent.hasExtra(MEDIA_PLAYLIST))
             intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it, position) }
         else
-            intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
+            intent.parcelableList<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
         binding.playbackSpeedQuickAction.setOnClickListener {
@@ -127,6 +130,19 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             true
         }
         bookmarkModel = BookmarkModel.get(this)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (this@AudioPlayerActivity::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
+                    optionsDelegate.hide()
+                    return
+                }
+                if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
+                    bookmarkListDelegate.hide()
+                    return
+                }
+                finish()
+            }
+        })
     }
 
     private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
@@ -153,18 +169,6 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             binding.sleepQuickAction.setVisible()
             binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
         }
-    }
-
-    override fun onBackPressed() {
-        if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
-            optionsDelegate.hide()
-            return
-        }
-        if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
-            bookmarkListDelegate.hide()
-            return
-        }
-        super.onBackPressed()
     }
 
     override fun refresh() {}
@@ -204,15 +208,13 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     private fun updateBackground() = lifecycleScope.launchWhenStarted {
         val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
         val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
-        val blurredCover = if (cover != null) withContext(Dispatchers.Default) { UiTools.blurBitmap(cover) } else null
         if (cover == null) {
             binding.albumCover.setImageResource(R.drawable.ic_no_artwork_big)
             binding.background.clearColorFilter()
             binding.background.setImageResource(0)
         } else {
+            UiTools.blurView(binding.background, cover, 15F, UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
             binding.albumCover.setImageBitmap(cover)
-            binding.background.setColorFilter(UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
-            binding.background.setImageBitmap(blurredCover)
         }
     }
 

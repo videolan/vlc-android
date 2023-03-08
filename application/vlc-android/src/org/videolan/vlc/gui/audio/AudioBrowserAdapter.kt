@@ -28,6 +28,7 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -42,6 +43,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -89,7 +91,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     private var focusNext = -1
     private var focusListener: FocusListener? = null
     lateinit var inflater: LayoutInflater
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
     var stopReorder = false
 
     protected fun inflaterInitialized() = ::inflater.isInitialized
@@ -108,6 +110,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
         defaultCoverCard = getAudioIconDrawable(ctx, type, true)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         if (!::inflater.isInitialized) {
             inflater = LayoutInflater.from(parent.context)
@@ -147,6 +150,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             holder.binding.setVariable(BR.isSD, item.uri.isSD())
             holder.binding.setVariable(BR.isPresent, item.isPresent)
         } else holder.binding.setVariable(BR.isPresent, true)
+        item?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
         holder.binding.invalidateAll()
         holder.binding.executePendingBindings()
@@ -173,6 +177,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                     UPDATE_REORDER -> {
                        holder.binding.invalidateAll()
                     }
+                    UPDATE_FAVORITE_STATE -> getItem(position)?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
                 }
             }
         }
@@ -362,6 +367,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
         private const val TAG = "VLC/AudioBrowserAdapter"
         private const val UPDATE_PAYLOAD = 1
+        private const val UPDATE_FAVORITE_STATE = 2
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations
          */
@@ -382,8 +388,11 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                 return false
             }
 
-            override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any? {
+            override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any {
                 preventNextAnim = false
+                when {
+                    oldItem.isFavorite != newItem.isFavorite  -> return UPDATE_FAVORITE_STATE
+                }
                 return UPDATE_PAYLOAD
             }
         }

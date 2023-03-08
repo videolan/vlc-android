@@ -5,6 +5,7 @@
 
     <uses-sdk tools:overrideLibrary="com.jraska.livedata.ktx, com.jraska.livedata, tools.fastlane.screengrab, android_libs.ub_uiautomator"/>
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
         android:maxSdkVersion="18"/> <!-- android:maxSdkVersion="15" -->
@@ -1036,14 +1037,17 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".extensions.ExtensionManagerService"/>
-        <service android:name=".PlaybackService"
-            android:exported="true">
+        <service
+                android:name=".PlaybackService"
+                android:exported="true"
+                android:foregroundServiceType="mediaPlayback">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
         </service>
-        <service android:name=".MediaParsingService"/>
+        <service
+                android:name=".MediaParsingService"
+                android:foregroundServiceType="mediaProjection" />
 
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
@@ -1096,7 +1100,7 @@
         </receiver>
 
         <receiver android:name="androidx.media.session.MediaButtonReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON"/>
             </intent-filter>

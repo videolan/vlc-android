@@ -39,6 +39,14 @@
             android:title="@string/resume_playback_short_title"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
+
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/ml_menu_display_options"
+            android:icon="@drawable/ic_menu_display_settings"
+            android:title="@string/display_settings"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:visible="false"/>
     <item
             android:orderInCategory="3"
             android:id="@+id/ml_menu_display_list"
@@ -121,29 +129,6 @@
         </menu>
     </item>
     <item
-            android:orderInCategory="2"
-            android:title="@string/video_min_group_length_title"
-            android:id="@+id/ml_menu_video_group"
-            vlc:showAsAction="never"
-            android:visible="false">
-        <menu>
-            <item
-                    android:orderInCategory="2"
-                    android:id="@+id/video_min_group_length_name"
-                    android:title="@string/video_min_group_length_name" />
-            <item
-                    android:orderInCategory="2"
-                    android:id="@+id/video_min_group_length_folder"
-                    android:title="@string/video_min_group_length_folder" />
-            <item
-                    android:orderInCategory="2"
-                    android:id="@+id/video_min_group_length_disable"
-                    android:title="@string/video_min_group_length_disable" />
-
-
-        </menu>
-    </item>
-    <item
             android:orderInCategory="3"
             android:title="@string/add_to_playlist"
             android:id="@+id/ml_menu_add_playlist"
@@ -193,13 +178,6 @@
             android:checkable="true"
             vlc:showAsAction="never"
             android:id="@+id/browser_show_hidden_files" />
-    <item
-            android:orderInCategory="3"
-            android:title="@string/artists_show_all_title"
-            android:visible="false"
-            android:checkable="true"
-            vlc:showAsAction="never"
-            android:id="@+id/artists_show_all_title" />
     <item
             android:orderInCategory="5"
             android:title="@string/rename_group"

@@ -26,10 +26,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 
-class AudioPagerAdapter(private val mLists: Array<View>?, private val mTitles: Array<String>) : PagerAdapter() {
+class AudioPagerAdapter(private val lists: Array<View>?, private val titles: Array<String>) : PagerAdapter() {
 
     override fun getCount(): Int {
-        return mLists?.size ?: 0
+        return lists?.size ?: 0
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -37,14 +37,14 @@ class AudioPagerAdapter(private val mLists: Array<View>?, private val mTitles: A
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        return mLists!![position]
+        return lists!![position]
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return if (position < 0 || position >= mTitles.size)
+        return if (position < 0 || position >= titles.size)
             ""
         else
-            mTitles[position]
+            titles[position]
     }
 
 }

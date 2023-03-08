@@ -79,7 +79,7 @@ object TalkbackUtil {
 
     fun getDir(context: Context, folder: MediaLibraryItem, favorite: Boolean): String {
         if (folder !is MediaWrapper) return context.getString(R.string.talkback_folder, folder.title)
-        var text = ""
+        var text: String
         if (folder.type == MediaWrapper.TYPE_DIR) {
             val folders = folder.description?.getFolderNumber() ?: 0
             val files = folder.description?.getFilesNumber() ?: 0

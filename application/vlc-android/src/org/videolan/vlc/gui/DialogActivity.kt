@@ -27,7 +27,8 @@ import android.os.Bundle
 import android.view.View
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.parcelable
+import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.DeviceDialog
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
@@ -70,14 +71,14 @@ class DialogActivity : BaseActivity() {
 
     private fun setupServerDialog() {
         val networkServerDialog = NetworkServerDialog()
-        intent.getParcelableExtra<MediaWrapper>(EXTRA_MEDIA)?.let {
+        intent.parcelable<MediaWrapper>(EXTRA_MEDIA)?.let {
             networkServerDialog.setServer(it)
         }
         networkServerDialog.show(supportFragmentManager, "fragment_edit_network")
     }
 
     private fun setupSubsDialog() {
-        val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(EXTRA_MEDIALIST)
+        val medialist = intent.parcelableList<MediaWrapper>(EXTRA_MEDIALIST)
         if (medialist != null)
             MediaUtils.getSubs(this, medialist)
         else

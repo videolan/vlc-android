@@ -116,6 +116,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
      * @param trackList the base track list
      * @return a complete track list
      */
+    @Suppress("UNCHECKED_CAST")
     private fun generateTrackList(trackList: Array<out VlcTrack>) = if (isVLC4()) {
         val tempTracks = ArrayList<VlcTrack>()
         tempTracks.add(getDisableTrack(requireActivity()))

@@ -115,7 +115,8 @@ Build Medialibrary with `-ml` instead of `-l`
 
 VLC is a libre and open source project, we welcome all contributions.
 
-Just respect our [Code of Conduct](https://wiki.videolan.org/CoC/).
+Just respect our [Code of Conduct](https://wiki.videolan.org/CoC/), and if you want do contribute to the UI or add a new feature, please open an issue first so there can be a discussion about it.
+
 
 ### Pull requests
 

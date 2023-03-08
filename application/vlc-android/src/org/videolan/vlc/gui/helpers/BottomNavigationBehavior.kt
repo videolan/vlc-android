@@ -153,6 +153,7 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
             require(params is CoordinatorLayout.LayoutParams) { "The view is not a child of CoordinatorLayout" }
             val behavior = params.behavior
             require(behavior is BottomNavigationBehavior<*>) { "The view is not associated with BottomNavigationBehavior" }
+            @Suppress("UNCHECKED_CAST")
             return behavior as BottomNavigationBehavior<V>?
         }
     }

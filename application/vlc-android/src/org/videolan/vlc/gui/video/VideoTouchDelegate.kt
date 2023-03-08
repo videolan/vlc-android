@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
@@ -61,7 +62,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val resizeDelegate: VideoPlayerResizeDelegate
         get() = player.resizeDelegate
-    var handler = Handler()
+    var handler = Handler(Looper.getMainLooper())
 
     var numberOfTaps = 0
     var lastTapTimeMs: Long = 0
@@ -305,7 +306,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 player.volume = player.audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
                 val delta = -(rz / 7 * player.audioMax).toInt()
                 val vol = (player.volume.toInt() + delta).coerceIn(0, player.audioMax)
-                player.setAudioVolume(vol, true)
+                player.setAudioVolume(vol)
             }
             lastMove = System.currentTimeMillis()
         }
@@ -338,8 +339,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
         if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {
-            var coef = coef
-            if (coef == 0) coef = 1
+            var realCoef = coef
+            if (realCoef == 0) realCoef = 1
             // No seek action if coef > 0.5 and gesturesize < 1cm
             if (abs(gesturesize) < 1 || !player.service!!.isSeekable) return
 
@@ -351,7 +352,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
             // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
             var jump = (sign(gesturesize) * (600000 * (gesturesize / 8).toDouble()
-                .pow(4.0) + 3000) / coef).toInt()
+                .pow(4.0) + 3000) / realCoef).toInt()
 
             // Adjust the jump
             if (jump > 0 && time + jump > length) jump = (length - time).toInt()
@@ -367,7 +368,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     if (jump >= 0) "+" else "",
                     Tools.millisToString(jump.toLong()),
                     Tools.millisToString(time + jump),
-                    if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""
+                    if (realCoef > 1) String.format(" x%.1g", 1.0 / realCoef) else ""
                 ), 50
             )
             else player.overlayDelegate.showInfo(R.string.unseekable_stream, 1000)
@@ -386,14 +387,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 if (player.isAudioBoostEnabled) {
                     if (player.originalVol < audioMax) {
                         player.displayWarningToast()
-                        player.setAudioVolume(audioMax, true)
+                        player.setAudioVolume(audioMax)
                     } else {
-                        player.setAudioVolume(vol, true)
+                        player.setAudioVolume(vol)
                     }
                     touchAction = TOUCH_VOLUME
                 }
             } else {
-                player.setAudioVolume(vol, true)
+                player.setAudioVolume(vol)
                 touchAction = TOUCH_VOLUME
             }
         }

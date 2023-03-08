@@ -66,6 +66,11 @@ public abstract class VideoGroup extends MediaLibraryItem {
         return TYPE_VIDEO_GROUP;
     }
 
+    @Override
+    public boolean setFavorite(boolean favorite) {
+        return false;
+    }
+
     public boolean isNetwork() {
         return isNetwork;
     }

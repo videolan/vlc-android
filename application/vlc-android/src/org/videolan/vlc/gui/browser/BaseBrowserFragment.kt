@@ -50,6 +50,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -114,7 +115,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         super.onCreate(savedInstanceState)
         val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
-            currentMedia = bundle.getParcelable(KEY_MEDIA)
+            currentMedia = bundle.parcelable(KEY_MEDIA)
             mrl = currentMedia?.location ?: bundle.getString(KEY_MRL)
         } else if (requireActivity().intent != null) {
             mrl = requireActivity().intent.dataString
@@ -163,8 +164,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this, viewModel.sort, !viewModel.desc).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
@@ -262,6 +264,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         else -> mrl ?: ""
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getMultiHelper(): MultiSelectHelper<BrowserModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<BrowserModel> else null
 
     override val subTitle: String? =
@@ -431,7 +434,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         if (!isStarted()) return false
-        val list = adapter.multiSelectHelper.getSelection() as? List<MediaWrapper>
+        @Suppress("UNCHECKED_CAST") val list = adapter.multiSelectHelper.getSelection() as? List<MediaWrapper>
                 ?: return false
         if (list.isNotEmpty()) {
             when (item.itemId) {
@@ -528,7 +531,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
                 val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_VIDEO) FORCE_PLAY_ALL_VIDEO else FORCE_PLAY_ALL_AUDIO
-                if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, false)) {
+                if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, forcePlayType == FORCE_PLAY_ALL_VIDEO && Settings.tvUI)) {
                     lifecycleScope.launch {
                         MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
                     }

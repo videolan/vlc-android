@@ -72,7 +72,7 @@
             android:background="@color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/sortButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_grid"
+            app:srcCompat="@drawable/ic_tv_browser_grid"
             tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -86,7 +86,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/displayButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_bookmark"
+            app:srcCompat="@drawable/ic_tv_browser_favorite"
             tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -98,7 +98,7 @@
                 android:background="@color/transparent"
                 android:elevation="6dp"
             android:contentDescription="@string/sortby"
-            app:srcCompat="@drawable/ic_sort"
+            app:srcCompat="@drawable/ic_tv_browser_sort"
                 app:layout_constraintEnd_toStartOf="@+id/headerButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,7 +111,7 @@
                 android:background="@color/transparent"
                 android:elevation="6dp"
             android:contentDescription="@string/jump_to"
-            app:srcCompat="@drawable/ic_jumptoheader"
+            app:srcCompat="@drawable/ic_tv_browser_jumptoheader"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -152,7 +152,7 @@
                 android:layout_marginBottom="8dp"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
-            app:srcCompat="@drawable/ic_fabtvmini_bookmark"
+            app:srcCompat="@drawable/ic_fabtvmini_favorite"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSort"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSort"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSort"
@@ -185,7 +185,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonHeader"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonHeader"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonHeader"
-            app:srcCompat="@drawable/ic_fabtvmini_bookmark" />
+            app:srcCompat="@drawable/ic_fabtvmini_favorite" />
 
     <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonHeader"

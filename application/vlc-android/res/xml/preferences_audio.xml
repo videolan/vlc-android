@@ -53,6 +53,14 @@
                 android:dependency="enable_headset_detection"
                 android:summary="@string/enable_play_on_headset_insertion_summary"
                 android:title="@string/enable_play_on_headset_insertion"/>
+        <CheckBoxPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="ignore_headset_media_button_presses"
+            android:summary="@string/ignore_headset_media_button_presses_summary"
+            android:title="@string/ignore_headset_media_button_presses"
+            app:singleLineTitle="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/controls_prefs_category">

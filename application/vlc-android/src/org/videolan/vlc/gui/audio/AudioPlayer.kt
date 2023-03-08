@@ -25,6 +25,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Vibrator
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
@@ -97,7 +98,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
     private lateinit var settings: SharedPreferences
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
     lateinit var playlistModel: PlaylistModel
     lateinit var bookmarkModel: BookmarkModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
@@ -126,9 +127,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
+        val restoreVideoTipCount = settings.getInt(PREF_RESTORE_VIDEO_TIPS_SHOWN, 0)
         playlistModel.service?.let {
-            if (!it.isVideoPlaying && it.videoTracksCount > 0)
+            if (!it.isVideoPlaying && it.videoTracksCount > 0 && restoreVideoTipCount < 4) {
                 UiTools.snacker(requireActivity(), R.string.return_to_video)
+                settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
+            }
         }
         playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }
         playlistModel.speed.observe(this@AudioPlayer) { showChips() }
@@ -647,9 +651,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onSearchClick(v: View) {
+        if (isShowingCover()) onPlaylistSwitchClick(binding.playlistSwitch)
         manageSearchVisibilities(true)
         binding.playlistSearchText.editText?.requestFocus()
-        if (isShowingCover()) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = v.context.applicationContext.getSystemService<InputMethodManager>()!!
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)

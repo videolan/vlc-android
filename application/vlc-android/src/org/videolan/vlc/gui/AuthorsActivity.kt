@@ -61,7 +61,7 @@ class AuthorsActivity : BaseActivity() {
     private fun loadAuthors() {
         lifecycleScope.launchWhenStarted {
             val authors = withContext(Dispatchers.IO) {
-                val jsonData = AppContextProvider.appContext.assets.open("authors.json").bufferedReader().use {
+                val jsonData = AppContextProvider.appResources.openRawResource(R.raw.authors).bufferedReader().use {
                     it.readText()
                 }
 

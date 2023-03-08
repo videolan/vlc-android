@@ -27,6 +27,7 @@ package org.videolan.vlc.gui.video
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -53,7 +54,7 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
     lateinit var container: ConstraintLayout
     private var lastMediaUri: Uri? = null
     private var started = false
-    private val plotHandler: Handler = Handler()
+    private val plotHandler: Handler = Handler(Looper.getMainLooper())
     private val firstTimecode = System.currentTimeMillis()
     lateinit var binding: PlayerHudBinding
     private lateinit var constraintSet: ConstraintSet

@@ -27,6 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import org.videolan.resources.util.parcelable
 import org.videolan.vlc.databinding.DialogLicenseBinding
 import org.videolan.vlc.gui.LibraryWithLicense
 import org.videolan.vlc.util.openLinkIfPossible
@@ -61,7 +62,7 @@ class LicenseDialog : VLCBottomSheetDialogFragment() {
     override fun initialFocusedView(): View = binding.title
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        licenseItem = arguments?.getParcelable(LICENSE_ITEM) ?: return
+        licenseItem = arguments?.parcelable(LICENSE_ITEM) ?: return
         super.onCreate(savedInstanceState)
     }
 

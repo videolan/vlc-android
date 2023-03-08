@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=981f88679d71409ee3c1be23ef190ce17cf3f70f
+MEDIALIBRARY_HASH=7c0193d8ad605f91d9721fb9138ef7d57c57903f
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -171,7 +171,7 @@ avlc_checkfail "medialibrary: build failed"
 cd ${SRC_DIR}
 
 MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlcjni/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
--L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
+-L$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib -ljpeg \
 -L${NDK_LIB_DIR} -lc++abi"
 
 $NDK_BUILD -C medialibrary \

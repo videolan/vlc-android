@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ *************************************************************************
+  ~  dialog_display_settings.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:minHeight="0dp"
+                    android:text="@string/display_settings"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                    android:id="@+id/display_mode_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+            <TextView
+                    android:id="@+id/display_in_list_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/display_in_list"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/display_mode_group"
+                    app:layout_constraintEnd_toStartOf="@+id/display_in_list_image"
+                    app:layout_constraintStart_toStartOf="@+id/display_mode_group"
+                    app:layout_constraintTop_toTopOf="@+id/display_mode_group" />
+
+            <ImageView
+                    android:id="@+id/display_in_list_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/display_mode_group"
+                    app:layout_constraintEnd_toEndOf="@+id/display_mode_group"
+                    app:layout_constraintTop_toTopOf="@+id/display_mode_group"
+                    tools:srcCompat="@drawable/ic_view_grid" />
+
+            <View
+                    android:id="@+id/show_all_artist_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/display_mode_group" />
+
+
+            <TextView
+                    android:id="@+id/show_all_artist_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/artists_show_all_title"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/show_all_artist_group"
+                    app:layout_constraintEnd_toStartOf="@+id/show_all_artist_checkbox"
+                    app:layout_constraintStart_toStartOf="@+id/show_all_artist_group"
+                    app:layout_constraintTop_toTopOf="@+id/show_all_artist_group" />
+
+            <CheckBox
+                    android:id="@+id/show_all_artist_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/show_all_artist_group"
+                    app:layout_constraintEnd_toEndOf="@+id/show_all_artist_group"
+                    app:layout_constraintTop_toTopOf="@+id/show_all_artist_group" />
+
+            <View
+                    android:id="@+id/only_favs_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/show_all_artist_group" />
+
+
+            <TextView
+                    android:id="@+id/only_favs_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/show_only_favs"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/only_favs_group"
+                    app:layout_constraintEnd_toStartOf="@+id/only_favs_checkbox"
+                    app:layout_constraintStart_toStartOf="@+id/only_favs_group"
+                    app:layout_constraintTop_toTopOf="@+id/only_favs_group" />
+
+            <CheckBox
+                    android:id="@+id/only_favs_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/only_favs_group"
+                    app:layout_constraintEnd_toEndOf="@+id/only_favs_group"
+                    app:layout_constraintTop_toTopOf="@+id/only_favs_group" />
+
+            <View
+                    android:id="@+id/video_groups_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group" />
+
+            <TextView
+                    android:id="@+id/video_group_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/video_min_group_length_title"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/video_groups_group"
+                    app:layout_constraintEnd_toStartOf="@+id/spinner2"
+                    app:layout_constraintStart_toStartOf="@+id/video_groups_group"
+                    app:layout_constraintTop_toTopOf="@+id/video_groups_group" />
+
+            <Spinner
+                    android:id="@+id/video_group_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/video_groups_group"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group" />
+
+            <TextView
+                    android:id="@+id/sorts_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:text="@string/sortby"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/video_groups_group" />
+
+            <LinearLayout
+                    android:id="@+id/sorts_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sorts_title" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

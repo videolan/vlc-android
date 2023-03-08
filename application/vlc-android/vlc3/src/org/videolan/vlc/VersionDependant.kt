@@ -51,7 +51,7 @@ fun MediaPlayer.getSelectedVideoTrack(): VlcTrack? = currentVideoTrack?.let { Vl
 
 fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
     val currentTrackId = audioTrack
-   audioTracks.forEach {
+   audioTracks?.forEach {
        if (it.id == currentTrackId) return VlcTrackImpl(it)
    }
     return null
@@ -59,22 +59,10 @@ fun MediaPlayer.getSelectedAudioTrack(): VlcTrack? {
 
 fun MediaPlayer.getSelectedSpuTrack(): VlcTrack? {
     val currentTrackId = spuTrack
-    spuTracks.forEach {
+    spuTracks?.forEach {
         if (it.id == currentTrackId) return VlcTrackImpl(it)
     }
     return null
-}
-
-fun MediaPlayer.getVideoTracksCount(): Int {
-    return videoTracksCount
-}
-
-fun MediaPlayer.getAudioTracksCount(): Int {
-    return audioTracksCount
-}
-
-fun MediaPlayer.getSpuTracksCount(): Int {
-    return spuTracksCount
 }
 
 fun MediaPlayer.setVideoTrack(index:String):Boolean {
@@ -107,6 +95,3 @@ fun MediaPlayer.unselectTrackType(type: Int) {
 fun getDisableTrack(context: Context) : VlcTrack {
     throw IllegalStateException("This is a VLC 4 only API. It should not be called by VLC 3")
 }
-
-
-fun isVLC4() = false

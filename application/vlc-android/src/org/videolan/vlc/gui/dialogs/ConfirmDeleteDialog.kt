@@ -37,6 +37,7 @@ import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import java.lang.IllegalStateException
 
@@ -79,7 +80,7 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mediaList = arguments?.getParcelableArrayList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
+        mediaList = arguments?.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
         titleString = arguments?.getString(CONFIRM_DELETE_DIALOG_TITLE)
         descriptionString = arguments?.getString(CONFIRM_DELETE_DIALOG_DESCRIPTION)
         buttonText = arguments?.getString(CONFIRM_DELETE_DIALOG_BUTTON_TEXT)

@@ -42,6 +42,7 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
     init {
         sort = Settings.getInstance(context).getInt(sortKey, if (parent is Artist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
+        onlyFavs = Settings.getInstance(context).getBoolean("${sortKey}_only_favs", false)
     }
 
     override fun getAll() : Array<Album> = when (parent) {

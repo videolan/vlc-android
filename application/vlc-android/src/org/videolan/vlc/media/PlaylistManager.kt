@@ -41,6 +41,7 @@ private const val PLAYLIST_AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 private const val PLAYLIST_VIDEO_REPEAT_MODE_KEY = "video_repeat_mode"
 
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, IMedia.EventListener, CoroutineScope {
+    private var endReachedFor: String? = null
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
     companion object {
@@ -525,7 +526,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.executeUpdate(true)
     }
 
-    fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
+    fun saveMediaMeta(end:Boolean = false) = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
+        if (endReachedFor != null && endReachedFor == getCurrentMedia()?.uri.toString() && !end) return@outerLaunch
         val titleIdx = player.getTitleIdx()
         val currentMedia = getCurrentMedia() ?: return@outerLaunch
         if (currentMedia.uri.scheme.isSchemeFD()) return@outerLaunch
@@ -544,12 +546,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (length == 0L) {
                         media.time = -1L
                         media.position = player.lastPosition
-                        medialibrary.setLastPosition(media.id, media.position)
+                        medialibrary.setLastPosition(media.id, if (end) 1F else media.position)
                     } else {
                         //todo verify that this info is persisted in DB
                         if (media.length <= 0 && length > 0) media.length = length
                         try {
-                            when (medialibrary.setLastTime(media.id, time)) {
+                            when (medialibrary.setLastTime(media.id, if (end) length else time)) {
                                 Medialibrary.ML_SET_TIME_ERROR -> {
                                 }
                                 Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
@@ -620,7 +622,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
         if (!isAudio && saveVideoPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
-            settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
+            settings.putSingle(KEY_CURRENT_MEDIA, media.location)
         }
         if (isAudio && saveAudioPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
@@ -735,7 +737,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             shuffling -> {
                 copy.asSequence()
-                        .filterIndexed { index, _ -> previous.contains(index) }
+                        .filterIndexed { prevIndex, _ -> previous.contains(prevIndex) }
                         .map { it.length }
                         .sum()
             }
@@ -846,16 +848,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Append to the current existing playlist
      */
     @MainThread
-    suspend fun append(list: List<MediaWrapper>) {
+    suspend fun append(list: List<MediaWrapper>, index: Int = 0) {
         if (BuildConfig.BETA) Log.d(TAG, "append with values: ", Exception("Call stack"))
         if (!hasCurrentMedia()) {
-            launch { load(list, 0, mlUpdate = true) }
+            launch { load(list, index, mlUpdate = true) }
             return
         }
-        val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
+        val newList = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
         mediaList.removeEventListener(this)
-        for (media in list) mediaList.add(media)
-        if (BuildConfig.BETA) list.forEach {
+        for (media in newList) mediaList.add(media)
+        if (BuildConfig.BETA) newList.forEach {
             try {
                 Log.d(TAG, "Media location: ${it.uri}")
             } catch (e: NullPointerException) {
@@ -1009,7 +1011,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     clearABRepeat()
                     getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_FROM_START)
                     if (currentIndex != nextIndex) {
-                        saveMediaMeta()
+                        endReachedFor = getCurrentMedia()?.uri.toString()
+                        saveMediaMeta(true)
                         if (isBenchmark) player.setPreviousStats()
                         if (nextIndex == -1) savePosition(reset = true)
                     }

@@ -21,10 +21,11 @@
 package org.videolan.tools
 
 import android.os.Handler
+import android.os.Looper
 
 import java.lang.ref.WeakReference
 
-abstract class WeakHandler<T>(owner: T) : Handler() {
+abstract class WeakHandler<T>(owner: T) : Handler(Looper.getMainLooper()) {
     private val mOwner: WeakReference<T> = WeakReference(owner)
 
     val owner: T?

@@ -25,14 +25,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.providers.medialibrary.AlbumsProvider
-import org.videolan.vlc.providers.medialibrary.ArtistsProvider
-import org.videolan.vlc.providers.medialibrary.GenresProvider
-import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.providers.medialibrary.*
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
@@ -43,11 +41,12 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     val albumsProvider = AlbumsProvider(null, context, this)
     val tracksProvider = TracksProvider(null, context, this)
     val genresProvider = GenresProvider(context, this)
-    override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider)
-    val providersInCard = arrayOf(true, true, false, false)
+    private val playlistsProvider = PlaylistsProvider(context, this, Playlist.Type.Audio)
+    override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider, playlistsProvider)
+    val providersInCard = arrayOf(true, true, false, false, true)
 
     var showResumeCard = settings.getBoolean("audio_resume_card", true)
-    val displayModeKeys = arrayOf("display_mode_audio_browser_artists", "display_mode_audio_browser_albums", "display_mode_audio_browser_track", "display_mode_audio_browser_genres")
+    val displayModeKeys = arrayOf("display_mode_audio_browser_artists", "display_mode_audio_browser_albums", "display_mode_audio_browser_track", "display_mode_audio_browser_genres", "display_mode_playlists_AudioOnly")
 
 
     init {
@@ -55,6 +54,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
         watchArtists()
         watchGenres()
         watchMedia()
+        watchPlaylists()
         //Initial state coming from preferences and falling back to [providersInCard] hardcoded values
         for (i in displayModeKeys.indices) {
             providersInCard[i] = settings.getBoolean(displayModeKeys[i], providersInCard[i])

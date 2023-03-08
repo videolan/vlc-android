@@ -33,20 +33,25 @@ import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
+import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 10
+private const val CURRENT_VERSION = 11
 
 object VersionMigration {
+
+    val currentMajorVersion = if (isVLC4()) 4 else 3
 
     suspend fun migrateVersion(context: Context) {
         val settings = Settings.getInstance(context)
         val lastVersion = settings.getInt(KEY_CURRENT_SETTINGS_VERSION, 0)
+        val lastMajorVersion = settings.getInt(KEY_CURRENT_MAJOR_VERSION, 3)
         if (lastVersion < 1) {
             migrateToVersion1(settings)
         }
@@ -80,7 +85,17 @@ object VersionMigration {
             migrateToVersion10(settings)
         }
 
+        if (lastVersion < 11) {
+            migrateToVersion11(settings)
+        }
+
+        //Major version upgrade
+        if (lastMajorVersion == 3 && currentMajorVersion == 4) {
+            migrateToVlc4(settings)
+        }
+
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
+        settings.putSingle(KEY_CURRENT_MAJOR_VERSION, currentMajorVersion)
     }
 
     private fun migrateToVersion1(settings: SharedPreferences) {
@@ -239,5 +254,39 @@ object VersionMigration {
                     }
                 }
             }
+    }
+
+    /**
+     * Migrate the  playlists' display in grid setting
+     */
+    private fun migrateToVersion11(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 11: Migrate the  playlists' display in grid setting")
+        if (settings.contains("display_mode_playlists"))
+            settings.edit(true) {
+                settings.getBoolean("display_mode_playlists", true).let {oldSetting ->
+                    try {
+                        val oldColor = oldSetting.toInt()
+                        val newColor = Color.argb(255, Color.red(oldColor), Color.green(oldColor), Color.blue(oldColor))
+                        putInt("subtitles_color", newColor)
+                    } catch (e: Exception) {
+                    }
+                    putBoolean("display_mode_playlists_${Playlist.Type.Audio}", oldSetting)
+                    putBoolean("display_mode_playlists_${Playlist.Type.Video}", oldSetting)
+                    remove("display_mode_playlists")
+                }
+            }
+    }
+
+    /**
+     * Migration to vlc 4
+     * ⚠️⚠️⚠️ This should not be destructive! Any first install will run this.
+     */
+    private fun migrateToVlc4(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to VLC 4")
+
+        // Removing the aout preference to choose aaudio by default
+        if (settings.contains("aout")) settings.edit(true) {
+            remove("aout")
+        }
     }
 }

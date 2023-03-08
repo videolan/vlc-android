@@ -1,4 +1,4 @@
-include ':libvlcjni:libvlc', ':extension-api', ':medialibrary'
+include ':libvlcjni:libvlc', ':medialibrary'
 include ':application:tools', ':application:resources', ':application:mediadb', ':application:app', ':application:live-plot-graph', ':application:television', ':application:donations'
 include ':application:vlc-android'
 include ':application:moviepedia'

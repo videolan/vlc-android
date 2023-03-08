@@ -110,7 +110,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (::bookmarkClickedListener.isInitialized) options.add(PlayerOption(ID_BOOKMARK, R.drawable.ic_bookmark, res.getString(R.string.bookmarks)))
         if (showABReapeat) options.add(PlayerOption(ID_ABREPEAT, R.drawable.ic_abrepeat, res.getString(R.string.ab_repeat)))
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.drawable.ic_addtoplaylist, res.getString(R.string.playlist_save)))
-        if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
+        if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") != "2")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
         if (video)
             options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))

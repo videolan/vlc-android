@@ -47,6 +47,7 @@ import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.gui.helpers.UiTools
@@ -99,13 +100,13 @@ object ExternalMonitor : BroadcastReceiver(), DefaultLifecycleObserver, Coroutin
             }
             UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
-                    val device = intent.getParcelableExtra<UsbDevice>(UsbManager.EXTRA_DEVICE)
+                    val device = intent.parcelable<UsbDevice>(UsbManager.EXTRA_DEVICE)
                     device?.let { devices.add(it) }
                 }
             }
             UsbManager.ACTION_USB_DEVICE_DETACHED -> if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
                 OtgAccess.otgRoot.value = null
-                val device = intent.getParcelableExtra<UsbDevice>(UsbManager.EXTRA_DEVICE)
+                val device = intent.parcelable<UsbDevice>(UsbManager.EXTRA_DEVICE)
                 device?.let { devices.remove(it) }
             }
         }

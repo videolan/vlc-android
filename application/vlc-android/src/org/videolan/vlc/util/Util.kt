@@ -23,7 +23,6 @@ package org.videolan.vlc.util
 import android.app.Activity
 import android.app.Service
 import android.content.Context
-import android.text.TextUtils
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.CloseableUtils

@@ -27,6 +27,7 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.TargetApi
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 
 class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     DiffUtilAdapter<Bookmark, BookmarkAdapter.ViewHolder>() {
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)

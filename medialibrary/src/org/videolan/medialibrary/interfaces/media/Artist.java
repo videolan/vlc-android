@@ -23,7 +23,7 @@ abstract public class Artist extends MediaLibraryItem {
         public static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
     }
 
-    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
+    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount, boolean isFavorite) {
         super(id, name);
         this.shortBio = shortBio;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -31,6 +31,7 @@ abstract public class Artist extends MediaLibraryItem {
         this.tracksCount = tracksCount;
         this.albumsCount = albumsCount;
         this.presentTracksCount = presentTracksCount;
+        this.mFavorite = isFavorite;
         if (id == 1L) {
             mTitle = SpecialRes.UNKNOWN_ARTIST;
         } else if (id == 2L) {
@@ -85,6 +86,7 @@ abstract public class Artist extends MediaLibraryItem {
         return presentTracksCount;
     }
 
+
     @Override
     public MediaWrapper[] getTracks() {
         return getTracks(Medialibrary.SORT_ALBUM, false, true);
@@ -103,6 +105,7 @@ abstract public class Artist extends MediaLibraryItem {
         parcel.writeString(musicBrainzId);
         parcel.writeInt(tracksCount);
         parcel.writeInt(albumsCount);
+        parcel.writeInt(mFavorite ? 1 : 0);
     }
 
     public static Parcelable.Creator<Artist> CREATOR
@@ -125,5 +128,6 @@ abstract public class Artist extends MediaLibraryItem {
         this.musicBrainzId = in.readString();
         this.tracksCount = in.readInt();
         this.albumsCount = in.readInt();
+        this.mFavorite = in.readInt() == 1;
     }
 }

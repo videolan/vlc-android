@@ -322,8 +322,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
         //position
-        val progress = service?.playlistManager?.player?.progress?.value ?: if (forPreview) Progress(3333L, 10000L) else null
-        progress?.let { progress ->
+        (service?.playlistManager?.player?.progress?.value ?: if (forPreview) Progress(3333L, 10000L) else null)?.let { progress ->
             val pos = (progress.time.toFloat() / progress.length)
             log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Refresh - progress updated to $pos // ${progress.length} / ${progress.time} ")
             runIO {
@@ -439,6 +438,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 0L,
                 0L,
                 true,
+                false,
                 0,
                 true
         )

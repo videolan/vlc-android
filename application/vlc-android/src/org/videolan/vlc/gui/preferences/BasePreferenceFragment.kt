@@ -30,6 +30,7 @@ import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
+import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.hack.MultiSelectListPreferenceDialogFragmentCompat
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
@@ -79,7 +80,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let { endPoint ->
+        arguments?.parcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let { endPoint ->
             selectPreference(endPoint.key)
         }
     }

@@ -14,6 +14,7 @@ import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
@@ -26,8 +27,10 @@ import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -208,6 +211,13 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     setTextAsync(view, text, params)
 }
 
+@BindingAdapter("layoutMarginTop")
+fun setLayoutMarginTop(view: View, dimen: Int) {
+    val layoutParams = view.layoutParams as MarginLayoutParams
+    layoutParams.topMargin = dimen
+    view.layoutParams = layoutParams
+}
+
 private fun setTextAsync(view: TextView, text: CharSequence, params: PrecomputedTextCompat.Params) {
     val ref = WeakReference(view)
     AppScope.launch(Dispatchers.Default) {
@@ -373,12 +383,13 @@ fun generateResolutionClass(width: Int, height: Int): String? = if (width <= 0 |
     null
 } else {
     val realHeight = min(height, width)
+    val realWidth = max(height, width)
     when {
-        realHeight >= 4320 -> "8K"
-        realHeight >= 2160 -> "4K"
-        realHeight >= 1440 -> "qHD"
-        realHeight >= 1080 -> "FHD"
-        realHeight >= 720 -> "HD"
+        realHeight >= 4320 || realWidth >= 4320.0 * (16.0 / 9.0) -> "8K"
+        realHeight >= 2160 || realWidth >= 2160.0 * (16.0 / 9.0) -> "4K"
+        realHeight >= 1440 || realWidth >= 1440.0 * (16.0 / 9.0) -> "1440p"
+        realHeight >= 1080 || realWidth >= 1080.0 * (16.0 / 9.0) -> "1080p"
+        realHeight >= 720 || realWidth >= 720.0 * (16.0 / 9.0) -> "720p"
         else -> "SD"
     }
 }
@@ -468,4 +479,25 @@ fun Fragment.showParentFolder(media: MediaWrapper) {
     intent.putExtra(KEY_MEDIA, parent)
     intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
     startActivity(intent)
+}
+
+/**
+ * Finds the [ViewPager2] current fragment
+ * @param fragmentManager: The used [FragmentManager]
+ *
+ * @return the current fragment if found
+ */
+fun ViewPager2.findCurrentFragment(fragmentManager: FragmentManager): Fragment? {
+    return fragmentManager.findFragmentByTag("f$currentItem")
+}
+
+/**
+ * Finds the [ViewPager2] fragment at a specified position
+ * @param fragmentManager: The used [FragmentManager]
+ * @param position: The position to look at
+ *
+ * @return the fragment if found
+ */
+fun ViewPager2.findFragmentAt(fragmentManager: FragmentManager, position: Int): Fragment? {
+    return fragmentManager.findFragmentByTag("f$position")
 }

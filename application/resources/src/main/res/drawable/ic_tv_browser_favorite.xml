@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_tv_browser_favorite.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="36dp"
+        android:height="36dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="@color/tv_menu_selection"
+            android:pathData="m26.218,37.652c-1.249,1.134 -3.172,1.134 -4.421,-0.016L21.617,37.471C12.989,29.665 7.352,24.554 7.566,18.178c0.099,-2.794 1.528,-5.472 3.846,-7.05 4.338,-2.958 9.696,-1.578 12.588,1.808 2.892,-3.385 8.25,-4.782 12.588,-1.808 2.317,1.578 3.747,4.256 3.845,7.05 0.23,6.376 -5.423,11.487 -14.051,19.326z"
+            android:strokeWidth="2" />
+</vector>
