@@ -49,7 +49,10 @@ class PlaylistViewModel(context: Context, private val initialPlaylist: MediaLibr
 
     init {
         when (initialPlaylist) {
-            is Playlist -> watchPlaylists()
+            is Playlist -> {
+                watchPlaylists()
+                watchMedia()
+            }
             is Album -> {
                 watchAlbums()
                 watchMedia()
