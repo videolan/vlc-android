@@ -406,12 +406,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             return next?.artworkMrl
         }
 
-    suspend fun getCurrentChapter(formatted: Boolean = false): String? {
-        val currentChapter = withContext(Dispatchers.IO) {
-            val chapters = getChapters(-1)
-            if (chapters?.size ?: 0 > 0 && chapterIdx >= 0) chapters?.get(chapterIdx)?.name else null
+    fun getCurrentChapter(): String? {
+        return getChapters(-1)?.let { chapters ->
+            val curChapter = chapterIdx
+            if (curChapter >= 0 && chapters.isNotEmpty()) {
+                TextUtils.formatChapterTitle(this, curChapter + 1, chapters[curChapter].name)
+            } else null
         }
-        return if (currentChapter == null) null else if (formatted) TextUtils.formatChapterTitle(this, currentChapter) else currentChapter
     }
 
     suspend fun trackInfo(): String? {
@@ -1011,7 +1012,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val ctx = this@PlaybackService
         val length = length
         lastLength = length
-        val chapterTitle = if (lastChaptersCount > 0) getCurrentChapter(true) else null
+        val chapterTitle = if (lastChaptersCount > 0) getCurrentChapter() else null
         val displayMsg = subtitleMessage.poll()
         val bob = withContext(Dispatchers.Default) {
             val carMode = isCarMode()

@@ -353,7 +353,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.trackInfoContainer?.contentDescription = getString(R.string.talkback_audio_player,TalkbackUtil.getAudioTrack(requireActivity(), it))
         }
 
-        val chapter = playlistModel.service?.getCurrentChapter(true)
+        val chapter = playlistModel.service?.getCurrentChapter()
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
         binding.songTitle?.isSelected = true

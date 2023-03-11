@@ -78,7 +78,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
         val chapterData = ArrayList<Chapter>()
 
         for (i in chapters.indices) {
-            val name: String = TextUtils.formatChapterTitle(requireActivity(), chapters[i].name)
+            val name: String = TextUtils.formatChapterTitle(requireActivity(), i + 1, chapters[i].name)
             chapterData.add(Chapter(name, Tools.millisToString(chapters[i].timeOffset)))
         }
 

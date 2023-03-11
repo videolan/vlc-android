@@ -69,12 +69,21 @@ object TextUtils {
     fun separatedString(separator: Char, pieces: Array<String?>) = pieces.filter { it?.isNotBlank() == true }.joinToString(separator = " $separator ")
 
     /**
-     * Formats the chapter title by prepending "Chapter:" if the current title is made of only non alpha chars
+     * Format the chapter title.
+     * If title is null return "Chapter: <num>"
+     * If title contains letters only prepend "Chapter: <title>"
+     * If title contains any non alpha characters return as-is
      *
      * @param context the context to use to retrieve the string
+     * @param chapterNum the current chapter number
      * @param title the title to format
      * @return a formatted string
      */
-    fun formatChapterTitle(context: Context, title: String?) = if (title?.firstOrNull { it.isLetter() } == null) context.getString(R.string.current_chapter, title) else title
-
+    fun formatChapterTitle(context: Context, chapterNum: Int, title: String?): String {
+        return when {
+            title.isNullOrBlank() -> context.getString(R.string.current_chapter, chapterNum.toString())
+            title.all { it.isLetter() } -> context.getString(R.string.current_chapter, title)
+            else -> title
+        }
+    }
 }
