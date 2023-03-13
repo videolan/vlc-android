@@ -142,6 +142,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
             }
             tabLayoutMediator.attach()
         }
+        updateTabs()
     }
 
     private fun getPageTitle(position: Int) = when (position) {
