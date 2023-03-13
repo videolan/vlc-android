@@ -1042,6 +1042,11 @@
     <string name="material_you">Material You (pulls colors from wallpaper)</string>
     <string name="palette">Palette (pulls colors from the media cover)</string>
     <string name="custom">Custom</string>
+    <string name="widget_type">Widget type</string>
+    <string name="widget_type_pill">Pill</string>
+    <string name="widget_type_normal">Normal</string>
+    <string name="widget_type_circle">Circle</string>
+    <string name="widget_type_large">Large</string>
     <string name="opacity">Opacity</string>
     <string name="widget_background">Background</string>
     <string name="widget_foreground">Foreground</string>

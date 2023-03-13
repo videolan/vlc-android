@@ -100,6 +100,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         rewindDelay = findPreference("widget_rewind_delay")!!
         val configurationIcon = findPreference<CheckBoxPreference>("widget_show_configure")!!
         val themePreference = findPreference<ListPreference>("widget_theme")!!
+        val typePreference = findPreference<ListPreference>("widget_type")!!
 
         val id = (arguments?.getInt(WIDGET_ID) ?: -2)
         if (id == -2) throw IllegalStateException("Invalid widget id")
@@ -113,6 +114,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 updateWidgetEntity()
             }
             themePreference.value = widget.theme.toString()
+            typePreference.value = widget.type.toString()
             backgroundPreference.isVisible = widget.theme != 0
             foregroundPreference.isVisible = widget.theme != 0
             backgroundPreference.saveValue(widget.backgroundColor)
@@ -158,6 +160,11 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 backgroundPreference.isVisible = newValue == 2
                 foregroundPreference.isVisible = newValue == 2
                 lightThemePreference.isVisible = newValue != 2
+
+            }
+            "widget_type" -> {
+                val newValue = sharedPreferences.getString(key, "0")?.toInt() ?: 0
+                model.widget.value?.type = newValue
 
             }
             "widget_light_theme" -> {

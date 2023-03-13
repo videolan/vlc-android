@@ -39,6 +39,8 @@ data class Widget(
         var height: Int,
         @ColumnInfo(name = "theme")
         var theme: Int,
+        @ColumnInfo(name = "type")
+        var type: Int,
         @ColumnInfo(name = "light_theme")
         var lightTheme: Boolean,
         @ColumnInfo(name = "background_color")
