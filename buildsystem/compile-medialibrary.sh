@@ -6,7 +6,7 @@ set -e
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=c792471d8cd3d4bfb64279b3d6bd490e2171b93d
+MEDIALIBRARY_HASH=918b0e7ff962aa31fe8502ae9bd7d2fd389c6ff6
 
 while [ $# -gt 0 ]; do
   case $1 in
