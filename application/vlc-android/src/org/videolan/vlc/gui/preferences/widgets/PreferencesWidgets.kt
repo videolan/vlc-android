@@ -50,7 +50,7 @@ import org.videolan.vlc.gui.view.NumberPickerPreference
 import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.widget.WidgetViewModel
 import org.videolan.vlc.widget.utils.WidgetType
-import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetTypeFromSize
+import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.hasEnoughSpaceForSeek
 
 const val WIDGET_ID = "WIDGET_ID"
@@ -123,7 +123,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             lightThemePreference.isChecked = widget.lightTheme
             lightThemePreference.isVisible = widget.theme != 2
             configurationIcon.isChecked = widget.showConfigure
-            val widgetType = getWidgetTypeFromSize(widget.width, widget.height)
+            val widgetType = getWidgetType(widget)
             val showSeekPrefs = (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) && hasEnoughSpaceForSeek(widget, widgetType)
             showSeek.isVisible = showSeekPrefs
             forwardDelay.isVisible = showSeekPrefs

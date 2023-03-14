@@ -59,7 +59,7 @@ import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getPendingIntent
 import org.videolan.vlc.widget.utils.*
-import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetTypeFromSize
+import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.shouldShowSeek
 import java.util.*
 
@@ -167,7 +167,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 
 
         //determine layout
-        val oldType = getWidgetTypeFromSize(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
+        val oldType = getWidgetType(widgetCacheEntry.widget)
 
         val size = WidgetSizeUtil.getWidgetsSize(context, appWidgetId)
         if (size.first != 0 && size.second != 0 && (widgetCacheEntry.widget.width != size.first || widgetCacheEntry.widget.height != size.second)) {
@@ -183,7 +183,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             Pair(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
         } else size
         log(appWidgetId, WidgetLogType.INFO, "New widget size by provider: ${correctedSize.first} / ${correctedSize.second} // ratio = ${correctedSize.first.toFloat() / correctedSize.second}")
-        val widgetType = getWidgetTypeFromSize(correctedSize.first, correctedSize.second)
+        val widgetType = getWidgetType(widgetCacheEntry.widget)
 
 
         val views = RemoteViews(context.packageName, widgetType.layout)
