@@ -49,4 +49,4 @@ class PlaylistsViewModel(context: Context, type: Playlist.Type) : MedialibraryVi
     }
 }
 
-internal fun PlaylistFragment.getViewModel(type: Playlist.Type) = ViewModelProvider(requireActivity(), PlaylistsViewModel.Factory(requireContext(), type)).get(PlaylistsViewModel::class.java)
+internal fun PlaylistFragment.getViewModel(type: Playlist.Type) =ViewModelProvider(this, PlaylistsViewModel.Factory(requireContext(), type)).get(PlaylistsViewModel::class.java)
