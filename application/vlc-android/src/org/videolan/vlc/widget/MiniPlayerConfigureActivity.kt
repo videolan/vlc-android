@@ -31,8 +31,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.FrameLayout
+import android.widget.FrameLayout.LayoutParams
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -137,9 +141,14 @@ class MiniPlayerConfigureActivity : BaseActivity() {
                         val width = if (widget.width <= 0 || widget.height <= 0) 276 else widget.width
                         val height = if (widget.width <= 0 || widget.height <= 0) 94 else widget.height
                         val views = provider.layoutWidget(this@MiniPlayerConfigureActivity, id, Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT), binding.previewPlaying.isChecked, coverBitmap, palette)
-                        val preview = views?.apply(applicationContext, null)
+                        val container = FrameLayout(this@MiniPlayerConfigureActivity).apply {
+                            layoutParams = LayoutParams(width, height)
+                        }
+                        val preview = views?.apply(applicationContext, container)
                         preview?.let {
-                            val bm: Bitmap = bitmapFromView(it, width.dp, height.dp)
+                            (preview.layoutParams as LayoutParams).gravity = Gravity.CENTER
+                            container.addView(preview)
+                            val bm: Bitmap = bitmapFromView(container, width.dp, height.dp)
                             withContext(Dispatchers.Main) { binding.widgetPreview.setImageBitmap(bm) }
                         }
                     }
