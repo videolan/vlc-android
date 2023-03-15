@@ -130,7 +130,15 @@ utils::jni::object
 convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count)
 {
     auto name = vlcNewStringUTF(env, folderPtr->name().c_str());
-    auto mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
+    utils::jni::string mrl;
+    try
+    {
+        mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
+    }
+    catch( const medialibrary::fs::errors::DeviceRemoved& )
+    {
+        mrl = vlcNewStringUTF(env, "missing://");
+    }
     return utils::jni::object{ env, env->NewObject(fields->Folder.clazz, fields->Folder.initID,
                           (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count, (jboolean)folderPtr->isFavorite())
     };

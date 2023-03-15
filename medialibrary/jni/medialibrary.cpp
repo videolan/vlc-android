@@ -1857,6 +1857,8 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
         catch( const medialibrary::fs::errors::DeviceRemoved& )
         {
             // Ignore this folder since it's on a removed device.
+            auto item = convertFolderObject(env, &ml_fields, folder, 0);
+            env->SetObjectArrayElement(foldersRefs, ++index, item.get());
         }
     }
     return foldersRefs;
