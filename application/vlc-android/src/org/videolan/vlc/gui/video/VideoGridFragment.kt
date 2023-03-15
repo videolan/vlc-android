@@ -623,6 +623,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
             }
             is Folder -> {
+                if (item.mMrl.isMissing()) return
                 if (actionMode != null) {
                     multiSelectHelper.toggleSelection(position)
                     invalidateActionMode()
