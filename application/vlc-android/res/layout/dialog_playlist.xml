@@ -58,10 +58,11 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_save"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medias2">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
