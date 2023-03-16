@@ -26,7 +26,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
@@ -54,6 +53,8 @@ import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addFavoritesIcon
+import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.FastScroller
@@ -349,9 +350,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             val tab = tabLayout!!.getTabAt(i)
             val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
             val title = view.findViewById<TextView>(R.id.tab_title)
-            val icon = view.findViewById<ImageView>(R.id.tab_icon)
             title.text = audioPagerAdapter.getPageTitle(i)
-            if (viewModel.providers[i].onlyFavorites) icon.setVisible() else icon.setGone()
+            if (viewModel.providers[i].onlyFavorites) title.addFavoritesIcon() else title.removeDrawables()
             tab?.customView = view
         }
     }

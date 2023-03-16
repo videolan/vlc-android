@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.video
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -37,12 +36,12 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.tools.isStarted
-import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistFragment
+import org.videolan.vlc.gui.helpers.UiTools.addFavoritesIcon
+import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.util.findCurrentFragment
 
@@ -212,11 +211,10 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
             val tab = tabLayout!!.getTabAt(i)
             val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
             val title = view.findViewById<TextView>(R.id.tab_title)
-            val icon = view.findViewById<ImageView>(R.id.tab_icon)
             title.text = getPageTitle(i)
             when (i) {
-                0 -> if (videoGridOnlyFavorites) icon.setVisible() else icon.setGone()
-                1 -> if (playlistOnlyFavorites) icon.setVisible() else icon.setGone()
+                0 -> if (videoGridOnlyFavorites) title.addFavoritesIcon() else title.removeDrawables()
+                1 -> if (playlistOnlyFavorites) title.addFavoritesIcon() else title.removeDrawables()
             }
             tab?.customView = view
         }

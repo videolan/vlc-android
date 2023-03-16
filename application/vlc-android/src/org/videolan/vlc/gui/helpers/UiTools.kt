@@ -778,6 +778,15 @@ object UiTools {
         DEFAULT_COVER_VIDEO_DRAWABLE = null
     }
 
+    fun TextView.addFavoritesIcon() {
+        val drawable = ContextCompat.getDrawable(context, R.drawable.ic_emoji_favorite)
+        setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+    }
+
+    fun TextView.removeDrawables() {
+        setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+    }
+
 }
 
 /**
