@@ -441,12 +441,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
      */
     private fun updateProgress(progress: PlaybackProgress) {
         if (playlistModel.currentMediaPosition == -1) return
-        binding.length.text = progress.lengthText
+        binding.length.text = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.lengthText
         binding.timeline.max = progress.length.toInt()
         binding.progressBar.max = progress.length.toInt()
 
         if (!previewingSeek) {
-            val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
+            val displayTime = progress.timeText
             binding.headerTime.text = displayTime
             binding.time.text = displayTime
             if (!isDragging) binding.timeline.progress = progress.time.toInt()
@@ -736,7 +736,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     else if (possibleSeek <= 4000) possibleSeek = 0
                 }
 
-                binding.time.text = Tools.millisToString(if (showRemainingTime) possibleSeek - length else possibleSeek.toLong())
+                binding.time.text = Tools.millisToString(possibleSeek.toLong())
                 binding.timeline.progress = possibleSeek
                 binding.progressBar.progress = possibleSeek
                 handler.postDelayed(this, 50)
@@ -803,7 +803,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
             if (fromUser) {
                 playlistModel.setTime(progress.toLong(), true)
-                binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
+                binding.time.text = Tools.millisToString(progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
                 binding.timeline.forceAccessibilityUpdate()
             }
