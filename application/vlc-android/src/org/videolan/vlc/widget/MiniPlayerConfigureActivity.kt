@@ -140,7 +140,7 @@ class MiniPlayerConfigureActivity : BaseActivity() {
 
                         val width = if (widget.width <= 0 || widget.height <= 0) 276 else widget.width
                         val height = if (widget.width <= 0 || widget.height <= 0) 94 else widget.height
-                        val views = provider.layoutWidget(this@MiniPlayerConfigureActivity, id, Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT), binding.previewPlaying.isChecked, coverBitmap, palette)
+                        val views = provider.layoutWidget(this@MiniPlayerConfigureActivity, id, Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT), true, coverBitmap, palette, previewPlaying = binding.previewPlaying.isChecked)
                         val container = FrameLayout(this@MiniPlayerConfigureActivity).apply {
                             layoutParams = LayoutParams(width, height)
                         }
