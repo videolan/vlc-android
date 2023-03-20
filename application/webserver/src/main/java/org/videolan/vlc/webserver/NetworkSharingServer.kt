@@ -35,6 +35,7 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -46,6 +47,8 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.AndroidDevices
@@ -80,6 +83,10 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
         return launchServer(applicationContext)
     }
 
+    private fun getServerFiles(context: Context) : String {
+        return "${context.filesDir.path}/server/"
+    }
+
     private fun onServiceChanged(service: PlaybackService?) {
         if (service !== null) {
             NetworkSharingServer.service = service
@@ -90,40 +97,48 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
         }
     }
 
-
+    private val TAG = this::class.java.name
     fun copyWebServer(context: Context) {
-        File("${context.filesDir.path}/server").mkdirs()
-        FileUtils.copyAssetFolder(context.assets, "web", "${context.filesDir.path}/server", true)
+        Log.d(TAG, "copyWebServer: skbench: ")
+        File(getServerFiles(context)).mkdirs()
+        FileUtils.copyAssetFolder(context.assets, "dist", "${context.filesDir.path}/server", true)
+//        FileUtils.copyAssetFolder(context.assets, "js", "${context.filesDir.path}/server", true)
+//        FileUtils.copyAssetFolder(context.assets, "css", "${context.filesDir.path}/server", true)
     }
 
 
     fun launchServer(context: Context) = embeddedServer(Netty, 8080) {
+        Log.d(TAG, "launchServer: skbench: ")
         install(WebSockets) {
             pingPeriod = Duration.ofSeconds(15)
             timeout = Duration.ofSeconds(15)
             maxFrameSize = Long.MAX_VALUE
             masking = false
         }
+        install(CORS) {
+            allowMethod(HttpMethod.Options)
+            allowMethod(HttpMethod.Post)
+            allowMethod(HttpMethod.Get)
+            allowHeader(HttpHeaders.AccessControlAllowOrigin)
+            allowHeader(HttpHeaders.ContentType)
+            anyHost()
+        }
         routing {
             static("") {
-                files("${context.filesDir.path}/server/public")
+                files(getServerFiles(context))
             }
             get("/") {
+                Log.d(TAG, "launchServer: skbench: /")
                 call.respondRedirect("index.html", permanent = true)
             }
             get("/index.html") {
-
-                val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
-                val template = FileUtils.getStringFromFile("${context.filesDir.path}/server/public/log_template-mat.html.temp")
-                val logsHtml = buildString {
-                    logs.forEach {
-
-                        append(template.replace("%%FILE_NAME%%", it).replace("%%FILE_NAME_SHORT%%", format.format(File(it).lastModified())))
-                    }
+                try {
+                    val html = FileUtils.getStringFromFile("${getServerFiles(context)}index.html")
+                    call.respondText(html, ContentType.Text.Html)
+                } catch (e: Exception) {
+                    Log.d(TAG, "launchServer: $e")
+                    call.respondText("Fuck you")
                 }
-
-                val html = FileUtils.getStringFromFile("${context.filesDir.path}/server/public/index.html")
-                call.respondText(html.networkShareReplace(context).contentReplace(context, logsHtml), ContentType.Text.Html)
             }
             post("/upload.json") {
                 var fileDescription = ""
@@ -146,11 +161,8 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
                 }
                 call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
             }
-            get("/logs.html") {
-
-                call.respondText("<a>toto</a>")
-            }
-            get("/download") {
+            get("/download-logfile") {
+                Log.d(TAG, "launchServer: skbench: /download-logfile")
                 call.request.queryParameters["file"]?.let { filePath ->
                     val file = File(filePath)
                     if (file.exists()) {
@@ -159,6 +171,18 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
                     }
                 }
                 call.respond(HttpStatusCode.NotFound, "")
+            }
+            get("/list-logfiles"){
+                val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
+
+                val jsonArray = JSONArray()
+                for (log in logs) {
+                    val json = JSONObject()
+                    json.put("path", log)
+                    json.put("date", format.format(File(log).lastModified()))
+                    jsonArray.put(json)
+                }
+                call.respondText(jsonArray.toString())
             }
             get("/artwork") {
                 try {
@@ -228,8 +252,9 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
         try {
             val logEntry = Pattern.compile("\\{%(.*?)%\\}")
             newString = newString.replace(logEntry.toRegex()) {
-                Log.d("networkShareReplace", it.value)
-                context.getString(context.resIdByName(it.value.trim().drop(2).dropLast(2), "string"))
+                val str = context.getString(context.resIdByName(it.value.trim().drop(2).dropLast(2), "string"))
+                Log.d("networkShareReplace: ", "skbench: ${it .value} -> $str")
+                str
             }
         } catch (e: Exception) {
             Log.e("networkShareReplace", e.message, e)

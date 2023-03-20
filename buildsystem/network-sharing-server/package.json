@@ -1,32 +1,53 @@
 {
-  "name": "vlc-android-network-sharing-server",
-  "version": "1.0.0",
-  "description": "VLC for Android network sharing server",
-  "main": "index.js",
-  "author": "VideoLAN",
-  "license": "LGPL-3.0-or-later",
-  "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.1",
-    "extract-loader": "^5.1.0",
-    "file-loader": "^6.2.0",
-    "html-loader": "^4.2.0",
-    "sass": "^1.53.0",
-    "sass-loader": "^13.0.2",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.11.1"
-  },
-  "dependencies": {
-    "@material/button": "^14.0.0",
-    "@material/data-table": "^14.0.0",
-    "@material/icon-button": "^14.0.0",
-    "@material/layout-grid": "^14.0.0",
-    "@material/top-app-bar": "^14.0.0",
-    "@material/typography": "^14.0.0"
-  }
+    "name": "vue-css",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "export VUE_APP_DEVICE_IP=$(adb shell ifconfig wlan0 | awk '/inet addr/ {gsub(\"addr:\", \"\", $2); print $2}') && vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
+    },
+    "dependencies": {
+        "@material/button": "^14.0.0",
+        "@material/data-table": "^14.0.0",
+        "@material/icon-button": "^14.0.0",
+        "@material/layout-grid": "^14.0.0",
+        "@material/top-app-bar": "^14.0.0",
+        "@material/typography": "^14.0.0",
+        "axios": "^1.3.4",
+        "core-js": "^3.8.3",
+        "vue": "^3.2.13",
+        "vue-router": "^4.1.6"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.16",
+        "@babel/eslint-parser": "^7.12.16",
+        "@vue/cli-plugin-babel": "~5.0.0",
+        "@vue/cli-plugin-eslint": "~5.0.0",
+        "@vue/cli-service": "~5.0.0",
+        "eslint": "^7.32.0",
+        "eslint-plugin-vue": "^8.0.3",
+        "sass": "^1.59.3",
+        "sass-loader": "^13.2.1"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/vue3-essential",
+            "eslint:recommended"
+        ],
+        "parserOptions": {
+            "parser": "@babel/eslint-parser"
+        },
+        "rules": {}
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead",
+        "not ie 11"
+    ]
 }

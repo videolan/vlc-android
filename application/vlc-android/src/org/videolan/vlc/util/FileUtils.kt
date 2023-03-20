@@ -135,18 +135,23 @@ object FileUtils {
             if (files.isNullOrEmpty()) return false
             File(toPath).mkdirs()
             var res = true
-            for (file in files)
+            for (file in files) {
                 res = if (file.contains(".")) {
-                    res and copyAsset(assetManager,
-                            "$fromAssetPath/$file",
-                            "$toPath/$file",
-                            force)
+                    res and copyAsset(
+                        assetManager,
+                        "$fromAssetPath/$file",
+                        "$toPath/$file",
+                        force
+                    )
                 } else {
-                    res and copyAssetFolder(assetManager,
-                            "$fromAssetPath/$file",
-                            "$toPath/$file",
-                            force)
+                    res and copyAssetFolder(
+                        assetManager,
+                        "$fromAssetPath/$file",
+                        "$toPath/$file",
+                        force
+                    )
                 }
+            }
             return res
         } catch (e: Exception) {
             e.printStackTrace()

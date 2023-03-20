@@ -21,9 +21,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    task webCopy(type: Copy) {
+        from '../../buildsystem/network-sharing-server/dist'
+        into 'assets/dist'
+    }
+
     sourceSets.main {
         assets.srcDirs = ['assets']
     }
+
+    sourceSets.main {
+        assets.srcDirs = ['assets']
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,13 +44,15 @@ android {
     }
 }
 
-dependencies {
+preBuild.dependsOn(webCopy)
 
+dependencies {
     implementation project(':application:vlc-android')
     implementation "io.ktor:ktor:2.1.2"
     implementation "io.ktor:ktor-server-netty:2.1.2"
     implementation "io.ktor:ktor-gson:1.6.8"
     implementation "io.ktor:ktor-server-websockets:2.1.2"
+    implementation "io.ktor:ktor-server-cors:2.1.2"
 
 
     testImplementation 'junit:junit:4.13.2'
