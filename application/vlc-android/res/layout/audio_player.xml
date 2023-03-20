@@ -597,6 +597,7 @@
                 android:importantForAccessibility="no"
                 android:layout_marginEnd="@dimen/default_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{fragment::onTimeLabelClick}"
                 android:contentDescription="@string/length"
                 android:elevation="4dp"
                 android:text="@string/time_0"
