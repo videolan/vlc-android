@@ -75,7 +75,6 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.isSchemeFavoriteEditable
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -571,10 +570,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
                 if (isFileBrowser || isNetworkBrowser) {
                     val favExists = browserFavRepository.browserFavExists(mw.uri)
-                    flags = if (favExists) {
-                        if (mw.uri.scheme.isSchemeFavoriteEditable() && isNetworkBrowser) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
-                        else flags or CTX_FAV_REMOVE
-                    } else flags or CTX_FAV_ADD
+                    flags = if (favExists) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
                 }
                 if (isFileBrowser && !isRootDirectory && !MedialibraryUtils.isScanned(item.uri.toString())) {
                     flags = flags or CTX_ADD_SCANNED
