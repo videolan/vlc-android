@@ -1110,6 +1110,7 @@
     <string name="show_only_favs">Show only favorites</string>
     <string name="ignore_headset_media_button_presses">Ignore headset media button presses</string>
     <string name="ignore_headset_media_button_presses_summary">Useful, for instance, if you are using a headset with broken physical buttons</string>
+    <string name="replace_playlist">Replace playlist</string>
 
 
 </resources>

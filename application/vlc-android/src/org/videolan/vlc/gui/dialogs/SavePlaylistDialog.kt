@@ -225,7 +225,12 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 } else
                     ids.add(id)
             }
-            playlist.append(ids)
+            if (binding.replaceSwitch.isChecked) {
+                val name = playlist.title
+                playlist.delete()
+                val newPlaylist = medialibrary.createPlaylist(name, Settings.includeMissing, false)
+                newPlaylist.append(ids)
+            } else playlist.append(ids)
         }
         dismiss()
     }
@@ -234,7 +239,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         selectedPlaylist = item as Playlist
         nonDuplicateTracks = getNonDuplicateTracks(selectedPlaylist!!.tracks, newTracks)
         val duplicateItemsCount = newTracks.size - nonDuplicateTracks!!.size
-        if (duplicateItemsCount == 0) {
+        if (duplicateItemsCount == 0 || binding.replaceSwitch.isChecked) {
             savePlaylist(selectedPlaylist!!, newTracks)
         } else {
             val highlightedItemsCount = newTracks.size
