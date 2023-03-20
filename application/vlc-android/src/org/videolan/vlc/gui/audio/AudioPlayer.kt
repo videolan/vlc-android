@@ -564,6 +564,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
+            service.playlistManager.player.updateProgress(position)
             if (service.playlistManager.player.lastPosition == 0.0f && (forward || service.getTime() > 0))
                 UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
