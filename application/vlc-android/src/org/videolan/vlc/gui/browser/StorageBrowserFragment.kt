@@ -46,13 +46,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.resources.CTX_CUSTOM_REMOVE
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
-import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
@@ -146,24 +143,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
     }
 
 
-    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (isRootDirectory) {
-            val storage = adapter.getItem(position) as Storage
-            val path = storage.uri.path ?: return
-            lifecycleScope.launchWhenStarted {
-                val isCustom = viewModel.customDirectoryExists(path)
-                if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item, CTX_CUSTOM_REMOVE)
-            }
-        }
-    }
-
-    override fun onCtxAction(position: Int, option: Long) {
-        val storage = adapter.getItem(position) as Storage
-        val path = storage.uri.path ?: return
-        viewModel.deleteCustomDirectory(path)
-        viewModel.remove(storage)
-        (activity as AudioPlayerContainerActivity).updateLib()
-    }
+    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val mw = (item as? Storage)?.let { MLServiceLocator.getAbstractMediaWrapper(it.uri) } ?: return

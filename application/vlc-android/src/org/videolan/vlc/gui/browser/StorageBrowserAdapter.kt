@@ -39,6 +39,7 @@ import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.containsPath
 import org.videolan.tools.removeFileScheme
+import org.videolan.tools.stripTrailingSlash
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -72,7 +73,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
             vh.bindingContainer.setIsTv(AndroidDevices.isTv)
             updateJob?.join()
             if (updateJob?.isCancelled == true) return@launch
-            val hasContextMenu = customDirsLocation.contains(storagePath) && !multiSelectHelper.inActionMode
+            val hasContextMenu = customDirsLocation.contains(storagePath.stripTrailingSlash()) && !multiSelectHelper.inActionMode
             val checked = browserContainer.scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.bindingContainer.setHasContextMenu(hasContextMenu)
             val banned = MedialibraryUtils.isBanned(uri, bannedFolders)
