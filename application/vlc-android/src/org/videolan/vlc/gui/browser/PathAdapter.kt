@@ -56,12 +56,14 @@ class PathAdapter(val browser: PathAdapterListener, val media: MediaWrapper) : R
     inner class ViewHolder(val root: TextView) : RecyclerView.ViewHolder(root) {
         init {
             root.setOnClickListener {
-                browser.backTo(adapterPosition.let {
-                    when (it) {
-                        0 -> "root"
-                        else -> segments[it]
-                    }
-                })
+                absoluteAdapterPosition.let {
+                    if (it == segments.size - 1) return@setOnClickListener
+                    browser.backTo(
+                            when (it) {
+                                0 -> "root"
+                                else -> segments[it]
+                            })
+                }
             }
         }
     }
