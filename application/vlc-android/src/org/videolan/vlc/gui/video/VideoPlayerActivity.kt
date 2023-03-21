@@ -121,7 +121,6 @@ import java.lang.Runnable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
-import org.videolan.vlc.getAllTracks
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
@@ -192,6 +191,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val screenshotDelegate: VideoPlayerScreenshotDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerScreenshotDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     val resizeDelegate: VideoPlayerResizeDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerResizeDelegate(this@VideoPlayerActivity) }
+    val orientationDelegate: VideoPlayerOrientationDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOrientationDelegate(this@VideoPlayerActivity) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@VideoPlayerActivity) }
     val tipsDelegate: VideoTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoTipsDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
@@ -529,6 +529,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     optionsDelegate?.hide()
                 } else if (resizeDelegate.isShowing()) {
                     resizeDelegate.hideResizeOverlay()
+                } else if (orientationDelegate.isShowing()) {
+                    orientationDelegate.hideOrientationOverlay()
                 } else if (lockBackButton) {
                     lockBackButton = false
                     handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
@@ -1742,7 +1744,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.orientation_toggle -> toggleOrientation()
+            R.id.orientation_toggle -> toggleOrientationLock()
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
             R.id.player_overlay_forward -> touchDelegate.seekDelta(Settings.videoJumpDelay * 1000)
             R.id.player_overlay_rewind -> touchDelegate.seekDelta(-Settings.videoJumpDelay * 1000)
@@ -1786,6 +1788,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onLongClick(v: View): Boolean {
         when (v.id) {
+            R.id.orientation_toggle -> {
+                orientationDelegate.displayOrientation()
+                return true
+            }
             R.id.player_overlay_forward -> {
                 touchDelegate.seekDelta(Settings.videoLongJumpDelay * 1000)
                 return true
@@ -2158,7 +2164,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
     }
 
-    fun toggleOrientation() {
+    fun toggleOrientationLock() {
         orientationMode.locked = !orientationMode.locked
         orientationMode.orientation = getOrientationForLock()
 
@@ -2169,6 +2175,19 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private fun toggleBtDelay(connected: Boolean) {
         service?.setAudioDelay(if (connected) settings.getLong(KEY_BLUETOOTH_DELAY, 0) else 0L)
+    }
+
+    fun setOrientation(value: Int) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "setOrientation: $value")
+        if (value == -1) {
+            if (orientationMode.locked) toggleOrientationLock()
+            return
+        }
+        orientationMode.locked = true
+        orientationMode.orientation = value
+        requestedOrientation = value
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "setOrientation requestedOrientation: $requestedOrientation")
+        overlayDelegate.updateOrientationIcon()
     }
 
     /**
@@ -2380,7 +2399,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
 data class PlayerOrientationMode(
         var locked: Boolean = false,
-        var orientation: Int = 0
+        var orientation: Int = -1
 )
 
 @BindingAdapter("length", "time")

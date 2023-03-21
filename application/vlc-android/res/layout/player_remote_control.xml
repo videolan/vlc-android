@@ -103,6 +103,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout="@layout/player_resize" />
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_orientation_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/player_orientation" />
     </FrameLayout>
 
 
