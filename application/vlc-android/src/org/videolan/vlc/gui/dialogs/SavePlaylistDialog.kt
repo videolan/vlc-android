@@ -43,10 +43,7 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableArray
-import org.videolan.tools.AppScope
-import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.DependencyProvider
-import org.videolan.tools.Settings
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPlaylistBinding
 import org.videolan.vlc.gui.SimpleAdapter
@@ -172,6 +169,10 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                     // do nothing
                 }
             }
+        }
+        binding.replaceSwitch.isChecked = Settings.getInstance(requireActivity()).getBoolean(PLAYLIST_REPLACE, false)
+        binding.replaceSwitch.setOnCheckedChangeListener { _, isChecked ->
+            Settings.getInstance(requireActivity()).putSingle(PLAYLIST_REPLACE, isChecked)
         }
     }
 

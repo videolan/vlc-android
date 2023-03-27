@@ -189,6 +189,7 @@ const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 const val SLEEP_TIMER_WAIT = "sleep_timer_wait"
 
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
+const val PLAYLIST_REPLACE = "playlist_replace"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
