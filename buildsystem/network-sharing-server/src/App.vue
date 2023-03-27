@@ -2,12 +2,12 @@
   <AppHeader />
   <PageDownloads />
   <MiniPlayer />
-  <!-- <AppFooter /> -->
+  <AppFooter />
 </template>
 
 <script>
 import AppHeader from './components/AppHeader.vue'
-// import AppFooter from './components/AppFooter.vue'
+import AppFooter from './components/AppFooter.vue'
 import MiniPlayer from './components/MiniPlayer.vue'
 import PageDownloads from './pages/PageDownloads.vue'
 
@@ -16,7 +16,7 @@ export default {
   components: {
     PageDownloads,
     AppHeader,
-    // AppFooter,
+    AppFooter,
     MiniPlayer,
   }
 }

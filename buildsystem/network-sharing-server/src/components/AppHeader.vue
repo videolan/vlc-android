@@ -1,24 +1,12 @@
 <template>
-  <header class="mdc-top-app-bar">
-    <div class="mdc-top-app-bar__row">
-      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-        <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">
-          <div class="mdc-icon-button__ripple"></div>
-          menu
-        </button>
-        <a href="http://www.videolan.org" target="_blank">
-          <img class="mdc-top-app-bar__navigation-icon" aria-label="Open navigation menu"
-            src="../assets/resources/icon.png" />
-        </a>
-        <span class="mdc-top-app-bar__title">VLC-Android's web server</span>
-      </section>
-      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-        <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">
-          <div class="mdc-icon-button__ripple"></div>more_vert
-        </button>
-      </section>
+  <nav class="navbar navbar-light navbar-expand-md ">
+    <div class="d-flex flex-center">
+      <RouterLink class="navbar-brand " :to="{ name: 'Home' }">
+        <span><img id="logo" src="../assets/resources/icon.png"></span>
+        VLC-Android's WebServer
+      </RouterLink>
     </div>
-  </header>
+  </nav>
 </template>
 
 <script>
@@ -27,4 +15,20 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.navbar.navbar-light {
+  background-color: #FF7700;
+  border-color: #e7e7e7;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+  border-radius: 0;
+  padding: 0;
+}
+
+.navbar-brand {
+  color: white;
+}
+
+.navbar-brand:hover {
+  color: white;
+}
+</style>

@@ -98,12 +98,10 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
     }
 
     private val TAG = this::class.java.name
-    fun copyWebServer(context: Context) {
+    private fun copyWebServer(context: Context) {
         Log.d(TAG, "copyWebServer: skbench: ")
         File(getServerFiles(context)).mkdirs()
         FileUtils.copyAssetFolder(context.assets, "dist", "${context.filesDir.path}/server", true)
-//        FileUtils.copyAssetFolder(context.assets, "js", "${context.filesDir.path}/server", true)
-//        FileUtils.copyAssetFolder(context.assets, "css", "${context.filesDir.path}/server", true)
     }
 
 
@@ -128,7 +126,6 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
                 files(getServerFiles(context))
             }
             get("/") {
-                Log.d(TAG, "launchServer: skbench: /")
                 call.respondRedirect("index.html", permanent = true)
             }
             get("/index.html") {
@@ -136,8 +133,7 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
                     val html = FileUtils.getStringFromFile("${getServerFiles(context)}index.html")
                     call.respondText(html, ContentType.Text.Html)
                 } catch (e: Exception) {
-                    Log.d(TAG, "launchServer: $e")
-                    call.respondText("Fuck you")
+                    call.respondText("Failed to load index.html")
                 }
             }
             post("/upload.json") {
@@ -162,7 +158,6 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
                 call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
             }
             get("/download-logfile") {
-                Log.d(TAG, "launchServer: skbench: /download-logfile")
                 call.request.queryParameters["file"]?.let { filePath ->
                     val file = File(filePath)
                     if (file.exists()) {
@@ -202,7 +197,6 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
             webSocket("/echo", protocol = "player") {
                 websocketSession.add(this)
                 // Handle a WebSocket session
-//                send("Please enter your name")
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
                     when (frame.readText()) {
@@ -253,7 +247,6 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
             val logEntry = Pattern.compile("\\{%(.*?)%\\}")
             newString = newString.replace(logEntry.toRegex()) {
                 val str = context.getString(context.resIdByName(it.value.trim().drop(2).dropLast(2), "string"))
-                Log.d("networkShareReplace: ", "skbench: ${it .value} -> $str")
                 str
             }
         } catch (e: Exception) {

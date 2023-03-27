@@ -1,0 +1,163 @@
+@use "@material/typography";
+// @import "~bootstrap/scss/bootstrap.scss";
+// @import "~bootstrap-vue/dist/bootstrap-vue.css";
+
+$primary-color: #ff7700;
+$primary-color-dark: #ff610a;
+$background: #FFFFFF;
+$light-grey: #e8e8e8;
+$grey-overlay: #f7f7f7;
+$text-color: #010101;
+
+// @use "@material/top-app-bar/mdc-top-app-bar";
+// @use "@material/button/styles";
+// @use "@material/button";
+// @use "@material/data-table/data-table";
+// @use "@material/layout-grid/mdc-layout-grid";
+// @use "@material/icon-button";
+@import "my-theme";
+// @import "@material/icon-button/mdc-icon-button";
+// @include data-table.core-styles;
+// @include data-table.theme-baseline;
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+nav,
+header,
+footer {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  min-height: calc(100vh - var(--navbar-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+// This sets all <h1>,...,<h6> elements with Material headline1,...,headline6 typography styles
+// Check out the MDC Web documentation for how to use MDC Typography Sass mixins:
+// https://github.com/material-components/material-components-web/tree/master/packages/mdc-typography
+body {
+  background: $background;
+  color: $text-color;
+}
+
+h1 {
+  @include typography.typography(headline1);
+}
+
+h2 {
+  @include typography.typography(headline2);
+}
+
+h3 {
+  @include typography.typography(headline3);
+}
+
+h4 {
+  @include typography.typography(headline4);
+}
+
+h5 {
+  @include typography.typography(headline5);
+}
+
+h6 {
+  @include typography.typography(headline6);
+}
+
+// This sets all <p> elements with Material body1 typography styles
+p {
+  @include typography.typography(body1);
+}
+
+.navbar .form-group .form-control,
+.navbar .form-group .input-group-btn button {
+  border: 1px solid transparent;
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar .form-group .form-control:focus {
+  outline: none;
+}
+
+
+.borderless-card {
+  border-bottom: none !important;
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 20px 0 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.card-heading {
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
+}
+
+.horizontal {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #777;
+}
+
+.flex-baseline {
+  align-items: baseline;
+}
+
+.flex-center {
+  justify-content: space-between;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.center-btn {
+  justify-content: space-beetwen;
+}
+
+.navbar-brand {
+  padding: 10px !important;
+}
+
+.list-group-item {
+  border-bottom: 1px solid #eee;
+}

@@ -1,15 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './assets/scss/app.scss'
+import './scss/app.scss'
 import { API_IP, API_URL } from './config.js'
 
 createApp(App).mount('#app')
 
-//const playerWS = new WebSocket("wss://"+window.location.origin+"/echo", "protocolOne");
 const playerWS = new WebSocket("ws://" + API_IP + "/echo", "player");
-// playerWS.onopen = (event) => {
-// };
-
 
 export const msecToTime = ms => {
     const seconds = Math.floor((ms / 1000) % 60)
@@ -55,8 +51,6 @@ next10.addEventListener('click', () => {
 var lastLoadedMediaUri = ""
 
 playerWS.onmessage = (event) => {
-    console.log(event.data);
-    // const player = document.getElementById("player");
     const title = document.getElementById("title");
     const artist = document.getElementById("artist");
     const time = document.getElementById("time");

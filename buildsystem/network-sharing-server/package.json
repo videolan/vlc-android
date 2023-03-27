@@ -14,6 +14,7 @@
         "@material/layout-grid": "^14.0.0",
         "@material/top-app-bar": "^14.0.0",
         "@material/typography": "^14.0.0",
+        "@vue/compat": "^3.2.47",
         "axios": "^1.3.4",
         "core-js": "^3.8.3",
         "vue": "^3.2.13",

@@ -7,6 +7,6 @@ Vue.use(Router)
 export default new Router({
     history: Router.createWebHashHistory(),
     routes: [
-        { path: '/', component: PageDownloads, name: 'Logs' },
+        { path: '/', component: PageDownloads, name: 'Home' },
     ]
 })
