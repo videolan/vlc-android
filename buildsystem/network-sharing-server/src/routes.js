@@ -1,12 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
 import PageDownloads from './pages/PageDownloads.vue'
 
-Vue.use(Router)
+const routes = [
+    { path: '/', component: PageDownloads, name: 'Home' },
+]
 
-export default new Router({
-    history: Router.createWebHashHistory(),
-    routes: [
-        { path: '/', component: PageDownloads, name: 'Home' },
-    ]
-})
+export default routes;
