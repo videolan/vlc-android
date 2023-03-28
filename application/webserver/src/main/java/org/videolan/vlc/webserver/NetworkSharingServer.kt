@@ -58,6 +58,7 @@ import org.videolan.tools.resIdByName
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.webserver.NetworkSharingServer.init
 import org.videolan.vlc.util.FileUtils
 import java.io.File
@@ -99,14 +100,12 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
 
     private val TAG = this::class.java.name
     private fun copyWebServer(context: Context) {
-        Log.d(TAG, "copyWebServer: skbench: ")
         File(getServerFiles(context)).mkdirs()
         FileUtils.copyAssetFolder(context.assets, "dist", "${context.filesDir.path}/server", true)
     }
 
 
     fun launchServer(context: Context) = embeddedServer(Netty, 8080) {
-        Log.d(TAG, "launchServer: skbench: ")
         install(WebSockets) {
             pingPeriod = Duration.ofSeconds(15)
             timeout = Duration.ofSeconds(15)
@@ -120,6 +119,9 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
             allowHeader(HttpHeaders.AccessControlAllowOrigin)
             allowHeader(HttpHeaders.ContentType)
             anyHost()
+        }
+        PlaylistManager.showAudioPlayer.observeForever {
+            AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped"))} }
         }
         routing {
             static("") {

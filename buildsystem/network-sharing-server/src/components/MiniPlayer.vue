@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div v-show="playing">
     <div class="footer" id="player">
       <img id="player_artwork" width="48px" height="48px">
       <div class="player_info">
@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       playerWS: WebSocket,
+      playing: false,
     }
   },
   computed: {
@@ -53,88 +54,80 @@ export default {
         }`
     },
     initEventListeners() {
-      const play = document.getElementById("player_play");
-      const pause = document.getElementById("player_pause");
-      const previous = document.getElementById("player_previous");
-      const next = document.getElementById("player_next");
-      const shuffle = document.getElementById("player_shuffle");
-      const repeat = document.getElementById("player_repeat");
-      const previous10 = document.getElementById("player_previous_10");
-      const next10 = document.getElementById("player_next_10");
-      play.addEventListener('click', () => {
+      this.$refs.play.addEventListener('click', () => {
         this.playerWS.send("play");
       });
-      pause.addEventListener('click', () => {
+      this.$refs.pause.addEventListener('click', () => {
         this.playerWS.send("pause");
       });
-      previous.addEventListener('click', () => {
+      this.$refs.previous.addEventListener('click', () => {
         this.playerWS.send("previous");
       });
-      next.addEventListener('click', () => {
+      this.$refs.next.addEventListener('click', () => {
         this.playerWS.send("next");
       });
-      shuffle.addEventListener('click', () => {
+      this.$refs.shuffle.addEventListener('click', () => {
         this.playerWS.send("shuffle");
       });
-      repeat.addEventListener('click', () => {
+      this.$refs.repeat.addEventListener('click', () => {
         this.playerWS.send("repeat");
       });
-      previous10.addEventListener('click', () => {
+      this.$refs.previous10.addEventListener('click', () => {
         this.playerWS.send("previous10");
       });
-      next10.addEventListener('click', () => {
+      this.$refs.next10.addEventListener('click', () => {
         this.playerWS.send("next10");
       });
     },
     removeEventListeners() {
-      const play = document.getElementById("player_play");
-      const pause = document.getElementById("player_pause");
-      const previous = document.getElementById("player_previous");
-      const next = document.getElementById("player_next");
-      const shuffle = document.getElementById("player_shuffle");
-      const repeat = document.getElementById("player_repeat");
-      const previous10 = document.getElementById("player_previous_10");
-      const next10 = document.getElementById("player_next_10");
-      play.removeEventListeners()
-      pause.removeEventListeners()
-      previous.removeEventListeners()
-      next.removeEventListeners()
-      shuffle.removeEventListeners()
-      repeat.removeEventListeners()
-      previous10.removeEventListeners()
-      next10.removeEventListeners()
+      this.$refs.play.removeEventListeners()
+      this.$refs.pause.removeEventListeners()
+      this.$refs.previous.removeEventListeners()
+      this.$refs.next.removeEventListeners()
+      this.$refs.shuffle.removeEventListeners()
+      this.$refs.repeat.removeEventListeners()
+      this.$refs.previous10.removeEventListeners()
+      this.$refs.next10.removeEventListeners()
     },
   },
   mounted: function () {
-    const play = document.getElementById("player_play");
-    const pause = document.getElementById("player_pause");
     this.playerWS = new WebSocket("ws://" + API_IP + "/echo", "player");
-    this.initEventListeners();
     var lastLoadedMediaUri = ""
     this.playerWS.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-
-      const title = document.getElementById("title");
-      const artist = document.getElementById("artist");
-      const time = document.getElementById("time");
-      const duration = document.getElementById("duration");
-      const artwork = document.getElementById("player_artwork");
-      title.textContent = msg.title
-      artist.textContent = msg.artist
-      time.textContent = this.msecToTime(new Date(msg.progress))
-      duration.textContent = this.msecToTime(new Date(msg.duration))
-      if (lastLoadedMediaUri != msg.uri) {
-        artwork.src = API_URL + "/artwork?randomizer=" + Date.now()
-        lastLoadedMediaUri = msg.uri
-      }
-
-      if (msg.playing) {
-        play.style.display = "none";
-        pause.style.display = "inline-block";
+      if (event.data === "Stopped") {
+        console.log("Stopping Player ...")
+        this.playing = false;
+        this.removeEventListeners();
       } else {
-        play.style.display = "inline-block";
-        pause.style.display = "none";
+        if (this.playing == false) {
+          console.log("Starting player ...")
+          this.playing = true;
+          this.initEventListeners();
+        }
+        const msg = JSON.parse(event.data);
+        const title = document.getElementById("title");
+        const artist = document.getElementById("artist");
+        const time = document.getElementById("time");
+        const duration = document.getElementById("duration");
+        const artwork = document.getElementById("player_artwork");
+        title.textContent = msg.title
+        artist.textContent = msg.artist
+        time.textContent = this.msecToTime(new Date(msg.progress))
+        duration.textContent = this.msecToTime(new Date(msg.duration))
+        if (lastLoadedMediaUri != msg.uri) {
+          artwork.src = API_URL + "/artwork?randomizer=" + Date.now()
+          lastLoadedMediaUri = msg.uri
+        }
+
+        if (msg.playing) {
+          this.$refs.play.style.display = "none";
+          this.$refs.pause.style.display = "inline-block";
+        } else {
+          this.$refs.play.style.display = "inline-block";
+          this.$refs.pause.style.display = "none";
+        }
       }
+
 
     }
   }
