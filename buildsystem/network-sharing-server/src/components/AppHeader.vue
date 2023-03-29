@@ -1,9 +1,12 @@
 <template>
   <nav class="navbar navbar-light navbar-expand-md ">
-    <div class="d-flex flex-center">
+    <div class="navbar-nav d-flex align-items-center">
       <RouterLink class="navbar-brand " :to="{ name: 'Home' }">
         <span><img id="logo" src="../assets/resources/icon.png"></span>
         VLC-Android's WebServer
+      </RouterLink>
+      <RouterLink class="nav-item nav-link" :to="{ name: 'MediaUpload' }">
+        Uploads
       </RouterLink>
     </div>
   </nav>
@@ -24,11 +27,20 @@ export default {
   padding: 0;
 }
 
-.navbar-brand {
+.navbar {
+  align-items: start;
+  justify-content: flex-start;
+}
+
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:focus {
   color: white;
 }
 
-.navbar-brand:hover {
+.nav-link,
+.nav-link:hover,
+.nav-link:focus {
   color: white;
 }
 </style>
