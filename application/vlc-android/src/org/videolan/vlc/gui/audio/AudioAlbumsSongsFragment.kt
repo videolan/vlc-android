@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.audio
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.paging.PagedList
@@ -45,6 +44,8 @@ import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addFavoritesIcon
+import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
@@ -199,7 +200,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
                         displayInCards = viewModel.providersInCard[currentTab],
-                        onlyFavs = viewModel.providers[currentTab].onlyFavs,
+                        onlyFavs = viewModel.providers[currentTab].onlyFavorites,
                         sorts = sorts,
                         currentSort = viewModel.providers[currentTab].sort,
                         currentSortDesc = viewModel.providers[currentTab].desc
@@ -244,9 +245,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             val tab = tabLayout!!.getTabAt(i)
             val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
             val title = view.findViewById<TextView>(R.id.tab_title)
-            val icon = view.findViewById<ImageView>(R.id.tab_icon)
             title.text = audioPagerAdapter.getPageTitle(i)
-            if (viewModel.providers[i].onlyFavs) icon.setVisible() else icon.setGone()
+            if (viewModel.providers[i].onlyFavorites) title.addFavoritesIcon() else title.removeDrawables()
             tab?.customView = view
         }
     }

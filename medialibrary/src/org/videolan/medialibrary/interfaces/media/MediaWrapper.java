@@ -224,7 +224,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         if (media == null)
             throw new NullPointerException("media was null");
 
-        mUri = media.getUri();
+        mUri = Uri.parse(VLCUtil.encodeVLCUri(media.getUri()));
         init(media);
     }
 
@@ -381,8 +381,29 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         return meta != null ? trim ? meta.trim() : meta : defaultMeta;
     }
 
-    private void updateMeta(IMedia media) {
-        mTitle = getMetaId(media, mTitle, Media.Meta.Title, true);
+    /**
+     * This returns the updated title meta for the media. Though it checks that the title media in
+     * libvlc isn't just the filename as this would mean that libvlc doesn't have any title meta.
+     * This is to ensure that medialibrary titles don't get overriden by default filename.
+     * An example of this would be for a stream in a m3u8 file with and #EXTINF: title parameter.
+     * libvlc won't have access to this meta, and if the stream doesn't send updated metas, then it
+     * will be replaced with the filename even though the medialibrary has a correct title.
+     * This won't work for network shares as they will return null titles, so
+     * they are exempted as directories
+     * @param media media to update
+     * @return title string
+     */
+    private String getMetaTitle(IMedia media) {
+        String libvlcTitle = getMetaId(media, mTitle, Media.Meta.Title, true);
+        String fileName = getFileName();
+        if (media.getType() == Media.Type.Directory ||
+                (!TextUtils.isEmpty(libvlcTitle) && !libvlcTitle.equals(fileName)))
+            return libvlcTitle;
+        return getTitle();
+    }
+
+    private void  updateMeta(IMedia media) {
+        mTitle = getMetaTitle(media);
         mArtist = getMetaId(media, mArtist, Media.Meta.Artist, true);
         mAlbum = getMetaId(media, mAlbum, Media.Meta.Album, true);
         mGenre = getMetaId(media, mGenre, Media.Meta.Genre, true);

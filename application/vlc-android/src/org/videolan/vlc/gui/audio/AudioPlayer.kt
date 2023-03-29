@@ -127,13 +127,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
-        val restoreVideoTipCount = settings.getInt(PREF_RESTORE_VIDEO_TIPS_SHOWN, 0)
-        playlistModel.service?.let {
-            if (!it.isVideoPlaying && it.videoTracksCount > 0 && restoreVideoTipCount < 4) {
-                UiTools.snacker(requireActivity(), R.string.return_to_video)
-                settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
-            }
-        }
         playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }
         playlistModel.speed.observe(this@AudioPlayer) { showChips() }
         playlistAdapter.setModel(playlistModel)
@@ -289,6 +282,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onResume() {
         onStateChanged(playerState)
         showRemainingTime = Settings.getInstance(requireContext()).getBoolean(SHOW_REMAINING_TIME, false)
+        val restoreVideoTipCount = settings.getInt(PREF_RESTORE_VIDEO_TIPS_SHOWN, 0)
+        val forceRestoreVideo = settings.getBoolean(RESTORE_BACKGROUND_VIDEO, false)
+        playlistModel.service?.let {
+            if (!it.isVideoPlaying && it.videoTracksCount > 0)
+                if ( !forceRestoreVideo && restoreVideoTipCount < 4) {
+                    UiTools.snacker(requireActivity(), R.string.return_to_video)
+                    settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
+                } else if (forceRestoreVideo) {
+                    onResumeToVideoClick()
+                }
+        }
         super.onResume()
     }
 
@@ -349,7 +353,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.trackInfoContainer?.contentDescription = getString(R.string.talkback_audio_player,TalkbackUtil.getAudioTrack(requireActivity(), it))
         }
 
-        val chapter = playlistModel.service?.getCurrentChapter(true)
+        val chapter = playlistModel.service?.getCurrentChapter()
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
         binding.songTitle?.isSelected = true
@@ -437,12 +441,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
      */
     private fun updateProgress(progress: PlaybackProgress) {
         if (playlistModel.currentMediaPosition == -1) return
-        binding.length.text = progress.lengthText
+        binding.length.text = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.lengthText
         binding.timeline.max = progress.length.toInt()
         binding.progressBar.max = progress.length.toInt()
 
         if (!previewingSeek) {
-            val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
+            val displayTime = progress.timeText
             binding.headerTime.text = displayTime
             binding.time.text = displayTime
             if (!isDragging) binding.timeline.progress = progress.time.toInt()
@@ -560,6 +564,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             if (position < 0) position = 0
             if (position > service.length) position = service.length
             service.seek(position, service.length.toDouble(), true)
+            service.playlistManager.player.updateProgress(position)
             if (service.playlistManager.player.lastPosition == 0.0f && (forward || service.getTime() > 0))
                 UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
@@ -732,7 +737,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     else if (possibleSeek <= 4000) possibleSeek = 0
                 }
 
-                binding.time.text = Tools.millisToString(if (showRemainingTime) possibleSeek - length else possibleSeek.toLong())
+                binding.time.text = Tools.millisToString(possibleSeek.toLong())
                 binding.timeline.progress = possibleSeek
                 binding.progressBar.progress = possibleSeek
                 handler.postDelayed(this, 50)
@@ -799,7 +804,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
             if (fromUser) {
                 playlistModel.setTime(progress.toLong(), true)
-                binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
+                binding.time.text = Tools.millisToString(progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
                 binding.timeline.forceAccessibilityUpdate()
             }

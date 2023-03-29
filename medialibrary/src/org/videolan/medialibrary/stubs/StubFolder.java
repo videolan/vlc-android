@@ -14,8 +14,8 @@ public class StubFolder extends Folder {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubFolder(long id, String name, String mrl, int count) {
-        super(id, name, mrl, count);
+    public StubFolder(long id, String name, String mrl, int count, boolean isFavorite) {
+        super(id, name, mrl, count, isFavorite);
     }
     public StubFolder(Parcel in) {
         super(in);
@@ -30,7 +30,7 @@ public class StubFolder extends Folder {
     }
 
     //TODO WTF would media be null ??
-    public MediaWrapper[] media(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public MediaWrapper[] media(int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         ArrayList<MediaWrapper> source;
         if (type == TYPE_FOLDER_VIDEO) source = dt.mVideoMediaWrappers;
@@ -55,7 +55,7 @@ public class StubFolder extends Folder {
         return count;
     }
 
-    public Folder[] subfolders(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public Folder[] subfolders(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         ArrayList<Folder> results = new ArrayList<>();
         for (Folder folder : dt.mFolders) {
             if (isParentFolder(this.mMrl, folder.mMrl)) results.add(folder);
@@ -72,7 +72,7 @@ public class StubFolder extends Folder {
         return count;
     }
 
-    public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         ArrayList<MediaWrapper> source;
         if (mediaType == TYPE_FOLDER_VIDEO) source = dt.mVideoMediaWrappers;

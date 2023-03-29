@@ -218,7 +218,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                         }
                     }
                     MediaSessionBrowser.ID_LAST_ADDED -> {
-                        val tracks = context.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
+                        val tracks = context.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, false, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
                         if (tracks.isNotEmpty() && isActive) {
                             loadMedia(tracks.toList(), position)
                         }
@@ -247,7 +247,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     MediaSessionBrowser.ID_SEARCH -> {
                         val query = mediaIdUri.getQueryParameter("query") ?: ""
                         val tracks = context.getFromMl {
-                            search(query, false)?.tracks?.toList() ?: emptyList()
+                            search(query, false, false)?.tracks?.toList() ?: emptyList()
                         }
                         if (tracks.isNotEmpty() && isActive) {
                             loadMedia(tracks, position)
@@ -269,7 +269,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                                 if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                             }
                             MediaSessionBrowser.ID_PLAYLIST -> {
-                                val tracks = context.getFromMl { getPlaylist(id, Settings.includeMissing)?.tracks }
+                                val tracks = context.getFromMl { getPlaylist(id, Settings.includeMissing, false)?.tracks }
                                 if (isActive) tracks?.let { loadMedia(it.toList(), allowRandom = true) }
                             }
                             MediaSessionBrowser.ID_MEDIA -> {
@@ -326,12 +326,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 vsp.isAlbumFocus -> playbackService.medialibrary.searchAlbum(vsp.album)
                 vsp.isGenreFocus -> playbackService.medialibrary.searchGenre(vsp.genre)
                 vsp.isArtistFocus -> playbackService.medialibrary.searchArtist(vsp.artist)
-                vsp.isPlaylistFocus -> playbackService.medialibrary.searchPlaylist(vsp.playlist, Playlist.Type.All, Settings.includeMissing)
+                vsp.isPlaylistFocus -> playbackService.medialibrary.searchPlaylist(vsp.playlist, Playlist.Type.All, Settings.includeMissing, false)
                 else -> null
             }
             if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.isNotEmpty() == true) {
-                playbackService.medialibrary.search(query, Settings.includeMissing)?.run {
+                playbackService.medialibrary.search(query, Settings.includeMissing, false)?.run {
                     tracks = when {
                         !albums.isNullOrEmpty() -> albums!!.flatMap { it.tracks.toList() }.toTypedArray()
                         !artists.isNullOrEmpty() -> artists!!.flatMap { it.tracks.toList() }.toTypedArray()

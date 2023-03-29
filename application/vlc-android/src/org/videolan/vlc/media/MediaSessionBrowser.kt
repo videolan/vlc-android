@@ -198,7 +198,7 @@ class MediaSessionBrowser {
                     val shuffleAllMediaDesc = getPlayAllBuilder(context, ID_SHUFFLE_ALL, R.string.shuffle_all_title, audioCount, shuffleAllPath).build()
                     results.add(MediaBrowserCompat.MediaItem(shuffleAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                     /* Last Added */
-                    val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MAX_HISTORY_SIZE, 0)
+                    val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, false, MAX_HISTORY_SIZE, 0)
                     val recentAudioSize = recentAudio.size
                     val lastAddedPath = if (recentAudioSize > 0) {
                         Uri.Builder()
@@ -264,35 +264,35 @@ class MediaSessionBrowser {
                 }
                 ID_ARTIST -> {
                     val artistsShowAll = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
-                    val artists = ml.getArtists(artistsShowAll, Medialibrary.SORT_ALPHA, false, false)
+                    val artists = ml.getArtists(artistsShowAll, Medialibrary.SORT_ALPHA, false, false, false)
                     artists.sortWith(MediaComparators.ANDROID_AUTO)
                     if (page == null && artists.size > MAX_RESULT_SIZE)
                         return paginateLibrary(artists, parentIdUri, res.getResourceUri(R.drawable.ic_auto_artist))
                     list = artists.copyOfRange(pageOffset.coerceAtMost(artists.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(artists.size))
                 }
                 ID_ALBUM -> {
-                    val albums = ml.getAlbums(Medialibrary.SORT_ALPHA, false, false)
+                    val albums = ml.getAlbums(Medialibrary.SORT_ALPHA, false, false, false)
                     albums.sortWith(MediaComparators.ANDROID_AUTO)
                     if (page == null && albums.size > MAX_RESULT_SIZE)
                         return paginateLibrary(albums, parentIdUri, res.getResourceUri(R.drawable.ic_auto_album), getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
                     list = albums.copyOfRange(pageOffset.coerceAtMost(albums.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(albums.size))
                 }
                 ID_TRACK -> {
-                    val tracks = ml.getAudio(Medialibrary.SORT_ALPHA, false, false)
+                    val tracks = ml.getAudio(Medialibrary.SORT_ALPHA, false, false, false)
                     tracks.sortWith(MediaComparators.ANDROID_AUTO)
                     if (page == null && tracks.size > MAX_RESULT_SIZE)
                         return paginateLibrary(tracks, parentIdUri, res.getResourceUri(R.drawable.ic_auto_audio))
                     list = tracks.copyOfRange(pageOffset.coerceAtMost(tracks.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(tracks.size))
                 }
                 ID_GENRE -> {
-                    val genres = ml.getGenres(Medialibrary.SORT_ALPHA, false, false)
+                    val genres = ml.getGenres(Medialibrary.SORT_ALPHA, false, false, false)
                     genres.sortWith(MediaComparators.ANDROID_AUTO)
                     if (page == null && genres.size > MAX_RESULT_SIZE)
                         return paginateLibrary(genres, parentIdUri, res.getResourceUri(R.drawable.ic_auto_genre))
                     list = genres.copyOfRange(pageOffset.coerceAtMost(genres.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(genres.size))
                 }
                 ID_PLAYLIST -> {
-                        list = ml.getPlaylists(Playlist.Type.Audio)
+                        list = ml.getPlaylists(Playlist.Type.Audio, false)
                     list.sortWith(MediaComparators.ANDROID_AUTO)
                 }
                 ID_STREAM -> {
@@ -301,7 +301,7 @@ class MediaSessionBrowser {
                 }
                 ID_LAST_ADDED -> {
                     limitSize = true
-                    list = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MAX_HISTORY_SIZE, 0)
+                    list = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, false, MAX_HISTORY_SIZE, 0)
                 }
                 ID_HISTORY -> {
                     limitSize = true
@@ -387,7 +387,7 @@ class MediaSessionBrowser {
         fun search(context: Context, query: String): List<MediaBrowserCompat.MediaItem> {
             val res = context.resources
             val results: MutableList<MediaBrowserCompat.MediaItem> = ArrayList()
-            val searchAggregate = Medialibrary.getInstance().search(query, false)
+            val searchAggregate = Medialibrary.getInstance().search(query, false, false)
             val searchMediaId = ID_SEARCH.toUri().buildUpon().appendQueryParameter("query", query).toString()
             results.addAll(buildMediaItems(context, ID_PLAYLIST, searchAggregate.playlists, res.getString(R.string.playlists)))
             results.addAll(buildMediaItems(context, ID_GENRE, searchAggregate.genres, res.getString(R.string.genres)))
@@ -419,7 +419,7 @@ class MediaSessionBrowser {
                 if (!lastMediaPlayed.isNullOrEmpty()) for (mw in lastMediaPlayed) mw.album?.let { albumNames.add(it) }
             }
             /* Pad the end with recently added albums. We may end up dropping a few due to absent artwork. */
-            val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MAX_HISTORY_SIZE, 0)
+            val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, false, MAX_HISTORY_SIZE, 0)
             if (!recentAudio.isNullOrEmpty()) for (mw in recentAudio) mw.album?.let { albumNames.add(it) }
             /* Build the list of media items */
             val results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()

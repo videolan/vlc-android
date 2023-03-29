@@ -26,13 +26,13 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 class FoldersProvider(context: Context, model: SortableModel, val type: Int) : MedialibraryProvider<Folder>(context, model) {
-    override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, desc, Settings.includeMissing, getTotalCount(), 0)
+    override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, desc, Settings.includeMissing, onlyFavorites, getTotalCount(), 0)
 
     override fun getTotalCount() = if (model.filterQuery.isNullOrEmpty()) medialibrary.getFoldersCount(type) else medialibrary.getFoldersCount(model.filterQuery)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = if (model.filterQuery.isNullOrEmpty()) {
-        medialibrary.getFolders(type, sort, desc, Settings.includeMissing, loadSize, startposition).also { completeHeaders(it, startposition) }
+        medialibrary.getFolders(type, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition).also { completeHeaders(it, startposition) }
     } else {
-        medialibrary.searchFolders(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        medialibrary.searchFolders(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
     }.also { if (Settings.showTvUi) completeHeaders(it, startposition) }
 }

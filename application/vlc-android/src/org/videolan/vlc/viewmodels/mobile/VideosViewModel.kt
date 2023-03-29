@@ -72,6 +72,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     init {
         watchMedia()
         watchMediaGroups()
+        watchFolders()
     }
 
     class Factory(val context: Context, private val groupingType: VideoGroupingType, val folder: Folder? = null, val group: VideoGroup? = null) : ViewModelProvider.NewInstanceFactory() {

@@ -43,6 +43,13 @@
             android:title="@string/popup_force_legacy_title"/>
 
     <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="restore_background_video"
+            android:summary="@string/restore_background_video_summary"
+            android:title="@string/restore_background_video_title"/>
+
+    <CheckBoxPreference
         app:singleLineTitle="false"
         android:defaultValue="false"
         android:key="video_match_frame_rate"

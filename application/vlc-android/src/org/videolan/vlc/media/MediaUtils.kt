@@ -222,7 +222,7 @@ object MediaUtils {
     fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) = context?.scope?.launch {
         provider.loadPagedList(context, {
             provider.getAll().flatMap {
-                it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
+                it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, false, it.mediaCount(), 0).toList()
             }
         }, {l, service ->
             l.takeIf { l.isNotEmpty() }?.let { list ->
@@ -243,7 +243,7 @@ object MediaUtils {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
                     provider.getAll().flatMap {
-                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(provider.type), 0).toList()
+                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, false, it.mediaCount(provider.type), 0).toList()
                     }
                 })
                 else -> {
@@ -252,7 +252,7 @@ object MediaUtils {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
                             provider.getPage(pageCount, index).flatMap {
-                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(provider.type), 0).toList()
+                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, false, it.mediaCount(provider.type), 0).toList()
                             }
                         }
                         if (index == 0) play(list)
@@ -277,8 +277,8 @@ object MediaUtils {
     fun openPlaylist(context: Context?, playlistId: Long, position: Int = 0, shuffle: Boolean = false) {
         if (playlistId == -1L || context == null) return
         SuspendDialogCallback(context) { service ->
-           val playlist =  context.getFromMl { getPlaylist(playlistId, Settings.includeMissing) }
-            service.load(playlist.getPagedTracks(playlist.getRealTracksCount(Settings.includeMissing), 0, Settings.includeMissing), position)
+           val playlist =  context.getFromMl { getPlaylist(playlistId, Settings.includeMissing, false) }
+            service.load(playlist.getPagedTracks(playlist.getRealTracksCount(Settings.includeMissing, false), 0, Settings.includeMissing, false), position)
             if (shuffle && !service.isShuffling) service.shuffle()
         }
     }
@@ -500,13 +500,13 @@ object MediaUtils {
 }
 
 @WorkerThread
-fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, includeMissing:Boolean = true): List<MediaWrapper> {
+fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, includeMissing:Boolean = true, onlyFavorites:Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = mediaCount(type)
     val all = mutableListOf<MediaWrapper>()
     while (index < count) {
         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-        val list = media(type, sort, desc, includeMissing, pageCount, index)
+        val list = media(type, sort, desc, includeMissing, onlyFavorites, pageCount, index)
         all.addAll(list)
         index += pageCount
     }
@@ -514,13 +514,13 @@ fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary
 }
 
 @WorkerThread
-fun VideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+fun VideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true, onlyFavorites:Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = mediaCount()
     val all = mutableListOf<MediaWrapper>()
     while (index < count) {
         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-        val list = media(sort, desc, includeMissing, pageCount, index)
+        val list = media(sort, desc, includeMissing, onlyFavorites, pageCount, index)
         all.addAll(list)
         index += pageCount
     }
@@ -528,13 +528,13 @@ fun VideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = fal
 }
 
 @WorkerThread
-fun Album.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+fun Album.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true, onlyFavorites:Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = realTracksCount
     val all = mutableListOf<MediaWrapper>()
     while (index < count) {
         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-        val list = getPagedTracks(sort, desc, includeMissing, pageCount, index)
+        val list = getPagedTracks(sort, desc, includeMissing, onlyFavorites, pageCount, index)
         all.addAll(list)
         index += pageCount
     }
@@ -542,34 +542,34 @@ fun Album.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  
 }
 
 @WorkerThread
-fun Artist.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true): List<MediaWrapper> {
+fun Artist.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false,  includeMissing:Boolean = true, onlyFavorites:Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = tracksCount
     val all = mutableListOf<MediaWrapper>()
     while (index < count) {
         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-        val list = getPagedTracks(sort, desc, includeMissing, pageCount, index)
+        val list = getPagedTracks(sort, desc, includeMissing, onlyFavorites, pageCount, index)
         all.addAll(list)
         index += pageCount
     }
     return all
 }
 
-fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
+fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, onlyFavorites:Boolean = false) = flatMap {
     when (it) {
-        is VideoGroup -> it.getAll(sort, desc)
+        is VideoGroup -> it.getAll(sort, desc, onlyFavorites)
         is MediaWrapper -> listOf(it)
         else -> listOf()
     }
 }
 
-fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
-    it.getAll(type, sort, desc)
+fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, onlyFavorites:Boolean = false) = flatMap {
+    it.getAll(type, sort, desc, onlyFavorites)
 }
 
 private fun Array<MediaLibraryItem>.toList() = flatMap {
     if (it is VideoGroup) {
-        it.media(Medialibrary.SORT_DEFAULT, false, true, it.mediaCount(), 0).toList()
+        it.media(Medialibrary.SORT_DEFAULT, false, true, false, it.mediaCount(), 0).toList()
     } else listOf(it as MediaWrapper)
 }
 

@@ -102,8 +102,12 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             addMediaView(inflater, service.titlePrev, service.artistPrev, service.albumPrev, coverPrev, prevTrackInfo)
             hasPrevious = true
         }
-        val chapter = service.getCurrentChapter(true)
-        if (service.hasMedia()) addMediaView(inflater, if (!chapter.isNullOrEmpty()) chapter else  service.title, if (!chapter.isNullOrEmpty()) service.title else service.artist, if (!chapter.isNullOrEmpty()) service.artist else service.album, coverCurrent, trackInfo)
+        val chapter = service.getCurrentChapter()
+        val (titleCurrent, artistCurrent, albumCurrent) = when {
+            !chapter.isNullOrEmpty() -> arrayOf(chapter, service.title, service.artist)
+            else -> arrayOf(service.title, service.artist, service.album);
+        }
+        if (service.hasMedia()) addMediaView(inflater, titleCurrent, artistCurrent, albumCurrent, coverCurrent, trackInfo)
         if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, service.albumNext, coverNext, nextTrackInfo)
 
         if (service.hasPrevious() && service.hasMedia()) {

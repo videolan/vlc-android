@@ -16,17 +16,18 @@ public abstract class Folder extends MediaLibraryItem {
     public String mMrl;
     protected int mMediaCount;
 
-    public Folder(long id, String name, String mrl, int count) {
+    public Folder(long id, String name, String mrl, int count, boolean isFavorite) {
         super(id, name);
         mMrl = mrl;
         mMediaCount = count;
+        mFavorite = isFavorite;
     }
 
-    abstract public MediaWrapper[] media(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] media(int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int mediaCount(int type);
-    abstract public Folder[] subfolders(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Folder[] subfolders(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int subfoldersCount(int type);
-    abstract public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int searchTracksCount(String query, int mediaType);
 
     public String getDisplayTitle() {
@@ -58,6 +59,7 @@ public abstract class Folder extends MediaLibraryItem {
         super.writeToParcel(parcel, i);
         parcel.writeString(mMrl);
         parcel.writeInt(mMediaCount);
+        parcel.writeInt(mFavorite ? 1 : 0);
     }
 
     public static Parcelable.Creator<Folder> CREATOR = new Parcelable.Creator<Folder>() {
@@ -76,6 +78,7 @@ public abstract class Folder extends MediaLibraryItem {
         super(in);
         this.mMrl = in.readString();
         this.mMediaCount = in.readInt();
+        this.mFavorite = in.readInt() == 1;
     }
 
     public boolean equals(Folder other) {

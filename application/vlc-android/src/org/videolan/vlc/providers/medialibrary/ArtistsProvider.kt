@@ -29,11 +29,11 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 class ArtistsProvider(context: Context, model: SortableModel, var showAll: Boolean) : MedialibraryProvider<Artist>(context, model) {
 
-    override fun getAll() : Array<Artist> = medialibrary.getArtists(showAll, sort, desc, Settings.includeMissing)
+    override fun getAll() : Array<Artist> = medialibrary.getArtists(showAll, sort, desc, Settings.includeMissing, onlyFavorites)
 
     override fun getPage(loadSize: Int, startposition: Int): Array<Artist> {
-        val list = if (model.filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, Settings.includeMissing, loadSize, startposition)
-        else medialibrary.searchArtist(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        val list = if (model.filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+        else medialibrary.searchArtist(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list
     }

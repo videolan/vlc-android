@@ -30,6 +30,10 @@
                 type="boolean" />
 
         <variable
+            name="isFavorite"
+            type="boolean" />
+
+        <variable
                 name="inSelection"
                 type="boolean" />
 
@@ -169,6 +173,20 @@
                         vlc:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/media_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/rounded_corners_black_more_transparent"
+                    android:padding="3dp"
+                    android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
+                    vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+                    vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                    vlc:layout_goneMarginBottom="4dp"
+                    vlc:srcCompat="@drawable/ic_emoji_favorite" />
+
+                <ImageView
                         android:id="@+id/network_media"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -178,7 +196,7 @@
                         android:padding="3dp"
                         android:visibility="@{isNetwork &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-                        vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
                         vlc:srcCompat="@drawable/ic_emoji_network" />
 
@@ -193,7 +211,7 @@
                         android:padding="3dp"
                         android:visibility="@{isOTG &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-                        vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
                         vlc:srcCompat="@drawable/ic_emoji_otg" />
 
@@ -207,7 +225,7 @@
                         android:padding="3dp"
                         android:visibility="@{isSD &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-                        vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
                         vlc:srcCompat="@drawable/ic_emoji_sd" />
 
@@ -221,7 +239,7 @@
                         android:padding="3dp"
                         android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-                        vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                        vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
                         vlc:srcCompat="@drawable/ic_emoji_absent" />
 

@@ -26,7 +26,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
@@ -54,6 +53,8 @@ import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addFavoritesIcon
+import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.FastScroller
@@ -61,6 +62,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -146,6 +148,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 activity?.invalidateOptionsMenu()
             }
         })
+        adapters.forEach {
+            it.onAnyChange { updateEmptyView() }
+        }
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {
@@ -165,7 +170,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             }
             ONLY_FAVS -> {
                 viewModel.providers[currentTab].showOnlyFavs(value as Boolean)
-                viewModel.refresh()
+                viewModel.providers[currentTab].refresh()
                 updateTabs()
             }
             CURRENT_SORT -> {
@@ -289,7 +294,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 DisplaySettingsDialog.newInstance(
                         displayInCards = viewModel.providersInCard[currentTab],
                         showAllArtists = if (currentTab == 0) Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false) else null,
-                        onlyFavs = viewModel.providers[currentTab].onlyFavs,
+                        onlyFavs = viewModel.providers[currentTab].onlyFavorites,
                         sorts = sorts,
                         currentSort = viewModel.providers[currentTab].sort,
                         currentSortDesc = viewModel.providers[currentTab].desc
@@ -319,12 +324,13 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private fun updateEmptyView() {
         swipeRefreshLayout.visibility = if (Medialibrary.getInstance().isInitiated) View.VISIBLE else View.GONE
-        emptyView.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
+        emptyView.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: if (viewModel.providers[currentTab].onlyFavorites) getString(R.string.nofav) else getString(R.string.nomedia)
         emptyView.state = when {
             !Permissions.canReadStorage(requireActivity()) && empty -> EmptyLoadingState.MISSING_PERMISSION
             viewModel.providers[currentTab].loading.value == true && empty -> EmptyLoadingState.LOADING
-            empty && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
-            empty -> EmptyLoadingState.EMPTY
+            emptyAt(currentTab) && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
+            emptyAt(currentTab) && viewModel.providers[currentTab].onlyFavorites -> EmptyLoadingState.EMPTY_FAVORITES
+            emptyAt(currentTab) -> EmptyLoadingState.EMPTY
             else -> EmptyLoadingState.NONE
 
         }
@@ -344,9 +350,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             val tab = tabLayout!!.getTabAt(i)
             val view = tab?.customView ?: View.inflate(requireActivity(), R.layout.audio_tab, null)
             val title = view.findViewById<TextView>(R.id.tab_title)
-            val icon = view.findViewById<ImageView>(R.id.tab_icon)
             title.text = audioPagerAdapter.getPageTitle(i)
-            if (viewModel.providers[i].onlyFavs) icon.setVisible() else icon.setGone()
+            if (viewModel.providers[i].onlyFavorites) title.addFavoritesIcon() else title.removeDrawables()
             tab?.customView = view
         }
     }

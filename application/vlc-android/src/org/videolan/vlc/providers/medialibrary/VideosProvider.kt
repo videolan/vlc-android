@@ -48,13 +48,13 @@ class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Cont
 
     override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> {
         val list = if (model.filterQuery == null) when {
-            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing, loadSize, startposition)
-            group !== null -> group.media(sort, desc, Settings.includeMissing, loadSize, startposition)
-            else -> medialibrary.getPagedVideos(sort, desc, Settings.includeMissing, loadSize, startposition)
+            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            group !== null -> group.media(sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            else -> medialibrary.getPagedVideos(sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
         } else when {
-            folder !== null -> folder.searchTracks(model.filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing, loadSize, startposition)
-            group !== null -> group.searchTracks(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
-            else -> medialibrary.searchVideo(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+            folder !== null -> folder.searchTracks(model.filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            group !== null -> group.searchTracks(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+            else -> medialibrary.searchVideo(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
         }
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list
@@ -62,7 +62,7 @@ class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Cont
 
     override fun getAll(): Array<MediaWrapper> = when {
         folder !== null -> folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc, Settings.includeMissing).toTypedArray()
-        group !== null -> group.getAll(sort, desc, Settings.includeMissing).toTypedArray()
-        else -> medialibrary.getVideos(sort, desc, Settings.includeMissing)
+        group !== null -> group.getAll(sort, desc, Settings.includeMissing, onlyFavorites).toTypedArray()
+        else -> medialibrary.getVideos(sort, desc, Settings.includeMissing, onlyFavorites)
     }
 }

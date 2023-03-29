@@ -45,7 +45,7 @@ public class StubSubscription extends Subscription {
     }
 
     @Override
-    public Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing) {
+    public Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         return null;
     }
 
@@ -55,7 +55,7 @@ public class StubSubscription extends Subscription {
     }
 
     @Override
-    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
+    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         return null;
     }
 

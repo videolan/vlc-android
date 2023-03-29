@@ -34,7 +34,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
-import org.videolan.tools.dp
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ChapterListItemBinding
@@ -72,26 +71,28 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
     }
 
     private fun initChapterList() {
-        val chapters = service!!.getChapters(-1)
-        val chaptersCount = chapters?.size ?: 0
-        if (chaptersCount <= 1) return
+        val svc = service ?: return
+        val chapters = svc.getChapters(-1)
+        if (chapters == null || chapters.size <= 1) return
 
         val chapterData = ArrayList<Chapter>()
 
-        for (i in 0 until chaptersCount) {
-            val name: String = TextUtils.formatChapterTitle(requireActivity(), chapters!![i].name)
+        for (i in chapters.indices) {
+            val name: String = TextUtils.formatChapterTitle(requireActivity(), i + 1, chapters[i].name)
             chapterData.add(Chapter(name, Tools.millisToString(chapters[i].timeOffset)))
         }
 
-
-        val adapter = ChapterAdapter(chapterData, service?.chapterIdx, this)
+        val adapter = ChapterAdapter(chapterData, svc.chapterIdx, this)
 
         chapterList.layoutManager = object : LinearLayoutManager(activity, VERTICAL, false) {
             override fun onLayoutCompleted(state: RecyclerView.State?) {
                 super.onLayoutCompleted(state)
-                service?.chapterIdx?.let { index ->
+                svc.chapterIdx.let { position ->
                     //we cannot scroll the recyclerview as its height is wrap_content. We scroll the nestedScrollView instead
-                    nestedScrollView.smoothScrollTo(0, 48.dp * index)
+                    findViewByPosition(position)?.apply {
+                        nestedScrollView.smoothScrollTo(0, y.toInt())
+                        requestFocusFromTouch()
+                    }
                 }
             }
         }

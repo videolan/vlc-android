@@ -22,34 +22,20 @@
   ~
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/tab_title"
+        android:textAllCaps="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    <TextView
-            android:id="@+id/tab_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:textAllCaps="true"
-            android:letterSpacing="0.1"
-            android:textColor="@color/standard_selection_control_normal_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tab_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Artists" />
-
-    <ImageView
-            android:id="@+id/tab_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/standard_selection_control_normal_primary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_emoji_favorite" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.1"
+        android:textColor="@color/standard_selection_control_normal_primary"
+        android:drawablePadding="8dp"
+        app:drawableTint="@color/standard_selection_control_normal_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Artists"
+        tools:drawableRight="@drawable/ic_emoji_favorite" />

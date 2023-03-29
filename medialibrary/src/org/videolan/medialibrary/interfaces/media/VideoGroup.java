@@ -17,15 +17,16 @@ public abstract class VideoGroup extends MediaLibraryItem {
     public int mPresentSeen;
     public boolean isNetwork = false;
 
-    public VideoGroup(long id, String name, int count, int presentCount, int presentSeen) {
+    public VideoGroup(long id, String name, int count, int presentCount, int presentSeen, boolean isFavorite) {
         super(id, name);
         mCount = count;
         mPresentCount = presentCount;
         mPresentSeen = presentSeen;
+        mFavorite = isFavorite;
     }
 
-    abstract public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public boolean add(long mediaId);
     abstract public boolean remove(long mediaId);
@@ -83,6 +84,7 @@ public abstract class VideoGroup extends MediaLibraryItem {
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeInt(mCount);
+        parcel.writeInt(mFavorite ? 1 : 0);
     }
 
     public static Parcelable.Creator<VideoGroup> CREATOR = new Parcelable.Creator<VideoGroup>() {
@@ -100,6 +102,7 @@ public abstract class VideoGroup extends MediaLibraryItem {
     public VideoGroup(Parcel in) {
         super(in);
         this.mCount = in.readInt();
+        this.mFavorite = in.readInt() == 1;
     }
 
     public boolean equals(VideoGroup other) {

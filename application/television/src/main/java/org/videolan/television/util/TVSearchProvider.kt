@@ -104,7 +104,7 @@ class TVSearchProvider : ContentProvider() {
                     }
                 }
 
-                val searchAggregate = medialibrary.search(sanitizedQuery, Settings.includeMissing)
+                val searchAggregate = medialibrary.search(sanitizedQuery, Settings.includeMissing, false)
                         ?: return null
                 searchAggregate.artists?.filterNotNull()?.let {
                     it.forEach { media ->

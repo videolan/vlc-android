@@ -54,9 +54,9 @@ public class SubscriptionImpl extends Subscription {
     }
 
     @Override
-    public Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing) {
+    public Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetChildSubscriptions(ml, id, sortingCriteria, desc, includeMissing) : new Subscription[0];
+        return ml.isInitiated() ? nativeGetChildSubscriptions(ml, id, sortingCriteria, desc, includeMissing, onlyFavorites) : new Subscription[0];
     }
 
     @Override
@@ -73,9 +73,9 @@ public class SubscriptionImpl extends Subscription {
     }
 
     @Override
-    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing) {
+    public MediaWrapper[] getMedia(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetSubscriptionMedia(ml, id, sortingCriteria, desc, includeMissing) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetSubscriptionMedia(ml, id, sortingCriteria, desc, includeMissing, onlyFavorites) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -90,9 +90,9 @@ public class SubscriptionImpl extends Subscription {
     private native long nativeGetSubscriptionMaxCachedSize(Medialibrary ml, long id);
     private native boolean nativeSetSubscriptionMaxCachedSize(Medialibrary ml, long id, long size);
     private native int nativeGetSubscriptionNbUnplayedMedia(Medialibrary ml, long id);
-    private native Subscription[] nativeGetChildSubscriptions(Medialibrary ml, long id, int sortingCriteria, boolean desc, boolean includeMissing);
+    private native Subscription[] nativeGetChildSubscriptions(Medialibrary ml, long id, int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     private native Subscription nativeGetParent(Medialibrary ml, long id);
     private native boolean nativeSubscriptionRefresh(Medialibrary ml, long id);
-    private native MediaWrapper[] nativeGetSubscriptionMedia(Medialibrary ml, long id, int sortingCriteria, boolean desc, boolean includeMissing);
+    private native MediaWrapper[] nativeGetSubscriptionMedia(Medialibrary ml, long id, int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     private native int nativeGetSubscriptionNbMedia(Medialibrary ml, long id);
 }

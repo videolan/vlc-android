@@ -15,8 +15,8 @@ public class StubPlaylist extends Playlist {
     private ArrayList<Long> mTracksId = new ArrayList<>();
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubPlaylist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown) {
-        super(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown);
+    public StubPlaylist(long id, String name, int trackCount, long duration, int nbVideo, int nbAudio, int nbUnknown, int nbDurationUnknown, boolean isFavorite) {
+        super(id, name, trackCount, duration, nbVideo, nbAudio, nbUnknown, nbDurationUnknown, isFavorite);
     }
 
     public StubPlaylist(Parcel in) {
@@ -25,10 +25,10 @@ public class StubPlaylist extends Playlist {
 
     @Override
     public MediaWrapper[] getTracks() {
-        return getTracks(true);
+        return getTracks(true, false);
     }
 
-    public MediaWrapper[] getTracks(boolean includeMissing) {
+    public MediaWrapper[] getTracks(boolean includeMissing, boolean onlyFavorites) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId())) results.add(media);
@@ -36,12 +36,12 @@ public class StubPlaylist extends Playlist {
         return results.toArray(new MediaWrapper[0]);
     }
 
-    public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing) {
+    public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing, boolean onlyFavorites) {
         ArrayList<MediaWrapper> results = new ArrayList<>(Arrays.asList(getTracks()));
         return dt.secureSublist(results, offset, offset + nbItems).toArray(new MediaWrapper[0]);
     }
 
-    public int getRealTracksCount(boolean includeMissing) {
+    public int getRealTracksCount(boolean includeMissing, boolean onlyFavorites) {
         int count = 0;
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId())) count++;
@@ -97,7 +97,7 @@ public class StubPlaylist extends Playlist {
         return false;
     }
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&

@@ -33,33 +33,33 @@ public abstract class Genre extends MediaLibraryItem {
         parcel.writeInt(mFavorite ? 1 : 0);
     }
 
-    abstract public Album[] getAlbums(int sort, boolean desc, boolean includeMissing);
-    abstract public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public Artist[] getArtists(int sort, boolean desc, boolean includeMissing);
-    abstract public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing);
-    abstract public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Album[] getAlbums(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);
+    abstract public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
+    abstract public Artist[] getArtists(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);
+    abstract public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);
+    abstract public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int getAlbumsCount();
-    abstract public Album[] searchAlbums(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Album[] searchAlbums(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
-    public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        return getPagedTracks(false, sort, desc, includeMissing, nbItems, offset);
+    public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
+        return getPagedTracks(false, sort, desc, includeMissing, onlyFavorites, nbItems, offset);
     }
 
-    public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing) {
-        return getTracks(false, sort, desc, includeMissing);
+    public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites) {
+        return getTracks(false, sort, desc, includeMissing, onlyFavorites);
     }
 
     public Album[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_DEFAULT, false, true);
+        return getAlbums(Medialibrary.SORT_DEFAULT, false, true, false);
     }
     public Artist[] getArtists() {
-        return getArtists(Medialibrary.SORT_DEFAULT, false, true);
+        return getArtists(Medialibrary.SORT_DEFAULT, false, true, false);
     }
     public MediaWrapper[] getTracks() {
-        return getTracks(false, Medialibrary.SORT_ALBUM, false, true);
+        return getTracks(false, Medialibrary.SORT_ALBUM, false, true, false);
     }
     @Override
     public int getItemType() {

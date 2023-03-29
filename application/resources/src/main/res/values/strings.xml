@@ -138,6 +138,7 @@
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait…</string>
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
+    <string name="nofav">No favorite found.</string>
     <string name="empty_search">No item found for search %s</string>
     <string name="noplaylist">No playlist found.</string>
     <string name="nosubfolder">No subfolder</string>
@@ -765,6 +766,8 @@
     <string name="misc">Miscellaneous</string>
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
     <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
+    <string name="restore_background_video_title">Restore video from background</string>
+    <string name="restore_background_video_summary">Restore video from background when reopening vlc-android</string>
     <string name="device_default">Device default</string>
     <string name="track_number">%d tracks</string>
     <string name="jump_to">Jump to</string>

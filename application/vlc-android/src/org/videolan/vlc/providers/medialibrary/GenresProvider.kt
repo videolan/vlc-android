@@ -29,11 +29,11 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 class GenresProvider(context: Context, model: SortableModel) : MedialibraryProvider<Genre>(context, model)  {
 
-    override fun getAll() : Array<Genre> = medialibrary.getGenres(sort, desc, Settings.includeMissing)
+    override fun getAll() : Array<Genre> = medialibrary.getGenres(sort, desc, Settings.includeMissing, onlyFavorites)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<Genre> {
-        val list = if (model.filterQuery == null) medialibrary.getPagedGenres(sort, desc, Settings.includeMissing, loadSize, startposition)
-        else medialibrary.searchGenre(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
+        val list = if (model.filterQuery == null) medialibrary.getPagedGenres(sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
+        else medialibrary.searchGenre(model.filterQuery, sort, desc, Settings.includeMissing, onlyFavorites, loadSize, startposition)
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list
     }
