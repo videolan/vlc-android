@@ -142,7 +142,7 @@ export default {
   display: flex;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
-  bottom: 200px;
+  bottom: 0;
   width: 100%;
   padding: 16px;
   background: #FF7700;
