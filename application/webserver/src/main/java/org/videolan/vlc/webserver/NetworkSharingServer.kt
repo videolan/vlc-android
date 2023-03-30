@@ -25,6 +25,7 @@
 package org.videolan.vlc.webserver
 
 import android.content.Context
+import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -53,6 +54,7 @@ import org.json.JSONObject
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -148,15 +150,16 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
                 // Handle a WebSocket session
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
-                    when (frame.readText()) {
-                        "play" -> service?.play()
-                        "pause" -> service?.pause()
-                        "previous" -> service?.previous(false)
-                        "next" -> service?.next()
-                        "previous10" -> service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
-                        "next10" -> service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
-                        "shuffle" -> service?.shuffle()
-                        "repeat" -> service?.let {
+                    val message = frame.readText()
+                    when {
+                        message == "play" -> service?.play()
+                        message == "pause" -> service?.pause()
+                        message == "previous" -> service?.previous(false)
+                        message == "next" -> service?.next()
+                        message == "previous10" -> service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
+                        message == "next10" -> service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
+                        message == "shuffle" -> service?.shuffle()
+                        message == "repeat" -> service?.let {
                             when (it.repeatType) {
                                 PlaybackStateCompat.REPEAT_MODE_NONE -> {
                                     it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
@@ -170,6 +173,18 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
                                     it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                                 }
                             }
+                        }
+                        message == "get-volume" -> {
+                            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage(context))) } }
+                        }
+                        message.startsWith("set-volume") -> {
+                            val volume = message.split(':')[1].toInt()
+                            (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
+                                val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                                it.setStreamVolume(AudioManager.STREAM_MUSIC, ((volume.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
+
+                            }
+
                         }
                     }
                 }
@@ -298,30 +313,32 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
     }
 
     override fun update() {
-        generateNowPlaying()?.let { nowPlaying ->
+        generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
     }
 
     override fun onMediaEvent(event: IMedia.Event) {
-        generateNowPlaying()?.let { nowPlaying ->
+        generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
     }
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-        generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+        generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
+            AppScope.launch {
+                coroutineContext
+                websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
     }
 
-    private fun generateNowPlaying(): String? {
+    private fun generateNowPlaying(context: Context): String? {
         service?.let { service ->
             service.currentMediaWrapper?.let { media ->
                 val gson = Gson()
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
                         ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
-                        ?: "", media.uri.toString())
+                        ?: "", media.uri.toString(), getVolume(context))
                 return gson.toJson(nowPlaying)
 
             }
@@ -329,6 +346,35 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
         return null
     }
 
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String)
+    private fun getVolume(context: Context):Int  = when {
+        service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
+        else -> {
+            (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
+                val vol = it.getStreamVolume(AudioManager.STREAM_MUSIC)
+                val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                (vol.toFloat() / max * 100).toInt()
+            }
+                    ?: 0
+        }
+    }
+    private fun getVolumeMessage(context: Context): String {
+        val gson = Gson()
+        val volume = when {
+            service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
+            else -> {
+                (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
+                    val vol = it.getStreamVolume(AudioManager.STREAM_MUSIC)
+                    val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                    (vol.toFloat() / max * 100).toInt()
+                }
+                        ?: 0
+            }
+        }
+        return gson.toJson(Volume(volume))
+    }
+
+    abstract class WSMessage(val type: String)
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume:Int) : WSMessage("now-playing")
+    data class Volume(val volume: Int) : WSMessage("volume")
 }
 

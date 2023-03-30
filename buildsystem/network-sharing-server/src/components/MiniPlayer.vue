@@ -28,6 +28,10 @@
           </div>
         </div>
         <div class="player_right col">
+          <PlayerButton type="queue_music" id="playqueue" ref="playqueue" />
+          <div id="volume_container">
+            <input type="range" ref="volume" name="volume" min="0" max="100">
+          </div>
         </div>
       </div>
     </div>
@@ -92,6 +96,9 @@ export default {
       this.playerWS.send("next10");
       console.log("Sending next10");
     },
+    volumeChange(event) {
+      this.playerWS.send("set-volume:" + event.target.value);
+    },
 
     initEventListeners() {
       this.$refs.play.$el.addEventListener('click', this.play);
@@ -102,6 +109,7 @@ export default {
       this.$refs.repeat.$el.addEventListener('click', this.repeat);
       this.$refs.previous10.$el.addEventListener('click', this.previous10);
       this.$refs.next10.$el.addEventListener('click', this.next10);
+      this.$refs.volume.addEventListener('change', this.volumeChange);
     },
     removeEventListeners() {
       this.$refs.play.$el.removeEventListener('click', this.play)
@@ -112,6 +120,7 @@ export default {
       this.$refs.repeat.$el.removeEventListener('click', this.repeat)
       this.$refs.previous10.$el.removeEventListener('click', this.previous10)
       this.$refs.next10.$el.removeEventListener('click', this.next10)
+      this.$refs.volume.removeEventListener('change', this.volumeChange);
     },
   },
   mounted: function () {
@@ -127,27 +136,39 @@ export default {
           console.log("Starting player ...")
           this.playing = true;
           this.initEventListeners();
+          this.playerWS.send("get-volume");
+          console.log("Volume asked");
         }
         const msg = JSON.parse(event.data);
-        this.$el.querySelector("#title").textContent = msg.title
-        this.$el.querySelector("#artist").textContent = msg.artist
-        this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
-        this.$el.querySelector("#duration").textContent = this.msecToTime(new Date(msg.duration))
-        if (lastLoadedMediaUri != msg.uri) {
-          console.log("Loading image: " + API_URL + "/artwork?randomizer=" + Date.now());
-          this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
-          lastLoadedMediaUri = msg.uri
-        }
 
-        if (msg.playing) {
-          this.$refs.play.$el.style.display = "none";
-          this.$refs.pause.$el.style.display = "inline-block";
-        } else {
-          this.$refs.play.$el.style.display = "inline-block";
-          this.$refs.pause.$el.style.display = "none";
+        switch (msg.type) {
+          case 'volume':
+            console.log("Volume received: " + msg.volume);
+            this.$refs.volume.value = msg.volume
+            break;
+          case 'now-playing':
+            this.$el.querySelector("#title").textContent = msg.title
+            this.$el.querySelector("#artist").textContent = msg.artist
+            this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
+            this.$el.querySelector("#duration").textContent = this.msecToTime(new Date(msg.duration))
+            if (lastLoadedMediaUri != msg.uri) {
+              console.log("Loading image: " + API_URL + "/artwork?randomizer=" + Date.now());
+              this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
+              lastLoadedMediaUri = msg.uri
+            }
+
+            if (msg.playing) {
+              this.$refs.play.$el.style.display = "none";
+              this.$refs.pause.$el.style.display = "inline-block";
+            } else {
+              this.$refs.play.$el.style.display = "inline-block";
+              this.$refs.pause.$el.style.display = "none";
+            }
+            this.$refs.playerProgress.progress = msg.progress;
+            this.$refs.playerProgress.duration = msg.duration;
+            this.$refs.volume.value = msg.volume
+            break;
         }
-        this.$refs.playerProgress.progress = msg.progress;
-        this.$refs.playerProgress.duration = msg.duration;
       }
     }
   }
@@ -214,5 +235,15 @@ export default {
 #duration {
   flex: none;
   padding-right: 16px;
+}
+
+.player_right>* {
+  float: right;
+}
+
+#volume_container {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 </style>
