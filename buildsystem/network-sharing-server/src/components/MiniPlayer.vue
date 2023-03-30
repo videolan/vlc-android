@@ -16,20 +16,22 @@
         </div>
 
         <div class="player_controls col">
-          <div>
-            <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
-            <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
-            <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
-            <PlayerButton type="play_circle" id="player_play" ref="play" />
-            <PlayerButton type="pause_circle" id="player_pause" ref="pause" />
-            <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
-            <PlayerButton type="skip_next" id="player_next" ref="next" />
-            <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
-          </div>
+          <span class="flex1"/>
+          <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
+          <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
+          <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
+          <PlayerButton type="play_circle" class="big" id="player_play" ref="play" />
+          <PlayerButton type="pause_circle" class="big" id="player_pause" ref="pause" />
+          <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
+          <PlayerButton type="skip_next" id="player_next" ref="next" />
+          <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
+          <span class="flex1"/>
         </div>
         <div class="player_right col">
-          <PlayerButton type="queue_music" id="playqueue" ref="playqueue" />
-          <div id="volume_container">
+          <div class="player_right_container">
+            <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueue" />
+          </div>
+          <div class="player_right_container">
             <input type="range" ref="volume" name="volume" min="0" max="100">
           </div>
         </div>
@@ -241,9 +243,18 @@ export default {
   float: right;
 }
 
-#volume_container {
+.player_right_container {
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.player_controls {
+  display: flex;
+  align-items: center;
+}
+
+.flex1 {
+  flex: 1;
 }
 </style>

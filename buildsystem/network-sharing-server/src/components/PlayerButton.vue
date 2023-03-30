@@ -1,6 +1,6 @@
 <template>
-  <button class="btn btn-lg btn-player">
-    <span class="material-symbols-outlined"></span>
+  <button class="btn btn-lg btn-player" v-bind="$attrs">
+    <span class="material-symbols-outlined" v-bind="$attrs"></span>
   </button>
 </template>
 
@@ -19,9 +19,26 @@ export default {
 <style>
 .btn-player {
   color: #000;
+  height: 40px;
+  padding: 8px;
+}
+
+.btn-player.big {
+  height: 64px;
+}
+
+.btn-player.medium {
+  height: 48px;
 }
 
 .btn-player:hover {
   color: grey;
+}
+.material-symbols-outlined.big {
+  font-size: 48px;
+}
+
+.material-symbols-outlined.medium {
+  font-size: 32px;
 }
 </style>
