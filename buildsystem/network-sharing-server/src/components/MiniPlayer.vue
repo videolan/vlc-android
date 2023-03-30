@@ -8,14 +8,14 @@
       </div>
       <div class="player_controls">
         <div>
-          <PlayerButton type="random" id="player_shuffle" />
-          <PlayerButton type="backward" id="player_previous" />
-          <PlayerButton type="fast-backward" id="player_previous_10" />
-          <PlayerButton type="play-circle" id="player_play" />
-          <PlayerButton type="pause-circle" id="player_pause" />
-          <PlayerButton type="fast-forward" id="player_next_10" />
-          <PlayerButton type="forward" id="player_next" />
-          <PlayerButton type="repeat" id="player_repeat" />
+          <PlayerButton type="random" id="player_shuffle" ref="shuffle" />
+          <PlayerButton type="fast-backward" id="player_previous" ref="previous" />
+          <PlayerButton type="backward" id="player_previous_10" ref="previous10" />
+          <PlayerButton type="play-circle" id="player_play" ref="play" />
+          <PlayerButton type="pause-circle" id="player_pause" ref="pause" />
+          <PlayerButton type="forward" id="player_next_10" ref="next10" />
+          <PlayerButton type="fast-forward" id="player_next" ref="next" />
+          <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
         </div>
         <div id="player_controls_progress">
           <p id="time" />
@@ -53,41 +53,58 @@ export default {
       return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds
         }`
     },
+    play() {
+      this.playerWS.send("play");
+      console.log("Sending play");
+    },
+    pause() {
+      this.playerWS.send("pause");
+      console.log("Sending pause");
+    },
+    previous() {
+      this.playerWS.send("previous");
+      console.log("Sending previous");
+    },
+    next() {
+      this.playerWS.send("next");
+      console.log("Sending next");
+    },
+    shuffle() {
+      this.playerWS.send("shuffle");
+      console.log("Sending shuffle");
+    },
+    repeat() {
+      this.playerWS.send("repeat");
+      console.log("Sending repeat");
+    },
+    previous10() {
+      this.playerWS.send("previous10");
+      console.log("Sending previous10");
+    },
+    next10() {
+      this.playerWS.send("next10");
+      console.log("Sending next10");
+    },
+
     initEventListeners() {
-      this.$refs.play.addEventListener('click', () => {
-        this.playerWS.send("play");
-      });
-      this.$refs.pause.addEventListener('click', () => {
-        this.playerWS.send("pause");
-      });
-      this.$refs.previous.addEventListener('click', () => {
-        this.playerWS.send("previous");
-      });
-      this.$refs.next.addEventListener('click', () => {
-        this.playerWS.send("next");
-      });
-      this.$refs.shuffle.addEventListener('click', () => {
-        this.playerWS.send("shuffle");
-      });
-      this.$refs.repeat.addEventListener('click', () => {
-        this.playerWS.send("repeat");
-      });
-      this.$refs.previous10.addEventListener('click', () => {
-        this.playerWS.send("previous10");
-      });
-      this.$refs.next10.addEventListener('click', () => {
-        this.playerWS.send("next10");
-      });
+      this.$refs.play.$el.addEventListener('click', this.play);
+      this.$refs.pause.$el.addEventListener('click', this.pause);
+      this.$refs.previous.$el.addEventListener('click', this.previous);
+      this.$refs.next.$el.addEventListener('click', this.next);
+      this.$refs.shuffle.$el.addEventListener('click', this.shuffle);
+      this.$refs.repeat.$el.addEventListener('click', this.repeat);
+      this.$refs.previous10.$el.addEventListener('click', this.previous10);
+      this.$refs.next10.$el.addEventListener('click', this.next10);
     },
     removeEventListeners() {
-      this.$refs.play.removeEventListeners()
-      this.$refs.pause.removeEventListeners()
-      this.$refs.previous.removeEventListeners()
-      this.$refs.next.removeEventListeners()
-      this.$refs.shuffle.removeEventListeners()
-      this.$refs.repeat.removeEventListeners()
-      this.$refs.previous10.removeEventListeners()
-      this.$refs.next10.removeEventListeners()
+      this.$refs.play.$el.removeEventListener('click', this.play)
+      this.$refs.pause.$el.removeEventListener('click', this.pause)
+      this.$refs.previous.$el.removeEventListener('click', this.previous)
+      this.$refs.next.$el.removeEventListener('click', this.next)
+      this.$refs.shuffle.$el.removeEventListener('click', this.shuffle)
+      this.$refs.repeat.$el.removeEventListener('click', this.repeat)
+      this.$refs.previous10.$el.removeEventListener('click', this.previous10)
+      this.$refs.next10.$el.removeEventListener('click', this.next10)
     },
   },
   mounted: function () {
@@ -105,26 +122,21 @@ export default {
           this.initEventListeners();
         }
         const msg = JSON.parse(event.data);
-        const title = document.getElementById("title");
-        const artist = document.getElementById("artist");
-        const time = document.getElementById("time");
-        const duration = document.getElementById("duration");
-        const artwork = document.getElementById("player_artwork");
-        title.textContent = msg.title
-        artist.textContent = msg.artist
-        time.textContent = this.msecToTime(new Date(msg.progress))
-        duration.textContent = this.msecToTime(new Date(msg.duration))
+        this.$el.querySelector("#title").textContent = msg.title
+        this.$el.querySelector("#artist").textContent = msg.artist
+        this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
+        this.$el.querySelector("#duration").textContent = this.msecToTime(new Date(msg.duration))
         if (lastLoadedMediaUri != msg.uri) {
-          artwork.src = API_URL + "/artwork?randomizer=" + Date.now()
+          this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
           lastLoadedMediaUri = msg.uri
         }
 
         if (msg.playing) {
-          this.$refs.play.style.display = "none";
-          this.$refs.pause.style.display = "inline-block";
+          this.$refs.play.$el.style.display = "none";
+          this.$refs.pause.$el.style.display = "inline-block";
         } else {
-          this.$refs.play.style.display = "inline-block";
-          this.$refs.pause.style.display = "none";
+          this.$refs.play.$el.style.display = "inline-block";
+          this.$refs.pause.$el.style.display = "none";
         }
       }
 
