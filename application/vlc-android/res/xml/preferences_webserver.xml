@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="audio_category"
+        android:title="@string/web_server">
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_web_server"
+            android:switchTextOff="Disabled"
+            android:switchTextOn="Enabled"
+            android:title="@string/enable_web_server"
+            app:singleLineTitle="false" />
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="enable_web_server"
+            android:key="web_server_auth"
+            android:summary="@string/enable_web_server_auth_summary"
+            android:title="@string/enable_web_server_auth" />
+    <EditTextPreference
+            android:defaultValue=""
+            android:dependency="web_server_auth"
+            android:inputType="text"
+            android:key="web_server_user"
+            android:singleLine="true"
+            android:summary="%s"
+            android:title="@string/web_server_user"
+            app:useSimpleSummaryProvider="true" />
+    <EditTextPreference
+            android:dependency="web_server_auth"
+            android:inputType="textPassword"
+            android:key="web_server_password"
+            android:title="@string/web_server_password" />
+</androidx.preference.PreferenceScreen>

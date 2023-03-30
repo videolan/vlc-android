@@ -53,6 +53,7 @@ dependencies {
     implementation "io.ktor:ktor-gson:1.6.8"
     implementation "io.ktor:ktor-server-websockets:2.1.2"
     implementation "io.ktor:ktor-server-cors:2.1.2"
+    implementation("io.ktor:ktor-server-auth:2.1.2")
 
 
     testImplementation 'junit:junit:4.13.2'

@@ -88,6 +88,8 @@ fun String.firstLetterUppercase(): String {
     } else Character.toUpperCase(this[0]) + substring(1).lowercase(Locale.getDefault())
 }
 
+fun String.password() = buildString { for (i in this@password.indices) append("*") }
+
 fun String.abbreviate(maxLen: Int): String {
     val ellipsis = "\u2026"
     val trimmed = this.trim()

@@ -462,6 +462,12 @@
     <string name="audio_ducking_title">Lower VLC volume on notifications</string>
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
+    <string name="web_server">Web server</string>
+    <string name="enable_web_server">Enable web server</string>
+    <string name="enable_web_server_auth">Use authentication</string>
+    <string name="enable_web_server_auth_summary">Forbid web server\'s access without authentication (recommended)</string>
+    <string name="web_server_user">User</string>
+    <string name="web_server_password">Password</string>
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
     <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>

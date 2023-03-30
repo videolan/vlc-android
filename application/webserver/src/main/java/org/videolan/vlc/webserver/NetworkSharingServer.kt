@@ -32,6 +32,7 @@ import com.google.gson.Gson
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
@@ -52,39 +53,42 @@ import org.json.JSONObject
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.AppScope
-import org.videolan.tools.SingletonHolder
-import org.videolan.tools.resIdByName
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.webserver.NetworkSharingServer.init
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.webserver.NetworkSharingServer.init
 import java.io.File
 import java.text.DateFormat
 import java.time.Duration
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 
-object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ init(it.applicationContext) }), PlaybackService.Callback {
+object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({ init(it.applicationContext) }), PlaybackService.Callback {
 
 
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
-    private val format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM, Locale.getDefault())
-
+    private val format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault())
+    private var auth = false
+    private var user = ""
+    private var password = ""
 
     fun init(applicationContext: Context): NettyApplicationEngine {
         copyWebServer(applicationContext)
+        auth = Settings.getInstance(applicationContext).getBoolean(KEY_WEB_SERVER_AUTH, false)
+        user = Settings.getInstance(applicationContext).getString(KEY_WEB_SERVER_USER, "") ?: ""
+        password = Settings.getInstance(applicationContext).getString(KEY_WEB_SERVER_PASSWORD, "")
+                ?: ""
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { service?.removeCallback(this@NetworkSharingServer) }
                 .launchIn(AppScope)
         return launchServer(applicationContext)
     }
 
-    private fun getServerFiles(context: Context) : String {
+    private fun getServerFiles(context: Context): String {
         return "${context.filesDir.path}/server/"
     }
 
@@ -112,6 +116,18 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
             maxFrameSize = Long.MAX_VALUE
             masking = false
         }
+        if (auth && user.isNotEmpty() && password.isNotEmpty()) install(Authentication) {
+            basic("auth-basic") {
+                realm = "Access to the '/' path"
+                validate { credentials ->
+                    if (credentials.name == user && credentials.password == password) {
+                        UserIdPrincipal(credentials.name)
+                    } else {
+                        null
+                    }
+                }
+            }
+        }
         install(CORS) {
             allowMethod(HttpMethod.Options)
             allowMethod(HttpMethod.Post)
@@ -121,81 +137,12 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
             anyHost()
         }
         PlaylistManager.showAudioPlayer.observeForever {
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped"))} }
+            AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
         }
         routing {
-            static("") {
-                files(getServerFiles(context))
-            }
-            get("/") {
-                call.respondRedirect("index.html", permanent = true)
-            }
-            get("/index.html") {
-                try {
-                    val html = FileUtils.getStringFromFile("${getServerFiles(context)}index.html")
-                    call.respondText(html, ContentType.Text.Html)
-                } catch (e: Exception) {
-                    call.respondText("Failed to load index.html")
-                }
-            }
-            post("/upload.json") {
-                var fileDescription = ""
-                var fileName = ""
-                val multipartData = call.receiveMultipart()
-
-                multipartData.forEachPart { part ->
-                    when (part) {
-                        is PartData.FormItem -> {
-                            fileDescription = part.value
-                        }
-                        is PartData.FileItem -> {
-                            File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads").mkdirs()
-                            fileName = part.originalFileName as String
-                            var fileBytes = part.streamProvider().readBytes()
-                            File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads/$fileName").writeBytes(fileBytes)
-                        }
-                        else -> {}
-                    }
-                }
-                call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
-            }
-            get("/download-logfile") {
-                call.request.queryParameters["file"]?.let { filePath ->
-                    val file = File(filePath)
-                    if (file.exists()) {
-                        call.response.header(HttpHeaders.ContentDisposition, ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, file.name).toString())
-                        call.respondFile(File(filePath))
-                    }
-                }
-                call.respond(HttpStatusCode.NotFound, "")
-            }
-            get("/list-logfiles"){
-                val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
-
-                val jsonArray = JSONArray()
-                for (log in logs) {
-                    val json = JSONObject()
-                    json.put("path", log)
-                    json.put("date", format.format(File(log).lastModified()))
-                    jsonArray.put(json)
-                }
-                call.respondText(jsonArray.toString())
-            }
-            get("/artwork") {
-                try {
-                    service?.coverArt?.let { coverArt ->
-                        AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
-                            BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
-
-                                call.respondBytes(ContentType.Image.JPEG) { it }
-                            }
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("networkShareReplace", e.message, e)
-                }
-                call.respond(HttpStatusCode.NotFound, "")
-            }
+            if (auth) authenticate("auth-basic") {
+                setupRouting(context)
+            } else setupRouting(context)
             webSocket("/echo", protocol = "player") {
                 websocketSession.add(this)
                 // Handle a WebSocket session
@@ -231,7 +178,82 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
         }
     }.start()
 
-    private suspend fun getLogsFiles(): List<String> = withContext(Dispatchers.IO){
+    private fun Route.setupRouting(context: Context) {
+        static("") {
+            files(getServerFiles(context))
+        }
+        get("/") {
+            call.respondRedirect("index.html", permanent = true)
+        }
+        get("/index.html") {
+            try {
+                val html = FileUtils.getStringFromFile("${getServerFiles(context)}index.html")
+                call.respondText(html, ContentType.Text.Html)
+            } catch (e: Exception) {
+                call.respondText("Failed to load index.html")
+            }
+        }
+        post("/upload.json") {
+            var fileDescription = ""
+            var fileName = ""
+            val multipartData = call.receiveMultipart()
+
+            multipartData.forEachPart { part ->
+                when (part) {
+                    is PartData.FormItem -> {
+                        fileDescription = part.value
+                    }
+                    is PartData.FileItem -> {
+                        File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads").mkdirs()
+                        fileName = part.originalFileName as String
+                        var fileBytes = part.streamProvider().readBytes()
+                        File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads/$fileName").writeBytes(fileBytes)
+                    }
+                    else -> {}
+                }
+            }
+            call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
+        }
+        get("/download-logfile") {
+            call.request.queryParameters["file"]?.let { filePath ->
+                val file = File(filePath)
+                if (file.exists()) {
+                    call.response.header(HttpHeaders.ContentDisposition, ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, file.name).toString())
+                    call.respondFile(File(filePath))
+                }
+            }
+            call.respond(HttpStatusCode.NotFound, "")
+        }
+        get("/list-logfiles") {
+            val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
+
+            val jsonArray = JSONArray()
+            for (log in logs) {
+                val json = JSONObject()
+                json.put("path", log)
+                json.put("date", format.format(File(log).lastModified()))
+                jsonArray.put(json)
+            }
+            call.respondText(jsonArray.toString())
+        }
+        get("/artwork") {
+            try {
+                service?.coverArt?.let { coverArt ->
+                    AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
+                        BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
+
+                            call.respondBytes(ContentType.Image.JPEG) { it }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("networkShareReplace", e.message, e)
+            }
+            call.respond(HttpStatusCode.NotFound, "")
+        }
+    }
+
+    private suspend fun getLogsFiles(): List<String> = withContext(Dispatchers.IO) {
         val result = ArrayList<String>()
         val folder = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
         val files = folder.listFiles()
@@ -243,7 +265,7 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
 
     }
 
-    fun String.networkShareReplace(context: Context):String  {
+    fun String.networkShareReplace(context: Context): String {
         var newString = this
         try {
             val logEntry = Pattern.compile("\\{%(.*?)%\\}")
@@ -258,7 +280,7 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
         return newString
     }
 
-    fun String.contentReplace(context: Context, logsHtml: String = ""):String  {
+    fun String.contentReplace(context: Context, logsHtml: String = ""): String {
         var newString = this
         try {
             val logEntry = Pattern.compile("\\{*(.*?)%*\\}")
@@ -283,26 +305,28 @@ object NetworkSharingServer: SingletonHolder<NettyApplicationEngine, Context>({ 
 
     override fun onMediaEvent(event: IMedia.Event) {
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { websocketSession.forEach {it.send(Frame.Text(nowPlaying)) }}
+            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
     }
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { websocketSession.forEach {it.send(Frame.Text(nowPlaying)) }}
+            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
     }
 
-    private fun generateNowPlaying():String? {
+    private fun generateNowPlaying(): String? {
         service?.let { service ->
-            service.currentMediaWrapper?.let {media ->
+            service.currentMediaWrapper?.let { media ->
                 val gson = Gson()
-                val nowPlaying = NowPlaying(media.title ?: "", media.artist ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL?:"", media.uri.toString())
+                val nowPlaying = NowPlaying(media.title ?: "", media.artist
+                        ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
+                        ?: "", media.uri.toString())
                 return gson.toJson(nowPlaying)
 
             }
         }
-       return null
+        return null
     }
 
     data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String)

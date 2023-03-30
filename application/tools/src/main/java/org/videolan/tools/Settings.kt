@@ -121,6 +121,13 @@ const val KEY_SHOW_TRACK_INFO = "show_track_info"
 const val ML_SCAN_ON = 0
 const val ML_SCAN_OFF = 1
 
+//Webserver
+const val KEY_ENABLE_WEB_SERVER = "enable_web_server"
+const val KEY_WEB_SERVER_AUTH = "web_server_auth"
+const val KEY_WEB_SERVER_USER = "web_server_user"
+const val KEY_WEB_SERVER_PASSWORD = "web_server_password"
+
+
 //Tips
 
 const val PREF_TIPS_SHOWN = "video_player_tips_shown"
