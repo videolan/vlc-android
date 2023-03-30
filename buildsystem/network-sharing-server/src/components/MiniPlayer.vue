@@ -1,6 +1,7 @@
 <template>
   <div v-show="playing">
     <div class="footer" id="player">
+      <PlayerProgress ref="playerProgress" id="player_progress" />
       <img id="player_artwork" width="48px" height="48px">
       <div class="player_info">
         <p id="title" />
@@ -31,11 +32,13 @@
 
 <script>
 import PlayerButton from './PlayerButton.vue'
+import PlayerProgress from './PlayerProgress.vue'
 import { API_IP, API_URL } from '../config.js'
 
 export default {
   components: {
     PlayerButton,
+    PlayerProgress,
   },
   data() {
     return {
@@ -138,6 +141,8 @@ export default {
           this.$refs.play.$el.style.display = "inline-block";
           this.$refs.pause.$el.style.display = "none";
         }
+        this.$refs.playerProgress.progress = msg.progress;
+        this.$refs.playerProgress.duration = msg.duration;
       }
 
 
