@@ -2,7 +2,7 @@
   <div v-show="playing">
     <div class="footer" id="player">
       <PlayerProgress ref="playerProgress" id="player_progress" />
-      <img id="player_artwork" width="48px" height="48px">
+      <img id="player_artwork">
       <div class="player_info">
         <p id="title" />
         <p id="artist" />
@@ -130,6 +130,7 @@ export default {
         this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
         this.$el.querySelector("#duration").textContent = this.msecToTime(new Date(msg.duration))
         if (lastLoadedMediaUri != msg.uri) {
+          console.log("Loading image: "+API_URL + "/artwork?randomizer=" + Date.now());
           this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
           lastLoadedMediaUri = msg.uri
         }
@@ -144,8 +145,6 @@ export default {
         this.$refs.playerProgress.progress = msg.progress;
         this.$refs.playerProgress.duration = msg.duration;
       }
-
-
     }
   }
 }
@@ -181,5 +180,10 @@ export default {
 
 #player_controls_progress {
   display: flex;
+}
+
+#player_artwork {
+  width: 48px;
+  height: 48px;
 }
 </style>
