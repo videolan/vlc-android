@@ -1,20 +1,17 @@
 <template>
   <button class="btn btn-lg btn-player">
-    <!-- <div class="mdc-icon-button__ripple">
-    </div> -->
-    <i :class="iclass"></i>
+    <span class="material-symbols-outlined"></span>
   </button>
 </template>
 
 <script>
+
 export default {
   props: {
     type: String
   },
-  computed: {
-    iclass: function () {
-      return `fa fa-6x fa-` + this.type
-    },
+  mounted: function () {
+    this.$el.querySelector(".material-symbols-outlined").innerHTML = this.type
   },
 }
 </script>

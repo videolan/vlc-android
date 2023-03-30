@@ -3,7 +3,7 @@
   <td class="text-center">
     <a :href="href" class="">
       <button class="btn btn-lg log-download" aria-label="download" type="button">
-        <i class="fa fa-download"></i>
+        <span class="material-symbols-outlined">download</span>
       </button>
     </a>
   </td>

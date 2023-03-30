@@ -9,13 +9,13 @@
       </div>
       <div class="player_controls">
         <div>
-          <PlayerButton type="random" id="player_shuffle" ref="shuffle" />
-          <PlayerButton type="fast-backward" id="player_previous" ref="previous" />
-          <PlayerButton type="backward" id="player_previous_10" ref="previous10" />
-          <PlayerButton type="play-circle" id="player_play" ref="play" />
-          <PlayerButton type="pause-circle" id="player_pause" ref="pause" />
-          <PlayerButton type="forward" id="player_next_10" ref="next10" />
-          <PlayerButton type="fast-forward" id="player_next" ref="next" />
+          <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
+          <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
+          <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
+          <PlayerButton type="play_circle" id="player_play" ref="play" />
+          <PlayerButton type="pause_circle" id="player_pause" ref="pause" />
+          <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
+          <PlayerButton type="skip_next" id="player_next" ref="next" />
           <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
         </div>
         <div id="player_controls_progress">
