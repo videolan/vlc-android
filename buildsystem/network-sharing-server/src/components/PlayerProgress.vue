@@ -19,10 +19,10 @@ export default {
 @import '../scss/app.scss';
 
 #player_progress{
-  background-color: #555;
+  background-color: $light-grey;
   height: 4px;
   width: 100%;
-  position: absolute;
+  // position: absolute;
     top: 0;
     left: 0;
 }
@@ -30,6 +30,8 @@ export default {
 #progress_bar_progress {
   background-color: $primary-color-dark;
   height: 4px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 
 

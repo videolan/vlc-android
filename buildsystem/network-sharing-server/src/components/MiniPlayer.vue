@@ -1,30 +1,34 @@
 <template>
-  <div v-show="playing">
+  <div v-show="playing" class="mdc-typography">
     <div class="footer" id="player">
+      <div class="time-duration-container">
+        <p id="time" class="mdc-typography--subtitle2" />
+        <p id="duration" class="mdc-typography--subtitle2" />
+      </div>
       <PlayerProgress ref="playerProgress" id="player_progress" />
-      <img id="player_artwork">
-      <div class="player_info">
-        <p id="title" />
-        <p id="artist" />
-      </div>
-      <div class="player_controls">
-        <div>
-          <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
-          <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
-          <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
-          <PlayerButton type="play_circle" id="player_play" ref="play" />
-          <PlayerButton type="pause_circle" id="player_pause" ref="pause" />
-          <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
-          <PlayerButton type="skip_next" id="player_next" ref="next" />
-          <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
+      <div id="player_content" class="row">
+        <div class="col" id="media_info">
+          <img id="player_artwork">
+          <div class="player_info">
+            <p id="title" class="mdc-typography--headline6" />
+            <p id="artist" class="mdc-typography--subtitle2" />
+          </div>
         </div>
-        <div id="player_controls_progress">
-          <p id="time" />
-          <div id="progress_bar"></div>
-          <p id="duration" />
+
+        <div class="player_controls col">
+          <div>
+            <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
+            <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
+            <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
+            <PlayerButton type="play_circle" id="player_play" ref="play" />
+            <PlayerButton type="pause_circle" id="player_pause" ref="pause" />
+            <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
+            <PlayerButton type="skip_next" id="player_next" ref="next" />
+            <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
+          </div>
         </div>
-      </div>
-      <div class="player_right">
+        <div class="player_right col">
+        </div>
       </div>
     </div>
   </div>
@@ -130,7 +134,7 @@ export default {
         this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
         this.$el.querySelector("#duration").textContent = this.msecToTime(new Date(msg.duration))
         if (lastLoadedMediaUri != msg.uri) {
-          console.log("Loading image: "+API_URL + "/artwork?randomizer=" + Date.now());
+          console.log("Loading image: " + API_URL + "/artwork?randomizer=" + Date.now());
           this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
           lastLoadedMediaUri = msg.uri
         }
@@ -155,23 +159,20 @@ export default {
 
 #player {
   position: fixed;
-  display: flex;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
   bottom: 0;
   width: 100%;
-  padding: 16px;
-  background: #FF7700;
-  color: #ffffff;
+  color: #000;
   border-radius-top-left: 8px;
   border-radius-top-right: 8px;
   align-items: center;
 }
 
-.player_info,
-.player_right,
-#progress_bar {
-  flex: auto;
+#player_content {
+  display: flex;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  padding: 16px;
+  background: $light-grey;
 }
 
 #progress_bar {
@@ -180,10 +181,38 @@ export default {
 
 #player_controls_progress {
   display: flex;
+  width: 100%;
+  // position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#media_info {
+  overflow: auto;
+}
+
+.player_info {
+  padding-left: 16px;
+  float: left;
 }
 
 #player_artwork {
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
+  float: left;
+}
+
+.time-duration-container {
+  display: flex;
+}
+
+#time {
+  flex: 1;
+  padding-left: 16px;
+}
+
+#duration {
+  flex: none;
+  padding-right: 16px;
 }
 </style>

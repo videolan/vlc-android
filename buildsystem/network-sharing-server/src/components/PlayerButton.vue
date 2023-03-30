@@ -18,7 +18,7 @@ export default {
 
 <style>
 .btn-player {
-  color: #FFFFFF;
+  color: #000;
 }
 
 .btn-player:hover {
