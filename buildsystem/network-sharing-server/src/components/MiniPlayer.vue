@@ -1,5 +1,6 @@
 <template>
   <div v-show="playing" class="mdc-typography">
+    <PlayQueue :medias="playqueueData.medias" :show="playqueueShowing" />
     <div class="footer" id="player">
       <div class="time-duration-container">
         <p id="time" class="mdc-typography--subtitle2" />
@@ -10,13 +11,13 @@
         <div class="col" id="media_info">
           <img id="player_artwork">
           <div class="player_info">
-            <p id="title" class="mdc-typography--headline6" />
-            <p id="artist" class="mdc-typography--subtitle2" />
+            <p id="title" class="mdc-typography--headline6 text-truncate" />
+            <p id="artist" class="mdc-typography--subtitle2 text-truncate" />
           </div>
         </div>
 
         <div class="player_controls col">
-          <span class="flex1"/>
+          <span class="flex1" />
           <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
           <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
           <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
@@ -25,11 +26,11 @@
           <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
           <PlayerButton type="skip_next" id="player_next" ref="next" />
           <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
-          <span class="flex1"/>
+          <span class="flex1" />
         </div>
         <div class="player_right col">
           <div class="player_right_container">
-            <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueue" />
+            <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton" />
           </div>
           <div class="player_right_container">
             <input type="range" ref="volume" name="volume" min="0" max="100">
@@ -43,17 +44,21 @@
 <script>
 import PlayerButton from './PlayerButton.vue'
 import PlayerProgress from './PlayerProgress.vue'
+import PlayQueue from './PlayQueue.vue'
 import { API_IP, API_URL } from '../config.js'
 
 export default {
   components: {
     PlayerButton,
     PlayerProgress,
+    PlayQueue,
   },
   data() {
     return {
       playerWS: WebSocket,
       playing: false,
+      playqueueData:Object,
+      playqueueShowing: false
     }
   },
   computed: {
@@ -101,6 +106,9 @@ export default {
     volumeChange(event) {
       this.playerWS.send("set-volume:" + event.target.value);
     },
+    togglePlayQueue() {
+      this.playqueueShowing = !this.playqueueShowing
+    },
 
     initEventListeners() {
       this.$refs.play.$el.addEventListener('click', this.play);
@@ -112,6 +120,7 @@ export default {
       this.$refs.previous10.$el.addEventListener('click', this.previous10);
       this.$refs.next10.$el.addEventListener('click', this.next10);
       this.$refs.volume.addEventListener('change', this.volumeChange);
+      this.$refs.playqueueButton.$el.addEventListener('click', this.togglePlayQueue);
     },
     removeEventListeners() {
       this.$refs.play.$el.removeEventListener('click', this.play)
@@ -123,6 +132,7 @@ export default {
       this.$refs.previous10.$el.removeEventListener('click', this.previous10)
       this.$refs.next10.$el.removeEventListener('click', this.next10)
       this.$refs.volume.removeEventListener('change', this.volumeChange);
+      this.$refs.playqueueButton.$el.removeEventListener('click', this.togglePlayQueue);
     },
   },
   mounted: function () {
@@ -145,10 +155,10 @@ export default {
 
         switch (msg.type) {
           case 'volume':
-            console.log("Volume received: " + msg.volume);
             this.$refs.volume.value = msg.volume
             break;
           case 'now-playing':
+            console.log("Changing title to: "+msg.title)
             this.$el.querySelector("#title").textContent = msg.title
             this.$el.querySelector("#artist").textContent = msg.artist
             this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
@@ -170,6 +180,9 @@ export default {
             this.$refs.playerProgress.duration = msg.duration;
             this.$refs.volume.value = msg.volume
             break;
+          case 'play-queue':
+            this.playqueueData = msg
+            break;
         }
       }
     }
@@ -179,6 +192,9 @@ export default {
 
 <style lang='scss'>
 @import '../scss/app.scss';
+:root{
+  --playerHeight:122px;
+}
 
 #player {
   position: fixed;
@@ -188,6 +204,7 @@ export default {
   border-radius-top-left: 8px;
   border-radius-top-right: 8px;
   align-items: center;
+  height: var(--playerHeight);
 }
 
 #player_content {
@@ -215,14 +232,13 @@ export default {
 }
 
 .player_info {
-  padding-left: 16px;
-  float: left;
 }
 
 #player_artwork {
   width: 54px;
   height: 54px;
   float: left;
+  border-radius: 6px;
 }
 
 .time-duration-container {
@@ -256,5 +272,9 @@ export default {
 
 .flex1 {
   flex: 1;
+}
+
+#title,#artist {
+  padding-left: 16px;
 }
 </style>

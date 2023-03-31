@@ -253,7 +253,8 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
         }
         get("/artwork") {
             try {
-                service?.coverArt?.let { coverArt ->
+                val artworkMrl = call.request.queryParameters["artwork"] ?:  service?.coverArt
+                artworkMrl?.let { coverArt ->
                     AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
                         BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
 
@@ -316,11 +317,21 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
         generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
+        generatePlayQueue()?.let { playQueue ->
+            AppScope.launch {
+                coroutineContext
+                websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+        }
     }
 
     override fun onMediaEvent(event: IMedia.Event) {
         generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+        }
+        generatePlayQueue()?.let { playQueue ->
+            AppScope.launch {
+                coroutineContext
+                websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
         }
     }
 
@@ -329,6 +340,11 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
             AppScope.launch {
                 coroutineContext
                 websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+        }
+        generatePlayQueue()?.let { playQueue ->
+            AppScope.launch {
+                coroutineContext
+                websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
         }
     }
 
@@ -342,6 +358,18 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
                 return gson.toJson(nowPlaying)
 
             }
+        }
+        return null
+    }
+
+    private fun generatePlayQueue(): String? {
+        service?.let { service ->
+            val list = ArrayList<PlayQueueItem>()
+            service.playlistManager.getMediaList().forEachIndexed { index, mediaWrapper ->
+                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist ?:"", mediaWrapper.length, mediaWrapper.artworkMrl ?: "", service.playlistManager.currentIndex == index))
+            }
+            val gson = Gson()
+            return gson.toJson(PlayQueue(list))
         }
         return null
     }
@@ -375,6 +403,8 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
 
     abstract class WSMessage(val type: String)
     data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume:Int) : WSMessage("now-playing")
+    data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
+    data class PlayQueueItem(val id: Long, val title:String, val artist:String, val length:Long, val artworkURL:String , val playing: Boolean)
     data class Volume(val volume: Int) : WSMessage("volume")
 }
 

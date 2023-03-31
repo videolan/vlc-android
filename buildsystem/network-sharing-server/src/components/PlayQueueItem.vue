@@ -1,0 +1,140 @@
+<template>
+  <div class="media-info">
+    <div class="media-artwork-container">
+      <div class="playing" v-show="media.playing">
+        <span class="playing-bar playing-bar1"></span>
+        <span class="playing-bar playing-bar2"></span>
+        <span class="playing-bar playing-bar3"></span>
+      </div>
+      <img class="media-artwork" :src="getImageUrl(media)">
+    </div>
+    <div>
+      <p class="queue-title text-truncate">{{ media.title }}</p>
+      <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ msecToTime(media.length) }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import { API_URL } from '../config.js'
+
+export default {
+  props: {
+    media: Object
+  },
+  computed: {
+  },
+  mounted: function () {
+  },
+  methods: {
+    msecToTime(ms) {
+      const seconds = Math.floor((ms / 1000) % 60)
+      const minutes = Math.floor((ms / (60 * 1000)) % 60)
+      const hours = Math.floor((ms / (3600 * 1000)) % 3600)
+      return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds
+        }`
+    },
+    getImageUrl(media) {
+      return API_URL+"/artwork?artwork="+media.artworkURL
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+@import '../scss/app.scss';
+
+.media-info {
+  overflow: auto;
+  width: 100%;
+}
+
+.media-artwork-container {
+  width: 42px;
+  height: 42px;
+  float: left;
+}
+
+.media-artwork {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+}
+
+.queue-title,
+.queue-subtitle {
+  padding-left: 16px;
+}
+
+.queue-title {
+  font-size: 0.9em !important;
+  line-height: 21px;
+}
+
+.queue-subtitle {
+  font-size: 0.8em !important;
+  line-height: 21px;
+}
+
+
+//animation
+
+.playing {
+  background: rgba(0, 0, 0, .3);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: .5rem;
+  box-sizing: border-box;
+  position: absolute;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.playing-bar {
+  display: inline-block;
+  background: white;
+  width: 30%;
+  height: 100%;
+  animation: up-and-down 1.3s ease infinite alternate;
+}
+
+.playing-bar1 {
+  height: 60%;
+}
+
+.playing-bar2 {
+  height: 30%;
+  animation-delay: -2.2s;
+}
+
+.playing-bar3 {
+  height: 75%;
+  animation-delay: -3.7s;
+}
+
+@keyframes up-and-down {
+  10% {
+    height: 20%;
+  }
+
+  30% {
+    height: 100%;
+  }
+
+  60% {
+    height: 30%;
+  }
+
+  80% {
+    height: 75%;
+  }
+
+  100% {
+    height: 60%;
+  }
+}
+</style>
