@@ -31,6 +31,10 @@ export default {
   height: 48px;
 }
 
+.btn-player.small {
+  height: 32px;
+}
+
 .btn-player:hover {
   color: grey;
 }
@@ -40,5 +44,8 @@ export default {
 
 .medium .material-symbols-outlined {
   font-size: 32px;
+}
+.small .material-symbols-outlined {
+  font-size: 24px;
 }
 </style>

@@ -5,7 +5,8 @@ export const playerStore = defineStore('player', {
     state: () => ({ 
         playing: false, 
         nowPlaying: Object,
-        playqueueData:Object
+        playqueueData:Object,
+        socketOpened: true
      }),
     getters: {
     },

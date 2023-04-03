@@ -10,15 +10,33 @@
       </RouterLink>
     </div>
   </nav>
+  <div class="warnings">
+    <PlayerButton type="cloud_off"  v-show="!playerStore.socketOpened" v-on:click.stop="disconnectedClicked" />
+  </div>
 </template>
 
 <script>
-export default {
+import PlayerButton from './PlayerButton.vue'
+import { playerStore } from '../stores/PlayerStore'
+import { mapStores } from 'pinia'
 
+export default {
+  components: {
+    PlayerButton
+  },
+  methods: {
+    disconnectedClicked() {
+      this.$root.startWebSocket();
+    }
+  },
+  computed: {
+    ...mapStores(playerStore),
+  },
 }
 </script>
 
-<style>
+<style lang='scss'>
+@import '../scss/app.scss';
 .navbar.navbar-light {
   background-color: #FF7700;
   border-color: #e7e7e7;
@@ -42,5 +60,21 @@ export default {
 .nav-link:hover,
 .nav-link:focus {
   color: white;
+}
+
+.warnings {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  border-radius: 24px;
+  background-color: $light-grey;
+  animation: blinker 1.5s linear infinite;
+}
+
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 </style>

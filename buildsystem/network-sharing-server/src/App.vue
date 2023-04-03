@@ -20,40 +20,56 @@ export default {
   computed: {
     ...mapStores(playerStore)
   },
-  created: function () {
-    console.log("Starting connection to WebSocket Server")
-    this.connection = new WebSocket("ws://" + API_IP + "/echo", "player")
-    this.connection.onmessage = (event) => {
+  methods: {
+    startWebSocket() {
+      console.log("Starting connection to WebSocket Server")
+      this.connection = new WebSocket("ws://" + API_IP + "/echo", "player")
+      this.connection.onmessage = (event) => {
 
-      if (event.data === "Stopped") {
-        console.log("Stopping Player ...")
-        this.playerStore.playing = false;
-      } else {
-        const msg = JSON.parse(event.data);
-        if (this.playerStore.playing == false && msg.shouldShow) {
-          console.log("Starting player ...")
-          this.playerStore.playing = true;
-        }
+        if (event.data === "Stopped") {
+          console.log("Stopping Player ...")
+          this.playerStore.playing = false;
+        } else {
+          const msg = JSON.parse(event.data);
+          if (this.playerStore.playing == false && msg.shouldShow) {
+            console.log("Starting player ...")
+            this.playerStore.playing = true;
+          }
 
-        switch (msg.type) {
-          case 'volume':
-            this.playerStore.volume = msg.volume
-            break;
-          case 'now-playing':
-            this.playerStore.nowPlaying = msg
-            this.playerStore.volume = msg.volume
-            break;
-          case 'play-queue':
-            this.playerStore.playqueueData = msg
-            break;
+          switch (msg.type) {
+            case 'volume':
+              this.playerStore.volume = msg.volume
+              break;
+            case 'now-playing':
+              this.playerStore.nowPlaying = msg
+              this.playerStore.volume = msg.volume
+              break;
+            case 'play-queue':
+              this.playerStore.playqueueData = msg
+              break;
+          }
         }
       }
-    }
 
-    this.connection.onopen = function (event) {
-      console.log(event)
-      console.log("Successfully connected to the echo websocket server...")
+      this.connection.onopen = (event) => {
+        console.log(event)
+        console.log("Successfully connected to the echo websocket server...")
+        this.playerStore.socketOpened = true;
+      }
+
+      this.connection.onclose = () => {
+        console.log("Socket closed")
+        this.playerStore.socketOpened = false;
+      }
+
+      this.connection.onerror = () => {
+        console.log("Socket on error")
+        this.playerStore.socketOpened = false;
+      }
     }
+  },
+  created: function () {
+    this.startWebSocket()
   }
 }
 </script>
