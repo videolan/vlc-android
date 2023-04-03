@@ -1,8 +1,8 @@
 <template>
     <div id="play_queue" v-show="show">
 
-        <div v-for="media in playerStore.playqueueData.medias" :key="media.id" class="play-queue_item">
-            <PlayQueueItem :media="media" />
+        <div v-for="(media, index) in playerStore.playqueueData.medias" :key="media.id" class="play-queue_item">
+            <PlayQueueItem :mediaIndex="index" :media="media" />
         </div>
 
     </div>
@@ -42,6 +42,7 @@ export default {
     background-color: $light-grey;
     overflow-y: scroll;
     padding-bottom: 48px;
+    cursor: pointer;
 
 }
 
@@ -50,5 +51,9 @@ export default {
     padding-right: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+.play-queue_item:hover {
+    background-color: rgba($primary-color, 0.2);
 }
 </style>

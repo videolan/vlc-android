@@ -186,6 +186,16 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
                             }
 
                         }
+                        message.startsWith("playMedia") -> {
+                            val index = message.split(':')[1].toInt()
+                            service?.playIndex(index)
+
+                        }
+                        message.startsWith("deleteMedia") -> {
+                            val index = message.split(':')[1].toInt()
+                            service?.remove(index)
+
+                        }
                     }
                 }
                 websocketSession.remove(this)

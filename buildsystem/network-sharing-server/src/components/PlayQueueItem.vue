@@ -1,5 +1,5 @@
 <template>
-  <div class="media-info">
+  <div class="media-info" v-on:click="play(mediaIndex)">
     <div class="media-artwork-container">
       <div class="playing" v-show="media.playing">
         <span class="playing-bar playing-bar1"></span>
@@ -8,19 +8,25 @@
       </div>
       <img class="media-artwork" :src="getImageUrl(media)">
     </div>
-    <div>
+    <div class="media-text">
       <p class="queue-title text-truncate">{{ media.title }}</p>
       <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ msecToTime(media.length) }}</p>
     </div>
+    <PlayerButton type="playlist_remove" id="player_repeat" ref="repeat" v-on:click.stop="removeItem(mediaIndex)" />
   </div>
 </template>
 
 <script>
 import { API_URL } from '../config.js'
+import PlayerButton from './PlayerButton.vue'
 
 export default {
+  components: {
+    PlayerButton
+  },
   props: {
-    media: Object
+    media: Object,
+    mediaIndex: Number
   },
   computed: {
   },
@@ -35,7 +41,13 @@ export default {
         }`
     },
     getImageUrl(media) {
-      return API_URL+"/artwork?artwork="+media.artworkURL
+      return API_URL + "/artwork?artwork=" + media.artworkURL
+    },
+    removeItem(index) {
+      this.$root.connection.send("deleteMedia:" + index);
+    },
+    play(index) {
+      this.$root.connection.send("playMedia:" + index);
     }
   }
 }
@@ -47,6 +59,13 @@ export default {
 .media-info {
   overflow: auto;
   width: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.media-text {
+  flex: auto;
+  min-width: 0;
 }
 
 .media-artwork-container {
