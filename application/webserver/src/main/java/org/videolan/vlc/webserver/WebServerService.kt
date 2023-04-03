@@ -1,5 +1,5 @@
 /*****************************************************************************
- * PlaybackService.kt
+ * WebServerService.kt
  * Copyright © 2011-2018 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,6 @@ import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.helpers.NotificationHelper
 
-private const val TAG = "VLC/PlaybackService"
 
 class WebServerService :  LifecycleService() {
 
@@ -61,6 +60,7 @@ class WebServerService :  LifecycleService() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
+        super.onCreate()
         if (AndroidUtil.isOOrLater) forceForeground()
         server = NetworkSharingServer.getInstance(applicationContext)
         val filter = IntentFilter()

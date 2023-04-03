@@ -29,6 +29,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreference.OnBindEditTextListener
 import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceManager
+import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
 import org.videolan.tools.password
 import org.videolan.vlc.R
 
@@ -46,11 +47,11 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         super.onCreatePreferences(bundle, s)
-        val preference: EditTextPreference? = findPreference("web_server_password")
+        val preference: EditTextPreference? = findPreference(KEY_WEB_SERVER_PASSWORD)
 
         if (preference != null) {
             preference.summaryProvider = SummaryProvider<EditTextPreference> {
-                val password: String = PreferenceManager.getDefaultSharedPreferences(context).getString("web_server_password", "")!!
+                val password: String = PreferenceManager.getDefaultSharedPreferences(context).getString(KEY_WEB_SERVER_PASSWORD, "")!!
                 if (password.isEmpty()) {
                     getString(androidx.preference.R.string.not_set)
                 } else {

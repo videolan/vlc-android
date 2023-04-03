@@ -73,7 +73,12 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
 
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
-    private val format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault())
+    private val format by lazy {
+        object : ThreadLocal<DateFormat>() {
+            override fun initialValue() = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault())
+        }
+    }
+
     private var auth = false
     private var user = ""
     private var password = ""
@@ -104,7 +109,6 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
         }
     }
 
-    private val TAG = this::class.java.name
     private fun copyWebServer(context: Context) {
         File(getServerFiles(context)).mkdirs()
         FileUtils.copyAssetFolder(context.assets, "dist", "${context.filesDir.path}/server", true)
@@ -256,7 +260,7 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
             for (log in logs) {
                 val json = JSONObject()
                 json.put("path", log)
-                json.put("date", format.format(File(log).lastModified()))
+                json.put("date", format.get()?.format(File(log).lastModified()))
                 jsonArray.put(json)
             }
             call.respondText(jsonArray.toString())
