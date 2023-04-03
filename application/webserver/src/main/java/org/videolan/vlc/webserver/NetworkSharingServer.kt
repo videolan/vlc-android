@@ -402,7 +402,7 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
     }
 
     abstract class WSMessage(val type: String)
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume:Int) : WSMessage("now-playing")
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume:Int, val shouldShow:Boolean = PlaylistManager.showAudioPlayer.value ?: false) : WSMessage("now-playing")
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title:String, val artist:String, val length:Long, val artworkURL:String , val playing: Boolean)
     data class Volume(val volume: Int) : WSMessage("volume")

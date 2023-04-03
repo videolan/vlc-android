@@ -1,39 +1,45 @@
 <template>
-  <div v-show="playing" class="mdc-typography">
-    <PlayQueue :medias="playqueueData.medias" :show="playqueueShowing" />
+  <div v-show="this.playerStore.playing" class="mdc-typography">
+    <PlayQueue :medias="this.playerStore.playqueueData.medias" :show="playqueueShowing" />
     <div class="footer" id="player">
       <div class="time-duration-container">
-        <p id="time" class="mdc-typography--subtitle2" />
-        <p id="duration" class="mdc-typography--subtitle2" />
+        <p id="time" class="mdc-typography--subtitle2"> {{ msecToTime(new Date(this.playerStore.nowPlaying.progress)) }}
+        </p>
+        <p id="duration" class="mdc-typography--subtitle2">{{ msecToTime(new Date(this.playerStore.nowPlaying.duration))
+        }}</p>
       </div>
-      <PlayerProgress ref="playerProgress" id="player_progress" />
+      <PlayerProgress ref="playerProgress" id="player_progress" progress="{{ this.playerStore.nowPlaying.progress }}"
+        duration="{{ this.playerStore.nowPlaying.duration }}" />
       <div id="player_content" class="row">
         <div class="col" id="media_info">
           <img id="player_artwork">
           <div class="player_info">
-            <p id="title" class="mdc-typography--headline6 text-truncate" />
-            <p id="artist" class="mdc-typography--subtitle2 text-truncate" />
+            <p id="title" class="mdc-typography--headline6 text-truncate">{{ this.playerStore.nowPlaying.title }}</p>
+            <p id="artist" class="mdc-typography--subtitle2 text-truncate">{{ this.playerStore.nowPlaying.artist }}</p>
           </div>
         </div>
 
         <div class="player_controls col">
           <span class="flex1" />
-          <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" />
-          <PlayerButton type="skip_previous" id="player_previous" ref="previous" />
-          <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" />
-          <PlayerButton type="play_circle" class="big" id="player_play" ref="play" />
-          <PlayerButton type="pause_circle" class="big" id="player_pause" ref="pause" />
-          <PlayerButton type="forward_10" id="player_next_10" ref="next10" />
-          <PlayerButton type="skip_next" id="player_next" ref="next" />
-          <PlayerButton type="repeat" id="player_repeat" ref="repeat" />
+          <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()" />
+          <PlayerButton type="skip_previous" id="player_previous" ref="previous" v-on:click="previous()" />
+          <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" v-on:click="previous10()" />
+          <PlayerButton type="play_circle" class="big" id="player_play" ref="play"
+            v-show="!this.playerStore.nowPlaying.playing" v-on:click="play()" />
+          <PlayerButton type="pause_circle" class="big" id="player_pause" ref="pause"
+            v-show="this.playerStore.nowPlaying.playing" v-on:click="pause()" />
+          <PlayerButton type="forward_10" id="player_next_10" ref="next10" v-on:click="next10()" />
+          <PlayerButton type="skip_next" id="player_next" ref="next" v-on:click="next()" />
+          <PlayerButton type="repeat" id="player_repeat" ref="repeat" @click.stop="repeat()" />
           <span class="flex1" />
         </div>
         <div class="player_right col">
           <div class="player_right_container">
-            <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton" />
+            <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
+              @click="togglePlayQueue($event)" />
           </div>
           <div class="player_right_container">
-            <input type="range" ref="volume" name="volume" min="0" max="100">
+            <input type="range" ref="volume" name="volume" min="0" max="100" step="1" @change="this.volumeChange($event)">
           </div>
         </div>
       </div>
@@ -45,7 +51,10 @@
 import PlayerButton from './PlayerButton.vue'
 import PlayerProgress from './PlayerProgress.vue'
 import PlayQueue from './PlayQueue.vue'
-import { API_IP, API_URL } from '../config.js'
+import { playerStore } from '../stores/PlayerStore'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { API_URL } from '../config.js'
 
 export default {
   components: {
@@ -55,13 +64,14 @@ export default {
   },
   data() {
     return {
-      playerWS: WebSocket,
       playing: false,
-      playqueueData:Object,
-      playqueueShowing: false
+      playqueueShowing: false,
+      loadedArtworkUrl: ""
     }
   },
   computed: {
+    ...mapStores(playerStore),
+    ...mapState(playerStore, ['nowPlaying'])
   },
   methods: {
     msecToTime(ms) {
@@ -72,128 +82,61 @@ export default {
         }`
     },
     play() {
-      this.playerWS.send("play");
+      this.$root.connection.send("play");
       console.log("Sending play");
     },
     pause() {
-      this.playerWS.send("pause");
+      this.$root.connection.send("pause");
       console.log("Sending pause");
     },
     previous() {
-      this.playerWS.send("previous");
+      this.$root.connection.send("previous");
       console.log("Sending previous");
     },
     next() {
-      this.playerWS.send("next");
+      this.$root.connection.send("next");
       console.log("Sending next");
     },
     shuffle() {
-      this.playerWS.send("shuffle");
+      this.$root.connection.send("shuffle");
       console.log("Sending shuffle");
     },
     repeat() {
-      this.playerWS.send("repeat");
+      this.$root.connection.send("repeat");
       console.log("Sending repeat");
     },
     previous10() {
-      this.playerWS.send("previous10");
+      this.$root.connection.send("previous10");
       console.log("Sending previous10");
     },
     next10() {
-      this.playerWS.send("next10");
+      this.$root.connection.send("next10");
       console.log("Sending next10");
     },
     volumeChange(event) {
-      this.playerWS.send("set-volume:" + event.target.value);
-    },
+      this.$root.connection.send("set-volume:" + event.target.value);
+      this.$refs.volume.value = event.target.value
+},
     togglePlayQueue() {
       this.playqueueShowing = !this.playqueueShowing
     },
-
-    initEventListeners() {
-      this.$refs.play.$el.addEventListener('click', this.play);
-      this.$refs.pause.$el.addEventListener('click', this.pause);
-      this.$refs.previous.$el.addEventListener('click', this.previous);
-      this.$refs.next.$el.addEventListener('click', this.next);
-      this.$refs.shuffle.$el.addEventListener('click', this.shuffle);
-      this.$refs.repeat.$el.addEventListener('click', this.repeat);
-      this.$refs.previous10.$el.addEventListener('click', this.previous10);
-      this.$refs.next10.$el.addEventListener('click', this.next10);
-      this.$refs.volume.addEventListener('change', this.volumeChange);
-      this.$refs.playqueueButton.$el.addEventListener('click', this.togglePlayQueue);
-    },
-    removeEventListeners() {
-      this.$refs.play.$el.removeEventListener('click', this.play)
-      this.$refs.pause.$el.removeEventListener('click', this.pause)
-      this.$refs.previous.$el.removeEventListener('click', this.previous)
-      this.$refs.next.$el.removeEventListener('click', this.next)
-      this.$refs.shuffle.$el.removeEventListener('click', this.shuffle)
-      this.$refs.repeat.$el.removeEventListener('click', this.repeat)
-      this.$refs.previous10.$el.removeEventListener('click', this.previous10)
-      this.$refs.next10.$el.removeEventListener('click', this.next10)
-      this.$refs.volume.removeEventListener('change', this.volumeChange);
-      this.$refs.playqueueButton.$el.removeEventListener('click', this.togglePlayQueue);
+  },
+  watch: {
+    nowPlaying() {
+      if (this.$refs.volume.value != this.nowPlaying.volume)  this.$refs.volume.value = this.nowPlaying.volume
+      if (this.loadedArtworkUrl != this.nowPlaying.artworkURL) {
+        this.loadedArtworkUrl = this.nowPlaying.artworkURL
+        this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
+      }
     },
   },
-  mounted: function () {
-    this.playerWS = new WebSocket("ws://" + API_IP + "/echo", "player");
-    var lastLoadedMediaUri = ""
-    this.playerWS.onmessage = (event) => {
-      if (event.data === "Stopped") {
-        console.log("Stopping Player ...")
-        this.playing = false;
-        this.removeEventListeners();
-      } else {
-        if (this.playing == false) {
-          console.log("Starting player ...")
-          this.playing = true;
-          this.initEventListeners();
-          this.playerWS.send("get-volume");
-          console.log("Volume asked");
-        }
-        const msg = JSON.parse(event.data);
-
-        switch (msg.type) {
-          case 'volume':
-            this.$refs.volume.value = msg.volume
-            break;
-          case 'now-playing':
-            console.log("Changing title to: "+msg.title)
-            this.$el.querySelector("#title").textContent = msg.title
-            this.$el.querySelector("#artist").textContent = msg.artist
-            this.$el.querySelector("#time").textContent = this.msecToTime(new Date(msg.progress))
-            this.$el.querySelector("#duration").textContent = this.msecToTime(new Date(msg.duration))
-            if (lastLoadedMediaUri != msg.uri) {
-              console.log("Loading image: " + API_URL + "/artwork?randomizer=" + Date.now());
-              this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
-              lastLoadedMediaUri = msg.uri
-            }
-
-            if (msg.playing) {
-              this.$refs.play.$el.style.display = "none";
-              this.$refs.pause.$el.style.display = "inline-block";
-            } else {
-              this.$refs.play.$el.style.display = "inline-block";
-              this.$refs.pause.$el.style.display = "none";
-            }
-            this.$refs.playerProgress.progress = msg.progress;
-            this.$refs.playerProgress.duration = msg.duration;
-            this.$refs.volume.value = msg.volume
-            break;
-          case 'play-queue':
-            this.playqueueData = msg
-            break;
-        }
-      }
-    }
-  }
 }
 </script>
 
 <style lang='scss'>
 @import '../scss/app.scss';
-:root{
-  --playerHeight:122px;
+:root {
+  --playerHeight: 122px;
 }
 
 #player {
@@ -229,9 +172,6 @@ export default {
 
 #media_info {
   overflow: auto;
-}
-
-.player_info {
 }
 
 #player_artwork {
@@ -274,7 +214,8 @@ export default {
   flex: 1;
 }
 
-#title,#artist {
+#title,
+#artist {
   padding-left: 16px;
 }
 </style>

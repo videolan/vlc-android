@@ -1,6 +1,6 @@
 <template>
   <button class="btn btn-lg btn-player" v-bind="$attrs">
-    <span class="material-symbols-outlined" v-bind="$attrs"></span>
+    <span class="material-symbols-outlined"></span>
   </button>
 </template>
 
@@ -34,11 +34,11 @@ export default {
 .btn-player:hover {
   color: grey;
 }
-.material-symbols-outlined.big {
+.big .material-symbols-outlined {
   font-size: 48px;
 }
 
-.material-symbols-outlined.medium {
+.medium .material-symbols-outlined {
   font-size: 32px;
 }
 </style>

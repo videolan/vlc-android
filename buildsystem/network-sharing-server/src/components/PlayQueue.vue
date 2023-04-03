@@ -1,7 +1,7 @@
 <template>
     <div id="play_queue" v-show="show">
 
-        <div v-for="media in medias" :key="media.id" class="play-queue_item">
+        <div v-for="media in playerStore.playqueueData.medias" :key="media.id" class="play-queue_item">
             <PlayQueueItem :media="media" />
         </div>
 
@@ -10,22 +10,21 @@
   
 <script>
 import PlayQueueItem from './PlayQueueItem.vue'
+import { playerStore } from '../stores/PlayerStore'
+import { mapStores } from 'pinia'
 
 export default {
     components: {
         PlayQueueItem,
     },
-    data() {
-        return {
-            // show: false,
-        }
+    computed: {
+        ...mapStores(playerStore),
     },
     props: {
         show: {
             type: Boolean,
             default: true
-        },
-        medias: Array
+        }
     }
 }
 </script>
@@ -43,12 +42,13 @@ export default {
     background-color: $light-grey;
     overflow-y: scroll;
     padding-bottom: 48px;
-    
+
 }
+
 .play-queue_item {
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 </style>

@@ -1,17 +1,17 @@
 <template>
-  <div id="progress_bar_background" v-show="duration != 0">
-    <div id="progress_bar_progress" :style="{ width: (progress / duration)*100 + '%' }"/>
+  <div id="progress_bar_background" v-show="playerStore.duration != 0">
+    <div id="progress_bar_progress" :style="{ width: (this.playerStore.nowPlaying.progress / this.playerStore.nowPlaying.duration)*100 + '%' }"/>
   </div>
 </template>
 
 <script>
+import { playerStore } from '../stores/PlayerStore'
+import { mapStores } from 'pinia'
+
 export default {
-  data() {
-    return {
-      progress: 0,
-      duration: 0
-    }
-  }
+  computed: {
+    ...mapStores(playerStore),
+  },
 }
 </script>
 
