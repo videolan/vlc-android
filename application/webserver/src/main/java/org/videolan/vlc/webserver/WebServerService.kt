@@ -38,7 +38,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper
 
 class WebServerService :  LifecycleService() {
 
-    private lateinit var server: NettyApplicationEngine
+    private lateinit var server: HttpSharingServer
     private val receiver = object : BroadcastReceiver() {
         @SuppressLint("WakelockTimeout")
         override fun onReceive(context: Context, intent: Intent) {
@@ -62,7 +62,8 @@ class WebServerService :  LifecycleService() {
     override fun onCreate() {
         super.onCreate()
         if (AndroidUtil.isOOrLater) forceForeground()
-        server = NetworkSharingServer.getInstance(applicationContext)
+        server = HttpSharingServer.getInstance(applicationContext)
+        server.start()
         val filter = IntentFilter()
         filter.addAction(ACTION_STOP_SERVER)
         registerReceiverCompat(receiver, filter, false)

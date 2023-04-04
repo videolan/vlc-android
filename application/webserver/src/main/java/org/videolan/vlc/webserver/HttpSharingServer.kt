@@ -1,8 +1,8 @@
 /*
  * ************************************************************************
- *  NetworkSharingServer.kt
+ *  HttpSharingServer.kt
  * *************************************************************************
- * Copyright © 2022 VLC authors and VideoLAN
+ * Copyright © 2023 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,16 +61,14 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.webserver.NetworkSharingServer.init
 import java.io.File
 import java.text.DateFormat
 import java.time.Duration
 import java.util.*
 import java.util.regex.Pattern
 
-object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({ init(it.applicationContext) }), PlaybackService.Callback {
-
-
+class HttpSharingServer(private val context: Context): PlaybackService.Callback {
+    private var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
     private val format by lazy {
@@ -83,16 +81,24 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
     private var user = ""
     private var password = ""
 
-    fun init(applicationContext: Context): NettyApplicationEngine {
-        copyWebServer(applicationContext)
-        auth = Settings.getInstance(applicationContext).getBoolean(KEY_WEB_SERVER_AUTH, false)
-        user = Settings.getInstance(applicationContext).getString(KEY_WEB_SERVER_USER, "") ?: ""
-        password = Settings.getInstance(applicationContext).getString(KEY_WEB_SERVER_PASSWORD, "")
+    init {
+        copyWebServer(context)
+        auth = Settings.getInstance(context).getBoolean(KEY_WEB_SERVER_AUTH, false)
+        user = Settings.getInstance(context).getString(KEY_WEB_SERVER_USER, "") ?: ""
+        password = Settings.getInstance(context).getString(KEY_WEB_SERVER_PASSWORD, "")
                 ?: ""
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
-                .onCompletion { service?.removeCallback(this@NetworkSharingServer) }
+                .onCompletion { service?.removeCallback(this@HttpSharingServer) }
                 .launchIn(AppScope)
-        return launchServer(applicationContext)
+        engine  =  generateServer(context)
+    }
+
+
+    fun start() {
+        engine.start()
+    }
+    fun stop() {
+        engine.stop()
     }
 
     private fun getServerFiles(context: Context): String {
@@ -101,11 +107,11 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
 
     private fun onServiceChanged(service: PlaybackService?) {
         if (service !== null) {
-            NetworkSharingServer.service = service
+            this.service = service
             service.addCallback(this)
-        } else NetworkSharingServer.service?.let {
+        } else this.service?.let {
             it.removeCallback(this)
-            NetworkSharingServer.service = null
+            this.service = null
         }
     }
 
@@ -115,7 +121,7 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
     }
 
 
-    fun launchServer(context: Context) = embeddedServer(Netty, 8080) {
+    private fun generateServer(context: Context) = embeddedServer(Netty, 8080) {
         install(WebSockets) {
             pingPeriod = Duration.ofSeconds(15)
             timeout = Duration.ofSeconds(15)
@@ -205,7 +211,7 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
                 websocketSession.remove(this)
             }
         }
-    }.start()
+    }
 
     private fun Route.setupRouting(context: Context) {
         static("") {
@@ -420,5 +426,6 @@ object NetworkSharingServer : SingletonHolder<NettyApplicationEngine, Context>({
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title:String, val artist:String, val length:Long, val artworkURL:String , val playing: Boolean)
     data class Volume(val volume: Int) : WSMessage("volume")
-}
 
+    companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
+}
