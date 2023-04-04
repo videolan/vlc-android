@@ -29,6 +29,8 @@ import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -62,19 +64,30 @@ import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
 import java.io.File
+import java.net.InetAddress
+import java.net.NetworkInterface
 import java.text.DateFormat
 import java.time.Duration
 import java.util.*
 import java.util.regex.Pattern
 
-class HttpSharingServer(private val context: Context): PlaybackService.Callback {
-    private var engine: NettyApplicationEngine
+class HttpSharingServer(context: Context) : PlaybackService.Callback {
+    private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
     private val format by lazy {
         object : ThreadLocal<DateFormat>() {
             override fun initialValue() = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault())
         }
+    }
+
+    private val _serverStatus = MutableLiveData(ServerStatus.NOT_INIT)
+    val serverStatus: LiveData<ServerStatus>
+        get() = _serverStatus
+
+
+    private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> {
+        AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
     }
 
     private var auth = false
@@ -90,15 +103,23 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { service?.removeCallback(this@HttpSharingServer) }
                 .launchIn(AppScope)
-        engine  =  generateServer(context)
+        _serverStatus.postValue(ServerStatus.STOPPED)
     }
 
 
-    fun start() {
-        engine.start()
+    suspend fun start(context: Context) {
+        _serverStatus.postValue(ServerStatus.CONNECTING)
+        withContext(Dispatchers.IO) {
+            engine = generateServer(context)
+            engine.start()
+        }
     }
-    fun stop() {
-        engine.stop()
+
+    suspend fun stop() {
+        _serverStatus.postValue(ServerStatus.STOPPING)
+         withContext(Dispatchers.IO) {
+             engine.stop()
+         }
     }
 
     private fun getServerFiles(context: Context): String {
@@ -148,9 +169,7 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
             allowHeader(HttpHeaders.ContentType)
             anyHost()
         }
-        PlaylistManager.showAudioPlayer.observeForever {
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
-        }
+
         routing {
             if (auth) authenticate("auth-basic") {
                 setupRouting(context)
@@ -210,6 +229,15 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
                 }
                 websocketSession.remove(this)
             }
+        }
+    }.apply {
+        environment.monitor.subscribe(ApplicationStarted) {
+            _serverStatus.postValue(ServerStatus.STARTED)
+            PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver)
+        }
+        environment.monitor.subscribe(ApplicationStopped) {
+            PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver)
+            _serverStatus.postValue(ServerStatus.STOPPED)
         }
     }
 
@@ -273,7 +301,7 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         }
         get("/artwork") {
             try {
-                val artworkMrl = call.request.queryParameters["artwork"] ?:  service?.coverArt
+                val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
                 artworkMrl?.let { coverArt ->
                     AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
                         BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
@@ -340,7 +368,8 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch {
                 coroutineContext
-                websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+                websocketSession.forEach { it.send(Frame.Text(playQueue)) }
+            }
         }
     }
 
@@ -351,7 +380,8 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch {
                 coroutineContext
-                websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+                websocketSession.forEach { it.send(Frame.Text(playQueue)) }
+            }
         }
     }
 
@@ -359,12 +389,14 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
             AppScope.launch {
                 coroutineContext
-                websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+                websocketSession.forEach { it.send(Frame.Text(nowPlaying)) }
+            }
         }
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch {
                 coroutineContext
-                websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+                websocketSession.forEach { it.send(Frame.Text(playQueue)) }
+            }
         }
     }
 
@@ -386,7 +418,9 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         service?.let { service ->
             val list = ArrayList<PlayQueueItem>()
             service.playlistManager.getMediaList().forEachIndexed { index, mediaWrapper ->
-                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist ?:"", mediaWrapper.length, mediaWrapper.artworkMrl ?: "", service.playlistManager.currentIndex == index))
+                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist
+                        ?: "", mediaWrapper.length, mediaWrapper.artworkMrl
+                        ?: "", service.playlistManager.currentIndex == index))
             }
             val gson = Gson()
             return gson.toJson(PlayQueue(list))
@@ -394,7 +428,7 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         return null
     }
 
-    private fun getVolume(context: Context):Int  = when {
+    private fun getVolume(context: Context): Int = when {
         service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
         else -> {
             (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
@@ -405,6 +439,7 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
                     ?: 0
         }
     }
+
     private fun getVolumeMessage(context: Context): String {
         val gson = Gson()
         val volume = when {
@@ -421,10 +456,60 @@ class HttpSharingServer(private val context: Context): PlaybackService.Callback 
         return gson.toJson(Volume(volume))
     }
 
+    fun serverInfo(): String = buildString {
+        getIPAddresses(true).forEach {
+            append(it)
+            append(":")
+            append(engine!!.environment.connectors[0].port)
+            append("\n")
+        }
+    }
+
+    /**
+     * Get IP address from first non-localhost interface
+     * @param useIPv4   true=return ipv4, false=return ipv6
+     * @return  address or empty string
+     */
+    private fun getIPAddresses(useIPv4: Boolean): List<String> {
+        val results = arrayListOf<String>()
+        try {
+            val interfaces: List<NetworkInterface> =
+                    Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (networkInterface in interfaces) {
+                val inetAddresses: List<InetAddress> =
+                        Collections.list(networkInterface.inetAddresses)
+                for (inetAddress in inetAddresses) {
+                    if (!inetAddress.isLoopbackAddress) {
+                        val hostAddress = inetAddress.hostAddress ?: continue
+                        val isIPv4 = hostAddress.indexOf(':') < 0
+                        if (useIPv4) {
+                            if (isIPv4) results.add(hostAddress)
+                        } else {
+                            if (!isIPv4) {
+                                val delim = hostAddress.indexOf('%')
+                                if (delim < 0)
+                                    results.add(hostAddress.uppercase(Locale.getDefault()))
+                                else
+                                    results.add(
+                                            hostAddress.substring(0, delim)
+                                                    .uppercase(Locale.getDefault())
+                                    )
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ignored: Exception) {
+        }
+        return results
+    }
+
     abstract class WSMessage(val type: String)
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume:Int, val shouldShow:Boolean = PlaylistManager.showAudioPlayer.value ?: false) : WSMessage("now-playing")
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shouldShow: Boolean = PlaylistManager.showAudioPlayer.value
+            ?: false) : WSMessage("now-playing")
+
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
-    data class PlayQueueItem(val id: Long, val title:String, val artist:String, val length:Long, val artworkURL:String , val playing: Boolean)
+    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean)
     data class Volume(val volume: Int) : WSMessage("volume")
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })

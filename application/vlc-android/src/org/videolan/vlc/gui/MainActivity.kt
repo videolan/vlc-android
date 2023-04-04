@@ -26,7 +26,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -43,7 +42,6 @@ import org.videolan.resources.ACTIVITY_RESULT_OPEN
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
 import org.videolan.resources.EXTRA_TARGET
-import org.videolan.resources.util.startWebserver
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -104,8 +102,6 @@ class MainActivity : ContentActivity(),
 //        VLCBilling.getInstance(application).retrieveSkus()
         WidgetMigration.launchIfNeeded(this)
         NotificationPermissionManager.launchIfNeeded(this)
-        Log.d(TAG, "onCreate: skbench: ")
-        startWebserver()
     }
 
     override fun onResume() {

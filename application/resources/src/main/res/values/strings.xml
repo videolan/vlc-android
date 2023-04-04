@@ -463,6 +463,12 @@
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
     <string name="web_server">Web server</string>
+    <string name="web_server_notification">Web server active on %s</string>
+    <string name="web_server_notification_stopped">Web server stopped</string>
+    <string name="web_server_notification_connecting">Web server connecting</string>
+    <string name="web_server_notification_error">Web server error</string>
+    <string name="web_server_notification_stopping">Web server stopping</string>
+    <string name="web_server_notification_not_init">Web server initialising</string>
     <string name="enable_web_server">Enable web server</string>
     <string name="enable_web_server_auth">Use authentication</string>
     <string name="enable_web_server_auth_summary">Forbid web server\'s access without authentication (recommended)</string>

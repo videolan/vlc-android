@@ -20,15 +20,22 @@
 package org.videolan.vlc.webserver
 
 import android.annotation.SuppressLint
+import android.app.ForegroundServiceStartNotAllowedException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import io.ktor.server.netty.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.registerReceiverCompat
@@ -36,7 +43,7 @@ import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.helpers.NotificationHelper
 
 
-class WebServerService :  LifecycleService() {
+class WebServerService : LifecycleService() {
 
     private lateinit var server: HttpSharingServer
     private val receiver = object : BroadcastReceiver() {
@@ -44,12 +51,15 @@ class WebServerService :  LifecycleService() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 ACTION_STOP_SERVER -> {
-                    stopForeground(true)
-                    stopSelf()
+                    lifecycleScope.launch { server.stop() }
+                }
+                ACTION_START_SERVER -> {
+                    lifecycleScope.launch { server.start(this@WebServerService) }
                 }
             }
         }
     }
+
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
@@ -62,20 +72,45 @@ class WebServerService :  LifecycleService() {
     override fun onCreate() {
         super.onCreate()
         if (AndroidUtil.isOOrLater) forceForeground()
-        server = HttpSharingServer.getInstance(applicationContext)
-        server.start()
+        lifecycleScope.launch(Dispatchers.IO) {
+            server = HttpSharingServer.getInstance(applicationContext)
+            server.start(this@WebServerService)
+            withContext(Dispatchers.Main) {
+                server.serverStatus.observe(this@WebServerService) {
+                    forceForeground()
+                }
+            }
+        }
         val filter = IntentFilter()
         filter.addAction(ACTION_STOP_SERVER)
+        filter.addAction(ACTION_START_SERVER)
         registerReceiverCompat(receiver, filter, false)
     }
 
     private fun forceForeground() {
-        val notification = NotificationHelper.createWebServerNotification(applicationContext, "")
-        startForeground(44, notification)
+        val contentString = if (!::server.isInitialized) getString(R.string.web_server_notification_not_init) else
+            when (server.serverStatus.value) {
+                ServerStatus.NOT_INIT -> getString(R.string.web_server_notification_not_init)
+                ServerStatus.STARTED -> getString(R.string.web_server_notification, server.serverInfo())
+                ServerStatus.STOPPED -> getString(R.string.web_server_notification_stopped)
+                ServerStatus.CONNECTING -> getString(R.string.web_server_notification_connecting)
+                ServerStatus.ERROR -> getString(R.string.web_server_notification_error)
+                ServerStatus.STOPPING -> getString(R.string.web_server_notification_stopping)
+                else -> ""
+            }
+        val started = ::server.isInitialized && server.serverStatus.value == ServerStatus.STARTED
+        val notification = NotificationHelper.createWebServerNotification(applicationContext, contentString, started)
+        try {
+            startForeground(44, notification)
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                Log.w("WebServerService", "ForegroundServiceStartNotAllowedException caught!")
+            }
+        }
     }
 
     override fun onDestroy() {
-        if (::server.isInitialized) server.stop()
+        if (::server.isInitialized) lifecycleScope.launch { server.stop() }
         unregisterReceiver(receiver)
         super.onDestroy()
     }

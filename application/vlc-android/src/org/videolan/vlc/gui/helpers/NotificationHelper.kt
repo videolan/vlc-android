@@ -38,6 +38,7 @@ import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
+import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
@@ -180,7 +181,7 @@ object NotificationHelper {
         return scanCompatBuilder.build()
     }
 
-    fun createWebServerNotification(ctx: Context, connectionTip:String): Notification {
+    fun createWebServerNotification(ctx: Context, connectionTip: String, started: Boolean): Notification {
         val intent = Intent(Intent.ACTION_VIEW).setClassName(ctx, START_ACTIVITY)
         val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
                 .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
@@ -193,9 +194,9 @@ object NotificationHelper {
         webServerCompatBuilder.setContentText(connectionTip)
 
         val notificationIntent = Intent()
-        notificationIntent.action = ACTION_STOP_SERVER
+        notificationIntent.action =  if (started) ACTION_STOP_SERVER else ACTION_START_SERVER
         val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val action =    NotificationCompat.Action(R.drawable.ic_pause_notif, ctx.getString(R.string.stop), pi)
+        val action =    NotificationCompat.Action(if (started) R.drawable.ic_pause_notif else R.drawable.ic_play_notif,if (started) ctx.getString(R.string.stop) else ctx.getString(R.string.start), pi)
         webServerCompatBuilder.addAction(action)
         return webServerCompatBuilder.build()
     }

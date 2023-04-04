@@ -99,6 +99,7 @@ const val EXTRA_UUID = "extra_uuid"
 const val ACTION_RESUME_SCAN = "action_resume_scan"
 const val ACTION_PAUSE_SCAN = "action_pause_scan"
 const val ACTION_STOP_SERVER = "action_stop_server"
+const val ACTION_START_SERVER = "action_start_server"
 const val ACTION_CONTENT_INDEXING = "action_content_indexing"
 
 // VideoPlayerActivity
