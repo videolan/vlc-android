@@ -9,7 +9,7 @@
       <img class="media-artwork" :src="getImageUrl(media)">
     </div>
     <div class="media-text">
-      <p class="queue-title text-truncate h6">{{ media.title }}</p>
+      <p class="h6 queue-title text-truncate">{{ media.title }}</p>
       <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ msecToTime(media.length) }}</p>
     </div>
     <PlayerButton type="playlist_remove" id="player_repeat" ref="repeat" v-on:click.stop="removeItem(mediaIndex)" />
@@ -80,7 +80,7 @@ export default {
   border-radius: 6px;
 }
 
-.queue-title,
+.h6.queue-title,
 .queue-subtitle {
   padding-left: 16px;
   margin-bottom: 0px;
