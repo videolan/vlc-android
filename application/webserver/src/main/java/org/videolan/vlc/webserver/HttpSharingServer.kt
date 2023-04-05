@@ -58,11 +58,14 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.*
+import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.toByteArray
 import java.io.File
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -117,9 +120,9 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
 
     suspend fun stop() {
         _serverStatus.postValue(ServerStatus.STOPPING)
-         withContext(Dispatchers.IO) {
-             engine.stop()
-         }
+        withContext(Dispatchers.IO) {
+            engine.stop()
+        }
     }
 
     private fun getServerFiles(context: Context): String {
@@ -302,12 +305,34 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         get("/artwork") {
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
+                //check by id and use the ArtworkProvider if provided
+                call.request.queryParameters["id"]?.let {
+                    val cr = context.contentResolver
+                    val mediaType = ArtworkProvider.MEDIA
+                    cr.openInputStream(Uri.parse("content://${context.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
+                        call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
+                        inputStream.close()
+                        return@get
+                    }
+                }
+
+                //id is not provided, use the artwork query and fallback on the current playing media
                 artworkMrl?.let { coverArt ->
                     AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
                         BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
 
                             call.respondBytes(ContentType.Image.JPEG) { it }
+                            return@get
                         }
+                    }
+                }
+                // nothing found . Falling back on the no media bitmap
+                context.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512)?.let {
+
+                    BitmapUtil.encodeImage(it, true)?.let {
+
+                        call.respondBytes(ContentType.Image.PNG) { it }
+                        return@get
                     }
                 }
             } catch (e: Exception) {

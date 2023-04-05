@@ -41,7 +41,7 @@ export default {
         }`
     },
     getImageUrl(media) {
-      return API_URL + "/artwork?artwork=" + media.artworkURL
+      return API_URL + "/artwork?artwork=" + media.artworkURL + "&id=" + media.id
     },
     removeItem(index) {
       this.$root.connection.send("deleteMedia:" + index);

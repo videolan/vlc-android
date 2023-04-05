@@ -124,8 +124,8 @@ export default {
   watch: {
     nowPlaying() {
       if (this.$refs.volume.value != this.nowPlaying.volume)  this.$refs.volume.value = this.nowPlaying.volume
-      if (this.loadedArtworkUrl != this.nowPlaying.artworkURL) {
-        this.loadedArtworkUrl = this.nowPlaying.artworkURL
+      if (this.loadedArtworkUrl != this.nowPlaying.uri) {
+        this.loadedArtworkUrl = this.nowPlaying.uri
         this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
       }
     },

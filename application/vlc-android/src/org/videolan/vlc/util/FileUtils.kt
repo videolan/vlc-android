@@ -581,3 +581,16 @@ fun Uri?.isSoundFont():Boolean {
     }
     return false
 }
+
+fun InputStream.toByteArray(): ByteArray {
+    val buffer = ByteArrayOutputStream()
+
+    var nRead: Int
+    val data = ByteArray(16384)
+
+    while (this.read(data, 0, data.size).also { nRead = it } != -1) {
+        buffer.write(data, 0, nRead)
+    }
+
+    return buffer.toByteArray()
+}
