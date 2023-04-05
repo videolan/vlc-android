@@ -24,7 +24,7 @@ export default {
 }
 
 .btn-player.big {
-  height: 64px;
+  height: 58px;
 }
 
 .btn-player.medium {
@@ -32,14 +32,14 @@ export default {
 }
 
 .btn-player.small {
-  height: 32px;
+  height: 40px;
 }
 
 .btn-player:hover {
   color: grey;
 }
 .big .material-symbols-outlined {
-  font-size: 48px;
+  font-size: 42px;
 }
 
 .medium .material-symbols-outlined {
