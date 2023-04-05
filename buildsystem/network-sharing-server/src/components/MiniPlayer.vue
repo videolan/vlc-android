@@ -1,12 +1,12 @@
 <template>
-  <div v-show="this.playerStore.playing" class="mdc-typography">
+  <div v-show="this.playerStore.playing">
     <PlayQueue :medias="this.playerStore.playqueueData.medias" :show="this.playerStore.playqueueShowing" />
     <div class="footer" id="player" v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
       <div class="time-duration-container">
-        <p id="time" class="mdc-typography--subtitle2"> {{ msecToTime(new Date(this.playerStore.nowPlaying.progress)) }}
+        <p id="time"> {{ msecToTime(new Date(this.playerStore.nowPlaying.progress)) }}
         </p>
         <div class="flex1">&nbsp;</div>
-        <p id="duration" class="mdc-typography--subtitle2">{{ msecToTime(new Date(this.playerStore.nowPlaying.duration))
+        <p id="duration">{{ msecToTime(new Date(this.playerStore.nowPlaying.duration))
         }}</p>
       </div>
       <PlayerProgress ref="playerProgress" id="player_progress" progress="{{ this.playerStore.nowPlaying.progress }}"
@@ -15,8 +15,8 @@
         <div class="col-12 col-md" id="media_info">
           <img id="player_artwork">
           <div class="player_info">
-            <p id="title" class="mdc-typography--headline6 text-truncate">{{ this.playerStore.nowPlaying.title }}</p>
-            <p id="artist" class="mdc-typography--subtitle2 text-truncate">{{ this.playerStore.nowPlaying.artist }}</p>
+            <p id="title" class="h6 text-truncate">{{ this.playerStore.nowPlaying.title }}</p>
+            <p id="artist" class="text-truncate">{{ this.playerStore.nowPlaying.artist }}</p>
           </div>
         </div>
 
@@ -265,6 +265,10 @@ export default {
 #title,
 #artist {
   padding-left: 16px;
+    margin-bottom: 0;
+    height: 27px;
+    vertical-align: middle;
+    line-height: 27px;
 }
 
 

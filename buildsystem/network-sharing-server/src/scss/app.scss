@@ -1,5 +1,3 @@
-@use "@material/typography";
-@use "@material/typography/mdc-typography";
 @import 'material-symbols/outlined.css';
 // @import "~bootstrap/scss/bootstrap.scss";
 // @import "~bootstrap-vue/dist/bootstrap-vue.css";
@@ -65,35 +63,6 @@ main {
 body {
   background: $background;
   color: $text-color;
-}
-
-h1 {
-  @include typography.typography(headline1);
-}
-
-h2 {
-  @include typography.typography(headline2);
-}
-
-h3 {
-  @include typography.typography(headline3);
-}
-
-h4 {
-  @include typography.typography(headline4);
-}
-
-h5 {
-  @include typography.typography(headline5);
-}
-
-h6 {
-  @include typography.typography(headline6);
-}
-
-// This sets all <p> elements with Material body1 typography styles
-p {
-  @include typography.typography(body1);
 }
 
 .navbar .form-group .form-control,
