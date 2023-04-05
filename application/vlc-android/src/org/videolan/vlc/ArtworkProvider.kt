@@ -46,6 +46,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.AccessControl
@@ -53,7 +54,6 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import java.io.*
 import java.nio.ByteBuffer
 import java.security.SecureRandom
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.zip.CRC32
@@ -141,7 +141,9 @@ class ArtworkProvider : ContentProvider() {
                 var bitmap = AudioUtil.readCoverBitmap(path, width)
                 if (bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
-                return@runBlocking encodeImage(bitmap)
+                return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING){
+                    getTimestamp()
+                }
             }
         }
         return getPFDFromByteArray(image)
@@ -172,7 +174,9 @@ class ArtworkProvider : ContentProvider() {
             runBlocking(Dispatchers.IO) {
                 var bitmap = ThumbnailsProvider.obtainBitmap(mw, 256)
                 if (bitmap != null) bitmap = padSquare(bitmap)
-                return@runBlocking encodeImage(bitmap)
+                return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING) {
+                    getTimestamp()
+                }
             }?.let { return@getCategoryImage getPFDFromByteArray(it) }
         }
         val unknownIcon = when (category) {
@@ -219,7 +223,9 @@ class ArtworkProvider : ContentProvider() {
                 if (bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
                 if (nonTransparent) bitmap = removeTransparency(bitmap)
-                return@runBlocking encodeImage(bitmap)
+                return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING) {
+                    getTimestamp()
+                }
             }
         }
         return getPFDFromByteArray(image)
@@ -305,7 +311,9 @@ class ArtworkProvider : ContentProvider() {
                 cover = ThumbnailsProvider.getPlaylistOrGenreImage("${key}_256", tracks, 256, iconAddition)
             }
         }
-        return encodeImage(cover ?: context.getBitmapFromDrawable(R.drawable.ic_auto_playall))
+        return BitmapUtil.encodeImage(cover ?: context.getBitmapFromDrawable(R.drawable.ic_auto_playall), ENABLE_TRACING){
+            getTimestamp()
+        }
     }
 
     /**
@@ -357,23 +365,6 @@ class ArtworkProvider : ContentProvider() {
         val c = Canvas(dst)
         c.drawBitmap(src, 0f, 0f, null)
         return dst
-    }
-
-    /**
-     * Encode bitmap in WEBP format.
-     */
-    @Suppress("DEPRECATION")
-    private fun encodeImage(bmp: Bitmap?): ByteArray? {
-        if (bmp == null) return null
-        val bos = ByteArrayOutputStream()
-        val startTime = if (ENABLE_TRACING) System.currentTimeMillis() else 0L
-        bmp.compress(CompressFormat.WEBP, 100, bos)
-        if (ENABLE_TRACING) {
-            val endTime = System.currentTimeMillis()
-            val ratio = DecimalFormat("###.#%").format((1 - (bos.size().toDouble() / bmp.byteCount.toDouble())))
-            Log.d(TAG, "encImage() Time: ${getTimestamp()} Duration: " + (endTime - startTime) + "ms Comp. Ratio: $ratio Thread: ${Thread.currentThread().name}")
-        }
-        return bos.toByteArray()
     }
 
     /**
