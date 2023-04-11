@@ -8,16 +8,16 @@ $light-grey: #e8e8e8;
 $grey-overlay: #f7f7f7;
 $text-color: #010101;
 
-// @use "@material/top-app-bar/mdc-top-app-bar";
-// @use "@material/button/styles";
-// @use "@material/button";
-// @use "@material/data-table/data-table";
-// @use "@material/layout-grid/mdc-layout-grid";
-// @use "@material/icon-button";
+$btn-active-bg-shade-amount:      20%;
+$btn-active-bg-tint-amount:       0%;
+$btn-active-border-shade-amount:  0%;
+$btn-active-border-tint-amount:   0%;
+
+:root {
+  --bs-link-hover-color: #ff7700;
+}
+
 @import "input-range";
-// @import "@material/icon-button/mdc-icon-button";
-// @include data-table.core-styles;
-// @include data-table.theme-baseline;
 
 body,
 div,
@@ -130,4 +130,8 @@ body {
 
 .list-group-item {
   border-bottom: 1px solid #eee;
+}
+
+.btn {
+  border: none;
 }
