@@ -5,20 +5,24 @@
     </RouterLink>
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
-        <button class="btn btn-lg nav-button medium" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Video">
-          <span class="material-symbols-outlined">movie</span>
+        <button class="btn btn-lg nav-button medium">
+          <img v-bind:src="getAppAsset('ic_menu_video')">
+          <p>Video</p>
         </button>
       </RouterLink>
       <RouterLink :to="{ name: 'AudioList' }">
-        <button class="btn btn-lg nav-button medium" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Audio">
-          <span class="material-symbols-outlined">audiotrack</span>
+        <button class="btn btn-lg nav-button medium">
+          <img v-bind:src="getAppAsset('ic_menu_audio')">
+          <p>Audio</p>
         </button>
       </RouterLink>
-      <button class="btn btn-lg nav-button medium" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Browse">
-        <span class="material-symbols-outlined">folder</span>
+      <button class="btn btn-lg nav-button medium">
+        <img v-bind:src="getAppAsset('ic_menu_folder')">
+          <p>Browse</p>
       </button>
-      <button class="btn btn-lg nav-button medium" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Playlists">
-        <span class="material-symbols-outlined">playlist_play</span>
+      <button class="btn btn-lg nav-button medium">
+        <img v-bind:src="getAppAsset('ic_menu_playlist')">
+          <p>Playlists</p>
       </button>
     </div>
     <div class="d-flex flex1 justify-content-end">
@@ -55,6 +59,7 @@
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { Tooltip } from 'bootstrap';
+ import { API_URL } from '../config.js'
 
 export default {
   components: {
@@ -62,6 +67,9 @@ export default {
   methods: {
     disconnectedClicked() {
       this.$root.startWebSocket();
+    },
+    getAppAsset(name) {
+      return API_URL+'icon?id='+name
     }
   },
   computed: {
@@ -96,7 +104,16 @@ export default {
   animation: blinker 1.5s linear infinite;
 }
 
-.router-link-exact-active .nav-button {
+.router-link-exact-active .nav-button img, .nav-button:hover img {
+  color: $primary-color;
+  filter: invert(61%) sepia(64%) saturate(4340%) hue-rotate(358deg) brightness(99%) contrast(109%);
+}
+
+.nav-button p {
+  font-size: 0.7em;
+}
+
+.router-link-exact-active .nav-button p {
   color: $primary-color;
 }
 

@@ -25,6 +25,7 @@
 package org.videolan.vlc.webserver
 
 import android.content.Context
+import android.content.res.Resources
 import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
@@ -301,6 +302,30 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 jsonArray.put(json)
             }
             call.respondText(jsonArray.toString())
+        }
+        get("/icon") {
+            val idString = call.request.queryParameters["id"]
+
+            val id = try {
+                context.resIdByName(idString, "drawable")
+            } catch (e: Resources.NotFoundException) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+
+            if (id == 0) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+
+            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(context, id, 32, 32), true)?.let {
+
+                call.respondBytes(ContentType.Image.PNG) { it }
+                return@get
+            }
+
+            call.respond(HttpStatusCode.NotFound)
+
         }
         get("/artwork") {
             try {
