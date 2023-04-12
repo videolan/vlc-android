@@ -56,16 +56,21 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.toByteArray
 import java.io.File
 import java.net.InetAddress
@@ -303,6 +308,37 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             }
             call.respondText(jsonArray.toString())
         }
+        get("/video-list") {
+            val videos = context.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
+
+            val list = ArrayList<PlayQueueItem>()
+            videos.forEach { mediaWrapper ->
+                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist
+                        ?: "", mediaWrapper.length, mediaWrapper.artworkMrl
+                        ?: "", false, generateResolutionClass(mediaWrapper.width, mediaWrapper.height) ?: ""))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
+        get("/play") {
+            val append = call.request.queryParameters["append"] == "true"
+            val asAudio = call.request.queryParameters["audio"] == "true"
+            call.request.queryParameters["id"]?.let { id->
+                val media = context.getFromMl {
+                    getMedia(id.toLong())
+                }
+                if (asAudio) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                if (media.type == MediaWrapper.TYPE_VIDEO && !context.awaitAppIsForegroung()) {
+                    call.respond(HttpStatusCode.Forbidden, context.getString(R.string.ns_not_in_foreground))
+                }
+                when {
+                    append -> MediaUtils.appendMedia(context, media)
+                    else ->  MediaUtils.openMedia(context, media)
+                }
+                call.respond(HttpStatusCode.OK)
+            }
+            call.respond(HttpStatusCode.NotFound)
+        }
         get("/icon") {
             val idString = call.request.queryParameters["id"]
 
@@ -333,7 +369,10 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 //check by id and use the ArtworkProvider if provided
                 call.request.queryParameters["id"]?.let {
                     val cr = context.contentResolver
-                    val mediaType = ArtworkProvider.MEDIA
+                    val mediaType = when(call.request.queryParameters["type"]) {
+                        "video" -> ArtworkProvider.VIDEO
+                        else -> ArtworkProvider.MEDIA
+                    }
                     cr.openInputStream(Uri.parse("content://${context.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
                         call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
                         inputStream.close()
@@ -559,7 +598,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             ?: false) : WSMessage("now-playing")
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
-    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean)
+    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution:String = "")
     data class Volume(val volume: Int) : WSMessage("volume")
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })

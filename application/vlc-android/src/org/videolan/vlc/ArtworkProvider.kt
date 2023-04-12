@@ -115,6 +115,7 @@ class ArtworkProvider : ContentProvider() {
                 HISTORY -> getPFDFromByteArray(getHistory(ctx))
                 LAST_ADDED -> getPFDFromByteArray(getLastAdded(ctx))
                 SHUFFLE_ALL -> getPFDFromByteArray(getShuffleAll(ctx))
+                VIDEO -> getMediaImage(ctx, ContentUris.parseId(uri), false)
                 MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri))
                 ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri))
                 ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
@@ -202,7 +203,7 @@ class ArtworkProvider : ContentProvider() {
      * If the artwork is not square, pad it square based on the max size of the largest dimension (webp)
      * If the artwork is null, or mediaId is 0, return a 512x512 orange cone (webp)
      */
-    private fun getMediaImage(ctx: Context, mediaId: Long): ParcelFileDescriptor {
+    private fun getMediaImage(ctx: Context, mediaId: Long, padSquare:Boolean = true): ParcelFileDescriptor {
         val width = 512
         val mw: MediaLibraryItem? = runBlocking(Dispatchers.IO) { ctx.getFromMl { getMedia(mediaId) } }
         mw?.let {
@@ -220,7 +221,7 @@ class ArtworkProvider : ContentProvider() {
             runBlocking(Dispatchers.IO) {
                 var bitmap = if (mw != null) ThumbnailsProvider.obtainBitmap(mw, width) else null
                 if (bitmap == null) bitmap = readEmbeddedArtwork(mw, width)
-                if (bitmap != null) bitmap = padSquare(bitmap)
+                if (padSquare && bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
                 if (nonTransparent) bitmap = removeTransparency(bitmap)
                 return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING) {
@@ -451,6 +452,7 @@ class ArtworkProvider : ContentProvider() {
         const val PATH = "path"
         const val ALBUM = "album"
         const val GENRE = "genre"
+        const val VIDEO = "video"
         const val MEDIA = "media"
         const val ARTIST = "artist"
         const val REMOTE = "remote"

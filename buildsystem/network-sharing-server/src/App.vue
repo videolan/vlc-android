@@ -2,11 +2,13 @@
   <AppHeader />
   <router-view></router-view>
   <MiniPlayer ref="miniPlayer" />
+  <Alert />
 </template>
 
 <script>
 import AppHeader from './components/AppHeader.vue'
 import MiniPlayer from './components/MiniPlayer.vue'
+import Alert from './components/Alert.vue'
 import { API_IP } from './config.js'
 import { playerStore } from './stores/PlayerStore'
 import { mapStores } from 'pinia'
@@ -16,6 +18,7 @@ export default {
   components: {
     AppHeader,
     MiniPlayer,
+    Alert,
   },
   computed: {
     ...mapStores(playerStore)

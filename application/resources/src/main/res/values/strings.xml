@@ -1175,6 +1175,7 @@
     <string name="ns_drop_files_long">Drop files in the window to add them to your device.\nOr click on the "+" button to use the file picker.</string>
     <string name="ns_download_files">Download files</string>
     <string name="ns_download_files_long">Just click the file you want to download from your device.</string>
+    <string name="ns_not_in_foreground">Application is not in foreground. Cannot launch video.</string>
 
 
 </resources>

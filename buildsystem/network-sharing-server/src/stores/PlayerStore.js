@@ -8,7 +8,8 @@ export const playerStore = defineStore('player', {
     playqueueData: Object,
     playqueueShowing: false,
     responsivePlayerShowing: false,
-    socketOpened: true
+    socketOpened: true,
+    warning:Object
   }),
   getters: {
   },

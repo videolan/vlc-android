@@ -8,10 +8,10 @@ $light-grey: #e8e8e8;
 $grey-overlay: #f7f7f7;
 $text-color: #010101;
 
-$btn-active-bg-shade-amount:      20%;
-$btn-active-bg-tint-amount:       0%;
-$btn-active-border-shade-amount:  0%;
-$btn-active-border-tint-amount:   0%;
+$theme-colors: (
+  "primary":    #ff7700,
+  "secondary":  #ff7700,
+);
 
 :root {
   --bs-link-hover-color: #ff7700;
@@ -134,4 +134,8 @@ body {
 
 .btn {
   border: none;
+}
+
+.btn > span.material-symbols-outlined {
+  vertical-align: middle;
 }

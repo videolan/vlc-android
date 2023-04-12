@@ -255,7 +255,7 @@ export default {
 
 .player_controls {
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 
 .flex1 {
