@@ -6,6 +6,11 @@
   <PlayQueue :show="this.playerStore.playqueueShowing" />
   <MiniPlayer ref="miniPlayer" />
   <Alert />
+  <div class="main-loading" v-show="this.playerStore.loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -103,5 +108,13 @@ export default {
 
 .footer-bottom-margin {
   margin-bottom: var(--playerHeight);
+}
+
+.main-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
 }
 </style>

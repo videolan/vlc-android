@@ -18,12 +18,17 @@ import axios from 'axios'
 import { API_URL } from '../config.js'
 import LogList from '../components/LogList.vue'
 import EmptyView from '../components/EmptyView.vue'
+import { playerStore } from '../stores/PlayerStore'
+import { mapStores } from 'pinia'
 
 
 export default {
     components: {
         LogList,
         EmptyView,
+    },
+    computed: {
+        ...mapStores(playerStore)
     },
     data() {
         return {
@@ -33,9 +38,12 @@ export default {
     },
     methods: {
         fetchLogs() {
+            let component = this
+            component.playerStore.loading = true
             axios.get(API_URL + "list-logfiles").then((response) => {
                 this.loaded = true;
                 this.logs = response.data
+                component.playerStore.loading = false
             });
         }
     },

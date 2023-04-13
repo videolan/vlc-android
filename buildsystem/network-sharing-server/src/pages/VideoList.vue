@@ -1,43 +1,43 @@
 <template>
-        <div v-if="loaded" class="container">
-            <p>Videos</p>
-            <div v-if="this.videos.length !== 0" class="row gx-3 gy-3">
-                <div class="col-md-3 col-sm-4 col-xs-6" v-for="video in videos" :key="video.id">
-                    <div class="ratio ratio-16x9 video-img-container">
-                        <img :src="getImageUrl(video)" class="video-img-top">
-                        <div v-on:click="play(video)" class="overlay">
-                            <button class="btn btn-lg overlay-play text-white" type="button">
-                                <span class="material-symbols-outlined">play_circle</span>
-                            </button>
-                        </div>
-                        <span class="resolution">{{ video.resolution }}</span>
+    <div v-if="loaded" class="container">
+        <p>Videos</p>
+        <div v-if="this.videos.length !== 0" class="row gx-3 gy-3">
+            <div class="col-md-3 col-sm-4 col-xs-6" v-for="video in videos" :key="video.id">
+                <div class="ratio ratio-16x9 video-img-container">
+                    <img :src="getImageUrl(video)" class="video-img-top">
+                    <div v-on:click="play(video)" class="overlay">
+                        <button class="btn btn-lg overlay-play text-white" type="button">
+                            <span class="material-symbols-outlined">play_circle</span>
+                        </button>
                     </div>
-                    <div class="d-flex">
+                    <span class="resolution">{{ video.resolution }}</span>
+                </div>
+                <div class="d-flex">
 
-                        <div class="card-body video-text flex1">
-                            <h6 class="card-title text-truncate">{{ video.title }}</h6>
-                            <p class="card-text text-truncate">{{ msecToTime(video.length) }}</p>
+                    <div class="card-body video-text flex1">
+                        <h6 class="card-title text-truncate">{{ video.title }}</h6>
+                        <p class="card-text text-truncate">{{ msecToTime(video.length) }}</p>
 
-                        </div>
-                        <div class="dropdown dropstart overlay-more-container">
-                            <button class="btn btn-lg nav-button overlay-more " type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="material-symbols-outlined">more_vert</span>
-                            </button>
-                            <ul class="dropdown-menu video-more" aria-labelledby="dropdownMenuButton1">
-                                <li> <span v-on:click="play(video, false, false)" class="dropdown-item">Play</span> </li>
-                                <li> <span v-on:click="play(video, true, false)" class="dropdown-item">Append</span> </li>
-                                <li> <span v-on:click="play(video, false, true)" class="dropdown-item">Play as audio</span>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
+                    <div class="dropdown dropstart overlay-more-container">
+                        <button class="btn btn-lg nav-button overlay-more " type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </button>
+                        <ul class="dropdown-menu video-more" aria-labelledby="dropdownMenuButton1">
+                            <li> <span v-on:click="play(video, false, false)" class="dropdown-item">Play</span> </li>
+                            <li> <span v-on:click="play(video, true, false)" class="dropdown-item">Append</span> </li>
+                            <li> <span v-on:click="play(video, false, true)" class="dropdown-item">Play as audio</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div v-else>
-                <EmptyView />
-            </div>
         </div>
+        <div v-else>
+            <EmptyView />
+        </div>
+    </div>
 </template>
 
 <script>
@@ -73,9 +73,12 @@ export default {
             return API_URL + "/artwork?artwork=" + media.artworkURL + "&id=" + media.id + "&type=video"
         },
         fetchVideos() {
+            let component = this
+            component.playerStore.loading = true
             axios.get(API_URL + "video-list").then((response) => {
                 this.loaded = true;
                 this.videos = response.data
+                component.playerStore.loading = false
             });
         },
         play(media, append, asAudio) {
