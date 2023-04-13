@@ -271,7 +271,7 @@ export default {
 
 
 .mini-player-fab {
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   right: 16px;
   width: 42px;
