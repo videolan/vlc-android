@@ -1,5 +1,4 @@
 <template>
-    <div class="">
         <div v-if="loaded" class="container">
             <p>Videos</p>
             <div v-if="this.videos.length !== 0" class="row gx-3 gy-3">
@@ -18,19 +17,20 @@
                         <div class="card-body video-text flex1">
                             <h6 class="card-title text-truncate">{{ video.title }}</h6>
                             <p class="card-text text-truncate">{{ msecToTime(video.length) }}</p>
-                            
+
                         </div>
                         <div class="dropdown dropstart overlay-more-container">
-                                <button class="btn btn-lg nav-button overlay-more " type="button"
-                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="material-symbols-outlined">more_vert</span>
-                                </button>
-                                <ul class="dropdown-menu video-more" aria-labelledby="dropdownMenuButton1">
-                                    <li> <span v-on:click="play(video, false, false)" class="dropdown-item">Play</span> </li>
-                                    <li> <span v-on:click="play(video, true, false)" class="dropdown-item">Append</span> </li>
-                                    <li> <span v-on:click="play(video, false, true)" class="dropdown-item">Play as audio</span> </li>
-                                </ul>
-                            </div>
+                            <button class="btn btn-lg nav-button overlay-more " type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="material-symbols-outlined">more_vert</span>
+                            </button>
+                            <ul class="dropdown-menu video-more" aria-labelledby="dropdownMenuButton1">
+                                <li> <span v-on:click="play(video, false, false)" class="dropdown-item">Play</span> </li>
+                                <li> <span v-on:click="play(video, true, false)" class="dropdown-item">Append</span> </li>
+                                <li> <span v-on:click="play(video, false, true)" class="dropdown-item">Play as audio</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,9 +38,6 @@
                 <EmptyView />
             </div>
         </div>
-        <div v-else class="d-flex vertical center-page spinner" style="margin: 0 auto">
-        </div>
-    </div>
 </template>
 
 <script>
@@ -49,8 +46,12 @@ import axios from 'axios'
 import { API_URL } from '../config.js'
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
+import EmptyView from '../components/EmptyView.vue'
 
 export default {
+    components: {
+        EmptyView,
+    },
     computed: {
         ...mapStores(playerStore)
     },
@@ -79,7 +80,7 @@ export default {
         },
         play(media, append, asAudio) {
             let component = this
-            axios.get(API_URL + "play?id=" + media.id + "&append="+append + "&audio="+asAudio)
+            axios.get(API_URL + "play?id=" + media.id + "&append=" + append + "&audio=" + asAudio)
                 .catch(function (error) {
                     console.log(error.toJSON());
                     if (error.response.status != 200) {
@@ -151,6 +152,7 @@ export default {
     bottom: 0px;
     right: 0px;
 }
+
 .overlay-more-container {
     flex: 0 0 48px;
 }
@@ -158,5 +160,4 @@ export default {
 .video-more li {
     cursor: pointer;
 }
-
 </style>

@@ -48,16 +48,17 @@ export default {
 
 
 #play_queue {
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 0;
-    height: calc(100% - var(--playerHeight) + 24px);
+    bottom: calc(var(--playerHeight) - 24px);
+    z-index: 1021;
     width: 100%;
     overflow: hidden;
     background-color: $grey-overlay;
     padding-bottom: 48px;
     cursor: pointer;
-
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15); 
 }
 
 @media screen and (min-width: 768px) {

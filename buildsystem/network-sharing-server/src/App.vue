@@ -1,6 +1,9 @@
 <template>
   <AppHeader />
-  <router-view></router-view>
+  <main v-bind:class="(this.playerStore.playing) ? 'footer-bottom-margin' : ''">
+    <router-view></router-view>
+  </main>
+  <PlayQueue :show="this.playerStore.playqueueShowing" />
   <MiniPlayer ref="miniPlayer" />
   <Alert />
 </template>
@@ -8,6 +11,7 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
 import MiniPlayer from './components/MiniPlayer.vue'
+import PlayQueue from './components/PlayQueue.vue'
 import Alert from './components/Alert.vue'
 import { API_IP } from './config.js'
 import { playerStore } from './stores/PlayerStore'
@@ -18,6 +22,7 @@ export default {
   components: {
     AppHeader,
     MiniPlayer,
+    PlayQueue,
     Alert,
   },
   computed: {
@@ -77,4 +82,26 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.footer-bottom-margin {
+  margin-bottom: var(--playerHeight);
+}
+</style>

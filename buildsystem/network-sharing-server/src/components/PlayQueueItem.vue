@@ -71,7 +71,7 @@ export default {
 .media-artwork-container {
   width: 42px;
   height: 42px;
-  float: left;
+  position: relative;
 }
 
 .media-artwork {
@@ -94,5 +94,66 @@ export default {
 .queue-subtitle {
   font-size: 0.8em !important;
   line-height: 21px;
+}
+
+//animation
+
+.playing {
+  background: rgba(0, 0, 0, .3);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: .5rem;
+  box-sizing: border-box;
+  position: absolute;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.playing-bar {
+  display: inline-block;
+  background: white;
+  width: 30%;
+  height: 100%;
+  animation: up-and-down 1.3s ease infinite alternate;
+}
+
+.playing-bar1 {
+  height: 60%;
+}
+
+.playing-bar2 {
+  height: 30%;
+  animation-delay: -2.2s;
+}
+
+.playing-bar3 {
+  height: 75%;
+  animation-delay: -3.7s;
+}
+
+@keyframes up-and-down {
+  10% {
+    height: 20%;
+  }
+
+  30% {
+    height: 100%;
+  }
+
+  60% {
+    height: 30%;
+  }
+
+  80% {
+    height: 75%;
+  }
+
+  100% {
+    height: 60%;
+  }
 }
 </style>

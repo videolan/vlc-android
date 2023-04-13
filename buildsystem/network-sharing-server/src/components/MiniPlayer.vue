@@ -1,6 +1,5 @@
 <template>
   <div v-show="this.playerStore.playing">
-    <PlayQueue :medias="this.playerStore.playqueueData.medias" :show="this.playerStore.playqueueShowing" />
     <div class="footer" id="player" v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
       <div class="time-duration-container">
         <p id="time"> {{ msecToTime(new Date(this.playerStore.nowPlaying.progress)) }}
@@ -59,7 +58,6 @@
 <script>
 import PlayerButton from './PlayerButton.vue'
 import PlayerProgress from './PlayerProgress.vue'
-import PlayQueue from './PlayQueue.vue'
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
@@ -69,7 +67,6 @@ export default {
   components: {
     PlayerButton,
     PlayerProgress,
-    PlayQueue,
   },
   data() {
     return {
@@ -190,6 +187,7 @@ export default {
   border-radius-top-right: 8px;
   align-items: center;
   height: var(--playerHeight);
+  z-index: 1022;
 }
 
 #player_content {
@@ -284,67 +282,5 @@ export default {
 
 .mini-player-fab .playing {
   background: none;
-}
-
-
-//animation
-
-.playing {
-  background: rgba(0, 0, 0, .3);
-  width: 2rem;
-  height: 2rem;
-  border-radius: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: .5rem;
-  box-sizing: border-box;
-  position: absolute;
-  margin-left: 5px;
-  margin-top: 5px;
-}
-
-.playing-bar {
-  display: inline-block;
-  background: white;
-  width: 30%;
-  height: 100%;
-  animation: up-and-down 1.3s ease infinite alternate;
-}
-
-.playing-bar1 {
-  height: 60%;
-}
-
-.playing-bar2 {
-  height: 30%;
-  animation-delay: -2.2s;
-}
-
-.playing-bar3 {
-  height: 75%;
-  animation-delay: -3.7s;
-}
-
-@keyframes up-and-down {
-  10% {
-    height: 20%;
-  }
-
-  30% {
-    height: 100%;
-  }
-
-  60% {
-    height: 30%;
-  }
-
-  80% {
-    height: 75%;
-  }
-
-  100% {
-    height: 60%;
-  }
 }
 </style>

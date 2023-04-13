@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light navbar-expand-md  align-items-center container-fluid">
+  <nav class="navbar navbar-light navbar-expand-md sticky-top align-items-center container-fluid">
     <RouterLink class="flex1" :to="{ name: 'VideoList' }">
       <img id="logo" src="../assets/resources/icon.png" width="48">
     </RouterLink>
