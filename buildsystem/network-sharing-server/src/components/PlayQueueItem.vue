@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/app.scss';
+@import '../scss/colors.scss';
 
 .media-info {
   overflow: auto;

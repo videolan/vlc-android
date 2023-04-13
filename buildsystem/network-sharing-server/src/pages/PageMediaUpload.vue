@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/app.scss';
+@import '../scss/colors.scss';
 
 .drag-icon {
   padding: 16px;

@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/app.scss';
+@import '../scss/colors.scss';
 
 .log-download {
   color: $primary-color;

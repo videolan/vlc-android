@@ -1,17 +1,19 @@
 @import 'material-symbols/outlined.css';
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "colors";
+
+$custom-theme-colors: map-merge($theme-colors, ("primary": $primary-color,
+      "secondary": $primary-color-dark,
+    ));
+
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+
+
+@import "~bootstrap/scss/_maps";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/bootstrap.scss";
-
-$primary-color: #ff7700;
-$primary-color-dark: #ff610a;
-$background: #FFFFFF;
-$light-grey: #e8e8e8;
-$grey-overlay: #f7f7f7;
-$text-color: #010101;
-
-$theme-colors: (
-  "primary":    #ff7700,
-  "secondary":  #ff7700,
-);
 
 :root {
   --bs-link-hover-color: #ff7700;
@@ -136,6 +138,6 @@ body {
   border: none;
 }
 
-.btn > span.material-symbols-outlined {
+.btn>span.material-symbols-outlined {
   vertical-align: middle;
 }

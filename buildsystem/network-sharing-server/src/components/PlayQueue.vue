@@ -44,7 +44,7 @@ export default {
 </script>
   
 <style lang="scss">
-@import '../scss/app.scss';
+@import '../scss/colors.scss';
 
 
 #play_queue {
