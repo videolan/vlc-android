@@ -320,22 +320,42 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        get("/album-list") {
+            val albums = context.getFromMl { getAlbums( false, false) }
+
+            val list = ArrayList<PlayQueueItem>()
+            albums.forEach { album ->
+                list.add(PlayQueueItem(album.id, album.title, album.albumArtist
+                        ?: "", album.duration, album.artworkMrl
+                        ?: "", false,  ""))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
         get("/play") {
+            val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
             val asAudio = call.request.queryParameters["audio"] == "true"
             call.request.queryParameters["id"]?.let { id->
-                val media = context.getFromMl {
-                    getMedia(id.toLong())
+                val medias = context.getFromMl {
+                    when (type) {
+                        "album" -> getAlbum(id.toLong()).tracks
+                        else -> arrayOf(getMedia(id.toLong()))
+                    }
                 }
-                if (asAudio) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                if (media.type == MediaWrapper.TYPE_VIDEO && !context.awaitAppIsForegroung()) {
-                    call.respond(HttpStatusCode.Forbidden, context.getString(R.string.ns_not_in_foreground))
+                if (medias.isEmpty()) call.respond(HttpStatusCode.NotFound)
+                else {
+
+                    if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !context.awaitAppIsForegroung()) {
+                        call.respond(HttpStatusCode.Forbidden, context.getString(R.string.ns_not_in_foreground))
+                    }
+                    when {
+                        append -> MediaUtils.appendMedia(context, medias)
+                        else -> MediaUtils.openList(context, medias.toList(), 0)
+                    }
+                    call.respond(HttpStatusCode.OK)
                 }
-                when {
-                    append -> MediaUtils.appendMedia(context, media)
-                    else ->  MediaUtils.openMedia(context, media)
-                }
-                call.respond(HttpStatusCode.OK)
             }
             call.respond(HttpStatusCode.NotFound)
         }
@@ -371,6 +391,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                     val cr = context.contentResolver
                     val mediaType = when(call.request.queryParameters["type"]) {
                         "video" -> ArtworkProvider.VIDEO
+                        "album" -> ArtworkProvider.ALBUM
                         else -> ArtworkProvider.MEDIA
                     }
                     cr.openInputStream(Uri.parse("content://${context.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->

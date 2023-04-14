@@ -141,3 +141,64 @@ body {
 .btn>span.material-symbols-outlined {
   vertical-align: middle;
 }
+
+//medias
+
+.media-overlay {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
+  transition: opacity 0.2s ease, visibility 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.media-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.media-img-container:hover .media-overlay {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+.overlay-play>span.material-symbols-outlined {
+  font-size: 42px;
+  vertical-align: middle;
+}
+
+.media-text {
+  margin-top: 0.5em;
+  min-width: 0;
+}
+
+.overlay-more {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.overlay-more-container {
+  flex: 0 0 48px;
+}
+
+.media-more li {
+  cursor: pointer;
+}
+
+.media-content {
+  padding-top: 16px;
+}

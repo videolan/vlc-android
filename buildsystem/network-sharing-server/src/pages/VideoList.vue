@@ -1,10 +1,10 @@
 <template>
     <div v-if="loaded" class="container">
-        <div v-if="this.videos.length !== 0" class="row gx-3 gy-3 video-content">
+        <div v-if="this.videos.length !== 0" class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-sm-4 col-xs-6" v-for="video in videos" :key="video.id">
-                <div class="ratio ratio-16x9 video-img-container">
-                    <img :src="getImageUrl(video)" class="video-img-top">
-                    <div v-on:click="play(video)" class="overlay">
+                <div class="ratio ratio-16x9 media-img-container">
+                    <img :src="getImageUrl(video)" class="media-img-top">
+                    <div v-on:click="play(video)" class="media-overlay">
                         <button class="btn btn-lg overlay-play text-white" type="button">
                             <span class="material-symbols-outlined">play_circle</span>
                         </button>
@@ -13,7 +13,7 @@
                 </div>
                 <div class="d-flex">
 
-                    <div class="card-body video-text flex1">
+                    <div class="card-body media-text flex1">
                         <h6 class="card-title text-truncate">{{ video.title }}</h6>
                         <p class="card-text text-truncate">{{ msecToTime(video.length) }}</p>
 
@@ -23,7 +23,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="material-symbols-outlined">more_vert</span>
                         </button>
-                        <ul class="dropdown-menu video-more" aria-labelledby="dropdownMenuButton1">
+                        <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
                             <li> <span v-on:click="play(video, false, false)" class="dropdown-item">Play</span> </li>
                             <li> <span v-on:click="play(video, true, false)" class="dropdown-item">Append</span> </li>
                             <li> <span v-on:click="play(video, false, true)" class="dropdown-item">Play as audio</span>
@@ -98,43 +98,6 @@ export default {
 </script>
 
 <style>
-.video-img-top {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.video-img-container:hover .overlay {
-    visibility: visible;
-    opacity: 1;
-}
-
-.overlay {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.3);
-    transition: opacity 0.2s ease, visibility 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.overlay-play>span.material-symbols-outlined {
-    font-size: 42px;
-    vertical-align: middle;
-}
-
-.video-text {
-    margin-top: 0.5em;
-    min-width: 0;
-}
 
 .ratio>.resolution {
     position: absolute;
@@ -149,21 +112,5 @@ export default {
     font-size: 0.6rem;
 }
 
-.overlay-more {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-}
 
-.overlay-more-container {
-    flex: 0 0 48px;
-}
-
-.video-more li {
-    cursor: pointer;
-}
-
-.video-content {
-    padding-top: 16px;
-}
 </style>
