@@ -91,9 +91,5 @@ export default {
 
 <style lang='scss'>
 @import '../scss/colors.scss';
-.audio-img-container {
-    background-color: $dark-background;
-    border-radius: 7px;
-}
 
 </style>

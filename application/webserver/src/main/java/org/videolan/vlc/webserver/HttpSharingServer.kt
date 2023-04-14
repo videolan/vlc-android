@@ -355,6 +355,17 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        get("/genre-list") {
+            val genres = context.getFromMl { getGenres( false, false) }
+
+            val list = ArrayList<PlayQueueItem>()
+            genres.forEach { genre ->
+                list.add(PlayQueueItem(genre.id, genre.title, context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
+                        ?: "", false, ""))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
         get("/play") {
             val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
@@ -364,6 +375,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                     when (type) {
                         "album" -> getAlbum(id.toLong()).tracks
                         "artist" -> getArtist(id.toLong()).tracks
+                        "genre" -> getGenre(id.toLong()).tracks
                         else -> arrayOf(getMedia(id.toLong()))
                     }
                 }
@@ -417,6 +429,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                         "video" -> ArtworkProvider.VIDEO
                         "album" -> ArtworkProvider.ALBUM
                         "artist" -> ArtworkProvider.ARTIST
+                        "genre" -> ArtworkProvider.GENRE
                         else -> ArtworkProvider.MEDIA
                     }
                     cr.openInputStream(Uri.parse("content://${context.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
