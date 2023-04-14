@@ -168,15 +168,37 @@ body {
   border-radius: 6px;
 }
 
+.media-img-list {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
 .media-img-container:hover .media-overlay {
   visibility: visible;
   opacity: 1;
 }
 
+.media-list .media-img-container {
+  width: 54px;
+}
 
+.media-img-list-td {
+  width: 54px;
+}
+
+.media-action-list-td {
+  width: 48px;
+}
 
 .overlay-play>span.material-symbols-outlined {
   font-size: 42px;
+  vertical-align: middle;
+}
+
+.media-list>.overlay-play>span.material-symbols-outlined {
+  font-size: 24px;
   vertical-align: middle;
 }
 

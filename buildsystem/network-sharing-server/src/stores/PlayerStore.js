@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { reactive } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
 export const playerStore = defineStore('player', {
 
@@ -10,10 +12,14 @@ export const playerStore = defineStore('player', {
     responsivePlayerShowing: false,
     socketOpened: true,
     warning:Object,
-    loading: false
+    loading: false,
+    displayType:reactive(useLocalStorage('displayType', {}))
   }),
   getters: {
   },
   actions: {
+    toggleDisplayType(route) {
+      this.displayType[route] = !this.displayType[route]
+    }
   },
 })

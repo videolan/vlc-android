@@ -56,9 +56,13 @@
     </div>
     <div class=" navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1">
-        <button class="btn btn-lg nav-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-          aria-expanded="false">
+        <button class="btn btn-lg nav-button" type="button"  
+          aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)" v-show="this.playerStore.displayType[this.$route.name]">
           <span class="material-symbols-outlined">grid_view</span>
+        </button>
+        <button class="btn btn-lg nav-button" type="button"   v-show="!this.playerStore.displayType[this.$route.name]"
+          aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)">
+          <span class="material-symbols-outlined">view_list</span>
         </button>
       </div>
       <ul class="nav justify-content-center navtabs">

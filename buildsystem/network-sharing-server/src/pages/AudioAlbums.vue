@@ -1,6 +1,47 @@
 <template>
     <div v-if="loaded" class="container">
-        <div v-if="this.albums.length !== 0" class="row gx-3 gy-3 media-content">
+        <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
+            <table class="table table-hover media-list">
+                <tbody>
+                    <tr v-for="album in albums" :key="album.id">
+                        <td class="media-img-list-td">
+                            <div class="ratio ratio-1x1 media-img-container audio-img-container">
+                                <img :src="getImageUrl(album)" class="media-img-list">
+                                <div v-on:click="play(album)" class="media-overlay">
+                                    <button class="btn btn-lg -list text-white" type="button">
+                                        <span class="material-symbols-outlined">play_circle</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="card-body media-text flex1">
+                                <h6 class="card-title text-truncate">{{ album.title }}</h6>
+                                <p class="card-text text-truncate">{{ album.artist }}</p>
+
+                            </div>
+                        </td>
+                        <td class="media-action-list-td">
+                            <div class="dropdown dropstart overlay-more-container">
+                                <button class="btn btn-lg nav-button " type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="material-symbols-outlined">more_vert</span>
+                                </button>
+                                <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
+                                    <li> <span v-on:click="play(album, false, false)" class="dropdown-item">Play</span>
+                                    </li>
+                                    <li> <span v-on:click="play(album, true, false)" class="dropdown-item">Append</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+        <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="album in albums" :key="album.id">
                 <div class="ratio ratio-1x1 media-img-container audio-img-container">
                     <img :src="getImageUrl(album)" class="media-img-top">
@@ -30,9 +71,9 @@
                 </div>
             </div>
         </div>
-        <div v-else>
-            <EmptyView />
-        </div>
+    </div>
+    <div v-else>
+        <EmptyView />
     </div>
 </template>
 
