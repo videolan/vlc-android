@@ -343,6 +343,18 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        get("/track-list") {
+            val tracks = context.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
+
+            val list = ArrayList<PlayQueueItem>()
+            tracks.forEach { track ->
+                list.add(PlayQueueItem(track.id, track.title, track.artist
+                        ?: "", track.length, track.artworkMrl
+                        ?: "", false, generateResolutionClass(track.width, track.height) ?: ""))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
         get("/play") {
             val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
