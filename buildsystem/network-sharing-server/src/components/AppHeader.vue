@@ -21,11 +21,11 @@
         <p>Browse</p>
       </button>
       <RouterLink :to="{ name: 'PlaylistList' }">
-      <button class="btn btn-lg nav-button medium">
-        <img v-bind:src="getAppAsset('ic_menu_playlist')">
-        <p>Playlists</p>
-      </button>
-    </RouterLink>
+        <button class="btn btn-lg nav-button medium">
+          <img v-bind:src="getAppAsset('ic_menu_playlist')">
+          <p>Playlists</p>
+        </button>
+      </RouterLink>
     </div>
     <div class="d-flex flex1 justify-content-end">
       <button class="btn btn-lg nav-button blink" v-show="!playerStore.socketOpened" v-on:click.stop="disconnectedClicked"
@@ -54,20 +54,37 @@
         </ul>
       </div>
     </div>
-    <ul class="nav justify-content-center navtabs border-top" v-show="playerStore.currentTab != ''">
-      <li class="nav-item">
-        <RouterLink class="nav-link" v-bind:class="(playerStore.currentTab == 'artists') ? 'active' : ''" :to="{ name: 'AudioArtists' }">Artists</RouterLink>
-      </li>
-      <li class="nav-item">
-        <RouterLink class="nav-link" v-bind:class="(playerStore.currentTab == 'albums') ? 'active' : ''" :to="{ name: 'AudioAlbums' }">Albums</RouterLink>
-      </li>
-      <li class="nav-item">
-        <RouterLink class="nav-link" v-bind:class="(playerStore.currentTab == 'tracks') ? 'active' : ''" :to="{ name: 'AudioTracks' }">Tracks</RouterLink>
-      </li>
-      <li class="nav-item">
-        <RouterLink class="nav-link" v-bind:class="(playerStore.currentTab == 'genres') ? 'active' : ''" :to="{ name: 'AudioGenres' }">Genres</RouterLink>
-      </li>
-    </ul>
+    <div class=" navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
+      <div class="flex1">
+        <button class="btn btn-lg nav-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <span class="material-symbols-outlined">grid_view</span>
+        </button>
+      </div>
+      <ul class="nav justify-content-center navtabs">
+        <li class="nav-item">
+          <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
+            v-bind:class="(this.$route.name == 'AudioArtists') ? 'active text-primary' : ''" :to="{ name: 'AudioArtists' }">Artists
+          </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
+            v-bind:class="(this.$route.name == 'AudioAlbums') ? 'active text-primary' : ''" :to="{ name: 'AudioAlbums' }">Albums
+          </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
+            v-bind:class="(this.$route.name == 'AudioTracks') ? 'active text-primary' : ''" :to="{ name: 'AudioTracks' }">Tracks
+          </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
+            v-bind:class="(this.$route.name == 'AudioGenres') ? 'active text-primary' : ''" :to="{ name: 'AudioGenres' }">Genres
+          </RouterLink>
+        </li>
+      </ul>
+      <div class="flex1">&nbsp;</div>
+    </div>
   </nav>
 </template>
 
@@ -134,9 +151,14 @@ export default {
   color: $primary-color;
 }
 
-.navtabs {
+.navtabs-container {
   flex-basis: 100%;
   background-color: #fafafa;
+  display: flex;
+}
+
+.navtabs {
+  align-items: end;
 }
 
 .navtabs .nav-link {
@@ -155,5 +177,4 @@ export default {
   50% {
     opacity: 0;
   }
-}
-</style>
+}</style>

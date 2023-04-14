@@ -48,12 +48,6 @@ export default {
     computed: {
         ...mapStores(playerStore)
     },
-    mounted: function () {
-        this.playerStore.currentTab = "tracks";
-    },
-    unmounted: function () {
-        this.playerStore.currentTab = "";
-    },
     data() {
         return {
             tracks: [],

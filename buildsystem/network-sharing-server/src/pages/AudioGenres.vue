@@ -47,12 +47,6 @@ export default {
     computed: {
         ...mapStores(playerStore)
     },
-    mounted: function () {
-        this.playerStore.currentTab = "genres";
-    },
-    unmounted: function () {
-        this.playerStore.currentTab = "";
-    },
     data() {
         return {
             genres: [],

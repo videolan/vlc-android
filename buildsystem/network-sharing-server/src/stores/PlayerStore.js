@@ -10,8 +10,7 @@ export const playerStore = defineStore('player', {
     responsivePlayerShowing: false,
     socketOpened: true,
     warning:Object,
-    loading: false,
-    currentTab: ""
+    loading: false
   }),
   getters: {
   },
