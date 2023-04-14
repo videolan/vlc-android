@@ -25,6 +25,7 @@
                         <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
                             <li> <span v-on:click="play(track, false, false)" class="dropdown-item">Play</span> </li>
                             <li> <span v-on:click="play(track, true, false)" class="dropdown-item">Append</span> </li>
+                            <li> <span v-on:click="download(track)" class="dropdown-item">Download</span> </li>
                         </ul>
                     </div>
                 </div>
@@ -81,6 +82,9 @@ export default {
                         component.playerStore.warning = { type: "warning", message: error.response.data }
                     }
                 })
+        },
+        download(media) {
+            window.open(API_URL + "download?id=" + media.id, '_blank', 'noreferrer');
         }
     },
     created: function () {

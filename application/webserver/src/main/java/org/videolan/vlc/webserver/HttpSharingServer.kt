@@ -41,6 +41,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.plugins.partialcontent.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -178,7 +179,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             allowHeader(HttpHeaders.ContentType)
             anyHost()
         }
-
+        install(PartialContent)
         routing {
             if (auth) authenticate("auth-basic") {
                 setupRouting(context)
@@ -391,6 +392,22 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                         else -> MediaUtils.openList(context, medias.toList(), 0)
                     }
                     call.respond(HttpStatusCode.OK)
+                }
+            }
+            call.respond(HttpStatusCode.NotFound)
+        }
+        get("/download") {
+            call.request.queryParameters["id"]?.let {
+                context.getFromMl { getMedia(it.toLong()) }?. let { media ->
+                    media.uri.path?.let { path ->
+                        val file = File(path)
+                        call.response.header(
+                                HttpHeaders.ContentDisposition,
+                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, media.uri.lastPathSegment ?: "")
+                                        .toString()
+                        )
+                        call.respondFile(file)
+                    }
                 }
             }
             call.respond(HttpStatusCode.NotFound)

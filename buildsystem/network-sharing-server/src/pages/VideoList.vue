@@ -28,6 +28,7 @@
                             <li> <span v-on:click="play(video, true, false)" class="dropdown-item">Append</span> </li>
                             <li> <span v-on:click="play(video, false, true)" class="dropdown-item">Play as audio</span>
                             </li>
+                            <li> <span v-on:click="download(video)" class="dropdown-item">Download</span> </li>
                         </ul>
                     </div>
                 </div>
@@ -89,6 +90,9 @@ export default {
                         component.playerStore.warning = { type: "warning", message: error.response.data }
                     }
                 })
+        },
+        download(media) {
+            window.open(API_URL + "download?id=" + media.id, '_blank', 'noreferrer');
         }
     },
     created: function () {
@@ -98,7 +102,6 @@ export default {
 </script>
 
 <style>
-
 .ratio>.resolution {
     position: absolute;
     top: 8px;
@@ -111,6 +114,4 @@ export default {
     border-radius: 2px;
     font-size: 0.6rem;
 }
-
-
 </style>
