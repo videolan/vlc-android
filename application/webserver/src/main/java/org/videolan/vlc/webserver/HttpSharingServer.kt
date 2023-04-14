@@ -59,6 +59,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.getFromMl
@@ -367,6 +368,17 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        get("/playlist-list") {
+            val playlists = context.getFromMl { getPlaylists(Playlist.Type.All, false) }
+
+            val list = ArrayList<PlayQueueItem>()
+            playlists.forEach { genre ->
+                list.add(PlayQueueItem(genre.id, genre.title, context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
+                        ?: "", false, ""))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
         get("/play") {
             val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
@@ -377,6 +389,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                         "album" -> getAlbum(id.toLong()).tracks
                         "artist" -> getArtist(id.toLong()).tracks
                         "genre" -> getGenre(id.toLong()).tracks
+                        "playlist" -> getPlaylist(id.toLong(), false, false).tracks
                         else -> arrayOf(getMedia(id.toLong()))
                     }
                 }
@@ -447,6 +460,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                         "album" -> ArtworkProvider.ALBUM
                         "artist" -> ArtworkProvider.ARTIST
                         "genre" -> ArtworkProvider.GENRE
+                        "playlist" -> ArtworkProvider.PLAYLIST
                         else -> ArtworkProvider.MEDIA
                     }
                     cr.openInputStream(Uri.parse("content://${context.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->

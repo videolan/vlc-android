@@ -20,10 +20,12 @@
         <img v-bind:src="getAppAsset('ic_menu_folder')">
         <p>Browse</p>
       </button>
+      <RouterLink :to="{ name: 'PlaylistList' }">
       <button class="btn btn-lg nav-button medium">
         <img v-bind:src="getAppAsset('ic_menu_playlist')">
         <p>Playlists</p>
       </button>
+    </RouterLink>
     </div>
     <div class="d-flex flex1 justify-content-end">
       <button class="btn btn-lg nav-button blink" v-show="!playerStore.socketOpened" v-on:click.stop="disconnectedClicked"

@@ -1,4 +1,5 @@
 import VideoList from './pages/VideoList'
+import PlaylistList from './pages/PlaylistList'
 import AudioArtists from './pages/AudioArtists'
 import AudioAlbums from './pages/AudioAlbums'
 import AudioTracks from './pages/AudioTracks'
@@ -7,7 +8,9 @@ import PageDownloads from './pages/PageDownloads'
 import PageMediaUpload from './pages/PageMediaUpload'
 
 const routes = [
-    { path: '/', component: VideoList, name: 'VideoList' },
+    { path: '/', redirect: '/videos', name: 'Home' },
+    { path: '/videos', component: VideoList, name: 'VideoList' },
+    { path: '/playlists', component: PlaylistList, name: 'PlaylistList' },
     { path: '/audio', redirect: '/audio/artists',  name: 'AudioArtists',  
     children: [
         { path: 'artists', component: AudioArtists, name: 'AudioArtists' },

@@ -121,6 +121,7 @@ class ArtworkProvider : ContentProvider() {
                 ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
                 GENRE -> getGenreImage(ctx, ContentUris.parseId(uri))
+                PLAYLIST -> getPlaylistImage(ctx, ContentUris.parseId(uri))
                 PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri),
                         uri.getBooleanQueryParameter(SHUFFLE, false))
                 else -> throw FileNotFoundException("Uri is not supported: $uri")
@@ -250,6 +251,28 @@ class ArtworkProvider : ContentProvider() {
             return@runBlocking when {
                 cover != null -> cover
                 else -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_genre)
+            }
+        }
+        return getPFDFromBitmap(bitmap)
+    }
+
+    /**
+     * Get the playlist image and cache it. Without overlay
+     *
+     * @param ctx the context
+     * @param id the playlist id
+     * @return a ParcelFileDescriptor containing the playlist image
+     */
+    private fun getPlaylistImage(ctx: Context, id: Long): ParcelFileDescriptor? {
+        val bitmap = runBlocking(Dispatchers.IO) {
+            val tracks = ctx.getFromMl { getPlaylist(id, true, false)?.tracks?.toList() }
+            val cover = tracks?.let {
+
+                ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${id}_256", tracks, 256)
+            }
+            return@runBlocking when {
+                cover != null -> cover
+                else -> ctx.getBitmapFromDrawable(R.drawable.ic_auto_playlist)
             }
         }
         return getPFDFromBitmap(bitmap)
