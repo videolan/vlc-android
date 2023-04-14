@@ -1,5 +1,5 @@
 <template>
-  <div id="progress_bar_background" v-show="playerStore.duration != 0">
+  <div id="progress_bar_background" class="border-top" v-show="playerStore.duration != 0">
     <div id="progress_bar_progress" :style="{ width: (this.playerStore.nowPlaying.progress / this.playerStore.nowPlaying.duration)*100 + '%' }"/>
   </div>
 </template>

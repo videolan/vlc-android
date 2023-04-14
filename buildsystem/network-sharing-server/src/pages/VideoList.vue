@@ -1,7 +1,6 @@
 <template>
     <div v-if="loaded" class="container">
-        <p>Videos</p>
-        <div v-if="this.videos.length !== 0" class="row gx-3 gy-3">
+        <div v-if="this.videos.length !== 0" class="row gx-3 gy-3 video-content">
             <div class="col-md-3 col-sm-4 col-xs-6" v-for="video in videos" :key="video.id">
                 <div class="ratio ratio-16x9 video-img-container">
                     <img :src="getImageUrl(video)" class="video-img-top">
@@ -162,5 +161,9 @@ export default {
 
 .video-more li {
     cursor: pointer;
+}
+
+.video-content {
+    padding-top: 16px;
 }
 </style>
