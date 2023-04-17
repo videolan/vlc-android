@@ -34,7 +34,6 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.animation.AnimationUtils
@@ -49,7 +48,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -918,7 +916,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      */
     fun lockScreen() {
         orientationLockedBeforeLock = player.orientationMode.locked
-        if (!player.orientationMode.locked) player.toggleOrientation()
+        if (!player.orientationMode.locked) player.toggleOrientationLock()
         if (isHudBindingInitialized()) {
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false

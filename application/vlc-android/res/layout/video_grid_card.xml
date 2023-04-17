@@ -184,7 +184,7 @@
                     vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                     vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
                     vlc:layout_goneMarginBottom="4dp"
-                    vlc:srcCompat="@drawable/ic_emoji_favorite" />
+                    vlc:srcCompat="@drawable/ic_emoji_favorite_white" />
 
                 <ImageView
                         android:id="@+id/network_media"

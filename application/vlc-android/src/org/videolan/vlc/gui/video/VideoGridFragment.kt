@@ -386,6 +386,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             else -> {}
         }
+        menu.findItem(R.id.action_mode_favorite_add).isVisible = multiSelectHelper.getSelection().none { it.isFavorite }
+        menu.findItem(R.id.action_mode_favorite_remove).isVisible = multiSelectHelper.getSelection().none { !it.isFavorite }
         return true
     }
 
@@ -418,6 +420,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         R.id.action_ungroup -> viewModel.ungroup(list)
                         R.id.action_add_to_group -> addToGroup(list)
                         R.id.action_mode_go_to_folder -> (list.first() as? MediaWrapper)?.let { showParentFolder(it) }
+                        R.id.action_mode_favorite_add -> lifecycleScope.launch { viewModel.changeFavorite(list, true)}
+                        R.id.action_mode_favorite_remove -> lifecycleScope.launch { viewModel.changeFavorite(list, false)}
                         else -> {
                             stopActionMode()
                             return false
@@ -435,6 +439,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_folder_append -> viewModel.appendFoldersSelection(selection)
                     R.id.action_folder_add_playlist -> lifecycleScope.launch { requireActivity().addToPlaylist(withContext(Dispatchers.Default) { selection.getAll() }) }
                     R.id.action_video_delete -> removeItems(selection.getAll())
+                    R.id.action_mode_favorite_add -> lifecycleScope.launch { viewModel.changeFavorite(selection.getAll(), true)}
+                    R.id.action_mode_favorite_remove -> lifecycleScope.launch { viewModel.changeFavorite(selection.getAll(), false)}
                     else -> return false
                 }
             }
@@ -450,6 +456,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_add_to_group -> addToGroup(selection)
                     R.id.action_mode_go_to_folder -> (selection.first() as? MediaWrapper)?.let { showParentFolder(it) }
                     R.id.action_video_delete -> removeItems(selection.getAll())
+                    R.id.action_mode_favorite_add -> lifecycleScope.launch { viewModel.changeFavorite(selection.getAll(), true)}
+                    R.id.action_mode_favorite_remove -> lifecycleScope.launch { viewModel.changeFavorite(selection.getAll(), false)}
                     else -> return false
                 }
             }

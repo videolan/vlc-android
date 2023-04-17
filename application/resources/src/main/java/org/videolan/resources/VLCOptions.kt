@@ -116,7 +116,6 @@ object VLCOptions {
             options.add(subtitlesEncoding)
             options.add("--stats")
             if (networkCaching > 0) options.add("--network-caching=$networkCaching")
-            options.add("--android-display-chroma")
             options.add("--audio-resampler")
             options.add("soxr")
             options.add("--audiotrack-session-id=$audiotrackSessionId")

@@ -40,11 +40,16 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
+import org.videolan.resources.CTX_CUSTOM_REMOVE
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.setGone
+import org.videolan.tools.stripTrailingSlash
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.BaseFragment
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -58,13 +63,14 @@ import java.io.File
 
 private const val FROM_ONBOARDING = "from_onboarding"
 
-class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by StorageFragmentDelegate() {
+class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by StorageFragmentDelegate(), CtxActionReceiver {
 
     private lateinit var localEntry: TitleListView
     private lateinit var networkEntry: TitleListView
     private lateinit var networkMonitor: NetworkMonitor
     private lateinit var localViewModel: BrowserModel
     private lateinit var networkViewModel: BrowserModel
+    private lateinit var storageBrowserAdapter: StorageBrowserAdapter
 
     private var alertDialog: AlertDialog? = null
 
@@ -105,7 +111,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         favoritesEntry.setGone()
 
         localEntry = view.findViewById(R.id.local_browser_entry)
-        val storageBrowserAdapter = StorageBrowserAdapter(getBrowserContainer(false))
+        storageBrowserAdapter = StorageBrowserAdapter(getBrowserContainer(false))
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_STORAGE, url = null)
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
@@ -244,13 +250,29 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
 
         override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
-        override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
+        override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
+            if (isRootDirectory) {
+                val storage = storageBrowserAdapter.getItem(position) as Storage
+                val path = storage.uri.path ?: return
+                lifecycleScope.launchWhenStarted {
+                    val isCustom = localViewModel.customDirectoryExists(path.stripTrailingSlash())
+                    if (isCustom && isAdded) showContext(requireActivity(), this@MLStorageBrowserFragment, position, item, CTX_CUSTOM_REMOVE)
+                }
+            }
+        }
 
         override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) { }
 
         override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
         override fun onItemFocused(v: View, item: MediaLibraryItem) {}
+    }
+    override fun onCtxAction(position: Int, option: Long) {
+        val storage = storageBrowserAdapter.getItem(position) as Storage
+        val path = storage.uri.path ?: return
+        localViewModel.deleteCustomDirectory(path)
+        localViewModel.remove(storage)
+        (activity as AudioPlayerContainerActivity).updateLib()
     }
 
     companion object {
