@@ -427,6 +427,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
         get("/icon") {
             val idString = call.request.queryParameters["id"]
+            val width = call.request.queryParameters["width"]?.toInt() ?: 32
 
             val id = try {
                 context.resIdByName(idString, "drawable")
@@ -440,7 +441,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 return@get
             }
 
-            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(context, id, 32, 32), true)?.let {
+            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(context, id, width, width), true)?.let {
 
                 call.respondBytes(ContentType.Image.PNG) { it }
                 return@get

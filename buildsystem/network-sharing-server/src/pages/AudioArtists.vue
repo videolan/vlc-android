@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded" class="container">
+    <div v-if="loaded && this.artists.length !== 0" class="container">
         <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
@@ -17,8 +17,8 @@
             </div>
         </div>
     </div>
-    <div v-else>
-        <EmptyView />
+    <div v-else-if="loaded">
+        <EmptyView :message="'No artist found'" />
     </div>
 </template>
 
@@ -30,6 +30,7 @@ import axios from 'axios'
 import { API_URL } from '../config.js'
 import MediaCardItem from '../components/MediaCardItem.vue'
 import MediaListItem from '../components/MediaListItem.vue'
+import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
@@ -37,7 +38,8 @@ export default {
     },
     components: {
         MediaCardItem,
-        MediaListItem
+        MediaListItem,
+        EmptyView,
     },
     data() {
         return {
