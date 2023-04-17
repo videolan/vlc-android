@@ -4,37 +4,7 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="album in albums" :key="album.id">
-                        <td class="media-img-list-td">
-                            <div class="ratio ratio-1x1 media-img-container audio-img-container">
-                                <img :src="getImageUrl(album)" class="media-img-list">
-                                <div v-on:click="play(album)" class="media-overlay">
-                                    <button class="btn btn-lg -list text-white" type="button">
-                                        <span class="material-symbols-outlined">play_circle</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="card-body media-text flex1">
-                                <h6 class="card-title text-truncate">{{ album.title }}</h6>
-                                <p class="card-text text-truncate">{{ album.artist }}</p>
-
-                            </div>
-                        </td>
-                        <td class="media-action-list-td">
-                            <div class="dropdown dropstart overlay-more-container">
-                                <button class="btn btn-lg nav-button " type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="material-symbols-outlined">more_vert</span>
-                                </button>
-                                <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
-                                    <li> <span v-on:click="play(album, false, false)" class="dropdown-item">Play</span>
-                                    </li>
-                                    <li> <span v-on:click="play(album, true, false)" class="dropdown-item">Append</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
+                        <MediaListItem :media="album" :mediaType="'album'"/>
                     </tr>
                 </tbody>
             </table>
@@ -43,32 +13,7 @@
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="album in albums" :key="album.id">
-                <div class="ratio ratio-1x1 media-img-container audio-img-container">
-                    <img :src="getImageUrl(album)" class="media-img-top">
-                    <div v-on:click="play(album)" class="media-overlay">
-                        <button class="btn btn-lg overlay-play text-white" type="button">
-                            <span class="material-symbols-outlined">play_circle</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="d-flex">
-
-                    <div class="card-body media-text flex1">
-                        <h6 class="card-title text-truncate">{{ album.title }}</h6>
-                        <p class="card-text text-truncate">{{ album.artist }}</p>
-
-                    </div>
-                    <div class="dropdown dropstart overlay-more-container">
-                        <button class="btn btn-lg nav-button overlay-more " type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </button>
-                        <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
-                            <li> <span v-on:click="play(album, false, false)" class="dropdown-item">Play</span> </li>
-                            <li> <span v-on:click="play(album, true, false)" class="dropdown-item">Append</span> </li>
-                        </ul>
-                    </div>
-                </div>
+                <MediaCardItem :media="album" :mediaType="'album'"/>
             </div>
         </div>
     </div>
@@ -83,10 +28,16 @@ import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
 import { API_URL } from '../config.js'
+import MediaCardItem from '../components/MediaCardItem.vue'
+import MediaListItem from '../components/MediaListItem.vue'
 
 export default {
     computed: {
         ...mapStores(playerStore)
+    },
+    components: {
+        MediaCardItem,
+        MediaListItem,
     },
     data() {
         return {
@@ -95,9 +46,6 @@ export default {
         }
     },
     methods: {
-        getImageUrl(media) {
-            return API_URL + "/artwork?artwork=" + media.artworkURL + "&id=" + media.id + "&type=album"
-        },
         fetchAlbums() {
             let component = this
             component.playerStore.loading = true
@@ -107,16 +55,6 @@ export default {
                 component.playerStore.loading = false
             });
         },
-        play(media, append, asAudio) {
-            let component = this
-            axios.get(API_URL + "play?id=" + media.id + "&append=" + append + "&audio=" + asAudio + "&type=album")
-                .catch(function (error) {
-                    console.log(error.toJSON());
-                    if (error.response.status != 200) {
-                        component.playerStore.warning = { type: "warning", message: error.response.data }
-                    }
-                })
-        }
     },
     created: function () {
         this.fetchAlbums();
