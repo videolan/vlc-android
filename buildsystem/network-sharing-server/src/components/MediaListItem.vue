@@ -24,11 +24,10 @@
                 <span class="material-symbols-outlined">more_vert</span>
             </button>
             <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
-                <li> <span v-on:click="play(media, false, false)" class="dropdown-item">Play</span> </li>
-                <li> <span v-on:click="play(media, true, false)" class="dropdown-item">Append</span> </li>
-                <li> <span v-if="(mediaType == 'video')" v-on:click="play(media, false, true)" class="dropdown-item">Play as
-                        audio</span> </li>
-                <li v-if="downloadable"> <span v-on:click="download(media)" class="dropdown-item">Download</span> </li>
+                <li> <span v-on:click="play(media, false, false)" class="dropdown-item" v-t="'PLAY'"></span> </li>
+                <li> <span v-on:click="play(media, true, false)" class="dropdown-item" v-t="'APPEND'"></span> </li>
+                <li> <span v-if="(mediaType == 'video')" v-on:click="play(media, false, true)" class="dropdown-item" v-t="'PLAY_AS_AUDIO'"></span> </li>
+                <li v-if="downloadable"> <span v-on:click="download(media)" class="dropdown-item" v-t="'DOWNLOAD'"></span> </li>
             </ul>
         </div>
     </td>

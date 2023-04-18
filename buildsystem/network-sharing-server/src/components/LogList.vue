@@ -3,11 +3,9 @@
     <table class="table">
       <thead>
         <tr class="">
-          <th class="" role="columnheader" scope="col">
-            Log Files
+          <th class="" role="columnheader" scope="col" v-t="'LOG_FILE'">
           </th>
-          <th class="text-center" role="columnheader" scope="col">
-            Download
+          <th class="text-center" role="columnheader" scope="col" v-t="'DOWNLOAD'">
           </th>
         </tr>
       </thead>

@@ -16,7 +16,7 @@
         </div>
     </div>
     <div v-else-if="loaded">
-        <EmptyView :message="'No playlist found'" />
+        <EmptyView :message="$t('NO_MEDIA')" />
     </div>
 </template>
 

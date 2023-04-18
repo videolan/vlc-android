@@ -48,5 +48,10 @@ object TranslationMapping {
         GENRES(R.string.genres),
         LOG_FILE(R.string.ns_log_file),
         DROP_FILES(R.string.ns_drop_files),
+        DOWNLOAD(R.string.download),
+        NO_MEDIA(R.string.nomedia),
+        PLAY(R.string.play),
+        APPEND(R.string.append),
+        PLAY_AS_AUDIO(R.string.play_as_audio),
     }
 }
