@@ -59,7 +59,6 @@ export default {
 @import '../scss/colors.scss';
 
 .media-info {
-  overflow: auto;
   width: 100%;
   display: flex;
   overflow: hidden;

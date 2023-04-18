@@ -347,7 +347,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             call.respondText(gson.toJson(list))
         }
         get("/artist-list") {
-            val artists = context.getFromMl { getArtists(true, false, false) }
+            val artists = context.getFromMl { getArtists(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             artists.forEach { artist ->

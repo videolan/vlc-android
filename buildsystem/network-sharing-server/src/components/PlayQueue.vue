@@ -83,11 +83,17 @@ export default {
     height: 100%;
     overflow-y: scroll;
 }
+
 .play-queue-item {
     padding-left: 8px;
     padding-right: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+
+.play-queue-item:hover {
+  background-color: $hover-grey;
 }
 
 .play-queue-header {
