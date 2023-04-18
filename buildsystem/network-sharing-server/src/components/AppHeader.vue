@@ -7,23 +7,23 @@
       <RouterLink :to="{ name: 'VideoList' }">
         <button class="btn btn-lg nav-button medium">
           <img v-bind:src="getAppAsset('ic_menu_video')">
-          <p>Video</p>
+          <p v-t="'VIDEO'"></p>
         </button>
       </RouterLink>
       <RouterLink :to="{ name: 'AudioArtists' }">
         <button class="btn btn-lg nav-button medium">
           <img v-bind:src="getAppAsset('ic_menu_audio')">
-          <p>Audio</p>
+          <p v-t="'AUDIO'"></p>
         </button>
       </RouterLink>
       <button class="btn btn-lg nav-button medium">
         <img v-bind:src="getAppAsset('ic_menu_folder')">
-        <p>Browse</p>
+        <p v-t="'BROWSE'"></p>
       </button>
       <RouterLink :to="{ name: 'PlaylistList' }">
         <button class="btn btn-lg nav-button medium">
           <img v-bind:src="getAppAsset('ic_menu_playlist')">
-          <p>Playlists</p>
+          <p v-t="'PLAYLISTS'"></p>
         </button>
       </RouterLink>
     </div>
@@ -42,13 +42,11 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li>
-            <RouterLink class="dropdown-item" :to="{ name: 'MediaUpload' }">
-              Send files
+            <RouterLink class="dropdown-item" :to="{ name: 'MediaUpload' }" v-t="'DROP_FILES'">
             </RouterLink>
           </li>
           <li>
-            <RouterLink class="dropdown-item" :to="{ name: 'Logs' }">
-              Log files
+            <RouterLink class="dropdown-item" :to="{ name: 'Logs' }" v-t="'LOG_FILE'">
             </RouterLink>
           </li>
         </ul>
@@ -56,11 +54,12 @@
     </div>
     <div class=" navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1">
-        <button class="btn btn-lg nav-button" type="button"  
-          aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)" v-show="this.playerStore.displayType[this.$route.name]">
+        <button class="btn btn-lg nav-button" type="button" aria-expanded="false"
+          v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)"
+          v-show="this.playerStore.displayType[this.$route.name]">
           <span class="material-symbols-outlined">grid_view</span>
         </button>
-        <button class="btn btn-lg nav-button" type="button"   v-show="!this.playerStore.displayType[this.$route.name]"
+        <button class="btn btn-lg nav-button" type="button" v-show="!this.playerStore.displayType[this.$route.name]"
           aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)">
           <span class="material-symbols-outlined">view_list</span>
         </button>
@@ -68,23 +67,26 @@
       <ul class="nav justify-content-center navtabs">
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioArtists') ? 'active text-primary' : ''" :to="{ name: 'AudioArtists' }">Artists
+            v-bind:class="(this.$route.name == 'AudioArtists') ? 'active text-primary' : ''"
+            :to="{ name: 'AudioArtists' }" v-t="'ARTISTS'">
           </RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioAlbums') ? 'active text-primary' : ''" :to="{ name: 'AudioAlbums' }">Albums
+            v-bind:class="(this.$route.name == 'AudioAlbums') ? 'active text-primary' : ''" :to="{ name: 'AudioAlbums' }"
+            v-t="'ALBUMS'">
           </RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioTracks') ? 'active text-primary' : ''" :to="{ name: 'AudioTracks' }">Tracks
+            v-bind:class="(this.$route.name == 'AudioTracks') ? 'active text-primary' : ''" :to="{ name: 'AudioTracks' }"
+            v-t="'TRACKS'">
           </RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioGenres') ? 'active text-primary' : ''" :to="{ name: 'AudioGenres' }">Genres
-          </RouterLink>
+            v-bind:class="(this.$route.name == 'AudioGenres') ? 'active text-primary' : ''" :to="{ name: 'AudioGenres' }"
+            v-t="'GENRES'"> </RouterLink>
         </li>
       </ul>
       <div class="flex1">&nbsp;</div>

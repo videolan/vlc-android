@@ -450,6 +450,9 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             call.respond(HttpStatusCode.NotFound)
 
         }
+        get("/translation") {
+            call.respondText(TranslationMapping.generateTranslations(context))
+        }
         get("/artwork") {
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
