@@ -9,6 +9,7 @@ export const playerStore = defineStore('player', {
     nowPlaying: Object,
     playqueueData: Object,
     playqueueShowing: false,
+    playQueueEdit: false,
     responsivePlayerShowing: false,
     socketOpened: true,
     warning:Object,
@@ -20,6 +21,9 @@ export const playerStore = defineStore('player', {
   actions: {
     toggleDisplayType(route) {
       this.displayType[route] = !this.displayType[route]
+    },
+    togglePlayQueueEdit() {
+      this.playQueueEdit = !this.playQueueEdit
     }
   },
 })

@@ -36,7 +36,7 @@
         <div class="player_right col-12 col-md">
           <div class="player_right_container">
             <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
-              @click="togglePlayQueue($event)" />
+              @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active': ''" />
           </div>
           <div class="player_right_container">
             <input type="range" ref="volume" name="volume" min="0" max="100" step="1" @change="this.volumeChange($event)">
@@ -176,8 +176,6 @@ export default {
   width: 100%;
   color: #000;
   display: none;
-  border-radius-top-left: 8px;
-  border-radius-top-right: 8px;
   align-items: center;
   height: var(--playerHeight);
   z-index: 1022;

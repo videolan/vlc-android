@@ -155,7 +155,7 @@ export default {
 
 .navtabs-container {
   flex-basis: 100%;
-  background-color: #fafafa;
+  background-color: $lighter-grey;
   display: flex;
 }
 

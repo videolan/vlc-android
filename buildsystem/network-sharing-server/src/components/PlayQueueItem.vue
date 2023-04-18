@@ -12,13 +12,19 @@
       <p class="h6 queue-title text-truncate">{{ media.title }}</p>
       <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ $readableDuration(media.length) }}</p>
     </div>
-    <PlayerButton type="playlist_remove" id="player_repeat" ref="repeat" v-on:click.stop="removeItem(mediaIndex)" />
+    <PlayerButton v-show="this.playerStore.playQueueEdit" type="expand_more"
+      v-on:click.stop="moveMediaBottom(mediaIndex)" />
+    <PlayerButton v-show="this.playerStore.playQueueEdit" type="expand_less"
+      v-on:click.stop="moveMediaTop(mediaIndex)" />
+    <PlayerButton v-show="this.playerStore.playQueueEdit" type="playlist_remove"
+      v-on:click.stop="removeItem(mediaIndex)" />
   </div>
 </template>
 
 <script>
 import PlayerButton from './PlayerButton.vue'
-
+import { playerStore } from '../stores/PlayerStore'
+import { mapStores } from 'pinia'
 export default {
   components: {
     PlayerButton
@@ -28,6 +34,7 @@ export default {
     mediaIndex: Number
   },
   computed: {
+    ...mapStores(playerStore),
   },
   mounted: function () {
   },
@@ -37,7 +44,13 @@ export default {
     },
     play(index) {
       this.$root.connection.send("playMedia:" + index);
-    }
+    }, 
+    moveMediaBottom(index) {
+      this.$root.connection.send("moveMediaBottom:" + index);
+    }, 
+    moveMediaTop(index) {
+      this.$root.connection.send("moveMediaTop:" + index);
+    },
   }
 }
 </script>
@@ -144,5 +157,4 @@ export default {
   100% {
     height: 60%;
   }
-}
-</style>
+}</style>

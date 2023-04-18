@@ -236,6 +236,18 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                             service?.remove(index)
 
                         }
+                        message.startsWith("moveMediaBottom") -> {
+                            val index = message.split(':')[1].toInt()
+                            if (index < (service?.playlistManager?.getMediaListSize() ?: 0) - 1)
+                                service?.moveItem(index, index + 2)
+
+                        }
+                        message.startsWith("moveMediaTop") -> {
+                            val index = message.split(':')[1].toInt()
+                            if (index > 0)
+                                service?.moveItem(index, index - 1)
+
+                        }
                     }
                 }
                 websocketSession.remove(this)

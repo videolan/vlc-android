@@ -16,11 +16,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../scss/colors.scss';
 .btn-player {
   color: #000;
   height: 40px;
   padding: 8px;
+}
+
+.btn-player.active span {
+  color: $primary-color;
 }
 
 .btn-player.big {
