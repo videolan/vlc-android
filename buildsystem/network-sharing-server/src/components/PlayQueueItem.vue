@@ -6,18 +6,17 @@
         <span class="playing-bar playing-bar2"></span>
         <span class="playing-bar playing-bar3"></span>
       </div>
-      <img class="media-artwork" :src="getImageUrl(media)">
+      <img class="media-artwork" :src="$getImageUrl(media)">
     </div>
     <div class="media-text">
       <p class="h6 queue-title text-truncate">{{ media.title }}</p>
-      <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ msecToTime(media.length) }}</p>
+      <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ $readableDuration(media.length) }}</p>
     </div>
     <PlayerButton type="playlist_remove" id="player_repeat" ref="repeat" v-on:click.stop="removeItem(mediaIndex)" />
   </div>
 </template>
 
 <script>
-import { API_URL } from '../config.js'
 import PlayerButton from './PlayerButton.vue'
 
 export default {
@@ -33,16 +32,6 @@ export default {
   mounted: function () {
   },
   methods: {
-    msecToTime(ms) {
-      const seconds = Math.floor((ms / 1000) % 60)
-      const minutes = Math.floor((ms / (60 * 1000)) % 60)
-      const hours = Math.floor((ms / (3600 * 1000)) % 3600)
-      return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds
-        }`
-    },
-    getImageUrl(media) {
-      return API_URL + "/artwork?artwork=" + media.artworkURL + "&id=" + media.id
-    },
     removeItem(index) {
       this.$root.connection.send("deleteMedia:" + index);
     },

@@ -5,6 +5,7 @@ import './scss/app.scss'
 import routes from './routes'
 import { createPinia } from 'pinia'
 import { i18n, loadLanguageAsync } from './i18n'
+import vlcUtils  from './plugins/vlcUtils'
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -22,5 +23,5 @@ router.beforeEach((to, from, next) => {
 
 const pinia = createPinia()
 
-createApp(App).use(router).use(i18n).use(pinia).mount('#app')
+createApp(App).use(router).use(i18n).use(pinia).use(vlcUtils).mount('#app')
 

@@ -2,10 +2,10 @@
   <div v-show="this.playerStore.playing">
     <div class="footer" id="player" v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
       <div class="time-duration-container">
-        <p id="time"> {{ msecToTime(new Date(this.playerStore.nowPlaying.progress)) }}
+        <p id="time"> {{ $readableDuration(new Date(this.playerStore.nowPlaying.progress)) }}
         </p>
         <div class="flex1">&nbsp;</div>
-        <p id="duration">{{ msecToTime(new Date(this.playerStore.nowPlaying.duration))
+        <p id="duration">{{ $readableDuration(new Date(this.playerStore.nowPlaying.duration))
         }}</p>
       </div>
       <PlayerProgress ref="playerProgress" id="player_progress" progress="{{ this.playerStore.nowPlaying.progress }}"
@@ -79,13 +79,6 @@ export default {
     ...mapState(playerStore, ['nowPlaying'])
   },
   methods: {
-    msecToTime(ms) {
-      const seconds = Math.floor((ms / 1000) % 60)
-      const minutes = Math.floor((ms / (60 * 1000)) % 60)
-      const hours = Math.floor((ms / (3600 * 1000)) % 3600)
-      return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds
-        }`
-    },
     play() {
       this.$root.connection.send("play");
       console.log("Sending play");

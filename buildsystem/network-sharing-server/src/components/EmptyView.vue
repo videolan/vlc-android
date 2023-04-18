@@ -1,19 +1,13 @@
 <template>
   <div class="all-center container">
-    <img v-bind:src="getAppAsset('ic_empty')">
+    <img v-bind:src="$getAppAsset('ic_empty', 64)">
     <p>{{message}}</p>
   </div>
 </template>
 
 <script>
-import { API_URL } from '../config.js'
 
 export default {
-  methods: {
-    getAppAsset(name) {
-      return API_URL + 'icon?id=' + name + '&width=64'
-    }
-  },
   props: {
         message: String
   },

@@ -6,23 +6,23 @@
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
         <button class="btn btn-lg nav-button medium">
-          <img v-bind:src="getAppAsset('ic_menu_video')">
+          <img v-bind:src="$getAppAsset('ic_menu_video')">
           <p v-t="'VIDEO'"></p>
         </button>
       </RouterLink>
       <RouterLink :to="{ name: 'AudioArtists' }">
         <button class="btn btn-lg nav-button medium">
-          <img v-bind:src="getAppAsset('ic_menu_audio')">
+          <img v-bind:src="$getAppAsset('ic_menu_audio')">
           <p v-t="'AUDIO'"></p>
         </button>
       </RouterLink>
       <button class="btn btn-lg nav-button medium">
-        <img v-bind:src="getAppAsset('ic_menu_folder')">
+        <img v-bind:src="$getAppAsset('ic_menu_folder')">
         <p v-t="'BROWSE'"></p>
       </button>
       <RouterLink :to="{ name: 'PlaylistList' }">
         <button class="btn btn-lg nav-button medium">
-          <img v-bind:src="getAppAsset('ic_menu_playlist')">
+          <img v-bind:src="$getAppAsset('ic_menu_playlist')">
           <p v-t="'PLAYLISTS'"></p>
         </button>
       </RouterLink>
@@ -98,7 +98,6 @@
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { Tooltip } from 'bootstrap';
-import { API_URL } from '../config.js'
 
 export default {
   components: {
@@ -107,9 +106,6 @@ export default {
     disconnectedClicked() {
       this.$root.startWebSocket();
     },
-    getAppAsset(name) {
-      return API_URL + 'icon?id=' + name
-    }
   },
   computed: {
     ...mapStores(playerStore),
