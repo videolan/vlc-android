@@ -1173,6 +1173,7 @@
     <string name="ns_log_file">Log files</string>
     <string name="ns_drop_files">Drop files</string>
     <string name="ns_not_in_foreground">Application is not in foreground. Cannot launch video.</string>
+    <string name="ns_disconnected">Disconnected from device</string>
 
 
 </resources>

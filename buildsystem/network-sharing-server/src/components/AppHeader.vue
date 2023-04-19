@@ -28,18 +28,11 @@
       </RouterLink>
     </div>
     <div class="d-flex flex1 justify-content-end">
-      <button class="btn btn-lg nav-button blink" v-show="!playerStore.socketOpened" v-on:click.stop="disconnectedClicked"
-        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Device disconnected">
-        <span class="material-symbols-outlined">cloud_off</span>
-      </button>
-      <button class="btn btn-lg nav-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Search">
-        <span class="material-symbols-outlined">search</span>
-      </button>
+      <ImageButton type="cloud_off" class="blink" v-show="!playerStore.socketOpened" v-on:click.stop="disconnectedClicked"
+        data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISCONNECTED')"/>
+      <ImageButton type="search" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('SEARCH')" />
       <div class="dropdown dropstart">
-        <button class="btn btn-lg nav-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <span class="material-symbols-outlined">more_vert</span>
-        </button>
+        <ImageButton type="more_vert" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" />
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li>
             <RouterLink class="dropdown-item" :to="{ name: 'MediaUpload' }" v-t="'DROP_FILES'">
@@ -54,15 +47,10 @@
     </div>
     <div class=" navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1">
-        <button class="btn btn-lg nav-button" type="button" aria-expanded="false"
-          v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)"
-          v-show="this.playerStore.displayType[this.$route.name]">
-          <span class="material-symbols-outlined">grid_view</span>
-        </button>
-        <button class="btn btn-lg nav-button" type="button" v-show="!this.playerStore.displayType[this.$route.name]"
-          aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)">
-          <span class="material-symbols-outlined">view_list</span>
-        </button>
+        <ImageButton type="grid_view"  v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)"
+          v-show="this.playerStore.displayType[this.$route.name]"/>
+          <ImageButton type="view_list"  v-show="!this.playerStore.displayType[this.$route.name]"
+          aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)"/>
       </div>
       <ul class="nav justify-content-center navtabs">
         <li class="nav-item">
@@ -98,9 +86,11 @@
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { Tooltip } from 'bootstrap';
+import ImageButton from './ImageButton.vue'
 
 export default {
   components: {
+    ImageButton,
   },
   methods: {
     disconnectedClicked() {
@@ -179,4 +169,5 @@ export default {
   50% {
     opacity: 0;
   }
-}</style>
+}
+</style>

@@ -2,8 +2,8 @@
     <div id="play_queue" v-show="show">
         <div class="d-flex border-bottom play-queue-toolbar">
             <div class="flex1">&nbsp;</div>
-            <PlayerButton type="edit" class="small" v-on:click.stop="this.playerStore.togglePlayQueueEdit()" v-bind:class="(this.playerStore.playQueueEdit) ? 'active' : ''" />
-            <PlayerButton type="close" class="small play-queue-header" v-on:click.stop="hide()" />
+            <ImageButton type="edit" class="small" v-on:click.stop="this.playerStore.togglePlayQueueEdit()" v-bind:class="(this.playerStore.playQueueEdit) ? 'active' : ''" />
+            <ImageButton type="close" class="small play-queue-header" v-on:click.stop="hide()" />
         </div>
 
         <div class="play-queue-items">
@@ -19,12 +19,12 @@
 import PlayQueueItem from './PlayQueueItem.vue'
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
-import PlayerButton from './PlayerButton.vue'
+import ImageButton from './ImageButton.vue'
 
 export default {
     components: {
         PlayQueueItem,
-        PlayerButton,
+        ImageButton,
     },
     computed: {
         ...mapStores(playerStore),

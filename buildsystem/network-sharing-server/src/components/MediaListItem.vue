@@ -4,9 +4,7 @@
             v-bind:class="(mediaType == 'video') ? 'ratio-16x9 video' : 'ratio-1x1'">
             <img :src="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div v-on:click="$play(media, this.mediaType)" class="media-overlay">
-                <button class="btn btn-lg -list text-white" type="button">
-                    <span class="material-symbols-outlined">play_circle</span>
-                </button>
+                <ImageButton type="play_circle_white" class="overlay-play" />
             </div>
         </div>
     </td>
@@ -19,10 +17,8 @@
     </td>
     <td class="media-action-list-td">
         <div class="dropdown dropstart overlay-more-container">
-            <button class="btn btn-lg nav-button " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <span class="material-symbols-outlined">more_vert</span>
-            </button>
+            <ImageButton type="more_vert"  id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false"/>
             <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
                 <li> <span v-on:click="$play(media, this.mediaType, false, false)" class="dropdown-item" v-t="'PLAY'"></span> </li>
                 <li> <span v-on:click="$play(media, this.mediaType, true, false)" class="dropdown-item" v-t="'APPEND'"></span> </li>
@@ -34,9 +30,13 @@
 </template>
 
 <script>
+import ImageButton from './ImageButton.vue'
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 export default {
+    components: {
+        ImageButton,
+    },
     computed: {
         ...mapStores(playerStore),
     },

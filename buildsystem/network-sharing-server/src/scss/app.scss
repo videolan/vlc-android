@@ -1,4 +1,3 @@
-@import 'material-symbols/outlined.css';
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "colors";
@@ -138,10 +137,6 @@ body {
   border: none;
 }
 
-.btn>span.material-symbols-outlined {
-  vertical-align: middle;
-}
-
 //medias
 
 .media-overlay {
@@ -199,16 +194,6 @@ body {
 
 .media-action-list-td {
   width: 48px;
-}
-
-.overlay-play>span.material-symbols-outlined {
-  font-size: 42px;
-  vertical-align: middle;
-}
-
-.media-list>.overlay-play>span.material-symbols-outlined {
-  font-size: 24px;
-  vertical-align: middle;
 }
 
 .media-text {

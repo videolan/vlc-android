@@ -12,22 +12,22 @@
       <p class="h6 queue-title text-truncate">{{ media.title }}</p>
       <p class="queue-subtitle text-truncate">{{ media.artist }} - {{ $readableDuration(media.length) }}</p>
     </div>
-    <PlayerButton v-show="this.playerStore.playQueueEdit" type="expand_more"
+    <ImageButton v-show="this.playerStore.playQueueEdit" type="expand_more"
       v-on:click.stop="moveMediaBottom(mediaIndex)" />
-    <PlayerButton v-show="this.playerStore.playQueueEdit" type="expand_less"
+    <ImageButton v-show="this.playerStore.playQueueEdit" type="expand_less"
       v-on:click.stop="moveMediaTop(mediaIndex)" />
-    <PlayerButton v-show="this.playerStore.playQueueEdit" type="playlist_remove"
+    <ImageButton v-show="this.playerStore.playQueueEdit" type="playlist_remove"
       v-on:click.stop="removeItem(mediaIndex)" />
   </div>
 </template>
 
 <script>
-import PlayerButton from './PlayerButton.vue'
+import ImageButton from './ImageButton.vue'
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 export default {
   components: {
-    PlayerButton
+    ImageButton
   },
   props: {
     media: Object,

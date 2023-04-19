@@ -2,16 +2,19 @@
   <td class="align-middle">{{ logfile.date }}</td>
   <td class="text-center">
     <a :href="href" class="">
-      <button class="btn btn-lg log-download" aria-label="download" type="button">
-        <span class="material-symbols-outlined">download</span>
-      </button>
+      <ImageButton type="file_download" />
     </a>
   </td>
 </template>
 
 <script>
 import { API_CONFIG } from '@/config';
+import ImageButton from './ImageButton.vue'
+
 export default {
+  components: {
+    ImageButton,
+  },
   props: {
     logfile: Object
   },

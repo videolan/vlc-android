@@ -21,21 +21,21 @@
 
         <div class="player_controls col-12 col-md">
           <span class="flex1" />
-          <PlayerButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()" />
-          <PlayerButton type="skip_previous" id="player_previous" ref="previous" v-on:click="previous()" />
-          <PlayerButton type="replay_10" id="player_previous_10" ref="previous10" v-on:click="previous10()" />
-          <PlayerButton type="play_circle" class="big" id="player_play" ref="play"
+          <ImageButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()" />
+          <ImageButton type="skip_previous" id="player_previous" ref="previous" v-on:click="previous()" />
+          <ImageButton type="replay_10" id="player_previous_10" ref="previous10" v-on:click="previous10()" />
+          <ImageButton type="play_circle" class="big" id="player_play" ref="play"
             v-show="!this.playerStore.nowPlaying.playing" v-on:click="play()" />
-          <PlayerButton type="pause_circle" class="big" id="player_pause" ref="pause"
+          <ImageButton type="pause_circle" class="big" id="player_pause" ref="pause"
             v-show="this.playerStore.nowPlaying.playing" v-on:click="pause()" />
-          <PlayerButton type="forward_10" id="player_next_10" ref="next10" v-on:click="next10()" />
-          <PlayerButton type="skip_next" id="player_next" ref="next" v-on:click="next()" />
-          <PlayerButton type="repeat" id="player_repeat" ref="repeat" @click.stop="repeat()" />
+          <ImageButton type="forward_10" id="player_next_10" ref="next10" v-on:click="next10()" />
+          <ImageButton type="skip_next" id="player_next" ref="next" v-on:click="next()" />
+          <ImageButton type="repeat" id="player_repeat" ref="repeat" @click.stop="repeat()" />
           <span class="flex1" />
         </div>
         <div class="player_right col-12 col-md">
           <div class="player_right_container">
-            <PlayerButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
+            <ImageButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
               @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active': ''" />
           </div>
           <div class="player_right_container">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import PlayerButton from './PlayerButton.vue'
+import ImageButton from './ImageButton.vue'
 import PlayerProgress from './PlayerProgress.vue'
 import { playerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
@@ -65,7 +65,7 @@ import { API_URL } from '../config.js'
 
 export default {
   components: {
-    PlayerButton,
+    ImageButton,
     PlayerProgress,
   },
   data() {
@@ -144,7 +144,7 @@ export default {
 
 @media screen and (min-width: 768px) {
   :root {
-    --playerHeight: 92px;
+    --playerHeight: 100px;
   }
 
   #player {
@@ -188,6 +188,7 @@ export default {
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 8px;
+  padding-bottom: 8px;
   background: $light-grey;
 }
 

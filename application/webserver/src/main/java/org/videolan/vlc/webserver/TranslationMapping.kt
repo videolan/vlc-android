@@ -53,5 +53,7 @@ object TranslationMapping {
         PLAY(R.string.play),
         APPEND(R.string.append),
         PLAY_AS_AUDIO(R.string.play_as_audio),
+        SEARCH(R.string.search),
+        DISCONNECTED(R.string.ns_disconnected),
     }
 }

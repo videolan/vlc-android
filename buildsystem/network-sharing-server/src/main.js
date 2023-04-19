@@ -23,5 +23,5 @@ router.beforeEach((to, from, next) => {
 
 const pinia = createPinia()
 
-createApp(App).use(router).use(i18n).use(pinia).use(vlcUtils).mount('#app')
+createApp(App).use(i18n).use(router).use(pinia).use(vlcUtils).mount('#app')
 
