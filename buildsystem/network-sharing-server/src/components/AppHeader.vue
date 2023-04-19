@@ -35,7 +35,7 @@
         <ImageButton type="more_vert" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" />
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li>
-            <RouterLink class="dropdown-item" :to="{ name: 'MediaUpload' }" v-t="'DROP_FILES'">
+            <RouterLink class="dropdown-item" :to="{ name: 'MediaUpload' }" v-t="'SEND_FILES'">
             </RouterLink>
           </li>
           <li>

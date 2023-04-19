@@ -47,7 +47,7 @@ object TranslationMapping {
         TRACKS(R.string.tracks),
         GENRES(R.string.genres),
         LOG_FILE(R.string.ns_log_file),
-        DROP_FILES(R.string.ns_drop_files),
+        SEND_FILES(R.string.ns_send_files),
         DOWNLOAD(R.string.download),
         NO_MEDIA(R.string.nomedia),
         PLAY(R.string.play),

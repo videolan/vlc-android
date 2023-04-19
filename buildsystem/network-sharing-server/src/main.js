@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import './scss/app.scss'
 import routes from './routes'
 import { createPinia } from 'pinia'
-import { i18n, loadLanguageAsync } from './i18n'
+import { initI18n } from './i18n'
 import vlcUtils  from './plugins/vlcUtils'
 
 const router = createRouter({
@@ -12,16 +12,8 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach((to, from, next) => {
-    const lang = to.params.lang
-    loadLanguageAsync(lang).then(() =>
-        next()
-    )
-})
-
-
-
 const pinia = createPinia()
-
-createApp(App).use(i18n).use(router).use(pinia).use(vlcUtils).mount('#app')
+initI18n().then(function(i18n) {
+    createApp(App).use(i18n).use(router).use(pinia).use(vlcUtils).mount('#app')
+})
 
