@@ -3,7 +3,7 @@
         v-bind:class="(mediaType == 'video') ? 'ratio-16x9' : 'ratio-1x1'">
         <img :src="$getImageUrl(media, this.mediaType)" class="media-img-top">
         <div v-on:click="$play(media, this.mediaType)" class="media-overlay">
-            <ImageButton type="play_circle_white" class="overlay-play medium" />
+            <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="48" />
         </div>
         <span v-if="(mediaType == 'video')" class="resolution">{{ media.resolution }}</span>
     </div>

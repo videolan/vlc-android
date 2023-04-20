@@ -1,5 +1,5 @@
 <template>
-  <div v-show="this.playerStore.playing">
+  <div v-show="this.playerStore.playing" @wheel.prevent @touchmove.prevent @scroll.prevent>
     <div class="footer" id="player" v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
       <div class="time-duration-container">
         <p id="time"> {{ $readableDuration(new Date(this.playerStore.nowPlaying.progress)) }}
