@@ -163,6 +163,11 @@ body {
   border-radius: 6px;
 }
 
+.media-img-list[lazy=loading],
+.media-img-top[lazy=loading] {
+  background-color: $light-grey;
+}
+
 .media-img-list {
   width: 54px;
   height: 54px;

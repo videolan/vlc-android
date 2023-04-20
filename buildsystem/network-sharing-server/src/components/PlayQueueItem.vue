@@ -6,7 +6,7 @@
         <span class="playing-bar playing-bar2"></span>
         <span class="playing-bar playing-bar3"></span>
       </div>
-      <img class="media-artwork" :src="$getImageUrl(media)">
+      <img class="media-artwork" v-lazy="$getImageUrl(media)">
     </div>
     <div class="media-text">
       <p class="h6 queue-title text-truncate">{{ media.title }}</p>
@@ -79,6 +79,10 @@ export default {
   width: 42px;
   height: 42px;
   border-radius: 6px;
+}
+
+.media-artwork[lazy=loading] {
+  background-color: $lighter-grey;
 }
 
 .h6.queue-title,

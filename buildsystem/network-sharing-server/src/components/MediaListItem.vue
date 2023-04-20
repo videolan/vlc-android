@@ -2,7 +2,7 @@
     <td class="media-img-list-td">
         <div class="ratio media-img-container audio-img-container"
             v-bind:class="(mediaType == 'video') ? 'ratio-16x9 video' : 'ratio-1x1'">
-            <img :src="$getImageUrl(media, this.mediaType)" class="media-img-list">
+            <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div v-on:click="$play(media, this.mediaType)" class="media-overlay">
                 <ImageButton type="play_circle_white" class="overlay-play" />
             </div>
