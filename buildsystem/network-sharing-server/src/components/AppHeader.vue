@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-light navbar-expand-md shadow-sm sticky-top align-items-center container-fluid main-navbar">
     <RouterLink class="flex1" :to="{ name: 'VideoList' }">
-      <img id="logo" src="../assets/resources/icon.png" width="48">
+      <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48)" width="48">
     </RouterLink>
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
