@@ -1,4 +1,4 @@
-import { API_URL } from '../config.js'
+import { API_URL, API_CONFIG } from '../config.js'
 import axios from 'axios'
 import { playerStore } from '../stores/PlayerStore'
 
@@ -38,6 +38,28 @@ export default {
                         store.warning = { type: "warning", message: error.response.data }
                     }
                 })
+        }
+        app.config.globalProperties.$upload = (file) => {
+            const onUploadProgress = (progressEvent) => {
+                const { loaded, total } = progressEvent;
+                let percent = Math.floor((loaded * 100) / total);
+                store.changeProgress(file, percent)
+              };
+            var formData = new FormData();
+            formData.append("media", file);
+            formData.append("filename", file.name)
+            store.changeFileStatus(file, 'uploading')
+            axios.post(`${API_CONFIG.UPLOAD_MEDIA}`, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              },
+              onUploadProgress
+            }).catch(function () {
+                store.changeFileStatus(file, 'error')
+
+            }).then(() => {
+                store.changeFileStatus(file, 'uploaded')
+            })
         }
     }
 }

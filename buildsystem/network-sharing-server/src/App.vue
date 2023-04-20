@@ -1,11 +1,12 @@
 <template>
-  <AppHeader />
+  <AppHeader @send-files="sendFiles" />
   <main v-bind:class="(this.playerStore.playing) ? 'footer-bottom-margin' : ''">
     <router-view></router-view>
   </main>
   <PlayQueue :show="this.playerStore.playqueueShowing" />
   <MiniPlayer ref="miniPlayer" />
   <Alert />
+  <UploadDialog ref="uploadComponent" />
   <div class="main-loading" v-show="this.playerStore.loading">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -18,6 +19,7 @@ import AppHeader from './components/AppHeader.vue'
 import MiniPlayer from './components/MiniPlayer.vue'
 import PlayQueue from './components/PlayQueue.vue'
 import Alert from './components/Alert.vue'
+import UploadDialog from './components/UploadDialog.vue'
 import { API_IP } from './config.js'
 import { playerStore } from './stores/PlayerStore'
 import { mapStores } from 'pinia'
@@ -29,11 +31,15 @@ export default {
     MiniPlayer,
     PlayQueue,
     Alert,
+    UploadDialog,
   },
   computed: {
     ...mapStores(playerStore)
   },
   methods: {
+    sendFiles() {
+      this.$refs.uploadComponent.openFiles()
+    },
     startWebSocket() {
       console.log("Starting connection to WebSocket Server")
       this.connection = new WebSocket("ws://" + API_IP + "/echo", "player")

@@ -5,4 +5,5 @@ export const API_URL = `http://${API_IP}/`;
 export const API_CONFIG = {
     LIST_LOGFILES: `${API_URL}list-logfiles`,
     DOWNLOAD_LOGFILE: `${API_URL}download-logfile?file=`,
+    UPLOAD_MEDIA: `${API_URL}upload-media`,
 }

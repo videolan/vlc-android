@@ -279,7 +279,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 call.respondText("Failed to load index.html")
             }
         }
-        post("/upload.json") {
+        post("/upload-media") {
             var fileDescription = ""
             var fileName = ""
             val multipartData = call.receiveMultipart()

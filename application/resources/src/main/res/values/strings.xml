@@ -1174,6 +1174,10 @@
     <string name="ns_send_files">Send files</string>
     <string name="ns_not_in_foreground">Application is not in foreground. Cannot launch video.</string>
     <string name="ns_disconnected">Disconnected from device</string>
+    <string name="ns_file">File</string>
+    <string name="ns_upload_remaining">Uploading %s files</string>
+    <string name="ns_upload_all">Upload all</string>
+    <string name="ns_drop_files_tip">Drop files anywhere to send to your device</string>
 
 
 </resources>

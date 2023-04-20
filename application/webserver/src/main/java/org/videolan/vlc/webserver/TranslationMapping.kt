@@ -32,7 +32,7 @@ object TranslationMapping {
     fun generateTranslations(context: Context): String {
         val map = HashMap<String, String>()
         StringMapping.values().forEach {
-            map[it.name] = context.getString(it.id)
+            map[it.name] = context.getString(it.id).replace("%s", "{msg}")
         }
         return JSONObject(map.toMap()).toString()
     }
@@ -55,5 +55,9 @@ object TranslationMapping {
         PLAY_AS_AUDIO(R.string.play_as_audio),
         SEARCH(R.string.search),
         DISCONNECTED(R.string.ns_disconnected),
+        FILE(R.string.ns_file),
+        UPLOAD_REMAINING(R.string.ns_upload_remaining),
+        UPLOAD_ALL(R.string.ns_upload_all),
+        DROP_FILES_TIP(R.string.ns_drop_files_tip),
     }
 }

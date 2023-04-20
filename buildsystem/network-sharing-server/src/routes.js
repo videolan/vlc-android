@@ -5,7 +5,6 @@ import AudioAlbums from './pages/AudioAlbums'
 import AudioTracks from './pages/AudioTracks'
 import AudioGenres from './pages/AudioGenres'
 import PageDownloads from './pages/PageDownloads'
-import PageMediaUpload from './pages/PageMediaUpload'
 
 const routes = [
     { path: '/', redirect: '/videos', name: 'Home' },
@@ -22,7 +21,6 @@ const routes = [
     },
 
     { path: '/logs', component: PageDownloads, name: 'Logs' },
-    { path: '/upload', component: PageMediaUpload, name: "MediaUpload" }
 ]
 
 export default routes;
