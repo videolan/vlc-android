@@ -73,7 +73,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
             it.setProgressBackgroundColorSchemeColor(bColor)
         }
         if (isMainNavigationPoint) manageFabNeverShow()
-        if (hasFAB()) updateFabPlayView()
+        updateFabPlayView()
     }
 
     fun manageFabNeverShow() {
