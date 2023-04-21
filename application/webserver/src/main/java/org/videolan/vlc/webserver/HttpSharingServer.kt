@@ -60,10 +60,14 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
+import org.videolan.resources.util.observeLiveDataUntil
 import org.videolan.tools.*
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -71,9 +75,12 @@ import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.providers.BrowserProvider
+import org.videolan.vlc.providers.NetworkProvider
+import org.videolan.vlc.providers.StorageProvider
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.toByteArray
+import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import java.io.File
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -91,6 +98,8 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             override fun initialValue() = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault())
         }
     }
+    private val networkSharesLiveData = LiveDataset<MediaLibraryItem>()
+
 
     private val _serverStatus = MutableLiveData(ServerStatus.NOT_INIT)
     val serverStatus: LiveData<ServerStatus>
@@ -123,6 +132,15 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         withContext(Dispatchers.IO) {
             engine = generateServer(context)
             engine.start()
+        }
+
+        withContext(Dispatchers.Main) {
+            //keep track of the network shares as they are highly asynchronous
+            val provider = NetworkProvider(context, networkSharesLiveData, null)
+            NetworkMonitor.getInstance(context).connectionFlow.onEach {
+                if (it.connected) provider.refresh()
+                else networkSharesLiveData.clear()
+            }.launchIn(AppScope)
         }
     }
 
@@ -391,6 +409,33 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        get("/storage-list") {
+            val dataset = LiveDataset<MediaLibraryItem>()
+            val provider = withContext(Dispatchers.Main) {
+                StorageProvider(context, dataset, null)
+            }
+            val list = getProviderContent(context, provider, dataset)
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
+        get("/favorite-list") {
+            val dataset = LiveDataset<MediaLibraryItem>()
+            val provider = withContext(Dispatchers.Main) {
+                FavoritesProvider(context, dataset, AppScope)
+            }
+            val list = getProviderContent(context, provider, dataset)
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
+        get("/network-list") {
+            val list = ArrayList<PlayQueueItem>()
+            networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
+                list.add(PlayQueueItem(mediaLibraryItem.id, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                        ?: "", false, ""))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
         get("/play") {
             val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
@@ -466,6 +511,12 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             call.respondText(TranslationMapping.generateTranslations(context))
         }
         get("/artwork") {
+            if (call.request.queryParameters["type"] in arrayOf( "folder", "network")) {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(context, R.drawable.ic_menu_folder, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
                 //check by id and use the ArtworkProvider if provided
@@ -593,6 +644,30 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 websocketSession.forEach { it.send(Frame.Text(playQueue)) }
             }
         }
+    }
+
+    private suspend fun getProviderContent(context: Context, provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): ArrayList<PlayQueueItem> {
+        dataset.await()
+        val descriptions = ArrayList<Pair<Int, String>>()
+        observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
+            descriptions.add(pair)
+            val block = descriptions.size < dataset.getList().size
+            block
+        }
+        val list = ArrayList<PlayQueueItem>()
+        dataset.getList().forEachIndexed { index, mediaLibraryItem ->
+            val description = try {
+                val unparsedDescription = descriptions.first { it.first == index }.second
+                val folders = unparsedDescription.getFolderNumber()
+                val files = unparsedDescription.getFilesNumber()
+                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+            } catch (e: Exception) {
+                ""
+            }
+            list.add(PlayQueueItem(mediaLibraryItem.id, mediaLibraryItem.title, description, 0, mediaLibraryItem.artworkMrl
+                    ?: "", false, ""))
+        }
+        return list
     }
 
     private fun generateNowPlaying(context: Context): String? {

@@ -5,11 +5,11 @@ import AudioAlbums from './pages/AudioAlbums'
 import AudioTracks from './pages/AudioTracks'
 import AudioGenres from './pages/AudioGenres'
 import PageDownloads from './pages/PageDownloads'
+import BrowseList from './pages/BrowseList'
 
 const routes = [
     { path: '/', redirect: '/videos', name: 'Home' },
     { path: '/videos', component: VideoList, name: 'VideoList', meta: { showDisplayBar: true } },
-    { path: '/playlists', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true } },
     {
         path: '/audio', redirect: '/audio/artists', name: 'AudioArtists',
         children: [
@@ -19,6 +19,8 @@ const routes = [
             { path: 'genres', component: AudioGenres, name: 'AudioGenres', meta: { showDisplayBar: true, isAudio: true } },
         ]
     },
+    { path: '/browse', component: BrowseList, name: 'BrowseList', meta: { showDisplayBar: true } },
+    { path: '/playlists', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true } },
 
     { path: '/logs', component: PageDownloads, name: 'Logs' },
 ]

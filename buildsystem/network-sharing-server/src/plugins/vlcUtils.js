@@ -17,6 +17,7 @@ export default {
         }
 
         app.config.globalProperties.$getImageUrl = (media, mediaType) => {
+            if (mediaType == 'network' && media.artworkURL != "") return media.artworkURL
             return `${API_URL}artwork?artwork=${media.artworkURL}&id=${media.id}&type=${mediaType}`
         }
 

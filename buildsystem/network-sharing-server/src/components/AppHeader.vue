@@ -16,10 +16,12 @@
           <p v-t="'AUDIO'"></p>
         </button>
       </RouterLink>
+      <RouterLink :to="{ name: 'BrowseList' }">
       <button class="btn btn-lg nav-button medium">
         <img v-bind:src="$getAppAsset('ic_menu_folder')">
         <p v-t="'BROWSE'"></p>
       </button>
+      </RouterLink>
       <RouterLink :to="{ name: 'PlaylistList' }">
         <button class="btn btn-lg nav-button medium">
           <img v-bind:src="$getAppAsset('ic_menu_playlist')">
