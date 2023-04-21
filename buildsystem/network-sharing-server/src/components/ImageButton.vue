@@ -1,9 +1,8 @@
 <template>
-  <button class="btn btn-lg image-button" v-bind="$attrs">
-    <span class="image-button-background"></span>
+  <div class="btn btn-lg image-button" v-bind="$attrs">
     <img class="image-button-image" :src="(`./icons/${this.type}.svg`)" />
 
-  </button>
+  </div>
 </template>
 
 <script>
@@ -49,7 +48,8 @@ export default {
 }
 
 
-.image-button-background {
+.image-button::before {
+  content: "";
   position: absolute;
   width: 40px;
   height: 40px;
@@ -61,21 +61,24 @@ export default {
   transition: opacity 0.3s ease;
 }
 
-.big .image-button-background {
+.big.image-button::before {
   width: 58px;
   height: 58px;
   left: 8px;
   top: 0px;
 }
 
-.medium .image-button-background {
+.medium.image-button::before {
   width: 48px;
   height: 48px;
   left: 8px;
   top: 0px;
 }
 
-.image-button-background:hover {
-  opacity: 0.3;
+@media (hover: hover) {
+
+  .image-button:hover::before {
+    opacity: 0.3;
+  }
 }
 </style>
