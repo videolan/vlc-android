@@ -2,7 +2,12 @@ import { createI18n } from 'vue-i18n'
 import { API_URL } from './config'
 
 export async function loadLanguage() {
-    const response = await fetch(`${API_URL}translation`)
+    const response = await fetch(`${API_URL}translation`).catch(function () {
+        return new Response(JSON.stringify({
+            code: 400,
+            message: '{}'
+        }))
+    })
     return await response.json()
 }
 
