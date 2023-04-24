@@ -17,7 +17,7 @@
   
 <script>
 import PlayQueueItem from './PlayQueueItem.vue'
-import { playerStore } from '../stores/PlayerStore'
+import { usePlayerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import ImageButton from './ImageButton.vue'
 
@@ -27,7 +27,7 @@ export default {
         ImageButton,
     },
     computed: {
-        ...mapStores(playerStore),
+        ...mapStores(usePlayerStore),
     },
     props: {
         show: {

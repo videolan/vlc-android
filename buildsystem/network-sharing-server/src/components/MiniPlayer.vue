@@ -58,7 +58,7 @@
 <script>
 import ImageButton from './ImageButton.vue'
 import PlayerProgress from './PlayerProgress.vue'
-import { playerStore } from '../stores/PlayerStore'
+import { usePlayerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { API_URL } from '../config.js'
@@ -75,8 +75,8 @@ export default {
     }
   },
   computed: {
-    ...mapStores(playerStore),
-    ...mapState(playerStore, ['nowPlaying'])
+    ...mapStores(usePlayerStore),
+    ...mapState(usePlayerStore, ['nowPlaying'])
   },
   methods: {
     play() {

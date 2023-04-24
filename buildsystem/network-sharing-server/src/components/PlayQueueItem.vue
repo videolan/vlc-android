@@ -23,7 +23,7 @@
 
 <script>
 import ImageButton from './ImageButton.vue'
-import { playerStore } from '../stores/PlayerStore'
+import { usePlayerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 export default {
   components: {
@@ -34,7 +34,7 @@ export default {
     mediaIndex: Number
   },
   computed: {
-    ...mapStores(playerStore),
+    ...mapStores(usePlayerStore),
   },
   mounted: function () {
   },

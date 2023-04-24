@@ -8,12 +8,12 @@
     </div>
   </div>
   <input type="file" id="file_upload" multiple="true" style="display: none;" v-on:change="filesSelected" ref="inputFile" />
-  <div v-show="this.playerStore.uploadingFiles.length > 0" class="uploads shadow-sm">
+  <div v-show="this.uploadStore.uploadingFiles.length > 0" class="uploads shadow-sm">
     <div class="uploads-header d-flex align-items-center">
-      <h6 v-if="(this.playerStore.uploadRemaining() == 0)" v-t="'SEND_FILES'" class="flex1 uploads-title" />
-      <h6 v-else class="flex1 uploads-title">{{ $t('UPLOAD_REMAINING', { msg: this.playerStore.uploadRemaining() }) }}
+      <h6 v-if="(this.uploadStore.uploadRemaining() == 0)" v-t="'SEND_FILES'" class="flex1 uploads-title" />
+      <h6 v-else class="flex1 uploads-title">{{ $t('UPLOAD_REMAINING', { msg: this.uploadStore.uploadRemaining() }) }}
       </h6>
-      <ImageButton type="close" v-on:click="this.playerStore.clearUploads()" />
+      <ImageButton type="close" v-on:click="this.uploadStore.clearUploads()" />
     </div>
     <div class="uploads-table table-responsive">
 
@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(fileUpload, index) in playerStore.uploadingFiles" :key="index">
+          <tr v-for="(fileUpload, index) in uploadStore.uploadingFiles" :key="index">
             <td class="align-middle">
               <p class="text-truncate">{{ fileUpload.file.name }}</p>
               <div v-if="(fileUpload.status == 'uploading')" class="progress" role="progressbar" aria-valuenow="0"
@@ -55,7 +55,7 @@
 </template>
   
 <script>
-import { playerStore } from '../stores/PlayerStore'
+import { useUploadStore } from '../stores/UploadStore'
 import { mapStores } from 'pinia'
 import ImageButton from './ImageButton.vue'
 import { Tooltip } from 'bootstrap';
@@ -65,7 +65,7 @@ export default {
     ImageButton,
   },
   computed: {
-    ...mapStores(playerStore)
+    ...mapStores(useUploadStore)
   },
   data() {
     return {
@@ -80,16 +80,16 @@ export default {
     filesSelected() {
       const fileInput = document.getElementById("file_upload")
       for (const file of fileInput.files) {
-        this.playerStore.changeFileStatus(file, "waiting")
+        this.uploadStore.changeFileStatus(file, "waiting")
       }
     },
     uploadAll() {
-      this.playerStore.uploadingFiles.filter(upload => upload.status == 'waiting').forEach(element => {
+      this.uploadStore.uploadingFiles.filter(upload => upload.status == 'waiting').forEach(element => {
         this.$upload(element.file)
       });
     },
     deleteUpload(file) {
-      this.playerStore.removeUpload(file)
+      this.uploadStore.removeUpload(file)
     },
     getProgress(fileUpload) {
       return `${fileUpload.progress}%`
@@ -97,7 +97,7 @@ export default {
     onDrop(e) {
       this.dragging = false
       for (const file of e.dataTransfer.files) {
-        this.playerStore.changeFileStatus(file, "waiting")
+        this.uploadStore.changeFileStatus(file, "waiting")
       }
     },
     setDragging(dragging) {

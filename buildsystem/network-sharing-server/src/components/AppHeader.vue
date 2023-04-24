@@ -30,7 +30,7 @@
       </RouterLink>
     </div>
     <div class="d-flex flex1 justify-content-end">
-      <ImageButton type="cloud_off" class="blink" v-show="!playerStore.socketOpened" v-on:click.stop="disconnectedClicked"
+      <ImageButton type="cloud_off" class="blink" v-show="!appStore.socketOpened" v-on:click.stop="disconnectedClicked"
         data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISCONNECTED')"/>
       <ImageButton type="search" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('SEARCH')" />
       <div class="dropdown dropstart">
@@ -48,10 +48,10 @@
     </div>
     <div class=" navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1">
-        <ImageButton type="grid_view"  v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)"
-          v-show="this.playerStore.displayType[this.$route.name]"/>
-          <ImageButton type="view_list"  v-show="!this.playerStore.displayType[this.$route.name]"
-          aria-expanded="false" v-on:click.stop="this.playerStore.toggleDisplayType(this.$route.name)"/>
+        <ImageButton type="grid_view"  v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
+          v-show="this.appStore.displayType[this.$route.name]"/>
+          <ImageButton type="view_list"  v-show="!this.appStore.displayType[this.$route.name]"
+          aria-expanded="false" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"/>
       </div>
       <ul class="nav justify-content-center navtabs">
         <li class="nav-item">
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { playerStore } from '../stores/PlayerStore'
+import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import { Tooltip } from 'bootstrap';
 import ImageButton from './ImageButton.vue'
@@ -99,7 +99,7 @@ export default {
     },
   },
   computed: {
-    ...mapStores(playerStore),
+    ...mapStores(useAppStore),
   },
   mounted() {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

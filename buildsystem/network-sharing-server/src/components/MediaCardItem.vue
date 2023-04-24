@@ -33,8 +33,6 @@
 
 <script>
 import ImageButton from './ImageButton.vue'
-import { playerStore } from '../stores/PlayerStore.js'
-import { mapStores } from 'pinia'
 export default {
     components: {
         ImageButton,
@@ -48,9 +46,6 @@ export default {
         isBrowse() {
             return (this.mediaType == 'folder' || this.mediaType == 'network')
         }
-    },
-    computed: {
-        ...mapStores(playerStore),
     },
     props: {
         media: Object,

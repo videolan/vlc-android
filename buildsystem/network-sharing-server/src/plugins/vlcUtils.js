@@ -1,10 +1,12 @@
 import { API_URL, API_CONFIG } from '../config.js'
 import axios from 'axios'
-import { playerStore } from '../stores/PlayerStore'
+import { useAppStore } from '../stores/AppStore'
+import { useUploadStore } from '../stores/UploadStore'
 
 export default {
     install: (app) => {
-        const store = playerStore()
+        const appStore = useAppStore()
+        const uploadStore = useUploadStore()
         app.config.globalProperties.$readableDuration = (ms) => {
             const seconds = Math.floor((ms / 1000) % 60)
             const minutes = Math.floor((ms / (60 * 1000)) % 60)
@@ -36,7 +38,7 @@ export default {
             })
                 .catch(function (error) {
                     if (error.response.status != 200) {
-                        store.warning = { type: "warning", message: error.response.data }
+                        appStore.warning = { type: "warning", message: error.response.data }
                     }
                 })
         }
@@ -44,22 +46,22 @@ export default {
             const onUploadProgress = (progressEvent) => {
                 const { loaded, total } = progressEvent;
                 let percent = Math.floor((loaded * 100) / total);
-                store.changeProgress(file, percent)
+                uploadStore.changeProgress(file, percent)
               };
             var formData = new FormData();
             formData.append("media", file);
             formData.append("filename", file.name)
-            store.changeFileStatus(file, 'uploading')
+            uploadStore.changeFileStatus(file, 'uploading')
             axios.post(`${API_CONFIG.UPLOAD_MEDIA}`, formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               },
               onUploadProgress
             }).catch(function () {
-                store.changeFileStatus(file, 'error')
+                uploadStore.changeFileStatus(file, 'error')
 
             }).then(() => {
-                store.changeFileStatus(file, 'uploaded')
+                uploadStore.changeFileStatus(file, 'uploaded')
             })
         }
     }

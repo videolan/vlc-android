@@ -1,6 +1,6 @@
 <template>
     <div v-if="loaded && this.playlists.length !== 0" class="container">
-        <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="playlist in playlists" :key="playlist.id">
@@ -22,7 +22,7 @@
 
 <script>
 
-import { playerStore } from '../stores/PlayerStore'
+import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
 import { API_URL } from '../config.js'
@@ -32,7 +32,7 @@ import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
-        ...mapStores(playerStore)
+        ...mapStores(useAppStore)
     },
     components: {
         MediaCardItem,
@@ -48,11 +48,11 @@ export default {
     methods: {
         fetchPlaylists() {
             let component = this
-            component.playerStore.loading = true
+            component.appStore.loading = true
             axios.get(API_URL + "playlist-list").then((response) => {
                 this.loaded = true;
                 this.playlists = response.data
-                component.playerStore.loading = false
+                component.appStore.loading = false
             });
         },
     },

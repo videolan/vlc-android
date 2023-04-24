@@ -1,6 +1,6 @@
 <template>
     <div v-if="loaded && this.videos.length !== 0" class="container">
-        <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="video in videos" :key="video.id">
@@ -24,7 +24,7 @@
 
 import axios from 'axios'
 import { API_URL } from '../config.js'
-import { playerStore } from '../stores/PlayerStore'
+import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import EmptyView from '../components/EmptyView.vue'
 import MediaCardItem from '../components/MediaCardItem.vue'
@@ -37,7 +37,7 @@ export default {
         MediaListItem,
     },
     computed: {
-        ...mapStores(playerStore)
+        ...mapStores(useAppStore)
     },
     data() {
         return {
@@ -48,11 +48,11 @@ export default {
     methods: {
         fetchVideos() {
             let component = this
-            component.playerStore.loading = true
+            component.appStore.loading = true
             axios.get(API_URL + "video-list").then((response) => {
                 this.loaded = true;
                 this.videos = response.data
-                component.playerStore.loading = false
+                component.appStore.loading = false
             });
         },
     },

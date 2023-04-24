@@ -1,7 +1,7 @@
 <template>
     <div v-if="loaded && this.favorites.length !== 0" class="container">
         <h5 class="media-content text-primary">Favorites</h5>
-        <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 ">
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 ">
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="favorite in favorites" :key="favorite.id">
@@ -22,7 +22,7 @@
     
     <div v-if="loaded && this.storages.length !== 0" class="container">
         <h5 class="media-content text-primary">Storages</h5>
-        <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="storage in storages" :key="storage.id">
@@ -43,7 +43,7 @@
     
     <div v-if="loaded && this.networkEntries.length !== 0" class="container">
         <h5 class="media-content text-primary">Local network</h5>
-        <div v-if="this.playerStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="network in networkEntries" :key="network.id">
@@ -65,7 +65,7 @@
 
 <script>
 
-import { playerStore } from '../stores/PlayerStore'
+import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
 import { API_URL } from '../config.js'
@@ -75,7 +75,7 @@ import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
-        ...mapStores(playerStore)
+        ...mapStores(useAppStore)
     },
     components: {
         MediaCardItem,
@@ -93,29 +93,29 @@ export default {
     methods: {
         fetchFavorites() {
             let component = this
-            component.playerStore.loading = true
+            component.appStore.loading = true
             axios.get(API_URL + "favorite-list").then((response) => {
                 this.loaded = true;
                 this.favorites = response.data
-                component.playerStore.loading = false
+                component.appStore.loading = false
             });
         },
         fetchStorages() {
             let component = this
-            component.playerStore.loading = true
+            component.appStore.loading = true
             axios.get(API_URL + "storage-list").then((response) => {
                 this.loaded = true;
                 this.storages = response.data
-                component.playerStore.loading = false
+                component.appStore.loading = false
             });
         },
         fetchNetwork() {
             let component = this
-            component.playerStore.loading = true
+            component.appStore.loading = true
             axios.get(API_URL + "network-list").then((response) => {
                 this.loaded = true;
                 this.networkEntries = response.data
-                component.playerStore.loading = false
+                component.appStore.loading = false
             });
         },
     },

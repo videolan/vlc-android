@@ -7,7 +7,7 @@ import { createPinia } from 'pinia'
 import { initI18n } from './i18n'
 import vlcUtils from './plugins/vlcUtils'
 import VueLazyload from 'vue-lazyload'
-import { playerStore } from './stores/PlayerStore'
+import { usePlayerStore } from './stores/PlayerStore'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -17,7 +17,7 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const store = playerStore()
+  const store = usePlayerStore()
   if (store.responsivePlayerShowing) {
     store.playqueueShowing = false
     store.responsivePlayerShowing = false

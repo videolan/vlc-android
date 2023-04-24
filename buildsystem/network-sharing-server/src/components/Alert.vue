@@ -1,17 +1,17 @@
 <template>
-      <div class="alert alert-warning alert-dismissible fade d-inline-block" role="alert" ref="warning" :class="this.playerStore.warning !== undefined && this.playerStore.warning.type == 'warning' ? 'show' : ''">
-        <p v-if="this.playerStore.warning !== undefined">{{ this.playerStore.warning.message }}</p>
+      <div class="alert alert-warning alert-dismissible fade d-inline-block" role="alert" ref="warning" :class="this.appStore.warning !== undefined && this.appStore.warning.type == 'warning' ? 'show' : ''">
+        <p v-if="this.appStore.warning !== undefined">{{ this.appStore.warning.message }}</p>
         <button type="button" v-on:click.stop="hideWarning()"  class="btn-close" aria-label="Close"></button>
       </div>
       
-      <div class="alert alert-success alert-dismissible fade d-inline-block" role="alert" ref="warning" :class="this.playerStore.warning !== undefined && this.playerStore.warning.type == 'message' ? 'show' : ''">
-        <p v-if="this.playerStore.warning !== undefined">{{ this.playerStore.warning.message }}</p>
+      <div class="alert alert-success alert-dismissible fade d-inline-block" role="alert" ref="warning" :class="this.appStore.warning !== undefined && this.appStore.warning.type == 'message' ? 'show' : ''">
+        <p v-if="this.appStore.warning !== undefined">{{ this.appStore.warning.message }}</p>
         <button type="button" v-on:click.stop="hideWarning()"  class="btn-close" aria-label="Close"></button>
       </div>
   </template>
   
   <script>
-  import { playerStore } from '../stores/PlayerStore'
+  import { useAppStore } from '../stores/AppStore'
   import { mapStores } from 'pinia'
   
   export default {
@@ -19,11 +19,11 @@
     components: {
     },
     computed: {
-      ...mapStores(playerStore)
+      ...mapStores(useAppStore)
     },
     methods: {
       hideWarning() {
-        this.playerStore.warning = undefined
+        this.appStore.warning = undefined
       }
     },
   }

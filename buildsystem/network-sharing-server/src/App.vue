@@ -7,7 +7,7 @@
   <MiniPlayer ref="miniPlayer" />
   <Alert />
   <UploadDialog ref="uploadComponent" />
-  <div class="main-loading" v-show="this.playerStore.loading">
+  <div class="main-loading" v-show="this.appStore.loading">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -21,7 +21,8 @@ import PlayQueue from './components/PlayQueue.vue'
 import Alert from './components/Alert.vue'
 import UploadDialog from './components/UploadDialog.vue'
 import { API_IP } from './config.js'
-import { playerStore } from './stores/PlayerStore'
+import { usePlayerStore } from './stores/PlayerStore'
+import { useAppStore } from './stores/AppStore'
 import { mapStores } from 'pinia'
 
 export default {
@@ -34,7 +35,7 @@ export default {
     UploadDialog,
   },
   computed: {
-    ...mapStores(playerStore)
+    ...mapStores(usePlayerStore, useAppStore)
   },
   methods: {
     sendFiles() {
@@ -73,17 +74,17 @@ export default {
       this.connection.onopen = (event) => {
         console.log(event)
         console.log("Successfully connected to the echo websocket server...")
-        this.playerStore.socketOpened = true;
+        this.appStore.socketOpened = true;
       }
 
       this.connection.onclose = () => {
         console.log("Socket closed")
-        this.playerStore.socketOpened = false;
+        this.appStore.socketOpened = false;
       }
 
       this.connection.onerror = () => {
         console.log("Socket on error")
-        this.playerStore.socketOpened = false;
+        this.appStore.socketOpened = false;
       }
     }
   },
