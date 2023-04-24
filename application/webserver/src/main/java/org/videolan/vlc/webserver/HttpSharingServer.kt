@@ -277,7 +277,9 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver)
         }
         environment.monitor.subscribe(ApplicationStopped) {
-            PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver)
+            AppScope.launch(Dispatchers.Main) {
+                PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver)
+            }
             _serverStatus.postValue(ServerStatus.STOPPED)
         }
     }
