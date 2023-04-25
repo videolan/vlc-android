@@ -56,14 +56,14 @@ class WebServerService : LifecycleService() {
                     lifecycleScope.launch { server.stop() }
                 }
                 ACTION_START_SERVER -> {
-                    lifecycleScope.launch { server.start(this@WebServerService) }
+                    lifecycleScope.launch { server.start() }
                 }
                 ACTION_RESTART_SERVER -> {
                     lifecycleScope.launch {
                         val observer = object : Observer<ServerStatus> {
                             override fun onChanged(serverStatus: ServerStatus) {
                                 if (serverStatus == ServerStatus.STOPPED) {
-                                    lifecycleScope.launch { server.start(this@WebServerService) }
+                                    lifecycleScope.launch { server.start() }
                                     server.serverStatus.removeObserver(this)
                                 }
                             }
@@ -90,7 +90,7 @@ class WebServerService : LifecycleService() {
         if (AndroidUtil.isOOrLater) forceForeground()
         lifecycleScope.launch(Dispatchers.IO) {
             server = HttpSharingServer.getInstance(applicationContext)
-            server.start(this@WebServerService)
+            server.start()
             withContext(Dispatchers.Main) {
                 server.serverStatus.observe(this@WebServerService) {
                     forceForeground()

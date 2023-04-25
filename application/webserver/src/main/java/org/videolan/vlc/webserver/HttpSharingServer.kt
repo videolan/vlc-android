@@ -63,7 +63,6 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
@@ -88,9 +87,8 @@ import java.net.NetworkInterface
 import java.text.DateFormat
 import java.time.Duration
 import java.util.*
-import java.util.regex.Pattern
 
-class HttpSharingServer(context: Context) : PlaybackService.Callback {
+class HttpSharingServer(private val context: Context) : PlaybackService.Callback {
     private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
@@ -120,7 +118,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
     private var password = ""
 
     init {
-        copyWebServer(context)
+        copyWebServer()
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { service?.removeCallback(this@HttpSharingServer) }
                 .launchIn(AppScope)
@@ -128,14 +126,18 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
     }
 
 
-    suspend fun start(context: Context) {
+    /**
+     * Start the server. Refresh the authentication settings before
+     * Also start monitoring the network shares for the web browser
+     */
+    suspend fun start() {
         auth = Settings.getInstance(context).getBoolean(KEY_WEB_SERVER_AUTH, false)
         user = Settings.getInstance(context).getString(KEY_WEB_SERVER_USER, "") ?: ""
         password = Settings.getInstance(context).getString(KEY_WEB_SERVER_PASSWORD, "")
                 ?: ""
         _serverStatus.postValue(ServerStatus.CONNECTING)
         withContext(Dispatchers.IO) {
-            engine = generateServer(context)
+            engine = generateServer()
             engine.start()
         }
 
@@ -149,20 +151,34 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
+    /**
+     * Stop the server and all the websocket connections
+     *
+     */
     suspend fun stop() {
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
-                websocketSession.forEach {
-                    it.close()
-                }
-                engine.stop()
+            websocketSession.forEach {
+                it.close()
+            }
+            engine.stop()
         }
     }
 
-    private fun getServerFiles(context: Context): String {
+    /**
+     * Get the server files path
+     *
+     * @return the server file poath
+     */
+    private fun getServerFiles(): String {
         return "${context.filesDir.path}/server/"
     }
 
+    /**
+     * Listen to the [PlaybackService] connection
+     *
+     * @param service the service to listen
+     */
     private fun onServiceChanged(service: PlaybackService?) {
         if (service !== null) {
             this.service = service
@@ -173,11 +189,19 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
-    private fun copyWebServer(context: Context) {
-        File(getServerFiles(context)).mkdirs()
+    /**
+     * Copy the web server files to serve
+     *
+     */
+    private fun copyWebServer() {
+        File(getServerFiles()).mkdirs()
         FileUtils.copyAssetFolder(context.assets, "dist", "${context.filesDir.path}/server", true)
     }
 
+    /**
+     * Ktor plugin intercepting all the requests
+     * Used to manage a connected device list
+     */
     private val InterceptorPlugin = createApplicationPlugin(name = "VLCInterceptorPlugin") {
         onCall { call ->
             call.request.origin.apply {
@@ -197,7 +221,12 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
-    private fun generateServer(context: Context) = embeddedServer(Netty, 8080) {
+    /**
+     * Generate the server
+     *
+     * @return the server engine
+     */
+    private fun generateServer() = embeddedServer(Netty, 8080) {
         install(InterceptorPlugin)
         install(WebSockets) {
             pingPeriod = Duration.ofSeconds(15)
@@ -228,8 +257,8 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         install(PartialContent)
         routing {
             if (auth) authenticate("auth-basic") {
-                setupRouting(context)
-            } else setupRouting(context)
+                setupRouting()
+            } else setupRouting()
             webSocket("/echo", protocol = "player") {
                 websocketSession.add(this)
                 // Handle a WebSocket session
@@ -260,7 +289,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                             }
                         }
                         message == "get-volume" -> {
-                            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage(context))) } }
+                            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
                         }
                         message.startsWith("set-volume") -> {
                             val volume = message.split(':')[1].toInt()
@@ -311,21 +340,28 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
-    private fun Route.setupRouting(context: Context) {
+    /**
+     * Setup the server routing
+     *
+     */
+    private fun Route.setupRouting() {
+        val appContext = this@HttpSharingServer.context
         static("") {
-            files(getServerFiles(context))
+            files(getServerFiles())
         }
+        // Main end point redirect to index.html
         get("/") {
             call.respondRedirect("index.html", permanent = true)
         }
         get("/index.html") {
             try {
-                val html = FileUtils.getStringFromFile("${getServerFiles(context)}index.html")
+                val html = FileUtils.getStringFromFile("${getServerFiles()}index.html")
                 call.respondText(html, ContentType.Text.Html)
             } catch (e: Exception) {
                 call.respondText("Failed to load index.html")
             }
         }
+        // Upload a file to the device
         post("/upload-media") {
             var fileDescription = ""
             var fileName = ""
@@ -347,6 +383,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             }
             call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
         }
+        // Download a log file
         get("/download-logfile") {
             call.request.queryParameters["file"]?.let { filePath ->
                 val file = File(filePath)
@@ -357,6 +394,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             }
             call.respond(HttpStatusCode.NotFound, "")
         }
+        // List all log files
         get("/list-logfiles") {
             val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
 
@@ -369,43 +407,48 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             }
             call.respondText(jsonArray.toString())
         }
+        // List of all the videos
         get("/video-list") {
-            val videos = context.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
+            val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             videos.forEach { mediaWrapper ->
                 list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist
                         ?: "", mediaWrapper.length, mediaWrapper.artworkMrl
-                        ?: "", false, generateResolutionClass(mediaWrapper.width, mediaWrapper.height) ?: ""))
+                        ?: "", false, generateResolutionClass(mediaWrapper.width, mediaWrapper.height)
+                        ?: ""))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the albums
         get("/album-list") {
-            val albums = context.getFromMl { getAlbums( false, false) }
+            val albums = appContext.getFromMl { getAlbums(false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             albums.forEach { album ->
                 list.add(PlayQueueItem(album.id, album.title, album.albumArtist
                         ?: "", album.duration, album.artworkMrl
-                        ?: "", false,  ""))
+                        ?: "", false, ""))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the artists
         get("/artist-list") {
-            val artists = context.getFromMl { getArtists(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
+            val artists = appContext.getFromMl { getArtists(Settings.getInstance(appContext).getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             artists.forEach { artist ->
-                list.add(PlayQueueItem(artist.id, artist.title, context.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount), 0, artist.artworkMrl
-                        ?: "", false,  ""))
+                list.add(PlayQueueItem(artist.id, artist.title, appContext.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount), 0, artist.artworkMrl
+                        ?: "", false, ""))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the audio tracks
         get("/track-list") {
-            val tracks = context.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
+            val tracks = appContext.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             tracks.forEach { track ->
@@ -416,46 +459,51 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the audio genres
         get("/genre-list") {
-            val genres = context.getFromMl { getGenres( false, false) }
+            val genres = appContext.getFromMl { getGenres(false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             genres.forEach { genre ->
-                list.add(PlayQueueItem(genre.id, genre.title, context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
+                list.add(PlayQueueItem(genre.id, genre.title, appContext.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
                         ?: "", false, ""))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the playlists
         get("/playlist-list") {
-            val playlists = context.getFromMl { getPlaylists(Playlist.Type.All, false) }
+            val playlists = appContext.getFromMl { getPlaylists(Playlist.Type.All, false) }
 
             val list = ArrayList<PlayQueueItem>()
             playlists.forEach { genre ->
-                list.add(PlayQueueItem(genre.id, genre.title, context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
+                list.add(PlayQueueItem(genre.id, genre.title, appContext.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
                         ?: "", false, ""))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the file storages
         get("/storage-list") {
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
-                StorageProvider(context, dataset, null)
+                StorageProvider(appContext, dataset, null)
             }
-            val list = getProviderContent(context, provider, dataset)
+            val list = getProviderContent(provider, dataset)
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the file favorites
         get("/favorite-list") {
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
-                FavoritesProvider(context, dataset, AppScope)
+                FavoritesProvider(appContext, dataset, AppScope)
             }
-            val list = getProviderContent(context, provider, dataset)
+            val list = getProviderContent(provider, dataset)
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // List of all the network shares
         get("/network-list") {
             val list = ArrayList<PlayQueueItem>()
             networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
@@ -465,12 +513,13 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // Play a media
         get("/play") {
             val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
             val asAudio = call.request.queryParameters["audio"] == "true"
-            call.request.queryParameters["id"]?.let { id->
-                val medias = context.getFromMl {
+            call.request.queryParameters["id"]?.let { id ->
+                val medias = appContext.getFromMl {
                     when (type) {
                         "album" -> getAlbum(id.toLong()).tracks
                         "artist" -> getArtist(id.toLong()).tracks
@@ -483,26 +532,28 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 else {
 
                     if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !context.awaitAppIsForegroung()) {
-                        call.respond(HttpStatusCode.Forbidden, context.getString(R.string.ns_not_in_foreground))
+                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
+                        call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ns_not_in_foreground))
                     }
                     when {
-                        append -> MediaUtils.appendMedia(context, medias)
-                        else -> MediaUtils.openList(context, medias.toList(), 0)
+                        append -> MediaUtils.appendMedia(appContext, medias)
+                        else -> MediaUtils.openList(appContext, medias.toList(), 0)
                     }
                     call.respond(HttpStatusCode.OK)
                 }
             }
             call.respond(HttpStatusCode.NotFound)
         }
+        // Download a media file
         get("/download") {
             call.request.queryParameters["id"]?.let {
-                context.getFromMl { getMedia(it.toLong()) }?. let { media ->
+                appContext.getFromMl { getMedia(it.toLong()) }?.let { media ->
                     media.uri.path?.let { path ->
                         val file = File(path)
                         call.response.header(
                                 HttpHeaders.ContentDisposition,
-                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, media.uri.lastPathSegment ?: "")
+                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, media.uri.lastPathSegment
+                                        ?: "")
                                         .toString()
                         )
                         call.respondFile(file)
@@ -511,12 +562,13 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             }
             call.respond(HttpStatusCode.NotFound)
         }
+        // Sends an icon
         get("/icon") {
             val idString = call.request.queryParameters["id"]
             val width = call.request.queryParameters["width"]?.toInt() ?: 32
 
             val id = try {
-                context.resIdByName(idString, "drawable")
+                appContext.resIdByName(idString, "drawable")
             } catch (e: Resources.NotFoundException) {
                 call.respond(HttpStatusCode.NotFound)
                 return@get
@@ -527,7 +579,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 return@get
             }
 
-            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(context, id, width, width), true)?.let {
+            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
 
                 call.respondBytes(ContentType.Image.PNG) { it }
                 return@get
@@ -536,12 +588,14 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             call.respond(HttpStatusCode.NotFound)
 
         }
+        // Get the translation string list
         get("/translation") {
-            call.respondText(TranslationMapping.generateTranslations(context))
+            call.respondText(TranslationMapping.generateTranslations(appContext))
         }
+        // Get a media artwork
         get("/artwork") {
-            if (call.request.queryParameters["type"] in arrayOf( "folder", "network")) {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(context, R.drawable.ic_menu_folder, 256, 256), true)?.let {
+            if (call.request.queryParameters["type"] in arrayOf("folder", "network")) {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
@@ -550,8 +604,8 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
                 //check by id and use the ArtworkProvider if provided
                 call.request.queryParameters["id"]?.let {
-                    val cr = context.contentResolver
-                    val mediaType = when(call.request.queryParameters["type"]) {
+                    val cr = appContext.contentResolver
+                    val mediaType = when (call.request.queryParameters["type"]) {
                         "video" -> ArtworkProvider.VIDEO
                         "album" -> ArtworkProvider.ALBUM
                         "artist" -> ArtworkProvider.ARTIST
@@ -559,7 +613,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                         "playlist" -> ArtworkProvider.PLAYLIST
                         else -> ArtworkProvider.MEDIA
                     }
-                    cr.openInputStream(Uri.parse("content://${context.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
+                    cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
                         call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
                         inputStream.close()
                         return@get
@@ -577,7 +631,7 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
                     }
                 }
                 // nothing found . Falling back on the no media bitmap
-                context.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512)?.let {
+                appContext.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512)?.let {
 
                     BitmapUtil.encodeImage(it, true)?.let {
 
@@ -592,6 +646,11 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
+    /**
+     * The the list of all the log files
+     *
+     * @return a list of file paths
+     */
     private suspend fun getLogsFiles(): List<String> = withContext(Dispatchers.IO) {
         val result = ArrayList<String>()
         val folder = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
@@ -604,64 +663,40 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
 
     }
 
-    fun String.networkShareReplace(context: Context): String {
-        var newString = this
-        try {
-            val logEntry = Pattern.compile("\\{%(.*?)%\\}")
-            newString = newString.replace(logEntry.toRegex()) {
-                val str = context.getString(context.resIdByName(it.value.trim().drop(2).dropLast(2), "string"))
-                str
-            }
-        } catch (e: Exception) {
-            Log.e("networkShareReplace", e.message, e)
-        }
-
-        return newString
-    }
-
-    fun String.contentReplace(context: Context, logsHtml: String = ""): String {
-        var newString = this
-        try {
-            val logEntry = Pattern.compile("\\{*(.*?)%*\\}")
-            newString = newString.replace(logEntry.toRegex()) {
-                when (it.value.trim().drop(2).dropLast(2)) {
-                    "logs" -> logsHtml
-                    else -> ""
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("networkShareReplace", e.message, e)
-        }
-
-        return newString
-    }
-
+    /**
+     * update callback of the [PlaybackService]
+     *
+     */
     override fun update() {
-        generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
+        generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch {
-                coroutineContext
-                websocketSession.forEach { it.send(Frame.Text(playQueue)) }
-            }
+            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
         }
     }
 
+    /**
+     * onMediaEvent callback of the [PlaybackService]
+     *
+     * @param event the event sent
+     */
     override fun onMediaEvent(event: IMedia.Event) {
-        generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
+        generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch {
-                coroutineContext
-                websocketSession.forEach { it.send(Frame.Text(playQueue)) }
-            }
+            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
         }
     }
 
+    /**
+     * onMediaPlayerEvent callback of the [PlaybackService]
+     *
+     * @param event the event sent
+     */
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-        generateNowPlaying(AppContextProvider.appContext)?.let { nowPlaying ->
+        generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch {
                 coroutineContext
                 websocketSession.forEach { it.send(Frame.Text(nowPlaying)) }
@@ -675,7 +710,15 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
-    private suspend fun getProviderContent(context: Context, provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): ArrayList<PlayQueueItem> {
+    /**
+     * Get the content from a [BrowserProvider]
+     * Gracefully (or not) waits for the [LiveData] to be set before sending the result back
+     *
+     * @param provider the [BrowserProvider] to use
+     * @param dataset the [LiveDataset] to listen to
+     * @return a populated list
+     */
+    private suspend fun getProviderContent(provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): ArrayList<PlayQueueItem> {
         dataset.await()
         val descriptions = ArrayList<Pair<Int, String>>()
         observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
@@ -699,13 +742,18 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         return list
     }
 
-    private fun generateNowPlaying(context: Context): String? {
+    /**
+     * Generate the now playing data to be sent to the client
+     *
+     * @return a [String] describing the now playing
+     */
+    private fun generateNowPlaying(): String? {
         service?.let { service ->
             service.currentMediaWrapper?.let { media ->
                 val gson = Gson()
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
                         ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
-                        ?: "", media.uri.toString(), getVolume(context))
+                        ?: "", media.uri.toString(), getVolume())
                 return gson.toJson(nowPlaying)
 
             }
@@ -713,6 +761,11 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         return null
     }
 
+    /**
+     * Generate the play queue data to be sent to the client
+     *
+     * @return a [String] describing the play queue
+     */
     private fun generatePlayQueue(): String? {
         service?.let { service ->
             val list = ArrayList<PlayQueueItem>()
@@ -727,7 +780,12 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         return null
     }
 
-    private fun getVolume(context: Context): Int = when {
+    /**
+     * Get the volume to be sent to the client
+     *
+     * @return an [Int] describing the volume
+     */
+    private fun getVolume(): Int = when {
         service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
         else -> {
             (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
@@ -739,7 +797,12 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         }
     }
 
-    private fun getVolumeMessage(context: Context): String {
+    /**
+     * Get the volume message to be sent to the client
+     *
+     * @return an [String] describing the volume message
+     */
+    private fun getVolumeMessage(): String {
         val gson = Gson()
         val volume = when {
             service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
@@ -755,6 +818,11 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         return gson.toJson(Volume(volume))
     }
 
+    /**
+     * Returns the server address
+     *
+     * @return the server address
+     */
     fun serverInfo(): String = buildString {
         getIPAddresses(true).forEach {
             append("http://")
@@ -808,10 +876,10 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
             ?: false) : WSMessage("now-playing")
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
-    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution:String = "")
+    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "")
     data class Volume(val volume: Int) : WSMessage("volume")
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
 
-    data class WebServerConnection(val ip:String)
+    data class WebServerConnection(val ip: String)
 }
