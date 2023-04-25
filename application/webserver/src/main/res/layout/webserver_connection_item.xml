@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/connection_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="192.168.1.1" />
+
+        <ImageView
+                android:id="@+id/connection_delete"
+                android:layout_width="wrap_content"
+                android:padding="12dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_ctx_delete" />
+    </LinearLayout>
+</layout>

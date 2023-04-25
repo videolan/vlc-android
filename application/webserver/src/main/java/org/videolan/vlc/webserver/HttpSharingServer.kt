@@ -40,6 +40,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.partialcontent.*
 import io.ktor.server.request.*
@@ -105,6 +106,10 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
     val serverStatus: LiveData<ServerStatus>
         get() = _serverStatus
 
+    private val _serverConnections = MutableLiveData(listOf<WebServerConnection>())
+    val serverConnections: LiveData<List<WebServerConnection>>
+        get() = _serverConnections
+
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> {
         AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
@@ -147,7 +152,10 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
     suspend fun stop() {
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
-            engine.stop()
+                websocketSession.forEach {
+                    it.close()
+                }
+                engine.stop()
         }
     }
 
@@ -170,8 +178,27 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
         FileUtils.copyAssetFolder(context.assets, "dist", "${context.filesDir.path}/server", true)
     }
 
+    private val InterceptorPlugin = createApplicationPlugin(name = "VLCInterceptorPlugin") {
+        onCall { call ->
+            call.request.origin.apply {
+                val oldConnections = _serverConnections.value
+                if ((oldConnections?.filter { it.ip == remoteHost }?.size ?: 0) == 0) {
+                    val connection = WebServerConnection(remoteHost)
+                    withContext(Dispatchers.Main) {
+                        try {
+                            _serverConnections.value = oldConnections!!.toMutableList().apply { add(connection) }
+                        } catch (e: Exception) {
+                            Log.e("InterceptorPlugin", e.message, e)
+                        }
+                    }
+                }
+            }
+
+        }
+    }
 
     private fun generateServer(context: Context) = embeddedServer(Netty, 8080) {
+        install(InterceptorPlugin)
         install(WebSockets) {
             pingPeriod = Duration.ofSeconds(15)
             timeout = Duration.ofSeconds(15)
@@ -730,10 +757,10 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
 
     fun serverInfo(): String = buildString {
         getIPAddresses(true).forEach {
+            append("http://")
             append(it)
             append(":")
-            append(engine!!.environment.connectors[0].port)
-            append("\n")
+            append(engine.environment.connectors[0].port)
         }
     }
 
@@ -785,4 +812,6 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
     data class Volume(val volume: Int) : WSMessage("volume")
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
+
+    data class WebServerConnection(val ip:String)
 }

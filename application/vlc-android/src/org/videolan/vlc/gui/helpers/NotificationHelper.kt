@@ -52,6 +52,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.hasFlag
 import org.videolan.vlc.R
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
 import kotlin.math.abs
 
@@ -182,7 +183,7 @@ object NotificationHelper {
     }
 
     fun createWebServerNotification(ctx: Context, connectionTip: String, started: Boolean): Notification {
-        val intent = Intent(Intent.ACTION_VIEW).setClassName(ctx, START_ACTIVITY)
+        val intent = Intent(ctx, StartActivity::class.java).apply { action = "vlc.webserver.share" }
         val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
                 .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
                 .setSmallIcon(R.drawable.ic_notif_scan)

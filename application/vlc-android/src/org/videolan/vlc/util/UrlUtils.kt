@@ -54,15 +54,8 @@ fun Context.openLinkIfPossible(url: String, size: Int = 512) {
     } catch (e: Exception) {
         val image = ImageView(this)
 
-        val bits = QRCodeWriter().encode(url, BarcodeFormat.QR_CODE, size, size)
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {
-            for (x in 0 until size) {
-                for (y in 0 until size) {
-                    it.setPixel(x, y, if (bits[x, y]) Color.BLACK else Color.WHITE)
-                }
-            }
-        }
-        image.setImageBitmap(bitmap)
+
+        image.setImageBitmap(UrlUtils.generateQRCode(url, size))
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.no_web_browser))
                 .setMessage(getString(R.string.no_web_browser_message, url))
@@ -71,5 +64,19 @@ fun Context.openLinkIfPossible(url: String, size: Int = 512) {
 
                 }
                 .show()
+    }
+}
+
+object UrlUtils {
+
+    fun generateQRCode(url: String, size: Int = 512): Bitmap {
+        val bits = QRCodeWriter().encode(url, BarcodeFormat.QR_CODE, size, size)
+        return Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {
+            for (x in 0 until size) {
+                for (y in 0 until size) {
+                    it.setPixel(x, y, if (bits[x, y]) Color.BLACK else Color.WHITE)
+                }
+            }
+        }
     }
 }

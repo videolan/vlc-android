@@ -23,6 +23,7 @@
 
 package org.videolan.vlc
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -208,6 +209,8 @@ class StartActivity : FragmentActivity() {
                         MediaUtils.playTracks(this@StartActivity, album, 0)
                     }
                 }
+            } else if(action != null && action== "vlc.webserver.share") {
+                startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.webserver.gui.webserver.WebserverShareActivity") })
             } else {
                 val target = idFromShortcut
                 if (target == R.id.ml_menu_last_playlist)
