@@ -241,6 +241,12 @@ fun Context.startWebserver() {
     launchForeground(intent)
 }
 
+fun Context.stopWebserver() {
+    sendBroadcast(Intent(ACTION_STOP_SERVER))
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, WEBSERVER_SERVICE)
+    stopService(intent)
+}
+
 /**
  * Awaits for the first update of a [LiveData]
  *

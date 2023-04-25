@@ -463,7 +463,8 @@
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
     <string name="web_server">Web server</string>
-    <string name="web_server_status">Status</string>
+    <string name="web_server_status">Server status</string>
+    <string name="web_server_status_summary">Tap to see the server status</string>
     <string name="web_server_connections">Connections</string>
     <string name="web_server_links">Links</string>
     <string name="web_server_active">Web server active</string>

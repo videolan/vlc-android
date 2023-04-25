@@ -29,12 +29,14 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import io.ktor.server.netty.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AppContextProvider
@@ -55,6 +57,20 @@ class WebServerService : LifecycleService() {
                 }
                 ACTION_START_SERVER -> {
                     lifecycleScope.launch { server.start(this@WebServerService) }
+                }
+                ACTION_RESTART_SERVER -> {
+                    lifecycleScope.launch {
+                        val observer = object : Observer<ServerStatus> {
+                            override fun onChanged(serverStatus: ServerStatus) {
+                                if (serverStatus == ServerStatus.STOPPED) {
+                                    lifecycleScope.launch { server.start(this@WebServerService) }
+                                    server.serverStatus.removeObserver(this)
+                                }
+                            }
+                        }
+                        server.serverStatus.observe(this@WebServerService, observer)
+                        server.stop()
+                    }
                 }
             }
         }
@@ -84,6 +100,7 @@ class WebServerService : LifecycleService() {
         val filter = IntentFilter()
         filter.addAction(ACTION_STOP_SERVER)
         filter.addAction(ACTION_START_SERVER)
+        filter.addAction(ACTION_RESTART_SERVER)
         registerReceiverCompat(receiver, filter, false)
     }
 

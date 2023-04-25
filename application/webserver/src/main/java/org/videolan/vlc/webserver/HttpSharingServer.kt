@@ -121,10 +121,6 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
 
     init {
         copyWebServer(context)
-        auth = Settings.getInstance(context).getBoolean(KEY_WEB_SERVER_AUTH, false)
-        user = Settings.getInstance(context).getString(KEY_WEB_SERVER_USER, "") ?: ""
-        password = Settings.getInstance(context).getString(KEY_WEB_SERVER_PASSWORD, "")
-                ?: ""
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { service?.removeCallback(this@HttpSharingServer) }
                 .launchIn(AppScope)
@@ -133,6 +129,10 @@ class HttpSharingServer(context: Context) : PlaybackService.Callback {
 
 
     suspend fun start(context: Context) {
+        auth = Settings.getInstance(context).getBoolean(KEY_WEB_SERVER_AUTH, false)
+        user = Settings.getInstance(context).getString(KEY_WEB_SERVER_USER, "") ?: ""
+        password = Settings.getInstance(context).getString(KEY_WEB_SERVER_PASSWORD, "")
+                ?: ""
         _serverStatus.postValue(ServerStatus.CONNECTING)
         withContext(Dispatchers.IO) {
             engine = generateServer(context)

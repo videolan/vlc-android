@@ -11,6 +11,11 @@
             android:switchTextOn="Enabled"
             android:title="@string/enable_web_server"
             app:singleLineTitle="false" />
+    <PreferenceScreen
+            android:dependency="enable_web_server"
+            android:key="web_server_status"
+            android:summary="@string/web_server_status_summary"
+            android:title="@string/web_server_status" />
     <CheckBoxPreference
             android:defaultValue="false"
             android:dependency="enable_web_server"

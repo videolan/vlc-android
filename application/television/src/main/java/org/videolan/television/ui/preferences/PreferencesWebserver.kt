@@ -1,9 +1,8 @@
 /*
  * *************************************************************************
- *  PreferencesWebserver.kt
+ *  PreferencesWebserver.java
  * **************************************************************************
- *  Copyright © 2018 VLC authors and VideoLAN
- *  Author: Geoffrey Métais
+ *  Copyright © 2016 VLC authors and VideoLAN
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,17 +19,19 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *  ***************************************************************************
  */
-package org.videolan.vlc.gui.preferences
+
+package org.videolan.television.ui.preferences
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import androidx.preference.EditTextPreference
-import androidx.preference.EditTextPreference.OnBindEditTextListener
 import androidx.preference.Preference
 import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
@@ -40,8 +41,7 @@ import org.videolan.tools.password
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 
-
-class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
 
     override fun getTitleId() = R.string.web_server
 
@@ -58,7 +58,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
 
         if (preference != null) {
             preference.summaryProvider = SummaryProvider<EditTextPreference> {
-                val password: String = PreferenceManager.getDefaultSharedPreferences(context).getString(KEY_WEB_SERVER_PASSWORD, "")!!
+                val password: String = PreferenceManager.getDefaultSharedPreferences(activity).getString(KEY_WEB_SERVER_PASSWORD, "")!!
                 if (password.isEmpty()) {
                     getString(androidx.preference.R.string.not_set)
                 } else {
@@ -67,7 +67,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             }
 
             preference.setOnBindEditTextListener(
-                    OnBindEditTextListener { editText ->
+                    EditTextPreference.OnBindEditTextListener { editText ->
                         editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                         preference.summaryProvider = SummaryProvider<EditTextPreference> {
                             editText.text.toString().password()
@@ -76,9 +76,10 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
         }
     }
 
+
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if (preference?.key == "web_server_status") {
-            requireActivity().startActivity(Intent(requireActivity(), StartActivity::class.java).apply { action = "vlc.webserver.share" })
+            activity.startActivity(Intent(activity, StartActivity::class.java).apply { action = "vlc.webserver.share" })
         }
         return super.onPreferenceTreeClick(preference)
     }
@@ -88,14 +89,15 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             KEY_ENABLE_WEB_SERVER -> {
                 val serverEnabled = sharedPreferences?.getBoolean(KEY_ENABLE_WEB_SERVER, false) ?: false
                 if (serverEnabled) {
-                    requireActivity().startWebserver()
+                    activity.startWebserver()
                 } else {
-                    requireActivity().stopWebserver()
+                    activity.stopWebserver()
                 }
             }
             else -> {
-                requireActivity().sendBroadcast(Intent(ACTION_RESTART_SERVER))
+                activity.sendBroadcast(Intent(ACTION_RESTART_SERVER))
             }
         }
     }
 }
+
