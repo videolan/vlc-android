@@ -30,6 +30,7 @@ import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -81,6 +82,7 @@ import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
+import org.videolan.vlc.webserver.utils.MediaZipUtils
 import java.io.File
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -116,6 +118,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     private var auth = false
     private var user = ""
     private var password = ""
+
+    private val downloadFolder by lazy { "${context.getExternalFilesDir(null)!!.absolutePath}/downloads" }
 
     init {
         copyWebServer()
@@ -546,17 +550,76 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // Download a media file
         get("/download") {
-            call.request.queryParameters["id"]?.let {
-                appContext.getFromMl { getMedia(it.toLong()) }?.let { media ->
-                    media.uri.path?.let { path ->
-                        val file = File(path)
+            val type = call.request.queryParameters["type"] ?: "media"
+            call.request.queryParameters["id"]?.let { id ->
+                when (type) {
+                    "album" -> {
+                        val album = appContext.getFromMl { getAlbum(id.toLong()) }
+                        val dst = File(MediaZipUtils.generateAlbumZip(album, downloadFolder))
                         call.response.header(
                                 HttpHeaders.ContentDisposition,
-                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, media.uri.lastPathSegment
+                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
                                         ?: "")
                                         .toString()
                         )
-                        call.respondFile(file)
+                        call.respondFile(dst)
+                        dst.delete()
+                        return@get
+                    }
+                    "artist" -> {
+                        val artist = appContext.getFromMl { getArtist(id.toLong()) }
+                        val dst = File(MediaZipUtils.generateArtistZip(artist, downloadFolder))
+                        call.response.header(
+                                HttpHeaders.ContentDisposition,
+                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
+                                        ?: "")
+                                        .toString()
+                        )
+                        call.respondFile(dst)
+                        dst.delete()
+                        return@get
+                    }
+                    "genre" -> {
+                        val genre = appContext.getFromMl { getGenre(id.toLong()) }
+                        val dst = File(MediaZipUtils.generateGenreZip(genre, downloadFolder))
+                        call.response.header(
+                                HttpHeaders.ContentDisposition,
+                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
+                                        ?: "")
+                                        .toString()
+                        )
+                        call.respondFile(dst)
+                        dst.delete()
+                        return@get
+                    }
+                    "playlist" -> {
+                        val playlist = appContext.getFromMl { getPlaylist(id.toLong(), false, false) }
+                        val dst = File(MediaZipUtils.generatePlaylistZip(playlist, downloadFolder))
+                        call.response.header(
+                                HttpHeaders.ContentDisposition,
+                                ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
+                                        ?: "")
+                                        .toString()
+                        )
+                        call.respondFile(dst)
+                        dst.delete()
+                        return@get
+                    }
+                    else -> {
+                        //simple media
+                        appContext.getFromMl { getMedia(id.toLong()) }?.let { media ->
+                            media.uri.path?.let { path ->
+                                val file = File(path)
+                                val name = media.title.slugify("_") + media.uri.toString().substring(media.uri.toString().lastIndexOf("."))
+                                call.response.header(
+                                        HttpHeaders.ContentDisposition,
+                                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, name)
+                                                .toString()
+                                )
+                                call.respondFile(file)
+                            }
+                        }
+                        call.respond(HttpStatusCode.NotFound)
                     }
                 }
             }

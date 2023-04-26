@@ -529,6 +529,38 @@ object FileUtils {
         }
     }
 
+    fun zipWithName(files: Array<Pair<String, String>>, zipFileName: String):Boolean {
+        return try {
+            var origin: BufferedInputStream?
+            File(zipFileName).parentFile?.mkdirs()
+            val dest = FileOutputStream(zipFileName)
+            val out = ZipOutputStream(BufferedOutputStream(
+                    dest))
+            val data = ByteArray(BUFFER)
+
+            for (i in files.indices) {
+                val fi = FileInputStream(files[i].first)
+                origin = BufferedInputStream(fi, BUFFER)
+
+                val entry = ZipEntry(files[i].second)
+                out.putNextEntry(entry)
+                var count = origin.read(data, 0, BUFFER)
+
+                while (count != -1) {
+                    out.write(data, 0, count)
+                    count = origin.read(data, 0, BUFFER)
+                }
+                origin.close()
+            }
+
+            out.close()
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+            false
+        }
+    }
+
     @Throws(Exception::class)
     fun convertStreamToString(`is`: InputStream): String {
         val reader = BufferedReader(InputStreamReader(`is`))

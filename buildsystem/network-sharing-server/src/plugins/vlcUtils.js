@@ -23,8 +23,8 @@ export default {
             return `${API_URL}artwork?artwork=${media.artworkURL}&id=${media.id}&type=${mediaType}`
         }
 
-        app.config.globalProperties.$download = (media) => {
-            window.open(`${API_URL}download?id=${media.id}`, '_blank', 'noreferrer');
+        app.config.globalProperties.$download = (media, mediaType) => {
+            window.location.href =`${API_URL}download?id=${media.id}&type=${mediaType}`
         }
 
         app.config.globalProperties.$play = (media, mediaType, append, asAudio) => {
