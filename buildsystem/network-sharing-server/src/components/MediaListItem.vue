@@ -3,7 +3,7 @@
         <div class="ratio media-img-container" v-bind:class="(mainImgClasses())">
             <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div v-on:click="$play(media, this.mediaType)" class="media-overlay" v-show="!isBrowse()">
-                <ImageButton type="play_circle_white" class="overlay-play" />
+                <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
             </div>
         </div>
     </td>
