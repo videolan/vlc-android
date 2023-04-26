@@ -4,6 +4,8 @@ cache:
         - gradle-8.2/
         - gradle/
         - gradlew
+        - ./buildsystem/network-sharing-server/dist/
+        - ./buildsystem/network-sharing-server/node_modules/
 
 variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
@@ -18,8 +20,23 @@ default:
     - docker
 
 stages:
+  - webserver-build
   - build
   - package
+
+webserver-build:
+    image: registry.videolan.org/videolan-alpine-node:20230523124511
+    stage: webserver-build
+    variables:
+      WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
+    only:
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
+            - "$WEBSERVER_DIR"
+    script:
+        - cd "$WEBSERVER_DIR"
+        - npm install
+        - npm run build
 
 .build-all-base:
     stage: build
