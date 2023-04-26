@@ -339,11 +339,11 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }.apply {
         environment.monitor.subscribe(ApplicationStarted) {
             _serverStatus.postValue(ServerStatus.STARTED)
-            PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver)
+            PlaylistManager.playingState.observeForever(miniPlayerObserver)
         }
         environment.monitor.subscribe(ApplicationStopped) {
             AppScope.launch(Dispatchers.Main) {
-                PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver)
+                PlaylistManager.playingState.removeObserver(miniPlayerObserver)
             }
             _serverStatus.postValue(ServerStatus.STOPPED)
         }
@@ -753,13 +753,12 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch {
-                coroutineContext
+                if (BuildConfig.DEBUG) Log.d("DebugPlayer", "onMediaPlayerEvent $nowPlaying")
                 websocketSession.forEach { it.send(Frame.Text(nowPlaying)) }
             }
         }
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch {
-                coroutineContext
                 websocketSession.forEach { it.send(Frame.Text(playQueue)) }
             }
         }
@@ -927,7 +926,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
     abstract class WSMessage(val type: String)
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shouldShow: Boolean = PlaylistManager.showAudioPlayer.value
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
             ?: false) : WSMessage("now-playing")
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")

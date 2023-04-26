@@ -48,6 +48,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
         val currentPlayedMedia = MutableLiveData<MediaWrapper?>().apply { value = null }
+        val playingState = MutableLiveData<Boolean>().apply { value = false }
         // The playback will periodically modify the media by saving its meta
         // When playing audio, it will have no impact on UI but will trigger the media modified ML callback
         // On slow devices, it will trigger an unwanted "refresh animation". This flag prevents it

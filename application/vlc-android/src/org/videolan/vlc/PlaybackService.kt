@@ -668,6 +668,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         equalizer.observe(this, Observer { setEqualizer(it) })
         serviceFlow.value = this
         mediaBrowserCompat = MediaBrowserInstance.getInstance(this)
+        PlaylistManager.playingState.value = true
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)
@@ -742,6 +743,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     override fun onDestroy() {
         serviceFlow.value = null
         dispatcher.onServicePreSuperOnDestroy()
+        PlaylistManager.playingState.value = false
         super.onDestroy()
         browserCallback.removeCallbacks()
         if (!settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) (getSystemService(NOTIFICATION_SERVICE)as NotificationManager).cancel(3)
