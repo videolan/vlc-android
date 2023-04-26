@@ -2,6 +2,7 @@ import { API_URL, API_CONFIG } from '../config.js'
 import axios from 'axios'
 import { useAppStore } from '../stores/AppStore'
 import { useUploadStore } from '../stores/UploadStore'
+import geti18n from "../i18n";
 
 export default {
     install: (app) => {
@@ -23,8 +24,16 @@ export default {
             return `${API_URL}artwork?artwork=${media.artworkURL}&id=${media.id}&type=${mediaType}`
         }
 
-        app.config.globalProperties.$download = (media, mediaType) => {
-            window.location.href =`${API_URL}download?id=${media.id}&type=${mediaType}`
+        app.config.globalProperties.$download = (media, mediaType, directDownload) => {
+            if (directDownload) {
+                window.location.href =`${API_URL}prepare-download?id=${media.id}&type=${mediaType}`
+            } else {
+                appStore.warning = { type: "message", message: geti18n().global.t("PREPARING_DOWNLOAD") }
+                axios.get(`${API_URL}prepare-download?id=${media.id}&type=${mediaType}`).then((response) => {
+                    appStore.warning = undefined
+                    window.location.href = `${API_URL}download?file=${response.data}`
+                });
+            }
         }
 
         app.config.globalProperties.$play = (media, mediaType, append, asAudio) => {
@@ -47,16 +56,16 @@ export default {
                 const { loaded, total } = progressEvent;
                 let percent = Math.floor((loaded * 100) / total);
                 uploadStore.changeProgress(file, percent)
-              };
+            };
             var formData = new FormData();
             formData.append("media", file);
             formData.append("filename", file.name)
             uploadStore.changeFileStatus(file, 'uploading')
             axios.post(`${API_CONFIG.UPLOAD_MEDIA}`, formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              },
-              onUploadProgress
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress
             }).catch(function () {
                 uploadStore.changeFileStatus(file, 'error')
 

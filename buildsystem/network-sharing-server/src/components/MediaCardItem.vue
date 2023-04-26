@@ -23,7 +23,7 @@
                         v-t="'APPEND'"></span> </li>
                 <li> <span v-if="(mediaType == 'video')" v-on:click="$play(media, this.mediaType, false, true)"
                         class="dropdown-item" v-t="'PLAY_AS_AUDIO'"></span> </li>
-                <li > <span v-on:click="$download(media, this.mediaType)" class="dropdown-item" v-t="'DOWNLOAD'"></span>
+                <li > <span v-on:click="$download(media, this.mediaType, this.downloadable)" class="dropdown-item" v-t="'DOWNLOAD'"></span>
                 </li>
 
             </ul>

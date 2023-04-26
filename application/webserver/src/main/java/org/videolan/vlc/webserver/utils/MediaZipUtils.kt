@@ -34,35 +34,37 @@ object MediaZipUtils {
      * Generate a zip file for a [Genre]
      *
      * @param genre the genre to zip
-     * @return the path of the generated zip file
+     * @return the filename
      */
     fun generateGenreZip(genre: Genre, folder:String): String {
         val files = genre.tracks.mapNotNull { prepareTrackForZip(it, -1) }
 
-        val dst = File("$folder/${genre.title.slugify("_")}.zip")
+        val filename = "${genre.title.slugify("_")}.zip"
+        val dst = File("$folder/$filename")
         FileUtils.zipWithName(files.toTypedArray(), dst.path)
-        return dst.path
+        return filename
     }
 
     /**
      * Generate a zip file for a [Playlist]
      *
      * @param playlist the playlist to zip
-     * @return the path of the generated zip file
+     * @return the filename
      */
     fun generatePlaylistZip(playlist: Playlist, folder:String): String {
         val files = playlist.tracks.mapNotNull { prepareTrackForZip(it, -1) }
 
-        val dst = File("$folder/${playlist.title.slugify("_")}.zip")
+        val filename = "${playlist.title.slugify("_")}.zip"
+        val dst = File("$folder/$filename")
         FileUtils.zipWithName(files.toTypedArray(), dst.path)
-        return dst.path
+        return filename
     }
 
     /**
      * Generate a zip file for a [Artist]
      *
      * @param artist the artist to zip
-     * @return the path of the generated zip file
+     * @return the filename
      */
     fun generateArtistZip(artist: Artist, folder:String): String {
         val files = ArrayList<Pair<String, String>>()
@@ -74,22 +76,24 @@ object MediaZipUtils {
             }
         }
 
-        val dst = File("$folder/${artist.title.slugify("_")}.zip")
+        val filename = "${artist.title.slugify("_")}.zip"
+        val dst = File("$folder/$filename")
         FileUtils.zipWithName(files.toTypedArray(), dst.path)
-        return dst.path
+        return filename
     }
 
     /**
      * Generate a zip file for a [Album]
      *
      * @param album the album to zip
-     * @return the path of the generated zip file
+     * @return the filename
      */
     fun generateAlbumZip(album: Album, folder:String): String {
-        val dst = File("$folder/${album.title.slugify("_")}.zip")
+        val filename = "${album.title.slugify("_")}.zip"
+        val dst = File("$folder/$filename")
         val files = generateAlbumFiles(album)
         FileUtils.zipWithName(files.toTypedArray(), dst.path)
-        return dst.path
+        return filename
     }
 
     /**

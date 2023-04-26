@@ -59,5 +59,6 @@ object TranslationMapping {
         UPLOAD_REMAINING(R.string.ns_upload_remaining),
         UPLOAD_ALL(R.string.ns_upload_all),
         DROP_FILES_TIP(R.string.ns_drop_files_tip),
+        PREPARING_DOWNLOAD(R.string.ns_prepare_download),
     }
 }

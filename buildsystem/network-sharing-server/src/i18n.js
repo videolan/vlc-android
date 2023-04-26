@@ -1,6 +1,8 @@
 import { createI18n } from 'vue-i18n'
 import { API_URL } from './config'
 
+var i18nInstance;
+
 export async function loadLanguage() {
     const response = await fetch(`${API_URL}translation`).catch(function () {
         return new Response(JSON.stringify({
@@ -11,6 +13,11 @@ export async function loadLanguage() {
     return await response.json()
 }
 
+export default function geti18n() {
+    return i18nInstance;
+}
+
+
 export function initI18n() {
 
     return loadLanguage().then(function (data) {
@@ -20,6 +27,7 @@ export function initI18n() {
             messages: data
         })
         i18n.global.setLocaleMessage("default", data)
+        i18nInstance = i18n
         return i18n
     })
 }
