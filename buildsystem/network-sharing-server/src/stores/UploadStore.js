@@ -12,9 +12,6 @@ export const useUploadStore = defineStore('upload', {
   getters: {
   },
   actions: {
-    togglePlayQueueEdit() {
-      this.playQueueEdit = !this.playQueueEdit
-    },
     changeFileStatus(file, status) {
       const newFile = {file: file, status: status}
       var index = this.uploadingFiles.findIndex(element => element.file.name == file.name)

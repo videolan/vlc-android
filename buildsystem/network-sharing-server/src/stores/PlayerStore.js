@@ -16,6 +16,8 @@ export const usePlayerStore = defineStore('player', {
   getters: {
   },
   actions: {
-   
+    togglePlayQueueEdit() {
+      this.playQueueEdit = !this.playQueueEdit
+    },
   },
 })
