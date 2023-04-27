@@ -21,7 +21,7 @@
 
         <div class="player_controls col-12 col-md">
           <span class="flex1" />
-          <ImageButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()" />
+          <ImageButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()" v-bind:class="(this.playerStore.nowPlaying.shuffle) ? 'active' : ''" />
           <ImageButton type="skip_previous" id="player_previous" ref="previous" v-on:click="previous()" />
           <ImageButton type="replay_10" id="player_previous_10" ref="previous10" v-on:click="previous10()" />
           <ImageButton type="play_circle" class="big" id="player_play" ref="play"
@@ -30,7 +30,7 @@
             v-show="this.playerStore.nowPlaying.playing" v-on:click="pause()" />
           <ImageButton type="forward_10" id="player_next_10" ref="next10" v-on:click="next10()" />
           <ImageButton type="skip_next" id="player_next" ref="next" v-on:click="next()" />
-          <ImageButton type="repeat" id="player_repeat" ref="repeat" @click.stop="repeat()" />
+          <ImageButton id="player_repeat" ref="repeat" @click.stop="repeat()" v-bind:type="(this.playerStore.nowPlaying.repeat != 1) ? 'repeat' : 'repeat_one'"  v-bind:class="(this.playerStore.nowPlaying.repeat != 0) ? 'active' : ''" />
           <span class="flex1" />
         </div>
         <div class="player_right col-12 col-md">
@@ -124,10 +124,14 @@ export default {
       console.log("Sending next");
     },
     shuffle() {
+      this.nowPlaying.shuffle = !this.nowPlaying.shuffle
       this.$root.sendMessage("shuffle");
       console.log("Sending shuffle");
     },
     repeat() {
+      let newRepeat = this.nowPlaying.repeat + 1
+      if (newRepeat > 2) newRepeat =0
+      this.nowPlaying.repeat = newRepeat
       this.$root.sendMessage("repeat");
       console.log("Sending repeat");
     },

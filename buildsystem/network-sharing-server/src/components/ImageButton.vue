@@ -23,6 +23,10 @@ export default {
   position: relative;
 }
 
+.active .image-button-image {
+  filter: invert(51%) sepia(27%) saturate(2629%) hue-rotate(358deg) brightness(98%) contrast(110%);
+}
+
 .image-button-image.big {
   height: 58px;
 }

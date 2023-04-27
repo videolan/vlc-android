@@ -826,7 +826,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                 val gson = Gson()
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
                         ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
-                        ?: "", media.uri.toString(), getVolume())
+                        ?: "", media.uri.toString(), getVolume(), service.isShuffling, service.repeatType)
                 return gson.toJson(nowPlaying)
 
             }
@@ -945,7 +945,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
     abstract class WSMessage(val type: String)
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shuffle:Boolean, val repeat: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
             ?: false) : WSMessage("now-playing")
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
