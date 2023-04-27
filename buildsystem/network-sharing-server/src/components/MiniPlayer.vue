@@ -2,15 +2,14 @@
   <div v-show="this.playerStore.playing" @wheel.prevent @touchmove.prevent @scroll.prevent>
     <div class="footer" id="player"
       v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
-      <div class="time-duration-container">
+      <div class="progress-container">
         <p id="time"> {{ $readableDuration(new Date(this.playerStore.nowPlaying.progress)) }}
         </p>
-        <div class="flex1">&nbsp;</div>
         <p id="duration">{{ $readableDuration(new Date(this.playerStore.nowPlaying.duration))
         }}</p>
+        <input type="range" ref="progress" min="0" :max="this.playerStore.nowPlaying.duration" class="player-progress"
+          step="1" @change="this.progressChange($event)" @input="this.progressChange($event)">
       </div>
-      <PlayerProgress ref="playerProgress" id="player_progress" progress="{{ this.playerStore.nowPlaying.progress }}"
-        duration="{{ this.playerStore.nowPlaying.duration }}" />
       <div id="player_content" class="row">
         <div class="col-12 col-md" id="media_info">
           <img id="player_artwork">
@@ -40,7 +39,8 @@
               @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active' : ''" />
           </div>
           <div class="player_right_container">
-            <input type="range" ref="volume" name="volume" min="0" max="100" step="1" @change="this.volumeChange($event)">
+            <input type="range" ref="volume" min="0" max="100" step="1" @change="this.volumeChange($event)"
+              @input="this.volumeChange($event)">
           </div>
         </div>
       </div>
@@ -59,7 +59,6 @@
 
 <script>
 import ImageButton from './ImageButton.vue'
-import PlayerProgress from './PlayerProgress.vue'
 import { usePlayerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
@@ -68,7 +67,6 @@ import { API_URL } from '../config.js'
 export default {
   components: {
     ImageButton,
-    PlayerProgress,
   },
   data() {
     return {
@@ -81,6 +79,34 @@ export default {
     ...mapState(usePlayerStore, ['nowPlaying'])
   },
   methods: {
+    changeVolumeIfNeeded() {
+      this.updateVolumeBackground()
+      if (this.$refs.volume.matches(':hover')) return
+      if (this.$refs.volume.value != this.nowPlaying.volume) this.$refs.volume.value = this.nowPlaying.volume
+      this.updateVolumeBackground()
+    },
+    changeProgressIfNeeded() {
+      this.updateProgressBackground()
+      if (this.$refs.progress.matches(':hover')) return
+      if (this.$refs.progress.value != this.nowPlaying.progress) this.$refs.progress.value = this.nowPlaying.progress
+      this.updateProgressBackground()
+    },
+    updateVolumeBackground() {
+      let target = this.$refs.volume
+      const min = target.min
+      const max = target.max
+      const val = target.value
+
+      target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
+    },
+    updateProgressBackground() {
+      let target = this.$refs.progress
+      const min = target.min
+      const max = target.max
+      const val = target.value
+
+      target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
+    },
     play() {
       this.$root.sendMessage("play");
       console.log("Sending play");
@@ -114,8 +140,14 @@ export default {
       console.log("Sending next10");
     },
     volumeChange(event) {
+      this.updateVolumeBackground()
       this.$root.sendMessage("set-volume", event.target.value);
       this.$refs.volume.value = event.target.value
+    },
+    progressChange(event) {
+      this.updateProgressBackground()
+      this.$root.sendMessage("set-progress", event.target.value);
+      this.$refs.progress.value = event.target.value
     },
     togglePlayQueue() {
       this.playerStore.playqueueShowing = !this.playerStore.playqueueShowing
@@ -127,7 +159,8 @@ export default {
   },
   watch: {
     nowPlaying() {
-      if (this.$refs.volume.value != this.nowPlaying.volume) this.$refs.volume.value = this.nowPlaying.volume
+      this.changeVolumeIfNeeded()
+      this.changeProgressIfNeeded()
       if (this.loadedArtworkUrl != this.nowPlaying.uri) {
         this.loadedArtworkUrl = this.nowPlaying.uri
         this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
@@ -146,7 +179,7 @@ export default {
 
 @media screen and (min-width: 768px) {
   :root {
-    --playerHeight: 100px;
+    --playerHeight: 98px;
   }
 
   #player {
@@ -195,6 +228,11 @@ export default {
   background: $light-grey;
 }
 
+.progress-container {
+  background: linear-gradient(transparent 60%, $light-grey 60%);
+  
+}
+
 #progress_bar {
   min-width: 200px;
 }
@@ -214,27 +252,27 @@ export default {
   border-radius: 6px;
 }
 
-.time-duration-container {
-  display: flex;
+.player-progress {
+  position: relative;
+  z-index: 1;
 }
 
 #time {
-  padding-left: 8px;
-  padding-right: 8px;
-  margin-left: 8px;
+  left: 8px;
 }
 
 #duration {
-  flex: none;
-  padding-right: 8px;
-  padding-left: 8px;
-  margin-right: 8px;
+  right: 8px;
 }
 
 #time,
 #duration {
+  padding-left: 8px;
+  padding-right: 8px;
   background-color: $light-grey;
   border-radius: 8px 8px 0px 0px;
+  position: absolute;
+  top: -10px;
 }
 
 .player_right>* {
@@ -278,4 +316,5 @@ export default {
 
 .mini-player-fab .playing {
   background: none;
-}</style>
+}
+</style>

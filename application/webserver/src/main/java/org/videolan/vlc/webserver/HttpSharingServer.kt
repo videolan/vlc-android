@@ -320,6 +320,11 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                                 }
 
                             }
+                            "set-progress" -> {
+                                incomingMessage.id?.let {
+                                    service?.setTime(it.toLong())
+                                }
+                            }
                             "play-media" -> {
                                 service?.playIndex(incomingMessage.id!!)
 

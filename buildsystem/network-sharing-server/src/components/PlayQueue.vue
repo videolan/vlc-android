@@ -52,7 +52,7 @@ export default {
     position: fixed;
     right: 0;
     top: 0;
-    bottom: calc(var(--playerHeight) - 24px);
+    bottom: calc(var(--playerHeight) - 38px);
     z-index: 1021;
     width: 100%;
     overflow: hidden;
