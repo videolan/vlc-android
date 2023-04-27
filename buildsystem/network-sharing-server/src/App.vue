@@ -37,6 +37,12 @@ export default {
   computed: {
     ...mapStores(usePlayerStore, useAppStore)
   },
+  data() {
+    return {
+      retryDelay: 500,
+      retrying: false,
+    }
+  },
   methods: {
     sendMessage(message, id) {
       this.connection.send(
@@ -78,6 +84,9 @@ export default {
       }
 
       this.connection.onopen = (event) => {
+        clearTimeout(this.retryId)
+        this.retryDelay = 500
+        this.retrying = false
         console.log(event)
         console.log("Successfully connected to the echo websocket server...")
         this.appStore.socketOpened = true;
@@ -86,12 +95,22 @@ export default {
       this.connection.onclose = () => {
         console.log("Socket closed")
         this.appStore.socketOpened = false;
+        if (!this.retrying) this.retry()
       }
 
       this.connection.onerror = () => {
         console.log("Socket on error")
         this.appStore.socketOpened = false;
       }
+    },
+    retry() {
+      this.retrying = true
+      clearTimeout(this.retryId)
+      this.retryDelay = this.retryDelay + 500
+      if (this.retryDelay > 10000) this.retryDelay = 10000
+      this.startWebSocket()
+      this.retryId = setTimeout(this.retry, this.retryDelay);
+      console.log(`Will retry in ${this.retryDelay}ms`)
     }
   },
   created: function () {
