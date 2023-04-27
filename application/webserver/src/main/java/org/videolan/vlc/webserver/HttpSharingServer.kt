@@ -729,6 +729,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      *
      */
     override fun update() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from update")
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
@@ -743,6 +744,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      * @param event the event sent
      */
     override fun onMediaEvent(event: IMedia.Event) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from onMediaEvent")
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
@@ -757,6 +759,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      * @param event the event sent
      */
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        if (event.type != MediaPlayer.Event.TimeChanged) return
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch {
                 if (BuildConfig.DEBUG) Log.d("DebugPlayer", "onMediaPlayerEvent $nowPlaying")
