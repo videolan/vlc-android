@@ -3,7 +3,7 @@
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
-                    <tr v-for="video in videos" :key="video.id">
+                    <tr v-for="video in videos" :key="video.id" class="media-img-list-tr">
                         <MediaListItem :media="video" :downloadable="true" :mediaType="'video'"/>
                     </tr>
                 </tbody>

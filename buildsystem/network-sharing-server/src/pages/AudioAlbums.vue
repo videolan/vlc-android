@@ -3,7 +3,7 @@
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
             <table class="table table-hover media-list">
                 <tbody>
-                    <tr v-for="album in albums" :key="album.id">
+                    <tr v-for="album in albums" :key="album.id" class="media-img-list-tr">
                         <MediaListItem :media="album" :mediaType="'album'" />
                     </tr>
                 </tbody>

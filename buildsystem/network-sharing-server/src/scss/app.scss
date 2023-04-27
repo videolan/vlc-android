@@ -180,7 +180,7 @@ body {
   height: 100%;
 }
 
-.media-img-container:hover .media-overlay {
+.media-img-list-tr:hover .media-overlay, .media-img-container:hover .media-overlay {
   visibility: visible;
   opacity: 1;
 }

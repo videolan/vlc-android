@@ -1,13 +1,13 @@
 <template>
-    <td class="media-img-list-td">
+    <td v-on:click="$play(media, this.mediaType)" class="media-img-list-td clickable">
         <div class="ratio media-img-container" v-bind:class="(mainImgClasses())">
             <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
-            <div v-on:click="$play(media, this.mediaType)" class="media-overlay" v-show="!isBrowse()">
+            <div class="media-overlay" v-show="!isBrowse()">
                 <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
             </div>
         </div>
     </td>
-    <td>
+    <td v-on:click="$play(media, this.mediaType)" class="clickable">
         <div class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
             <p class="card-text text-truncate">{{ (mediaType == 'video') ? $readableDuration(media.length) + " · " +

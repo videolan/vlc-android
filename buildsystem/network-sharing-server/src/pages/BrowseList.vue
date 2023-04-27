@@ -4,7 +4,7 @@
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 ">
             <table class="table table-hover media-list">
                 <tbody>
-                    <tr v-for="favorite in favorites" :key="favorite.id">
+                    <tr v-for="favorite in favorites" :key="favorite.id" class="media-img-list-tr">
                         <MediaListItem :media="favorite" :mediaType="'folder'"/>
                     </tr>
                 </tbody>
