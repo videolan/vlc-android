@@ -169,6 +169,11 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      *
      */
     suspend fun stop() {
+        AppScope.launch(Dispatchers.IO) {
+            //clean download dir if not cleaned by download
+            val downloadDir = File(downloadFolder)
+            if (downloadDir.isDirectory) downloadDir.listFiles()?.forEach { it.delete() }
+        }
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
             websocketSession.forEach {
