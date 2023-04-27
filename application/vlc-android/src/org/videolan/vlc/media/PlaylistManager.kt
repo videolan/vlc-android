@@ -344,6 +344,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             cancel()
             player.cancel()
         }
+        playingState.value = false
     }
 
     @MainThread
@@ -1052,6 +1053,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                             refreshTrackMeta(mw)
                         }
                     }
+                    playingState.value = true
                 }
                 MediaPlayer.Event.EndReached -> {
                     clearABRepeat()

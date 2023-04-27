@@ -111,8 +111,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         get() = _serverConnections
 
 
-    private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> {
-        AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
+    private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
+        if (!playing) AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
     }
 
     private var auth = false
@@ -339,12 +339,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }.apply {
         environment.monitor.subscribe(ApplicationStarted) {
             _serverStatus.postValue(ServerStatus.STARTED)
-            PlaylistManager.playingState.observeForever(miniPlayerObserver)
+            AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.observeForever(miniPlayerObserver) }
         }
         environment.monitor.subscribe(ApplicationStopped) {
-            AppScope.launch(Dispatchers.Main) {
-                PlaylistManager.playingState.removeObserver(miniPlayerObserver)
-            }
+            AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.removeObserver(miniPlayerObserver) }
             _serverStatus.postValue(ServerStatus.STOPPED)
         }
     }
