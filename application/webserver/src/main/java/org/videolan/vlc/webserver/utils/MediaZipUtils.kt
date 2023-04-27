@@ -107,7 +107,7 @@ object MediaZipUtils {
         val tracks = album.tracks
         return tracks
                 .mapNotNull { track ->
-                    prepareTrackForZip(track, tracks?.indexOf(track) ?: -1)
+                    prepareTrackForZip(track, (tracks?.indexOf(track) ?: -2) + 1)
                 }
                 .toMutableList()
                 .apply { album.artworkMrl?.let { add(Pair(it, "cover.jpg")) } }
