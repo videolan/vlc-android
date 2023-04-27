@@ -112,7 +112,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
-        if (!playing) AppScope.launch { websocketSession.forEach { it.send(Frame.Text("Stopped")) } }
+        AppScope.launch { websocketSession.forEach {
+            val playerStatus = PlayerStatus(playing)
+            val gson = Gson()
+            it.send(Frame.Text(gson.toJson(playerStatus))) } }
     }
 
     private var auth = false
@@ -930,6 +933,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "")
     data class Volume(val volume: Int) : WSMessage("volume")
+    data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
 
