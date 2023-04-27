@@ -40,16 +40,16 @@ export default {
   },
   methods: {
     removeItem(index) {
-      this.$root.connection.send("deleteMedia:" + index);
+      this.$root.sendMessage("delete-media", index);
     },
     play(index) {
-      this.$root.connection.send("playMedia:" + index);
+      this.$root.sendMessage("play-media", index);
     }, 
     moveMediaBottom(index) {
-      this.$root.connection.send("moveMediaBottom:" + index);
+      this.$root.sendMessage("move-media-bottom", index);
     }, 
     moveMediaTop(index) {
-      this.$root.connection.send("moveMediaTop:" + index);
+      this.$root.sendMessage("move-media-top", index);
     },
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <div v-show="this.playerStore.playing" @wheel.prevent @touchmove.prevent @scroll.prevent>
-    <div class="footer" id="player" v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
+    <div class="footer" id="player"
+      v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
       <div class="time-duration-container">
         <p id="time"> {{ $readableDuration(new Date(this.playerStore.nowPlaying.progress)) }}
         </p>
@@ -36,7 +37,7 @@
         <div class="player_right col-12 col-md">
           <div class="player_right_container">
             <ImageButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
-              @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active': ''" />
+              @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active' : ''" />
           </div>
           <div class="player_right_container">
             <input type="range" ref="volume" name="volume" min="0" max="100" step="1" @change="this.volumeChange($event)">
@@ -44,7 +45,8 @@
         </div>
       </div>
     </div>
-    <div class="mini-player-fab" v-on:click.stop="showResponsivePlayer()" v-show="!this.playerStore.responsivePlayerShowing">
+    <div class="mini-player-fab" v-on:click.stop="showResponsivePlayer()"
+      v-show="!this.playerStore.responsivePlayerShowing">
       <div class="playing">
         <span class="playing-bar playing-bar1"></span>
         <span class="playing-bar playing-bar2"></span>
@@ -80,39 +82,39 @@ export default {
   },
   methods: {
     play() {
-      this.$root.connection.send("play");
+      this.$root.sendMessage("play");
       console.log("Sending play");
     },
     pause() {
-      this.$root.connection.send("pause");
+      this.$root.sendMessage("pause");
       console.log("Sending pause");
     },
     previous() {
-      this.$root.connection.send("previous");
+      this.$root.sendMessage("previous");
       console.log("Sending previous");
     },
     next() {
-      this.$root.connection.send("next");
+      this.$root.sendMessage("next");
       console.log("Sending next");
     },
     shuffle() {
-      this.$root.connection.send("shuffle");
+      this.$root.sendMessage("shuffle");
       console.log("Sending shuffle");
     },
     repeat() {
-      this.$root.connection.send("repeat");
+      this.$root.sendMessage("repeat");
       console.log("Sending repeat");
     },
     previous10() {
-      this.$root.connection.send("previous10");
+      this.$root.sendMessage("previous10");
       console.log("Sending previous10");
     },
     next10() {
-      this.$root.connection.send("next10");
+      this.$root.sendMessage("next10");
       console.log("Sending next10");
     },
     volumeChange(event) {
-      this.$root.connection.send("set-volume:" + event.target.value);
+      this.$root.sendMessage("set-volume", event.target.value);
       this.$refs.volume.value = event.target.value
     },
     togglePlayQueue() {
@@ -159,7 +161,8 @@ export default {
     overflow: auto;
   }
 
-  #time, #duration {
+  #time,
+  #duration {
     background-color: transparent !important;
   }
 
@@ -228,7 +231,8 @@ export default {
   margin-right: 8px;
 }
 
-#time, #duration {
+#time,
+#duration {
   background-color: $light-grey;
   border-radius: 8px 8px 0px 0px;
 }
@@ -255,10 +259,10 @@ export default {
 #title,
 #artist {
   padding-left: 16px;
-    margin-bottom: 0;
-    height: 27px;
-    vertical-align: middle;
-    line-height: 27px;
+  margin-bottom: 0;
+  height: 27px;
+  vertical-align: middle;
+  line-height: 27px;
 }
 
 
@@ -274,5 +278,4 @@ export default {
 
 .mini-player-fab .playing {
   background: none;
-}
-</style>
+}</style>

@@ -38,6 +38,14 @@ export default {
     ...mapStores(usePlayerStore, useAppStore)
   },
   methods: {
+    sendMessage(message, id) {
+      this.connection.send(
+        JSON.stringify({
+          message: message,
+          id: id
+        })
+      )
+    },
     sendFiles() {
       this.$refs.uploadComponent.openFiles()
     },

@@ -90,6 +90,7 @@ import java.text.DateFormat
 import java.time.Duration
 import java.util.*
 
+private const val TAG = "HttpSharingServer"
 class HttpSharingServer(private val context: Context) : PlaybackService.Callback {
     private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
@@ -275,65 +276,69 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                 websocketSession.add(this)
                 // Handle a WebSocket session
                 for (frame in incoming) {
-                    frame as? Frame.Text ?: continue
-                    val message = frame.readText()
-                    when {
-                        message == "play" -> service?.play()
-                        message == "pause" -> service?.pause()
-                        message == "previous" -> service?.previous(false)
-                        message == "next" -> service?.next()
-                        message == "previous10" -> service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
-                        message == "next10" -> service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
-                        message == "shuffle" -> service?.shuffle()
-                        message == "repeat" -> service?.let {
-                            when (it.repeatType) {
-                                PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                                }
-                                PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                                } else {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                                }
-                                PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                    try {
+                        frame as? Frame.Text ?: continue
+                        val message = frame.readText()
+                        val gson = Gson()
+                        val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
+                        when (incomingMessage.message) {
+                            "play" -> service?.play()
+                            "pause" -> service?.pause()
+                            "previous" -> service?.previous(false)
+                            "next" -> service?.next()
+                            "previous10" -> service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
+                            "next10" -> service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
+                            "shuffle" -> service?.shuffle()
+                            "repeat" -> service?.let {
+                                when (it.repeatType) {
+                                    PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                                    }
+                                    PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
+                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+                                    } else {
+                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                                    }
+                                    PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                                    }
                                 }
                             }
-                        }
-                        message == "get-volume" -> {
-                            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
-                        }
-                        message.startsWith("set-volume") -> {
-                            val volume = message.split(':')[1].toInt()
-                            (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
-                                val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                                it.setStreamVolume(AudioManager.STREAM_MUSIC, ((volume.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
+                            "get-volume" -> {
+                                AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
+                            }
+                            "set-volume" -> {
+                                (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
+                                    val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                                    it.setStreamVolume(AudioManager.STREAM_MUSIC, ((incomingMessage.id!!.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
+
+                                }
 
                             }
+                            "play-media" -> {
+                                service?.playIndex(incomingMessage.id!!)
 
-                        }
-                        message.startsWith("playMedia") -> {
-                            val index = message.split(':')[1].toInt()
-                            service?.playIndex(index)
+                            }
+                            "delete-media" -> {
+                                service?.remove(incomingMessage.id!!)
 
-                        }
-                        message.startsWith("deleteMedia") -> {
-                            val index = message.split(':')[1].toInt()
-                            service?.remove(index)
+                            }
+                            "move-media-bottom" -> {
+                                val index = incomingMessage.id!!
+                                if (index < (service?.playlistManager?.getMediaListSize() ?: 0) - 1)
+                                    service?.moveItem(index, index + 2)
 
-                        }
-                        message.startsWith("moveMediaBottom") -> {
-                            val index = message.split(':')[1].toInt()
-                            if (index < (service?.playlistManager?.getMediaListSize() ?: 0) - 1)
-                                service?.moveItem(index, index + 2)
+                            }
+                            "move-media-top" -> {
+                                val index = incomingMessage.id!!
+                                if (index > 0)
+                                    service?.moveItem(index, index - 1)
 
+                            }
+                            else -> Log.w(TAG, "Unrecognized message", IllegalStateException("Unrecognized message: $message"))
                         }
-                        message.startsWith("moveMediaTop") -> {
-                            val index = message.split(':')[1].toInt()
-                            if (index > 0)
-                                service?.moveItem(index, index - 1)
-
-                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.message, e)
                     }
                 }
                 websocketSession.remove(this)
@@ -938,4 +943,9 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
 
     data class WebServerConnection(val ip: String)
+
+    data class WSIncomingMessage(
+            val message:String,
+            val id:Int?
+    )
 }
