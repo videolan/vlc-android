@@ -6,6 +6,7 @@ import AudioTracks from './pages/AudioTracks'
 import AudioGenres from './pages/AudioGenres'
 import PageDownloads from './pages/PageDownloads'
 import BrowseList from './pages/BrowseList'
+import SearchList from './pages/SearchList'
 
 const routes = [
     { path: '/', redirect: '/videos', name: 'Home' },
@@ -21,6 +22,7 @@ const routes = [
     },
     { path: '/browse', component: BrowseList, name: 'BrowseList', meta: { showDisplayBar: true } },
     { path: '/playlists', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true } },
+    { path: '/search', component: SearchList, name: 'SearchList', meta: { showDisplayBar: false } },
 
     { path: '/logs', component: PageDownloads, name: 'Logs' },
 ]

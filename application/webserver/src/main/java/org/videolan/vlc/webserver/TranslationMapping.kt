@@ -63,5 +63,7 @@ object TranslationMapping {
         RESUME_PLAYBACK(R.string.resume_playback_short_title),
         DISPLAY_LIST(R.string.display_in_list),
         DISPLAY_GRID(R.string.display_in_grid),
+        SEARCH_HINT(R.string.search_hint),
+        SEARCH_NO_RESULT(R.string.search_no_result),
     }
 }

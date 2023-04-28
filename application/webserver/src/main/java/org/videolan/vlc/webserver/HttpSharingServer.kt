@@ -60,8 +60,7 @@ import org.json.JSONObject
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
@@ -93,6 +92,7 @@ import java.time.Duration
 import java.util.*
 
 private const val TAG = "HttpSharingServer"
+
 class HttpSharingServer(private val context: Context) : PlaybackService.Callback {
     private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
@@ -115,10 +115,13 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
-        AppScope.launch { websocketSession.forEach {
-            val playerStatus = PlayerStatus(playing)
-            val gson = Gson()
-            it.send(Frame.Text(gson.toJson(playerStatus))) } }
+        AppScope.launch {
+            websocketSession.forEach {
+                val playerStatus = PlayerStatus(playing)
+                val gson = Gson()
+                it.send(Frame.Text(gson.toJson(playerStatus)))
+            }
+        }
     }
 
     private var auth = false
@@ -439,11 +442,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
 
             val list = ArrayList<PlayQueueItem>()
-            videos.forEach { mediaWrapper ->
-                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist
-                        ?: "", mediaWrapper.length, mediaWrapper.artworkMrl
-                        ?: "", false, generateResolutionClass(mediaWrapper.width, mediaWrapper.height)
-                        ?: ""))
+            videos.forEach { video ->
+                list.add(video.toPlayQueueItem())
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
@@ -454,9 +454,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
             val list = ArrayList<PlayQueueItem>()
             albums.forEach { album ->
-                list.add(PlayQueueItem(album.id, album.title, album.albumArtist
-                        ?: "", album.duration, album.artworkMrl
-                        ?: "", false, ""))
+                list.add(album.toPlayQueueItem())
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
@@ -467,8 +465,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
             val list = ArrayList<PlayQueueItem>()
             artists.forEach { artist ->
-                list.add(PlayQueueItem(artist.id, artist.title, appContext.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount), 0, artist.artworkMrl
-                        ?: "", false, ""))
+                list.add(artist.toPlayQueueItem(appContext))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
@@ -479,9 +476,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
             val list = ArrayList<PlayQueueItem>()
             tracks.forEach { track ->
-                list.add(PlayQueueItem(track.id, track.title, track.artist
-                        ?: "", track.length, track.artworkMrl
-                        ?: "", false, generateResolutionClass(track.width, track.height) ?: ""))
+                list.add(track.toPlayQueueItem())
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
@@ -492,8 +487,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
             val list = ArrayList<PlayQueueItem>()
             genres.forEach { genre ->
-                list.add(PlayQueueItem(genre.id, genre.title, appContext.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
-                        ?: "", false, ""))
+                list.add(genre.toPlayQueueItem(appContext))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
@@ -503,12 +497,39 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             val playlists = appContext.getFromMl { getPlaylists(Playlist.Type.All, false) }
 
             val list = ArrayList<PlayQueueItem>()
-            playlists.forEach { genre ->
-                list.add(PlayQueueItem(genre.id, genre.title, appContext.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount), 0, genre.artworkMrl
-                        ?: "", false, ""))
+            playlists.forEach { playlist ->
+                list.add(playlist.toPlayQueueItem(appContext))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
+        }
+        // Search media
+        get("/search") {
+            call.request.queryParameters["search"]?.let { query ->
+                val searchAggregate = appContext.getFromMl { search(query, Settings.includeMissing, false) }
+
+                searchAggregate?.let { result ->
+                    val results = SearchResults(
+                            result.albums?.filterNotNull()?.map { it.toPlayQueueItem() }
+                                    ?: listOf(),
+                            result.artists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
+                                    ?: listOf(),
+                            result.genres?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
+                                    ?: listOf(),
+                            result.playlists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
+                                    ?: listOf(),
+                            result.videos?.filterNotNull()?.map { it.toPlayQueueItem() }
+                                    ?: listOf(),
+                            result.tracks?.filterNotNull()?.map { it.toPlayQueueItem() }
+                                    ?: listOf(),
+                    )
+                    val gson = Gson()
+                    call.respondText(gson.toJson(results))
+                }
+
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())))
         }
         // List of all the file storages
         get("/storage-list") {
@@ -953,20 +974,38 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
     abstract class WSMessage(val type: String)
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shuffle:Boolean, val repeat: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shuffle: Boolean, val repeat: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
             ?: false) : WSMessage("now-playing")
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "")
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
+    data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
+
+    fun Album.toPlayQueueItem() = PlayQueueItem(id, title, albumArtist ?: "", duration, artworkMrl
+            ?: "", false, "")
+
+    fun Artist.toPlayQueueItem(appContext: Context) = PlayQueueItem(id, title, appContext.resources.getQuantityString(R.plurals.albums_quantity, albumsCount, albumsCount), 0, artworkMrl
+            ?: "", false, "")
+
+    fun Genre.toPlayQueueItem(appContext: Context) = PlayQueueItem(id, title, appContext.resources.getQuantityString(R.plurals.track_quantity, tracksCount, tracksCount), 0, artworkMrl
+            ?: "", false, "")
+
+    fun Playlist.toPlayQueueItem(appContext: Context) = PlayQueueItem(id, title, appContext.resources.getQuantityString(R.plurals.track_quantity, tracksCount, tracksCount), 0, artworkMrl
+            ?: "", false, "")
+
+    fun MediaWrapper.toPlayQueueItem() = PlayQueueItem(id, title, artist
+            ?: "", length, artworkMrl
+            ?: "", false, generateResolutionClass(width, height) ?: "")
+
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
 
     data class WebServerConnection(val ip: String)
 
     data class WSIncomingMessage(
-            val message:String,
-            val id:Int?
+            val message: String,
+            val id: Int?
     )
 }
