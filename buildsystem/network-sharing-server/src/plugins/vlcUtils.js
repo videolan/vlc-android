@@ -51,6 +51,13 @@ export default {
                     }
                 })
         }
+        app.config.globalProperties.$resumePlayback = (isAudio) => {
+            axios.get(`${API_URL}resume-playback`, {
+                params: {
+                    audio: isAudio
+                }
+            })
+        }
         app.config.globalProperties.$upload = (file) => {
             const onUploadProgress = (progressEvent) => {
                 const { loaded, total } = progressEvent;

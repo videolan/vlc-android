@@ -64,6 +64,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
@@ -537,6 +539,12 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
+        }
+        // Resume playback
+        get("/resume-playback") {
+            val audio = call.request.queryParameters["audio"] == "true"
+            MediaUtils.loadlastPlaylist(appContext, if (audio) PLAYLIST_TYPE_AUDIO else PLAYLIST_TYPE_VIDEO)
+            call.respond(HttpStatusCode.OK)
         }
         // Play a media
         get("/play") {

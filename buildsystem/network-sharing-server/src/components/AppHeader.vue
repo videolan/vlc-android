@@ -17,10 +17,10 @@
         </button>
       </RouterLink>
       <RouterLink :to="{ name: 'BrowseList' }">
-      <button class="btn btn-lg nav-button medium">
-        <img v-bind:src="$getAppAsset('ic_menu_folder')">
-        <p v-t="'BROWSE'"></p>
-      </button>
+        <button class="btn btn-lg nav-button medium">
+          <img v-bind:src="$getAppAsset('ic_menu_folder')">
+          <p v-t="'BROWSE'"></p>
+        </button>
       </RouterLink>
       <RouterLink :to="{ name: 'PlaylistList' }">
         <button class="btn btn-lg nav-button medium">
@@ -31,7 +31,7 @@
     </div>
     <div class="d-flex flex1 justify-content-end">
       <ImageButton type="cloud_off" class="blink" v-show="!appStore.socketOpened" v-on:click.stop="disconnectedClicked"
-        data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISCONNECTED')"/>
+        data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISCONNECTED')" />
       <ImageButton type="search" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('SEARCH')" />
       <div class="dropdown dropstart">
         <ImageButton type="more_vert" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" />
@@ -46,12 +46,12 @@
         </ul>
       </div>
     </div>
-    <div class=" navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
-      <div class="flex1">
-        <ImageButton type="grid_view"  v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
-          v-show="this.appStore.displayType[this.$route.name]"/>
-          <ImageButton type="view_list"  v-show="!this.appStore.displayType[this.$route.name]"
-          aria-expanded="false" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"/>
+    <div class="navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
+      <div class="flex1 d-flex align-items-center">
+        <ImageButton type="grid_view" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
+          v-show="this.appStore.displayType[this.$route.name]"  data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISPLAY_GRID')" />
+        <ImageButton type="view_list" v-show="!this.appStore.displayType[this.$route.name]"  data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISPLAY_LIST')" aria-expanded="false"
+          v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)" />
       </div>
       <ul class="nav justify-content-center navtabs">
         <li class="nav-item">
@@ -78,7 +78,11 @@
             v-t="'GENRES'"> </RouterLink>
         </li>
       </ul>
-      <div class="flex1">&nbsp;</div>
+      <div class="flex1 d-flex justify-content-end align-items-center">
+        <button class="btn btn-lg image-button" v-show="this.$route.meta.showResume" v-on:click.stop="$resumePlayback(this.$route.meta.isAudio)"  data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('RESUME_PLAYBACK')">
+          <img class="image-button-image" v-bind:src="$getAppAsset('ic_resume_playback', 24)">
+        </button>
+      </div>
     </div>
   </nav>
 </template>
