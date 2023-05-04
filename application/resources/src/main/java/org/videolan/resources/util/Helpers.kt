@@ -11,11 +11,11 @@ import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.R
+import java.util.*
 
 const val LENGTH_WEEK = 7 * 24 * 60 * 60
 const val LENGTH_MONTH = 30 * LENGTH_WEEK
@@ -52,9 +52,22 @@ fun MediaLibraryItem.getLength() = when {
     else -> 0L
 }
 
+// Albums and MediaWrappers use MedialibraryItem's releaseDate as releaseYear
+// Though when indexed an album's releaseDate saves only the year,
+// whereas MediaWrappers' releaseDate save the whole date
 fun MediaLibraryItem.getYear() = when (itemType) {
-    MediaLibraryItem.TYPE_ALBUM -> if ((this as Album).releaseYear <= 0) "-" else releaseYear.toString()
-    MediaLibraryItem.TYPE_MEDIA -> if ((this as MediaWrapper).releaseYear <= 0) "-" else releaseYear.toString()
+    MediaLibraryItem.TYPE_ALBUM -> {
+        if ((this as Album).releaseYear <= 0) "-" else releaseYear.toString()
+    }
+    MediaLibraryItem.TYPE_MEDIA ->{
+        if ((this as MediaWrapper).releaseYear <= 0)
+            "-"
+        else {
+            val calendar = Calendar.getInstance()
+            calendar.time = Date(releaseYear.toLong() * 1000)
+            calendar.get(Calendar.YEAR).toString()
+        }
+    }
     else -> "-"
 }
 
