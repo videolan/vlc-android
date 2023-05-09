@@ -468,6 +468,8 @@
     <string name="show_headers_summary">Split lists by headers depending on the sort type</string>
     <string name="tv_folders_first">Show folders first</string>
     <string name="tv_folders_first_summary">Show folders and then files in the file browser</string>
+    <string name="tv_show_hidden_files">Show hidden files</string>
+    <string name="tv_show_hidden_files_summary">Show hidden files in the file browser</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>

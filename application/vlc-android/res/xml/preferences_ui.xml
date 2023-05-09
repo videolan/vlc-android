@@ -50,6 +50,14 @@
             android:title="@string/tv_folders_first"/>
 
     <CheckBoxPreference
+        app:singleLineTitle="false"
+        android:key="browser_show_hidden_files"
+        android:defaultValue="false"
+        app:isPreferenceVisible="false"
+        android:summary="@string/tv_show_hidden_files_summary"
+        android:title="@string/tv_show_hidden_files"/>
+
+    <CheckBoxPreference
             app:singleLineTitle="false"
             android:key="include_missing"
             android:defaultValue="true"
