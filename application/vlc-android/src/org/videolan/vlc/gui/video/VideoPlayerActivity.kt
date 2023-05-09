@@ -1756,9 +1756,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
             R.id.player_overlay_forward -> touchDelegate.seekDelta(Settings.videoJumpDelay * 1000)
             R.id.player_overlay_rewind -> touchDelegate.seekDelta(-Settings.videoJumpDelay * 1000)
-            R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
-            R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues()
-            R.id.ab_repeat_stop -> service?.playlistManager?.clearABRepeat()
+            R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(
+                service?.playlistManager?.getCurrentMedia(), overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
+            R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
+            R.id.ab_repeat_stop -> {
+                service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
+                service?.playlistManager?.clearABRepeat()
+            }
             R.id.player_overlay_navmenu -> showNavMenu()
             R.id.player_overlay_length, R.id.player_overlay_time -> toggleTimeDisplay()
             R.id.video_renderer -> if (supportFragmentManager.findFragmentByTag("renderers") == null)

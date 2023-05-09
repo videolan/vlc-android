@@ -73,6 +73,8 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public final static int META_CROP = 103;
     public final static int META_DEINTERLACE = 104;
     public final static int META_VIDEOFILTER = 105;
+    public final static int META_AB_REPEAT_START = 106;
+    public final static int META_AB_REPEAT_STOP = 107;
     //Audio
     public final static int META_AUDIOTRACK = 150;
     public final static int META_GAIN = 151;

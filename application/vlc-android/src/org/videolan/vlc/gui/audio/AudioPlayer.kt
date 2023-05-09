@@ -209,7 +209,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         abRepeatAddMarker.setOnClickListener {
-            playlistModel.service?.playlistManager?.setABRepeatValue(binding.timeline.progress.toLong())
+            playlistModel.service?.playlistManager?.setABRepeatValue(playlistModel.service?.playlistManager?.getCurrentMedia(), binding.timeline.progress.toLong())
         }
 
         audioPlayProgressMode = Settings.getInstance(requireActivity()).getBoolean(AUDIO_PLAY_PROGRESS_MODE, false)
@@ -665,11 +665,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onABRepeatStopClick(@Suppress("UNUSED_PARAMETER") v: View) {
+        playlistModel.service?.playlistManager?.resetABRepeatValues(playlistModel.service?.playlistManager?.getCurrentMedia())
         playlistModel.service?.playlistManager?.clearABRepeat()
     }
 
     fun onABRepeatResetClick(@Suppress("UNUSED_PARAMETER") v: View) {
-        playlistModel.service?.playlistManager?.resetABRepeatValues()
+        playlistModel.service?.playlistManager?.resetABRepeatValues(playlistModel.service?.playlistManager?.getCurrentMedia())
     }
 
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}

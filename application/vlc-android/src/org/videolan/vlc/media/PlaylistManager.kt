@@ -609,7 +609,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             } else if (settings.getBoolean("save_individual_audio_delay", true)) {
                 player.setAudioDelay(savedDelay)
             }
-
+            val abStart = media.getMetaLong(MediaWrapper.META_AB_REPEAT_START)
+            if (abStart != 0L) {
+                abRepeatOn.value = true
+                abRepeat.value?.start = abStart
+                val abStop = media.getMetaLong(MediaWrapper.META_AB_REPEAT_STOP)
+                abRepeat.value?.stop = if (abStop == 0L) -1L else abStop
+            }
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
             val rateString = media.getMetaString(MediaWrapper.META_SPEED)
@@ -922,16 +928,22 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
-    fun setABRepeatValue(time: Long) {
+    fun setABRepeatValue(media: MediaWrapper?, time: Long) {
         val value = abRepeat.value ?: ABRepeat()
         when {
-            value.start == -1L -> value.start = time
-            value.start > time -> {
+            value.start == -1L -> {
+                value.start = time
+            }
+            value.start > time && time > -1 -> {
                 value.stop = value.start
                 value.start = time
             }
-            else -> value.stop = time
+            else -> {
+                value.stop = time
+            }
         }
+        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, value.start)
+        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, value.stop)
         abRepeat.value = value
     }
 
@@ -945,8 +957,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         delayValue.postValue(DelayValues())
     }
 
-    fun resetABRepeatValues() {
+    fun resetABRepeatValues(media: MediaWrapper?) {
         abRepeat.value = ABRepeat()
+        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, 0L)
+        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, 0L)
     }
 
     fun toggleABRepeat() {
