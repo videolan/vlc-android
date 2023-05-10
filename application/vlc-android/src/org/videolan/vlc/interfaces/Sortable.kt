@@ -18,7 +18,6 @@ interface Sortable : PopupMenu.OnMenuItemClickListener {
         menu.inflate(R.menu.sort_options)
         menu.menu.findItem(R.id.ml_menu_sortby_filename).isVisible = vm.canSortByFileNameName()
         menu.menu.findItem(R.id.ml_menu_sortby_length).isVisible = vm.canSortByDuration()
-        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = vm.canSortByInsertionDate() || vm.canSortByReleaseDate() || vm.canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = vm.canSortByReleaseDate()
         menu.menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = vm.canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_number).isVisible = false

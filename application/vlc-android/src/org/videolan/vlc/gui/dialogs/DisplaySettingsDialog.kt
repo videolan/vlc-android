@@ -233,10 +233,10 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                         Medialibrary.SORT_FILENAME -> getString(if (desc) R.string.sortby_filename_desc else R.string.sortby_filename_asc)
                         Medialibrary.SORT_ARTIST -> getString(if (desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name_asc)
                         Medialibrary.SORT_DURATION -> getString(if (desc) R.string.sortby_length_desc else R.string.sortby_length_asc)
-                        Medialibrary.SORT_INSERTIONDATE -> getString(if (desc) R.string.sortby_insertion_desc else R.string.sortby_insertion_asc)
-                        Medialibrary.SORT_LASTMODIFICATIONDATE -> getString(if (desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date_asc)
+                        Medialibrary.SORT_INSERTIONDATE -> getString(if (desc) R.string.sortby_date_insertion_desc else R.string.sortby_date_insertion_asc)
+                        Medialibrary.SORT_LASTMODIFICATIONDATE -> getString(if (desc) R.string.sortby_date_last_modified_desc else R.string.sortby_date_last_modified_asc)
                         Medialibrary.SORT_ALBUM -> getString(if (desc) R.string.sortby_album_name_desc else R.string.sortby_album_name_asc)
-                        Medialibrary.SORT_RELEASEDATE -> getString(if (desc) R.string.sortby_date_desc else R.string.sortby_date_asc)
+                        Medialibrary.SORT_RELEASEDATE -> getString(if (desc) R.string.sortby_date_release_desc else R.string.sortby_date_release_asc)
                         Medialibrary.NbMedia -> getString(if (desc) R.string.sortby_number_asc else R.string.sortby_number_desc)
                         else -> throw IllegalStateException("Unsupported sort: $sort")
                     }

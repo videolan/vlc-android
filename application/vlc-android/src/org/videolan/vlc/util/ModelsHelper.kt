@@ -152,6 +152,17 @@ object ModelsHelper {
                 }
             } else null
         }
+        SORT_INSERTIONDATE -> {
+            if (item is MediaWrapper) {
+                val timestamp = (item as? MediaWrapper)?.insertionDate ?: 0L
+                val category = getTimeCategory(timestamp)
+                if (aboveItem == null) getTimeCategoryString(context, category)
+                else {
+                    val prevCat = getTimeCategory((aboveItem as? MediaWrapper)?.insertionDate ?: -1)
+                    if (prevCat != category) getTimeCategoryString(context, category) else null
+                }
+            } else null
+        }
         SORT_ARTIST -> {
             val artist = (item as? MediaWrapper)?.artist ?: (item as? Album)?.albumArtist ?: ""
             if (aboveItem == null) artist

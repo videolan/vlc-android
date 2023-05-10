@@ -580,6 +580,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         return fileName.substring(0, end);
     }
 
+    public long getInsertionDate() {
+        return mInsertionDate;
+    }
+
     public String getReferenceArtist() {
         return mAlbumArtist == null ? mArtist : mAlbumArtist;
     }
