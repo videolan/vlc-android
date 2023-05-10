@@ -107,6 +107,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     protected String mArtworkURL;
     protected boolean mThumbnailGenerated;
     private boolean mIsPresent = true;
+    protected long mInsertionDate;
 
     protected final Uri mUri;
     protected String mFilename;
@@ -154,7 +155,8 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public MediaWrapper(long id, String mrl, long time, float position, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, boolean isFavorite, int releaseDate, boolean isPresent) {
+                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated,
+                        boolean isFavorite, int releaseDate, boolean isPresent, long insertionDate) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
@@ -165,7 +167,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mIsPresent = isPresent;
         init(time, position, length, type, null, title, artist, genre, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
-                trackNumber, discNumber, lastModified, seen, isPresent, null, isFavorite);
+                trackNumber, discNumber, lastModified, seen, isPresent, null, isFavorite, insertionDate);
         final StringBuilder sb = new StringBuilder();
         if (type == TYPE_AUDIO) {
             boolean hasArtistMeta = !TextUtils.isEmpty(artist);
@@ -312,7 +314,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     private void init(long time, float position, long length, int type,
                       Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
-                      long seen, boolean isPresent, IMedia.Slave[] slaves, boolean isFavorite) {
+                      long seen, boolean isPresent, IMedia.Slave[] slaves, boolean isFavorite, long insertionDate) {
         mFilename = null;
         mTime = time;
         mPosition = position;
@@ -324,6 +326,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mPicture = picture;
         mWidth = width;
         mHeight = height;
+        mInsertionDate = insertionDate;
 
         mTitle = title != null ? title.trim() : null;
         mArtist = artist != null ? artist.trim() : null;
@@ -342,10 +345,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public MediaWrapper(Uri uri, long time, float position, long length, int type,
                         Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                        int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen, boolean isFavorite) {
+                        int width, int height, String artworkURL, int audio, int spu, int trackNumber,
+                        int discNumber, long lastModified, long seen, boolean isFavorite, long insertionDate) {
         mUri = uri;
         init(time, position, length, type, picture, title, artist, genre, album, albumArtist,
-                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null, isFavorite);
+                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null, isFavorite, insertionDate);
     }
 
     @Override
@@ -744,7 +748,8 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                 in.readLong(),
                 in.readInt() == 1,
                 in.createTypedArray(PSlave.CREATOR),
-                in.readInt() == 1);
+                in.readInt() == 1,
+                in.readLong());
     }
 
     @Override
@@ -771,6 +776,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         dest.writeLong(getLastModified());
         dest.writeLong(getSeen());
         dest.writeInt(isPresent() ? 1 : 0);
+        dest.writeLong(mInsertionDate);
 
         if (mSlaves != null) {
             PSlave[] pslaves = new PSlave[mSlaves.length];
