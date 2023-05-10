@@ -42,7 +42,8 @@ export default {
                     id: media.id,
                     append: append,
                     audio: asAudio,
-                    type: mediaType
+                    type: mediaType,
+                    path: media.path
                 }
             })
                 .catch(function (error) {

@@ -59,9 +59,11 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
@@ -78,11 +80,14 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.BrowserProvider
+import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.NetworkProvider
 import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
+import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
+import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import org.videolan.vlc.webserver.utils.MediaZipUtils
 import java.io.File
 import java.net.InetAddress
@@ -93,7 +98,7 @@ import java.util.*
 
 private const val TAG = "HttpSharingServer"
 
-class HttpSharingServer(private val context: Context) : PlaybackService.Callback {
+class HttpSharingServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate() {
     private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
@@ -113,6 +118,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     val serverConnections: LiveData<List<WebServerConnection>>
         get() = _serverConnections
 
+    private val otgDevice = context.getString(org.videolan.vlc.R.string.otg_device_title)
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
         AppScope.launch {
@@ -537,7 +543,13 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             val provider = withContext(Dispatchers.Main) {
                 StorageProvider(appContext, dataset, null)
             }
-            val list = getProviderContent(provider, dataset)
+            val list = try {
+                getProviderContent(provider, dataset, 1000L)
+            } catch (e: Exception) {
+                Log.e(this::class.java.simpleName, e.message, e)
+                call.respond(HttpStatusCode.InternalServerError)
+                return@get
+            }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
@@ -547,7 +559,13 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             val provider = withContext(Dispatchers.Main) {
                 FavoritesProvider(appContext, dataset, AppScope)
             }
-            val list = getProviderContent(provider, dataset)
+            val list = try {
+                getProviderContent(provider, dataset, 2000L)
+            } catch (e: Exception) {
+                Log.e(this::class.java.simpleName, e.message, e)
+                call.respond(HttpStatusCode.InternalServerError)
+                return@get
+            }
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
@@ -555,11 +573,47 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         get("/network-list") {
             val list = ArrayList<PlayQueueItem>()
             networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
-                list.add(PlayQueueItem(mediaLibraryItem.id, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
-                        ?: "", false, ""))
+                list.add(PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                        ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
+        }
+        //list of folders and files in a path
+        get("/browse-list") {
+            val path = call.request.queryParameters["path"] ?: kotlin.run {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+            val decodedPath = Uri.decode(path)
+
+            val dataset = LiveDataset<MediaLibraryItem>()
+            val provider = withContext(Dispatchers.Main) {
+                FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
+            }
+            val list = try {
+                getProviderContent(provider, dataset, 1000L)
+            } catch (e: Exception) {
+                Log.e(this::class.java.simpleName, e.message, e)
+                call.respond(HttpStatusCode.InternalServerError)
+                return@get
+            }
+
+            //segments
+            PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, makePathSafe(appContext.getString(org.videolan.vlc.R.string.internal_memory)))
+            val breadcrumbItems = if (!isSchemeSupported(Uri.parse(decodedPath).scheme))
+                listOf(BreadcrumbItem(appContext.getString(R.string.home), "root"))
+            else
+                prepareSegments(Uri.parse(decodedPath)).map {
+                    BreadcrumbItem(it.first, it.second)
+                }.toMutableList().apply {
+                    add(0, BreadcrumbItem(appContext.getString(R.string.home), "root"))
+                }
+
+
+            val result = BrowsingResult(list, breadcrumbItems)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
         }
         // Resume playback
         get("/resume-playback") {
@@ -572,9 +626,13 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             val type = call.request.queryParameters["type"] ?: "media"
             val append = call.request.queryParameters["append"] == "true"
             val asAudio = call.request.queryParameters["audio"] == "true"
+            val path = call.request.queryParameters["path"]
             call.request.queryParameters["id"]?.let { id ->
+
                 val medias = appContext.getFromMl {
-                    when (type) {
+                    if (path?.isNotBlank() == true) {
+                        arrayOf(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(path)))
+                    } else when (type) {
                         "album" -> getAlbum(id.toLong()).tracks
                         "artist" -> getArtist(id.toLong()).tracks
                         "genre" -> getGenre(id.toLong()).tracks
@@ -700,6 +758,12 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                     return@get
                 }
             }
+            if (call.request.queryParameters["type"] == "file") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_browser_unknown_normal, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
                 //check by id and use the ArtworkProvider if provided
@@ -818,9 +882,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      *
      * @param provider the [BrowserProvider] to use
      * @param dataset the [LiveDataset] to listen to
+     * @param idPrefix a prefix allowing to generate an unique id
      * @return a populated list
      */
-    private suspend fun getProviderContent(provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): ArrayList<PlayQueueItem> {
+    private suspend fun getProviderContent(provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>, idPrefix: Long): ArrayList<PlayQueueItem> {
         dataset.await()
         val descriptions = ArrayList<Pair<Int, String>>()
         observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
@@ -831,15 +896,26 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         val list = ArrayList<PlayQueueItem>()
         dataset.getList().forEachIndexed { index, mediaLibraryItem ->
             val description = try {
-                val unparsedDescription = descriptions.first { it.first == index }.second
+                val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
                 val folders = unparsedDescription.getFolderNumber()
                 val files = unparsedDescription.getFilesNumber()
                 "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
             } catch (e: Exception) {
+                Log.e(this::class.java.simpleName, e.message, e)
                 ""
             }
-            list.add(PlayQueueItem(mediaLibraryItem.id, mediaLibraryItem.title, description, 0, mediaLibraryItem.artworkMrl
-                    ?: "", false, ""))
+            val path = when (mediaLibraryItem) {
+                is MediaWrapper -> mediaLibraryItem.uri.toString()
+                is Storage -> mediaLibraryItem.uri.toString()
+                else -> throw IllegalStateException("Unrecognised media type")
+
+            }
+            val title = if (provider is FileBrowserProvider
+                    && (provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
+                    && mediaLibraryItem is MediaWrapper) mediaLibraryItem.fileName else mediaLibraryItem.title
+            val isFolder = if (mediaLibraryItem is MediaWrapper) mediaLibraryItem.type == MediaWrapper.TYPE_DIR else true
+            list.add(PlayQueueItem(idPrefix + index, title, description, 0, mediaLibraryItem.artworkMrl
+                    ?: "", false, "", path, isFolder))
         }
         return list
     }
@@ -973,15 +1049,61 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         return results
     }
 
+    /**
+     * Splits an [Uri] in a list of string used as the adapter items
+     * Each item is a string representing a valid path
+     *
+     * @param uri the [Uri] that has to be split
+     * @return a list of strings representing the items
+     */
+    private fun prepareSegments(uri: Uri): MutableList<Pair<String, String>> {
+        val path = Uri.decode(uri.path)
+        val isOtg = path.startsWith("/tree/")
+        val string = when {
+            isOtg -> if (path.endsWith(':')) "" else path.substringAfterLast(':')
+            else -> replaceStoragePath(path)
+        }
+        val list: MutableList<Pair<String, String>> = mutableListOf()
+        if (isOtg) list.add(Pair(otgDevice, "root"))
+        if (uri.scheme.isSchemeSMB()) {
+            networkSharesLiveData.getList().forEach {
+                (it as? MediaWrapper)?.let { share ->
+                    if (share.uri.scheme == uri.scheme && share.uri.authority == uri.authority) {
+                        list.add(Pair(share.title, Uri.Builder().scheme(uri.scheme).encodedAuthority(uri.authority).build().toString()))
+                    }
+                }
+            }
+        }
+
+        //list of all the path chunks
+        val pathParts = string.split('/').filter { it.isNotEmpty() }
+        for (index in pathParts.indices) {
+            //start creating the Uri
+            val currentPathUri = Uri.Builder().scheme(uri.scheme).encodedAuthority(uri.authority)
+            //append all the previous paths and the current one
+            for (i in 0..index) appendPathToUri(pathParts[i], currentPathUri)
+            val currentUri = currentPathUri.build()
+            val text: String = when {
+                //substitute a storage path to its name. See [replaceStoragePath]
+                PathOperationDelegate.storages.containsKey(currentUri.path) -> retrieveSafePath(PathOperationDelegate.storages.valueAt(PathOperationDelegate.storages.indexOfKey(currentUri.path)))
+                else -> currentUri.lastPathSegment ?: "root"
+            }
+            list.add(Pair(text, currentPathUri.toString()))
+        }
+        return list
+    }
+
     abstract class WSMessage(val type: String)
     data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shuffle: Boolean, val repeat: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
             ?: false) : WSMessage("now-playing")
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
-    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "")
+    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false)
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
+    data class BreadcrumbItem(val title: String, val path: String)
+    data class BrowsingResult(val content: List<PlayQueueItem>, val breadcrumb: List<BreadcrumbItem>)
 
     fun Album.toPlayQueueItem() = PlayQueueItem(id, title, albumArtist ?: "", duration, artworkMrl
             ?: "", false, "")

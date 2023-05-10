@@ -5,14 +5,14 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="favorite in favorites" :key="favorite.id" class="media-img-list-tr">
-                        <MediaListItem :media="favorite" :mediaType="'folder'"/>
+                        <MediaListItem :media="favorite" :mediaType="'folder'" :hideOverflow="true"/>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-1 col-sm-4 col-xs-6" v-for="favorite in favorites" :key="favorite.id">
-                <MediaCardItem :media="favorite" :mediaType="'folder'"/>
+            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="favorite in favorites" :key="favorite.id">
+                <MediaCardItem :media="favorite" :mediaType="'folder'" :hideOverflow="true"/>
             </div>
         </div>
     </div>
@@ -26,14 +26,14 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="storage in storages" :key="storage.id">
-                        <MediaListItem :media="storage" :mediaType="'folder'"/>
+                        <MediaListItem :media="storage" :mediaType="'folder'" :hideOverflow="true"/>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-1 col-sm-4 col-xs-6" v-for="storage in storages" :key="storage.id">
-                <MediaCardItem :media="storage" :mediaType="'folder'"/>
+            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="storage in storages" :key="storage.id">
+                <MediaCardItem :media="storage" :mediaType="'folder'" :hideOverflow="true"/>
             </div>
         </div>
     </div>
@@ -47,14 +47,14 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="network in networkEntries" :key="network.id">
-                        <MediaListItem :media="network" :mediaType="'network'"/>
+                        <MediaListItem :media="network" :mediaType="'network'" :hideOverflow="true"/>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-1 col-sm-4 col-xs-6" v-for="network in networkEntries" :key="network.id">
-                <MediaCardItem :media="network" :mediaType="'network'"/>
+            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="network in networkEntries" :key="network.id">
+                <MediaCardItem :media="network" :mediaType="'network'" :hideOverflow="true"/>
             </div>
         </div>
     </div>

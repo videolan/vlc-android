@@ -7,7 +7,8 @@ $custom-theme-colors: map-merge($theme-colors, ("primary": $primary-color,
     ));
 
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);
-
+$breadcrumb-divider: quote(">");
+$breadcrumb-divider-color:$primary-color;
 
 @import "~bootstrap/scss/_maps";
 @import "~bootstrap/scss/utilities";

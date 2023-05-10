@@ -1184,6 +1184,7 @@
     <string name="ns_upload_all">Upload all</string>
     <string name="ns_drop_files_tip">Drop files anywhere to send to your device</string>
     <string name="ns_prepare_download">Preparing your download</string>
+    <string name="home">Home</string>
 
 
 </resources>
