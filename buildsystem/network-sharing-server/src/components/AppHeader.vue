@@ -82,6 +82,21 @@
             v-t="'GENRES'"> </RouterLink>
         </li>
       </ul>
+
+      <!-- Breadcrumb -->
+      <div class="d-flex align-items-center" v-if="this.hasBreadcrumb()">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"
+              v-bind:class="(item.path == this.$route.params.browseId) ? '' : 'text-primary clickable'"
+              v-for="item in this.browserStore.breadcrumb" :key="item.path" v-on:click="manageClick(item)">
+              {{ item.title }}
+            </li>
+          </ol>
+        </nav>
+
+      </div>
+
       <div class="flex1 d-flex justify-content-end align-items-center">
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showResume"
           v-on:click.stop="$resumePlayback(this.$route.meta.isAudio)" data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -95,6 +110,7 @@
 
 <script>
 import { useAppStore } from '../stores/AppStore'
+import { useBrowserStore } from '../stores/BrowserStore'
 import { mapStores } from 'pinia'
 import { Tooltip } from 'bootstrap';
 import ImageButton from './ImageButton.vue'
@@ -107,9 +123,20 @@ export default {
     disconnectedClicked() {
       this.$root.startWebSocket();
     },
+    manageClick(browsePoint) {
+      if (browsePoint.path == "" || browsePoint.path == "root") {
+        this.$router.push({ name: 'BrowseList' })
+      } else {
+        this.$router.push({ name: 'BrowseChild', params: { browseId: browsePoint.path } })
+      }
+    },
+    hasBreadcrumb() {
+      return this.browserStore.breadcrumb.length != 0
+    }
   },
   computed: {
     ...mapStores(useAppStore),
+    ...mapStores(useBrowserStore),
   },
   mounted() {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -180,4 +207,5 @@ export default {
   50% {
     opacity: 0;
   }
-}</style>
+}
+</style>

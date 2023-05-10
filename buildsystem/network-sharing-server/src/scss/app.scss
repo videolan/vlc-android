@@ -9,6 +9,11 @@ $custom-theme-colors: map-merge($theme-colors, ("primary": $primary-color,
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 $breadcrumb-divider: quote(">");
 $breadcrumb-divider-color:$primary-color;
+$breadcrumb-margin-bottom: 0;
+$breadcrumb-bg: $background;
+$breadcrumb-padding-x: 1rem;
+$breadcrumb-border-radius:8px;
+$breadcrumb-padding-y: 6px;
 
 @import "~bootstrap/scss/_maps";
 @import "~bootstrap/scss/utilities";
@@ -232,4 +237,12 @@ body {
 
 .dropdown-menu {
   z-index: 1025;
+}
+
+.breadcrumb {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 24px;
+  border: 1px solid $hover-grey;
+  overflow: auto;
 }

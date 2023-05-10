@@ -43,7 +43,7 @@ export default {
     methods: {
         mainImgClasses() {
             if (this.mediaType == 'video') return 'ratio-16x9 video audio-img-container'
-            if (this.isBrowse()) return 'ratio-1x1'
+            if (this.isBrowse() || this.mediaType == "file") return 'ratio-1x1'
             return 'ratio-1x1 audio-img-container'
         },
         isBrowse() {

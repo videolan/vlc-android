@@ -1,29 +1,16 @@
 <template>
-    <div v-if="loaded && this.browseResult.content.length !== 0" class="container">
-        <!-- <h5 class="media-content text-primary">{{ this.$route.params.browseId }}</h5> -->
-        <div class="media-content breadcrumb">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"
-                        v-bind:class="(item.path == this.$route.params.browseId) ? '' : 'text-primary clickable'"
-                        v-for="item in browseResult.breadcrumb" :key="item.path" v-on:click="manageClick(item)">
-                        {{ item.title }}
-                    </li>
-                </ol>
-            </nav>
-
-        </div>
+    <div v-if="loaded && this.browseResult.length !== 0" class="container">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3">
             <table class="table table-hover media-list">
                 <tbody>
-                    <tr v-for="item in browseResult.content" :key="item.id">
+                    <tr v-for="item in browseResult" :key="item.id">
                         <MediaListItem :media="item" :mediaType="(item.isFolder) ? 'folder' : 'file'" />
                     </tr>
                 </tbody>
             </table>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="item in browseResult.content" :key="item.id">
+            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="item in browseResult" :key="item.id">
                 <MediaCardItem :media="item" :mediaType="(item.isFolder) ? 'folder' : 'file'" />
             </div>
         </div>
@@ -36,6 +23,7 @@
 <script>
 
 import { useAppStore } from '../stores/AppStore'
+import { useBrowserStore } from '../stores/BrowserStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
 import { API_URL } from '../config.js'
@@ -45,7 +33,8 @@ import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
-        ...mapStores(useAppStore)
+        ...mapStores(useAppStore),
+        ...mapStores(useBrowserStore)
     },
     components: {
         MediaCardItem,
@@ -60,6 +49,7 @@ export default {
     },
     methods: {
         fetchContent() {
+            this.browserStore.breadcrumb = []
             let component = this
             component.appStore.loading = true
             axios.get(API_URL + "browse-list", {
@@ -68,17 +58,11 @@ export default {
                 }
             }).then((response) => {
                 this.loaded = true;
-                this.browseResult = response.data
+                this.browseResult = response.data.content
                 component.appStore.loading = false
+                component.browserStore.breadcrumb = response.data.breadcrumb
             });
         },
-        manageClick(browsePoint) {
-            if (browsePoint.path == "" || browsePoint.path == "root") {
-                this.$router.push({ name: 'BrowseList' })
-            } else {
-                this.$router.push({ name: 'BrowseChild', params: { browseId: browsePoint.path } })
-            }
-        }
     },
     watch: {
         $route(to) {
@@ -86,11 +70,16 @@ export default {
                 this.browseResult = {}
                 this.loaded = false
                 this.fetchContent()
+            } else {
+                this.browserStore.breadcrumb = []
             }
         }
     },
     created: function () {
         this.fetchContent()
+    },
+    unmounted: function () {
+        this.browserStore.breadcrumb = []
     }
 }
 </script>
