@@ -7,11 +7,10 @@
             </div>
         </div>
     </td>
-    <td v-on:click="manageClick" class="clickable">
+    <td v-on:click="manageClick" class="clickable align-middle">
         <div class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
-            <p class="card-text text-truncate">{{ (mediaType == 'video') ? $readableDuration(media.length) + " · " +
-                media.resolution : media.artist }}</p>
+            <p class="card-text text-truncate" v-if="getDescription().length>0">{{ getDescription() }}</p>
 
         </div>
     </td>
@@ -54,6 +53,13 @@ export default {
                 this.$router.push({ name: 'BrowseChild', params: { browseId: this.media.path } })
             } else {
                 this.$play(this.media, this.mediaType)
+            }
+        },
+        getDescription() {
+            if (this.mediaType == 'video') {
+                return `${this.$readableDuration(this.media.length)} · ${this.media.resolution}`
+            } else {
+                return this.media.artist
             }
         }
     },
