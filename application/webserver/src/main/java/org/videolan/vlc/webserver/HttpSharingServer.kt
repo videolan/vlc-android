@@ -29,6 +29,7 @@ import android.content.res.Resources
 import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
+import android.text.format.Formatter
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
@@ -896,10 +897,19 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         val list = ArrayList<PlayQueueItem>()
         dataset.getList().forEachIndexed { index, mediaLibraryItem ->
             val description = try {
-                val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
-                val folders = unparsedDescription.getFolderNumber()
-                val files = unparsedDescription.getFilesNumber()
-                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                if (mediaLibraryItem is MediaWrapper && mediaLibraryItem.type != MediaWrapper.TYPE_DIR) {
+                    if (mediaLibraryItem.uri.scheme.isSchemeFile()) {
+                        mediaLibraryItem.uri.path?.let {
+                            Formatter.formatFileSize(context, File(it).length())
+                        } ?: ""
+                    }else
+                    ""
+                } else {
+                    val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
+                    val folders = unparsedDescription.getFolderNumber()
+                    val files = unparsedDescription.getFilesNumber()
+                    "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                }
             } catch (e: Exception) {
                 Log.e(this::class.java.simpleName, e.message, e)
                 ""
