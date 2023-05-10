@@ -65,5 +65,6 @@ object TranslationMapping {
         DISPLAY_GRID(R.string.display_in_grid),
         SEARCH_HINT(R.string.search_hint),
         SEARCH_NO_RESULT(R.string.search_no_result),
+        DIRECTORY_EMPTY(R.string.empty_directory),
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row  media-content">
     <table class="table">
       <thead>
         <tr class="">

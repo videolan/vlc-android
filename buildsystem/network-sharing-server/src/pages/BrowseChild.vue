@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded && this.browseResult.length !== 0" class="container">
+    <div v-if="loaded && this.browseResult.length !== 0" class="container media-content">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3">
             <table class="table table-hover media-list">
                 <tbody>
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div v-else-if="loaded">
-        <EmptyView :message="$t('NO_MEDIA')" />
+        <EmptyView :message="$t('DIRECTORY_EMPTY')" />
     </div>
 </template>
 

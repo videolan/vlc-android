@@ -21,8 +21,13 @@ const routes = [
       { path: 'genres', component: AudioGenres, name: 'AudioGenres', meta: { showDisplayBar: true, isAudio: true, showResume: true } },
     ]
   },
-  { path: '/browse', component: BrowseList, name: 'BrowseList', meta: { showDisplayBar: true } },
-  { path: '/browse/:browseId', component: BrowseChild, name: 'BrowseChild', props: true, meta: { showDisplayBar: true } },
+  {
+    path: '/browse',  meta: { showDisplayBar: true },
+    children: [
+      { path: '', component: BrowseList, name: 'BrowseList', meta: { showDisplayBar: true } },
+      { path: ':browseId', component: BrowseChild, name: 'BrowseChild', meta: { showDisplayBar: true } },
+    ]
+  },
   { path: '/playlists', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true } },
   { path: '/search', component: SearchList, name: 'SearchList', meta: { showDisplayBar: false } },
 
