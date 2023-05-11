@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.KeyguardManager
 import android.app.PictureInPictureParams
 import android.bluetooth.BluetoothA2dp
@@ -31,6 +32,7 @@ import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
@@ -62,6 +64,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
@@ -121,6 +124,7 @@ import java.lang.Runnable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
@@ -766,6 +770,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updateTitleConstraints()
         overlayDelegate.rotateBookmarks()
         screenshotDelegate.hide()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        if (hasFocus)
+            WindowCompat.getInsetsController(window, window.decorView).systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        super.onWindowFocusChanged(hasFocus)
     }
 
     override fun onStart() {
