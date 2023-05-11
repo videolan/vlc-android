@@ -52,6 +52,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.checkWatchNextId
 import videolan.org.commontools.TV_CHANNEL_PATH_APP
 import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
@@ -249,7 +250,7 @@ class StartActivity : FragmentActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT.inv() and intent.flags
         if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
             intent.type?.startsWith("video") == true -> try {
-                startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT)
+                startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT, Util.getFullScreenBundle())
             } catch (ex: SecurityException) {
                 intent.data?.let { MediaUtils.openMediaNoUi(it) }
             }

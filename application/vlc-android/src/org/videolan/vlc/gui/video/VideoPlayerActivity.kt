@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.video
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
-import android.app.ActivityOptions
 import android.app.KeyguardManager
 import android.app.PictureInPictureParams
 import android.bluetooth.BluetoothA2dp
@@ -32,7 +31,6 @@ import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
@@ -2379,7 +2377,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         private fun start(context: Context, uri: Uri, title: String?, fromStart: Boolean, openedPosition: Int) {
             val intent = getIntent(context, uri, title, fromStart, openedPosition)
-            context.startActivity(intent)
+            context.startActivity(intent, Util.getFullScreenBundle())
         }
 
         fun getIntent(action: String, mw: MediaWrapper, fromStart: Boolean, openedPosition: Int): Intent {
