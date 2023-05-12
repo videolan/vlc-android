@@ -61,7 +61,8 @@ fun String?.isSchemeFD() = this == "fd"
 
 fun String?.isSchemeDistant() = !this.isSchemeFile()
 
-fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+fun convertFavorites(browserFavorites: List<BrowserFav>?) = browserFavorites?.filter {
     it.uri.scheme != "file" || File(it.uri.path).exists()
 }?.map { (uri, _, title, iconUrl) ->
     MLServiceLocator.getAbstractMediaWrapper(uri).apply {
