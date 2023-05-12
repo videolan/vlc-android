@@ -225,6 +225,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                     container.setOnClickListener {
                         currentSort = sort
                         currentSortDesc = desc
+
                         updateSorts()
                         lifecycleScope.launch { displaySettingsViewModel.send(CURRENT_SORT, Pair(sort, desc)) }
                     }

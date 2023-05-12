@@ -139,6 +139,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.providers[currentTab].sort = sort.first
                 viewModel.providers[currentTab].desc = sort.second
+                viewModel.providers[currentTab].saveSort()
                 viewModel.refresh()
             }
         }

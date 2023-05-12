@@ -245,6 +245,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.provider.sort = sort.first
                 viewModel.provider.desc = sort.second
+                viewModel.provider.saveSort()
                 viewModel.refresh()
             }
             VIDEO_GROUPING -> {
