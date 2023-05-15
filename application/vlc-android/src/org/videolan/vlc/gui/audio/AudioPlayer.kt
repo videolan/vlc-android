@@ -447,7 +447,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         if (!previewingSeek) {
             val displayTime = progress.timeText
-            binding.headerTime.text = displayTime
+            binding.headerTime.text = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else displayTime
             binding.time.text = displayTime
             if (!isDragging) binding.timeline.progress = progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
