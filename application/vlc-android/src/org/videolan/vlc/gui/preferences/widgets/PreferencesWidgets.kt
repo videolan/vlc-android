@@ -45,11 +45,14 @@ import org.videolan.tools.WIDGETS_BACKGROUND_LAST_COLORS
 import org.videolan.tools.WIDGETS_FOREGROUND_LAST_COLORS
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.BasePreferenceFragment
 import org.videolan.vlc.gui.view.NumberPickerPreference
 import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.widget.WidgetViewModel
+import org.videolan.vlc.widget.utils.WidgetSizeUtil
 import org.videolan.vlc.widget.utils.WidgetType
+import org.videolan.vlc.widget.utils.WidgetUtils
 import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.hasEnoughSpaceForSeek
 
@@ -165,7 +168,14 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             "widget_type" -> {
                 val newValue = sharedPreferences.getString(key, "0")?.toInt() ?: 0
                 model.widget.value?.type = newValue
+                model.widget.value?.let {
+                    val size = WidgetSizeUtil.getWidgetsSize(requireActivity(), it.widgetId)
+                    val minimalSize = WidgetUtils.getMinimalWidgetSize(WidgetUtils.getWidgetType(it))
+                    if (size.first < minimalSize.first || size.second < minimalSize.second) {
+                        UiTools.snackerConfirm(requireActivity(), getString(R.string.widget_type_error)) { }
+                    }
 
+                }
             }
             "widget_light_theme" -> {
                 val newValue = sharedPreferences.getBoolean(key, true)

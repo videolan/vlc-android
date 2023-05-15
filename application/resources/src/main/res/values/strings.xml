@@ -1047,6 +1047,7 @@
     <string name="widget_type_normal">Normal</string>
     <string name="widget_type_circle">Circle</string>
     <string name="widget_type_large">Large</string>
+    <string name="widget_type_error">This widget type is too large for the widget size. It can lead to visual issues</string>
     <string name="opacity">Opacity</string>
     <string name="widget_background">Background</string>
     <string name="widget_foreground">Foreground</string>

@@ -296,6 +296,19 @@ object WidgetUtils {
     }
 
     /**
+     * Minimal size for this widget type
+     *
+     * @param type the widget type to check
+     * @return the minimal size
+     */
+    fun getMinimalWidgetSize(type: WidgetType):Pair<Int, Int> = when(type){
+        WidgetType.MACRO -> Pair(220,200)
+        WidgetType.MINI -> Pair(220,72)
+        WidgetType.MICRO -> Pair(128,148)
+        else -> Pair(0,0)
+    }
+
+    /**
      * Check if the widget has enough space to display the seek icons
      *
      * @param widget the widget to check the size on
