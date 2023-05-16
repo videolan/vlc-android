@@ -442,11 +442,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (!player.displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
+                player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
             } else {
+                player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
                 if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
                     player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
             }
-            player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
         }
     }
 
