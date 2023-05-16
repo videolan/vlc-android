@@ -30,6 +30,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.conflatedActor
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
@@ -195,7 +196,13 @@ class CallBackDelegate : ICallBackHandler,
 
     override fun onMediaAdded() { refreshActor.trySend(Unit) }
 
-    override fun onMediaModified() { refreshActor.trySend(Unit) }
+    override fun onMediaModified() {
+        if (PlaylistManager.skipMediaUpdateRefresh) {
+            PlaylistManager.skipMediaUpdateRefresh = false
+            return
+        }
+        refreshActor.trySend(Unit)
+    }
 
     override fun onMediaDeleted(ids: LongArray) {
         refreshActor.trySend(Unit)

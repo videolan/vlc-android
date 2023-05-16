@@ -46,6 +46,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
+        // The playback will periodically modify the media by saving its meta
+        // When playing audio, it will have no impact on UI but will trigger the media modified ML callback
+        // On slow devices, it will trigger an unwanted "refresh animation". This flag prevents it
+        var skipMediaUpdateRefresh = false
         private val mediaList = MediaWrapperList()
         fun hasMedia() = mediaList.size() != 0
     }
@@ -575,6 +579,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         }
                     }
                 }
+            if (media.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !media.isPodcast) skipMediaUpdateRefresh = true
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
 
         }
