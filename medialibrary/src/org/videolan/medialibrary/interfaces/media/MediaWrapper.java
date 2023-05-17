@@ -782,7 +782,6 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         dest.writeLong(getLastModified());
         dest.writeLong(getSeen());
         dest.writeInt(isPresent() ? 1 : 0);
-        dest.writeLong(mInsertionDate);
 
         if (mSlaves != null) {
             PSlave[] pslaves = new PSlave[mSlaves.length];
@@ -793,6 +792,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         } else
             dest.writeTypedArray(null, flags);
         dest.writeInt(mFavorite ? 1 : 0);
+        dest.writeLong(mInsertionDate);
     }
 
     public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {
