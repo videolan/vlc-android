@@ -44,10 +44,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.Album
-import org.videolan.medialibrary.interfaces.media.Artist
-import org.videolan.medialibrary.interfaces.media.Genre
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.*
@@ -392,6 +389,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 if ((item as? Genre)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
             }
             MediaLibraryItem.TYPE_PLAYLIST -> {
+                CTX_PLAY_AS_AUDIO or
                 (if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS) or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
             }
             else -> CTX_AUDIO_FLAGS
@@ -418,6 +416,14 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         when (option) {
             CTX_PLAY -> MediaUtils.playTracks(requireActivity(), media, 0)
             CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(requireActivity(), media, SecureRandom().nextInt(min(media.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
+            CTX_PLAY_AS_AUDIO -> lifecycleScope.launch(Dispatchers.IO) {
+                (media as? Playlist)?.tracks?.let { trackArray ->
+                    MediaUtils.openList(requireActivity(), trackArray.map {
+                        it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                        it
+                    }.toList(), 0)
+                }
+            }
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
