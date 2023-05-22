@@ -259,7 +259,7 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=94fab2637b0c78eaf11490247afcf8df0ea10cfa
+    LIBVLCJNI_TESTED_HASH=1abedd5bd5befac3020d7afec67bfc05289429d4
 else
     LIBVLCJNI_TESTED_HASH=6691a43c73df3abe3e30bda139c6a7b4d1adda87
 fi
