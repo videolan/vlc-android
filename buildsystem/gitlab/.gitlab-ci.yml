@@ -18,24 +18,27 @@ default:
   tags:
     - amd64
     - docker
+variables:
+  WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
 
 stages:
+  - webserver-install-dependencies
   - webserver-build
   - build
   - package
 
+webserver-install-dependencies:
+    image: registry.videolan.org/videolan-alpine-node:20230523124511
+    stage: webserver-install-dependencies
+    script:
+      - cd "$WEBSERVER_DIR"
+      - npm install
+
 webserver-build:
     image: registry.videolan.org/videolan-alpine-node:20230523124511
     stage: webserver-build
-    variables:
-      WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
-    only:
-      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-        changes:
-            - "$WEBSERVER_DIR"
     script:
         - cd "$WEBSERVER_DIR"
-        - npm install
         - npm run build
 
 .build-all-base:
