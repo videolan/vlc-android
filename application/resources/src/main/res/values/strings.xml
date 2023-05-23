@@ -478,6 +478,9 @@
     <string name="enable_web_server_auth">Use authentication</string>
     <string name="enable_web_server_auth_summary">Forbid web server\'s access without authentication (recommended)</string>
     <string name="web_server_user">User</string>
+    <string name="web_server_content">Content</string>
+    <string name="web_server_medialibrary_content">Media library content</string>
+    <string name="web_server_medialibrary_content_summary">Enabled: %s\nDisabled: %s</string>
     <string name="web_server_password">Password</string>
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
@@ -1184,6 +1187,7 @@
     <string name="ns_upload_all">Upload all</string>
     <string name="ns_drop_files_tip">Drop files anywhere to send to your device</string>
     <string name="ns_prepare_download">Preparing your download</string>
+    <string name="ns_forbidden">Content disabled in the settings</string>
     <string name="home">Home</string>
 
 

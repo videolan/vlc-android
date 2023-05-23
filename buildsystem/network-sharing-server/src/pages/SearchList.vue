@@ -6,7 +6,7 @@
             <ImageButton type="search" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('SEARCH')"
                 v-on:click="loadResults()" />
         </div>
-        <div v-if="!emptyResults()">
+        <div v-if="!this.forbidden && !emptyResults()">
             <!-- results -->
             <div v-if="this.results.videos.length !== 0" class="container">
                 <h5 class="media-content text-primary" v-t="'VIDEO'"></h5>
@@ -82,8 +82,8 @@
             </div>
 
         </div>
-        <div v-else>
-            <EmptyView :message="$t('SEARCH_NO_RESULT')" />
+        <div v-else-if="loaded">
+            <EmptyView :message="getEmptyText()" />
         </div>
     </div>
 </template>
@@ -119,6 +119,7 @@ export default {
                 tracks: [],
             }),
             loaded: false,
+            forbidden: false,
         }
     },
     methods: {
@@ -141,12 +142,25 @@ export default {
                     params: {
                         search: this.$refs.searchText.value
                     }
-                }).then((response) => {
+                })
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
                     this.loaded = true;
-                    this.results = response.data
+                    if (response) {
+                        component.forbidden = false;
+                        this.results = response.data
+                    }
                     component.appStore.loading = false
                 });
         },
+        getEmptyText() {
+            if (this.forbidden) return this.$t('FORBIDDEN')
+            return this.$t('SEARCH_NO_RESULT')
+        }
     },
 }
 </script>

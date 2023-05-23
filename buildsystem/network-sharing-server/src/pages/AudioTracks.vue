@@ -4,19 +4,19 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="track in tracks" :key="track.id" class="media-img-list-tr">
-                        <MediaListItem :media="track" :downloadable="true" :mediaType="'track'"/>
+                        <MediaListItem :media="track" :downloadable="true" :mediaType="'track'" />
                     </tr>
                 </tbody>
             </table>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="track in tracks" :key="track.id">
-                <MediaCardItem :media="track" :downloadable="true" :mediaType="'track'"/>
+                <MediaCardItem :media="track" :downloadable="true" :mediaType="'track'" />
             </div>
         </div>
     </div>
     <div v-else-if="loaded">
-        <EmptyView :message="$t('NO_MEDIA')" />
+        <EmptyView :message="getEmptyText()" />
     </div>
 </template>
 
@@ -43,18 +43,32 @@ export default {
         return {
             tracks: [],
             loaded: false,
+            forbidden: false,
         }
     },
     methods: {
         fetchTracks() {
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "track-list").then((response) => {
-                this.loaded = true;
-                this.tracks = response.data
-                component.appStore.loading = false
-            });
+            axios.get(API_URL + "track-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.loaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.tracks = response.data
+                    }
+                    component.appStore.loading = false
+                });
         },
+        getEmptyText() {
+            if (this.forbidden) return this.$t('FORBIDDEN')
+            return this.$t('NO_MEDIA')
+        }
     },
     created: function () {
         this.fetchTracks();

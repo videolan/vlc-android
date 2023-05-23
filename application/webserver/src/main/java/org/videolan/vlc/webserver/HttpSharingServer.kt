@@ -25,6 +25,7 @@
 package org.videolan.vlc.webserver
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.media.AudioManager
 import android.net.Uri
@@ -89,7 +90,7 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
-import org.videolan.vlc.webserver.utils.MediaZipUtils
+import org.videolan.vlc.webserver.utils.*
 import java.io.File
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -100,6 +101,7 @@ import java.util.*
 private const val TAG = "HttpSharingServer"
 
 class HttpSharingServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate() {
+    private var settings: SharedPreferences
     private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private var service: PlaybackService? = null
@@ -143,6 +145,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                 .onCompletion { service?.removeCallback(this@HttpSharingServer) }
                 .launchIn(AppScope)
         _serverStatus.postValue(ServerStatus.STOPPED)
+        settings = Settings.getInstance(context)
     }
 
 
@@ -446,6 +449,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the videos
         get("/video-list") {
+            if (!settings.serveVideos(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
 
             val list = ArrayList<PlayQueueItem>()
@@ -457,6 +464,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the albums
         get("/album-list") {
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val albums = appContext.getFromMl { getAlbums(false, false) }
 
             val list = ArrayList<PlayQueueItem>()
@@ -468,7 +479,11 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the artists
         get("/artist-list") {
-            val artists = appContext.getFromMl { getArtists(Settings.getInstance(appContext).getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val artists = appContext.getFromMl { getArtists(settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
 
             val list = ArrayList<PlayQueueItem>()
             artists.forEach { artist ->
@@ -479,6 +494,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the audio tracks
         get("/track-list") {
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val tracks = appContext.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
 
             val list = ArrayList<PlayQueueItem>()
@@ -490,6 +509,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the audio genres
         get("/genre-list") {
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val genres = appContext.getFromMl { getGenres(false, false) }
 
             val list = ArrayList<PlayQueueItem>()
@@ -501,6 +524,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the playlists
         get("/playlist-list") {
+            if (!settings.servePlaylists(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val playlists = appContext.getFromMl { getPlaylists(Playlist.Type.All, false) }
 
             val list = ArrayList<PlayQueueItem>()
@@ -512,6 +539,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // Search media
         get("/search") {
+            if (!settings.serveSearch(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             call.request.queryParameters["search"]?.let { query ->
                 val searchAggregate = appContext.getFromMl { search(query, Settings.includeMissing, false) }
 

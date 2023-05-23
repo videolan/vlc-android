@@ -4,7 +4,7 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="artist in artists" :key="artist.id" class="media-img-list-tr">
-                        <MediaListItem :media="artist" :mediaType="'artist'"/>
+                        <MediaListItem :media="artist" :mediaType="'artist'" />
                     </tr>
                 </tbody>
             </table>
@@ -13,12 +13,12 @@
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="artist in artists" :key="artist.id">
-                <MediaCardItem :media="artist" :mediaType="'artist'"/>
+                <MediaCardItem :media="artist" :mediaType="'artist'" />
             </div>
         </div>
     </div>
     <div v-else-if="loaded">
-        <EmptyView :message="$t('NO_MEDIA')" />
+        <EmptyView :message="getEmptyText()" />
     </div>
 </template>
 
@@ -45,18 +45,32 @@ export default {
         return {
             artists: [],
             loaded: false,
+            forbidden: false,
         }
     },
     methods: {
         fetchArtists() {
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "artist-list").then((response) => {
-                this.loaded = true;
-                this.artists = response.data
-                component.appStore.loading = false
-            });
+            axios.get(API_URL + "artist-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.loaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.artists = response.data
+                    }
+                    component.appStore.loading = false
+                });
         },
+        getEmptyText() {
+            if (this.forbidden) return this.$t('FORBIDDEN')
+            return this.$t('NO_MEDIA')
+        }
     },
     created: function () {
         this.fetchArtists();

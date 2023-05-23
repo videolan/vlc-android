@@ -18,7 +18,7 @@
         </div>
     </div>
     <div v-else-if="loaded">
-        <EmptyView :message="$t('NO_MEDIA')" />
+        <EmptyView :message="getEmptyText()" />
     </div>
 </template>
 
@@ -45,18 +45,32 @@ export default {
         return {
             albums: [],
             loaded: false,
+            forbidden: false,
         }
     },
     methods: {
         fetchAlbums() {
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "album-list").then((response) => {
-                this.loaded = true;
-                this.albums = response.data
-                component.appStore.loading = false
-            });
+            axios.get(API_URL + "album-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.loaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.albums = response.data
+                    }
+                    component.appStore.loading = false
+                });
         },
+        getEmptyText() {
+            if (this.forbidden) return this.$t('FORBIDDEN')
+            return this.$t('NO_MEDIA')
+        }
     },
     created: function () {
         this.fetchAlbums();

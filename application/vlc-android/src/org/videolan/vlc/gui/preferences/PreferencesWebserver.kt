@@ -28,20 +28,23 @@ import android.os.Bundle
 import android.text.InputType
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreference.OnBindEditTextListener
+import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceManager
 import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
-import org.videolan.tools.KEY_ENABLE_WEB_SERVER
-import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
-import org.videolan.tools.password
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
+import org.videolan.vlc.util.TextUtils
 
 
 class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private lateinit var settings: SharedPreferences
+    private lateinit var medialibraryContentPreference: MultiSelectListPreference
 
     override fun getTitleId() = R.string.web_server
 
@@ -54,7 +57,10 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         super.onCreatePreferences(bundle, s)
+        settings = Settings.getInstance(requireActivity())
         val preference: EditTextPreference? = findPreference(KEY_WEB_SERVER_PASSWORD)
+        medialibraryContentPreference = findPreference(KEY_WEB_SERVER_ML_CONTENT)!!
+        manageMLContentSummary()
 
         if (preference != null) {
             preference.summaryProvider = SummaryProvider<EditTextPreference> {
@@ -76,6 +82,23 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
         }
     }
 
+    private fun manageMLContentSummary() {
+       val value = settings.getStringSet(KEY_WEB_SERVER_ML_CONTENT, resources.getStringArray(R.array.web_server_content_values).toSet())!!
+        val values = resources.getStringArray(R.array.web_server_content_values)
+        val entries = resources.getStringArray(R.array.web_server_content_entries)
+        val currentValues = mutableListOf<String>()
+        val currentDisabledValues = mutableListOf<String>()
+        value.forEach {
+            currentValues.add(entries[values.indexOf(it)])
+        }
+        values.forEach {
+            if (!value.contains(it)) currentDisabledValues.add(entries[values.indexOf(it)])
+        }
+        val currentString = if (currentValues.isEmpty()) "-" else TextUtils.separatedString(currentValues.toTypedArray())
+        val currentDisabledString = if (currentDisabledValues.isEmpty()) "-" else TextUtils.separatedString(currentDisabledValues.toTypedArray())
+        medialibraryContentPreference.summary = getString(R.string.web_server_medialibrary_content_summary, currentString, currentDisabledString)
+    }
+
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if (preference?.key == "web_server_status") {
             requireActivity().startActivity(Intent(requireActivity(), StartActivity::class.java).apply { action = "vlc.webserver.share" })
@@ -92,6 +115,9 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
                 } else {
                     requireActivity().stopWebserver()
                 }
+            }
+            KEY_WEB_SERVER_ML_CONTENT -> {
+                manageMLContentSummary()
             }
             else -> {
                 requireActivity().sendBroadcast(Intent(ACTION_RESTART_SERVER))

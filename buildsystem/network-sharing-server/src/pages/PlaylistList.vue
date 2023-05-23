@@ -4,19 +4,19 @@
             <table class="table table-hover media-list">
                 <tbody>
                     <tr v-for="playlist in playlists" :key="playlist.id" class="media-img-list-tr">
-                        <MediaListItem :media="playlist" :mediaType="'playlist'"/>
+                        <MediaListItem :media="playlist" :mediaType="'playlist'" />
                     </tr>
                 </tbody>
             </table>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="playlist in playlists" :key="playlist.id">
-                <MediaCardItem :media="playlist" :mediaType="'playlist'"/>
+                <MediaCardItem :media="playlist" :mediaType="'playlist'" />
             </div>
         </div>
     </div>
     <div v-else-if="loaded">
-        <EmptyView :message="$t('NO_MEDIA')" />
+        <EmptyView :message="getEmptyText()" />
     </div>
 </template>
 
@@ -43,18 +43,32 @@ export default {
         return {
             playlists: [],
             loaded: false,
+            forbidden: false,
         }
     },
     methods: {
         fetchPlaylists() {
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "playlist-list").then((response) => {
-                this.loaded = true;
-                this.playlists = response.data
-                component.appStore.loading = false
-            });
+            axios.get(API_URL + "playlist-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.loaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.playlists = response.data
+                    }
+                    component.appStore.loading = false
+                });
         },
+        getEmptyText() {
+            if (this.forbidden) return this.$t('FORBIDDEN')
+            return this.$t('NO_MEDIA')
+        }
     },
     created: function () {
         this.fetchPlaylists();
@@ -64,5 +78,4 @@ export default {
 
 <style lang='scss'>
 @import '../scss/colors.scss';
-
 </style>

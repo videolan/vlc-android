@@ -36,4 +36,15 @@
             android:inputType="textPassword"
             android:key="web_server_password"
             android:title="@string/web_server_password" />
+    <PreferenceCategory android:title="@string/web_server_content">
+        <MultiSelectListPreference
+                android:dependency="enable_web_server"
+                app:defaultValue="@array/web_server_content_values"
+                app:dialogTitle="@string/web_server_medialibrary_content"
+                app:entries="@array/web_server_content_entries"
+                app:entryValues="@array/web_server_content_values"
+                app:key="web_server_medialibrary_content"
+                app:title="@string/web_server_medialibrary_content" />
+
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
