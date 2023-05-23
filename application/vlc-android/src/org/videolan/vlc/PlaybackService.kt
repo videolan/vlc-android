@@ -272,7 +272,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     val isPodcastMode: Boolean
         @MainThread
-        get() = playlistManager.getMediaListSize() == 1 && playlistManager.getCurrentMedia()?.isPodcast == true
+        get() = playlistManager.getMediaListSize() == 1 && isPodcastPlaying
+
+    val isPodcastPlaying: Boolean
+        @MainThread
+        get() = playlistManager.getCurrentMedia()?.isPodcast == true
 
     val speed: Float
         @MainThread
@@ -1091,7 +1095,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         pscb.setState(state, time, playlistManager.player.getRate())
         pscb.setActiveQueueItemId(playlistManager.currentIndex.toLong())
         val repeatType = playlistManager.repeating
-        val podcastMode = playlistManager.getMediaListSize() == 1 && playlistManager.getCurrentMedia()?.isPodcast == true
+        val podcastMode = isPodcastMode
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasNext())
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || (isSeekable && !podcastMode))
