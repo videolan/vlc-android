@@ -481,6 +481,8 @@
     <string name="web_server_content">Content</string>
     <string name="web_server_medialibrary_content">Media library content</string>
     <string name="web_server_medialibrary_content_summary">Enabled: %s\nDisabled: %s</string>
+    <string name="web_server_file_browser_content">File browser</string>
+    <string name="web_server_network_browser_content">Network browser</string>
     <string name="web_server_password">Password</string>
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>

@@ -5,7 +5,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
         <div v-else-if="this.favorites.length == 0">
-            <EmptyView :message="$t('DIRECTORY_EMPTY')" />
+            <EmptyView :message="getFileEmptyText()" />
         </div>
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 ">
@@ -32,7 +32,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
         <div v-else-if="this.storages.length == 0">
-            <EmptyView :message="$t('DIRECTORY_EMPTY')" />
+            <EmptyView :message="getFileEmptyText()" />
         </div>
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
@@ -60,7 +60,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
         <div v-else-if="this.networkEntries.length == 0">
-            <EmptyView :message="$t('DIRECTORY_EMPTY')" />
+            <EmptyView :message="getNetworkEmptyText()" />
         </div>
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
@@ -110,27 +110,67 @@ export default {
             favoritesLoaded: false,
             storagesLoaded: false,
             networkLoaded: false,
+            forbidden: false,
+            networkForbidden: false,
         }
     },
     methods: {
         fetchFavorites() {
-            axios.get(API_URL + "favorite-list").then((response) => {
-                this.favoritesLoaded = true;
-                this.favorites = response.data
-            });
+            let component = this
+            axios.get(API_URL + "favorite-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.favoritesLoaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.favorites = response.data
+                    }
+                });
         },
         fetchStorages() {
-            axios.get(API_URL + "storage-list").then((response) => {
-                this.storagesLoaded = true;
-                this.storages = response.data
-            });
+            let component = this
+            axios.get(API_URL + "storage-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.storagesLoaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.storages = response.data
+                    }
+                });
         },
         fetchNetwork() {
-            axios.get(API_URL + "network-list").then((response) => {
-                this.networkLoaded = true;
-                this.networkEntries = response.data
-            });
+            let component = this
+            axios.get(API_URL + "network-list")
+                .catch(function (error) {
+                    if (error.response.status == 403) {
+                        component.networkForbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.networkLoaded = true;
+                    if (response) {
+                        component.networkForbidden = false;
+                        this.networkEntries = response.data
+                    }
+                });
         },
+        getFileEmptyText() {
+            if (this.forbidden) return this.$t('FORBIDDEN')
+            return this.$t('DIRECTORY_EMPTY')
+        },
+        getNetworkEmptyText() {
+            if (this.networkForbidden) return this.$t('FORBIDDEN')
+            return this.$t('DIRECTORY_EMPTY')
+        }
     },
     created: function () {
         this.fetchFavorites();

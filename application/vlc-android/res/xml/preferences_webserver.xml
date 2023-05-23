@@ -45,6 +45,16 @@
                 app:entryValues="@array/web_server_content_values"
                 app:key="web_server_medialibrary_content"
                 app:title="@string/web_server_medialibrary_content" />
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="enable_web_server"
+                android:key="web_server_file_browser_content"
+                android:title="@string/web_server_file_browser_content" />
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="enable_web_server"
+                android:key="web_server_network_browser_content"
+                android:title="@string/web_server_network_browser_content" />
 
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

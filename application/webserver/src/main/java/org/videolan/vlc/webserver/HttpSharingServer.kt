@@ -571,6 +571,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the file storages
         get("/storage-list") {
+            if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
                 StorageProvider(appContext, dataset, null)
@@ -587,6 +591,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the file favorites
         get("/favorite-list") {
+            if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
                 FavoritesProvider(appContext, dataset, AppScope)
@@ -603,6 +611,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the network shares
         get("/network-list") {
+            if (!settings.getBoolean(WEB_SERVER_NETWORK_BROWSER_CONTENT, false)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val list = ArrayList<PlayQueueItem>()
             networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
                 list.add(PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
@@ -613,6 +625,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         //list of folders and files in a path
         get("/browse-list") {
+            if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val path = call.request.queryParameters["path"] ?: kotlin.run {
                 call.respond(HttpStatusCode.NotFound)
                 return@get
