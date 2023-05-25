@@ -67,5 +67,6 @@ object TranslationMapping {
         SEARCH_NO_RESULT(R.string.search_no_result),
         DIRECTORY_EMPTY(R.string.empty_directory),
         FORBIDDEN(R.string.ns_forbidden),
+        PLAYBACK_CONTROL_FORBIDDEN(R.string.ns_playback_forbidden),
     }
 }

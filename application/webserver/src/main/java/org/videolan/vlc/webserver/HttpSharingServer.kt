@@ -36,21 +36,50 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.engine.*
-import io.ktor.server.http.content.*
-import io.ktor.server.netty.*
-import io.ktor.server.plugins.*
-import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.partialcontent.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.server.websocket.*
-import io.ktor.websocket.*
+import io.ktor.http.ContentDisposition
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.PartData
+import io.ktor.http.content.forEachPart
+import io.ktor.http.content.streamProvider
+import io.ktor.server.application.ApplicationStarted
+import io.ktor.server.application.ApplicationStopped
+import io.ktor.server.application.call
+import io.ktor.server.application.createApplicationPlugin
+import io.ktor.server.application.install
+import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.basic
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.http.content.files
+import io.ktor.server.http.content.static
+import io.ktor.server.netty.Netty
+import io.ktor.server.netty.NettyApplicationEngine
+import io.ktor.server.plugins.cors.routing.CORS
+import io.ktor.server.plugins.origin
+import io.ktor.server.plugins.partialcontent.PartialContent
+import io.ktor.server.request.receiveMultipart
+import io.ktor.server.response.header
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondBytes
+import io.ktor.server.response.respondFile
+import io.ktor.server.response.respondRedirect
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
+import io.ktor.server.websocket.DefaultWebSocketServerSession
+import io.ktor.server.websocket.WebSockets
+import io.ktor.server.websocket.pingPeriod
+import io.ktor.server.websocket.timeout
+import io.ktor.server.websocket.webSocket
+import io.ktor.websocket.Frame
+import io.ktor.websocket.close
+import io.ktor.websocket.readText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
@@ -63,7 +92,11 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
@@ -72,8 +105,20 @@ import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_WEB_SERVER_AUTH
+import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
+import org.videolan.tools.KEY_WEB_SERVER_USER
+import org.videolan.tools.NetworkMonitor
+import org.videolan.tools.Settings
+import org.videolan.tools.SingletonHolder
+import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
+import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
+import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
+import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.tools.resIdByName
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -85,18 +130,31 @@ import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.NetworkProvider
 import org.videolan.vlc.providers.StorageProvider
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.getFilesNumber
+import org.videolan.vlc.util.getFolderNumber
+import org.videolan.vlc.util.isSchemeFile
+import org.videolan.vlc.util.isSchemeSMB
+import org.videolan.vlc.util.isSchemeSupported
+import org.videolan.vlc.util.slugify
+import org.videolan.vlc.util.toByteArray
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
-import org.videolan.vlc.webserver.utils.*
+import org.videolan.vlc.webserver.utils.MediaZipUtils
+import org.videolan.vlc.webserver.utils.serveAudios
+import org.videolan.vlc.webserver.utils.servePlaylists
+import org.videolan.vlc.webserver.utils.serveSearch
+import org.videolan.vlc.webserver.utils.serveVideos
 import java.io.File
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.text.DateFormat
 import java.time.Duration
-import java.util.*
+import java.util.Collections
+import java.util.Locale
 
 private const val TAG = "HttpSharingServer"
 
@@ -302,14 +360,14 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                         val gson = Gson()
                         val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
                         when (incomingMessage.message) {
-                            "play" -> service?.play()
-                            "pause" -> service?.pause()
-                            "previous" -> service?.previous(false)
-                            "next" -> service?.next()
-                            "previous10" -> service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
-                            "next10" -> service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
-                            "shuffle" -> service?.shuffle()
-                            "repeat" -> service?.let {
+                            "play" -> if (playbackControlAllowedOrSend()) service?.play()
+                            "pause" -> if (playbackControlAllowedOrSend()) service?.pause()
+                            "previous" -> if (playbackControlAllowedOrSend()) service?.previous(false)
+                            "next" -> if (playbackControlAllowedOrSend()) service?.next()
+                            "previous10" -> if (playbackControlAllowedOrSend()) service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
+                            "next10" -> if (playbackControlAllowedOrSend()) service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
+                            "shuffle" -> if (playbackControlAllowedOrSend()) service?.shuffle()
+                            "repeat" -> if (playbackControlAllowedOrSend()) service?.let {
                                 when (it.repeatType) {
                                     PlaybackStateCompat.REPEAT_MODE_NONE -> {
                                         it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
@@ -328,7 +386,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                                 AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
                             }
                             "set-volume" -> {
-                                (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
+                                if (playbackControlAllowedOrSend()) (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
                                     val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
                                     it.setStreamVolume(AudioManager.STREAM_MUSIC, ((incomingMessage.id!!.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
 
@@ -336,28 +394,33 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
                             }
                             "set-progress" -> {
-                                incomingMessage.id?.let {
+                                if (playbackControlAllowedOrSend()) incomingMessage.id?.let {
                                     service?.setTime(it.toLong())
                                 }
                             }
                             "play-media" -> {
-                                service?.playIndex(incomingMessage.id!!)
+                                if (playbackControlAllowedOrSend()) service?.playIndex(incomingMessage.id!!)
 
                             }
                             "delete-media" -> {
-                                service?.remove(incomingMessage.id!!)
+                                if (playbackControlAllowedOrSend()) service?.remove(incomingMessage.id!!)
 
                             }
                             "move-media-bottom" -> {
-                                val index = incomingMessage.id!!
-                                if (index < (service?.playlistManager?.getMediaListSize() ?: 0) - 1)
-                                    service?.moveItem(index, index + 2)
+                               if (playbackControlAllowedOrSend()) {
+                                   val index = incomingMessage.id!!
+                                   if (index < (service?.playlistManager?.getMediaListSize()
+                                                   ?: 0) - 1)
+                                       service?.moveItem(index, index + 2)
+                               }
 
                             }
                             "move-media-top" -> {
-                                val index = incomingMessage.id!!
-                                if (index > 0)
-                                    service?.moveItem(index, index - 1)
+                                if (playbackControlAllowedOrSend()) {
+                                    val index = incomingMessage.id!!
+                                    if (index > 0)
+                                        service?.moveItem(index, index - 1)
+                                }
 
                             }
                             else -> Log.w(TAG, "Unrecognized message", IllegalStateException("Unrecognized message: $message"))
@@ -977,6 +1040,14 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         return list
     }
 
+
+    private fun playbackControlAllowedOrSend():Boolean {
+        val allowed = settings.getBoolean(WEB_SERVER_PLAYBACK_CONTROL, true)
+        val message = Gson().toJson(PlaybackControlForbidden())
+        if (!allowed) AppScope.launch { websocketSession.forEach { it.send(Frame.Text(message)) } }
+        return allowed
+    }
+
     /**
      * Generate the now playing data to be sent to the client
      *
@@ -1158,6 +1229,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false)
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
+    data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)
     data class BrowsingResult(val content: List<PlayQueueItem>, val breadcrumb: List<BreadcrumbItem>)

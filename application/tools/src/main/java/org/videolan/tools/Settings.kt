@@ -129,6 +129,7 @@ const val KEY_WEB_SERVER_PASSWORD = "web_server_password"
 const val KEY_WEB_SERVER_ML_CONTENT = "web_server_medialibrary_content"
 const val WEB_SERVER_FILE_BROWSER_CONTENT = "web_server_file_browser_content"
 const val WEB_SERVER_NETWORK_BROWSER_CONTENT = "web_server_network_browser_content"
+const val WEB_SERVER_PLAYBACK_CONTROL = "web_server_playback_control"
 
 
 //Tips

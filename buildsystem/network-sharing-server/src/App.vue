@@ -80,6 +80,9 @@ export default {
           case 'play-queue':
             this.playerStore.playqueueData = msg
             break;
+          case 'playback-control-forbidden':
+            this.appStore.warning = { type: "warning", message: this.$t('PLAYBACK_CONTROL_FORBIDDEN') }
+            break;
         }
       }
 

@@ -483,6 +483,7 @@
     <string name="web_server_medialibrary_content_summary">Enabled: %s\nDisabled: %s</string>
     <string name="web_server_file_browser_content">File browser</string>
     <string name="web_server_network_browser_content">Network browser</string>
+    <string name="web_server_playback_control">Control playback</string>
     <string name="web_server_password">Password</string>
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
@@ -1190,6 +1191,7 @@
     <string name="ns_drop_files_tip">Drop files anywhere to send to your device</string>
     <string name="ns_prepare_download">Preparing your download</string>
     <string name="ns_forbidden">Content disabled in the settings</string>
+    <string name="ns_playback_forbidden">Playback control disabled in the settings</string>
     <string name="home">Home</string>
 
 

@@ -55,6 +55,11 @@
                 android:dependency="enable_web_server"
                 android:key="web_server_network_browser_content"
                 android:title="@string/web_server_network_browser_content" />
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:dependency="enable_web_server"
+                android:key="web_server_playback_control"
+                android:title="@string/web_server_playback_control" />
 
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
