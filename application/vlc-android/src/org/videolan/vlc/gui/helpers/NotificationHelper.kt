@@ -36,6 +36,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.ACTION_START_SERVER
+import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.resources.ACTION_START_SERVER
@@ -186,7 +188,7 @@ object NotificationHelper {
         val intent = Intent(ctx, StartActivity::class.java).apply { action = "vlc.webserver.share" }
         val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
                 .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
-                .setSmallIcon(R.drawable.ic_notif_scan)
+                .setSmallIcon(R.drawable.ic_notif_web_server)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(ctx.getString(R.string.ns_server_running))
                 .setAutoCancel(false)
