@@ -80,7 +80,10 @@ import io.ktor.server.websocket.webSocket
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -190,6 +193,11 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             }
         }
     }
+
+    private val scope =
+            CoroutineScope(SupervisorJob() + Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
+                Log.e(TAG, throwable.message, throwable)
+            })
 
     private var auth = false
     private var user = ""
@@ -317,7 +325,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      *
      * @return the server engine
      */
-    private fun generateServer() = embeddedServer(Netty, 8080) {
+    private fun generateServer() = scope.embeddedServer(Netty, 8080) {
         install(InterceptorPlugin)
         install(WebSockets) {
             pingPeriod = Duration.ofSeconds(15)
