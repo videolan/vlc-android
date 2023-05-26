@@ -295,6 +295,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         @MainThread
         get() = playlistManager.player.pausable
 
+    val isPaused: Boolean
+        @MainThread
+        get() = playlistManager.player.isPaused()
+
     val isShuffling: Boolean
         @MainThread
         get() = playlistManager.shuffling
@@ -1093,7 +1097,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 }
             }
         }
-        pscb.setState(state, time, playlistManager.player.getRate())
+        pscb.setState(state, time, if (isPaused) 0f else playlistManager.player.getRate())
         pscb.setActiveQueueItemId(playlistManager.currentIndex.toLong())
         val repeatType = playlistManager.repeating
         val podcastMode = isPodcastMode
@@ -1615,10 +1619,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     @MainThread
     @JvmOverloads
     fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false, fast: Boolean = false) {
-        if (length > 0.0) this.setTime(time, fast) else setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
-        if (fromUser) {
-            publishState(time)
+        if (length > 0.0) this.setTime(time, fast) else {
+            setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
+            if (fromUser) publishState(time)
         }
+        // Required to update timeline when paused
+        if (fromUser && isPaused) showNotification()
     }
 
     @MainThread
