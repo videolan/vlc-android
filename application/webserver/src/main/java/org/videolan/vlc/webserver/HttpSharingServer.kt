@@ -230,10 +230,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         password = Settings.getInstance(context).getString(KEY_WEB_SERVER_PASSWORD, "")
                 ?: ""
         _serverStatus.postValue(ServerStatus.CONNECTING)
-        withContext(Dispatchers.IO) {
             engine = generateServer()
             engine.start()
-        }
 
         withContext(Dispatchers.Main) {
             //keep track of the network shares as they are highly asynchronous

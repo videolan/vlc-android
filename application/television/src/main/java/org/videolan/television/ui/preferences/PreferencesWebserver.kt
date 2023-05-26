@@ -36,7 +36,14 @@ import kotlinx.coroutines.MainScope
 import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
-import org.videolan.tools.*
+import org.videolan.tools.KEY_ENABLE_WEB_SERVER
+import org.videolan.tools.KEY_WEB_SERVER_ML_CONTENT
+import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
+import org.videolan.tools.Settings
+import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
+import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
+import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
+import org.videolan.tools.password
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
@@ -119,6 +126,9 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             }
             KEY_WEB_SERVER_ML_CONTENT -> {
                 manageMLContentSummary()
+            }
+            WEB_SERVER_FILE_BROWSER_CONTENT, WEB_SERVER_NETWORK_BROWSER_CONTENT, WEB_SERVER_PLAYBACK_CONTROL -> {
+
             }
             else -> {
                 activity.sendBroadcast(Intent(ACTION_RESTART_SERVER))
