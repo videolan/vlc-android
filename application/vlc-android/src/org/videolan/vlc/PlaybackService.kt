@@ -50,6 +50,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
+import androidx.media.utils.MediaConstants
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
@@ -1128,6 +1129,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, !podcastMode)
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, !podcastMode)
         })
+        currentMediaWrapper?.takeIf { it.id != 0L }?.let { mw ->
+            pscb.setExtras(Bundle().apply {
+                putString(MediaConstants.PLAYBACK_STATE_EXTRAS_KEY_MEDIA_ID, MediaSessionBrowser.generateMediaId(mw))
+            })
+        }
         val mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED
         val update = mediaSession.isActive != mediaIsActive
         updateMediaQueueSlidingWindow()
@@ -1709,13 +1715,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
+        val rootHints = browserRootHints
         val reload = parentId == MediaSessionBrowser.ID_LAST_ADDED && parentId != lastParentId
         lastParentId = parentId
         lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             awaitMedialibraryStarted()
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId, isShuffling))
+                    result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId, isShuffling, rootHints))
                     if (reload && !medialibrary.isWorking) applicationContext.reloadLibrary()
                 } catch (e: RuntimeException) {
                     Log.e(TAG, "Failed to load children for $parentId", e)
@@ -1726,11 +1733,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     override fun onSearch(query: String, extras: Bundle?, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
+        val rootHints = browserRootHints
         lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             awaitMedialibraryStarted()
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    result.sendResult(MediaSessionBrowser.search(applicationContext, query))
+                    result.sendResult(MediaSessionBrowser.search(applicationContext, query, rootHints))
                 } catch (e: RuntimeException) {
                     Log.e(TAG, "Failed to search for $query", e)
                 }

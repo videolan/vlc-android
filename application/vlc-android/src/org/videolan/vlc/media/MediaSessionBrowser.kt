@@ -33,6 +33,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
 import androidx.core.net.toUri
+import androidx.media.utils.MediaConstants
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -133,8 +134,8 @@ class MediaSessionBrowser {
         // Extensions management
 
         @WorkerThread
-        fun browse(context: Context, parentId: String, isShuffling: Boolean): List<MediaBrowserCompat.MediaItem>? {
-            var results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()
+        fun browse(context: Context, parentId: String, isShuffling: Boolean, rootHints: Bundle? = null): List<MediaBrowserCompat.MediaItem> {
+            val results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()
             var list: Array<out MediaLibraryItem>? = null
             var limitSize = false
             val res = context.resources
@@ -143,6 +144,7 @@ class MediaSessionBrowser {
             val parentIdUri = parentId.toUri()
             val page = parentIdUri.getQueryParameter("p")
             val pageOffset = page?.toInt()?.times(MAX_RESULT_SIZE) ?: 0
+            val isAndroidAuto = rootHints?.containsKey(EXTRA_BROWSER_ICON_SIZE) ?: false
             val flatten = parentIdUri.getBooleanQueryParameter("f", false)
             when (parentIdUri.removeQuery().toString()) {
                 ID_ROOT -> {
@@ -353,7 +355,7 @@ class MediaSessionBrowser {
                     }
                 }
             }
-            results.addAll(buildMediaItems(context, parentId, list, null, limitSize))
+            results.addAll(buildMediaItems(context, parentId, list, null, limitSize, androidAuto = isAndroidAuto))
             if (results.isEmpty()) {
                 val emptyMediaDesc = MediaDescriptionCompat.Builder()
                         .setMediaId(ID_NO_MEDIA)
@@ -384,16 +386,17 @@ class MediaSessionBrowser {
          * the user to navigate to other content via on-screen menus.
          */
         @WorkerThread
-        fun search(context: Context, query: String): List<MediaBrowserCompat.MediaItem> {
+        fun search(context: Context, query: String, rootHints: Bundle?): List<MediaBrowserCompat.MediaItem> {
             val res = context.resources
             val results: MutableList<MediaBrowserCompat.MediaItem> = ArrayList()
+            val isAndroidAuto = rootHints?.containsKey(EXTRA_BROWSER_ICON_SIZE) ?: false
             val searchAggregate = Medialibrary.getInstance().search(query, false, false)
             val searchMediaId = ID_SEARCH.toUri().buildUpon().appendQueryParameter("query", query).toString()
             results.addAll(buildMediaItems(context, ID_PLAYLIST, searchAggregate.playlists, res.getString(R.string.playlists)))
             results.addAll(buildMediaItems(context, ID_GENRE, searchAggregate.genres, res.getString(R.string.genres)))
             results.addAll(buildMediaItems(context, ID_ARTIST, searchAggregate.artists, res.getString(R.string.artists)))
             results.addAll(buildMediaItems(context, ID_ALBUM, searchAggregate.albums, res.getString(R.string.albums)))
-            results.addAll(buildMediaItems(context, searchMediaId, searchAggregate.tracks, res.getString(R.string.tracks)))
+            results.addAll(buildMediaItems(context, searchMediaId, searchAggregate.tracks, res.getString(R.string.tracks), androidAuto = isAndroidAuto))
             if (results.isEmpty()) {
                 val emptyMediaDesc = MediaDescriptionCompat.Builder()
                         .setMediaId(ID_NO_MEDIA)
@@ -452,7 +455,7 @@ class MediaSessionBrowser {
          * @return List containing fully constructed MediaBrowser MediaItem
          */
         private fun buildMediaItems(context: Context, parentId: String, list: Array<out MediaLibraryItem>?, groupTitle: String?,
-                                    limitSize: Boolean = false, suggestionMode: Boolean = false): List<MediaBrowserCompat.MediaItem> {
+                                    limitSize: Boolean = false, suggestionMode: Boolean = false, androidAuto: Boolean = false): List<MediaBrowserCompat.MediaItem> {
             if (list.isNullOrEmpty()) return emptyList()
             val res = context.resources
             val artworkToUriCache = HashMap<String, Uri>()
@@ -468,7 +471,7 @@ class MediaSessionBrowser {
                     continue
 
                 /* Media ID */
-                val mediaId = when (libraryItem.itemType) {
+                var mediaId = when (libraryItem.itemType) {
                     MediaLibraryItem.TYPE_MEDIA -> parentIdUri.buildUpon().appendQueryParameter("i", "$index").toString()
                     else -> generateMediaId(libraryItem)
                 }
@@ -507,6 +510,31 @@ class MediaSessionBrowser {
                     else -> Bundle()
                 }
                 if (groupTitle != null) extras.putString(EXTRA_CONTENT_STYLE_GROUP_TITLE_HINT, groupTitle)
+
+                if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).isPodcast) {
+                    var pct = libraryItem.position.toDouble()
+
+                    pct = when {
+                        pct >= 0.95 -> 1.0
+                        pct <= 0.00 && libraryItem.playCount > 0 -> 1.0
+                        pct <= 0.00 -> 0.0
+                        else -> pct
+                    }.also { extras.putDouble(MediaConstants.DESCRIPTION_EXTRAS_KEY_COMPLETION_PERCENTAGE, it) }
+
+                    when (pct) {
+                        1.0 -> MediaConstants.DESCRIPTION_EXTRAS_VALUE_COMPLETION_STATUS_FULLY_PLAYED
+                        0.0 -> MediaConstants.DESCRIPTION_EXTRAS_VALUE_COMPLETION_STATUS_NOT_PLAYED
+                        else -> MediaConstants.DESCRIPTION_EXTRAS_VALUE_COMPLETION_STATUS_PARTIALLY_PLAYED
+                    }.also { extras.putInt(MediaConstants.DESCRIPTION_EXTRAS_KEY_COMPLETION_STATUS, it) }
+
+                    // Only Android Auto passes extras to onPlayFromMediaId
+                    if (androidAuto) {
+                        // Relative id stored in the extras bundle to support play from here
+                        extras.putString(EXTRA_RELATIVE_MEDIA_ID, mediaId)
+                        // Set mediaId to the library item id to enable completion bar updates
+                        mediaId = generateMediaId(libraryItem)
+                    }
+                }
 
                 /* Icon */
                 val iconUri = if (libraryItem.itemType != MediaLibraryItem.TYPE_PLAYLIST && !libraryItem.artworkMrl.isNullOrEmpty() && isPathValid(libraryItem.artworkMrl)) {

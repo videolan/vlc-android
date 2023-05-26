@@ -200,7 +200,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         playbackService.lifecycleScope.launch {
             val context = playbackService.applicationContext
             try {
-                val mediaIdUri = Uri.parse(mediaId)
+                val mediaIdUri = Uri.parse(extras?.getString(EXTRA_RELATIVE_MEDIA_ID) ?: mediaId)
                 val position = mediaIdUri.getQueryParameter("i")?.toInt() ?: 0
                 val page = mediaIdUri.getQueryParameter("p")
                 val pageOffset = page?.toInt()?.times(MediaSessionBrowser.MAX_RESULT_SIZE) ?: 0
