@@ -4,7 +4,7 @@
         <div class="media-overlay" v-show="!isBrowse()">
             <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="48" />
         </div>
-        <span v-if="(mediaType == 'video')" class="resolution">{{ media.resolution }}</span>
+        <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
     </div>
     <div class="d-flex">
 
@@ -23,7 +23,9 @@
                         v-t="'APPEND'"></span> </li>
                 <li> <span v-if="(mediaType == 'video')" v-on:click="$play(media, this.mediaType, false, true)"
                         class="dropdown-item" v-t="'PLAY_AS_AUDIO'"></span> </li>
-                <li  v-if="(mediaType != 'file' && mediaType != 'folder')"> <span v-on:click="$download(media, this.mediaType, this.downloadable)" class="dropdown-item" v-t="'DOWNLOAD'"></span>
+                <li v-if="(mediaType != 'file' && mediaType != 'folder')"> <span
+                        v-on:click="$download(media, this.mediaType, this.downloadable)" class="dropdown-item"
+                        v-t="'DOWNLOAD'"></span>
                 </li>
 
             </ul>
@@ -48,7 +50,7 @@ export default {
         },
         manageClick() {
             if (['folder', 'storage', 'network'].includes(this.mediaType)) {
-                this.$router.push({name:'BrowseChild', params: {browseId: this.media.path} })
+                this.$router.push({ name: 'BrowseChild', params: { browseId: this.media.path } })
             } else {
                 this.$play(this.media, this.mediaType)
             }
