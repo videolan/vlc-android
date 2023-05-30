@@ -29,6 +29,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showHiddenFiles = false
     var showTrackNumber = true
     var tvFoldersFirst = true
+    var incognitoMode = false
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -51,6 +52,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, !tvUI)
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
+        incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         return prefs
     }
 
@@ -83,6 +85,7 @@ const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCLUDE_MISSING = "include_missing"
+const val KEY_INCOGNITO = "incognito_mode"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"

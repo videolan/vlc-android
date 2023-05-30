@@ -548,6 +548,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val titleIdx = player.getTitleIdx()
         val currentMedia = getCurrentMedia() ?: return@outerLaunch
         if (currentMedia.uri.scheme.isSchemeFD()) return@outerLaunch
+        if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return@outerLaunch
         //Save progress
         val time = player.mediaplayer.time
         val length = player.getLength()
@@ -1115,6 +1116,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private suspend fun savePlaycount(mw: MediaWrapper) {
+        if (Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_INCOGNITO, false)) return
         var currentMedia = mw
         if (settings.getBoolean(PLAYBACK_HISTORY, true) && !mw.uri.scheme.isSchemeFD()) withContext(Dispatchers.IO) {
             var id = mw.id

@@ -48,6 +48,13 @@
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
     <item
+            android:orderInCategory="2"
+            android:id="@+id/incognito_mode"
+            android:title="@string/incognito_mode"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:visible="true"/>
+    <item
             android:orderInCategory="3"
             android:id="@+id/ml_menu_display_list"
             android:title="@string/display_in_list"
