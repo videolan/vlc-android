@@ -1,59 +1,60 @@
 <template>
-  <div v-show="this.playerStore.playing" @wheel.prevent @touchmove.prevent @scroll.prevent>
-    <div class="footer" id="player"
-      v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
-      <div class="progress-container">
-        <p id="time"> {{ $readableDuration(new Date(this.playerStore.nowPlaying.progress)) }}
-        </p>
-        <p id="duration">{{ $readableDuration(new Date(this.playerStore.nowPlaying.duration))
-        }}</p>
-        <input type="range" ref="progress" min="0" :max="this.playerStore.nowPlaying.duration" class="player-progress"
-          step="1" @change="this.progressChange($event)" @input="this.progressChange($event)">
+  <div class="footer" id="player" v-show="this.playerStore.playing" @wheel.prevent @touchmove.prevent @scroll.prevent
+    v-bind:class="(this.playerStore.responsivePlayerShowing) ? 'footer force-show' : 'footer'">
+    <div class="progress-container">
+      <p id="time"> {{ $readableDuration(new Date(this.playerStore.nowPlaying.progress)) }}
+      </p>
+      <p id="duration">{{ $readableDuration(new Date(this.playerStore.nowPlaying.duration))
+      }}</p>
+      <input type="range" ref="progress" min="0" :max="this.playerStore.nowPlaying.duration" class="player-progress"
+        step="1" @change="this.progressChange($event)" @input="this.progressChange($event)">
+    </div>
+    <div id="player_content" class="row">
+      <div class="col-12 col-md" id="media_info">
+        <img ref="playerArtwork" class="player-artwork">
+        <div class="player_info">
+          <p id="title" class="h6 text-truncate">{{ this.playerStore.nowPlaying.title }}</p>
+          <p id="artist" class="text-truncate">{{ this.playerStore.nowPlaying.artist }}</p>
+        </div>
       </div>
-      <div id="player_content" class="row">
-        <div class="col-12 col-md" id="media_info">
-          <img id="player_artwork">
-          <div class="player_info">
-            <p id="title" class="h6 text-truncate">{{ this.playerStore.nowPlaying.title }}</p>
-            <p id="artist" class="text-truncate">{{ this.playerStore.nowPlaying.artist }}</p>
-          </div>
-        </div>
 
-        <div class="player_controls col-12 col-md">
-          <span class="flex1" />
-          <ImageButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()" v-bind:class="(this.playerStore.nowPlaying.shuffle) ? 'active' : ''" />
-          <ImageButton type="skip_previous" id="player_previous" ref="previous" v-on:click="previous()" />
-          <ImageButton type="replay_10" id="player_previous_10" ref="previous10" v-on:click="previous10()" />
-          <ImageButton type="play_circle" class="big" id="player_play" ref="play"
-            v-show="!this.playerStore.nowPlaying.playing" v-on:click="play()" />
-          <ImageButton type="pause_circle" class="big" id="player_pause" ref="pause"
-            v-show="this.playerStore.nowPlaying.playing" v-on:click="pause()" />
-          <ImageButton type="forward_10" id="player_next_10" ref="next10" v-on:click="next10()" />
-          <ImageButton type="skip_next" id="player_next" ref="next" v-on:click="next()" />
-          <ImageButton id="player_repeat" ref="repeat" @click.stop="repeat()" v-bind:type="(this.playerStore.nowPlaying.repeat != 1) ? 'repeat' : 'repeat_one'"  v-bind:class="(this.playerStore.nowPlaying.repeat != 0) ? 'active' : ''" />
-          <span class="flex1" />
+      <div class="player_controls col-12 col-md">
+        <span class="flex1" />
+        <ImageButton type="shuffle" id="player_shuffle" ref="shuffle" v-on:click="shuffle()"
+          v-bind:class="(this.playerStore.nowPlaying.shuffle) ? 'active' : ''" />
+        <ImageButton type="skip_previous" id="player_previous" ref="previous" v-on:click="previous()" />
+        <ImageButton type="replay_10" id="player_previous_10" ref="previous10" v-on:click="previous10()" />
+        <ImageButton type="play_circle" class="big" id="player_play" ref="play"
+          v-show="!this.playerStore.nowPlaying.playing" v-on:click="play()" />
+        <ImageButton type="pause_circle" class="big" id="player_pause" ref="pause"
+          v-show="this.playerStore.nowPlaying.playing" v-on:click="pause()" />
+        <ImageButton type="forward_10" id="player_next_10" ref="next10" v-on:click="next10()" />
+        <ImageButton type="skip_next" id="player_next" ref="next" v-on:click="next()" />
+        <ImageButton id="player_repeat" ref="repeat" @click.stop="repeat()"
+          v-bind:type="(this.playerStore.nowPlaying.repeat != 1) ? 'repeat' : 'repeat_one'"
+          v-bind:class="(this.playerStore.nowPlaying.repeat != 0) ? 'active' : ''" />
+        <span class="flex1" />
+      </div>
+      <div class="player_right col-12 col-md">
+        <div class="player_right_container">
+          <ImageButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
+            @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active' : ''" />
         </div>
-        <div class="player_right col-12 col-md">
-          <div class="player_right_container">
-            <ImageButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
-              @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active' : ''" />
-          </div>
-          <div class="player_right_container">
-            <input type="range" ref="volume" min="0" max="100" step="1" @change="this.volumeChange($event)"
-              @input="this.volumeChange($event)">
-          </div>
+        <div class="player_right_container">
+          <input type="range" ref="volume" min="0" max="100" step="1" @change="this.volumeChange($event)"
+            @input="this.volumeChange($event)">
         </div>
       </div>
     </div>
-    <div class="mini-player-fab" v-on:click.stop="showResponsivePlayer()"
-      v-show="!this.playerStore.responsivePlayerShowing">
-      <div class="playing">
-        <span class="playing-bar playing-bar1"></span>
-        <span class="playing-bar playing-bar2"></span>
-        <span class="playing-bar playing-bar3"></span>
-      </div>
-
+  </div>
+  <div class="mini-player-fab" v-on:click.stop="showResponsivePlayer()"
+    v-show="!this.playerStore.responsivePlayerShowing">
+    <div class="playing">
+      <span class="playing-bar playing-bar1"></span>
+      <span class="playing-bar playing-bar2"></span>
+      <span class="playing-bar playing-bar3"></span>
     </div>
+
   </div>
 </template>
 
@@ -130,7 +131,7 @@ export default {
     },
     repeat() {
       let newRepeat = this.nowPlaying.repeat + 1
-      if (newRepeat > 2) newRepeat =0
+      if (newRepeat > 2) newRepeat = 0
       this.nowPlaying.repeat = newRepeat
       this.$root.sendMessage("repeat");
       console.log("Sending repeat");
@@ -167,7 +168,7 @@ export default {
       this.changeProgressIfNeeded()
       if (this.loadedArtworkUrl != this.nowPlaying.uri) {
         this.loadedArtworkUrl = this.nowPlaying.uri
-        this.$el.querySelector("#player_artwork").src = API_URL + "/artwork?randomizer=" + Date.now()
+        this.$refs.playerArtwork.src = API_URL + "/artwork?randomizer=" + Date.now()
       }
     },
   },
@@ -211,13 +212,10 @@ export default {
 
 
 #player {
-  position: fixed;
-  bottom: 0;
   width: 100%;
   color: #000;
   display: none;
   align-items: center;
-  height: var(--playerHeight);
   z-index: 1022;
 }
 
@@ -234,7 +232,9 @@ export default {
 
 .progress-container {
   background: linear-gradient(transparent 60%, $light-grey 60%);
-  
+  position: absolute;
+  margin-top: -14px;
+  width: 100vw;
 }
 
 #progress_bar {
@@ -249,7 +249,7 @@ export default {
   left: 0;
 }
 
-#player_artwork {
+.player-artwork {
   width: 54px;
   height: 54px;
   float: left;

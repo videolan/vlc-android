@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div v-else-if="loaded">
+    <div v-else-if="loaded" class="empty-view-container">
         <EmptyView :message="getEmptyText()" />
     </div>
 </template>

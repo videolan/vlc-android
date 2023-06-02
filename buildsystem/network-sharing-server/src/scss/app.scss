@@ -8,11 +8,11 @@ $custom-theme-colors: map-merge($theme-colors, ("primary": $primary-color,
 
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 $breadcrumb-divider: quote(">");
-$breadcrumb-divider-color:$primary-color;
+$breadcrumb-divider-color: $primary-color;
 $breadcrumb-margin-bottom: 0;
 $breadcrumb-bg: $background;
 $breadcrumb-padding-x: 1rem;
-$breadcrumb-border-radius:8px;
+$breadcrumb-border-radius: 8px;
 $breadcrumb-padding-y: 6px;
 
 @import "~bootstrap/scss/_maps";
@@ -69,6 +69,23 @@ main {
 body {
   background: $background;
   color: $text-color;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.empty-view-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbar .form-group .form-control,
@@ -186,7 +203,8 @@ body {
   height: 100%;
 }
 
-.media-img-list-tr:hover .media-overlay, .media-img-container:hover .media-overlay {
+.media-img-list-tr:hover .media-overlay,
+.media-img-container:hover .media-overlay {
   visibility: visible;
   opacity: 1;
 }

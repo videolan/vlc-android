@@ -1,7 +1,7 @@
 <template>
   <div class="all-center container">
     <img v-bind:src="$getAppAsset('ic_empty', 64)">
-    <p>{{message}}</p>
+    <p>{{ message }}</p>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 
 export default {
   props: {
-        message: String
+    message: String
   },
 }
 </script>
@@ -22,8 +22,9 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-top: 24px;
+  margin-bottom: 24px;
 }
+
 .all-center p {
   margin-top: 8px;
   font-size: 1.2em;

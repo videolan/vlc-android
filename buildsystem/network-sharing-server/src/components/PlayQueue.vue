@@ -2,7 +2,8 @@
     <div id="play_queue" v-show="show">
         <div class="d-flex border-bottom play-queue-toolbar">
             <div class="flex1">&nbsp;</div>
-            <ImageButton type="edit" class="small" v-on:click.stop="this.playerStore.togglePlayQueueEdit()" v-bind:class="(this.playerStore.playQueueEdit) ? 'active' : ''" />
+            <ImageButton type="edit" class="small" v-on:click.stop="this.playerStore.togglePlayQueueEdit()"
+                v-bind:class="(this.playerStore.playQueueEdit) ? 'active' : ''" />
             <ImageButton type="close" class="small play-queue-header" v-on:click.stop="hide()" />
         </div>
 
@@ -52,14 +53,14 @@ export default {
     position: fixed;
     right: 0;
     top: 0;
-    bottom: calc(var(--playerHeight) - 38px);
+    bottom: calc(var(--playerHeight) - 24px);
     z-index: 1021;
     width: 100%;
     overflow: hidden;
     background-color: $grey-overlay;
     padding-bottom: 48px;
     cursor: pointer;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15); 
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
 }
 
 @media screen and (min-width: 768px) {
@@ -93,7 +94,7 @@ export default {
 
 
 .play-queue-item:hover {
-  background-color: $hover-grey;
+    background-color: $hover-grey;
 }
 
 .play-queue-header {

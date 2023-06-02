@@ -1,6 +1,6 @@
 <template>
   <AppHeader @send-files="sendFiles" />
-  <main v-bind:class="(this.playerStore.playing) ? 'footer-bottom-margin' : ''">
+  <main v-bind:class="(this.playerStore.playing) ? 'footer-bottom-margin' : ''" class="flex1">
     <router-view></router-view>
   </main>
   <PlayQueue :show="this.playerStore.playqueueShowing" />
@@ -142,7 +142,7 @@ export default {
 }
 
 .footer-bottom-margin {
-  margin-bottom: var(--playerHeight);
+  overflow: auto;
 }
 
 .main-loading {
