@@ -37,8 +37,10 @@ import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
 import org.videolan.tools.KEY_ENABLE_WEB_SERVER
+import org.videolan.tools.KEY_WEB_SERVER_AUTH
 import org.videolan.tools.KEY_WEB_SERVER_ML_CONTENT
 import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
+import org.videolan.tools.KEY_WEB_SERVER_USER
 import org.videolan.tools.Settings
 import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
@@ -130,7 +132,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             WEB_SERVER_FILE_BROWSER_CONTENT, WEB_SERVER_NETWORK_BROWSER_CONTENT, WEB_SERVER_PLAYBACK_CONTROL -> {
 
             }
-            else -> {
+            KEY_WEB_SERVER_AUTH, KEY_WEB_SERVER_USER, KEY_WEB_SERVER_PASSWORD -> {
                 activity.sendBroadcast(Intent(ACTION_RESTART_SERVER))
             }
         }

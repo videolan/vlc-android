@@ -35,7 +35,13 @@ import androidx.preference.PreferenceManager
 import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
-import org.videolan.tools.*
+import org.videolan.tools.KEY_ENABLE_WEB_SERVER
+import org.videolan.tools.KEY_WEB_SERVER_AUTH
+import org.videolan.tools.KEY_WEB_SERVER_ML_CONTENT
+import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
+import org.videolan.tools.KEY_WEB_SERVER_USER
+import org.videolan.tools.Settings
+import org.videolan.tools.password
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
@@ -119,7 +125,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             KEY_WEB_SERVER_ML_CONTENT -> {
                 manageMLContentSummary()
             }
-            else -> {
+            KEY_WEB_SERVER_AUTH, KEY_WEB_SERVER_USER, KEY_WEB_SERVER_PASSWORD -> {
                 requireActivity().sendBroadcast(Intent(ACTION_RESTART_SERVER))
             }
         }

@@ -258,7 +258,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             websocketSession.forEach {
                 it.close()
             }
-            engine.stop()
+            if (::engine.isInitialized) engine.stop()
         }
     }
 
@@ -1137,10 +1137,12 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      */
     fun serverInfo(): String = buildString {
         getIPAddresses(true).forEach {
-            append("http://")
-            append(it)
-            append(":")
-            append(engine.environment.connectors[0].port)
+            if (::engine.isInitialized) {
+                append("http://")
+                append(it)
+                append(":")
+                append(engine.environment.connectors[0].port)
+            }
         }
     }
 
