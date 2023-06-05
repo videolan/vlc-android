@@ -48,7 +48,7 @@
     </div>
   </div>
   <div class="mini-player-fab" v-on:click.stop="showResponsivePlayer()"
-    v-show="!this.playerStore.responsivePlayerShowing">
+    v-show="!this.playerStore.responsivePlayerShowing && this.playerStore.playing">
     <div class="playing">
       <span class="playing-bar playing-bar1"></span>
       <span class="playing-bar playing-bar2"></span>
@@ -182,13 +182,20 @@ export default {
   --playerHeight: 156px;
 }
 
+@media screen and (max-width: 768px) {
+  #player {
+
+    display: none;
+  }
+
+  #playqueue {
+    display: none;
+  }
+}
+
 @media screen and (min-width: 768px) {
   :root {
     --playerHeight: 98px;
-  }
-
-  #player {
-    display: block !important;
   }
 
   .mini-player-fab {
@@ -214,7 +221,6 @@ export default {
 #player {
   width: 100%;
   color: #000;
-  display: none;
   align-items: center;
   z-index: 1022;
 }

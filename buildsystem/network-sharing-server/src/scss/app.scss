@@ -57,10 +57,10 @@ footer {
 }
 
 main {
-  min-height: calc(100vh - var(--navbar-height));
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: auto;
 }
 
 // This sets all <h1>,...,<h6> elements with Material headline1,...,headline6 typography styles
@@ -70,11 +70,13 @@ body {
   background: $background;
   color: $text-color;
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
+  min-height: -webkit-fill-available;
 }
 
 #app {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
