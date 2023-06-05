@@ -57,7 +57,11 @@ export default {
     },
     startWebSocket() {
       console.log("Starting connection to WebSocket Server")
-      this.connection = new WebSocket("ws://" + API_IP + "/echo", "player")
+      let protocol = "wss"
+      if (location.protocol !== 'https:') {
+        protocol = `ws`;
+      }
+      this.connection = new WebSocket(`${protocol}://${API_IP}/echo`, "player")
       this.connection.onmessage = (event) => {
 
         const msg = JSON.parse(event.data);
