@@ -1512,10 +1512,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val allTracks= ArrayList<IMedia.Track>()
             service.mediaplayer.media?.let { media ->
                 if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
-                for (i in 0..media.getAllTracks().size) {
-                    val track = media.getAllTracks()[i]
-                    allTracks.add(track)
-                }
+                allTracks.addAll(media.getAllTracks())
                 currentTracks = Pair(media.uri.toString(), allTracks)
             }
             return allTracks
