@@ -31,6 +31,7 @@ import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.Formatter
+import android.util.Base64
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
@@ -49,7 +50,10 @@ import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.call
 import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.install
+import io.ktor.server.engine.applicationEngineEnvironment
+import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
+import io.ktor.server.engine.sslConnector
 import io.ktor.server.http.content.files
 import io.ktor.server.http.content.static
 import io.ktor.server.netty.Netty
@@ -88,8 +92,17 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.bouncycastle.asn1.x500.X500Name
+import org.bouncycastle.cert.X509CertificateHolder
+import org.bouncycastle.cert.X509v3CertificateBuilder
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.operator.ContentSigner
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder
 import org.json.JSONArray
 import org.json.JSONObject
+import org.slf4j.LoggerFactory
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.MLServiceLocator
@@ -150,12 +163,23 @@ import org.videolan.vlc.webserver.utils.servePlaylists
 import org.videolan.vlc.webserver.utils.serveSearch
 import org.videolan.vlc.webserver.utils.serveVideos
 import java.io.File
+import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
+import java.security.KeyFactory
+import java.security.KeyPairGenerator
+import java.security.KeyStore
+import java.security.PrivateKey
+import java.security.SecureRandom
+import java.security.Security
+import java.security.cert.X509Certificate
+import java.security.spec.PKCS8EncodedKeySpec
 import java.text.DateFormat
 import java.time.Duration
 import java.util.Collections
+import java.util.Date
 import java.util.Locale
+
 
 private const val TAG = "HttpSharingServer"
 
@@ -195,12 +219,15 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     private val scope =
             CoroutineScope(SupervisorJob() + Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
                 Log.e(TAG, throwable.message, throwable)
+                _serverStatus.postValue(ServerStatus.ERROR)
             })
 
 
     private val downloadFolder by lazy { "${context.getExternalFilesDir(null)!!.absolutePath}/downloads" }
 
     init {
+        Security.removeProvider("BC")
+        Security.addProvider(BouncyCastleProvider())
         copyWebServer()
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { service?.removeCallback(this@HttpSharingServer) }
@@ -221,8 +248,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             if (downloadDir.isDirectory) downloadDir.listFiles()?.forEach { it.delete() }
         }
         _serverStatus.postValue(ServerStatus.CONNECTING)
+        scope.launch {
             engine = generateServer()
             engine.start()
+        }
 
         withContext(Dispatchers.Main) {
             //keep track of the network shares as they are highly asynchronous
@@ -310,27 +339,130 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
     /**
+     * Retrieve a [PrivateKey] froma  stringf
+     *
+     * @param privateString the string to convert
+     * @return the [PrivateKey] or null if an exception occurred
+     */
+    private fun keyFromString(privateString:String):PrivateKey? {
+        var privateKey: PrivateKey? = null
+
+        try {
+            val binCpk: ByteArray = Base64.decode(privateString, Base64.DEFAULT)
+            val keyFactory = KeyFactory.getInstance("RSA")
+            val privateKeySpec = PKCS8EncodedKeySpec(binCpk)
+            privateKey = keyFactory.generatePrivate(privateKeySpec)
+        } catch (e: java.lang.Exception) {
+        }
+        return privateKey
+    }
+
+    /**
+     * Generate a self signed certificate and a private key
+     *
+     * @return a [Pair] of an X509 certificate and a private key
+     */
+    private fun selfSignedCertificate(): Pair<X509Certificate?, PrivateKey?>? {
+        //Generate a public and private keys
+        val random = SecureRandom()
+        val keyGen: KeyPairGenerator = try {
+            KeyPairGenerator.getInstance("RSA", "BC")
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG, e.message, e)
+            return null
+        }
+        keyGen.initialize(2048, random)
+        val keypair = keyGen.generateKeyPair()
+        val privateKey = keypair.private
+        //Generate the certificate. Renewing is useless in our case as generating a different certificate will re-trigger the certificate warning in the browsers
+        //That's why we set the validity to 25yrs which exceeds the device lifetime
+        //If needed, we can add a setting to let the user revoking the certificate by deleting the keystore file to start all this process over
+        val cert: X509Certificate
+        try {
+            val owner = X500Name("CN=vlc-android, O=VideoLAN, L=Paris, C=France")
+            val builder: X509v3CertificateBuilder = JcaX509v3CertificateBuilder(owner, BigInteger(64, random), Date(System.currentTimeMillis() - 86400000L), Date(System.currentTimeMillis() + (25 * 86400000L)), owner, keypair.public)
+
+            val signer: ContentSigner = JcaContentSignerBuilder("SHA256WithRSAEncryption").build(privateKey)
+            val certHolder: X509CertificateHolder = builder.build(signer)
+            cert = JcaX509CertificateConverter().setProvider(BouncyCastleProvider()).getCertificate(certHolder)
+            cert.verify(keypair.public)
+        } catch (t: Throwable) {
+            return null
+        }
+        return Pair(cert, privateKey)
+    }
+
+    /**
      * Generate the server
      *
      * @return the server engine
      */
-    private fun generateServer() = scope.embeddedServer(Netty, 8080) {
-        install(InterceptorPlugin)
-        install(WebSockets) {
-            pingPeriod = Duration.ofSeconds(15)
-            timeout = Duration.ofSeconds(15)
-            maxFrameSize = Long.MAX_VALUE
-            masking = false
+    private fun generateServer(): NettyApplicationEngine {
+        //retrieve the private key from the FS
+
+        val keyStoreFile = File(context.filesDir.path, ".keystore")
+        val store: KeyStore = KeyStore.getInstance("BKS", "BC")
+
+        //load the keystore either from disk if file exists or create a blank one
+        try {
+            store.load(keyStoreFile.inputStream(), "store_pass".toCharArray())
+        } catch (e: Exception) {
+            store.load(null, null)
         }
-        install(CORS) {
-            allowMethod(HttpMethod.Options)
-            allowMethod(HttpMethod.Post)
-            allowMethod(HttpMethod.Get)
-            allowHeader(HttpHeaders.AccessControlAllowOrigin)
-            allowHeader(HttpHeaders.ContentType)
-            anyHost()
+        val key = try {
+            store.getKey("vlc-android", "private_pass".toCharArray())
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+            null
         }
-        install(PartialContent)
+        //try loading the certificate from the store. It will fail the first time, then reuse the stored one
+        val cert = try {
+            store.getCertificate("vlc-android")
+        } catch (e: Exception) {
+            null
+        }
+        // Retrieve a pair of certificate/key (load existing one if available, generate new ones if not)
+        val ssc = if (cert != null && key != null)
+            Pair(cert, key)
+        else
+            selfSignedCertificate()
+        store.setKeyEntry("vlc-android", ssc!!.second, "private_pass".toCharArray(), arrayOf(ssc.first))
+
+        //Save the certificate to the disk
+        val out = keyStoreFile.outputStream()
+        store.store(out, "store_pass".toCharArray())
+
+        val environment = applicationEngineEnvironment {
+            log = LoggerFactory.getLogger("ktor.application")
+            connector {
+                port = 8080
+            }
+            sslConnector(
+                    store,
+                    "vlc-android",
+                    { "private_pass".toCharArray() },
+                    { "private_pass".toCharArray() }
+            ) {
+                this.port = 8443
+            }
+            module {
+
+                install(InterceptorPlugin)
+                install(WebSockets) {
+                    pingPeriod = Duration.ofSeconds(15)
+                    timeout = Duration.ofSeconds(15)
+                    maxFrameSize = Long.MAX_VALUE
+                    masking = false
+                }
+                install(CORS) {
+                    allowMethod(HttpMethod.Options)
+                    allowMethod(HttpMethod.Post)
+                    allowMethod(HttpMethod.Get)
+                    allowHeader(HttpHeaders.AccessControlAllowOrigin)
+                    allowHeader(HttpHeaders.ContentType)
+                    anyHost()
+                }
+                install(PartialContent)
         if (BuildConfig.DEBUG) install(CallLogging) {
             format { call ->
                 val status = call.response.status()
@@ -342,18 +474,18 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                 "$httpMethod - $path -> $status\nheaders:\n\t$headers"
             }
         }
-        routing {
+                routing {
             setupRouting()
-            webSocket("/echo", protocol = "player") {
-                websocketSession.add(this)
-                // Handle a WebSocket session
-                for (frame in incoming) {
-                    try {
-                        frame as? Frame.Text ?: continue
-                        val message = frame.readText()
-                        val gson = Gson()
-                        val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
-                        when (incomingMessage.message) {
+                    webSocket("/echo", protocol = "player") {
+                        websocketSession.add(this)
+                        // Handle a WebSocket session
+                        for (frame in incoming) {
+                            try {
+                                frame as? Frame.Text ?: continue
+                                val message = frame.readText()
+                                val gson = Gson()
+                                val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
+                                when (incomingMessage.message) {
                             "play" -> if (playbackControlAllowedOrSend()) service?.play()
                             "pause" -> if (playbackControlAllowedOrSend()) service?.pause()
                             "previous" -> if (playbackControlAllowedOrSend()) service?.previous(false)
@@ -362,45 +494,45 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                             "next10" -> if (playbackControlAllowedOrSend()) service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
                             "shuffle" -> if (playbackControlAllowedOrSend()) service?.shuffle()
                             "repeat" -> if (playbackControlAllowedOrSend()) service?.let {
-                                when (it.repeatType) {
-                                    PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                                        when (it.repeatType) {
+                                            PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                                            }
+                                            PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
+                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+                                            } else {
+                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                                            }
+                                            PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                                            }
+                                        }
                                     }
-                                    PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
-                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                                    } else {
-                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                                    "get-volume" -> {
+                                        AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
                                     }
-                                    PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                                    }
-                                }
-                            }
-                            "get-volume" -> {
-                                AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
-                            }
-                            "set-volume" -> {
+                                    "set-volume" -> {
                                 if (playbackControlAllowedOrSend()) (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
-                                    val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                                    it.setStreamVolume(AudioManager.STREAM_MUSIC, ((incomingMessage.id!!.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
+                                            val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                                            it.setStreamVolume(AudioManager.STREAM_MUSIC, ((incomingMessage.id!!.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
 
-                                }
+                                        }
 
-                            }
-                            "set-progress" -> {
+                                    }
+                                    "set-progress" -> {
                                 if (playbackControlAllowedOrSend()) incomingMessage.id?.let {
-                                    service?.setTime(it.toLong())
-                                }
-                            }
-                            "play-media" -> {
+                                            service?.setTime(it.toLong())
+                                        }
+                                    }
+                                    "play-media" -> {
                                 if (playbackControlAllowedOrSend()) service?.playIndex(incomingMessage.id!!)
 
-                            }
-                            "delete-media" -> {
+                                    }
+                                    "delete-media" -> {
                                 if (playbackControlAllowedOrSend()) service?.remove(incomingMessage.id!!)
 
-                            }
-                            "move-media-bottom" -> {
+                                    }
+                                    "move-media-bottom" -> {
                                if (playbackControlAllowedOrSend()) {
                                    val index = incomingMessage.id!!
                                    if (index < (service?.playlistManager?.getMediaListSize()
@@ -408,32 +540,36 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                                        service?.moveItem(index, index + 2)
                                }
 
-                            }
-                            "move-media-top" -> {
+                                    }
+                                    "move-media-top" -> {
                                 if (playbackControlAllowedOrSend()) {
                                     val index = incomingMessage.id!!
                                     if (index > 0)
                                         service?.moveItem(index, index - 1)
                                 }
 
+                                    }
+                                    else -> Log.w(TAG, "Unrecognized message", IllegalStateException("Unrecognized message: $message"))
+                                }
+                            } catch (e: Exception) {
+                                Log.e(TAG, e.message, e)
                             }
-                            else -> Log.w(TAG, "Unrecognized message", IllegalStateException("Unrecognized message: $message"))
                         }
-                    } catch (e: Exception) {
-                        Log.e(TAG, e.message, e)
+                        websocketSession.remove(this)
                     }
                 }
-                websocketSession.remove(this)
             }
         }
-    }.apply {
-        environment.monitor.subscribe(ApplicationStarted) {
-            _serverStatus.postValue(ServerStatus.STARTED)
-            AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.observeForever(miniPlayerObserver) }
-        }
-        environment.monitor.subscribe(ApplicationStopped) {
-            AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.removeObserver(miniPlayerObserver) }
-            _serverStatus.postValue(ServerStatus.STOPPED)
+        return embeddedServer(Netty, environment) {
+        }.apply {
+            environment.monitor.subscribe(ApplicationStarted) {
+                _serverStatus.postValue(ServerStatus.STARTED)
+                AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.observeForever(miniPlayerObserver) }
+            }
+            environment.monitor.subscribe(ApplicationStopped) {
+                AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.removeObserver(miniPlayerObserver) }
+                _serverStatus.postValue(ServerStatus.STOPPED)
+            }
         }
     }
 
@@ -1006,8 +1142,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                         mediaLibraryItem.uri.path?.let {
                             Formatter.formatFileSize(context, File(it).length())
                         } ?: ""
-                    }else
-                    ""
+                    } else
+                        ""
                 } else {
                     val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
                     val folders = unparsedDescription.getFolderNumber()
