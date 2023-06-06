@@ -108,11 +108,10 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
         if (lastMediaUri != media.uri) {
             lastMediaUri = media.uri
             binding.infoGrids.removeAllViews()
-            for (i in 0 until media.getAllTracks().size) {
+            for (track in media.getAllTracks()) {
                 val grid = GridLayout(player)
                 grid.columnCount = 2
 
-                val track = media.getAllTracks()[i]
                 if (track.bitrate > 0) addStreamGridView(grid, player.getString(R.string.bitrate), player.getString(R.string.bitrate_value, track.bitrate.toLong().readableSize()))
                 addStreamGridView(grid, player.getString(R.string.codec), track.codec)
                 if (track.language != null && !track.language.equals("und", ignoreCase = true))
