@@ -25,27 +25,18 @@ package org.videolan.television.ui.preferences
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.InputType
-import androidx.preference.EditTextPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
-import androidx.preference.Preference.SummaryProvider
-import androidx.preference.PreferenceManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
 import org.videolan.tools.KEY_ENABLE_WEB_SERVER
-import org.videolan.tools.KEY_WEB_SERVER_AUTH
 import org.videolan.tools.KEY_WEB_SERVER_ML_CONTENT
-import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
-import org.videolan.tools.KEY_WEB_SERVER_USER
 import org.videolan.tools.Settings
 import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
-import org.videolan.tools.password
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
@@ -67,28 +58,8 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         super.onCreatePreferences(bundle, s)
         settings = Settings.getInstance(activity)
-        val preference: EditTextPreference? = findPreference(KEY_WEB_SERVER_PASSWORD)
         medialibraryContentPreference = findPreference(KEY_WEB_SERVER_ML_CONTENT)!!
         manageMLContentSummary()
-
-        if (preference != null) {
-            preference.summaryProvider = SummaryProvider<EditTextPreference> {
-                val password: String = PreferenceManager.getDefaultSharedPreferences(activity).getString(KEY_WEB_SERVER_PASSWORD, "")!!
-                if (password.isEmpty()) {
-                    getString(androidx.preference.R.string.not_set)
-                } else {
-                    password.password()
-                }
-            }
-
-            preference.setOnBindEditTextListener(
-                    EditTextPreference.OnBindEditTextListener { editText ->
-                        editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                        preference.summaryProvider = SummaryProvider<EditTextPreference> {
-                            editText.text.toString().password()
-                        }
-                    })
-        }
     }
 
     private fun manageMLContentSummary() {
@@ -131,9 +102,6 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             }
             WEB_SERVER_FILE_BROWSER_CONTENT, WEB_SERVER_NETWORK_BROWSER_CONTENT, WEB_SERVER_PLAYBACK_CONTROL -> {
 
-            }
-            KEY_WEB_SERVER_AUTH, KEY_WEB_SERVER_USER, KEY_WEB_SERVER_PASSWORD -> {
-                activity.sendBroadcast(Intent(ACTION_RESTART_SERVER))
             }
         }
     }

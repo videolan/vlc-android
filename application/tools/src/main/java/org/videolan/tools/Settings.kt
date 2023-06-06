@@ -123,9 +123,6 @@ const val ML_SCAN_OFF = 1
 
 //Webserver
 const val KEY_ENABLE_WEB_SERVER = "enable_web_server"
-const val KEY_WEB_SERVER_AUTH = "web_server_auth"
-const val KEY_WEB_SERVER_USER = "web_server_user"
-const val KEY_WEB_SERVER_PASSWORD = "web_server_password"
 const val KEY_WEB_SERVER_ML_CONTENT = "web_server_medialibrary_content"
 const val WEB_SERVER_FILE_BROWSER_CONTENT = "web_server_file_browser_content"
 const val WEB_SERVER_NETWORK_BROWSER_CONTENT = "web_server_network_browser_content"

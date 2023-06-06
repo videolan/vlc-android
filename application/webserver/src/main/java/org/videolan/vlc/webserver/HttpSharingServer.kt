@@ -49,10 +49,6 @@ import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.call
 import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.install
-import io.ktor.server.auth.Authentication
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.authenticate
-import io.ktor.server.auth.basic
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.http.content.files
 import io.ktor.server.http.content.static
@@ -110,9 +106,6 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
-import org.videolan.tools.KEY_WEB_SERVER_AUTH
-import org.videolan.tools.KEY_WEB_SERVER_PASSWORD
-import org.videolan.tools.KEY_WEB_SERVER_USER
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.Settings
 import org.videolan.tools.SingletonHolder
@@ -199,9 +192,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                 Log.e(TAG, throwable.message, throwable)
             })
 
-    private var auth = false
-    private var user = ""
-    private var password = ""
 
     private val downloadFolder by lazy { "${context.getExternalFilesDir(null)!!.absolutePath}/downloads" }
 
@@ -225,10 +215,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             val downloadDir = File(downloadFolder)
             if (downloadDir.isDirectory) downloadDir.listFiles()?.forEach { it.delete() }
         }
-        auth = Settings.getInstance(context).getBoolean(KEY_WEB_SERVER_AUTH, false)
-        user = Settings.getInstance(context).getString(KEY_WEB_SERVER_USER, "") ?: ""
-        password = Settings.getInstance(context).getString(KEY_WEB_SERVER_PASSWORD, "")
-                ?: ""
         _serverStatus.postValue(ServerStatus.CONNECTING)
             engine = generateServer()
             engine.start()
@@ -331,18 +317,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             maxFrameSize = Long.MAX_VALUE
             masking = false
         }
-        if (auth && user.isNotEmpty() && password.isNotEmpty()) install(Authentication) {
-            basic("auth-basic") {
-                realm = "Access to the '/' path"
-                validate { credentials ->
-                    if (credentials.name == user && credentials.password == password) {
-                        UserIdPrincipal(credentials.name)
-                    } else {
-                        null
-                    }
-                }
-            }
-        }
         install(CORS) {
             allowMethod(HttpMethod.Options)
             allowMethod(HttpMethod.Post)
@@ -353,9 +327,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         install(PartialContent)
         routing {
-            if (auth) authenticate("auth-basic") {
-                setupRouting()
-            } else setupRouting()
+            setupRouting()
             webSocket("/echo", protocol = "player") {
                 websocketSession.add(this)
                 // Handle a WebSocket session

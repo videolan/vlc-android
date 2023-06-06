@@ -16,26 +16,6 @@
             android:key="web_server_status"
             android:summary="@string/web_server_status_summary"
             android:title="@string/web_server_status" />
-    <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="enable_web_server"
-            android:key="web_server_auth"
-            android:summary="@string/enable_web_server_auth_summary"
-            android:title="@string/enable_web_server_auth" />
-    <EditTextPreference
-            android:defaultValue=""
-            android:dependency="web_server_auth"
-            android:inputType="text"
-            android:key="web_server_user"
-            android:singleLine="true"
-            android:summary="%s"
-            android:title="@string/web_server_user"
-            app:useSimpleSummaryProvider="true" />
-    <EditTextPreference
-            android:dependency="web_server_auth"
-            android:inputType="textPassword"
-            android:key="web_server_password"
-            android:title="@string/web_server_password" />
     <PreferenceCategory android:title="@string/web_server_content">
         <MultiSelectListPreference
                 android:dependency="enable_web_server"
