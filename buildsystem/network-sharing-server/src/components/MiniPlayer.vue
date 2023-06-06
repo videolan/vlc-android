@@ -7,7 +7,9 @@
       <p id="duration">{{ $readableDuration(new Date(this.playerStore.nowPlaying.duration))
       }}</p>
       <input type="range" ref="progress" min="0" :max="this.playerStore.nowPlaying.duration" class="player-progress"
-        step="1" @change="this.progressChange($event)" @input="this.progressChange($event)">
+        step="1" @change="this.progressChange($event)" @input="this.progressChange($event)"
+        @touchstart="this.progressTouched = true" @touchend="this.progressTouched = false"
+        @touchcancel="this.progressTouched = false">
     </div>
     <div id="player_content" class="row">
       <div class="col-12 col-md" id="media_info">
@@ -36,13 +38,15 @@
         <span class="flex1" />
       </div>
       <div class="player_right col-12 col-md">
-        <div class="player_right_container">
+        <div class="player-right-container playqueue-container">
           <ImageButton type="queue_music" class="medium" id="playqueue" ref="playqueueButton"
             @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active' : ''" />
         </div>
-        <div class="player_right_container">
+        <div class="player-right-container volume-container">
+          <ImageButton type="volume" class="medium" id="volume_icon" />
           <input type="range" ref="volume" min="0" max="100" step="1" @change="this.volumeChange($event)"
-            @input="this.volumeChange($event)">
+            @input="this.volumeChange($event)" @touchstart="this.volumeTouched = true"
+            @touchend="this.volumeTouched = false" @touchcancel="this.volumeTouched = false">
         </div>
       </div>
     </div>
@@ -72,7 +76,9 @@ export default {
   data() {
     return {
       playing: false,
-      loadedArtworkUrl: ""
+      loadedArtworkUrl: "",
+      volumeTouched: false,
+      progressTouched: false
     }
   },
   computed: {
@@ -82,13 +88,13 @@ export default {
   methods: {
     changeVolumeIfNeeded() {
       this.updateVolumeBackground()
-      if (this.$refs.volume.matches(':hover')) return
+      if (this.$refs.volume.matches(':hover') || this.volumeTouched) return
       if (this.$refs.volume.value != this.nowPlaying.volume) this.$refs.volume.value = this.nowPlaying.volume
       this.updateVolumeBackground()
     },
     changeProgressIfNeeded() {
       this.updateProgressBackground()
-      if (this.$refs.progress.matches(':hover')) return
+      if (this.$refs.progress.matches(':hover') || this.volumeTouched) return
       if (this.$refs.progress.value != this.nowPlaying.progress) this.$refs.progress.value = this.nowPlaying.progress
       this.updateProgressBackground()
     },
@@ -147,12 +153,12 @@ export default {
     volumeChange(event) {
       this.updateVolumeBackground()
       this.$root.sendMessage("set-volume", event.target.value);
-      this.$refs.volume.value = event.target.value
+      this.changeVolumeIfNeeded()
     },
     progressChange(event) {
       this.updateProgressBackground()
       this.$root.sendMessage("set-progress", event.target.value);
-      this.$refs.progress.value = event.target.value
+      this.changeProgressIfNeeded()
     },
     togglePlayQueue() {
       this.playerStore.playqueueShowing = !this.playerStore.playqueueShowing
@@ -188,8 +194,12 @@ export default {
     display: none;
   }
 
-  #playqueue {
+  .player-right-container.playqueue-container {
     display: none;
+  }
+
+  .player-right-container.volume-container {
+    float: none;
   }
 }
 
@@ -210,6 +220,7 @@ export default {
   #duration {
     background-color: transparent !important;
   }
+
 
 }
 
@@ -289,7 +300,7 @@ export default {
   float: right;
 }
 
-.player_right_container {
+.player-right-container {
   height: 100%;
   display: flex;
   align-items: center;
