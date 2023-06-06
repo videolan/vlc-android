@@ -211,6 +211,17 @@ body {
   opacity: 1;
 }
 
+.media-img-list-tr:hover {
+  background-color: rgba(0, 0, 0, .075);
+}
+
+.media-img-list-tr {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  align-items: center;
+}
+
 .media-list .media-img-container {
   width: 54px;
 }
@@ -231,6 +242,14 @@ body {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   min-width: 0;
+}
+
+.media-list .media-text {
+  margin-left: 1em;
+}
+
+.media-list {
+  padding-top: 32px;
 }
 
 .overlay-more {

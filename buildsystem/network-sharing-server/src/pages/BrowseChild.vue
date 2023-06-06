@@ -1,13 +1,9 @@
 <template>
-    <div v-if="loaded && this.browseResult.length !== 0" class="container media-content">
+    <div v-if="loaded && this.browseResult.length !== 0" class="container media-list">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3">
-            <table class="table table-hover media-list">
-                <tbody>
-                    <tr v-for="item in browseResult" :key="item.id">
-                        <MediaListItem :media="item" :mediaType="(item.isFolder) ? 'folder' : 'file'" />
-                    </tr>
-                </tbody>
-            </table>
+            <template v-for="item in browseResult" :key="item.id">
+                <MediaListItem :media="item" :mediaType="(item.isFolder) ? 'folder' : 'file'" />
+            </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="item in browseResult" :key="item.id">

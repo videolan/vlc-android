@@ -1,20 +1,16 @@
 <template>
-    <td v-on:click="manageClick" class="media-img-list-td clickable">
+    <div v-on:click="manageClick" class="d-flex clickable media-img-list-tr">
         <div class="ratio media-img-container" v-bind:class="(mainImgClasses())">
             <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div class="media-overlay" v-show="!isBrowse()">
                 <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
             </div>
         </div>
-    </td>
-    <td v-on:click="manageClick" class="clickable align-middle">
         <div class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
-            <p class="card-text text-truncate" v-if="getDescription().length>0">{{ getDescription() }}</p>
+            <p class="card-text text-truncate" v-if="getDescription().length > 0">{{ getDescription() }}</p>
 
         </div>
-    </td>
-    <td class="media-action-list-td">
         <div class="dropdown dropstart overlay-more-container" v-show="!this.hideOverflow">
             <ImageButton type="more_vert" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" />
             <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
@@ -30,7 +26,7 @@
                 </li>
             </ul>
         </div>
-    </td>
+    </div>
 </template>
 
 <script>

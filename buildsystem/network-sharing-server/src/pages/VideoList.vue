@@ -1,13 +1,9 @@
 <template>
     <div v-if="loaded && this.videos.length !== 0" class="container">
-        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-content">
-            <table class="table table-hover media-list">
-                <tbody>
-                    <tr v-for="video in videos" :key="video.id" class="media-img-list-tr">
-                        <MediaListItem :media="video" :downloadable="true" :mediaType="'video'" />
-                    </tr>
-                </tbody>
-            </table>
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
+            <template v-for="video in videos" :key="video.id">
+                <MediaListItem :media="video" :downloadable="true" :mediaType="'video'" />
+            </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-sm-4 col-xs-6" v-for="video in videos" :key="video.id">
