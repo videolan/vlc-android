@@ -205,7 +205,7 @@ class ArtworkProvider : ContentProvider() {
             if (!mw.artworkMrl.isNullOrEmpty()) {
                 val filePath = Uri.decode(mw.artworkMrl).removeFileScheme()
                 val file = File(filePath)
-                if (file.canRead() && isImageSquare(filePath)) return@getMediaImage ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+                if (file.canRead() && isImageWithinBounds(filePath)) return@getMediaImage ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             }
         }
         // Non-square cover art will have an artworkMrl, which will be padded, re-encoded, and cached.
@@ -309,15 +309,21 @@ class ArtworkProvider : ContentProvider() {
     }
 
     /**
-     * Test if the cover art image is square to determine if padding is required
+     * Test if the cover art image is square to determine if padding is required. Also check if the
+     * image is larger than 2000x2000px. Images 3000x3000px crash Android Auto.
      */
-    private fun isImageSquare(path: String): Boolean {
+    private fun isImageWithinBounds(path: String): Boolean {
         val options = BitmapFactory.Options()
         /* Get the resolution of the bitmap without allocating the memory */
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(path, options)
-        return if (options.outWidth == -1 || options.outHeight == -1) false
-        else options.outWidth == options.outHeight
+        val outWidth = options.outWidth
+        val outHeight = options.outHeight
+        return when {
+            outWidth == -1 || outHeight == -1 -> false
+            outWidth > 2_000 || outHeight > 2_000 -> false
+            else -> outWidth == outHeight
+        }
     }
 
     /**
