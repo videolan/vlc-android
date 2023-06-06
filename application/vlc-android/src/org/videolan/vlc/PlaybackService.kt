@@ -651,7 +651,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (CarConnectionHandler.preferCarConnectionHandler()) {
             carConnectionHandler = CarConnectionHandler(contentResolver)
             carConnectionHandler.connectionType.observeForever {
-                if (it != null) publishState()
+                if (it != null) executeUpdate(true)
             }
         }
 
