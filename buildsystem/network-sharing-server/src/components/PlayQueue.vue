@@ -55,7 +55,7 @@ export default {
     top: 0;
     bottom: calc(var(--playerHeight) - 24px);
     z-index: 1021;
-    width: 100%;
+    width: 100vw;
     overflow: hidden;
     background-color: $grey-overlay;
     padding-bottom: 48px;
