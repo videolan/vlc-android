@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -149,6 +150,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.orchestrator"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
