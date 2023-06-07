@@ -1,12 +1,12 @@
 <template>
-    <div v-on:click="manageClick" class="d-flex clickable media-img-list-tr">
-        <div class="ratio media-img-container" v-bind:class="(mainImgClasses())">
+    <div class="d-flex clickable media-img-list-tr">
+        <div v-on:click="manageClick" class="ratio media-img-container" v-bind:class="(mainImgClasses())">
             <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div class="media-overlay" v-show="!isBrowse()">
                 <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
             </div>
         </div>
-        <div class="card-body media-text flex1">
+        <div v-on:click="manageClick" class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
             <p class="card-text text-truncate" v-if="getDescription().length > 0">{{ getDescription() }}</p>
 
