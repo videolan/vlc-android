@@ -99,6 +99,7 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.util.await
@@ -113,6 +114,7 @@ import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
 import org.videolan.tools.awaitAppIsForegroung
+import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.resIdByName
 import org.videolan.vlc.ArtworkProvider
@@ -837,7 +839,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // Get the translation string list
         get("/translation") {
-            call.respondText(TranslationMapping.generateTranslations(appContext))
+            call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
         }
         // Get a media artwork
         get("/artwork") {
