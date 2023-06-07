@@ -78,7 +78,8 @@ export default {
       playing: false,
       loadedArtworkUrl: "",
       volumeTouched: false,
-      progressTouched: false
+      progressTouched: false,
+      volumeTimeoutId: 0
     }
   },
   computed: {
@@ -151,9 +152,14 @@ export default {
       console.log("Sending next10");
     },
     volumeChange(event) {
+      clearTimeout(this.volumeTimeoutId)
       this.updateVolumeBackground()
-      this.$root.sendMessage("set-volume", event.target.value);
-      this.changeVolumeIfNeeded()
+      this.volumeTimeoutId = setTimeout(() => {
+        this.updateVolumeBackground()
+        this.$root.sendMessage("set-volume", event.target.value);
+        this.changeVolumeIfNeeded()
+      }, "50");
+
     },
     progressChange(event) {
       this.updateProgressBackground()
