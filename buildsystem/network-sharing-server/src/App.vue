@@ -20,7 +20,7 @@ import MiniPlayer from './components/MiniPlayer.vue'
 import PlayQueue from './components/PlayQueue.vue'
 import Alert from './components/Alert.vue'
 import UploadDialog from './components/UploadDialog.vue'
-import { API_IP } from './config.js'
+import { vlcApi } from './plugins/api.js'
 import { usePlayerStore } from './stores/PlayerStore'
 import { useAppStore } from './stores/AppStore'
 import { mapStores } from 'pinia'
@@ -57,11 +57,7 @@ export default {
     },
     startWebSocket() {
       console.log("Starting connection to WebSocket Server")
-      let protocol = "wss"
-      if (location.protocol !== 'https:') {
-        protocol = `ws`;
-      }
-      this.connection = new WebSocket(`${protocol}://${API_IP}/echo`, "player")
+      this.connection = new WebSocket(vlcApi.websocket, "player")
       this.connection.onmessage = (event) => {
 
         const msg = JSON.parse(event.data);

@@ -76,7 +76,7 @@
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
-import { API_URL } from '../config.js'
+import { vlcApi } from '../plugins/api.js'
 import MediaCardItem from '../components/MediaCardItem.vue'
 import MediaListItem from '../components/MediaListItem.vue'
 import EmptyView from '../components/EmptyView.vue'
@@ -105,7 +105,7 @@ export default {
     methods: {
         fetchFavorites() {
             let component = this
-            axios.get(API_URL + "favorite-list")
+            axios.get(vlcApi.favoriteList)
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.forbidden = true;
@@ -121,7 +121,7 @@ export default {
         },
         fetchStorages() {
             let component = this
-            axios.get(API_URL + "storage-list")
+            axios.get(vlcApi.storageList)
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.forbidden = true;
@@ -137,7 +137,7 @@ export default {
         },
         fetchNetwork() {
             let component = this
-            axios.get(API_URL + "network-list")
+            axios.get(vlcApi.networkList)
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.networkForbidden = true;

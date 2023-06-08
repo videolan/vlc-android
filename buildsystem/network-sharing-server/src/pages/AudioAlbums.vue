@@ -24,7 +24,7 @@
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
-import { API_URL } from '../config.js'
+import { vlcApi } from '../plugins/api.js'
 import MediaCardItem from '../components/MediaCardItem.vue'
 import MediaListItem from '../components/MediaListItem.vue'
 import EmptyView from '../components/EmptyView.vue'
@@ -49,7 +49,7 @@ export default {
         fetchAlbums() {
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "album-list")
+            axios.get(vlcApi.albumList)
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.forbidden = true;

@@ -67,7 +67,7 @@ import ImageButton from './ImageButton.vue'
 import { usePlayerStore } from '../stores/PlayerStore'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
-import { API_URL } from '../config.js'
+import { vlcApi } from '../plugins/api.js'
 
 export default {
   components: {
@@ -180,7 +180,7 @@ export default {
       this.changeProgressIfNeeded()
       if (this.loadedArtworkUrl != this.nowPlaying.uri) {
         this.loadedArtworkUrl = this.nowPlaying.uri
-        this.$refs.playerArtwork.src = API_URL + "/artwork?randomizer=" + Date.now()
+        this.$refs.playerArtwork.src = vlcApi.artwork(null, null, null, Date.now())
       }
     },
   },

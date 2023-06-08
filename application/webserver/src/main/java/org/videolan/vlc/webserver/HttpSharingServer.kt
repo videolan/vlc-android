@@ -478,7 +478,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             call.respond(HttpStatusCode.NotFound, "")
         }
         // List all log files
-        get("/list-logfiles") {
+        get("/logfile-list") {
             val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
 
             val jsonArray = JSONArray()

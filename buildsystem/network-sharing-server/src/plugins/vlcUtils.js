@@ -1,4 +1,4 @@
-import { API_URL, API_CONFIG } from '../config.js'
+import { vlcApi } from '../plugins/api.js'
 import axios from 'axios'
 import { useAppStore } from '../stores/AppStore'
 import { useUploadStore } from '../stores/UploadStore'
@@ -16,36 +16,28 @@ export default {
         }
         app.config.globalProperties.$getAppAsset = (name, width) => {
             if (width < 0 || width === undefined) width = 32
-            return `${API_URL}icon?id=${name}&width=${width}`
+            return vlcApi.appAsset(name, width)
         }
 
         app.config.globalProperties.$getImageUrl = (media, mediaType) => {
             if (mediaType == 'network' && media.artworkURL != "") return media.artworkURL
-            return `${API_URL}artwork?artwork=${media.artworkURL}&id=${media.id}&type=${mediaType}`
+            return vlcApi.artwork(media.artworkURL, media.id, mediaType)
         }
 
         app.config.globalProperties.$download = (media, mediaType, directDownload) => {
             if (directDownload) {
-                window.location.href =`${API_URL}prepare-download?id=${media.id}&type=${mediaType}`
+                window.location.href = vlcApi.prepareDownload(media.id, mediaType)
             } else {
                 appStore.warning = { type: "message", message: geti18n().global.t("PREPARING_DOWNLOAD") }
-                axios.get(`${API_URL}prepare-download?id=${media.id}&type=${mediaType}`).then((response) => {
+                axios.get(vlcApi.prepareDownload(media.id, mediaType)).then((response) => {
                     appStore.warning = undefined
-                    window.location.href = `${API_URL}download?file=${response.data}`
+                    window.location.href = vlcApi.download(response.data)
                 });
             }
         }
 
         app.config.globalProperties.$play = (media, mediaType, append, asAudio) => {
-            axios.get(`${API_URL}play`, {
-                params: {
-                    id: media.id,
-                    append: append,
-                    audio: asAudio,
-                    type: mediaType,
-                    path: media.path
-                }
-            })
+            axios.get(vlcApi.play(media, mediaType, append, asAudio))
                 .catch(function (error) {
                     if (error.response.status != 200) {
                         appStore.warning = { type: "warning", message: error.response.data }
@@ -53,11 +45,7 @@ export default {
                 })
         }
         app.config.globalProperties.$resumePlayback = (isAudio) => {
-            axios.get(`${API_URL}resume-playback`, {
-                params: {
-                    audio: isAudio
-                }
-            })
+            axios.get(vlcApi.resumePlayback(isAudio))
         }
         app.config.globalProperties.$upload = (file) => {
             const onUploadProgress = (progressEvent) => {
@@ -69,7 +57,7 @@ export default {
             formData.append("media", file);
             formData.append("filename", file.name)
             uploadStore.changeFileStatus(file, 'uploading')
-            axios.post(`${API_CONFIG.UPLOAD_MEDIA}`, formData, {
+            axios.post(`${vlcApi.uploadMedia}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

@@ -15,7 +15,7 @@
 
 <script>
 import axios from 'axios'
-import { API_URL } from '../config.js'
+import { vlcApi } from '../plugins/api.js'
 import LogList from '../components/LogList.vue'
 import EmptyView from '../components/EmptyView.vue'
 import { useAppStore } from '../stores/AppStore'
@@ -40,11 +40,12 @@ export default {
         fetchLogs() {
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "list-logfiles").then((response) => {
-                this.loaded = true;
-                this.logs = response.data
-                component.appStore.loading = false
-            });
+            axios.get(vlcApi.logfileList)
+                .then((response) => {
+                    this.loaded = true;
+                    this.logs = response.data
+                    component.appStore.loading = false
+                });
         }
     },
     created: function () {

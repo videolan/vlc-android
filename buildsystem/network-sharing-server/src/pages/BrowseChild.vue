@@ -22,7 +22,7 @@ import { useAppStore } from '../stores/AppStore'
 import { useBrowserStore } from '../stores/BrowserStore'
 import { mapStores } from 'pinia'
 import axios from 'axios'
-import { API_URL } from '../config.js'
+import { vlcApi } from '../plugins/api.js'
 import MediaCardItem from '../components/MediaCardItem.vue'
 import MediaListItem from '../components/MediaListItem.vue'
 import EmptyView from '../components/EmptyView.vue'
@@ -48,16 +48,13 @@ export default {
             this.browserStore.breadcrumb = []
             let component = this
             component.appStore.loading = true
-            axios.get(API_URL + "browse-list", {
-                params: {
-                    path: this.$route.params.browseId
-                }
-            }).then((response) => {
-                this.loaded = true;
-                this.browseResult = response.data.content
-                component.appStore.loading = false
-                component.browserStore.breadcrumb = response.data.breadcrumb
-            });
+            axios.get(vlcApi.browseList(this.$route.params.browseId))
+                .then((response) => {
+                    this.loaded = true;
+                    this.browseResult = response.data.content
+                    component.appStore.loading = false
+                    component.browserStore.breadcrumb = response.data.breadcrumb
+                });
         },
     },
     watch: {

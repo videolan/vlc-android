@@ -1,10 +1,10 @@
 import { createI18n } from 'vue-i18n'
-import { API_URL } from './config'
+import { vlcApi } from './plugins/api'
 
 var i18nInstance;
 
 export async function loadLanguage() {
-    const response = await fetch(`${API_URL}translation`).catch(function () {
+    const response = await fetch(vlcApi.translation).catch(function () {
         return new Response(JSON.stringify({
             code: 400,
             message: '{}'

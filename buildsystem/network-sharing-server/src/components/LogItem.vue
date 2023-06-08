@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { API_CONFIG } from '@/config';
+import { vlcApi } from '@/plugins/api';
 import ImageButton from './ImageButton.vue'
 
 export default {
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     href: function () {
-      return `${API_CONFIG.DOWNLOAD_LOGFILE}` + this.logfile.path
+      return `${vlcApi.downloadLog}` + this.logfile.path
     },
     iclass: function () {
       return `fa fa-` + this.type
