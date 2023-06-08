@@ -5,6 +5,7 @@ cache:
         - gradle-7.3.3/
         - gradle-7.4/
         - gradle-7.5/
+        - gradle-8.0/
         - gradle/
         - gradlew
 
