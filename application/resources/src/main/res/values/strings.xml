@@ -607,6 +607,12 @@
     <string name="medialibrary">Media library</string>
     <string name="medialibrary_directories">Media library folders</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">What\'s new in VLC for Android %s</string>
+    <string name="whats_new_36_webserver_text">With the new remote access feature, take control of VLC for Android from any other device.\nSend your media both ways, control your playback and much more!</string>
+    <string name="whats_new_36_favorites_text">You can now favorite your media, playlists, artists or albums.\nFind your preferred content at a glance by filtering the content by favorites only!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">More Actions</string>
     <string name="back_quit_lock">Press Back again to quit video</string>
@@ -632,6 +638,7 @@
     <string name="partial_content">VLC cannot access all of your files</string>
     <string name="partial_content_description">Starting with Android 11, applications need a special permission to access all device\'s files.\n\n%s</string>
     <string name="never_ask_again">Never ask again</string>
+    <string name="never_show_again">Never show again</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
     <string name="allow_settings_access_ringtone_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
     <string name="allow_settings_access_brightness_title">Allow VLC to change brightness mode</string>

@@ -111,6 +111,9 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                 R.xml.preferences_casting -> loadFragment(PreferencesCasting().apply {
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
+                R.xml.preferences_remote_access -> loadFragment(PreferencesRemoteAccess().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
             }
             arguments = null
         }

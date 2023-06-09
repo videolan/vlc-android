@@ -98,6 +98,8 @@ const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCLUDE_MISSING = "include_missing"
 const val KEY_INCOGNITO = "incognito_mode"
+const val KEY_LAST_WHATS_NEW = "last_whats_new"
+const val KEY_SHOW_WHATS_NEW = "show_whats_new"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"

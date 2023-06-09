@@ -24,58 +24,46 @@
 
 package org.videolan.vlc.gui.dialogs
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.edit
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
-import org.videolan.tools.NOTIFICATION_PERMISSION_ASKED
+import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_SHOW_WHATS_NEW
 import org.videolan.tools.Settings
-import org.videolan.vlc.databinding.DialogNorificationPermissionBinding
-import org.videolan.vlc.gui.helpers.hf.NotificationDelegate.Companion.getNotificationPermission
-import org.videolan.vlc.util.Permissions
+import org.videolan.tools.putSingle
+import org.videolan.vlc.R
+import org.videolan.vlc.databinding.DialogWhatsNewBinding
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 
-class NotificationPermissionDialog : VLCBottomSheetDialogFragment() {
+class WhatsNewDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = false
 
-    private lateinit var binding: DialogNorificationPermissionBinding
+    private lateinit var binding: DialogWhatsNewBinding
 
 
     override fun initialFocusedView(): View = binding.title
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DialogNorificationPermissionBinding.inflate(layoutInflater, container, false)
-        binding.okButton.setOnClickListener {
-            dismiss()
+        binding = DialogWhatsNewBinding.inflate(layoutInflater, container, false)
+        binding.title.text = getString(R.string.whats_new_title, "3.6")
+        binding.webserverMore.setOnClickListener {
+            lifecycleScope.launch {
+                PreferencesActivity.launchWithPref(requireActivity(), KEY_ENABLE_REMOTE_ACCESS)
+                dismiss()
+            }
+        }
+        binding.neverAgain.setOnCheckedChangeListener { _, isChecked ->
+            Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_WHATS_NEW, !isChecked)
         }
         return binding.root
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        Settings.getInstance(requireActivity()).edit {
-            putBoolean(NOTIFICATION_PERMISSION_ASKED, true)
-        }
-        lifecycleScope.launch { requireActivity().getNotificationPermission() }
-        super.onDismiss(dialog)
-    }
-}
-
-object NotificationPermissionManager {
-    fun launchIfNeeded(activity: FragmentActivity):Boolean {
-        if(!Permissions.canSendNotifications(activity) && !Settings.getInstance(activity).getBoolean(NOTIFICATION_PERMISSION_ASKED, false)) {
-            val notificationPermissionDialog = NotificationPermissionDialog()
-            notificationPermissionDialog.show(activity.supportFragmentManager, "fragment_notification_permission")
-            return true
-        }
-        return false
     }
 }
 
