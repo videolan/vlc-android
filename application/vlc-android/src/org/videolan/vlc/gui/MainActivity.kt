@@ -30,7 +30,9 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.view.ActionMode
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -39,7 +41,6 @@ import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.*
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
@@ -72,6 +73,7 @@ class MainActivity : ContentActivity(),
         }
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
+    private lateinit var toolbarIcon: ImageView
 
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? {
         val view = super.getSnackAnchorView(overAudioPlayer)
@@ -112,6 +114,8 @@ class MainActivity : ContentActivity(),
 
 
     private fun prepareActionBar() {
+        toolbarIcon = findViewById(R.id.toolbar_icon)
+        updateIncognitoModeIcon()
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(false)
             setHomeButtonEnabled(false)
@@ -195,6 +199,7 @@ class MainActivity : ContentActivity(),
             R.id.incognito_mode -> {
                 Settings.getInstance (this).putSingle(KEY_INCOGNITO, !Settings.getInstance(this).getBoolean(KEY_INCOGNITO, false))
                 item.isChecked = !item.isChecked
+                updateIncognitoModeIcon()
                 true
             }
             android.R.id.home ->
@@ -202,6 +207,12 @@ class MainActivity : ContentActivity(),
                 slideDownAudioPlayer()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun updateIncognitoModeIcon() {
+        val incognito = Settings.getInstance (this).getBoolean(KEY_INCOGNITO, false)
+        toolbarIcon.setImageDrawable(ContextCompat.getDrawable(this, if (incognito) R.drawable.ic_incognito else R.drawable.ic_icon))
+
     }
 
     override fun onMenuItemActionExpand(item: MenuItem): Boolean {
