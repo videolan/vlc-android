@@ -33,6 +33,7 @@
                 android:key="enable_scale_gesture"
                 android:summary="@string/enable_scale_gesture_summary"
                 android:title="@string/enable_scale_gesture_title"
+                app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
