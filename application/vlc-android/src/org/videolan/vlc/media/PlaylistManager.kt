@@ -391,7 +391,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
-        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
+        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo()) || !isAppStarted()
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
