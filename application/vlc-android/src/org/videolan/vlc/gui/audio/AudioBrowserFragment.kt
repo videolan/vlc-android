@@ -316,7 +316,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     }
 
     private fun setFabPlayShuffleAllVisibility(force: Boolean = false) {
-        setFabPlayVisibility(force || viewModel.providers[currentTab].pagedList.value?.size ?: 0 > 2)
+        setFabPlayVisibility(
+                currentTab == 2 && (
+                        force ||
+                                (viewModel.providers[currentTab].pagedList.value?.size ?: 0) > 2
+                        )
+        )
     }
 
     override fun getTitle(): String = getString(R.string.audio)
