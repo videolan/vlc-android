@@ -63,8 +63,8 @@ private const val ID_VIDEO_STATS = 15L
 private const val ID_SHOW_VIDEO_TIPS = 16L
 private const val ID_SHOW_AUDIO_TIPS = 17L
 private const val ID_SHOW_PLAYLIST_TIPS = 18L
-private const val ID_VIDEO_CONTROLS_SETTING = 19L
-private const val ID_AUDIO_CONTROLS_SETTING = 20L
+private const val ID_VIDEO_CONTROL_SETTING = 19L
+private const val ID_AUDIO_CONTROL_SETTING = 20L
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 
@@ -113,13 +113,13 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") != "2")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
         if (video)
-            options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
+            options.add(PlayerOption(ID_VIDEO_CONTROL_SETTING, R.drawable.ic_video_controls, res.getString(R.string.control_setting)))
 
         if (!Settings.showTvUi) {
             if (video) {
                 options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.drawable.ic_videotips, res.getString(R.string.tips_title)))
             } else {
-                options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.controls_setting)))
+                options.add(PlayerOption(ID_AUDIO_CONTROL_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.control_setting)))
                 options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.drawable.ic_audiotips, res.getString(R.string.audio_player_tips)))
                 options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
             }
@@ -235,12 +235,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 hide()
                 bookmarkClickedListener.invoke()
             }
-            ID_VIDEO_CONTROLS_SETTING -> {
+            ID_VIDEO_CONTROL_SETTING -> {
                 hide()
                 val videoControlsSettingsDialog = VideoControlsSettingsDialog()
                 videoControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_video_controls_settings")
             }
-            ID_AUDIO_CONTROLS_SETTING -> {
+            ID_AUDIO_CONTROL_SETTING -> {
                 hide()
                 val audioControlsSettingsDialog = AudioControlsSettingsDialog()
                 audioControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_audio_controls_settings")
