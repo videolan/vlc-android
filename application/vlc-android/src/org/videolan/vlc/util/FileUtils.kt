@@ -380,6 +380,9 @@ object FileUtils {
                 val media = medialibrary.getMedia(data.lastPathSegment!!.toLong())
                 uri = media.uri
             } else {
+                uri = MediaUtils.getContentMediaUri(data)
+                if (uri != null && uri != data)
+                    return uri
                 val inputPFD: ParcelFileDescriptor?
                 try {
                     inputPFD = ctx.contentResolver.openFileDescriptor(data, "r")
