@@ -373,6 +373,8 @@ object FileUtils {
                     CloseableUtils.close(os)
                     CloseableUtils.close(cursor)
                 }
+            } else if (data.host == "com.amaze.filemanager" && data.path != null) {
+                uri = Uri.parse(data.path!!.replace("/storage_root", "file://"))
             } else if (data.authority == "media") {
                 uri = MediaUtils.getContentMediaUri(data)
             } else if (data.authority == ctx.getString(R.string.tv_provider_authority)) {
