@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.webserver
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
@@ -31,7 +32,6 @@ import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.Formatter
-import android.util.Base64
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
@@ -122,6 +122,7 @@ import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
 import org.videolan.tools.AppScope
+import org.videolan.tools.KEYSTORE_PASSWORD
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.Settings
@@ -132,6 +133,7 @@ import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.tools.putSingle
 import org.videolan.tools.resIdByName
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.PlaybackService
@@ -157,6 +159,7 @@ import org.videolan.vlc.util.toByteArray
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
+import org.videolan.vlc.webserver.ssl.SecretGenerator
 import org.videolan.vlc.webserver.utils.MediaZipUtils
 import org.videolan.vlc.webserver.utils.serveAudios
 import org.videolan.vlc.webserver.utils.servePlaylists
@@ -166,14 +169,12 @@ import java.io.File
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
-import java.security.KeyFactory
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.PrivateKey
 import java.security.SecureRandom
 import java.security.Security
 import java.security.cert.X509Certificate
-import java.security.spec.PKCS8EncodedKeySpec
 import java.text.DateFormat
 import java.time.Duration
 import java.util.Collections
@@ -338,24 +339,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
     }
 
-    /**
-     * Retrieve a [PrivateKey] froma  stringf
-     *
-     * @param privateString the string to convert
-     * @return the [PrivateKey] or null if an exception occurred
-     */
-    private fun keyFromString(privateString:String):PrivateKey? {
-        var privateKey: PrivateKey? = null
-
-        try {
-            val binCpk: ByteArray = Base64.decode(privateString, Base64.DEFAULT)
-            val keyFactory = KeyFactory.getInstance("RSA")
-            val privateKeySpec = PKCS8EncodedKeySpec(binCpk)
-            privateKey = keyFactory.generatePrivate(privateKeySpec)
-        } catch (e: java.lang.Exception) {
-        }
-        return privateKey
-    }
 
     /**
      * Generate a self signed certificate and a private key
@@ -393,6 +376,35 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
     /**
+     * Try to retrieve the keystore password. Tries two times. If both fail, try to start over
+     *
+     * @param attempts the number of attempts already made
+     * @return the saved keystore password else throws a RuntimeException
+     */
+    @SuppressLint("ApplySharedPref")
+    private fun retrieveKeystorePassword(attempts: Int = 0): CharArray {
+
+        try {
+            // securely use a random password to store the key in BC keystore
+            if (settings.getString(KEYSTORE_PASSWORD, "").isNullOrBlank()) {
+                // No password saved. generate a password, encrypt it and save it to the preferences
+                settings.putSingle(KEYSTORE_PASSWORD, SecretGenerator.encryptData(context, SecretGenerator.generateRandomString()))
+            }
+            // retrieve the password from the saved preferences
+            return SecretGenerator.decryptData(context, settings.getString(KEYSTORE_PASSWORD, "")!!).toCharArray()
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+            if (attempts > 2) throw RuntimeException("Cannot retrieve the keystore password", e)
+        }
+        if (attempts > 1) {
+            //failed more than once. Let's try again by resetting everything to default
+            SecretGenerator.removeKeys(context)
+            settings.edit().remove(KEYSTORE_PASSWORD).commit()
+        }
+        return retrieveKeystorePassword(attempts + 1)
+    }
+
+    /**
      * Generate the server
      *
      * @return the server engine
@@ -403,6 +415,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         val keyStoreFile = File(context.filesDir.path, ".keystore")
         val store: KeyStore = KeyStore.getInstance("BKS", "BC")
 
+        val password = retrieveKeystorePassword()
+
         //load the keystore either from disk if file exists or create a blank one
         try {
             store.load(keyStoreFile.inputStream(), "store_pass".toCharArray())
@@ -410,7 +424,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             store.load(null, null)
         }
         val key = try {
-            store.getKey("vlc-android", "private_pass".toCharArray())
+            store.getKey("vlc-android", password)
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             null
@@ -426,7 +440,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             Pair(cert, key)
         else
             selfSignedCertificate()
-        store.setKeyEntry("vlc-android", ssc!!.second, "private_pass".toCharArray(), arrayOf(ssc.first))
+        store.setKeyEntry("vlc-android", ssc!!.second, password, arrayOf(ssc.first))
 
         //Save the certificate to the disk
         val out = keyStoreFile.outputStream()
@@ -440,8 +454,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             sslConnector(
                     store,
                     "vlc-android",
-                    { "private_pass".toCharArray() },
-                    { "private_pass".toCharArray() }
+                    { password },
+                    { password }
             ) {
                 this.port = 8443
             }
