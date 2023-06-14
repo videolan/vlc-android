@@ -67,6 +67,7 @@ continuous-app-build:
 
 continuous-app-build-v4:
   extends: .build-all-base
+  image: registry.videolan.org/vlc-debian-android:20230212071537
   script:
     - ./buildsystem/compile.sh --init
     - ./gradlew assembleDebug -PforceVlc4=true
@@ -328,7 +329,7 @@ build-libs-x86_64-v4:
 publish_libs:
     extends: .build-libs-base
     stage: package
-    needs: 
+    needs:
       - job: "build-libs-arm64"
       - job: "build-libs-armv7"
       - job: "build-libs-x86"
