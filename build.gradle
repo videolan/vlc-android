@@ -80,6 +80,7 @@ ext {
     testRunner = '1.4.0'
     orchestrator = '1.1.0'
     testCore = '1.4.0'
+    publishScriptPath = '../../buildsystem/publish.gradle'
 //    versionCode scheme is T M NN RR AA
 //    T: Target/Flavour (1 for Android, 2 for Chrome?)
 //    M: Major version from 0 to 9
