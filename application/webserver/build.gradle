@@ -59,6 +59,8 @@ dependencies {
     implementation "io.ktor:ktor-server-cors:$rootProject.ext.ktorVersion"
     implementation("io.ktor:ktor-server-auth:$rootProject.ext.ktorVersion")
     implementation("io.ktor:ktor-server-partial-content:$rootProject.ext.ktorVersion")
+    implementation("io.ktor:ktor-server-call-logging:$rootProject.ext.ktorVersion")
+    debugImplementation "org.slf4j:slf4j-android:1.7.36"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

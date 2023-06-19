@@ -54,10 +54,13 @@ import io.ktor.server.http.content.files
 import io.ktor.server.http.content.static
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
+import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.origin
 import io.ktor.server.plugins.partialcontent.PartialContent
+import io.ktor.server.request.httpMethod
 import io.ktor.server.request.receiveMultipart
+import io.ktor.server.request.uri
 import io.ktor.server.response.header
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondBytes
@@ -328,6 +331,17 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             anyHost()
         }
         install(PartialContent)
+        if (BuildConfig.DEBUG) install(CallLogging) {
+            format { call ->
+                val status = call.response.status()
+                val httpMethod = call.request.httpMethod.value
+                val path = call.request.uri
+                val headers = call.request.headers.entries()
+                        .map { it.key to it.value.joinToString(",") }
+                        .joinToString("\n\t") { "${it.first}:${it.second}" }
+                "$httpMethod - $path -> $status\nheaders:\n\t$headers"
+            }
+        }
         routing {
             setupRouting()
             webSocket("/echo", protocol = "player") {
