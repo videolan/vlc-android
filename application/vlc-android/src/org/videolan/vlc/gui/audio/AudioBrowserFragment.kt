@@ -24,6 +24,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.util.SparseArray
 import android.view.*
 import android.widget.TextView
@@ -395,6 +396,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         else super.onCtxAction(position, option)
     }
 
+    private val TAG = this::class.java.name
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode != null) {
             super.onClick(v, position, item)
@@ -406,7 +408,13 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 UiTools.snackerMissing(requireActivity())
                 return
             }
-            MediaUtils.openMedia(activity, item as MediaWrapper)
+            Log.d(TAG, "onClick: skbench: ")
+            if (Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, false)) {
+                MediaUtils.playAll(activity,
+                    viewModel.providers[currentTab] as MedialibraryProvider<MediaWrapper>, position, false)
+            } else {
+                MediaUtils.openMedia(activity, item as MediaWrapper)
+            }
             return
         }
         val i: Intent
