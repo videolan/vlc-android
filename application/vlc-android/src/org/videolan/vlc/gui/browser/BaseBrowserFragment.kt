@@ -672,7 +672,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun updateFab() {
         fabPlay?.let {
-            if (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true) {
+            if (this !is StorageBrowserFragment && (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true)) {
                 setFabPlayVisibility(true)
                 it.setOnClickListener{onFabPlayClick(it)}
             } else {
