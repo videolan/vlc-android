@@ -51,7 +51,6 @@
             android:layout_alignTop="@+id/swipeLayout"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

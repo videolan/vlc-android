@@ -27,6 +27,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Message
 import android.util.AttributeSet
@@ -50,6 +51,7 @@ import kotlinx.coroutines.delay
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.resources.util.HeadersIndex
 import org.videolan.tools.WeakHandler
+import org.videolan.tools.dp
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.scope
@@ -96,17 +98,19 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     private var lastVerticalOffset: Int = 0
     private var tryCollapseAppbarOnNextScroll = false
     private var tryExpandAppbarOnNextScroll = false
+    private val hiddenTranslationX = 38.dp.toFloat()
 
-    private val handler = object : WeakHandler<FastScroller>(this) {
+    private val handler = @SuppressLint("HandlerLeak")
+    object : WeakHandler<FastScroller>(this) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                HIDE_HANDLE ->  hideBubble()
-                HIDE_SCROLLER ->  this@FastScroller.visibility = View.INVISIBLE
+                HIDE_HANDLE -> hideBubble()
+                HIDE_SCROLLER -> animate().translationX(hiddenTranslationX)
                 SHOW_SCROLLER -> {
                     if (itemCount < ITEM_THRESHOLD) {
                         return
                     }
-                    this@FastScroller.visibility = View.VISIBLE
+                    translationX = 0.dp.toFloat()
                     this.removeMessages(HIDE_SCROLLER)
                     this.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
                 }
@@ -128,13 +132,14 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
 
 
     private fun initialize(context: Context) {
-        orientation = LinearLayout.HORIZONTAL
+        orientation = HORIZONTAL
         clipChildren = false
         val inflater = LayoutInflater.from(context)
         inflater.inflate(R.layout.fastscroller, this)
         handle = findViewById(R.id.fastscroller_handle)
         bubble = findViewById(R.id.fastscroller_bubble)
-
+        translationX = hiddenTranslationX
+        setPadding(24.dp, 0,0,0)
 
     }
 
@@ -145,7 +150,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         this.coordinatorLayout = coordinatorLayout
         appbarLayout = appBarLayout
         this.floatingActionButton = floatingActionButton
-        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+        appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
             layoutParams.height = coordinatorLayout.height - (appBarLayout.height + appBarLayout.top)
             invalidate()
             appbarLayoutExpanded = appBarLayout.top > -appBarLayout.height
@@ -153,7 +158,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
                 isAnimating.set(false)
             }
             lastVerticalOffset = verticalOffset
-        })
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -228,7 +233,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         this.recyclerView = recyclerView
         this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
-        visibility = View.INVISIBLE
+        handler.sendEmptyMessage(HIDE_HANDLE)
         if (this::provider.isInitialized) this.provider.liveHeaders.removeObserver(this)
         this.provider = provider
         provider.liveHeaders.observeForever(this)
@@ -240,6 +245,8 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
      * [handle] drag and drop
      */
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        //prevent gesture if no in handle
+        if (event.action == MotionEvent.ACTION_DOWN && !isViewContains(handle, event.rawX, event.rawY)) return super.onTouchEvent(event)
         if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
             fastScrolling = true
             currentPosition = -1
@@ -261,6 +268,25 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
             return true
         }
         return super.onTouchEvent(event)
+    }
+
+    /**
+     * Check if coordinates are in the view bounds
+     * (with a added security margin around)
+     *
+     * @param view the view which bounds to check
+     * @param rx the x coordinate
+     * @param ry the y coordinate
+     * @return true
+     */
+    private fun isViewContains(view: View, rx: Float, ry: Float): Boolean {
+        val l = IntArray(2)
+        view.getLocationOnScreen(l)
+        val x = l[0] - 32.dp
+        val y = l[1] + 8.dp
+        val w = view.width + 40.dp
+        val h = view.height +8.dp
+        return !(rx < x || rx > x + w || ry < y || ry > y + h)
     }
 
     /**
@@ -365,7 +391,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         val recyclerviewTotalHeight = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent()
         val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
         setPosition(currentHeight * proportion)
-        if (visibility == View.INVISIBLE) handler.sendEmptyMessage(SHOW_SCROLLER)
+        handler.sendEmptyMessage(SHOW_SCROLLER)
         actor.trySend(Unit)
     }
 
