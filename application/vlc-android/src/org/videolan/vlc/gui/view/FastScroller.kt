@@ -47,12 +47,11 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
-import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.HeaderProvider
 import org.videolan.resources.util.HeadersIndex
 import org.videolan.tools.WeakHandler
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
@@ -83,7 +82,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     private val scrollListener = ScrollListener()
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var provider: MedialibraryProvider<out MediaLibraryItem>
+    private lateinit var provider: HeaderProvider
     private lateinit var handle: ImageView
     private lateinit var bubble: TextView
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -225,7 +224,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     /**
      * Sets the [recyclerView] it will be attached to
      */
-    fun setRecyclerView(recyclerView: RecyclerView, provider: MedialibraryProvider<out MediaLibraryItem>) {
+    fun setRecyclerView(recyclerView: RecyclerView, provider: HeaderProvider) {
         this.recyclerView = recyclerView
         this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
