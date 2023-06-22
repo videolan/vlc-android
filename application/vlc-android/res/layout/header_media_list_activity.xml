@@ -236,18 +236,41 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/songs"
-                android:layout_width="@dimen/default_content_width"
-                tools:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|top"
-                android:background="?attr/background_default"
-                android:clipToPadding="false"
-                android:fastScrollEnabled="true"
-                android:paddingBottom="64dp"
-                android:scrollbars="vertical"
-                vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <org.videolan.vlc.gui.view.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                    android:layout_width="match_parent"
+                vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_height="match_parent">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/songs"
+                    android:layout_width="@dimen/default_content_width"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="?attr/background_default"
+                    android:clipToPadding="false"
+                    android:fastScrollEnabled="true"
+                    android:paddingBottom="64dp"
+                    tools:layout_width="match_parent" />
+
+                <org.videolan.vlc.gui.view.FastScroller
+                        android:id="@+id/browser_fast_scroller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:visibility="invisible" />
+            </RelativeLayout>
+        </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+
+
+
+
+
 
         <include layout="@layout/audioplayercontainer" />
 

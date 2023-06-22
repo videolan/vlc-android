@@ -93,6 +93,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     lateinit var inflater: LayoutInflater
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
     var stopReorder = false
+    var areSectionsEnabled = true
 
     protected fun inflaterInitialized() = ::inflater.isInitialized
 
@@ -218,7 +219,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     override fun hasSections(): Boolean {
-        return true
+        return areSectionsEnabled
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {

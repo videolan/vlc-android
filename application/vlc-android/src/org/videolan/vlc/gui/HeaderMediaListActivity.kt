@@ -212,6 +212,12 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         }
 
         binding.playBtn.setOnClickListener(this)
+
+        //swipe layout is only here to be able to make the recyclerview dispatch the scroll events
+        binding.swipeLayout.isEnabled = false
+        audioBrowserAdapter.areSectionsEnabled = false
+        binding.browserFastScroller.attachToCoordinator(binding.appbar, binding.coordinator, null)
+        binding.browserFastScroller.setRecyclerView(binding.songs, viewModel.tracksProvider)
     }
 
     override fun onStop() {

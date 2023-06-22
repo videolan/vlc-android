@@ -87,7 +87,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     private lateinit var bubble: TextView
     private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var appbarLayout: AppBarLayout
-    private lateinit var floatingActionButton: FloatingActionButton
+    private var floatingActionButton: FloatingActionButton? = null
     private var lastPosition = 0f
     private var appbarLayoutExpanded = true
     private val isAnimating = AtomicBoolean(false)
@@ -141,7 +141,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     /**
      * Attaches the FastScroller to an [appBarLayout] and a [coordinatorLayout]
      */
-    fun attachToCoordinator(appBarLayout: AppBarLayout, coordinatorLayout: CoordinatorLayout, floatingActionButton: FloatingActionButton) {
+    fun attachToCoordinator(appBarLayout: AppBarLayout, coordinatorLayout: CoordinatorLayout, floatingActionButton: FloatingActionButton?) {
         this.coordinatorLayout = coordinatorLayout
         appbarLayout = appBarLayout
         this.floatingActionButton = floatingActionButton
@@ -326,7 +326,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
                 if (tryCollapseAppbarOnNextScroll && lastVerticalOffset != -it) {
                     if (!isAnimating.get()) {
                         appbarLayout.setExpanded(false)
-                        floatingActionButton.hide()
+                        floatingActionButton?.hide()
                         isAnimating.set(true)
                     }
                     tryCollapseAppbarOnNextScroll = false
@@ -335,7 +335,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
                 if (tryExpandAppbarOnNextScroll && lastVerticalOffset == -it) {
                     if (!isAnimating.get()) {
                         appbarLayout.setExpanded(true)
-                        floatingActionButton.show()
+                        floatingActionButton?.show()
                         isAnimating.set(true)
                     }
                     tryExpandAppbarOnNextScroll = false
