@@ -569,7 +569,7 @@ fun String.encodeMrlWithTrailingSlash():String {
 }
 
 fun Uri?.isSoundFont():Boolean {
-    this?.lastPathSegment?.let { lastPathSegment ->
+    this?.lastPathSegment?.lowercase()?.let { lastPathSegment ->
         FileUtils.getSoundFontExtensions().forEach {
             if (lastPathSegment.endsWith(it)) return true
         }
