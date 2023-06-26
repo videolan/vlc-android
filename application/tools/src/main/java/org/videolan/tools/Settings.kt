@@ -204,6 +204,7 @@ const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"
 const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 
 const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
+const val KEY_RESTRICT_SETTINGS = "restrict_settings"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

@@ -88,6 +88,10 @@ class PinCodeActivity : BaseActivity() {
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SafeModeModel::class.java)
 
         model.step.observe(this) { step ->
+            if (reason == PinCodeReason.CHECK && model.step.value !in arrayOf( PinStep.INVALID, PinStep.ENTER_EXISTING)) {
+                setResult(RESULT_OK)
+                finish()
+            }
             when (step) {
                 PinStep.ENTER_EXISTING -> binding.pinCodeTitle.text = getString(R.string.safe_mode_pin)
                 PinStep.ENTER_NEW -> binding.pinCodeTitle.text = getString(R.string.safe_mode_new_pin)

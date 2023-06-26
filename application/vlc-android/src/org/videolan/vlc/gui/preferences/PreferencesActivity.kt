@@ -20,11 +20,13 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
@@ -34,12 +36,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.KEY_RESTRICT_SETTINGS
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.RESULT_UPDATE_ARTISTS
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.PinCodeActivity
+import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.gui.preferences.search.PreferenceSearchActivity
@@ -50,10 +56,19 @@ class PreferencesActivity : BaseActivity() {
     private val searchRequestCode = 167
     private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
+    private var pinCodeResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode != Activity.RESULT_OK) {
+            finish()
+        }
+    }
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Settings.getInstance(this).getBoolean(KEY_RESTRICT_SETTINGS, false)) {
+            val intent = PinCodeActivity.getIntent(this, PinCodeReason.CHECK)
+            pinCodeResult.launch(intent)
+        }
 
         setContentView(R.layout.preferences_activity)
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)

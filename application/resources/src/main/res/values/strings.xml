@@ -977,6 +977,7 @@
     <string name="pin_code_reason_modify">Change your PIN code</string>
     <string name="pin_code_modified">PIN code successfully modified</string>
     <string name="pin_code_reason_check">Access restricted. Please enter your PIN code</string>
+    <string name="restrict_settings">Restrict settings access</string>
     <string name="search_prefs">Search settings</string>
     <string name="video_match_frame_rate_title">Match Display Frame Rate</string>
     <string name="video_match_frame_rate_summary">Match display refresh rate to media frame rate. For example, a 24p film should play at 24p</string>
