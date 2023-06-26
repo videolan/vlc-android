@@ -23,10 +23,11 @@
 
 package org.videolan.vlc.gui.preferences
 
-import android.content.Intent
+import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -51,8 +52,16 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.isPinCodeSet
+
 
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    var pinCodeResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            loadFragment(PreferencesParentalControl())
+        }
+    }
 
     override fun getXml() = R.xml.preferences_ui
 
@@ -126,8 +135,14 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 return true
             }
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
-            "safe_mode" -> {
-                startActivity(Intent(requireActivity(), PinCodeActivity::class.java))
+            "parental_control" -> {
+                if (requireActivity().isPinCodeSet())
+                loadFragment(PreferencesParentalControl())
+                else {
+                    val intent = Intent(requireActivity(), PinCodeActivity::class.java)
+                    someActivityResultLauncher.launch(intent)
+                }
+//                startActivity(Intent(requireActivity(), PinCodeActivity::class.java))
             }
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }

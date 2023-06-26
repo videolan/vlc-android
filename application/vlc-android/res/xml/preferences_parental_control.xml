@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="video_category"
+        android:title="@string/video_prefs_category">
+
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="parental_control_enabled"
+            android:summary="@string/parental_control_summary"
+            android:title="@string/parental_control"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="parental_control_enabled"
+            android:key="safe_mode"
+            android:summary="@string/safe_mode_summary"
+            android:title="@string/safe_mode"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="parental_control_enabled"
+            android:key="audio_limit"
+            android:summary="@string/audio_limit_summary"
+            android:title="@string/audio_limit"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+
+
+</androidx.preference.PreferenceScreen>

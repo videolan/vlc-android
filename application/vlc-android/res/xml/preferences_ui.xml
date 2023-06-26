@@ -66,10 +66,10 @@
 
 
     <PreferenceScreen
-            android:key="safe_mode"
+            android:key="parental_control"
             android:singleLine="false"
-            android:summary="@string/safe_mode_summary"
-            android:title="@string/safe_mode"/>
+            android:summary="@string/parental_control_summary"
+            android:title="@string/parental_control"/>
 
     <PreferenceCategory
             android:title="@string/video"

@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui
 
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -110,6 +111,7 @@ class PinCodeActivity : BaseActivity() {
         if (model.step.value == PinStep.RE_ENTER || model.step.value == PinStep.NO_MATCH) {
             if (model.checkMatch(binding.pinCode.text.toString())) {
                 model.savePin(binding.pinCode.text.toString())
+                setResult(RESULT_OK)
                 finish()
             } else {
                 binding.pinCode.text?.clear()
@@ -216,3 +218,5 @@ enum class PinStep {
     ENTER_EXISTING, INVALID, ENTER_NEW, RE_ENTER, NO_MATCH;
 
 }
+
+fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
