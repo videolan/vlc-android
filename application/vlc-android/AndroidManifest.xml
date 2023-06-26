@@ -972,6 +972,10 @@
             android:name=".gui.LibrariesActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
+            android:name=".gui.PinCodeActivity"
+            android:theme="@style/Theme.VLC"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".gui.AuthorsActivity"
             android:theme="@style/Theme.VLC"/>
         <activity

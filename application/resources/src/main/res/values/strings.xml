@@ -961,6 +961,14 @@
     <string name="missing_media_snack">Media is missing. Hide all missing media?</string>
     <string name="browser_show_missing_media">Show missing media</string>
     <string name="browser_show_missing_media_summary">Show distant media even if they are not present</string>
+    <string name="safe_mode">Safe mode</string>
+    <string name="safe_mode_summary">When activated, files cannot be deleted, playlist modified or settings accessed without entering the pin</string>
+    <string name="safe_mode_pin">Enter your PIN</string>
+    <string name="safe_mode_new_pin">Enter your new PIN</string>
+    <string name="safe_mode_re_pin">Re-enter your PIN</string>
+    <string name="safe_mode_no_match">PINs don\'t match</string>
+    <string name="safe_mode_invalid_pin">Wrong PIN</string>
+    <string name="safe_mode_pin_error">Your pin code should only contain digits</string>
     <string name="search_prefs">Search settings</string>
     <string name="video_match_frame_rate_title">Match Display Frame Rate</string>
     <string name="video_match_frame_rate_summary">Match display refresh rate to media frame rate. For example, a 24p film should play at 24p</string>

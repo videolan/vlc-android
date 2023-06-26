@@ -64,6 +64,13 @@
             android:summary="@string/browser_show_missing_media_summary"
             android:title="@string/browser_show_missing_media"/>
 
+
+    <PreferenceScreen
+            android:key="safe_mode"
+            android:singleLine="false"
+            android:summary="@string/safe_mode_summary"
+            android:title="@string/safe_mode"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">

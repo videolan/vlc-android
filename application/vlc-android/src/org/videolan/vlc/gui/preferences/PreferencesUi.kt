@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
@@ -34,9 +35,21 @@ import androidx.preference.TwoStatePreference
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
-import org.videolan.tools.*
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_BLACK_THEME
+import org.videolan.tools.KEY_DAYNIGHT
+import org.videolan.tools.KEY_SHOW_HEADERS
+import org.videolan.tools.LIST_TITLE_ELLIPSIZE
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.PREF_TV_UI
+import org.videolan.tools.RESULT_UPDATE_SEEN_MEDIA
+import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.helpers.UiTools
 
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -113,6 +126,9 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 return true
             }
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
+            "safe_mode" -> {
+                startActivity(Intent(requireActivity(), PinCodeActivity::class.java))
+            }
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }
         return super.onPreferenceTreeClick(preference)
