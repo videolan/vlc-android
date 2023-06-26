@@ -22,14 +22,23 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
-import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
-import org.videolan.tools.Settings
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.Preference
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.gui.PinCodeActivity
+import org.videolan.vlc.gui.PinCodeReason
+import org.videolan.vlc.gui.helpers.UiTools
 
 class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
+
+    private var pinCodeResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            UiTools.snacker(requireActivity(), R.string.pin_code_modified)
+        }
+    }
 
     override fun getXml() = R.xml.preferences_parental_control
 
@@ -39,14 +48,17 @@ class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.O
         super.onCreate(savedInstanceState)
 
     }
-
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
-        when (key) {
-            KEY_VIDEO_JUMP_DELAY -> {
-                Settings.videoJumpDelay = sharedPreferences.getInt(KEY_VIDEO_JUMP_DELAY, 10)
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == null) return false
+        when (preference.key) {
+            "modify_pin_code" -> {
+                val intent = PinCodeActivity.getIntent(requireActivity(), PinCodeReason.MODIFY)
+                pinCodeResult.launch(intent)
             }
         }
+        return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
     }
 }

@@ -51,6 +51,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
+import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.isPinCodeSet
 
@@ -139,10 +140,9 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 if (requireActivity().isPinCodeSet())
                 loadFragment(PreferencesParentalControl())
                 else {
-                    val intent = Intent(requireActivity(), PinCodeActivity::class.java)
-                    someActivityResultLauncher.launch(intent)
+                    val intent = PinCodeActivity.getIntent(requireActivity(), PinCodeReason.FIRST_CREATION)
+                    pinCodeResult.launch(intent)
                 }
-//                startActivity(Intent(requireActivity(), PinCodeActivity::class.java))
             }
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }

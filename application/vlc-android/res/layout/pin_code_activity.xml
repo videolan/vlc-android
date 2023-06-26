@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
   ~  safe_mode_activity.xml
   ~ **************************************************************************
@@ -24,6 +23,7 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -34,6 +34,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/pin_code_reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:textSize="16sp"
+                android:textColor="?attr/font_default"
+                tools:text="@string/safe_mode_pin"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/pin_code_title"
@@ -47,7 +61,7 @@
                 android:textColor="?attr/font_default"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintTop_toTopOf="parent" />
+                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_reason" />
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pin_code_parent"
@@ -65,11 +79,11 @@
                     android:id="@+id/pin_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:singleLine="true"
                     android:digits="0123456789"
                     android:imeOptions="actionNext"
-                    android:inputType="numberPassword" />
+                    android:inputType="numberPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -91,8 +105,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/next"
                 android:enabled="false"
+                android:text="@string/next"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

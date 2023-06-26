@@ -26,6 +26,7 @@ package org.videolan.vlc.gui
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -45,12 +46,15 @@ import java.security.MessageDigest
 import java.util.regex.Pattern
 
 
+private const val PIN_CODE_REASON = "pin_code_reason"
+
 /**
  * Activity allowing to setup the safe mode
  */
 class PinCodeActivity : BaseActivity() {
 
 
+    private lateinit var reason: PinCodeReason
     private lateinit var model: SafeModeModel
     internal lateinit var binding: PinCodeActivityBinding
     override fun getSnackAnchorView(overAudioPlayer: Boolean) = binding.root
@@ -59,7 +63,15 @@ class PinCodeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (!intent.hasExtra(PIN_CODE_REASON)) throw IllegalStateException("No reason given")
+        reason = PinCodeReason.values() [intent.getIntExtra(PIN_CODE_REASON, 0)]
+
         binding = DataBindingUtil.setContentView(this, R.layout.pin_code_activity)
+        binding.pinCodeReason.text = getString(when (reason) {
+            PinCodeReason.FIRST_CREATION -> R.string.pin_code_reason_create
+            PinCodeReason.MODIFY -> R.string.pin_code_reason_modify
+            else -> R.string.pin_code_reason_check
+        })
         binding.pinCode.doOnTextChanged { text, start, before, count ->
             text?.let {
 
@@ -130,6 +142,12 @@ class PinCodeActivity : BaseActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        fun getIntent(context:Context, reason:PinCodeReason) = Intent(context, PinCodeActivity::class.java).apply {
+            putExtra(PIN_CODE_REASON, reason.ordinal)
+        }
     }
 
 }
@@ -216,7 +234,10 @@ class SafeModeModel(application: Application) : AndroidViewModel(application) {
 
 enum class PinStep {
     ENTER_EXISTING, INVALID, ENTER_NEW, RE_ENTER, NO_MATCH;
+}
 
+enum class PinCodeReason {
+    FIRST_CREATION, MODIFY, CHECK
 }
 
 fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
