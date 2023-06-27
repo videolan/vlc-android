@@ -42,6 +42,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PinCodeActivityBinding
+import org.videolan.vlc.gui.helpers.UiTools
 import java.security.MessageDigest
 import java.util.regex.Pattern
 
@@ -67,6 +68,8 @@ class PinCodeActivity : BaseActivity() {
         reason = PinCodeReason.values() [intent.getIntExtra(PIN_CODE_REASON, 0)]
 
         binding = DataBindingUtil.setContentView(this, R.layout.pin_code_activity)
+        binding.pinCode.requestFocus()
+        UiTools.setKeyboardVisibility(binding.pinCode, true)
         binding.pinCodeReason.text = getString(when (reason) {
             PinCodeReason.FIRST_CREATION -> R.string.pin_code_reason_create
             PinCodeReason.MODIFY -> R.string.pin_code_reason_modify
