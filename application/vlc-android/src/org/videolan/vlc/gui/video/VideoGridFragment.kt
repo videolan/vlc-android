@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.fillActionMode
+import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
@@ -167,7 +168,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 viewModel.group?.let { renameGroup(it) }
             }
             R.id.ungroup -> {
-                viewModel.group?.let { viewModel.ungroup(it) }
+                viewModel.group?.let { lifecycleScope.launch{if (requireActivity().checkPIN()) viewModel.ungroup(it) } }
             }
             R.id.play_all -> {
                 onFabPlayClick(binding.root)
@@ -516,7 +517,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true) {}
-                CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
+                CTX_GROUP_SIMILAR -> lifecycleScope.launch { if (requireActivity().checkPIN()) viewModel.groupSimilar(media) }
                 CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
                 CTX_MARK_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
@@ -540,7 +541,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_APPEND -> viewModel.append(position)
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
                 CTX_RENAME_GROUP -> renameGroup(media)
-                CTX_UNGROUP -> viewModel.ungroup(media)
+                CTX_UNGROUP -> lifecycleScope.launch { if (requireActivity().checkPIN()) viewModel.ungroup(media) }
                 CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media).getAll(), true) {}
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
