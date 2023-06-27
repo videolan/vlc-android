@@ -488,23 +488,21 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         }
     }
 
-    private suspend fun removeItems(items: List<MediaWrapper>) {
-        if (checkPIN()){
-            val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
-            dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-            dialog.setListener {
-                lifecycleScope.launch {
-                    for (item in items) {
-                        val deleteAction = kotlinx.coroutines.Runnable {
-                            lifecycleScope.launch {
-                                MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
-                                    UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
-                                }
-                                if (isStarted()) viewModel.refresh()
+    private fun removeItems(items: List<MediaWrapper>) {
+        val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
+        dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
+        dialog.setListener {
+            lifecycleScope.launch {
+                for (item in items) {
+                    val deleteAction = kotlinx.coroutines.Runnable {
+                        lifecycleScope.launch {
+                            MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
+                                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
                             }
+                            if (isStarted()) viewModel.refresh()
                         }
-                        if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
                     }
+                    if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
                 }
             }
         }
