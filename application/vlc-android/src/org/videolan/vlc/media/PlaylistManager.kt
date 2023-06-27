@@ -618,9 +618,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val abStart = media.getMetaLong(MediaWrapper.META_AB_REPEAT_START)
             if (abStart != 0L) {
                 abRepeatOn.value = true
-                abRepeat.value?.start = abStart
                 val abStop = media.getMetaLong(MediaWrapper.META_AB_REPEAT_STOP)
-                abRepeat.value?.stop = if (abStop == 0L) -1L else abStop
+                abRepeat.postValue(ABRepeat(abStart, if (abStop == 0L) -1L else abStop))
             }
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
