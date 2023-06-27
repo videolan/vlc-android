@@ -966,7 +966,7 @@
     <string name="audio_limit">Limit audio volume</string>
     <string name="audio_limit_summary">Prevent audio boost and limit volume to 50%</string>
     <string name="safe_mode">Safe mode</string>
-    <string name="safe_mode_summary">When activated, files cannot be deleted, playlist modified or settings accessed without entering the pin</string>
+    <string name="safe_mode_summary">When activated, files cannot be deleted or playlist modified without entering the pin</string>
     <string name="safe_mode_pin">Enter your PIN</string>
     <string name="safe_mode_new_pin">Enter your new PIN</string>
     <string name="safe_mode_re_pin">Re-enter your PIN</string>

@@ -10,24 +10,15 @@
             android:title="@string/pin_code_reason_modify"
             app:iconSpaceReserved="false"
             app:singleLineTitle="false" />
-    <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="parental_control_enabled"
-            android:summary="@string/parental_control_summary"
-            android:title="@string/parental_control"
-            app:iconSpaceReserved="false"
-            app:singleLineTitle="false" />
 
     <CheckBoxPreference
             android:defaultValue="false"
-            android:dependency="parental_control_enabled"
             android:key="restrict_settings"
             android:title="@string/restrict_settings"
             app:iconSpaceReserved="false"
             app:singleLineTitle="false" />
     <CheckBoxPreference
             android:defaultValue="false"
-            android:dependency="parental_control_enabled"
             android:key="safe_mode"
             android:summary="@string/safe_mode_summary"
             android:title="@string/safe_mode"
@@ -35,7 +26,6 @@
             app:singleLineTitle="false" />
     <CheckBoxPreference
             android:defaultValue="false"
-            android:dependency="parental_control_enabled"
             android:key="audio_limit"
             android:summary="@string/audio_limit_summary"
             android:title="@string/audio_limit"
