@@ -30,6 +30,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showTrackNumber = true
     var tvFoldersFirst = true
     var incognitoMode = false
+    var safeMode = false
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -53,8 +54,12 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
+        safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         return prefs
     }
+
+    fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
+
 
     /**
      * Trigger the [audioControlsChangeListener] to update the UI
@@ -205,6 +210,7 @@ const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 
 const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
 const val KEY_RESTRICT_SETTINGS = "restrict_settings"
+const val KEY_SAFE_MODE = "safe_mode"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

@@ -247,4 +247,3 @@ enum class PinCodeReason {
     FIRST_CREATION, MODIFY, CHECK
 }
 
-fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true

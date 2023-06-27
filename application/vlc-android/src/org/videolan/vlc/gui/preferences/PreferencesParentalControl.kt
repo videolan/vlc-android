@@ -27,6 +27,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.Preference
+import org.videolan.tools.KEY_SAFE_MODE
+import org.videolan.tools.Settings
+import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
@@ -48,6 +51,18 @@ class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.O
         super.onCreate(savedInstanceState)
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        preferenceScreen.sharedPreferences
+                .unregisterOnSharedPreferenceChangeListener(this)
+    }
+
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == null) return false
         when (preference.key) {
@@ -60,5 +75,10 @@ class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.O
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when (key) {
+            KEY_SAFE_MODE -> {
+                Settings.safeMode = sharedPreferences.getBoolean(key, false) && requireActivity().isPinCodeSet()
+            }
+        }
     }
 }

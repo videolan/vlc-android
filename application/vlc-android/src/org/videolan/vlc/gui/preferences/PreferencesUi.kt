@@ -47,13 +47,13 @@ import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.RESULT_UPDATE_SEEN_MEDIA
 import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
 import org.videolan.tools.Settings
+import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.isPinCodeSet
 
 
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -138,7 +138,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
             "parental_control" -> {
                 if (requireActivity().isPinCodeSet())
-                loadFragment(PreferencesParentalControl())
+                    loadFragment(PreferencesParentalControl())
                 else {
                     val intent = PinCodeActivity.getIntent(requireActivity(), PinCodeReason.FIRST_CREATION)
                     pinCodeResult.launch(intent)
