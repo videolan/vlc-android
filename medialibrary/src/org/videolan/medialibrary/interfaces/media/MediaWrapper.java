@@ -444,8 +444,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         if (mFilename == null) {
             if (mUri == null)
                 mFilename = "";
-            else
+            else if (mUri.getLastPathSegment() != null) {
                 mFilename = mUri.getLastPathSegment();
+            } else {
+                mFilename = mUri.toString();
+            }
         }
         return mFilename;
     }
