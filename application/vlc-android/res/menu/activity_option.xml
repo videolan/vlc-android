@@ -4,6 +4,14 @@
 
     <item
             android:orderInCategory="0"
+            android:id="@+id/pin_unlocked"
+            android:icon="@drawable/ic_am_pin_lock"
+            android:title="@string/lock_with_pin"
+            vlc:showAsAction="always"
+            android:visible="false"/>
+
+    <item
+            android:orderInCategory="0"
             android:id="@+id/play_all"
             android:icon="@drawable/ic_am_play"
             android:title="@string/play_all"

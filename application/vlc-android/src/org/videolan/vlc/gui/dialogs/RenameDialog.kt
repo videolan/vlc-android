@@ -61,7 +61,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.hf.checkPIN
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
 
@@ -87,7 +87,7 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        lifecycleScope.launch { if (!requireActivity().checkPIN()) dismiss() }
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         media = arguments?.parcelable(RENAME_DIALOG_MEDIA) ?: return
         super.onCreate(savedInstanceState)
     }

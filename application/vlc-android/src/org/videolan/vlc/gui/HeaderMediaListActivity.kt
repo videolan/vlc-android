@@ -66,7 +66,7 @@ import org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
-import org.videolan.vlc.gui.helpers.hf.checkPIN
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IEventsHandler
@@ -526,7 +526,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     }
 
     private suspend fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
-        if (checkPIN()) {
+        if (!showPinIfNeeded()) {
             val itemsRemoved = HashMap<Int, Long>()
             val playlist = viewModel.playlist as? Playlist
                     ?: return

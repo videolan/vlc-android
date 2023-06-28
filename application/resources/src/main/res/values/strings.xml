@@ -977,6 +977,9 @@
     <string name="pin_code_reason_modify">Change your PIN code</string>
     <string name="pin_code_modified">PIN code successfully modified</string>
     <string name="pin_code_reason_check">Access restricted. Please enter your PIN code</string>
+    <string name="restricted_access">Access restricted</string>
+    <string name="unlock">Unlock</string>
+    <string name="lock_with_pin">Re-enable PIN lock</string>
     <string name="restrict_settings">Restrict settings access</string>
     <string name="search_prefs">Search settings</string>
     <string name="video_match_frame_rate_title">Match Display Frame Rate</string>

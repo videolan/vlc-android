@@ -11,6 +11,8 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.util.TypedValue
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -23,6 +25,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.KeyHelper
@@ -32,8 +35,10 @@ import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
+import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -70,6 +75,34 @@ abstract class BaseActivity : AppCompatActivity() {
                         }
             }
         }
+        PinCodeDelegate.pinUnlocked.observe(this) {
+            invalidateOptionsMenu()
+            if (it && !PinCodeDelegate.tipShown) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(500)
+                    lifecycleScope.launchWhenStarted {
+                        findViewById<View?>(R.id.pin_unlocked)?.performLongClick()
+                        PinCodeDelegate.tipShown = true
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val unlockedItem = menu?.findItem(R.id.pin_unlocked)
+        if (unlockedItem != null) {
+            unlockedItem.isVisible = PinCodeDelegate.pinUnlocked.value == true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.pin_unlocked) {
+            PinCodeDelegate.pinUnlocked.postValue(false)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

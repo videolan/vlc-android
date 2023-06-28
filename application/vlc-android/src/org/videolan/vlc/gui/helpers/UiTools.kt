@@ -88,6 +88,8 @@ import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.BitmapUtil.vectorToBitmap
+import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
+import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
@@ -459,6 +461,21 @@ object UiTools {
         val savePlaylistDialog = SavePlaylistDialog()
         savePlaylistDialog.arguments = bundleOf(key to tracks)
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
+    }
+
+    /**
+     * Display a restricted access snack bar if needed
+     *
+     * @return has the access been blocked
+     */
+    fun FragmentActivity.showPinIfNeeded():Boolean {
+        if (Settings.safeMode && PinCodeDelegate.pinUnlocked.value != true) {
+            snackerConfirm(this, getString(R.string.restricted_access), false, R.string.unlock) {
+                lifecycleScope.launch { checkPIN(true) }
+            }
+            return true
+        }
+        return false
     }
 
     fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, forbidNewGroup:Boolean , newGroupListener: ()->Unit) {

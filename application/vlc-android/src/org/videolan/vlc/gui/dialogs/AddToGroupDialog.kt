@@ -45,7 +45,7 @@ import org.videolan.tools.DependencyProvider
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogAddToGroupBinding
 import org.videolan.vlc.gui.SimpleAdapter
-import org.videolan.vlc.gui.helpers.hf.checkPIN
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import java.util.*
@@ -78,7 +78,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        lifecycleScope.launch { if (!requireActivity().checkPIN()) dismiss() }
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         super.onCreate(savedInstanceState)
         medialibrary = Medialibrary.getInstance()
         adapter = SimpleAdapter(this)
