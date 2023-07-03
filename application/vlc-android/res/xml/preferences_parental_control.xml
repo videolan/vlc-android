@@ -24,13 +24,5 @@
             android:title="@string/safe_mode"
             app:iconSpaceReserved="false"
             app:singleLineTitle="false" />
-    <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="audio_limit"
-            android:summary="@string/audio_limit_summary"
-            android:title="@string/audio_limit"
-            app:iconSpaceReserved="false"
-            app:singleLineTitle="false" />
-
 
 </androidx.preference.PreferenceScreen>
