@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <import type="android.view.View" />
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+        <variable
+                name="item"
+                type="MediaLibraryItem" />
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+                name="showCover"
+                type="boolean" />
+    </data>
+
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
@@ -17,7 +33,7 @@
                     android:id="@+id/ctx_cover_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="@{showCover ? View.VISIBLE : View.GONE}"
                     tools:visibility="visible">
 
                 <androidx.cardview.widget.CardView
@@ -33,6 +49,8 @@
                     <ImageView
                             android:id="@+id/ctx_cover"
                             style="@style/Theme.VLC.BottomSheetTitle"
+                            android:src="@{cover}"
+                            app:media="@{item}"
                             android:layout_width="@dimen/audio_cover"
                             android:layout_height="@dimen/audio_cover"
                             android:scaleType="centerCrop" />
@@ -57,6 +75,7 @@
                     android:id="@+id/ctx_title"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="wrap_content"
+                    android:visibility="@{showCover ? View.GONE : View.VISIBLE}"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp" />

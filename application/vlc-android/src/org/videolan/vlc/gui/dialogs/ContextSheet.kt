@@ -24,10 +24,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -36,7 +34,42 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+import org.videolan.resources.CTX_ADD_FOLDER_PLAYLIST
+import org.videolan.resources.CTX_ADD_GROUP
+import org.videolan.resources.CTX_ADD_SCANNED
+import org.videolan.resources.CTX_ADD_SHORTCUT
+import org.videolan.resources.CTX_ADD_TO_PLAYLIST
+import org.videolan.resources.CTX_APPEND
+import org.videolan.resources.CTX_COPY
+import org.videolan.resources.CTX_CUSTOM_REMOVE
+import org.videolan.resources.CTX_DELETE
+import org.videolan.resources.CTX_DOWNLOAD_SUBTITLES
+import org.videolan.resources.CTX_FAV_ADD
+import org.videolan.resources.CTX_FAV_EDIT
+import org.videolan.resources.CTX_FAV_REMOVE
+import org.videolan.resources.CTX_FIND_METADATA
+import org.videolan.resources.CTX_GO_TO_FOLDER
+import org.videolan.resources.CTX_GROUP_SIMILAR
+import org.videolan.resources.CTX_INFORMATION
+import org.videolan.resources.CTX_MARK_ALL_AS_PLAYED
+import org.videolan.resources.CTX_MARK_AS_PLAYED
+import org.videolan.resources.CTX_MARK_AS_UNPLAYED
+import org.videolan.resources.CTX_PLAY
+import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.resources.CTX_PLAY_AS_AUDIO
+import org.videolan.resources.CTX_PLAY_FROM_START
+import org.videolan.resources.CTX_PLAY_NEXT
+import org.videolan.resources.CTX_PLAY_SHUFFLE
+import org.videolan.resources.CTX_REMOVE_FROM_PLAYLIST
+import org.videolan.resources.CTX_REMOVE_GROUP
+import org.videolan.resources.CTX_RENAME
+import org.videolan.resources.CTX_RENAME_GROUP
+import org.videolan.resources.CTX_SET_RINGTONE
+import org.videolan.resources.CTX_SHARE
+import org.videolan.resources.CTX_STOP_AFTER_THIS
+import org.videolan.resources.CTX_UNGROUP
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
@@ -88,18 +121,14 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (arguments?.containsKey(CTX_MEDIA_KEY) == true) {
             val media: MediaLibraryItem = arguments?.get(CTX_MEDIA_KEY) as MediaLibraryItem
 
+            binding.item = media
             val artwork = when (media) {
                 is MediaWrapper -> media.artworkURL
                 else -> media.artworkMrl
             }
-            if (!artwork.isNullOrBlank()) {
-                binding.ctxTitle.visibility = View.GONE
-                binding.ctxCoverLayout.visibility = View.VISIBLE
-                binding.ctxCoverTitle.text = media.title
-                binding.ctxCover.setImageURI(artwork.toUri())
-            } else {
-                view.findViewById<TextView>(R.id.ctx_title).text = media.title
-            }
+            binding.showCover = !artwork.isNullOrBlank()
+            binding.ctxCoverTitle.text = media.title
+            binding.ctxTitle.text = media.title
         } else if (arguments?.containsKey(CTX_TITLE_KEY) == true) {
             binding.ctxCoverTitle.text = arguments?.getString(CTX_TITLE_KEY)
                     ?: ""
