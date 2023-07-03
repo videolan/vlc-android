@@ -64,13 +64,6 @@
             android:summary="@string/browser_show_missing_media_summary"
             android:title="@string/browser_show_missing_media"/>
 
-
-    <PreferenceScreen
-            android:key="parental_control"
-            android:singleLine="false"
-            android:summary="@string/parental_control_summary"
-            android:title="@string/parental_control"/>
-
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">

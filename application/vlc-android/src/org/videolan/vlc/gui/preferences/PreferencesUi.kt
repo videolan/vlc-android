@@ -23,11 +23,9 @@
 
 package org.videolan.vlc.gui.preferences
 
-import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -47,22 +45,13 @@ import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.RESULT_UPDATE_SEEN_MEDIA
 import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
 import org.videolan.tools.Settings
-import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.PinCodeActivity
-import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.helpers.UiTools
 
 
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    var pinCodeResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            loadFragment(PreferencesParentalControl())
-        }
-    }
 
     override fun getXml() = R.xml.preferences_ui
 
@@ -136,14 +125,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 return true
             }
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
-            "parental_control" -> {
-                if (requireActivity().isPinCodeSet())
-                    loadFragment(PreferencesParentalControl())
-                else {
-                    val intent = PinCodeActivity.getIntent(requireActivity(), PinCodeReason.FIRST_CREATION)
-                    pinCodeResult.launch(intent)
-                }
-            }
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }
         return super.onPreferenceTreeClick(preference)

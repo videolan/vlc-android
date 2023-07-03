@@ -962,7 +962,6 @@
     <string name="browser_show_missing_media">Show missing media</string>
     <string name="browser_show_missing_media_summary">Show distant media even if they are not present</string>
     <string name="parental_control">Parental control</string>
-    <string name="parental_control_summary">Various parental control settings</string>
     <string name="safe_mode">Safe mode</string>
     <string name="safe_mode_summary">When activated, files cannot be deleted or playlist modified without entering the pin</string>
     <string name="safe_mode_pin">Enter your PIN</string>
