@@ -470,8 +470,16 @@ object UiTools {
      */
     fun FragmentActivity.showPinIfNeeded():Boolean {
         if (Settings.safeMode && PinCodeDelegate.pinUnlocked.value != true) {
-            snackerConfirm(this, getString(R.string.restricted_access), false, R.string.unlock) {
-                lifecycleScope.launch { checkPIN(true) }
+            if (Settings.tvUI) {
+                lifecycleScope.launch {
+                    if (checkPIN(true)) {
+                        snacker(this@showPinIfNeeded, R.string.pin_code_access_granted, false)
+                    }
+                }
+            } else {
+                snackerConfirm(this, getString(R.string.restricted_access), false, R.string.unlock) {
+                    lifecycleScope.launch { checkPIN(true) }
+                }
             }
             return true
         }
