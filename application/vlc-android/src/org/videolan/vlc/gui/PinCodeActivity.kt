@@ -106,6 +106,7 @@ class PinCodeActivity : BaseActivity() {
                 binding.pinCode.imeOptions = EditorInfo.IME_ACTION_DONE
                 binding.nextButton.text = getString(R.string.done)
             }
+            binding.pinCode.requestFocus()
         }
 
         binding.pinCode.setOnEditorActionListener { v, actionId, event ->
