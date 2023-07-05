@@ -24,12 +24,17 @@
 
 package org.videolan.vlc.gui
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.text.InputType
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.AndroidViewModel
@@ -40,6 +45,7 @@ import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.KEY_SAFE_MODE_PIN
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PinCodeActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
@@ -61,6 +67,7 @@ class PinCodeActivity : BaseActivity() {
     override fun getSnackAnchorView(overAudioPlayer: Boolean) = binding.root
     override val displayTitle = true
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -68,7 +75,21 @@ class PinCodeActivity : BaseActivity() {
         reason = PinCodeReason.values() [intent.getIntExtra(PIN_CODE_REASON, 0)]
 
         binding = DataBindingUtil.setContentView(this, R.layout.pin_code_activity)
-        binding.pinCode.requestFocus()
+        if (!Settings.tvUI) {
+            binding.pinCode.requestFocus()
+        } else {
+            binding.keyboardButton1.requestFocus()
+        }
+        if (Settings.tvUI) {
+            binding.pinCode.setOnTouchListener { v, event -> true }
+            if (Build.VERSION.SDK_INT >= 21) {
+                binding.pinCode.showSoftInputOnFocus = false
+            } else {
+                binding.pinCode.setRawInputType(InputType.TYPE_CLASS_TEXT)
+                binding.pinCode.setTextIsSelectable(true)
+            }
+        }
+        if (Settings.tvUI) binding.keyboardGrid.setVisible()
         UiTools.setKeyboardVisibility(binding.pinCode, true)
         binding.pinCodeReason.text = getString(when (reason) {
             PinCodeReason.FIRST_CREATION -> R.string.pin_code_reason_create
@@ -106,7 +127,7 @@ class PinCodeActivity : BaseActivity() {
                 binding.pinCode.imeOptions = EditorInfo.IME_ACTION_DONE
                 binding.nextButton.text = getString(R.string.done)
             }
-            binding.pinCode.requestFocus()
+            if (!Settings.tvUI) binding.pinCode.requestFocus()
         }
 
         binding.pinCode.setOnEditorActionListener { v, actionId, event ->
@@ -124,6 +145,14 @@ class PinCodeActivity : BaseActivity() {
         }
         setResult(RESULT_CANCELED)
         if (AndroidDevices.isTv) applyOverscanMargin(this)
+        binding.keyboardGrid.children.forEach {
+            it.setOnClickListener { keyboardButton ->
+                when (keyboardButton.tag) {
+                    "-1" -> binding.pinCode.setText(binding.pinCode.text.toString().replaceFirst(".$".toRegex(), ""))
+                    else -> binding.pinCode.setText(binding.pinCode.text.toString() + keyboardButton.tag)
+                }
+            }
+        }
 
     }
 

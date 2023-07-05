@@ -44,6 +44,7 @@
                 android:layout_marginEnd="32dp"
                 android:textSize="16sp"
                 android:textColor="?attr/font_default"
+                android:gravity="center"
                 tools:text="@string/safe_mode_pin"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
                 android:id="@+id/pin_code_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
@@ -85,6 +87,115 @@
                     android:maxLines="1"
                     android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/keyboard_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                vlc:columnCount="3"
+                vlc:rowCount="4"
+                vlc:useDefaultMargins="true"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_parent">
+
+            <TextView
+                    android:id="@+id/keyboard_button_1"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="1"
+                    android:text="1" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_2"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="2"
+                    android:text="2" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_3"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="3"
+                    android:text="3" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_4"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="4"
+                    android:text="4" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_5"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="5"
+                    android:text="5" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_6"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="6"
+                    android:text="6" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_7"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="7"
+                    android:text="7" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_8"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="8"
+                    android:text="8" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_9"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="9"
+                    android:text="9" />
+
+            <TextView
+                    android:id="@+id/keyboard_button_0"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tag="0"
+                    android:text="0" />
+
+            <ImageView
+                    android:id="@+id/keyboard_button_clear"
+                    style="@style/KeyboardButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/delete"
+                    android:scaleType="center"
+                    android:padding="4dp"
+                    vlc:layout_columnSpan="2"
+                    vlc:layout_columnWeight="2"
+                    android:tag="-1"
+                    vlc:srcCompat="@drawable/ic_backspace_white" />
+
+        </androidx.gridlayout.widget.GridLayout>
 
 
         <Button
