@@ -8,8 +8,14 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
@@ -18,8 +24,9 @@ import org.videolan.tools.AppScope
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.repository.BrowserFavRepository
-import java.util.*
+import java.util.Locale
 
 class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 
@@ -53,6 +60,11 @@ class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSe
     override fun needToManageOrientation(): Boolean = false
 
     override fun initialFocusedView(): View = spinnerProtocol
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
