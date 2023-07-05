@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import kotlinx.coroutines.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogVideoControlsSettingsBinding
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 class VideoControlsSettingsDialog : VLCBottomSheetDialogFragment() {
 
@@ -19,6 +22,11 @@ class VideoControlsSettingsDialog : VLCBottomSheetDialogFragment() {
 
 
     override fun initialFocusedView() = binding.fragmentContainerView.findViewById<View>(R.id.recycler_view) ?: binding.container
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogVideoControlsSettingsBinding.inflate(layoutInflater, container, false)
