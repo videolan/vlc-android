@@ -156,6 +156,52 @@ class PinCodeActivity : BaseActivity() {
 
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return when (keyCode) {
+            KeyEvent.KEYCODE_0, KeyEvent.KEYCODE_NUMPAD_0 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "0")
+                true
+            }
+            KeyEvent.KEYCODE_1, KeyEvent.KEYCODE_NUMPAD_1 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "1")
+                true
+            }
+            KeyEvent.KEYCODE_2, KeyEvent.KEYCODE_NUMPAD_2 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "2")
+                true
+            }
+            KeyEvent.KEYCODE_3, KeyEvent.KEYCODE_NUMPAD_3 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "3")
+                true
+            }
+            KeyEvent.KEYCODE_4, KeyEvent.KEYCODE_NUMPAD_4 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "4")
+                true
+            }
+            KeyEvent.KEYCODE_5, KeyEvent.KEYCODE_NUMPAD_5 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "5")
+                true
+            }
+            KeyEvent.KEYCODE_6, KeyEvent.KEYCODE_NUMPAD_6 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "6")
+                true
+            }
+            KeyEvent.KEYCODE_7, KeyEvent.KEYCODE_NUMPAD_7 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "7")
+                true
+            }
+            KeyEvent.KEYCODE_8, KeyEvent.KEYCODE_NUMPAD_8 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "8")
+                true
+            }
+            KeyEvent.KEYCODE_9, KeyEvent.KEYCODE_NUMPAD_9 -> {
+                binding.pinCode.setText(binding.pinCode.text.toString() + "9")
+                true
+            }
+            else -> super.onKeyDown(keyCode, event)
+        }
+    }
+
     private fun next() {
         if (model.step.value == PinStep.RE_ENTER || model.step.value == PinStep.NO_MATCH) {
             if (model.checkMatch(binding.pinCode.text.toString())) {
