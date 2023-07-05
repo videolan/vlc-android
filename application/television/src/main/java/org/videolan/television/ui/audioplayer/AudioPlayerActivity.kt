@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
@@ -317,7 +318,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
             optionsDelegate.setBookmarkClickedListener {
-                showBookmarks()
+                lifecycleScope.launch { if (!showPinIfNeeded()) showBookmarks() }
             }
         }
         optionsDelegate.show()

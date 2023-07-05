@@ -75,6 +75,7 @@ import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
@@ -633,7 +634,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val activity = activity as? AppCompatActivity ?: return
             optionsDelegate = PlayerOptionsDelegate(activity, service)
             optionsDelegate.setBookmarkClickedListener {
-                showBookmarks()
+                lifecycleScope.launch { if (!activity.showPinIfNeeded()) showBookmarks() }
             }
         }
         optionsDelegate.show()

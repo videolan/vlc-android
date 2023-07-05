@@ -105,6 +105,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
@@ -1305,7 +1306,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (optionsDelegate == null) service?.let {
             optionsDelegate = PlayerOptionsDelegate(this, it)
             optionsDelegate!!.setBookmarkClickedListener {
-                overlayDelegate.showBookmarks()
+                lifecycleScope.launch { if (!showPinIfNeeded()) overlayDelegate.showBookmarks() else overlayDelegate.showOverlay() }
             }
         }
         optionsDelegate?.show()
