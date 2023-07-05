@@ -42,9 +42,9 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:textSize="16sp"
-                android:textColor="?attr/font_default"
                 android:gravity="center"
+                android:textColor="?attr/font_default"
+                android:textSize="16sp"
                 tools:text="@string/safe_mode_pin"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
@@ -54,10 +54,10 @@
                 android:id="@+id/pin_code_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
+                android:gravity="center"
                 android:text="@string/safe_mode_pin"
                 android:textAppearance="@style/VLC.Onboarding.Title"
                 android:textColor="?attr/font_default"
@@ -65,25 +65,108 @@
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toBottomOf="@+id/pin_code_reason" />
 
+
         <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pin_code_parent"
+                android:id="@+id/pin_code_parent1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="48dp"
-                android:layout_marginEnd="32dp"
-                vlc:endIconMode="password_toggle"
-                vlc:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                vlc:layout_constraintDimensionRatio="1:1"
+                vlc:layout_constraintEnd_toStartOf="@+id/pin_code_parent2"
+                vlc:layout_constraintHorizontal_bias="0.5"
+                vlc:layout_constraintHorizontal_chainStyle="packed"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toBottomOf="@+id/pin_code_title">
 
             <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pin_code"
+                    android:id="@+id/pin_code1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="numberPassword"
+                    android:maxLength="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pin_code_parent2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="8dp"
+                vlc:layout_constraintDimensionRatio="1:1"
+                vlc:layout_constraintEnd_toStartOf="@+id/pin_code_parent3"
+                vlc:layout_constraintHorizontal_bias="0.5"
+                vlc:layout_constraintStart_toEndOf="@+id/pin_code_parent1"
+                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pin_code2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberPassword"
+                    android:maxLength="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pin_code_parent3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="8dp"
+                vlc:layout_constraintDimensionRatio="1:1"
+                vlc:layout_constraintEnd_toStartOf="@+id/pin_code_parent4"
+                vlc:layout_constraintHorizontal_bias="0.5"
+                vlc:layout_constraintStart_toEndOf="@+id/pin_code_parent2"
+                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pin_code3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberPassword"
+                    android:maxLength="1"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pin_code_parent4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                vlc:layout_constraintDimensionRatio="1:1"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="32dp"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintHorizontal_bias="0.5"
+                vlc:layout_constraintStart_toEndOf="@+id/pin_code_parent3"
+                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pin_code4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberPassword"
+                    android:maxLength="1"
                     android:maxLines="1"
                     android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,15 +175,15 @@
                 android:id="@+id/keyboard_grid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:visibility="gone"
                 tools:visibility="visible"
                 vlc:columnCount="3"
-                vlc:rowCount="4"
-                vlc:useDefaultMargins="true"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_parent">
+                vlc:layout_constraintTop_toBottomOf="@+id/pin_code_parent1"
+                vlc:rowCount="4"
+                vlc:useDefaultMargins="true">
 
             <TextView
                     android:id="@+id/keyboard_button_1"
@@ -188,11 +271,11 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="@string/delete"
-                    android:scaleType="center"
                     android:padding="4dp"
+                    android:scaleType="center"
+                    android:tag="-1"
                     vlc:layout_columnSpan="2"
                     vlc:layout_columnWeight="2"
-                    android:tag="-1"
                     vlc:srcCompat="@drawable/ic_backspace_white" />
 
         </androidx.gridlayout.widget.GridLayout>

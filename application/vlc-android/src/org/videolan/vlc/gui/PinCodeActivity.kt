@@ -28,9 +28,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -50,7 +49,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PinCodeActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import java.security.MessageDigest
-import java.util.regex.Pattern
 
 
 private const val PIN_CODE_REASON = "pin_code_reason"
@@ -66,55 +64,68 @@ class PinCodeActivity : BaseActivity() {
     internal lateinit var binding: PinCodeActivityBinding
     override fun getSnackAnchorView(overAudioPlayer: Boolean) = binding.root
     override val displayTitle = true
+    private val pinTexts by lazy { arrayOf(binding.pinCode1, binding.pinCode2, binding.pinCode3, binding.pinCode4) }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (!intent.hasExtra(PIN_CODE_REASON)) throw IllegalStateException("No reason given")
-        reason = PinCodeReason.values() [intent.getIntExtra(PIN_CODE_REASON, 0)]
+        reason = PinCodeReason.values()[intent.getIntExtra(PIN_CODE_REASON, 0)]
 
         binding = DataBindingUtil.setContentView(this, R.layout.pin_code_activity)
         if (!Settings.tvUI) {
-            binding.pinCode.requestFocus()
+            updateFocus()
+            UiTools.setKeyboardVisibility(binding.pinCode1, true)
         } else {
+            //On TV show virtual keyboard and make edit texts not focusable
+            binding.keyboardGrid.setVisible()
             binding.keyboardButton1.requestFocus()
+            pinTexts.forEach { it.isFocusable = false }
         }
-        if (Settings.tvUI) {
-            binding.pinCode.setOnTouchListener { v, event -> true }
-            if (Build.VERSION.SDK_INT >= 21) {
-                binding.pinCode.showSoftInputOnFocus = false
-            } else {
-                binding.pinCode.setRawInputType(InputType.TYPE_CLASS_TEXT)
-                binding.pinCode.setTextIsSelectable(true)
-            }
-        }
-        if (Settings.tvUI) binding.keyboardGrid.setVisible()
-        UiTools.setKeyboardVisibility(binding.pinCode, true)
         binding.pinCodeReason.text = getString(when (reason) {
             PinCodeReason.FIRST_CREATION -> R.string.pin_code_reason_create
             PinCodeReason.MODIFY -> R.string.pin_code_reason_modify
             else -> R.string.pin_code_reason_check
         })
-        binding.pinCode.doOnTextChanged { text, start, before, count ->
-            text?.let {
 
-                if (text.isNotEmpty() && !Pattern.matches("[0-9]+", text)) {
-                    binding.pinCodeParent.error = getString(R.string.safe_mode_pin_error)
-                    binding.nextButton.isEnabled = false
-                } else {
-                    binding.pinCodeParent.isErrorEnabled = false
-                    binding.nextButton.isEnabled = text.length > 3
+        //Set listeners for edit texts
+        pinTexts.forEach { editText ->
+            editText.doOnTextChanged { text, start, before, count ->
+                text?.let {
+                    val codeFilled = pinTexts.none { it.text.isNullOrBlank() }
+                    //enable next button if possible
+                    binding.nextButton.isEnabled = codeFilled
+                    updateFocus()
+                    //focus next button on TV
+                    if (Settings.tvUI && codeFilled) binding.nextButton.requestFocus()
                 }
+            }
+            editText.setOnKeyListener { v, keyCode, event ->
+                //Manage backspace button
+                if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                    if (editText.text?.isNotEmpty() == true) return@setOnKeyListener false
+                    getLastSetET()?.text?.clear()
+                    updateFocus()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+            editText.setOnFocusChangeListener { v, hasFocus ->
+                if (Settings.tvUI) return@setOnFocusChangeListener
+                if (hasFocus) pinTexts.forEach { if (v != it) it.clearFocus() }
+                editText.transformationMethod = PasswordTransformationMethod()
             }
         }
 
         model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SafeModeModel::class.java)
 
+        //Observe the current step
         model.step.observe(this) { step ->
-            if (reason == PinCodeReason.CHECK && model.step.value !in arrayOf( PinStep.INVALID, PinStep.ENTER_EXISTING)) {
+            if (reason == PinCodeReason.CHECK && model.step.value !in arrayOf(PinStep.INVALID, PinStep.ENTER_EXISTING)) {
                 setResult(RESULT_OK)
                 finish()
+                return@observe
             }
             when (step) {
                 PinStep.ENTER_EXISTING -> binding.pinCodeTitle.text = getString(R.string.safe_mode_pin)
@@ -124,17 +135,19 @@ class PinCodeActivity : BaseActivity() {
                 PinStep.INVALID -> binding.pinCodeTitle.text = getString(R.string.safe_mode_invalid_pin)
             }
             if (model.isFinalStep()) {
-                binding.pinCode.imeOptions = EditorInfo.IME_ACTION_DONE
+                pinTexts.forEach { it.imeOptions = EditorInfo.IME_ACTION_DONE }
                 binding.nextButton.text = getString(R.string.done)
             }
-            if (!Settings.tvUI) binding.pinCode.requestFocus()
+            if (!Settings.tvUI) updateFocus()
         }
 
-        binding.pinCode.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
-                next()
+        pinTexts.forEach {
+            it.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                    next()
+                }
+                false
             }
-            false
         }
 
         binding.nextButton.setOnClickListener {
@@ -148,76 +161,135 @@ class PinCodeActivity : BaseActivity() {
         binding.keyboardGrid.children.forEach {
             it.setOnClickListener { keyboardButton ->
                 when (keyboardButton.tag) {
-                    "-1" -> binding.pinCode.setText(binding.pinCode.text.toString().replaceFirst(".$".toRegex(), ""))
-                    else -> binding.pinCode.setText(binding.pinCode.text.toString() + keyboardButton.tag)
+                    "-1" -> {
+                        getLastSetET()?.text?.clear()
+                    }
+
+                    else -> getCurrentInput()?.setText(keyboardButton.tag as String)
                 }
             }
         }
 
     }
 
+    /**
+     * Get the last filled EditText (or null if all are filled)
+     *
+     */
+    private fun getLastSetET() = pinTexts.reversedArray().firstOrNull { it.text?.isNotBlank() == true }
+
+    /**
+     * Give the focus to the last not filled EditText
+     *
+     */
+    private fun updateFocus() {
+        if (Settings.tvUI) return
+        getCurrentInput()?.requestFocus() ?: binding.pinCode4.requestFocus()
+    }
+
+    /**
+     * Get the current first not filled EditText or null
+     *
+     */
+    private fun getCurrentInput() = pinTexts.firstOrNull { it.text.isNullOrBlank() }
+
+    /**
+     * Get the PIN code text
+     *
+     * @return the PIN code text
+     */
+    private fun getPinCode(): String = buildString { pinTexts.forEach { append(it.text.toString()) } }
+
+
+    /**
+     * Use a keyboard / remote controller to type the PIN
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return when (keyCode) {
             KeyEvent.KEYCODE_0, KeyEvent.KEYCODE_NUMPAD_0 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "0")
+                getCurrentInput()?.setText("0")
                 true
             }
+
             KeyEvent.KEYCODE_1, KeyEvent.KEYCODE_NUMPAD_1 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "1")
+                getCurrentInput()?.setText("1")
                 true
             }
+
             KeyEvent.KEYCODE_2, KeyEvent.KEYCODE_NUMPAD_2 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "2")
+                getCurrentInput()?.setText("2")
                 true
             }
+
             KeyEvent.KEYCODE_3, KeyEvent.KEYCODE_NUMPAD_3 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "3")
+                getCurrentInput()?.setText("3")
                 true
             }
+
             KeyEvent.KEYCODE_4, KeyEvent.KEYCODE_NUMPAD_4 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "4")
+                getCurrentInput()?.setText("4")
                 true
             }
+
             KeyEvent.KEYCODE_5, KeyEvent.KEYCODE_NUMPAD_5 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "5")
+                getCurrentInput()?.setText("5")
                 true
             }
+
             KeyEvent.KEYCODE_6, KeyEvent.KEYCODE_NUMPAD_6 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "6")
+                getCurrentInput()?.setText("6")
                 true
             }
+
             KeyEvent.KEYCODE_7, KeyEvent.KEYCODE_NUMPAD_7 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "7")
+                getCurrentInput()?.setText("7")
                 true
             }
+
             KeyEvent.KEYCODE_8, KeyEvent.KEYCODE_NUMPAD_8 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "8")
+                getCurrentInput()?.setText("8")
                 true
             }
+
             KeyEvent.KEYCODE_9, KeyEvent.KEYCODE_NUMPAD_9 -> {
-                binding.pinCode.setText(binding.pinCode.text.toString() + "9")
+                getCurrentInput()?.setText("9")
                 true
             }
+
+            KeyEvent.KEYCODE_DEL -> {
+                getLastSetET()?.text?.clear()
+                true
+            }
+            KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER -> {
+                next()
+                true
+            }
+
             else -> super.onKeyDown(keyCode, event)
         }
     }
 
+    /**
+     * Move to next step
+     *
+     */
     private fun next() {
         if (model.step.value == PinStep.RE_ENTER || model.step.value == PinStep.NO_MATCH) {
-            if (model.checkMatch(binding.pinCode.text.toString())) {
-                model.savePin(binding.pinCode.text.toString())
+            if (model.checkMatch(getPinCode())) {
+                model.savePin(getPinCode())
                 setResult(RESULT_OK)
                 finish()
             } else {
-                binding.pinCode.text?.clear()
+                pinTexts.forEach { it.text?.clear() }
                 return
             }
         }
-
-        binding.pinCode.text?.let { text ->
-            model.nextStep(text.toString())
-            binding.pinCode.text?.clear()
-        }
+        model.nextStep(getPinCode())
+        pinTexts.forEach { it.text?.clear() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -228,7 +300,7 @@ class PinCodeActivity : BaseActivity() {
     }
 
     companion object {
-        fun getIntent(context:Context, reason:PinCodeReason) = Intent(context, PinCodeActivity::class.java).apply {
+        fun getIntent(context: Context, reason: PinCodeReason) = Intent(context, PinCodeActivity::class.java).apply {
             putExtra(PIN_CODE_REASON, reason.ordinal)
         }
     }
