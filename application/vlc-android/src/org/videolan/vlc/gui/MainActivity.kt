@@ -34,6 +34,8 @@ import android.widget.ImageView
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTIVITY_RESULT_OPEN
@@ -51,6 +53,7 @@ import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
@@ -197,9 +200,12 @@ class MainActivity : ContentActivity(),
                 true
             }
             R.id.incognito_mode -> {
-                Settings.getInstance (this).putSingle(KEY_INCOGNITO, !Settings.getInstance(this).getBoolean(KEY_INCOGNITO, false))
-                item.isChecked = !item.isChecked
-                updateIncognitoModeIcon()
+                lifecycleScope.launch {
+                    if (showPinIfNeeded()) return@launch
+                    Settings.getInstance (this@MainActivity).putSingle(KEY_INCOGNITO, !Settings.getInstance(this@MainActivity).getBoolean(KEY_INCOGNITO, false))
+                    item.isChecked = !item.isChecked
+                    updateIncognitoModeIcon()
+                }
                 true
             }
             android.R.id.home ->
