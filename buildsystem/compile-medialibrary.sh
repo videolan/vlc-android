@@ -26,6 +26,7 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+SRC_DIR=$PWD
 AVLC_SOURCED=1 . libvlcjni/buildsystem/compile-libvlc.sh
 
 ################
@@ -170,8 +171,8 @@ avlc_checkfail "medialibrary: build failed"
 
 cd ${SRC_DIR}
 
-MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlcjni/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
--L$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib -ljpeg \
+MEDIALIBRARY_LDLIBS="-L$LIBVLCJNI_SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
+-L$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib -ljpeg \
 -L${NDK_LIB_DIR} -lc++abi"
 
 $NDK_BUILD -C medialibrary \

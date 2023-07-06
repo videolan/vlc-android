@@ -259,9 +259,9 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=250488825f41c0a25765471f8872ebe3b39c945d
+    LIBVLCJNI_TESTED_HASH=e3516743837e9e255c4e531bc5262b1f78b43d1a
 else
-    LIBVLCJNI_TESTED_HASH=599329e36e952d41dfb9ff2ec56ee9854171f6e0
+    LIBVLCJNI_TESTED_HASH=7d377a83e7287eb93070d354ecad30e8c653dc79
 fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
 
@@ -298,7 +298,7 @@ if [ -z "$VLC_SRC_DIR" ]; then
         get_vlc_args="${get_vlc_args} --reset"
     fi
 
-    ${VLC_LIBJNI_PATH}/buildsystem/get-vlc.sh ${get_vlc_args}
+    (cd ${VLC_LIBJNI_PATH} && ./buildsystem/get-vlc.sh ${get_vlc_args})
 fi
 
 # Always clone VLC when using --init since we'll need to package some files
