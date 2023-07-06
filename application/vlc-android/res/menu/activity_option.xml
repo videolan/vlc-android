@@ -4,7 +4,7 @@
 
     <item
             android:orderInCategory="0"
-            android:id="@+id/pin_unlocked"
+            android:id="@+id/pin_relocked"
             android:icon="@drawable/ic_am_pin_lock"
             android:title="@string/lock_with_pin"
             vlc:showAsAction="always"

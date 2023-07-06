@@ -975,6 +975,7 @@
     <string name="pin_code_modified">PIN code successfully modified</string>
     <string name="pin_code_reason_check">Access restricted. Please enter your PIN code</string>
     <string name="pin_code_access_granted">Access granted. You can re-lock in the main screen</string>
+    <string name="safe_mode_enabled">Safe mode is now enabled</string>
     <string name="restricted_access">Access restricted</string>
     <string name="unlock">Unlock</string>
     <string name="lock_with_pin">Re-enable PIN lock</string>

@@ -81,7 +81,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     delay(500)
                     lifecycleScope.launchWhenStarted {
-                        findViewById<View?>(R.id.pin_unlocked)?.performLongClick()
+                        findViewById<View?>(R.id.pin_relocked)?.performLongClick()
                         PinCodeDelegate.tipShown = true
                     }
                 }
@@ -90,7 +90,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        val unlockedItem = menu?.findItem(R.id.pin_unlocked)
+        val unlockedItem = menu?.findItem(R.id.pin_relocked)
         if (unlockedItem != null) {
             unlockedItem.isVisible = PinCodeDelegate.pinUnlocked.value == true
         }
@@ -98,8 +98,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.pin_unlocked) {
+        if (item.itemId == R.id.pin_relocked) {
             PinCodeDelegate.pinUnlocked.postValue(false)
+            UiTools.snacker(this, R.string.safe_mode_enabled)
             return true
         }
         return super.onOptionsItemSelected(item)
