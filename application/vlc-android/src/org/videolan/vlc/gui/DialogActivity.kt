@@ -37,6 +37,7 @@ import org.videolan.vlc.util.showVlcDialog
 
 class DialogActivity : BaseActivity() {
     override fun getSnackAnchorView(overAudioPlayer:Boolean): View? = findViewById<View>(android.R.id.content)
+    private var preventFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +84,18 @@ class DialogActivity : BaseActivity() {
             MediaUtils.getSubs(this, medialist)
         else
             finish()
+    }
+
+    override fun finish() {
+        if (preventFinish) {
+            preventFinish = false
+            return
+        }
+        super.finish()
+    }
+
+    fun preventFinish() {
+        preventFinish = true
     }
 
     companion object {

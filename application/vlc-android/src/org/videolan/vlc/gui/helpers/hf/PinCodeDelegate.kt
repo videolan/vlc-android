@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import org.videolan.tools.Settings
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 
@@ -19,6 +20,7 @@ class PinCodeDelegate : BaseHeadlessFragment() {
        model.complete(result.resultCode == Activity.RESULT_OK)
         if (result.resultCode == Activity.RESULT_OK && unlock) pinUnlocked.postValue(true)
         exit()
+        (activity as? DialogActivity)?.finish()
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -44,6 +46,7 @@ suspend fun FragmentActivity.checkPIN(unlock:Boolean = false) : Boolean {
     }
     model.setupDeferred()
     supportFragmentManager.beginTransaction().add(fragment, PinCodeDelegate.TAG).commitAllowingStateLoss()
+    if (this is DialogActivity) this.preventFinish()
     return model.deferredGrant.await()
 }
 
