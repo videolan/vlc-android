@@ -39,6 +39,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.KEY_SAFE_MODE_PIN
@@ -105,7 +106,7 @@ class PinCodeActivity : BaseActivity() {
                 //Manage backspace button
                 if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
                     if (editText.text?.isNotEmpty() == true) return@setOnKeyListener false
-                    getLastSetET()?.text?.clear()
+                    getLastSetET()?.clearText()
                     updateFocus()
                     return@setOnKeyListener true
                 }
@@ -162,7 +163,7 @@ class PinCodeActivity : BaseActivity() {
             it.setOnClickListener { keyboardButton ->
                 when (keyboardButton.tag) {
                     "-1" -> {
-                        getLastSetET()?.text?.clear()
+                        getLastSetET()?.clearText()
                     }
 
                     else -> getCurrentInput()?.setText(keyboardButton.tag as String)
@@ -261,9 +262,10 @@ class PinCodeActivity : BaseActivity() {
             }
 
             KeyEvent.KEYCODE_DEL -> {
-                getLastSetET()?.text?.clear()
+                getLastSetET()?.clearText()
                 true
             }
+
             KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER -> {
                 next()
                 true
@@ -284,12 +286,12 @@ class PinCodeActivity : BaseActivity() {
                 setResult(RESULT_OK)
                 finish()
             } else {
-                pinTexts.forEach { it.text?.clear() }
+                pinTexts.forEach { it.clearText() }
                 return
             }
         }
         model.nextStep(getPinCode())
-        pinTexts.forEach { it.text?.clear() }
+        pinTexts.forEach { it.clearText() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -393,5 +395,10 @@ enum class PinStep {
 
 enum class PinCodeReason {
     FIRST_CREATION, MODIFY, CHECK
+}
+
+fun TextInputEditText.clearText() {
+    text?.clear()
+    requestLayout()
 }
 
