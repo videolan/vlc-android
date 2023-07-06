@@ -166,6 +166,15 @@
             android:title="@string/add_server_favorite"
             vlc:showAsAction="never"
             android:visible="false"/>
+
+    <item
+            android:orderInCategory="4"
+            android:id="@+id/pin_unlock"
+            android:icon="@drawable/ic_am_pin_unlock"
+            android:title="@string/unlock_with_pin"
+            vlc:showAsAction="ifRoom"
+            android:visible="false"/>
+
     <item
             android:orderInCategory="4"
             android:id="@+id/ml_menu_refresh"

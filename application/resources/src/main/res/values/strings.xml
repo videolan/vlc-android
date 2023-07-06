@@ -979,6 +979,7 @@
     <string name="restricted_access">Access restricted</string>
     <string name="unlock">Unlock</string>
     <string name="lock_with_pin">Re-enable PIN lock</string>
+    <string name="unlock_with_pin">Unlock safe mode</string>
     <string name="lock_with_pin_short">PIN lock</string>
     <string name="restrict_settings">Restrict settings access</string>
     <string name="search_prefs">Search settings</string>

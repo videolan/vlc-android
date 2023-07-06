@@ -36,6 +36,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
+import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 
@@ -90,9 +91,13 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        val unlockedItem = menu?.findItem(R.id.pin_relocked)
-        if (unlockedItem != null) {
-            unlockedItem.isVisible = PinCodeDelegate.pinUnlocked.value == true
+        val relockItem = menu?.findItem(R.id.pin_relocked)
+        if (relockItem != null) {
+            relockItem.isVisible = PinCodeDelegate.pinUnlocked.value == true
+        }
+        val unlockItem = menu?.findItem(R.id.pin_unlock)
+        if (unlockItem != null) {
+            unlockItem.isVisible = Settings.safeMode && PinCodeDelegate.pinUnlocked.value == false
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -101,6 +106,10 @@ abstract class BaseActivity : AppCompatActivity() {
         if (item.itemId == R.id.pin_relocked) {
             PinCodeDelegate.pinUnlocked.postValue(false)
             UiTools.snacker(this, R.string.safe_mode_enabled)
+            return true
+        }
+        if (item.itemId == R.id.pin_unlock) {
+            lifecycleScope.launch { checkPIN(true) }
             return true
         }
         return super.onOptionsItemSelected(item)
