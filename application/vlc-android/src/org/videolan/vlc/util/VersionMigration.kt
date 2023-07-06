@@ -36,7 +36,18 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.*
+import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
+import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
+import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
+import org.videolan.tools.SCREENSHOT_MODE
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_HUD_TIMEOUT
+import org.videolan.tools.coerceInOrDefault
+import org.videolan.tools.putSingle
+import org.videolan.tools.toInt
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.isVLC4
 import java.io.File
@@ -177,7 +188,10 @@ object VersionMigration {
      */
     private fun migrateToVersion5(settings: SharedPreferences) {
         Log.i(this::class.java.simpleName, "Migrating to Version 5: force the TV ui setting if device is TV")
-        if (Settings.device.isTv && settings.getBoolean("tv_ui", false) != settings.getBoolean("tv_ui", true)) settings.putSingle("tv_ui", true)
+        if (Settings.device.isTv && settings.getBoolean("tv_ui", false) != settings.getBoolean("tv_ui", true)) {
+            settings.putSingle("tv_ui", true)
+            Settings.tvUI = true
+        }
     }
 
     /**
