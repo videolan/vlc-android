@@ -23,6 +23,10 @@ object MedialibraryUtils {
         runIO(Runnable { Medialibrary.getInstance().removeFolder(path) })
     }
 
+    fun banDir(path: String) {
+        Medialibrary.getInstance().banFolder(path)
+    }
+
     @JvmOverloads
     fun addDir(path: String, context: Context = AppContextProvider.appContext) {
         val intent = Intent(ACTION_DISCOVER, null, context, MediaParsingService::class.java)

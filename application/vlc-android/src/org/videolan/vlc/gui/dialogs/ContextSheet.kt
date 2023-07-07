@@ -42,6 +42,7 @@ import org.videolan.resources.CTX_ADD_SCANNED
 import org.videolan.resources.CTX_ADD_SHORTCUT
 import org.videolan.resources.CTX_ADD_TO_PLAYLIST
 import org.videolan.resources.CTX_APPEND
+import org.videolan.resources.CTX_BAN_FOLDER
 import org.videolan.resources.CTX_COPY
 import org.videolan.resources.CTX_CUSTOM_REMOVE
 import org.videolan.resources.CTX_DELETE
@@ -175,6 +176,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags and CTX_MARK_ALL_AS_PLAYED != 0L) add(Simple(CTX_MARK_ALL_AS_PLAYED, getString(R.string.mark_all_as_played), R.drawable.ic_ctx_mark_all_as_played))
         if (flags and CTX_GO_TO_FOLDER != 0L) add(Simple(CTX_GO_TO_FOLDER, getString(R.string.go_to_folder), R.drawable.ic_ctx_folder))
         if (flags and CTX_CUSTOM_REMOVE != 0L) add(Simple(CTX_CUSTOM_REMOVE, getString(R.string.remove_custom_path), R.drawable.ic_ctx_delete))
+        if (flags and CTX_BAN_FOLDER != 0L) add(Simple(CTX_BAN_FOLDER, getString(R.string.group_ban_folder), R.drawable.ic_ctx_hide_source))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {

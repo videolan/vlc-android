@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -534,6 +535,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
                 }
+                CTX_BAN_FOLDER -> banFolder(media)
             }
             is VideoGroup -> when (option) {
                 CTX_PLAY_ALL -> viewModel.play(position)
@@ -549,6 +551,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
             }
         }
+    }
+
+    private fun banFolder(folder: Folder) {
+        MedialibraryUtils.banDir(folder.mMrl.removePrefix("file://"))
     }
 
     private fun renameGroup(media: VideoGroup) {
