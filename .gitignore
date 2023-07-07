@@ -1,4 +1,6 @@
 # VLC
+
+/libvlcjni
 /vlc/
 /toolchains/
 application/app/src/main/assets/
@@ -11,6 +13,7 @@ medialibrary/build
 medialibrary/jni/obj
 medialibrary/jni/libs
 medialibrary/.libs
+medialibrary/prefix
 
 # Android .so
 /android-libs/**/*.so
