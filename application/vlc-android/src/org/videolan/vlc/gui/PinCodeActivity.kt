@@ -197,7 +197,9 @@ class PinCodeActivity : BaseActivity() {
         binding.sucessGroup.setVisible()
         binding.nextButton.text = getString(R.string.done)
         binding.nextButton.isEnabled = true
-//        finish()
+        binding.keyboardGrid.setGone()
+        binding.nextButton.requestFocus()
+        binding.cancelButton.setGone()
     }
 
     /**
