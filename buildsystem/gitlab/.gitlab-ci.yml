@@ -15,8 +15,6 @@ variables:
 
 default:
   interruptible: true
-  image:
-    name: $VLC_ANDROID_IMAGE_30
   tags:
     - amd64
     - docker
@@ -66,6 +64,8 @@ stages:
 # vlc-android app only: don't rebuild everything but use a published artifact
 continuous-app-build:
     extends: .build-all-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleDebug
@@ -89,41 +89,57 @@ continuous-app-build-v4:
 
 build-libvlc-arm64:
     extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm64
 
 build-libvlc-armv7:
     extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm
 
 build-libvlc-x86:
     extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86
 
 build-libvlc-x86_64:
     extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86_64
 
 build-ml-arm64:
     extends: .build-ml-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm64
 
 build-ml-armv7:
     extends: .build-ml-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm
 
 build-ml-x86:
     extends: .build-ml-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86
 
 build-ml-x86_64:
     extends: .build-ml-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86_64
 
@@ -162,6 +178,8 @@ build-ml-x86_64-v4:
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
     extends: .build-all-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
@@ -173,6 +191,8 @@ nightly-arm64:
 
 nightly-armv7:
     extends: .build-all-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
@@ -184,6 +204,8 @@ nightly-armv7:
 
 nightly-x86:
     extends: .build-all-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
@@ -195,6 +217,8 @@ nightly-x86:
 
 nightly-x86_64:
     extends: .build-all-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     variables:
@@ -262,6 +286,8 @@ nightly-x86_64-v4:
         expire_in: 2 weeks
 
 .build-libs-base:
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     rules:
       - if: '$CI_COMMIT_TAG =~ /^libvlc-3.*$/'
     stage: build
