@@ -201,6 +201,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private val dialogsDelegate = DialogDelegate()
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
+    var waitingForPin = false
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -623,6 +624,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overridePendingTransition(0, 0)
         super.onResume()
         isShowingDialog = false
+        waitingForPin = false
+
         /*
          * Set listeners here to avoid NPE when activity is closing
          */
@@ -915,7 +918,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
-                if (tv) finish() // Leave player on TV, restauration can be difficult
+                if (tv && !waitingForPin) finish() // Leave player on TV, restauration can be difficult
             }
 
             if (isMute) mute(false)
