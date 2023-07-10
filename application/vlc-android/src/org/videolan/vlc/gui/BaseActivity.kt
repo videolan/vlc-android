@@ -25,7 +25,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.KeyHelper
@@ -78,15 +77,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         PinCodeDelegate.pinUnlocked.observe(this) {
             invalidateOptionsMenu()
-            if (it && !PinCodeDelegate.tipShown) {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    delay(500)
-                    lifecycleScope.launchWhenStarted {
-                        findViewById<View?>(R.id.pin_relocked)?.performLongClick()
-                        PinCodeDelegate.tipShown = true
-                    }
-                }
-            }
         }
     }
 
