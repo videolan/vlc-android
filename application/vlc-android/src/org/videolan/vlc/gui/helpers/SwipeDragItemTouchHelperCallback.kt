@@ -25,12 +25,14 @@ package org.videolan.vlc.gui.helpers
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 
-class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter, private val longPressDragEnable: Boolean = false) : ItemTouchHelper.Callback() {
+class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter, private val longPressDragEnable: Boolean = false, private val lockedInSafeMode: Boolean = false) : ItemTouchHelper.Callback() {
     private var dragFrom = -1
     private var dragTo = -1
     var swipeEnabled = true
+    var swipeAttemptListener: (() -> Unit)? = null
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -39,6 +41,10 @@ class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdap
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        if (lockedInSafeMode && PinCodeDelegate.pinUnlocked.value == false) {
+            swipeAttemptListener?.invoke()
+            return false
+        }
         mAdapter.onItemMove(viewHolder.layoutPosition, target.layoutPosition)
         val fromPosition = viewHolder.layoutPosition
         val toPosition = target.layoutPosition

@@ -150,7 +150,10 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
         if (isPlaylist) {
             audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
-            itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
+            itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter, lockedInSafeMode = true)
+            itemTouchHelperCallback.swipeAttemptListener = {
+                lifecycleScope.launch { showPinIfNeeded() }
+            }
             itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
             itemTouchHelper!!.attachToRecyclerView(binding.songs)
             binding.releaseDate.visibility = View.GONE
