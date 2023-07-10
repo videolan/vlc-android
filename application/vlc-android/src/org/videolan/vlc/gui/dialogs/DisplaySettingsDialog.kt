@@ -47,6 +47,7 @@ import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
@@ -99,6 +100,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     override fun initialFocusedView(): View = binding.title
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         super.onCreate(savedInstanceState)
         displayInCards = arguments?.getBoolean(DISPLAY_IN_CARDS)
                 ?: throw IllegalStateException("Display in list should be provided")
