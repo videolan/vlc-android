@@ -66,6 +66,49 @@
                 vlc:layout_constraintTop_toBottomOf="@+id/pin_code_reason" />
 
 
+        <TextView
+                android:id="@+id/sucess_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:text="@string/pin_unlock_success"
+                android:textColor="?attr/font_default"
+                android:textSize="16sp"
+                vlc:layout_constraintBottom_toTopOf="@+id/imageView18"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintHorizontal_bias="0.5"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintVertical_chainStyle="packed" />
+
+        <ImageView
+                android:id="@+id/imageView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                vlc:layout_constraintBottom_toTopOf="@+id/next_button"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintHorizontal_bias="0.5"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toBottomOf="@+id/sucess_title"
+                vlc:srcCompat="@drawable/ic_am_pin_lock" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/pin_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                vlc:constraint_referenced_ids="pin_code_parent4,pin_code_parent1,pin_code_parent3,pin_code_parent2,pin_code_reason,pin_code_title" />
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/sucess_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                vlc:constraint_referenced_ids="imageView18,sucess_title" />
+
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pin_code_parent1"
                 android:layout_width="0dp"
@@ -142,17 +185,17 @@
                     android:inputType="numberPassword"
                     android:maxLength="1"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pin_code_parent4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                vlc:layout_constraintDimensionRatio="1:1"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="32dp"
+                vlc:layout_constraintDimensionRatio="1:1"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintHorizontal_bias="0.5"
                 vlc:layout_constraintStart_toEndOf="@+id/pin_code_parent3"

@@ -27,14 +27,13 @@ class PinCodeDelegate : BaseHeadlessFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         unlock = arguments?.getBoolean(UNLOCK, false) == true
         super.onCreate(savedInstanceState)
-        val intent = PinCodeActivity.getIntent(requireActivity(), PinCodeReason.CHECK)
+        val intent = PinCodeActivity.getIntent(requireActivity(), PinCodeReason.UNLOCK)
         pinCodeResult.launch(intent)
     }
 
     companion object {
         internal const val TAG = "VLC/PinCode"
         val pinUnlocked = MutableLiveData(false)
-        var tipShown = false
     }
 }
 

@@ -172,7 +172,7 @@
             android:id="@+id/pin_unlock"
             android:icon="@drawable/ic_am_pin_unlock"
             android:title="@string/unlock_with_pin"
-            vlc:showAsAction="ifRoom"
+            vlc:showAsAction="never"
             android:visible="false"/>
 
     <item

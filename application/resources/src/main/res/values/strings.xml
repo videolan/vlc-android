@@ -965,6 +965,7 @@
     <string name="safe_mode">Safe mode</string>
     <string name="safe_mode_summary">When activated, files cannot be deleted or playlist modified without entering the pin</string>
     <string name="safe_mode_pin">Enter your PIN</string>
+    <string name="pin_unlock_success">Successfully unlocked. To re-activate the safe mode, please tap this icon in the app:</string>
     <string name="safe_mode_new_pin">Enter your new PIN</string>
     <string name="safe_mode_re_pin">Re-enter your PIN</string>
     <string name="safe_mode_no_match">PINs don\'t match</string>

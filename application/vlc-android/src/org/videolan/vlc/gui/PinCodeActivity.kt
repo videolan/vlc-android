@@ -33,11 +33,13 @@ import android.text.method.PasswordTransformationMethod
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import androidx.activity.viewModels
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import org.videolan.resources.AndroidDevices
@@ -45,6 +47,7 @@ import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.KEY_SAFE_MODE_PIN
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PinCodeActivityBinding
@@ -78,6 +81,7 @@ class PinCodeActivity : BaseActivity() {
         if (!Settings.tvUI) {
             updateFocus()
             UiTools.setKeyboardVisibility(binding.pinCode1, true)
+            binding.keyboardGrid.setGone()
         } else {
             //On TV show virtual keyboard and make edit texts not focusable
             binding.keyboardGrid.setVisible()
@@ -119,21 +123,34 @@ class PinCodeActivity : BaseActivity() {
             }
         }
 
-        model = ViewModelProvider.AndroidViewModelFactory(this.application).create(SafeModeModel::class.java)
+        val getModel by viewModels<SafeModeModel> { SafeModeModel.Factory(this, reason) }
+        model = getModel
 
         //Observe the current step
         model.step.observe(this) { step ->
+            if (model.step.value == PinStep.EXIT) {
+                finish()
+                return@observe
+            }
             if (reason == PinCodeReason.CHECK && model.step.value !in arrayOf(PinStep.INVALID, PinStep.ENTER_EXISTING)) {
                 setResult(RESULT_OK)
                 finish()
                 return@observe
             }
+            if (reason == PinCodeReason.UNLOCK && model.step.value !in arrayOf(PinStep.INVALID, PinStep.ENTER_EXISTING)) {
+                setResult(RESULT_OK)
+                showTips()
+                return@observe
+            }
+
             when (step) {
                 PinStep.ENTER_EXISTING -> binding.pinCodeTitle.text = getString(R.string.safe_mode_pin)
                 PinStep.ENTER_NEW -> binding.pinCodeTitle.text = getString(R.string.safe_mode_new_pin)
                 PinStep.RE_ENTER -> binding.pinCodeTitle.text = getString(R.string.safe_mode_re_pin)
                 PinStep.NO_MATCH -> binding.pinCodeTitle.text = getString(R.string.safe_mode_no_match)
                 PinStep.INVALID -> binding.pinCodeTitle.text = getString(R.string.safe_mode_invalid_pin)
+                PinStep.LOGIN_SUCCESS -> binding.pinCodeTitle.text = getString(R.string.safe_mode_invalid_pin)
+                PinStep.EXIT -> {}
             }
             if (model.isFinalStep()) {
                 pinTexts.forEach { it.imeOptions = EditorInfo.IME_ACTION_DONE }
@@ -171,6 +188,16 @@ class PinCodeActivity : BaseActivity() {
             }
         }
 
+    }
+
+    private fun showTips() {
+        UiTools.setKeyboardVisibility(binding.pinCode1, false)
+
+        binding.pinGroup.setGone()
+        binding.sucessGroup.setVisible()
+        binding.nextButton.text = getString(R.string.done)
+        binding.nextButton.isEnabled = true
+//        finish()
     }
 
     /**
@@ -309,7 +336,7 @@ class PinCodeActivity : BaseActivity() {
 
 }
 
-class SafeModeModel(application: Application) : AndroidViewModel(application) {
+class SafeModeModel(application: Application, val reason: PinCodeReason) : AndroidViewModel(application) {
     /**
      * Proceed to old pin verification and go to the next step
      *
@@ -319,6 +346,10 @@ class SafeModeModel(application: Application) : AndroidViewModel(application) {
         //verify old pin
         if (step.value in arrayOf(PinStep.ENTER_EXISTING, PinStep.INVALID) && !checkValid(pin)) {
             step.postValue(PinStep.INVALID)
+            return
+        }
+        if (reason == PinCodeReason.CHECK || reason == PinCodeReason.UNLOCK) {
+            step.postValue(if (step.value == PinStep.LOGIN_SUCCESS) PinStep.EXIT else PinStep.LOGIN_SUCCESS)
             return
         }
         pins[step.value!!] = pin
@@ -386,15 +417,22 @@ class SafeModeModel(application: Application) : AndroidViewModel(application) {
             step.postValue(PinStep.ENTER_NEW)
         }
     }
+
+    class Factory(private val context: Context, private val reason: PinCodeReason) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return SafeModeModel(context.applicationContext as Application, reason) as T
+        }
+    }
 }
 
 
 enum class PinStep {
-    ENTER_EXISTING, INVALID, ENTER_NEW, RE_ENTER, NO_MATCH;
+    ENTER_EXISTING, INVALID, ENTER_NEW, RE_ENTER, NO_MATCH, LOGIN_SUCCESS, EXIT;
 }
 
 enum class PinCodeReason {
-    FIRST_CREATION, MODIFY, CHECK
+    FIRST_CREATION, MODIFY, CHECK, UNLOCK
 }
 
 fun TextInputEditText.clearText() {
