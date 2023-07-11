@@ -515,7 +515,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    private fun shouldHidePlayProgress() = abRepeatAddMarker.visibility != View.GONE || (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) || playlistModel.medias?.size ?: 0 < 2
+    private fun shouldHidePlayProgress() = abRepeatAddMarker.visibility != View.GONE || areBookmarksVisible() || playlistModel.medias?.size ?: 0 < 2
 
     override fun onSelectionSet(position: Int) {
         binding.songsList.scrollToPosition(position)
@@ -681,12 +681,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             optionsDelegate.hide()
             return true
         }
-        if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
+        if (areBookmarksVisible()) {
             bookmarkListDelegate.hide()
             return true
         }
         return clearSearch()
     }
+
+    fun areBookmarksVisible() = ::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible
 
     fun clearSearch(): Boolean {
         if (this::playlistModel.isInitialized) playlistModel.filter(null)
