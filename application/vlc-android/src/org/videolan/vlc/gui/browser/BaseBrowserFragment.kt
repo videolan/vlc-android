@@ -183,8 +183,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             swipeRefreshLayout.isRefreshing = loading
             updateEmptyView()
         }
-        binding.browserFastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
-        binding.browserFastScroller.setRecyclerView(binding.networkList, viewModel.provider)
+        (view.rootView.findViewById<View?>(R.id.appbar) as? AppBarLayout)?.let {
+            binding.browserFastScroller.attachToCoordinator(it, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
+            binding.browserFastScroller.setRecyclerView(binding.networkList, viewModel.provider)
+        }
     }
 
     override fun sortBy(sort: Int) {
