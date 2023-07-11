@@ -103,7 +103,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     lateinit var playlistModel: PlaylistModel
     lateinit var bookmarkModel: BookmarkModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
-    private lateinit var bookmarkListDelegate: BookmarkListDelegate
+    lateinit var bookmarkListDelegate: BookmarkListDelegate
 
     private var showRemainingTime = false
     private var previewingSeek = false

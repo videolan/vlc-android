@@ -76,6 +76,7 @@ private const val ACTION_HIDE_PLAYER = 1341
 private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
 private const val PLAYER_OPENED = "player_opened"
 private const val SHOWN_TIPS = "shown_tips"
+private const val BOOKMARK_VISIBLE: String = "bookmark_visible"
 
 open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
@@ -124,6 +125,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
 
     var bottomIsHiddden: Boolean = false
+    var restoreBookmarks: Boolean = false
 
     override fun getSnackAnchorView(overAudioPlayer: Boolean): View? {
         return if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
@@ -136,6 +138,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
             bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false) && !savedInstanceState.getBoolean(PLAYER_OPENED, false)
             savedInstanceState.getIntegerArrayList(SHOWN_TIPS)?.let { shownTips.addAll(it) }
+           restoreBookmarks =  savedInstanceState.getBoolean(BOOKMARK_VISIBLE, false)
         }
         super.onCreate(savedInstanceState)
         if (AndroidUtil.isLolliPopOrLater && this is MainActivity) WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -282,6 +285,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
         if (playlistTipsDelegate.currentTip != null) lockPlayer(true)
+        if (restoreBookmarks) {
+            audioPlayer.showBookmarks()
+            restoreBookmarks = false
+        }
     }
 
     private fun hideStatusIfNeeded(newState: Int) {
@@ -361,8 +368,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
                 ?: false)
         outState.putBoolean(PLAYER_OPENED, if (::playerBehavior.isInitialized) playerBehavior.state == STATE_EXPANDED else false)
         outState.putIntegerArrayList(SHOWN_TIPS, shownTips)
+        if (::audioPlayer.isInitialized) outState.putBoolean(BOOKMARK_VISIBLE, audioPlayer.areBookmarksVisible())
         super.onSaveInstanceState(outState)
     }
+
 
     fun expandAppBar() {
         appBarLayout.setExpanded(true)
