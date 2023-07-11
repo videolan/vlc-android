@@ -22,11 +22,9 @@ package org.videolan.vlc.mediadb.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "SLAVES_table")
+@Entity(tableName = "SLAVES_table", primaryKeys = ["slave_media_mrl", "slave_uri"])
 data class Slave (
-    @PrimaryKey
     @ColumnInfo(name = "slave_media_mrl")
     val mediaPath: String,
     @ColumnInfo(name = "slave_type")
