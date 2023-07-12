@@ -141,6 +141,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.isNetwork, false)
                 holder.binding.setVariable(BR.isPresent, true)
                 holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+                holder.binding.setVariable(BR.media, item)
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
@@ -152,6 +153,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.max, 0)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
                 holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+                holder.binding.setVariable(BR.media, item)
             }
             is MediaWrapper -> {
                 holder.title.text = if (showFilename.get()) item.fileName else item.title
