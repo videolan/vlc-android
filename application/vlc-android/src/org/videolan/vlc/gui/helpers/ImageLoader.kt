@@ -303,6 +303,7 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, update
         vdb.setVariable(BR.scaleType, if (card) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)
         vdb.setVariable(BR.cover, BitmapDrawable(target.resources, bitmap))
         vdb.setVariable(BR.protocol, null)
+        vdb.setVariable(BR.showProgress, false)
     } else when (target) {
         is ImageView -> {
             if (updateScaleType) target.scaleType = if (tv) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER

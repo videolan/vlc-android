@@ -101,7 +101,10 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         fillView(holder, item)
         holder.binding.setVariable(BR.media, item)
         holder.selectView(multiSelectHelper.isSelected(position))
-        item.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
+        item.let {
+            holder.binding.setVariable(BR.isFavorite, it.isFavorite)
+            holder.binding.setVariable(BR.showProgress, item.artworkMrl.isNullOrBlank())
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {

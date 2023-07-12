@@ -34,6 +34,10 @@
             type="boolean" />
 
         <variable
+            name="showProgress"
+            type="boolean" />
+
+        <variable
                 name="inSelection"
                 type="boolean" />
 
@@ -302,6 +306,17 @@
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:layout_constraintStart_toStartOf="parent" />
+
+                <ProgressBar
+                        android:id="@+id/thumb_progress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:visibility="@{showProgress ? View.VISIBLE : View.GONE}"
+                        vlc:layout_constraintBottom_toBottomOf="parent"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintTop_toTopOf="parent"
+                        vlc:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
