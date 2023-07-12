@@ -996,8 +996,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     fun rotateBookmarks() {
         if (::bookmarkListDelegate.isInitialized && isBookmarkShown()) {
-            bookmarkListDelegate.hide()
-            showBookmarks()
+            //make sure the rotation is complete and layout is done before resetting the bookmarks' layout
+            hudBinding.progressOverlay.post {
+                bookmarkListDelegate.hide()
+                showBookmarks()
+            }
         }
     }
 
