@@ -286,8 +286,10 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
         if (playlistTipsDelegate.currentTip != null) lockPlayer(true)
         if (restoreBookmarks) {
-            audioPlayer.showBookmarks()
-            restoreBookmarks = false
+            appBarLayout.post {
+                audioPlayer.showBookmarks()
+                restoreBookmarks = false
+            }
         }
     }
 
