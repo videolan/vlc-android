@@ -35,7 +35,7 @@
     <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_filter"
-            android:icon="@drawable/ic_menu_search_w"
+            android:icon="@drawable/ic_am_search"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             android:title="@string/searchable_hint"
             app:showAsAction="always|collapseActionView"/>
