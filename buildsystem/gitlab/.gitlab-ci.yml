@@ -10,6 +10,8 @@ cache:
 variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
   VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20230614051113
+  VLC_WEB_BUILD_IMAGE: registry.videolan.org/videolan-alpine-node:20230523124511
+  WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
 
 default:
   interruptible: true
@@ -18,8 +20,6 @@ default:
   tags:
     - amd64
     - docker
-variables:
-  WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
 
 stages:
   - webserver-install-dependencies
@@ -28,14 +28,16 @@ stages:
   - package
 
 webserver-install-dependencies:
-    image: registry.videolan.org/videolan-alpine-node:20230523124511
+    image:
+      name: $VLC_WEB_BUILD_IMAGE
     stage: webserver-install-dependencies
     script:
       - cd "$WEBSERVER_DIR"
       - npm install
 
 webserver-build:
-    image: registry.videolan.org/videolan-alpine-node:20230523124511
+    image:
+      name: $VLC_WEB_BUILD_IMAGE
     stage: webserver-build
     script:
         - cd "$WEBSERVER_DIR"
