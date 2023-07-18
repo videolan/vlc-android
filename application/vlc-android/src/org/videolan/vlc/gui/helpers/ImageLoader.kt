@@ -61,6 +61,7 @@ private const val TAG = "ImageLoader"
 @BindingAdapter(value = ["media", "imageWidth", "tv", "card"], requireAll = false)
 fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
     if (item === null) return
+    v.tag = item.title
 
     if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST || item.itemType == MediaLibraryItem.TYPE_GENRE) {
         if (imageWidth != 0) {
@@ -250,6 +251,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     if (image == null) {
         //keep the default image
         binding?.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_INSIDE)
+        if (!bindChanged) binding?.setVariable(BR.showProgress, false)
         binding?.removeOnRebindCallback(rebindCallbacks!!)
         return
     }
@@ -276,6 +278,7 @@ private suspend fun getPlaylistOrGenreImage(v: View, item: MediaLibraryItem, bin
         ThumbnailsProvider.getPlaylistOrGenreImage("${if (item is MediaWrapper && item.type == MediaWrapper.TYPE_PLAYLIST)"playlist" else "genre"}:${item.id}_$width", tracks, width)
     } else null
     if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap
+    if (!bindChanged && playlistImage == null) binding?.setVariable(BR.showProgress, false)
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 
     binding?.removeOnRebindCallback(rebindCallbacks!!)
