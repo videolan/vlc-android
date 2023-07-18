@@ -111,27 +111,29 @@ class CallBackDelegate : ICallBackHandler,
             for (action in channel) when (action) {
                 is MediaDeletedAction -> {
                     action.ids.forEach {mediaId ->
-                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
-                            FileUtils.deleteFile(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg" )
-                        }
+                        deleteThumbnail(mediaId)
                     }
                 }
                 is MediaConvertedExternalAction -> {
                     action.ids.forEach {mediaId ->
-                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
-                            val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
-                            if (file.exists()) {
-                                val media = medialibrary.getMedia(mediaId)
-                                media.removeThumbnail()
-                            }
-                            FileUtils.deleteFile(file)
-                        }
+                        deleteThumbnail(mediaId)
                     }
                 }
             }
         }
         medialibrary.addOnMedialibraryReadyListener(this@CallBackDelegate)
         medialibrary.addOnDeviceChangeListener(this@CallBackDelegate)
+    }
+
+    private fun deleteThumbnail(mediaId: Long) {
+        AppContextProvider.appContext.getExternalFilesDir(null)?.let {
+            val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
+            if (file.exists()) {
+                val media = medialibrary.getMedia(mediaId)
+                media.removeThumbnail()
+            }
+            FileUtils.deleteFile(file)
+        }
     }
 
     override fun watchMedia() {
