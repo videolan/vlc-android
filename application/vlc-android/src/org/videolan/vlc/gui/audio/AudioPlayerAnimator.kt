@@ -24,10 +24,8 @@
 
 package org.videolan.vlc.gui.audio
 
-import android.annotation.TargetApi
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
@@ -78,6 +76,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         defaultBackgroundId = UiTools.getResourceFromAttribute(requireActivity(), R.attr.background_default)
         lifecycle.addObserver(this@AudioPlayerAnimator)
         initConstraintSets()
+        startConstraintAnimation(showCover)
     }
 
     @DrawableRes
