@@ -151,9 +151,8 @@
                     android:onLongClick="@{fragment::onStopClick}"
                     android:padding="4dp"
                     android:visibility="gone"
-                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/header_next"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/header_previous"
                     app:layout_constraintTop_toTopOf="parent" />
 
