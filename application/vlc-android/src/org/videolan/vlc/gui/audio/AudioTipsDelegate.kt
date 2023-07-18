@@ -41,7 +41,12 @@ import androidx.window.layout.FoldingFeature
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.videolan.tools.*
+import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.TipsUtils
@@ -155,8 +160,8 @@ class AudioTipsDelegate(private val activity: AudioPlayerContainerActivity) {
                     constraintSet.setMargin(R.id.tapIndicatorStop, ConstraintSet.START, indicatorX)
                     constraintSet.clear(R.id.tapIndicatorStop, ConstraintSet.END)
                     TipsUtils.startTapAnimation(listOf(tapIndicatorPlaylist))
-                    constraintSet.setVisibility(R.id.tapIndicatorStop, View.VISIBLE)
                 }
+                constraintSet.setVisibility(R.id.tapIndicatorStop, View.VISIBLE)
 
                 TipsUtils.startTapAnimation(listOf(tapIndicatorStop), true)
                 nextButton.setText(R.string.close)
