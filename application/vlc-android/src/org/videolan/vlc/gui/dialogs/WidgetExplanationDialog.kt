@@ -29,7 +29,6 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,10 +36,17 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.DrawableRes
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import org.videolan.tools.*
+import org.videolan.tools.coerceInOrDefault
+import org.videolan.tools.dp
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogWidgetExplanationBinding
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.scheduleAtFixedRate
 
 
 class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
@@ -48,13 +54,14 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation(): Boolean = true
 
+    private lateinit var timer: TimerTask
     private lateinit var resizeAnimation: AnimatorSet
     internal lateinit var binding: DialogWidgetExplanationBinding
 
-    private val handler = ResizeHandler(this)
+    private val sizeDrawables = listOf(R.drawable.vlc_widget_mini, R.drawable.vlc_widget_micro, R.drawable.vlc_widget_pill, R.drawable.vlc_widget_macro)
+    var currentDrawable = R.drawable.vlc_widget_macro
 
-    var currentStep = 1
-
+    private var currentStep = 1
 
     override fun initialFocusedView(): View = binding.title
 
@@ -66,10 +73,16 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        timer = Timer().scheduleAtFixedRate(0, 2000) {
+            lifecycleScope.launchWhenStarted {
+                val nextIndex = (sizeDrawables.indexOf(currentDrawable) + 1).coerceInOrDefault(0, sizeDrawables.size - 1, 0)
+                currentDrawable = sizeDrawables[nextIndex]
+                displaySizeImage(currentDrawable)
+            }
+        }
 
         val sizeDrawbles = listOf(R.drawable.vlc_widget_mini, R.drawable.vlc_widget_micro, R.drawable.vlc_widget_pill, R.drawable.vlc_widget_macro)
         displaySizeImage(sizeDrawbles[0])
-        handler.sendEmptyMessageDelayed(ACTION_DISPLAY_NEXT, 1000)
         binding.widgetNextButton.setOnClickListener {
             when (currentStep) {
                 1 -> {
@@ -77,6 +90,7 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
                     binding.step2.setVisible()
                     binding.step3.setGone()
                     animateLongTap()
+                    timer.cancel()
                 }
                 2 -> {
                     binding.step1.setGone()
@@ -102,7 +116,7 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun dismiss() {
-        handler.removeMessages(ACTION_DISPLAY_NEXT)
+        timer.cancel()
         super.dismiss()
     }
 
@@ -142,42 +156,5 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
 
         resizeAnimation.doOnEnd { resizeAnimation.start() }
         resizeAnimation.start()
-    }
-
-
-}
-
-private const val ACTION_DISPLAY_NEXT = 1
-
-/**
- * Manages the widget size UI loop
- *
- * @param owner the dialog itself
- */
-private class ResizeHandler(owner: WidgetExplanationDialog) : WeakHandler<WidgetExplanationDialog>(owner) {
-    private val sizeDrawables = listOf(R.drawable.vlc_widget_mini, R.drawable.vlc_widget_micro, R.drawable.vlc_widget_pill, R.drawable.vlc_widget_macro)
-    var currentDrawable = R.drawable.vlc_widget_macro
-
-    private fun displaySizeImage(@DrawableRes drawable: Int) {
-        owner?.let { owner ->
-            owner.activity?.let {
-                owner.binding.widgetSizes.setImageDrawable(ContextCompat.getDrawable(it, drawable))
-            }
-        }
-    }
-
-    override fun handleMessage(msg: Message) {
-        super.handleMessage(msg)
-        when (msg.what) {
-            ACTION_DISPLAY_NEXT -> {
-                removeMessages(ACTION_DISPLAY_NEXT)
-                val nextIndex = (sizeDrawables.indexOf(currentDrawable) + 1).coerceInOrDefault(0, sizeDrawables.size - 1, 0)
-                currentDrawable = sizeDrawables[nextIndex]
-                displaySizeImage(currentDrawable)
-                removeMessages(ACTION_DISPLAY_NEXT)
-                sendEmptyMessageDelayed(ACTION_DISPLAY_NEXT, 2000)
-
-            }
-        }
     }
 }
