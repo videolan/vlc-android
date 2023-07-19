@@ -13,6 +13,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -52,6 +53,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         var skipMediaUpdateRefresh = false
         private val mediaList = MediaWrapperList()
         fun hasMedia() = mediaList.size() != 0
+        val repeating = MutableStateFlow(PlaybackStateCompat.REPEAT_MODE_NONE)
+
     }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
@@ -64,7 +67,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     var startupIndex = -1    
     private var previous = Stack<Int>()
     var stopAfter = -1
-    var repeating = PlaybackStateCompat.REPEAT_MODE_NONE
     var shuffling = false
     var videoBackground = false
         private set
@@ -99,7 +101,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var shouldDisableCookieForwarding: Boolean = false
 
     init {
-        repeating = settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+        AppScope.launch { repeating.emit(settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)) }
         resetResumeStatus()
     }
 
@@ -292,7 +294,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
-            if (repeating == PlaybackStateCompat.REPEAT_MODE_ONE) {
+            if (repeating.value == PlaybackStateCompat.REPEAT_MODE_ONE) {
                 setRepeatType(PlaybackStateCompat.REPEAT_MODE_NONE)
             }
         }
@@ -371,19 +373,22 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Will set the repeating variable from the value that has been saved in settings
      */
     private fun setRepeatTypeFromSettings() {
-        repeating = if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO) {
-            settings.getInt(PLAYLIST_VIDEO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
-        } else
-            settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+        AppScope.launch {
+            repeating.emit(if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO) {
+                settings.getInt(PLAYLIST_VIDEO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+            } else
+                settings.getInt(PLAYLIST_AUDIO_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
+            )
+        }
     }
 
     @MainThread
     fun setRepeatType(repeatType: Int) {
-        repeating = repeatType
+        AppScope.launch { repeating.emit(repeatType) }
         if (getCurrentMedia()?.type == MediaWrapper.TYPE_VIDEO)
-            settings.putSingle(PLAYLIST_VIDEO_REPEAT_MODE_KEY, repeating)
+            settings.putSingle(PLAYLIST_VIDEO_REPEAT_MODE_KEY, repeating.value)
         else
-            settings.putSingle(PLAYLIST_AUDIO_REPEAT_MODE_KEY, repeating)
+            settings.putSingle(PLAYLIST_AUDIO_REPEAT_MODE_KEY, repeating.value)
         savePosition()
         launch { determinePrevAndNextIndices() }
     }
@@ -732,7 +737,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 // If we've played all songs already in shuffle, then either
                 // reshuffle or stop (depending on RepeatType).
                 if (previous.size + 1 == size) {
-                    if (repeating == PlaybackStateCompat.REPEAT_MODE_NONE) {
+                    if (repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE) {
                         nextIndex = -1
                         return
                     } else {
@@ -748,7 +753,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 if (currentIndex > 0) prevIndex = currentIndex - 1
                 nextIndex = when {
                     currentIndex + 1 < size -> currentIndex + 1
-                    repeating == PlaybackStateCompat.REPEAT_MODE_NONE -> -1
+                    repeating.value == PlaybackStateCompat.REPEAT_MODE_NONE -> -1
                     else -> 0
                 }
             }

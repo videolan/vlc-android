@@ -44,6 +44,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.media.PlaylistManager
 import java.io.*
 
 /**
@@ -125,11 +126,11 @@ class BenchActivity : ShallowVideoPlayer() {
         super.onServiceChanged(service)
         if (isSpeed && this.service != null) {
             oldRate = service!!.rate
-            oldRepeating = service.playlistManager.repeating
+            oldRepeating = PlaylistManager.repeating.value
             service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_ONE)
         } else if (!isSpeed && this.service != null) {
-            oldRepeating = service!!.playlistManager.repeating
-            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_NONE)
+            oldRepeating = PlaylistManager.repeating.value
+            service!!.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_NONE)
         }
         if (isHardware && this.service != null) {
             val sharedPref = Settings.getInstance(this)

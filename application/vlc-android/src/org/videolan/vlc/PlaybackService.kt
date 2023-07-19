@@ -318,7 +318,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     var repeatType: Int
         @MainThread
-        get() = playlistManager.repeating
+        get() = PlaylistManager.repeating.value
         @MainThread
         set(repeatType) {
             playlistManager.setRepeatType(if (repeatType == PlaybackStateCompat.REPEAT_MODE_GROUP) PlaybackStateCompat.REPEAT_MODE_ALL else repeatType)
@@ -1099,7 +1099,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
         pscb.setState(state, time, if (isPaused) 0f else playlistManager.player.getRate())
         pscb.setActiveQueueItemId(playlistManager.currentIndex.toLong())
-        val repeatType = playlistManager.repeating
+        val repeatType = PlaylistManager.repeating.value
         val podcastMode = isPodcastMode
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasNext())
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT

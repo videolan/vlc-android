@@ -80,6 +80,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.manageAbRepeatStep
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
@@ -143,6 +144,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         Settings.setAudioControlsChangeListener {
             lifecycleScope.launchWhenStarted {
                 doUpdate()
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            PlaylistManager.repeating.collect {
+                updateRepeatMode()
             }
         }
     }
