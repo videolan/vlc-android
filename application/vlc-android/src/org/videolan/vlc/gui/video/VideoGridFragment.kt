@@ -589,7 +589,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             is VideoCtxClick -> {
                 when (item) {
                     is Folder -> showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_FOLDER_FLAGS or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
-                    is VideoGroup -> if (item.presentCount == 0) UiTools.snackerMissing(requireActivity()) else showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_FOLDER_FLAGS or CTX_RENAME_GROUP or CTX_UNGROUP or CTX_PLAY_ALL and CTX_PLAY.inv() or CTX_ADD_GROUP or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
+                    is VideoGroup -> if (item.presentCount == 0) UiTools.snackerMissing(requireActivity()) else showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_VIDEO_GROUP_FLAGS or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
