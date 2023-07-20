@@ -1735,6 +1735,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         popupMenu.show()
     }
 
+    override fun getLifeCycle() = this.lifecycle
+
     override fun onSelectionSet(position: Int) = overlayDelegate.playlist.scrollToPosition(position)
 
     override fun playItem(position: Int, item: MediaWrapper) {

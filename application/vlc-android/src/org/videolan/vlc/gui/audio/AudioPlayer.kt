@@ -348,6 +348,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         showContext(activity, ctxReceiver, position, item, flags)
     }
 
+    override fun getLifeCycle() = this.lifecycle
+
     private suspend fun doUpdate() {
         if (isVisible && playlistModel.switchToVideo()) return
         updatePlayPause()
