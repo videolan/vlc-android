@@ -19,7 +19,6 @@
 
 package org.videolan.vlc
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetManager
@@ -89,8 +88,9 @@ import kotlin.math.abs
 
 private const val TAG = "VLC/PlaybackService"
 
-class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope {
+class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineScope, SchedulerCallback {
     override val coroutineContext = Dispatchers.IO + SupervisorJob()
+    lateinit var scheduler: LifecycleAwareScheduler
 
     private var position: Long = -1L
     private val dispatcher = ServiceLifecycleDispatcher(this)
@@ -130,6 +130,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var lastChaptersCount = 0
     private var lastParentId = ""
     private var widget = 0
+
+    var currentToast: Toast? = null
+    var lastErrorTime = 0L
+    var nbErrors = 0
 
     /**
      * Last widget position update timestamp
@@ -208,7 +212,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 showNotification()
-                handler.nbErrors = 0
+                nbErrors = 0
             }
             MediaPlayer.Event.Paused -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Paused")
@@ -244,8 +248,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
         cbActor.trySend(CbMediaPlayerEvent(event))
     }
-
-    private val handler = PlaybackServiceHandler(this)
 
     val sessionPendingIntent: PendingIntent
         get() {
@@ -604,6 +606,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
+        scheduler = LifecycleAwareScheduler(this)
         dispatcher.onServicePreSuperOnCreate()
         setupScope()
         forceForeground()
@@ -737,7 +740,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         serviceFlow.value = null
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
         browserCallback.removeCallbacks()
         if (!settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) (getSystemService(NOTIFICATION_SERVICE)as NotificationManager).cancel(3)
         if (this::mediaSession.isInitialized) mediaSession.release()
@@ -840,38 +842,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         broadcastMetadata()
         if (pubState)
             publishState()
-    }
-
-    private class PlaybackServiceHandler(owner: PlaybackService) : WeakHandler<PlaybackService>(owner) {
-
-        var currentToast: Toast? = null
-        var lastErrorTime = 0L
-        var nbErrors = 0
-
-        @SuppressLint("ShowToast")
-        override fun handleMessage(msg: Message) {
-            val service = owner ?: return
-            when (msg.what) {
-                SHOW_TOAST -> {
-                    val bundle = msg.data
-                    var text = bundle.getString("text")
-                    val duration = bundle.getInt("duration")
-                    val isError = bundle.getBoolean("isError")
-                    if (isError) {
-                        when {
-                            nbErrors > 2 && System.currentTimeMillis() - lastErrorTime < 500 -> return
-                            nbErrors >= 2 -> text = service.getString(R.string.playback_multiple_errors)
-                        }
-                        currentToast?.cancel()
-                        nbErrors++
-                        lastErrorTime = System.currentTimeMillis()
-                    }
-                    currentToast = Toast.makeText(AppContextProvider.appContext, text, duration)
-                    currentToast?.show()
-                }
-                END_MEDIASESSION -> if (service::mediaSession.isInitialized) service.mediaSession.isActive = false
-            }
-        }
     }
 
     fun showNotification(): Boolean {
@@ -1074,7 +1044,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     private fun publishState(position: Long? = null) {
         if (!this::mediaSession.isInitialized) return
-        if (AndroidDevices.isAndroidTv) handler.removeMessages(END_MEDIASESSION)
+        if (AndroidDevices.isAndroidTv) scheduler.cancelAction(END_MEDIASESSION)
         val pscb = PlaybackStateCompat.Builder()
         var actions = PLAYBACK_BASE_ACTIONS
         val hasMedia = playlistManager.hasCurrentMedia()
@@ -1092,7 +1062,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     val progress = if (length <= 0L) 0f else time / length.toFloat()
                     if (progress < 0.95f) {
                         state = PlaybackStateCompat.STATE_PAUSED
-                        handler.sendEmptyMessageDelayed(END_MEDIASESSION, 900_000L)
+                        scheduler.scheduleAction(END_MEDIASESSION, 900_000L)
                     }
                 }
             }
@@ -1291,12 +1261,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     fun showToast(text: String, duration: Int, isError: Boolean = false) {
-        val msg = handler.obtainMessage().apply {
-            what = SHOW_TOAST
-            data = bundleOf("text" to text, "duration" to duration, "isError" to isError)
-        }
-        handler.removeMessages(SHOW_TOAST)
-        handler.sendMessage(msg)
+        scheduler.cancelAction(SHOW_TOAST)
+        scheduler.startAction(SHOW_TOAST, bundleOf("text" to text, "duration" to duration, "isError" to isError))
     }
 
     @MainThread
@@ -1692,6 +1658,28 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     @MainThread
     fun setVideoAspectRatio(aspect: String?) = playlistManager.player.setVideoAspectRatio(aspect)
 
+    override fun onTaskTriggered(id: String, data:Bundle) {
+        when (id) {
+            SHOW_TOAST -> {
+                var text = data.getString("text")
+                val duration = data.getInt("duration")
+                val isError = data.getBoolean("isError")
+                if (isError) {
+                    when {
+                        nbErrors > 2 && System.currentTimeMillis() - lastErrorTime < 500 -> return
+                        nbErrors >= 2 -> text = getString(R.string.playback_multiple_errors)
+                    }
+                    currentToast?.cancel()
+                    nbErrors++
+                    lastErrorTime = System.currentTimeMillis()
+                }
+                currentToast = Toast.makeText(applicationContext, text, duration)
+                currentToast?.show()
+            }
+            END_MEDIASESSION -> if (::mediaSession.isInitialized) mediaSession.isActive = false
+        }
+    }
+
     override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     /*
@@ -1798,8 +1786,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val headSetDetection = LiveEvent<Boolean>()
         val equalizer = LiveEvent<MediaPlayer.Equalizer>()
 
-        private const val SHOW_TOAST = 1
-        private const val END_MEDIASESSION = 2
+        private const val SHOW_TOAST = "show_toast"
+        private const val END_MEDIASESSION = "end_mediasession"
 
         val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
 
