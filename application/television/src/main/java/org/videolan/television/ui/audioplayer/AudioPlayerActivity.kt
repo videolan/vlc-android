@@ -25,8 +25,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.view.*
@@ -68,7 +66,6 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
-    private val handler = Handler(Looper.getMainLooper())
     private var lastMove: Long = 0
     private var shuffling = false
     private var currentCoverArt: String? = null
@@ -393,14 +390,14 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     }
 
     fun onUpdateFinished() {
-        handler.post(Runnable {
+        binding.root.post {
             val position = model.currentMediaPosition
-            if (position < 0) return@Runnable
+            if (position < 0) return@post
             adapter.setSelection(position)
             val first = (binding.playlist.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
             val last = (binding.playlist.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
             if (position < first || position > last) binding.playlist.smoothScrollToPosition(position)
-        })
+        }
     }
 
     companion object {
