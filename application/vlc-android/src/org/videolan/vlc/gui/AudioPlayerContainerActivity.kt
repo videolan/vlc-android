@@ -27,7 +27,7 @@ import android.annotation.SuppressLint
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
+import android.os.Looper
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
@@ -38,6 +38,7 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.Insets
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -63,6 +64,8 @@ import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import kotlin.math.max
 import kotlin.math.min
@@ -70,15 +73,15 @@ import kotlin.math.min
 
 private const val TAG = "VLC/APCActivity"
 
-private const val ACTION_DISPLAY_PROGRESSBAR = 1339
-private const val ACTION_SHOW_PLAYER = 1340
-private const val ACTION_HIDE_PLAYER = 1341
+private const val ACTION_DISPLAY_PROGRESSBAR = "action_display_progressbar"
+private const val ACTION_SHOW_PLAYER = "action_show_player"
+private const val ACTION_HIDE_PLAYER = "action_hide_player"
 private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
 private const val PLAYER_OPENED = "player_opened"
 private const val SHOWN_TIPS = "shown_tips"
 private const val BOOKMARK_VISIBLE: String = "bookmark_visible"
 
-open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
+open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, SchedulerCallback {
 
     private var bottomBar: BottomNavigationView? = null
     lateinit var appBarLayout: AppBarLayout
@@ -113,8 +116,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
 
     var bottomInset = 0
 
-    @Suppress("LeakingThis")
-    protected val handler: Handler = ProgressHandler(this)
+    lateinit var scheduler: LifecycleAwareScheduler
+    protected val handler: Handler = Handler(Looper.getMainLooper())
 
     private var topInset: Int = 0
 
@@ -133,6 +136,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        scheduler =  LifecycleAwareScheduler(this)
+
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
@@ -395,7 +400,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
     }
 
     override fun onDestroy() {
-        handler.removeMessages(ACTION_SHOW_PLAYER)
+        scheduler.cancelAction(ACTION_SHOW_PLAYER)
         super.onDestroy()
     }
 
@@ -476,7 +481,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
      */
     private fun showAudioPlayer() {
         if (isFinishing) return
-        handler.sendEmptyMessageDelayed(ACTION_SHOW_PLAYER, 100L)
+        scheduler.scheduleAction(ACTION_SHOW_PLAYER, 100L)
     }
 
     private fun showAudioPlayerImpl() {
@@ -520,8 +525,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
      */
     fun hideAudioPlayer() {
         if (isFinishing) return
-        handler.removeMessages(ACTION_SHOW_PLAYER)
-        handler.sendEmptyMessage(ACTION_HIDE_PLAYER)
+        scheduler.cancelAction(ACTION_SHOW_PLAYER)
+        scheduler.startAction(ACTION_HIDE_PLAYER)
     }
 
     private fun hideAudioPlayerImpl() {
@@ -534,10 +539,9 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         val visibility = if (show) View.VISIBLE else View.GONE
         if (scanProgressLayout?.visibility == visibility) return
         if (show) {
-            val msg = handler.obtainMessage(ACTION_DISPLAY_PROGRESSBAR, 0, 0, discovery)
-            handler.sendMessageDelayed(msg, 1000L)
+            scheduler.scheduleAction(ACTION_DISPLAY_PROGRESSBAR, 1000L, bundleOf("discovery" to discovery))
         } else {
-            handler.removeMessages(ACTION_DISPLAY_PROGRESSBAR)
+            scheduler.cancelAction(ACTION_DISPLAY_PROGRESSBAR)
             scanProgressLayout.setVisibility(visibility)
         }
     }
@@ -633,26 +637,21 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener {
         if (::playerBehavior.isInitialized) playerBehavior.lock(lock)
     }
 
-    private class ProgressHandler(owner: AudioPlayerContainerActivity) : WeakHandler<AudioPlayerContainerActivity>(owner) {
-
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            val owner = owner ?: return
-            when (msg.what) {
+    override fun onTaskTriggered(id: String, data: Bundle) {
+            when (id) {
                 ACTION_DISPLAY_PROGRESSBAR -> {
-                    removeMessages(ACTION_DISPLAY_PROGRESSBAR)
-                    owner.showProgressBar(msg.obj as String)
+                    scheduler.cancelAction(ACTION_DISPLAY_PROGRESSBAR)
+                    showProgressBar(data.getString("discovery", ""))
                 }
-                ACTION_SHOW_PLAYER -> owner.run {
+                ACTION_SHOW_PLAYER ->  {
                     if (this::resumeCard.isInitialized && resumeCard.isShown) resumeCard.dismiss()
                     showAudioPlayerImpl()
-                    if (::playerBehavior.isInitialized) owner.applyMarginToProgressBar(playerBehavior.peekHeight)
+                    if (::playerBehavior.isInitialized) applyMarginToProgressBar(playerBehavior.peekHeight)
                 }
-                ACTION_HIDE_PLAYER -> owner.run {
+                ACTION_HIDE_PLAYER ->  {
                     hideAudioPlayerImpl()
                     applyMarginToProgressBar(0)
                 }
             }
         }
-    }
 }
