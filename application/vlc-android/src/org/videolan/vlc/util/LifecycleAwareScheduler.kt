@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.util
 
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -45,8 +46,9 @@ interface SchedulerCallback : LifecycleOwner {
      * It's guaranteed to be ran on the main thread
      *
      * @param id the action id
+     * @param data the data passed by the caller
      */
-    fun onTaskTriggered(id: String)
+    fun onTaskTriggered(id: String, data:Bundle)
 
     /**
      * (Optional) Called when the action is cancelled
@@ -79,9 +81,10 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      * Can be called in any thread
      *
      * @param id the action id
+     * @param data the data to be passed
      */
-    fun startAction(id: String) {
-        scheduleAction(id, 0L)
+    fun startAction(id: String, data:Bundle = Bundle()) {
+        scheduleAction(id, 0L, data)
     }
 
     /**
@@ -90,13 +93,14 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      *
      * @param id the action id
      * @param delay the delay before the action is ran
+     * @param data the data to be passed
      */
-    fun scheduleAction(id: String, delay: Long) {
+    fun scheduleAction(id: String, delay: Long, data:Bundle = Bundle()) {
         if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "Scheduling action for $callback on thread ${Thread.currentThread()} with id $id")
         callback.lifecycle.addObserver(this@LifecycleAwareScheduler)
         if (timeTasks.keys.contains(id)) cancelAction(id)
         timeTasks[id] = timerTask {
-            callback.lifecycleScope.launch(Dispatchers.Main) { callback.onTaskTriggered(id) }
+            callback.lifecycleScope.launch(Dispatchers.Main) { callback.onTaskTriggered(id, data) }
         }
         timer.schedule(timeTasks[id], delay)
     }

@@ -347,7 +347,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         playAll(null)
     }
 
-    override fun onTaskTriggered(id: String) {
+    override fun onTaskTriggered(id: String, data:Bundle) {
         when (id) {
             MSG_SHOW_LOADING -> swipeRefreshLayout.isRefreshing = true
             MSG_HIDE_LOADING -> {

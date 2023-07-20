@@ -28,6 +28,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -385,7 +386,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
         actor.trySend(Unit)
     }
 
-    override fun onTaskTriggered(id: String) {
+    override fun onTaskTriggered(id: String, data:Bundle) {
         when (id) {
             HIDE_HANDLE -> hideBubble()
             HIDE_SCROLLER -> animate().translationX(hiddenTranslationX)
