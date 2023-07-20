@@ -170,22 +170,19 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.isSD, item.uri.isSD())
                 holder.binding.setVariable(BR.isPresent, item.isPresent)
 
-                text = if (item.type == MediaWrapper.TYPE_GROUP) {
-                    item.description
-                } else {
-                    seen = if (isSeenMediaMarkerVisible) item.seen else 0L
-                    /* Time / Duration */
-                    if (item.length > 0) {
-                        val lastTime = item.displayTime
-                        if (lastTime > 0) {
-                            max = (item.length / 1000).toInt()
-                            progress = (lastTime / 1000).toInt()
-                        }
-                        if (isListMode && resolution !== null) {
-                            "${Tools.millisToString(item.length)}  •  $resolution"
-                        } else Tools.millisToString(item.length)
-                    } else null
-                }
+
+                seen = if (isSeenMediaMarkerVisible) item.seen else 0L
+                /* Time / Duration */
+                text = if (item.length > 0) {
+                    val lastTime = item.displayTime
+                    if (lastTime > 0) {
+                        max = (item.length / 1000).toInt()
+                        progress = (lastTime / 1000).toInt()
+                    }
+                    if (isListMode && resolution !== null) {
+                        "${Tools.millisToString(item.length)}  •  $resolution"
+                    } else Tools.millisToString(item.length)
+                } else null
                 holder.binding.setVariable(BR.time, text)
                 holder.binding.setVariable(BR.max, max)
                 holder.binding.setVariable(BR.progress, progress)

@@ -141,13 +141,6 @@ object TvUtil {
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
-                MediaWrapper.TYPE_GROUP -> {
-                    val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
-                    val title = item.title.substring(if (item.title.lowercase(Locale.getDefault()).startsWith("the")) 4 else 0)
-                    intent.putExtra(KEY_GROUP, title)
-                    activity.startActivity(intent)
-                }
                 else -> {
                    MediaUtils.openMedia(activity, item)
                 }
@@ -182,13 +175,6 @@ object TvUtil {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
-                    activity.startActivity(intent)
-                }
-                MediaWrapper.TYPE_GROUP -> {
-                    val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
-                    val title = item.title.substring(if (item.title.lowercase(Locale.getDefault()).startsWith("the")) 4 else 0)
-                    intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
                 else -> {
@@ -236,13 +222,6 @@ object TvUtil {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
-                    activity.startActivity(intent)
-                }
-                MediaWrapper.TYPE_GROUP -> {
-                    val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
-                    val title = item.title.substring(if (item.title.lowercase(Locale.getDefault()).startsWith("the")) 4 else 0)
-                    intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
                 else -> {

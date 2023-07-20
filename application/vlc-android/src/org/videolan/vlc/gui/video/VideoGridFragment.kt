@@ -591,11 +591,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     is Folder -> showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_FOLDER_FLAGS or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
                     is VideoGroup -> if (item.presentCount == 0) UiTools.snackerMissing(requireActivity()) else showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_VIDEO_GROUP_FLAGS or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
                     is MediaWrapper -> {
-                        val group = item.type == MediaWrapper.TYPE_GROUP
-                        var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
+                        var flags = CTX_VIDEO_FLAGS
                         flags = flags or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
                         flags = if (item.seen > 0) flags or CTX_MARK_AS_UNPLAYED else  flags or CTX_MARK_AS_PLAYED
-                        if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
+                        if (item.time != 0L) flags = flags or CTX_PLAY_FROM_START
                         if (viewModel.groupingType == VideoGroupingType.NAME || viewModel.group != null) flags = flags or if (viewModel.group != null) CTX_REMOVE_GROUP else flags or CTX_ADD_GROUP or CTX_GROUP_SIMILAR
                         //go to folder
                         if (item.uri.retrieveParent() != null) flags = flags or CTX_GO_TO_FOLDER
