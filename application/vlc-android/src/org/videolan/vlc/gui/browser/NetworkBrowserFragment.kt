@@ -165,7 +165,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
                         binding.emptyLoading.emptyText = getString(R.string.network_empty)
                     }
                     binding.networkList.visibility = View.GONE
-                    handler.sendEmptyMessage(MSG_HIDE_LOADING)
+                    scheduler.startAction(MSG_HIDE_LOADING)
                 }
             } else {
                 binding.emptyLoading.state = EmptyLoadingState.NONE
