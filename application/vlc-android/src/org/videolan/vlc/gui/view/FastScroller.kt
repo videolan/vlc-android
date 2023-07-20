@@ -27,9 +27,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Message
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,6 +38,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -50,10 +49,11 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.resources.util.HeadersIndex
-import org.videolan.tools.WeakHandler
 import org.videolan.tools.dp
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
@@ -65,13 +65,13 @@ private const val HANDLE_ANIMATION_DURATION = 100
 private const val HANDLE_HIDE_DELAY = 1000
 private const val SCROLLER_HIDE_DELAY = 3000
 
-private const val HIDE_HANDLE = 0
-private const val HIDE_SCROLLER = 1
-private const val SHOW_SCROLLER = 2
+private const val HIDE_HANDLE = "hide_handle"
+private const val HIDE_SCROLLER = "hide_scroller"
+private const val SHOW_SCROLLER = "show_scroller"
 
 private const val ITEM_THRESHOLD = 25
 
-class FastScroller : LinearLayout, Observer<HeadersIndex> {
+class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
 
     private var currentHeight: Int = 0
     private val itemCount: Int
@@ -100,23 +100,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     private var tryExpandAppbarOnNextScroll = false
     private val hiddenTranslationX = 38.dp.toFloat()
 
-    private val handler = @SuppressLint("HandlerLeak")
-    object : WeakHandler<FastScroller>(this) {
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                HIDE_HANDLE -> hideBubble()
-                HIDE_SCROLLER -> animate().translationX(hiddenTranslationX)
-                SHOW_SCROLLER -> {
-                    if (itemCount < ITEM_THRESHOLD) {
-                        return
-                    }
-                    translationX = 0.dp.toFloat()
-                    this.removeMessages(HIDE_SCROLLER)
-                    this.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
-                }
-            }
-        }
-    }
+    lateinit var scheduler: LifecycleAwareScheduler
 
     interface SeparatedAdapter {
         fun hasSections(): Boolean
@@ -132,6 +116,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
 
 
     private fun initialize(context: Context) {
+        scheduler =  LifecycleAwareScheduler(this)
         orientation = HORIZONTAL
         clipChildren = false
         val inflater = LayoutInflater.from(context)
@@ -190,6 +175,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
      * Hides the bubble containing the section letter
      */
     private fun hideBubble() {
+        if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "hideBubble on thread ${Thread.currentThread()}")
         currentAnimator = AnimatorSet()
         bubble.pivotX = bubble.width.toFloat()
         bubble.pivotY = bubble.height.toFloat()
@@ -202,14 +188,14 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
                 super.onAnimationEnd(animation)
                 bubble.visibility = View.GONE
                 currentAnimator = null
-                handler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
+                scheduler.scheduleAction(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             }
 
             override fun onAnimationCancel(animation: Animator) {
                 super.onAnimationCancel(animation)
                 bubble.visibility = View.INVISIBLE
                 currentAnimator = null
-                handler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
+                scheduler.scheduleAction(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             }
         })
         currentAnimator?.start()
@@ -233,7 +219,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         this.recyclerView = recyclerView
         this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
-        handler.sendEmptyMessage(HIDE_HANDLE)
+        scheduler.startAction(HIDE_HANDLE)
         if (this::provider.isInitialized) this.provider.liveHeaders.removeObserver(this)
         this.provider = provider
         provider.liveHeaders.observeForever(this)
@@ -252,16 +238,16 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
             currentPosition = -1
             if (currentAnimator != null)
                 currentAnimator?.cancel()
-            handler.removeMessages(HIDE_SCROLLER)
-            handler.removeMessages(HIDE_HANDLE)
+            scheduler.cancelAction(HIDE_SCROLLER)
+            scheduler.cancelAction(HIDE_HANDLE)
             if (showBubble && bubble.visibility == View.GONE)
                 showBubble()
             setRecyclerViewPosition(event.y)
             return true
         } else if (event.action == MotionEvent.ACTION_UP) {
             fastScrolling = false
-            handler.sendEmptyMessageDelayed(HIDE_HANDLE, HANDLE_HIDE_DELAY.toLong())
-            handler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
+            scheduler.scheduleAction(HIDE_HANDLE, HANDLE_HIDE_DELAY.toLong())
+            scheduler.scheduleAction(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             if (event.y / currentHeight.toFloat() > 0.99f) {
                 recyclerView.smoothScrollToPosition(itemCount)
             }
@@ -391,11 +377,28 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         val recyclerviewTotalHeight = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent()
         val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
         setPosition(currentHeight * proportion)
-        handler.sendEmptyMessage(SHOW_SCROLLER)
+        scheduler.startAction(SHOW_SCROLLER)
         actor.trySend(Unit)
     }
 
     override fun onChanged(t: HeadersIndex?) {
         actor.trySend(Unit)
     }
+
+    override fun onTaskTriggered(id: String) {
+        when (id) {
+            HIDE_HANDLE -> hideBubble()
+            HIDE_SCROLLER -> animate().translationX(hiddenTranslationX)
+            SHOW_SCROLLER -> {
+                if (itemCount < ITEM_THRESHOLD) {
+                    return
+                }
+                translationX = 0.dp.toFloat()
+                scheduler.cancelAction(HIDE_SCROLLER)
+                scheduler.scheduleAction(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
+            }
+        }
+    }
+
+    override fun getLifecycle() = findViewTreeLifecycleOwner()!!.lifecycle
 }
