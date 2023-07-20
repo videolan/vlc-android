@@ -106,10 +106,10 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         playbackSpeedPlus.setOnClickListener(speedUpListener)
         playbackSpeedMinus.setOnClickListener(speedDownListener)
         speedValue.setOnClickListener(resetListener)
-        playbackSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener))
-        playbackSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener))
-        playbackSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener))
-        playbackSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener))
+        playbackSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener, lifecycle))
+        playbackSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener, lifecycle))
+        playbackSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener, lifecycle))
+        playbackSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener, lifecycle))
 
         textColor = speedValue.currentTextColor
 
