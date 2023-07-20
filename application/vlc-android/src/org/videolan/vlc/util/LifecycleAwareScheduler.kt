@@ -106,6 +106,23 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
     }
 
     /**
+     * Schedule an action to be called every [interval]ms.
+     * Can be called in any thread
+     *
+     * @param id the action id
+     * @param interval the interval between each action trigger
+     * @param data the data to be passed
+     */
+    fun scheduleAtFixedRate(id: String, interval: Long, data:Bundle = Bundle()) {
+        callback.lifecycle.addObserver(this@LifecycleAwareScheduler)
+        if (timeTasks.keys.contains(id)) cancelAction(id)
+        timeTasks[id] = timerTask {
+            callback.lifecycleScope.launch(Dispatchers.Main) { callback.onTaskTriggered(id, data) }
+        }
+        timer.scheduleAtFixedRate(timeTasks[id], 0, interval)
+    }
+
+    /**
      * Cancel an existing action
      *
      * @param id the action id

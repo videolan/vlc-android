@@ -36,7 +36,6 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.DrawableRes
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.tools.coerceInOrDefault
 import org.videolan.tools.dp
@@ -44,19 +43,20 @@ import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogWidgetExplanationBinding
-import java.util.Timer
-import java.util.TimerTask
-import kotlin.concurrent.scheduleAtFixedRate
+import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.SchedulerCallback
 
 
-class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
+private const val ACTION_REFRESH = "refresh"
+
+class WidgetExplanationDialog : VLCBottomSheetDialogFragment(), SchedulerCallback  {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = true
 
-    private lateinit var timer: TimerTask
     private lateinit var resizeAnimation: AnimatorSet
     internal lateinit var binding: DialogWidgetExplanationBinding
+    lateinit var scheduler: LifecycleAwareScheduler
 
     private val sizeDrawables = listOf(R.drawable.vlc_widget_mini, R.drawable.vlc_widget_micro, R.drawable.vlc_widget_pill, R.drawable.vlc_widget_macro)
     var currentDrawable = R.drawable.vlc_widget_macro
@@ -65,6 +65,10 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
 
     override fun initialFocusedView(): View = binding.title
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        scheduler =  LifecycleAwareScheduler(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogWidgetExplanationBinding.inflate(layoutInflater, container, false)
@@ -73,13 +77,7 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        timer = Timer().scheduleAtFixedRate(0, 2000) {
-            lifecycleScope.launchWhenStarted {
-                val nextIndex = (sizeDrawables.indexOf(currentDrawable) + 1).coerceInOrDefault(0, sizeDrawables.size - 1, 0)
-                currentDrawable = sizeDrawables[nextIndex]
-                displaySizeImage(currentDrawable)
-            }
-        }
+        scheduler.scheduleAtFixedRate(ACTION_REFRESH, 2000)
 
         val sizeDrawbles = listOf(R.drawable.vlc_widget_mini, R.drawable.vlc_widget_micro, R.drawable.vlc_widget_pill, R.drawable.vlc_widget_macro)
         displaySizeImage(sizeDrawbles[0])
@@ -90,7 +88,7 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
                     binding.step2.setVisible()
                     binding.step3.setGone()
                     animateLongTap()
-                    timer.cancel()
+                    scheduler.cancelAction(ACTION_REFRESH)
                 }
                 2 -> {
                     binding.step1.setGone()
@@ -106,6 +104,16 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
         }
     }
 
+    override fun onTaskTriggered(id: String, data: Bundle) {
+        when (id) {
+            ACTION_REFRESH -> {
+                val nextIndex = (sizeDrawables.indexOf(currentDrawable) + 1).coerceInOrDefault(0, sizeDrawables.size - 1, 0)
+                currentDrawable = sizeDrawables[nextIndex]
+                displaySizeImage(currentDrawable)
+            }
+        }
+    }
+
     /**
      * Display a new image in the UI showing the different widget sizes
      *
@@ -113,11 +121,6 @@ class WidgetExplanationDialog : VLCBottomSheetDialogFragment() {
      */
     private fun displaySizeImage(@DrawableRes drawable: Int) {
         binding.widgetSizes.setImageDrawable(ContextCompat.getDrawable(requireActivity(), drawable))
-    }
-
-    override fun dismiss() {
-        timer.cancel()
-        super.dismiss()
     }
 
     /**
