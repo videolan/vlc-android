@@ -29,8 +29,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +50,7 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
+import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
@@ -76,6 +75,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     private var model: PlaylistModel? = null
     private var currentPlayingVisu: MiniVisualizer? = null
     lateinit var scheduler: LifecycleAwareScheduler
+    var marqueeScheduler: LifecycleAwareScheduler? = null
 
     init {
         val ctx = when (player) {
@@ -151,12 +151,18 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
+        marqueeScheduler?.cancelAction("")
         currentPlayingVisu = null
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, Handler(Looper.getMainLooper()))
+        if (Settings.listTitleEllipsize == 4) marqueeScheduler = enableMarqueeEffect(recyclerView)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        marqueeScheduler?.cancelAction(MARQUEE_ACTION)
+        super.onViewRecycled(holder)
     }
 
     override fun getItemCount() = dataset.size

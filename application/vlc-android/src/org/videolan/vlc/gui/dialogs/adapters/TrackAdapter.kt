@@ -24,20 +24,20 @@
 
 package org.videolan.vlc.gui.dialogs.adapters
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoTrackItemBinding
+import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class TrackAdapter(private val tracks: Array<VlcTrack>, var selectedTrack: VlcTrack?, val trackTypePrefix:String) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
 
     lateinit var trackSelectedListener: (VlcTrack) -> Unit
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
+    private var scheduler: LifecycleAwareScheduler? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -57,7 +57,12 @@ class TrackAdapter(private val tracks: Array<VlcTrack>, var selectedTrack: VlcTr
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        scheduler?.cancelAction(MARQUEE_ACTION)
+        super.onViewRecycled(holder)
     }
 
 

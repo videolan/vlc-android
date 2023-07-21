@@ -36,6 +36,7 @@ import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaRouter
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.renderscript.*
@@ -63,6 +64,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -95,6 +97,8 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
 import kotlin.math.min
@@ -844,30 +848,34 @@ interface MarqueeViewHolder {
     val titleView: TextView?
 }
 
-fun enableMarqueeEffect(recyclerView: RecyclerView, handler: Handler) {
+const val MARQUEE_ACTION = "marquee_action"
+fun enableMarqueeEffect(recyclerView: RecyclerView):LifecycleAwareScheduler? {
     (recyclerView.layoutManager as? LinearLayoutManager)?.let { layoutManager ->
+        val scheduler = LifecycleAwareScheduler(object :SchedulerCallback {
+            override fun onTaskTriggered(id: String, data: Bundle) {
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
+                    val holder = recyclerView.findViewHolderForLayoutPosition(i)
+                    (holder as? MarqueeViewHolder)?.titleView?.isSelected = true
+                }
+            }
+
+            override fun getLifecycle() = recyclerView.findViewTreeLifecycleOwner()!!.lifecycle
+        })
         //Initial animation for already visible items
-        launchMarquee(recyclerView, layoutManager, handler)
+        scheduler.scheduleAction(MARQUEE_ACTION, 1500)
         //Animation when done scrolling
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                handler.removeCallbacksAndMessages(null)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) launchMarquee(recyclerView, layoutManager, handler)
+                scheduler.cancelAction(MARQUEE_ACTION)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) scheduler.scheduleAction(MARQUEE_ACTION, 1500)
             }
         })
+        return scheduler
     }
-}
-
-private fun launchMarquee(recyclerView: RecyclerView, layoutManager: LinearLayoutManager, handler: Handler) {
-    handler.postDelayed({
-        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-        for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
-            val holder = recyclerView.findViewHolderForLayoutPosition(i)
-            (holder as? MarqueeViewHolder)?.titleView?.isSelected = true
-        }
-    }, 1500)
+    return null
 }
 
 @BindingAdapter("selected")

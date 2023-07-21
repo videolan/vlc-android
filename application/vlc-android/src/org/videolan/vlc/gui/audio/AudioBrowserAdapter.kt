@@ -27,8 +27,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -60,6 +58,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
+import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
@@ -68,6 +67,7 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
+import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeSMB
@@ -91,7 +91,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     private var focusNext = -1
     private var focusListener: FocusListener? = null
     lateinit var inflater: LayoutInflater
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
+    private var scheduler: LifecycleAwareScheduler? = null
     var stopReorder = false
     var areSectionsEnabled = true
 
@@ -129,11 +129,11 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        scheduler?.cancelAction("")
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
@@ -185,7 +185,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     override fun onViewRecycled(h: AbstractMediaItemViewHolder<ViewDataBinding>) {
-        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        scheduler?.cancelAction(MARQUEE_ACTION)
         h.recycle()
         super.onViewRecycled(h)
     }

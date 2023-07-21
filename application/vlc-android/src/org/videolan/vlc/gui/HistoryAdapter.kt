@@ -19,8 +19,6 @@
  */
 package org.videolan.vlc.gui
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +39,7 @@ import org.videolan.vlc.databinding.HistoryItemCardBinding
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
+import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeNetwork
@@ -52,7 +51,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
     val updateEvt : LiveData<Unit> = MutableLiveData()
     private lateinit var layoutInflater: LayoutInflater
     var multiSelectHelper: MultiSelectHelper<MediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
+    var scheduler: LifecycleAwareScheduler? = null
 
     inner class ViewHolder(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding), MarqueeViewHolder {
 
@@ -95,11 +94,11 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (inCards && Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (inCards && Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        scheduler?.cancelAction(MARQUEE_ACTION)
         holder.recycle()
         super.onViewRecycled(holder)
     }
