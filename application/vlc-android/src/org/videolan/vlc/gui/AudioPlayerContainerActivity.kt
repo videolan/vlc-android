@@ -26,8 +26,6 @@ package org.videolan.vlc.gui
 import android.annotation.SuppressLint
 import android.media.AudioManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ProgressBar
@@ -117,7 +115,6 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     var bottomInset = 0
 
     lateinit var scheduler: LifecycleAwareScheduler
-    protected val handler: Handler = Handler(Looper.getMainLooper())
 
     private var topInset: Int = 0
 

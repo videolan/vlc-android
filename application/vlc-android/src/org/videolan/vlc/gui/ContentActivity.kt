@@ -89,7 +89,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             searchView.setOnQueryTextListener(this)
             val query = filterable?.getFilterQuery()
             if (!query.isNullOrEmpty()) {
-                handler.post {
+                searchView.post {
                     searchItem.expandActionView()
                     searchView.clearFocus()
                     UiTools.setKeyboardVisibility(searchView, false)

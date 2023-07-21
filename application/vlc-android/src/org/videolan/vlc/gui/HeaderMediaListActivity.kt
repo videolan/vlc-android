@@ -252,7 +252,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         searchView.setOnQueryTextListener(this)
         val query = getFilterQuery()
         if (!query.isNullOrEmpty()) {
-            handler.post {
+            searchView.post {
                 searchItem.expandActionView()
                 searchView.clearFocus()
                 UiTools.setKeyboardVisibility(searchView, false)
