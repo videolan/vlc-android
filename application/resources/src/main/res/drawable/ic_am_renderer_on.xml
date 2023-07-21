@@ -1,40 +1,9 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_am_renderer_on.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="48dp"
-        android:height="48dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="?attr/colorControlNormal"
-            android:fillType="evenOdd"
-            android:pathData="m5.5,5c-0.831,0 -1.5,0.669 -1.5,1.5v3.5h1.5v-3.5h13v11L13,17.5v1.5h5.5c0.831,0 1.5,-0.669 1.5,-1.5v-11c0,-0.831 -0.669,-1.5 -1.5,-1.5zM7,8v2.5273c2.5562,0.9062 4.5675,2.9168 5.4746,5.4727L17,16v-8zM4,11.5v1.5c3.3137,0 6,2.6863 6,6h1.5c0,-4.1421 -3.3579,-7.5 -7.5,-7.5zM4,14.5v1.5c1.6568,0 3,1.3432 3,3h1.5c0,-2.4853 -2.0147,-4.5 -4.5,-4.5zM4,17.5v1.5h1.5c0,-0.8284 -0.6716,-1.5 -1.5,-1.5z"
-            android:strokeWidth="2"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineCap="butt"
-            android:strokeLineJoin="round" />
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M8,8C5.8,8 4,9.8 4,12L4,14C4,15.1 4.9,16 6,16C7.1,16 8,15.1 8,14L8,12L38,12C39.1,12 40,12.9 40,14L40,34C40,35.1 39.1,36 38,36L30,36C28.9,36 28,36.9 28,38C28,39.1 28.9,40 30,40L40,40C42.2,40 44,38.2 44,36L44,12C44,9.8 42.2,8 40,8L8,8zM11.129,15A26,26 0,0 1,29.037 33L35,33C36.108,33 37,32.108 37,31L37,17C37,15.892 36.108,15 35,15L11.129,15zM6.199,18.1C5.019,18 4,18.92 4,20.1C4,21.12 4.76,21.98 5.76,22.08C14.3,22.9 21.1,29.7 21.92,38.24C22.02,39.24 22.88,39.98 23.9,39.98C25.1,39.98 26.02,38.94 25.9,37.76C24.84,27.38 16.579,19.14 6.199,18.1zM6.057,26.156C4.949,26.104 4,27.036 4,28.18C4,29.16 4.719,29.981 5.699,30.141C9.859,30.861 13.139,34.141 13.859,38.301C14.019,39.281 14.84,40 15.82,40C17.04,40 18,38.921 17.82,37.721C16.86,31.801 12.179,27.14 6.279,26.18C6.204,26.167 6.13,26.16 6.057,26.156zM4,34L4,40L10,40C10,36.68 7.32,34 4,34z"
+      android:fillColor="?attr/colorControlNormal"/>
 </vector>
