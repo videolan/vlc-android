@@ -29,7 +29,7 @@
     <item
             android:id="@+id/action_rename"
             android:title="@string/rename_group"
-            android:icon="@drawable/ic_edit"
+            android:icon="@drawable/ic_am_edit"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_video_delete"

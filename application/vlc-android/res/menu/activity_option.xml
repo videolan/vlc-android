@@ -205,7 +205,7 @@
     <item
             android:orderInCategory="5"
             android:title="@string/rename_group"
-            android:icon="@drawable/ic_edit_toolbar"
+            android:icon="@drawable/ic_am_edit"
             android:visible="false"
             vlc:showAsAction="ifRoom"
             android:id="@+id/rename_group" />
