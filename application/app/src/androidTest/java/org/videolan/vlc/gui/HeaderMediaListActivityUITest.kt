@@ -2,18 +2,29 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.*
+import androidx.test.espresso.action.CoordinatesProvider
+import androidx.test.espresso.action.GeneralLocation
+import androidx.test.espresso.action.GeneralSwipeAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.*
+import org.videolan.vlc.BaseUITest
+import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
+import org.videolan.vlc.findFirstPosition
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
+import org.videolan.vlc.sizeOfAtLeast
+import org.videolan.vlc.withMediaItem
+import org.videolan.vlc.withRecyclerView
 
 class HeaderMediaListActivityUITest: BaseUITest() {
     @Rule
@@ -27,9 +38,9 @@ class HeaderMediaListActivityUITest: BaseUITest() {
         Thread.sleep(3 * 1000)
 
         val ml = Medialibrary.getInstance()
-        val pl = ml.createPlaylist("test", true)
-        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
+        val pl = ml.createPlaylist("test", true, false)
+        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, true, false, 5, 0).map { it.id })
 
         val intent = Intent().apply {
             putExtra(AudioBrowserFragment.TAG_ITEM, pl)

@@ -40,6 +40,7 @@ object DpadHelper {
                 Direction.LEFT -> device.pressDPadLeft()
                 Direction.UP -> device.pressDPadUp()
                 Direction.RIGHT -> device.pressDPadRight()
+                else -> {}
             }
             if (i < nbTimes - 1) SystemClock.sleep(300)
         }

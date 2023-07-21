@@ -5,23 +5,38 @@ import android.widget.EditText
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.longClick
+import androidx.test.espresso.action.ViewActions.typeTextIntoFocusedView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.DrawerActions.open
 import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import com.google.android.material.internal.NavigationMenuItemView
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.anyOf
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.instanceOf
+import org.hamcrest.Matchers.notNullValue
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.*
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.tools.CoroutineContextProvider
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.EXTRA_TARGET
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.vlc.BaseUITest
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.sizeOfAtLeast
 import org.videolan.vlc.util.TestCoroutineContextProvider
+import org.videolan.vlc.withCount
+import org.videolan.vlc.withRecyclerView
 
 class PlaylistFragmentUITest: BaseUITest() {
     @Rule
@@ -43,14 +58,14 @@ class PlaylistFragmentUITest: BaseUITest() {
 
     @After
     fun resetData() {
-        Medialibrary.getInstance().playlists.map { it.delete() }
+        Medialibrary.getInstance().getPlaylists(Playlist.Type.All, false).map { it.delete() }
     }
 
     private fun createDummyPlaylist() {
         val ml = Medialibrary.getInstance()
-        val pl = ml.createPlaylist(DUMMY_PLAYLIST, true)
-        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, true, 5, 0).map { it.id })
+        val pl = ml.createPlaylist(DUMMY_PLAYLIST, true, false)
+        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, true, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, true, false, 5, 0).map { it.id })
     }
 
     @Test
