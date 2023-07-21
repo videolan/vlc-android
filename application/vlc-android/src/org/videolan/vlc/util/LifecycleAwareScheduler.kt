@@ -69,6 +69,7 @@ interface SchedulerCallback : LifecycleOwner {
  */
 class LifecycleAwareScheduler(private val callback: SchedulerCallback) : DefaultLifecycleObserver {
 
+    private var canceled: Boolean = false
     private val timer = Timer()
     private val timeTasks = HashMap<String, TimerTask>()
 
@@ -96,6 +97,7 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      * @param data the data to be passed
      */
     fun scheduleAction(id: String, delay: Long, data:Bundle = Bundle()) {
+        if (canceled) return
         if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "Scheduling action for $callback on thread ${Thread.currentThread()} with id $id")
         callback.lifecycle.addObserver(this@LifecycleAwareScheduler)
         if (timeTasks.keys.contains(id)) cancelAction(id)
@@ -114,6 +116,7 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      * @param data the data to be passed
      */
     fun scheduleAtFixedRate(id: String, interval: Long, data:Bundle = Bundle()) {
+        if (canceled) return
         callback.lifecycle.addObserver(this@LifecycleAwareScheduler)
         if (timeTasks.keys.contains(id)) cancelAction(id)
         timeTasks[id] = timerTask {
@@ -144,6 +147,7 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      */
     private fun discardTimer() {
         timeTasks.forEach { callback.onTaskCanceled(it.key) }
+        canceled = true
         timer.cancel()
         callback.lifecycle.removeObserver(this)
     }
