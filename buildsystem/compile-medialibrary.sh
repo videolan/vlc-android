@@ -143,15 +143,15 @@ if [ "$RELEASE" = "1" ]; then
 fi
 
 if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
-    PKG_CONFIG_LIBDIR="$SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
-    PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
+    PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
+    PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
     meson \
         -Ddebug=true \
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
         -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
         --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}-ndk${REL}.crossfile \
-        -Dlibjpeg_prefix="$SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
+        -Dlibjpeg_prefix="$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
         -Dforce_attachment_api=true \
         build-android-${ANDROID_ABI}
