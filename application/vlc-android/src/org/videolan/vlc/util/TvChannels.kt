@@ -33,7 +33,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.EventTools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
@@ -106,7 +106,7 @@ suspend fun insertWatchNext(context: Context, mw: MediaWrapper) {
 }
 
 suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleOwner, context: Context, mw: MediaWrapper) {
-    Medialibrary.lastThumb.observe(lifecycleOwner) { media ->
+    EventTools.getInstance().lastThumb.observe(lifecycleOwner) { media ->
         lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             var cursor: Cursor? = null
             try {
@@ -134,7 +134,7 @@ suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleO
                 cursor?.close()
             }
         }
-        Medialibrary.lastThumb.removeObservers(lifecycleOwner)
+        EventTools.getInstance().lastThumb.removeObservers(lifecycleOwner)
     }
 }
 

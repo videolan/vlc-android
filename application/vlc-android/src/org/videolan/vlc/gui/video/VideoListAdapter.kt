@@ -38,8 +38,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.EventTools
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
@@ -75,11 +75,11 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     }
 
     init {
-        Medialibrary.lastThumb.observeForever(thumbObs)
+        EventTools.getInstance().lastThumb.observeForever(thumbObs)
     }
 
     fun release() {
-        Medialibrary.lastThumb.removeObserver(thumbObs)
+        EventTools.getInstance().lastThumb.removeObserver(thumbObs)
     }
 
     val all: List<MediaLibraryItem>
