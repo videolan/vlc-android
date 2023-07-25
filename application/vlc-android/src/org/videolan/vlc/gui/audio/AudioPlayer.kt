@@ -263,6 +263,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         setBottomMargin()
     }
 
+    override fun onDestroy() {
+        Settings.removeAudioControlsChangeListener()
+        super.onDestroy()
+    }
+
     fun setBottomMargin() {
         (binding.playPause.layoutParams as? ConstraintLayout.LayoutParams)?.let {
             val audioPlayerContainerActivity = (requireActivity() as AudioPlayerContainerActivity)
