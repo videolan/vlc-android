@@ -94,7 +94,7 @@ private const val MSG_REFRESH = "msg_refresh"
 private const val MSG_SHOW_ENQUEUING = "msg_show_enqueuing"
 private const val MSG_HIDE_ENQUEUING = "msg_hide_enqueuing"
 
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem>, SchedulerCallback {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem>, SchedulerCallback, PlaybackService.Callback {
 
     lateinit var scheduler:LifecycleAwareScheduler
     private lateinit var addPlaylistFolderOnly: MenuItem
@@ -129,17 +129,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         isRootDirectory = defineIsRoot()
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         PlaybackService.serviceFlow.onEach {
-            it?.addCallback(object :PlaybackService.Callback {
-                override fun update() { }
-
-                override fun onMediaEvent(event: IMedia.Event) { }
-
-                override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-                    //any event of the playback service will force the media metadata to be reloaded upon future playbacks
-                    needToRefreshMeta = true
-                }
-
-            })
+            it?.addCallback(this)
         }.launchIn(MainScope())
     }
 
@@ -258,6 +248,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onDestroy() {
         if (::adapter.isInitialized) adapter.cancel()
+        PlaybackService.serviceFlow.value?.removeCallback(this)
         super.onDestroy()
     }
 
@@ -694,4 +685,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun setSearchVisibility(visible: Boolean) {
         // prevents the medialibrary search to be displayed in a browser context
     }
+
+    override fun update() {}
+
+    override fun onMediaEvent(event: IMedia.Event) {}
+
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        needToRefreshMeta = true
+    }
+
 }
