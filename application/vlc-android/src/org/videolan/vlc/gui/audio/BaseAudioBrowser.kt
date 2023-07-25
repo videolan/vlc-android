@@ -219,6 +219,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         if (::viewPager.isInitialized) viewPager.removeOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.removeOnTabSelectedListener(this)
         if (::viewPager.isInitialized) viewPager.removeOnPageChangeListener(this)
+        tabLayout?.setupWithViewPager(null)
     }
 
     override fun onStart() {

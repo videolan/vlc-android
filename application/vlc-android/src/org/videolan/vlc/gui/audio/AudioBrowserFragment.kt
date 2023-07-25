@@ -154,6 +154,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         }
     }
 
+    override fun onDestroy() {
+        viewPager.setOnTouchListener(null)
+        super.onDestroy()
+    }
+
     override fun onDisplaySettingChanged(key: String, value: Any) {
         when (key) {
             DISPLAY_IN_CARDS -> {
