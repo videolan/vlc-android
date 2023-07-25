@@ -7,6 +7,7 @@ import android.webkit.URLUtil;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.videolan.medialibrary.MLContextTools;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
@@ -30,13 +31,12 @@ public class StubMedialibrary extends Medialibrary {
     private StubDataSource dt = StubDataSource.getInstance();
 
     public boolean construct(Context context) {
-        if (context == null) return false;
-        sContext = context;
         return true;
     }
 
     public int init(Context context) {
-        if (context == null || sContext == null) return ML_INIT_FAILED;
+        if (context == null) return ML_INIT_FAILED;
+        MLContextTools.getInstance().setContext(context);
         return ML_INIT_SUCCESS;
     }
 

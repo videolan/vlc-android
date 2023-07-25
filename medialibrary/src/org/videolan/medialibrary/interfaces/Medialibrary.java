@@ -117,14 +117,9 @@ abstract public class Medialibrary {
     protected final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
     protected final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
     private MedialibraryExceptionHandler mExceptionHandler;
-    protected static Context sContext;
     public static final LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
 
     protected static final Medialibrary instance = MLServiceLocator.getAbstractMedialibrary();
-
-    public static Context getContext() {
-        return sContext;
-    }
 
     public static LiveData<Boolean> getState() {
         return sRunning;
