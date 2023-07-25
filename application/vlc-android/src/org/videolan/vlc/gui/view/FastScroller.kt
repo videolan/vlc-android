@@ -72,7 +72,7 @@ private const val SHOW_SCROLLER = "show_scroller"
 
 private const val ITEM_THRESHOLD = 25
 
-class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
+class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, AppBarLayout.OnOffsetChangedListener {
 
     private var currentHeight: Int = 0
     private val itemCount: Int
@@ -85,7 +85,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
     private val scrollListener = ScrollListener()
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var provider: HeaderProvider
+    private var provider: HeaderProvider? = null
     private lateinit var handle: ImageView
     private lateinit var bubble: TextView
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -136,15 +136,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
         this.coordinatorLayout = coordinatorLayout
         appbarLayout = appBarLayout
         this.floatingActionButton = floatingActionButton
-        appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
-            layoutParams.height = coordinatorLayout.height - (appBarLayout.height + appBarLayout.top)
-            invalidate()
-            appbarLayoutExpanded = appBarLayout.top > -appBarLayout.height
-            if (appBarLayout.height == -appBarLayout.top || appBarLayout.top == 0) {
-                isAnimating.set(false)
-            }
-            lastVerticalOffset = verticalOffset
-        }
+        appBarLayout.addOnOffsetChangedListener(this)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -221,11 +213,21 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
         this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
         scheduler.startAction(HIDE_HANDLE)
-        if (this::provider.isInitialized) this.provider.liveHeaders.removeObserver(this)
+        this.provider?.liveHeaders?.removeObserver(this)
         this.provider = provider
-        provider.liveHeaders.observeForever(this)
+        provider.liveHeaders.observe(this, this)
         recyclerView.addOnScrollListener(scrollListener)
         showBubble = (recyclerView.adapter as SeparatedAdapter).hasSections()
+    }
+
+    override fun onDetachedFromWindow() {
+        if (::layoutManager.isInitialized) this.layoutManager.onDetachedFromWindow(recyclerView)
+        if (::appbarLayout.isInitialized) this.appbarLayout.removeOnOffsetChangedListener(this)
+        if (::coordinatorLayout.isInitialized) this.coordinatorLayout.onDetachedFromWindow()
+        this.provider?.liveHeaders?.removeObserver(this)
+        this.provider = null
+        actor.close()
+        super.onDetachedFromWindow()
     }
 
     /**
@@ -363,9 +365,11 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
             //ItemDecoration has to be taken into account so we add 1 for the sticky header
             val position = layoutManager.findFirstVisibleItemPosition() + 1
             if (BuildConfig.DEBUG) Log.d(TAG, "findFirstVisibleItemPosition $position")
-            val pos = provider.getPositionForSection(position)
-            val sectionforPosition = provider.getSectionforPosition(pos)
-            if (sectionforPosition.isNotEmpty()) bubble.text = " $sectionforPosition "
+            provider?.let {
+                val pos = it.getPositionForSection(position)
+                val sectionforPosition = it.getSectionforPosition(pos)
+                if (sectionforPosition.isNotEmpty()) bubble.text = " $sectionforPosition "
+            }
             delay(100L)
         }
     }
@@ -402,4 +406,13 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback {
     }
 
     override fun getLifecycle() = findViewTreeLifecycleOwner()!!.lifecycle
+    override fun onOffsetChanged(appBar: AppBarLayout?, verticalOffset: Int) {
+        layoutParams.height = coordinatorLayout.height - (appbarLayout.height + appbarLayout.top)
+        invalidate()
+        appbarLayoutExpanded = appbarLayout.top > -appbarLayout.height
+        if (appbarLayout.height == -appbarLayout.top || appbarLayout.top == 0) {
+            isAnimating.set(false)
+        }
+        lastVerticalOffset = verticalOffset
+    }
 }
