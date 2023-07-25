@@ -33,12 +33,10 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.EventTools
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -66,20 +64,12 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
 
-    private val thumbObs = Observer<MediaWrapper> { media ->
-        val position = currentList?.snapshot()?.indexOf(media) ?: return@Observer
+   fun updateThumb(media:MediaWrapper) {
+        val position = currentList?.snapshot()?.indexOf(media) ?: return
         (getItem(position) as? MediaWrapper)?.run {
             artworkURL = media.artworkURL
             notifyItemChanged(position)
         }
-    }
-
-    init {
-        EventTools.getInstance().lastThumb.observeForever(thumbObs)
-    }
-
-    fun release() {
-        EventTools.getInstance().lastThumb.removeObserver(thumbObs)
     }
 
     val all: List<MediaLibraryItem>

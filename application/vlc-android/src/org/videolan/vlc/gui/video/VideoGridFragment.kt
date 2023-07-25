@@ -140,7 +140,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == Medialibrary.SORT_FILENAME)
         lifecycleScope.launch {
             waitForML()
-            viewModel.provider.pagedList.observe(requireActivity()) {
+            viewModel.provider.pagedList.observe(this@VideoGridFragment) {
                 @Suppress("UNCHECKED_CAST")
                 (it as? PagedList<MediaLibraryItem>)?.let { pagedList -> videoListAdapter.submitList(pagedList) }
                 updateEmptyView()
@@ -148,6 +148,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 if (it !is InitialPagedList<*, *> && activity?.isFinishing == false && viewModel.group != null && it.size < 2 && viewModel.filterQuery.isNullOrEmpty()) requireActivity().finish()
                 setFabPlayVisibility(true)
             }
+        }
+        EventTools.getInstance().lastThumb.observe(this) {
+            videoListAdapter.updateThumb(it)
         }
     }
 
@@ -288,8 +291,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onDestroy() {
         super.onDestroy()
-        videoListAdapter.release()
         gridItemDecoration = null
+        swipeRefreshLayout.setOnRefreshListener(null)
         if (::dataObserver.isInitialized) videoListAdapter.unregisterAdapterDataObserver(dataObserver)
     }
 
