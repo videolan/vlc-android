@@ -154,6 +154,7 @@ if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/buil
         -Dlibjpeg_prefix="$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
         -Dforce_attachment_api=true \
+        -Dlibvlc=enabled \
         build-android-${ANDROID_ABI}
 fi
 
