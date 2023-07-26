@@ -217,6 +217,11 @@ dependencies {
     androidTestImplementation 'com.jraska:falcon:2.2.0'
     androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
 
+    if (project.hasProperty('leakCanaryEnabled') && project.getProperty('leakCanaryEnabled')) {
+        debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+        devImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+    }
+
 }
 
 
