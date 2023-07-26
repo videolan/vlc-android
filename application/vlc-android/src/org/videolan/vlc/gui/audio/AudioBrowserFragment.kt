@@ -76,7 +76,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private lateinit var genresAdapter: AudioBrowserAdapter
     private lateinit var playlistAdapter: AudioBrowserAdapter
     private lateinit var emptyView: EmptyLoadingStateView
-    private lateinit var fastScroller: FastScroller
+    private var fastScroller: FastScroller? = null
 
     private val lists = mutableListOf<RecyclerView>()
     private lateinit var settings: SharedPreferences
@@ -102,7 +102,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         val fab = view.rootView.findViewById<FloatingActionButton>(R.id.fab)
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller)
         emptyView = view.rootView.findViewById(R.id.audio_empty_loading)
-        fastScroller.attachToCoordinator(appbar, coordinator, fab)
+        fastScroller?.attachToCoordinator(appbar, coordinator, fab)
         emptyView.setOnNoMediaClickListener { requireActivity().setResult(RESULT_RESTART) }
 
         val views = ArrayList<View>(MODE_TOTAL)
@@ -156,6 +156,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onDestroy() {
         viewPager.setOnTouchListener(null)
+        fastScroller = null
         super.onDestroy()
     }
 
@@ -246,7 +247,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 if (refresh) updateEmptyView()
                 else {
                     swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                    fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                    fastScroller?.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
                 }
             }
         }
@@ -379,7 +380,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         viewModel.currentTab = tab.position
         setupProvider()
         super.onTabSelected(tab)
-        fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
+        fastScroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.putSingle(KEY_AUDIO_CURRENT_TAB, tab.position)
         if (Medialibrary.getInstance().isInitiated) setRefreshing(viewModel.providers[currentTab].isRefreshing)
         activity?.invalidateOptionsMenu()
@@ -443,7 +444,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         lifecycleScope.launchWhenStarted { // force a dispatch
             if (adapter === getCurrentAdapter()) {
                 swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                fastScroller?.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
             } else
                 setFabPlayShuffleAllVisibility()
         }
