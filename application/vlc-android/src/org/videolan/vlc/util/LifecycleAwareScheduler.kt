@@ -55,7 +55,7 @@ interface SchedulerCallback : LifecycleOwner {
      *
      * @param id the action id
      */
-    fun onTaskCanceled(id: String) {}
+    fun onTaskCancelled(id: String) {}
 }
 
 /**
@@ -135,7 +135,7 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
         if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "Canceling action for $callback on thread ${Thread.currentThread()} with id $id")
         if (timeTasks.keys.contains(id)) {
             timeTasks[id]?.cancel()
-            callback.onTaskCanceled(id)
+            callback.onTaskCancelled(id)
             timeTasks.remove(id)
             return true
         }
@@ -146,7 +146,7 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      * Cancel the timer and off-hook from lifecycle callbacks
      */
     private fun discardTimer() {
-        timeTasks.forEach { callback.onTaskCanceled(it.key) }
+        timeTasks.forEach { callback.onTaskCancelled(it.key) }
         canceled = true
         timer.cancel()
         callback.lifecycle.removeObserver(this)
@@ -156,7 +156,7 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
         super.onPause(owner)
         timeTasks.forEach {
             it.value.cancel()
-            callback.onTaskCanceled(it.key)
+            callback.onTaskCancelled(it.key)
         }
     }
 
