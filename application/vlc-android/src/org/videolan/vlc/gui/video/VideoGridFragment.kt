@@ -57,6 +57,7 @@ import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
@@ -509,6 +510,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_INFORMATION -> showInfoDialog(media)
                 CTX_DELETE -> removeItem(media)
                 CTX_APPEND -> MediaUtils.appendMedia(activity, media)
+                CTX_SET_RINGTONE -> requireActivity().setRingtone(media)
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
                 CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
