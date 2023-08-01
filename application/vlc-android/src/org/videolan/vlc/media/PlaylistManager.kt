@@ -278,7 +278,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun next(force : Boolean = false) {
         mediaList.getMedia(currentIndex)?.let { if (it.type == MediaWrapper.TYPE_VIDEO) saveMediaMeta() }
         val size = mediaList.size()
-        if (force) {
+        if (force || repeating.value != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
             //startup index given?
             if (startupIndex != -1) {
