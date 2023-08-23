@@ -42,7 +42,7 @@ ext {
     libvlcVersion = '3.5.4-eap4'
     medialibraryVersion = '0.13.5-eap5'
     minSdkVersion = 17
-    targetSdkVersion = 33
+    targetSdkVersion = 34
     compileSdkVersion = 33
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.7.0'
