@@ -29,6 +29,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -131,7 +132,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         val filter = IntentFilter()
         filter.addAction(ACTION_PAUSE_SCAN)
         filter.addAction(ACTION_RESUME_SCAN)
-        registerReceiver(receiver, filter)
+        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
         val pm = applicationContext.getSystemService<PowerManager>()!!
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsingService")
 
@@ -203,7 +204,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun forceForeground() {
         val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused, -1, -1)
         try {
-            startForeground(43, notification)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                startForeground(43, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+            else startForeground(43, notification)
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
                 Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
@@ -385,7 +388,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 try {
                     val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused, scheduled, done)
                     try {
-                        startForeground(43, notification)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                            startForeground(43, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+                        else startForeground(43, notification)
                     } catch (e: Exception) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
                             Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
