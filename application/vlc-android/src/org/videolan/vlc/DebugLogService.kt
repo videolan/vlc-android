@@ -27,6 +27,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.ServiceInfo
 import android.os.*
 import android.text.format.DateFormat
 import android.util.Log
@@ -135,7 +136,10 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         builder.setSmallIcon(R.drawable.ic_stat_vlc)
         builder.setContentIntent(pi)
         val notification = builder.build()
-        startForeground(3, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            startForeground(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        else
+            startForeground(3, notification)
     }
 
     @Synchronized

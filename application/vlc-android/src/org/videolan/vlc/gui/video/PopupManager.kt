@@ -25,11 +25,17 @@
 package org.videolan.vlc.gui.video
 
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
-import android.view.*
+import android.view.GestureDetector
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.SurfaceView
+import android.view.View
 import android.widget.ImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GestureDetectorCompat
@@ -260,7 +266,10 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         else
             builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
         builder.addAction(R.drawable.ic_popup_fullscreen, service.getString(R.string.popup_expand), piExpand)
-        service.startForeground(42, builder.build())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            service.startForeground(42, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        else
+            service.startForeground(42, builder.build())
     }
 
     private fun hideNotification() {
