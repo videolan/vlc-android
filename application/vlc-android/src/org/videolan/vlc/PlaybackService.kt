@@ -643,7 +643,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             addAction(ACTION_CAR_MODE_EXIT)
             addAction(CUSTOM_ACTION)
         }
-        registerReceiverCompat(receiver, filter, false)
+        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
         if (CarConnectionHandler.preferCarConnectionHandler()) {
             carConnectionHandler = CarConnectionHandler(contentResolver)
             carConnectionHandler.connectionType.observeForever {
@@ -770,7 +770,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     ctx.resources.getString(R.string.loading), "", "", null, false, true,
                     true, speed, isPodcastMode, false, enabledActions, null, pi)
         }
-        startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            startForeground(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        else
+            startForeground(3, notification)
         isForeground = true
         if (stopped) lifecycleScope.launch { hideNotification(true) }
     }
@@ -912,7 +915,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
                             ctx.launchForeground(Intent(ctx, PlaybackService::class.java)) {
-                                startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                                    startForeground(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+                                else
+                                    startForeground(3, notification)
                                 isForeground = true
                             }
                         } else

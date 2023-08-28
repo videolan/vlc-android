@@ -138,7 +138,10 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         builder.setSmallIcon(R.drawable.ic_stat_vlc)
         builder.setContentIntent(pi)
         val notification = builder.build()
-        startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            startForeground(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        else
+            startForeground(3, notification)
     }
 
     @Synchronized
