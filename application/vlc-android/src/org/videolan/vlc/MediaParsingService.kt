@@ -53,6 +53,8 @@ import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.resources.*
 import org.videolan.resources.util.dbExists
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.registerReceiverCompat
+import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
@@ -132,7 +134,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         val filter = IntentFilter()
         filter.addAction(ACTION_PAUSE_SCAN)
         filter.addAction(ACTION_RESUME_SCAN)
-        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        registerReceiverCompat(receiver, filter, false)
         val pm = applicationContext.getSystemService<PowerManager>()!!
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsingService")
 
@@ -204,9 +206,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun forceForeground() {
         val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused, -1, -1)
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                startForeground(43, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
-            else startForeground(43, notification)
+            startForegroundCompat(43, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
                 Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")
@@ -388,9 +388,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 try {
                     val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused, scheduled, done)
                     try {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                            startForeground(43, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
-                        else startForeground(43, notification)
+                        startForegroundCompat(43, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
                     } catch (e: Exception) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
                             Log.w("MediaParsingService", "ForegroundServiceStartNotAllowedException caught!")

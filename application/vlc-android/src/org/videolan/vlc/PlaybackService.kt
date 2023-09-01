@@ -69,6 +69,8 @@ import org.videolan.resources.*
 import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.registerReceiverCompat
+import org.videolan.resources.util.startForegroundCompat
 import org.videolan.tools.*
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
@@ -651,7 +653,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             if (CarConnectionHandler.preferCarConnectionHandler()) addAction(CarConnectionHandler.RECEIVER_ACTION)
             addAction(CUSTOM_ACTION)
         }
-        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        registerReceiverCompat(receiver, filter, false)
         if (CarConnectionHandler.preferCarConnectionHandler()) {
             carConnectionHandler = CarConnectionHandler(contentResolver)
             carConnectionHandler.connectionType.observeForever {
@@ -777,10 +779,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     ctx.resources.getString(R.string.loading), "", "", null, false, true,
                     true, speed, isPodcastMode, false, enabledActions, null, pi)
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            startForeground(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-        else
-            startForeground(3, notification)
+        startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
         isForeground = true
         if (stopped) lifecycleScope.launch { hideNotification(true) }
     }
@@ -890,10 +889,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
                             ctx.launchForeground(Intent(ctx, PlaybackService::class.java)) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                                    startForeground(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-                                else
-                                    startForeground(3, notification)
+                                startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
                                 isForeground = true
                             }
                         } else

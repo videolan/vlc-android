@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.video
 
 import android.content.Intent
 import android.content.pm.ServiceInfo
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -46,6 +45,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
+import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.POPUP_KEEPSCREEN
 import org.videolan.tools.Settings
@@ -271,10 +271,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         else
             builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
         builder.addAction(R.drawable.ic_popup_fullscreen, service.getString(R.string.popup_expand), piExpand)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            service.startForeground(42, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-        else
-            service.startForeground(42, builder.build())
+        service.startForegroundCompat(42, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
     }
 
     private fun hideNotification() {
