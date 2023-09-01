@@ -129,8 +129,7 @@ class CallBackDelegate : ICallBackHandler,
         AppContextProvider.appContext.getExternalFilesDir(null)?.let {
             val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
             if (file.exists()) {
-                val media = medialibrary.getMedia(mediaId)
-                media.removeThumbnail()
+                medialibrary.getMedia(mediaId)?.removeThumbnail()
             }
             FileUtils.deleteFile(file)
         }
