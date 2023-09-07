@@ -24,6 +24,7 @@ default:
 stages:
   - webserver-install-dependencies
   - webserver-build
+  - webserver-audit
   - build
   - package
 
@@ -42,6 +43,14 @@ webserver-build:
     script:
         - cd "$WEBSERVER_DIR"
         - npm run build
+
+webserver-vulnerabilities:
+    image:
+      name: $VLC_WEB_BUILD_IMAGE
+    stage: webserver-audit
+    script:
+        - cd "$WEBSERVER_DIR"
+        - npx audit-ci@^6 --config ./audit-ci.jsonc
 
 .build-all-base:
     stage: build
