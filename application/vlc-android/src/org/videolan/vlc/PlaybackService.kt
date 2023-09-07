@@ -1680,7 +1680,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
+    override val lifecycle: Lifecycle
+        get() = dispatcher.lifecycle
 
     /*
      * Browsing

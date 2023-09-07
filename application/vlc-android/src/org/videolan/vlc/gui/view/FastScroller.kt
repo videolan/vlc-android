@@ -38,6 +38,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -386,7 +387,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
         actor.trySend(Unit)
     }
 
-    override fun onChanged(t: HeadersIndex?) {
+    override fun onChanged(t: HeadersIndex) {
         actor.trySend(Unit)
     }
 
@@ -405,7 +406,9 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
         }
     }
 
-    override fun getLifecycle() = findViewTreeLifecycleOwner()!!.lifecycle
+    override val lifecycle: Lifecycle
+        get() = findViewTreeLifecycleOwner()!!.lifecycle
+
     override fun onOffsetChanged(appBar: AppBarLayout?, verticalOffset: Int) {
         layoutParams.height = coordinatorLayout.height - (appbarLayout.height + appbarLayout.top)
         invalidate()

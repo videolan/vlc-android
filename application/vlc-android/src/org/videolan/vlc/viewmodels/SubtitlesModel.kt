@@ -3,10 +3,8 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import android.net.Uri
 import android.text.Html
-import android.text.SpannableString
 import android.text.Spanned
 import android.util.Log
-import androidx.core.text.HtmlCompat
 import androidx.core.text.toSpanned
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
@@ -16,18 +14,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.tools.FileUtils
-import org.videolan.resources.util.NoConnectivityException
-import org.videolan.tools.Settings
-import org.videolan.vlc.R
 import org.videolan.resources.opensubtitles.OpenSubtitle
+import org.videolan.resources.opensubtitles.OpenSubtitleRepository
+import org.videolan.resources.util.NoConnectivityException
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.FileUtils
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
-import org.videolan.resources.opensubtitles.OpenSubtitleRepository
-import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
 import java.io.File
 import java.util.*
 
@@ -47,7 +45,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableResultDescription = ObservableField<Spanned>()
 
     private val apiResultLiveData: MutableLiveData<List<OpenSubtitle>> = MutableLiveData()
-    private val downloadedLiveData = Transformations.map(ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri)) { list ->
+    private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
         list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "") }
     }
 

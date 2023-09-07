@@ -26,7 +26,7 @@ package org.videolan.moviepedia.provider
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.switchMap
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import org.videolan.moviepedia.database.models.MediaMetadataType
@@ -35,7 +35,7 @@ import org.videolan.moviepedia.provider.datasources.MovieDataSourceFactory
 
 class MediaScrapingMovieProvider(private val context: Context, private val mediaType: MediaMetadataType) : MediaScrapingProvider(context) {
 
-    override var pagedList: LiveData<PagedList<MediaMetadataWithImages>> = switchMap(sortQuery) { input ->
+    override var pagedList: LiveData<PagedList<MediaMetadataWithImages>> = sortQuery.switchMap { input ->
         val movieDataSourceFactory = MovieDataSourceFactory(context, input, mediaType)
         //todo moviepedia set the right values
         val pagedListConfig = PagedList.Config.Builder()

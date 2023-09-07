@@ -64,6 +64,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -861,7 +862,8 @@ fun enableMarqueeEffect(recyclerView: RecyclerView):LifecycleAwareScheduler? {
                 }
             }
 
-            override fun getLifecycle() = recyclerView.findViewTreeLifecycleOwner()!!.lifecycle
+            override val lifecycle: Lifecycle
+                get() = recyclerView.findViewTreeLifecycleOwner()!!.lifecycle
         })
         //Initial animation for already visible items
         scheduler.scheduleAction(MARQUEE_ACTION, 1500)

@@ -89,5 +89,6 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
         }
     }
 
-    override fun getLifecycle() = listenerLifecycle
+    override val lifecycle: Lifecycle
+        get() = listenerLifecycle
 }

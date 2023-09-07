@@ -267,5 +267,6 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         }
     }
 
-    override fun getLifecycle() = player.getLifeCycle()
+    override val lifecycle: Lifecycle
+        get() = player.getLifeCycle()
 }

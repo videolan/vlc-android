@@ -547,7 +547,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
     }
 
-    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
+    override val lifecycle: Lifecycle
+        get() = dispatcher.lifecycle
 
     companion object {
         val progress = MutableLiveData<ScanProgress?>()
