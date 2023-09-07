@@ -194,10 +194,14 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
         val context = this
         lifecycleScope.launch {
+            var showBackground = true
             val cover = withContext(Dispatchers.IO) {
                 val width = if (binding.backgroundView.width > 0) binding.backgroundView.width else context.getScreenWidth()
                 if (!playlist.artworkMrl.isNullOrEmpty()) {
                     AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), width)
+                } else if (playlist is Album) {
+                    showBackground = false
+                    UiTools.getDefaultAlbumDrawableBig(this@HeaderMediaListActivity).bitmap
                 } else {
                     ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${playlist.id}_$width", playlist.tracks.toList(), width)
                 }
@@ -205,8 +209,10 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             if (cover != null) {
                 binding.cover = BitmapDrawable(this@HeaderMediaListActivity.resources, cover)
                 binding.appbar.setExpanded(true, true)
-                val radius = if (isPlaylist) 25f else 15f
-                UiTools.blurView(binding.backgroundView, cover, radius, UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
+                if (showBackground) {
+                    val radius = if (isPlaylist) 25f else 15f
+                    UiTools.blurView(binding.backgroundView, cover, radius, UiTools.getColorFromAttribute(context, R.attr.audio_player_background_tint))
+                }
             }
         }
 
