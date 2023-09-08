@@ -168,7 +168,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             "subtitles_size", "subtitles_bold", "subtitle_text_encoding",
             "subtitles_color", "subtitles_color_opacity",

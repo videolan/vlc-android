@@ -84,7 +84,8 @@ class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.O
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         when (key) {
             KEY_SAFE_MODE -> {
                 Settings.safeMode = sharedPreferences.getBoolean(key, false) && activity.isPinCodeSet()

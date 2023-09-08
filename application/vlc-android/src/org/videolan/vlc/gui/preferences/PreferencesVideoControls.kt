@@ -27,7 +27,21 @@ import android.os.Bundle
 import androidx.preference.Preference
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.*
+import org.videolan.tools.AUDIO_BOOST
+import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
+import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
+import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_SCALE_GESTURE
+import org.videolan.tools.ENABLE_SWIPE_SEEK
+import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY
+import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
+import org.videolan.tools.KEY_VIDEO_LONG_JUMP_DELAY
+import org.videolan.tools.POPUP_KEEPSCREEN
+import org.videolan.tools.SCREENSHOT_MODE
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_HUD_TIMEOUT
+import org.videolan.tools.coerceInOrDefault
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
@@ -72,7 +86,8 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
                 .unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
         when (key) {
             VIDEO_HUD_TIMEOUT -> {

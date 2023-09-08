@@ -6,8 +6,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import org.videolan.vlc.R
 import org.videolan.tools.Settings
+import org.videolan.vlc.R
 
 class HalfCircleView : View {
     private var isLeft: Boolean = true
@@ -49,11 +49,11 @@ class HalfCircleView : View {
         }
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         if (!Settings.showTvUi) {
             val cx = if (isLeft) -width else width * 2
             val cy = height / 2
-            canvas?.drawCircle(cx.toFloat(), cy.toFloat(), width.toFloat()*2, paint)
+            canvas.drawCircle(cx.toFloat(), cy.toFloat(), width.toFloat()*2, paint)
         }
         super.onDraw(canvas)
     }

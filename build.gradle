@@ -46,7 +46,7 @@ ext {
     medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc10' : '0.13.13-vlc4-rc10'
     minSdkVersion = 17
     targetSdkVersion = 34
-    compileSdkVersion = 33
+    compileSdkVersion = 34
     buildToolsVersion = '33.0.1'
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.7.0'

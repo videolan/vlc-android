@@ -230,7 +230,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         return super.onPreferenceTreeClick(preference)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         when (key) {
             "network_caching" -> {
                 sharedPreferences.edit {

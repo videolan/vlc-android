@@ -51,7 +51,7 @@ class AutofitButton : MaterialButton {
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         computeTextSize()
     }

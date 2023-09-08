@@ -94,10 +94,10 @@ class ColorPickerItem @JvmOverloads constructor(
      *
      * @param canvas the view's [Canvas]
      */
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas?.drawCircle(width.toFloat() / 2, height.toFloat() / 2, (width.toFloat() / 2) - 4.dp, outerPaint)
-        canvas?.drawCircle(width.toFloat() / 2, height.toFloat() / 2, (width.toFloat() / 2) - 5.dp, paint)
+        canvas.drawCircle(width.toFloat() / 2, height.toFloat() / 2, (width.toFloat() / 2) - 4.dp, outerPaint)
+        canvas.drawCircle(width.toFloat() / 2, height.toFloat() / 2, (width.toFloat() / 2) - 5.dp, paint)
     }
 
 

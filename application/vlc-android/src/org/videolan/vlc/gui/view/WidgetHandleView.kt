@@ -59,7 +59,7 @@ class WidgetHandleView : View {
         paint.isAntiAlias = true
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         val padding = 8.dp.toFloat()
         val viewWidth = width
         //3.56 is the known ratio of the [R.drawable.vlc_widget_mini] image. 6.dp is two times the stroke size
@@ -68,12 +68,12 @@ class WidgetHandleView : View {
         val height = height - padding
         paint.strokeWidth = 3.dp.toFloat()
         paint.style = Paint.Style.STROKE
-        canvas?.drawRoundRect(hPadding, padding, viewWidth - hPadding, height, 12.dp.toFloat(), 12.dp.toFloat(), paint)
+        canvas.drawRoundRect(hPadding, padding, viewWidth - hPadding, height, 12.dp.toFloat(), 12.dp.toFloat(), paint)
         paint.style = Paint.Style.FILL
-        canvas?.drawCircle(hPadding, padding + (height / 2), 6.dp.toFloat(), paint)
-        canvas?.drawCircle(hPadding + (width.toFloat() / 2), padding, 6.dp.toFloat(), paint)
-        canvas?.drawCircle(hPadding + width.toFloat(), padding + (height / 2), 6.dp.toFloat(), paint)
-        canvas?.drawCircle(hPadding + (width.toFloat() / 2), height, 6.dp.toFloat(), paint)
+        canvas.drawCircle(hPadding, padding + (height / 2), 6.dp.toFloat(), paint)
+        canvas.drawCircle(hPadding + (width.toFloat() / 2), padding, 6.dp.toFloat(), paint)
+        canvas.drawCircle(hPadding + width.toFloat(), padding + (height / 2), 6.dp.toFloat(), paint)
+        canvas.drawCircle(hPadding + (width.toFloat() / 2), height, 6.dp.toFloat(), paint)
         super.onDraw(canvas)
     }
 }

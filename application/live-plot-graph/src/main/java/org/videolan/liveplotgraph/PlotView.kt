@@ -101,7 +101,7 @@ class PlotView : FrameLayout {
         listeners.remove(listener)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         maxsY.clear()

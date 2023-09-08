@@ -32,7 +32,11 @@ import android.text.InputType
 import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.*
+import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
@@ -55,7 +59,7 @@ import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
 
 private const val TAG = "VLC/PreferencesAudio"
 private const val FILE_PICKER_RESULT_CODE = 10000
@@ -151,8 +155,9 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (activity == null) return
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null || activity == null) return
+
         when (key) {
             "aout" -> {
                 lifecycleScope.launch { restartLibVLC() }
@@ -173,7 +178,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     Log.w(TAG, "Could not parse value: $newValue. Setting $key to $fmtValue", e)
                 } finally {
                     if (fmtValue != newValue) {
-                        sharedPreferences.edit {
+                        sharedPreferences?.edit {
                             // putString will trigger another preference change event. Restart libVLC when it settles.
                             putString(key, fmtValue)
                             findPreference<EditTextPreference>(key)?.let { it.text = fmtValue }
