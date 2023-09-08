@@ -402,8 +402,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         }
         val isMedia = audioBrowserAdapter.multiSelectHelper.getSelection()[0].itemType == MediaLibraryItem.TYPE_MEDIA
         val isSong = count == 1 && isMedia
-        //menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && isPlaylist);
-        //menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && isPlaylist);
         menu.findItem(R.id.action_mode_audio_set_song).isVisible = isSong && AndroidDevices.isPhone && !isPlaylist
         menu.findItem(R.id.action_mode_audio_info).isVisible = isSong
         menu.findItem(R.id.action_mode_audio_append).isVisible = PlaylistManager.hasMedia()
@@ -420,14 +418,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         val tracks = ArrayList<MediaWrapper>()
         list.forEach { tracks.addAll(listOf(*it.tracks)) }
 
-        if (item.itemId == R.id.action_mode_audio_playlist_up) {
-            Toast.makeText(this, "UP !", Toast.LENGTH_SHORT).show()
-            return true
-        }
-        if (item.itemId == R.id.action_mode_audio_playlist_down) {
-            Toast.makeText(this, "DOWN !", Toast.LENGTH_SHORT).show()
-            return true
-        }
         val indexes = audioBrowserAdapter.multiSelectHelper.selectionMap
 
         when (item.itemId) {
