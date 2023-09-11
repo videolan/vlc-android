@@ -212,6 +212,8 @@ nightly-arm64:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm64
     artifacts:
@@ -225,6 +227,8 @@ nightly-armv7:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm
     artifacts:
@@ -238,6 +242,8 @@ nightly-x86:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86
     artifacts:
@@ -251,6 +257,8 @@ nightly-x86_64:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86_64
     artifacts:
@@ -263,6 +271,8 @@ nightly-arm64-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm64
         EXTRA_BUILD_PARAM: -vlc4
@@ -275,6 +285,8 @@ nightly-armv7-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm
         EXTRA_BUILD_PARAM: -vlc4
@@ -287,6 +299,8 @@ nightly-x86-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86
         EXTRA_BUILD_PARAM: -vlc4
@@ -299,6 +313,8 @@ nightly-x86_64-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86_64
         EXTRA_BUILD_PARAM: -vlc4
@@ -435,6 +451,8 @@ release:
     stage: build
     rules:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
+    needs:
+      - job: "webserver-build"
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
