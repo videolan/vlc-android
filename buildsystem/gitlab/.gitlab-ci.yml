@@ -48,6 +48,8 @@ webserver-install-dependencies:
 webserver-build:
     extends: .webserver-base
     stage: webserver-build
+    needs:
+      - job: "webserver-install-dependencies"
     script:
         - cd "$WEBSERVER_DIR"
         - npm run build
@@ -55,6 +57,8 @@ webserver-build:
 webserver-vulnerabilities:
     extends: .webserver-base
     stage: webserver-build
+    needs:
+      - job: "webserver-install-dependencies"
     script:
         - cd "$WEBSERVER_DIR"
         - npx audit-ci@^6 --config ./audit-ci.jsonc
