@@ -28,26 +28,33 @@ stages:
   - build
   - package
 
+.webserver-base:
+  image:
+    name: $VLC_WEB_BUILD_IMAGE
+  rules:
+    # Explicitely refuse to build anything that would also trigger
+    # a medialib build
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - buildsystem/network-sharing-server/**/*
+
 webserver-install-dependencies:
-    image:
-      name: $VLC_WEB_BUILD_IMAGE
+    extends: .webserver-base
     stage: webserver-install-dependencies
     script:
       - cd "$WEBSERVER_DIR"
       - npm install
 
 webserver-build:
-    image:
-      name: $VLC_WEB_BUILD_IMAGE
+    extends: .webserver-base
     stage: webserver-build
     script:
         - cd "$WEBSERVER_DIR"
         - npm run build
 
 webserver-vulnerabilities:
-    image:
-      name: $VLC_WEB_BUILD_IMAGE
-    stage: webserver-audit
+    extends: .webserver-base
+    stage: webserver-build
     script:
         - cd "$WEBSERVER_DIR"
         - npx audit-ci@^6 --config ./audit-ci.jsonc
