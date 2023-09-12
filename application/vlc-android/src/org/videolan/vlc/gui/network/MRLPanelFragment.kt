@@ -24,14 +24,18 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -74,6 +78,19 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
         binding.mrlEdit.editText?.setOnEditorActionListener(this)
         binding.mrlEdit.editText?.requestFocus()
 
+        binding.play.setOnClickListener(this)
+
+        return binding.root
+    }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) = false
+
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?) = false
+
+    override fun onDestroyActionMode(mode: ActionMode?) {}
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         adapter = MRLAdapter(getlistEventActor())
         val recyclerView = binding.mrlList
 
@@ -95,20 +112,6 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
             recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         }
         recyclerView.adapter = adapter
-
-        binding.play.setOnClickListener(this)
-
-        return binding.root
-    }
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) = false
-
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?) = false
-
-    override fun onDestroyActionMode(mode: ActionMode?) {}
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         viewModel.dataset.observe(requireActivity()) { adapter.update(it) }
         viewModel.loading.observe(requireActivity()) { (activity as? MainActivity)?.refreshing = it }
     }
