@@ -322,6 +322,9 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      */
     private val InterceptorPlugin = createApplicationPlugin(name = "VLCInterceptorPlugin") {
         onCall { call ->
+            if (sslEnabled() && call.request.origin.scheme == "http") {
+                call.respondRedirect(serverInfo(), true)
+            }
             call.request.origin.apply {
                 val oldConnections = _serverConnections.value
                 if ((oldConnections?.filter { it.ip == remoteHost }?.size ?: 0) == 0) {
@@ -1276,12 +1279,19 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     fun serverInfo(): String = buildString {
         getIPAddresses(true).forEach {
             if (::engine.isInitialized) {
-                append("http://")
+               if (sslEnabled()) append("https://") else  append("http://")
                 append(it)
                 append(":")
-                append(engine.environment.connectors[0].port)
+                if (sslEnabled()) append(engine.environment.connectors.first { it.type.name == "HTTPS" }.port) else  append(engine.environment.connectors[0].port)
             }
         }
+    }
+
+    fun sslEnabled():Boolean {
+        if (::engine.isInitialized) {
+            return engine.environment.connectors.firstOrNull { it.type.name == "HTTPS" } != null
+        }
+        return false
     }
 
     /**
