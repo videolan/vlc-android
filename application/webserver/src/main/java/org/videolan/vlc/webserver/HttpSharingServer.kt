@@ -54,8 +54,7 @@ import io.ktor.server.engine.applicationEngineEnvironment
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.engine.sslConnector
-import io.ktor.server.http.content.files
-import io.ktor.server.http.content.static
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.plugins.callloging.CallLogging
@@ -596,9 +595,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      */
     private fun Route.setupRouting() {
         val appContext = this@HttpSharingServer.context
-        static("") {
-            files(getServerFiles())
-        }
+        staticFiles("", File(getServerFiles()))
         // Main end point redirect to index.html
         get("/") {
             call.respondRedirect("index.html", permanent = true)
