@@ -23,23 +23,26 @@
 
 package org.videolan.vlc.gui.helpers
 
-import android.os.Message
+import android.os.Bundle
 import android.util.Log
 import android.view.View
-
-import org.videolan.tools.WeakHandler
+import androidx.lifecycle.Lifecycle
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.SchedulerCallback
 
 /**
  *
  * @param initialInterval Initial interval in millis
  * @param normalInterval Normal interval in millis
  * @param clickListener The OnClickListener to trigger
+ * @param listenerLifecycle The lifecycle to attach to
  */
-open class OnRepeatListener(private val initialInterval: Int, private val normalInterval: Int, private val speedUpDelay: Int, private val clickListener: View.OnClickListener) {
+open class OnRepeatListener(private val initialInterval: Int, private val normalInterval: Int, private val speedUpDelay: Int, private val clickListener: View.OnClickListener, private val listenerLifecycle:Lifecycle): SchedulerCallback {
     var downView: View? = null
     var initialTime: Long = -1L
-    private val handler = OnRepeatHandler(this)
+    @Suppress("LeakingThis")
+    var scheduler: LifecycleAwareScheduler = LifecycleAwareScheduler(this)
 
     init {
         if (initialInterval < 0 || normalInterval < 0)
@@ -49,8 +52,8 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
 
 
     fun startRepeating(view: View) {
-        handler.removeMessages(ACTION_ONCLICK)
-        handler.sendEmptyMessageDelayed(ACTION_ONCLICK, initialInterval.toLong())
+        scheduler.cancelAction(ACTION_ONCLICK)
+        scheduler.scheduleAction(ACTION_ONCLICK, initialInterval.toLong())
         downView = view
         initialTime = System.currentTimeMillis()
         clickListener.onClick(view)
@@ -59,33 +62,33 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
     }
 
     fun stopRepeating(view: View) {
-        handler.removeMessages(ACTION_ONCLICK)
+        scheduler.cancelAction(ACTION_ONCLICK)
         downView = null
         initialTime = -1L
         view.isPressed = false
         if (BuildConfig.DEBUG) Log.d("Delay", "onTouch: ACTION_UP")
     }
 
-    private class OnRepeatHandler(owner: OnRepeatListener) : WeakHandler<OnRepeatListener>(owner) {
-
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                ACTION_ONCLICK -> {
-                    val interval = if (owner!!.initialTime > -1L && System.currentTimeMillis() - owner!!.initialTime > owner!!.speedUpDelay) owner!!.normalInterval.toLong() / 3 else owner!!.normalInterval.toLong()
-                    sendEmptyMessageDelayed(ACTION_ONCLICK, interval)
-                    owner!!.clickListener.onClick(owner!!.downView)
-                }
-            }
-        }
-    }
-
     companion object {
 
-        private const val ACTION_ONCLICK = 0
+        private const val ACTION_ONCLICK = "action_onclick"
 
         //Default values in milliseconds
         const val DEFAULT_INITIAL_DELAY = 500
         const val DEFAULT_NORMAL_DELAY = 150
         const val DEFAULT_SPEEDUP_DELAY = 2000
     }
+
+    override fun onTaskTriggered(id: String, data: Bundle) {
+        when(id) {
+            ACTION_ONCLICK -> {
+                val interval = if (initialTime > -1L && System.currentTimeMillis() - initialTime > speedUpDelay) normalInterval.toLong() / 3 else normalInterval.toLong()
+                scheduler.scheduleAction(ACTION_ONCLICK, interval)
+                clickListener.onClick(downView)
+            }
+        }
+    }
+
+    override val lifecycle: Lifecycle
+        get() = listenerLifecycle
 }

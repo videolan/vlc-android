@@ -85,7 +85,10 @@ object AudioUtil {
                     val newUri: Uri = this.contentResolver
                             .insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)!!
                     contentResolver.openOutputStream(newUri).use { os ->
+                        val runtime = Runtime.getRuntime()
+                        val availHeapSizeInMB = runtime.maxMemory() - runtime.totalMemory() - runtime.freeMemory()
                         val size = newRingtone.length().toInt()
+                        if (size > availHeapSizeInMB * 0.8F) throw IllegalStateException("Not enough memory")
                         val bytes = ByteArray(size)
                         val buf = BufferedInputStream(FileInputStream(newRingtone))
                         buf.read(bytes, 0, bytes.size)

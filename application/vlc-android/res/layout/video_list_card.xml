@@ -33,6 +33,11 @@
             name="isFavorite"
             type="boolean" />
 
+
+        <variable
+                name="showProgress"
+                type="boolean" />
+
         <variable
                 name="inSelection"
                 type="boolean" />
@@ -222,6 +227,16 @@
                         vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail" />
+                <ProgressBar
+                        android:id="@+id/thumb_progress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:visibility="@{showProgress ? View.VISIBLE : View.GONE}"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintTop_toTopOf="parent"
+                        vlc:layout_constraintBottom_toBottomOf="parent"
+                        vlc:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -127,6 +127,13 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
     }
 
+    fun saveSort() {
+        settings.edit {
+            putInt(sortKey, sort)
+            putBoolean("${sortKey}_desc", desc)
+        }
+    }
+
     fun showOnlyFavs(showOnlyFavs:Boolean) {
         onlyFavorites = showOnlyFavs
         settings.edit {

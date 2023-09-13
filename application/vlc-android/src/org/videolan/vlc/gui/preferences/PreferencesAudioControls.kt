@@ -46,7 +46,8 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
                 .unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         (activity as? VideoPlayerActivity)?.onChangedControlSetting(key)
         when (key) {
             KEY_AUDIO_JUMP_DELAY -> {

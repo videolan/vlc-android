@@ -39,11 +39,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_PLAY_FROM_SEARCH
+import org.videolan.resources.ACTION_SEARCH_GMS
+import org.videolan.resources.ACTION_VIEW_ARC
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.EXTRA_FIRST_RUN
+import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.EXTRA_SEARCH_BUNDLE
+import org.videolan.resources.EXTRA_TARGET
+import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.MOBILE_MAIN_ACTIVITY
+import org.videolan.resources.MOBILE_SEARCH_ACTIVITY
+import org.videolan.resources.PREF_FIRST_RUN
+import org.videolan.resources.TV_MAIN_ACTIVITY
+import org.videolan.resources.TV_ONBOARDING_ACTIVITY
+import org.videolan.resources.TV_SEARCH_ACTIVITY
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.BETA_WELCOME
+import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
+import org.videolan.tools.KEY_TV_ONBOARDING_DONE
+import org.videolan.tools.Settings
+import org.videolan.tools.awaitAppIsForegroung
+import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
@@ -52,6 +74,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.checkWatchNextId
 import videolan.org.commontools.TV_CHANNEL_PATH_APP
 import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
@@ -206,6 +229,7 @@ class StartActivity : FragmentActivity() {
         }
         if (requestCode == PROPAGATE_RESULT) {
             setResult(resultCode, data)
+            finish()
         }
     }
 
@@ -249,7 +273,8 @@ class StartActivity : FragmentActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT.inv() and intent.flags
         if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
             intent.type?.startsWith("video") == true -> try {
-                startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT)
+                startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT, Util.getFullScreenBundle())
+                return@launch
             } catch (ex: SecurityException) {
                 intent.data?.let { MediaUtils.openMediaNoUi(it) }
             }

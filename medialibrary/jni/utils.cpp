@@ -72,7 +72,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           title.get(), filename.get(), artist.get(), genre.get(), album.get(),
                           albumArtist.get(), width, height, thumbnail.get(),
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
-                          (jlong) mediaPtr->playCount(), hasThumbnail, isFavorite, mediaPtr->releaseDate(), isPresent)
+                          (jlong) mediaPtr->playCount(), hasThumbnail, isFavorite, mediaPtr->releaseDate(), isPresent, (jlong) mediaPtr->insertionDate())
     };
 }
 
@@ -130,7 +130,15 @@ utils::jni::object
 convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count)
 {
     auto name = vlcNewStringUTF(env, folderPtr->name().c_str());
-    auto mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
+    utils::jni::string mrl;
+    try
+    {
+        mrl = vlcNewStringUTF(env, folderPtr->mrl().c_str());
+    }
+    catch( const medialibrary::fs::errors::DeviceRemoved& )
+    {
+        mrl = vlcNewStringUTF(env, "missing://");
+    }
     return utils::jni::object{ env, env->NewObject(fields->Folder.clazz, fields->Folder.initID,
                           (jlong) folderPtr->id(), name.get(), mrl.get(), (jint) count, (jboolean)folderPtr->isFavorite())
     };

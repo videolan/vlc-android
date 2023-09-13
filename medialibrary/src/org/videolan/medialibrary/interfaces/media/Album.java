@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.videolan.BuildConfig;
 import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.medialibrary.MLContextTools;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.interfaces.Medialibrary;
@@ -14,7 +15,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class Album extends MediaLibraryItem {
     public static class SpecialRes {
-        public static String UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
+        public static String UNKNOWN_ALBUM = MLContextTools.getInstance().getContext().getString(R.string.unknown_album);
     }
 
     protected int releaseYear;

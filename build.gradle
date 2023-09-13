@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_plugin_version = '7.3.1'
+    ext.android_plugin_version = '8.1.0'
     ext.kotlin_version = '1.7.10'
     ext.kotlinx_version = '1.6.0'
     repositories {
@@ -13,7 +13,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.22.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.2'
     }
 }
 
@@ -42,11 +42,11 @@ ext {
     versionCode = 3050400
     versionName = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? '4.0.0-preview - ' + versionCode : '3.5.4'
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
-    libvlcVersion = vlcMajorVersion == 3 ? '3.6.0-eap6' :'4.0.0-eap9'
-    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc6' : '0.13.13-vlc4-r6'
+    libvlcVersion = vlcMajorVersion == 3 ? '3.6.0-eap10' :'4.0.0-eap13'
+    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc10' : '0.13.13-vlc4-rc10'
     minSdkVersion = 17
-    targetSdkVersion = 33
-    compileSdkVersion = 33
+    targetSdkVersion = 34
+    compileSdkVersion = 34
     buildToolsVersion = '33.0.1'
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.7.0'
@@ -67,19 +67,20 @@ ext {
     roomVersion = '2.4.3'
     pagingVersion = '3.1.1'
     junitVersion = '4.13.2'
-    junitExtVersion = '1.1.2'
+    junitExtVersion = '1.1.5'
     mockito = '2.25.0'
     //Retrofit 2.7 drops Android 5 support
     retrofit = '2.7.1'
     moshi = '1.8.0'
     powerMock = '2.0.2'
-    espressoVersion = '3.4.0'
+    espressoVersion = '3.5.1'
     livedataTest = '1.2.0'
     robolectric = '4.3.1'
     mockk = '1.9.3'
     testRunner = '1.4.0'
     orchestrator = '1.1.0'
-    testCore = '1.4.0'
+    testCore = '1.5.0'
+    publishScriptPath = '../../buildsystem/publish.gradle'
 //    versionCode scheme is T M NN RR AA
 //    T: Target/Flavour (1 for Android, 2 for Chrome?)
 //    M: Major version from 0 to 9

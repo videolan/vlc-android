@@ -25,10 +25,12 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.util.*;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
@@ -48,7 +50,7 @@ public class MedialibraryImpl extends Medialibrary {
     public boolean construct(Context context) {
         if (context == null) throw new IllegalStateException("context cannot be null");
         if (mIsInitiated) return false;
-        sContext = context;
+        MLContextTools.getInstance().setContext(context);
         final File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists()
@@ -83,7 +85,7 @@ public class MedialibraryImpl extends Medialibrary {
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
         if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;
-        if (sContext == null) throw new IllegalStateException("Medialibrary construct has to be called before init");
+        if (MLContextTools.getInstance().getContext() == null) throw new IllegalStateException("Medialibrary construct has to be called before init");
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME);
         if (initCode == ML_INIT_DB_CORRUPTED) {

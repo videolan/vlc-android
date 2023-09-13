@@ -30,6 +30,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.conflatedActor
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
@@ -110,27 +111,28 @@ class CallBackDelegate : ICallBackHandler,
             for (action in channel) when (action) {
                 is MediaDeletedAction -> {
                     action.ids.forEach {mediaId ->
-                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
-                            FileUtils.deleteFile(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg" )
-                        }
+                        deleteThumbnail(mediaId)
                     }
                 }
                 is MediaConvertedExternalAction -> {
                     action.ids.forEach {mediaId ->
-                        AppContextProvider.appContext.getExternalFilesDir(null)?. let {
-                            val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
-                            if (file.exists()) {
-                                val media = medialibrary.getMedia(mediaId)
-                                media.removeThumbnail()
-                            }
-                            FileUtils.deleteFile(file)
-                        }
+                        deleteThumbnail(mediaId)
                     }
                 }
             }
         }
         medialibrary.addOnMedialibraryReadyListener(this@CallBackDelegate)
         medialibrary.addOnDeviceChangeListener(this@CallBackDelegate)
+    }
+
+    private fun deleteThumbnail(mediaId: Long) {
+        AppContextProvider.appContext.getExternalFilesDir(null)?.let {
+            val file = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME + "/$mediaId.jpg")
+            if (file.exists()) {
+                medialibrary.getMedia(mediaId)?.removeThumbnail()
+            }
+            FileUtils.deleteFile(file)
+        }
     }
 
     override fun watchMedia() {
@@ -195,7 +197,13 @@ class CallBackDelegate : ICallBackHandler,
 
     override fun onMediaAdded() { refreshActor.trySend(Unit) }
 
-    override fun onMediaModified() { refreshActor.trySend(Unit) }
+    override fun onMediaModified() {
+        if (PlaylistManager.skipMediaUpdateRefresh) {
+            PlaylistManager.skipMediaUpdateRefresh = false
+            return
+        }
+        refreshActor.trySend(Unit)
+    }
 
     override fun onMediaDeleted(ids: LongArray) {
         refreshActor.trySend(Unit)

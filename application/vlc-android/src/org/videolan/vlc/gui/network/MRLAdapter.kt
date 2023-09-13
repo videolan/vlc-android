@@ -80,7 +80,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

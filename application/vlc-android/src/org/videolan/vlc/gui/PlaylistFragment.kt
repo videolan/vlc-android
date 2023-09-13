@@ -104,16 +104,16 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         playlists.adapter = playlistAdapter
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller_playlist) as FastScroller
         fastScroller.attachToCoordinator(requireActivity().findViewById(R.id.appbar) as AppBarLayout, requireActivity().findViewById(R.id.coordinator) as CoordinatorLayout, requireActivity().findViewById(R.id.fab) as FloatingActionButton)
-        viewModel.provider.pagedList.observe(requireActivity()) {
+        viewModel.provider.pagedList.observe(viewLifecycleOwner) {
             @Suppress("UNCHECKED_CAST")
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             updateEmptyView()
         }
-        viewModel.provider.loading.observe(requireActivity()) { loading ->
+        viewModel.provider.loading.observe(viewLifecycleOwner) { loading ->
             if (isResumed) setRefreshing(loading) { }
         }
 
-        viewModel.provider.liveHeaders.observe(requireActivity()) {
+        viewModel.provider.liveHeaders.observe(viewLifecycleOwner) {
             playlists.invalidateItemDecorations()
         }
 
@@ -139,6 +139,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.providers[currentTab].sort = sort.first
                 viewModel.providers[currentTab].desc = sort.second
+                viewModel.providers[currentTab].saveSort()
                 viewModel.refresh()
             }
         }

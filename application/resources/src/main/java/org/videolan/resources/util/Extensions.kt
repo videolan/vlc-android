@@ -1,16 +1,20 @@
 package org.videolan.resources.util
 
+import android.annotation.SuppressLint
 import android.app.ForegroundServiceStartNotAllowedException
+import android.app.Notification
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.util.Log
+import android.content.IntentFilter
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -188,6 +192,35 @@ inline fun <reified T : Parcelable> Bundle.parcelableArray(key: String): Array<T
 fun Service.stopForegroundCompat(removeNotification:Boolean = true) = when {
     SDK_INT >= 24 -> stopForeground(if (removeNotification) Service.STOP_FOREGROUND_REMOVE else Service.STOP_FOREGROUND_DETACH)
     else -> @Suppress("DEPRECATION") stopForeground(removeNotification)
+}
+
+/**
+ * Use new startForeground API when needed
+ *
+ * @param id the notification id
+ * @param notification the notification to display
+ * @param foregroundServiceType the foreground service type, needed for API >= 33
+ */
+fun Service.startForegroundCompat(id:Int, notification:Notification, foregroundServiceType: Int) {
+    if (SDK_INT >= Build.VERSION_CODES.Q)
+        startForeground(id, notification, foregroundServiceType)
+    else
+        startForeground(id, notification)
+}
+
+/**
+ * Use the new registerReceiver API when needed
+ *
+ * @param receiver the receiver to register
+ * @param filter the filter to apply
+ * @param exported true if it needs to be exported
+ */
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
+fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter, exported: Boolean) {
+    if (SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        registerReceiver(receiver, filter, if (exported) Context.RECEIVER_EXPORTED else Context.RECEIVER_NOT_EXPORTED)
+    else
+        registerReceiver(receiver, filter)
 }
 
 @Suppress("DEPRECATION")

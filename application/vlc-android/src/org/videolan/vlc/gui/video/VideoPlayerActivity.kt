@@ -62,6 +62,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
@@ -104,6 +105,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
@@ -121,6 +123,7 @@ import java.lang.Runnable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
@@ -198,6 +201,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private val dialogsDelegate = DialogDelegate()
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
+    var waitingForPin = false
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -620,6 +624,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overridePendingTransition(0, 0)
         super.onResume()
         isShowingDialog = false
+        waitingForPin = false
+
         /*
          * Set listeners here to avoid NPE when activity is closing
          */
@@ -768,6 +774,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         screenshotDelegate.hide()
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        if (hasFocus)
+            WindowCompat.getInsetsController(window, window.decorView).systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        super.onWindowFocusChanged(hasFocus)
+    }
+
     override fun onStart() {
         medialibrary.pauseBackgroundOperations()
         super.onStart()
@@ -906,7 +918,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
-                if (tv) finish() // Leave player on TV, restauration can be difficult
+                if (tv && !waitingForPin) finish() // Leave player on TV, restauration can be difficult
             }
 
             if (isMute) mute(false)
@@ -1297,7 +1309,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (optionsDelegate == null) service?.let {
             optionsDelegate = PlayerOptionsDelegate(this, it)
             optionsDelegate!!.setBookmarkClickedListener {
-                overlayDelegate.showBookmarks()
+                lifecycleScope.launch { if (!showPinIfNeeded()) overlayDelegate.showBookmarks() else overlayDelegate.showOverlay() }
             }
         }
         optionsDelegate?.show()
@@ -1504,10 +1516,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val allTracks= ArrayList<IMedia.Track>()
             service.mediaplayer.media?.let { media ->
                 if (currentTracks?.first == media.uri.toString()) return currentTracks!!.second
-                for (i in 0..media.getAllTracks().size) {
-                    val track = media.getAllTracks()[i]
-                    allTracks.add(track)
-                }
+                allTracks.addAll(media.getAllTracks())
                 currentTracks = Pair(media.uri.toString(), allTracks)
             }
             return allTracks
@@ -1726,6 +1735,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         popupMenu.show()
     }
 
+    override fun getLifeCycle() = this.lifecycle
+
     override fun onSelectionSet(position: Int) = overlayDelegate.playlist.scrollToPosition(position)
 
     override fun playItem(position: Int, item: MediaWrapper) {
@@ -1748,9 +1759,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
             R.id.player_overlay_forward -> touchDelegate.seekDelta(Settings.videoJumpDelay * 1000)
             R.id.player_overlay_rewind -> touchDelegate.seekDelta(-Settings.videoJumpDelay * 1000)
-            R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
-            R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues()
-            R.id.ab_repeat_stop -> service?.playlistManager?.clearABRepeat()
+            R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(
+                service?.playlistManager?.getCurrentMedia(), overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
+            R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
+            R.id.ab_repeat_stop -> {
+                service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
+                service?.playlistManager?.clearABRepeat()
+            }
             R.id.player_overlay_navmenu -> showNavMenu()
             R.id.player_overlay_length, R.id.player_overlay_time -> toggleTimeDisplay()
             R.id.video_renderer -> if (supportFragmentManager.findFragmentByTag("renderers") == null)
@@ -2369,7 +2384,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         private fun start(context: Context, uri: Uri, title: String?, fromStart: Boolean, openedPosition: Int) {
             val intent = getIntent(context, uri, title, fromStart, openedPosition)
-            context.startActivity(intent)
+            context.startActivity(intent, Util.getFullScreenBundle())
         }
 
         fun getIntent(action: String, mw: MediaWrapper, fromStart: Boolean, openedPosition: Int): Intent {

@@ -6,18 +6,23 @@
       "license"  : "apache2.0"
     },
     {
-      "title"    : "FFmpeg/Libav",
-      "copyright": "Copyright © 2000-2010 the FFmpeg developers",
+      "title"    : "Color Picker",
+      "copyright": "Copyright © 2016 Jared Rummler",
+      "license"  : "apache2.0"
+    },
+    {
+      "title"    : "FFmpeg",
+      "copyright": "Copyright © 2000-2017 the FFmpeg developers",
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "FLAC",
-      "copyright": "Copyright © 2001-2012 Josh Coalson et al. - codec libs",
-      "license"  : "xiph"
+      "title"    : "FluidLite",
+      "copyright": "Copyright © 2016 Robin Lobel",
+      "license"  : "lgpl2.1"
     },
     {
-      "title"    : "Fribidi",
-      "copyright": "Copyright © Behdad Esfahbod",
+      "title"    : "GNU FriBidi",
+      "copyright": "Copyright © 2004-2012 Behdad Esfahbod, Dov Grobgeld, Roozbeh Pournader",
       "license"  : "lgpl2.1"
     },
     {
@@ -26,33 +31,43 @@
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "GOOM!",
-      "copyright": "Copyright © 2000-2004 Jean-Christophe Hoelt",
-      "license"  : "lgpl2.1"
-    },
-    {
       "title"    : "GSM",
       "copyright": "Copyright © 1992-1994 Jutta Degener & Carsten Bormann",
       "license"  : "gsm"
     },
     {
+      "title"    : "harfbuzz",
+      "copyright": "Copyright © 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020 Google, Inc.\nCopyright © 2018, 2019, 2020 Ebrahim Byagowi\nCopyright © 2019, 2020 Facebook, Inc.\nCopyright © 2012 Mozilla Foundation\nCopyright © 2011 Codethink Limited\nCopyright © 2008, 2010 Nokia Corporation and/or its subsidiary(-ies)\nCopyright © 2009 Keith Stribley\nCopyright © 2009 Martin Hosken and SIL International\nCopyright © 2007 Chris Wilson\nCopyright © 2005, 2006, 2020, 2021 Behdad Esfahbod\nCopyright © 2005 David Turner\nCopyright © 2004, 2007, 2008, 2009, 2010 Red Hat, Inc.\nCopyright © 1998-2004 David Turner and Werner Lemberg",
+      "license"  : "harfbuzz"
+    },
+    {
+      "title"    : "Konfetti",
+      "copyright": "Copyright © 2017 Dion Segijn",
+      "license"  : "isc"
+    },
+    {
       "title"    : "liba52",
-      "copyright": "Copyright © Aaron Holtzman, Michel Lespinasse, et al.",
+      "copyright": "Copyright © 1999-2004 Aaron Holtzman, Michel Lespinasse et al.",
       "license"  : "gpl2"
     },
     {
       "title"    : "libass",
-      "copyright": "Copyright © Evgeniy Stepanov, Grigori Goronzy, et al.",
+      "copyright": "Copyright © 2006-2016 libass contributors",
       "license"  : "isc"
     },
     {
+      "title"    : "libav",
+      "copyright": "Copyright © 2000-2015 the libav developers",
+      "license"  : "lgpl2.1"
+    },
+    {
       "title"    : "libdca",
-      "copyright": "Copyright © Gildas Bazin, Sam Hocevar, et al.",
+      "copyright": "Copyright © 1999-2004 Gildas Bazin, Sam Hocevar et al.",
       "license"  : "gpl2"
     },
     {
       "title"    : "libdvbpsi",
-      "copyright": "Copyright © 2001-2010 VideoLAN",
+      "copyright": "Copyright © 2001-2017 VideoLAN and authors",
       "license"  : "lgpl2.1"
     },
     {
@@ -61,8 +76,18 @@
       "license"  : "lgpl2.1"
     },
     {
+      "title"    : "libFLAC",
+      "copyright": "Copyright © 2001-2014 Josh Coalson et al.",
+      "license"  : "xiph"
+    },
+    {
       "title"    : "libgcrypt",
       "copyright": "Copyright © 2000-2012 Free Software Foundation.",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "libgme",
+      "copyright": "Copyright © 2002-2017 libgme authors",
       "license"  : "lgpl2.1"
     },
     {
@@ -82,17 +107,17 @@
     },
     {
       "title"    : "libmatroska",
-      "copyright": "Copyright © 2002-2003 Steve Lhomme",
+      "copyright": "Copyright © 2002-2015 Steve Lhomme",
       "license"  : "lgpl2.1"
     },
     {
       "title"    : "libmodplug",
-      "copyright": "Olivier Lapicque, Konstanty",
+      "copyright": "Olivier Lapicque, Konstanty Bialkowski",
       "license"  : "publicdomain"
     },
     {
       "title"    : "libmpeg2",
-      "copyright": "Copyright © 1999-2012 Sam Hocevar, Aaron Holtzman, Michel Lespinasse, Christophe Massiot, et al.",
+      "copyright": "Copyright © 1999-2012 Sam Hocevar, Aaron Holtzman, Michel Lespinasse, Christophe Massiot et al.",
       "license"  : "gpl2"
     },
     {
@@ -102,7 +127,7 @@
     },
     {
       "title"    : "libpng",
-      "copyright": "Copyright © 2004,2006-2012 Glenn Randers-Pehrson, et al.",
+      "copyright": "Copyright © 1995-2022 The PNG Reference Library Authors\nCopyright © 2018-2022 Cosmin Truta\nCopyright © 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson\nCopyright © 1996-1997 Andreas Dilger\nCopyright © 1995-1996 Guy Eric Schalnat, Group 42, Inc.",
       "license"  : "libpng"
     },
     {
@@ -112,7 +137,27 @@
     },
     {
       "title"    : "libtheora",
-      "copyright": "Copyright © Xiph.org",
+      "copyright": "Copyright © 2002-2009 Xiph.org",
+      "license"  : "xiph"
+    },
+    {
+      "title"    : "libupnp",
+      "copyright": "Copyright © 2000-2003 Intel Corporation et al.",
+      "license"  : "bsd3"
+    },
+    {
+      "title"    : "libVLC",
+      "copyright": "Copyright © 1998 VLC authors and VideoLAN",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "libVLCjni",
+      "copyright": "Copyright © 2015 VLC authors, VideoLAN, and VideoLabs",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "libvorbis",
+      "copyright": "Copyright © 2002-2020 Xiph.org Foundation",
       "license"  : "xiph"
     },
     {
@@ -122,7 +167,7 @@
     },
     {
       "title"    : "live555",
-      "copyright": "Copyright © 1996-2012 Live Networks, Inc",
+      "copyright": "Copyright © 1996-2012 Live Networks, Inc.",
       "license"  : "lgpl2.1"
     },
     {
@@ -131,8 +176,28 @@
       "license"  : "mit"
     },
     {
+      "title"    : "MediaLibrary",
+      "copyright": "Copyright © 2015-2022 MediaLibrary authors, VideoLAN, and VideoLabs",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "Moshi",
+      "copyright": "Copyright © 2014 Square, Inc.",
+      "license"  : "apache2.0"
+    },
+    {
+      "title"    : "OkHttp",
+      "copyright": "Copyright © 2012 Square, Inc.",
+      "license"  : "apache2.0"
+    },
+    {
+      "title"    : "Okio",
+      "copyright": "Copyright © 2013 Square, Inc.",
+      "license"  : "apache2.0"
+    },
+    {
       "title"    : "Openjpeg",
-      "copyright": "Copyright © 2002-2012, Communications and Remote Sensing Laboratory, UCL, Belgium",
+      "copyright": "Copyright © 2002-2012 Communications and Remote Sensing Laboratory, UCL, Belgium",
       "license"  : "isc"
     },
     {
@@ -146,9 +211,9 @@
       "license"  : "isc"
     },
     {
-      "title"    : "Schroedinger",
-      "copyright": "Copyright © David Schleef, W.J. van der Laan",
-      "license"  : "mit"
+      "title"    : "Retrofit",
+      "copyright": "Copyright © 2013 Square, Inc.",
+      "license"  : "apache2.0"
     },
     {
       "title"    : "Speex, Speexdsp",
@@ -157,23 +222,33 @@
     },
     {
       "title"    : "Taglib",
-      "copyright": "Copyright © 2002-2008 Scott Wheeler, et al.",
+      "copyright": "Copyright © 2002-2008 Scott Wheeler et al.",
       "license"  : "lgpl2.1"
     },
     {
-      "title"    : "Zlib",
+      "title"    : "x264",
+      "copyright": "Copyright © 2003-2022 x264 project",
+      "license"  : "gpl2"
+    },
+    {
+      "title"    : "x265",
+      "copyright": "Copyright © 2013 x265 project",
+      "license"  : "gpl2"
+    },
+    {
+      "title"    : "Zapping VBI library",
+      "copyright": "Copyright © 2000-2003 Michael H. Schimek, Iñaki García Etxebarria",
+      "license"  : "lgpl2.1"
+    },
+    {
+      "title"    : "zlib",
       "copyright": "Copyright © 1995-2012 Jean-loup Gailly and Mark Adler",
       "license"  : "zlib"
     },
     {
-      "title"    : "aXMLRPC",
-      "copyright": "Copyright © 2011-2012 Tim Roes",
-      "license"  : "mit"
-    },
-    {
-      "title"    : "Konfetti",
-      "copyright": "Copyright © 2017 Dion Segijn",
-      "license"  : "isc"
+      "title"    : "ZXing",
+      "copyright": "Copyright © 2010 ZXing authors",
+      "license"  : "apache2.0"
     }
   ],
   "licenses": [
@@ -216,8 +291,14 @@
     {
       "id"         : "libpng",
       "name"       : "libpng license",
-      "description": "COPYRIGHT NOTICE, DISCLAIMER, and LICENSE ========================================= \n\nPNG Reference Library License version 2 ---------------------------------------  \n\n* Copyright (c) 1995-2019 The PNG Reference Library Authors. * Copyright (c) 2018-2019 Cosmin Truta. * Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson. * Copyright (c) 1996-1997 Andreas Dilger. * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc. \n\nThe software is supplied \"as is\", without warranty of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose, title, and non-infringement. In no event shall the Copyright owners, or anyone distributing the software, be liable for any damages or other liability, whether in contract, tort or otherwise, arising from, out of, or in connection with the software, or the use or other dealings in the software, even if advised of the possibility of such damage. \n\nPermission is hereby granted to use, copy, modify, and distribute this software, or portions hereof, for any purpose, without fee, subject to the following restrictions:  \n\n1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated, but is not required.  \n\n2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.  \n\n3. This Copyright notice may not be removed or altered from any source or altered source distribution.  \n\nPNG Reference Library License version 1 (for libpng 0.5 through 1.6.35) ----------------------------------------------------------------------- \n\nlibpng versions 1.0.7, July 1, 2000, through 1.6.35, July 15, 2018 are Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson, are derived from libpng-1.0.6, and are distributed according to the same disclaimer and license as libpng-1.0.6 with the following individuals added to the list of Contributing Authors:  \n\nSimon-Pierre Cadieux Eric S. Raymond Mans Rullgard Cosmin Truta Gilles Vollant James Yu Mandar Sahastrabuddhe Google Inc. Vadim Barkov \n\nand with the following additions to the disclaimer:  \n\nThere is no warranty against interference with your enjoyment of the library or against infringement. There is no warranty that our efforts or the library will fulfill any of your particular purposes or needs. This library is provided with all faults, and the entire risk of satisfactory quality, performance, accuracy, and effort is with the user. \n\nSome files in the \"contrib\" directory and some configure-generated files that are distributed with libpng have other copyright owners, and are released under other open source licenses. \n\nlibpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are Copyright (c) 1998-2000 Glenn Randers-Pehrson, are derived from libpng-0.96, and are distributed according to the same disclaimer and license as libpng-0.96, with the following individuals added to the list of Contributing Authors:  \n\nTom Lane Glenn Randers-Pehrson Willem van Schaik \n\nlibpng versions 0.89, June 1996, through 0.96, May 1997, are Copyright (c) 1996-1997 Andreas Dilger, are derived from libpng-0.88, and are distributed according to the same disclaimer and license as libpng-0.88, with the following individuals added to the list of Contributing Authors:  \n\nJohn Bowler Kevin Bracey Sam Bushell Magnus Holmgren Greg Roelofs Tom Tanner \n\nSome files in the \"scripts\" directory have other copyright owners, but are released under this license. \n\nlibpng versions 0.5, May 1995, through 0.88, January 1996, are Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc. \n\nFor the purposes of this copyright and license, \"Contributing Authors\" is defined as the following set of individuals:  \n\nAndreas Dilger Dave Martindale Guy Eric Schalnat Paul Schmidt Tim Wegner \n\nThe PNG Reference Library is supplied \"AS IS\". The Contributing Authors and Group 42, Inc. disclaim all warranties, expressed or implied, including, without limitation, the warranties of merchantability and of fitness for any purpose. The Contributing Authors and Group 42, Inc. assume no liability for direct, indirect, incidental, special, exemplary, or consequential damages, which may result from the use of the PNG Reference Library, even if advised of the possibility of such damage. \n\nPermission is hereby granted to use, copy, modify, and distribute this source code, or portions hereof, for any purpose, without fee, subject to the following restrictions:  \n\n1. The origin of this source code must not be misrepresented.  \n\n2. Altered versions must be plainly marked as such and must not be misrepresented as being the original source.  \n\n3. This Copyright notice may not be removed or altered from any source or altered source distribution. \n\nThe Contributing Authors and Group 42, Inc. specifically permit, without fee, and encourage the use of this source code as a component to supporting the PNG file format in commercial products. If you use this source code in a product, acknowledgment is not required but would be appreciated.",
+      "description": "COPYRIGHT NOTICE, DISCLAIMER, and LICENSE\n=========================================\n\nPNG Reference Library License version 2\n————————————————————————\n\nThe software is supplied \"as is\", without warranty of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose, title, and non-infringement.  In no event shall the Copyright owners, or anyone distributing the software, be liable for any damages or other liability, whether in contract, tort or otherwise, arising from, out of, or in connection with the software, or the use or other dealings in the software, even if advised of the possibility of such damage. \n \nPermission is hereby granted to use, copy, modify, and distribute this software, or portions hereof, for any purpose, without fee, subject to the following restrictions: \n\n1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software.  If you use this software in a product, an acknowledgment in the product documentation would be appreciated, but is not required. \n \n 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software. \n \n 3. This Copyright notice may not be removed or altered from any source or altered source distribution. \n \n \nPNG Reference Library License version 1\n(for libpng 0.5 through 1.6.35) \n————————————————————————\n \nlibpng versions 1.0.7, July 1, 2000, through 1.6.35, July 15, 2018 are Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson, are derived from libpng-1.0.6, and are distributed according to the same disclaimer and license as libpng-1.0.6 with the following individuals added to the list of Contributing Authors: \n \n    Simon-Pierre Cadieux \n    Eric S. Raymond \n    Mans Rullgard \n    Cosmin Truta \n    Gilles Vollant \n    James Yu \n    Mandar Sahastrabuddhe \n    Google Inc. \n    Vadim Barkov \n \nand with the following additions to the disclaimer:\n\nThere is no warranty against interference with your enjoyment of the library or against infringement.  There is no warranty that our efforts or the library will fulfill any of your particular purposes or needs.  This library is provided with all faults, and the entire risk of satisfactory quality, performance, accuracy, and effort is with the user.\n\nSome files in the \"contrib\" directory and some configure-generated files that are distributed with libpng have other copyright owners, and are released under other open source licenses. \n \nlibpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are Copyright (c) 1998-2000 Glenn Randers-Pehrson, are derived from libpng-0.96, and are distributed according to the same disclaimer and license as libpng-0.96, with the following individuals added to the list of Contributing Authors: \n \n    Tom Lane \n    Glenn Randers-Pehrson \n    Willem van Schaik \n \nlibpng versions 0.89, June 1996, through 0.96, May 1997, are Copyright (c) 1996-1997 Andreas Dilger, are derived from libpng-0.88, and are distributed according to the same disclaimer and license as libpng-0.88, with the following individuals added to the list of Contributing Authors: \n \n    John Bowler \n    Kevin Bracey \n    Sam Bushell \n    Magnus Holmgren \n    Greg Roelofs \n    Tom Tanner \n \nSome files in the \"scripts\" directory have other copyright owners, but are released under this license. \n \nlibpng versions 0.5, May 1995, through 0.88, January 1996, are Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc. \n \nFor the purposes of this copyright and license, \"Contributing Authors\" is defined as the following set of individuals: \n \n    Andreas Dilger \n    Dave Martindale \n    Guy Eric Schalnat \n    Paul Schmidt \n    Tim Wegner \n \nThe PNG Reference Library is supplied \"AS IS\".  The Contributing Authors and Group 42, Inc. disclaim all warranties, expressed or implied, including, without limitation, the warranties of merchantability and of fitness for any purpose.  The Contributing Authors and Group 42, Inc. assume no liability for direct, indirect, incidental, special, exemplary, or consequential damages, which may result from the use of the PNG Reference Library, even if advised of the possibility of such damage. \n \nPermission is hereby granted to use, copy, modify, and distribute this source code, or portions hereof, for any purpose, without fee, subject to the following restrictions: \n \n 1. The origin of this source code must not be misrepresented. \n \n 2. Altered versions must be plainly marked as such and must not be misrepresented as being the original source. \n \n 3. This Copyright notice may not be removed or altered from any source or altered source distribution. \n \nThe Contributing Authors and Group 42, Inc. specifically permit, without fee, and encourage the use of this source code as a component to supporting the PNG file format in commercial products.  If you use this source code in a product, acknowledgment is not required but would be appreciated.",
       "link"       : "http://www.libpng.org/pub/png/src/libpng-LICENSE.txt"
+    },
+    {
+      "id"         : "harfbuzz",
+      "name"       : "Old MIT license",
+      "description": "For full copyright notices consult the individual files in the package.\n\nPermission is hereby granted, without written agreement and without license or royalty fees, to use, copy, modify, and distribute this software and its documentation for any purpose, provided that the above copyright notice and the following two paragraphs appear in all copies of this software.\n\nIN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE COPYRIGHT HOLDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\nTHE COPYRIGHT HOLDER SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS, AND THE COPYRIGHT HOLDER HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.",
+      "link"       : ""
     },
     {
       "id"         : "mit",

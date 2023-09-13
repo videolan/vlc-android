@@ -77,10 +77,9 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             if (item is MediaWrapper) {
                 if (BuildConfig.DEBUG) Log.d("CardPresenter", "ITEM: ${item.title} // meta = ${item.hasFlag(FAVORITE_FLAG)}")
                 if (item.hasFlag(FAVORITE_FLAG)) cardView.badgeImage = ContextCompat.getDrawable(cardView.context, R.drawable.ic_favorite_tv_badge)
-                val group = item.type == MediaWrapper.TYPE_GROUP
                 val folder = item.type == MediaWrapper.TYPE_DIR
                 val video = item.type == MediaWrapper.TYPE_VIDEO
-                if (!folder && (group || video && !item.isThumbnailGenerated)) {
+                if (!folder && (video && !item.isThumbnailGenerated)) {
                     if (noArt) {
                         cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
                         cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))

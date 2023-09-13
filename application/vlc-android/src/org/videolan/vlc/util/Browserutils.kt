@@ -61,6 +61,8 @@ fun String?.isSchemeFD() = this == "fd"
 
 fun String?.isSchemeDistant() = !this.isSchemeFile()
 
+fun String.isMissing() = this == "missing://"
+
 fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
     it.uri.scheme != "file" || File(it.uri.path).exists()
 }?.map { (uri, _, title, iconUrl) ->

@@ -26,6 +26,7 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+SRC_DIR=$PWD
 AVLC_SOURCED=1 . libvlcjni/buildsystem/compile-libvlc.sh
 
 ################
@@ -142,17 +143,18 @@ if [ "$RELEASE" = "1" ]; then
 fi
 
 if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
-    PKG_CONFIG_LIBDIR="$SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
-    PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
+    PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
+    PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
     meson \
         -Ddebug=true \
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
         -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
         --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}-ndk${REL}.crossfile \
-        -Dlibjpeg_prefix="$SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
+        -Dlibjpeg_prefix="$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
         -Dforce_attachment_api=true \
+        -Dlibvlc=enabled \
         build-android-${ANDROID_ABI}
 fi
 
@@ -170,8 +172,8 @@ avlc_checkfail "medialibrary: build failed"
 
 cd ${SRC_DIR}
 
-MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlcjni/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
--L$SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib -ljpeg \
+MEDIALIBRARY_LDLIBS="-L$LIBVLCJNI_SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
+-L$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib -ljpeg \
 -L${NDK_LIB_DIR} -lc++abi"
 
 $NDK_BUILD -C medialibrary \

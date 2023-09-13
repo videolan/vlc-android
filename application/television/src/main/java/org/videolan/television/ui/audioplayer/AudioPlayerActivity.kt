@@ -25,8 +25,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.view.*
@@ -55,6 +53,7 @@ import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
@@ -67,7 +66,6 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
-    private val handler = Handler(Looper.getMainLooper())
     private var lastMove: Long = 0
     private var shuffling = false
     private var currentCoverArt: String? = null
@@ -317,7 +315,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
             optionsDelegate.setBookmarkClickedListener {
-                showBookmarks()
+                lifecycleScope.launch { if (!showPinIfNeeded()) showBookmarks() }
             }
         }
         optionsDelegate.show()
@@ -392,14 +390,14 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     }
 
     fun onUpdateFinished() {
-        handler.post(Runnable {
+        binding.root.post {
             val position = model.currentMediaPosition
-            if (position < 0) return@Runnable
+            if (position < 0) return@post
             adapter.setSelection(position)
             val first = (binding.playlist.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
             val last = (binding.playlist.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
             if (position < first || position > last) binding.playlist.smoothScrollToPosition(position)
-        })
+        }
     }
 
     companion object {

@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> <!-- Audio search on TV -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- USe foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> <!-- normal -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
@@ -63,6 +66,9 @@
         <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc"/>
+        <meta-data
+            android:name="androidx.car.app.TintableAttributionIcon"
+            android:resource="@drawable/ic_auto_notif_audio"/>
         <meta-data
             android:name="com.google.android.gms.car.notification.SmallIcon"
             android:resource="@drawable/icon"/>
@@ -969,6 +975,10 @@
             android:name=".gui.LibrariesActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
+            android:name=".gui.PinCodeActivity"
+            android:theme="@style/Theme.VLC"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".gui.AuthorsActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
@@ -1047,7 +1057,7 @@
         </service>
         <service
                 android:name=".MediaParsingService"
-                android:foregroundServiceType="mediaProjection" />
+                android:foregroundServiceType="dataSync" />
 
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
@@ -1182,7 +1192,8 @@
                 android:theme="@style/Theme.VLC"
                 android:launchMode="singleTop" />
         <service android:name=".DebugLogService"
-                android:process=":logger" />
+                android:process=":logger"
+                android:foregroundServiceType="dataSync" />
     </application>
 
 </manifest>

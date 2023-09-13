@@ -37,17 +37,6 @@ class PreferencesSubtitlesUITest: BasePreferenceUITest() {
         checkModeChanged(key, "10", "16", MAP_SUBTITLE_SIZE)
     }
 
-    @Test
-    fun checkSubtitleColorSetting() {
-        val key = "subtitles_color"
-
-        checkModeChanged(key, "65535", "16777215", MAP_SUBTITLE_COLOR)
-        checkModeChanged(key, "16776960", "16777215", MAP_SUBTITLE_COLOR)
-        checkModeChanged(key, "65280", "16777215", MAP_SUBTITLE_COLOR)
-        checkModeChanged(key, "16711935", "16777215", MAP_SUBTITLE_COLOR)
-        checkModeChanged(key, "12632256", "16777215", MAP_SUBTITLE_COLOR)
-        checkModeChanged(key, "16777215", "16777215", MAP_SUBTITLE_COLOR)
-    }
 
     @Test
     fun checkSubtitleBackgroundSetting() {
@@ -71,10 +60,6 @@ class PreferencesSubtitlesUITest: BasePreferenceUITest() {
 
     companion object {
         val MAP_SUBTITLE_SIZE = mapOf("19" to R.string.subtitles_size_small, "16" to R.string.subtitles_size_normal, "13" to R.string.subtitles_size_big, "10" to R.string.subtitles_size_huge)
-        val MAP_SUBTITLE_COLOR = mapOf(
-                "16777215" to R.string.subtitles_color_white, "12632256" to R.string.subtitles_color_gray, "16711935" to R.string.subtitles_color_pink,
-                "65535" to R.string.subtitles_color_blue, "16776960" to R.string.subtitles_color_yellow, "65280" to R.string.subtitles_color_green
-        )
         val MAP_SUBTITLE_ENCODING = mapOf(
                 "" to "Default (Windows-1252)", "UTF-8" to "Universal (UTF-8)"
         )

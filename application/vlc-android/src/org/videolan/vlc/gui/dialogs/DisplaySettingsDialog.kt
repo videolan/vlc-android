@@ -47,6 +47,7 @@ import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
@@ -99,6 +100,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     override fun initialFocusedView(): View = binding.title
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         super.onCreate(savedInstanceState)
         displayInCards = arguments?.getBoolean(DISPLAY_IN_CARDS)
                 ?: throw IllegalStateException("Display in list should be provided")
@@ -225,6 +227,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                     container.setOnClickListener {
                         currentSort = sort
                         currentSortDesc = desc
+
                         updateSorts()
                         lifecycleScope.launch { displaySettingsViewModel.send(CURRENT_SORT, Pair(sort, desc)) }
                     }
@@ -233,10 +236,10 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                         Medialibrary.SORT_FILENAME -> getString(if (desc) R.string.sortby_filename_desc else R.string.sortby_filename_asc)
                         Medialibrary.SORT_ARTIST -> getString(if (desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name_asc)
                         Medialibrary.SORT_DURATION -> getString(if (desc) R.string.sortby_length_desc else R.string.sortby_length_asc)
-                        Medialibrary.SORT_INSERTIONDATE -> getString(if (desc) R.string.sortby_insertion_desc else R.string.sortby_insertion_asc)
-                        Medialibrary.SORT_LASTMODIFICATIONDATE -> getString(if (desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date_asc)
+                        Medialibrary.SORT_INSERTIONDATE -> getString(if (desc) R.string.sortby_date_insertion_desc else R.string.sortby_date_insertion_asc)
+                        Medialibrary.SORT_LASTMODIFICATIONDATE -> getString(if (desc) R.string.sortby_date_last_modified_desc else R.string.sortby_date_last_modified_asc)
                         Medialibrary.SORT_ALBUM -> getString(if (desc) R.string.sortby_album_name_desc else R.string.sortby_album_name_asc)
-                        Medialibrary.SORT_RELEASEDATE -> getString(if (desc) R.string.sortby_date_desc else R.string.sortby_date_asc)
+                        Medialibrary.SORT_RELEASEDATE -> getString(if (desc) R.string.sortby_date_release_desc else R.string.sortby_date_release_asc)
                         Medialibrary.NbMedia -> getString(if (desc) R.string.sortby_number_asc else R.string.sortby_number_desc)
                         else -> throw IllegalStateException("Unsupported sort: $sort")
                     }

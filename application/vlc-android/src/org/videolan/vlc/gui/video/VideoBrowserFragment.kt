@@ -183,7 +183,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
      *
      * @return the current shown fragment
      */
-    private fun getCurrentFragment() = requireActivity().supportFragmentManager.findFragmentByTag("f" + viewPager.currentItem)
+    private fun getCurrentFragment() = childFragmentManager.findFragmentByTag("f" + viewPager.currentItem)
 
     override fun getFilterQuery() = try {
         (getCurrentFragment() as? Filterable)?.getFilterQuery()

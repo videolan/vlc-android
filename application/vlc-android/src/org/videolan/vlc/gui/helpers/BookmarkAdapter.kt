@@ -26,8 +26,6 @@ package org.videolan.vlc.gui.helpers
 
 import android.annotation.TargetApi
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,10 +38,11 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BookmarkItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
+import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     DiffUtilAdapter<Bookmark, BookmarkAdapter.ViewHolder>() {
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
+    private var scheduler: LifecycleAwareScheduler? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -68,7 +67,12 @@ class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        scheduler?.cancelAction(MARQUEE_ACTION)
+        super.onViewRecycled(holder)
     }
 
     override fun getItemCount() = dataset.size

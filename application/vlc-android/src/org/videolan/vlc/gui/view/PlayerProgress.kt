@@ -25,7 +25,11 @@
 package org.videolan.vlc.gui.view
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.RectF
+import android.graphics.Region
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -73,7 +77,7 @@ class PlayerProgress : View {
         paintProgress.isAntiAlias = true
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         val left = (width.toFloat() - progressWidth.toFloat()) / 2
         val right = width - left
         val top = yOffset.toFloat()
@@ -83,18 +87,18 @@ class PlayerProgress : View {
         //draw background
         roundedRectanglePath(left, top, right, bottom, radius, radius)
         paintBackground.setShadowLayer(6F,0F,0F, shadowColor)
-        canvas?.drawPath(path, paintBackground)
+        canvas.drawPath(path, paintBackground)
         paintBackground.clearShadowLayer()
         paintBackground.color = 0x00000000
-        canvas?.drawPath(path, paintBackground)
+        canvas.drawPath(path, paintBackground)
         paintBackground.color = backgroundColor
-        canvas?.drawPath(path, paintBackground)
+        canvas.drawPath(path, paintBackground)
 
         //draw progress
         val clipTop = yOffset + (bottom - top) * (1 - progressPercent)
         rectProgress.set(left, clipTop, right, bottom)
 
-        canvas?.withClip(rectProgress) {
+        canvas.withClip(rectProgress) {
             clipRect(rectProgress)
         }
 
@@ -112,7 +116,7 @@ class PlayerProgress : View {
         firstClippingRegion.op(secondClippingRegion, Region.Op.INTERSECT)
 
         paintProgress.color = progressColor
-        canvas?.drawPath(firstClippingRegion.boundaryPath, paintProgress)
+        canvas.drawPath(firstClippingRegion.boundaryPath, paintProgress)
 
         //draw boost
         if (isDouble && progressPercent > 0.5) {
@@ -133,7 +137,7 @@ class PlayerProgress : View {
             firstClippingRegion.op(secondClippingRegion, Region.Op.INTERSECT)
 
             paintProgress.color = boostColor
-            canvas?.drawPath(firstClippingRegion.boundaryPath, paintProgress)
+            canvas.drawPath(firstClippingRegion.boundaryPath, paintProgress)
         }
 
         super.onDraw(canvas)

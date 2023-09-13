@@ -54,11 +54,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
 
@@ -84,6 +87,7 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         media = arguments?.parcelable(RENAME_DIALOG_MEDIA) ?: return
         super.onCreate(savedInstanceState)
     }

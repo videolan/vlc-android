@@ -69,15 +69,17 @@ public class MLServiceLocator {
                                                        String albumArtist, int width, int height,
                                                        String artworkURL, int audio, int spu,
                                                        int trackNumber, int discNumber, long lastModified,
-                                                       long seen, boolean isThumbnailGenerated, boolean isFavorite, int releaseDate, boolean isPresent) {
+                                                       long seen, boolean isThumbnailGenerated, boolean isFavorite,
+                                                       int releaseDate, boolean isPresent, long insertionDate) {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapperImpl(id, mrl, time, position, length, type, title,
                     filename, artist, genre, album, albumArtist, width, height, artworkURL,
-                    audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent);
+                    audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated,
+                    isFavorite, releaseDate, isPresent, insertionDate);
         } else {
             return new StubMediaWrapper(id, mrl, time, position, length, type, title,
                     filename, artist, genre, album, albumArtist, width, height, artworkURL,
-                    audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent);
+                    audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent, insertionDate);
         }
     }
 
@@ -86,15 +88,16 @@ public class MLServiceLocator {
                                                        String genre, String album, String albumArtist,
                                                        int width, int height, String artworkURL,
                                                        int audio, int spu, int trackNumber,
-                                                       int discNumber, long lastModified, long seen) {
+                                                       int discNumber, long lastModified, long seen,
+                                                       long insertionDate) {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapperImpl(uri, time, position, length, type, picture, title, artist, genre,
                     album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
-                    discNumber, lastModified, seen, false);
+                    discNumber, lastModified, seen, false, insertionDate);
         } else {
             return new StubMediaWrapper(uri, time, position, length, type, picture, title, artist, genre,
                     album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
-                    discNumber, lastModified, seen, false);
+                    discNumber, lastModified, seen, false, insertionDate);
         }
     }
 

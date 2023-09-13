@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -133,7 +132,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         when (key) {
             "aout" -> {
                 launch { restartLibVLC() }

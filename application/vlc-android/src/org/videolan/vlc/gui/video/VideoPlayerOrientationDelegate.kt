@@ -25,8 +25,6 @@
 package org.videolan.vlc.gui.video
 
 import android.content.pm.ActivityInfo
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +40,9 @@ import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
+import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
     private val overlayDelegate: VideoPlayerOverlayDelegate
@@ -124,7 +124,7 @@ class OrientationAdapter(currentOrientation:Int) : RecyclerView.Adapter<Orientat
             notifyItemChanged(field)
         }
     lateinit var sizeSelectedListener: (OrientationMode) -> Unit
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
+    private var scheduler: LifecycleAwareScheduler? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -144,7 +144,12 @@ class OrientationAdapter(currentOrientation:Int) : RecyclerView.Adapter<Orientat
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        scheduler?.cancelAction(MARQUEE_ACTION)
+        super.onViewRecycled(holder)
     }
 
 

@@ -45,12 +45,15 @@ import org.videolan.tools.WIDGETS_BACKGROUND_LAST_COLORS
 import org.videolan.tools.WIDGETS_FOREGROUND_LAST_COLORS
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.BasePreferenceFragment
 import org.videolan.vlc.gui.view.NumberPickerPreference
 import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.widget.WidgetViewModel
+import org.videolan.vlc.widget.utils.WidgetSizeUtil
 import org.videolan.vlc.widget.utils.WidgetType
-import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetTypeFromSize
+import org.videolan.vlc.widget.utils.WidgetUtils
+import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.hasEnoughSpaceForSeek
 
 const val WIDGET_ID = "WIDGET_ID"
@@ -100,6 +103,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
         rewindDelay = findPreference("widget_rewind_delay")!!
         val configurationIcon = findPreference<CheckBoxPreference>("widget_show_configure")!!
         val themePreference = findPreference<ListPreference>("widget_theme")!!
+        val typePreference = findPreference<ListPreference>("widget_type")!!
 
         val id = (arguments?.getInt(WIDGET_ID) ?: -2)
         if (id == -2) throw IllegalStateException("Invalid widget id")
@@ -113,6 +117,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 updateWidgetEntity()
             }
             themePreference.value = widget.theme.toString()
+            typePreference.value = widget.type.toString()
             backgroundPreference.isVisible = widget.theme != 0
             foregroundPreference.isVisible = widget.theme != 0
             backgroundPreference.saveValue(widget.backgroundColor)
@@ -121,7 +126,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             lightThemePreference.isChecked = widget.lightTheme
             lightThemePreference.isVisible = widget.theme != 2
             configurationIcon.isChecked = widget.showConfigure
-            val widgetType = getWidgetTypeFromSize(widget.width, widget.height)
+            val widgetType = getWidgetType(widget)
             val showSeekPrefs = (widgetType == WidgetType.MINI || widgetType == WidgetType.MACRO) && hasEnoughSpaceForSeek(widget, widgetType)
             showSeek.isVisible = showSeekPrefs
             forwardDelay.isVisible = showSeekPrefs
@@ -137,7 +142,8 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
 
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         when (key) {
             "opacity" -> {
                 model.widget.value?.opacity = sharedPreferences.getInt(key, 100)
@@ -159,6 +165,18 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 foregroundPreference.isVisible = newValue == 2
                 lightThemePreference.isVisible = newValue != 2
 
+            }
+            "widget_type" -> {
+                val newValue = sharedPreferences.getString(key, "0")?.toInt() ?: 0
+                model.widget.value?.type = newValue
+                model.widget.value?.let {
+                    val size = WidgetSizeUtil.getWidgetsSize(requireActivity(), it.widgetId)
+                    val minimalSize = WidgetUtils.getMinimalWidgetSize(WidgetUtils.getWidgetType(it))
+                    if (size.first < minimalSize.first || size.second < minimalSize.second) {
+                        UiTools.snackerConfirm(requireActivity(), getString(R.string.widget_type_error)) { }
+                    }
+
+                }
             }
             "widget_light_theme" -> {
                 val newValue = sharedPreferences.getBoolean(key, true)

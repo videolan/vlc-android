@@ -44,12 +44,18 @@ import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.util.onAnyChange
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
 private const val TAG = "FileBrowserTvFragment"
 
 class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener, IDialogManager {
 
+    private lateinit var dataObserver: RecyclerView.AdapterDataObserver
     private var favExists: Boolean = false
     private var isRootLevel = false
     private lateinit var browserFavRepository: BrowserFavRepository
@@ -68,7 +74,35 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
-        return FileTvItemAdapter(this, itemSize, isRootLevel && getCategory() == TYPE_NETWORK)
+        val fileTvItemAdapter = FileTvItemAdapter(this, itemSize, isRootLevel && getCategory() == TYPE_NETWORK)
+        // restore the position from the source when navigating from Arian
+        dataObserver = fileTvItemAdapter.onAnyChange {
+            val source = (viewModel as IPathOperationDelegate).getSource()
+            val selectedIndex = if (source != null) {
+                if (fileTvItemAdapter.dataset.contains(source)) {
+                    //the source has been found because we are on its direct parent
+                    fileTvItemAdapter.dataset.indexOf(source)
+                } else {
+                    // we look for the item included in the source path to find what item to focus
+                    var index: Int? = null
+                    fileTvItemAdapter.dataset.forEach {
+                        if ((source as? MediaWrapper)?.uri?.toString()?.startsWith(it.uri.toString()) == true) {
+                            index = fileTvItemAdapter.dataset.indexOf(it)
+                        }
+                    }
+                    index
+                }
+            } else null
+            if (selectedIndex != null) {
+                val lm = binding.list.layoutManager as LinearLayoutManager
+                lm.scrollToPosition(selectedIndex)
+                lm.getChildAt(selectedIndex)?.let {
+                    it.requestFocus()
+                    (viewModel as IPathOperationDelegate).consumeSource()
+                }
+            }
+        }
+        return fileTvItemAdapter
     }
 
     override fun getDisplayPrefId() = "display_tv_file_${getCategory()}"
@@ -183,6 +217,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             if (supportFragmentManager.backStackEntryCount == 0) browse(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()), false)
             else {
                 (viewModel as IPathOperationDelegate).setDestination(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()))
+                (viewModel as IPathOperationDelegate).setSource(currentItem)
                 supportFragmentManager.popBackStack()
             }
         }
@@ -229,6 +264,11 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onStop() {
         super.onStop()
         (viewModel as BrowserModel).stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::dataObserver.isInitialized) (adapter as FileTvItemAdapter).unregisterAdapterDataObserver(dataObserver)
     }
 
     override fun getCategory() = (viewModel as BrowserModel).type

@@ -31,7 +31,9 @@ import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -41,6 +43,7 @@ import org.videolan.vlc.databinding.ItemRendererBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 class RenderersDialog : DialogFragment() {
     private var renderers = RendererDelegate.renderers.value
@@ -50,6 +53,7 @@ class RenderersDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         RendererDelegate.renderers.observe(this) {
             if (it !== null) {
                 renderers = it

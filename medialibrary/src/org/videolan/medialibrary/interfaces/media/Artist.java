@@ -4,8 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.medialibrary.R;
+import org.videolan.medialibrary.MLContextTools;
 import org.videolan.medialibrary.MLServiceLocator;
+import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -19,8 +20,8 @@ abstract public class Artist extends MediaLibraryItem {
     private int presentTracksCount;
 
     public static class SpecialRes {
-        public static String UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
-        public static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
+        public static String UNKNOWN_ARTIST = MLContextTools.getInstance().getContext().getString(R.string.unknown_artist);
+        public static String VARIOUS_ARTISTS = MLContextTools.getInstance().getContext().getString(R.string.various_artists);
     }
 
     public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount, boolean isFavorite) {

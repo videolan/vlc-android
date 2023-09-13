@@ -487,5 +487,20 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string-array name="widget_type_entries" translatable="false">
+        <item>@string/automatic</item>
+        <item>@string/widget_type_pill</item>
+        <item>@string/widget_type_normal</item>
+        <item>@string/widget_type_circle</item>
+        <item>@string/widget_type_large</item>
+    </string-array>
+
+    <string-array name="widget_type_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 
 </resources>

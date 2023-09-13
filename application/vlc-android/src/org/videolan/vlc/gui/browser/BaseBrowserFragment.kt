@@ -25,10 +25,10 @@ package org.videolan.vlc.gui.browser
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ActionMode
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -39,6 +39,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
@@ -74,7 +76,9 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -84,16 +88,16 @@ private const val TAG = "VLC/BaseBrowserFragment"
 
 internal const val KEY_MEDIA = "key_media"
 const val KEY_PICKER_TYPE = "key_picker_type"
-private const val MSG_SHOW_LOADING = 0
-internal const val MSG_HIDE_LOADING = 1
-private const val MSG_REFRESH = 3
-private const val MSG_SHOW_ENQUEUING = 4
-private const val MSG_HIDE_ENQUEUING = 5
+private const val MSG_SHOW_LOADING = "msg_show_loading"
+internal const val MSG_HIDE_LOADING = "msg_hide_loading"
+private const val MSG_REFRESH = "msg_refresh"
+private const val MSG_SHOW_ENQUEUING = "msg_show_enqueuing"
+private const val MSG_HIDE_ENQUEUING = "msg_hide_enqueuing"
 
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem> {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem>, SchedulerCallback, PlaybackService.Callback {
 
+    lateinit var scheduler:LifecycleAwareScheduler
     private lateinit var addPlaylistFolderOnly: MenuItem
-    protected val handler = BrowserFragmentHandler(this)
     private lateinit var layoutManager: LinearLayoutManager
     override var mrl: String? = null
     protected var currentMedia: MediaWrapper? = null
@@ -109,9 +113,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected abstract fun createFragment(): Fragment
     protected abstract fun browseRoot()
     private var needToRefreshMeta = false
+    private var enqueuingSnackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        scheduler =  LifecycleAwareScheduler(this)
         val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
             currentMedia = bundle.parcelable(KEY_MEDIA)
@@ -123,17 +129,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         isRootDirectory = defineIsRoot()
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         PlaybackService.serviceFlow.onEach {
-            it?.addCallback(object :PlaybackService.Callback {
-                override fun update() { }
-
-                override fun onMediaEvent(event: IMedia.Event) { }
-
-                override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-                    //any event of the playback service will force the media metadata to be reloaded upon future playbacks
-                    needToRefreshMeta = true
-                }
-
-            })
+            it?.addCallback(this)
         }.launchIn(MainScope())
     }
 
@@ -179,6 +175,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
             swipeRefreshLayout.isRefreshing = loading
             updateEmptyView()
+        }
+        (view.rootView.findViewById<View?>(R.id.appbar) as? AppBarLayout)?.let {
+            binding.browserFastScroller.attachToCoordinator(it, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
+            binding.browserFastScroller.setRecyclerView(binding.networkList, viewModel.provider)
         }
     }
 
@@ -248,6 +248,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onDestroy() {
         if (::adapter.isInitialized) adapter.cancel()
+        PlaybackService.serviceFlow.value?.removeCallback(this)
         super.onDestroy()
     }
 
@@ -337,36 +338,34 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         playAll(null)
     }
 
-    class BrowserFragmentHandler(owner: BaseBrowserFragment) : WeakHandler<BaseBrowserFragment>(owner) {
+    override fun onTaskTriggered(id: String, data:Bundle) {
+        when (id) {
+            MSG_SHOW_LOADING -> swipeRefreshLayout.isRefreshing = true
+            MSG_HIDE_LOADING -> {
+                scheduler.cancelAction(MSG_SHOW_LOADING)
+                swipeRefreshLayout.isRefreshing = false
+            }
 
-        private var enqueuingSnackbar: Snackbar? = null
+            MSG_REFRESH -> {
+                scheduler.cancelAction(MSG_REFRESH)
+                if (!isDetached) refresh()
+            }
 
-        override fun handleMessage(msg: Message) {
-            val fragment = owner ?: return
-            when (msg.what) {
-                MSG_SHOW_LOADING -> fragment.swipeRefreshLayout.isRefreshing = true
-                MSG_HIDE_LOADING -> {
-                    removeMessages(MSG_SHOW_LOADING)
-                    fragment.swipeRefreshLayout.isRefreshing = false
+            MSG_SHOW_ENQUEUING -> {
+                activity?.let {
+                    enqueuingSnackbar = UiTools.snackerMessageInfinite(it, it.getString(R.string.enqueuing))
                 }
-                MSG_REFRESH -> {
-                    removeMessages(MSG_REFRESH)
-                    if (!fragment.isDetached) fragment.refresh()
-                }
-                MSG_SHOW_ENQUEUING -> {
-                    owner?.activity?.let {
-                        enqueuingSnackbar = UiTools.snackerMessageInfinite(it, it.getString(R.string.enqueuing))
-                    }
-                    enqueuingSnackbar?.show()
+                enqueuingSnackbar?.show()
 
-                }
-                MSG_HIDE_ENQUEUING -> {
-                    enqueuingSnackbar?.dismiss()
-                    removeMessages(MSG_SHOW_ENQUEUING)
-                }
+            }
+
+            MSG_HIDE_ENQUEUING -> {
+                enqueuingSnackbar?.dismiss()
+                scheduler.cancelAction(MSG_SHOW_ENQUEUING)
             }
         }
     }
+
 
     override fun clear() = adapter.clear()
 
@@ -391,7 +390,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         lifecycleScope.launch {
             var positionInPlaylist = 0
             val mediaLocations = LinkedList<MediaWrapper>()
-            handler.sendEmptyMessageDelayed(MSG_SHOW_ENQUEUING, 1000)
+            scheduler.scheduleAction(MSG_SHOW_ENQUEUING, 1000L)
             withContext(Dispatchers.IO) {
                 val files = if (viewModel.url?.startsWith("file") == true) viewModel.provider.browseUrl(viewModel.url!!) else viewModel.dataset.getList()
                     for (file in files.filterIsInstance(MediaWrapper::class.java))
@@ -401,7 +400,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                                 positionInPlaylist = mediaLocations.size - 1
                         }
             }
-            handler.sendEmptyMessage(MSG_HIDE_ENQUEUING)
+            scheduler.startAction(MSG_HIDE_ENQUEUING)
             activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist) }
         }
     }
@@ -660,7 +659,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (!isStarted()) return
         restoreMultiSelectHelper()
         swipeRefreshLayout.isRefreshing = false
-        handler.sendEmptyMessage(MSG_HIDE_LOADING)
+        scheduler.startAction(MSG_HIDE_LOADING)
         updateEmptyView()
         if (!isRootDirectory) {
             updateFab()
@@ -672,7 +671,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun updateFab() {
         fabPlay?.let {
-            if (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true) {
+            if (this !is StorageBrowserFragment && (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true)) {
                 setFabPlayVisibility(true)
                 it.setOnClickListener{onFabPlayClick(it)}
             } else {
@@ -686,4 +685,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun setSearchVisibility(visible: Boolean) {
         // prevents the medialibrary search to be displayed in a browser context
     }
+
+    override fun update() {}
+
+    override fun onMediaEvent(event: IMedia.Event) {}
+
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        needToRefreshMeta = true
+    }
+
 }

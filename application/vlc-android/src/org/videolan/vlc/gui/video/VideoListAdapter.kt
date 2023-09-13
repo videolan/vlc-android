@@ -33,13 +33,11 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
@@ -49,7 +47,6 @@ import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.util.*
@@ -67,20 +64,12 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
 
-    private val thumbObs = Observer<MediaWrapper> { media ->
-        val position = currentList?.snapshot()?.indexOf(media) ?: return@Observer
+   fun updateThumb(media:MediaWrapper) {
+        val position = currentList?.snapshot()?.indexOf(media) ?: return
         (getItem(position) as? MediaWrapper)?.run {
             artworkURL = media.artworkURL
             notifyItemChanged(position)
         }
-    }
-
-    init {
-        Medialibrary.lastThumb.observeForever(thumbObs)
-    }
-
-    fun release() {
-        Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
     val all: List<MediaLibraryItem>
@@ -102,7 +91,10 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         fillView(holder, item)
         holder.binding.setVariable(BR.media, item)
         holder.selectView(multiSelectHelper.isSelected(position))
-        item.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
+        item.let {
+            holder.binding.setVariable(BR.isFavorite, it.isFavorite)
+            holder.binding.setVariable(BR.showProgress, item.artworkMrl.isNullOrBlank())
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
@@ -142,6 +134,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.isNetwork, false)
                 holder.binding.setVariable(BR.isPresent, true)
                 holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+                holder.binding.setVariable(BR.media, item)
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
@@ -153,6 +146,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.max, 0)
                 holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
                 holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+                holder.binding.setVariable(BR.media, item)
             }
             is MediaWrapper -> {
                 holder.title.text = if (showFilename.get()) item.fileName else item.title
@@ -166,22 +160,19 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.isSD, item.uri.isSD())
                 holder.binding.setVariable(BR.isPresent, item.isPresent)
 
-                text = if (item.type == MediaWrapper.TYPE_GROUP) {
-                    item.description
-                } else {
-                    seen = if (isSeenMediaMarkerVisible) item.seen else 0L
-                    /* Time / Duration */
-                    if (item.length > 0) {
-                        val lastTime = item.displayTime
-                        if (lastTime > 0) {
-                            max = (item.length / 1000).toInt()
-                            progress = (lastTime / 1000).toInt()
-                        }
-                        if (isListMode && resolution !== null) {
-                            "${Tools.millisToString(item.length)}  •  $resolution"
-                        } else Tools.millisToString(item.length)
-                    } else null
-                }
+
+                seen = if (isSeenMediaMarkerVisible) item.seen else 0L
+                /* Time / Duration */
+                text = if (item.length > 0) {
+                    val lastTime = item.displayTime
+                    if (lastTime > 0) {
+                        max = (item.length / 1000).toInt()
+                        progress = (lastTime / 1000).toInt()
+                    }
+                    if (isListMode && resolution !== null) {
+                        "${Tools.millisToString(item.length)}  •  $resolution"
+                    } else Tools.millisToString(item.length)
+                } else null
                 holder.binding.setVariable(BR.time, text)
                 holder.binding.setVariable(BR.max, max)
                 holder.binding.setVariable(BR.progress, progress)
@@ -267,6 +258,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
             else if (oldItem is Folder && newItem is Folder) {
                 oldItem === newItem || (oldItem.title == newItem.title
                         && oldItem.tracksCount == newItem.tracksCount
+                        && oldItem.mMrl == newItem.mMrl
                         && oldItem.isFavorite == newItem.isFavorite)
             }
             else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || (oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
@@ -276,6 +268,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = when {
             (oldItem is MediaWrapper && newItem is MediaWrapper) && oldItem.displayTime != newItem.displayTime -> UPDATE_TIME
             (oldItem is VideoGroup && newItem is VideoGroup) -> UPDATE_VIDEO_GROUP
+            (oldItem is Folder && newItem is Folder) -> UPDATE_VIDEO_GROUP
             oldItem.artworkMrl != newItem.artworkMrl -> UPDATE_THUMB
             oldItem.isFavorite != newItem.isFavorite  -> UPDATE_FAVORITE_STATE
             else -> UPDATE_SEEN

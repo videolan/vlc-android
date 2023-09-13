@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_incognito_grey.xml
+  ~ **************************************************************************
+  ~ Copyright © 2023 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M17.975,3.346C16.978,3.363 16.052,3.986 15.68,4.963L14.73,7.482C20.914,8.169 27.082,8.167 33.246,7.482L32.295,4.965L32.246,4.846C31.734,3.68 30.411,3.065 29.182,3.473L24,5.213L18.793,3.473L18.67,3.436C18.438,3.372 18.205,3.342 17.975,3.346zM13.277,11.338L11.84,15.154L11.84,15.158C19.959,16.342 28.054,16.337 36.146,15.158L34.703,11.338C27.576,12.213 20.43,12.216 13.277,11.338zM10.398,18.982L9.072,22.5L2,22.5L2,25L46,25L46,22.5L38.922,22.5L37.592,18.982C28.55,20.386 19.476,20.397 10.398,18.982zM13,27.5C8.32,27.5 4.5,31.32 4.5,36C4.5,40.68 8.32,44.5 13,44.5C17.491,44.5 21.187,40.98 21.479,36.561C22.266,36.193 23.126,36 24,36C24.875,36 25.735,36.192 26.521,36.557C26.811,40.978 30.508,44.5 35,44.5C39.68,44.5 43.5,40.68 43.5,36C43.5,31.32 39.68,27.5 35,27.5C31.024,27.5 27.669,30.257 26.75,33.957C25.87,33.655 24.94,33.5 24,33.5C23.058,33.5 22.13,33.658 21.25,33.961C20.332,30.259 16.977,27.5 13,27.5zM13,30C16.329,30 19,32.672 19,36C19,39.328 16.329,42 13,42C9.671,42 7,39.328 7,36C7,32.672 9.671,30 13,30zM35,30C38.329,30 41,32.672 41,36C41,39.328 38.329,42 35,42C31.671,42 29,39.328 29,36C29,32.672 31.671,30 35,30z"
+      android:strokeWidth="3"
+      android:fillColor="?attr/colorControlNormal"
+      android:fillType="evenOdd"/>
+</vector>

@@ -32,6 +32,10 @@ import java.util.Arrays;
 
 public class VlcMigrationHelper {
     public static List<IMedia.Track> getMediaTracks(IMedia media) {
-        return Arrays.asList(media.getTracks());
+        IMedia.Track[] tracks = media.getTracks();
+        if (tracks == null) {
+            return new ArrayList<IMedia.Track>();
+        }
+        return Arrays.asList(tracks);
     }
 }

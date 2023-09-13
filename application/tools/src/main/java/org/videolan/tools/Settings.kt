@@ -29,6 +29,8 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showHiddenFiles = false
     var showTrackNumber = true
     var tvFoldersFirst = true
+    var incognitoMode = false
+    var safeMode = false
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -51,8 +53,13 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, !tvUI)
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
+        incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
+        safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         return prefs
     }
+
+    fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
+
 
     /**
      * Trigger the [audioControlsChangeListener] to update the UI
@@ -63,6 +70,10 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
 
     fun setAudioControlsChangeListener(listener:() -> Unit) {
         audioControlsChangeListener = listener
+    }
+
+    fun removeAudioControlsChangeListener() {
+        audioControlsChangeListener = null
     }
 
     val showTvUi : Boolean
@@ -83,6 +94,7 @@ const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCLUDE_MISSING = "include_missing"
+const val KEY_INCOGNITO = "incognito_mode"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
@@ -189,6 +201,7 @@ const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 const val SLEEP_TIMER_WAIT = "sleep_timer_wait"
 
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
+const val PLAYLIST_REPLACE = "playlist_replace"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
@@ -198,6 +211,10 @@ const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"
 
 //widgets
 const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
+
+const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
+const val KEY_RESTRICT_SETTINGS = "restrict_settings"
+const val KEY_SAFE_MODE = "safe_mode"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

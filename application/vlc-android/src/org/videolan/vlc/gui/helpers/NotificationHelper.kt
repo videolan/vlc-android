@@ -100,7 +100,7 @@ object NotificationHelper {
         builder.addAction(NotificationCompat.Action(
                 DrawableCache.getDrawableFromMemCache(ctx, "ic_notif_rewind_${Settings.audioJumpDelay}", R.drawable.ic_notif_rewind),
                 ctx.getString(R.string.playback_rewind),
-                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_REWIND, playing)))
+                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_REWIND)))
         /* Play/Pause or Stop */
         if (pausable) {
             if (playing) builder.addAction(NotificationCompat.Action(R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
@@ -112,7 +112,7 @@ object NotificationHelper {
         builder.addAction(NotificationCompat.Action(
                 DrawableCache.getDrawableFromMemCache(ctx, "ic_notif_forward_${Settings.audioJumpDelay}", R.drawable.ic_notif_forward),
                 ctx.getString(R.string.playback_forward),
-                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_FAST_FORWARD, playing)))
+                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_FAST_FORWARD)))
         /* Next */
         if (podcastMode) {
             builder.addAction(NotificationCompat.Action(R.drawable.ic_notif_bookmark_add, ctx.getString(R.string.add_bookmark),

@@ -442,11 +442,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (!player.displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
+                player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
             } else {
+                player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
                 if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
                     player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
             }
-            player.handler.removeMessages(VideoPlayerActivity.FADE_OUT)
         }
     }
 
@@ -660,8 +661,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         hudBinding.playerOverlayForward.setOnClickListener(player)
         hudBinding.playerOverlayRewind.setOnLongClickListener(player)
         hudBinding.playerOverlayForward.setOnLongClickListener(player)
-        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player))
-        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player))
+        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player, player.lifecycle))
+        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player, player.lifecycle))
     }
 
     fun updateOrientationIcon() {
@@ -995,8 +996,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     fun rotateBookmarks() {
         if (::bookmarkListDelegate.isInitialized && isBookmarkShown()) {
-            bookmarkListDelegate.hide()
-            showBookmarks()
+            //make sure the rotation is complete and layout is done before resetting the bookmarks' layout
+            hudBinding.progressOverlay.post {
+                bookmarkListDelegate.hide()
+                showBookmarks()
+            }
         }
     }
 

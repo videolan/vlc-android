@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
@@ -429,6 +428,7 @@ object MediaUtils {
         private fun dismiss() {
             try {
                 if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
+                actor.close()
             } catch (ignored: IllegalArgumentException) {}
         }
     }

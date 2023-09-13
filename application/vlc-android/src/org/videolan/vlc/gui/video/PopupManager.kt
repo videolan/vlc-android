@@ -25,11 +25,16 @@
 package org.videolan.vlc.gui.video
 
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
-import android.view.*
+import android.view.GestureDetector
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.SurfaceView
+import android.view.View
 import android.widget.ImageView
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GestureDetectorCompat
@@ -40,8 +45,13 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
+import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
-import org.videolan.tools.*
+import org.videolan.tools.POPUP_KEEPSCREEN
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_RESUME_TIME
+import org.videolan.tools.VIDEO_RESUME_URI
+import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
@@ -127,13 +137,14 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         return false
     }
 
-    override fun onScroll(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
+
+    override fun onScroll(p0: MotionEvent?, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         return false
     }
 
     override fun onLongPress(e: MotionEvent) {}
 
-    override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
         if (abs(velocityX) > FLING_STOP_VELOCITY || velocityY > FLING_STOP_VELOCITY) {
             stopPlayback()
             return true
@@ -261,7 +272,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
         else
             builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
         builder.addAction(R.drawable.ic_popup_fullscreen, service.getString(R.string.popup_expand), piExpand)
-        service.startForeground(42, builder.build())
+        service.startForegroundCompat(42, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
     }
 
     private fun hideNotification() {

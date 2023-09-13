@@ -231,6 +231,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.providers[currentTab].sort = sort.first
                 viewModel.providers[currentTab].desc = sort.second
+                viewModel.providers[currentTab].saveSort()
                 viewModel.refresh()
             }
         }
@@ -272,7 +273,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             startActivity(i)
         } else {
             if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
-            MediaUtils.openMedia(v.context, item as MediaWrapper)
+            if (Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, false))
+                MediaUtils.playAll(activity, viewModel.tracksProvider, position, false)
+            else
+                MediaUtils.openMedia(v.context, item as MediaWrapper)
         }
     }
 

@@ -136,12 +136,12 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             i.putExtra("fragment", SecondaryActivity.STREAMS)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        streamsViewModel.dataset.observe(requireActivity()) {
+        streamsViewModel.dataset.observe(viewLifecycleOwner) {
             streamsAdapter.update(it)
             streamsEntry.loading.state = EmptyLoadingState.NONE
 
         }
-        streamsViewModel.loading.observe(requireActivity()) {
+        streamsViewModel.loading.observe(viewLifecycleOwner) {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
                 (activity as? MainActivity)?.refreshing = it

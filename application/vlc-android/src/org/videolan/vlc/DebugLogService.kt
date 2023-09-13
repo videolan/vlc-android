@@ -27,6 +27,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.ServiceInfo
 import android.os.*
 import android.text.format.DateFormat
 import android.util.Log
@@ -36,6 +37,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
@@ -138,7 +140,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         builder.setSmallIcon(R.drawable.ic_stat_vlc)
         builder.setContentIntent(pi)
         val notification = builder.build()
-        startForeground(3, notification)
+        startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
     }
 
     @Synchronized

@@ -27,7 +27,7 @@
                 android:id="@+id/toolbar_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@drawable/icon" />
+                app:srcCompat="@drawable/ic_incognito" />
 
         <TextView
                 android:id="@+id/toolbar_vlc_title"

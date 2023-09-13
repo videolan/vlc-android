@@ -59,7 +59,7 @@ import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getPendingIntent
 import org.videolan.vlc.widget.utils.*
-import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetTypeFromSize
+import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.shouldShowSeek
 import java.util.*
 
@@ -140,7 +140,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
      * @param previewPalette if this is for a preview, the [Palette] to use
      * @return the [RemoteViews] to send to the app widget host
      */
-    suspend fun layoutWidget(context: Context, appWidgetId: Int, intent: Intent, forPreview: Boolean = false, previewBitmap: Bitmap? = null, previewPalette: Palette? = null): RemoteViews? {
+    suspend fun layoutWidget(context: Context, appWidgetId: Int, intent: Intent, forPreview: Boolean = false, previewBitmap: Bitmap? = null, previewPalette: Palette? = null, previewPlaying:Boolean = false): RemoteViews? {
 
         val partial = ACTION_WIDGET_INIT != intent.action
         log(appWidgetId, WidgetLogType.INFO, "layoutWidget widget id $appWidgetId / partial: $partial / action = ${intent.action}")
@@ -161,13 +161,13 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 //        val secondaryBackgroundColor = widgetCacheEntry.widget.getBackgroundColor(context, palette = palette, secondary = true)
 
         val service = PlaybackService.serviceFlow.value
-        val playing = service?.isPlaying == true || forPreview
+        val playing = (service?.isPlaying == true && !forPreview) || previewPlaying
         val colorChanged = !partial || widgetCacheEntry.foregroundColor != foregroundColor || (widgetCacheEntry.widget.theme == 1 && widgetCacheEntry.playing != playing)
         widgetCacheEntry.foregroundColor = foregroundColor
 
 
         //determine layout
-        val oldType = getWidgetTypeFromSize(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
+        val oldType = getWidgetType(widgetCacheEntry.widget)
 
         val size = WidgetSizeUtil.getWidgetsSize(context, appWidgetId)
         if (size.first != 0 && size.second != 0 && (widgetCacheEntry.widget.width != size.first || widgetCacheEntry.widget.height != size.second)) {
@@ -183,7 +183,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             Pair(widgetCacheEntry.widget.width, widgetCacheEntry.widget.height)
         } else size
         log(appWidgetId, WidgetLogType.INFO, "New widget size by provider: ${correctedSize.first} / ${correctedSize.second} // ratio = ${correctedSize.first.toFloat() / correctedSize.second}")
-        val widgetType = getWidgetTypeFromSize(correctedSize.first, correctedSize.second)
+        val widgetType = getWidgetType(widgetCacheEntry.widget)
 
 
         val views = RemoteViews(context.packageName, widgetType.layout)
@@ -258,10 +258,21 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         val settings = Settings.getInstance(context)
 
         if (!forPreview) widgetCacheEntry.currentMedia = service?.currentMediaWrapper
-        if (!playing)
-            setupTexts(context, views, widgetType, settings.getString(KEY_CURRENT_AUDIO_RESUME_TITLE, context.getString(R.string.widget_default_text)), settings.getString(KEY_CURRENT_AUDIO_RESUME_ARTIST, ""))
-        else
-            setupTexts(context, views, widgetType, service?.title ?: widgetCacheEntry.currentMedia?.title, service?.artist ?: widgetCacheEntry.currentMedia?.artist)
+        val title = when {
+            forPreview -> if (!previewPlaying)context.getString(R.string.widget_default_text) else widgetCacheEntry.currentMedia?.title
+            playing -> service?.title ?: widgetCacheEntry.currentMedia?.title
+            else -> settings.getString(
+                KEY_CURRENT_AUDIO_RESUME_TITLE,
+                context.getString(R.string.widget_default_text)
+            )
+        }
+
+        val artist = when {
+            forPreview -> widgetCacheEntry.currentMedia?.artist
+            playing -> service?.artist ?: widgetCacheEntry.currentMedia?.artist
+            else -> settings.getString(KEY_CURRENT_AUDIO_RESUME_ARTIST, "")
+        }
+        setupTexts(context, views, widgetType, title, artist)
 
         if (widgetCacheEntry.playing != playing || colorChanged) views.setImageViewBitmap(R.id.play_pause, context.getColoredBitmapFromColor(getPlayPauseImage(playing, widgetType), foregroundColor))
         views.setContentDescription(R.id.play_pause, context.getString(if (!playing) R.string.resume_playback_short_title else R.string.pause))
@@ -280,7 +291,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         views.setInt(R.id.separator, "setBackgroundColor", widgetCacheEntry.widget.getSeparatorColor(context))
         views.setInt(R.id.separator, "setImageAlpha", (widgetCacheEntry.widget.opacity.toFloat() * 255 / 100).toInt())
 
-        if (forPreview) widgetCacheEntry.currentCover = "fake"
+        if (forPreview && previewPlaying) widgetCacheEntry.currentCover = "fake"
         if (forPreview) {
             displayCover(context, views, true, widgetType, widgetCacheEntry)
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
@@ -440,7 +451,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 true,
                 false,
                 0,
-                true
+                true,
+                1683711438317L
         )
     }
 

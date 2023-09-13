@@ -4,6 +4,14 @@
 
     <item
             android:orderInCategory="0"
+            android:id="@+id/pin_relocked"
+            android:icon="@drawable/ic_am_pin_lock"
+            android:title="@string/lock_with_pin"
+            vlc:showAsAction="always"
+            android:visible="false"/>
+
+    <item
+            android:orderInCategory="0"
             android:id="@+id/play_all"
             android:icon="@drawable/ic_am_play"
             android:title="@string/play_all"
@@ -47,6 +55,13 @@
             android:title="@string/display_settings"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/incognito_mode"
+            android:title="@string/incognito_mode"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:visible="true"/>
     <item
             android:orderInCategory="3"
             android:id="@+id/ml_menu_display_list"
@@ -151,6 +166,15 @@
             android:title="@string/add_server_favorite"
             vlc:showAsAction="never"
             android:visible="false"/>
+
+    <item
+            android:orderInCategory="4"
+            android:id="@+id/pin_unlock"
+            android:icon="@drawable/ic_am_pin_unlock"
+            android:title="@string/unlock_with_pin"
+            vlc:showAsAction="never"
+            android:visible="false"/>
+
     <item
             android:orderInCategory="4"
             android:id="@+id/ml_menu_refresh"

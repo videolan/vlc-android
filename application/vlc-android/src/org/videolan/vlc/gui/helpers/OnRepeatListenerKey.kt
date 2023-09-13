@@ -24,14 +24,10 @@
 
 package org.videolan.vlc.gui.helpers
 
-import android.os.Message
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
-
-import org.videolan.tools.WeakHandler
-import org.videolan.vlc.BuildConfig
+import androidx.lifecycle.Lifecycle
 
 /**
  *
@@ -39,13 +35,13 @@ import org.videolan.vlc.BuildConfig
  * @param normalInterval Normal interval in millis
  * @param clickListener The OnClickListener to trigger
  */
-class OnRepeatListenerKey(private val initialInterval: Int, private val normalInterval: Int, private val speedUpDelay: Int, private val clickListener: View.OnClickListener) : View.OnKeyListener, OnRepeatListener(initialInterval, normalInterval, speedUpDelay, clickListener) {
+class OnRepeatListenerKey(private val initialInterval: Int, private val normalInterval: Int, speedUpDelay: Int, private val clickListener: View.OnClickListener, listenerLifecycle: Lifecycle) : View.OnKeyListener, OnRepeatListener(initialInterval, normalInterval, speedUpDelay, clickListener, listenerLifecycle) {
 
     /**
      *
      * @param clickListener The OnClickListener to trigger
      */
-    constructor(clickListener: View.OnClickListener) : this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, DEFAULT_SPEEDUP_DELAY, clickListener)
+    constructor(clickListener: View.OnClickListener, listenerLifecycle: Lifecycle) : this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, DEFAULT_SPEEDUP_DELAY, clickListener, listenerLifecycle)
 
     override fun onKey(view: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (view == null || event == null) return false

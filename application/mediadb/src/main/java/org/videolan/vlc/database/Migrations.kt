@@ -230,6 +230,30 @@ val migration_32_33 = object:Migration(32, 33) {
     }
 }
 
+val migration_33_34 = object:Migration(33, 34) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE $WIDGET_TABLE_NAME ADD COLUMN type INTEGER NOT NULL DEFAULT 0;")
+    }
+}
+
+val migration_34_35 = object:Migration(34, 35) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        val slavesTableNameTemp =  "${SLAVES_TABLE_NAME}_TEMP"
+        database.execSQL("CREATE TABLE IF NOT EXISTS $slavesTableNameTemp (" +
+                "slave_media_mrl TEXT NOT NULL, " +
+                "slave_type INTEGER NOT NULL, " +
+                "slave_priority INTEGER NOT NULL, " +
+                "slave_uri TEXT NOT NULL, " +
+                "PRIMARY KEY (slave_media_mrl, slave_uri));")
+
+        database.execSQL("INSERT INTO $slavesTableNameTemp(slave_media_mrl, slave_type, slave_priority, slave_uri) SELECT slave_media_mrl, slave_type, slave_priority, slave_uri FROM $SLAVES_TABLE_NAME")
+
+        database.execSQL("DROP TABLE $SLAVES_TABLE_NAME")
+        database.execSQL("ALTER TABLE $slavesTableNameTemp RENAME TO $SLAVES_TABLE_NAME")
+
+    }
+}
+
 @OptIn(DelicateCoroutinesApi::class)
 fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,

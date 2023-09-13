@@ -34,8 +34,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.videolan.medialibrary.EventTools;
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.SingleEvent;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
@@ -117,14 +117,8 @@ abstract public class Medialibrary {
     protected final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
     protected final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
     private MedialibraryExceptionHandler mExceptionHandler;
-    protected static Context sContext;
-    public static final LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
 
     protected static final Medialibrary instance = MLServiceLocator.getAbstractMedialibrary();
-
-    public static Context getContext() {
-        return sContext;
-    }
 
     public static LiveData<Boolean> getState() {
         return sRunning;
@@ -587,7 +581,7 @@ abstract public class Medialibrary {
     //    public static LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
     @SuppressWarnings({"unused", "unchecked"})
     public void onMediaThumbnailReady(MediaWrapper media, boolean success) {
-        if (success) ((MutableLiveData<MediaWrapper>)lastThumb).postValue(media);
+        if (success) ((MutableLiveData<MediaWrapper>) EventTools.getInstance().lastThumb).postValue(media);
     }
 
     public void addMediaCb(MediaCb mediaUpdatedCb) {

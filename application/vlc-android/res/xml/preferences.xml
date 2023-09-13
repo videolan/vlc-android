@@ -86,6 +86,12 @@
         <Preference
                 android:title="@string/casting_category"
                 android:key="casting_category"/>
+
+        <PreferenceScreen
+                android:key="parental_control"
+                android:singleLine="false"
+                android:fragment="org.videolan.television.ui.preferences.PreferencesParentalControl"
+                android:title="@string/parental_control"/>
         <Preference
                 android:title="@string/advanced_prefs_category"
                 android:key="adv_category"

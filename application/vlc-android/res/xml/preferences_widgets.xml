@@ -36,6 +36,13 @@
                 android:entryValues="@array/widget_themes_values"
                 android:summary="%s"
                 android:title="@string/widget_theme"/>
+        <ListPreference
+                android:key="widget_type"
+                android:defaultValue="0"
+                android:entries="@array/widget_type_entries"
+                android:entryValues="@array/widget_type_values"
+                android:summary="%s"
+                android:title="@string/widget_type"/>
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:key="widget_light_theme"

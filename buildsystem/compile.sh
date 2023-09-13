@@ -240,9 +240,11 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
-    GRADLE_VERSION=7.4
-    GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
+    GRADLE_VERSION=8.2
+    GRADLE_SHA256=38f66cd6eef217b4c35855bb11ea4e9fbc53594ccccb5fb82dfd317ef8c2c5a3
+    GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
+    echo $GRADLE_SHA256 gradle-${GRADLE_VERSION}-bin.zip | sha256sum -c || fail "gradle: hash mismatch"
 
     unzip -o gradle-${GRADLE_VERSION}-bin.zip || fail "gradle: unzip failed"
 
@@ -259,9 +261,9 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=94fab2637b0c78eaf11490247afcf8df0ea10cfa
+    LIBVLCJNI_TESTED_HASH=dabff02447615420e15d71852ecf74de982d18af
 else
-    LIBVLCJNI_TESTED_HASH=6691a43c73df3abe3e30bda139c6a7b4d1adda87
+    LIBVLCJNI_TESTED_HASH=13d22717b6af57fe1e4fe43e2250c30cffd77e3d
 fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
 
@@ -298,7 +300,7 @@ if [ -z "$VLC_SRC_DIR" ]; then
         get_vlc_args="${get_vlc_args} --reset"
     fi
 
-    ${VLC_LIBJNI_PATH}/buildsystem/get-vlc.sh ${get_vlc_args}
+    (cd ${VLC_LIBJNI_PATH} && ./buildsystem/get-vlc.sh ${get_vlc_args})
 fi
 
 # Always clone VLC when using --init since we'll need to package some files

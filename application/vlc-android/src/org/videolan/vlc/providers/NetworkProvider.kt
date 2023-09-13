@@ -80,7 +80,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         return super.stop()
     }
 
-    override fun onChanged(favs: List<MediaWrapper>?) {
+    override fun onChanged(favs: List<MediaWrapper>) {
         val data = dataset.value.toMutableList()
         data.listIterator().run {
             while (hasNext()) {

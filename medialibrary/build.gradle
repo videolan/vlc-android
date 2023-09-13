@@ -28,6 +28,7 @@ ext {
     library_version = "$rootProject.ext.medialibraryVersion"
 }
 android {
+    namespace 'org.videolan.medialibrary'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -73,6 +74,10 @@ android {
 
     dataBinding {
         enabled = true
+    }
+    buildFeatures {
+        renderScript true
+        aidl true
     }
 
     // Make per-variant version code

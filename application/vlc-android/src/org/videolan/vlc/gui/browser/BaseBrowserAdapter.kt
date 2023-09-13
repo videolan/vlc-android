@@ -25,8 +25,6 @@ package org.videolan.vlc.gui.browser
 import android.annotation.TargetApi
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,9 +50,11 @@ import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
 import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.view.FastScroller
+import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.getDescriptionSpan
 
-open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem>, FastScroller.SeparatedAdapter {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -73,9 +73,10 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     internal var mediaCount = 0
     private var networkRoot = false
     private var specialIcons = false
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
 
     val diffCallback = BrowserDiffCallback()
+
+    private var scheduler: LifecycleAwareScheduler? = null
 
     fun changeSort(sort:Int, asc:Boolean) {
         diffCallback.oldSort = diffCallback.newSort
@@ -120,11 +121,11 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        scheduler?.cancelAction(MARQUEE_ACTION)
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
@@ -172,7 +173,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
-        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        scheduler?.cancelAction(MARQUEE_ACTION)
         super.onViewRecycled(holder)
         holder.titleView?.isSelected = false
     }
@@ -378,4 +379,6 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
         override fun areItemsTheSame(oldItemPosition : Int, newItemPosition : Int) = oldList[oldItemPosition] == newList[newItemPosition]
     }
+
+    override fun hasSections() = false
 }

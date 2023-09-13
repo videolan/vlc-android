@@ -76,13 +76,13 @@
     <dimen name="player_peek_height">72dp</dimen>
 
     <!-- fast scroller -->
-    <dimen name="fastscroller_handle_corner">20dp</dimen>
+    <dimen name="fastscroller_handle_corner">25dp</dimen>
     <dimen name="fastscroller_handle_size">50dp</dimen>
     <dimen name="fastscroller_handle_text_size">30dp</dimen>
-    <dimen name="fastscroller_reack_corner">3dp</dimen>
-    <dimen name="fastscroller_track_height">30dp</dimen>
-    <dimen name="fastscroller_track_width">6dp</dimen>
-    <dimen name="fastscroller_track_padding">5dp</dimen>
+    <dimen name="fastscroller_reack_corner">6dp</dimen>
+    <dimen name="fastscroller_track_height">52dp</dimen>
+    <dimen name="fastscroller_track_width">8dp</dimen>
+    <dimen name="fastscroller_track_padding">4dp</dimen>
     <dimen name="audio_player_cover_margin">8dp</dimen>
     <dimen name="audio_player_elevation">8dp</dimen>
     <dimen name="dialog_sd_wisard_width">320dp</dimen>

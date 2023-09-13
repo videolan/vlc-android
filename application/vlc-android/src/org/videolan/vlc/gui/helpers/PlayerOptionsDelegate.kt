@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.window.layout.FoldingFeature
@@ -36,6 +37,8 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
+import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.util.getScreenHeight
@@ -63,8 +66,10 @@ private const val ID_VIDEO_STATS = 15L
 private const val ID_SHOW_VIDEO_TIPS = 16L
 private const val ID_SHOW_AUDIO_TIPS = 17L
 private const val ID_SHOW_PLAYLIST_TIPS = 18L
-private const val ID_VIDEO_CONTROLS_SETTING = 19L
-private const val ID_AUDIO_CONTROLS_SETTING = 20L
+private const val ID_VIDEO_CONTROL_SETTING = 19L
+private const val ID_AUDIO_CONTROL_SETTING = 20L
+private const val ID_SAFE_MODE_LOCK = 21L
+private const val ID_SAFE_MODE_UNLOCK = 22L
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
 
@@ -112,14 +117,18 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.drawable.ic_addtoplaylist, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") != "2")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
-        if (video)
-            options.add(PlayerOption(ID_VIDEO_CONTROLS_SETTING, R.drawable.ic_video_controls, res.getString(R.string.controls_setting)))
+
+        if (video) {
+            if (PinCodeDelegate.pinUnlocked.value == true) options.add(PlayerOption(ID_SAFE_MODE_LOCK, R.drawable.ic_pin_lock, res.getString(R.string.lock_with_pin)))
+            if (Settings.safeMode && PinCodeDelegate.pinUnlocked.value == false) options.add(PlayerOption(ID_SAFE_MODE_UNLOCK, R.drawable.ic_pin_unlock, res.getString(R.string.unlock_with_pin)))
+            options.add(PlayerOption(ID_VIDEO_CONTROL_SETTING, R.drawable.ic_video_controls, res.getString(R.string.control_setting)))
+        }
 
         if (!Settings.showTvUi) {
             if (video) {
                 options.add(PlayerOption(ID_SHOW_VIDEO_TIPS, R.drawable.ic_videotips, res.getString(R.string.tips_title)))
             } else {
-                options.add(PlayerOption(ID_AUDIO_CONTROLS_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.controls_setting)))
+                options.add(PlayerOption(ID_AUDIO_CONTROL_SETTING, R.drawable.ic_audio_controls, res.getString(R.string.control_setting)))
                 options.add(PlayerOption(ID_SHOW_AUDIO_TIPS, R.drawable.ic_audiotips, res.getString(R.string.audio_player_tips)))
                 options.add(PlayerOption(ID_SHOW_PLAYLIST_TIPS, R.drawable.ic_playlisttips, res.getString(R.string.playlist_tips)))
             }
@@ -235,15 +244,26 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 hide()
                 bookmarkClickedListener.invoke()
             }
-            ID_VIDEO_CONTROLS_SETTING -> {
+            ID_VIDEO_CONTROL_SETTING -> {
                 hide()
                 val videoControlsSettingsDialog = VideoControlsSettingsDialog()
                 videoControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_video_controls_settings")
             }
-            ID_AUDIO_CONTROLS_SETTING -> {
+            ID_AUDIO_CONTROL_SETTING -> {
                 hide()
                 val audioControlsSettingsDialog = AudioControlsSettingsDialog()
                 audioControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_audio_controls_settings")
+            }
+            ID_SAFE_MODE_LOCK -> {
+                hide()
+                PinCodeDelegate.pinUnlocked.postValue(false)
+                (activity as? VideoPlayerActivity)?.overlayDelegate?.showOverlay()
+                UiTools.snacker(activity, R.string.safe_mode_enabled)
+            }
+
+            ID_SAFE_MODE_UNLOCK -> {
+                hide()
+                activity.lifecycleScope.launch { activity.checkPIN(true) }
             }
             else -> showFragment(option.id)
         }

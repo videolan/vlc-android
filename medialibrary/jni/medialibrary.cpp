@@ -1857,6 +1857,8 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
         catch( const medialibrary::fs::errors::DeviceRemoved& )
         {
             // Ignore this folder since it's on a removed device.
+            auto item = convertFolderObject(env, &ml_fields, folder, 0);
+            env->SetObjectArrayElement(foldersRefs, ++index, item.get());
         }
     }
     return foldersRefs;
@@ -2820,7 +2822,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaWrapper.initID,
            ml_fields.MediaWrapper.clazz,
-           "<init>", "(JLjava/lang/String;JFJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZZIZ)V");
+           "<init>", "(JLjava/lang/String;JFJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZZIZJ)V");
 
     GET_CLASS(ml_fields.HistoryItem.clazz,
               "org/videolan/medialibrary/media/HistoryItem", true);

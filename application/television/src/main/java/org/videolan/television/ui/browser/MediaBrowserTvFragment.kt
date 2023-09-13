@@ -16,6 +16,7 @@ import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.viewmodel.MediaBrowserViewModel
 import org.videolan.television.viewmodel.getMediaBrowserModel
+import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
 import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
@@ -99,6 +100,8 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         lifecycleScope.launchWhenStarted {
             if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI)) {
+                TvUtil.playMedia(requireActivity(), item as MediaWrapper)
+            } else if ((viewModel as MediaBrowserViewModel).category == CATEGORY_SONGS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, Settings.tvUI)) {
                 TvUtil.playMedia(requireActivity(), item as MediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)

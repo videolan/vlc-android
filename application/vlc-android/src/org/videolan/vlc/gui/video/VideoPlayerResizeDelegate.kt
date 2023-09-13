@@ -24,8 +24,6 @@
 
 package org.videolan.vlc.gui.video
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,10 +39,19 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.tools.*
+import org.videolan.tools.ALLOW_FOLD_AUTO_LAYOUT
+import org.videolan.tools.AppScope
+import org.videolan.tools.DISPLAY_UNDER_NOTCH
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_RATIO
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
+import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
     private val overlayDelegate: VideoPlayerOverlayDelegate
@@ -201,7 +208,7 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
             notifyItemChanged(field)
         }
     lateinit var sizeSelectedListener: (MediaPlayer.ScaleType) -> Unit
-    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler(Looper.getMainLooper()) }
+    private var scheduler: LifecycleAwareScheduler? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -221,7 +228,12 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+        if (Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        scheduler?.cancelAction(MARQUEE_ACTION)
+        super.onViewRecycled(holder)
     }
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="video_category"
+        android:title="@string/video_prefs_category">
+
+    <PreferenceScreen
+            android:key="modify_pin_code"
+            android:title="@string/pin_code_reason_modify"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="restrict_settings"
+            android:title="@string/restrict_settings"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="safe_mode"
+            android:summary="@string/safe_mode_summary"
+            android:title="@string/safe_mode"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+
+</androidx.preference.PreferenceScreen>

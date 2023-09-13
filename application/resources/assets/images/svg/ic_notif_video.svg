@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="24"
    height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="ic_notif_video.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-ydpi="90"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4684" />
   <sodipodi:namedview
@@ -27,16 +27,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.4"
-     inkscape:cx="-0.89996041"
-     inkscape:cy="4.6296531"
+     inkscape:zoom="15.839192"
+     inkscape:cx="3.5355339"
+     inkscape:cy="13.037281"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true"
      inkscape:snap-bbox="true"
@@ -50,7 +50,8 @@
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-midpoints="true"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true">
+     inkscape:snap-center="true"
+     inkscape:pagecheckerboard="1">
     <inkscape:grid
        type="xygrid"
        id="grid3002" />
@@ -63,7 +64,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -73,9 +73,9 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="fill:#ffffff;fill-opacity:1"
-       d="m 10.36719,1032.3641 c -0.19,0 -0.4025899,0.023 -0.5546899,0.1367 -0.3008,0.2252 -0.42166,0.5865 -0.68359,1.3672 -0.26193,0.7807 -0.27344,0.8203 -0.27344,0.8203 0.79082,0.3954 1.4255299,0.5264 2.1445299,0.3457 l 0,-2.4511 c -0.0273,-0.026 -0.0493,-0.059 -0.0801,-0.082 -0.15112,-0.1152 -0.36273,-0.1368 -0.55273,-0.1368 z m 2.63281,0 0,5.6875 0,3.4316 0,3.7247 0,3.1543 0,0 4.01562,0 1.48438,0 0,-2 2,0 0,2 1.5,0 0,-16 -1.5,0 0,2 -2,0 0,-2 -5.5,0 z m 5.5,3.5 2,0 0,2 -2,0 0,-2 z m -10.6015599,1.6953 -1.09375,3.2832 -0.002,0.01 c 0.005,-10e-4 0.009,0 0.0137,0 1.19627,1.0368 2.71594,1.4497 4.1835899,1.2774 l 0,-3.6973 c -1.0359599,0.1999 -2.0681699,-0.09 -3.1015599,-0.8652 z M 18.5,1039.3641 l 2,0 0,2 -2,0 0,-2 z m -13.3964799,3.1191 c -0.36363,0 -0.70233,0.2744 -0.8086,0.6368 l -0.63672,2.1679 c -0.20814,0.7112 -0.41394,1.416 -0.62304,2.1309 -0.0875,0.2988 -5.4e-4,0.52 0.14062,0.6719 0.0874,0.094 0.19556,0.1617 0.29492,0.207 0.0994,0.044 0.16777,0.066 0.2461,0.066 0.1826,0 3.37166,0 6.6503899,0 0.31207,0 0.32489,0 0.63281,0 l 0,-2.7344 c -0.10641,0.01 -0.20951,0.031 -0.31641,0.035 -1.7772699,0.068 -3.5878799,-0.4572 -4.6894499,-1.5351 -0.20629,-0.2019 -0.13681,-0.4101 0,-0.8204 0.0912,-0.2734 0.26367,-0.8242 0.26367,-0.8242 l -1.15429,0 z M 18.5,1042.8641 l 2,0 0,2 -2,0 0,-2 z"
        id="path6909"
-       inkscape:connector-curvature="0" />
+       style="fill:#000000;fill-opacity:1;stroke-width:0.999998"
+       d="M 10.289062 3 C 10.075363 3 9.8352625 3.0264969 9.6640625 3.1542969 C 9.3258625 3.4076969 9.1909844 3.8131062 8.8964844 4.6914062 C 8.6018844 5.5698063 8.5878906 5.6152344 8.5878906 5.6152344 C 9.4772906 6.0600344 10.1914 6.2072063 11 6.0039062 L 11 3.2460938 C 10.97 3.2170938 10.945156 3.1802969 10.910156 3.1542969 C 10.740156 3.0246969 10.502763 3 10.289062 3 z M 13 3 L 13 21 L 17 21 C 17.55 21 18 20.55 18 20 L 18 19 L 20 19 L 20 20 C 20 20.55 20.45 21 21 21 C 21.55 21 22 20.55 22 20 L 22 4 C 22 3.45 21.55 3 21 3 C 20.45 3 20 3.45 20 4 L 20 5 L 18 5 L 18 4 C 18 3.45 17.55 3 17 3 L 13 3 z M 18 7 L 20 7 L 20 9 L 18 9 L 18 7 z M 7.5117188 8.8457031 L 6.28125 12.539062 L 6.28125 12.548828 C 6.29225 12.547828 6.2938281 12.548828 6.2988281 12.548828 C 7.6443281 13.715228 9.3513531 14.180128 11.001953 13.986328 L 11.001953 9.828125 C 9.8369531 10.053025 8.677725 9.7257156 7.515625 8.8535156 L 7.5117188 8.8457031 z M 18 11 L 20 11 L 20 13 L 18 13 L 18 11 z M 4.3691406 14.384766 C 3.9602406 14.384766 3.5784844 14.693863 3.4589844 15.101562 L 2.7441406 17.539062 C 2.5103406 18.339162 2.2780688 19.1332 2.0429688 19.9375 C 1.9439688 20.2737 2.0423719 20.522459 2.2011719 20.693359 C 2.2991719 20.799159 2.4216031 20.874781 2.5332031 20.925781 C 2.6446031 20.975781 2.7204937 21 2.8085938 21 L 10.289062 21 L 11 21 L 11 17.923828 C 10.8806 17.934828 10.764831 17.958891 10.644531 17.962891 C 8.6458313 18.039891 6.6099937 17.449028 5.3710938 16.236328 C 5.1391938 16.009228 5.2171937 15.7741 5.3710938 15.3125 C 5.4733937 15.005 5.6679687 14.384766 5.6679688 14.384766 L 4.3691406 14.384766 z M 18 15 L 20 15 L 20 17 L 18 17 L 18 15 z "
+       transform="translate(0,1028.3622)" />
   </g>
 </svg>

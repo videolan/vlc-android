@@ -373,6 +373,8 @@ object FileUtils {
                     CloseableUtils.close(os)
                     CloseableUtils.close(cursor)
                 }
+            } else if (data.host == "com.amaze.filemanager" && data.path != null) {
+                uri = Uri.parse(data.path!!.replace("/storage_root", "file://"))
             } else if (data.authority == "media") {
                 uri = MediaUtils.getContentMediaUri(data)
             } else if (data.authority == ctx.getString(R.string.tv_provider_authority)) {
@@ -380,6 +382,9 @@ object FileUtils {
                 val media = medialibrary.getMedia(data.lastPathSegment!!.toLong())
                 uri = media.uri
             } else {
+                uri = MediaUtils.getContentMediaUri(data)
+                if (uri != null && uri != data)
+                    return uri
                 val inputPFD: ParcelFileDescriptor?
                 try {
                     inputPFD = ctx.contentResolver.openFileDescriptor(data, "r")
@@ -564,7 +569,7 @@ fun String.encodeMrlWithTrailingSlash():String {
 }
 
 fun Uri?.isSoundFont():Boolean {
-    this?.lastPathSegment?.let { lastPathSegment ->
+    this?.lastPathSegment?.lowercase()?.let { lastPathSegment ->
         FileUtils.getSoundFontExtensions().forEach {
             if (lastPathSegment.endsWith(it)) return true
         }

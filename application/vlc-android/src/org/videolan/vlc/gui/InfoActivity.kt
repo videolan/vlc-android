@@ -266,17 +266,11 @@ class InfoModel : ViewModel() {
             mediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
         }
         if (!isActive) return@launch
-        var subs = false
-        val trackCount = media.getAllTracks().size
-        val tracks = LinkedList<IMedia.Track>()
-        for (i in 0 until trackCount) {
-            val track = media.getAllTracks()[i]
-            tracks.add(track)
-            subs = subs or (track.type == IMedia.Track.Type.Text)
-        }
+        val tracks = media.getAllTracks()
+        val subs = tracks.asReversed().any { it.type == IMedia.Track.Type.Text }
         media.release()
         hasSubs.value = subs
-        mediaTracks.value = tracks.toList()
+        mediaTracks.value = tracks
     }
 
     fun checkFile(mw: MediaWrapper) = viewModelScope.launch {

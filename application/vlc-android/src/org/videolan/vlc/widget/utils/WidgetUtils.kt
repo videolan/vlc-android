@@ -278,17 +278,34 @@ enum class WidgetType(@LayoutRes val layout: Int) {
 
 object WidgetUtils {
     /**
-     * Calculate the [WidgetType] depending on the size
+     * Calculate the [WidgetType] depending on the widget's settings and size
      *
-     * @param width the widget width
-     * @param height the widget height
-     * @return the [WidgetType] for this size
+     * @param widget the widget to check
+     * @returnthe [WidgetType] for this widget
      */
-    fun getWidgetTypeFromSize(width: Int, height: Int) = when {
-        width > 220 && height > 220 -> WidgetType.MACRO
-        width > 220 && height > 72 -> WidgetType.MINI
-        width > 128 && height > 148 -> WidgetType.MICRO
+    fun getWidgetType(widget: Widget) = when {
+
+        widget.type == 1 -> WidgetType.PILL
+        widget.type == 2 -> WidgetType.MINI
+        widget.type == 3 -> WidgetType.MICRO
+        widget.type == 4 -> WidgetType.MACRO
+        widget.width > 220 && widget.height > 220 -> WidgetType.MACRO
+        widget.width > 220 && widget.height > 72 -> WidgetType.MINI
+        widget.width > 128 && widget.height > 148 -> WidgetType.MICRO
         else -> WidgetType.PILL
+    }
+
+    /**
+     * Minimal size for this widget type
+     *
+     * @param type the widget type to check
+     * @return the minimal size
+     */
+    fun getMinimalWidgetSize(type: WidgetType):Pair<Int, Int> = when(type){
+        WidgetType.MACRO -> Pair(220,200)
+        WidgetType.MINI -> Pair(220,72)
+        WidgetType.MICRO -> Pair(128,148)
+        else -> Pair(0,0)
     }
 
     /**

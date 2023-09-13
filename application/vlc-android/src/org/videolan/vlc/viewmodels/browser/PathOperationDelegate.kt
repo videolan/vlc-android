@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Base64
 import androidx.collection.SimpleArrayMap
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 
 interface IPathOperationDelegate {
 
@@ -14,11 +15,18 @@ interface IPathOperationDelegate {
     fun retrieveSafePath(encoded: String): String
     fun setDestination(media: MediaWrapper?)
     fun getAndRemoveDestination(): MediaWrapper?
+    fun setSource(currentItem: MediaLibraryItem?)
+    fun getSource(): MediaLibraryItem?
+    fun consumeSource()
 }
 
 class PathOperationDelegate : IPathOperationDelegate {
     override fun setDestination(media: MediaWrapper?) {
         privateDestination = media
+    }
+
+    override fun setSource(currentItem: MediaLibraryItem?) {
+        privateSource = currentItem
     }
 
     override fun getAndRemoveDestination(): MediaWrapper? {
@@ -27,9 +35,16 @@ class PathOperationDelegate : IPathOperationDelegate {
         return destination
     }
 
+    override fun consumeSource() {
+        privateSource = null
+    }
+
+    override fun getSource() = privateSource
+
     companion object {
         val storages = SimpleArrayMap<String, String>()
         private var privateDestination: MediaWrapper? = null
+        private var privateSource: MediaLibraryItem? = null
     }
 
 

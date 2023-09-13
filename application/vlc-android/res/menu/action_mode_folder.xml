@@ -21,4 +21,14 @@
             android:title="@string/delete"
             android:icon="@drawable/ic_am_trash"
             app:showAsAction="ifRoom" />
+    <item
+        android:orderInCategory="6"
+        android:title="@string/favorites_add"
+        app:showAsAction="never"
+        android:id="@+id/action_mode_favorite_add" />
+    <item
+        android:orderInCategory="6"
+        android:title="@string/favorites_remove"
+        app:showAsAction="never"
+        android:id="@+id/action_mode_favorite_remove" />
 </menu>
