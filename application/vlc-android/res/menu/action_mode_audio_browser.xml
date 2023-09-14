@@ -40,7 +40,7 @@
     <item
         android:id="@+id/action_mode_audio_delete"
         android:title="@string/delete"
-            android:icon="@drawable/ic_am_trash"
+            android:icon="@drawable/ic_delete_toolbar"
         android:visible="false"
             app:showAsAction="ifRoom" />
     <group android:id="@+id/phone_only" >

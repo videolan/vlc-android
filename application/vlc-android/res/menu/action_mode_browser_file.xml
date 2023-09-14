@@ -21,7 +21,7 @@
         android:id="@+id/action_mode_file_delete"
         android:title="@string/delete"
         android:visible="false"
-            android:icon="@drawable/ic_am_trash"
+            android:icon="@drawable/ic_delete_toolbar"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_file_add_playlist"

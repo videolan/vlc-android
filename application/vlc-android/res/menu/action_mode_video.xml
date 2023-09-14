@@ -36,7 +36,7 @@
     <item
         android:id="@+id/action_video_delete"
         android:title="@string/delete"
-            android:icon="@drawable/ic_am_trash"
+            android:icon="@drawable/ic_delete_toolbar"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_video_download_subtitles"
