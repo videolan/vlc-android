@@ -19,13 +19,13 @@
     <item
         android:id="@+id/action_mode_favorite_add"
         android:title="@string/favorites_add"
-            android:icon="@drawable/ic_menu_favorite"
+            android:icon="@drawable/ic_am_favorite"
             app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_mode_favorite_remove"
         android:title="@string/favorites_remove"
-            android:icon="@drawable/ic_menu_favorite_outline"
+            android:icon="@drawable/ic_am_favorite_outline"
             app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mode_audio_append"
