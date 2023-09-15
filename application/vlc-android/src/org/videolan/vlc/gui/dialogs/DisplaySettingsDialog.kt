@@ -184,7 +184,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
      */
     private fun updateDisplayMode() {
         binding.displayInListText.text = getString(if (!displayInCards) R.string.display_in_grid else R.string.display_in_list)
-        binding.displayInListImage.setImageDrawable(ContextCompat.getDrawable(requireActivity(), if (!displayInCards) R.drawable.ic_view_grid else R.drawable.ic_view_list))
+        binding.displayInListImage.setImageDrawable(ContextCompat.getDrawable(requireActivity(), if (!displayInCards) R.drawable.ic_am_view_grid else R.drawable.ic_am_view_list))
     }
 
     /**
