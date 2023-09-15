@@ -213,7 +213,7 @@
     <item
             android:orderInCategory="5"
             android:title="@string/ungroup"
-            android:icon="@drawable/ic_delete_toolbar"
+            android:icon="@drawable/ic_am_delete"
             android:visible="false"
             vlc:showAsAction="ifRoom"
             android:id="@+id/ungroup" />
