@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:paddingBottom="8dp"
             android:visibility="invisible"
             tools:visibility="visible">
 
@@ -210,9 +211,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="playlist_toggle,video_renderer,player_overlay_navmenu,video_secondary_display"
-                tools:layout_editor_absoluteX="411dp"
-                tools:layout_editor_absoluteY="48dp" />
+                app:constraint_referenced_ids="playlist_toggle,video_renderer,player_overlay_navmenu,video_secondary_display"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
