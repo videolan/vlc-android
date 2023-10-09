@@ -214,6 +214,18 @@
                         vlc:layout_constraintStart_toStartOf="parent"
                         vlc:srcCompat="@drawable/ic_emoji_favorite_white" />
 
+                <org.videolan.vlc.gui.view.MiniVisualizer
+                        android:id="@+id/playing"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="8dp"
+                        vlc:bar_color="?attr/mini_visualizer_color"
+                        android:background="@drawable/round_background"
+                        vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
+                        vlc:layout_constraintEnd_toEndOf="parent"
+                        vlc:layout_constraintStart_toStartOf="@+id/media_cover"
+                        vlc:layout_constraintTop_toTopOf="@+id/media_cover" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

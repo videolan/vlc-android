@@ -106,6 +106,16 @@
                 vlc:media="@{item}" />
 
 
+        <org.videolan.vlc.gui.view.MiniVisualizer
+                android:id="@+id/playing"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                vlc:bar_color="?attr/mini_visualizer_color"
+                vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
+                vlc:layout_constraintEnd_toEndOf="@+id/media_cover"
+                vlc:layout_constraintStart_toStartOf="@+id/media_cover"
+                vlc:layout_constraintTop_toTopOf="@+id/media_cover" />
+
         <ImageView
                 android:id="@+id/ml_item_overlay"
                 android:layout_width="0dp"
