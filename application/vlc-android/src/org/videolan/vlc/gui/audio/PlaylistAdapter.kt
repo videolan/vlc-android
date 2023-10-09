@@ -43,6 +43,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.Settings
 import org.videolan.tools.setGone
@@ -141,7 +142,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             holder.binding.cover = defaultCoverAudio
         }
 
-        val tablet = holder.binding.itemDelete.context.isTablet()
+        val tablet = holder.binding.itemDelete.context.isTablet() || AndroidDevices.isTv
         if (tablet) holder.binding.itemDelete.setVisible() else holder.binding.itemDelete.setGone()
         if (tablet) holder.binding.itemMoveDown.setVisible() else holder.binding.itemMoveDown.setGone()
         if (tablet) holder.binding.itemMoveUp.setVisible() else holder.binding.itemMoveUp.setGone()

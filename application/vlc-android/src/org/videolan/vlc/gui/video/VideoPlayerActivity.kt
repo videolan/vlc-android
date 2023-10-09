@@ -105,6 +105,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
@@ -1728,6 +1729,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
         if (position == service?.playlistManager?.stopAfter) {
             popupMenu.menu.findItem(R.id.stop_after).isChecked = true
+        }
+        if (isTablet() || AndroidDevices.isTv) {
+            popupMenu.menu.removeGroup(R.id.phone_only)
         }
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { curentItem ->

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/audio_player_mini_remove"
-        android:title="@string/remove" />
     <group android:id="@+id/phone_only" >
+        <item
+                android:id="@+id/audio_player_mini_remove"
+                android:title="@string/remove" />
         <item
             android:id="@+id/audio_player_set_song"
             android:title="@string/set_song"/>
