@@ -1725,7 +1725,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.audio_player, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { curentItem ->
             if (curentItem.itemId == R.id.audio_player_mini_remove) service?.run {
