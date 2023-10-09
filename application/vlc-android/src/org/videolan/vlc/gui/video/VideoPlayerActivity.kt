@@ -1726,11 +1726,20 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
+        if (position == service?.playlistManager?.stopAfter) {
+            popupMenu.menu.findItem(R.id.stop_after).isChecked = true
+        }
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { curentItem ->
-            if (curentItem.itemId == R.id.audio_player_mini_remove) service?.run {
-                remove(position)
-                return@OnMenuItemClickListener true
+            when (curentItem.itemId) {
+                R.id.audio_player_mini_remove -> service?.run {
+                    remove(position)
+                    return@OnMenuItemClickListener true
+                }
+                R.id.stop_after -> {
+                    playlistModel?.stopAfter(position)
+                    curentItem.isChecked = true
+                }
             }
             false
         })
