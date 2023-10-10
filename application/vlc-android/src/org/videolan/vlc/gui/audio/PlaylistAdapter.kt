@@ -152,6 +152,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         marqueeScheduler?.cancelAction("")
+        currentPlayingVisu?.stop()
         currentPlayingVisu = null
     }
 
