@@ -129,6 +129,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
         holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
         holder.binding.stopAfter.visibility = if (stopAfter == position) View.VISIBLE else View.GONE
+        holder.binding.stopAfterThis = (position == stopAfter)
         if (currentIndex == position) {
             if (model?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE

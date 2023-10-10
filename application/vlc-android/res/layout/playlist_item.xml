@@ -32,6 +32,10 @@
                 type="android.widget.ImageView.ScaleType" />
 
         <variable
+                name="stopAfterThis"
+                type="java.lang.Boolean" />
+
+        <variable
                 name="masked"
                 type="java.lang.Boolean" />
 
@@ -136,7 +140,7 @@
                 android:text="@{subTitle}"
                 android:textColor="?attr/font_audio_light"
                 android:textSize="12sp"
-                android:visibility="@{TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE}"
+                android:visibility="@{TextUtils.isEmpty(subTitle) &amp;&amp; !stopAfterThis  ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/stop_after"
                 app:layout_constraintHorizontal_bias="0.5"
