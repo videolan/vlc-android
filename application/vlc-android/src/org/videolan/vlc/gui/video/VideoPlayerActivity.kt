@@ -1727,9 +1727,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
-        if (position == service?.playlistManager?.stopAfter) {
-            popupMenu.menu.findItem(R.id.stop_after).isChecked = true
-        }
         if (isTablet() || AndroidDevices.isTv) {
             popupMenu.menu.removeGroup(R.id.phone_only)
         }
@@ -1741,8 +1738,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return@OnMenuItemClickListener true
                 }
                 R.id.stop_after -> {
-                    playlistModel?.stopAfter(position)
-                    overlayDelegate.playlistAdapter.stopAfter = position
+                    val pos = if (playlistModel?.service?.playlistManager?.stopAfter != position) position else -1
+                    playlistModel?.stopAfter(pos)
+                    overlayDelegate.playlistAdapter.stopAfter = pos
                     curentItem.isChecked = true
                 }
             }

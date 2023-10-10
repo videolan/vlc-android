@@ -10,7 +10,5 @@
     </group>
     <item
             android:id="@+id/stop_after"
-            android:title="@string/stop_after_this"
-            android:checkable="true"
-            android:checked="false"/>
+            android:title="@string/stop_after_this"/>
 </menu>
