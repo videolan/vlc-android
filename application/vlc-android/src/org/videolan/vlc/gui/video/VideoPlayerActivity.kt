@@ -1742,6 +1742,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 R.id.stop_after -> {
                     playlistModel?.stopAfter(position)
+                    overlayDelegate.playlistAdapter.stopAfter = position
                     curentItem.isChecked = true
                 }
             }

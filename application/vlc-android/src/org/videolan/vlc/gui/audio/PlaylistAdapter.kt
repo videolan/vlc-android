@@ -77,6 +77,14 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     private var currentPlayingVisu: MiniVisualizer? = null
     lateinit var scheduler: LifecycleAwareScheduler
     var marqueeScheduler: LifecycleAwareScheduler? = null
+    var stopAfter: Int = -1
+        set(value) {
+            val old = field
+            field = value
+            if (old in 1 until itemCount) notifyItemChanged(old)
+            if (value in 1 until itemCount) notifyItemChanged(value)
+
+        }
 
     init {
         val ctx = when (player) {
@@ -120,6 +128,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         holder.binding.media = media
         holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
         holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
+        holder.binding.stopAfter.visibility = if (stopAfter == position) View.VISIBLE else View.GONE
         if (currentIndex == position) {
             if (model?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
