@@ -336,7 +336,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     }
                     playlistModel.remove(position)
                 }
-                CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
+                CTX_STOP_AFTER_THIS -> {
+                    val pos = if (playlistModel.service?.playlistManager?.stopAfter != position) position else -1
+                    playlistModel.stopAfter(pos)
+                    playlistAdapter.stopAfter = pos
+                }
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
                 CTX_GO_TO_FOLDER -> showParentFolder(playlistAdapter.getItem(position))
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
