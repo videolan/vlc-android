@@ -25,6 +25,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -49,8 +54,11 @@ import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -81,6 +89,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 ?: arguments?.parcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
         viewModel = getViewModel(item!!)
         fromAlbums = savedInstanceState?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM) ?: arguments?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM, false) ?: false
+        PlaylistManager.currentPlayedMedia.observe(this) {
+            songsAdapter.currentMedia = it
+        }
     }
 
     override fun getTitle(): String = viewModel.parent.title
@@ -102,6 +113,12 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
         albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[1]) itemSize else -1)
+        val playlistModel = PlaylistModel.get(this)
+        songsAdapter.setModel(playlistModel)
+        playlistModel.dataset.asFlow().conflate().onEach {
+            songsAdapter.setCurrentlyPlaying(playlistModel.playing)
+            delay(50L)
+        }.launchWhenStarted(lifecycleScope)
         adapters = arrayOf(albumsAdapter, songsAdapter)
 
 
@@ -219,6 +236,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 @Suppress("UNCHECKED_CAST")
                 setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
                 lists[currentTab].adapter = adapters[currentTab]
+                if (currentTab == 1 && songsAdapter.currentMedia != null) {
+                    songsAdapter.currentMedia = null
+                    songsAdapter.currentMedia = PlaylistManager.currentPlayedMedia.value
+                }
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], value)
             }
