@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -33,7 +34,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -207,8 +207,10 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             UiTools.snackerWithCancel(player.requireActivity(), message, overAudioPlayer = true, action = {}) {
                  model?.run { insertMedia(position, media) }
             }
-        } else if (player is Context) {
-            Toast.makeText(AppContextProvider.appContext, message, Toast.LENGTH_SHORT).show()
+        } else if (player is Activity) {
+            UiTools.snackerWithCancel(player, message, action = {}) {
+                model?.run { insertMedia(position, media) }
+            }
         }
         remove(position)
     }
