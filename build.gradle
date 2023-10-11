@@ -78,7 +78,7 @@ ext {
     robolectric = '4.3.1'
     mockk = '1.9.3'
     testRunner = '1.4.0'
-    orchestrator = '1.1.0'
+    orchestrator = '1.4.2'
     testCore = '1.5.0'
     publishScriptPath = '../../buildsystem/publish.gradle'
 //    versionCode scheme is T M NN RR AA
