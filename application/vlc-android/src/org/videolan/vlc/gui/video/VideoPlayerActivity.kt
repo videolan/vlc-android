@@ -855,6 +855,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             onCleared()
         }
         optionsDelegate = null
+        overlayDelegate.onDestroy()
 
         // Dismiss the presentation when the activity is not visible.
         displayManager.release()
