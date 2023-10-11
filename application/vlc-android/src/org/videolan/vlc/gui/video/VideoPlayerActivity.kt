@@ -854,6 +854,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             dataset.removeObserver(playlistObserver)
             onCleared()
         }
+        optionsDelegate = null
 
         // Dismiss the presentation when the activity is not visible.
         displayManager.release()
