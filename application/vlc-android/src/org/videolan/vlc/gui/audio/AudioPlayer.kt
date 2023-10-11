@@ -265,6 +265,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     override fun onDestroy() {
         Settings.removeAudioControlsChangeListener()
+        binding.songsList.adapter = null
         super.onDestroy()
     }
 
