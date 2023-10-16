@@ -137,7 +137,7 @@ class BenchActivity : ShallowVideoPlayer() {
             oldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
             oldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
             AppScope.launch(Dispatchers.IO) {
-                sharedPref.edit {
+                with(sharedPref.edit()) {
                     putString(PREFERENCE_OPENGL, "0")
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
                 }
@@ -556,7 +556,7 @@ class BenchActivity : ShallowVideoPlayer() {
         if (isHardware && oldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
             AppScope.launch(Dispatchers.IO) {
-                sharedPref.edit {
+                with(sharedPref.edit()) {
                     putString(PREFERENCE_OPENGL, oldOpenglValue)
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
                 }
