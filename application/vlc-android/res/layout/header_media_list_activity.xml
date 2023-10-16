@@ -242,7 +242,7 @@
                 vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_height="match_parent">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -250,10 +250,13 @@
                     android:id="@+id/songs"
                     android:layout_width="@dimen/default_content_width"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal|top"
+                    android:layout_gravity="center_horizontal"
                     android:background="?attr/background_default"
                     android:clipToPadding="false"
                     android:fastScrollEnabled="true"
+                    vlc:layout_constraintTop_toTopOf="parent"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintEnd_toEndOf="parent"
                     android:paddingBottom="64dp"
                     tools:layout_width="match_parent" />
 
@@ -261,9 +264,9 @@
                         android:id="@+id/browser_fast_scroller"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"/>
-            </RelativeLayout>
+                        vlc:layout_constraintTop_toTopOf="parent"
+                        vlc:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
 
