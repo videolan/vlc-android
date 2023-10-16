@@ -82,14 +82,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> true
         else -> true
     }
-    fun getComparator(nbOfDigits: Int): Comparator<MediaLibraryItem>? = when {
+    fun getComparator(): Comparator<MediaLibraryItem>? = when {
             Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT, Medialibrary.SORT_FILENAME) && desc -> getTvDescComp(Settings.tvFoldersFirst)
             Settings.showTvUi && sort in arrayOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT, Medialibrary.SORT_FILENAME) && !desc -> getTvAscComp(Settings.tvFoldersFirst)
             url != null && Uri.parse(url)?.scheme == "upnp" -> null
             sort == Medialibrary.SORT_ALPHA && desc -> descComp
             sort == Medialibrary.SORT_ALPHA && !desc -> ascComp
-            (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> getFilenameDescComp(nbOfDigits)
-            else -> getFilenameAscComp(nbOfDigits)
+            (sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_DEFAULT) && desc -> getFilenameDescComp()
+            else -> getFilenameAscComp()
         }
 
     init {
@@ -185,7 +185,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
      * @param files the files to sort
      */
     fun sort(files: MutableList<MediaLibraryItem>) {
-        getComparator(if (isComparatorAboutFilename())  files.determineMaxNbOfDigits() else 0)?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() } else { }
+        getComparator()?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() } else { }
     }
 
     suspend fun browseUrl(url: String): List<MediaLibraryItem> {
@@ -239,7 +239,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) {
-        getComparator(if (isComparatorAboutFilename())  dataset.value.determineMaxNbOfDigits() else 0)?.let { dataset.add(media, it) } ?: dataset.add(media)
+        getComparator()?.let { dataset.add(media, it) } ?: dataset.add(media)
     }
 
     open fun refresh() {
