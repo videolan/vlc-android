@@ -577,6 +577,7 @@ class BenchActivity : ShallowVideoPlayer() {
             val stats = service!!.lastStats
             sendIntent.putExtra("percent_of_bad_seek", 0.0)
             sendIntent.putExtra("number_of_dropped_frames", stats?.lostPictures ?: 100)
+            sendIntent.putExtra("displayed_frames", stats?.displayedPictures )
             sendIntent.putExtra("late_frames", lateFrameCounter)
             setResult(Activity.RESULT_OK, sendIntent)
             sendIntent.putExtra("speed", speed)
