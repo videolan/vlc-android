@@ -185,7 +185,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
      * @param files the files to sort
      */
     fun sort(files: MutableList<MediaLibraryItem>) {
-        getComparator(if (isComparatorAboutFilename())  files.determineMaxNbOfDigits() else 0)?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() }
+        getComparator(if (isComparatorAboutFilename())  files.determineMaxNbOfDigits() else 0)?.let { files.apply { this.sortWith(it) } } ?: if (desc) files.apply { reverse() } else { }
     }
 
     suspend fun browseUrl(url: String): List<MediaLibraryItem> {
