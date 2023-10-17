@@ -46,9 +46,9 @@ import org.videolan.tools.readableSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerHudBinding
+import org.videolan.vlc.getAllTracks
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.util.LocaleUtil
-import org.videolan.vlc.getAllTracks
 
 class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling: () -> Unit, val idle: () -> Unit) {
     lateinit var container: ConstraintLayout
@@ -96,12 +96,13 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
     private val runnable = Runnable {
         val media = player.service?.mediaplayer?.media as? Media ?: return@Runnable
 
-        if (BuildConfig.DEBUG) Log.i(this::class.java.simpleName, "Stats: demuxBitrate: ${media.stats?.demuxBitrate} demuxCorrupted: ${media.stats?.demuxCorrupted} demuxDiscontinuity: ${media.stats?.demuxDiscontinuity} demuxReadBytes: ${media.stats?.demuxReadBytes}")
+        val stats = media.stats
+        if (BuildConfig.DEBUG) Log.i(this::class.java.simpleName, "Stats: demuxBitrate: ${stats?.demuxBitrate} demuxCorrupted: ${stats?.demuxCorrupted} demuxDiscontinuity: ${stats?.demuxDiscontinuity} demuxReadBytes: ${stats?.demuxReadBytes}")
         val now = System.currentTimeMillis() - firstTimecode
-        media.stats?.demuxBitrate?.let {
+        stats?.demuxBitrate?.let {
             binding.plotView.addData(StatIndex.DEMUX_BITRATE.ordinal, Pair(now, it * 8 * 1024))
         }
-        media.stats?.inputBitrate?.let {
+        stats?.inputBitrate?.let {
             binding.plotView.addData(StatIndex.INPUT_BITRATE.ordinal, Pair(now, it * 8 * 1024))
         }
 
