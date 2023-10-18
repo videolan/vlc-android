@@ -304,11 +304,30 @@ object SecretGenerator {
     }
 
     /**
+     * Generates a random alphanumeric string
+     *
+     * @param length the string length
+     * @return a string of random alphanumeric chars
+     */
+    fun generateRandomAlphanumericString(length:Int = -1): String {
+        val random = SecureRandom()
+        val randomStringBuilder = StringBuilder()
+        val randomLength = if (length == -1) random.nextInt(16) + 32 else length
+        val alphanumericChars = "abcdef0123456789"
+        var tempChar: Char
+        for (i in 0 until randomLength) {
+            tempChar = alphanumericChars[random.nextInt(alphanumericChars.length)]
+            randomStringBuilder.append(tempChar)
+        }
+        return randomStringBuilder.toString()
+    }
+
+    /**
      * Generates a byte array with random values
      *
      * @return a 12 long random bytes array
      */
-    private fun generateRandomBytes(): ByteArray {
+    fun generateRandomBytes(): ByteArray {
         val nonce = ByteArray(12)
         SecureRandom().nextBytes(nonce)
         return nonce

@@ -74,11 +74,17 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
+import io.ktor.server.sessions.SessionTransportTransformerEncrypt
+import io.ktor.server.sessions.Sessions
+import io.ktor.server.sessions.cookie
+import io.ktor.server.sessions.directorySessionStorage
+import io.ktor.server.sessions.sessions
 import io.ktor.server.websocket.DefaultWebSocketServerSession
 import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
 import io.ktor.server.websocket.webSocket
+import io.ktor.util.hex
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
@@ -158,6 +164,7 @@ import org.videolan.vlc.util.toByteArray
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
+import org.videolan.vlc.webserver.WebServerSession.verifyLogin
 import org.videolan.vlc.webserver.ssl.SecretGenerator
 import org.videolan.vlc.webserver.utils.MediaZipUtils
 import org.videolan.vlc.webserver.utils.serveAudios
@@ -463,6 +470,25 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             }
             module {
 
+                install(Sessions) {
+
+                    //get the encryption / signing keys and generate them if they don't exist
+                    var encryptKey = settings.getString("cookie_encrypt_key", "") ?: ""
+                    if (encryptKey.isBlank()) {
+                        encryptKey = SecretGenerator.generateRandomAlphanumericString(32)
+                        settings.putSingle("cookie_encrypt_key", encryptKey)
+                    }
+                    var signkey = settings.getString("cookie_sign_key", "") ?: ""
+                    if (signkey.isBlank()) {
+                        signkey = SecretGenerator.generateRandomAlphanumericString(32)
+                        settings.putSingle("cookie_sign_key", signkey)
+                    }
+
+                    cookie<UserSession>("user_session", directorySessionStorage(File("${context.filesDir.path}/server/cache"), true)) {
+                        cookie.maxAgeInSeconds = if (BuildConfig.DEBUG) 5 else 3600 * 24 * 365
+                        transform(SessionTransportTransformerEncrypt(hex(encryptKey), hex(signkey)))
+                    }
+                }
                 install(InterceptorPlugin)
                 install(WebSockets) {
                     pingPeriod = Duration.ofSeconds(15)
@@ -596,12 +622,19 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     private fun Route.setupRouting() {
         val appContext = this@HttpSharingServer.context
         staticFiles("", File(getServerFiles()))
+        get("/login") {
+            val id = SecretGenerator.generateRandomString()
+            settings.putSingle("valid_session_id", id)
+            call.sessions.set("user_session", UserSession(id = id, count = 0))
+            call.respondRedirect("/")
+        }
         // Main end point redirect to index.html
         get("/") {
             call.respondRedirect("index.html", permanent = true)
         }
         get("/index.html") {
             try {
+                verifyLogin(settings, true)
                 val html = FileUtils.getStringFromFile("${getServerFiles()}index.html")
                 call.respondText(html, ContentType.Text.Html)
             } catch (e: Exception) {
@@ -656,6 +689,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the videos
         get("/video-list") {
+            verifyLogin(settings)
             if (!settings.serveVideos(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -671,6 +705,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the albums
         get("/album-list") {
+            verifyLogin(settings)
             if (!settings.serveAudios(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -686,6 +721,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the artists
         get("/artist-list") {
+            verifyLogin(settings)
             if (!settings.serveAudios(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -701,6 +737,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the audio tracks
         get("/track-list") {
+            verifyLogin(settings)
             if (!settings.serveAudios(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -716,6 +753,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the audio genres
         get("/genre-list") {
+            verifyLogin(settings)
             if (!settings.serveAudios(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -731,6 +769,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the playlists
         get("/playlist-list") {
+            verifyLogin(settings)
             if (!settings.servePlaylists(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -746,6 +785,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // Search media
         get("/search") {
+            verifyLogin(settings)
             if (!settings.serveSearch(appContext)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -778,6 +818,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the file storages
         get("/storage-list") {
+            verifyLogin(settings)
             if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -798,6 +839,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the file favorites
         get("/favorite-list") {
+            verifyLogin(settings)
             if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -818,6 +860,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // List of all the network shares
         get("/network-list") {
+            verifyLogin(settings)
             if (!settings.getBoolean(WEB_SERVER_NETWORK_BROWSER_CONTENT, false)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
@@ -832,6 +875,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         //list of folders and files in a path
         get("/browse-list") {
+            verifyLogin(settings)
             if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
