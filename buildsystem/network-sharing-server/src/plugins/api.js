@@ -1,8 +1,11 @@
-const API_PORT = "8080"
+const USE_SSL = process.env.VUE_APP_FORCE_SSL === "true" || location.protocol === 'https:'
+let API_PORT = "8080"
+if (USE_SSL) API_PORT = "8443"
 const API_IP = process.env.NODE_ENV === 'development' ? `${process.env.VUE_APP_DEVICE_IP}:${API_PORT}` : `${location.host}`
-let API_URL;
+let API_URL
 
-if (location.protocol !== 'https:') {
+
+if (!USE_SSL) {
     API_URL = `http://${API_IP}/`;
 } else {
 
@@ -10,7 +13,7 @@ if (location.protocol !== 'https:') {
 }
 
 let protocol = "wss"
-if (location.protocol !== 'https:') {
+if (!USE_SSL) {
     protocol = `ws`;
 }
 

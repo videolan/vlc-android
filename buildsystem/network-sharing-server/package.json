@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "serve": "export VUE_APP_DEVICE_IP=$(adb shell ifconfig wlan0 | awk '/inet addr/ {gsub(\"addr:\", \"\", $2); print $2}') && vue-cli-service serve",
+        "serve": "export VUE_APP_DEVICE_IP=$(adb shell ifconfig wlan0 | awk '/inet addr/ {gsub(\"addr:\", \"\", $2); print $2}') && export VUE_APP_FORCE_SSL=$FORCE_SSL && vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint"
     },

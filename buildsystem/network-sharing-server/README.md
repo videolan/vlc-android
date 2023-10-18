@@ -10,6 +10,13 @@ npm install
 npm run serve
 ```
 
+You can add the FORCE_SSL var to make it sure the API calls will use https:
+
+```
+FORCE_SSL=true npm run serve
+
+```
+
 ### Compiles and minifies for production
 ```
 npm run build
