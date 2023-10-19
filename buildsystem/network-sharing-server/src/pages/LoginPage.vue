@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
@@ -87,7 +87,7 @@ export default {
             let component = this
             let body = { challenge: "" }
             if (force) body = { challenge: this.challenge }
-            axios.post(vlcApi.code, body, {
+            http.post(vlcApi.code, body, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

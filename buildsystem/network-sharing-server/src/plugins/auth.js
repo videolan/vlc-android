@@ -8,6 +8,7 @@ const interceptResErrors = (err) => {
     try {
         if (err.response.status == 401) {
             router.push({ name: 'LoginPage' })
+            return
         }
         // check for response code 123 and redirect to login
         err = Object.assign(new Error(), { message: err.response.data });

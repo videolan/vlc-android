@@ -20,7 +20,7 @@
 
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
-import axios from 'axios'
+import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
 import MediaCardItem from '../components/MediaCardItem.vue'
 import MediaListItem from '../components/MediaListItem.vue'
@@ -46,7 +46,7 @@ export default {
         fetchPlaylists() {
             let component = this
             component.appStore.loading = true
-            axios.get(vlcApi.playlistList)
+            http.get(vlcApi.playlistList)
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.forbidden = true;

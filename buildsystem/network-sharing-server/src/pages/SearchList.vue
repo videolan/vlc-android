@@ -68,7 +68,7 @@
 
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
-import axios from 'axios'
+import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
 import MediaListItem from '../components/MediaListItem.vue'
 import EmptyView from '../components/EmptyView.vue'
@@ -113,7 +113,7 @@ export default {
         loadResults() {
             let component = this
             component.appStore.loading = true
-            axios.get(vlcApi.search(this.$refs.searchText.value))
+            http.get(vlcApi.search(this.$refs.searchText.value))
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.forbidden = true;

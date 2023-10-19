@@ -50,6 +50,9 @@ import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.call
 import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.install
+import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.session
 import io.ktor.server.engine.applicationEngineEnvironment
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
@@ -489,6 +492,16 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                         transform(SessionTransportTransformerEncrypt(hex(encryptKey), hex(signkey)))
                     }
                 }
+                install(Authentication) {
+                    session<UserSession>("user_session") {
+                        validate { session ->
+                            session
+                        }
+                        challenge {
+                            call.respond(HttpStatusCode.Unauthorized)
+                        }
+                    }
+                }
                 install(InterceptorPlugin)
                 install(WebSockets) {
                     pingPeriod = Duration.ofSeconds(15)
@@ -705,425 +718,426 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             }
             call.respondText(jsonArray.toString())
         }
-        // List of all the videos
-        get("/video-list") {
-            verifyLogin(settings)
-            if (!settings.serveVideos(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
-
-            val list = ArrayList<PlayQueueItem>()
-            videos.forEach { video ->
-                list.add(video.toPlayQueueItem())
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the albums
-        get("/album-list") {
-            verifyLogin(settings)
-            if (!settings.serveAudios(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val albums = appContext.getFromMl { getAlbums(false, false) }
-
-            val list = ArrayList<PlayQueueItem>()
-            albums.forEach { album ->
-                list.add(album.toPlayQueueItem())
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the artists
-        get("/artist-list") {
-            verifyLogin(settings)
-            if (!settings.serveAudios(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val artists = appContext.getFromMl { getArtists(settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
-
-            val list = ArrayList<PlayQueueItem>()
-            artists.forEach { artist ->
-                list.add(artist.toPlayQueueItem(appContext))
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the audio tracks
-        get("/track-list") {
-            verifyLogin(settings)
-            if (!settings.serveAudios(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val tracks = appContext.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
-
-            val list = ArrayList<PlayQueueItem>()
-            tracks.forEach { track ->
-                list.add(track.toPlayQueueItem())
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the audio genres
-        get("/genre-list") {
-            verifyLogin(settings)
-            if (!settings.serveAudios(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val genres = appContext.getFromMl { getGenres(false, false) }
-
-            val list = ArrayList<PlayQueueItem>()
-            genres.forEach { genre ->
-                list.add(genre.toPlayQueueItem(appContext))
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the playlists
-        get("/playlist-list") {
-            verifyLogin(settings)
-            if (!settings.servePlaylists(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val playlists = appContext.getFromMl { getPlaylists(Playlist.Type.All, false) }
-
-            val list = ArrayList<PlayQueueItem>()
-            playlists.forEach { playlist ->
-                list.add(playlist.toPlayQueueItem(appContext))
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // Search media
-        get("/search") {
-            verifyLogin(settings)
-            if (!settings.serveSearch(appContext)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            call.request.queryParameters["search"]?.let { query ->
-                val searchAggregate = appContext.getFromMl { search(query, Settings.includeMissing, false) }
-
-                searchAggregate?.let { result ->
-                    val results = SearchResults(
-                            result.albums?.filterNotNull()?.map { it.toPlayQueueItem() }
-                                    ?: listOf(),
-                            result.artists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
-                                    ?: listOf(),
-                            result.genres?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
-                                    ?: listOf(),
-                            result.playlists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
-                                    ?: listOf(),
-                            result.videos?.filterNotNull()?.map { it.toPlayQueueItem() }
-                                    ?: listOf(),
-                            result.tracks?.filterNotNull()?.map { it.toPlayQueueItem() }
-                                    ?: listOf(),
-                    )
-                    val gson = Gson()
-                    call.respondText(gson.toJson(results))
-                }
-
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())))
-        }
-        // List of all the file storages
-        get("/storage-list") {
-            verifyLogin(settings)
-            if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val dataset = LiveDataset<MediaLibraryItem>()
-            val provider = withContext(Dispatchers.Main) {
-                StorageProvider(appContext, dataset, null)
-            }
-            val list = try {
-                getProviderContent(provider, dataset, 1000L)
-            } catch (e: Exception) {
-                Log.e(this::class.java.simpleName, e.message, e)
-                call.respond(HttpStatusCode.InternalServerError)
-                return@get
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the file favorites
-        get("/favorite-list") {
-            verifyLogin(settings)
-            if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val dataset = LiveDataset<MediaLibraryItem>()
-            val provider = withContext(Dispatchers.Main) {
-                FavoritesProvider(appContext, dataset, AppScope)
-            }
-            val list = try {
-                getProviderContent(provider, dataset, 2000L)
-            } catch (e: Exception) {
-                Log.e(this::class.java.simpleName, e.message, e)
-                call.respond(HttpStatusCode.InternalServerError)
-                return@get
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        // List of all the network shares
-        get("/network-list") {
-            verifyLogin(settings)
-            if (!settings.getBoolean(WEB_SERVER_NETWORK_BROWSER_CONTENT, false)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val list = ArrayList<PlayQueueItem>()
-            networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
-                list.add(PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
-                        ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
-            }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
-        }
-        //list of folders and files in a path
-        get("/browse-list") {
-            verifyLogin(settings)
-            if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
-                call.respond(HttpStatusCode.Forbidden)
-                return@get
-            }
-            val path = call.request.queryParameters["path"] ?: kotlin.run {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
-            val decodedPath = Uri.decode(path)
-
-            val dataset = LiveDataset<MediaLibraryItem>()
-            val provider = withContext(Dispatchers.Main) {
-                FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
-            }
-            val list = try {
-                getProviderContent(provider, dataset, 1000L)
-            } catch (e: Exception) {
-                Log.e(this::class.java.simpleName, e.message, e)
-                call.respond(HttpStatusCode.InternalServerError)
-                return@get
-            }
-
-            //segments
-            PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, makePathSafe(appContext.getString(org.videolan.vlc.R.string.internal_memory)))
-            val breadcrumbItems = if (!isSchemeSupported(Uri.parse(decodedPath).scheme))
-                listOf(BreadcrumbItem(appContext.getString(R.string.home), "root"))
-            else
-                prepareSegments(Uri.parse(decodedPath)).map {
-                    BreadcrumbItem(it.first, it.second)
-                }.toMutableList().apply {
-                    add(0, BreadcrumbItem(appContext.getString(R.string.home), "root"))
-                }
-
-
-            val result = BrowsingResult(list, breadcrumbItems)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
-        }
-        // Resume playback
-        get("/resume-playback") {
-            val audio = call.request.queryParameters["audio"] == "true"
-            MediaUtils.loadlastPlaylist(appContext, if (audio) PLAYLIST_TYPE_AUDIO else PLAYLIST_TYPE_VIDEO)
-            call.respond(HttpStatusCode.OK)
-        }
-        // Play a media
-        get("/play") {
-            val type = call.request.queryParameters["type"] ?: "media"
-            val append = call.request.queryParameters["append"] == "true"
-            val asAudio = call.request.queryParameters["audio"] == "true"
-            val path = call.request.queryParameters["path"]
-            call.request.queryParameters["id"]?.let { id ->
-
-                val medias = appContext.getFromMl {
-                    if (path?.isNotBlank() == true) {
-                        arrayOf(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(path)))
-                    } else when (type) {
-                        "album" -> getAlbum(id.toLong()).tracks
-                        "artist" -> getArtist(id.toLong()).tracks
-                        "genre" -> getGenre(id.toLong()).tracks
-                        "playlist" -> getPlaylist(id.toLong(), false, false).tracks
-                        else -> arrayOf(getMedia(id.toLong()))
-                    }
-                }
-                if (medias.isEmpty()) call.respond(HttpStatusCode.NotFound)
-                else {
-
-                    if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
-                        call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ns_not_in_foreground))
-                    }
-                    when {
-                        append -> MediaUtils.appendMedia(appContext, medias)
-                        else -> MediaUtils.openList(appContext, medias.toList(), 0)
-                    }
-                    call.respond(HttpStatusCode.OK)
-                }
-            }
-            call.respond(HttpStatusCode.NotFound)
-        }
-        // Download a media file
-        get("/prepare-download") {
-            val type = call.request.queryParameters["type"] ?: "media"
-            call.request.queryParameters["id"]?.let { id ->
-                when (type) {
-                    "album" -> {
-                        val album = appContext.getFromMl { getAlbum(id.toLong()) }
-                        val dst = MediaZipUtils.generateAlbumZip(album, downloadFolder)
-                        call.respondText(dst)
-                        return@get
-                    }
-                    "artist" -> {
-                        val artist = appContext.getFromMl { getArtist(id.toLong()) }
-                        val dst = MediaZipUtils.generateArtistZip(artist, downloadFolder)
-                        call.respondText(dst)
-                        return@get
-                    }
-                    "genre" -> {
-                        val genre = appContext.getFromMl { getGenre(id.toLong()) }
-                        val dst = MediaZipUtils.generateGenreZip(genre, downloadFolder)
-                        call.respondText(dst)
-                        return@get
-                    }
-                    "playlist" -> {
-                        val playlist = appContext.getFromMl { getPlaylist(id.toLong(), false, false) }
-                        val dst = MediaZipUtils.generatePlaylistZip(playlist, downloadFolder)
-                        call.respondText(dst)
-                        return@get
-                    }
-                    else -> {
-                        //simple media. It's a direct download
-                        appContext.getFromMl { getMedia(id.toLong()) }?.let { media ->
-                            media.uri.path?.let { path ->
-                                val file = File(path)
-                                val name = media.title.slugify("_") + media.uri.toString().substring(media.uri.toString().lastIndexOf("."))
-                                call.response.header(
-                                        HttpHeaders.ContentDisposition,
-                                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, name)
-                                                .toString()
-                                )
-                                call.respondFile(file)
-                            }
-                        }
-                        call.respond(HttpStatusCode.NotFound)
-                    }
-                }
-            }
-            call.respond(HttpStatusCode.NotFound)
-        }
-        //Download a file previously prepared
-        get("/download") {
-            call.request.queryParameters["file"]?.let {
-                val dst = File("$downloadFolder/$it")
-                call.response.header(
-                        HttpHeaders.ContentDisposition,
-                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
-                                ?: "")
-                                .toString()
-                )
-                call.respondFile(dst)
-                dst.delete()
-            }
-            call.respond(HttpStatusCode.NotFound)
-        }
-        // Sends an icon
-        get("/icon") {
-            val idString = call.request.queryParameters["id"]
-            val width = call.request.queryParameters["width"]?.toInt() ?: 32
-
-            val id = try {
-                appContext.resIdByName(idString, "drawable")
-            } catch (e: Resources.NotFoundException) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
-
-            if (id == 0) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
-
-            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
-
-                call.respondBytes(ContentType.Image.PNG) { it }
-                return@get
-            }
-
-            call.respond(HttpStatusCode.NotFound)
-
-        }
         // Get the translation string list
         get("/translation") {
             call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
         }
-        // Get a media artwork
-        get("/artwork") {
-            if (call.request.queryParameters["type"] in arrayOf("folder", "network")) {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
-                    call.respondBytes(ContentType.Image.PNG) { it }
+        authenticate("user_session") {
+            // List of all the videos
+            get("/video-list") {
+                if (!settings.serveVideos(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
                     return@get
                 }
+                val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
+
+                val list = ArrayList<PlayQueueItem>()
+                videos.forEach { video ->
+                    list.add(video.toPlayQueueItem())
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
             }
-            if (call.request.queryParameters["type"] == "file") {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_browser_unknown_normal, 256, 256), true)?.let {
-                    call.respondBytes(ContentType.Image.PNG) { it }
+            // List of all the albums
+            get("/album-list") {
+                verifyLogin(settings)
+                if (!settings.serveAudios(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
                     return@get
                 }
+                val albums = appContext.getFromMl { getAlbums(false, false) }
+
+                val list = ArrayList<PlayQueueItem>()
+                albums.forEach { album ->
+                    list.add(album.toPlayQueueItem())
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
             }
-            try {
-                val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
-                //check by id and use the ArtworkProvider if provided
-                call.request.queryParameters["id"]?.let {
-                    val cr = appContext.contentResolver
-                    val mediaType = when (call.request.queryParameters["type"]) {
-                        "video" -> ArtworkProvider.VIDEO
-                        "album" -> ArtworkProvider.ALBUM
-                        "artist" -> ArtworkProvider.ARTIST
-                        "genre" -> ArtworkProvider.GENRE
-                        "playlist" -> ArtworkProvider.PLAYLIST
-                        else -> ArtworkProvider.MEDIA
+            // List of all the artists
+            get("/artist-list") {
+                verifyLogin(settings)
+                if (!settings.serveAudios(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val artists = appContext.getFromMl { getArtists(settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
+
+                val list = ArrayList<PlayQueueItem>()
+                artists.forEach { artist ->
+                    list.add(artist.toPlayQueueItem(appContext))
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            // List of all the audio tracks
+            get("/track-list") {
+                verifyLogin(settings)
+                if (!settings.serveAudios(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val tracks = appContext.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
+
+                val list = ArrayList<PlayQueueItem>()
+                tracks.forEach { track ->
+                    list.add(track.toPlayQueueItem())
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            // List of all the audio genres
+            get("/genre-list") {
+                verifyLogin(settings)
+                if (!settings.serveAudios(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val genres = appContext.getFromMl { getGenres(false, false) }
+
+                val list = ArrayList<PlayQueueItem>()
+                genres.forEach { genre ->
+                    list.add(genre.toPlayQueueItem(appContext))
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            // List of all the playlists
+            get("/playlist-list") {
+                verifyLogin(settings)
+                if (!settings.servePlaylists(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val playlists = appContext.getFromMl { getPlaylists(Playlist.Type.All, false) }
+
+                val list = ArrayList<PlayQueueItem>()
+                playlists.forEach { playlist ->
+                    list.add(playlist.toPlayQueueItem(appContext))
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            // Search media
+            get("/search") {
+                verifyLogin(settings)
+                if (!settings.serveSearch(appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                call.request.queryParameters["search"]?.let { query ->
+                    val searchAggregate = appContext.getFromMl { search(query, Settings.includeMissing, false) }
+
+                    searchAggregate?.let { result ->
+                        val results = SearchResults(
+                                result.albums?.filterNotNull()?.map { it.toPlayQueueItem() }
+                                        ?: listOf(),
+                                result.artists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
+                                        ?: listOf(),
+                                result.genres?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
+                                        ?: listOf(),
+                                result.playlists?.filterNotNull()?.map { it.toPlayQueueItem(appContext) }
+                                        ?: listOf(),
+                                result.videos?.filterNotNull()?.map { it.toPlayQueueItem() }
+                                        ?: listOf(),
+                                result.tracks?.filterNotNull()?.map { it.toPlayQueueItem() }
+                                        ?: listOf(),
+                        )
+                        val gson = Gson()
+                        call.respondText(gson.toJson(results))
                     }
-                    cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
-                        call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
-                        inputStream.close()
-                        return@get
-                    }
+
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())))
+            }
+            // List of all the file storages
+            get("/storage-list") {
+                verifyLogin(settings)
+                if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val dataset = LiveDataset<MediaLibraryItem>()
+                val provider = withContext(Dispatchers.Main) {
+                    StorageProvider(appContext, dataset, null)
+                }
+                val list = try {
+                    getProviderContent(provider, dataset, 1000L)
+                } catch (e: Exception) {
+                    Log.e(this::class.java.simpleName, e.message, e)
+                    call.respond(HttpStatusCode.InternalServerError)
+                    return@get
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            // List of all the file favorites
+            get("/favorite-list") {
+                verifyLogin(settings)
+                if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val dataset = LiveDataset<MediaLibraryItem>()
+                val provider = withContext(Dispatchers.Main) {
+                    FavoritesProvider(appContext, dataset, AppScope)
+                }
+                val list = try {
+                    getProviderContent(provider, dataset, 2000L)
+                } catch (e: Exception) {
+                    Log.e(this::class.java.simpleName, e.message, e)
+                    call.respond(HttpStatusCode.InternalServerError)
+                    return@get
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            // List of all the network shares
+            get("/network-list") {
+                verifyLogin(settings)
+                if (!settings.getBoolean(WEB_SERVER_NETWORK_BROWSER_CONTENT, false)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val list = ArrayList<PlayQueueItem>()
+                networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
+                    list.add(PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                            ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
+                }
+                val gson = Gson()
+                call.respondText(gson.toJson(list))
+            }
+            //list of folders and files in a path
+            get("/browse-list") {
+                verifyLogin(settings)
+                if (!settings.getBoolean(WEB_SERVER_FILE_BROWSER_CONTENT, false)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
+                val path = call.request.queryParameters["path"] ?: kotlin.run {
+                    call.respond(HttpStatusCode.NotFound)
+                    return@get
+                }
+                val decodedPath = Uri.decode(path)
+
+                val dataset = LiveDataset<MediaLibraryItem>()
+                val provider = withContext(Dispatchers.Main) {
+                    FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
+                }
+                val list = try {
+                    getProviderContent(provider, dataset, 1000L)
+                } catch (e: Exception) {
+                    Log.e(this::class.java.simpleName, e.message, e)
+                    call.respond(HttpStatusCode.InternalServerError)
+                    return@get
                 }
 
-                //id is not provided, use the artwork query and fallback on the current playing media
-                artworkMrl?.let { coverArt ->
-                    AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
-                        BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
+                //segments
+                PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, makePathSafe(appContext.getString(org.videolan.vlc.R.string.internal_memory)))
+                val breadcrumbItems = if (!isSchemeSupported(Uri.parse(decodedPath).scheme))
+                    listOf(BreadcrumbItem(appContext.getString(R.string.home), "root"))
+                else
+                    prepareSegments(Uri.parse(decodedPath)).map {
+                        BreadcrumbItem(it.first, it.second)
+                    }.toMutableList().apply {
+                        add(0, BreadcrumbItem(appContext.getString(R.string.home), "root"))
+                    }
 
-                            call.respondBytes(ContentType.Image.JPEG) { it }
+
+                val result = BrowsingResult(list, breadcrumbItems)
+                val gson = Gson()
+                call.respondText(gson.toJson(result))
+            }
+            // Resume playback
+            get("/resume-playback") {
+                val audio = call.request.queryParameters["audio"] == "true"
+                MediaUtils.loadlastPlaylist(appContext, if (audio) PLAYLIST_TYPE_AUDIO else PLAYLIST_TYPE_VIDEO)
+                call.respond(HttpStatusCode.OK)
+            }
+            // Play a media
+            get("/play") {
+                val type = call.request.queryParameters["type"] ?: "media"
+                val append = call.request.queryParameters["append"] == "true"
+                val asAudio = call.request.queryParameters["audio"] == "true"
+                val path = call.request.queryParameters["path"]
+                call.request.queryParameters["id"]?.let { id ->
+
+                    val medias = appContext.getFromMl {
+                        if (path?.isNotBlank() == true) {
+                            arrayOf(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(path)))
+                        } else when (type) {
+                            "album" -> getAlbum(id.toLong()).tracks
+                            "artist" -> getArtist(id.toLong()).tracks
+                            "genre" -> getGenre(id.toLong()).tracks
+                            "playlist" -> getPlaylist(id.toLong(), false, false).tracks
+                            else -> arrayOf(getMedia(id.toLong()))
+                        }
+                    }
+                    if (medias.isEmpty()) call.respond(HttpStatusCode.NotFound)
+                    else {
+
+                        if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                        if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
+                            call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ns_not_in_foreground))
+                        }
+                        when {
+                            append -> MediaUtils.appendMedia(appContext, medias)
+                            else -> MediaUtils.openList(appContext, medias.toList(), 0)
+                        }
+                        call.respond(HttpStatusCode.OK)
+                    }
+                }
+                call.respond(HttpStatusCode.NotFound)
+            }
+            // Download a media file
+            get("/prepare-download") {
+                val type = call.request.queryParameters["type"] ?: "media"
+                call.request.queryParameters["id"]?.let { id ->
+                    when (type) {
+                        "album" -> {
+                            val album = appContext.getFromMl { getAlbum(id.toLong()) }
+                            val dst = MediaZipUtils.generateAlbumZip(album, downloadFolder)
+                            call.respondText(dst)
                             return@get
+                        }
+                        "artist" -> {
+                            val artist = appContext.getFromMl { getArtist(id.toLong()) }
+                            val dst = MediaZipUtils.generateArtistZip(artist, downloadFolder)
+                            call.respondText(dst)
+                            return@get
+                        }
+                        "genre" -> {
+                            val genre = appContext.getFromMl { getGenre(id.toLong()) }
+                            val dst = MediaZipUtils.generateGenreZip(genre, downloadFolder)
+                            call.respondText(dst)
+                            return@get
+                        }
+                        "playlist" -> {
+                            val playlist = appContext.getFromMl { getPlaylist(id.toLong(), false, false) }
+                            val dst = MediaZipUtils.generatePlaylistZip(playlist, downloadFolder)
+                            call.respondText(dst)
+                            return@get
+                        }
+                        else -> {
+                            //simple media. It's a direct download
+                            appContext.getFromMl { getMedia(id.toLong()) }?.let { media ->
+                                media.uri.path?.let { path ->
+                                    val file = File(path)
+                                    val name = media.title.slugify("_") + media.uri.toString().substring(media.uri.toString().lastIndexOf("."))
+                                    call.response.header(
+                                            HttpHeaders.ContentDisposition,
+                                            ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, name)
+                                                    .toString()
+                                    )
+                                    call.respondFile(file)
+                                }
+                            }
+                            call.respond(HttpStatusCode.NotFound)
                         }
                     }
                 }
-                // nothing found . Falling back on the no media bitmap
-                appContext.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512)?.let {
+                call.respond(HttpStatusCode.NotFound)
+            }
+            //Download a file previously prepared
+            get("/download") {
+                call.request.queryParameters["file"]?.let {
+                    val dst = File("$downloadFolder/$it")
+                    call.response.header(
+                            HttpHeaders.ContentDisposition,
+                            ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
+                                    ?: "")
+                                    .toString()
+                    )
+                    call.respondFile(dst)
+                    dst.delete()
+                }
+                call.respond(HttpStatusCode.NotFound)
+            }
+            // Sends an icon
+            get("/icon") {
+                val idString = call.request.queryParameters["id"]
+                val width = call.request.queryParameters["width"]?.toInt() ?: 32
 
-                    BitmapUtil.encodeImage(it, true)?.let {
+                val id = try {
+                    appContext.resIdByName(idString, "drawable")
+                } catch (e: Resources.NotFoundException) {
+                    call.respond(HttpStatusCode.NotFound)
+                    return@get
+                }
 
+                if (id == 0) {
+                    call.respond(HttpStatusCode.NotFound)
+                    return@get
+                }
+
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
+
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+
+                call.respond(HttpStatusCode.NotFound)
+
+            }
+            // Get a media artwork
+            get("/artwork") {
+                if (call.request.queryParameters["type"] in arrayOf("folder", "network")) {
+                    BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
                         call.respondBytes(ContentType.Image.PNG) { it }
                         return@get
                     }
                 }
-            } catch (e: Exception) {
-                Log.e("networkShareReplace", e.message, e)
+                if (call.request.queryParameters["type"] == "file") {
+                    BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_browser_unknown_normal, 256, 256), true)?.let {
+                        call.respondBytes(ContentType.Image.PNG) { it }
+                        return@get
+                    }
+                }
+                try {
+                    val artworkMrl = call.request.queryParameters["artwork"] ?: service?.coverArt
+                    //check by id and use the ArtworkProvider if provided
+                    call.request.queryParameters["id"]?.let {
+                        val cr = appContext.contentResolver
+                        val mediaType = when (call.request.queryParameters["type"]) {
+                            "video" -> ArtworkProvider.VIDEO
+                            "album" -> ArtworkProvider.ALBUM
+                            "artist" -> ArtworkProvider.ARTIST
+                            "genre" -> ArtworkProvider.GENRE
+                            "playlist" -> ArtworkProvider.PLAYLIST
+                            else -> ArtworkProvider.MEDIA
+                        }
+                        cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
+                            call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
+                            inputStream.close()
+                            return@get
+                        }
+                    }
+
+                    //id is not provided, use the artwork query and fallback on the current playing media
+                    artworkMrl?.let { coverArt ->
+                        AudioUtil.readCoverBitmap(Uri.decode(coverArt), 512)?.let { bitmap ->
+                            BitmapUtil.convertBitmapToByteArray(bitmap)?.let {
+
+                                call.respondBytes(ContentType.Image.JPEG) { it }
+                                return@get
+                            }
+                        }
+                    }
+                    // nothing found . Falling back on the no media bitmap
+                    appContext.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512)?.let {
+
+                        BitmapUtil.encodeImage(it, true)?.let {
+
+                            call.respondBytes(ContentType.Image.PNG) { it }
+                            return@get
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("networkShareReplace", e.message, e)
+                }
+                call.respond(HttpStatusCode.NotFound, "")
             }
-            call.respond(HttpStatusCode.NotFound, "")
         }
     }
 

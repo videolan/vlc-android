@@ -18,7 +18,7 @@
 
 <script>
 
-import axios from 'axios'
+import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
@@ -46,7 +46,7 @@ export default {
         fetchVideos() {
             let component = this
             component.appStore.loading = true
-            axios.get(vlcApi.videoList)
+            http.get(vlcApi.videoList)
                 .catch(function (error) {
                     if (error.response.status == 403) {
                         component.forbidden = true;
