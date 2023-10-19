@@ -63,6 +63,8 @@ private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
 private const val WEB_SERVER_CHANNEL_ID = "vlc_web_server"
 const val MISC_CHANNEL_ID = "misc"
 private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
+const val WEB_SERVER_NOTIFICATION_ID = 44
+const val WEB_SERVER_CODE_ID = 45
 
 object NotificationHelper {
     const val TAG = "VLC/NotificationHelper"
@@ -201,6 +203,19 @@ object NotificationHelper {
         val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val action =    NotificationCompat.Action(if (started) R.drawable.ic_pause_notif else R.drawable.ic_play_notif,if (started) ctx.getString(R.string.stop) else ctx.getString(R.string.start), pi)
         webServerCompatBuilder.addAction(action)
+        return webServerCompatBuilder.build()
+    }
+
+    fun createWebServerAccessNotification(ctx: Context, code:String): Notification {
+        val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notif_scan)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentTitle(ctx.getString(R.string.ns_server_access_request))
+                .setAutoCancel(false)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setOngoing(true)
+        webServerCompatBuilder.setContentText("Code is $code")
+
         return webServerCompatBuilder.build()
     }
 

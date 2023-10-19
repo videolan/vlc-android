@@ -30,9 +30,10 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.auth.Principal
 import io.ktor.server.response.respond
-import io.ktor.server.response.respondRedirect
 import io.ktor.server.sessions.sessions
 import io.ktor.util.pipeline.PipelineContext
+import org.videolan.tools.putSingle
+import org.videolan.vlc.webserver.ssl.SecretGenerator
 
 object WebServerSession {
     /**
@@ -41,17 +42,26 @@ object WebServerSession {
      * @param settings the SharedPreferences to look into
      * @param redirect tru if this call needs to be redirected upon login error
      */
-    suspend fun PipelineContext<Unit, ApplicationCall>.verifyLogin(settings: SharedPreferences, redirect:Boolean = false) {
+    suspend fun PipelineContext<Unit, ApplicationCall>.verifyLogin(settings: SharedPreferences) {
         val userSession: UserSession? = call.sessions.get("user_session") as? UserSession
         val loggedIn = userSession != null && userSession.id == settings.getString("valid_session_id", "")
         if (!loggedIn) {
-            if (redirect)
-            call.respondRedirect("/login")
-            else
                 call.respond(HttpStatusCode.Unauthorized)
         } else {
             call.sessions.set("user_session", UserSession(id = userSession!!.id, count = userSession.count + 1))
         }
+    }
+
+    /**
+     * injects the cookie in the [call] headers
+     *
+     * @param call the call to inject the cookie into
+     * @param settings the settings used to store the valid sessions
+     */
+    fun injectCookie(call: ApplicationCall, settings: SharedPreferences) {
+        val id = SecretGenerator.generateRandomString()
+        settings.putSingle("valid_session_id", id)
+        call.sessions.set("user_session", UserSession(id = id, count = 0))
     }
 }
 

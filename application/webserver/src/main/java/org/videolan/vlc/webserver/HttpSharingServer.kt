@@ -63,6 +63,7 @@ import io.ktor.server.plugins.origin
 import io.ktor.server.plugins.partialcontent.PartialContent
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.receiveMultipart
+import io.ktor.server.request.receiveParameters
 import io.ktor.server.request.uri
 import io.ktor.server.response.header
 import io.ktor.server.response.respond
@@ -78,7 +79,6 @@ import io.ktor.server.sessions.SessionTransportTransformerEncrypt
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.cookie
 import io.ktor.server.sessions.directorySessionStorage
-import io.ktor.server.sessions.sessions
 import io.ktor.server.websocket.DefaultWebSocketServerSession
 import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
@@ -622,10 +622,28 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     private fun Route.setupRouting() {
         val appContext = this@HttpSharingServer.context
         staticFiles("", File(getServerFiles()))
-        get("/login") {
-            val id = SecretGenerator.generateRandomString()
-            settings.putSingle("valid_session_id", id)
-            call.sessions.set("user_session", UserSession(id = id, count = 0))
+        //the client is requesting a new code.
+        // if the formparameters "challenge" is sent. Remove the corresponding code
+        post("/code") {
+            val formParameters = try {
+                call.receiveParameters()
+            } catch (e: Exception) {
+                null
+            }
+            val challenge = if (formParameters == null) null else formParameters["challenge"].toString()
+            if (!challenge.isNullOrBlank()) {
+                WebserverOTP.removeCodeWithChallenge(challenge)
+            }
+            val code = WebserverOTP.getFirstValidCode(appContext)
+            call.respondText(code.challenge)
+        }
+        //Verify the code and inject the cookie if valid
+        get("/verify-code") {
+            val idString = call.request.queryParameters["code"] ?: return@get
+            if (WebserverOTP.verifyCode(appContext, idString)) {
+                //verification is OK
+                WebServerSession.injectCookie(call, settings)
+            }
             call.respondRedirect("/")
         }
         // Main end point redirect to index.html
@@ -634,7 +652,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         get("/index.html") {
             try {
-                verifyLogin(settings, true)
                 val html = FileUtils.getStringFromFile("${getServerFiles()}index.html")
                 call.respondText(html, ContentType.Text.Html)
             } catch (e: Exception) {
@@ -643,6 +660,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         // Upload a file to the device
         post("/upload-media") {
+            verifyLogin(settings)
             var fileDescription = ""
             var fileName = ""
             val multipartData = call.receiveMultipart()

@@ -1179,6 +1179,7 @@
     <string name="replace_playlist">Replace playlist</string>
 
 <!--    Network sharing-->
+    <string name="ns_server_access_request">Access requested</string>
     <string name="ns_server_running">Network sharing active</string>
     <string name="ns_network_sharing">Network sharing</string>
     <string name="ns_log_file">Log files</string>
