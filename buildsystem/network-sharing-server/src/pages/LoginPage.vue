@@ -5,11 +5,11 @@
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="loginModalLabel">Modal title</h1>
+                        <h1 class="modal-title fs-5" id="loginModalLabel" v-t="'CODE_REQUESTED'"></h1>
                         <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body">
-                        <p v-t="'CODE_REQUESTED'"></p>
+                        <!-- <p v-t="'CODE_REQUESTED'"></p> -->
                         <div class="col-sm-5 text-center">
                             <input name="firstdigit" class="digit text-center" type="password" required ref="digit1"
                                 size="1" maxlength="1" tabindex="0">
@@ -23,6 +23,8 @@
 
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" v-t="'NEW_CODE'"
+                            v-on:click="generateCode(true)"></button>
                         <button type="button" class="btn btn-primary" v-t="'SEND'" v-on:click="manageClick"></button>
                     </div>
                 </div>
@@ -48,7 +50,8 @@ export default {
     },
     data() {
         return {
-            modal: null
+            modal: null,
+            challenge: ""
         }
     },
     methods: {
@@ -58,19 +61,23 @@ export default {
             code += this.$refs.digit2.value
             code += this.$refs.digit3.value
             code += this.$refs.digit4.value
+            code += this.challenge
+            location = vlcApi.verifyCode(sha256(code))
+        },
+        generateCode(force) {
             let component = this
-            console.log(code)
-            axios.get(vlcApi.verifyCode(sha256(code)))
-                .catch(function (error) {
-                    if (error.response.status == 403) {
-                        component.forbidden = true;
-                    }
-                })
+            let body = { challenge: "" }
+            if (force) body = { challenge: this.challenge }
+            axios.post(vlcApi.code, body, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
                 .then((response) => {
                     this.loaded = true;
                     if (response) {
                         component.forbidden = false;
-                        this.genres = response.data
+                        this.challenge = response.data
                     }
                     component.appStore.loading = false
                 });
@@ -80,21 +87,7 @@ export default {
         this.appStore.loading = false
         this.modal = new Modal(document.getElementById('loginModal'), {})
         this.modal.show()
-        let component = this
-        axios.get(vlcApi.code)
-            .catch(function (error) {
-                if (error.response.status == 403) {
-                    component.forbidden = true;
-                }
-            })
-            .then((response) => {
-                this.loaded = true;
-                if (response) {
-                    component.forbidden = false;
-                    this.genres = response.data
-                }
-                component.appStore.loading = false
-            });
+        this.generateCode(false)
 
     },
 }

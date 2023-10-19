@@ -8,6 +8,7 @@ import PageDownloads from './pages/PageDownloads'
 import BrowseChild from './pages/BrowseChild'
 import BrowseList from './pages/BrowseList'
 import SearchList from './pages/SearchList'
+import LoginPage from './pages/LoginPage'
 
 const routes = [
   { path: '/', redirect: '/videos', name: 'Home' },
@@ -22,7 +23,7 @@ const routes = [
     ]
   },
   {
-    path: '/browse',  meta: { showDisplayBar: true },
+    path: '/browse', meta: { showDisplayBar: true },
     children: [
       { path: '', component: BrowseList, name: 'BrowseList', meta: { showDisplayBar: true } },
       { path: ':browseId', component: BrowseChild, name: 'BrowseChild', meta: { showDisplayBar: true } },
@@ -32,6 +33,7 @@ const routes = [
   { path: '/search', component: SearchList, name: 'SearchList', meta: { showDisplayBar: false } },
 
   { path: '/logs', component: PageDownloads, name: 'Logs' },
+  { path: '/login', component: LoginPage, name: 'LoginPage' },
 ]
 
 export default routes;

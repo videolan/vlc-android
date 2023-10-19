@@ -32,3 +32,6 @@ initI18n().then(function (i18n) {
   createApp(App).use(i18n).use(VueLazyload).use(router).use(pinia).use(vlcUtils).mount('#app')
 })
 
+export default router;
+
+

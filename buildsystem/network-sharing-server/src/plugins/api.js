@@ -23,6 +23,16 @@ export const vlcApi = {
      */
     translation: `${API_URL}translation`,
     /**
+     * Ask for a code generation
+     */
+    code: `${API_URL}code`,
+    /**
+     * Ask for a code generation
+     */
+    verifyCode: (code) => {
+        return `${API_URL}verify-code?code=${code}`
+    },
+    /**
      * Retrieve the web socket API URL
      */
     websocket: `${protocol}://${API_IP}/echo`,

@@ -68,5 +68,8 @@ object TranslationMapping {
         DIRECTORY_EMPTY(R.string.empty_directory),
         FORBIDDEN(R.string.ns_forbidden),
         PLAYBACK_CONTROL_FORBIDDEN(R.string.ns_playback_forbidden),
+        SEND(R.string.send),
+        CODE_REQUESTED(R.string.ns_code_requested),
+        NEW_CODE(R.string.ns_new_code),
     }
 }

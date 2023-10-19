@@ -1193,6 +1193,8 @@
     <string name="ns_prepare_download">Preparing your download</string>
     <string name="ns_forbidden">Content disabled in the settings</string>
     <string name="ns_playback_forbidden">Playback control disabled in the settings</string>
+    <string name="ns_code_requested">Access protected. Please enter the code displayed in the notification</string>
+    <string name="ns_new_code">Send a new code</string>
     <string name="home">Home</string>
 
 
