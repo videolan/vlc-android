@@ -208,13 +208,13 @@ object NotificationHelper {
 
     fun createWebServerAccessNotification(ctx: Context, code:String): Notification {
         val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notif_scan)
+                .setSmallIcon(R.drawable.ic_notif_web_server)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(ctx.getString(R.string.ns_server_access_request))
                 .setAutoCancel(false)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setOngoing(true)
-        webServerCompatBuilder.setContentText("Code is $code")
+        webServerCompatBuilder.setContentText(ctx.getString(R.string.ns_code, code))
 
         return webServerCompatBuilder.build()
     }
