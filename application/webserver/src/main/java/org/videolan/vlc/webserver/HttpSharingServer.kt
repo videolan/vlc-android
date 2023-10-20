@@ -194,6 +194,7 @@ import java.util.Locale
 private const val TAG = "HttpSharingServer"
 
 class HttpSharingServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate() {
+    private val byPassAuth: Boolean = BuildConfig.DEBUG && false
     private var settings: SharedPreferences
     private lateinit var engine: NettyApplicationEngine
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
@@ -722,7 +723,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         get("/translation") {
             call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
         }
-        authenticate("user_session") {
+        authenticate("user_session", optional = byPassAuth) {
             // List of all the videos
             get("/video-list") {
                 if (!settings.serveVideos(appContext)) {
