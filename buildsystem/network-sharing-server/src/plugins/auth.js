@@ -6,24 +6,23 @@ const http = axios.create();
 /* Response Interceptors */
 const interceptResErrors = (err) => {
     try {
+        // If the request is unauthorized, fall back to login page
         if (err.response.status == 401) {
             router.push({ name: 'LoginPage' })
             return
         }
-        // check for response code 123 and redirect to login
         err = Object.assign(new Error(), { message: err.response.data });
     } catch (e) {
-        // check for response code 123 and redirect to login
-        // Will return err if something goes wrong
+        if (err.response.status == 401) {
+            router.push({ name: 'LoginPage' })
+        }
     }
     return Promise.reject(err);
 };
 const interceptResponse = (res) => {
     try {
-        // check for response code 123 and redirect to login
-        return Promise.resolve(res.data);
+        return Promise.resolve(res);
     } catch (e) {
-        // check for response code 123 and redirect to login
         return Promise.resolve(res);
     }
 };
