@@ -497,8 +497,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 val progressTimeDescription =  TalkbackUtil.millisToString(requireActivity(), if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime)
                 val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
-                val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
-                val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "${medias.size}")
+                val size = if (playlistModel.service?.playlistManager?.stopAfter != -1 ) (playlistModel.service?.playlistManager?.stopAfter ?: 0) + 1 else medias.size
+                val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / $size")
+                val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "$size")
 
                 val textProgress = if (audioPlayProgressMode) {
                     val endsAt = System.currentTimeMillis() + totalTime - progressTime
