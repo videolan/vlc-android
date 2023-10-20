@@ -488,7 +488,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                     }
 
                     cookie<UserSession>("user_session", directorySessionStorage(File("${context.filesDir.path}/server/cache"), true)) {
-                        cookie.maxAgeInSeconds = if (BuildConfig.DEBUG) 5 else 3600 * 24 * 365
+                        cookie.maxAgeInSeconds = if (BuildConfig.DEBUG) 3600 else 3600 * 24 * 365
                         transform(SessionTransportTransformerEncrypt(hex(encryptKey), hex(signkey)))
                     }
                 }
