@@ -1364,7 +1364,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
 
     companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) }) {
-        val byPassAuth: Boolean = BuildConfig.DEBUG && false
+        val byPassAuth: Boolean = BuildConfig.WEBSERVER_DEBUG
     }
 
     data class WebServerConnection(val ip: String)
