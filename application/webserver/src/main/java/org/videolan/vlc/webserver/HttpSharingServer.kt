@@ -30,7 +30,6 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.media.AudioManager
 import android.net.Uri
-import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.Formatter
 import android.util.Log
 import androidx.core.net.toUri
@@ -82,15 +81,12 @@ import io.ktor.server.sessions.SessionTransportTransformerEncrypt
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.cookie
 import io.ktor.server.sessions.directorySessionStorage
-import io.ktor.server.websocket.DefaultWebSocketServerSession
 import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
-import io.ktor.server.websocket.webSocket
 import io.ktor.util.hex
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
-import io.ktor.websocket.readText
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -137,7 +133,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.SingletonHolder
 import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
-import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.livedata.LiveDataset
@@ -174,6 +169,8 @@ import org.videolan.vlc.webserver.utils.serveAudios
 import org.videolan.vlc.webserver.utils.servePlaylists
 import org.videolan.vlc.webserver.utils.serveSearch
 import org.videolan.vlc.webserver.utils.serveVideos
+import org.videolan.vlc.webserver.websockets.WebServerWebSockets
+import org.videolan.vlc.webserver.websockets.WebServerWebSockets.setupWebSockets
 import java.io.File
 import java.math.BigInteger
 import java.net.InetAddress
@@ -197,8 +194,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     private val byPassAuth: Boolean = BuildConfig.DEBUG && false
     private var settings: SharedPreferences
     private lateinit var engine: NettyApplicationEngine
-    private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
-    private var service: PlaybackService? = null
+    var service: PlaybackService? = null
     private val format by lazy {
         object : ThreadLocal<DateFormat>() {
             override fun initialValue() = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.getDefault())
@@ -219,7 +215,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
         AppScope.launch {
-            websocketSession.forEach {
+            WebServerWebSockets.websocketSession.forEach {
                 val playerStatus = PlayerStatus(playing)
                 val gson = Gson()
                 it.send(Frame.Text(gson.toJson(playerStatus)))
@@ -286,7 +282,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
-            websocketSession.forEach {
+            WebServerWebSockets.websocketSession.forEach {
                 it.close()
             }
             if (::engine.isInitialized) engine.stop()
@@ -531,88 +527,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             }
         }
                 routing {
-            setupRouting()
-                    webSocket("/echo", protocol = "player") {
-                        websocketSession.add(this)
-                        // Handle a WebSocket session
-                        for (frame in incoming) {
-                            try {
-                                frame as? Frame.Text ?: continue
-                                val message = frame.readText()
-                                val gson = Gson()
-                                val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
-                                when (incomingMessage.message) {
-                            "play" -> if (playbackControlAllowedOrSend()) service?.play()
-                            "pause" -> if (playbackControlAllowedOrSend()) service?.pause()
-                            "previous" -> if (playbackControlAllowedOrSend()) service?.previous(false)
-                            "next" -> if (playbackControlAllowedOrSend()) service?.next()
-                            "previous10" -> if (playbackControlAllowedOrSend()) service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
-                            "next10" -> if (playbackControlAllowedOrSend()) service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
-                            "shuffle" -> if (playbackControlAllowedOrSend()) service?.shuffle()
-                            "repeat" -> if (playbackControlAllowedOrSend()) service?.let {
-                                        when (it.repeatType) {
-                                            PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                                            }
-                                            PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
-                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                                            } else {
-                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                                            }
-                                            PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                                                it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                                            }
-                                        }
-                                    }
-                                    "get-volume" -> {
-                                        AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage())) } }
-                                    }
-                                    "set-volume" -> {
-                                if (playbackControlAllowedOrSend()) (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
-                                            val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                                            it.setStreamVolume(AudioManager.STREAM_MUSIC, ((incomingMessage.id!!.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
-
-                                        }
-
-                                    }
-                                    "set-progress" -> {
-                                if (playbackControlAllowedOrSend()) incomingMessage.id?.let {
-                                            service?.setTime(it.toLong())
-                                        }
-                                    }
-                                    "play-media" -> {
-                                if (playbackControlAllowedOrSend()) service?.playIndex(incomingMessage.id!!)
-
-                                    }
-                                    "delete-media" -> {
-                                if (playbackControlAllowedOrSend()) service?.remove(incomingMessage.id!!)
-
-                                    }
-                                    "move-media-bottom" -> {
-                               if (playbackControlAllowedOrSend()) {
-                                   val index = incomingMessage.id!!
-                                   if (index < (service?.playlistManager?.getMediaListSize()
-                                                   ?: 0) - 1)
-                                       service?.moveItem(index, index + 2)
-                               }
-
-                                    }
-                                    "move-media-top" -> {
-                                if (playbackControlAllowedOrSend()) {
-                                    val index = incomingMessage.id!!
-                                    if (index > 0)
-                                        service?.moveItem(index, index - 1)
-                                }
-
-                                    }
-                                    else -> Log.w(TAG, "Unrecognized message", IllegalStateException("Unrecognized message: $message"))
-                                }
-                            } catch (e: Exception) {
-                                Log.e(TAG, e.message, e)
-                            }
-                        }
-                        websocketSession.remove(this)
-                    }
+                    setupRouting()
+                    setupWebSockets(context, settings)
                 }
             }
         }
@@ -1166,10 +1082,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     override fun update() {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from update")
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
         }
     }
 
@@ -1181,10 +1097,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     override fun onMediaEvent(event: IMedia.Event) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from onMediaEvent")
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
         }
     }
 
@@ -1198,12 +1114,12 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch {
                 if (BuildConfig.DEBUG) Log.d("DebugPlayer", "onMediaPlayerEvent $nowPlaying")
-                websocketSession.forEach { it.send(Frame.Text(nowPlaying)) }
+                WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(nowPlaying)) }
             }
         }
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch {
-                websocketSession.forEach { it.send(Frame.Text(playQueue)) }
+                WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(playQueue)) }
             }
         }
     }
@@ -1262,13 +1178,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
 
-    private fun playbackControlAllowedOrSend():Boolean {
-        val allowed = settings.getBoolean(WEB_SERVER_PLAYBACK_CONTROL, true)
-        val message = Gson().toJson(PlaybackControlForbidden())
-        if (!allowed) AppScope.launch { websocketSession.forEach { it.send(Frame.Text(message)) } }
-        return allowed
-    }
-
     /**
      * Generate the now playing data to be sent to the client
      *
@@ -1322,27 +1231,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             }
                     ?: 0
         }
-    }
-
-    /**
-     * Get the volume message to be sent to the client
-     *
-     * @return an [String] describing the volume message
-     */
-    private fun getVolumeMessage(): String {
-        val gson = Gson()
-        val volume = when {
-            service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
-            else -> {
-                (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
-                    val vol = it.getStreamVolume(AudioManager.STREAM_MUSIC)
-                    val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                    (vol.toFloat() / max * 100).toInt()
-                }
-                        ?: 0
-            }
-        }
-        return gson.toJson(Volume(volume))
     }
 
     /**
@@ -1485,8 +1373,4 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
     data class WebServerConnection(val ip: String)
 
-    data class WSIncomingMessage(
-            val message: String,
-            val id: Int?
-    )
 }
