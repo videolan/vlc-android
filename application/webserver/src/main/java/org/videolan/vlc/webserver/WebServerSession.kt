@@ -43,6 +43,7 @@ object WebServerSession {
      * @param redirect tru if this call needs to be redirected upon login error
      */
     suspend fun PipelineContext<Unit, ApplicationCall>.verifyLogin(settings: SharedPreferences) {
+        if (HttpSharingServer.byPassAuth) return
         val userSession: UserSession? = call.sessions.get("user_session") as? UserSession
         val loggedIn = userSession != null && userSession.id == settings.getString("valid_session_id", "")
         if (!loggedIn) {

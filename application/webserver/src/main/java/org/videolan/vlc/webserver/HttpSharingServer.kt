@@ -191,7 +191,6 @@ import java.util.Locale
 private const val TAG = "HttpSharingServer"
 
 class HttpSharingServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate() {
-    private val byPassAuth: Boolean = BuildConfig.DEBUG && false
     private var settings: SharedPreferences
     private lateinit var engine: NettyApplicationEngine
     var service: PlaybackService? = null
@@ -1369,7 +1368,9 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             ?: "", false, generateResolutionClass(width, height) ?: "")
 
 
-    companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) })
+    companion object : SingletonHolder<HttpSharingServer, Context>({ HttpSharingServer(it.applicationContext) }) {
+        val byPassAuth: Boolean = BuildConfig.DEBUG && false
+    }
 
     data class WebServerConnection(val ip: String)
 
