@@ -37,6 +37,10 @@ export const vlcApi = {
      */
     websocket: `${protocol}://${API_IP}/echo`,
     /**
+     * Retrieve the web socket API URL
+     */
+    websocketAuthTicket: `${API_URL}wsticket`,
+    /**
      * Retrieve the media upload API URL
      */
     uploadMedia: `${API_URL}upload-media`,

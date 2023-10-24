@@ -24,6 +24,7 @@ import { vlcApi } from './plugins/api.js'
 import { usePlayerStore } from './stores/PlayerStore'
 import { useAppStore } from './stores/AppStore'
 import { mapStores } from 'pinia'
+import http from './plugins/auth'
 
 export default {
   name: 'App',
@@ -48,9 +49,17 @@ export default {
       this.connection.send(
         JSON.stringify({
           message: message,
-          id: id
+          id: id,
+          authTicket: this.appStore.wsTicket
         })
       )
+    },
+    askWSTicket() {
+      let component = this
+      http.get(vlcApi.websocketAuthTicket)
+        .then((response) => {
+          component.appStore.wsTicket = response.data
+        });
     },
     sendFiles() {
       this.$refs.uploadComponent.openFiles()
@@ -61,6 +70,7 @@ export default {
       this.connection.onmessage = (event) => {
 
         const msg = JSON.parse(event.data);
+        if (process.env.NODE_ENV === 'development') console.log(`WS received with message ${JSON.stringify(msg)}`)
         if (this.playerStore.playing == false && msg.shouldShow) {
           console.log("Starting player ...")
           this.playerStore.playing = true;
@@ -80,6 +90,10 @@ export default {
           case 'play-queue':
             this.playerStore.playqueueData = msg
             break;
+          case 'auth':
+            //websockets not authorized. Asking for a ticket
+            this.askWSTicket(JSON.parse(msg.initialMessage))
+            break;
           case 'playback-control-forbidden':
             this.appStore.warning = { type: "warning", message: this.$t('PLAYBACK_CONTROL_FORBIDDEN') }
             break;
@@ -93,6 +107,7 @@ export default {
         console.log(event)
         console.log("Successfully connected to the echo websocket server...")
         this.appStore.socketOpened = true;
+        this.sendMessage("hello")
       }
 
       this.connection.onclose = () => {

@@ -85,8 +85,6 @@ import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
 import io.ktor.util.hex
-import io.ktor.websocket.Frame
-import io.ktor.websocket.close
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -214,11 +212,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
         AppScope.launch {
-            WebServerWebSockets.websocketSession.forEach {
-                val playerStatus = PlayerStatus(playing)
-                val gson = Gson()
-                it.send(Frame.Text(gson.toJson(playerStatus)))
-            }
+            val playerStatus = Gson().toJson(PlayerStatus(playing))
+            WebServerWebSockets.sendToAll(playerStatus)
         }
     }
 
@@ -281,9 +276,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
-            WebServerWebSockets.websocketSession.forEach {
-                it.close()
-            }
+            WebServerWebSockets.closeAllSessions()
             if (::engine.isInitialized) engine.stop()
         }
     }
@@ -639,6 +632,12 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
         }
         authenticate("user_session", optional = byPassAuth) {
+            //Provide a Websocket auth ticket as auth is validated
+            get("/wsticket") {
+                val ticket = WebServerWebSockets.createTicket()
+                call.respondText(ticket)
+            }
+
             // List of all the videos
             get("/video-list") {
                 if (!settings.serveVideos(appContext)) {
@@ -1081,10 +1080,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     override fun update() {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from update")
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+            AppScope.launch { WebServerWebSockets.sendToAll(nowPlaying) }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+            AppScope.launch { WebServerWebSockets.sendToAll(playQueue) }
         }
     }
 
@@ -1096,10 +1095,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     override fun onMediaEvent(event: IMedia.Event) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from onMediaEvent")
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(nowPlaying)) } }
+            AppScope.launch { WebServerWebSockets.sendToAll(nowPlaying) }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch { WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(playQueue)) } }
+            AppScope.launch { WebServerWebSockets.sendToAll(playQueue) }
         }
     }
 
@@ -1111,15 +1110,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         if (event.type != MediaPlayer.Event.TimeChanged) return
         generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch {
-                if (BuildConfig.DEBUG) Log.d("DebugPlayer", "onMediaPlayerEvent $nowPlaying")
-                WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(nowPlaying)) }
-            }
+            AppScope.launch { WebServerWebSockets.sendToAll(message = nowPlaying) }
         }
         generatePlayQueue()?.let { playQueue ->
-            AppScope.launch {
-                WebServerWebSockets.websocketSession.forEach { it.send(Frame.Text(playQueue)) }
-            }
+            AppScope.launch { WebServerWebSockets.sendToAll(playQueue) }
         }
     }
 
@@ -1344,6 +1338,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false)
+    data class WebSocketAuthorization(val status:String, val initialMessage:String) : WSMessage("auth")
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")

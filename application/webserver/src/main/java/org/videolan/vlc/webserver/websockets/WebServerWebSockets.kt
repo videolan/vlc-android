@@ -34,16 +34,22 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.websocket.DefaultWebSocketServerSession
 import io.ktor.server.websocket.webSocket
 import io.ktor.websocket.Frame
+import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlinx.coroutines.launch
 import org.videolan.tools.AppScope
 import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.webserver.BuildConfig
 import org.videolan.vlc.webserver.HttpSharingServer
+import org.videolan.vlc.webserver.ssl.SecretGenerator
 
 object WebServerWebSockets {
     private const val TAG = "HttpSharingServerWS"
-    var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
+    private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
+    private val tickets = ArrayList<WSAuthTicket>()
+
+
     fun Routing.setupWebSockets(context: Context, settings: SharedPreferences) {
         webSocket("/echo", protocol = "player") {
             websocketSession.add(this)
@@ -54,8 +60,15 @@ object WebServerWebSockets {
                     val message = frame.readText()
                     val gson = Gson()
                     val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
+                    if (BuildConfig.DEBUG) Log.i(TAG, "Received: $message")
+                    if (!verifyWebsocketAuth(incomingMessage)) {
+                        val gson = Gson()
+                        send(Frame.Text(gson.toJson(HttpSharingServer.WebSocketAuthorization("forbidden", initialMessage = message))))
+                        return@webSocket
+                    }
                     val service = HttpSharingServer.getInstance(context).service
                     when (incomingMessage.message) {
+                        "hello" -> {}
                         "play" -> if (playbackControlAllowedOrSend(settings)) service?.play()
                         "pause" -> if (playbackControlAllowedOrSend(settings)) service?.pause()
                         "previous" -> if (playbackControlAllowedOrSend(settings)) service?.previous(false)
@@ -139,6 +152,16 @@ object WebServerWebSockets {
         }
     }
 
+    /**
+     * Verify if the websocket auth ticket is here and valid
+     *
+     * @param incomingMessage the incoming message containing the ticket
+     * @return true if the websocket message is allowed
+     */
+    private fun verifyWebsocketAuth(incomingMessage: WSIncomingMessage?): Boolean {
+        return incomingMessage?.authTicket != null && tickets.firstOrNull { incomingMessage.authTicket == it.id && System.currentTimeMillis() < it.expiration } != null
+    }
+
     private fun playbackControlAllowedOrSend(settings: SharedPreferences): Boolean {
         val allowed = settings.getBoolean(WEB_SERVER_PLAYBACK_CONTROL, true)
         val message = Gson().toJson(HttpSharingServer.PlaybackControlForbidden())
@@ -154,7 +177,7 @@ object WebServerWebSockets {
     private fun getVolumeMessage(context: Context, service: PlaybackService?): String {
         val gson = Gson()
         val volume = when {
-            service?.isVideoPlaying == true && service!!.volume > 100 -> service!!.volume
+            service?.isVideoPlaying == true && service.volume > 100 -> service.volume
             else -> {
                 (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
                     val vol = it.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -165,5 +188,23 @@ object WebServerWebSockets {
             }
         }
         return gson.toJson(HttpSharingServer.Volume(volume))
+    }
+
+    fun createTicket(): String {
+        val ticket = WSAuthTicket(SecretGenerator.generateRandomAlphanumericString(45), System.currentTimeMillis() + 60_000L)
+        tickets.add(ticket)
+        return ticket.id
+    }
+
+   suspend fun sendToAll(message: String) {
+       if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${websocketSession.size} sessions with message '$message'")
+       websocketSession.forEach { it.send(Frame.Text(message)) }
+   }
+
+    suspend fun closeAllSessions() {
+        websocketSession.forEach {
+            it.close()
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  WSIncomingMessage.kt
+ *  WSAuthTicket.kt
  * *************************************************************************
  * Copyright © 2023 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -24,8 +24,7 @@
 
 package org.videolan.vlc.webserver.websockets
 
-data class WSIncomingMessage(
-            val message: String,
-            val id: Int?,
-            val authTicket: String? = null
+data class WSAuthTicket(
+            val id: String,
+            val expiration:Long
 )

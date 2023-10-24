@@ -9,6 +9,7 @@ export const useAppStore = defineStore('app', {
 
   state: () => ({
     loading: false,
+    wsTicket: "",
     displayType: reactive(useLocalStorage('displayType', {})),
     warning: Object,
     socketOpened: true,
