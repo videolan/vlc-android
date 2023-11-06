@@ -1194,6 +1194,9 @@
     <string name="ns_forbidden">Content disabled in the settings</string>
     <string name="ns_playback_forbidden">Playback control disabled in the settings</string>
     <string name="ns_code_requested_explanation">To protect your server, the access is protected.\nPlease enter the code displayed in your notifications</string>
+    <string name="ns_ssl_explanation_title">Unsecure connection</string>
+    <string name="ns_ssl_explanation">Your connection is not secure. Due to browser limitation, you will receive a security warning in the next page. Make sure to accept the certificate to be able to use the web server</string>
+    <string name="ns_ssl_button">Use a secure connection</string>
     <string name="ns_new_code">Send a new code</string>
     <string name="home">Home</string>
     <string name="ns_code">Enter this code: %s</string>

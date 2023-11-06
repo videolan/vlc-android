@@ -320,9 +320,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      */
     private val InterceptorPlugin = createApplicationPlugin(name = "VLCInterceptorPlugin") {
         onCall { call ->
-            if (sslEnabled() && call.request.origin.scheme == "http") {
-                call.respondRedirect(serverInfo(), true)
-            }
             call.request.origin.apply {
                 val oldConnections = _serverConnections.value
                 if ((oldConnections?.filter { it.ip == remoteHost }?.size ?: 0) == 0) {
@@ -507,17 +504,17 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                     anyHost()
                 }
                 install(PartialContent)
-        if (BuildConfig.DEBUG) install(CallLogging) {
-            format { call ->
-                val status = call.response.status()
-                val httpMethod = call.request.httpMethod.value
-                val path = call.request.uri
-                val headers = call.request.headers.entries()
-                        .map { it.key to it.value.joinToString(",") }
-                        .joinToString("\n\t") { "${it.first}:${it.second}" }
-                "$httpMethod - $path -> $status\nheaders:\n\t$headers"
-            }
-        }
+                if (BuildConfig.DEBUG) install(CallLogging) {
+                    format { call ->
+                        val status = call.response.status()
+                        val httpMethod = call.request.httpMethod.value
+                        val path = call.request.uri
+                        val headers = call.request.headers.entries()
+                                .map { it.key to it.value.joinToString(",") }
+                                .joinToString("\n\t") { "${it.first}:${it.second}" }
+                        "$httpMethod - $path -> $status\nheaders:\n\t$headers"
+                    }
+                }
                 routing {
                     setupRouting()
                     setupWebSockets(context, settings)
@@ -630,6 +627,35 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         // Get the translation string list
         get("/translation") {
             call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
+        }
+        get("/secure-url") {
+            call.respondText(serverInfo())
+        }
+        // Sends an icon
+        get("/icon") {
+            val idString = call.request.queryParameters["id"]
+            val width = call.request.queryParameters["width"]?.toInt() ?: 32
+
+            val id = try {
+                appContext.resIdByName(idString, "drawable")
+            } catch (e: Resources.NotFoundException) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+
+            if (id == 0) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+
+            BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
+
+                call.respondBytes(ContentType.Image.PNG) { it }
+                return@get
+            }
+
+            call.respond(HttpStatusCode.NotFound)
+
         }
         authenticate("user_session", optional = byPassAuth) {
             //Provide a Websocket auth ticket as auth is validated
@@ -968,32 +994,6 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                     dst.delete()
                 }
                 call.respond(HttpStatusCode.NotFound)
-            }
-            // Sends an icon
-            get("/icon") {
-                val idString = call.request.queryParameters["id"]
-                val width = call.request.queryParameters["width"]?.toInt() ?: 32
-
-                val id = try {
-                    appContext.resIdByName(idString, "drawable")
-                } catch (e: Resources.NotFoundException) {
-                    call.respond(HttpStatusCode.NotFound)
-                    return@get
-                }
-
-                if (id == 0) {
-                    call.respond(HttpStatusCode.NotFound)
-                    return@get
-                }
-
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
-
-                    call.respondBytes(ContentType.Image.PNG) { it }
-                    return@get
-                }
-
-                call.respond(HttpStatusCode.NotFound)
-
             }
             // Get a media artwork
             get("/artwork") {

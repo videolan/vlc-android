@@ -27,6 +27,10 @@ export const vlcApi = {
      */
     code: `${API_URL}code`,
     /**
+     * Ask for a secure URL
+     */
+    secureUrl: `${API_URL}secure-url`,
+    /**
      * Ask for a code generation
      */
     verifyCode: (code) => {

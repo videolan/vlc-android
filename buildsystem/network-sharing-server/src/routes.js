@@ -9,6 +9,7 @@ import BrowseChild from './pages/BrowseChild'
 import BrowseList from './pages/BrowseList'
 import SearchList from './pages/SearchList'
 import LoginPage from './pages/LoginPage'
+import SslPage from './pages/SslPage'
 
 const routes = [
   { path: '/', redirect: '/videos', name: 'Home' },
@@ -34,6 +35,7 @@ const routes = [
 
   { path: '/logs', component: PageDownloads, name: 'Logs' },
   { path: '/login', component: LoginPage, name: 'LoginPage' },
+  { path: '/ssl', component: SslPage, name: 'SslPage' },
 ]
 
 export default routes;

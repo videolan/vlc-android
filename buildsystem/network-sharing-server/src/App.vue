@@ -132,12 +132,16 @@ export default {
     }
   },
   created: function () {
-    this.startWebSocket()
     window.addEventListener('resize', () => {
       // We execute the same script as before
       let vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     });
+    if (location.protocol !== 'https:') {
+      this.$router.push({ name: 'SslPage' })
+    } else {
+      this.startWebSocket()
+    }
   }
 }
 </script>

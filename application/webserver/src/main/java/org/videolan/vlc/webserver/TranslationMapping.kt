@@ -71,5 +71,8 @@ object TranslationMapping {
         SEND(R.string.send),
         NEW_CODE(R.string.ns_new_code),
         CODE_REQUEST_EXPLANATION(R.string.ns_code_requested_explanation),
+        SSL_BUTTON(R.string.ns_ssl_button),
+        SSL_EXPLANATION_TITLE(R.string.ns_ssl_explanation_title),
+        SSL_EXPLANATION(R.string.ns_ssl_explanation),
     }
 }
