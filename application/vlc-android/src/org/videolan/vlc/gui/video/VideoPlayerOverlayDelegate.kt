@@ -113,7 +113,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private var hingeSnackShown: Boolean = false
 
     var enableSubs = true
-    private lateinit var bookmarkListDelegate: BookmarkListDelegate
+    private var bookmarkListDelegate: BookmarkListDelegate? = null
 
     fun isHudBindingInitialized() = ::hudBinding.isInitialized
     fun isHudRightBindingInitialized() = ::hudRightBinding.isInitialized
@@ -430,7 +430,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
                     hudBinding.playerOverlayPlay.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                     if (isBookmarkShown())try {
-                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate.addBookmarButton.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate?.addBookmarButton?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                     } catch (e: Exception) {
                     }
                 }
@@ -980,36 +980,39 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     fun showBookmarks() {
         player.service?.let {
-            if (!this::bookmarkListDelegate.isInitialized) {
+            if (bookmarkListDelegate == null) {
                 bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel)
-                bookmarkListDelegate.markerContainer = hudBinding.bookmarkMarkerContainer
-                bookmarkListDelegate.visibilityListener = {
-                    if (bookmarkListDelegate.visible) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
+                bookmarkListDelegate?.markerContainer = hudBinding.bookmarkMarkerContainer
+                bookmarkListDelegate?.visibilityListener = {
+                    if (bookmarkListDelegate?.visible == true) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
                     else showOverlayTimeout(Settings.videoHudDelay * 1000)
                 }
             }
-            bookmarkListDelegate.show()
+            bookmarkListDelegate?.show()
             val top = hudBinding.playerOverlaySeekbar.top
-            bookmarkListDelegate.setProgressHeight((top + 12.dp).toFloat())
+            bookmarkListDelegate?.setProgressHeight((top + 12.dp).toFloat())
         }
     }
 
     fun rotateBookmarks() {
-        if (::bookmarkListDelegate.isInitialized && isBookmarkShown()) {
+        if (bookmarkListDelegate != null && isBookmarkShown()) {
             //make sure the rotation is complete and layout is done before resetting the bookmarks' layout
             hudBinding.progressOverlay.post {
-                bookmarkListDelegate.hide()
+                bookmarkListDelegate?.hide()
                 showBookmarks()
             }
         }
     }
 
-    fun isBookmarkShown() = ::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible
+    fun isBookmarkShown() = bookmarkListDelegate != null && bookmarkListDelegate?.visible == true
     fun hideBookmarks() {
-        bookmarkListDelegate.hide()
+        bookmarkListDelegate?.hide()
     }
 
     fun getOverlayBrightness() = if (::playerOverlayBrightness.isInitialized) playerOverlayBrightness else null
 
     fun getOverlayVolume() = if (::playerOverlayVolume.isInitialized) playerOverlayVolume else null
+    fun onDestroy() {
+        bookmarkListDelegate = null
+    }
 }

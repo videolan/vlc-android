@@ -20,10 +20,10 @@
 
 package org.videolan.vlc.viewmodels
 
-import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -32,13 +32,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.tools.readableSize
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.PlaylistFilterDelegate
@@ -256,6 +253,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     companion object {
         fun get(fragment: Fragment) = ViewModelProvider(fragment.requireActivity()).get(PlaylistModel::class.java)
+        fun get(activity: FragmentActivity) = ViewModelProvider(activity).get(PlaylistModel::class.java)
     }
 }
 

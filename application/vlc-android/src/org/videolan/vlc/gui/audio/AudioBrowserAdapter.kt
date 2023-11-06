@@ -64,6 +64,7 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
+import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
@@ -71,6 +72,7 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeSMB
+import org.videolan.vlc.viewmodels.PlaylistModel
 
 private const val SHOW_IN_LIST = -1
 
@@ -94,7 +96,23 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     private var scheduler: LifecycleAwareScheduler? = null
     var stopReorder = false
     var areSectionsEnabled = true
+    private var currentPlayingVisu: MiniVisualizer? = null
+    private var model: PlaylistModel? = null
 
+    var currentMedia:MediaWrapper? = null
+        set(media) {
+            if (media == currentMedia) return
+            val former = currentMedia
+            field = media
+            if (former != null) currentList?.indexOf(former)?.let {
+                notifyItemChanged(it)
+            }
+            if (media != null) {
+                currentList?.indexOf(media)?.let {
+                    notifyItemChanged(it)
+                }
+            }
+        }
     protected fun inflaterInitialized() = ::inflater.isInitialized
 
     val isEmpty: Boolean
@@ -134,7 +152,17 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         scheduler?.cancelAction("")
+        currentMedia = null
+        currentPlayingVisu = null
         super.onDetachedFromRecyclerView(recyclerView)
+    }
+
+    fun setCurrentlyPlaying(playing: Boolean) {
+        if (playing) currentPlayingVisu?.start() else currentPlayingVisu?.stop()
+    }
+
+    fun setModel(model: PlaylistModel) {
+        this.model = model
     }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
@@ -151,6 +179,17 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             holder.binding.setVariable(BR.isSD, item.uri.isSD())
             holder.binding.setVariable(BR.isPresent, item.isPresent)
         } else holder.binding.setVariable(BR.isPresent, true)
+        val miniVisualizer: MiniVisualizer = holder.getMiniVisu()
+        if (currentMedia == item) {
+            if (model?.playing != false) miniVisualizer.start() else miniVisualizer.stop()
+            miniVisualizer.visibility = View.VISIBLE
+            holder.changePlayingVisibility(true)
+            currentPlayingVisu = miniVisualizer
+        } else {
+            miniVisualizer.stop()
+            holder.changePlayingVisibility(false)
+            miniVisualizer.visibility = View.INVISIBLE
+        }
         item?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
         holder.binding.setVariable(BR.inSelection,multiSelectHelper.inActionMode)
         holder.binding.invalidateAll()
@@ -289,6 +328,12 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             binding.title.isSelected = false
         }
 
+        override fun getMiniVisu() = binding.playing
+
+        override fun changePlayingVisibility(isCurrent: Boolean) {
+            binding.mediaCover.visibility = if (isCurrent) View.INVISIBLE else View.VISIBLE
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -327,6 +372,10 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             binding.title.isSelected = false
         }
 
+        override fun getMiniVisu() = binding.playing
+
+        override fun changePlayingVisibility(isCurrent: Boolean) { }
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -360,7 +409,10 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
         abstract fun setItem(item: MediaLibraryItem?)
 
+        abstract fun getMiniVisu():MiniVisualizer
+
         abstract fun recycle()
+        abstract fun changePlayingVisibility(isCurrent: Boolean)
 
     }
 

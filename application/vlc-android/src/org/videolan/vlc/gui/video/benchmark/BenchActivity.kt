@@ -137,7 +137,7 @@ class BenchActivity : ShallowVideoPlayer() {
             oldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
             oldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
             AppScope.launch(Dispatchers.IO) {
-                sharedPref.edit {
+                with(sharedPref.edit()) {
                     putString(PREFERENCE_OPENGL, "0")
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
                 }
@@ -556,7 +556,7 @@ class BenchActivity : ShallowVideoPlayer() {
         if (isHardware && oldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
             AppScope.launch(Dispatchers.IO) {
-                sharedPref.edit {
+                with(sharedPref.edit()) {
                     putString(PREFERENCE_OPENGL, oldOpenglValue)
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
                 }
@@ -577,6 +577,7 @@ class BenchActivity : ShallowVideoPlayer() {
             val stats = service!!.lastStats
             sendIntent.putExtra("percent_of_bad_seek", 0.0)
             sendIntent.putExtra("number_of_dropped_frames", stats?.lostPictures ?: 100)
+            sendIntent.putExtra("displayed_frames", stats?.displayedPictures )
             sendIntent.putExtra("late_frames", lateFrameCounter)
             setResult(Activity.RESULT_OK, sendIntent)
             sendIntent.putExtra("speed", speed)

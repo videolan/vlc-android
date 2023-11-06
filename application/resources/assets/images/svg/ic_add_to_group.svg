@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="48px"
    height="48px"
    viewBox="0 0 48 48"
    version="1.1"
    id="SVGRoot"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_add_to_group.svg">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="ic_add_to_group.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6568545"
-     inkscape:cx="1.1959097"
-     inkscape:cy="30.607437"
+     inkscape:cx="1.2374368"
+     inkscape:cy="30.582367"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     inkscape:window-height="1043"
      inkscape:window-x="0"
-     inkscape:window-y="1107"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:grid-bbox="true"
      inkscape:snap-bbox="true"
@@ -47,7 +47,8 @@
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-midpoints="true"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true">
+     inkscape:snap-center="true"
+     inkscape:pagecheckerboard="1">
     <inkscape:grid
        type="xygrid"
        id="grid8234" />
@@ -60,7 +61,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -69,9 +69,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75590551;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
-       d="m 15,6 c -1.662,0 -3,1.338 -3,3 v 24 c 0,1.662 1.338,3 3,3 h 24 c 1.662,0 3,-1.338 3,-3 V 9 C 42,7.338 40.662,6 39,6 Z m 0,3 H 39 V 33 H 15 Z m -9,4 v 26 c 0,1.65685 1.3431,3 3,3 H 35 V 39 H 9 V 13 Z m 21,0 c -1.108,0 -2,0.892 -2,2 v 4 h -4 c -1.108,0 -2,0.892 -2,2 0,1.108 0.892,2 2,2 h 4 v 4 c 0,1.108 0.892,2 2,2 1.108,0 2,-0.892 2,-2 v -4 h 4 c 1.108,0 2,-0.892 2,-2 0,-1.108 -0.892,-2 -2,-2 h -4 v -4 c 0,-1.108 -0.892,-2 -2,-2 z"
-       id="rect1753"
-       inkscape:connector-curvature="0" />
+       id="path14959"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="M 16 4 C 13.784 4 12 5.784 12 8 L 12 32 C 12 34.216 13.784 36 16 36 L 40 36 C 42.216 36 44 34.216 44 32 L 44 8 C 44 5.784 42.216 4 40 4 L 16 4 z M 16 8 L 40 8 L 40 32 L 16 32 L 16 8 z M 4 12 L 4 40 C 4 42.185411 5.8145886 44 8 44 L 36 44 L 36 40 L 8 40 L 8 12 L 4 12 z M 28 12 C 26.892 12 26 12.892 26 14 L 26 18 L 22 18 C 20.892 18 20 18.892 20 20 C 20 21.108 20.892 22 22 22 L 26 22 L 26 26 C 26 27.108 26.892 28 28 28 C 29.108 28 30 27.108 30 26 L 30 22 L 34 22 C 35.108 22 36 21.108 36 20 C 36 18.892 35.108 18 34 18 L 30 18 L 30 14 C 30 12.892 29.108 12 28 12 z " />
   </g>
 </svg>

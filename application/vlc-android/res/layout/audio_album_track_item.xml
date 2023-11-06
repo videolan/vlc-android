@@ -82,6 +82,16 @@
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="@id/title" />
 
+        <org.videolan.vlc.gui.view.MiniVisualizer
+                android:id="@+id/playing"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                vlc:bar_color="?attr/mini_visualizer_color"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent" />
+
         <TextView
                 android:id="@+id/title"
                 style="@style/VLC.TextViewTitle"

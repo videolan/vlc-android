@@ -33,7 +33,6 @@ import android.widget.TextView
 import androidx.core.view.MotionEventCompat
 import androidx.databinding.ViewDataBinding
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.Settings
@@ -42,7 +41,6 @@ import org.videolan.vlc.databinding.AudioAlbumTrackItemBinding
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.TextUtils
 
 class AudioAlbumTracksAdapter @JvmOverloads constructor(
     type: Int, eventsHandler: IEventsHandler<MediaLibraryItem>,
@@ -111,6 +109,12 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
         override fun recycle() {
             binding.cover = defaultCover
             binding.title.isSelected = false
+        }
+
+        override fun getMiniVisu() = binding.playing
+
+        override fun changePlayingVisibility(isCurrent: Boolean) {
+            binding.trackNumber.visibility = if (isCurrent) View.INVISIBLE else View.VISIBLE
         }
 
     }

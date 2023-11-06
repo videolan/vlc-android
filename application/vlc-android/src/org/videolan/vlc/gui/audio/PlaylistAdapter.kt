@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -33,7 +34,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -43,6 +43,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.Settings
 import org.videolan.tools.setGone
@@ -76,6 +77,14 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     private var currentPlayingVisu: MiniVisualizer? = null
     lateinit var scheduler: LifecycleAwareScheduler
     var marqueeScheduler: LifecycleAwareScheduler? = null
+    var stopAfter: Int = -1
+        set(value) {
+            val old = field
+            field = value
+            if (old in 1 until itemCount) notifyItemChanged(old)
+            if (value in 1 until itemCount) notifyItemChanged(value)
+
+        }
 
     init {
         val ctx = when (player) {
@@ -119,6 +128,8 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         holder.binding.media = media
         holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
         holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
+        holder.binding.stopAfter.visibility = if (stopAfter == position) View.VISIBLE else View.GONE
+        holder.binding.stopAfterThis = (position == stopAfter)
         if (currentIndex == position) {
             if (model?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
@@ -141,7 +152,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             holder.binding.cover = defaultCoverAudio
         }
 
-        val tablet = holder.binding.itemDelete.context.isTablet()
+        val tablet = holder.binding.itemDelete.context.isTablet() || AndroidDevices.isTv
         if (tablet) holder.binding.itemDelete.setVisible() else holder.binding.itemDelete.setGone()
         if (tablet) holder.binding.itemMoveDown.setVisible() else holder.binding.itemMoveDown.setGone()
         if (tablet) holder.binding.itemMoveUp.setVisible() else holder.binding.itemMoveUp.setGone()
@@ -152,6 +163,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         marqueeScheduler?.cancelAction("")
+        currentPlayingVisu?.stop()
         currentPlayingVisu = null
     }
 
@@ -195,8 +207,10 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             UiTools.snackerWithCancel(player.requireActivity(), message, overAudioPlayer = true, action = {}) {
                  model?.run { insertMedia(position, media) }
             }
-        } else if (player is Context) {
-            Toast.makeText(AppContextProvider.appContext, message, Toast.LENGTH_SHORT).show()
+        } else if (player is Activity) {
+            UiTools.snackerWithCancel(player, message, action = {}) {
+                model?.run { insertMedia(position, media) }
+            }
         }
         remove(position)
     }

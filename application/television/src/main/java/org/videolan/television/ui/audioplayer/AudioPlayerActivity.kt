@@ -73,7 +73,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     private var settings: SharedPreferences? = null
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
     private lateinit var playToPause: AnimatedVectorDrawableCompat
-    private lateinit var optionsDelegate: PlayerOptionsDelegate
+    private var optionsDelegate: PlayerOptionsDelegate? = null
     lateinit var bookmarkModel: BookmarkModel
     private lateinit var bookmarkListDelegate: BookmarkListDelegate
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerActivity) }
@@ -130,8 +130,8 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         bookmarkModel = BookmarkModel.get(this)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (this@AudioPlayerActivity::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
-                    optionsDelegate.hide()
+                if (optionsDelegate?.isShowing() == true) {
+                    optionsDelegate?.hide()
                     return
                 }
                 if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) {
@@ -141,6 +141,11 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                 finish()
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        optionsDelegate = null
     }
 
     private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
@@ -311,14 +316,14 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     }
 
     private fun showAdvancedOptions(@Suppress("UNUSED_PARAMETER") v: View?) {
-        if (!this::optionsDelegate.isInitialized) {
+        if (optionsDelegate == null) {
             val service = model.service ?: return
             optionsDelegate = PlayerOptionsDelegate(this, service, false)
-            optionsDelegate.setBookmarkClickedListener {
+            optionsDelegate?.setBookmarkClickedListener {
                 lifecycleScope.launch { if (!showPinIfNeeded()) showBookmarks() }
             }
         }
-        optionsDelegate.show()
+        optionsDelegate?.show()
     }
 
     /**

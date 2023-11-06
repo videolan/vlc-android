@@ -224,7 +224,6 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
     override fun onDetachedFromWindow() {
         if (::layoutManager.isInitialized) this.layoutManager.onDetachedFromWindow(recyclerView)
         if (::appbarLayout.isInitialized) this.appbarLayout.removeOnOffsetChangedListener(this)
-        if (::coordinatorLayout.isInitialized) this.coordinatorLayout.onDetachedFromWindow()
         this.provider?.liveHeaders?.removeObserver(this)
         this.provider = null
         actor.close()

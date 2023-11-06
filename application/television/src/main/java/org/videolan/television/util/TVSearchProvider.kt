@@ -47,7 +47,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.getFileUri
 import org.videolan.vlc.util.ThumbnailsProvider
-import java.util.*
+import java.util.Locale
 
 class TVSearchProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? =
@@ -101,6 +101,7 @@ class TVSearchProvider : ContentProvider() {
                                         }
                                     }
                                 }
+                        else { }
                     }
                 }
 

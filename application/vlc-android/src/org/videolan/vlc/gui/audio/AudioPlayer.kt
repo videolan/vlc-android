@@ -265,6 +265,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     override fun onDestroy() {
         Settings.removeAudioControlsChangeListener()
+        binding.songsList.adapter = null
         super.onDestroy()
     }
 
@@ -335,7 +336,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     }
                     playlistModel.remove(position)
                 }
-                CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
+                CTX_STOP_AFTER_THIS -> {
+                    val pos = if (playlistModel.service?.playlistManager?.stopAfter != position) position else -1
+                    playlistModel.stopAfter(pos)
+                    playlistAdapter.stopAfter = pos
+                }
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
                 CTX_GO_TO_FOLDER -> showParentFolder(playlistAdapter.getItem(position))
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
@@ -492,8 +497,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 val progressTimeDescription =  TalkbackUtil.millisToString(requireActivity(), if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime)
                 val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
-                val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
-                val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "${medias.size}")
+                val size = if (playlistModel.service?.playlistManager?.stopAfter != -1 ) (playlistModel.service?.playlistManager?.stopAfter ?: 0) + 1 else medias.size
+                val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / $size")
+                val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "$size")
 
                 val textProgress = if (audioPlayProgressMode) {
                     val endsAt = System.currentTimeMillis() + totalTime - progressTime

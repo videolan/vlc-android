@@ -114,6 +114,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected abstract fun browseRoot()
     private var needToRefreshMeta = false
     private var enqueuingSnackbar: Snackbar? = null
+    private lateinit var startedScope: CoroutineScope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,9 +129,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         isRootDirectory = defineIsRoot()
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
-        PlaybackService.serviceFlow.onEach {
-            it?.addCallback(this)
-        }.launchIn(MainScope())
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -232,6 +230,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onStart() {
         super.onStart()
+        startedScope = MainScope()
+        PlaybackService.serviceFlow.onEach {
+            it?.addCallback(this)
+        }.launchIn(startedScope)
+
         fabPlay?.run {
             setImageResource(R.drawable.ic_fab_play)
             updateFab()
@@ -243,12 +246,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onStop() {
         super.onStop()
+        startedScope.cancel()
+        PlaybackService.serviceFlow.value?.removeCallback(this)
         viewModel.stop()
     }
 
     override fun onDestroy() {
         if (::adapter.isInitialized) adapter.cancel()
-        PlaybackService.serviceFlow.value?.removeCallback(this)
         super.onDestroy()
     }
 

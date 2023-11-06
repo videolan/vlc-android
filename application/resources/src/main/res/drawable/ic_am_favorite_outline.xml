@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_delete_toolbar.xml
+  ~  ic_am_favorite_outline.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2022 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -28,12 +28,6 @@
         android:viewportWidth="48"
         android:viewportHeight="48">
     <path
-            android:pathData="m18,8c-1.1046,0 -2,0.8954 -2,2h-5v4L37,14L37,10L32,10C32,8.8954 31.1046,8 30,8ZM13,16v20c0,2.2091 1.7909,4 4,4h14c2.2091,0 4,-1.7909 4,-4L35,16Z"
-            android:strokeAlpha="1"
-            android:strokeLineJoin="miter"
-            android:strokeWidth="4"
-            android:fillColor="?attr/colorControlNormal"
-            android:strokeColor="#00000000"
-            android:fillAlpha="1"
-            android:strokeLineCap="round" />
+            android:pathData="M31.461,9.5C28.578,9.481 25.808,10.82 24,12.936 21.108,9.55 15.75,8.171 11.412,11.129 9.095,12.707 7.665,15.384 7.566,18.178 7.353,24.554 12.99,29.665 21.617,37.471l0.18,0.164c1.249,1.15 3.173,1.151 4.422,0.018l0.164,-0.148c8.628,-7.839 14.281,-12.95 14.051,-19.326 -0.099,-2.794 -1.529,-5.471 -3.846,-7.049 -1.627,-1.115 -3.397,-1.617 -5.127,-1.629zM17.041,13.5c2.382,0 4.702,1.523 5.522,3.631h2.891C26.257,15.023 28.577,13.5 30.959,13.5c3.093,0 5.414,2.308 5.414,5.385 0,4.446 -4.857,8.83 -12.219,15.461L24,34.5 23.846,34.346C16.484,27.715 11.627,23.331 11.627,18.885 11.627,15.808 13.948,13.5 17.041,13.5Z"
+            android:fillColor="?attr/colorControlNormal"/>
 </vector>

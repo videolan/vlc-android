@@ -65,7 +65,7 @@
     <string name="video_app_switch_summary">Select VLC behavior when you switch to other application from video playback</string>
     <string name="play_pip_title">Play videos in Picture-in-picture mode</string>
     <string name="play_as_audio_background">Play videos in background</string>
-    <string name="append">Append</string>
+    <string name="append">Add to play queue</string>
     <string name="insert_next">Insert next</string>
     <string name="play_all">Play all</string>
     <string name="append_all">Append all</string>

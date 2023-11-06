@@ -105,6 +105,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
@@ -854,6 +855,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             dataset.removeObserver(playlistObserver)
             onCleared()
         }
+        optionsDelegate = null
+        overlayDelegate.onDestroy()
 
         // Dismiss the presentation when the activity is not visible.
         displayManager.release()
@@ -1723,12 +1726,23 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.audio_player, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
+        if (isTablet() || AndroidDevices.isTv) {
+            popupMenu.menu.removeGroup(R.id.phone_only)
+        }
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { curentItem ->
-            if (curentItem.itemId == R.id.audio_player_mini_remove) service?.run {
-                remove(position)
-                return@OnMenuItemClickListener true
+            when (curentItem.itemId) {
+                R.id.audio_player_mini_remove -> service?.run {
+                    remove(position)
+                    return@OnMenuItemClickListener true
+                }
+                R.id.stop_after -> {
+                    val pos = if (playlistModel?.service?.playlistManager?.stopAfter != position) position else -1
+                    playlistModel?.stopAfter(pos)
+                    overlayDelegate.playlistAdapter.stopAfter = pos
+                    curentItem.isChecked = true
+                }
             }
             false
         })

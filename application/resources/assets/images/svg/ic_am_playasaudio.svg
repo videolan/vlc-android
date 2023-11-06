@@ -1,36 +1,68 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
 
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" height="24"
-        id="svg4682" version="1.1" inkscape:version="0.91 r13725"
-        sodipodi:docname="ic_am_playasaudio_normal.svg"
-        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
-    <defs id="defs4684" />
-    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
-            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="31.678384"
-            inkscape:cx="3.4149555" inkscape:cy="12.982388" inkscape:document-units="px"
-            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
-            inkscape:window-height="1056" inkscape:window-x="1920" inkscape:window-y="24"
-            inkscape:window-maximized="1">
-        <inkscape:grid type="xygrid" id="grid3002" />
-    </sodipodi:namedview>
-    <metadata id="metadata4687">
-        <rdf:RDF>
-            <cc:Work rdf:about="">
-                <dc:format>image/svg+xml</dc:format>
-                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                <dc:title />
-            </cc:Work>
-        </rdf:RDF>
-    </metadata>
-    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
-            transform="translate(0,-1028.3622)">
-        <path style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;enable-background:accumulate"
-                d="m 4,1032.3624 0,11 8.642578,-5.5 L 4,1032.3624 Z m 12,2 0,9.0527 a 2.5,2.5 0 0 0 -0.5,-0.053 2.5,2.5 0 0 0 -2.5,2.5 2.5,2.5 0 0 0 2.5,2.5 2.5,2.5 0 0 0 2.5,-2.5 l 0,-9.5 2,0 0,-2 -2,0 -2,0 z"
-                id="path7425" inkscape:connector-curvature="0" />
-    </g>
+<svg
+   width="24"
+   height="24"
+   id="svg4682"
+   version="1.1"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="ic_am_playasaudio.svg"
+   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs4684" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.839192"
+     inkscape:cx="15.057586"
+     inkscape:cy="8.4600275"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3002" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4687">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1028.3622)">
+    <path
+       id="path3110-9"
+       style="color:#000000;overflow:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.93043;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 3.9882812 4 C 3.4425462 4 3.000015 4.4523 3 5 L 3 13 C 3.0005 13.7985 3.9036225 14.271331 4.5546875 13.832031 L 10.554688 9.8320312 C 11.148278 9.4361313 11.148278 8.5638687 10.554688 8.1679688 L 4.5546875 4.1679688 C 4.3871125 4.0561688 4.1898312 4 3.9882812 4 z M 17.96875 6 C 16.87601 6.016 15.999875 6.9072 16 8 L 16 10 L 16 13.75 A 3.25 3.25 0 0 0 14.75 13.5 A 3.25 3.25 0 0 0 11.5 16.75 A 3.25 3.25 0 0 0 14.75 20 A 3.25 3.25 0 0 0 18 16.75 L 18 9.5 L 19.53125 9.5 C 20.62399 9.484 21.500125 8.5929 21.5 7.5 L 21.5 6 L 17.96875 6 z "
+       transform="translate(0,1028.3622)" />
+  </g>
 </svg>
