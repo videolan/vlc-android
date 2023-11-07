@@ -50,7 +50,7 @@ export default {
             http.get(vlcApi.artistList)
                 .catch(function (error) {
                     if (!error.response) return
-                    if (error.response.status == 403) {
+                    if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
                     }
                 })

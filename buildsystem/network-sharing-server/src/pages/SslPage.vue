@@ -41,7 +41,7 @@ export default {
             let component = this
             http.get(vlcApi.secureUrl)
                 .catch(function (error) {
-                    if (error.response.status == 403) {
+                    if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
                     }
                 })

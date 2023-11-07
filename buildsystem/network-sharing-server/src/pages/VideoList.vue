@@ -48,7 +48,7 @@ export default {
             component.appStore.loading = true
             http.get(vlcApi.videoList)
                 .catch(function (error) {
-                    if (error.response.status == 403) {
+                    if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
                     }
                 })

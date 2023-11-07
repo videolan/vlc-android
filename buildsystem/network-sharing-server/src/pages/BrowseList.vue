@@ -107,7 +107,7 @@ export default {
             let component = this
             http.get(vlcApi.favoriteList)
                 .catch(function (error) {
-                    if (error.response.status == 403) {
+                    if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
                     }
                 })
@@ -123,7 +123,7 @@ export default {
             let component = this
             http.get(vlcApi.storageList)
                 .catch(function (error) {
-                    if (error.response.status == 403) {
+                    if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
                     }
                 })
@@ -139,7 +139,7 @@ export default {
             let component = this
             http.get(vlcApi.networkList)
                 .catch(function (error) {
-                    if (error.response.status == 403) {
+                    if (error.response !== undefined && error.response.status == 403) {
                         component.networkForbidden = true;
                     }
                 })
