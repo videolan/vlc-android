@@ -1,5 +1,9 @@
 <template>
     <div class="container">
+        <div class="flex-container media-content">
+            <span class="flex1" v-t="'SEND_LOGS'"></span>
+            <button type="button" class="btn btn-primary" v-t="'SEND'" v-on:click="sendLocalLogs()"></button>
+        </div>
         <div v-if="loaded" class="row">
             <div v-if="this.logs.length !== 0">
                 <LogList :logs="logs" />
@@ -20,6 +24,7 @@ import LogList from '../components/LogList.vue'
 import EmptyView from '../components/EmptyView.vue'
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
+import { sendLogs } from '../plugins/logger'
 
 
 export default {
@@ -46,6 +51,10 @@ export default {
                     this.logs = response.data
                     component.appStore.loading = false
                 });
+        },
+        sendLocalLogs() {
+            sendLogs()
+            this.fetchLogs()
         }
     },
     created: function () {

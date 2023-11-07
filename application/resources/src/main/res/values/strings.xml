@@ -1200,6 +1200,7 @@
     <string name="ns_new_code">Send a new code</string>
     <string name="home">Home</string>
     <string name="ns_code">Enter this code: %s</string>
+    <string name="ns_send_logs">Send logs to the server</string>
 
 
 </resources>

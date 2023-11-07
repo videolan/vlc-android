@@ -8,6 +8,7 @@ import { initI18n } from './i18n'
 import vlcUtils from './plugins/vlcUtils'
 import VueLazyload from 'vue-lazyload'
 import { usePlayerStore } from './stores/PlayerStore'
+import logger from './plugins/logger'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -18,6 +19,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const store = usePlayerStore()
+  logger.debug("Before route:", from.name, to.name)
   if (store.responsivePlayerShowing) {
     store.playqueueShowing = false
     store.responsivePlayerShowing = false
@@ -29,7 +31,7 @@ router.beforeEach((to, from, next) => {
 
 const pinia = createPinia()
 initI18n().then(function (i18n) {
-  createApp(App).use(i18n).use(VueLazyload).use(router).use(pinia).use(vlcUtils).mount('#app')
+  createApp(App).use(i18n).use(VueLazyload).use(router).use(pinia).use(logger).use(vlcUtils).mount('#app')
 })
 
 export default router;

@@ -3,11 +3,12 @@
     @dragenter.prevent="setDragging(true)" @dragover.prevent="setDragging(true)" @dragleave.prevent="setDragging(false)"
     @drop.prevent="onDrop">
     <div class="drop-files-content">
-    <img class="image-button-image" :src="(`./icons/file_upload.svg`)" width="82" />
-    <p v-t="'DROP_FILES_TIP'"></p>
+      <img class="image-button-image" :src="(`./icons/file_upload.svg`)" width="82" />
+      <p v-t="'DROP_FILES_TIP'"></p>
     </div>
   </div>
-  <input type="file" id="file_upload" multiple="true" style="display: none;" v-on:change="filesSelected" ref="inputFile" />
+  <input type="file" id="file_upload" multiple="true" style="display: none;" v-on:change="filesSelected"
+    ref="inputFile" />
   <div v-show="this.uploadStore.uploadingFiles.length > 0" class="uploads shadow-sm">
     <div class="uploads-header d-flex align-items-center">
       <h6 v-if="(this.uploadStore.uploadRemaining() == 0)" v-t="'SEND_FILES'" class="flex1 uploads-title" />
@@ -113,7 +114,7 @@ export default {
   },
   mounted() {
     document.body.addEventListener("dragenter", function (e) {
-      console.log("Drag and drop event: " + e.type)
+      this.$log.log("Drag and drop event: " + e.type)
       this.setDragging(true)
       e.preventDefault();
       e.stopPropagation();

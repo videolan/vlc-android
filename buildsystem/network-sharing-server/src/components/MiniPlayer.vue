@@ -117,39 +117,39 @@ export default {
     },
     play() {
       this.$root.sendMessage("play");
-      console.log("Sending play");
+      this.$log.log("Sending play");
     },
     pause() {
       this.$root.sendMessage("pause");
-      console.log("Sending pause");
+      this.$log.log("Sending pause");
     },
     previous() {
       this.$root.sendMessage("previous");
-      console.log("Sending previous");
+      this.$log.log("Sending previous");
     },
     next() {
       this.$root.sendMessage("next");
-      console.log("Sending next");
+      this.$log.log("Sending next");
     },
     shuffle() {
       this.nowPlaying.shuffle = !this.nowPlaying.shuffle
       this.$root.sendMessage("shuffle");
-      console.log("Sending shuffle");
+      this.$log.log("Sending shuffle");
     },
     repeat() {
       let newRepeat = this.nowPlaying.repeat + 1
       if (newRepeat > 2) newRepeat = 0
       this.nowPlaying.repeat = newRepeat
       this.$root.sendMessage("repeat");
-      console.log("Sending repeat");
+      this.$log.log("Sending repeat");
     },
     previous10() {
       this.$root.sendMessage("previous10");
-      console.log("Sending previous10");
+      this.$log.log("Sending previous10");
     },
     next10() {
       this.$root.sendMessage("next10");
-      console.log("Sending next10");
+      this.$log.log("Sending next10");
     },
     volumeChange(event) {
       clearTimeout(this.volumeTimeoutId)

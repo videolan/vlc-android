@@ -19,6 +19,7 @@
         "vue": "^3.2.13",
         "vue-i18n": "^9.2.2",
         "vue-lazyload": "^3.0.0-rc.2",
+        "vue-logger-plugin": "^2.2.3",
         "vue-router": "^4.1.6"
     },
     "devDependencies": {

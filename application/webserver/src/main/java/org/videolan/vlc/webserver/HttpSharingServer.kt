@@ -30,6 +30,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.media.AudioManager
 import android.net.Uri
+import android.os.Build
 import android.text.format.Formatter
 import android.util.Log
 import androidx.core.net.toUri
@@ -120,10 +121,12 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
+import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
 import org.videolan.tools.AppScope
+import org.videolan.tools.CloseableUtils
 import org.videolan.tools.KEYSTORE_PASSWORD
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.NetworkMonitor
@@ -141,6 +144,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.BrowserProvider
@@ -148,6 +152,7 @@ import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.NetworkProvider
 import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getFilesNumber
@@ -169,7 +174,12 @@ import org.videolan.vlc.webserver.utils.serveSearch
 import org.videolan.vlc.webserver.utils.serveVideos
 import org.videolan.vlc.webserver.websockets.WebServerWebSockets
 import org.videolan.vlc.webserver.websockets.WebServerWebSockets.setupWebSockets
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStreamWriter
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -656,6 +666,92 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
             call.respond(HttpStatusCode.NotFound)
 
+        }
+
+        post ("/logs") {
+            val formParameters = try {
+                call.receiveParameters()
+            } catch (e: Exception) {
+                null
+            }
+            val logs = buildString {
+                formParameters?.forEach { s, strings ->
+                    if (s.contains("[time]"))
+                        append(format.get()?.format(strings[0].toLong()))
+                    else if (s.contains("[level]")) {
+                        append(" - ")
+                        append(strings[0])
+                    } else {
+                        strings.forEach {
+                            append(" - ")
+                            append(it)
+                            append("*")
+                        }
+                    }
+                }
+            }
+
+            //save
+            val timestamp = android.text.format.DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis())
+            val filename = File("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/vlc_logcat_webserver_${timestamp}.log")
+            var saved = true
+            var fos: FileOutputStream? = null
+            var output: OutputStreamWriter? = null
+            var bw: BufferedWriter? = null
+
+            try {
+                fos = FileOutputStream(filename)
+                output = OutputStreamWriter(fos)
+                bw = BufferedWriter(output)
+                synchronized(this) {
+                    bw.write("____________________________\r\n")
+                    bw.write("Useful info\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("App version: ${org.videolan.vlc.BuildConfig.VLC_VERSION_CODE} / ${org.videolan.vlc.BuildConfig.VLC_VERSION_NAME}\r\n")
+                    bw.write("libvlc: ${org.videolan.vlc.BuildConfig.LIBVLC_VERSION}\r\n")
+                    bw.write("libvlc revision: ${appContext.getString(org.videolan.vlc.R.string.build_libvlc_revision)}\r\n")
+                    bw.write("vlc revision: ${appContext.getString(org.videolan.vlc.R.string.build_vlc_revision)}\r\n")
+                    bw.write("medialibrary: ${org.videolan.vlc.BuildConfig.ML_VERSION}\r\n")
+                    bw.write("Android version: ${Build.VERSION.SDK_INT}\r\n")
+                    bw.write("Device Model: ${Build.MANUFACTURER} - ${Build.MODEL}\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("Permissions\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("Can read: ${Permissions.canReadStorage(appContext)}\r\n")
+                    bw.write("Can write: ${Permissions.canWriteStorage(appContext)}\r\n")
+                    bw.write("Storage ALL access: ${Permissions.hasAllAccess(appContext)}\r\n")
+                    bw.write("Notifications: ${Permissions.canSendNotifications(appContext)}\r\n")
+                    bw.write("PiP Allowed: ${Permissions.isPiPAllowed(appContext)}\r\n")
+                    bw.write("____________________________\r\n")
+                    try {
+                        bw.write("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(appContext)}\r\n")
+                    } catch (e: Exception) {
+                        bw.write("Cannot retrieve changed settings\r\n")
+                        bw.write(Log.getStackTraceString(e))
+                    }
+                    bw.write("____________________________\r\n")
+                    bw.write("vlc options: ${VLCOptions.libOptions.joinToString(" ")}\r\n")
+                    bw.write("____________________________\r\n")
+                    for (line in logs.split(("*"))) {
+                        bw.write(line)
+                        bw.newLine()
+                    }
+                }
+            } catch (e: FileNotFoundException) {
+
+                saved = false
+            } catch (ioe: IOException) {
+                saved = false
+            } finally {
+                saved = saved and CloseableUtils.close(bw)
+                saved = saved and CloseableUtils.close(output)
+                saved = saved and CloseableUtils.close(fos)
+            }
+
+            if (!saved)
+                call.respond(HttpStatusCode.InternalServerError)
+            else
+                call.respondText("")
         }
         authenticate("user_session", optional = byPassAuth) {
             //Provide a Websocket auth ticket as auth is validated

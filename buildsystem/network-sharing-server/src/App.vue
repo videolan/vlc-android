@@ -65,14 +65,14 @@ export default {
       this.$refs.uploadComponent.openFiles()
     },
     startWebSocket() {
-      console.log("Starting connection to WebSocket Server")
+      this.$log.log("Starting connection to WebSocket Server")
       this.connection = new WebSocket(vlcApi.websocket, "player")
       this.connection.onmessage = (event) => {
 
         const msg = JSON.parse(event.data);
-        if (process.env.NODE_ENV === 'development') console.log(`WS received with message ${JSON.stringify(msg)}`)
+        this.$log.debug(`WS received with message ${JSON.stringify(msg)}`)
         if (this.playerStore.playing == false && msg.shouldShow) {
-          console.log("Starting player ...")
+          this.$log.debug("Starting player ...")
           this.playerStore.playing = true;
         }
 
@@ -104,20 +104,20 @@ export default {
         clearTimeout(this.retryId)
         this.retryDelay = 500
         this.retrying = false
-        console.log(event)
-        console.log("Successfully connected to the echo websocket server...")
+        this.$log.log(event)
+        this.$log.log("Successfully connected to the echo websocket server...")
         this.appStore.socketOpened = true;
         this.sendMessage("hello")
       }
 
       this.connection.onclose = () => {
-        console.log("Socket closed")
+        this.$log.log("Socket closed")
         this.appStore.socketOpened = false;
         if (!this.retrying) this.retry()
       }
 
       this.connection.onerror = () => {
-        console.log("Socket on error")
+        this.$log.log("Socket on error")
         this.appStore.socketOpened = false;
       }
     },
@@ -128,7 +128,7 @@ export default {
       if (this.retryDelay > 10000) this.retryDelay = 10000
       this.startWebSocket()
       this.retryId = setTimeout(this.retry, this.retryDelay);
-      console.log(`Will retry in ${this.retryDelay}ms`)
+      this.$log.log(`Will retry in ${this.retryDelay}ms`)
     }
   },
   created: function () {

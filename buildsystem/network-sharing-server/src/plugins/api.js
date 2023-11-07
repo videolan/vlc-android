@@ -31,6 +31,10 @@ export const vlcApi = {
      */
     secureUrl: `${API_URL}secure-url`,
     /**
+     * send client logs to the server
+     */
+    sendLogs: `${API_URL}logs`,
+    /**
      * Ask for a code generation
      */
     verifyCode: (code) => {
