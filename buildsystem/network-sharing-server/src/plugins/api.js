@@ -183,4 +183,8 @@ export const vlcApi = {
         if (isAudio) params.audio = isAudio
         return `${API_URL}resume-playback?${new URLSearchParams(params).toString()}`
     },
+    /**
+     * Download a log file
+     */
+    downloadLog: `${API_URL}download-logfile?file=`,
 }
