@@ -72,7 +72,7 @@ export default {
         const msg = JSON.parse(event.data);
         this.$log.debug(`WS received with message ${JSON.stringify(msg)}`)
         if (this.playerStore.playing == false && msg.shouldShow) {
-          this.$log.debug("Starting player ...")
+          this.$log.info("Starting player ...")
           this.playerStore.playing = true;
         }
 
@@ -104,8 +104,7 @@ export default {
         clearTimeout(this.retryId)
         this.retryDelay = 500
         this.retrying = false
-        this.$log.log(event)
-        this.$log.log("Successfully connected to the echo websocket server...")
+        this.$log.log(`Successfully connected to the echo websocket server. Event: `, event)
         this.appStore.socketOpened = true;
         this.sendMessage("hello")
       }

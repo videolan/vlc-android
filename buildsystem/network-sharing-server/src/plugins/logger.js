@@ -11,14 +11,17 @@ const ServerLogHook = {
             level: event.level,
             data: event.argumentArray
         })
+        if (logs.length > 200) logs.shift()
     }
 }
-
-
+let logLevel = 'info'
+if (process.env.NODE_ENV === 'development') { logLevel = 'debug' }
 // create logger with options
 const logger = createLogger({
     enabled: true,
-    level: 'debug',
+    level: logLevel,
+    callerInfo: true,
+    consoleEnabled: process.env.NODE_ENV === 'development',
     beforeHooks: [StringifyObjectsHook],
     afterHooks: [ServerLogHook]
 })

@@ -19,7 +19,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const store = usePlayerStore()
-  logger.debug("Before route:", from.name, to.name)
+  logger.info(`Router: ${from.name} -> ${to.name}`)
   if (store.responsivePlayerShowing) {
     store.playqueueShowing = false
     store.responsivePlayerShowing = false
