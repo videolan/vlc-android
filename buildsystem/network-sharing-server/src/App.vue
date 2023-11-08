@@ -46,8 +46,8 @@ export default {
   },
   methods: {
     sendMessage(message, id) {
-      console.log(`Sending message : ${message} - ${id}`)
-      if (!document.cookie.match(/^(.*;)?\s*user_session\s*=\s*[^;]+(.*)?$/)) {
+      this.$log.log(`Sending message : ${message} - ${id}`)
+      if (!document.cookie.match(/^(.*;)?\s*user_session\s*=\s*[^;]+(.*)?$/) && process.env.NODE_ENV !== 'development') {
         this.$log.log("Preventing asking ticket because of cookie not existing")
         return
       }

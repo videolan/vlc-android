@@ -61,7 +61,7 @@ object WebServerWebSockets {
                     val gson = Gson()
                     val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
                     if (BuildConfig.DEBUG) Log.i(TAG, "Received: $message")
-                    if (!verifyWebsocketAuth(incomingMessage)) {
+                    if (!BuildConfig.WEBSERVER_DEBUG && !verifyWebsocketAuth(incomingMessage)) {
                         val gson = Gson()
                         send(Frame.Text(gson.toJson(HttpSharingServer.WebSocketAuthorization("forbidden", initialMessage = message))))
                         return@webSocket
