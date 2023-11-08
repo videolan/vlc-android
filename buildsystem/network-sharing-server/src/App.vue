@@ -46,6 +46,11 @@ export default {
   },
   methods: {
     sendMessage(message, id) {
+      console.log(`Sending message : ${message} - ${id}`)
+      if (!document.cookie.match(/^(.*;)?\s*user_session\s*=\s*[^;]+(.*)?$/)) {
+        this.$log.log("Preventing asking ticket because of cookie not existing")
+        return
+      }
       this.connection.send(
         JSON.stringify({
           message: message,
@@ -58,7 +63,7 @@ export default {
       let component = this
       http.get(vlcApi.websocketAuthTicket)
         .then((response) => {
-          component.appStore.wsTicket = response.data
+          if (response !== undefined) component.appStore.wsTicket = response.data
         });
     },
     sendFiles() {
@@ -131,6 +136,7 @@ export default {
     }
   },
   created: function () {
+    console.log("App.vue onCreated")
     window.addEventListener('resize', () => {
       // We execute the same script as before
       let vh = window.innerHeight * 0.01;
