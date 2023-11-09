@@ -61,6 +61,7 @@ import kotlin.math.abs
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
 private const val WEB_SERVER_CHANNEL_ID = "vlc_web_server"
+private const val WEB_SERVER_OTP_CHANNEL_ID = "vlc_web_server_otp"
 const val MISC_CHANNEL_ID = "misc"
 private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
 const val WEB_SERVER_NOTIFICATION_ID = 44
@@ -207,10 +208,10 @@ object NotificationHelper {
     }
 
     fun createWebServerAccessNotification(ctx: Context, code:String): Notification {
-        val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_CHANNEL_ID)
+        val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_OTP_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notif_web_server)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(ctx.getString(R.string.ns_server_access_request))
+                .setContentTitle(ctx.getString(R.string.ns_otp_title))
                 .setAutoCancel(false)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setOngoing(true)
@@ -245,11 +246,24 @@ object NotificationHelper {
 
         // Web server channel
         if (notificationManager.getNotificationChannel(WEB_SERVER_CHANNEL_ID) == null ) {
-            val name = appCtx.getString(R.string.ns_network_sharing)
-            val description = appCtx.getString(R.string.ns_network_sharing)
+            val name = appCtx.getString(R.string.ns_web_server)
+            val description = appCtx.getString(R.string.ns_web_server_description)
             val channel = NotificationChannel(WEB_SERVER_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channels.add(channel)
+        }
+
+        // Web server OTP channel
+        if (notificationManager.getNotificationChannel(WEB_SERVER_OTP_CHANNEL_ID) == null ) {
+            val name = appCtx.getString(R.string.ns_otp)
+            val description = appCtx.getString(R.string.ns_otp_description)
+            val channel = NotificationChannel(WEB_SERVER_OTP_CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH)
+            channel.description = description
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                channel.setAllowBubbles(true)
+            }
             channels.add(channel)
         }
 
