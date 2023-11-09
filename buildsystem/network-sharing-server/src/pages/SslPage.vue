@@ -7,7 +7,10 @@
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel" v-t="'SSL_EXPLANATION_TITLE'"></h1>
                     </div>
-                    <div class="modal-body" v-t="'SSL_EXPLANATION'">
+                    <div class="modal-body">
+                        <p v-t="'SSL_EXPLANATION'"></p>
+                        <p v-t="'SSL_EXPLANATION_BROWSER'" class="fw-bold"></p>
+                        <p v-t="'SSL_EXPLANATION_ACCEPT'"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" v-t="'SSL_BUTTON'"

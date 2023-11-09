@@ -74,6 +74,8 @@ object TranslationMapping {
         SSL_BUTTON(R.string.ns_ssl_button),
         SSL_EXPLANATION_TITLE(R.string.ns_ssl_explanation_title),
         SSL_EXPLANATION(R.string.ns_ssl_explanation),
+        SSL_EXPLANATION_BROWSER(R.string.ns_ssl_explanation_browser),
+        SSL_EXPLANATION_ACCEPT(R.string.ns_ssl_explanation_accept),
         SEND_LOGS(R.string.ns_send_logs),
     }
 }
