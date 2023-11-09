@@ -396,6 +396,9 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
      * will be replaced with the filename even though the medialibrary has a correct title.
      * This won't work for network shares as they will return null titles, so
      * they are exempted as directories
+     * This also won't work for media streams (ex.: udp://@... multicast streams) as libvlc will
+     * return the url (ex.: udp://...) as title, so on streams we look for :// in libvlc title and
+     * ignore those title updates.     
      * @param media media to update
      * @return title string
      */
@@ -403,7 +406,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         String libvlcTitle = getMetaId(media, mTitle, Media.Meta.Title, true);
         String fileName = getFileName();
         if (media.getType() == Media.Type.Directory ||
-                (!TextUtils.isEmpty(libvlcTitle) && !libvlcTitle.equals(fileName)))
+                (!TextUtils.isEmpty(libvlcTitle) &&
+                        !libvlcTitle.equals(fileName) &&
+                        !(media.getType() == Media.Type.Stream && libvlcTitle.toLowerCase().contains("://"))
+                )
+        )
             return libvlcTitle;
         return getTitle();
     }
