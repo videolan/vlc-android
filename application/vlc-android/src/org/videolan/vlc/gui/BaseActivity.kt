@@ -38,6 +38,7 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.WebserverUtils
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -49,6 +50,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
+    open var isOTPActivity:Boolean = false
     abstract fun getSnackAnchorView(overAudioPlayer:Boolean = false): View?
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -77,6 +79,19 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         PinCodeDelegate.pinUnlocked.observe(this) {
             invalidateOptionsMenu()
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                WebserverUtils.otpFlow.collect {
+                    if (!isOTPActivity && it != null ) {
+                        val i = Intent(this@BaseActivity, SecondaryActivity::class.java)
+                        i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.WEBSERVER_OTP)
+                        i.putExtra(OTPCodeFragment.KEY_CODE, it)
+                        i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                        startActivity(i)
+                    }
+                }
+            }
         }
     }
 

@@ -1201,6 +1201,9 @@
     <string name="home">Home</string>
     <string name="ns_code">Enter this code: %s</string>
     <string name="ns_send_logs">Send logs to the server</string>
+    <string name="ns_otp_title">Web server login attempt</string>
+    <string name="ns_otp_subtitle">If it\'s you, enter this code on the other device</string>
+    <string name="ns_otp_not_me">It\'s not me</string>
 
 
 </resources>

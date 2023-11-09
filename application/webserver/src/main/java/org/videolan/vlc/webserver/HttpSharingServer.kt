@@ -154,6 +154,7 @@ import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.WebserverUtils
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getFilesNumber
 import org.videolan.vlc.util.getFolderNumber
@@ -564,6 +565,9 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
                 WebserverOTP.removeCodeWithChallenge(challenge)
             }
             val code = WebserverOTP.getFirstValidCode(appContext)
+            scope.launch {
+                WebserverUtils.otpFlow.emit(code.code)
+            }
             call.respondText(code.challenge)
         }
         //Verify the code and inject the cookie if valid
@@ -572,6 +576,9 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             if (WebserverOTP.verifyCode(appContext, idString)) {
                 //verification is OK
                 WebServerSession.injectCookie(call, settings)
+                scope.launch {
+                    WebserverUtils.otpFlow.emit(null)
+                }
             }
             call.respondRedirect("/")
         }

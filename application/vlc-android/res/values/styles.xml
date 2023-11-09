@@ -69,6 +69,7 @@
         <item name="audio_chips_text_color">@color/white_transparent_60</item>
         <item name="bottom_navigation_focus">@color/orange_800_transparent_10</item>
         <item name="scan_background">@drawable/rounded_corners_scan_progress</item>
+        <item name="otp_code_background">@drawable/rounded_corners_otp_code</item>
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
         <item name="primary_focus">@color/orange_800_transparent_20</item>
@@ -225,6 +226,7 @@
         <item name="audio_chips_text_color">@color/black_transparent_60</item>
         <item name="bottom_navigation_focus">@color/white_transparent_10</item>
         <item name="scan_background">@drawable/rounded_corners_scan_progress_dark</item>
+        <item name="otp_code_background">@drawable/rounded_corners_otp_code_dark</item>
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble_black</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
