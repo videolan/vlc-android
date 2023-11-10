@@ -15,7 +15,7 @@ export default {
             return `${hours == 0 ? '' : hours + ":"}${hours == 0 && minutes < 10 ? minutes : minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
         }
         app.config.globalProperties.$getAppAsset = (name, width) => {
-            if (width < 0 || width === undefined) width = 32
+            if (width < 0 || width === undefined) width = 24
             return vlcApi.appAsset(name, width)
         }
 

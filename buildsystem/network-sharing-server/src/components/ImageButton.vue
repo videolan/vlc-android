@@ -21,6 +21,7 @@ export default {
   color: #000;
   padding: 8px;
   position: relative;
+  filter: invert(46%) sepia(2%) saturate(16%) hue-rotate(33deg) brightness(98%) contrast(92%);
 }
 
 .active .image-button-image {
