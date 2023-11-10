@@ -154,7 +154,7 @@ export const vlcApi = {
      * @returns the URL
      */
     download: (file) => {
-        return `${API_URL}prepare-download?file=${file}`
+        return `${API_URL}download?file=${file}`
     },
     /**
      * Retrieve the media play API URL
