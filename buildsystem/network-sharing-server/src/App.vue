@@ -47,10 +47,6 @@ export default {
   methods: {
     sendMessage(message, id) {
       this.$log.log(`Sending message : ${message} - ${id}`)
-      if (!document.cookie.match(/^(.*;)?\s*user_session\s*=\s*[^;]+(.*)?$/) && process.env.NODE_ENV !== 'development') {
-        this.$log.log("Preventing asking ticket because of cookie not existing")
-        return
-      }
       this.connection.send(
         JSON.stringify({
           message: message,
@@ -69,13 +65,26 @@ export default {
     sendFiles() {
       this.$refs.uploadComponent.openFiles()
     },
-    startWebSocket() {
+    /**
+     * Make sure a WS ticket is available before starting the WS connection
+     */
+    startWS() {
+      let component = this
+      http.get(vlcApi.websocketAuthTicket)
+        .then((response) => {
+          if (response !== undefined) {
+            component.appStore.wsTicket = response.data
+            this.setupWS()
+          }
+        });
+    },
+    setupWS() {
       this.$log.log("Starting connection to WebSocket Server")
       this.connection = new WebSocket(vlcApi.websocket, "player")
       this.connection.onmessage = (event) => {
 
         const msg = JSON.parse(event.data);
-        this.$log.debug(`WS received with message ${JSON.stringify(msg)}`)
+        this.$log.info(`WS received with message ${JSON.stringify(msg)}`)
         if (this.playerStore.playing == false && msg.shouldShow) {
           this.$log.info("Starting player ...")
           this.playerStore.playing = true;
@@ -130,7 +139,7 @@ export default {
       clearTimeout(this.retryId)
       this.retryDelay = this.retryDelay + 500
       if (this.retryDelay > 10000) this.retryDelay = 10000
-      this.startWebSocket()
+      this.setupWS()
       this.retryId = setTimeout(this.retry, this.retryDelay);
       this.$log.log(`Will retry in ${this.retryDelay}ms`)
     }
@@ -145,7 +154,7 @@ export default {
     if (location.protocol !== 'https:' && process.env.NODE_ENV !== 'development') {
       this.$router.push({ name: 'SslPage' })
     } else {
-      this.startWebSocket()
+      this.startWS()
     }
   }
 }
