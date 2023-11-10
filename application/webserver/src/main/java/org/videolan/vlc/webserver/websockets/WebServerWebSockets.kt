@@ -198,7 +198,15 @@ object WebServerWebSockets {
 
    suspend fun sendToAll(message: String) {
        if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${websocketSession.size} sessions with message '$message'")
-       websocketSession.forEach { it.send(Frame.Text(message)) }
+       val toRemove = hashSetOf<DefaultWebSocketServerSession>()
+       websocketSession.forEach {
+           try {
+               it.send(Frame.Text(message))
+           } catch (e: Exception) {
+               toRemove.add(it)
+           }
+       }
+       websocketSession.removeAll(toRemove)
    }
 
     suspend fun closeAllSessions() {
