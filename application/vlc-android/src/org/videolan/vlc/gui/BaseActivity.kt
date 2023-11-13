@@ -46,6 +46,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private var currentNightMode: Int = 0
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
+    private var lastDisplayedOTPCode = ""
     var windowLayoutInfo: WindowLayoutInfo? = null
 
     open val displayTitle = false
@@ -83,10 +84,9 @@ abstract class BaseActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 WebserverUtils.otpFlow.collect {
-                    if (!isOTPActivity && it != null ) {
-                        val i = Intent(this@BaseActivity, SecondaryActivity::class.java)
-                        i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.WEBSERVER_OTP)
-                        i.putExtra(OTPCodeFragment.KEY_CODE, it)
+                    if (!isOTPActivity && it != null && lastDisplayedOTPCode != it) {
+                        lastDisplayedOTPCode = it
+                        val i = Intent(this@BaseActivity, OTPCodeActivity::class.java)
                         i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
                         startActivity(i)
                     }

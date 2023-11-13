@@ -210,12 +210,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                     fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
                 }
             }
-            WEBSERVER_OTP -> {
-                isOTPActivity = true
-                fragment = OTPCodeFragment().apply {
-                    arguments = bundleOf(OTPCodeFragment.KEY_CODE to intent.getStringExtra(OTPCodeFragment.KEY_CODE))
-                }
-            }
             else -> throw IllegalArgumentException("Wrong fragment id.")
         }
     }
@@ -235,6 +229,5 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         const val STORAGE_BROWSER = "storage_browser"
         const val STORAGE_BROWSER_ONBOARDING = "storage_browser_onboarding"
         const val FILE_BROWSER = "file_browser"
-        const val WEBSERVER_OTP = "webserver_otp"
     }
 }

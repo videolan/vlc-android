@@ -41,11 +41,11 @@ import org.videolan.vlc.util.WebserverUtils
 class OTPCodeFragment : BaseFragment() {
 
     private lateinit var binding: OtpCodeBinding
-    private lateinit var code:String
+    private var code: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        code = requireArguments().getString(KEY_CODE, "")
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(requireActivity(), R.layout.otp_code)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 WebserverUtils.otpFlow.collect {
@@ -60,9 +60,8 @@ class OTPCodeFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.setContentView(requireActivity(), R.layout.otp_code)
-
-        return inflater.inflate(R.layout.otp_code, container, false)
+        binding = OtpCodeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) = false
@@ -77,7 +76,6 @@ class OTPCodeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().findViewById<FloatingActionButton>(R.id.fab).setGone()
         requireActivity().findViewById<View>(R.id.sliding_tabs).setGone()
-        manageCodeViews()
         binding.cancelButton.setOnClickListener {
             lifecycleScope.launch {
                 WebserverUtils.otpFlow.emit(null)
@@ -87,13 +85,11 @@ class OTPCodeFragment : BaseFragment() {
     }
 
     private fun manageCodeViews() {
-        binding.code1.text = code.substring(0, 1)
-        binding.code2.text = code.substring(1, 2)
-        binding.code3.text = code.substring(2, 3)
-        binding.code4.text = code.substring(3, 4)
-    }
-
-    companion object {
-        const val KEY_CODE = "key_code"
+        code?.let { code ->
+            binding.code1.text = code.substring(0, 1)
+            binding.code2.text = code.substring(1, 2)
+            binding.code3.text = code.substring(2, 3)
+            binding.code4.text = code.substring(3, 4)
+        }
     }
 }
