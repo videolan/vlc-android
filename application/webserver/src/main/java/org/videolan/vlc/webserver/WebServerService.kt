@@ -108,7 +108,7 @@ class WebServerService : LifecycleService() {
         val contentString = if (!::server.isInitialized) getString(R.string.web_server_notification_not_init) else
             when (server.serverStatus.value) {
                 ServerStatus.NOT_INIT -> getString(R.string.web_server_notification_not_init)
-                ServerStatus.STARTED -> getString(R.string.web_server_notification, server.serverInfo())
+                ServerStatus.STARTED -> getString(R.string.web_server_notification, server.getServerAddresses().joinToString("\n"))
                 ServerStatus.STOPPED -> getString(R.string.web_server_notification_stopped)
                 ServerStatus.CONNECTING -> getString(R.string.web_server_notification_connecting)
                 ServerStatus.ERROR -> getString(R.string.web_server_notification_error)

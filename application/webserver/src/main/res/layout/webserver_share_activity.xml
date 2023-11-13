@@ -89,30 +89,17 @@
                             app:layout_constraintTop_toBottomOf="@+id/status_button" />
 
 
-                    <TextView
-                            android:id="@+id/link"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
+                    <androidx.gridlayout.widget.GridLayout
+                            android:id="@+id/links_grid"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
-                            android:gravity="center_vertical"
-                            android:selectAllOnFocus="true"
-                            android:textIsSelectable="true"
-                            app:layout_constraintBottom_toBottomOf="@+id/link_copy"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/link_copy"
-                            tools:text="http://192.168.1.1:8080" />
-
-                    <ImageView
-                            android:id="@+id/link_copy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="16dp"
-                            android:padding="12dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
+                            app:columnCount="3"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/links_title"
-                            app:srcCompat="@drawable/ic_copy" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/links_title" />
 
 
                     <ImageView
@@ -120,11 +107,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/link_copy"
+                            tools:layout_editor_absoluteY="209dp"
                             tools:srcCompat="@tools:sample/avatars" />
 
                     <TextView
@@ -136,7 +122,7 @@
                             android:layout_marginTop="16dp"
                             android:text="@string/web_server_connections"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/webserver_qr_code" />
+                            app:layout_constraintTop_toBottomOf="@+id/links_grid" />
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/connection_list"

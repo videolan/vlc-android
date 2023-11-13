@@ -64,6 +64,7 @@ import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.origin
 import io.ktor.server.plugins.partialcontent.PartialContent
+import io.ktor.server.request.host
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.receiveMultipart
 import io.ktor.server.request.receiveParameters
@@ -646,7 +647,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
             call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
         }
         get("/secure-url") {
-            call.respondText(serverInfo())
+            call.respondText("https://${call.request.host()}:${engine.environment.connectors.first { it.type.name == "HTTPS" }.port}")
         }
         // Sends an icon
         get("/icon") {
@@ -1330,18 +1331,20 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     }
 
     /**
-     * Returns the server address
+     * Returns the server addresses as a list
      *
-     * @return the server address
+     * @return the server addresses
      */
-    fun serverInfo(): String = buildString {
+    fun getServerAddresses(): List<String> = buildList {
         getIPAddresses(true).forEach {
-            if (::engine.isInitialized) {
-               if (sslEnabled()) append("https://") else  append("http://")
-                append(it)
-                append(":")
-                if (sslEnabled()) append(engine.environment.connectors.first { it.type.name == "HTTPS" }.port) else  append(engine.environment.connectors[0].port)
-            }
+            add(buildString {
+                if (::engine.isInitialized) {
+                        append("http://")
+                    append(it)
+                    append(":")
+                        append(engine.environment.connectors[0].port)
+                }
+            })
         }
     }
 
