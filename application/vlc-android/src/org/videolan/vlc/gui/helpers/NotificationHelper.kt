@@ -212,9 +212,8 @@ object NotificationHelper {
                 .setSmallIcon(R.drawable.ic_notif_web_server)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(ctx.getString(R.string.ns_otp_title))
-                .setAutoCancel(false)
+                .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setOngoing(true)
         webServerCompatBuilder.setContentText(ctx.getString(R.string.ns_code, code))
 
         return webServerCompatBuilder.build()
@@ -248,7 +247,7 @@ object NotificationHelper {
         if (notificationManager.getNotificationChannel(WEB_SERVER_CHANNEL_ID) == null ) {
             val name = appCtx.getString(R.string.ns_web_server)
             val description = appCtx.getString(R.string.ns_web_server_description)
-            val channel = NotificationChannel(WEB_SERVER_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
+            val channel = NotificationChannel(WEB_SERVER_CHANNEL_ID, name, NotificationManager.IMPORTANCE_MIN)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             channels.add(channel)
