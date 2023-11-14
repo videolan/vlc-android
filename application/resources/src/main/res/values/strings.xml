@@ -1209,5 +1209,9 @@
     <string name="ns_otp_subtitle">If it\'s you, enter this code on the other device</string>
     <string name="ns_otp_not_me">It\'s not me</string>
 
+    <string name="ns_onboarding_welcome_desc">Welcome in VLC\'s webserver\nBy enabling it you will be able to control this device\'s playback and more</string>
+    <string name="ns_onboarding_how_title">Control your device</string>
+    <string name="ns_onboarding_how_desc">Control your device playback, send or retrieve files and more</string>
+
 
 </resources>

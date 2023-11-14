@@ -27,6 +27,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
+import org.videolan.resources.WEBSERVER_ONBOARDING
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
 import org.videolan.tools.KEY_ENABLE_WEB_SERVER
@@ -49,6 +50,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(requireActivity(), WEBSERVER_ONBOARDING) })
     }
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {

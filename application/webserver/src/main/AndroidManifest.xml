@@ -38,6 +38,9 @@
         <activity
                 android:name=".gui.webserver.WebserverShareActivity"
                 android:theme="@style/Theme.VLC"/>
+        <activity
+                android:name=".gui.webserver.onboarding.WebserverOnboardingActivity"
+                android:theme="@style/Theme.VLC.Onboarding"/>
     </application>
 
 </manifest>

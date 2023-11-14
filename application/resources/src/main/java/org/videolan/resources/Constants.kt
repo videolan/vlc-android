@@ -283,5 +283,6 @@ const val TV_AUDIOPLAYER_ACTIVITY = "org.videolan.television.ui.audioplayer.Audi
 const val MEDIAPARSING_SERVICE = "org.videolan.vlc.MediaParsingService"
 const val TV_ONBOARDING_ACTIVITY = "org.videolan.television.ui.OnboardingActivity"
 const val WEBSERVER_SERVICE = "org.videolan.vlc.webserver.WebServerService"
+const val WEBSERVER_ONBOARDING = "org.videolan.vlc.webserver.gui.webserver.onboarding.WebserverOnboardingActivity"
 
 const val ROOM_DATABASE = "/vlc_database.zip"
