@@ -26,8 +26,8 @@ class WebserverOnboardingActivity : AppCompatActivity(), OnboardingFragmentListe
             FragmentName.WELCOME -> WebserverOnboardingWelcomeFragment.newInstance()
             FragmentName.HOW -> WebserverOnboardingHowFragment.newInstance()
             FragmentName.SSL -> WebserverOnboardingSslFragment.newInstance()
+            FragmentName.OTP -> WebserverOnboardingOtpFragment.newInstance()
             //todo
-//            FragmentName.OTP -> OnboardingNoPermissionFragment.newInstance()
 //            FragmentName.PERMISSIONS -> OnboardingNotificationPermissionFragment.newInstance()
             else -> WebserverOnboardingWelcomeFragment.newInstance()
         }

@@ -1214,6 +1214,8 @@
     <string name="ns_onboarding_how_desc">Control your device playback, send or retrieve files and more</string>
     <string name="ns_onboarding_ssl_title">Data encryption</string>
     <string name="ns_onboarding_ssl_desc">The web server communication is encrypted to prevent your data from leaking</string>
+    <string name="ns_onboarding_otp_title">Authentication</string>
+    <string name="ns_onboarding_otp_desc">With the one time password authentication, prevent unwanted accesses to your data</string>
 
 
 </resources>

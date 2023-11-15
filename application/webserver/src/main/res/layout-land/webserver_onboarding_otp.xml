@@ -40,16 +40,16 @@
 
     <TextView
             android:id="@+id/welcome_title"
-            android:layout_width="426dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/ns_onboarding_ssl_title"
+            android:text="@string/ns_onboarding_otp_title"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Title"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
@@ -61,24 +61,27 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/ns_onboarding_ssl_desc"
+            android:text="@string/ns_onboarding_otp_desc"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcome_title" />
 
 
     <ImageView
-            android:id="@+id/play_pause"
+            android:id="@+id/access"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:alpha="0"
             app:layout_constraintBottom_toTopOf="@+id/browser_link"
             app:layout_constraintEnd_toStartOf="@+id/imageView21"
             app:layout_constraintStart_toEndOf="@+id/imageView20"
-            app:srcCompat="@drawable/ic_webserver_onboarding_encryption" />
+            app:srcCompat="@drawable/ic_webserver_onboarding_verified"
+            tools:alpha="1" />
 
     <ImageView
             android:id="@+id/imageView20"
@@ -113,15 +116,29 @@
             app:srcCompat="@drawable/ic_smartphone" />
 
     <TextView
-            android:id="@+id/data"
+            android:id="@+id/otpDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:alpha="0"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/imageView21"
+            app:layout_constraintStart_toStartOf="@+id/imageView21"
+            app:layout_constraintTop_toBottomOf="@+id/imageView21"
+            tools:text="8888" />
+
+    <TextView
+            android:id="@+id/otpBrowser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView21"
-            app:layout_constraintStart_toEndOf="@+id/imageView20"
-            app:layout_constraintTop_toBottomOf="@+id/browser_link"
-            tools:text="0110010" />
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/imageView20"
+            app:layout_constraintStart_toStartOf="@+id/imageView20"
+            app:layout_constraintTop_toBottomOf="@+id/imageView20"
+            tools:text="8888" />
 </androidx.constraintlayout.widget.ConstraintLayout>
