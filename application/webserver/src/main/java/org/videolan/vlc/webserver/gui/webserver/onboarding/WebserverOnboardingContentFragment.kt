@@ -95,16 +95,18 @@ class WebserverOnboardingContentFragment : WebserverOnboardingFragment() {
                 }
             }
         }
-        animationLoop.start()
-
-
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        animationLoop.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
         vizu.stop()
         disappearSet.cancel()
         animationLoop.cancel()
-        super.onDestroy()
     }
 
     companion object {

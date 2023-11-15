@@ -58,7 +58,6 @@ class WebserverOnboardingSslFragment : WebserverOnboardingFragment() {
             iteration++
         }
         animSet.playTogether(slideHorizontalAnimator)
-        animSet.start()
     }
 
     private fun generateRandomData() {
@@ -69,9 +68,14 @@ class WebserverOnboardingSslFragment : WebserverOnboardingFragment() {
         }
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        animSet.start()
+    }
+
+    override fun onPause() {
         animSet.cancel()
-        super.onDestroy()
+        super.onPause()
     }
 
     companion object {

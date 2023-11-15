@@ -73,13 +73,20 @@ class WebserverOnboardingHowFragment : WebserverOnboardingFragment() {
 
 
         animSet.playTogether(slideHorizontalAnimator, playPauseAnimator)
-        animSet.start()
 
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        animSet.start()
+    }
+
+    override fun onPause() {
+        animSet.childAnimations.forEach {
+            it.removeAllListeners()
+        }
         animSet.cancel()
-        super.onDestroy()
+        super.onPause()
     }
 
     companion object {

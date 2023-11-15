@@ -122,14 +122,18 @@ class WebserverOnboardingOtpFragment : WebserverOnboardingFragment() {
         anims = listOf(animSet, accessAnims)
 
         animSet.playSequentially(slideHorizontalAnimator, deviceOTPAnimator)
-        animSet.start()
 
 
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+         animSet.start()
+   }
+
+    override fun onPause() {
+        super.onPause()
         anims.forEach { it.cancel() }
-        super.onDestroy()
     }
 
     companion object {
