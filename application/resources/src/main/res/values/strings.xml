@@ -1216,6 +1216,11 @@
     <string name="ns_onboarding_ssl_desc">The web server communication is encrypted to prevent your data from leaking</string>
     <string name="ns_onboarding_otp_title">Authentication</string>
     <string name="ns_onboarding_otp_desc">With the one time password authentication, prevent unwanted accesses to your data</string>
+    <string name="ns_onboarding_content_title">Content access</string>
+    <string name="ns_onboarding_content_desc">Choose what can be accessed and what can\'t</string>
+    <string name="ns_onboarding_content_ml">Media library content</string>
+    <string name="ns_onboarding_content_files">File browser</string>
+    <string name="ns_onboarding_content_playback">Playback control</string>
 
 
 </resources>

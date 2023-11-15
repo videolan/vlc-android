@@ -7,12 +7,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.webserver.viewmodels.WebServerOnboardingViewModel
 
 
 class WebserverOnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     private lateinit var nextButton: Button
+    private lateinit var skipButton: Button
     private val viewModel: WebServerOnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +29,7 @@ class WebserverOnboardingActivity : AppCompatActivity(), OnboardingFragmentListe
             FragmentName.HOW -> WebserverOnboardingHowFragment.newInstance()
             FragmentName.SSL -> WebserverOnboardingSslFragment.newInstance()
             FragmentName.OTP -> WebserverOnboardingOtpFragment.newInstance()
-            //todo
-//            FragmentName.PERMISSIONS -> OnboardingNotificationPermissionFragment.newInstance()
-            else -> WebserverOnboardingWelcomeFragment.newInstance()
+            FragmentName.CONTENT -> WebserverOnboardingContentFragment.newInstance()
         }
         (fragment as WebserverOnboardingFragment).onboardingFragmentListener = this
         supportFragmentManager.commit {
@@ -47,7 +47,8 @@ class WebserverOnboardingActivity : AppCompatActivity(), OnboardingFragmentListe
             replace(R.id.fragment_onboarding_placeholder, fragment, fragmentName.name)
         }
         viewModel.currentFragment = fragmentName
-        findViewById<View>(R.id.skip_button).setOnClickListener { onDone() }
+        skipButton = findViewById(R.id.skip_button)
+        skipButton.setOnClickListener { onDone() }
         nextButton = findViewById(R.id.next_button)
         nextButton.setOnClickListener { onNext() }
     }
@@ -63,10 +64,13 @@ class WebserverOnboardingActivity : AppCompatActivity(), OnboardingFragmentListe
             FragmentName.WELCOME -> showFragment(FragmentName.HOW)
             FragmentName.HOW -> showFragment(FragmentName.SSL)
             FragmentName.SSL -> showFragment(FragmentName.OTP)
-            FragmentName.PERMISSIONS -> showFragment(FragmentName.PERMISSIONS)
+            FragmentName.OTP -> showFragment(FragmentName.CONTENT)
             else ->  onDone()
         }
-        if (viewModel.currentFragment == FragmentName.PERMISSIONS) nextButton.text = getString(R.string.done)
+        if (viewModel.currentFragment == FragmentName.CONTENT) {
+            nextButton.text = getString(R.string.done)
+            skipButton.setGone()
+        }
     }
 
     fun manageNextVisibility(visible: Boolean) {
@@ -80,5 +84,5 @@ enum class FragmentName {
     HOW,
     SSL,
     OTP,
-    PERMISSIONS
+    CONTENT
 }
