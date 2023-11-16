@@ -23,6 +23,7 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
+        resValue "string", "dav1d_version", dav1dVersion()
         resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
@@ -240,6 +241,18 @@ def revision() {
         standardOutput = code
     }
     return code.toString()
+}
+
+def dav1dVersion() {
+    def code = new ByteArrayOutputStream()
+    if (file("../../libvlcjni/vlc/contrib/src/dav1d/rules.mak").exists()) {
+        exec {
+            commandLine 'bash', '-c', 'grep "DAV1D_VERSION := " ../../libvlcjni/vlc/contrib/src/dav1d/rules.mak | cut -d = -f2'
+            standardOutput = code
+        }
+        return code.toString().replaceAll(" ", "")
+    }
+    return "0.0.0"
 }
 
 /**
