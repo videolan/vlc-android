@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnRepeat
 import androidx.core.content.ContextCompat
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.webserver.R
 
@@ -33,6 +36,10 @@ class WebserverOnboardingHowFragment : WebserverOnboardingFragment() {
         browserLink = view.findViewById(R.id.browser_link)
         playPause = view.findViewById(R.id.play_pause)
         vizu = view.findViewById(R.id.vizu)
+        if (Settings.showTvUi) {
+            view.findViewById<ImageView>(R.id.deviceImage).setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tv))
+            (vizu.layoutParams as ConstraintLayout.LayoutParams).bottomMargin = 12.dp
+        }
 
 
         var iteration = 0

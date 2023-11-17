@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.vlc.webserver.R
 import kotlin.random.Random
@@ -47,6 +48,7 @@ class WebserverOnboardingOtpFragment : WebserverOnboardingFragment() {
         deviceOTP = view.findViewById(R.id.otpDevice)
         browserOTP = view.findViewById(R.id.otpBrowser)
         access = view.findViewById(R.id.access)
+        if (Settings.showTvUi)  view.findViewById<ImageView>(R.id.deviceImage).setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tv))
 
         deviceOTP.text = Random.nextInt(1000, 9999).toString()
 

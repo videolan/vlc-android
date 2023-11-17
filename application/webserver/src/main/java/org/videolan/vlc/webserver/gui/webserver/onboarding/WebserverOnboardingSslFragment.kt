@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.animation.doOnRepeat
+import androidx.core.content.ContextCompat
+import org.videolan.tools.Settings
 import org.videolan.vlc.webserver.R
 import java.security.SecureRandom
 
@@ -29,6 +32,7 @@ class WebserverOnboardingSslFragment : WebserverOnboardingFragment() {
         titleView = view.findViewById(R.id.welcome_title)
         browserLink = view.findViewById(R.id.browser_link)
         data = view.findViewById(R.id.data)
+        if (Settings.showTvUi)  view.findViewById<ImageView>(R.id.deviceImage).setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tv))
 
         var iteration = 0
         browserLink.pivotX = 0F

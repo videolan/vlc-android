@@ -52,7 +52,7 @@
             tools:alpha="1"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/browser_link"
-            app:layout_constraintEnd_toStartOf="@+id/imageView21"
+            app:layout_constraintEnd_toStartOf="@+id/deviceImage"
             app:layout_constraintStart_toEndOf="@+id/imageView20"
             app:srcCompat="@drawable/ic_webserver_onboarding_verified" />
 
@@ -74,12 +74,12 @@
             android:layout_marginEnd="16dp"
             android:background="?attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/imageView20"
-            app:layout_constraintEnd_toStartOf="@+id/imageView21"
+            app:layout_constraintEnd_toStartOf="@+id/deviceImage"
             app:layout_constraintStart_toEndOf="@+id/imageView20"
             app:layout_constraintTop_toTopOf="@+id/imageView20" />
 
     <ImageView
-            android:id="@+id/imageView21"
+            android:id="@+id/deviceImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
@@ -97,9 +97,9 @@
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView21"
-            app:layout_constraintStart_toStartOf="@+id/imageView21"
-            app:layout_constraintTop_toBottomOf="@+id/imageView21"
+            app:layout_constraintEnd_toEndOf="@+id/deviceImage"
+            app:layout_constraintStart_toStartOf="@+id/deviceImage"
+            app:layout_constraintTop_toBottomOf="@+id/deviceImage"
             tools:text="8888" />
 
     <TextView
