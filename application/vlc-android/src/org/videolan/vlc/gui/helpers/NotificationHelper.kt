@@ -36,7 +36,15 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_PAUSE_SCAN
+import org.videolan.resources.ACTION_RESUME_SCAN
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CUSTOM_ACTION
+import org.videolan.resources.CUSTOM_ACTION_BOOKMARK
+import org.videolan.resources.CUSTOM_ACTION_SPEED
+import org.videolan.resources.EXTRA_CUSTOM_ACTION_ID
+import org.videolan.resources.START_ACTIVITY
 import org.videolan.tools.DrawableCache
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
@@ -160,6 +168,7 @@ object NotificationHelper {
         scanCompatBuilder.setContentText(progressText)
 
         notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
+        notificationIntent.`package` = ctx.packageName
         val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val playpause = if (paused)
             NotificationCompat.Action(R.drawable.ic_play_notif, ctx.getString(R.string.resume), pi)
