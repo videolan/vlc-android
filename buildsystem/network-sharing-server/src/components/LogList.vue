@@ -1,8 +1,10 @@
 <template>
   <div class="row  media-content">
-    <table class="table">
+    <table class="table table-striped table-hover">
       <thead>
-        <tr class="">
+        <tr class="table-striped-columns">
+          <th class="col-1 text-center" role="columnheader" scope="col" v-t="'LOG_TYPE'">
+          </th>
           <th class="" role="columnheader" scope="col" v-t="'LOG_FILE'">
           </th>
           <th class="text-center" role="columnheader" scope="col" v-t="'DOWNLOAD'">

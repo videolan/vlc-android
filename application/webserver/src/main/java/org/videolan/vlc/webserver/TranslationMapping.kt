@@ -47,6 +47,7 @@ object TranslationMapping {
         TRACKS(R.string.tracks),
         GENRES(R.string.genres),
         LOG_FILE(R.string.ns_log_file),
+        LOG_TYPE(R.string.ns_log_type),
         SEND_FILES(R.string.ns_send_files),
         DOWNLOAD(R.string.download),
         NO_MEDIA(R.string.nomedia),
@@ -77,5 +78,8 @@ object TranslationMapping {
         SSL_EXPLANATION_BROWSER(R.string.ns_ssl_explanation_browser),
         SSL_EXPLANATION_ACCEPT(R.string.ns_ssl_explanation_accept),
         SEND_LOGS(R.string.ns_send_logs),
+        LOG_TYPE_WEB(R.string.ns_log_web),
+        LOG_TYPE_CRASH(R.string.ns_log_crash),
+        LOG_TYPE_MOBILE(R.string.ns_log_mobile),
     }
 }

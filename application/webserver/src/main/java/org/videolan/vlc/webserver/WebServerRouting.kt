@@ -219,13 +219,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     }
     // List all log files
     get("/logfile-list") {
-        val logs = getLogsFiles().sortedBy { File(it).lastModified() }.reversed()
+        val logs = getLogsFiles().sortedBy { File(it.path).lastModified() }.reversed()
 
         val jsonArray = JSONArray()
         for (log in logs) {
             val json = JSONObject()
             json.put("path", log)
-            json.put("date", format.get()?.format(File(log).lastModified()))
+            json.put("date", format.get()?.format(File(log.path).lastModified()))
+            json.put("type", log.type)
             jsonArray.put(json)
         }
         call.respondText(jsonArray.toString())
@@ -753,17 +754,25 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
  *
  * @return a list of file paths
  */
-private suspend fun getLogsFiles(): List<String> = withContext(Dispatchers.IO) {
-    val result = ArrayList<String>()
+private suspend fun getLogsFiles(): List<LogFile> = withContext(Dispatchers.IO) {
+    val result = ArrayList<LogFile>()
     val folder = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
     val files = folder.listFiles()
     files.forEach {
-        if (it.isFile && it.name.startsWith("vlc_logcat_")) result.add(it.path)
+        if (it.isFile && it.name.startsWith("vlc_logcat_")) result.add(LogFile(it.path, if (it.name.startsWith("vlc_logcat_webserver")) "web" else "device"))
+    }
+
+    val crashFolder = File(AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath )
+    val crashFiles = crashFolder.listFiles()
+    crashFiles.forEach {
+        if (it.isFile && it.name.startsWith("vlc_crash")) result.add(LogFile(it.path, "crash"))
     }
 
     return@withContext result
 
 }
+
+data class LogFile(val path:String, val type:String)
 
 /**
  * Get the content from a [BrowserProvider]

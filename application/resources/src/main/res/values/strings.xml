@@ -1184,6 +1184,7 @@
     <string name="ns_web_server">Web server</string>
     <string name="ns_web_server_description">Web server state notification</string>
     <string name="ns_log_file">Log files</string>
+    <string name="ns_log_type">Log type</string>
     <string name="ns_send_files">Send files</string>
     <string name="ns_not_in_foreground">Application is not in foreground. Cannot launch video.</string>
     <string name="ns_disconnected">Disconnected from device</string>
@@ -1223,6 +1224,9 @@
     <string name="ns_onboarding_content_files">File browser</string>
     <string name="ns_onboarding_content_playback">Playback control</string>
     <string name="ns_disable">Disable</string>
+    <string name="ns_log_web">Web server log</string>
+    <string name="ns_log_crash">Crash log</string>
+    <string name="ns_log_mobile">Device log</string>
 
 
 </resources>
