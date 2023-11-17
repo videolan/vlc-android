@@ -4,6 +4,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:key="audio_category"
         android:title="@string/web_server">
+    <PreferenceScreen
+            android:key="web_server_info"
+            app:isPreferenceVisible="false"
+            android:title="@string/web_server_info" />
     <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_web_server"

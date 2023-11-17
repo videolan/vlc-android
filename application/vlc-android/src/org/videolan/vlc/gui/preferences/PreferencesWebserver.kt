@@ -25,6 +25,9 @@ package org.videolan.vlc.gui.preferences
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import org.videolan.resources.WEBSERVER_ONBOARDING
@@ -33,6 +36,7 @@ import org.videolan.resources.util.stopWebserver
 import org.videolan.tools.KEY_ENABLE_WEB_SERVER
 import org.videolan.tools.KEY_WEB_SERVER_ML_CONTENT
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
@@ -49,8 +53,12 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(requireActivity(), WEBSERVER_ONBOARDING) })
+        if(!settings.getBoolean(WEBSERVER_ONBOARDING,  false)) {
+            settings.putSingle(WEBSERVER_ONBOARDING, true)
+            startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(requireActivity(), WEBSERVER_ONBOARDING) })
+        }
     }
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
@@ -58,6 +66,21 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
         settings = Settings.getInstance(requireActivity())
         medialibraryContentPreference = findPreference(KEY_WEB_SERVER_ML_CONTENT)!!
         manageMLContentSummary()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_webserver_onboarding) startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(requireActivity(), WEBSERVER_ONBOARDING) })
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.menu_webserver_onboarding).isVisible = true
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.menu_webserver_onboarding).isVisible = true
+        super.onPrepareOptionsMenu(menu)
     }
 
     private fun manageMLContentSummary() {

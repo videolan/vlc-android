@@ -27,6 +27,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import org.videolan.resources.WEBSERVER_ONBOARDING
@@ -38,6 +39,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_PLAYBACK_CONTROL
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
@@ -54,13 +56,17 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(activity, WEBSERVER_ONBOARDING) })
+        if(!settings.getBoolean(WEBSERVER_ONBOARDING,  false)) {
+            settings.putSingle(WEBSERVER_ONBOARDING, true)
+            startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(activity, WEBSERVER_ONBOARDING) })
+        }
     }
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         super.onCreatePreferences(bundle, s)
         settings = Settings.getInstance(activity)
         medialibraryContentPreference = findPreference(KEY_WEB_SERVER_ML_CONTENT)!!
+        findPreference<PreferenceScreen>("web_server_info")?.isVisible = true
         manageMLContentSummary()
     }
 
@@ -84,6 +90,9 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if (preference?.key == "web_server_status") {
             activity.startActivity(Intent(activity, StartActivity::class.java).apply { action = "vlc.webserver.share" })
+        }
+        if (preference?.key == "web_server_info") {
+            startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(activity, WEBSERVER_ONBOARDING) })
         }
         return super.onPreferenceTreeClick(preference)
     }

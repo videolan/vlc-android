@@ -475,6 +475,7 @@
     <string name="web_server_notification_stopping">Web server stopping</string>
     <string name="web_server_notification_not_init">Web server initialising</string>
     <string name="enable_web_server">Enable web server</string>
+    <string name="web_server_info">Web server info</string>
     <string name="enable_web_server_auth">Use authentication</string>
     <string name="enable_web_server_auth_summary">Forbid web server\'s access without authentication (recommended)</string>
     <string name="web_server_user">User</string>
