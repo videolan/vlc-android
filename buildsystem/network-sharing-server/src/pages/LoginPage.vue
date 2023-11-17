@@ -9,22 +9,26 @@
                             <h5 class="text-center explanation" v-t="'CODE_REQUEST_EXPLANATION'"></h5>
                             <!-- <p v-t="'CODE_REQUESTED'"></p> -->
                             <div class="text-center digits">
-                                <input name="firstdigit" class="digit text-center" type="password" required ref="digit1"
-                                    id="digit1" size="1" maxlength="1" tabindex="0" @input="manageInput">
-                                <input name="secondtdigit" class="digit text-center" type="password" required ref="digit2"
-                                    id="digit2" size="1" maxlength="1" tabindex="1" @input="manageInput">
-                                <input name="thirddigit" class="digit text-center" type="password" required ref="digit3"
-                                    id="digit3" size="1" maxlength="1" tabindex="2" @input="manageInput">
-                                <input name="fourthdigit" class="digit text-center" type="password" required ref="digit4"
-                                    id="digit4" size="1" maxlength="1" tabindex="3" @input="manageInput">
+                                <input name="firstdigit" class="digit text-center" type="password" required ref="digit0"
+                                    id="digit0" size="1" maxlength="1" tabindex="1" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 0)">
+                                <input name="secondtdigit" class="digit text-center" type="password" required ref="digit1"
+                                    id="digit1" size="1" maxlength="1" tabindex="2" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 1)">
+                                <input name="thirddigit" class="digit text-center" type="password" required ref="digit2"
+                                    id="digit2" size="1" maxlength="1" tabindex="3" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 2)">
+                                <input name="fourthdigit" class="digit text-center" type="password" required ref="digit3"
+                                    id="digit3" size="1" maxlength="1" tabindex="4" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 3)">
                             </div>
                             <div class="text-center">
-                                <button type="button" class="btn btn-primary action-btn btn-lg" v-t="'SEND'"
+                                <button type="button" class="btn btn-primary action-btn btn-lg" v-t="'SEND'" tabindex="5"
                                     v-on:click="manageClick" ref="send"></button>
                             </div>
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary action-btn btn-light" v-t="'NEW_CODE'"
-                                    v-on:click="generateCode(true)"></button>
+                                    tabindex="6" v-on:click="generateCode(true)"></button>
                             </div>
                         </div>
 
@@ -53,30 +57,62 @@ export default {
     data() {
         return {
             modal: null,
-            challenge: ""
+            challenge: "",
+            inputs: [this.$refs.digit1, this.$refs.digit2, this.$refs.digit3, this.$refs.digit4]
         }
     },
     methods: {
+        handleKeyDown(event, index) {
+            this.inputs = [this.$refs.digit0, this.$refs.digit1, this.$refs.digit2, this.$refs.digit3]
+            if (event.key !== "Tab" &&
+                event.key !== "ArrowRight" &&
+                event.key !== "ArrowLeft"
+            ) {
+                event.preventDefault();
+            }
+
+            if (event.key === "Backspace") {
+                if (event.target.value !== "") {
+                    event.target.value = ""
+                    return
+                }
+                let i = index - 1
+                if (i >= 0) {
+                    console.log(`Resetting input at index ${i}`)
+                    this.inputs[i].value = ""
+                    this.inputs[i].focus()
+                }
+
+                return;
+            }
+
+            if ((new RegExp('^([0-9])$')).test(event.key)) {
+                event.target.value = event.key;
+
+                this.manageInput(event)
+
+            }
+        },
         manageClick() {
             let code = ""
+            code += this.$refs.digit0.value
             code += this.$refs.digit1.value
             code += this.$refs.digit2.value
             code += this.$refs.digit3.value
-            code += this.$refs.digit4.value
             code += this.challenge
             location = vlcApi.verifyCode(sha256(code))
         },
         manageInput(event) {
             if (event.target.value.length > 0) {
                 switch (event.target.id) {
+                    case "digit0":
+                        this.$refs.digit1.focus()
+                        break;
                     case "digit1":
                         this.$refs.digit2.focus()
                         break;
                     case "digit2":
                         this.$refs.digit3.focus()
-                        break;
-                    case "digit3":
-                        this.$refs.digit4.focus()
                         break;
                     default:
                         this.$refs.send.focus()
@@ -105,8 +141,12 @@ export default {
     mounted: function () {
         this.appStore.loading = false
         this.modal = new Modal(document.getElementById('loginModal'), {})
-        this.modal.show()
         this.generateCode(false)
+        let component = this
+        document.getElementById('loginModal').addEventListener('shown.bs.modal', function () {
+            component.$refs.digit0.focus()
+        })
+        this.modal.show()
     },
 }
 </script>
