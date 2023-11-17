@@ -82,6 +82,7 @@ class WebserverOnboardingHowFragment : WebserverOnboardingFragment() {
     }
 
     override fun onPause() {
+        vizu.stop()
         animSet.childAnimations.forEach {
             it.removeAllListeners()
         }
