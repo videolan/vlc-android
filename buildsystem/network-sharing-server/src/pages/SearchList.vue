@@ -1,8 +1,8 @@
 <template>
     <div class="container mt-3">
         <div class="d-flex align-items-center justify-content-center">
-            <input type="text" id="searchInput" class="form-control search-input" ref="searchText"
-                :placeholder="$t('SEARCH_HINT')" aria-labelledby="passwordHelpBlock" @keydown.enter="onPressEnter">
+            <input type="text" id="searchInput" class="search-input" ref="searchText" :placeholder="$t('SEARCH_HINT')"
+                aria-labelledby="passwordHelpBlock" @keydown.enter="onPressEnter">
             <ImageButton type="search" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('SEARCH')"
                 v-on:click="loadResults()" />
         </div>
@@ -133,6 +133,11 @@ export default {
             return this.$t('SEARCH_NO_RESULT')
         }
     },
+    mounted: function () {
+        this.$nextTick(() => {
+            this.$refs.searchText.focus()
+        });
+    },
 }
 </script>
 
@@ -141,5 +146,21 @@ export default {
 
 .search-input {
     max-width: 550px;
+    box-sizing: border-box;
+    border: 2px solid $dark-background;
+    border-radius: 8px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.search-input:focus {
+    border: 2px solid $primary-color;
 }
 </style>
