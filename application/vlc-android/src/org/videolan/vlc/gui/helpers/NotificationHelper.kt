@@ -36,6 +36,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.ACTION_DISABLE_SERVER
+import org.videolan.resources.ACTION_PAUSE_SCAN
+import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.ACTION_PAUSE_SCAN
@@ -199,10 +202,20 @@ object NotificationHelper {
                 .setOngoing(true)
         webServerCompatBuilder.setContentText(connectionTip)
 
+        //disable
+        val disableIntent = Intent()
+        disableIntent.action = ACTION_DISABLE_SERVER
+        disableIntent.`package` = ctx.packageName
+        val piDisable = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, disableIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val disableAction =    NotificationCompat.Action(R.drawable.ic_player_screenshare_stop,ctx.getString(R.string.ns_disable), piDisable)
+        webServerCompatBuilder.addAction(disableAction)
+
+        //Start / Stop
         val notificationIntent = Intent()
-        notificationIntent.action =  if (started) ACTION_STOP_SERVER else ACTION_START_SERVER
+        notificationIntent.action = if (started) ACTION_STOP_SERVER else ACTION_START_SERVER
+        notificationIntent.`package` = ctx.packageName
         val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val action =    NotificationCompat.Action(if (started) R.drawable.ic_pause_notif else R.drawable.ic_play_notif,if (started) ctx.getString(R.string.stop) else ctx.getString(R.string.start), pi)
+        val action = NotificationCompat.Action(if (started) R.drawable.ic_pause_notif else R.drawable.ic_play_notif, if (started) ctx.getString(R.string.stop) else ctx.getString(R.string.start), pi)
         webServerCompatBuilder.addAction(action)
         return webServerCompatBuilder.build()
     }

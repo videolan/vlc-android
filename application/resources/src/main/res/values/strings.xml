@@ -1222,6 +1222,7 @@
     <string name="ns_onboarding_content_ml">Media library content</string>
     <string name="ns_onboarding_content_files">File browser</string>
     <string name="ns_onboarding_content_playback">Playback control</string>
+    <string name="ns_disable">Disable</string>
 
 
 </resources>

@@ -36,12 +36,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.ACTION_DISABLE_SERVER
 import org.videolan.resources.ACTION_RESTART_SERVER
 import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.registerReceiverCompat
+import org.videolan.tools.KEY_ENABLE_WEB_SERVER
+import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.NotificationHelper
 
 
@@ -54,6 +58,13 @@ class WebServerService : LifecycleService() {
             when (intent.action) {
                 ACTION_STOP_SERVER -> {
                     lifecycleScope.launch { server.stop() }
+                }
+                ACTION_DISABLE_SERVER -> {
+                    lifecycleScope.launch {
+                        server.stop()
+                        Settings.getInstance(this@WebServerService).putSingle(KEY_ENABLE_WEB_SERVER, false)
+                        stopService(Intent(applicationContext, WebServerService::class.java))
+                    }
                 }
                 ACTION_START_SERVER -> {
                     lifecycleScope.launch { server.start() }
@@ -100,6 +111,7 @@ class WebServerService : LifecycleService() {
         val filter = IntentFilter()
         filter.addAction(ACTION_STOP_SERVER)
         filter.addAction(ACTION_START_SERVER)
+        filter.addAction(ACTION_DISABLE_SERVER)
         filter.addAction(ACTION_RESTART_SERVER)
         registerReceiverCompat(receiver, filter, false)
     }
