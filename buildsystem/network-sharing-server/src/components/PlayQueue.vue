@@ -4,7 +4,7 @@
             <div class="flex1">&nbsp;</div>
             <ImageButton type="edit" class="small" v-on:click.stop="this.playerStore.togglePlayQueueEdit()"
                 v-bind:class="(this.playerStore.playQueueEdit) ? 'active' : ''" />
-            <ImageButton type="close" class="small play-queue-header" v-on:click.stop="hide()" />
+            <ImageButton type="close" class="small" v-on:click.stop="hide()" />
         </div>
 
         <div class="play-queue-items">
