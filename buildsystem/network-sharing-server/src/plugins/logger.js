@@ -2,16 +2,24 @@ import { createLogger, StringifyObjectsHook } from 'vue-logger-plugin'
 import http from '../plugins/auth'
 import { vlcApi } from './api.js'
 
-const logs = []
 
 const ServerLogHook = {
     run(event) {
-        logs.push({
+        let logLine = {
             time: new Date().getTime(),
             level: event.level,
             data: event.argumentArray
-        })
-        if (logs.length > 200) logs.shift()
+        }
+
+        let localStorageLogs = JSON.parse(localStorage.getItem("logs"))
+        if (!Array.isArray(localStorageLogs)) {
+            localStorageLogs = []
+        }
+        localStorageLogs.push(logLine)
+        while (localStorageLogs.length > 250) {
+            localStorageLogs.shift()
+        }
+        localStorage.setItem("logs", JSON.stringify(localStorageLogs))
     }
 }
 let logLevel = 'info'
@@ -28,6 +36,7 @@ const logger = createLogger({
 export default logger
 
 export function sendLogs() {
+    var logs = JSON.parse(localStorage.getItem("logs"))
     var formData = new FormData();
     formData.append("logs", logs);
     return http.post(vlcApi.sendLogs, logs, {
