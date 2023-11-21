@@ -57,7 +57,7 @@ export default {
     z-index: 1021;
     width: 100vw;
     overflow: hidden;
-    background-color: $grey-overlay;
+    background-color: $lighter-grey;
     padding-bottom: 48px;
     cursor: pointer;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
@@ -66,7 +66,7 @@ export default {
 @media screen and (min-width: 768px) {
     #play_queue {
         width: 400px;
-        background-color: $light-grey;
+        background-color: $lighter-grey;
     }
 
     .play-queue-header {
@@ -76,7 +76,7 @@ export default {
 }
 
 .play-queue-toolbar {
-    background-color: $lighter-grey;
+    background-color: $light-grey;
     padding-bottom: 8px;
 }
 
