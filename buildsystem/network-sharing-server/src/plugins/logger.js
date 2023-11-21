@@ -30,7 +30,7 @@ export default logger
 export function sendLogs() {
     var formData = new FormData();
     formData.append("logs", logs);
-    http.post(vlcApi.sendLogs, logs, {
+    return http.post(vlcApi.sendLogs, logs, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }

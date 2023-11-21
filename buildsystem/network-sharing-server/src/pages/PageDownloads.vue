@@ -53,8 +53,9 @@ export default {
                 });
         },
         sendLocalLogs() {
-            sendLogs()
-            this.fetchLogs()
+            sendLogs().then(() => {
+                this.fetchLogs()
+            })
         }
     },
     created: function () {
