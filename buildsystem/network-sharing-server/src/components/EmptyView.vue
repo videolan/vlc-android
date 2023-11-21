@@ -1,7 +1,9 @@
 <template>
   <div class="all-center container">
-    <img v-bind:src="$getAppAsset('ic_empty', 64)">
-    <p>{{ message }}</p>
+    <div class="error-container all-center">
+      <img v-bind:src="$getAppAsset('ic_empty', 64)">
+      <p>{{ message }}</p>
+    </div>
   </div>
 </template>
 
@@ -14,7 +16,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang='scss'>
+@import '../scss/colors.scss';
+
 .all-center {
   height: 108px;
   display: flex;
@@ -25,9 +29,16 @@ export default {
   margin-bottom: 24px;
 }
 
+.error-container {
+  background-color: $lighter-grey;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid $grey-border;
+}
+
 .all-center p {
   margin-top: 8px;
-  font-size: 1.2em;
-  font-weight: bold;
+  color: $grey-text;
+  font-size: 0.9em;
 }
 </style>

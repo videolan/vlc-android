@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div v-else-if="loaded">
+    <div v-else-if="loaded" class="empty-container">
         <EmptyView :message="$t('DIRECTORY_EMPTY')" />
     </div>
 </template>
@@ -79,4 +79,8 @@ export default {
 
 <style lang='scss'>
 @import '../scss/colors.scss';
+
+.empty-container {
+    margin-top: 24px;
+}
 </style>
