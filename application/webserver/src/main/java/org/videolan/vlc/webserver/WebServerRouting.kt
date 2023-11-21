@@ -224,7 +224,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         val jsonArray = JSONArray()
         for (log in logs) {
             val json = JSONObject()
-            json.put("path", log)
+            json.put("path", log.path)
             json.put("date", format.get()?.format(File(log.path).lastModified()))
             json.put("type", log.type)
             jsonArray.put(json)
