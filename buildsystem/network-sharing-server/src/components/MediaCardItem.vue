@@ -1,5 +1,5 @@
 <template>
-    <div v-on:click="manageClick" class="ratio media-img-container clickable" v-bind:class="(mainImgClasses())">
+    <div v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
         <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-top">
         <div class="media-overlay" v-show="!isBrowse()">
             <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="48" />
