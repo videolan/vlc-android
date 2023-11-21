@@ -610,7 +610,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }
                 if (medias.isEmpty()) call.respond(HttpStatusCode.NotFound)
                 else {
-
+                    if (medias.size == 1 && medias[0].id == HttpSharingServer.getInstance(appContext).service?.currentMediaWrapper?.id) {
+                        call.respond(HttpStatusCode.OK)
+                        return@get
+                    }
                     if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                     if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
                         call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ns_not_in_foreground))
