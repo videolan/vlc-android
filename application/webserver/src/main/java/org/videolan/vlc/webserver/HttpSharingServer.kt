@@ -446,10 +446,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }.apply {
             environment.monitor.subscribe(ApplicationStarted) {
                 _serverStatus.postValue(ServerStatus.STARTED)
-                AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.observeForever(miniPlayerObserver) }
+                AppScope.launch(Dispatchers.Main) { PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver) }
             }
             environment.monitor.subscribe(ApplicationStopped) {
-                AppScope.launch(Dispatchers.Main) { PlaylistManager.playingState.removeObserver(miniPlayerObserver) }
+                AppScope.launch(Dispatchers.Main) { PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver) }
                 _serverStatus.postValue(ServerStatus.STOPPED)
             }
         }
