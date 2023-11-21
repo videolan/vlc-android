@@ -11,7 +11,6 @@ const interceptResErrors = (err) => {
             router.push({ name: 'LoginPage' })
             return
         }
-        err = Object.assign(new Error(), { message: err.response.data });
     } catch (e) {
         if (err.response.status == 401) {
             router.push({ name: 'LoginPage' })
