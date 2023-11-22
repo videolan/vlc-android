@@ -71,6 +71,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.KEY_CURRENT_AUDIO
+import org.videolan.resources.KEY_CURRENT_MEDIA
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.VLCOptions
@@ -586,6 +588,11 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         // Resume playback
         get("/resume-playback") {
             val audio = call.request.queryParameters["audio"] == "true"
+            val currentMediaKey = if (audio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA
+            if (settings.getString(currentMediaKey, "")?.isNotEmpty() == false) {
+                call.respond(HttpStatusCode.NoContent)
+                return@get
+            }
             MediaUtils.loadlastPlaylist(appContext, if (audio) PLAYLIST_TYPE_AUDIO else PLAYLIST_TYPE_VIDEO)
             call.respond(HttpStatusCode.OK)
         }

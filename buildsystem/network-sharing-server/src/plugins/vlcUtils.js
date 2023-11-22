@@ -45,7 +45,11 @@ export default {
                 })
         }
         app.config.globalProperties.$resumePlayback = (isAudio) => {
-            axios.get(vlcApi.resumePlayback(isAudio))
+            axios.get(vlcApi.resumePlayback(isAudio)).then((response) => {
+                if (response.status == 204) {
+                    appStore.warning = { type: "warning", message: geti18n().global.t("NOTHING_RESUME") }
+                }
+            });
         }
         app.config.globalProperties.$upload = (file) => {
             const onUploadProgress = (progressEvent) => {

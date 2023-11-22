@@ -82,5 +82,6 @@ object TranslationMapping {
         LOG_TYPE_CRASH(R.string.ns_log_crash),
         LOG_TYPE_MOBILE(R.string.ns_log_mobile),
         LOG_TYPE_CURRENT(R.string.ns_log_current),
+        NOTHING_RESUME(R.string.resume_playback_error),
     }
 }
