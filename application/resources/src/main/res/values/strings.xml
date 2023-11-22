@@ -1227,6 +1227,7 @@
     <string name="ns_log_web">Web server log</string>
     <string name="ns_log_crash">Crash log</string>
     <string name="ns_log_mobile">Device log</string>
+    <string name="ns_log_current">Current local logs</string>
 
 
 </resources>

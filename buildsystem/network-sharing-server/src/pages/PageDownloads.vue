@@ -1,12 +1,8 @@
 <template>
     <div class="container">
-        <div class="flex-container media-content">
-            <span class="flex1" v-t="'SEND_LOGS'"></span>
-            <button type="button" class="btn btn-primary" v-t="'SEND'" v-on:click="sendLocalLogs()"></button>
-        </div>
         <div v-if="loaded" class="row">
             <div v-if="this.logs.length !== 0">
-                <LogList :logs="logs" />
+                <LogList :logs="logs" @refresh-logs="fetchLogs" />
             </div>
             <div v-else>
                 <EmptyView />
@@ -24,7 +20,6 @@ import LogList from '../components/LogList.vue'
 import EmptyView from '../components/EmptyView.vue'
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
-import { sendLogs } from '../plugins/logger'
 
 
 export default {
@@ -48,15 +43,24 @@ export default {
             http.get(vlcApi.logfileList)
                 .then((response) => {
                     this.loaded = true;
-                    this.logs = response.data
+                    let data = response.data
+                    data.unshift({
+                        "path": "",
+                        "date": this.$t('LOG_TYPE_CURRENT'),
+                        "type": "web"
+                    })
+                    let oldLogs = this.logs
+                    if (oldLogs.length != 0) {
+                        data.forEach((element) => {
+                            if (!oldLogs.some(e => e.path == element.path)) {
+                                element.new = true
+                            }
+                        });
+                    }
+                    this.logs = data
                     component.appStore.loading = false
                 });
         },
-        sendLocalLogs() {
-            sendLogs().then(() => {
-                this.fetchLogs()
-            })
-        }
     },
     created: function () {
         this.fetchLogs();

@@ -1,22 +1,25 @@
 <template>
   <div class="row  media-content">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr class="table-striped-columns">
-          <th class="col-1 text-center" role="columnheader" scope="col" v-t="'LOG_TYPE'">
-          </th>
-          <th class="" role="columnheader" scope="col" v-t="'LOG_FILE'">
-          </th>
-          <th class="text-center" role="columnheader" scope="col" v-t="'DOWNLOAD'">
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="logfile in logs" :key="logfile.path">
-          <LogItem :logfile="logfile" />
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive card table-container">
+
+      <table class="table table-hover">
+        <thead>
+          <tr class="table-striped-columns">
+            <th class="col-1 text-center" role="columnheader" scope="col" v-t="'LOG_TYPE'">
+            </th>
+            <th class="" role="columnheader" scope="col" v-t="'LOG_FILE'">
+            </th>
+            <th class="text-center" role="columnheader" scope="col" v-t="'DOWNLOAD'">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="logfile in logs" :key="logfile.path">
+            <LogItem :logfile="logfile" @refresh-logs="$emit('refresh-logs')" />
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -33,3 +36,10 @@ export default {
 
 }
 </script>
+<style lang="scss">
+@import '../scss/colors.scss';
+
+.table-container {
+  padding: 0;
+}
+</style>
