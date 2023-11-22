@@ -1,4 +1,5 @@
 <template>
+    <form :action="getFormUrl()" method="post" ref="form"></form>
     <div class="container">
         <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -9,18 +10,14 @@
                             <h5 class="text-center explanation" v-t="'CODE_REQUEST_EXPLANATION'"></h5>
                             <!-- <p v-t="'CODE_REQUESTED'"></p> -->
                             <div class="text-center digits">
-                                <input name="firstdigit" class="digit text-center" type="password" required ref="digit0"
-                                    id="digit0" size="1" maxlength="1" tabindex="1" @input="manageInput"
-                                    @keydown="handleKeyDown($event, 0)">
-                                <input name="secondtdigit" class="digit text-center" type="password" required ref="digit1"
-                                    id="digit1" size="1" maxlength="1" tabindex="2" @input="manageInput"
-                                    @keydown="handleKeyDown($event, 1)">
-                                <input name="thirddigit" class="digit text-center" type="password" required ref="digit2"
-                                    id="digit2" size="1" maxlength="1" tabindex="3" @input="manageInput"
-                                    @keydown="handleKeyDown($event, 2)">
-                                <input name="fourthdigit" class="digit text-center" type="password" required ref="digit3"
-                                    id="digit3" size="1" maxlength="1" tabindex="4" @input="manageInput"
-                                    @keydown="handleKeyDown($event, 3)">
+                                <input class="digit text-center" type="password" required ref="digit0" id="digit0" size="1"
+                                    maxlength="1" tabindex="1" @input="manageInput" @keydown="handleKeyDown($event, 0)">
+                                <input class="digit text-center" type="password" required ref="digit1" id="digit1" size="1"
+                                    maxlength="1" tabindex="2" @input="manageInput" @keydown="handleKeyDown($event, 1)">
+                                <input class="digit text-center" type="password" required ref="digit2" id="digit2" size="1"
+                                    maxlength="1" tabindex="3" @input="manageInput" @keydown="handleKeyDown($event, 2)">
+                                <input class="digit text-center" type="password" required ref="digit3" id="digit3" size="1"
+                                    maxlength="1" tabindex="4" @input="manageInput" @keydown="handleKeyDown($event, 3)">
                             </div>
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary action-btn btn-lg" v-t="'SEND'" tabindex="5"
@@ -93,14 +90,24 @@ export default {
 
             }
         },
+        getFormUrl() {
+            return vlcApi.verifyCode
+        },
         manageClick() {
+            let form = this.$refs.form
             let code = ""
             code += this.$refs.digit0.value
             code += this.$refs.digit1.value
             code += this.$refs.digit2.value
             code += this.$refs.digit3.value
             code += this.challenge
-            location = vlcApi.verifyCode(sha256(code))
+
+            var hidden = document.createElement("input");
+            hidden.type = "hidden";
+            hidden.name = "code";
+            hidden.value = sha256(code);
+            form.appendChild(hidden);
+            form.submit();
         },
         manageInput(event) {
             if (event.target.value.length > 0) {

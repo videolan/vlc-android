@@ -162,8 +162,17 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         call.respondText(code.challenge)
     }
     //Verify the code and inject the cookie if valid
-    get("/verify-code") {
-        val idString = call.request.queryParameters["code"] ?: return@get
+    post("/verify-code") {
+        val formParameters = try {
+            call.receiveParameters()
+        } catch (e: Exception) {
+            null
+        }
+        val idString = formParameters?.get("code")
+        if (idString == null){
+            call.respond(HttpStatusCode.BadRequest)
+            return@post
+        }
         if (WebserverOTP.verifyCode(appContext, idString)) {
             //verification is OK
             WebServerSession.injectCookie(call, settings)

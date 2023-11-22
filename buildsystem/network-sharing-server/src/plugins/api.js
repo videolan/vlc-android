@@ -35,11 +35,9 @@ export const vlcApi = {
      */
     sendLogs: `${API_URL}logs`,
     /**
-     * Ask for a code generation
+     * POST url to send the code too
      */
-    verifyCode: (code) => {
-        return `${API_URL}verify-code?code=${code}`
-    },
+    verifyCode: `${API_URL}verify-code`,
     /**
      * Retrieve the web socket API URL
      */
