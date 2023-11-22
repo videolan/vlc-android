@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div v-else-if="loaded" class="empty-container">
+    <div v-else-if="loaded" class="empty-view-container">
         <EmptyView :message="$t('DIRECTORY_EMPTY')" />
     </div>
 </template>
