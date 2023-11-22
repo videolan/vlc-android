@@ -1,5 +1,5 @@
 <template>
-    <div id="play_queue" v-show="show">
+    <div id="play_queue" v-show="this.playerStore.playqueueShowing">
         <div class="d-flex border-bottom play-queue-toolbar">
             <div class="flex1">&nbsp;</div>
             <ImageButton type="edit" class="small" v-on:click.stop="this.playerStore.togglePlayQueueEdit()"

@@ -3,7 +3,7 @@
   <main v-bind:class="(this.playerStore.playing) ? 'footer-bottom-margin' : ''" class="flex1">
     <router-view></router-view>
   </main>
-  <PlayQueue :show="this.playerStore.playqueueShowing" />
+  <PlayQueue />
   <MiniPlayer ref="miniPlayer" />
   <Alert />
   <UploadDialog ref="uploadComponent" />
@@ -93,6 +93,10 @@ export default {
         switch (msg.type) {
           case 'player-status':
             this.playerStore.playing = msg.playing;
+            if (!msg.playing) {
+              this.playerStore.playqueueShowing = false
+              this.playerStore.responsivePlayerShowing = false
+            }
             break
           case 'volume':
             this.playerStore.volume = msg.volume
