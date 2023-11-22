@@ -5,11 +5,11 @@
       <table class="table table-hover">
         <thead>
           <tr class="table-striped-columns">
-            <th class="col-1 text-center" role="columnheader" scope="col" v-t="'LOG_TYPE'">
+            <th class="col-1 text-center align-middle" role="columnheader" scope="col" v-t="'LOG_TYPE'">
             </th>
-            <th class="" role="columnheader" scope="col" v-t="'LOG_FILE'">
+            <th class="align-middle" role="columnheader" scope="col" v-t="'LOG_FILE'">
             </th>
-            <th class="text-center" role="columnheader" scope="col" v-t="'DOWNLOAD'">
+            <th class="text-center align-middle" role="columnheader" scope="col" v-t="'DOWNLOAD'">
             </th>
           </tr>
         </thead>

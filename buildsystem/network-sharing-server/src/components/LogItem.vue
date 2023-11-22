@@ -1,13 +1,13 @@
 <template>
-  <th scope="row" class="align-middle text-center" :class="{ 'current-log': logfile.path == '' }">
+  <td class="align-middle text-center" :class="{ 'current-log': logfile.path == '' }">
     <img class="image-button-image" :src="(this.getImageByType(logfile.type))" width="24" data-bs-toggle="tooltip"
       data-bs-placement="bottom" :title="$t(this.getTitleByType(logfile.type))" />
-  </th>
-  <td class="align-middle" :class="{ 'current-log': logfile.path == '' }">
+  </td>
+  <td class="align-middle w-auto" :class="{ 'current-log': logfile.path == '' }">
     <span class="new" v-if="logfile.new">NEW</span>
     {{ logfile.date }}
   </td>
-  <td class="text-center" :class="{ 'current-log': logfile.path == '' }">
+  <td class="text-center col-1" :class="{ 'current-log': logfile.path == '' }">
     <a :href="href" class="" v-if="logfile.path != ''">
       <ImageButton type="file_download" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DOWNLOAD')" />
     </a>
