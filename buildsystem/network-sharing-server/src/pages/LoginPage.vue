@@ -155,6 +155,9 @@ export default {
         })
         this.modal.show()
     },
+    unmounted: function () {
+        this.modal.hide()
+    }
 }
 </script>
 
