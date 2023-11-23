@@ -6,7 +6,6 @@ import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.webserver.viewmodels.WebServerOnboardingViewModel
@@ -55,7 +54,6 @@ class WebserverOnboardingActivity : AppCompatActivity(), OnboardingFragmentListe
 
 
     override fun onDone() {
-        setResult(RESULT_RESTART)
         finish()
     }
 
