@@ -101,6 +101,12 @@ export default {
           case 'volume':
             this.playerStore.volume = msg.volume
             break;
+          case 'login-needed':
+            if (msg.dialogOpened)
+              this.appStore.warning = { type: "warning", message: this.$t('INVALID_LOGIN') }
+            else
+              this.appStore.warning = undefined
+            break;
           case 'now-playing':
             this.playerStore.nowPlaying = msg
             this.playerStore.volume = msg.volume

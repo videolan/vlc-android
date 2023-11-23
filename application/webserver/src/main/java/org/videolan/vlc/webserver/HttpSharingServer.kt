@@ -97,6 +97,7 @@ import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.NetworkProvider
 import org.videolan.vlc.util.FileUtils
@@ -145,6 +146,15 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         AppScope.launch {
             val playerStatus = Gson().toJson(PlayerStatus(playing))
             WebServerWebSockets.sendToAll(playerStatus)
+        }
+    }
+
+    /**
+     * Observes the need to login (for the browser) and display a warning on the website
+     */
+    private val loginObserver = androidx.lifecycle.Observer<Boolean> { showed ->
+        AppScope.launch {
+            WebServerWebSockets.sendToAll(Gson().toJson(LoginNeeded(showed)))
         }
     }
 
@@ -451,10 +461,16 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }.apply {
             environment.monitor.subscribe(ApplicationStarted) {
                 _serverStatus.postValue(ServerStatus.STARTED)
-                AppScope.launch(Dispatchers.Main) { PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver) }
+                AppScope.launch(Dispatchers.Main) {
+                    PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver)
+                    DialogActivity.loginDialogShown.observeForever(loginObserver)
+                }
             }
             environment.monitor.subscribe(ApplicationStopped) {
-                AppScope.launch(Dispatchers.Main) { PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver) }
+                AppScope.launch(Dispatchers.Main) {
+                    PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver)
+                    DialogActivity.loginDialogShown.removeObserver(loginObserver)
+                }
                 _serverStatus.postValue(ServerStatus.STOPPED)
             }
         }
@@ -676,6 +692,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
     data class WebSocketAuthorization(val status:String, val initialMessage:String) : WSMessage("auth")
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
+    data class LoginNeeded(val dialogOpened: Boolean) : WSMessage("login-needed")
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)
