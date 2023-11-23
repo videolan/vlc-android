@@ -41,7 +41,7 @@ import org.videolan.vlc.webserver.ssl.SecretGenerator
 private const val VALID_SESSIONS = "valid_sessions"
 
 object WebServerSession {
-    val maxAge = if (BuildConfig.DEBUG) 3600L else 3600L * 24L * 365L
+    val maxAge = if (BuildConfig.DEBUG) 4 * 3600L else 3600L * 24L * 365L
 
     /**
      * Verify if the user is logged in
