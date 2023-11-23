@@ -31,6 +31,7 @@ import androidx.preference.PreferenceScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import org.videolan.resources.WEBSERVER_ONBOARDING
+import org.videolan.resources.util.restartWebserver
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
 import org.videolan.tools.KEY_ENABLE_WEB_SERVER
@@ -111,7 +112,10 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             KEY_WEB_SERVER_ML_CONTENT -> {
                 manageMLContentSummary()
             }
-            WEB_SERVER_FILE_BROWSER_CONTENT, WEB_SERVER_NETWORK_BROWSER_CONTENT, WEB_SERVER_PLAYBACK_CONTROL -> {
+            WEB_SERVER_NETWORK_BROWSER_CONTENT -> {
+                activity.restartWebserver()
+            }
+            WEB_SERVER_FILE_BROWSER_CONTENT, WEB_SERVER_PLAYBACK_CONTROL -> {
 
             }
         }

@@ -31,11 +31,13 @@ import android.view.MenuItem
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import org.videolan.resources.WEBSERVER_ONBOARDING
+import org.videolan.resources.util.restartWebserver
 import org.videolan.resources.util.startWebserver
 import org.videolan.resources.util.stopWebserver
 import org.videolan.tools.KEY_ENABLE_WEB_SERVER
 import org.videolan.tools.KEY_WEB_SERVER_ML_CONTENT
 import org.videolan.tools.Settings
+import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
@@ -116,6 +118,9 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
                 } else {
                     requireActivity().stopWebserver()
                 }
+            }
+            WEB_SERVER_NETWORK_BROWSER_CONTENT -> {
+                requireActivity().restartWebserver()
             }
             KEY_WEB_SERVER_ML_CONTENT -> {
                 manageMLContentSummary()

@@ -242,9 +242,13 @@ fun Context.startWebserver() {
 }
 
 fun Context.stopWebserver() {
-    sendBroadcast(Intent(ACTION_STOP_SERVER))
+    sendBroadcast(Intent(ACTION_STOP_SERVER).apply { `package` = packageName })
     val intent = Intent(ACTION_INIT).setClassName(applicationContext, WEBSERVER_SERVICE)
     stopService(intent)
+}
+
+fun Context.restartWebserver() {
+    sendBroadcast(Intent(ACTION_RESTART_SERVER).apply { `package` = packageName })
 }
 
 /**

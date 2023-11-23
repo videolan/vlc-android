@@ -93,6 +93,7 @@ import org.videolan.tools.KEYSTORE_PASSWORD
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.Settings
 import org.videolan.tools.SingletonHolder
+import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
@@ -185,6 +186,10 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
         }
 
         withContext(Dispatchers.Main) {
+            if (!settings.getBoolean(WEB_SERVER_NETWORK_BROWSER_CONTENT, false)) {
+                Log.i(TAG, "Preventing the network monitor to be collected as the network browsing is disabled")
+                return@withContext
+            }
             //keep track of the network shares as they are highly asynchronous
             val provider = NetworkProvider(context, networkSharesLiveData, null)
             NetworkMonitor.getInstance(context).connectionFlow.onEach {
