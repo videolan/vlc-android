@@ -73,6 +73,7 @@ export default {
     },
     unmounted: function () {
         this.browserStore.breadcrumb = []
+        this.appStore.loading = false
     }
 }
 </script>
