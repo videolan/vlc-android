@@ -209,6 +209,28 @@ export default {
   }
 }
 
+@media screen and (max-width: 450px) {
+  .player_controls .image-button {
+
+    width: 40px;
+  }
+
+  .player_controls .image-button.big {
+    width: 58px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .player_controls .image-button {
+
+    width: 32px;
+  }
+
+  .player_controls .image-button.big {
+    width: 48px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   :root {
     --playerHeight: 98px;
