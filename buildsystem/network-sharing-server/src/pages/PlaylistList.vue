@@ -6,7 +6,7 @@
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="playlist in playlists" :key="playlist.id">
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="playlist in playlists" :key="playlist.id">
                 <MediaCardItem :media="playlist" :mediaType="'playlist'" />
             </div>
         </div>

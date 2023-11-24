@@ -9,7 +9,7 @@
 
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="album in albums" :key="album.id">
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="album in albums" :key="album.id">
                 <MediaCardItem :media="album" :mediaType="'album'" />
             </div>
         </div>

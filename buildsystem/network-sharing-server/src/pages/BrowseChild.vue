@@ -6,7 +6,7 @@
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="item in browseResult" :key="item.id">
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="item in browseResult" :key="item.id">
                 <MediaCardItem :media="item" :mediaType="(item.isFolder) ? 'folder' : 'file'" />
             </div>
         </div>

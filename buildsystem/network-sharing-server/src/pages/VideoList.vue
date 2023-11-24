@@ -6,7 +6,7 @@
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
-            <div class="col-md-3 col-sm-4 col-xs-6" v-for="video in videos" :key="video.id">
+            <div class="col-md-3 col-sm-4 col-6" v-for="video in videos" :key="video.id">
                 <MediaCardItem :media="video" :downloadable="true" :mediaType="'video'" />
             </div>
         </div>

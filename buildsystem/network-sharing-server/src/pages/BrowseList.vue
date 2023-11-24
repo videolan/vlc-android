@@ -14,7 +14,7 @@
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
-                <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="favorite in favorites" :key="favorite.id">
+                <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="favorite in favorites" :key="favorite.id">
                     <MediaCardItem :media="favorite" :mediaType="'folder'" :hideOverflow="true" />
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
-                <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="storage in storages" :key="storage.id">
+                <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="storage in storages" :key="storage.id">
                     <MediaCardItem :media="storage" :mediaType="'folder'" :hideOverflow="true" />
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
-                <div class="col-md-3 col-lg-2 col-sm-4 col-xs-6" v-for="network in networkEntries" :key="network.id">
+                <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="network in networkEntries" :key="network.id">
                     <MediaCardItem :media="network" :mediaType="'network'" :hideOverflow="true" />
                 </div>
             </div>
