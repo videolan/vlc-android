@@ -6,7 +6,7 @@
         <span class="playing-bar playing-bar2"></span>
         <span class="playing-bar playing-bar3"></span>
       </div>
-      <img class="media-artwork" v-lazy="$getImageUrl(media)">
+      <img class="media-artwork" v-lazy="$getImageUrl(media, 'video')">
     </div>
     <div class="media-text">
       <p class="h6 queue-title text-truncate">{{ media.title }}</p>
@@ -14,8 +14,7 @@
     </div>
     <ImageButton v-show="this.playerStore.playQueueEdit" type="expand_more"
       v-on:click.stop="moveMediaBottom(mediaIndex)" />
-    <ImageButton v-show="this.playerStore.playQueueEdit" type="expand_less"
-      v-on:click.stop="moveMediaTop(mediaIndex)" />
+    <ImageButton v-show="this.playerStore.playQueueEdit" type="expand_less" v-on:click.stop="moveMediaTop(mediaIndex)" />
     <ImageButton v-show="this.playerStore.playQueueEdit" type="playlist_remove"
       v-on:click.stop="removeItem(mediaIndex)" />
   </div>
@@ -44,10 +43,10 @@ export default {
     },
     play(index) {
       this.$root.sendMessage("play-media", index);
-    }, 
+    },
     moveMediaBottom(index) {
       this.$root.sendMessage("move-media-bottom", index);
-    }, 
+    },
     moveMediaTop(index) {
       this.$root.sendMessage("move-media-top", index);
     },
@@ -79,6 +78,7 @@ export default {
   width: 42px;
   height: 42px;
   border-radius: 6px;
+  object-fit: cover;
 }
 
 .media-artwork[lazy=loading] {
@@ -160,4 +160,5 @@ export default {
   100% {
     height: 60%;
   }
-}</style>
+}
+</style>
