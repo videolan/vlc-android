@@ -734,7 +734,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         "playlist" -> ArtworkProvider.PLAYLIST
                         else -> ArtworkProvider.MEDIA
                     }
-                    cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/0/$it"))?.let { inputStream ->
+                    cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/1/$it"))?.let { inputStream ->
                         call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
                         inputStream.close()
                         return@get
