@@ -86,7 +86,7 @@ export default {
       this.connection.onmessage = (event) => {
 
         const msg = JSON.parse(event.data);
-        this.$log.info(`WS received with message ${JSON.stringify(msg)}`)
+        if (!['now-playing', 'play-queue'].includes(msg.type)) this.$log.info(`WS received with message ${JSON.stringify(msg)}`)
         if (this.playerStore.playing == false && msg.shouldShow) {
           this.$log.info("Starting player ...")
           this.playerStore.playing = true;
