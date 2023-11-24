@@ -179,8 +179,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             scope.launch {
                 WebserverUtils.otpFlow.emit(null)
             }
+            call.respondRedirect("/")
+            return@post
         }
-        call.respondRedirect("/")
+        call.respondRedirect("/index.html#/login/error")
     }
     // Main end point redirect to index.html
     get("/") {

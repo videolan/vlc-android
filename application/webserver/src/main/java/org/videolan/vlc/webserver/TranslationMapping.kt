@@ -84,5 +84,6 @@ object TranslationMapping {
         LOG_TYPE_CURRENT(R.string.ns_log_current),
         NOTHING_RESUME(R.string.resume_playback_error),
         INVALID_LOGIN(R.string.ns_invalid_login),
+        INVALID_OTP(R.string.ns_invalid_otp),
     }
 }

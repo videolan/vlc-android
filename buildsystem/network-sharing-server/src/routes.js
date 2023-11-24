@@ -35,6 +35,7 @@ const routes = [
 
   { path: '/logs', component: PageDownloads, name: 'Logs' },
   { path: '/login', component: LoginPage, name: 'LoginPage' },
+  { path: '/login/error', component: LoginPage, name: 'LoginPageError', meta: { showError: true } },
   { path: '/ssl', component: SslPage, name: 'SslPage' },
 ]
 

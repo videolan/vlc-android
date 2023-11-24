@@ -1229,6 +1229,7 @@
     <string name="ns_log_mobile">Device log</string>
     <string name="ns_log_current">Current local logs</string>
     <string name="ns_invalid_login">You need to log in on your device</string>
+    <string name="ns_invalid_otp">Invalid code provided</string>
 
 
 </resources>

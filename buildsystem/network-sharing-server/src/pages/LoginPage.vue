@@ -8,7 +8,8 @@
                     <div class="modal-body">
                         <div class="container">
                             <h5 class="text-center explanation" v-t="'CODE_REQUEST_EXPLANATION'"></h5>
-                            <!-- <p v-t="'CODE_REQUESTED'"></p> -->
+                            <p v-show="this.$route.meta.showError" v-t="'INVALID_OTP'"
+                                class="text-danger text-center fs-5 text fw-bold"></p>
                             <div class="text-center digits">
                                 <input autocomplete="new-password" class="digit text-center" type="password" required
                                     ref="digit0" id="digit0" size="1" maxlength="1" tabindex="1" @input="manageInput"

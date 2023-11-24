@@ -58,6 +58,7 @@ export default {
     askWSTicket() {
       let component = this
       http.get(vlcApi.websocketAuthTicket)
+        .catch(function () { })
         .then((response) => {
           if (response !== undefined) component.appStore.wsTicket = response.data
         });
@@ -71,6 +72,7 @@ export default {
     startWS() {
       let component = this
       http.get(vlcApi.websocketAuthTicket)
+        .catch(function () { })
         .then((response) => {
           if (response !== undefined) {
             component.appStore.wsTicket = response.data
