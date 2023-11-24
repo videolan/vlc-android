@@ -11,8 +11,11 @@
     <a :href="href" class="" v-if="logfile.path != ''">
       <ImageButton type="file_download" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DOWNLOAD')" />
     </a>
-    <ImageButton v-else type="file_upload" v-on:click="downloadLocalLog" data-bs-toggle="tooltip"
+    <ImageButton v-else-if="!sending" type="file_upload" v-on:click="downloadLocalLog" data-bs-toggle="tooltip"
       data-bs-placement="bottom" :title="$t('SEND_LOGS')" />
+    <div v-else class="spinner-border text-primary send-spinner" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </td>
 </template>
 
@@ -28,6 +31,11 @@ export default {
   },
   props: {
     logfile: Object
+  },
+  data() {
+    return {
+      sending: false,
+    }
   },
   computed: {
     href: function () {
@@ -59,7 +67,9 @@ export default {
       }
     },
     downloadLocalLog() {
+      this.sending = true
       sendLogs().then(() => {
+        this.sending = false
         this.$emit('refresh-logs')
       })
     }
@@ -93,5 +103,9 @@ export default {
 
 .log-download {
   color: $primary-color;
+}
+
+.send-spinner {
+  margin: 5px;
 }
 </style>
