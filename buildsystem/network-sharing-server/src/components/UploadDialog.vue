@@ -9,7 +9,7 @@
   </div>
   <input type="file" id="file_upload" multiple="true" style="display: none;" v-on:change="filesSelected"
     ref="inputFile" />
-  <div v-show="this.uploadStore.uploadingFiles.length > 0" class="uploads shadow-sm">
+  <div v-show="this.uploadStore.uploadingFiles.length > 0" class="uploads">
     <div class="uploads-header d-flex align-items-center">
       <h6 v-if="(this.uploadStore.uploadRemaining() == 0)" v-t="'SEND_FILES'" class="flex1 uploads-title" />
       <h6 v-else class="flex1 uploads-title">{{ $t('UPLOAD_REMAINING', { msg: this.uploadStore.uploadRemaining() }) }}
@@ -172,6 +172,7 @@ export default {
 
 .uploads {
   position: fixed;
+  border: 1px solid rgba(0, 0, 0, 0.075);
   bottom: 0;
   right: 16px;
   width: 450px;
@@ -179,6 +180,7 @@ export default {
   background-color: $light-grey;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.075) !important
 }
 
 .uploads-header {
