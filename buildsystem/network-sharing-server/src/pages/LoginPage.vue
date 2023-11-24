@@ -1,5 +1,5 @@
 <template>
-    <form :action="getFormUrl()" method="post" ref="form"></form>
+    <form :action="getFormUrl()" method="post" ref="form" autocomplete="off"></form>
     <div class="container">
         <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -10,14 +10,18 @@
                             <h5 class="text-center explanation" v-t="'CODE_REQUEST_EXPLANATION'"></h5>
                             <!-- <p v-t="'CODE_REQUESTED'"></p> -->
                             <div class="text-center digits">
-                                <input class="digit text-center" type="password" required ref="digit0" id="digit0" size="1"
-                                    maxlength="1" tabindex="1" @input="manageInput" @keydown="handleKeyDown($event, 0)">
-                                <input class="digit text-center" type="password" required ref="digit1" id="digit1" size="1"
-                                    maxlength="1" tabindex="2" @input="manageInput" @keydown="handleKeyDown($event, 1)">
-                                <input class="digit text-center" type="password" required ref="digit2" id="digit2" size="1"
-                                    maxlength="1" tabindex="3" @input="manageInput" @keydown="handleKeyDown($event, 2)">
-                                <input class="digit text-center" type="password" required ref="digit3" id="digit3" size="1"
-                                    maxlength="1" tabindex="4" @input="manageInput" @keydown="handleKeyDown($event, 3)">
+                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                    ref="digit0" id="digit0" size="1" maxlength="1" tabindex="1" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 0)">
+                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                    ref="digit1" id="digit1" size="1" maxlength="1" tabindex="2" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 1)">
+                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                    ref="digit2" id="digit2" size="1" maxlength="1" tabindex="3" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 2)">
+                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                    ref="digit3" id="digit3" size="1" maxlength="1" tabindex="4" @input="manageInput"
+                                    @keydown="handleKeyDown($event, 3)">
                             </div>
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary action-btn btn-lg" v-t="'SEND'" tabindex="5"
