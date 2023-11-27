@@ -12,6 +12,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
@@ -42,6 +43,7 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -53,6 +55,7 @@ android {
 preBuild.dependsOn(webCopy)
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
     implementation project(':application:vlc-android')
     implementation "io.ktor:ktor:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-netty:$rootProject.ext.ktorVersion"
