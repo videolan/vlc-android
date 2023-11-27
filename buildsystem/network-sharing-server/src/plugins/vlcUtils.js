@@ -8,6 +8,7 @@ export default {
     install: (app) => {
         const appStore = useAppStore()
         const uploadStore = useUploadStore()
+        const controllersForFile = []
         app.config.globalProperties.$readableDuration = (ms) => {
             const seconds = Math.floor((ms / 1000) % 60)
             const minutes = Math.floor((ms / (60 * 1000)) % 60)
@@ -52,6 +53,7 @@ export default {
             });
         }
         app.config.globalProperties.$upload = (file) => {
+            const controller = new AbortController();
             const onUploadProgress = (progressEvent) => {
                 const { loaded, total } = progressEvent;
                 let percent = Math.floor((loaded * 100) / total);
@@ -65,13 +67,26 @@ export default {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
+                signal: controller.signal,
                 onUploadProgress
             }).catch(function () {
                 uploadStore.changeFileStatus(file, 'error')
 
-            }).then(() => {
-                uploadStore.changeFileStatus(file, 'uploaded')
+            }).then((response) => {
+                if (response === undefined) uploadStore.changeFileStatus(file, 'waiting')
+                else
+                    uploadStore.changeFileStatus(file, 'uploaded')
             })
+            controllersForFile.push({
+                file: file,
+                controller: controller
+            })
+        }
+        app.config.globalProperties.$cancelUploadFile = (file) => {
+            let controller = controllersForFile.findLast((element) => element.file == file)
+            const index = controllersForFile.indexOf(controller)
+            controller.controller.abort()
+            controllersForFile.splice(index, 1)
         }
     }
 }

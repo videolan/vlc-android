@@ -39,8 +39,11 @@
             <td class="align-middle text-end status-cell">
               <ImageButton v-if="(fileUpload.status == 'waiting')" type="file_upload" class="small"
                 v-on:click="this.$upload(fileUpload.file)" />
-              <div v-else-if="(fileUpload.status == 'uploading')" class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
+              <div v-else-if="(fileUpload.status == 'uploading')">
+                <div class="spinner-border text-primary align-middle" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <ImageButton type="cancel" class="small" v-on:click="this.$cancelUploadFile(fileUpload.file)" />
               </div>
               <img v-else-if="(fileUpload.status == 'error')" class="image-button-image" :src="(`./icons/error.svg`)" />
               <img v-else class="image-button-image" :src="(`./icons/success.svg`)" />
