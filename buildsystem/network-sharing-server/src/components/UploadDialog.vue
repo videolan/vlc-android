@@ -37,8 +37,10 @@
               </div>
             </td>
             <td class="align-middle text-end status-cell">
-              <ImageButton v-if="(fileUpload.status == 'waiting')" type="file_upload" class="small"
-                v-on:click="this.$upload(fileUpload.file)" />
+              <div v-if="(fileUpload.status == 'waiting')">
+                <ImageButton type="file_upload" class="small" v-on:click="this.$upload(fileUpload.file)" />
+                <ImageButton type="delete" class="small" v-on:click="this.deleteUpload(fileUpload.file)" />
+              </div>
               <div v-else-if="(fileUpload.status == 'uploading')">
                 <div class="spinner-border text-primary align-middle" role="status">
                   <span class="visually-hidden">Loading...</span>
@@ -46,9 +48,10 @@
                 <ImageButton type="cancel" class="small" v-on:click="this.$cancelUploadFile(fileUpload.file)" />
               </div>
               <img v-else-if="(fileUpload.status == 'error')" class="image-button-image" :src="(`./icons/error.svg`)" />
-              <img v-else class="image-button-image" :src="(`./icons/success.svg`)" />
-              <ImageButton v-if="(fileUpload.status == 'waiting')" type="delete" class="small"
-                v-on:click="this.deleteUpload(fileUpload.file)" />
+              <div v-else>
+                <img class="image-button-image" :src="(`./icons/success.svg`)" />
+                <ImageButton type="close" class="small" v-on:click="this.deleteUpload(fileUpload.file)" />
+              </div>
             </td>
           </tr>
         </tbody>
