@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -28,8 +27,7 @@ class WebserverOnboardingContentFragment : WebserverOnboardingFragment() {
     private lateinit var playbackLL: LinearLayout
     private lateinit var medialibraryLL: LinearLayout
 
-    val disappearSet = AnimatorSet()
-    val animationLoop = AnimatorSet()
+    private val animationLoop = AnimatorSet()
 
     override fun getDefaultViewForTalkback() = titleView
 
@@ -49,35 +47,22 @@ class WebserverOnboardingContentFragment : WebserverOnboardingFragment() {
 
 
         val appearingSets = ArrayList<AnimatorSet>()
-        val disappearAnimations = ArrayList<ObjectAnimator>()
         arrayOf(medialibraryLL, filesLL, playbackLL).forEach {
-            val bumpAnimationX = ObjectAnimator.ofFloat(it, View.SCALE_X, 0.75F, 1F)
+            val bumpAnimationX = ObjectAnimator.ofFloat(it, View.SCALE_X, 1F, 1.2F, 1F)
             bumpAnimationX.interpolator = OvershootInterpolator()
-            bumpAnimationX.duration = 1000
+            bumpAnimationX.duration = 1500
 
-            val bumpAnimationY = ObjectAnimator.ofFloat(it, View.SCALE_Y, 0.75F, 1F)
+            val bumpAnimationY = ObjectAnimator.ofFloat(it, View.SCALE_Y, 1F, 1.2F, 1F)
             bumpAnimationY.interpolator = OvershootInterpolator()
-            bumpAnimationY.duration = 1000
-
-            val alphaAnimation = ObjectAnimator.ofFloat(it, View.ALPHA, 0F, 1F)
-            alphaAnimation.interpolator = AccelerateDecelerateInterpolator()
-            alphaAnimation.duration = 1000
-
-            val alphaDisappearAnimation = ObjectAnimator.ofFloat(it, View.ALPHA, 1F, 0F)
-            alphaDisappearAnimation.interpolator = AccelerateDecelerateInterpolator()
-            alphaDisappearAnimation.duration = 1000
-            disappearAnimations.add(alphaDisappearAnimation)
+            bumpAnimationY.duration = 1500
 
             val set = AnimatorSet()
-            set.playTogether(bumpAnimationX, bumpAnimationY, alphaAnimation)
+            set.playTogether(bumpAnimationX, bumpAnimationY)
             appearingSets.add(set)
         }
 
-
-
-
-        disappearSet.playTogether(disappearAnimations.toSet())
-        disappearSet.doOnEnd {
+        animationLoop.playSequentially(appearingSets.toMutableList() as List<Animator>?)
+        animationLoop.doOnEnd {
             lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     delay(2000)
@@ -86,15 +71,6 @@ class WebserverOnboardingContentFragment : WebserverOnboardingFragment() {
             }
         }
 
-        animationLoop.playSequentially(appearingSets.toMutableList() as List<Animator>?)
-        animationLoop.doOnEnd {
-            lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    delay(2000)
-                    disappearSet.start()
-                }
-            }
-        }
     }
 
     override fun onResume() {
@@ -105,7 +81,6 @@ class WebserverOnboardingContentFragment : WebserverOnboardingFragment() {
     override fun onPause() {
         super.onPause()
         vizu.stop()
-        disappearSet.cancel()
         animationLoop.cancel()
     }
 
