@@ -13,8 +13,16 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnRepeat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.webserver.R
 
@@ -44,15 +52,16 @@ class WebserverOnboardingHowFragment : WebserverOnboardingFragment() {
 
         var iteration = 0
         browserLink.pivotX = 0F
-        val slideHorizontalAnimator = ObjectAnimator.ofFloat(browserLink, View.SCALE_X, 0F, 0F, 0F, 1F)
+        val slideHorizontalAnimator = ObjectAnimator.ofFloat(browserLink, View.SCALE_X, 0F, 1F)
         slideHorizontalAnimator.interpolator = AccelerateDecelerateInterpolator()
-        slideHorizontalAnimator.duration = 4000
+        slideHorizontalAnimator.duration = 500
         slideHorizontalAnimator.repeatCount = ValueAnimator.INFINITE
 
-        val playPauseAnimator = ObjectAnimator.ofFloat(playPause, View.ALPHA, 0F, 0F, 0F, 1F)
+        val playPauseAnimator = ObjectAnimator.ofFloat(playPause, View.ALPHA, 0F, 1F)
         playPauseAnimator.interpolator = AccelerateDecelerateInterpolator()
-        playPauseAnimator.duration = 4000
+        playPauseAnimator.duration = 500
         playPauseAnimator.doOnRepeat {
+
             when (iteration % 4) {
                 0 -> {
                     vizu.start()
@@ -68,19 +77,33 @@ class WebserverOnboardingHowFragment : WebserverOnboardingFragment() {
                     browserLink.pivotX = browserLink.width.toFloat()
 
                 }
+
                 3 -> {
                     browserLink.pivotX = 0F
                     playPause.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_webserver_onboarding_play))
                 }
             }
             iteration++
+            browserLink.setGone()
+            playPause.setGone()
+            animSet.cancel()
+            lifecycleScope.launch(Dispatchers.Main) {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    delay(1500L)
+                    browserLink.setVisible()
+                    playPause.setVisible()
+                    animSet.start()
+                }
+            }
         }
         playPauseAnimator.repeatCount = ValueAnimator.INFINITE
 
 
 
         animSet.playTogether(slideHorizontalAnimator, playPauseAnimator)
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            animSet.currentPlayTime = 1500L
+//        }
     }
 
     override fun onResume() {
