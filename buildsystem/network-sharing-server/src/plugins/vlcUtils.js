@@ -88,5 +88,10 @@ export default {
             controller.controller.abort()
             controllersForFile.splice(index, 1)
         }
+        //prevent unloading when an upload is running
+        window.onbeforeunload = function () {
+            if (uploadStore.uploadingFiles.find(element => element.status == "uploading") != null)
+                return "";
+        }
     }
 }
