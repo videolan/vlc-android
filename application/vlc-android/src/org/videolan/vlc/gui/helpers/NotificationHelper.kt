@@ -207,7 +207,7 @@ object NotificationHelper {
         disableIntent.action = ACTION_DISABLE_SERVER
         disableIntent.`package` = ctx.packageName
         val piDisable = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, disableIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val disableAction =    NotificationCompat.Action(R.drawable.ic_player_screenshare_stop,ctx.getString(R.string.ns_disable), piDisable)
+        val disableAction =    NotificationCompat.Action(R.drawable.ic_popup_close_w,ctx.getString(R.string.ns_disable), piDisable)
         webServerCompatBuilder.addAction(disableAction)
 
         //Start / Stop
