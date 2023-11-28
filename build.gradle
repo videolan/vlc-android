@@ -72,7 +72,7 @@ ext {
     //Retrofit 2.7 drops Android 5 support
     retrofit = '2.7.1'
     moshi = '1.8.0'
-    ktorVersion = '2.3.5'
+    ktorVersion = '2.3.6'
     powerMock = '2.0.2'
     espressoVersion = '3.5.1'
     livedataTest = '1.2.0'
