@@ -30,12 +30,6 @@ export default {
     computed: {
         ...mapStores(usePlayerStore),
     },
-    props: {
-        show: {
-            type: Boolean,
-            default: true
-        }
-    },
     methods: {
         hide() {
             this.playerStore.playqueueShowing = false

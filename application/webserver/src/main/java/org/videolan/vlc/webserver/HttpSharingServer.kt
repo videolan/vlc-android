@@ -144,7 +144,8 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
         AppScope.launch {
-            val playerStatus = Gson().toJson(PlayerStatus(playing))
+            val isPlaying = service?.isPlaying == true || playing
+            val playerStatus = Gson().toJson(PlayerStatus(isPlaying))
             WebServerWebSockets.sendToAll(playerStatus)
         }
     }
