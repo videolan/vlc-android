@@ -86,9 +86,9 @@ class WebserverOnboardingHowFragment : WebserverOnboardingFragment() {
             iteration++
             browserLink.setGone()
             playPause.setGone()
-            animSet.cancel()
             lifecycleScope.launch(Dispatchers.Main) {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    animSet.cancel()
                     delay(1500L)
                     browserLink.setVisible()
                     playPause.setVisible()
