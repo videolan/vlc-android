@@ -41,6 +41,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
+import org.videolan.resources.WEBSERVER_ONBOARDING
 import org.videolan.tools.copy
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
@@ -161,6 +162,8 @@ class WebserverShareActivity : BaseActivity() {
         when (item.itemId) {
             android.R.id.home -> finish()
             R.id.webserver_share -> share(getString(R.string.web_server), HttpSharingServer.getInstance(applicationContext).getServerAddresses()[0])
+            R.id.menu_webserver_onboarding -> startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(this@WebserverShareActivity, WEBSERVER_ONBOARDING) })
+
         }
         return super.onOptionsItemSelected(item)
     }
