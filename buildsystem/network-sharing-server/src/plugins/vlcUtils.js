@@ -21,7 +21,6 @@ export default {
         }
 
         app.config.globalProperties.$getImageUrl = (media, mediaType) => {
-            if (mediaType == 'network' && media.artworkURL != "") return media.artworkURL
             return vlcApi.artwork(media.artworkURL, media.id, mediaType)
         }
 

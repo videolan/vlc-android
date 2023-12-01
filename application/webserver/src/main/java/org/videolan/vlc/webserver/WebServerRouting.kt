@@ -81,6 +81,7 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
 import org.videolan.tools.AppScope
 import org.videolan.tools.CloseableUtils
+import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
@@ -712,6 +713,17 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         // Get a media artwork
         get("/artwork") {
             if (call.request.queryParameters["type"] in arrayOf("folder", "network")) {
+                call.request.queryParameters["artwork"]?.let { artworkUrl ->
+                    if (artworkUrl.startsWith("http")) {
+                        val bmp = HttpImageLoader.downloadBitmap(artworkUrl)
+                        if (bmp != null) {
+                            BitmapUtil.encodeImage(bmp, true)?.let {
+                                call.respondBytes(ContentType.Image.PNG) { it }
+                                return@get
+                            }
+                        }
+                    }
+                }
                 BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
