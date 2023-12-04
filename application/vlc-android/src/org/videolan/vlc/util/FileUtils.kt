@@ -500,28 +500,23 @@ object FileUtils {
     const val BUFFER = 2048
     fun zip(files: Array<String>, zipFileName: String):Boolean {
         return try {
-            var origin: BufferedInputStream?
-            val dest = FileOutputStream(zipFileName)
-            val out = ZipOutputStream(BufferedOutputStream(
-                    dest))
-            val data = ByteArray(BUFFER)
+            ZipOutputStream(BufferedOutputStream(
+                    FileOutputStream(zipFileName))).use { out ->
+                val data = ByteArray(BUFFER)
+                for (i in files.indices) {
+                    val fi = FileInputStream(files[i])
+                    BufferedInputStream(fi, BUFFER).use { origin ->
+                        val entry = ZipEntry(files[i].substring(files[i].lastIndexOf("/") + 1))
+                        out.putNextEntry(entry)
+                        var count = origin.read(data, 0, BUFFER)
 
-            for (i in files.indices) {
-                val fi = FileInputStream(files[i])
-                origin = BufferedInputStream(fi, BUFFER)
-
-                val entry = ZipEntry(files[i].substring(files[i].lastIndexOf("/") + 1))
-                out.putNextEntry(entry)
-                var count = origin.read(data, 0, BUFFER)
-
-                while (count != -1) {
-                    out.write(data, 0, count)
-                    count = origin.read(data, 0, BUFFER)
+                        while (count != -1) {
+                            out.write(data, 0, count)
+                            count = origin.read(data, 0, BUFFER)
+                        }
+                    }
                 }
-                origin.close()
             }
-
-            out.close()
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -529,31 +524,25 @@ object FileUtils {
         }
     }
 
-    fun zipWithName(files: Array<Pair<String, String>>, zipFileName: String):Boolean {
+    fun zipWithName(files: Array<Pair<String, String>>, zipFileName: String): Boolean {
         return try {
-            var origin: BufferedInputStream?
             File(zipFileName).parentFile?.mkdirs()
-            val dest = FileOutputStream(zipFileName)
-            val out = ZipOutputStream(BufferedOutputStream(
-                    dest))
-            val data = ByteArray(BUFFER)
+            ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFileName))).use { out ->
+                val data = ByteArray(BUFFER)
+                for (i in files.indices) {
+                    val fi = FileInputStream(files[i].first)
+                    BufferedInputStream(fi, BUFFER).use { origin ->
+                        val entry = ZipEntry(files[i].second)
+                        out.putNextEntry(entry)
+                        var count = origin.read(data, 0, BUFFER)
 
-            for (i in files.indices) {
-                val fi = FileInputStream(files[i].first)
-                origin = BufferedInputStream(fi, BUFFER)
-
-                val entry = ZipEntry(files[i].second)
-                out.putNextEntry(entry)
-                var count = origin.read(data, 0, BUFFER)
-
-                while (count != -1) {
-                    out.write(data, 0, count)
-                    count = origin.read(data, 0, BUFFER)
+                        while (count != -1) {
+                            out.write(data, 0, count)
+                            count = origin.read(data, 0, BUFFER)
+                        }
+                    }
                 }
-                origin.close()
             }
-
-            out.close()
             true
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
