@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.vlc.webserver.R
-import kotlin.random.Random
+import org.videolan.vlc.webserver.WebserverOTP
 
 
 class WebserverOnboardingOtpFragment : WebserverOnboardingFragment() {
@@ -50,7 +50,7 @@ class WebserverOnboardingOtpFragment : WebserverOnboardingFragment() {
         access = view.findViewById(R.id.access)
         if (Settings.showTvUi)  view.findViewById<ImageView>(R.id.deviceImage).setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_tv))
 
-        deviceOTP.text = Random.nextInt(1000, 9999).toString()
+        deviceOTP.text = WebserverOTP.generateCode()
 
         browserLink.pivotX = 0F
         val slideHorizontalAnimator = ObjectAnimator.ofFloat(browserLink, View.SCALE_X, 0F, 1F)
@@ -101,7 +101,7 @@ class WebserverOnboardingOtpFragment : WebserverOnboardingFragment() {
             lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     delay(400)
-                    val text = if (iteration % 2 == 0) deviceOTP.text else Random.nextInt(1000, 9999).toString()
+                    val text = if (iteration % 2 == 0) deviceOTP.text else WebserverOTP.generateCode()
                     browserOTP.text = "${text.subSequence(0, 1)}   "
                     delay(400)
                     browserOTP.text = "*${text.subSequence(1, 2)}  "

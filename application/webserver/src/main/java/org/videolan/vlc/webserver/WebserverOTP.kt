@@ -30,7 +30,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.WEB_SERVER_CODE_ID
 import org.videolan.vlc.webserver.ssl.SecretGenerator
 import org.videolan.vlc.webserver.utils.CypherUtils
-import kotlin.random.Random
+import java.security.SecureRandom
 
 
 object WebserverOTP {
@@ -43,11 +43,13 @@ object WebserverOTP {
      * @return the generate [OTPCode]
      */
     private fun generateOTPCode(): OTPCode {
-        val code = Random.nextInt(1000, 9999).toString()
+        val code = generateCode()
         val otpCode = OTPCode(code, SecretGenerator.generateRandomString(), System.currentTimeMillis() + 60000)
         codes.add(otpCode)
         return otpCode
     }
+
+    fun generateCode(): String = (SecureRandom().nextInt(8999) + 1000).toString()
 
     /**
      * Verify if the code is valid by using the challenge
