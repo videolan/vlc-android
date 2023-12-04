@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/ns_web_server"
+            android:text="@string/ns_remote_access"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Title"
             app:layout_constraintBottom_toTopOf="@+id/textView"

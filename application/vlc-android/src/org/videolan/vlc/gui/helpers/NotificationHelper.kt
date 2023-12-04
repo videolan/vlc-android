@@ -41,10 +41,6 @@ import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
-import org.videolan.resources.ACTION_PAUSE_SCAN
-import org.videolan.resources.ACTION_RESUME_SCAN
-import org.videolan.resources.ACTION_START_SERVER
-import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CUSTOM_ACTION
@@ -258,8 +254,8 @@ object NotificationHelper {
 
         // Web server channel
         if (notificationManager.getNotificationChannel(WEB_SERVER_CHANNEL_ID) == null ) {
-            val name = appCtx.getString(R.string.ns_web_server)
-            val description = appCtx.getString(R.string.ns_web_server_description)
+            val name = appCtx.getString(R.string.ns_remote_access)
+            val description = appCtx.getString(R.string.ns_remote_access_description)
             val channel = NotificationChannel(WEB_SERVER_CHANNEL_ID, name, NotificationManager.IMPORTANCE_MIN)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC

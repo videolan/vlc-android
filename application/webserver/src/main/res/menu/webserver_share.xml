@@ -33,6 +33,6 @@
             android:orderInCategory="2"
             android:id="@+id/menu_webserver_onboarding"
             android:icon="@drawable/ic_am_information"
-            android:title="@string/ns_web_server"
+            android:title="@string/ns_remote_access"
             app:showAsAction="ifRoom"/>
 </menu>
