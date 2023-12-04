@@ -185,11 +185,7 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      * Also start monitoring the network shares for the web browser
      */
     suspend fun start() {
-        AppScope.launch(Dispatchers.IO) {
-            //clean download dir if not cleaned by download
-            val downloadDir = File(downloadFolder)
-            if (downloadDir.isDirectory) downloadDir.listFiles()?.forEach { it.delete() }
-        }
+        clearFileDownloads()
         _serverStatus.postValue(ServerStatus.CONNECTING)
         scope.launch {
             engine = generateServer()
@@ -215,16 +211,22 @@ class HttpSharingServer(private val context: Context) : PlaybackService.Callback
      *
      */
     suspend fun stop() {
-        AppScope.launch(Dispatchers.IO) {
-            //clean download dir if not cleaned by download
-            val downloadDir = File(downloadFolder)
-            if (downloadDir.isDirectory) downloadDir.listFiles()?.forEach { it.delete() }
-        }
+        clearFileDownloads()
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
             WebServerWebSockets.closeAllSessions()
             if (::engine.isInitialized) engine.stop()
         }
+    }
+
+    /**
+     * Clears the folder that's used to store download zips
+     * If the download is paused / aborted, it will make sure the files will be
+     * deleted at server start/stop
+     */
+    private fun clearFileDownloads() = AppScope.launch(Dispatchers.IO) {
+        val downloadDir = File(downloadFolder)
+        if (downloadDir.isDirectory) downloadDir.listFiles()?.forEach { it.delete() }
     }
 
     /**
