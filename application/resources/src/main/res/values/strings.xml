@@ -1204,7 +1204,7 @@
     <string name="ns_new_code">Send a new code</string>
     <string name="home">Home</string>
     <string name="ns_code">Enter this code: %s</string>
-    <string name="ns_send_logs">Send logs to the server</string>
+    <string name="ns_send_logs">Save webserver logs on the device</string>
     <string name="ns_otp">Web server one time password</string>
     <string name="ns_otp_description">Access requests for the web server</string>
     <string name="ns_otp_title">Web server login attempt</string>
@@ -1217,10 +1217,10 @@
     <string name="ns_onboarding_ssl_title">Data encryption</string>
     <string name="ns_onboarding_ssl_desc">The web server communication is encrypted to prevent your data from leaking</string>
     <string name="ns_onboarding_otp_title">Authentication</string>
-    <string name="ns_onboarding_otp_desc">With the one time password authentication, prevent unwanted accesses to your data</string>
+    <string name="ns_onboarding_otp_desc">With the one time password authentication, prevent unwanted access to your data</string>
     <string name="ns_onboarding_content_title">Content access</string>
     <string name="ns_onboarding_content_desc">Choose what can be accessed and what can\'t</string>
-    <string name="ns_onboarding_content_ml">Media library content</string>
+    <string name="ns_onboarding_content_ml">Media library content access</string>
     <string name="ns_onboarding_content_files">File browser</string>
     <string name="ns_onboarding_content_playback">Playback control</string>
     <string name="ns_disable">Disable</string>
