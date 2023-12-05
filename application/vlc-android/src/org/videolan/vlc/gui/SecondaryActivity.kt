@@ -61,7 +61,7 @@ import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.WebserverUtils
+import org.videolan.vlc.util.RemoteAccessUtils
 import org.videolan.vlc.util.isSchemeNetwork
 
 class SecondaryActivity : ContentActivity(), IDialogManager {
@@ -117,7 +117,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
             override fun handleOnBackPressed() {
                 if (isOTPActivity) {
                     lifecycleScope.launch {
-                        WebserverUtils.otpFlow.emit(null)
+                        RemoteAccessUtils.otpFlow.emit(null)
                     }
                 }
                 finish()

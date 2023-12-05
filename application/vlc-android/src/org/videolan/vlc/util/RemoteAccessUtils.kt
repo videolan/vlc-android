@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  PreferenceUtil.kt
+ *  RemoteAccessUtils.kt
  * *************************************************************************
  * Copyright © 2023 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,14 +22,11 @@
  *
  */
 
-package org.videolan.vlc.webserver.utils
+package org.videolan.vlc.util
 
-import android.content.Context
-import android.content.SharedPreferences
-import org.videolan.tools.KEY_REMOTE_ACCESS_ML_CONTENT
-import org.videolan.vlc.R
+import kotlinx.coroutines.flow.MutableStateFlow
 
-fun SharedPreferences.serveVideos(context: Context)  = getStringSet(KEY_REMOTE_ACCESS_ML_CONTENT, context.resources.getStringArray(R.array.remote_access_content_values).toSet())?.contains("0") == true
-fun SharedPreferences.serveAudios(context: Context)  = getStringSet(KEY_REMOTE_ACCESS_ML_CONTENT, context.resources.getStringArray(R.array.remote_access_content_values).toSet())?.contains("1") == true
-fun SharedPreferences.servePlaylists(context: Context)  = getStringSet(KEY_REMOTE_ACCESS_ML_CONTENT, context.resources.getStringArray(R.array.remote_access_content_values).toSet())?.contains("2") == true
-fun SharedPreferences.serveSearch(context: Context)  = getStringSet(KEY_REMOTE_ACCESS_ML_CONTENT, context.resources.getStringArray(R.array.remote_access_content_values).toSet())?.contains("3") == true
+object RemoteAccessUtils {
+    val otpFlow = MutableStateFlow<String?>(null)
+
+}

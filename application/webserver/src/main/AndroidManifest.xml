@@ -28,7 +28,7 @@
 
     <application>
         <service
-                android:name=".WebServerService"
+                android:name=".RemoteAccessService"
                 android:exported="true"
                 android:foregroundServiceType="specialUse">
             <property
@@ -36,10 +36,10 @@
                     android:value="HTTP server" />
         </service>
         <activity
-                android:name=".gui.webserver.WebserverShareActivity"
+                android:name=".gui.remoteaccess.RemoteAccessShareActivity"
                 android:theme="@style/Theme.VLC"/>
         <activity
-                android:name=".gui.webserver.onboarding.WebserverOnboardingActivity"
+                android:name=".gui.remoteaccess.onboarding.RemoteAccessOnboardingActivity"
                 android:theme="@style/Theme.VLC.Onboarding"/>
     </application>
 

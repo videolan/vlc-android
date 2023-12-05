@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
-  ~  activity_prefs.xml
+  ~  remote_access_share.xml
   ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Copyright © 2023 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -24,21 +23,16 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:vlc="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <item
-            android:orderInCategory="1"
-            android:id="@+id/menu_pref_search"
-            android:icon="@drawable/ic_am_search"
-            android:title="@string/searchable_hint"
-            vlc:showAsAction="always|collapseActionView"/>
-
+    <item android:title="@string/share"
+            android:icon="@drawable/ic_am_share"
+            android:id="@+id/remote_access_share"
+            app:showAsAction="ifRoom"/>
     <item
             android:orderInCategory="2"
             android:id="@+id/menu_remote_access_onboarding"
             android:icon="@drawable/ic_am_information"
             android:title="@string/ra_remote_access"
-            android:visible="false"
-            vlc:showAsAction="always|collapseActionView"/>
+            app:showAsAction="ifRoom"/>
 </menu>

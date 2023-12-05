@@ -236,18 +236,18 @@ fun PackageManager.getPackageInfoCompat(packageName: String, vararg flagArgs: In
     }
 }
 
-fun Context.startWebserver() {
-    val intent = Intent(ACTION_INIT).setClassName(applicationContext, WEBSERVER_SERVICE)
+fun Context.startRemoteAccess() {
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, REMOTE_ACCESS_SERVICE)
     launchForeground(intent)
 }
 
-fun Context.stopWebserver() {
+fun Context.stopRemoteAccess() {
     sendBroadcast(Intent(ACTION_STOP_SERVER).apply { `package` = packageName })
-    val intent = Intent(ACTION_INIT).setClassName(applicationContext, WEBSERVER_SERVICE)
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, REMOTE_ACCESS_SERVICE)
     stopService(intent)
 }
 
-fun Context.restartWebserver() {
+fun Context.restartRemoteAccess() {
     sendBroadcast(Intent(ACTION_RESTART_SERVER).apply { `package` = packageName })
 }
 

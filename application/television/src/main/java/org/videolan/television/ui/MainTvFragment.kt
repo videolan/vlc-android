@@ -30,13 +30,40 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
-import androidx.leanback.widget.*
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.OnItemViewClickedListener
+import androidx.leanback.widget.OnItemViewSelectedListener
+import androidx.leanback.widget.Presenter
+import androidx.leanback.widget.Row
+import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.lifecycleScope
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
-import org.videolan.resources.*
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CATEGORY
+import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.HEADER_CATEGORIES
+import org.videolan.resources.HEADER_HISTORY
+import org.videolan.resources.HEADER_MISC
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_NOW_PLAYING
+import org.videolan.resources.HEADER_PLAYLISTS
+import org.videolan.resources.HEADER_RECENTLY_ADDED
+import org.videolan.resources.HEADER_RECENTLY_PLAYED
+import org.videolan.resources.HEADER_VIDEO
+import org.videolan.resources.ID_ABOUT_TV
+import org.videolan.resources.ID_PIN_LOCK
+import org.videolan.resources.ID_REFRESH
+import org.videolan.resources.ID_REMOTE_ACCESS
+import org.videolan.resources.ID_SETTINGS
+import org.videolan.resources.ID_SPONSOR
 import org.videolan.television.ui.TvUtil.diffCallback
 import org.videolan.television.ui.TvUtil.metadataDiffCallback
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
@@ -337,7 +364,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                     ID_ABOUT_TV -> activity.startActivity(Intent(activity, AboutActivity::class.java))
                     ID_SPONSOR -> activity.showDonations()
                     ID_PIN_LOCK -> PinCodeDelegate.pinUnlocked.postValue(false)
-                    ID_REMOTE_ACCESS -> requireActivity().startActivity(Intent(activity, StartActivity::class.java).apply { action = "vlc.webserver.share" })
+                    ID_REMOTE_ACCESS -> requireActivity().startActivity(Intent(activity, StartActivity::class.java).apply { action = "vlc.remoteaccess.share" })
 
                 }
             }

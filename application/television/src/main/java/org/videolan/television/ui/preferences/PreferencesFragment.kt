@@ -56,7 +56,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         findPreference<Preference>(SCREEN_ORIENTATION)?.isVisible = false
         findPreference<Preference>("casting_category")?.isVisible = false
         findPreference<Preference>(KEY_VIDEO_APP_SWITCH)?.isVisible = AndroidDevices.hasPiP
-        findPreference<Preference>("webserver_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
     }
 
     override fun onStart() {

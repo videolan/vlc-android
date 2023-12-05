@@ -503,14 +503,14 @@
         <item>4</item>
     </string-array>
 
-    <string-array name="web_server_content_entries" translatable="false">
+    <string-array name="remote_access_content_entries" translatable="false">
         <item>@string/video</item>
         <item>@string/audio</item>
         <item>@string/playlists</item>
         <item>@string/search</item>
     </string-array>
 
-    <string-array name="web_server_content_values" translatable="false">
+    <string-array name="remote_access_content_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>

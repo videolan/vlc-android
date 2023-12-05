@@ -57,7 +57,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
-        remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_WEB_SERVER, false))
+        remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
         return prefs
     }
 
@@ -124,12 +124,12 @@ const val KEY_SHOW_TRACK_INFO = "show_track_info"
 const val ML_SCAN_ON = 0
 const val ML_SCAN_OFF = 1
 
-//Webserver
-const val KEY_ENABLE_WEB_SERVER = "enable_web_server"
-const val KEY_WEB_SERVER_ML_CONTENT = "web_server_medialibrary_content"
-const val WEB_SERVER_FILE_BROWSER_CONTENT = "web_server_file_browser_content"
-const val WEB_SERVER_NETWORK_BROWSER_CONTENT = "web_server_network_browser_content"
-const val WEB_SERVER_PLAYBACK_CONTROL = "web_server_playback_control"
+//Remote access
+const val KEY_ENABLE_REMOTE_ACCESS = "enable_remote_access"
+const val KEY_REMOTE_ACCESS_ML_CONTENT = "remote_access_medialibrary_content"
+const val REMOTE_ACCESS_FILE_BROWSER_CONTENT = "remote_access_file_browser_content"
+const val REMOTE_ACCESS_NETWORK_BROWSER_CONTENT = "remote_access_network_browser_content"
+const val REMOTE_ACCESS_PLAYBACK_CONTROL = "remote_access_playback_control"
 const val REMOTE_ACCESS_LOGS = "remote_access_logs"
 const val KEYSTORE_PASSWORD = "keystore_encrypted_password"
 const val KEYSTORE_PASSWORD_IV = "keystore_encrypted_password_iv"
@@ -217,7 +217,6 @@ const val SLEEP_TIMER_WAIT = "sleep_timer_wait"
 
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
 const val PLAYLIST_REPLACE = "playlist_replace"
-const val WEBSERVER_ONBOARDING = "webserver_onboarding"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"

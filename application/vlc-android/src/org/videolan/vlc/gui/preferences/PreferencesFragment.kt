@@ -86,7 +86,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference<Preference>("webserver_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -144,7 +144,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                     pinCodeResult.launch(intent)
                 }
             }
-            "webserver_category" -> loadFragment(PreferencesWebserver())
+            "remote_access_category" -> loadFragment(PreferencesRemoteAccess())
             PLAYBACK_HISTORY -> {
                 val activity = activity
                 activity?.setResult(RESULT_RESTART)

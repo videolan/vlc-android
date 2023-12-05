@@ -42,9 +42,9 @@ import org.videolan.mobile.app.delegates.MediaContentDelegate
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
-import org.videolan.resources.util.startWebserver
+import org.videolan.resources.util.startRemoteAccess
 import org.videolan.tools.AppScope
-import org.videolan.tools.KEY_ENABLE_WEB_SERVER
+import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
@@ -89,8 +89,8 @@ class AppSetupDelegate : AppDelegate,
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
-        if (Settings.getInstance(this).getBoolean(KEY_ENABLE_WEB_SERVER, false))
-            startWebserver()
+        if (Settings.getInstance(this).getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
+            startRemoteAccess()
     }
 
     // init operations executed in background threads

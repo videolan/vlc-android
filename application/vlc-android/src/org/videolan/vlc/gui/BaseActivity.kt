@@ -38,7 +38,7 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.WebserverUtils
+import org.videolan.vlc.util.RemoteAccessUtils
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -83,7 +83,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                WebserverUtils.otpFlow.collect {
+                RemoteAccessUtils.otpFlow.collect {
                     if (!isOTPActivity && it != null && lastDisplayedOTPCode != it) {
                         lastDisplayedOTPCode = it
                         val i = Intent(this@BaseActivity, OTPCodeActivity::class.java)

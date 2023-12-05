@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.OtpCodeBinding
-import org.videolan.vlc.util.WebserverUtils
+import org.videolan.vlc.util.RemoteAccessUtils
 
 class OTPCodeFragment : BaseFragment() {
 
@@ -48,7 +48,7 @@ class OTPCodeFragment : BaseFragment() {
         binding = DataBindingUtil.setContentView(requireActivity(), R.layout.otp_code)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                WebserverUtils.otpFlow.collect {
+                RemoteAccessUtils.otpFlow.collect {
                     if (it != null && it != code) {
                         code = it
                         manageCodeViews()
@@ -78,7 +78,7 @@ class OTPCodeFragment : BaseFragment() {
         requireActivity().findViewById<View>(R.id.sliding_tabs).setGone()
         binding.cancelButton.setOnClickListener {
             lifecycleScope.launch {
-                WebserverUtils.otpFlow.emit(null)
+                RemoteAccessUtils.otpFlow.emit(null)
             }
             requireActivity().finish()
         }
