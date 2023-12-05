@@ -55,7 +55,7 @@ android {
 preBuild.dependsOn(webCopy)
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     implementation project(':application:vlc-android')
     implementation "io.ktor:ktor:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-netty:$rootProject.ext.ktorVersion"
@@ -65,12 +65,12 @@ dependencies {
     implementation("io.ktor:ktor-server-auth:$rootProject.ext.ktorVersion")
     implementation("io.ktor:ktor-server-partial-content:$rootProject.ext.ktorVersion")
     implementation("io.ktor:ktor-network-tls-certificates:$rootProject.ext.ktorVersion")
-    implementation 'org.bouncycastle:bcpkix-jdk18on:1.71'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.77'
     implementation("io.ktor:ktor-server-call-logging:$rootProject.ext.ktorVersion")
     implementation("io.ktor:ktor-server-sessions:$rootProject.ext.ktorVersion")
     debugImplementation "org.slf4j:slf4j-android:1.7.36"
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
