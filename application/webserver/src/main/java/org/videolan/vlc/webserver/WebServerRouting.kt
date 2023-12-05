@@ -83,6 +83,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.REMOTE_ACCESS_LOGS
 import org.videolan.tools.Settings
 import org.videolan.tools.WEB_SERVER_FILE_BROWSER_CONTENT
 import org.videolan.tools.WEB_SERVER_NETWORK_BROWSER_CONTENT
@@ -233,6 +234,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     }
     // List all log files
     get("/logfile-list") {
+        if (!settings.getBoolean(REMOTE_ACCESS_LOGS, false)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@get
+        }
         val logs = getLogsFiles().sortedBy { File(it.path).lastModified() }.reversed()
 
         val jsonArray = JSONArray()

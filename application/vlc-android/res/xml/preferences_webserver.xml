@@ -44,6 +44,11 @@
                 android:dependency="enable_web_server"
                 android:key="web_server_playback_control"
                 android:title="@string/web_server_playback_control" />
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="enable_web_server"
+                android:key="remote_access_logs"
+                android:title="@string/remote_access_logs" />
 
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

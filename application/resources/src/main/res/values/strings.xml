@@ -484,6 +484,7 @@
     <string name="web_server_file_browser_content">File browser</string>
     <string name="web_server_network_browser_content">Network browser</string>
     <string name="web_server_playback_control">Control playback</string>
+    <string name="remote_access_logs">Share log files</string>
     <string name="web_server_password">Password</string>
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
