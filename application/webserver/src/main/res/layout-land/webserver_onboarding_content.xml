@@ -45,7 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/ns_onboarding_content_title"
+            android:text="@string/ra_onboarding_content_title"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Title"
             app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -62,7 +62,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/ns_onboarding_content_desc"
+            android:text="@string/ra_onboarding_content_desc"
             android:textAlignment="center"
             android:textAppearance="@style/VLC.Onboarding.Text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/ns_onboarding_content_ml"
+                android:text="@string/ra_onboarding_content_ml"
                 android:textColor="@color/white" />
     </LinearLayout>
 
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/ns_onboarding_content_files"
+                android:text="@string/ra_onboarding_content_files"
                 android:textColor="@color/white" />
     </LinearLayout>
 
@@ -169,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/ns_onboarding_content_playback"
+                android:text="@string/ra_onboarding_content_playback"
                 android:textColor="@color/white" />
     </LinearLayout>
 

@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@string/web_server_status"
+                            android:text="@string/remote_access_status"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +64,7 @@
                             app:layout_constraintEnd_toStartOf="@+id/status_button"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/status_button"
-                            tools:text="@string/web_server_notification" />
+                            tools:text="@string/remote_access_notification" />
 
                     <Button
                             android:id="@+id/status_button"
@@ -84,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@string/web_server_links"
+                            android:text="@string/remote_access_links"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/status_button" />
 
@@ -120,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@string/web_server_connections"
+                            android:text="@string/remote_access_connections"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/links_grid" />
 

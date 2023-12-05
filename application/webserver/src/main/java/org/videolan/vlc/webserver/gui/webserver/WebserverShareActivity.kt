@@ -75,17 +75,17 @@ class WebserverShareActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
-        title = getString(R.string.web_server)
+        title = getString(R.string.remote_access)
 
         val httpSharingServer = HttpSharingServer.getInstance(applicationContext)
         httpSharingServer.serverStatus.observe(this) { serverStatus ->
             binding.serverStatus.text = when (serverStatus) {
-                ServerStatus.NOT_INIT -> getString(R.string.web_server_notification_not_init)
-                ServerStatus.STARTED -> getString(R.string.web_server_active)
-                ServerStatus.STOPPED -> getString(R.string.web_server_notification_stopped)
-                ServerStatus.CONNECTING -> getString(R.string.web_server_notification_connecting)
-                ServerStatus.ERROR -> getString(R.string.web_server_notification_error)
-                ServerStatus.STOPPING -> getString(R.string.web_server_notification_stopping)
+                ServerStatus.NOT_INIT -> getString(R.string.remote_access_notification_not_init)
+                ServerStatus.STARTED -> getString(R.string.remote_access_active)
+                ServerStatus.STOPPED -> getString(R.string.remote_access_notification_stopped)
+                ServerStatus.CONNECTING -> getString(R.string.remote_access_notification_connecting)
+                ServerStatus.ERROR -> getString(R.string.remote_access_notification_error)
+                ServerStatus.STOPPING -> getString(R.string.remote_access_notification_stopping)
                 else -> ""
             }
 
@@ -117,7 +117,7 @@ class WebserverShareActivity : BaseActivity() {
                     qrView.setPadding(8.dp,8.dp,8.dp,8.dp)
                     qrView.setImageBitmap(UrlUtils.generateQRCode(link, 512))
                     AlertDialog.Builder(this)
-                            .setTitle(resources.getString(R.string.web_server_notification, link))
+                            .setTitle(resources.getString(R.string.remote_access_notification, link))
                             .setView(qrView)
                             .setPositiveButton(R.string.ok, null)
                             .show()
@@ -161,7 +161,7 @@ class WebserverShareActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
-            R.id.webserver_share -> share(getString(R.string.web_server), HttpSharingServer.getInstance(applicationContext).getServerAddresses()[0])
+            R.id.webserver_share -> share(getString(R.string.remote_access), HttpSharingServer.getInstance(applicationContext).getServerAddresses()[0])
             R.id.menu_webserver_onboarding -> startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(this@WebserverShareActivity, WEBSERVER_ONBOARDING) })
 
         }

@@ -3,47 +3,47 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:key="audio_category"
-        android:title="@string/web_server">
+        android:title="@string/remote_access">
     <PreferenceScreen
             android:key="web_server_info"
             app:isPreferenceVisible="false"
-            android:title="@string/web_server_info" />
+            android:title="@string/remote_access_info" />
     <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_web_server"
             android:switchTextOff="Disabled"
             android:switchTextOn="Enabled"
-            android:title="@string/enable_web_server"
+            android:title="@string/enable_remote_access"
             app:singleLineTitle="false" />
     <PreferenceScreen
             android:dependency="enable_web_server"
             android:key="web_server_status"
-            android:summary="@string/web_server_status_summary"
-            android:title="@string/web_server_status" />
-    <PreferenceCategory android:title="@string/web_server_content">
+            android:summary="@string/remote_access_status_summary"
+            android:title="@string/remote_access_status" />
+    <PreferenceCategory android:title="@string/remote_access_content">
         <MultiSelectListPreference
                 android:dependency="enable_web_server"
                 app:defaultValue="@array/web_server_content_values"
-                app:dialogTitle="@string/web_server_medialibrary_content"
+                app:dialogTitle="@string/remote_access_medialibrary_content"
                 app:entries="@array/web_server_content_entries"
                 app:entryValues="@array/web_server_content_values"
                 app:key="web_server_medialibrary_content"
-                app:title="@string/web_server_medialibrary_content" />
+                app:title="@string/remote_access_medialibrary_content" />
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="enable_web_server"
                 android:key="web_server_file_browser_content"
-                android:title="@string/web_server_file_browser_content" />
+                android:title="@string/remote_access_file_browser_content" />
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="enable_web_server"
                 android:key="web_server_network_browser_content"
-                android:title="@string/web_server_network_browser_content" />
+                android:title="@string/remote_access_network_browser_content" />
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:dependency="enable_web_server"
                 android:key="web_server_playback_control"
-                android:title="@string/web_server_playback_control" />
+                android:title="@string/remote_access_playback_control" />
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="enable_web_server"

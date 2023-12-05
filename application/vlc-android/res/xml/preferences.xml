@@ -93,7 +93,7 @@
                 android:fragment="org.videolan.television.ui.preferences.PreferencesParentalControl"
                 android:title="@string/parental_control"/>
         <Preference
-                android:title="@string/web_server"
+                android:title="@string/remote_access"
                 android:key="webserver_category"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesWebserver"/>
         <Preference

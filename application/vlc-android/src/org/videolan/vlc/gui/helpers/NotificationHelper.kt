@@ -192,7 +192,7 @@ object NotificationHelper {
                 .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
                 .setSmallIcon(R.drawable.ic_notif_web_server)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(ctx.getString(R.string.ns_server_running))
+                .setContentTitle(ctx.getString(R.string.ra_server_running))
                 .setAutoCancel(false)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setOngoing(true)
@@ -203,7 +203,7 @@ object NotificationHelper {
         disableIntent.action = ACTION_DISABLE_SERVER
         disableIntent.`package` = ctx.packageName
         val piDisable = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, disableIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val disableAction =    NotificationCompat.Action(R.drawable.ic_popup_close_w,ctx.getString(R.string.ns_disable), piDisable)
+        val disableAction =    NotificationCompat.Action(R.drawable.ic_popup_close_w,ctx.getString(R.string.ra_disable), piDisable)
         webServerCompatBuilder.addAction(disableAction)
 
         //Start / Stop
@@ -220,10 +220,10 @@ object NotificationHelper {
         val webServerCompatBuilder = NotificationCompat.Builder(ctx, WEB_SERVER_OTP_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notif_web_server)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(ctx.getString(R.string.ns_otp_title))
+                .setContentTitle(ctx.getString(R.string.ra_otp_title))
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-        webServerCompatBuilder.setContentText(ctx.getString(R.string.ns_code, code))
+        webServerCompatBuilder.setContentText(ctx.getString(R.string.ra_code, code))
 
         return webServerCompatBuilder.build()
     }
@@ -254,8 +254,8 @@ object NotificationHelper {
 
         // Web server channel
         if (notificationManager.getNotificationChannel(WEB_SERVER_CHANNEL_ID) == null ) {
-            val name = appCtx.getString(R.string.ns_remote_access)
-            val description = appCtx.getString(R.string.ns_remote_access_description)
+            val name = appCtx.getString(R.string.ra_remote_access)
+            val description = appCtx.getString(R.string.ra_remote_access_description)
             val channel = NotificationChannel(WEB_SERVER_CHANNEL_ID, name, NotificationManager.IMPORTANCE_MIN)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
@@ -264,8 +264,8 @@ object NotificationHelper {
 
         // Web server OTP channel
         if (notificationManager.getNotificationChannel(WEB_SERVER_OTP_CHANNEL_ID) == null ) {
-            val name = appCtx.getString(R.string.ns_otp)
-            val description = appCtx.getString(R.string.ns_otp_description)
+            val name = appCtx.getString(R.string.ra_otp)
+            val description = appCtx.getString(R.string.ra_otp_description)
             val channel = NotificationChannel(WEB_SERVER_OTP_CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC

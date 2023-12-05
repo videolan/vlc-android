@@ -49,7 +49,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
     private lateinit var settings: SharedPreferences
     private lateinit var medialibraryContentPreference: MultiSelectListPreference
 
-    override fun getTitleId() = R.string.web_server
+    override fun getTitleId() = R.string.remote_access
 
     override fun getXml() = R.xml.preferences_webserver
 
@@ -99,7 +99,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
         }
         val currentString = if (currentValues.isEmpty()) "-" else TextUtils.separatedString(currentValues.toTypedArray())
         val currentDisabledString = if (currentDisabledValues.isEmpty()) "-" else TextUtils.separatedString(currentDisabledValues.toTypedArray())
-        medialibraryContentPreference.summary = getString(R.string.web_server_medialibrary_content_summary, currentString, currentDisabledString)
+        medialibraryContentPreference.summary = getString(R.string.remote_access_medialibrary_content_summary, currentString, currentDisabledString)
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
