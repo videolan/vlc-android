@@ -44,9 +44,11 @@ import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.viewmodel.MainTvModel
 import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
+import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -160,9 +162,17 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val lockItem = GenericCardItem(ID_PIN_LOCK, getString(R.string.lock_with_pin_short), "", R.drawable.ic_menu_pin_lock_big, R.color.tv_card_content_dark)
         if (PinCodeDelegate.pinUnlocked.value == true) otherAdapter.add(lockItem)
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
+        val remoteAccessCard = GenericCardItem(ID_REMOTE_ACCESS, getString(R.string.remote_access), "", R.drawable.ic_remote_access_big, R.color.tv_card_content_dark)
+        Settings.remoteAccessEnabled.observe(requireActivity()) {
+            if (it)
+                otherAdapter.add(otherAdapter.size() - 2, remoteAccessCard)
+            else
+                otherAdapter.remove(remoteAccessCard)
+        }
         if (Permissions.canReadStorage(requireActivity())) otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
         val donateCard = GenericCardItem(ID_SPONSOR, getString(R.string.tip_jar), "", R.drawable.ic_donate_big, R.color.tv_card_content_dark)
+
 //        VLCBilling.getInstance(requireActivity().application).addStatusListener {
 //            manageDonationVisibility(donateCard)
 //        }
@@ -327,6 +337,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                     ID_ABOUT_TV -> activity.startActivity(Intent(activity, AboutActivity::class.java))
                     ID_SPONSOR -> activity.showDonations()
                     ID_PIN_LOCK -> PinCodeDelegate.pinUnlocked.postValue(false)
+                    ID_REMOTE_ACCESS -> requireActivity().startActivity(Intent(activity, StartActivity::class.java).apply { action = "vlc.webserver.share" })
+
                 }
             }
             HEADER_NOW_PLAYING -> {

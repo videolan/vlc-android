@@ -103,6 +103,7 @@ class PreferencesWebserver : BasePreferenceFragment(), SharedPreferences.OnShare
             KEY_ENABLE_WEB_SERVER -> {
                 val serverEnabled = sharedPreferences?.getBoolean(KEY_ENABLE_WEB_SERVER, false)
                         ?: false
+                Settings.remoteAccessEnabled.postValue(serverEnabled)
                 if (serverEnabled) {
                     activity.startWebserver()
                 } else {

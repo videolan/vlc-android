@@ -8,6 +8,7 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
+import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import org.videolan.tools.Settings.init
 
@@ -31,6 +32,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var tvFoldersFirst = true
     var incognitoMode = false
     var safeMode = false
+    var remoteAccessEnabled = MutableLiveData(false)
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -55,6 +57,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
+        remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_WEB_SERVER, false))
         return prefs
     }
 
