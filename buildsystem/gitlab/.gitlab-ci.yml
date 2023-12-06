@@ -4,8 +4,6 @@ cache:
         - gradle-8.2/
         - gradle/
         - gradlew
-        - ./buildsystem/network-sharing-server/dist/
-        - ./buildsystem/network-sharing-server/node_modules/
 
 variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
@@ -39,12 +37,21 @@ stages:
         - buildsystem/network-sharing-server/**/*
     - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
 
+# This is generating the node_modules folder with the required dependencies
+# If/When we want to make it fully offline:
+# - the docker image should contain the node_modules files OR the node_modules should be included as a cache entry (see gradle on top of this file)
+# - this job should be removed and the ones depending on it should have their rules changed
 webserver-install-dependencies:
     extends: .webserver-base
     stage: webserver-install-dependencies
     script:
       - cd "$WEBSERVER_DIR"
       - npm install
+    artifacts:
+      paths:
+        - buildsystem/network-sharing-server/node_modules/
+      when: on_success
+      expire_in: 1h
 
 webserver-build:
     extends: .webserver-base
@@ -54,6 +61,11 @@ webserver-build:
     script:
         - cd "$WEBSERVER_DIR"
         - npm run build
+    artifacts:
+      paths:
+        - buildsystem/network-sharing-server/dist/
+      when: on_success
+      expire_in: 1h
 
 webserver-vulnerabilities:
     extends: .webserver-base
