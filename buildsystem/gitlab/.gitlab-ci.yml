@@ -37,6 +37,7 @@ stages:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       changes:
         - buildsystem/network-sharing-server/**/*
+    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
 
 webserver-install-dependencies:
     extends: .webserver-base
@@ -96,6 +97,11 @@ webserver-vulnerabilities:
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
         changes:
+          - buildsystem/network-sharing-server/**/*
+        needs:
+          - job: "webserver-build"
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
           - medialibrary/**/*
           - buildsystem/**/*
     variables:
@@ -111,6 +117,11 @@ continuous-app-build:
         - ./gradlew assembleDebug
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
+          - buildsystem/network-sharing-server/**/*
+        needs:
+          - job: "webserver-build"
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 continuous-app-build-v4:
   extends: .build-all-base
@@ -118,6 +129,11 @@ continuous-app-build-v4:
     - ./buildsystem/compile.sh --init
     - ./gradlew assembleDebug -PforceVlc4=true
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - buildsystem/network-sharing-server/**/*
+      needs:
+        - job: "webserver-build"
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 
