@@ -6,6 +6,11 @@
       "license"  : "apache2.0"
     },
     {
+      "title"    : "Bouncy Castle",
+      "copyright": "Copyright © 2000-2023 The Legion of the Bouncy Castle Inc.",
+      "license"  : "mit"
+    },
+    {
       "title"    : "Color Picker",
       "copyright": "Copyright © 2016 Jared Rummler",
       "license"  : "apache2.0"
@@ -44,6 +49,11 @@
       "title"    : "Konfetti",
       "copyright": "Copyright © 2017 Dion Segijn",
       "license"  : "isc"
+    },
+    {
+      "title"    : "Ktor",
+      "copyright": "Copyright © 2014-2019 JetBrains s.r.o and contributors",
+      "license"  : "apache2.0"
     },
     {
       "title"    : "liba52",
@@ -249,16 +259,6 @@
       "title"    : "ZXing",
       "copyright": "Copyright © 2010 ZXing authors",
       "license"  : "apache2.0"
-    },
-    {
-      "title": "ktor",
-      "copyright": "",
-      "license": "apache2.0"
-    },
-    {
-      "title": "bcpkix-jdk18on",
-      "copyright": "Copyright (c) 2000 - 2023 The Legion of the Bouncy Castle Inc.",
-      "license": "bouncycastle"
     }
   ],
   "licenses": [
@@ -333,12 +333,6 @@
       "name"       : "zlib license",
       "description": "This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.\n\nPermission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:\n\n1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.\n\n2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.\n\n3. This notice may not be removed or altered from any source distribution.",
       "link"       : "https://zlib.net/zlib_license.html"
-    },
-    {
-      "id"         : "bouncycastle",
-      "name"       : "Bouncy Castle license",
-      "description": "Please note this should be read in the same way as the MIT license.\n\nPlease also note this licensing model is made possible through funding from donations and the sale of support contracts.\n\nLICENSE\nCopyright (c) 2000 - 2023 The Legion of the Bouncy Castle Inc. (https://www.bouncycastle.org)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
-      "link"       : "https://www.bouncycastle.org/licence.html"
     }
   ]
 }
