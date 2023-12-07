@@ -125,8 +125,10 @@ import java.util.Locale
 
 
 private const val TAG = "HttpSharingServer"
+private const val NOW_PLAYING_TIMEOUT = 500
 
 class RemoteAccessServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate() {
+    private var lastNowPlayingSendTime: Long = 0L
     private var settings: SharedPreferences
     private lateinit var engine: NettyApplicationEngine
     var service: PlaybackService? = null
@@ -507,6 +509,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     override fun update() {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from update")
+        if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
+        lastNowPlayingSendTime = System.currentTimeMillis()
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { RemoteAccessWebSockets.sendToAll(nowPlaying) }
         }
@@ -522,6 +526,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     override fun onMediaEvent(event: IMedia.Event) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from onMediaEvent")
+        if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
+        lastNowPlayingSendTime = System.currentTimeMillis()
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { RemoteAccessWebSockets.sendToAll(nowPlaying) }
         }
@@ -537,6 +543,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         if (event.type != MediaPlayer.Event.TimeChanged) return
+        if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
+        lastNowPlayingSendTime = System.currentTimeMillis()
         generateNowPlaying()?.let { nowPlaying ->
             AppScope.launch { RemoteAccessWebSockets.sendToAll(message = nowPlaying) }
         }
