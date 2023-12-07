@@ -111,6 +111,7 @@ import java.io.File
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
+import java.net.ServerSocket
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.PrivateKey
@@ -342,6 +343,27 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     }
 
     /**
+     * Finds a free port to use
+     *
+     * @param default the default port to test
+     * @return a port number
+     */
+    private fun getFreePort(default:Int): Int {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Testing port: $default")
+        var socket: ServerSocket? = null
+        val port = try {
+            socket = ServerSocket(default)
+            socket.localPort
+        } catch (e: Exception) {
+            if (default == 0) throw IllegalStateException("Cannot find a free port to use")
+            return getFreePort(0)
+        } finally {
+            socket?.close()
+        }
+        return port
+    }
+
+    /**
      * Generate the server
      *
      * @return the server engine
@@ -386,7 +408,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         val environment = applicationEngineEnvironment {
             log = LoggerFactory.getLogger("ktor.application")
             connector {
-                port = 8080
+                port = getFreePort(8080)
             }
             sslConnector(
                     store,
@@ -394,7 +416,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                     { password },
                     { password }
             ) {
-                this.port = 8443
+                this.port = getFreePort(8443)
             }
             module {
 
