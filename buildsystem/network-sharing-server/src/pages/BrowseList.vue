@@ -1,5 +1,29 @@
 <template>
     <div class="container">
+        <h5 class="media-content text-primary">Streams</h5>
+        <div v-if="!favoritesLoaded" class="spinner-border text-primary mt-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <template v-else>
+            <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
+                <MediaListItem :media="newStream" :mediaType="'new-stream'" :hideOverflow="true" />
+                <template v-for="stream in streams" :key="stream.id">
+                    <MediaListItem :media="stream" :mediaType="'stream'" :hideOverflow="true" />
+                </template>
+            </div>
+            <div v-else class="row gx-3 gy-3 media-content">
+                <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                    <MediaCardItem :media="newStream" :mediaType="'new-stream'" :hideOverflow="true" />
+                </div>
+                <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="stream in streams" :key="stream.id">
+                    <MediaCardItem :media="stream" :mediaType="'stream'" :hideOverflow="true" />
+                </div>
+            </div>
+        </template>
+
+    </div>
+
+    <div class="container">
         <h5 class="media-content text-primary">Favorites</h5>
         <div v-if="!favoritesLoaded" class="spinner-border text-primary mt-3" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -92,17 +116,46 @@ export default {
     },
     data() {
         return {
+            streams: [],
             favorites: [],
             storages: [],
             networkEntries: [],
+            streamsLoaded: false,
             favoritesLoaded: false,
             storagesLoaded: false,
             networkLoaded: false,
             forbidden: false,
             networkForbidden: false,
+            newStream: {
+                "artist": "",
+                "artworkURL": "",
+                "id": -1,
+                "isFolder": true,
+                "length": 0,
+                "path": "",
+                "playing": false,
+                "resolution": "",
+                "title": this.$t('NEW_STREAM')
+            }
         }
     },
     methods: {
+        fetchStreams() {
+            let component = this
+            http.get(vlcApi.streamList)
+                .catch(function (error) {
+                    if (error.response !== undefined && error.response.status == 403) {
+                        component.forbidden = true;
+                    }
+                })
+                .then((response) => {
+                    this.streamsLoaded = true;
+                    if (response) {
+                        component.forbidden = false;
+                        this.streams = response.data
+                    }
+                });
+        },
         fetchFavorites() {
             let component = this
             http.get(vlcApi.favoriteList)
@@ -161,6 +214,7 @@ export default {
         }
     },
     created: function () {
+        this.fetchStreams();
         this.fetchFavorites();
         this.fetchStorages();
         this.fetchNetwork();

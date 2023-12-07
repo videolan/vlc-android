@@ -13,6 +13,7 @@ export const useAppStore = defineStore('app', {
     displayType: reactive(useLocalStorage('displayType', {})),
     warning: Object,
     socketOpened: true,
+    showAddStream: false,
   }),
   getters: {
   },

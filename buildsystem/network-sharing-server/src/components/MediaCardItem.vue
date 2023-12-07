@@ -46,7 +46,7 @@ export default {
             return 'ratio-1x1 audio-img-container'
         },
         isBrowse() {
-            return (this.mediaType == 'folder' || this.mediaType == 'network')
+            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream')
         },
         manageClick() {
             if (['folder', 'storage', 'network'].includes(this.mediaType)) {

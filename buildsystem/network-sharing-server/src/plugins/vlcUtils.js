@@ -37,6 +37,9 @@ export default {
         }
 
         app.config.globalProperties.$play = (media, mediaType, append, asAudio) => {
+            if (mediaType == "new-stream" && media.id == -1) {
+                appStore.showAddStream = true
+            } else
             axios.get(vlcApi.play(media, mediaType, append, asAudio))
                 .catch(function (error) {
                     if (error.response.status != 200) {

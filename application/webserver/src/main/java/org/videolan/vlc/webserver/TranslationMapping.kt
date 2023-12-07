@@ -85,5 +85,7 @@ object TranslationMapping {
         NOTHING_RESUME(R.string.resume_playback_error),
         INVALID_LOGIN(R.string.ra_invalid_login),
         INVALID_OTP(R.string.ra_invalid_otp),
+        NEW_STREAM(R.string.new_stream),
+        ENTER_STREAM(R.string.open_mrl_dialog_msg),
     }
 }

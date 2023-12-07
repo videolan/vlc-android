@@ -79,6 +79,10 @@ export const vlcApi = {
      */
     favoriteList: `${API_URL}favorite-list`,
     /**
+     * Retrieve the stream list API URL
+     */
+    streamList: `${API_URL}stream-list`,
+    /**
      * Retrieve the storage list API URL
      */
     storageList: `${API_URL}storage-list`,

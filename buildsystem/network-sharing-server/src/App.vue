@@ -6,6 +6,7 @@
   <PlayQueue />
   <MiniPlayer ref="miniPlayer" />
   <Alert />
+  <AddStream />
   <UploadDialog ref="uploadComponent" />
   <div class="main-loading" v-show="this.appStore.loading">
     <div class="spinner-border text-primary" role="status">
@@ -19,6 +20,7 @@ import AppHeader from './components/AppHeader.vue'
 import MiniPlayer from './components/MiniPlayer.vue'
 import PlayQueue from './components/PlayQueue.vue'
 import Alert from './components/Alert.vue'
+import AddStream from './components/AddStream.vue'
 import UploadDialog from './components/UploadDialog.vue'
 import { vlcApi } from './plugins/api.js'
 import { usePlayerStore } from './stores/PlayerStore'
@@ -33,6 +35,7 @@ export default {
     MiniPlayer,
     PlayQueue,
     Alert,
+    AddStream,
     UploadDialog,
   },
   computed: {

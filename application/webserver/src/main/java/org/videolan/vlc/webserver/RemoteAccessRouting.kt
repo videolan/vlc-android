@@ -561,6 +561,19 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        get("/stream-list") {
+            verifyLogin(settings)
+            val stream = appContext.getFromMl {
+                lastStreamsPlayed()
+            }
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            stream.forEachIndexed { index, mediaLibraryItem ->
+                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                        ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
+            }
+            val gson = Gson()
+            call.respondText(gson.toJson(list))
+        }
         //list of folders and files in a path
         get("/browse-list") {
             verifyLogin(settings)
@@ -730,6 +743,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     }
                 }
                 BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (call.request.queryParameters["type"] == "new-stream") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
