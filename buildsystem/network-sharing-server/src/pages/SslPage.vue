@@ -5,14 +5,18 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel" v-t="'SSL_EXPLANATION_TITLE'"></h1>
+                        <img class="image-button-image" :src="(`./icons/security_warning.svg`)" />
+                        <h1 class="modal-title fs-5 ssl-title" id="exampleModalLabel" v-t="'SSL_EXPLANATION_TITLE'"></h1>
                     </div>
                     <div class="modal-body">
-                        <p v-t="'SSL_EXPLANATION'"></p>
-                        <p v-t="'SSL_EXPLANATION_BROWSER'" class="fw-bold"></p>
-                        <p v-t="'SSL_EXPLANATION_ACCEPT'"></p>
+
+
+                        <p v-t="'SSL_EXPLANATION'" class="ssl-explanation"></p>
+                        <p v-t="'SSL_EXPLANATION_BROWSER'" class="fw-bold ssl-explanation"></p>
+                        <p v-t="'SSL_EXPLANATION_ACCEPT'" class="ssl-explanation"></p>
                     </div>
                     <div class="modal-footer">
+                        <a href="https://docs.videolan.me/vlc-user/android/3.5/en/more/remoteaccess/remote_access_ssl.html" target="_blank" class="link-primary" v-t="'LEARN_MORE'"></a>
                         <button type="button" class="btn btn-primary" v-t="'SSL_BUTTON'"
                             v-on:click="secureConnection()"></button>
                     </div>
@@ -59,41 +63,22 @@ export default {
         this.modal = new Modal(document.getElementById('exampleModal'), {})
         this.modal.show()
     },
+    unmounted: function () {
+        this.modal.hide()
+    }
 }
 </script>
 
 <style lang='scss'>
 @import '../scss/colors.scss';
 
-.digits {
-    margin-top: 16px;
-    margin-bottom: 16px;
-}
 
-.digit {
+.ssl-title {
+    flex: 1;
     margin-left: 16px;
+}
+
+.ssl-explanation {
     margin-bottom: 16px;
-    height: 48px;
-    width: 48px;
-    box-sizing: border-box;
-    border: 2px solid $dark-background;
-    border-radius: 8px;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
-}
-
-.digit:focus {
-    border: 2px solid $primary-color;
-}
-
-.action-btn {
-    margin-bottom: 16px;
-}
-
-.explanation {
-    white-space: pre-line;
-    padding-top: 16px;
-    padding-bottom: 16px;
 }
 </style>

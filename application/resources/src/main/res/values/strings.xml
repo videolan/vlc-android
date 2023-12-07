@@ -1227,6 +1227,7 @@
     <string name="ra_log_current">Current local logs</string>
     <string name="ra_invalid_login">You need to log in on your device</string>
     <string name="ra_invalid_otp">Invalid code provided</string>
+    <string name="learn_more">Learn more</string>
 
 
 </resources>
