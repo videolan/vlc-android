@@ -70,6 +70,11 @@ class AboutVersionDialog : VLCBottomSheetDialogFragment() {
         binding.libvlcRevision.text = getString(R.string.build_libvlc_revision)
         binding.libvlcVersion.text = BuildConfig.LIBVLC_VERSION
         binding.compiledBy.text = getString(R.string.build_host)
+        binding.moreButton.setOnClickListener {
+            val whatsNewDialog = WhatsNewDialog()
+            whatsNewDialog.show(requireActivity().supportFragmentManager, "fragment_whats_new")
+            dismiss()
+        }
     }
 
 
