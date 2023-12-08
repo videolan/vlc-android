@@ -11,16 +11,16 @@
                             <p v-show="this.$route.meta.showError" v-t="'INVALID_OTP'"
                                 class="text-danger text-center fs-5 text fw-bold"></p>
                             <div class="text-center digits">
-                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                <input autocomplete="new-password" pattern="[0-9]*" inputmode="numeric" class="digit text-center" type="password" required
                                     ref="digit0" id="digit0" size="1" maxlength="1" tabindex="1" @input="manageInput"
                                     @keydown="handleKeyDown($event, 0)">
-                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                <input autocomplete="new-password" pattern="[0-9]*" inputmode="numeric" class="digit text-center" type="password" required
                                     ref="digit1" id="digit1" size="1" maxlength="1" tabindex="2" @input="manageInput"
                                     @keydown="handleKeyDown($event, 1)">
-                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                <input autocomplete="new-password" pattern="[0-9]*" inputmode="numeric" class="digit text-center" type="password" required
                                     ref="digit2" id="digit2" size="1" maxlength="1" tabindex="3" @input="manageInput"
                                     @keydown="handleKeyDown($event, 2)">
-                                <input autocomplete="new-password" class="digit text-center" type="password" required
+                                <input autocomplete="new-password" pattern="[0-9]*" inputmode="numeric" class="digit text-center" type="password" required
                                     ref="digit3" id="digit3" size="1" maxlength="1" tabindex="4" @input="manageInput"
                                     @keydown="handleKeyDown($event, 3)">
                             </div>
