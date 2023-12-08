@@ -108,6 +108,15 @@ class RemoteAccessShareActivity : BaseActivity() {
                 theme.resolveAttribute(R.attr.selectableItemBackgroundBorderless, outValue, true)
                 copyImageView.setBackgroundResource(outValue.resourceId)
                 copyImageView.setPadding(8.dp, 8.dp, 8.dp, 8.dp)
+
+                val shareImageView = ImageView(this)
+                shareImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_am_share))
+                shareImageView.setOnClickListener {
+                    share(getString(R.string.remote_access), link)
+                }
+                shareImageView.setBackgroundResource(outValue.resourceId)
+                shareImageView.setPadding(8.dp, 8.dp, 8.dp, 8.dp)
+
                 val qrImageView = ImageView(this)
                 qrImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_qr_code))
                 qrImageView.setBackgroundResource(outValue.resourceId)
@@ -124,10 +133,12 @@ class RemoteAccessShareActivity : BaseActivity() {
                 }
                 binding.linksGrid.addView(linkText)
                 binding.linksGrid.addView(qrImageView)
+                binding.linksGrid.addView(shareImageView)
                 binding.linksGrid.addView(copyImageView)
 
                 (qrImageView.layoutParams as GridLayout.LayoutParams).setGravity(Gravity.CENTER_VERTICAL)
                 (copyImageView.layoutParams as GridLayout.LayoutParams).setGravity(Gravity.CENTER_VERTICAL)
+                (shareImageView.layoutParams as GridLayout.LayoutParams).setGravity(Gravity.CENTER_VERTICAL)
 
                 val layoutParams = linkText.layoutParams as GridLayout.LayoutParams
                 layoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
@@ -161,7 +172,6 @@ class RemoteAccessShareActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
-            R.id.remote_access_share -> share(getString(R.string.remote_access), RemoteAccessServer.getInstance(applicationContext).getServerAddresses()[0])
             R.id.menu_remote_access_onboarding -> startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(this@RemoteAccessShareActivity, REMOTE_ACCESS_ONBOARDING) })
 
         }

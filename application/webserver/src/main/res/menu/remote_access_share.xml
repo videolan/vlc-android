@@ -25,10 +25,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/share"
-            android:icon="@drawable/ic_am_share"
-            android:id="@+id/remote_access_share"
-            app:showAsAction="ifRoom"/>
     <item
             android:orderInCategory="2"
             android:id="@+id/menu_remote_access_onboarding"
