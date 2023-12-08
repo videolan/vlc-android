@@ -2,9 +2,9 @@
   <div class="media-info" v-on:click="play(mediaIndex)">
     <div class="media-artwork-container">
       <div class="playing" v-show="media.playing">
-        <span class="playing-bar playing-bar1"></span>
-        <span class="playing-bar playing-bar2"></span>
-        <span class="playing-bar playing-bar3"></span>
+        <span class="playing-bar playing-bar1" v-bind:class="(this.playerStore.nowPlaying.playing) ? '' : 'paused'"></span>
+        <span class="playing-bar playing-bar2" v-bind:class="(this.playerStore.nowPlaying.playing) ? '' : 'paused'"></span>
+        <span class="playing-bar playing-bar3" v-bind:class="(this.playerStore.nowPlaying.playing) ? '' : 'paused'"></span>
       </div>
       <img class="media-artwork" v-lazy="$getImageUrl(media, 'video')">
     </div>
@@ -124,6 +124,11 @@ export default {
   width: 30%;
   height: 100%;
   animation: up-and-down 1.3s ease infinite alternate;
+}
+
+.playing-bar.paused {
+  animation: none;
+  height: 10%;
 }
 
 .playing-bar1 {
