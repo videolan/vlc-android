@@ -102,6 +102,8 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.NetworkProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.isSchemeSMB
+import org.videolan.vlc.viewmodels.CallBackDelegate
+import org.videolan.vlc.viewmodels.ICallBackHandler
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import org.videolan.vlc.webserver.ssl.SecretGenerator
@@ -127,7 +129,7 @@ import java.util.Locale
 private const val TAG = "HttpSharingServer"
 private const val NOW_PLAYING_TIMEOUT = 500
 
-class RemoteAccessServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate() {
+class RemoteAccessServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate(), ICallBackHandler by CallBackDelegate()  {
     private var lastNowPlayingSendTime: Long = 0L
     private var lastWasPlaying: Boolean = false
     private var settings: SharedPreferences
@@ -177,7 +179,10 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         Security.addProvider(BouncyCastleProvider())
         copyWebServer()
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
-                .onCompletion { service?.removeCallback(this@RemoteAccessServer) }
+                .onCompletion {
+                    service?.removeCallback(this@RemoteAccessServer)
+                    releaseCallbacks()
+                }
                 .launchIn(AppScope)
         _serverStatus.postValue(ServerStatus.STOPPED)
         settings = Settings.getInstance(context)
@@ -501,6 +506,12 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 }
                 _serverStatus.postValue(ServerStatus.STOPPED)
             }
+            watchMedia()
+            scope.registerCallBacks {
+                scope.launch {
+                    RemoteAccessWebSockets.sendToAll(Gson().toJson(MLRefreshNeeded()))
+                }
+            }
         }
     }
 
@@ -529,6 +540,9 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     override fun onMediaEvent(event: IMedia.Event) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from onMediaEvent")
+        if (event.type == IMedia.Event.ParsedChanged) {
+            AppScope.launch {  RemoteAccessWebSockets.sendToAll(Gson().toJson(MLRefreshNeeded())) }
+        }
         if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
         lastNowPlayingSendTime = System.currentTimeMillis()
         generateNowPlaying()?.let { nowPlaying ->
@@ -729,6 +743,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
     data class LoginNeeded(val dialogOpened: Boolean) : WSMessage("login-needed")
+    data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage("ml-refresh-needed")
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)

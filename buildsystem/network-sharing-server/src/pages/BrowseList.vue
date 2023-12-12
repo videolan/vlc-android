@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" @ml-refresh-needed="fetchStreams">
         <h5 class="media-content text-primary">Streams</h5>
         <div v-if="!favoritesLoaded" class="spinner-border text-primary mt-3" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -107,7 +107,7 @@ import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
-        ...mapStores(useAppStore)
+        ...mapStores(useAppStore, ['needRefresh'])
     },
     components: {
         MediaCardItem,
@@ -138,6 +138,11 @@ export default {
                 "title": this.$t('NEW_STREAM')
             }
         }
+    },
+    watch: {
+        needRefresh() {
+            this.fetchStreams()
+        },
     },
     methods: {
         fetchStreams() {
@@ -218,7 +223,17 @@ export default {
         this.fetchFavorites();
         this.fetchStorages();
         this.fetchNetwork();
-    }
+    },
+    mounted: function () {
+        this.appStore.$subscribe((mutation, state) => {
+            console.log(`Something changed in the app store: ${mutation} -> ${state}`)
+            if (mutation.events.key == "needRefresh" && mutation.events.newValue === true) {
+                this.fetchStreams();
+                this.appStore.needRefresh = false
+            }
+        })
+
+    },
 }
 </script>
 

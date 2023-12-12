@@ -126,6 +126,10 @@ export default {
           case 'playback-control-forbidden':
             this.appStore.warning = { type: "warning", message: this.$t('PLAYBACK_CONTROL_FORBIDDEN') }
             break;
+          case 'ml-refresh-needed':
+          this.$log.info("ML refresh needed")
+          this.appStore.needRefresh = true
+            break;
         }
       }
 
