@@ -5,6 +5,12 @@
             <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="48" />
         </div>
         <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
+        <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played)"/>
+
+        <div class="card-progress-container" v-show="(media.progress > 0)">
+            <div class="card-progress full"></div>
+            <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
+        </div>
     </div>
     <div class="d-flex">
 
@@ -44,6 +50,12 @@ export default {
             if (this.mediaType == 'video') return 'ratio-16x9 video audio-img-container'
             if (this.isBrowse() || this.mediaType == "file") return 'ratio-1x1'
             return 'ratio-1x1 audio-img-container'
+        },
+        getProgressStyle() {
+            if (this.mediaType == 'video' && this.media.progress > 0 && this.media.length > 0) {
+                return `width: ${this.media.progress * 100 / this.media.length}%`
+            }
+            return ''
         },
         isBrowse() {
             return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream')

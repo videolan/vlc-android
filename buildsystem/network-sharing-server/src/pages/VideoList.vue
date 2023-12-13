@@ -66,13 +66,26 @@ export default {
             return this.$t('NO_MEDIA')
         }
     },
+    mounted: function () {
+        this.appStore.$subscribe((mutation, state) => {
+            console.log(`Something changed in the app store: ${mutation} -> ${state}`)
+            if (mutation.events.key == "needRefresh" && mutation.events.newValue === true) {
+                this.fetchVideos();
+                this.appStore.needRefresh = false
+            }
+        })
+
+    },
     created: function () {
         this.fetchVideos();
     }
 }
 </script>
 
-<style>
+
+<style lang="scss">
+@import '../scss/colors.scss';
+
 .ratio>.resolution {
     position: absolute;
     top: 8px;
@@ -84,5 +97,38 @@ export default {
     padding: 4px 6px;
     border-radius: 2px;
     font-size: 0.6rem;
+}
+
+.ratio>.played {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    left: auto;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 2px;
+    font-size: 0.6rem;
+}
+
+.card-progress-container {
+    height: 14px;
+    position: absolute;
+    bottom: 0;
+    top: auto;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.card-progress {
+    height: 4px;
+    background-color: $primary-color;
+    position: absolute;
+    bottom: 0;
+}
+.card-progress.full {
+    width: 100%;
+    background-color: $light-grey-transparent;
 }
 </style>

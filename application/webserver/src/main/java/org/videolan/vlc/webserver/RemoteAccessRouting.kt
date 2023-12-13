@@ -900,4 +900,4 @@ fun Playlist.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueue
 
 fun MediaWrapper.toPlayQueueItem() = RemoteAccessServer.PlayQueueItem(id, title, artist
         ?: "", length, artworkMrl
-        ?: "", false, generateResolutionClass(width, height) ?: "")
+        ?: "", false, generateResolutionClass(width, height) ?: "", progress = time, played = seen > 0)
