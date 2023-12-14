@@ -10,10 +10,17 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -23,17 +30,63 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.EXIT_PLAYER
+import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.KEY_CURRENT_AUDIO
+import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_ARTIST
+import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_THUMB
+import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_TITLE
+import org.videolan.resources.KEY_CURRENT_MEDIA
+import org.videolan.resources.KEY_CURRENT_MEDIA_RESUME
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST_RESUME
+import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.PLAYLIST_TYPE_VIDEO
+import org.videolan.resources.PLAY_FROM_SERVICE
+import org.videolan.resources.VLCInstance
+import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.VLCCrashHandler
-import org.videolan.tools.*
+import org.videolan.tools.AUDIO_DELAY_GLOBAL
+import org.videolan.tools.AUDIO_RESUME_PLAYBACK
+import org.videolan.tools.AUDIO_SHUFFLING
+import org.videolan.tools.AUDIO_STOP_AFTER
+import org.videolan.tools.AppScope
+import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_PLAYBACK_RATE
+import org.videolan.tools.KEY_PLAYBACK_RATE_VIDEO
+import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
+import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST_VIDEO
+import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
+import org.videolan.tools.MEDIA_SHUFFLING
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.POSITION_IN_AUDIO_LIST
+import org.videolan.tools.POSITION_IN_MEDIA
+import org.videolan.tools.POSITION_IN_MEDIA_LIST
+import org.videolan.tools.POSITION_IN_SONG
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_PAUSED
+import org.videolan.tools.VIDEO_RESUME_PLAYBACK
+import org.videolan.tools.VIDEO_SPEED
+import org.videolan.tools.isAppStarted
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.awaitMedialibraryStarted
+import org.videolan.vlc.util.isSchemeFD
+import org.videolan.vlc.util.isSchemeHttpOrHttps
+import org.videolan.vlc.util.isSchemeStreaming
+import org.videolan.vlc.util.setResumeProgram
+import org.videolan.vlc.util.updateNextProgramAfterThumbnailGeneration
+import org.videolan.vlc.util.updateWithMLMeta
+import org.videolan.vlc.util.validateLocation
 import java.security.SecureRandom
-import java.util.*
+import java.util.Stack
 import kotlin.math.max
 
 private const val TAG = "VLC/PlaylistManager"
@@ -1094,6 +1147,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.TimeChanged -> {
                     abRepeat.value?.let {
                         if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start)
+                        if (player.getCurrentTime() < it.start) service.setTime(it.start)
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
                     val now = System.currentTimeMillis()
