@@ -117,6 +117,7 @@ import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FileUtils.getUri
+import org.videolan.vlc.util.LocaleUtil.localeEquivalent
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.io.File
@@ -1442,9 +1443,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     service.spuTracks?.iterator()?.let { spuTracks ->
                                         while (spuTracks.hasNext()) {
                                             val next = spuTracks.next()
-                                            val realTrack = allTracks.find {it.id.toString() == next.getId() }
+                                            val realTrack = allTracks.find { it.id.toString() == next.getId() }
                                             if (LocaleUtil.getLocaleFromVLC(realTrack?.language
-                                                            ?: "") == preferredSpuLang) {
+                                                            ?: "") in preferredSpuLang.localeEquivalent()) {
                                                 preferredTrack = next.getId()
                                                 break
                                             }
