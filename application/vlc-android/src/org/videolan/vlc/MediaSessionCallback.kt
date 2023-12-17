@@ -171,7 +171,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             CUSTOM_ACTION_SPEED -> {
                 val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
                 val index = 1 + steps.indexOf(steps.minByOrNull { abs(playbackService.rate - it) })
-                playbackService.setRate(steps[index % steps.size], false)
+                playbackService.setRate(steps[index % steps.size], true)
             }
             CUSTOM_ACTION_BOOKMARK -> {
                 playbackService.lifecycleScope.launch {
