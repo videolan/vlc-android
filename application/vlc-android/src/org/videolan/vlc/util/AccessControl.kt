@@ -49,6 +49,10 @@ object AccessControl {
         platformSignature = getSignature(AppContextProvider.appContext, "android")
     }
 
+    fun getKeysByPackage(packageName: String): List<String> {
+        return certificateAllowList[packageName]?.keys ?: emptyList()
+    }
+
     /**
      * Perform security checks to determine if the callingUid is authorized.
      * @param callingUid The calling application's user id.

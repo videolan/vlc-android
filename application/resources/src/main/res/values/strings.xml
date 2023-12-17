@@ -1236,5 +1236,11 @@
     <string name="ra_invalid_otp">Invalid code provided</string>
     <string name="learn_more">Learn more</string>
 
-
+    <!-- car screens -->
+    <string name="help">Help</string>
+    <string name="podcast_mode">Podcast mode</string>
+    <string name="podcast_mode_help">Podcast controls appear when playing a single track which meets one of the following criteria:\n\t• Length greater than 60 min\n\t• Length greater than 15 min with no album name\n\t• Genre is %s</string>
+    <string name="podcast_mode_genres" translatable="false">audiobook(s), podcast, speech, or vocal</string>
+    <string name="voice_control">Voice control</string>
+    <string name="voice_control_help">VLC can be controlled through Google Assistant by speaking the following commands:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 </resources>

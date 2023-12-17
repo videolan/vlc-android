@@ -41,6 +41,7 @@ import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.car.app.notification.CarPendingIntent
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.edit
@@ -72,6 +73,7 @@ import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.resources.util.startForegroundCompat
 import org.videolan.tools.*
+import org.videolan.vlc.car.VLCCarService
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -683,6 +685,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 ShowNotification -> showNotificationInternal()
                 is HideNotification -> hideNotificationInternal(update.remove)
                 UpdateMeta -> updateMetadataInternal()
+                UpdateState -> executeUpdate(true)
             }
         }
     }
@@ -1144,8 +1147,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             else -> R.drawable.ic_auto_repeat_normal
         }
         pscb.addCustomAction(CUSTOM_ACTION_REPEAT, getString(R.string.repeat_title), repeatResId)
-        addCustomSpeedActions(pscb, settings.getBoolean("enable_android_auto_speed_buttons", false))
-        addCustomSeekActions(pscb, settings.getBoolean("enable_android_auto_seek_buttons", false))
+        addCustomSpeedActions(pscb, settings.getBoolean(ENABLE_ANDROID_AUTO_SPEED_BUTTONS, false))
+        addCustomSeekActions(pscb, settings.getBoolean(ENABLE_ANDROID_AUTO_SEEK_BUTTONS, false))
         return resultActions
     }
 
@@ -1693,8 +1696,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      */
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
+        val ctx = this@PlaybackService
         AccessControl.logCaller(clientUid, clientPackageName)
-        if (!Permissions.canReadStorage(this@PlaybackService)) {
+        if (!Permissions.canReadStorage(ctx)) {
             Log.w(TAG, "Returning null MediaBrowserService root. READ_EXTERNAL_STORAGE permission not granted.")
             return null
         }
@@ -1702,11 +1706,18 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             rootHints?.containsKey(BrowserRoot.EXTRA_SUGGESTED) == true -> BrowserRoot(MediaSessionBrowser.ID_SUGGESTED, null)
             else -> {
                 val rootId = when (clientPackageName) {
-                    "com.google.android.googlequicksearchbox" -> MediaSessionBrowser.ID_ROOT_NO_TABS
+                    DRIVING_MODE_APP_PKG -> MediaSessionBrowser.ID_ROOT_NO_TABS
                     else -> MediaSessionBrowser.ID_ROOT
                 }
                 val extras = MediaSessionBrowser.getContentStyle().apply {
-                    putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true)
+                    putBoolean(MediaConstants.BROWSER_SERVICE_EXTRAS_KEY_SEARCH_SUPPORTED, true)
+                }
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O && clientPackageName == ANDROID_AUTO_APP_PKG) {
+                    val intent = Intent(CAR_SETTINGS).apply {
+                        component = ComponentName(ctx, VLCCarService::class.java)
+                    }
+                    val pendingIntent = CarPendingIntent.getCarApp(ctx, 0, intent, PendingIntent.FLAG_MUTABLE)
+                    extras.putParcelable(MediaConstants.BROWSER_SERVICE_EXTRAS_KEY_APPLICATION_PREFERENCES_USING_CAR_APP_LIBRARY_INTENT, pendingIntent)
                 }
                 BrowserRoot(rootId, extras)
             }
@@ -1810,6 +1821,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
         fun hasRenderer() = renderer.value != null
 
+        fun updateState() {
+            instance?.let {
+                it.cbActor.trySend(UpdateState)
+            }
+        }
+
         private const val PLAYBACK_BASE_ACTIONS = (PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
                 or PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or PlaybackStateCompat.ACTION_PLAY_FROM_URI
                 or PlaybackStateCompat.ACTION_PLAY_PAUSE or PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM)
@@ -1858,6 +1875,7 @@ private class CbRemove(val cb: PlaybackService.Callback) : CbAction()
 private object ShowNotification : CbAction()
 private class HideNotification(val remove: Boolean) : CbAction()
 private object UpdateMeta : CbAction()
+private object UpdateState : CbAction()
 
 fun PlaybackService.manageAbRepeatStep(abRepeatReset: View, abRepeatStop: View, abRepeatContainer: View, abRepeatAddMarker: TextView) {
     when {
