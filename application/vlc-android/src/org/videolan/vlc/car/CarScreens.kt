@@ -23,13 +23,16 @@
  */
 package org.videolan.vlc.car
 
+import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.car.app.CarContext
+import androidx.car.app.CarToast
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
 import androidx.car.app.model.ItemList
 import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.LongMessageTemplate
+import androidx.car.app.model.ParkedOnlyOnClickListener
 import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
@@ -41,7 +44,7 @@ import org.videolan.tools.ENABLE_ANDROID_AUTO_SPEED_BUTTONS
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 
 class CarSettingsScreen(carContext: CarContext) : Screen(carContext) {
 
@@ -57,11 +60,19 @@ class CarSettingsScreen(carContext: CarContext) : Screen(carContext) {
                     LongMessageScreen(carContext, R.string.voice_control, R.string.voice_control_help)))
         }.build()
 
+        val moreItems = ItemList.Builder().apply {
+            addItem(Row.Builder().apply {
+                setTitle(AppContextProvider.appContext.getString(R.string.open_on_phone))
+                setOnClickListener(ParkedOnlyOnClickListener.create(::openPreferencesOnPhone))
+            }.build())
+        }.build()
+
         return ListTemplate.Builder().apply {
             setHeaderAction(Action.BACK)
             setTitle(AppContextProvider.appContext.getString(R.string.preferences))
             addSectionedList(SectionedItemList.create(controlItems, AppContextProvider.appContext.getString(R.string.controls_prefs_category)))
             addSectionedList(SectionedItemList.create(helpItems, AppContextProvider.appContext.getString(R.string.help)))
+            addSectionedList(SectionedItemList.create(moreItems, AppContextProvider.appContext.getString(R.string.more_preferences)))
         }.build()
     }
 
@@ -71,6 +82,14 @@ class CarSettingsScreen(carContext: CarContext) : Screen(carContext) {
             setTitle(AppContextProvider.appContext.getString(title))
             setOnClickListener { screenManager.push(screen) }
         }.build()
+    }
+
+    private fun openPreferencesOnPhone() {
+        val intent = Intent(carContext, PreferencesActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        carContext.startActivity(intent)
+        CarToast.makeText(carContext, AppContextProvider.appContext.getText(R.string.prefs_opened_on_phone), CarToast.LENGTH_SHORT).show()
     }
 }
 

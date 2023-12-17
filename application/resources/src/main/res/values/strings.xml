@@ -307,6 +307,9 @@
 
     <!-- Preferences -->
     <string name="preferences">Settings</string>
+    <string name="more_preferences">More settings</string>
+    <string name="prefs_opened_on_phone">Settings opened on phone</string>
+    <string name="open_on_phone">Open on phone screen</string>
 
     <string name="directories_summary">Select directories to include in the media library</string>
     <string name="add_custom_path">Add a custom path</string>
