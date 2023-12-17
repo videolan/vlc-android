@@ -31,9 +31,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_PLAYBACK_RATE_VIDEO
+import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST_VIDEO
 import org.videolan.tools.LOCK_USE_SENSOR
 import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.SAVE_BRIGHTNESS
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
@@ -67,6 +70,7 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == null || key == null) return
         when (key) {
             "preferred_resolution" -> {
                 launch {
@@ -74,6 +78,7 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     restartMediaPlayer()
                 }
             }
+            KEY_PLAYBACK_SPEED_PERSIST_VIDEO -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE_VIDEO, 1.0f)
         }
     }
 }

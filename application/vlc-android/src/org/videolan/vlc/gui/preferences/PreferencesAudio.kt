@@ -43,9 +43,12 @@ import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.tools.KEY_PLAYBACK_RATE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.EXTRA_MRL
@@ -186,6 +189,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     } else lifecycleScope.launch { restartLibVLC() }
                 }
             }
+            KEY_PLAYBACK_SPEED_PERSIST -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE, 1.0f)
         }
     }
 
