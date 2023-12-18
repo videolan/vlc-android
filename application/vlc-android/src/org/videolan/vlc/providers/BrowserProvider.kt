@@ -26,17 +26,30 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
 import android.text.format.Formatter
+import android.util.Log
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CompletionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -53,7 +66,18 @@ import org.videolan.tools.DependencyProvider
 import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.ModelsHelper
+import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.ascComp
+import org.videolan.vlc.util.descComp
+import org.videolan.vlc.util.fileReplacementMarker
+import org.videolan.vlc.util.folderReplacementMarker
+import org.videolan.vlc.util.getFilenameAscComp
+import org.videolan.vlc.util.getFilenameDescComp
+import org.videolan.vlc.util.getTvAscComp
+import org.videolan.vlc.util.getTvDescComp
+import org.videolan.vlc.util.isBrowserMedia
+import org.videolan.vlc.util.isMedia
 import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
@@ -354,7 +378,12 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun findMedia(media: IMedia): MediaLibraryItem? {
-        val mw: MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(media)
+        val mw: MediaWrapper = try {
+            MLServiceLocator.getAbstractMediaWrapper(media)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to generate the media wrapper. It usually happen when the IMedia fields have some encoding issues", e)
+            return null
+        }
         media.release()
         if (!mw.isMedia()) {
             if (showAll || mw.isBrowserMedia()) return mw
