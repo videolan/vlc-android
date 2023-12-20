@@ -564,7 +564,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         get("/stream-list") {
             verifyLogin(settings)
             val stream = appContext.getFromMl {
-                lastStreamsPlayed()
+                history(Medialibrary.HISTORY_TYPE_NETWORK)
             }
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             stream.forEachIndexed { index, mediaLibraryItem ->

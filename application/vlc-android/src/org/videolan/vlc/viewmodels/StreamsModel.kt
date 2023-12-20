@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.CoroutineContextProvider
@@ -56,7 +57,7 @@ class StreamsModel(context: Context, private val showDummy: Boolean = false, cor
 
     override suspend fun updateList() {
         dataset.value = withContext(coroutineContextProvider.Default) {
-            medialibrary.lastStreamsPlayed().toMutableList()
+            medialibrary.history(Medialibrary.HISTORY_TYPE_NETWORK).toMutableList()
                     .also {
                         deletingMedia?.let { remove(it) }
                         if (showDummy) it.add(0, DummyMediaWrapperProvider.getDummyMediaWrapper(-1))

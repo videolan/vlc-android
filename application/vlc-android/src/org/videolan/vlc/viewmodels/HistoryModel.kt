@@ -27,6 +27,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -38,7 +39,8 @@ class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextP
 
     override suspend fun updateList() {
         if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
-        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastMediaPlayed().toMutableList() }
+        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.history(
+            Medialibrary.HISTORY_TYPE_LOCAL).toMutableList() }
     }
 
     fun moveUp(media: MediaWrapper) = dataset.move(media, 0)

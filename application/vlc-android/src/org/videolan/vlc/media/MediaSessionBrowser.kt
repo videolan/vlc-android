@@ -213,7 +213,7 @@ class MediaSessionBrowser {
                     results.add(MediaBrowserCompat.MediaItem(lastAddedMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                     /* History */
                     if (Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) {
-                        val lastMediaPlayed = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }
+                        val lastMediaPlayed = ml.history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { isMediaAudio(it) }
                         if (!lastMediaPlayed.isNullOrEmpty()) {
                             val lastMediaSize = lastMediaPlayed.size.coerceAtMost(MAX_HISTORY_SIZE)
                             val historyPath = Uri.Builder()
@@ -298,7 +298,7 @@ class MediaSessionBrowser {
                     list.sortWith(MediaComparators.ANDROID_AUTO)
                 }
                 ID_STREAM -> {
-                    list = ml.lastStreamsPlayed()
+                    list = ml.history(Medialibrary.HISTORY_TYPE_NETWORK)
                     list.sortWith(MediaComparators.ANDROID_AUTO)
                 }
                 ID_LAST_ADDED -> {
@@ -307,7 +307,7 @@ class MediaSessionBrowser {
                 }
                 ID_HISTORY -> {
                     limitSize = true
-                    list = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }?.toTypedArray()
+                    list = ml.history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { isMediaAudio(it) }?.toTypedArray()
                 }
                 ID_SUGGESTED -> return buildSuggestions(context, parentId, ml)
                 else -> {
@@ -418,7 +418,7 @@ class MediaSessionBrowser {
             /* Obtain the most recently played albums from history */
             val albumNames = mutableSetOf<String>()
             if (Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) {
-                val lastMediaPlayed = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }
+                val lastMediaPlayed = ml.history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { isMediaAudio(it) }
                 if (!lastMediaPlayed.isNullOrEmpty()) for (mw in lastMediaPlayed) mw.album?.let { albumNames.add(it) }
             }
             /* Pad the end with recently added albums. We may end up dropping a few due to absent artwork. */

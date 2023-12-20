@@ -224,14 +224,14 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                         }
                     }
                     MediaSessionBrowser.ID_HISTORY -> {
-                        val tracks = context.getFromMl { lastMediaPlayed()?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
+                        val tracks = context.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
                         if (!tracks.isNullOrEmpty() && isActive) {
                             val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
                             loadMedia(mediaList, position)
                         }
                     }
                     MediaSessionBrowser.ID_STREAM -> {
-                        val tracks = context.getFromMl { lastStreamsPlayed() }
+                        val tracks = context.getFromMl { history(Medialibrary.HISTORY_TYPE_NETWORK) }
                         if (tracks.isNotEmpty() && isActive) {
                             tracks.sortWith(MediaComparators.ANDROID_AUTO)
                             loadMedia(tracks.toList(), position)

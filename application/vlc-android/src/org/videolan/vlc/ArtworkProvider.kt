@@ -323,7 +323,7 @@ class ArtworkProvider : ContentProvider() {
     private fun getHistory(ctx: Context): ByteArray? {
         return runBlocking(Dispatchers.IO) {
             /* Last Played */
-            val lastMediaPlayed = ctx.getFromMl { lastMediaPlayed()?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
+            val lastMediaPlayed = ctx.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
             if (!lastMediaPlayed.isNullOrEmpty()) {
                 return@runBlocking getHomeImage(ctx, HISTORY, lastMediaPlayed.toTypedArray())
             }
