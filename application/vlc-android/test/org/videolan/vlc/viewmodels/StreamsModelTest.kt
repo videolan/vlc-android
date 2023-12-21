@@ -20,7 +20,7 @@ class StreamsModelTest : BaseTest() {
 
     override fun beforeTest() {
         super.beforeTest()
-        mediaLibrary.clearHistory()
+        mediaLibrary.clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
         streamsModel = StreamsModel(application, TestCoroutineContextProvider())
     }
 

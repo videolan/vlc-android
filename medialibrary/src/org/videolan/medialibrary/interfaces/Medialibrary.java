@@ -805,7 +805,7 @@ abstract public class Medialibrary {
     abstract public void forceParserRetry();
     abstract public void forceRescan();
     abstract public MediaWrapper[] history(int type);
-    abstract public boolean clearHistory();
+    abstract public boolean clearHistory(int type);
     abstract public void clearDatabase(boolean restorePlaylist);
     abstract public boolean addToHistory(String mrl, String title);
     abstract public MediaWrapper getMedia(long id);

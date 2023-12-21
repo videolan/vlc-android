@@ -383,7 +383,7 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new MediaWrapper[0]);
     }
 
-    public boolean clearHistory() {
+    public boolean clearHistory(int type) {
         dt.mHistory.clear();
         return true;
     }

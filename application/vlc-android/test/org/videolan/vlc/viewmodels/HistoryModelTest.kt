@@ -17,7 +17,7 @@ class HistoryModelTest : BaseTest() {
 
     override fun beforeTest() {
         super.beforeTest()
-        mediaLibrary.clearHistory()
+        mediaLibrary.clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
         historyModel = HistoryModel(context, org.videolan.vlc.util.TestCoroutineContextProvider())
     }
 

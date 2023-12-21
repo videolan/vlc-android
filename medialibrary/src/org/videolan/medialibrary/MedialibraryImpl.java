@@ -423,8 +423,8 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeHistory(type) : EMPTY_COLLECTION;
     }
 
-    public boolean clearHistory() {
-        return mIsInitiated && nativeClearHistory();
+    public boolean clearHistory(int type) {
+        return mIsInitiated && nativeClearHistory(type);
     }
 
     public void clearDatabase(boolean restorePlaylist) {
@@ -667,7 +667,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native boolean nativeRemoveDevice(String uuid, String path);
     private native MediaWrapper[] nativeHistory(int type);
     private native  boolean nativeAddToHistory(String mrl, String title);
-    private native  boolean nativeClearHistory();
+    private native  boolean nativeClearHistory(int type);
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
     private native MediaWrapper nativeAddMedia(String mrl, long duration);

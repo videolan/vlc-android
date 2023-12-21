@@ -340,9 +340,9 @@ addToHistory(JNIEnv* env, jobject thiz, jstring mrl, jstring title)
     return ok;
 }
 
-bool clearHistory(JNIEnv* env, jobject thiz)
+bool clearHistory(JNIEnv* env, jobject thiz, jint type)
 {
-    return MediaLibrary_getInstance(env, thiz)->clearHistory();
+    return MediaLibrary_getInstance(env, thiz)->clearHistory((medialibrary::HistoryType) type);
 }
 
 static jobjectArray
@@ -2460,7 +2460,7 @@ static JNINativeMethod methods[] = {
     {"nativeBannedFolders", "()[Ljava/lang/String;", (void*)bannedFolders },
     {"nativeHistory", "(I)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)history },
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
-    {"nativeClearHistory", "()Z", (void*)clearHistory },
+    {"nativeClearHistory", "(I)Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getVideos },
     {"nativeGetSortedVideos", "(IZZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedVideos },
     {"nativeGetSortedPagedVideos", "(IZZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedVideos },

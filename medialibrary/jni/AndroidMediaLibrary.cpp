@@ -228,9 +228,9 @@ AndroidMediaLibrary::addToHistory( const std::string& mrl, const std::string& ti
 }
 
 bool
-AndroidMediaLibrary::clearHistory()
+AndroidMediaLibrary::clearHistory(medialibrary::HistoryType type)
 {
-    return p_ml->clearHistory(medialibrary::HistoryType::Global);
+    return p_ml->clearHistory(type);
 }
 
 medialibrary::SearchAggregate

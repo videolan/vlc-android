@@ -59,7 +59,7 @@ public:
     /* History */
     std::vector<medialibrary::MediaPtr> history(medialibrary::HistoryType type);
     bool addToHistory( const std::string& mrl, const std::string& title );
-    bool clearHistory();
+    bool clearHistory(medialibrary::HistoryType type);
 
     medialibrary::SearchAggregate search(const std::string& query);
     medialibrary::Query<medialibrary::IMedia> searchMedia(const std::string& query, const medialibrary::QueryParameters* params = nullptr);
