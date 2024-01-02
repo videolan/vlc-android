@@ -38,8 +38,8 @@
     <string name="sortby_date_desc">Newest date first</string>
     <string name="sortby_last_modified_date_asc">Oldest addition first</string>
     <string name="sortby_last_modified_date_desc">Newest addition first</string>
-    <string name="sortby_number_asc">More videos</string>
-    <string name="sortby_number_desc">Less videos</string>
+    <string name="sortby_number_asc">More videos in group first</string>
+    <string name="sortby_number_desc">Less videos in group first </string>
     <string name="sortby_date_insertion_asc">Oldest insertion date first</string>
     <string name="sortby_date_insertion_desc">Newest insertion date first</string>
     <string name="sortby_date_last_modified_asc">Oldest modification date first</string>
