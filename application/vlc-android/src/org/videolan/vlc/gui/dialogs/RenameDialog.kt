@@ -54,13 +54,19 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
@@ -95,6 +101,7 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_rename, container)
+        val name = media.title
         newNameInputtext = view.findViewById(R.id.new_name)
         renameButton = view.findViewById(R.id.rename_button)
         if (media.title.isNotEmpty()) newNameInputtext.setText(media.title)
@@ -115,7 +122,17 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
                 true
             } else false
         }
-        view.findViewById<TextView>(R.id.media_title).text = media.title
+        view.findViewById<TextView>(R.id.media_title).text = name
+        lifecycleScope.launch(Dispatchers.IO) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                delay(100)
+                withContext(Dispatchers.Main) {
+                    newNameInputtext.requestFocus()
+
+                    UiTools.setKeyboardVisibility(newNameInputtext, true)
+                }
+            }
+        }
         return view
     }
 
