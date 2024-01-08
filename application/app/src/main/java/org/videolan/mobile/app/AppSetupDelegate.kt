@@ -50,6 +50,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.NetworkConnectionManager
 import org.videolan.vlc.util.VersionMigration
 import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 
@@ -105,6 +106,9 @@ class AppSetupDelegate : AppDelegate,
         if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
             component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
         })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            NetworkConnectionManager.start(AppContextProvider.appContext)
+        }
 
     }
 }
