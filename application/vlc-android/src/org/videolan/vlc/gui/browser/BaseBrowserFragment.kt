@@ -26,7 +26,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -42,18 +46,49 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+import org.videolan.resources.CTX_ADD_FOLDER_PLAYLIST
+import org.videolan.resources.CTX_ADD_SCANNED
+import org.videolan.resources.CTX_ADD_TO_PLAYLIST
+import org.videolan.resources.CTX_APPEND
+import org.videolan.resources.CTX_DELETE
+import org.videolan.resources.CTX_DOWNLOAD_SUBTITLES
+import org.videolan.resources.CTX_FAV_ADD
+import org.videolan.resources.CTX_FAV_REMOVE
+import org.videolan.resources.CTX_FIND_METADATA
+import org.videolan.resources.CTX_INFORMATION
+import org.videolan.resources.CTX_PLAY
+import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.resources.CTX_PLAY_AS_AUDIO
+import org.videolan.resources.CTX_RENAME
+import org.videolan.resources.KEY_MRL
+import org.videolan.resources.MOVIEPEDIA_ACTIVITY
+import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
-import org.videolan.tools.*
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.Settings
+import org.videolan.tools.isStarted
+import org.videolan.tools.putSingle
+import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -61,6 +96,7 @@ import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -82,7 +118,8 @@ import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-import java.util.*
+import java.io.File
+import java.util.LinkedList
 
 private const val TAG = "VLC/BaseBrowserFragment"
 
@@ -583,6 +620,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     if (viewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
                     flags = flags or CTX_APPEND
                 }
+                flags = flags or CTX_RENAME
             } else {
                 val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
                 val isAudio = mw.type == MediaWrapper.TYPE_AUDIO
@@ -591,6 +629,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 if (!isAudio && isMedia) flags = flags or CTX_PLAY_AS_AUDIO
                 if (!isMedia) flags = flags or CTX_PLAY
                 if (isVideo) flags = flags or CTX_DOWNLOAD_SUBTITLES
+                flags = flags or CTX_RENAME
             }
             if (flags != 0L) showContext(requireActivity(), this@BaseBrowserFragment, position, item, flags)
         }
@@ -624,6 +663,23 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     MediaUtils.appendMedia(activity, getMediaWithMeta(mw))
             }
             CTX_DELETE -> removeItem(mw)
+            CTX_RENAME -> {
+                val dialog = RenameDialog.newInstance(mw, true)
+                dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+                dialog.setListener { item, name ->
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        (item as MediaWrapper).uri.path?.let { File(it) }?.let { file ->
+                            if (file.exists()) {
+                                file.parent?.let {
+                                    val newFile = File("$it/$name")
+                                    file.renameTo(newFile)
+                                }
+                            }
+                        }
+                        viewModel.refresh()
+                    }
+                }
+            }
             CTX_INFORMATION -> requireActivity().showMediaInfo(mw)
             CTX_PLAY_AS_AUDIO -> lifecycleScope.launch {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
