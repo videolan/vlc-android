@@ -12,6 +12,5 @@ class AboutActivity : FragmentActivity() {
         setContentView(R.layout.about)
         UiTools.fillAboutView(this, window.decorView.rootView)
         applyOverscanMargin(this)
-        this.registerTimeView(findViewById(R.id.tv_time))
     }
 }
